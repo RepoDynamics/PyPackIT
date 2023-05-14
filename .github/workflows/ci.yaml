@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: deps/env_fill.yaml
+          environment-file: deps/env_full.yaml
           cache-env: true
           extra-specs: |
             python=${{ matrix.python-version }}
@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         uses: mamba-org/provision-with-micromamba@v15
         with:
-          environment-file: deps/env_fill.yaml
+          environment-file: deps/env_full.yaml
           cache-env: true
 
       - name: Lint (pylint)
@@ -106,7 +106,7 @@ jobs:
       - name: Install dependencies
         uses: mamba-org/provision-with-micromamba@v15
         with:
-          environment-file: devtools/conda-envs/test_env.yaml
+          environment-file: deps/env_full.yaml
           cache-env: true
 
       - name: Install OpenCADD
