@@ -8,16 +8,17 @@ References
 
 
 from typing import Any, Dict, Union, List, Literal, Tuple
+from template_package import _about
 
 
 # -- Project information -----------------------------------------------------
 # Reference: https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = '_!Project Name!_'
-copyright = '2023, _!Armin Ariamajd, Armin Ariamajd_!'
-author = '_!Armin Ariamajd, Armin Ariamajd_!'
-release = '1.2.3'
-version = '1.2'
+project = _about.app_name
+copyright = _about.copyright_notice
+author = _about.owner_name
+release = _about.release
+version = _about.version
 
 
 
