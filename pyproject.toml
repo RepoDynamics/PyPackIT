@@ -12,6 +12,7 @@ build-backend = "setuptools.build_meta"
 [project]
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 name = "template_package"
+version = "0.0.0"
 
 [tool.setuptools]
 packages = ["template_package"]
