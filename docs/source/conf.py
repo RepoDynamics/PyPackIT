@@ -11,27 +11,61 @@ from typing import Any, Dict, Union, List, Literal, Tuple
 from template_package import _about
 
 
-# -- Project information -----------------------------------------------------
-# Reference: https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+"""
+Project information
 
-project = _about.app_name
-copyright = _about.copyright_notice
-author = _about.owner_name
-release = _about.release
-version = _about.version
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+"""
+project: str = _about.app_name
+
+author: str = _about.owner_name
+
+copyright: str = f"{_about.first_release_date}, {_about.owner_name}"
+
+project_copyright: Union[str, List[str]] = copyright
+
+version: str = _about.version
+
+release: str = _about.release
 
 
+"""
+General configuration
 
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+"""
+extensions: List[str] = [
+    'sphinx.ext.autosummary',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.extlinks',
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
+]
 
-extensions = []
+# source_suffix: Union[str, List[str], Dict[str, str]] = {
+#   '.rst': 'restructuredtext',
+#   '.txt': 'restructuredtext',
+#   '.md': 'markdown',
+# }
 
-templates_path = ['../templates']
-exclude_patterns = []
-
+# source_encoding: str = 'utf-8-sig'
 
 root_doc: str = 'index'
+
+exclude_patterns: List[str] = ['Thumbs.db', '.DS_Store', '**.ipynb_checkpoints', 'README.md']
+
+# include_patterns: List[str] = ['**']
+
+templates_path = ['../templates']
+
+
 
 
 # -- Options for HTML output -------------------------------------------------
