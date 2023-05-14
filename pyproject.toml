@@ -1,0 +1,10 @@
+# References:
+# 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
+#    https://packaging.python.org/
+# 2. SetupTools User Guide:
+#    https://setuptools.pypa.io/
+#    https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[build-system]
+requires = ["setuptools>=61.0", "versioningit~=2.0"]
+build-backend = "setuptools.build_meta"
