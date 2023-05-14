@@ -26,15 +26,15 @@ version = '1.2'
 
 extensions = []
 
-templates_path = ['templates']
+templates_path = ['../templates']
 exclude_patterns = []
 
 
-root_doc: str = 'source/index'
+root_doc: str = 'index'
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'alabaster'
-html_static_path = ['static']
+html_static_path = ['../static']
