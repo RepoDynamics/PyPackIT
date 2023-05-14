@@ -8,12 +8,15 @@ References
 
 
 # -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+# Reference: https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = '_!Project Name!_'
 copyright = '2023, _!Armin Ariamajd, Armin Ariamajd_!'
 author = '_!Armin Ariamajd, Armin Ariamajd_!'
 release = '1.2.3'
+version = '1.2'
+
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
