@@ -1,0 +1,33 @@
+# Read the Docs configuration file
+# Reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
+
+
+# Required
+version: 2
+
+# Set the version of Python and other tools you might need
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "mambaforge-4.10"
+
+# Install dependencies
+conda:
+  environment: deps/env_docs.yaml
+
+# Install the package
+python:
+   install:
+     - method: pip
+       path: .
+
+# Build documentation with Sphinx
+sphinx:
+   configuration: docs/source/conf.py
+   builder: html
+   fail_on_warning: true
+
+# Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+formats: all
+
+
