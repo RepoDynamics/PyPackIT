@@ -407,3 +407,21 @@ python_display_short_literal_types: bool = True
 python_use_unqualified_type_names: bool = False
 
 python_maximum_signature_line_length: int = 99
+
+
+"""
+Options for `sphinx.ext.autosummary`
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html#generating-stub-pages-automatically
+"""
+# autosummary_context: Dict
+
+autosummary_generate: bool = True
+
+autosummary_generate_overwrite: bool = True
+
+autosummary_imported_members:bool = False
+
+autosummary_ignore_module_all: bool = False
