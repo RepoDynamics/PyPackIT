@@ -22,7 +22,7 @@ project: str = _about.app_name
 
 author: str = _about.owner_name
 
-copyright: str = f"{_about.first_release_date}, {_about.owner_name}"
+copyright: str = f"{_about.first_release_date.year}, {_about.owner_name}"
 
 project_copyright: Union[str, List[str]] = copyright
 
@@ -197,7 +197,83 @@ References
 """
 html_theme = 'alabaster'
 
-html_static_path = ['../static']
+# html_theme_path: List[str] = []
+
+# html_style: str
+
+# html_title: str = ''
+
+# html_short_title: str = ''
+
+# html_baseurl: str = ''
+
+# html_context: Dict
+
+html_logo: Union[str, None] = '../static/logo.svg'
+
+html_favicon: Union[str, None] = '../static/logo.ico'
+
+# html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/custom.css']
+
+# html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
+
+html_static_path: List[str] = ['../static']
+
+# html_extra_path: List[str] = []
+
+html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
+
+# html_permalinks: bool = True
+
+# html_permalinks_icon: str = '¶'
+
+# html_sidebars: Dict[str, Union[List[str], str]] = {
+#     "**": ["search-field", "sidebar-nav-bs"]
+# }
+
+# html_additional_pages: Dict[str, str]
+
+# html_domain_indices: Union[bool, List[str]] = True
+
+# html_use_index: bool = True
+
+# html_split_index: bool = False
+
+# html_copy_source: bool = True
+
+# html_show_sourcelink: bool = True
+
+# html_sourcelink_suffix: str = ".txt"
+
+# html_use_opensearch: str = ''
+
+# html_file_suffix: str = '.html'
+
+# html_link_suffix: str = '.html'
+
+# html_show_copyright: bool = True
+
+# html_show_search_summary: bool = True
+
+# html_show_sphinx: bool = True
+
+# html_output_encoding: str = 'utf-8'
+
+# html_compact_lists: bool = True
+
+# html_secnumber_suffix: str = '. '
+
+html_search_language: str = 'en'
+
+# html_search_options: Dict[str, Any]
+
+# html_search_scorer: str
+
+# html_scaled_image_link: bool = True
+
+# html_math_renderer: str = 'mathjax'
+
+# html4_writer: bool = False
 
 
 """
