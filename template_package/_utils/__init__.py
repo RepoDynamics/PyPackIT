@@ -1,3 +1,16 @@
+"""
+General functionalities used in the package.
 
-def returns_2():
+A short description.
+
+A long description.
+"""
+
+
+def returns_2() -> int:
+    """
+    Sample function.
+
+    Function description
+    """
     return 2
