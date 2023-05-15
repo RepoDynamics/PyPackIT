@@ -269,7 +269,7 @@ html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
 # html_permalinks_icon: str = '¶'
 
 html_sidebars: Dict[str, Union[List[str], str]] = {
-    "**": ["search-field", "sidebar-nav-bs"]
+    "**": ["sidebar-nav-bs"]
 }
 
 # html_additional_pages: Dict[str, str]
