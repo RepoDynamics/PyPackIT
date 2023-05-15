@@ -217,24 +217,31 @@ html_theme_options: Dict[str, Any] = {
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
     "navbar_align": "content",  # alt: "left" or "right"
-    "icon_links": [
-            {
-                # Label for this link
-                "name": "GitHub",
-                # URL where the link will redirect
-                "url": "https://github.com/volkamerlab/opencadd/",  # required
-                # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
-                "icon": "fa-brands fa-square-github",
-                # The type of image to be used (see below for details)
-                "type": "fontawesome",
-            }
-       ],
-    "search_bar_text": "search openCADD ...",
+
+    "search_bar_text": "Search Documentation ...",
     "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
     "show_prev_next": True,
     "footer_start": ["copyright", "sphinx-version", "theme-version"],
-    "footer_end": []
+    "footer_end": [],
+
+    "show_nav_level": 1,
+    "navigation_depth": 3,
+
+    "show_toc_level": 2,
+
+    "header_links_before_dropdown": 5,
+
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/volkamerlab/opencadd/",
+            "icon": "fa-brands fa-square-github",
+        },
+    ],
+    "icon_links_label": "External links",
+
+    "use_edit_page_button": True,
 }
 
 
@@ -248,7 +255,12 @@ html_theme_options: Dict[str, Any] = {
 
 # html_baseurl: str = ''
 
-# html_context: Dict
+html_context = {
+    "github_user": "Armin-Ariamajd",
+    "github_repo": "TemplateRepo",
+    "github_version": "main",
+    "doc_path": "docs/source",
+}
 
 html_logo: Union[str, None] = '../static/logo/logo.svg'
 
