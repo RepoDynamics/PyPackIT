@@ -195,7 +195,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 """
-html_theme = 'alabaster'
+html_theme: str = 'pydata_sphinx_theme'
 
 # html_theme_path: List[str] = []
 
