@@ -63,13 +63,271 @@ exclude_patterns: List[str] = ['Thumbs.db', '.DS_Store', '**.ipynb_checkpoints',
 
 # include_patterns: List[str] = ['**']
 
-templates_path = ['../templates']
+templates_path: List[str] = ['../templates']
+
+# template_bridge: str = ''
+
+# rst_epilog: str = ''
+
+# rst_prolog: str = ''
+
+# primary_domain: Union[str, None] = 'py'
+
+# default_role: Union[str, None] = None
+
+# keep_warnings: bool = False
+
+# suppress_warnings: List[str] = []
+
+needs_sphinx: str = '5.3'
+
+# TODO: Fill me
+# needs_extensions: Dict[str, str] = {'sphinxcontrib.something': '1.5'}
+
+# manpages_url: str = ""
+
+# nitpicky: bool = False
+
+# nitpick_ignore: List[Tuple[str, str]] = [('py:func', 'int'), ('envvar', 'LD_LIBRARY_PATH')]
+
+# nitpick_ignore_regex: List[Tuple[str, str]] =[(r'py:.*', r'foo.*bar\.B.*')]
+
+numfig: bool = True
+
+# numfig_format: Dict[str, str] = {
+#     'figure': 'Fig. %s',
+#     'table': 'Table %s',
+#     'code-block': 'Listing %s',
+#     'section': 'Section %s'
+# }
+
+# numfig_secnum_depth: int = 1
+
+# smartquotes: bool = True
+
+# smartquotes_action: str = "qDe"
+
+# smartquotes_excludes: Dict[str, List[str]] = {'languages': ['ja'], 'builders': ['man', 'text']}
+
+# user_agent: str = "Sphinx/X.Y.Z requests/X.Y.Z python/X.Y.Z"
+
+# tls_verify: bool = True
+
+# tls_cacerts: str = ''
+
+# today: str = ''
+
+# today_fmt: str = '%b %d, %Y'
+
+# highlight_language: str = 'default'
+
+# highlight_options: Union[Dict[str, Any], Dict[str, Dict[str, Any]]]
+
+pygments_style: str = 'default'
+
+maximum_signature_line_length: Union[int, None] = 99  # New in version 7.1.
+
+# add_function_parentheses: bool = True
+
+# add_module_names: bool = True
+
+# toc_object_entries: bool = True
+
+toc_object_entries_show_parents: Literal['domain', 'hide', 'all'] = 'all'  # New in version 5.2
+
+show_authors: bool = True
+
+# modindex_common_prefix: List[str] = []
+
+trim_footnote_reference_space: bool = True
+
+# trim_doctest_flags: bool = True
+
+# strip_signature_backslash: bool = False
+
+# option_emphasise_placeholders: bool = False
 
 
+"""
+Options for internationalization
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-internationalization
+"""
+language = "en"
+
+# locale_dirs: List[str] = ['locales']
+
+# gettext_allow_fuzzy_translations: bool = False
+
+# gettext_compact: Union[bool, str]
+
+# gettext_uuid: bool = False
+
+# gettext_location: bool = True
+
+# gettext_auto_build: bool = True
+
+# gettext_additional_targets: List[str] = []
+
+# figure_language_filename: str = '{root}.{language}{ext}'
 
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+"""
+Options for math
 
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-math
+"""
+math_number_all: bool = True
+
+math_eqref_format: str = 'Eq. {number}'
+
+math_numfig: bool = True
+
+
+"""
+Options for HTML output
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+"""
 html_theme = 'alabaster'
+
 html_static_path = ['../static']
+
+
+"""
+Options for single HTML output
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-single-html-output
+"""
+
+# singlehtml_sidebars: Dict[str, str]
+
+
+"""
+Options for HTML help output
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
+"""
+htmlhelp_basename: str = f"{_about.app_name} Docs"
+
+# htmlhelp_file_suffix: str = '.html'
+
+# htmlhelp_link_suffix: str = '.html'
+
+
+"""
+Options for epub output
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-epub-output
+"""
+epub_show_urls: Literal['inline', 'footnote', 'no'] = 'footnote'
+
+
+"""
+Options for LaTeX output
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
+"""
+latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
+    (
+        root_doc,
+        f'{_about.package_name}_docs.tex',
+        f'{_about.app_name} Documentation',
+        ' \\and '.join([name for name, _ in _about.authors]),
+        'manual',
+        False
+    ),
+]
+
+latex_elements: Dict[str, str] = {
+    'papersize': 'a4paper',  # {'letterpaper', 'a4paper'}
+    'pointsize': '11pt',
+    'figure_align': 'htbp',
+}
+
+
+"""
+Options for manual page output
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-manual-page-output
+"""
+man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
+    (
+        root_doc,
+        _about.package_name,
+        f'{_about.app_name} Documentation',
+        [name for name, _ in _about.authors],
+        "1"
+    )
+]
+
+
+"""
+Options for Texinfo output
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-texinfo-output
+"""
+texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
+    (
+        root_doc,
+        f'{_about.package_name}_docs',
+        f'{_about.app_name} Documentation',
+        '@*'.join([name for name, _ in _about.authors]),
+        _about.package_name,
+        _about.short_description,
+        'Documentation',
+        False,
+    ),
+]
+
+
+"""
+Options for Python domain
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
+"""
+python_display_short_literal_types: bool = True
+
+python_use_unqualified_type_names: bool = False
+
+python_maximum_signature_line_length: int = 99
