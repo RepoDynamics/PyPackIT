@@ -125,7 +125,7 @@ numfig: bool = True
 
 pygments_style: str = 'default'
 
-maximum_signature_line_length: Union[int, None] = 99  # New in version 7.1.
+maximum_signature_line_length: Union[int, None] = 99
 
 # add_function_parentheses: bool = True
 
@@ -197,6 +197,47 @@ References
 """
 html_theme: str = 'pydata_sphinx_theme'
 
+html_theme_options: Dict[str, Any] = {
+    # `logo` is added due to this issue:
+    #  https://github.com/pydata/pydata-sphinx-theme/issues/1094#issuecomment-1368264928
+    "logo": {
+        # "text": "an open-source Python library for computer-aided drug design",
+        "image_light": "logo.svg",
+        "image_dark": "logo.svg",
+    },
+
+    # --- Header / Navigation Bar ---
+    # Left section
+    "navbar_start": ["navbar-logo"],
+    # Middle menu
+    "navbar_center": ["navbar-nav"],
+    # Right section
+    "navbar_end": ["theme-switcher", "navbar-icon-links"],
+    # Persistent right section
+    "navbar_persistent": ["search-button"],
+    # Alignment of `navbar_center`
+    "navbar_align": "content",  # alt: "left" or "right"
+    "icon_links": [
+            {
+                # Label for this link
+                "name": "GitHub",
+                # URL where the link will redirect
+                "url": "https://github.com/volkamerlab/opencadd/",  # required
+                # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+                "icon": "fa-brands fa-square-github",
+                # The type of image to be used (see below for details)
+                "type": "fontawesome",
+            }
+       ],
+    "search_bar_text": "search openCADD ...",
+    "primary_sidebar_end": ["indices"],
+    "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
+    "show_prev_next": True,
+    "footer_start": ["copyright", "sphinx-version", "theme-version"],
+    "footer_end": []
+}
+
+
 # html_theme_path: List[str] = []
 
 # html_style: str
@@ -227,9 +268,9 @@ html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
 
 # html_permalinks_icon: str = '¶'
 
-# html_sidebars: Dict[str, Union[List[str], str]] = {
-#     "**": ["search-field", "sidebar-nav-bs"]
-# }
+html_sidebars: Dict[str, Union[List[str], str]] = {
+    "**": ["search-field", "sidebar-nav-bs"]
+}
 
 # html_additional_pages: Dict[str, str]
 
