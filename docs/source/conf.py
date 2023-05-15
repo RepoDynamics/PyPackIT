@@ -209,9 +209,9 @@ html_theme = 'alabaster'
 
 # html_context: Dict
 
-html_logo: Union[str, None] = '../static/logo.svg'
+html_logo: Union[str, None] = '../static/logo/logo.svg'
 
-html_favicon: Union[str, None] = '../static/logo.ico'
+html_favicon: Union[str, None] = '../static/logo/logo.ico'
 
 # html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/custom.css']
 
