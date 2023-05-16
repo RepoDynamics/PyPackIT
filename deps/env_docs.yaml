@@ -15,7 +15,11 @@ dependencies:
   # Documentation
   - sphinx
   - pydata-sphinx-theme
+  - myst-parser
+  - sphinx-design
+  - sphinx-copybutton
 
   # Pip-only dependencies
-#  - pip:
-#    - package_name_here
+  - pip:
+    # Documentation
+    - sphinx-last-updated-by-git
