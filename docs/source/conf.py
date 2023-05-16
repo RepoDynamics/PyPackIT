@@ -233,7 +233,7 @@ html_theme_options: Dict[str, Any] = {
 
     "announcement": (
         f"{_github_link}/raw/{_data['github']['branch_name']}/"
-        f"{_data['docs']['path']}/announcement.html"
+        f"{_data['docs']['path']}/_templates/announcement.html"
     ),
 
     # --- Header / Navigation Bar ---
@@ -304,6 +304,7 @@ html_theme_options: Dict[str, Any] = {
 
     "use_edit_page_button": True,
 }
+
 
 # -------------------------------------------------------------------------
 # The following part dynamically reads header icon flags from the metadata,
