@@ -285,7 +285,7 @@ html_theme_options: Dict[str, Any] = {
         },
         {
             "name": "Email",
-            "url": f"mailto{_data['project']['email']}",
+            "url": f"mailto:{_data['project']['email']}",
             "icon": "fa-regular fa-envelope",
         },
         {
