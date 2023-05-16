@@ -232,7 +232,8 @@ html_theme_options: Dict[str, Any] = {
     },
 
     "announcement": (
-        f"{_github_link}/raw/{_data['github']['branch_name']}/"
+        f"https://raw.githubusercontent.com/{_data['github']['user_name']}/"
+        f"{_data['github']['repo_name']}/{_data['github']['branch_name']}/"
         f"{_data['docs']['path']}/_templates/announcement.html"
     ),
 
