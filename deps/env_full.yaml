@@ -18,7 +18,7 @@ dependencies:
   - myst-parser
   - sphinx-design
   - sphinx-copybutton
-
+  - ablog
 
   # Testing
   - pytest

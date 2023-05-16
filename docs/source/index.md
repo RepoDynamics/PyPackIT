@@ -12,4 +12,5 @@
 about/index
 user_guide/index
 api_ref/index
+blog/index
 ```

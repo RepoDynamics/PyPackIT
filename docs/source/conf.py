@@ -68,6 +68,7 @@ extensions: List[str] = [
     # --- 3rd-party extensions ---
     'myst_parser',
     'sphinx_design',
+    'ablog',
     # For displaying a copy button next to code blocks;
     #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
     'sphinx_copybutton',
@@ -392,7 +393,14 @@ html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
 # html_permalinks_icon: str = '¶'
 
 html_sidebars: Dict[str, Union[List[str], str]] = {
-    "**": ["sidebar-nav-bs"]
+    # "**": ["sidebar-nav-bs"],
+    "blog/**": [
+        'ablog/postcard.html',
+        'ablog/recentposts.html',
+        'ablog/tagcloud.html',
+        'ablog/categories.html',
+        'ablog/archives.html',
+    ]
 }
 
 # html_additional_pages: Dict[str, str]
@@ -589,3 +597,20 @@ autosummary_generate_overwrite: bool = True
 autosummary_imported_members:bool = False
 
 autosummary_ignore_module_all: bool = False
+
+
+"""
+Options for `ablog`
+
+References
+----------
+* https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
+"""
+blog_baseurl = f"https://{_data['package']['name']}.readthedocs.io/"
+
+blog_post_pattern: list[str] = ["blog/posts/*.rst", "blog/posts/*.md"]
+post_auto_image: int = 1
+blog_feed_archives: bool = True
+fontawesome_included: bool = True
+
+disqus_shortname: str = _data['package']['name']

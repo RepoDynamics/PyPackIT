@@ -18,6 +18,7 @@ dependencies:
   - myst-parser
   - sphinx-design
   - sphinx-copybutton
+  - ablog
 
   # Pip-only dependencies
   - pip:
