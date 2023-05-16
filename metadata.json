@@ -1,0 +1,85 @@
+{
+
+  "contact": {
+
+    "organization": {
+      "name": "",
+      "email": "",
+      "orcid": "",
+      "researchgate": "",
+      "linkedin": "",
+      "twitter": ""
+    },
+
+    "corresponding_authors": [
+      {
+        "name": "Armin Ariamajd",
+        "email": "armin.ariam@fu-berlin.de",
+        "orcid": "https://orcid.org/0000-0003-1563-6987",
+        "researchgate": "https://www.researchgate.net/profile/Armin-Ariamajd",
+        "linkedin": "https://www.linkedin.com/in/armin-ariamajd/",
+        "twitter": "https://twitter.com/al___chemist"
+      }
+    ],
+
+    "authors": [
+    ],
+
+    "maintainers": [
+      {
+        "name": "Armin Ariamajd",
+        "email": "armin.ariam@fu-berlin.de",
+        "orcid": "https://orcid.org/0000-0003-1563-6987",
+        "researchgate": "https://www.researchgate.net/profile/Armin-Ariamajd",
+        "linkedin": "https://www.linkedin.com/in/armin-ariamajd/",
+        "twitter": "https://twitter.com/al___chemist"
+      }
+    ],
+
+    "contributors": [
+    ]
+
+  },
+
+
+  "project": {
+    "name": "PythonProjectTemplate",
+    "short_description": "A template Python project.",
+    "keywords": ["python", "package", "packaging", "repository", "documentation", "automated"],
+    "website": "",
+    "email": "a.ariamajd@gmail.com"
+  },
+
+
+  "package": {
+    "name": "template_package",
+    "short_version": "0.0",
+    "long_version": "0.0.1"
+  },
+
+
+  "github": {
+    "user_name": "Armin-Ariamajd",
+    "repo_name": "TemplateRepo",
+    "branch_name": "main"
+  },
+
+
+  "docs": {
+    "path": "docs/source",
+    "header_icon": {
+      "twitter": false,
+      "linkedin": true,
+      "researchgate": true,
+      "orcid": true
+    }
+  },
+
+
+  "copyright": {
+    "start_year": 2023,
+    "license_name": "GNU Affero General Public License v3 or later (AGPLv3+)",
+    "path": "LICENSE"
+  }
+
+}

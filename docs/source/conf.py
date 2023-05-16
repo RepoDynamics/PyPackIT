@@ -7,9 +7,19 @@ References
 """
 
 
-from typing import Any, Dict, Union, List, Literal, Tuple
-from template_package import _about
+from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
+import json
+import datetime
 
+
+# Open and read the metadata file
+with open("../../metadata.json") as f:
+    _data = json.load(f)
+# Generate recurring variables from the metadata to use in several places
+_github_link = f"https://github.com/{_data['github']['user_name']}/{_data['github']['repo_name']}"
+_author_names_in_order = [
+    _author['name'] for _author in (_data['contact']['authors'] + _data['contact']['corresponding_authors'])
+]
 
 """
 Project information
@@ -18,17 +28,25 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
-project: str = _about.app_name
+project: str = _data["project"]["name"]
 
-author: str = _about.owner_name
+author: str = ', '.join(
+    [_author['name'] for _author in _data['contact']['authors']]
+    + [_author['name'] for _author in _data['contact']['corresponding_authors']]
+)
 
-copyright: str = f"{_about.first_release_date.year}, {_about.owner_name}"
+copyright: str = (
+    f"{_data['copyright']['start_year']}--{datetime.date.today().year}, " +
+    _orgname if (
+        _orgname := _data['contact']['organization']['name']
+    ) != '' else _data['contact']['corresponding_authors'][0]['name']
+)
 
 project_copyright: Union[str, List[str]] = copyright
 
-version: str = _about.version
+version: str = _data['package']['short_version']
 
-release: str = _about.release
+release: str = _data['package']['long_version']
 
 
 """
@@ -47,6 +65,13 @@ extensions: List[str] = [
     'sphinx.ext.extlinks',
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
+    # --- 3rd-party extensions ---
+    'myst_parser',
+    'sphinx_design',
+    # For displaying a copy button next to code blocks;
+    #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
+    'sphinx_copybutton',
+    'sphinx_last_updated_by_git'
 ]
 
 # source_suffix: Union[str, List[str], Dict[str, str]] = {
@@ -63,7 +88,7 @@ exclude_patterns: List[str] = ['Thumbs.db', '.DS_Store', '**.ipynb_checkpoints',
 
 # include_patterns: List[str] = ['**']
 
-templates_path: List[str] = ['../templates']
+templates_path: List[str] = ['_templates']
 
 # template_bridge: str = ''
 
@@ -202,9 +227,14 @@ html_theme_options: Dict[str, Any] = {
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1094#issuecomment-1368264928
     "logo": {
         # "text": "an open-source Python library for computer-aided drug design",
-        "image_light": "logo.svg",
-        "image_dark": "logo.svg",
+        "image_light": "_static/logo/logo.svg",
+        "image_dark": "_static/logo/logo.svg",
     },
+
+    "announcement": (
+        f"{_github_link}/raw/{_data['github']['branch_name']}/"
+        f"{_data['docs']['path']}/announcement.html"
+    ),
 
     # --- Header / Navigation Bar ---
     # Left section
@@ -216,9 +246,9 @@ html_theme_options: Dict[str, Any] = {
     # Persistent right section
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
-    "navbar_align": "content",  # alt: "left" or "right"
+    "navbar_align": "content",  # {"left", "right", "content"}
 
-    "search_bar_text": "Search Documentation ...",
+    "search_bar_text": f"Search {_data['project']['name']} ...",
     "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
     "show_prev_next": True,
@@ -234,15 +264,94 @@ html_theme_options: Dict[str, Any] = {
 
     "icon_links": [
         {
-            "name": "GitHub",
-            "url": "https://github.com/volkamerlab/opencadd/",
-            "icon": "fa-brands fa-square-github",
+            "name": "Source Repository",
+            "url": _github_link,
+            "icon": "fa-brands fa-github",
+        },
+        {
+            "name": "Issues",
+            "url": f"{_github_link}/issues",
+            "icon": "fa-regular fa-circle-dot",
+        },
+        {
+            "name": "Pull Requests",
+            "url": f"{_github_link}/pulls",
+            "icon": "fa-solid fa-code-pull-request",
+        },
+        {
+            "name": "Discussions",
+            "url": f"{_github_link}/discussions",
+            "icon": "fa-solid fa-comments",
+        },
+        {
+            "name": "Email",
+            "url": f"mailto{_data['project']['email']}",
+            "icon": "fa-regular fa-envelope",
+        },
+        {
+            "name": "Copyright/License",
+            "url": f"{_github_link}/blob/{_data['github']['branch_name']}/{_data['copyright']['path']}",
+            "icon": "fa-solid fa-copyright",
+
+        },
+        {
+            "name": "PyPi Package",
+            "url": f"https://pypi.org/project/{_data['package']['name']}/",
+            "icon": "fa-brands fa-python",
         },
     ],
     "icon_links_label": "External links",
 
     "use_edit_page_button": True,
 }
+
+# -------------------------------------------------------------------------
+# The following part dynamically reads header icon flags from the metadata,
+# and adds the corresponding icons to `html_theme_options['icon_links']`.
+_contact_platform = {
+    "twitter": {"name": "Twitter", "icon": "fa-brands fa-twitter"},
+    "linkedin": {"name": "LinkedIn", "icon": "fa-brands fa-linkedin"},
+    "researchgate": {"name": "ResearchGate", "icon": "fa-brands fa-researchgate"},
+    "orcid": {"name": "ORCiD", "icon": "fa-brands fa-orcid"},
+}
+
+
+def _add_icon_link(
+        name: str,
+        url: str,
+        icon: str,
+        type: Literal['fontawesome', 'url', 'local'] = 'fontawesome'
+) -> NoReturn:
+    """Add an icon link to `html_theme_options['icon_links']`."""
+    html_theme_options['icon_links'].append(
+        {
+            "name": name,
+            "url": url,
+            "icon": icon,
+            "type": type,
+        }
+    )
+    return
+
+
+for _contact_type, _show_icon in _data['docs']['header_icon'].items():
+    if _show_icon:
+        for _contact_person in [_data['contact']['organization']] + _data['contact']['corresponding_authors']:
+            _contact_url = _contact_person[_contact_type]
+            if _contact_url != "":
+                _add_icon_link(
+                    name=_contact_platform[_contact_type]['name'],
+                    url=_contact_url,
+                    icon=_contact_platform[_contact_type]['icon']
+                )
+                break
+        else:
+            raise ValueError(
+                f"Displaying the header icon for {_contact_type} is active, "
+                f"but no contact person has a URL."
+            )
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 
 # html_theme_path: List[str] = []
@@ -256,21 +365,21 @@ html_theme_options: Dict[str, Any] = {
 # html_baseurl: str = ''
 
 html_context = {
-    "github_user": "Armin-Ariamajd",
-    "github_repo": "TemplateRepo",
-    "github_version": "main",
-    "doc_path": "docs/source",
+    "github_user": _data['github']['user_name'],
+    "github_repo": _data['github']['repo_name'],
+    "github_version": _data['github']['branch_name'],
+    "doc_path": _data['docs']['path'],
 }
 
-html_logo: Union[str, None] = '../static/logo/logo.svg'
+html_logo: Union[str, None] = '_static/logo/logo.svg'
 
-html_favicon: Union[str, None] = '../static/logo/logo.ico'
+html_favicon: Union[str, None] = '_static/logo/logo.ico'
 
 # html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/custom.css']
 
 # html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
 
-html_static_path: List[str] = ['../static']
+html_static_path: List[str] = ['_static']
 
 # html_extra_path: List[str] = []
 
@@ -347,7 +456,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{_about.app_name} Docs"
+htmlhelp_basename: str = f"{_data['project']['name']} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -384,9 +493,9 @@ References
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f'{_about.package_name}_docs.tex',
-        f'{_about.app_name} Documentation',
-        ' \\and '.join([name for name, _ in _about.authors]),
+        f"{_data['package']['name']}_docs.tex",
+        f"{_data['project']['name']} Documentation",
+        ' \\and '.join(_author_names_in_order),
         'manual',
         False
     ),
@@ -414,9 +523,9 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        _about.package_name,
-        f'{_about.app_name} Documentation',
-        [name for name, _ in _about.authors],
+        _data['package']['name'],
+        f"{_data['project']['name']} Documentation",
+        _author_names_in_order,
         "1"
     )
 ]
@@ -437,11 +546,11 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f'{_about.package_name}_docs',
-        f'{_about.app_name} Documentation',
-        '@*'.join([name for name, _ in _about.authors]),
-        _about.package_name,
-        _about.short_description,
+        f"{_data['package']['name']}_docs",
+        f"{_data['project']['name']} Documentation",
+        '@*'.join(_author_names_in_order),
+        _data['package']['name'],
+        _data['project']['short_description'],
         'Documentation',
         False,
     ),
