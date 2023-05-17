@@ -399,6 +399,7 @@ html_context = {
     "github_repo": _data['github']['repo_name'],
     "github_version": _data['github']['branch_name'],
     "doc_path": _data['docs']['path'],
+    "default_mode": "auto"  # Default theme mode: {'light', 'dark', 'auto'}
 }
 
 html_logo: Union[str, None] = '_static/logo/logo.svg'
