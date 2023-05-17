@@ -607,15 +607,23 @@ autosummary_ignore_module_all: bool = False
 """
 Options for `ablog`
 
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
 References
 ----------
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
-blog_baseurl = f"https://{_data['package']['name']}.readthedocs.io/"
+blog_path: str = "blog"
+blog_baseurl: str = f"https://{_data['docs']['readthedocs_name']}.readthedocs.io/"
 
 blog_post_pattern: list[str] = ["blog/posts/*.rst", "blog/posts/*.md"]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
 
-disqus_shortname: str = _data['package']['name']
+if _data['docs']['disqus_shortname'] != "":
+    disqus_shortname: str = _data['docs']['disqus_shortname']
+

@@ -67,6 +67,8 @@
 
   "docs": {
     "path": "docs/source",
+    "readthedocs_name": "templaterepo",
+    "disqus_shortname": "pypackit",
     "header_icon": {
       "twitter": false,
       "linkedin": true,
