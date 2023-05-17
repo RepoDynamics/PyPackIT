@@ -73,6 +73,8 @@ extensions: List[str] = [
     # --- 3rd-party extensions ---
     'myst_parser',
     'sphinx_design',
+    # For adding blog to website;
+    #   Ref: https://ablog.readthedocs.io/en/stable/index.html
     'ablog',
     # For displaying a copy button next to code blocks;
     #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
@@ -94,7 +96,7 @@ exclude_patterns: List[str] = ['Thumbs.db', '.DS_Store', '**.ipynb_checkpoints',
 
 # include_patterns: List[str] = ['**']
 
-templates_path: List[str] = ['_templates']
+templates_path: List[str] = ['_templates']  # Ref: https://www.sphinx-doc.org/en/master/development/templating.html
 
 # template_bridge: str = ''
 
@@ -232,9 +234,11 @@ html_theme_options: Dict[str, Any] = {
     # `logo` is added due to this issue:
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1094#issuecomment-1368264928
     "logo": {
-        # "text": "an open-source Python library for computer-aided drug design",
+        # "text": "This will appear just after the logo image",
+        # "link": "URL or path that logo links to"
         "image_light": "_static/logo/logo.svg",
         "image_dark": "_static/logo/logo.svg",
+        "alt_text": "Logo",
     },
 
     "announcement": (
@@ -257,10 +261,10 @@ html_theme_options: Dict[str, Any] = {
 
     "search_bar_text": f"Search {_data['project']['name']} ...",
     "primary_sidebar_end": ["indices"],
-    "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
+    "secondary_sidebar_items": ["page-toc", "last-updated", "edit-this-page", "sourcelink", ],
     "show_prev_next": True,
-    "footer_start": ["copyright", "sphinx-version", "theme-version"],
-    "footer_end": [],
+    "footer_start": ["version", "copyright", ],
+    "footer_end": ["sphinx-version", "theme-version"],
 
     "show_nav_level": 1,
     "navigation_depth": 3,
@@ -310,6 +314,12 @@ html_theme_options: Dict[str, Any] = {
     "icon_links_label": "External links",
 
     "use_edit_page_button": True,
+
+    # Code highlighting color themes
+    #  Ref: https://pygments.org/styles/
+    #  Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#configure-pygments-theme
+    "pygment_light_style": "default",
+    "pygment_dark_style": "zenburn",
 }
 
 
