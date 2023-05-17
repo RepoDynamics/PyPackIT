@@ -378,7 +378,7 @@ html_logo: Union[str, None] = '_static/logo/logo.svg'
 
 html_favicon: Union[str, None] = '_static/logo/logo.ico'
 
-# html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/custom.css']
+html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/base.css', 'css/custom.css', 'css/color.css']
 
 # html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
 
