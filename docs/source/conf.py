@@ -36,10 +36,15 @@ author: str = ', '.join(
 )
 
 copyright: str = (
-    f"{_data['copyright']['start_year']}--{datetime.date.today().year}, " +
-    _orgname if (
-        _orgname := _data['contact']['organization']['name']
-    ) != '' else _data['contact']['corresponding_authors'][0]['name']
+    (
+        f"{_data['copyright']['start_year']}--{datetime.date.today().year}, "
+        if _data['copyright']['start_year'] != datetime.date.today().year else
+        f"{_data['copyright']['start_year']}, "
+    ) +
+    (
+        _orgname if (_orgname := _data['contact']['organization']['name']) != ''
+        else _data['contact']['corresponding_authors'][0]['name']
+     )
 )
 
 project_copyright: Union[str, List[str]] = copyright
