@@ -7,3 +7,11 @@
    :excerpts:
    :sort:
 ```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:glob:
+
+posts/**
+```
