@@ -28,6 +28,7 @@ sphinx:
    fail_on_warning: false
 
 # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
-formats: epub
+formats:
+  - epub
 
 
