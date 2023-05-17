@@ -72,7 +72,7 @@
     "analytics": {
       "plausible": {
         "domain": "",
-        "url": "",
+        "url": ""
       },
       "google": {
         "id": "G-0X66W6TGL2"
