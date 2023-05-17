@@ -1,3 +1,7 @@
+---
+html_theme.sidebar_secondary.remove:
+---
+
 ```{image} _static/logo/logo.svg
 :alt: Logo
 :width: 500px
