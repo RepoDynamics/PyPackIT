@@ -371,6 +371,18 @@ for _contact_type, _show_icon in _data['docs']['header_icon'].items():
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 
+if _data['docs']['analytics']['plausible']['domain'] != "":
+    html_theme_options['analytics'] = {
+        "plausible_analytics_domain": _data['docs']['analytics']['plausible']['domain'],
+        "plausible_analytics_url": _data['docs']['analytics']['plausible']['url'],
+    }
+elif _data['docs']['analytics']['google']['id'] != "":
+    html_theme_options['analytics'] = {
+        "google_analytics_id": _data['docs']['analytics']['google']['id'],
+    }
+
+
+
 
 # html_theme_path: List[str] = []
 
