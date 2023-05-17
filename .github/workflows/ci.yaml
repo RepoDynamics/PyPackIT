@@ -129,6 +129,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       # More info on options: https://github.com/marketplace/actions/provision-with-micromamba
       - name: Install dependencies
