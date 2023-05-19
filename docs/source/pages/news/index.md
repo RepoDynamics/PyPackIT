@@ -1,4 +1,4 @@
-# Blog
+# News
 
 ```{eval-rst}
 .. postlist::
