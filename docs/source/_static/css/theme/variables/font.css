@@ -1,0 +1,39 @@
+/* Font Settings */
+/* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss */
+
+
+html {
+
+    /* Font type */
+    /* The last element (i.e. `var(...)` is the system font to use as fallback */
+    --pst-font-family-base: Calibri, var(--pst-font-family-base-system);
+    --pst-font-family-heading: Calibri, var(--pst-font-family-base-system);
+    --pst-font-family-monospace: var(--pst-font-family-monospace-system);
+
+    /* base font size - applied at body/html level */
+    --pst-font-size-base: 0.95rem;  /* 1rem */
+
+    /* heading font sizes based on bootstrap sizing */
+    --pst-font-size-h1: 2.15rem;  /* 2.5rem */
+    --pst-font-size-h2: 1.85rem;  /* 2rem */
+    --pst-font-size-h3: 1.7rem;  /* 1.75rem */
+    --pst-font-size-h4: 1.5rem;  /* 1.5rem */
+    --pst-font-size-h5: 1.25rem;  /* 1.25rem */
+    --pst-font-size-h6: 1.1rem;  /* 1.1rem */
+
+    /* smaller than heading font sizes */
+    --pst-font-size-milli: 0.9rem;  /* 0.9rem */
+
+    /* Sidebar font sizes */
+    --pst-sidebar-font-size: 0.9rem;  /* 0.9rem */
+    --pst-sidebar-font-size-mobile: 1.1rem;  /* 1.1rem */
+    --pst-sidebar-header-font-size: 1.2rem;  /* 1.2rem */
+    --pst-sidebar-header-font-weight: 600;  /* 600 */
+
+    /* Font weights */
+    --pst-font-weight-caption: 300;  /* 300 */
+    --pst-font-weight-heading: 400;  /* 400 */
+    /* for admonition heading */
+    --pst-admonition-font-weight-heading: 600;  /* 600 */
+
+}
