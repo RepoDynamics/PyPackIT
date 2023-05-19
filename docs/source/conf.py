@@ -610,6 +610,42 @@ python_maximum_signature_line_length: int = 99
 
 
 """
+Options for `myst_parser`
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://myst-parser.readthedocs.io/en/latest/configuration.html
+"""
+
+# --- Extensions ----
+#  Ref: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
+myst_enable_extensions: List[str] = [
+    "substitution",
+    "smartquotes",
+    "replacements",
+    "dollarmath",
+    "amsmath",
+    "colon_fence",
+    "deflist",
+    "tasklist",
+    "attrs_inline",
+    "attrs_block",
+]
+myst_heading_anchors: int = 4
+
+myst_substitutions = {
+    "project_short_description": _data['project']['short_description'],
+    "test_text": "[link](https://google.com)\\\n**BOLD text**"
+}
+
+
+
+"""
 Options for `sphinx.ext.autosummary`
 
 References
