@@ -92,7 +92,7 @@ extensions: List[str] = [
 
 root_doc: str = 'index'
 
-exclude_patterns: List[str] = ['Thumbs.db', '.DS_Store', '**.ipynb_checkpoints', 'README.md']
+exclude_patterns: List[str] = ['**Thumbs.db', '**.DS_Store', '**.ipynb_checkpoints', '**README.md']
 
 # include_patterns: List[str] = ['**']
 
@@ -236,8 +236,8 @@ html_theme_options: Dict[str, Any] = {
     "logo": {
         # "text": "This will appear just after the logo image",
         # "link": "URL or path that logo links to"
-        "image_light": "_static/logo/logo.svg",
-        "image_dark": "_static/logo/logo.svg",
+        "image_light": "_static/img/logo/logo_light.svg",
+        "image_dark": "_static/img/logo/logo_dark.svg",
         "alt_text": "Logo",
     },
 
@@ -402,9 +402,9 @@ html_context = {
     "default_mode": "auto"  # Default theme mode: {'light', 'dark', 'auto'}
 }
 
-html_logo: Union[str, None] = '_static/logo/logo.svg'
+# html_logo: Union[str, None] = '_static/logo/logo_light.svg'
 
-html_favicon: Union[str, None] = '_static/logo/logo.ico'
+html_favicon: Union[str, None] = '_static/img/logo/icon.png'
 
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
     'css/custom.css',
@@ -549,7 +549,7 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
         False
     ),
 ]
-
+latex_logo: str = "_static/img/logo/logo_light.svg"
 latex_elements: Dict[str, str] = {
     'papersize': 'a4paper',  # {'letterpaper', 'a4paper'}
     'pointsize': '11pt',
