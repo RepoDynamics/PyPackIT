@@ -406,7 +406,18 @@ html_logo: Union[str, None] = '_static/logo/logo.svg'
 
 html_favicon: Union[str, None] = '_static/logo/logo.ico'
 
-html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = ['css/base.css', 'css/custom.css', 'css/color.css']
+html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
+    'css/custom.css',
+    'css/theme/components/header_logo.css',
+    'css/theme/sections/announcement.css',
+    'css/theme/variables/color.css',
+    'css/theme/variables/font.css',
+    'css/theme/variables/icon.css',
+    'css/theme/variables/layout.css',
+    'css/theme/variables/.css',
+    'css/theme/variables/.css',
+    'css/extensions/sphinx-design.css',
+]
 
 # html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
 
