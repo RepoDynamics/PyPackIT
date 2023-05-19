@@ -371,6 +371,10 @@ for _contact_type, _show_icon in _data['docs']['header_icon'].items():
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------
+# The following part dynamically reads analytics options from the metadata, and sets them up.
+# Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
 if _data['docs']['analytics']['plausible']['domain'] != "":
     html_theme_options['analytics'] = {
         "plausible_analytics_domain": _data['docs']['analytics']['plausible']['domain'],
@@ -380,7 +384,8 @@ elif _data['docs']['analytics']['google']['id'] != "":
     html_theme_options['analytics'] = {
         "google_analytics_id": _data['docs']['analytics']['google']['id'],
     }
-
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 
 
