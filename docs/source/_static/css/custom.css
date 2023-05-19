@@ -1,26 +1,16 @@
-/* Custom CSS styles for the HTML theme */
 
-
-/*  make the article content grow to fit all available width */
-/* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
-.bd-content {
-  flex-grow: 1;
-  max-width: 100%;
-}
-
-/* Make each footer item in-line so they stack horizontally instead of vertically */
-.footer-item {
-  display: inline-block;
-}
-
-/* Add a separating border line for all but the last item */
-.footer-item:not(:last-child) {
-  border-right: 1px solid var(--pst-color-text-base);
-  margin-right: .5em;
-  padding-right: .5em;
-}
-
-/* Justify text in paragraphs */
-p {
+/*Justify text in paragraphs*/
+.mathjax_ignore>p {
     text-align: justify;
+}
+
+/* Style class for the short description shown on homepage */
+.one-liner {
+    margin: 3%;
+    display: grid;
+    font-family: "Times New Roman", var(--pst-font-family-base-system);
+    font-stretch: expanded;
+    font-style: italic;
+    font-size: var(--pst-font-size-h4);
+    text-align: center;
 }
