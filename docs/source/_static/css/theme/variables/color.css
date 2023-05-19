@@ -1,0 +1,53 @@
+/*
+CSS colors for the pydata-sphinx HTML theme
+Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+*/
+
+html[data-theme="light"] {
+    --pst-color-primary: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-secondary: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-info: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-warning: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-success: rgb(40, 167, 69);  /* (40, 167, 69) */
+    --pst-color-attention: rgb(255, 193, 7);  /* (255, 193, 7) */
+    --pst-color-danger: rgb(220, 53, 69);  /* (220, 53, 69) */
+    --pst-color-text-base: rgb(50, 50, 50);  /* (50, 50, 50) */
+    --pst-color-text-muted: rgb(100, 100, 100);  /* (100, 100, 100) */
+    --pst-color-shadow: rgb(216, 216, 216);  /* (216, 216, 216) */
+    --pst-color-border: rgb(201, 201, 201);  /* (201, 201, 201) */
+    --pst-color-inline-code: rgb(232, 62, 140);  /* (232, 62, 140) */
+    --pst-color-target: rgb(251, 229, 78);  /* (251, 229, 78) */
+    --pst-color-link: rgb(69, 157, 185);  /* (69, 157, 185) == --pst-color-primary */
+    --pst-color-link-hover: rgb(238, 144, 64);  /* (238, 144, 64) == --pst-color-warning */
+
+    /***** Depth Colors *****/
+    --pst-color-background: rgb(235, 235, 235);  /* (255, 255, 255) */
+    --pst-color-on-background: rgb(255, 255, 255);  /* (255, 255, 255) */
+    --pst-color-surface: rgb(245, 245, 245);  /* (245, 245, 245) */
+    --pst-color-on-surface: rgb(225, 225, 225);  /* (225, 225, 225) */
+}
+
+html[data-theme="dark"] {
+    --pst-color-primary: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-secondary: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-info: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-warning: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-success: rgb(72, 135, 87);  /* (72, 135, 87) */
+    --pst-color-attention: rgb(220, 169, 15);  /* (220, 169, 15) */
+    --pst-color-danger: rgb(203, 70, 83);  /* (203, 70, 83) */
+    --pst-color-text-base: rgb(206, 206, 206);  /* (206, 206, 206) */
+    --pst-color-text-muted: rgb(166, 166, 166);  /* (166, 166, 166) */
+    --pst-color-shadow: rgb(50, 50, 50);  /* (33, 33, 33) */
+    --pst-color-border: rgb(192, 192, 192);  /* (192, 192, 192) */
+    --pst-color-inline-code: rgb(221, 158, 194);  /* (221, 158, 194) */
+    --pst-color-target: rgb(71, 39, 0);  /* (71, 39, 0) */
+    --pst-color-link: rgb(69, 157, 185);  /* (69, 157, 185) == --pst-color-primary */
+    --pst-color-link-hover: rgb(238, 144, 64);  /* (238, 144, 64) == --pst-color-warning */
+
+    /***** Depth Colors *****/
+    --pst-color-background: rgb(20, 20, 20);  /* (18, 18, 18) */
+    --pst-color-on-background: rgb(0, 0, 0);  /* (30, 30, 30) */
+    --pst-color-surface: rgb(33, 33, 33);  /* (33, 33, 33) */
+    --pst-color-on-surface: rgb(55, 55, 55);  /* (55, 55, 55) */
+}
