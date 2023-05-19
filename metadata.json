@@ -43,8 +43,8 @@
 
 
   "project": {
-    "name": "PythonProjectTemplate",
-    "short_description": "A template Python project.",
+    "name": "PyPackIT",
+    "short_description": "Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects",
     "keywords": ["python", "package", "packaging", "repository", "documentation", "automated"],
     "website": "",
     "email": "a.ariamajd@gmail.com"
