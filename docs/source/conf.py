@@ -650,3 +650,21 @@ fontawesome_included: bool = True
 if _data['docs']['disqus_shortname'] != "":
     disqus_shortname: str = _data['docs']['disqus_shortname']
 
+
+"""
+Options for `sphinx.ext.intersphinx`
+
+Notes
+-----
+Options are only partially implemented.
+See reference for a full list.
+
+References
+----------
+* https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
+"""
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable', None),
+    'matplotlib': ('https://matplotlib.org/stable', None),
+}
