@@ -45,6 +45,7 @@
   "project": {
     "name": "PyPackIT",
     "short_description": "Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects",
+    "long_description": "PyPackIT is an open-source software for creating other open-source software, specifically Python packages. It streamlines all the tedious and time-consuming \"administrative\" jobs of the software development process, so you can only focus on what truly matters -- implementing your ideas.\\\nWith a single command, PyPackIT creates a professional and robust infrastructure.",
     "keywords": ["python", "package", "packaging", "repository", "documentation", "automated"],
     "website": "",
     "email": "a.ariamajd@gmail.com"
@@ -52,7 +53,7 @@
 
 
   "package": {
-    "name": "template_package",
+    "name": "pypackit",
     "short_version": "0.0",
     "long_version": "0.0.1"
   },
@@ -83,7 +84,8 @@
       "linkedin": true,
       "researchgate": true,
       "orcid": true
-    }
+    },
+    "announcement": "<i class=\"fa-solid fa-triangle-exclamation\"></i> The project is under active development and not yet fully implemented."
   },
 
 
