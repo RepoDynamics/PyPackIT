@@ -1,0 +1,21 @@
+
+
+/*  make the article content grow to fit all available width */
+/* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
+.bd-content {
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+/* Stack footer items horizontally instead of vertically */
+.footer-items__start, .footer-items__end {
+  flex-direction: row;
+}
+
+/*!* Add a separating border line for all but the last item *!*/
+/*.footer-item:not(:last-child) {*/
+/*  border-right: 1px solid var(--pst-color-text-base);*/
+/*  margin-right: .5em;*/
+/*  padding-right: .5em;*/
+/*}*/
+
