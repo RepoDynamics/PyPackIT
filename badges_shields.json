@@ -1,5 +1,15 @@
 {
   "schemaVersion": 1,
   "label": "Project",
-  "message": "msg"
+  "message": "msg",
+  "color": "lightgrey",
+  "labelColor": "grey",
+  "isError": false,
+  "namedLogo": null,
+  "logoSvg": null,
+  "logoColor": null,
+  "logoWidth": null,
+  "logoPosition": null,
+  "style": "flat",
+  "cacheSeconds": 300
 }
