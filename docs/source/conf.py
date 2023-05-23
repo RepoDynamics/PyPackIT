@@ -16,10 +16,23 @@ import datetime
 with open("../../metadata.json") as f:
     _data = json.load(f)
 # Generate recurring variables from the metadata to use in several places
-_github_link = f"https://github.com/{_data['github']['user_name']}/{_data['github']['repo_name']}"
-_author_names_in_order = [
+_project_name: str = _data["project"]["name"]
+_org_name: str = _data['contact']['organization']['name']
+_authors: List[Dict[str, str]] = _data['contact']['authors']
+_corresponding_authors: List[Dict[str, str]] = _data['contact']['corresponding_authors']
+_copyright_start_year: int = _data['copyright']['start_year']
+_package_name: str = _data['package']['name']
+_short_version: str = _data['package']['short_version']
+_long_version: str = _data['package']['long_version']
+_github_link: str = f"https://github.com/{_data['github']['user_name']}/{_data['github']['repo_name']}"
+_author_names_in_order: List[str] = [
     _author['name'] for _author in (_data['contact']['authors'] + _data['contact']['corresponding_authors'])
 ]
+_announcement = _data['docs']['announcement']
+
+_url_copyright = f"{_github_link}/blob/{_data['github']['branch_name']}/{_data['copyright']['path']}"
+_license_name = _data['copyright']['license_name']
+
 
 """
 Project information
@@ -28,30 +41,26 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
-project: str = _data["project"]["name"]
+project: str = _project_name
 
 author: str = ', '.join(
-    [_author['name'] for _author in _data['contact']['authors']]
-    + [_author['name'] for _author in _data['contact']['corresponding_authors']]
+    [_author['name'] for _author in _authors]
+    + [_author['name'] for _author in _corresponding_authors]
 )
 
 copyright: str = (
     (
-        f"{_data['copyright']['start_year']}--{datetime.date.today().year}, "
-        if _data['copyright']['start_year'] != datetime.date.today().year else
-        f"{_data['copyright']['start_year']}, "
-    ) +
-    (
-        _orgname if (_orgname := _data['contact']['organization']['name']) != ''
-        else _data['contact']['corresponding_authors'][0]['name']
-     )
+        f"{_copyright_start_year}--{datetime.date.today().year}, "
+        if _copyright_start_year != datetime.date.today().year else
+        f"{_copyright_start_year}, "
+    ) + (_org_name if _org_name != '' else _corresponding_authors[0]['name'])
 )
 
 project_copyright: Union[str, List[str]] = copyright
 
-version: str = _data['package']['short_version']
+version: str = _short_version
 
-release: str = _data['package']['long_version']
+release: str = _long_version
 
 
 """
@@ -127,12 +136,12 @@ needs_sphinx: str = '5.3'
 
 numfig: bool = True
 
-# numfig_format: Dict[str, str] = {
-#     'figure': 'Fig. %s',
-#     'table': 'Table %s',
-#     'code-block': 'Listing %s',
-#     'section': 'Section %s'
-# }
+numfig_format: Dict[str, str] = {
+    'figure': 'Fig. %s',
+    'table': 'Table %s',
+    'code-block': 'Code %s',
+    'section': 'Section %s'
+}
 
 # numfig_secnum_depth: int = 1
 
@@ -253,18 +262,18 @@ html_theme_options: Dict[str, Any] = {
     # Middle menu
     "navbar_center": ["navbar-nav"],
     # Right section
-    "navbar_end": ["theme-switcher", "navbar-icon-links"],
+    "navbar_end": ["navbar-icon-links", "theme-switcher"],
     # Persistent right section
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
 
-    "search_bar_text": f"Search {_data['project']['name']} ...",
+    "search_bar_text": f"Search {_project_name} ...",
     "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "last-updated", "edit-this-page", "sourcelink", ],
     "show_prev_next": True,
-    "footer_start": ["version", "copyright", ],
-    "footer_end": ["sphinx-version", "theme-version"],
+    "footer_start": ["version", "copyright", "pypackit_ver"],
+    "footer_end": ["quicklinks"],  # "sphinx-version", "theme-version"
 
     "show_nav_level": 1,
     "navigation_depth": 3,
@@ -301,13 +310,13 @@ html_theme_options: Dict[str, Any] = {
         },
         {
             "name": "Copyright/License",
-            "url": f"{_github_link}/blob/{_data['github']['branch_name']}/{_data['copyright']['path']}",
+            "url": _url_copyright,
             "icon": "fa-solid fa-copyright",
 
         },
         {
             "name": "PyPi Package",
-            "url": f"https://pypi.org/project/{_data['package']['name']}/",
+            "url": f"https://pypi.org/project/{_package_name}/",
             "icon": "fa-brands fa-python",
         },
     ],
@@ -316,10 +325,11 @@ html_theme_options: Dict[str, Any] = {
     "use_edit_page_button": True,
 
     # Code highlighting color themes
-    #  Ref: https://pygments.org/styles/
-    #  Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#configure-pygments-theme
+    # Refs:
+    #  https://pygments.org/styles/
+    #  https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#configure-pygments-theme
     "pygment_light_style": "default",
-    "pygment_dark_style": "zenburn",
+    "pygment_dark_style": "monokai",
 }
 
 
@@ -354,7 +364,7 @@ def _add_icon_link(
 
 for _contact_type, _show_icon in _data['docs']['header_icon'].items():
     if _show_icon:
-        for _contact_person in [_data['contact']['organization']] + _data['contact']['corresponding_authors']:
+        for _contact_person in [_data['contact']['organization']] + _corresponding_authors:
             _contact_url = _contact_person[_contact_type]
             if _contact_url != "":
                 _add_icon_link(
@@ -400,11 +410,16 @@ elif _data['docs']['analytics']['google']['id'] != "":
 # html_baseurl: str = ''
 
 html_context = {
+    # PyData variables
     "github_user": _data['github']['user_name'],
     "github_repo": _data['github']['repo_name'],
     "github_version": _data['github']['branch_name'],
     "doc_path": _data['docs']['path'],
-    "default_mode": "auto"  # Default theme mode: {'light', 'dark', 'auto'}
+    "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
+    # PyPackIT variables
+    "_announcement_msg": _announcement,
+    "_url_copyright": _url_copyright,
+    "_license_name": _license_name
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
@@ -510,7 +525,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{_data['project']['name']} Docs"
+htmlhelp_basename: str = f"{_project_name} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -547,8 +562,8 @@ References
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_data['package']['name']}_docs.tex",
-        f"{_data['project']['name']} Documentation",
+        f"{_package_name}_docs.tex",
+        f"{_project_name} Documentation",
         ' \\and '.join(_author_names_in_order),
         'manual',
         False
@@ -577,8 +592,8 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        _data['package']['name'],
-        f"{_data['project']['name']} Documentation",
+        _package_name,
+        f"{_project_name} Documentation",
         _author_names_in_order,
         "1"
     )
@@ -600,10 +615,10 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_data['package']['name']}_docs",
-        f"{_data['project']['name']} Documentation",
+        f"{_package_name}_docs",
+        f"{_project_name} Documentation",
         '@*'.join(_author_names_in_order),
-        _data['package']['name'],
+        _package_name,
         _data['project']['short_description'],
         'Documentation',
         False,
@@ -652,11 +667,13 @@ myst_enable_extensions: List[str] = [
     "attrs_inline",
     "attrs_block",
 ]
-myst_heading_anchors: int = 4
+myst_heading_anchors: int = 6
 
 myst_substitutions = {
+    "project_name": _project_name,
     "project_short_description": _data['project']['short_description'],
-    "test_text": "[link](https://google.com)\\\n**BOLD text**"
+    "project_long_description": _data['project']['long_description'],
+    "package_name": _data['package']['name'],
 }
 
 
