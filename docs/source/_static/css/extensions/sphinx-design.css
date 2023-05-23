@@ -1,39 +1,53 @@
 
 .sd-card {
-  border-radius:1rem;
-  margin: 0 0 3% 3%;
+    border-radius:1rem;
+    margin: 0 0 3% 3%;
+    color: var(--pst-color-primary)
 }
 
-/*html[data-theme="light"] .sd-card {*/
-/*  background: rgba(199,220,204,0.99);*/
-/*}*/
+html[data-theme="light"] .sd-card {
+    background: rgb(255, 255, 255);
+}
 
 html[data-theme="dark"] .sd-card {
-  background: rgba(29, 33, 29, 0.99);
-}
-
-.sd-card-img-top {
-  width: 100px;
-  height: 100px;
-  align-self: center;
-  margin: 5% 0 0 0;
+    background: rgb(25, 25, 27);
+    /*border-color: red;*/
 }
 
 .sd-card-hover:hover {
-  border-color: var(--sd-color-card-border-hover);
+  border-color: #119100;
   transform: scale(1.01)
 }
 
-
-html[data-theme="light"] {
-  --sd-color-card-border: rgba(0, 0, 0, 0.125);
-  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);
-  --sd-color-card-background: blue;
-  --sd-color-card-text: blue;
-  --sd-color-card-header: transparent;
-  --sd-color-card-footer: transparent;
-  --sd-color-card-border-hover: rgb(33, 197, 0);
+.sd-card-img-top {
+    width: auto;
+    max-height: 70px;
+    align-self: center;
+    margin: 5% 0 0 0;
 }
+
+.sd-cards-carousel .sd-card-hover:hover {
+    transform: none;
+}
+
+
+
+html[data-theme="dark"] {
+    --sd-color-card-border-hover: yellow;
+    /*--sd-color-card-text: orange;*/
+    --sd-color-card-header: green;
+    --sd-color-card-footer: pink;
+}
+
+/*html[data-theme="light"] {*/
+/*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
+/*  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);*/
+/*  --sd-color-card-background: blue;*/
+/*  --sd-color-card-text: blue;*/
+/*  --sd-color-card-header: transparent;*/
+/*  --sd-color-card-footer: transparent;*/
+/*  --sd-color-card-border-hover: rgb(33, 197, 0);*/
+/*}*/
 
 /*html[data-theme="dark"] {*/
 /*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
