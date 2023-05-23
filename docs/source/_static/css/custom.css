@@ -1,6 +1,6 @@
 
 /*Justify text in paragraphs*/
-.mathjax_ignore>p {
+.bd-article p {
     text-align: justify;
 }
 
@@ -13,4 +13,71 @@
     font-style: italic;
     font-size: var(--pst-font-size-h4);
     text-align: center;
+}
+
+
+/*
+Change the color of custom SVG icons to the primary color of the theme.
+To do so, icons are stored in black color, and a filter generator is used
+to get the filter that gives the primary color starting from black.
+Notice that the filter must be manually changed when the primary color is changed.
+To get new filters, find an online CSS filter generator, enter the primary colors for the
+light and dark themes, and substitute the filters below.
+Example CSS filter generators:
+* https://isotropic.co/tool/hex-color-to-css-filter/)
+* https://codepen.io/sosuke/pen/Pjoqqp
+*/
+html[data-theme=light] .icon-image {
+    filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);
+}
+html[data-theme=dark] .icon-image {
+    filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);
+}
+
+
+.homepage-logo {
+    margin: 3% 0 2% 0;
+    max-height: 200px;
+}
+
+
+.project-name {
+    color: var(--pst-color-primary);
+    font-weight: bold;
+}
+
+
+.digit {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+!important
+}
+
+.quicklinks ul {
+    list-style: none;
+    display: block;
+    float: left;
+    text-align: left;
+    font-size: var(--pst-font-size-h6);
+}
+
+.quicklinks h6 {
+    margin: 0;
+}
+
+/*.quicklinks a {*/
+/*    color: var(--pst-color-text-base);*/
+/*    height: 1rem;*/
+/*}*/
+
+
+
+.inline-img {
+    color: var(--pst-color-text-base);
+    height: 1rem;
+    margin: 0;
+    padding: 0;
 }
