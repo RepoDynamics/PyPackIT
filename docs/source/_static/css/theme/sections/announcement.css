@@ -11,6 +11,7 @@
 
 .bd-header-announcement p {
   font-weight: bold;
+  color: var(--pst-color-background);
   margin: 0;
 }
 
@@ -20,8 +21,8 @@
   height: 100%;
   left: 0;
   top: 0;
-  background-color: var(--pst-color-warning);
-  opacity: 0.3;
+  background-color: var(--pst-color-secondary);
+  opacity: 1;
   content: "";
   z-index: -1;
 }
