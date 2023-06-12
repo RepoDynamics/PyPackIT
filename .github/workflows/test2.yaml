@@ -16,3 +16,9 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      
+      - name: Install package
+        shell: bash -l {0}
+        run: |
+          python -m pip install . --no-deps
+          pip list
