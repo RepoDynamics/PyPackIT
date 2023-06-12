@@ -10,9 +10,8 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          return_value=$(python dev/utils.py)
-          echo "Obtained values: ${{ return_value }}"
-          echo "::set-output name=matrix::$return_value"
+          echo "::set-output name=matrix::$(python dev/utils.py)"
+          echo "Obtained values: ${{matrix}}"
     outputs:
       matrix: ${{ steps.get_matrix.outputs.matrix }}
   
