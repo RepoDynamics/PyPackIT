@@ -28,5 +28,5 @@ jobs:
       steps:
         - name: print from next job
           run: | 
-            echo ${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).name}}
+            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).name}}"
 
