@@ -9,3 +9,5 @@ jobs:
         shell: bash -l {0}
         run: |
           python "dev/utils.py"
+          echo ::set-output name=python-versions::${{ steps.matrix.outputs.python_versions }}
+          echo "Python versions: ${{ steps.matrix.outputs.python-versions }}"
