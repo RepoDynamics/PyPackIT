@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Get Matrix data
         id: get_matrix
         run: |
@@ -16,3 +16,9 @@ jobs:
     outputs:
       matrix: ${{ steps.get_matrix.outputs.matrix }}
   
+  run_tests:
+      needs: get_test_scope
+      runs-on: ubuntu-latest
+      steps:
+        - name: print from next job
+          run: echo "HI"
