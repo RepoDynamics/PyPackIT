@@ -4,15 +4,17 @@ on: [workflow_dispatch, push]
 jobs:
   get_test_scope:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.get_matrix.outputs.matrix }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
       - name: Get Matrix data
         id: get_matrix
         run: |
-          echo "matrix=$(python dev/utils.py)" >> $GITHUB_OUTPUT
-    outputs:
-      matrix: ${{ steps.get_matrix.outputs.matrix }}
+          JSON=$(cat ./badges_shields.json)
+          echo "matrix=${JSON//'%'/'%25'}" >> $GITHUB_OUTPUT
+    
   
   run_tests:
       needs: get_test_scope
