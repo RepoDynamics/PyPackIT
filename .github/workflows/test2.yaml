@@ -11,8 +11,8 @@ jobs:
       steps:
         - name: print from next job
           run: | 
-            echo "${{fromJson(needs.get_test_scope.outputs.package_name).package.name}}"
-            echo "${{fromJson(needs.get_test_scope.outputs.package_name).package}}"
+            echo "${{needs.get_test_scope.outputs.package_name}}"
+            echo "${{needs.get_test_scope.outputs.python_versions}}"
   
   build-and-install:
     needs: get_test_scope
