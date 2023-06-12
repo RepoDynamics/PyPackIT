@@ -11,9 +11,12 @@ jobs:
       needs: get_test_scope
       runs-on: ubuntu-latest
       steps:
-        - name: print it
-          run: | 
-            echo ${{ needs.get_test_scope.outputs.json_file }}
+        - name: Complete JSON File
+          run: echo ${{ needs.get_test_scope.outputs.json_file }}
+        - name: JSON File fromJson
+          run: echo ${{ fromJson(needs.get_test_scope.outputs.json_file) }}
+        - name: Package Name
+          run: echo ${{ needs.get_test_scope.outputs.package_name }}
             
             
   build-and-install:
