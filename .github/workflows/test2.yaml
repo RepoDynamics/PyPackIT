@@ -10,8 +10,7 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          echo "::set-output name=matrix::$(python dev/utils.py)"
-          echo "Obtained values: ${{matrix}}"
+          echo "matrix=$(python dev/utils.py)" >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ steps.get_matrix.outputs.matrix }}
   
