@@ -40,5 +40,5 @@ jobs:
       steps:
         - name: print values
           run: | 
-            echo "Full parsed JSON file: ${{needs.get_json.outputs.json_file}}"
+            echo "Full parsed JSON file ${{needs.get_json.outputs.json_file}}"
             echo "Package name: ${{fromJson(needs.get_json.outputs.json_file).package.name}}"
