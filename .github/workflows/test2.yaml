@@ -30,7 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10"] # ${{ fromJson(needs.get_test_scope.outputs.python_versions) }}
+        python-version: ${{ fromJson(needs.get_test_scope.outputs.python_versions) }}
     env:
       PACKAGE: "template_package"
 
