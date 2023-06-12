@@ -13,7 +13,7 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          cat_results=$(python3 -c 'import json; f = open("badges_shields.json"); print(json.dumps(json.load(f))); f.close()')
+          cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
           echo "$cat_results"
           echo "matrix=${cat_results}" >> $GITHUB_OUTPUT
 
@@ -27,5 +27,5 @@ jobs:
       steps:
         - name: print from next job
           run: | 
-            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).style}}"
-
+            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).project.python_versions}}"
+            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).project.operating_systems}}"
