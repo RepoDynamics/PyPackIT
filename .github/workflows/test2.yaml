@@ -18,6 +18,7 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
+          echo $content
           echo "matrix=$content" >> $GITHUB_OUTPUT
           
     
