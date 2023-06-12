@@ -16,10 +16,6 @@ jobs:
           cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
           echo "$cat_results"
           echo "matrix=${cat_results}" >> $GITHUB_OUTPUT
-
-          
-          
-    
   
   run_tests:
       needs: get_test_scope
@@ -29,3 +25,40 @@ jobs:
           run: | 
             echo "${{fromJson(needs.get_test_scope.outputs.matrix).package.name}}"
             echo "${{fromJson(needs.get_test_scope.outputs.matrix).package}}"
+  
+  build-and-install:
+    needs: get_test_scope
+    name: Build (${{ matrix.os }}, Py ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, ubuntu-latest, windows-latest]
+        python-version: ${{ fromJson(needs.get_test_scope.outputs.matrix).package.python_versions }}
+    env:
+      PACKAGE: "template_package"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Additional build info
+        shell: bash
+        run: |
+          uname -a
+          df -h
+          ulimit -a
+
+      - name: Install dependencies
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: deps/env_user.yaml
+          cache-env: true
+          extra-specs: |
+            python=${{ matrix.python-version }}
+
+      - name: Install package
+        shell: bash -l {0}
+        run: |
+          python -m pip install . --no-deps
+          pip list
