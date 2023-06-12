@@ -3,19 +3,18 @@ run-name: CI NEW
 on: [workflow_dispatch, push]
 jobs:
   get_test_scope:
+    name: Get Metadata from Workflow
     uses: ./.github/workflows/get_metadata.yaml
   
   Test-Output:
+      name: Print Metadata Values
       needs: get_test_scope
       runs-on: ubuntu-latest
       steps:
-        - name: print from next job
+        - name: print it
           run: | 
-            echo ${{ fromJson(needs.get_test_scope.outputs.json_file).package.name }}
-            echo ${{ needs.get_test_scope.outputs.package_name }}
-            echo ${{ fromJson(needs.get_test_scope.outputs.json_file).package.python_versions }}
-            echo ${{ needs.get_test_scope.outputs.python_versions }}
-            echo ${{ fromJson(needs.get_test_scope.outputs.python_versions) }}
+            echo ${{ needs.get_test_scope.outputs.json_file }}
+            
             
   build-and-install:
     needs: get_test_scope
