@@ -5,14 +5,7 @@ jobs:
   get_test_scope:
     uses: ./.github/workflows/get_metadata.yaml
   
-  run_tests:
-      needs: get_test_scope
-      runs-on: ubuntu-latest
-      steps:
-        - name: print from next job
-          run: | 
-            echo ${{ needs.get_test_scope.outputs.package_name }}
-            echo ${{ needs.get_test_scope.outputs.python_versions }}
+  
   
   build-and-install:
     needs: get_test_scope
@@ -22,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
-        python-version: ${{ fromJson(needs.get_test_scope.outputs.matrix).package.python_versions }}
+        python-version: ${{ needs.get_test_scope.outputs.python_versions }}
     env:
       PACKAGE: "template_package"
 
