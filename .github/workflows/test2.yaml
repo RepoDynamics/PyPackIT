@@ -12,8 +12,10 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          JSON=$(cat ./badges_shields.json)
-          echo "matrix=${JSON//'%'/'%25'}" >> $GITHUB_OUTPUT
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          cat ./badges_shields.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
     
   
   run_tests:
@@ -21,4 +23,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: print from next job
-          run: echo ${{ needs.get_test_scope.outputs.matrix }}
+          run: | 
+            echo ${{ needs.get_test_scope.outputs.matrix }}
+            echo ${fromJson(needs.get_test_scope.outputs.matrix).style}
