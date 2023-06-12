@@ -3,8 +3,8 @@ from pathlib import Path
 
 
 def main():
-    print("The path is:", Path.cwd())
-    return Path.cwd()
+    print(["3.8", "3.9"])
+    return
 
 
 if __name__ == "__main__":
