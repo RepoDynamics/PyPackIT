@@ -36,7 +36,7 @@ jobs:
       - name: Parse JSON File
         id: get_json_file
         run: |
-          cat_results=$(python3 -c 'import json; f = open(${{inputs.json_filepath}}); print(json.dumps(json.load(f))); f.close()')
+          cat_results=$(python3 -c 'import json; f = open({{inputs.json_filepath}}); print(json.dumps(json.load(f))); f.close()')
           echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
           
   print_extracted:
