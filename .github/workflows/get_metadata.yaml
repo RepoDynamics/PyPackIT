@@ -5,7 +5,7 @@ on:
     outputs:
       json_file:
         description: "Name of the package"
-        value: ${{fromJson(jobs.get_json.outputs.json_file)}}
+        value: ${{jobs.get_json.outputs.json_file}}
 #       package_name:
 #         description: "Name of the package"
 #         value: ${{fromJson(jobs.get_json.outputs.json_file).package.name}}
