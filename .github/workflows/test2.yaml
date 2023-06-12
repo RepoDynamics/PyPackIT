@@ -21,4 +21,4 @@ jobs:
     steps:
       - name: print from next job
         run: |
-        echo "Obtained values: ${{ needs.list_nox_test_sessions.outputs.matrix }}"
+          echo "Obtained values: ${{ needs.list_nox_test_sessions.outputs.matrix }}"
