@@ -31,7 +31,7 @@ jobs:
         id: get_json_file
         run: |
           cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
-          echo "json_file=${cat_results}" >> $GITHUB_OUTPUT
-          echo "$json_file"
-          echo "${{jobs.get_json.outputs.json_file}}"
-          echo "${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}"
+          echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
+          echo "Full parsed JSON file: $cat_results"
+          echo "${{ fromJson(cat_results) }}"
+          echo "${{ toJson(fromJson(cat_results).package.python_versions) }}"
