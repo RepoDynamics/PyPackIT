@@ -9,9 +9,9 @@ on:
       package_name:
         description: "Name of the package"
         value: ${{fromJson(jobs.get_json.outputs.json_file).package.name}}
-      python_versions:
-        description: "Array of supported Python versions."
-        value: ${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}
+#       python_versions:
+#         description: "Array of supported Python versions."
+#         value: ${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}
 #       operating_systems:
 #         description: "Array of supported operating systems."
 #         value: ${{fromJson(jobs.get_json.outputs.json_file).package.operating_systems}}
@@ -33,4 +33,11 @@ jobs:
           cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
           echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
           
-  
+  print_extracted:
+      name: Print Extracted Values
+      needs: get_json
+      runs-on: ubuntu-latest
+      steps:
+        - name: print values
+          run: | 
+            echo "Full parsed JSON file: ${{needs.get_json.outputs.json_file}}"
