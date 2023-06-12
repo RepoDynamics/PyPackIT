@@ -5,22 +5,22 @@ on:
     outputs:
       package_name:
         description: "Name of the package"
-        value: ${{ jobs.get_json.outputs.js }}
-  
+        value: ${{ jobs.get_json.outputs.json_file }}
 
 jobs:
   get_json:
     name: Load JSON File
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.get_matrix.outputs.matrix }}
+      json_file: ${{ steps.get_json_file.outputs.json_file }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - run: cat ./metadata.json
-      - name: Get Matrix data
-        id: get_matrix
+      - name: Print JSON File (for debugging)
+        run: cat ./metadata.json
+      - name: Parse JSON File
+        id: get_json_file
         run: |
           cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
           echo "$cat_results"
-          echo "matrix=${cat_results}" >> $GITHUB_OUTPUT
+          echo "json_file=${cat_results}" >> $GITHUB_OUTPUT
