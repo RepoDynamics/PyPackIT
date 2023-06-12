@@ -9,7 +9,7 @@ on:
       package_name:
         description: "Name of the package"
         value: ${{fromJson(jobs.get_json.outputs.json_file).package.name}}
-      python_version:
+      python_versions:
         description: "Array of supported Python versions."
         value: "${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}"
 #       operating_systems:
