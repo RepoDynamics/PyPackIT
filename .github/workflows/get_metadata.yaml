@@ -12,9 +12,9 @@ on:
       python_versions:
         description: "Array of supported Python versions."
         value: ${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}
-#       operating_systems:
-#         description: "Array of supported operating systems."
-#         value: ${{fromJson(jobs.get_json.outputs.json_file).package.operating_systems}}
+      operating_systems:
+        description: "Array of supported operating systems."
+        value: ${{ toJson(fromJson(jobs.get_json.outputs.json_file).package.operating_systems) }}
 
 jobs:
   get_json:
@@ -34,19 +34,15 @@ jobs:
           echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
           
   print_extracted:
-      name: Print Extracted Values
+      name: Print Parsed Values
       needs: get_json
       runs-on: ubuntu-latest
       steps:
-        - name: Complete JSON File
+        - name: JSON File
           run: echo ${{needs.get_json.outputs.json_file}}
-        - name: Complete JSON File Parsed
-          run: echo ${{fromJson(needs.get_json.outputs.json_file)}}
         - name: Package Name
           run: echo ${{fromJson(needs.get_json.outputs.json_file).package.name}}
         - name: Python Versions
-          run: echo ${{fromJson(needs.get_json.outputs.json_file).package.python_versions}}
-        - name: Python Versions Parsed
-          run: echo "${{toJson(fromJson(needs.get_json.outputs.json_file).package.python_versions)}}"
-        - name: Python Versions Re-Parsed
-          run: echo "${{fromJson(toJson(fromJson(needs.get_json.outputs.json_file).package.python_versions))}}"
+          run: echo "${{ toJson(fromJson(needs.get_json.outputs.json_file).package.python_versions) }}"
+        - name: Operating Systems
+          run: echo "${{ toJson(fromJson(needs.get_json.outputs.json_file).package.operating_systems) }}"
