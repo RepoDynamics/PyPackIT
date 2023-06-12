@@ -13,7 +13,7 @@ jobs:
         id: get_matrix
         run: |
           echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          cat ./config.json >> $GITHUB_OUTPUT
+          cat ./badges_shields.json >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           echo "$matrix"
           
