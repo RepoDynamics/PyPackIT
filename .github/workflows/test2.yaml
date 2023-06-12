@@ -1,16 +1,24 @@
-name: TT2
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: update-meta
+run-name: Update metadata
 on: [workflow_dispatch, push]
 jobs:
-  Run-My-Script:
+  get_test_scope:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
       - uses: actions/checkout@v3
-      - name: Run Script
-        id: run_script
+      - name: Get Matrix data
+        id: get_matrix
         run: |
           return_value=$(python dev/utils.py)
-          echo "::set-output name=RETURN_VALUE::$return_value"
-
-      - name: Use the return value
-        run: echo "The return value is ${{ steps.run_script.outputs.RETURN_VALUE }}"
+          echo "::set-output name=matrix::$return_value"
+          echo "Obtained values: ${{ steps.run_script.outputs.RETURN_VALUE }}"
+    outputs:
+      matrix: ${{ steps.get_matrix.outputs.matrix }}
+  run_tests:
+    needs: get_test_scope
+    runs-on: ubuntu-latest
+    steps:
+      - name: print from next job
+      - run: |
+        echo "Obtained values: ${{ needs.list_nox_test_sessions.outputs.matrix }}"
