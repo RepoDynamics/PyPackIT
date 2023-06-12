@@ -12,14 +12,11 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          content=`cat ./badges_shields.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "$content"
-          echo "matrix=$content" >> $GITHUB_OUTPUT
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          cat ./config.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "$matrix"
+          
           
     
   
