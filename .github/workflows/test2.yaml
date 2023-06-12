@@ -15,6 +15,7 @@ jobs:
             echo ${{ needs.get_test_scope.outputs.package_name }}
             echo ${{ fromJson(needs.get_test_scope.outputs.json_file).package.python_versions }}
             echo ${{ needs.get_test_scope.outputs.python_versions }}
+            echo ${{ fromJson(needs.get_test_scope.outputs.python_versions) }}
             
   build-and-install:
     needs: get_test_scope
