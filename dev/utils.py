@@ -1,8 +1,10 @@
 
 from pathlib import Path
 
+
 def main():
-    print(Path.cwd())
+    print("The path is:", Path.cwd())
+    return Path.cwd()
 
 
 if __name__ == "__main__":
