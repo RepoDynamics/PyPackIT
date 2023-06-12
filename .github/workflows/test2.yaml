@@ -12,7 +12,7 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          content=`cat ./test.json`
+          content=`cat ./badges_shields.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
@@ -28,5 +28,5 @@ jobs:
       steps:
         - name: print from next job
           run: | 
-            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).name}}"
+            echo "${{needs.get_test_scope.outputs.matrix && fromJson(needs.get_test_scope.outputs.matrix).style}}"
 
