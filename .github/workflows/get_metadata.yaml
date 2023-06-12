@@ -21,7 +21,7 @@ jobs:
     name: Load JSON File
     runs-on: ubuntu-latest
     outputs:
-      json_file: ${{ steps.get_json_file.outputs.json_file }}
+      json_file: ${{ steps.get_json_file.outputs.parsed_json_file }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -32,6 +32,13 @@ jobs:
         run: |
           cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
           echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
-          echo "Full parsed JSON file: $cat_results"
-          echo "${{ fromJson(cat_results) }}"
-          echo "${{ toJson(fromJson(cat_results).package.python_versions) }}"
+          
+  print_extracted:
+      name: Print Extracted Values
+      needs: get_json
+      runs-on: ubuntu-latest
+      steps:
+        - name: print values
+          run: | 
+            echo "Full parsed JSON file: ${{needs.get_json.outputs.json_file}}"
+            
