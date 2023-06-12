@@ -13,11 +13,10 @@ jobs:
       - name: Get Matrix data
         id: get_matrix
         run: |
-          delimiter="$(openssl rand -hex 8)"
-          echo "matrix<<${delimiter}" >> "${GITHUB_OUTPUT}"
-          cat ./badges_shields.json >> "${GITHUB_OUTPUT}"
-          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
-          echo "$matrix"
+          cat_results=$(cat badges_shields.json | python3 -c 'import json; import sys; print(json.dumps(sys.stdin.read()))')
+          echo "$cat_results"
+          echo "matrix=${cat_results}" >> $GITHUB_OUTPUT
+
           
           
     
