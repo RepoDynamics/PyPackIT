@@ -1,4 +1,5 @@
 name: TT2
+run-name: ${{ github.actor }} is learning GitHub Actions
 on: [workflow_dispatch, push]
 jobs:
   Run-My-Script:
@@ -8,7 +9,7 @@ jobs:
       - name: Run Script
         shell: bash -l {0}
         run: |
-          echo "::set-output name=matrix::$(python "dev/utils.py")"
+          echo ::set-output name=matrix::$(python "dev/utils.py")
           
          # echo ::set-output name=python-versions::${{ steps.matrix.outputs.python_versions }}
          # echo "Python versions: ${{ steps.matrix.outputs.python-versions }}"
