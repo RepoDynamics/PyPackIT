@@ -1,4 +1,5 @@
 name: CI
+run-name: CI
 on:
   push:
     branches:
@@ -13,7 +14,26 @@ on:
     - cron: "0 3 * * 1"
 
 jobs:
+  get_scope:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Get Matrix data
+        id: get_matrix
+        run: |
+          echo "matrix=$(python dev/utils.py)" >> $GITHUB_OUTPUT
+    outputs:
+      matrix: ${{ steps.get_matrix.outputs.matrix }}
 
+  run_tests:
+      needs: get_scope
+      runs-on: ubuntu-latest
+      steps:
+        - name: print from next job
+          run: echo ${{ needs.get_test_scope.outputs.matrix }}
+  
+  
   build-and-install:
     needs: get_scope
     name: Build (${{ matrix.os }}, Py ${{ matrix.python-version }})
