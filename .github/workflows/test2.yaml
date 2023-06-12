@@ -1,21 +1,9 @@
-name: update-meta
-run-name: Update metadata
+name: CI NEW
+run-name: CI NEW
 on: [workflow_dispatch, push]
 jobs:
   get_test_scope:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.get_matrix.outputs.matrix }}
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - run: cat ./badges_shields.json
-      - name: Get Matrix data
-        id: get_matrix
-        run: |
-          cat_results=$(python3 -c 'import json; f = open("metadata.json"); print(json.dumps(json.load(f))); f.close()')
-          echo "$cat_results"
-          echo "matrix=${cat_results}" >> $GITHUB_OUTPUT
+    uses: ./.github/workflows/get_metadata.yaml
   
   run_tests:
       needs: get_test_scope
@@ -23,8 +11,8 @@ jobs:
       steps:
         - name: print from next job
           run: | 
-            echo "${{fromJson(needs.get_test_scope.outputs.matrix).package.name}}"
-            echo "${{fromJson(needs.get_test_scope.outputs.matrix).package}}"
+            echo "${{fromJson(needs.get_test_scope.outputs.json_file).package.name}}"
+            echo "${{fromJson(needs.get_test_scope.outputs.json_file).package}}"
   
   build-and-install:
     needs: get_test_scope
