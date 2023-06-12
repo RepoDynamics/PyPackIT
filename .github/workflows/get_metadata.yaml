@@ -11,7 +11,7 @@ on:
         value: ${{fromJson(jobs.get_json.outputs.json_file).package.name}}
       python_version:
         description: "Array of supported Python versions."
-        value: ${{ fromJson(fromJson(jobs.get_json.outputs.json_file).package.python_versions) }}
+        value: ${{ fromJson(jobs.get_json.outputs.json_file).package.python_versions }}
 #       operating_systems:
 #         description: "Array of supported operating systems."
 #         value: ${{fromJson(jobs.get_json.outputs.json_file).package.operating_systems}}
