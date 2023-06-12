@@ -31,7 +31,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: print from next job
-          run: echo ${{ needs.get_test_scope.outputs.matrix }}
+          run: echo ${{ needs.get_scope.outputs.matrix }}
   
   
   build-and-install:
