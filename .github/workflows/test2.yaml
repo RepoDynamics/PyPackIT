@@ -24,12 +24,12 @@ jobs:
             
   build-and-install:
     needs: get_test_scope
-    name: Build (${{ matrix.os }}, Py ${{ matrix.python-version }})
+    name: Build (Python ${{ matrix.python-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: ${{ fromJson(needs.get_test_scope.outputs.operating_systems) }}
         python-version: ${{ fromJson(needs.get_test_scope.outputs.python_versions) }}
     env:
       PACKAGE: "template_package"
