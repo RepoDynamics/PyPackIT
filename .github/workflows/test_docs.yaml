@@ -39,6 +39,14 @@ jobs:
         shell: bash -el {0}
         run: micromamba list
 
+      - name: Install Package
+        run: python -m pip install .
+        shell: micromamba-shell {0}
+
+      - name: Print Installed Packages
+        run: python -m pip list
+        shell: micromamba-shell {0}
+
       - name: Build with Sphinx
         if: always()
         shell: micromamba-shell {0}
