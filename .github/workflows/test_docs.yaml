@@ -1,0 +1,47 @@
+# Test the build of documentation with Sphinx
+
+name: Docs Build Test
+run-name: Docs Build Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+
+jobs:
+
+  build_docs:
+
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Print System Info
+        shell: bash
+        run: |
+          uname -a
+          df -h
+          ulimit -a
+
+      - name: Install Docs Dependencies
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: deps/env_tests.yaml
+
+      - name: Print Environment
+        shell: bash -el {0}
+        run: micromamba list
+
+      - name: Build with Sphinx
+        if: always()
+        shell: micromamba-shell {0}
+        run: |
+          cd docs
+          make clean
+          SPHINXOPTS="-W -T --keep-going" make html
+
