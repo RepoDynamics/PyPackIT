@@ -25,6 +25,8 @@ jobs:
       - name: Get Metadata
         id: get_metadata
         uses: ./.github/actions/get-metadata
+        with:
+          json_filepath: ./metadata/main.json
       - name: Print Extracted Data
         id: extract
         run: |

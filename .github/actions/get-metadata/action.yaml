@@ -3,7 +3,7 @@ description: 'Get Metadata JSON file.'
 inputs:
   json_filepath:
     description: "Path to the JSON file to read."
-    default: "metadata.json"
+    default: "metadata/main.json"
     required: false
     type: string
 outputs:
