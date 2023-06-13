@@ -8,45 +8,64 @@ on:
   pull_request:
   workflow_dispatch:
 
+
 jobs:
 
   get_package_metadata:
+
     name: Get Package Metadata
     uses: ./.github/workflows/get_metadata.yaml
 
+
   echo_metadata:
+
     name: Print Metadata Values
     needs: get_package_metadata
     runs-on: ubuntu-latest
     steps:
       - name: Complete JSON File
         run: echo ${{ needs.get_package_metadata.outputs.json_file }}
+
       - name: Package Name
         run: echo ${{ needs.get_package_metadata.outputs.package_name }}
+
       - name: Python Versions
         run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
+
       - name: Operating Systems
         run: echo "${{ needs.get_package_metadata.outputs.operating_systems }}"
 
+
   lint:
+
     name: Static Code Analysis
     needs: get_package_metadata
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
       - name: Print System Info
         shell: bash
         run: |
           uname -a
           df -h
           ulimit -a
+
       - name: Install Linters
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: deps/env_tests.yaml
           generate-run-shell: true
           cache-environment: true
+
       - name: Print Environment
         run: micromamba list
-        shell: bash -l {0}
+
+      - name: PyLint
+        run: pylint ${{ needs.get_package_metadata.outputs.package_name }}
+
+      - name: Black
+        if: always()
+        run: black --check -l 99 ${{ needs.get_package_metadata.outputs.package_name }}
+
