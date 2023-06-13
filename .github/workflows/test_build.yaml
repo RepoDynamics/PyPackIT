@@ -10,7 +10,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-
 jobs:
 
   get_package_metadata:
@@ -44,7 +43,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Print System Info
-        shel: bash
+        shell: bash
         run: |
           uname -a
           df -h
