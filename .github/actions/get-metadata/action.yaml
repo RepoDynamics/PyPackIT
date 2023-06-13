@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Checkout Repo
       uses: actions/checkout@v3
-    - name: Print JSON File (for debugging)
+    - name: Print JSON File
       shell: bash
       run: cat ${{inputs.json_filepath}}
     - name: Parse JSON File
