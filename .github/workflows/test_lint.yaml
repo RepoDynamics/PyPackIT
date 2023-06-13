@@ -44,9 +44,9 @@ jobs:
       - name: Install Linters
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: devtools/conda-envs/test_env.yaml
+          environment-file: deps/env_tests.yaml
           generate-run-shell: true
           cache-environment: true
       - name: Print Environment
         run: micromamba list
-        shel: micromamba-shell {0}
+        shell: micromamba-shell {0}
