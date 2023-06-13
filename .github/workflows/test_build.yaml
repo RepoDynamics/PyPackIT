@@ -28,8 +28,8 @@ jobs:
       - name: Print Extracted Data
         id: extract
         run: |
-          echo "package_name='${{ fromJson(steps.get_metadata.outputs.json).package.name }}'" >> $GITHUB_OUTPUT
-          echo "python_versions=${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" >> $GITHUB_OUTPUT
+          echo "package_name=${{ fromJson(steps.get_metadata.outputs.json).package.name }}" >> $GITHUB_OUTPUT
+          echo "python_versions='${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" >> $GITHUB_OUTPUT
           echo "operating_systems='${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'" >> $GITHUB_OUTPUT
 
 
