@@ -49,4 +49,4 @@ jobs:
           cache-environment: true
       - name: Print Environment
         run: micromamba list
-        shell: micromamba-shell {0}
+        shell: bash -l {0}
