@@ -80,4 +80,5 @@ jobs:
 
       - name: Run Tests
         shell: micromamba-shell {0}
-        run: pytest --verbose --cov=${needs.get_package_metadata.outputs.oackage_name} --cov-report=xml --color=yes tests/
+        run: pytest --verbose --cov=${{needs.get_package_metadata.outputs.oackage_name}} --cov-report=xml --color=yes tests/
+        
