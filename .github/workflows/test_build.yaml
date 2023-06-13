@@ -14,7 +14,12 @@ jobs:
 
   get_package_metadata:
     name: Get Package Metadata
-    uses: ./.github/actions/get-metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Get Metadata
+        uses: ./.github/actions/get-metadata
 
   echo_metadata:
     name: Print Metadata Values
