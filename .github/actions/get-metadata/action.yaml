@@ -17,9 +17,11 @@ runs:
     - name: Checkout Repo
       uses: actions/checkout@v3
     - name: Print JSON File (for debugging)
+      shell: bash
       run: cat ./metadata.json
     - name: Parse JSON File
       id: get_json_file
+      shell: bash
       run: |
         echo "json_file=$(python dev/utils.py ${{inputs.json_filepath}})" >> $GITHUB_OUTPUT
       # cat_results=$(python3 -c 'import json; f = open({{inputs.json_filepath}}); print(json.dumps(json.load(f))); f.close()')
