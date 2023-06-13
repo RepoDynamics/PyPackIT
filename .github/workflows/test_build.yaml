@@ -15,9 +15,9 @@ jobs:
   get_package_metadata:
     name: Get Package Metadata
     outputs:
-      package_name: ${{ steps.get_metadata.outputs.json }}
-      python_versions: ${{ steps.get_metadata.outputs.json }}
-      os_versions: ${{ steps.get_metadata.outputs.json }}
+      package_name: ${{ steps.extract.outputs.package_name }}
+      python_versions: ${{ steps.extract.outputs.python_versions }}
+      os_versions: ${{ steps.extract.outputs.operating_systems }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -25,8 +25,12 @@ jobs:
       - name: Get Metadata
         id: get_metadata
         uses: ./.github/actions/get-metadata
-      - name: Print Data
-        run: echo ${{ steps.get_metadata.outputs.json }}
+      - name: Print Extracted Data
+        id: extract
+        run: |
+          echo "package_name=${{ fromJson(steps.get_metadata.outputs.json).package.name }}" >> $GITHUB_OUTPUT
+          echo "python_versions=${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" >> $GITHUB_OUTPUT
+          echo "operating_systems=${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}" >> $GITHUB_OUTPUT
 
 
   echo_metadata:
@@ -34,14 +38,12 @@ jobs:
     needs: get_package_metadata
     runs-on: ubuntu-latest
     steps:
-      - name: Complete JSON File
-        run: echo ${{ needs.get_package_metadata.outputs.json }}
       - name: Package Name
-        run: echo ${{ fromJson(needs.get_package_metadata.outputs.json).package.name }}
+        run: echo ${{ needs.get_package_metadata.outputs.package_name }}
       - name: Python Versions
-        run: echo "${{ toJson(fromJson(needs.get_package_metadata.outputs.json).package.python_versions) }}"
+        run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
       - name: Operating Systems
-        run: echo "${{ toJson(fromJson(needs.get_package_metadata.outputs.json).package.operating_systems) }}"
+        run: echo "${{ needs.get_package_metadata.outputs.operating_systems) }}"
 
   build:
     name: Build (Python ${{ matrix.python-version }}, ${{ matrix.os }})
