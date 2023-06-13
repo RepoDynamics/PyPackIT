@@ -15,9 +15,9 @@ jobs:
   get_package_metadata:
     name: Get Package Metadata
     outputs:
-      package_name: ${{ steps.extract.outputs.package_name }}
-      python_versions: ${{ steps.extract.outputs.python_versions }}
-      os_versions: ${{ steps.extract.outputs.operating_systems }}
+      package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
+      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
+      os_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -28,9 +28,9 @@ jobs:
       - name: Print Extracted Data
         id: extract
         run: |
-          echo "package_name=${{ fromJson(steps.get_metadata.outputs.json).package.name }}" >> $GITHUB_OUTPUT
-          echo "python_versions='${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" >> $GITHUB_OUTPUT
-          echo "operating_systems='${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'" >> $GITHUB_OUTPUT
+          echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
+          echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
+          echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
 
 
   echo_metadata:
