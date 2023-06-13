@@ -33,18 +33,6 @@ jobs:
           echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
 
 
-  echo_metadata:
-    name: Print Metadata Values
-    needs: get_package_metadata
-    runs-on: ubuntu-latest
-    steps:
-      - name: Package Name
-        run: echo ${{ needs.get_package_metadata.outputs.package_name }}
-      - name: Python Versions
-        run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
-      - name: Operating Systems
-        run: echo "${{ needs.get_package_metadata.outputs.operating_systems }}"
-
   build:
     name: Build (Python ${{ matrix.python-version }}, ${{ matrix.os }})
     needs: get_package_metadata
