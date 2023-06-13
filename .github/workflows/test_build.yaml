@@ -14,12 +14,20 @@ jobs:
 
   get_package_metadata:
     name: Get Package Metadata
+    outputs:
+      package_name: ${{ steps.get_metadata.outputs.json }}
+      python_versions: ${{ steps.get_metadata.outputs.json }}
+      os_versions: ${{ steps.get_metadata.outputs.json }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Get Metadata
+        id: get_metadata
         uses: ./.github/actions/get-metadata
+      - name: Print Data
+        run: echo ${{ steps.get_metadata.outputs.json }}
+
 
   echo_metadata:
     name: Print Metadata Values
