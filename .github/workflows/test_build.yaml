@@ -1,0 +1,33 @@
+# Test the build of the Python package
+
+name: Build Test
+run-name: Build Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+
+jobs:
+
+  get_package_metadata:
+    name: Get Package Metadata
+    uses: ./.github/workflows/get_metadata.yaml
+
+  echo_metadata:
+    name: Print Metadata Values
+    needs: get_package_metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Complete JSON File
+        run: echo ${{ needs.get_package_metadata.outputs.json_file }}
+      - name: Package Name
+        run: echo ${{ needs.get_package_metadata.outputs.package_name }}
+      - name: Python Versions
+        run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
+      - name: Operating Systems
+        run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
+
