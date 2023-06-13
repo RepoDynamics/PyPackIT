@@ -1,0 +1,14 @@
+name: lint_env
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Base
+  - python
+  - pip
+  # Lint
+  - pylint
+  - black
+

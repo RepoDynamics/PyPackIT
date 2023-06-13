@@ -1,17 +1,15 @@
+# Environment for the documentation
+
 name: docs_env
 
 channels:
   - conda-forge
   - defaults
-  - bioconda
 
 dependencies:
   # Base
   - python
   - pip
-
-  # Dependencies
-
   # Documentation
   - sphinx
   - pydata-sphinx-theme
@@ -19,7 +17,6 @@ dependencies:
   - sphinx-design
   - sphinx-copybutton
   - ablog
-
   # Pip-only dependencies
   - pip:
     # Documentation
