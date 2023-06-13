@@ -43,7 +43,7 @@ jobs:
       - name: Python Versions
         run: echo "${{ needs.get_package_metadata.outputs.python_versions }}"
       - name: Operating Systems
-        run: echo "${{ needs.get_package_metadata.outputs.operating_systems) }}"
+        run: echo "${{ needs.get_package_metadata.outputs.operating_systems }}"
 
   build:
     name: Build (Python ${{ matrix.python-version }}, ${{ matrix.os }})
