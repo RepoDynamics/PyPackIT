@@ -84,7 +84,7 @@ jobs:
 
       - name: Check Dependencies
         run: |
-          echo "PYTHONWARNINGS=error" >> $GITHUB_ENV
+          echo "PYTHONWARNINGS=error" >> $GITHUB_OUTPUT
           pipreqs --debug --print ${{ needs.get_package_metadata.outputs.package_name }}
 
 
