@@ -62,7 +62,7 @@ jobs:
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
-    if: needs.get_package_metadata.outputs.is_pure_python == 'true'
+    if: needs.get_package_metadata.outputs.is_pure_python == 'false'
     needs: get_package_metadata
     runs-on: ${{ matrix.os }}
     strategy:
