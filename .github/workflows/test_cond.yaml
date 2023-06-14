@@ -9,7 +9,7 @@ jobs:
       - run: echo "A"
       - id: set
         run: |
-          echo "run_job_b=yes"
+          echo "run_job_b=yes" >> $GITHUB_OUTPUT
     outputs:
       run_job_b: ${{ steps.set.outputs.run_job_b }}
   b:
