@@ -1,11 +1,21 @@
-
+# Generate a distribution package for PyPI.
 
 name: Package for PyPI
 run-name: Generate distribution package for PyPI
 
 on:
-  workflow_call:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      json_filepath:
+        description: "Path to the JSON file to read."
+        default: "./metadata/main.json"
+        required: false
+        type: string
+    outputs:
+      artifact_name:
+        description: "Name of the uploaded artifact"
+        value: ${{jobs.build_sdist.outputs.package_fullname}}
 
 
 defaults:
@@ -31,7 +41,7 @@ jobs:
         id: get_metadata
         uses: ./.github/actions/get-metadata
         with:
-          json_filepath: ./metadata/main.json
+          json_filepath: ${{inputs.json_filepath}}
 
       - name: 'Print extracted data'
         run: |
@@ -99,6 +109,7 @@ jobs:
         with:
           path: dist/*.whl
           name: ${{needs.build_sdist.outputs.package_fullname}}
+
 
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
