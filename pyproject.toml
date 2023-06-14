@@ -26,10 +26,13 @@ namespaces = false
 method = "git"
 match = ["v*"]
 
+[tool.versioningit.next-version]
+method = "smallest-release"
+
 [tool.versioningit.format]
 # The format used by versioneer
 # Ref: https://versioningit.readthedocs.io/en/stable/index.html#example-configurations
-distance = "{base_version}+{distance}.{vcs}{rev}"
+distance = "{next_version}.dev{distance}"
 dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
 distance-dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
 
