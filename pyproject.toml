@@ -37,8 +37,8 @@ distance-dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
 [tool.versioningit.onbuild]
 method = "replace-version"
 require-match = true
-source-file = "mypackage/__init__.py"
-build-file = "mypackage/__init__.py"
+source-file = "template_package/__init__.py"
+build-file = "template_package/__init__.py"
 
 
 [project]
