@@ -71,7 +71,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Build sdist
+      - name: Build wheel
         run: pipx run build --wheel --outdir dist/
 
       - name: Upload wheel artifact
