@@ -41,7 +41,7 @@ method = "replace-version"
 require-match = true
 source-file = "template_package/__init__.py"
 build-file = "template_package/__init__.py"
-replacement = """("{version}", "{revision}")"""
+replacement = """{"version": "{version}", "revision": "{revision}"}"""
 
 
 [project]
