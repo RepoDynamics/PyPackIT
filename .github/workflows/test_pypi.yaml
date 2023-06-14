@@ -37,13 +37,11 @@ jobs:
           json_filepath: ./metadata/main.json
 
       - name: Print Extracted Data
-        id: extract
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
           echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
           echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
-          echo "Pure Python: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.is_pure_python) }}'"
-          echo "Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python }}'"
+          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python }}'"
 
   build_sdist:
     name: Build source distribution
@@ -64,6 +62,7 @@ jobs:
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
+    if: needs.get_package_metadata.outputs.is_pure_python
     needs: get_package_metadata
     runs-on: ${{ matrix.os }}
     strategy:
