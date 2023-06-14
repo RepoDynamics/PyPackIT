@@ -24,7 +24,7 @@ jobs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
       python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_publish_versions) }}
       operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
-      is_pure_python: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.is_pure_python) }}
+      is_pure_python: ${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
