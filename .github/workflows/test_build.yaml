@@ -82,3 +82,9 @@ jobs:
         run: |
           import ${{ needs.get_package_metadata.outputs.package_name }}
           print(${{ needs.get_package_metadata.outputs.package_name }}.__version__)
+
+      - name: Install pipreqs
+        run: python -m pip install --upgrade pipreqs
+
+      - name: Check Dependencies
+        run: pipreqs --debug --print ${{ needs.get_package_metadata.outputs.package_name }}
