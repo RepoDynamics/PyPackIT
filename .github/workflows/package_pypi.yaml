@@ -56,12 +56,13 @@ jobs:
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
-      - name: 'Print full name'
+      - name: 'Get package full name'
+        id: get_filename
         shell: python
         run: |
           import os
           from pathlib import Path
-          name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem
+          name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
           print(name)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'filename={name}', file=fh)
@@ -71,6 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
+          name: ${{steps.get_filename.outputs.filename}}
 
 
   build_wheel:
