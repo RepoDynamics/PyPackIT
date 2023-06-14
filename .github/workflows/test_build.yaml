@@ -34,8 +34,8 @@ jobs:
         id: extract
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
-          echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
-          echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
+          echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" 
+          echo "OS: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}"
 
 
   build:
