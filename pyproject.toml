@@ -1,24 +1,47 @@
-# References:
-# 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
-#    https://packaging.python.org/
-# 2. SetupTools User Guide:
-#    https://setuptools.pypa.io/
-#    https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+#
+#
+#
+#
+#
+
 
 [build-system]
-requires = ["setuptools>=61.0", "versioningit~=2.0"]
+requires = ["setuptools>=61.0", "versioningit"]
 build-backend = "setuptools.build_meta"
 
-[project]
-# --- Project Metadata ---
-# References:
-#   PEP 621:
-#     https://peps.python.org/pep-0621/
-#   Python Packaging User Guide - Declaring project metadata:
-#     https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
-name = "template_package"
-version = "0.0.0"
-readme = {file = "README.md", content-type = "text/markdown"}
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
 
 [tool.setuptools.packages.find]
+where = ["."]
 namespaces = false
+
+
+[tool.versioningit]
+default-version = "0.0.0"
+
+[tool.versioningit.vcs]
+method = "git"
+match = ["v*"]
+default-tag = "v0.0.0"
+
+[tool.versioningit.format]
+# The format used by versioneer
+# Ref: https://versioningit.readthedocs.io/en/stable/index.html#example-configurations
+distance = "{base_version}+{distance}.{vcs}{rev}"
+dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
+distance-dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
+
+[tool.versioningit.onbuild]
+method = "replace-version"
+require-match = true
+source-file = "mypackage/__init__.py"
+build-file = "mypackage/__init__.py"
+
+
+[project]
+dynamic = ["version"]
+name = "template_package"
+readme = {file = "README.md", content-type = "text/markdown"}
