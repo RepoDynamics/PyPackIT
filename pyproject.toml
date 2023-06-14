@@ -25,7 +25,6 @@ namespaces = false
 [tool.versioningit.vcs]
 method = "git"
 match = ["v*"]
-default-tag = "v0.0.0"
 
 [tool.versioningit.format]
 # The format used by versioneer
