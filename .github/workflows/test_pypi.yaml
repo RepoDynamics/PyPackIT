@@ -63,6 +63,7 @@ jobs:
 
   build_wheel:
     name: Build wheel for pure Python package
+    needs: get_package_metadata
     if: needs.get_package_metadata.outputs.is_pure_python == true
     runs-on: ubuntu-latest
     steps:
@@ -80,8 +81,8 @@ jobs:
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
-    if: needs.get_package_metadata.outputs.is_pure_python == false
     needs: get_package_metadata
+    if: needs.get_package_metadata.outputs.is_pure_python == false
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
