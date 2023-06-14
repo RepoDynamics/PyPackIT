@@ -128,7 +128,7 @@ jobs:
     if: always() && (needs.build_wheel.result == 'success' || needs.build_wheels.result == 'success')
     runs-on: ubuntu-latest
     environment:
-      name: testpypi
+      name: TestPyPI
     permissions:
       id-token: write
     steps:
