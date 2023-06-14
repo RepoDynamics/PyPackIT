@@ -20,7 +20,7 @@ namespaces = false
 
 
 [tool.versioningit]
-default-version = "X.X.X"
+
 
 [tool.versioningit.vcs]
 method = "git"
