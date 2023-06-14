@@ -41,7 +41,7 @@ method = "replace-version"
 require-match = true
 source-file = "template_package/__init__.py"
 build-file = "template_package/__init__.py"
-replacement = """dict(version="{version}", revision="{revision}")"""
+replacement = """dict(version="{version}", version_tuple="{version_tuple}", build_date="{build_date:%Y%m%d}", branch="{branch}", distance="{distance}", head_commit_hash="{revision}", vcs_name="{vcs_name}")"""
 
 
 [project]
