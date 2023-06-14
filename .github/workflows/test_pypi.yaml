@@ -22,7 +22,7 @@ jobs:
     name: Get Package Metadata
     outputs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
-      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
+      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_publish_versions) }}
       operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
     runs-on: ubuntu-latest
     steps:
@@ -68,6 +68,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
+        python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -82,6 +83,7 @@ jobs:
       - name: Build wheels
         env:
           CIBW_BUILD_VERBOSITY: 2
+          CIBW_BUILD: ${{ matrix.python-version }}-*
         uses: pypa/cibuildwheel@v2.13.1
 
       - name: Upload build artifacts
