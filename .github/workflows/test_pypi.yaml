@@ -80,6 +80,8 @@ jobs:
           ulimit -a
 
       - name: Build wheels
+        env:
+          CIBW_BUILD_VERBOSITY: 2
         uses: pypa/cibuildwheel@v2.13.1
 
       - name: Upload build artifacts
@@ -109,3 +111,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          verbose: true
+          print-hash: true
