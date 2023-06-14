@@ -56,6 +56,17 @@ jobs:
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
+      - name: 'Print full name'
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem
+          print(name)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f'filename={name}', file=fh)
+          
+
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
