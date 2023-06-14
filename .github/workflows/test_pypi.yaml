@@ -55,7 +55,7 @@ jobs:
         run: pipx run build --sdist
 
       - name: Upload sdist artifact
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
 
