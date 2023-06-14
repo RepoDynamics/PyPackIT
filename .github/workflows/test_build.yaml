@@ -17,7 +17,7 @@ jobs:
     name: Get Package Metadata
     outputs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
-      python_versions: ${{ fromJson(steps.get_metadata.outputs.json).package.python_versions }}
+      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
       operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
-        python-version: ${{ needs.get_package_metadata.outputs.python_versions }}
+        python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
