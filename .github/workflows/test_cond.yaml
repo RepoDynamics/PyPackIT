@@ -9,20 +9,20 @@ jobs:
       - run: echo "A"
       - id: set
         run: |
-          echo "run_job_b=yes" >> $GITHUB_OUTPUT
+          echo "run_job_b=true" >> $GITHUB_OUTPUT
     outputs:
       run_job_b: ${{ steps.set.outputs.run_job_b }}
   b:
     name: b
     runs-on: ubuntu-latest
     needs: a
-    if: needs.a.outputs.run_job_b == 'yes'
+    if: needs.a.outputs.run_job_b == 'true'
     steps:
       - run: echo "B"
   c:
     name: c
     runs-on: ubuntu-latest
     needs: a
-    if: needs.a.outputs.run_job_b == 'no'
+    if: needs.a.outputs.run_job_b == 'false'
     steps:
       - run: echo "C"
