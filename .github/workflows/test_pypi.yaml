@@ -62,7 +62,7 @@ jobs:
 
 
   build_wheel:
-    name: Build wheel for pure Python package
+    name: Build pure Python wheel
     needs: get_package_metadata
     if: needs.get_package_metadata.outputs.is_pure_python == 'true'
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
           path: dist/*.whl
 
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build native wheel on ${{ matrix.os }}
     needs: get_package_metadata
     if: needs.get_package_metadata.outputs.is_pure_python == 'false'
     runs-on: ${{ matrix.os }}
@@ -114,7 +114,8 @@ jobs:
 
   upload_testpypi:
     name: Publish distribution to TestPyPI
-    needs: [build_wheels, build_sdist]
+    needs: [build_sdist, build_wheel, build_wheels]
+    if: always() && (needs.build_wheel.result == 'success' || needs.build_wheels.result == 'success')
     runs-on: ubuntu-latest
     environment:
       name: testpypi
