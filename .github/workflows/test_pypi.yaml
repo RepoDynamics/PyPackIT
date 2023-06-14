@@ -42,8 +42,8 @@ jobs:
           echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
           echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
           echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python }}'"
-          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python == 'true' }}'"
-          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python == 'false' }}'"
+          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python == true }}'"
+          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python == false }}'"
 
 
   build_sdist:
