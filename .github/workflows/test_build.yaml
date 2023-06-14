@@ -76,3 +76,9 @@ jobs:
 
       - name: Print Installed Packages
         run: python -m pip list
+
+      - name: Import Package
+        shell: python
+        run: |
+          import ${{ needs.get_package_metadata.outputs.package_name }}
+          print(${{ needs.get_package_metadata.outputs.package_name }}.__version__)
