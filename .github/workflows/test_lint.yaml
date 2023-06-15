@@ -55,12 +55,14 @@ jobs:
 
       - name: Install Pylint
         run: |
-          pkg install enchant2
+          sudo apt update && sudo apt install -y libenchant-2-2
           python -m pip install --upgrade pylint[spelling]
           pip list
 
       - name: Lint
-        run: pylint ${{ needs.get_package_metadata.outputs.package_name }}
+        run: |
+          pylint --version
+          pylint ${{ needs.get_package_metadata.outputs.package_name }}
 
 
 
