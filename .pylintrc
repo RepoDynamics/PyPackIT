@@ -371,7 +371,7 @@ deprecated-modules=
 
 # Output a graph (.gv or any supported image format) of external dependencies
 # to the given file (report RP0402 must not be disabled).
-ext-import-graph=pylint_import_graph_external.png
+ext-import-graph=pylint_import_graph_external.gv
 
 # Output a graph (.gv or any supported image format) of all (i.e. internal and
 # external) dependencies to the given file (report RP0402 must not be
