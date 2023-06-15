@@ -58,5 +58,5 @@ jobs:
       - name: 'Upload built website as artifact'
         uses: actions/upload-artifact@v3
         with:
-          path: build/*
+          path: docs/_build/*
           name: Built Website
