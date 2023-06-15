@@ -397,7 +397,7 @@ preferred-modules=
 
 # The type of string formatting that logging methods do. `old` means using %
 # formatting, `new` is for `{}` formatting.
-logging-format-style=old
+logging-format-style=new
 
 # Logging modules to check that the string format arguments are in logging
 # function parameter format.
@@ -486,7 +486,7 @@ msg-template=
 # Set the output format. Available formats are text, parseable, colorized, json
 # and msvs (visual studio). You can also give a reporter class, e.g.
 # mypackage.mymodule.MyReporterClass.
-#output-format=
+output-format=json:pylint_report.json,text:pylint_report.txt,parseable:pylint_report_parseable.txt,msvs:pylint_report_msvs.txt,colorized
 
 # Tells whether to display a full report or only the messages.
 reports=no
