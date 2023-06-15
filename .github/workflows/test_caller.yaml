@@ -1,0 +1,48 @@
+# Build and publish the package on TestPyPI
+
+name: Test Publish
+run-name: Test Publish on TestPyPI
+
+on:
+  push:
+  pull_request:
+  release:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+
+jobs:
+
+  get_package:
+    name: 'Generate distribution package'
+    uses: ./.github/workflows/package_pypi.yaml
+
+  upload_testpypi:
+    name: 'Publish distribution to TestPyPI'
+    needs: get_package
+    runs-on: ubuntu-latest
+    environment:
+      name: TestPyPI
+    permissions:
+      id-token: write
+    steps:
+
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          # unpacks default artifact into dist/
+          # if `name: artifact` is omitted, the action will create extra parent dir
+          name: ${{ needs.get_package.outputs.artifact_name }}
+          path: dist
+
+      - name: Upload to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          verbose: true
+          print-hash: true
