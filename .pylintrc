@@ -376,11 +376,11 @@ ext-import-graph=pylint_import_graph_external.gv
 # Output a graph (.gv or any supported image format) of all (i.e. internal and
 # external) dependencies to the given file (report RP0402 must not be
 # disabled).
-import-graph=pylint_import_graph_all.png
+import-graph=pylint_import_graph_all.gv
 
 # Output a graph (.gv or any supported image format) of internal dependencies
 # to the given file (report RP0402 must not be disabled).
-int-import-graph=pylint_import_graph_internal.png
+int-import-graph=pylint_import_graph_internal
 
 # Force import order to recognize a module as part of the standard
 # compatibility libraries.
