@@ -1,4 +1,4 @@
-
+# Badges
 Badges are created using https://shields.io/
 https://github.com/badges/shields
 
@@ -7,7 +7,7 @@ You can increase Shields.io's rate limit by
 [adding the Shields GitHub application](https://img.shields.io/github-auth) 
 using your GitHub account.
 
-### Discord Badge
+## Discord Badge
 The Discord badge requires the SERVER ID in order access the Discord JSON API.
 
 The SERVER ID can be located in the url of the channel that the badge is accessing.

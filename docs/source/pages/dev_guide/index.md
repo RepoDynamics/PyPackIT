@@ -1,4 +1,13 @@
+---
+sd_hide_title: true
+---
 # Contribute
+:::{toctree}
+:hidden:
+
+dev_guide/index
+:::
+
 
 
 # Installation
