@@ -65,13 +65,47 @@ jobs:
           pylint ${{ needs.get_package_metadata.outputs.package_name }}
 
       - name: 'Upload Pylint report as artifact'
-        if: failure()
         uses: actions/upload-artifact@v3
         with:
           path: |
             pylint_report*
           name: Pylint Reports
 
+
+  isort:
+    name: Run isort
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        id: setup_python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Display Python version
+        run: |
+          echo '${{ steps.setup_python.outputs.python-version }}'
+          python -c "import sys; print(sys.version)"
+
+      - name: Run isort
+        uses: isort/isort-action@master
+        id: run_isort
+        with:
+          configuration: "--check-only --diff --show-config --version"
+#          requirementsFiles: "requirements.txt requirements-test.txt"
+
+      - name: Save output
+        run: '${{ steps.run_isort.outputs.isort-result }}'
+
+      - name: 'Upload isort report as artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            pylint_report*
+          name: isort Reports
 
 
   lint:
