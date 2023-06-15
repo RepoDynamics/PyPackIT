@@ -1,7 +1,7 @@
 # Test the build of the Python package
 
-name: Build Test
-run-name: Build Test
+name: Test Build
+run-name: Test Build
 
 on:
   push:
@@ -76,7 +76,6 @@ jobs:
 
       - name: Print Installed Packages
         run: python -m pip list
-
 
 
       - name: Install pipreqs
