@@ -98,7 +98,7 @@ jobs:
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: Save output
-        run: '${{ steps.run_isort.outputs.isort-result }}'
+        run: echo '${{ steps.run_isort.outputs.isort-result }}'
 
       - name: 'Upload isort report as artifact'
         uses: actions/upload-artifact@v3
