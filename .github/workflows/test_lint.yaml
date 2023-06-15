@@ -1,7 +1,7 @@
 # Run static code analysis
 
-name: Lint Test
-run-name: Lint Test
+name: Lint
+run-name: Test lint
 
 on:
   push:
