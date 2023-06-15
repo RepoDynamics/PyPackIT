@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            pylint_report.*
+            pylint_report*
           name: Pylint Reports
 
 
