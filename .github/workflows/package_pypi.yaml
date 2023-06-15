@@ -80,7 +80,7 @@ jobs:
           import os
           from pathlib import Path
           name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
-          print(name)
+          print("Package full name:", name)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'filename={name}', file=fh)
           
