@@ -14,7 +14,7 @@ on:
 jobs:
 
   get_package_metadata:
-    name: Get Package Metadata
+    name: Get package metadata
     outputs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
       python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
