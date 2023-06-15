@@ -19,7 +19,7 @@ defaults:
 jobs:
 
   get_package_metadata:
-    name: Get Package Metadata
+    name: 'Get package metadata'
     outputs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
       python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_publish_versions) }}
@@ -27,16 +27,16 @@ jobs:
       is_pure_python: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.is_pure_python) }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      - name: Get Metadata
+      - name: 'Get metadata'
         id: get_metadata
         uses: ./.github/actions/get-metadata
         with:
           json_filepath: ./metadata/main.json
 
-      - name: Print Extracted Data
+      - name: 'Print extracted data'
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
           echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
@@ -45,50 +45,50 @@ jobs:
 
 
   build_sdist:
-    name: Build source distribution
+    name: 'Generate source distribution'
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Build sdist
+      - name: 'Build sdist'
         run: |
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
-      - name: Upload sdist artifact
+      - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
 
 
   build_wheel:
-    name: Build pure Python wheel
+    name: 'Generate built distribution (pure Python)'
     needs: get_package_metadata
     if: needs.get_package_metadata.outputs.is_pure_python == 'true'
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Build wheel
+      - name: 'Build wheel'
         run: |
           pipx run build --version
           pipx run build --wheel --outdir dist/
 
-      - name: Upload wheel artifact
+      - name: 'Upload wheel as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.whl
 
   build_wheels:
-    name: Build native wheel on ${{ matrix.os }}
+    name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: get_package_metadata
     if: needs.get_package_metadata.outputs.is_pure_python == 'false'
     runs-on: ${{ matrix.os }}
@@ -98,32 +98,32 @@ jobs:
         os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
         python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
     steps:
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Print System Info
+      - name: 'Print system info'
         shell: bash
         run: |
           uname -a
           df -h
           ulimit -a
 
-      - name: Build wheels
+      - name: 'Build wheel on ${{ matrix.os }}'
         env:
           CIBW_BUILD_VERBOSITY: 2
           CIBW_BUILD: ${{ matrix.python-version }}-*
         uses: pypa/cibuildwheel@v2.13.1
 
-      - name: Upload build artifacts
+      - name: 'Upload wheel as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
 
 
   upload_testpypi:
-    name: Publish distribution to TestPyPI
+    name: 'Publish distribution to TestPyPI'
     needs: [build_sdist, build_wheel, build_wheels]
     if: always() && (needs.build_wheel.result == 'success' || needs.build_wheels.result == 'success')
     runs-on: ubuntu-latest
@@ -132,7 +132,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download sdist and wheels artifacts
+      - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
           # unpacks default artifact into dist/
