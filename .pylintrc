@@ -437,7 +437,7 @@ disable=raw-checker-failed,
 # either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once). See also the "--disable" option for examples.
-enable=c-extension-no-member,RP0402
+enable=c-extension-no-member,imports,RP0402
 
 
 [METHOD_ARGS]
