@@ -12,7 +12,6 @@ A copyright disclaimer
 
 from . import _about
 
-import numpy as np
 
 _about = _about.ProjectMetaData()
 
