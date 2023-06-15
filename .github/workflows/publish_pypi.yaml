@@ -1,0 +1,72 @@
+# Publish the package on PyPI and TestPyPI
+
+name: Publish on PyPI
+run-name: Publish package on PyPI
+
+on:
+  push:
+  pull_request:
+  release:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+
+jobs:
+
+  get_package:
+    name: 'Generate distribution package'
+    uses: ./.github/workflows/package_pypi.yaml
+
+  publish_testpypi:
+    name: 'Publish distribution to TestPyPI'
+    needs: get_package
+    runs-on: ubuntu-latest
+    environment:
+      name: TestPyPI
+      url: https://test.pypi.org/project/template-package
+    permissions:
+      id-token: write
+    steps:
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          # unpacks default artifact into dist/
+          # if `name: artifact` is omitted, the action will create extra parent dir
+          name: ${{ needs.get_package.outputs.artifact_name }}
+          path: dist
+
+      - name: Upload to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          verbose: true
+          print-hash: true
+          skip_existing: true
+
+
+  publish_pypi:
+    name: 'Publish distribution to PyPI'
+    # upload to PyPI on every tag starting with 'v'
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: get_package
+    runs-on: ubuntu-latest
+    environment:
+      name: PyPI
+      url: https://pypi.org/project/
+    permissions:
+      id-token: write
+    steps:
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.get_package.outputs.artifact_name }}
+          path: dist
+
+      - name: Upload to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          print-hash: true
