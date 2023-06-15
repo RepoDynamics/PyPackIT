@@ -94,7 +94,7 @@ jobs:
         uses: isort/isort-action@master
         id: run_isort
         with:
-          configuration: "--check-only --diff --show-config --version"
+          configuration: "--check-only --diff --show-config"
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: Save output
