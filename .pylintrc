@@ -20,7 +20,7 @@ enable-all-extensions=yes
 
 # Always return a 0 (non-error) status code, even if lint errors are found.
 # This is primarily useful in continuous integration scripts.
-exit-zero=no
+#exit-zero=
 
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
