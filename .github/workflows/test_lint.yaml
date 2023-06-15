@@ -40,19 +40,23 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
+        id: setup_python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
+        run: |
+          echo '${{ steps.setup_python.outputs.python-version }}'
+          python -c "import sys; print(sys.version)"
 
       - name: Update pip
         run: python -m pip install --upgrade pip
 
       - name: Install Pylint
         run: |
-          python -m pip install --upgrade pylint
+          pkg install enchant2
+          python -m pip install --upgrade pylint[spelling]
           pip list
 
       - name: Lint
