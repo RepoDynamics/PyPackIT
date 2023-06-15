@@ -1,6 +1,8 @@
 # Generate a distribution package for PyPI.
+# This is a reusable workflow that can be called
 
-name: Package for PyPI
+
+name: Generate PyPI Package
 run-name: Generate distribution package for PyPI
 
 on:
@@ -8,14 +10,17 @@ on:
   workflow_call:
     inputs:
       json_filepath:
-        description: "Path to the JSON file to read."
-        default: "./metadata/main.json"
+        description: "Path to the project's main JSON metadata file."
+        default: './metadata/main.json'
         required: false
         type: string
     outputs:
       artifact_name:
-        description: "Name of the uploaded artifact"
+        description: 'Name of the uploaded artifact containing the distribution archive.'
         value: ${{jobs.build_sdist.outputs.package_fullname}}
+      package_name:
+        description: 'Name of the package.'
+        value: ${{jobs.get_package_metadata.outputs.package_name}}
 
 
 defaults:
