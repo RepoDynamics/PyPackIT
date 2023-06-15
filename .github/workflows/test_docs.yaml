@@ -1,7 +1,7 @@
 # Test the build of documentation with Sphinx
 
-name: Docs Build Test
-run-name: Docs Build Test
+name: Docs
+run-name: Test Build Docs
 
 on:
   push:
