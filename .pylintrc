@@ -489,7 +489,7 @@ msg-template=
 output-format=json:pylint_report.json,text:pylint_report.txt,parseable:pylint_report_parseable.txt,msvs:pylint_report_msvs.txt,colorized
 
 # Tells whether to display a full report or only the messages.
-reports=no
+reports=yes
 
 # Activate the evaluation score.
 score=yes
