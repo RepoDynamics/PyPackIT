@@ -200,7 +200,7 @@ good-names=i,
 good-names-rgxs=
 
 # Include a hint for the correct naming format with invalid-name.
-include-naming-hint=no
+include-naming-hint=yes
 
 # Naming style matching correct inline iteration names.
 inlinevar-naming-style=any
@@ -288,7 +288,7 @@ exclude-too-few-public-methods=
 ignored-parents=
 
 # Maximum number of arguments for function / method.
-max-args=5
+max-args=10
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=7
@@ -371,16 +371,16 @@ deprecated-modules=
 
 # Output a graph (.gv or any supported image format) of external dependencies
 # to the given file (report RP0402 must not be disabled).
-ext-import-graph=
+ext-import-graph=pylint_import_graph_external.png
 
 # Output a graph (.gv or any supported image format) of all (i.e. internal and
 # external) dependencies to the given file (report RP0402 must not be
 # disabled).
-import-graph=
+import-graph=pylint_import_graph_all.png
 
 # Output a graph (.gv or any supported image format) of internal dependencies
 # to the given file (report RP0402 must not be disabled).
-int-import-graph=
+int-import-graph=pylint_import_graph_internal.png
 
 # Force import order to recognize a module as part of the standard
 # compatibility libraries.
