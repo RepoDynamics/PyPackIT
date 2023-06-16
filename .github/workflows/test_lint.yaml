@@ -28,7 +28,7 @@ jobs:
         id: extract
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
-          echo ls
+          ls
 
 
   pylint:
