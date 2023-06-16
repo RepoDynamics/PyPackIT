@@ -130,6 +130,7 @@ jobs:
           jupyter: true
 
       - name: Capture console output
+        if: always()
         run: |
           echo "${{ toJson(steps) }}" > steps.json
           jq -r '.["black"].logs' steps.json | base64 --decode > output.txt
