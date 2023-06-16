@@ -1,0 +1,54 @@
+# pre-commit configuration file
+# Ref: https://pre-commit.com/
+
+default_language_version:
+    python: python3.9
+
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+
+  # Pylint: https://pylint.readthedocs.io/en/latest/user_guide/installation/pre-commit-integration.html
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [ python ]
+        args:
+          [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+            "--rcfile=pylintrc", # Link to your config file
+            "--load-plugins=pylint.extensions.docparams", # Load an extension
+          ]
+
+
+  # isort - format imports
+  # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
+  - repo: https://github.com/pycqa/isort
+    rev: 5.11.2
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black", "--filter-files"]
+
+
+  # Black - code formatter
+  # https://black.readthedocs.io/en/stable/integrations/source_version_control.html
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+
+
+
+
+
