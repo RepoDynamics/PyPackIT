@@ -99,17 +99,34 @@ jobs:
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: 'Save output'
+        if: always()
         uses: DamianReeves/write-file-action@master
         with:
           path: isort_report.txt
           contents: ${{ steps.run_isort.outputs.isort-result }}
 
       - name: 'Upload isort report as artifact'
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
             isort_report.txt
           name: isort Reports
+
+
+  black:
+    name: Check code format with Black
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: Run black
+        uses: psf/black@stable
+        with:
+          options: "--check --verbose"
+          src: "."
+          jupyter: true
 
 
   lint:
