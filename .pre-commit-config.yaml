@@ -1,8 +1,6 @@
 # pre-commit configuration file
 # Ref: https://pre-commit.com/
 
-default_language_version:
-    python: python3.9
 
 repos:
 
