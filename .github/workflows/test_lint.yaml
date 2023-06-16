@@ -97,14 +97,17 @@ jobs:
           configuration: "--check-only --diff --show-config"
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
-      - name: Save output
-        run: echo "${{ steps.run_isort.outputs.isort-result }}"
+      - name: 'Save output'
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: isort_report.txt
+          contents: ${{ steps.run_isort.outputs.isort-result }}
 
       - name: 'Upload isort report as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: |
-            pylint_report*
+            isort_report.txt
           name: isort Reports
 
 
