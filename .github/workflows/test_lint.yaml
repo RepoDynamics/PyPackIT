@@ -65,6 +65,7 @@ jobs:
           pylint ${{ needs.get_package_metadata.outputs.package_name }}
 
       - name: 'Upload Pylint report as artifact'
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
@@ -94,7 +95,7 @@ jobs:
         uses: isort/isort-action@master
         id: run_isort
         with:
-          configuration: "--check-only --diff --show-config"
+          configuration: "--check-only --diff"
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: 'Save output'
