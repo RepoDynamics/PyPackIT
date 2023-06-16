@@ -136,6 +136,7 @@ jobs:
           jq -r '.["black"].logs' steps.json | base64 --decode > output.txt
 
       - name: Upload artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: Black Reports
