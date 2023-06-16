@@ -29,14 +29,14 @@ repos:
           ]
 
 
-  # isort - format imports
-  # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
-  - repo: https://github.com/pycqa/isort
-    rev: 5.11.2
-    hooks:
-      - id: isort
-        name: isort (python)
-        args: ["--profile", "black", "--filter-files"]
+#  # isort - format imports
+#  # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
+#  - repo: https://github.com/pycqa/isort
+#    rev: 5.11.2
+#    hooks:
+#      - id: isort
+#        name: isort (python)
+#        args: ["--profile", "black", "--filter-files"]
 
 
   # Black - code formatter
