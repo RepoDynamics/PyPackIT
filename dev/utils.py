@@ -5,7 +5,6 @@ import json
 
 
 def main(filepath):
-    path = Path(filepath)
     with open(filepath) as f:
         json_obj = json.load(f)
     print(json.dumps(json_obj))
