@@ -10,6 +10,7 @@ requires = ["setuptools>=61.0", "versioningit"]
 build-backend = "setuptools.build_meta"
 
 
+# ----------------------------------------- setuptools -------------------------------------------
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
@@ -19,8 +20,8 @@ where = ["."]
 namespaces = false
 
 
+# ----------------------------------------- versioningit -----------------------------------------
 [tool.versioningit]
-
 
 [tool.versioningit.vcs]
 method = "git"
@@ -52,6 +53,13 @@ source-file = "template_package/__init__.py"
 build-file = "template_package/__init__.py"
 
 
+# ----------------------------------------- black ------------------------------------------------
+# Ref: https://black.readthedocs.io/en/stable/usage_and_configuration/index.html
+[tool.black]
+line-length = 100
+
+
+# ----------------------------------------- Project Metadata -------------------------------------
 [project]
 dynamic = ["version"]
 name = "template-package"
