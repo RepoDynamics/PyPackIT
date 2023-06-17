@@ -120,6 +120,7 @@ jobs:
               sudo apt install -y graphviz
           elif [ "$RUNNER_OS" == "Windows" ]; then
               choco install mingw
+              choco install -y msys2
               pacman -S enchant
           elif [ "$RUNNER_OS" == "macOS" ]; then
               brew update
@@ -128,7 +129,6 @@ jobs:
               echo "$RUNNER_OS not supported"
               exit 1
           fi
-          
           python -m pip install --upgrade pip
           python -m pip install .
           python -m pip install pylint[spelling]
