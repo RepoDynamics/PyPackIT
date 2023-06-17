@@ -28,7 +28,6 @@ jobs:
         id: extract
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
-          ls
 
 
   pylint:
@@ -63,7 +62,8 @@ jobs:
       - name: Lint
         run: |
           pylint --version
-          pylint ${{ needs.get_package_metadata.outputs.package_name }}
+          cd ${{ needs.get_package_metadata.outputs.package_name }}
+          pylint --rcfile pyproject.toml
 
       - name: 'Upload Pylint report as artifact'
         if: always()
@@ -75,6 +75,8 @@ jobs:
 
 
   isort:
+    # https://github.com/marketplace/actions/python-isort
+    # https://pycqa.github.io/isort/docs/configuration/github_action.html
     name: Run isort
     runs-on: ubuntu-latest
     steps:
@@ -101,6 +103,7 @@ jobs:
 
       - name: 'Save output'
         if: always()
+        # Action: https://github.com/marketplace/actions/write-file
         uses: DamianReeves/write-file-action@master
         with:
           path: isort_report.txt
