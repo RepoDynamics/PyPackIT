@@ -65,6 +65,7 @@ jobs:
           pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
 
       - name: 'Create diagrams'
+        if: always()
         run: |
           mkdir diagrams
           pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory pylint_diagrams --output html --module-names y --colorized
@@ -131,7 +132,7 @@ jobs:
 
 
   black:
-    name: Check code format with Black
+    name: Black
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
@@ -157,41 +158,3 @@ jobs:
         with:
           name: Black Reports
           path: output.txt
-
-
-  lint:
-
-    name: Static Code Analysis
-    needs: metadata
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Print System Info
-        shell: bash
-        run: |
-          uname -a
-          df -h
-          ulimit -a
-
-      - name: Install Linters
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          environment-file: requirements/dev/lint.yaml
-          cache-environment: true
-
-      - name: Print Environment
-        shell: bash -el {0}
-        run: micromamba list
-
-      - name: PyLint
-        if: always()
-        shell: micromamba-shell {0}
-        run: pylint ${{ needs.get_package_metadata.outputs.package_name }}
-
-      - name: Black
-        if: always()
-        shell: micromamba-shell {0}
-        run: black --check -l 99 ${{ needs.get_package_metadata.outputs.package_name }}
-
