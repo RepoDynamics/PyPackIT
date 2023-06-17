@@ -133,7 +133,7 @@ jobs:
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory reports/pylint/diagrams --output html --module-names y --colorized
+          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
 
       - name: 'Upload Pylint reports'
         if: always()
