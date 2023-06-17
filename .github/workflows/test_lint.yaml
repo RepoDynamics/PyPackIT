@@ -31,7 +31,7 @@ jobs:
 
   pylint:
     name: 'Pylint'
-    needs: get_package_metadata
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
 
@@ -62,12 +62,12 @@ jobs:
         run: |
           mkdir pylint_reports
           mkdir pylint_diagrams
-          pylint ${{ needs.get_package_metadata.outputs.package_name }} --rcfile pyproject.toml
+          pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
 
       - name: 'Create diagrams'
         run: |
           mkdir diagrams
-          pyreverse ${{ needs.get_package_metadata.outputs.package_name }} --output-directory pylint_diagrams --output html --module-names y --colorized
+          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory pylint_diagrams --output html --module-names y --colorized
 
       - name: 'Upload Pylint reports'
         if: always()
@@ -162,7 +162,7 @@ jobs:
   lint:
 
     name: Static Code Analysis
-    needs: get_package_metadata
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
