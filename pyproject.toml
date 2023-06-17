@@ -141,6 +141,7 @@ spelling-dict = "en_US"
 [tool.isort]
 profile = "black"
 src_paths = ["template_package"]
+conda_env = ""
 lines_before_imports = 2
 lines_after_imports = 2
 lines_between_sections = 0
@@ -148,11 +149,15 @@ verbose = true
 color_output = true
 only_modified = true
 filter_files = true
+no_lines_before = ['future', 'stdlib', 'thirdparty', 'firstparty', 'localfolder']
+dedup_headings = true
+overwrite_in_place = true
 
 [tool.isort.import_headings]
-STDLIB = 'Standard libraries'
-THIRDPARTY = 'Non-standard libraries'
-FIRSTPARTY = 'Self'
+future = 'Futures'
+stdlib = 'Standard libraries'
+thirdparty = 'Non-standard libraries'
+firstparty = 'Self'
 
 
 # ----------------------------------------- black ------------------------------------------------
