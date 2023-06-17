@@ -48,6 +48,7 @@ jobs:
 
 
   publish_pypi:
+    # https://github.com/pypa/gh-action-pypi-publish
     name: 'Publish distribution to PyPI'
     # upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
