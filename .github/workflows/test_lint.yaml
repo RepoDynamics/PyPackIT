@@ -182,6 +182,7 @@ jobs:
 
   black:
     name: 'Black'
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
@@ -192,7 +193,7 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--check --diff --color --config pyproject.toml"
-          src: "."
+          src: ${{ needs.metadata.outputs.package_name }}
           jupyter: true
 
       - name: Capture console output
