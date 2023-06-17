@@ -118,7 +118,7 @@ jobs:
         id: run_isort
         with:
           sortPaths: '.'
-          configuration: "--settings-path pyproject.toml --check-only --diff --jobs -1"
+          configuration: "--settings-path pyproject.toml --check-only --diff"
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: 'Save output'
