@@ -65,6 +65,7 @@ jobs:
           pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
 
       - name: 'Create diagrams'
+        # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
           mkdir diagrams
@@ -88,30 +89,31 @@ jobs:
 
 
   isort:
-    # https://github.com/marketplace/actions/python-isort
-    # https://pycqa.github.io/isort/docs/configuration/github_action.html
-    name: Run isort
+    name: 'isort'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Display Python version
+      - name: 'Display Python version'
         run: |
           echo '${{ steps.setup_python.outputs.python-version }}'
           python -c "import sys; print(sys.version)"
 
       - name: Run isort
+        # https://github.com/marketplace/actions/python-isort
+        # https://pycqa.github.io/isort/docs/configuration/github_action.html
         uses: isort/isort-action@master
         id: run_isort
         with:
-          configuration: "--check-only --diff"
+          sortPaths: '.'
+          configuration: "--settings-path pyproject.toml --check-only --diff --jobs -1"
 #          requirementsFiles: "requirements.txt requirements-test.txt"
 
       - name: 'Save output'
@@ -132,7 +134,7 @@ jobs:
 
 
   black:
-    name: Black
+    name: 'Black'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
