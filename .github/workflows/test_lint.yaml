@@ -58,7 +58,7 @@ jobs:
 
       - name: 'Run mypy'
         run: |
-          mkdir mypy_reports
+          mkdir -p reports/mypy
           mypy ${{ needs.metadata.outputs.package_name }} --config-file pyproject.toml
 
       - name: 'Upload reports'
@@ -66,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            mypy_reports/*
+            reports/mypy/*
           name: mypy_reports
 
 
@@ -101,23 +101,21 @@ jobs:
 
       - name: Lint
         run: |
-          mkdir pylint_reports
-          mkdir pylint_diagrams
+          mkdir -p reports/pylint/diagrams
           pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          mkdir diagrams
-          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory pylint_diagrams --output html --module-names y --colorized
+          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory reports/pylint/diagrams --output html --module-names y --colorized
 
       - name: 'Upload Pylint reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
-            pylint_reports/*
+            reports/pylint/*
           name: pylint_report
 
       - name: 'Upload diagrams'
@@ -125,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            pylint_diagrams/*
+            reports/pylint/diagrams/*
           name: pylint_diagram
 
 
