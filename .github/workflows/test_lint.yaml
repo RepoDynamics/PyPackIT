@@ -40,8 +40,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
 
     steps:
       - name: 'Checkout repository'
@@ -88,32 +88,35 @@ jobs:
     name: 'Pylint'
     needs: metadata
     runs-on: ubuntu-latest
-    steps:
 
+    steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: 'Setup Python'
+      - name: 'Setup Python ${{ matrix.python-version }}'
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ matrix.python-version }}
 
-      - name: 'Intall Pylint'
+      - name: 'Install requirements'
         run: |
           sudo apt update && sudo apt install -y libenchant-2-2
           sudo apt install graphviz
           python -m pip install --upgrade pip
-          python -m pip install --upgrade pylint[spelling]
+          python -m pip install .
+          python -m pip install pylint[spelling]
 
-      - name: 'Display environment info'
+      - name: 'Environment info'
         run: |
           pip list
           pylint --version
           echo Python Version: '${{ steps.setup_python.outputs.python-version }}'
           python -c "import sys; print(sys.version)"
 
-      - name: Lint
+      - name: 'Run Pylint'
         run: |
           mkdir -p _local_reports/pylint/diagrams
           pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
@@ -130,7 +133,7 @@ jobs:
         with:
           path: |
             _local_reports/pylint/*
-          name: pylint_report
+          name: pylint_${{ matrix.python-version }}_${{ matrix.os }}
 
       - name: 'Upload diagrams'
         if: always()
@@ -138,7 +141,7 @@ jobs:
         with:
           path: |
             _local_reports/pylint/diagrams/*
-          name: pylint_diagram
+          name: diagrams_${{ matrix.python-version }}_${{ matrix.os }}
 
 
   isort:
