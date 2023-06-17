@@ -54,6 +54,7 @@ build-file = "template_package/__init__.py"
 
 
 # ----------------------------------------- Pylint -----------------------------------------
+# Ref: https://github.com/pylint-dev/pylint/blob/v2.17.4/examples/pyproject.toml
 [tool.pylint.main]
 py-version = "3.9"
 # fail-on =
@@ -132,7 +133,7 @@ output-format = [
 ]
 
 [tool.pylint.spelling]
-spelling-dict = "en"
+spelling-dict = "en_US"
 
 
 # ----------------------------------------- isort ------------------------------------------------
