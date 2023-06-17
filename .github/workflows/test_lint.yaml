@@ -94,8 +94,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
 
     steps:
       - name: 'Checkout repository'
