@@ -11,67 +11,79 @@ on:
 
 jobs:
 
-  get_package_metadata:
-    name: Get Package Metadata
+  metadata:
+    name: 'Load package metadata'
     outputs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      - name: Get Metadata
+      - name: 'Get metadata'
         id: get_metadata
         uses: ./.github/actions/get-metadata
 
-      - name: Print Extracted Data
-        id: extract
+      - name: 'Output data'
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
 
 
   pylint:
-    name: Static code analysis with Pylint
+    name: 'Pylint'
     needs: get_package_metadata
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Display Python version
-        run: |
-          echo '${{ steps.setup_python.outputs.python-version }}'
-          python -c "import sys; print(sys.version)"
-
-      - name: Update pip
-        run: python -m pip install --upgrade pip
-
-      - name: Install Pylint
+      - name: 'Intall Pylint'
         run: |
           sudo apt update && sudo apt install -y libenchant-2-2
+          sudo apt install graphviz
+          python -m pip install --upgrade pip
           python -m pip install --upgrade pylint[spelling]
+
+      - name: 'Display environment info'
+        run: |
           pip list
+          pylint --version
+          echo Python Version: '${{ steps.setup_python.outputs.python-version }}'
+          python -c "import sys; print(sys.version)"
 
       - name: Lint
         run: |
-          pylint --version
-          cd ${{ needs.get_package_metadata.outputs.package_name }}
-          pylint --rcfile ../pyproject.toml
+          mkdir pylint_reports
+          mkdir pylint_diagrams
+          pylint ${{ needs.get_package_metadata.outputs.package_name }} --rcfile pyproject.toml
 
-      - name: 'Upload Pylint report as artifact'
+      - name: 'Create diagrams'
+        run: |
+          mkdir diagrams
+          pyreverse ${{ needs.get_package_metadata.outputs.package_name }} --output-directory pylint_diagrams --output html --module-names y --colorized
+
+      - name: 'Upload Pylint reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
-            pylint_report*
-          name: Pylint Reports
+            pylint_reports/*
+          name: reports-pylint
+
+      - name: 'Upload diagrams'
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            pylint_diagrams/*
+          name: diagrams
 
 
   isort:
