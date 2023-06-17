@@ -22,11 +22,13 @@ on:
         description: 'Name of the package.'
         value: ${{jobs.get_package_metadata.outputs.package_name}}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
     shell: bash -l {0}
-
 
 jobs:
 
