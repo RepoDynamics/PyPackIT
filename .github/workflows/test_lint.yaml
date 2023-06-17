@@ -72,7 +72,7 @@ jobs:
 
       - name: 'Run mypy'
         run: |
-          mkdir -p reports/mypy
+          mkdir -p _local_reports/mypy
           mypy ${{ needs.metadata.outputs.package_name }} --config-file pyproject.toml
 
       - name: 'Upload reports'
@@ -80,7 +80,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            reports/mypy/*
+            _local_reports/mypy/*
           name: mypy_${{ matrix.python-version }}_${{ matrix.os }}
 
 
@@ -115,7 +115,7 @@ jobs:
 
       - name: Lint
         run: |
-          mkdir -p reports/pylint/diagrams
+          mkdir -p _local_reports/pylint/diagrams
           pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
 
       - name: 'Create diagrams'
@@ -129,7 +129,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            reports/pylint/*
+            _local_reports/pylint/*
           name: pylint_report
 
       - name: 'Upload diagrams'
@@ -137,7 +137,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            reports/pylint/diagrams/*
+            _local_reports/pylint/diagrams/*
           name: pylint_diagram
 
 

@@ -110,9 +110,9 @@ max-line-length = 100
 max-module-lines = 1000
 
 [tool.pylint.imports]
-ext-import-graph = "reports/pylint/diagrams/import_graph_external.svg"
-import-graph = "reports/pylint/diagrams/import_graph_all.svg"
-int-import-graph = "reports/pylint/diagrams/import_graph_internal.svg"
+ext-import-graph = "_local_reports/pylint/diagrams/import_graph_external.svg"
+import-graph = "_local_reports/pylint/diagrams/import_graph_all.svg"
+int-import-graph = "_local_reports/pylint/diagrams/import_graph_internal.svg"
 
 [tool.pylint.logging]
 logging-format-style = "new"
@@ -125,10 +125,10 @@ reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:reports/pylint/json.json",
-    "text:reports/pylint/text.txt",
-    "parseable:reports/pylint/parseable.txt",
-    "msvs:reports/pylint/msvs.txt",
+    "json:_local_reports/pylint/json.json",
+    "text:_local_reports/pylint/text.txt",
+    "parseable:_local_reports/pylint/parseable.txt",
+    "msvs:_local_reports/pylint/msvs.txt",
     "colorized",
 ]
 
@@ -139,7 +139,6 @@ spelling-dict = "en_US"
 # ----------------------------------------- mypy -----------------------------------------
 # Ref: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
 [tool.mypy]
-python_version = "3.9"
 packages = ["template_package"]
 strict = true
 warn_return_any = true
@@ -150,13 +149,13 @@ show_column_numbers = true
 pretty = true
 color_output = true
 show_traceback = true
-verbosity = 0
-any_exprs_report = "reports/mypy"
-html_report = "reports/mypy"
-linecount_report = "reports/mypy"
-linecoverage_report = "reports/mypy"
-lineprecision_report = "reports/mypy"
-txt_report = "reports/mypy"
+verbosity = 1
+any_exprs_report = "_local_reports/mypy"
+html_report = "_local_reports/mypy"
+linecount_report = "_local_reports/mypy"
+linecoverage_report = "_local_reports/mypy"
+lineprecision_report = "_local_reports/mypy"
+txt_report = "_local_reports/mypy"
 
 # ----------------------------------------- isort ------------------------------------------------
 # Ref: https://pycqa.github.io/isort/docs/configuration/options.html
