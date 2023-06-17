@@ -29,6 +29,47 @@ jobs:
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
 
 
+  mypy:
+    name: 'mypy'
+    needs: metadata
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Setup Python'
+        id: setup_python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: 'Intall mypy'
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade mypy
+
+      - name: 'Display environment info'
+        run: |
+          pip list
+          mypy --version
+          echo Python Version: '${{ steps.setup_python.outputs.python-version }}'
+          python -c "import sys; print(sys.version)"
+
+      - name: 'Run mypy'
+        run: |
+          mkdir mypy_reports
+          mypy ${{ needs.metadata.outputs.package_name }} --config-file pyproject.toml
+
+      - name: 'Upload reports'
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            mypy_reports/*
+          name: mypy_reports
+
+
   pylint:
     name: 'Pylint'
     needs: metadata
@@ -89,7 +130,7 @@ jobs:
 
 
   isort:
-    name: 'isort'
+    name: 'Isort'
     needs: metadata
     runs-on: ubuntu-latest
     steps:
