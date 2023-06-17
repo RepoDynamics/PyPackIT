@@ -12,6 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
 
   metadata:
@@ -66,11 +70,11 @@ jobs:
 
       - name: 'Environment info'
         run: |
-          echo Installed Packages:
+          echo "Installed Packages:"
           pip list
-          echo Python Version: '${{ steps.setup_python.outputs.python-version }}'
+          echo "Python Version:"
           python -c "import sys; print(sys.version)"
-          echo mypy Version:
+          echo "mypy Version:"
           mypy --version
 
       - name: 'Run mypy'
@@ -111,18 +115,32 @@ jobs:
 
       - name: 'Install requirements'
         run: |
-          sudo apt update && sudo apt install -y libenchant-2-2
-          sudo apt install graphviz
+          if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt update && sudo apt install -y libenchant-2-2
+              sudo apt install -y graphviz
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+              choco install mingw
+              pacman -S enchant
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+              brew update
+              brew install enchant
+          else
+              echo "$RUNNER_OS not supported"
+              exit 1
+          fi
+          
           python -m pip install --upgrade pip
           python -m pip install .
           python -m pip install pylint[spelling]
 
       - name: 'Environment info'
         run: |
+          echo "Installed Packages:"
           pip list
-          pylint --version
-          echo Python Version: '${{ steps.setup_python.outputs.python-version }}'
+          echo "Python Version:"
           python -c "import sys; print(sys.version)"
+          echo "Pylint Version:"
+          pylint --version
 
       - name: 'Run Pylint'
         run: |
