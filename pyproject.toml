@@ -148,7 +148,6 @@ show_column_numbers = true
 pretty = true
 color_output = true
 show_traceback = true
-verbosity = 1
 any_exprs_report = "_local_reports/mypy"
 html_report = "_local_reports/mypy"
 linecount_report = "_local_reports/mypy"
