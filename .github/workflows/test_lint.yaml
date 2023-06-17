@@ -113,15 +113,20 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: 'Setup MSYS2'
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: enchant
+
       - name: 'Install requirements'
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
               sudo apt update && sudo apt install -y libenchant-2-2
               sudo apt install -y graphviz
           elif [ "$RUNNER_OS" == "Windows" ]; then
-              choco install mingw
-              choco install -y msys2
-              pacman -S enchant
+              echo "Requirement already satisfied."
           elif [ "$RUNNER_OS" == "macOS" ]; then
               brew update
               brew install enchant
