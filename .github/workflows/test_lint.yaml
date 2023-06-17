@@ -118,7 +118,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          install: libenchant
+          install: mingw-w64-x86_64-enchant
 
       - name: 'Install requirements'
         run: |
