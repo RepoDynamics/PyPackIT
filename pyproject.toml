@@ -110,9 +110,9 @@ max-line-length = 100
 max-module-lines = 1000
 
 [tool.pylint.imports]
-ext-import-graph = "pylint_diagrams/import_graph_external.svg"
-import-graph = "pylint_diagrams/import_graph_all.svg"
-int-import-graph = "pylint_diagrams/import_graph_internal.svg"
+ext-import-graph = "reports/pylint/diagrams/import_graph_external.svg"
+import-graph = "reports/pylint/diagrams/import_graph_all.svg"
+int-import-graph = "reports/pylint/diagrams/import_graph_internal.svg"
 
 [tool.pylint.logging]
 logging-format-style = "new"
@@ -125,10 +125,10 @@ reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:pylint_reports/json.json",
-    "text:pylint_reports/text.txt",
-    "parseable:pylint_reports/parseable.txt",
-    "msvs:pylint_reports/msvs.txt",
+    "json:reports/pylint/json.json",
+    "text:reports/pylint/text.txt",
+    "parseable:reports/pylint/parseable.txt",
+    "msvs:reports/pylint/msvs.txt",
     "colorized",
 ]
 
@@ -151,13 +151,12 @@ pretty = true
 color_output = true
 show_traceback = true
 verbosity = 0
-any_exprs_report = "mypy_reports"
-html_report = "mypy_reports"
-linecount_report = "mypy_reports"
-linecoverage_report = "mypy_reports"
-lineprecision_report = "mypy_reports"
-txt_report = "mypy_reports"
-xml_report = "mypy_reports"
+any_exprs_report = "reports/mypy"
+html_report = "reports/mypy"
+linecount_report = "reports/mypy"
+linecoverage_report = "reports/mypy"
+lineprecision_report = "reports/mypy"
+txt_report = "reports/mypy"
 
 # ----------------------------------------- isort ------------------------------------------------
 # Ref: https://pycqa.github.io/isort/docs/configuration/options.html
