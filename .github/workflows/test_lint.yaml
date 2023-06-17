@@ -63,7 +63,7 @@ jobs:
         run: |
           pylint --version
           cd ${{ needs.get_package_metadata.outputs.package_name }}
-          pylint --rcfile pyproject.toml
+          pylint --rcfile ../pyproject.toml
 
       - name: 'Upload Pylint report as artifact'
         if: always()
