@@ -117,3 +117,6 @@ ENV/
 
 # MacOS system files
 .DS_Store
+
+# PyPackIT
+_local_reports/
