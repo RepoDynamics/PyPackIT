@@ -55,8 +55,10 @@ build-file = "template_package/__init__.py"
 
 # ----------------------------------------- Pylint -----------------------------------------
 [tool.pylint.main]
+py-version = "3.9"
 # fail-on =
 fail-under = 10
+recursive=true
 ignore = ["CVS"]
 jobs = 0
 limit-inference-results = 500
@@ -89,7 +91,6 @@ load-plugins = [
     "pylint.extensions.typing",
     "pylint.extensions.while_used",
 ]
-py-version = "3.9"
 
 [tool.pylint.basic]
 good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
@@ -108,9 +109,9 @@ max-line-length = 100
 max-module-lines = 1000
 
 [tool.pylint.imports]
-ext-import-graph = "pylint_import_graph_external.gv"
-import-graph = "pylint_import_graph_all.gv"
-int-import-graph = "pylint_import_graph_internal.gv"
+ext-import-graph = "pylint_diagrams/import_graph_external.svg"
+import-graph = "pylint_diagrams/import_graph_all.svg"
+int-import-graph = "pylint_diagrams/import_graph_internal.svg"
 
 [tool.pylint.logging]
 logging-format-style = "new"
@@ -121,12 +122,12 @@ disable = []
 [tool.pylint.reports]
 reports = true
 score = true
-msg-template = "{path} --- {obj} --- {line}:{end_line} - {column}:{end_column}\n\t{msg_id} ({category}, {symbol}): {msg}"
+msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:pylint_report.json",
-    "text:pylint_report.txt",
-    "parseable:pylint_report_parseable.txt",
-    "msvs:pylint_report_msvs.txt",
+    "json:pylint_reports/json.json",
+    "text:pylint_reports/text.txt",
+    "parseable:pylint_reports/parseable.txt",
+    "msvs:pylint_reports/msvs.txt",
     "colorized",
 ]
 
