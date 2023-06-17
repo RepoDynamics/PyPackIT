@@ -77,7 +77,7 @@ jobs:
         with:
           path: |
             pylint_reports/*
-          name: reports-pylint
+          name: pylint_report
 
       - name: 'Upload diagrams'
         if: always()
@@ -85,11 +85,12 @@ jobs:
         with:
           path: |
             pylint_diagrams/*
-          name: diagrams
+          name: pylint_diagram
 
 
   isort:
     name: 'isort'
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
@@ -117,9 +118,9 @@ jobs:
         uses: isort/isort-action@master
         id: run_isort
         with:
-          sortPaths: '.'
+          sort-paths: ${{ needs.metadata.outputs.package_name }}
           configuration: "--settings-path pyproject.toml --check-only --diff"
-#          requirementsFiles: "requirements.txt requirements-test.txt"
+#          requirements-files: "requirements.txt requirements-test.txt"
 
       - name: 'Save output'
         if: always()
@@ -129,13 +130,13 @@ jobs:
           path: isort_report.txt
           contents: ${{ steps.run_isort.outputs.isort-result }}
 
-      - name: 'Upload isort report as artifact'
+      - name: 'Upload isort report'
         if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
             isort_report.txt
-          name: isort Reports
+          name: isort_report
 
 
   black:
