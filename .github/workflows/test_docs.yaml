@@ -69,6 +69,7 @@ jobs:
 
       - name: 'Build PDF'
         if: always()
+        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
         run : |
           cd docs/_build/latex
           LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
@@ -80,33 +81,16 @@ jobs:
           path: docs/_build/*
           name: Built Website
 
-
-  setup:
-    name: 'Setup GitHub Pages'
-    needs: build
-    if: github.event_name == 'push'
-    permissions:
-      contents: read
-      pages: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Setup GitHub Pages'
-        # https://github.com/actions/configure-pages
-        uses: actions/configure-pages@v3
-        with:
-          enablement: true
-
       - name: 'Upload GitHub Pages artifact'
         # https://github.com/actions/upload-pages-artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'docs/_build/html'
 
-
-
   deploy:
     name: 'Deploy to GitHub Pages'
-    needs: setup
+    needs: build
+#    if: github.event_name == 'push'
     permissions:
       contents: read
       pages: write
@@ -116,6 +100,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: 'Setup GitHub Pages'
+        # https://github.com/actions/configure-pages
+        uses: actions/configure-pages@v3
+        with:
+          enablement: true
       - name: 'Deploy'
         id: deployment
         # https://github.com/actions/deploy-pages
