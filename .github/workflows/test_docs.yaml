@@ -16,24 +16,17 @@ concurrency:
 
 jobs:
 
-  build_docs:
-
+  build:
     name: Build Docs
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Print System Info
-        shell: bash
-        run: |
-          uname -a
-          df -h
-          ulimit -a
-
-      - name: Install Docs Dependencies
+      - name: 'Install requirements'
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: requirements/dev/doc.yaml
@@ -63,3 +56,29 @@ jobs:
         with:
           path: docs/_build/*
           name: Built Website
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: 'docs/_build/*'
+
+
+  deploy:
+    name: 'Deploy to GitHub Pages'
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Deploy'
+        id: deployment
+        uses: actions/deploy-pages@v2
+
