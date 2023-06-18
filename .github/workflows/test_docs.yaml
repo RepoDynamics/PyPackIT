@@ -61,13 +61,17 @@ jobs:
           cd docs
           make clean html
 
-      - name: 'Build PDF'
+      - name: 'Build LaTeX'
         if: always()
         run: |
           cd docs
           make latex
-          cd _build/latex
-          LATEXMKOPTS="-outdir=../pdf" make 
+
+      - name: 'Build PDF'
+        if: always()
+        run : |
+          cd docs/_build_latex
+          LATEXMKOPTS="-outdir=pdf" make 
 
       - name: 'Upload build'
         if: always()
