@@ -13,7 +13,7 @@ build:
 
 # Install dependencies
 conda:
-  environment: deps/env_docs.yaml
+  environment: requirements/dev/doc.yaml
 
 # Install the package
 python:
