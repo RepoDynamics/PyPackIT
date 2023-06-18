@@ -71,7 +71,7 @@ jobs:
         if: always()
         run : |
           cd docs/_build/latex
-          LATEXMKOPTS="-outdir=pdf" make 
+          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux" make 
 
       - name: 'Upload build'
         if: always()
