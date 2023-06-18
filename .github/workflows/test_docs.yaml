@@ -34,6 +34,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y latexmk
+          sudo apt-get install -y texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra
 
       - name: 'Install package'
         shell: micromamba-shell {0}
