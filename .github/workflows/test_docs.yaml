@@ -1,23 +1,21 @@
-# Test the build of documentation with Sphinx
+# Build the documentation with Sphinx
+#  and upload to GitHub Actions
 
 name: Docs
-run-name: Test Build Docs
+run-name: Docs
 
 on:
   push:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
 
   build:
-    name: Build Docs
+    name: 'Build'
     runs-on: ubuntu-latest
 
     steps:
@@ -31,43 +29,60 @@ jobs:
         with:
           environment-file: requirements/dev/doc.yaml
 
-      - name: Print Environment
-        shell: bash -el {0}
-        run: micromamba list
-
-      - name: Install Package
+      - name: 'Install package'
         run: python -m pip install .
         shell: micromamba-shell {0}
 
-      - name: Print Installed Packages
-        run: python -m pip list
+      - name: 'Environment info'
         shell: micromamba-shell {0}
+        run: |
+          echo "Installed Packages (conda):"
+          micromamba list
+          echo "Installed Packages (pip):"
+          pip list
 
-      - name: Build with Sphinx
+      - name: 'Run sphinx-build'
         if: always()
         shell: micromamba-shell {0}
         run: |
           cd docs
           make clean
           SPHINXOPTS="-W -T --keep-going" make html
+          SPHINXOPTS="-W -T --keep-going" make latexpdf
 
-      - name: 'Upload built website'
+      - name: 'Upload build'
         uses: actions/upload-artifact@v3
         with:
           path: docs/_build/*
           name: Built Website
 
+
+  setup:
+    name: 'Setup GitHub Pages'
+    needs: build
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      pages: write
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Setup GitHub Pages'
+        # https://github.com/actions/configure-pages
         uses: actions/configure-pages@v3
+        with:
+          enablement: true
+
       - name: 'Upload GitHub Pages artifact'
+        # https://github.com/actions/upload-pages-artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'docs/_build/html'
 
 
+
   deploy:
     name: 'Deploy to GitHub Pages'
-    needs: build
+    needs: setup
     permissions:
       contents: read
       pages: write
@@ -79,5 +94,7 @@ jobs:
     steps:
       - name: 'Deploy'
         id: deployment
+        # https://github.com/actions/deploy-pages
         uses: actions/deploy-pages@v2
+
 
