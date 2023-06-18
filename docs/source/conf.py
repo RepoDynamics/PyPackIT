@@ -573,7 +573,7 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
         False
     ),
 ]
-latex_logo: str = "_static/img/logo/logo_light.svg"
+# latex_logo: str = "_static/img/logo/logo_light.svg"
 latex_elements: Dict[str, str] = {
     'papersize': 'a4paper',  # {'letterpaper', 'a4paper'}
     'pointsize': '11pt',
