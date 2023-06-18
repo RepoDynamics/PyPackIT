@@ -51,19 +51,18 @@ jobs:
           make clean
           SPHINXOPTS="-W -T --keep-going" make html
 
-      - name: 'Upload built website as artifact'
+      - name: 'Upload built website'
         uses: actions/upload-artifact@v3
         with:
           path: docs/_build/*
           name: Built Website
 
-      - name: Setup Pages
+      - name: 'Setup GitHub Pages'
         uses: actions/configure-pages@v3
-      - name: Upload artifact
+      - name: 'Upload GitHub Pages artifact'
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: 'docs/_build'
+          path: 'docs/_build/html'
 
 
   deploy:
@@ -74,7 +73,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: github-pages
+      name: GitHub Pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
