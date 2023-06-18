@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y latexmk
-          sudo apt-get install -y texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra
+          sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra tex-gyre
 
       - name: 'Install package'
         run: python -m pip install .
