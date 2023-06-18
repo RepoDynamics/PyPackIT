@@ -29,9 +29,15 @@ jobs:
         with:
           environment-file: requirements/dev/doc.yaml
 
-      - name: 'Install package'
-        run: python -m pip install .
+      - name: 'Install latexmk'
         shell: micromamba-shell {0}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y latexmk
+
+      - name: 'Install package'
+        shell: micromamba-shell {0}
+        run: python -m pip install .
 
       - name: 'Environment info'
         shell: micromamba-shell {0}
