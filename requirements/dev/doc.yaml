@@ -17,7 +17,9 @@ dependencies:
   - sphinx-design
   - sphinx-copybutton
   - ablog
+  - librsvg
   # Pip-only dependencies
   - pip:
     # Documentation
     - sphinx-last-updated-by-git
+    - sphinxcontrib-svg2pdfconverter

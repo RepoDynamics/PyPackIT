@@ -88,7 +88,11 @@ extensions: List[str] = [
     # For displaying a copy button next to code blocks;
     #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
     'sphinx_copybutton',
-    'sphinx_last_updated_by_git'
+    'sphinx_last_updated_by_git',
+    # For including SVG files in LaTeX
+    #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
+    #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
+    'sphinxcontrib.rsvgconverter',
 ]
 
 # source_suffix: Union[str, List[str], Dict[str, str]] = {

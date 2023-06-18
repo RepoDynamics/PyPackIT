@@ -58,6 +58,7 @@ jobs:
           SPHINXOPTS="-W -T --keep-going" make latexpdf
 
       - name: 'Upload build'
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           path: docs/_build/*
