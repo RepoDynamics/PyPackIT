@@ -67,12 +67,11 @@ jobs:
           cd docs
           make latex
 
-#      - name: 'Build PDF'
-#        if: always()
-#        run : |
-#          cd docs/_build/latex
-#          mkdir pdf
-#          LATEXMKOPTS="-jobname=pdf/%A" make 
+      - name: 'Build PDF'
+        if: always()
+        run : |
+          cd docs/_build/latex
+          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
 
       - name: 'Upload build'
         if: always()
