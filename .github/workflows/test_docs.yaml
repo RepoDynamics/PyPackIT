@@ -53,16 +53,19 @@ jobs:
           echo "Installed Packages (pip):"
           pip list
           ls -a
-          rsvg-convert
-          
+          rsvg-convert --help
 
-      - name: 'Run sphinx-build'
+      - name: 'Build HTML'
         if: always()
         run: |
           cd docs
-          make clean
-          SPHINXOPTS="-W -T --keep-going" make html
-          SPHINXOPTS="-W -T --keep-going" make latexpdf
+          make clean html
+
+      - name: 'Build PDF'
+        if: always()
+        run: |
+          cd docs
+          make latexpdf
 
       - name: 'Upload build'
         if: always()

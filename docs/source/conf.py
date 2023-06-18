@@ -92,7 +92,7 @@ extensions: List[str] = [
     # For including SVG files in LaTeX
     #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
     #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
-    # 'sphinxcontrib.rsvgconverter',
+    'sphinxcontrib.rsvgconverter',
 ]
 
 # source_suffix: Union[str, List[str], Dict[str, str]] = {
