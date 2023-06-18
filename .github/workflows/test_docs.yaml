@@ -70,7 +70,7 @@ jobs:
       - name: 'Build PDF'
         if: always()
         run : |
-          cd docs/_build_latex
+          cd docs/_build/latex
           LATEXMKOPTS="-outdir=pdf" make 
 
       - name: 'Upload build'
