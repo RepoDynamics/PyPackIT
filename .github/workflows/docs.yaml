@@ -1,5 +1,4 @@
-# Build the documentation with Sphinx
-#  and upload to GitHub Actions
+# Build the documentation with Sphinx, upload the builds as artifacts, and deploy to GitHub Pages.
 
 name: Docs
 run-name: Docs
@@ -8,13 +7,14 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  release:
+    types: [ published ]
   schedule:
     - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
 
 defaults:
   run:
     shell: micromamba-shell {0}
-
 
 jobs:
 
@@ -40,7 +40,8 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y latexmk
-          sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra tex-gyre librsvg2-bin
+#          sudo apt-get install -y librsvg2-bin
+          sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra tex-gyre
 
       - name: 'Install package'
         run: python -m pip install .
@@ -96,6 +97,8 @@ jobs:
           path: 'docs/_build/html'
 
   deploy:
+    # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+    # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
     name: 'Deploy to GitHub Pages'
     needs: build
 #    if: github.event_name == 'push'
