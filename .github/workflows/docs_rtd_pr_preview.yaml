@@ -1,0 +1,46 @@
+# Build the ReadTheDocs website for pull-requests and add a link to the pull request's description.
+# Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
+# Ref: https://github.com/readthedocs/actions/tree/v1.1/preview
+
+name: 'ReadTheDocs Preview'
+run-name: 'Docs - PR'
+
+on:
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+
+  metadata:
+    name: 'Load package metadata'
+    outputs:
+      rtd_name: ${{ fromJson(steps.get_metadata.outputs.json).readthedocs.name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Get metadata'
+        id: get_metadata
+        uses: ./.github/actions/get-metadata
+        with:
+          json_filepath: ./metadata/main.json
+
+      - name: 'Output metadata'
+        run: |
+          echo "ReadTheDocs Name: ${{ fromJson(steps.get_metadata.outputs.json).readthedocs.name }}" 
+  
+
+  pull-request-links:
+    name: 'Build'
+    needs: metadata
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: readthedocs/actions/preview@v1
+        with:
+          project-slug: ${{ needs.metadata.outputs.rtd_name }}
