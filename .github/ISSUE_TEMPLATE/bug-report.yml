@@ -1,22 +1,56 @@
+# Template for bug reports
+# Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
+
 name: Bug Report
-description: File a bug report
+description: Report a bug.
 title: "[Bug]: "
 labels: ["bug", "triage"]
-assignees:
-  - octocat
+
 body:
+  
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
+        Thank you for taking the time to fill out this bug report!
+  
+  - type: dropdown
+    id: package_version
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      label: Package Version
+      description: |
+        Which versions of our software are affected? 
+        Please select all versions where you have encountered the bug.
+      multiple: true
+      options:
+        - 1.0.2 (Default)
+        - 1.0.3 (Edge)
     validations:
-      required: false
+      required: true
+  
+  - type: dropdown
+    id: python_version
+    attributes:
+      label: |
+        Which Python versions have you tested? 
+        Please select all versions where you have encountered the bug.
+      multiple: true
+      options:
+        - 3.11
+        - 3.10
+        - 3.9
+  
+  - type: dropdown
+    id: os
+    attributes:
+      label: |
+        Which operating systems have you tested? 
+        Please select all versions where you have encountered the bug.
+      multiple: true
+      options:
+        - Linux
+        - MacOS
+        - Windows
+  
   - type: textarea
     id: what-happened
     attributes:
@@ -26,32 +60,33 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  - type: dropdown
-    id: version
+  
+  - type: textarea
+    id: code
     attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+      label: Example
+      description: Please provide the most minimal possible example to reproduce the bug.
+      placeholder: "hello"
+      value: "A bug happened!"
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+      
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
+  
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  
   - type: checkboxes
     id: terms
     attributes:
