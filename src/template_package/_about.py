@@ -1,10 +1,13 @@
-
-from typing import Union, List, Tuple
-import json
+# Standard libraries
 import datetime
+from typing import List, Tuple, Union
+
+# Non-standard libraries
+
+# Self
+
 
 class ProjectMetaData:
-    
     @property
     def app_name(self) -> str:
         return "MyAppName"
@@ -12,7 +15,7 @@ class ProjectMetaData:
     @property
     def package_name(self) -> str:
         return "my_package_name"
-    
+
     @property
     def owner_name(self) -> str:
         return "Armin Ariamajd"
@@ -39,4 +42,4 @@ class ProjectMetaData:
 
     @property
     def short_description(self) -> str:
-        return 'A template Python package'
+        return "A template Python package"
