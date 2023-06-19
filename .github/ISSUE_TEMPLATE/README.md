@@ -1,5 +1,5 @@
 # GitHub Issues Settings
-This directory contains templates and settings used when an issue is opened in the repository.
+This directory contains templates and configurations used when an issue is opened in the repository.
 
 ## Templates
 The issues templates use the GitHub's [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms)
