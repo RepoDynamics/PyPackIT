@@ -1,0 +1,12 @@
+# Config file for the GitHub Actions workflow '.github/workflows/labeler.yaml'
+# Ref: https://github.com/actions/labeler
+
+# The key is the name of the label that should be added
+#  and the value is the path (glob) of the changed files (e.g. src/**, tests/*.spec.js) or a match object.
+
+src:
+  # Any changes inside the 'src' directory, except changes to '.MD' files.
+  - any: ["src/**", "!src/**/*.md"]
+
+ci-cd:
+- any: [".github/**"]
