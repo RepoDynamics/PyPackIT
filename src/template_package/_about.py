@@ -2,10 +2,6 @@
 import datetime
 from typing import List, Tuple, Union
 
-# Non-standard libraries
-
-# Self
-
 
 class ProjectMetaData:
     @property
