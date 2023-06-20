@@ -40,7 +40,6 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y latexmk
-#          sudo apt-get install -y librsvg2-bin
           sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra tex-gyre
 
       - name: 'Install package'
