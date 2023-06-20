@@ -49,8 +49,8 @@ replacement = """dict(
     head_commit_hash="{revision}",
     vcs_name="{vcs_name}"
 )"""
-source-file = "src/template_package/__init__.py"
-build-file = "src/template_package/__init__.py"
+source-file = "template_package/__init__.py"
+build-file = "template_package/__init__.py"
 
 
 # ----------------------------------------- Pylint -----------------------------------------
