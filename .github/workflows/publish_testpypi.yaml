@@ -40,6 +40,10 @@ jobs:
           print-hash: true
           skip-existing: true
 
+      # Wait for 1 min before running the next job, to make sure package is registered at TestPyPI
+      - name: 'Wait a minute'
+        run: sleep 60s
+
   test:
     name: 'Run test suits'
     needs: [publish-testpypi, get-package]
