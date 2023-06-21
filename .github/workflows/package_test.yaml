@@ -93,18 +93,18 @@ jobs:
           python -m pip install --upgrade pip
 
       - name: 'Install from local source'
-        if: ${{inputs.install-source}} == 'local'
+        if: inputs.install-source == 'local'
         run: python -m pip install .
 
       - name: 'Install from TestPyPI'
-        if: ${{inputs.install-source}} == 'testpypi'
+        if: inputs.install-source == 'testpypi'
         run: |
           python -m pip install ${{needs.metadata.outputs.package-name}}==${{inputs.install-version}} \
           --index-url https://test.pypi.org/simple/ \
           --extra-index-url https://pypi.org/simple/
 
       - name: 'Install from PyPI'
-        if: ${{inputs.install-source}} == 'pypi'
+        if: inputs.install-source == 'pypi'
         run: python -m pip install ${{needs.metadata.outputs.package-name}}==${{inputs.install-version}}
 
       - name: 'Install test dependencies'
