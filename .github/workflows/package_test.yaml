@@ -1,0 +1,142 @@
+# Install the package.
+
+name: 'Install Package'
+run-name: 'Install Package'
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+
+      json-filepath:
+        description: "Path to the project's main JSON metadata file."
+        default: './metadata/main.json'
+        required: false
+        type: string
+
+      install-source:
+        description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
+        default: 'local'
+        required: false
+        type: string
+
+      install-version:
+        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
+        default: ""
+        required: false
+        type: string
+
+    outputs:
+      artifact_name:
+        description: 'Name of the uploaded artifact containing the distribution archive.'
+        value: ${{jobs.build_sdist.outputs.package_fullname}}
+      package_name:
+        description: 'Name of the package.'
+        value: ${{jobs.get_package_metadata.outputs.package_name}}
+
+
+jobs:
+
+  metadata:
+    name: 'Load package metadata'
+    outputs:
+      package_name: ${{ fromJson(steps.get.outputs.json).package.name }}
+      python_versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}
+      operating_systems: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout repository'
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v3
+
+      - name: 'Get metadata'
+        id: get
+        uses: ./.github/actions/get-metadata
+        with:
+          json_filepath: ${{inputs.json_filepath}}
+
+      - name: 'Echo extracted metadata'
+        run: |
+          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}" 
+          echo "Python Versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}" 
+          echo "OS: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}"
+
+  test-suite:
+    name: 'Test (Py ${{ matrix.python-version }}, ${{ matrix.os }})'
+    needs: metadata
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ python-version }}
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python ${{inputs.python-version}}'
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 'Update pip'
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: 'Install from local source'
+        if: ${{inputs.install_source}} == 'local'
+        run: python -m pip install .
+
+      - name: 'Install from TestPyPI'
+        if: ${{inputs.install_source}} == 'testpypi'
+        run: |
+          python -m pip install ${{needs.metadata.outputs.package_name}}==${{inputs.install_version}} \
+          --index-url https://test.pypi.org/simple/ \
+          --extra-index-url https://pypi.org/simple/
+
+      - name: 'Install from PyPI'
+        if: ${{inputs.install_source}} == 'pypi'
+        run: python -m pip install ${{needs.metadata.outputs.package_name}}==${{inputs.install_version}}
+
+      - name: 'Install test dependencies'
+        run: |
+          python -m pip install pytest pytest-cov
+
+      - name: 'Echo environment'
+        run: python -m pip list
+
+      - name: 'Print System Info'
+        shell: bash
+        run: |
+          echo "OS and hardware info:"
+          uname -a
+          echo "Disk space usage:"
+          df -h
+          echo "Available system resources:"
+          ulimit -a
+
+      - name: 'Run unit tests'
+        run: |
+          pytest -c pyproject.toml --cov=${{needs.get_package_metadata.outputs.package_name}} \
+          --cov-report=xml 
+
+      - name: 'Upload coverage reports to codecov'
+        if: always() && ${{inputs.install_source}} == 'local'
+        # https://github.com/codecov/codecov-action
+        uses: codecov/codecov-action@v3.1.4
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          env_vars: OS,PYTHON
+      
+
+
+      
+      
