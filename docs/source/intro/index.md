@@ -69,10 +69,7 @@ A coloured icon: {octicon}`report;1em;sd-text-info`, some more text.
 - A fixed size icon: {material-regular}`data_exploration;24px`, some more text.
 - Hii: {material-outlined}`looks_one;24px;digit`, wrgwrg.
 
-[//]: # (- An icon {fas}`spinner;sd-text-primary`, some more text.)
-
-[//]: # (- An icon {fab}`github`, some more text.)
-
-[//]: # (- An icon {fab}`gitkraken;sd-text-success fa-xl`, some more text.)
-
-[//]: # (- An icon {fas}`skull;sd-text-danger`, some more text.)
+- An icon {fas}`spinner;sd-text-primary`, some more text.
+- An icon {fab}`github`, some more text.
+- An icon {fab}`gitkraken;sd-text-success fa-xl`, some more text.
+- An icon {fas}`skull;sd-text-danger`, some more text.

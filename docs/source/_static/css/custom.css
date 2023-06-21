@@ -28,10 +28,12 @@ Example CSS filter generators:
 * https://codepen.io/sosuke/pen/Pjoqqp
 */
 html[data-theme=light] .icon-image {
-    filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);
+    /*filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);*/
+    filter: invert(16%) sepia(100%) saturate(3912%) hue-rotate(266deg) brightness(80%) contrast(96%);
 }
 html[data-theme=dark] .icon-image {
-    filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);
+    /*filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);*/
+    filter: invert(55%) sepia(21%) saturate(2879%) hue-rotate(86deg) brightness(98%) contrast(97%);
 }
 
 

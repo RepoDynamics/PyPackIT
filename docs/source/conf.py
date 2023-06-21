@@ -713,7 +713,7 @@ References
 ----------
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
-blog_path: str = "pages/news"
+blog_path: str = "news"
 blog_baseurl: str = f"https://{_data['docs']['readthedocs_name']}.readthedocs.io/"
 
 blog_post_pattern: list[str] = ["pages/news/posts/*.rst", "pages/news/posts/*.md"]
