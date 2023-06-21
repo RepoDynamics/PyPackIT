@@ -61,8 +61,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
