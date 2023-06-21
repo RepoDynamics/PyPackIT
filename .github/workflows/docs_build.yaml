@@ -74,7 +74,8 @@ jobs:
         if: always()
         run: |
           cd docs
-          make clean html
+          make clean
+          make dirhtml
 
       - name: 'Build LaTeX'
         if: always()
