@@ -42,7 +42,7 @@ jobs:
 
       # Wait for 1 min before running the next job, to make sure package is registered at TestPyPI
       - name: 'Wait a minute'
-        run: sleep 60s
+        run: sleep 100s
 
   test:
     name: 'Run test suits'
