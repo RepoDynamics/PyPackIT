@@ -1,7 +1,7 @@
 name: 'Get Metadata'
 description: 'Get Metadata JSON file.'
 inputs:
-  json_filepath:
+  json-filepath:
     description: "Path to the JSON file to read."
     default: "metadata/main.json"
     required: false
@@ -9,20 +9,23 @@ inputs:
 outputs:
   json:
     description: "JSON file content as a string."
-    value: ${{steps.get_json_file.outputs.json_file}}
+    value: ${{steps.parse.outputs.json-file}}
 
 runs:
   using: 'composite'
+
   steps:
-    - name: Checkout Repo
+    - name: 'Checkout repository'
       uses: actions/checkout@v3
-    - name: Print JSON File
+
+    - name: 'Display JSON file'
       shell: bash
       run: cat ${{inputs.json_filepath}}
-    - name: Parse JSON File
-      id: get_json_file
+
+    - name: 'Parse JSON file'
+      id: parse
       shell: bash
       run: |
-        echo "json_file=$(python dev/utils.py ${{inputs.json_filepath}})" >> $GITHUB_OUTPUT
+        echo "json-file=$(python dev/utils.py ${{inputs.json-filepath}})" >> $GITHUB_OUTPUT
       # cat_results=$(python3 -c 'import json; f = open({{inputs.json_filepath}}); print(json.dumps(json.load(f))); f.close()')
       # echo "parsed_json_file=${cat_results}" >> $GITHUB_OUTPUT
