@@ -19,6 +19,9 @@ on:
       package_name:
         description: 'Name of the package.'
         value: ${{jobs.get_package_metadata.outputs.package_name}}
+      package_version:
+        description: 'Version of the package.'
+        value: ${{jobs.get_package_metadata.outputs.package_version}}
 
 defaults:
   run:
@@ -56,6 +59,7 @@ jobs:
     name: 'Generate source distribution'
     outputs:
       package_fullname: ${{steps.get_name.outputs.package_fullname}}
+      package_version: ${{steps.get_name.outputs.package_version}}
     runs-on: ubuntu-latest
     steps:
 
@@ -75,10 +79,13 @@ jobs:
         run: |
           import os
           from pathlib import Path
-          name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
-          print("Package full name:", name)
+          fullname = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
+          ver = fullname.rsplit('-', 1)
+          print("Package full name:", fullname)
+          print("Package version:", ver)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'package_fullname={name}', file=fh)
+            print(f'package_fullname={fullname}', file=fh)
+            print(f'package_version={ver}', file=fh)
           
 
       - name: 'Upload sdist as artifact'
