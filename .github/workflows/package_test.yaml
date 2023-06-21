@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
   workflow_call:
     inputs:
-
       json-filepath:
         description: "Path to the project's main JSON metadata file."
         default: './metadata/main.json'
@@ -29,8 +28,18 @@ on:
 
 jobs:
 
+  echo:
+    name: 'Print inputs'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'install-source: ${{inputs.install-source}}'
+          echo 'install-version: ${{inputs.install-version}}'
+          echo 'json-filepath: ${{inputs.json-filepath}}'
+
   metadata:
-    name: 'Load package metadata'
+    # Read package metadata from JSON file and output required variables.
+    name: 'Read metadata'
     outputs:
       package-name: ${{ fromJson(steps.get.outputs.json).package.name }}
       python-versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}
