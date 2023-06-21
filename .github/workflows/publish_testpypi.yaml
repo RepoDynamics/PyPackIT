@@ -11,17 +11,17 @@ on:
 
 jobs:
 
-  get_package:
+  get-package:
     name: 'Generate distribution package'
     uses: ./.github/workflows/package_build.yaml
 
-  publish_testpypi:
+  publish-testpypi:
     name: 'Publish distribution to TestPyPI'
-    needs: get_package
+    needs: get-package
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/project/${{ needs.get_package.outputs.package_name }}
+      url: https://test.pypi.org/project/${{ needs.get-package.outputs.package-name }}
     permissions:
       id-token: write
 
@@ -29,7 +29,7 @@ jobs:
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.get_package.outputs.artifact_name }}
+          name: ${{ needs.get_package.outputs.artifact-name }}
           path: dist
 
       - name: 'Upload to TestPyPI'
@@ -46,4 +46,4 @@ jobs:
     uses: ./.github/workflows/package_test.yaml
     with:
       install-source: "testpypi"
-      install-version: ${{ needs.get_package.outputs.package_version }}
+      install-version: ${{ needs.get-package.outputs.package-version }}
