@@ -13,9 +13,6 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
 
-defaults:
-  run:
-    shell: micromamba-shell {0}
 
 jobs:
 
