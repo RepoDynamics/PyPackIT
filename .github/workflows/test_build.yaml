@@ -66,7 +66,7 @@ jobs:
         shell: bash
         run: |
           echo "OS and hardware info:"
-          uname --all
+          uname -a
           echo "Disk space usage:"
           df -h
           echo "Available system resources:"
