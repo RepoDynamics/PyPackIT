@@ -1,11 +1,12 @@
-# Publish the package on PyPI
+# Publish the package on TestPyPI
 
-name: 'Publish - PyPI'
-run-name: Publish package on PyPI
+name: 'Publish - TestPyPI'
+run-name: 'Publish - TestPyPI'
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - 'main'
 
 
 jobs:
@@ -14,13 +15,13 @@ jobs:
     name: 'Generate distribution package'
     uses: ./.github/workflows/package_pypi.yaml
 
-  publish_pypi:
-    name: 'Publish distribution to PyPI'
+  publish_testpypi:
+    name: 'Publish distribution to TestPyPI'
     needs: get_package
     runs-on: ubuntu-latest
     environment:
-      name: PyPI
-      url: https://pypi.org/project/${{ needs.get_package.outputs.package_name }}
+      name: TestPyPI
+      url: https://test.pypi.org/project/${{ needs.get_package.outputs.package_name }}
     permissions:
       id-token: write
 
@@ -31,9 +32,10 @@ jobs:
           name: ${{ needs.get_package.outputs.artifact_name }}
           path: dist
 
-      - name: 'Upload to PyPI'
-        # https://github.com/pypa/gh-action-pypi-publish
+      - name: 'Upload to TestPyPI'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          repository-url: https://test.pypi.org/legacy/
           verbose: true
           print-hash: true
+          skip-existing: true
