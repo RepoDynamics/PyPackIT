@@ -13,7 +13,7 @@ jobs:
 
   get_package:
     name: 'Generate distribution package'
-    uses: ./.github/workflows/package_pypi.yaml
+    uses: ./.github/workflows/package_build.yaml
 
   publish_testpypi:
     name: 'Publish distribution to TestPyPI'
