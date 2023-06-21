@@ -7,19 +7,19 @@ on:
   workflow_dispatch:
   workflow_call:
     inputs:
-      json_filepath:
+      json-filepath:
         description: "Path to the project's main JSON metadata file."
         default: './metadata/main.json'
         required: false
         type: string
     outputs:
-      artifact_name:
+      artifact-name:
         description: 'Name of the uploaded artifact containing the distribution archive.'
         value: ${{jobs.build_sdist.outputs.package_fullname}}
-      package_name:
+      package-name:
         description: 'Name of the package.'
         value: ${{jobs.get_package_metadata.outputs.package_name}}
-      package_version:
+      package-version:
         description: 'Version of the package.'
         value: ${{jobs.get_package_metadata.outputs.package_version}}
 
@@ -29,37 +29,37 @@ defaults:
 
 jobs:
 
-  get_package_metadata:
+  metadata:
     name: 'Get package metadata'
     outputs:
-      package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
-      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_publish_versions) }}
-      operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
-      cibuilds: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.cibuilds) }}
+      package-name: ${{ fromJson(steps.get.outputs.json).package.name }}
+      python-versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_publish_versions) }}
+      operating-systems: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}
+      cibuilds: ${{ toJson(fromJson(steps.get.outputs.json).package.cibuilds) }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
       - name: 'Get metadata'
-        id: get_metadata
+        id: get
         uses: ./.github/actions/get-metadata
         with:
-          json_filepath: ${{inputs.json_filepath}}
+          json_filepath: ${{inputs.json-filepath}}
 
       - name: 'Print extracted data'
         run: |
-          echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
-          echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
-          echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
-          echo "cibuilds: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.cibuilds) }}'"
+          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}" 
+          echo "Python Versions: '${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}'" 
+          echo "OS: '${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}'"
+          echo "cibuilds: '${{ toJson(fromJson(steps.get.outputs.json).package.cibuilds) }}'"
 
 
-  build_sdist:
+  build-sdist:
     name: 'Generate source distribution'
     outputs:
-      package_fullname: ${{steps.get_name.outputs.package_fullname}}
-      package_version: ${{steps.get_name.outputs.package_version}}
+      package_fullname: ${{steps.get_name.outputs.package-fullname}}
+      package_version: ${{steps.get_name.outputs.package-version}}
     runs-on: ubuntu-latest
     steps:
 
@@ -84,21 +84,21 @@ jobs:
           print("Package full name:", fullname)
           print("Package version:", ver)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'package_fullname={fullname}', file=fh)
-            print(f'package_version={ver}', file=fh)
+            print(f'package-fullname={fullname}', file=fh)
+            print(f'package-version={ver}', file=fh)
           
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
-          name: ${{steps.get_name.outputs.package_fullname}}
+          name: ${{steps.get_name.outputs.package-fullname}}
 
 
   build_wheel:
     name: 'Generate built distribution (pure Python)'
-    needs: [get_package_metadata, build_sdist]
-    if: needs.get_package_metadata.outputs.cibuilds == 'null'
+    needs: [metadata, build-sdist]
+    if: needs.metadata.outputs.cibuilds == 'null'
     runs-on: ubuntu-latest
     steps:
 
@@ -116,19 +116,19 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.whl
-          name: ${{needs.build_sdist.outputs.package_fullname}}
+          name: ${{needs.build-sdist.outputs.package-fullname}}
 
 
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
-    needs: [get_package_metadata, build_sdist]
-    if: needs.get_package_metadata.outputs.cibuilds != 'null'
+    needs: [metadata, build-sdist]
+    if: needs.metadata.outputs.cibuilds != 'null'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.get_package_metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.get_package_metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -152,4 +152,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-          name: ${{needs.build_sdist.outputs.package_fullname}}
+          name: ${{needs.build-sdist.outputs.package-fullname}}
