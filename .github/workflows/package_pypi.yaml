@@ -1,9 +1,7 @@
 # Generate a distribution package for PyPI.
-# This is a reusable workflow that can be called
 
-
-name: Generate PyPI Package
-run-name: Generate distribution package for PyPI
+name: 'Generate PyPI Package'
+run-name: 'Generate distribution package for PyPI'
 
 on:
   workflow_dispatch:
@@ -22,10 +20,6 @@ on:
         description: 'Name of the package.'
         value: ${{jobs.get_package_metadata.outputs.package_name}}
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 defaults:
   run:
     shell: bash -l {0}
@@ -38,7 +32,7 @@ jobs:
       package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
       python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_publish_versions) }}
       operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
-      is_pure_python: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.is_pure_python) }}
+      cibuilds: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.cibuilds) }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
@@ -55,13 +49,13 @@ jobs:
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}" 
           echo "Python Versions: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}'" 
           echo "OS: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}'"
-          echo "Is Pure Python: '${{ fromJson(steps.get_metadata.outputs.json).package.is_pure_python }}'"
+          echo "cibuilds: '${{ toJson(fromJson(steps.get_metadata.outputs.json).package.cibuilds) }}'"
 
 
   build_sdist:
     name: 'Generate source distribution'
     outputs:
-      package_fullname: ${{steps.get_filename.outputs.filename}}
+      package_fullname: ${{steps.get_name.outputs.package_fullname}}
     runs-on: ubuntu-latest
     steps:
 
@@ -76,7 +70,7 @@ jobs:
           pipx run build --sdist --outdir dist/
 
       - name: 'Get package full name'
-        id: get_filename
+        id: get_name
         shell: python
         run: |
           import os
@@ -84,20 +78,20 @@ jobs:
           name = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
           print("Package full name:", name)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'filename={name}', file=fh)
+            print(f'package_fullname={name}', file=fh)
           
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
-          name: ${{steps.get_filename.outputs.filename}}
+          name: ${{steps.get_name.outputs.package_fullname}}
 
 
   build_wheel:
     name: 'Generate built distribution (pure Python)'
     needs: [get_package_metadata, build_sdist]
-    if: needs.get_package_metadata.outputs.is_pure_python == 'true'
+    if: needs.get_package_metadata.outputs.cibuilds == 'null'
     runs-on: ubuntu-latest
     steps:
 
@@ -121,7 +115,7 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: [get_package_metadata, build_sdist]
-    if: needs.get_package_metadata.outputs.is_pure_python == 'false'
+    if: needs.get_package_metadata.outputs.cibuilds != 'null'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
