@@ -73,7 +73,7 @@ jobs:
         python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
     env:
       OS: ${{ matrix.os }}
-      PYTHON: ${{ python-version }}
+      PYTHON: ${{ matrix.python-version }}
 
     steps:
       - name: 'Checkout repository'
