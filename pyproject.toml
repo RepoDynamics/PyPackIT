@@ -190,3 +190,6 @@ line-length = 100
 dynamic = ["version"]
 name = "template-package"
 readme = {file = "README.md", content-type = "text/markdown"}
+dependencies = [
+    "numpy"
+]
