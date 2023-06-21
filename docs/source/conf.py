@@ -458,7 +458,7 @@ html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
 
 html_sidebars: Dict[str, Union[List[str], str]] = {
     # "**": ["sidebar-nav-bs"],
-    "pages/news/**": [
+    "news/**": [
         'ablog/postcard.html',
         'ablog/recentposts.html',
         'ablog/tagcloud.html',
@@ -716,7 +716,7 @@ References
 blog_path: str = "news"
 blog_baseurl: str = f"https://{_data['docs']['readthedocs_name']}.readthedocs.io/"
 
-blog_post_pattern: list[str] = ["pages/news/posts/*.rst", "pages/news/posts/*.md"]
+blog_post_pattern: list[str] = ["news/posts/*.rst", "news/posts/*.md"]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
