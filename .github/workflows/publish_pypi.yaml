@@ -37,3 +37,11 @@ jobs:
         with:
           verbose: true
           print-hash: true
+
+  test:
+    name: 'Run test suits'
+    needs: publish_testpypi
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "pypi"
+      install-version: ${{ needs.get_package.outputs.package_version }}
