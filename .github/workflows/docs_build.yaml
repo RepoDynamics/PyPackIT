@@ -110,4 +110,4 @@ jobs:
         if: always()
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'docs/_build/html'
+          path: 'docs/_build/dirhtml'
