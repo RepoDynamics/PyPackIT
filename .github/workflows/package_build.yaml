@@ -15,13 +15,13 @@ on:
     outputs:
       artifact-name:
         description: 'Name of the uploaded artifact containing the distribution archive.'
-        value: ${{jobs.build_sdist.outputs.package_fullname}}
+        value: ${{jobs.build-sdist.outputs.artifact-name}}
       package-name:
         description: 'Name of the package.'
-        value: ${{jobs.get_package_metadata.outputs.package_name}}
+        value: ${{jobs.build-sdist.outputs.package-name}}
       package-version:
         description: 'Version of the package.'
-        value: ${{jobs.get_package_metadata.outputs.package_version}}
+        value: ${{jobs.build-sdist.outputs.package-version}}
 
 defaults:
   run:
@@ -58,8 +58,9 @@ jobs:
   build-sdist:
     name: 'Generate source distribution'
     outputs:
-      package_fullname: ${{steps.get_name.outputs.package-fullname}}
-      package_version: ${{steps.get_name.outputs.package-version}}
+      package-name: ${{steps.get_name.outputs.package-name}}
+      package-version: ${{steps.get_name.outputs.package-version}}
+      artifact-name: ${{steps.get_name.outputs.artifact-name}}
     runs-on: ubuntu-latest
     steps:
 
@@ -73,18 +74,20 @@ jobs:
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
-      - name: 'Get package full name'
+      - name: 'Get build name'
         id: get_name
         shell: python
         run: |
           import os
           from pathlib import Path
           fullname = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
-          ver = fullname.rsplit('-', 1)
-          print("Package full name:", fullname)
+          name, ver = fullname.rsplit('-', 1)
+          print("Artifact name:", fullname)
+          print("Package name:", name)
           print("Package version:", ver)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'package-fullname={fullname}', file=fh)
+            print(f'artifact-name={fullname}', file=fh)
+            print(f'package-name={name}', file=fh)
             print(f'package-version={ver}', file=fh)
           
 
@@ -92,7 +95,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
-          name: ${{steps.get_name.outputs.package-fullname}}
+          name: ${{steps.get_name.outputs.artifact-name}}
 
 
   build_wheel:
@@ -116,7 +119,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.whl
-          name: ${{needs.build-sdist.outputs.package-fullname}}
+          name: ${{needs.build-sdist.outputs.artifact-name}}
 
 
   build_wheels:
@@ -152,4 +155,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-          name: ${{needs.build-sdist.outputs.package-fullname}}
+          name: ${{needs.build-sdist.outputs.artifact-name}}
