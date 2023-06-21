@@ -29,10 +29,11 @@ on:
 jobs:
 
   echo:
-    name: 'Print inputs'
+    name: 'Echo inputs'
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: 'echo'
+        run: |
           echo 'install-source: ${{inputs.install-source}}'
           echo 'install-version: ${{inputs.install-version}}'
           echo 'json-filepath: ${{inputs.json-filepath}}'
