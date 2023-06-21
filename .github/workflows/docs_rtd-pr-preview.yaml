@@ -2,8 +2,8 @@
 # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
 # Ref: https://github.com/readthedocs/actions/tree/v1.1/preview
 
-name: 'ReadTheDocs Preview'
-run-name: 'Docs - PR'
+name: 'Docs - ReadTheDocs PR'
+run-name: 'Docs - ReadTheDocs PR'
 
 on:
   pull_request_target:
@@ -41,6 +41,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: readthedocs/actions/preview@v1
+      - name: 'Create preview'
+        uses: readthedocs/actions/preview@v1
         with:
           project-slug: ${{ needs.metadata.outputs.rtd_name }}

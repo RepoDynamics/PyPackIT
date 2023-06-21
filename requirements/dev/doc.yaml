@@ -17,7 +17,7 @@ dependencies:
   - sphinx-design
   - sphinx-copybutton
   - ablog
-  - librsvg
+  - librsvg  # for including SVG files in PDF build (done by latexmk)
   # Pip-only dependencies
   - pip:
     # Documentation

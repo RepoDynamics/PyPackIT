@@ -92,6 +92,7 @@ extensions: List[str] = [
     # For including SVG files in LaTeX
     #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
     #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
+    #   Note: Doesn't work on `latex_logo`.
     'sphinxcontrib.rsvgconverter',
 ]
 

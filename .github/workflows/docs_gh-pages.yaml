@@ -1,0 +1,52 @@
+# Deploy the documentation to GitHub Pages.
+
+name: 'Docs - GH Pages'
+run-name: 'Docs - GH Pages'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
+
+defaults:
+  run:
+    shell: micromamba-shell {0}
+
+jobs:
+
+  build:
+    name: 'Build docs'
+    uses: ./.github/workflows/docs_build.yaml
+
+  deploy:
+    # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+    # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
+    name: 'Deploy to GitHub Pages'
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: GitHub Pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Setup GitHub Pages'
+        # https://github.com/actions/configure-pages
+        uses: actions/configure-pages@v3
+        with:
+          enablement: true
+
+      - name: 'Deploy'
+        id: deployment
+        # https://github.com/actions/deploy-pages
+        uses: actions/deploy-pages@v2
+
+

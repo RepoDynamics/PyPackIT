@@ -1,20 +1,20 @@
-# Build the documentation with Sphinx, upload the builds as artifacts, and deploy to GitHub Pages.
+# Build the documentation with Sphinx and upload the builds as artifacts.
 
-name: Docs
-run-name: Docs
+name: 'Docs - Build'
+run-name: 'Docs - Build'
 
 on:
   push:
   pull_request:
+  workflow_call:
   workflow_dispatch:
-  release:
-    types: [ published ]
   schedule:
     - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
 
 defaults:
   run:
     shell: micromamba-shell {0}
+
 
 jobs:
 
@@ -28,7 +28,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 'Install requirements'
+      - name: 'Setup environment'
         # https://github.com/mamba-org/setup-micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
@@ -36,7 +36,8 @@ jobs:
           generate-run-shell: true
           init-shell: bash
 
-      - name: 'Install latexmk'
+      # To make PDF output, we need the latexmk package and some other plugins, which are not available via conda.
+      - name: 'Install extra requirements'
         run: |
           sudo apt-get update -y
           sudo apt-get install -y latexmk
@@ -45,15 +46,22 @@ jobs:
       - name: 'Install package'
         run: python -m pip install .
 
-      - name: 'Environment info'
-        shell: bash -el {0}
+      - name: 'Display conda environment'
+        run: micromamba list
+
+      - name: 'Display pip environment'
+        run: pip list
+
+      - name: 'Display non-Python packages'
         run: |
-          echo "Installed Packages (conda):"
-          micromamba list
-          echo "Installed Packages (pip):"
-          pip list
-          ls -a
-          rsvg-convert --help
+          echo "latexmk Version:"
+          latexmk --version
+          echo "rsvg Version:"
+          rsvg-convert --version
+
+      - name: 'Display directory tree'
+        shell: bash -el {0}
+        run: ls -a
 
       - name: 'Build HTML'
         if: always()
@@ -63,6 +71,7 @@ jobs:
 
       - name: 'Build LaTeX'
         if: always()
+        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
         run: |
           cd docs
           make latex
@@ -74,7 +83,7 @@ jobs:
           cd docs/_build/latex
           LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
 
-      - name: 'Upload build'
+      - name: 'Upload builds'
         if: always()
         uses: actions/upload-artifact@v3
         with:
@@ -94,30 +103,3 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'docs/_build/html'
-
-  deploy:
-    # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
-    # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
-    name: 'Deploy to GitHub Pages'
-    needs: build
-#    if: github.event_name == 'push'
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: GitHub Pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Setup GitHub Pages'
-        # https://github.com/actions/configure-pages
-        uses: actions/configure-pages@v3
-        with:
-          enablement: true
-      - name: 'Deploy'
-        id: deployment
-        # https://github.com/actions/deploy-pages
-        uses: actions/deploy-pages@v2
-
-
