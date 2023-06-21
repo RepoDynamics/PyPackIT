@@ -42,7 +42,7 @@ jobs:
 
   test:
     name: 'Run test suits'
-    needs: publish_testpypi
+    needs: publish-testpypi
     uses: ./.github/workflows/package_test.yaml
     with:
       install-source: "testpypi"
