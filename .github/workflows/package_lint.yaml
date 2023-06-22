@@ -4,10 +4,8 @@ name: Lint
 run-name: Test lint
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
-
+  workflow_call:
 
 defaults:
   run:
