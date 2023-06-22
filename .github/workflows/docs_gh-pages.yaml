@@ -1,7 +1,7 @@
 # Deploy the documentation to GitHub Pages.
 
 name: 'Docs - GH Pages'
-run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref}}'
+run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref_name}}'
 
 on:
   workflow_dispatch:
