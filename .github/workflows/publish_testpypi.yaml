@@ -4,9 +4,7 @@ name: 'Package - Publish - TestPyPI'
 run-name: 'Package: Publish on TestPyPI from ${{github.ref_name}}'
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_call:
 
 
 jobs:
