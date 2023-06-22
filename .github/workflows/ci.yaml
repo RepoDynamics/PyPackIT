@@ -33,5 +33,6 @@ jobs:
     needs: local-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: ./.github/workflows/publish_testpypi.yaml
-
+    permissions:
+      id-token: write
 
