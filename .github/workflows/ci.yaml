@@ -14,12 +14,6 @@ on:
 
 jobs:
 
-  echo_git:
-    name: echo github
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{toJson(github)}}"
-
   lint:
     name: 'Lint package'
     if: always()
