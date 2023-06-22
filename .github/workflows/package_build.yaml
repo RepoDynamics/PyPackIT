@@ -25,7 +25,7 @@ on:
 
 defaults:
   run:
-    shell: bash -l {0}
+    shell: bash
 
 jobs:
 
@@ -45,7 +45,7 @@ jobs:
         id: get
         uses: ./.github/actions/get-metadata
         with:
-          json_filepath: ${{inputs.json-filepath}}
+          json-filepath: ${{inputs.json-filepath}}
 
       - name: 'Print extracted data'
         run: |
@@ -139,7 +139,6 @@ jobs:
           fetch-depth: 0
 
       - name: 'Print system info'
-        shell: bash
         run: |
           uname -a
           df -h
