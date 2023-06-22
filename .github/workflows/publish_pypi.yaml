@@ -5,6 +5,16 @@ run-name: 'Package: Publish on PyPI from ${{github.ref}}'
 
 on:
   workflow_call:
+    inputs:
+      artifact-name:
+        description: "Name of the artifact containing the distribution package."
+        required: true
+        type: string
+
+      package-name:
+        description: "Name of the package on TestPyPI."
+        required: true
+        type: string
 
 
 jobs:
