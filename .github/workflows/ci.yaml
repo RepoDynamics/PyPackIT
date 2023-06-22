@@ -20,6 +20,11 @@ jobs:
     steps:
       - run: echo "${{toJson(github)}}"
 
+  lint:
+    name: 'Lint package'
+    if: always()
+    uses: ./.github/workflows/package_lint.yaml
+
   build-package:
     name: 'Build distribution package'
     if: always()
@@ -53,7 +58,7 @@ jobs:
 
   publish-testpypi:
     name: 'Publish on TestPyPI'
-    needs: [test-local, build-package]
+    needs: [build-package, test-local]
     if: | 
       always() && 
       needs.test-local.result == 'success' &&
@@ -69,11 +74,12 @@ jobs:
 
   publish-pypi:
     name: 'Publish on PyPI'
-    needs: [test-local, build-package]
+    needs: [lint, build-package, test-local]
     if: |
       always() &&
-      needs.test-local.result == 'success' &&
       needs.build-package.result == 'success' &&
+      needs.test-local.result == 'success' &&
+      needs.lint.result == 'success' &&
       github.event_name == 'release'
     uses: ./.github/workflows/publish_pypi.yaml
     permissions:
