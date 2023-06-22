@@ -1,7 +1,7 @@
 # Generate a distribution package for PyPI.
 
-name: 'Generate PyPI Package'
-run-name: 'Generate distribution package for PyPI'
+name: 'Package - Build'
+run-name: 'Package: Build from ${{github.ref}}'
 
 on:
   workflow_dispatch:
