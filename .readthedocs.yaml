@@ -24,7 +24,7 @@ python:
 # Build documentation with Sphinx
 sphinx:
    configuration: docs/source/conf.py
-   builder: html
+   builder: dirhtml
    fail_on_warning: false
 
 # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
