@@ -5,6 +5,16 @@ run-name: 'Package: Publish on TestPyPI from ${{github.ref_name}}'
 
 on:
   workflow_call:
+    inputs:
+      artifact-name:
+        description: "Name of the artifact containing the distribution package."
+        required: true
+        type: string
+
+      package-name:
+        description: "Name of the package on TestPyPI."
+        required: true
+        type: string
 
 
 jobs:
@@ -14,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/project/${{ needs.get-package.outputs.package-name }}
+      url: https://test.pypi.org/project/${{ inputs.package-name }}
     permissions:
       id-token: write
 
@@ -22,7 +32,7 @@ jobs:
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.get-package.outputs.artifact-name }}
+          name: ${{ inputs.artifact-name }}
           path: dist
 
       - name: 'Display file tree'
