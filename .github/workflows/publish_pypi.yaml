@@ -1,7 +1,7 @@
 # Publish the package on PyPI
 
-name: 'Publish - PyPI'
-run-name: Publish package on PyPI
+name: 'Package - Publish - PyPI'
+run-name: 'Package: Publish on PyPI from ${{github.ref}}'
 
 on:
   release:
