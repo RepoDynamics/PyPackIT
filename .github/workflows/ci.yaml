@@ -26,6 +26,10 @@ jobs:
     with:
       install-source: "local"
 
+  build-docs:
+    name: 'Build documentation with Sphinx'
+    uses: ./.github/workflows/docs_build.yaml
+
   build-package:
     name: 'Build distribution package'
     uses: ./.github/workflows/package_build.yaml
