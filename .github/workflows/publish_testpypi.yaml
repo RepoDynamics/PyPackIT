@@ -40,8 +40,8 @@ jobs:
           print-hash: true
           skip-existing: true
 
-      # Wait for 3 min before running the next job, to make sure package is registered at TestPyPI
-      - name: 'Wait 3 min...'
+      # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+      - name: 'Wait 5 min...'
         run: sleep 300s
 
   test:
