@@ -6,6 +6,15 @@ run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref_name}}'
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      artifact-name:
+        description: >-
+          Name of the artifact containing the HTML files. 
+          This artifact must have been created in the caller workflow 
+          before running this workflow.
+        default: 'Docs - HTML Build (GH Pages)'
+        required: false
+        type: string
 
 
 jobs:
@@ -34,7 +43,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: 'Docs - HTML Build (GH Pages)'
-          path: github-pages
 
       - name: 'Display file tree'
         run: find .
@@ -44,5 +52,5 @@ jobs:
         # https://github.com/actions/deploy-pages
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: github-pages
+          artifact_name: artifact
 
