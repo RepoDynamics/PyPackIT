@@ -29,6 +29,9 @@ jobs:
       id-token: write
 
     steps:
+      - name: 'Display file tree'
+        run: find .
+
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
