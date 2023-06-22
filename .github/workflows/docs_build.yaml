@@ -93,9 +93,9 @@ jobs:
       - name: 'Order builds'
         run : |
           mv docs/_build/dirhtml docs/_build/html
-          mkdir docs/_build/pdf/log
-          mv -r docs/_build/latex/aux docs/_build/pdf
-          mv -r docs/_build/latex/pdf/* docs/_build/pdf/log
+          mkdir -p docs/_build/pdf/log
+          mv docs/_build/latex/aux docs/_build/pdf
+          mv docs/_build/latex/pdf/* docs/_build/pdf/log
           mv docs/_build/pdf/log/*.pdf docs/_build/pdf
 
       - name: 'Display ordered builds'
