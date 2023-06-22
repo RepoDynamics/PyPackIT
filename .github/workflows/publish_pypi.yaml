@@ -4,15 +4,10 @@ name: 'Package - Publish - PyPI'
 run-name: 'Package: Publish on PyPI from ${{github.ref}}'
 
 on:
-  release:
-    types: [published]
+  workflow_call:
 
 
 jobs:
-
-  get_package:
-    name: 'Generate distribution package'
-    uses: ./.github/workflows/package_build.yaml
 
   publish_pypi:
     name: 'Publish distribution to PyPI'
@@ -37,15 +32,3 @@ jobs:
         with:
           verbose: true
           print-hash: true
-
-      # Wait for 5 min before running the next job, to make sure package is registered at PyPI
-      - name: 'Wait 5 min...'
-        run: sleep 300s
-
-  test:
-    name: 'Run test suits'
-    needs: publish_testpypi
-    uses: ./.github/workflows/package_test.yaml
-    with:
-      install-source: "pypi"
-      install-version: ${{ needs.get_package.outputs.package_version }}
