@@ -24,11 +24,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 'Display file tree'
+        run: find .
+
       - name: 'Setup GitHub Pages'
         # https://github.com/actions/configure-pages
         uses: actions/configure-pages@v3
         with:
           enablement: true
+
+      - name: 'Display file tree'
+        run: find .
 
       - name: 'Deploy'
         id: deployment
