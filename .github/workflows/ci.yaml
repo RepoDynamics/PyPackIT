@@ -26,4 +26,12 @@ jobs:
     with:
       install-source: "local"
 
-  
+
+
+  publish-testpypi:
+    name: 'Publish on TestPyPI'
+    needs: local-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/publish_testpypi.yaml
+
+
