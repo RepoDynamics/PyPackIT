@@ -1,12 +1,14 @@
 # Continuous Integration pipeline
 
 name: CI/CD
-run-name: Continuous integration and deployment
+run-name: 'CI/CD: Triggered by ${{github.event_name}} at ${{github.ref}}'
 
 on:
   push:
   pull_request:
   workflow_dispatch:
+  release:
+    types: [published]
   schedule:
     - cron: '0 0 * * *'
 
@@ -18,3 +20,10 @@ jobs:
     steps:
       - run: echo "${{toJson(github)}}"
 
+  local-test:
+    name: 'Install and test from ${{github.ref}}'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "local"
+
+  
