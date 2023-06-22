@@ -77,7 +77,7 @@ jobs:
       - name: 'Run mypy'
         run: |
           mkdir -p _local_reports/mypy
-          mypy ${{ needs.metadata.outputs.package_name }} --config-file pyproject.toml
+          mypy ./src --config-file pyproject.toml
 
       - name: 'Upload reports'
         if: always()
@@ -147,7 +147,7 @@ jobs:
       - name: 'Run Pylint'
         run: |
           mkdir -p _local_reports/pylint/diagrams
-          pylint ${{ needs.metadata.outputs.package_name }} --rcfile pyproject.toml
+          pylint ./src --rcfile pyproject.toml
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
@@ -202,7 +202,7 @@ jobs:
         uses: isort/isort-action@master
         id: run_isort
         with:
-          sort-paths: ${{ needs.metadata.outputs.package_name }}
+          sort-paths: ./src
           configuration: "--settings-path pyproject.toml --check-only --diff"
 #          requirements-files: "requirements.txt requirements-test.txt"
 
@@ -236,7 +236,7 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--check --diff --color --config pyproject.toml"
-          src: ${{ needs.metadata.outputs.package_name }}
+          src: ./src
           jupyter: true
 
       - name: Capture console output
