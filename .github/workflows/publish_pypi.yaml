@@ -38,9 +38,9 @@ jobs:
           verbose: true
           print-hash: true
 
-      # Wait for 1 min before running the next job, to make sure package is registered at TestPyPI
-      - name: 'Wait a minute'
-        run: sleep 60s
+      # Wait for 3 min before running the next job, to make sure package is registered at PyPI
+      - name: 'Wait 3 min...'
+        run: sleep 180s
 
   test:
     name: 'Run test suits'
