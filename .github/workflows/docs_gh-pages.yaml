@@ -5,26 +5,14 @@ run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref_name}}'
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'main'
-    tags:
-      - 'v*'
-  schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays at 00:00 UTC
 
 
 jobs:
-
-  build:
-    name: 'Build docs'
-    uses: ./.github/workflows/docs_build.yaml
 
   deploy:
     # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
     # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
     name: 'Deploy to GitHub Pages'
-    needs: build
     permissions:
       contents: read
       pages: write
