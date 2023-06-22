@@ -5,6 +5,7 @@ run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref_name}}'
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 
 jobs:
