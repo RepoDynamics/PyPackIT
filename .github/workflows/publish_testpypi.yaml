@@ -25,6 +25,9 @@ jobs:
           name: ${{ needs.get-package.outputs.artifact-name }}
           path: dist
 
+      - name: 'Display file tree'
+        run: find .
+
       - name: 'Upload to TestPyPI'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
