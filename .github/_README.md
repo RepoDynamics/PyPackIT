@@ -1,6 +1,7 @@
 # GitHub-Specific Files
 This directory contains files that are only relevant to the GitHub repository.
 The following is a description of each file in this directory.
+These are mostly [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file).
 For the description of files in each subdirectory see the corresponding subdirectory.
 
 ## [Code of Conduct](./CODE_OF_CONDUCT.md)
@@ -31,6 +32,11 @@ links to external documentation, mailing lists, and code of conduct.
 ## Funding
 https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
 
+## Security Policy
+The [security policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)
+gives instructions for how to report a security vulnerability in the project or repository.
+
+
 ## Support Resources
 The [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project)
 lets people know about ways to get help with the project.
@@ -40,6 +46,3 @@ To be recognized by GitHub, it must be stored in a file named
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`).
 The [SUPPORT.md](./SUPPORT.md) file in this directory contains ...
 
-## Security Policy
-The [security policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)
-gives instructions for how to report a security vulnerability in the project or repository.
