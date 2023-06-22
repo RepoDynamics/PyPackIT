@@ -40,7 +40,7 @@ jobs:
   build-docs:
     name: 'Build documentation with Sphinx'
     if: always()
-    uses: ./.github/workflows/reusable/docs_build.yaml
+    uses: ./.github/workflows/docs_build.yaml
 
   deploy-docs:
     name: 'Deploy docs to GitHub Pages'
@@ -50,7 +50,7 @@ jobs:
       needs.build-docs.result == 'success' &&
       github.event_name == 'push' && 
       (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
-    uses: ./.github/workflows/reusable/docs_gh-pages.yaml
+    uses: ./.github/workflows/docs_gh-pages.yaml
     permissions:
       contents: read
       pages: write
