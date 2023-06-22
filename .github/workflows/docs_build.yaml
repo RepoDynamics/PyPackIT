@@ -92,14 +92,14 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: docs/_build/*
-          name: sphinx-build
+          name: 'Docs - All Builds'
 
       - name: 'Upload PDF'
         if: always()
         uses: actions/upload-artifact@v3
         with:
           path: docs/_build/latex/pdf/*.pdf
-          name: pdf
+          name: 'Docs - PDF Build'
 
       - name: 'Upload GitHub Pages artifact'
         # https://github.com/actions/upload-pages-artifact
@@ -107,3 +107,4 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'docs/_build/dirhtml'
+          name: 'Docs - HTML Build (GH Pages)'
