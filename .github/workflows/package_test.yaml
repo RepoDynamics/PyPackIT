@@ -136,7 +136,7 @@ jobs:
           ulimit -a
 
       - name: 'Run dependency tests'
-        run: pipreqs ./src
+        run: pipreqs ./src --debug --print
 
       - name: 'Run unit tests'
         run: |
