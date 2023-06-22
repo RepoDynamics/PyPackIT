@@ -64,6 +64,12 @@ jobs:
       install-source: "testpypi"
       install-version: ${{ needs.build-package.outputs.package-version }}
 
-
+  test-pypi:
+    name: 'Install and test from PyPI'
+    needs: [ build-package, wait-for-publish, publish-pypi ]
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "pypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
 
 
