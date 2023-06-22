@@ -1,7 +1,7 @@
 # Install the package.
 
-name: 'Install Package'
-run-name: 'Install Package'
+name: 'Package - Test'
+run-name: 'Package: Install and test from ${{github.ref}}'
 
 on:
   workflow_dispatch:
