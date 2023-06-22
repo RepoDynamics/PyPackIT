@@ -30,6 +30,17 @@ jobs:
     name: 'Build documentation with Sphinx'
     uses: ./.github/workflows/docs_build.yaml
 
+  deploy-docs:
+    name: 'Deploy docs to GitHub Pages'
+    needs: build-docs
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    uses: ./.github/workflows/docs_gh-pages.yaml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+
   build-package:
     name: 'Build distribution package'
     uses: ./.github/workflows/package_build.yaml
@@ -58,7 +69,7 @@ jobs:
 
   wait-for-publish:
     # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
-    name: 'Wait for package'
+    name: 'Wait for (Test)PyPI'
     needs: [publish-pypi, publish-testpypi]
     if: always() && ( needs.publish-pypi.result == 'success' || needs.publish-testpypi.result == 'success' )
     runs-on: ubuntu-latest
