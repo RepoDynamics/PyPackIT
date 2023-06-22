@@ -1,7 +1,7 @@
 # Publish the package on TestPyPI
 
-name: 'Publish - TestPyPI'
-run-name: 'Publish - TestPyPI'
+name: 'Package - Publish - TestPyPI'
+run-name: 'Package: Publish on TestPyPI from ${{github.ref_name}}'
 
 on:
   push:
