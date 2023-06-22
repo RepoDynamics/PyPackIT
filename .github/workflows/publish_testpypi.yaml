@@ -9,10 +9,6 @@ on:
 
 jobs:
 
-  get-package:
-    name: 'Generate distribution package'
-    uses: ./.github/workflows/package_build.yaml
-
   publish-testpypi:
     name: 'Publish distribution to TestPyPI'
     needs: get-package
@@ -37,15 +33,3 @@ jobs:
           verbose: true
           print-hash: true
           skip-existing: true
-
-      # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
-      - name: 'Wait 5 min...'
-        run: sleep 300s
-
-  test:
-    name: 'Run test suits'
-    needs: [publish-testpypi, get-package]
-    uses: ./.github/workflows/package_test.yaml
-    with:
-      install-source: "testpypi"
-      install-version: ${{ needs.get-package.outputs.package-version }}
