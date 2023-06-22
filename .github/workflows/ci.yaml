@@ -1,0 +1,20 @@
+# Continuous Integration pipeline
+
+name: CI/CD
+run-name: Continuous integration and deployment
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+
+  echo_git:
+    name: echo github
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{github}}
+
