@@ -1,4 +1,4 @@
-# Install the package.
+# Install the package from a given source and run unit tests.
 
 name: 'Package - Test'
 run-name: 'Package: Install and test from ${{github.ref}}'
@@ -68,9 +68,6 @@ jobs:
     name: 'Test (Py ${{ matrix.python-version }}, ${{ matrix.os }})'
     needs: metadata
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -79,6 +76,9 @@ jobs:
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: 'Checkout repository'
@@ -90,6 +90,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: Display Python Version
+        run: python -c "import sys; print(sys.version)"
 
       - name: 'Update pip'
         run: |
@@ -110,15 +113,20 @@ jobs:
         if: inputs.install-source == 'pypi'
         run: python -m pip install ${{needs.metadata.outputs.package-name}}==${{inputs.install-version}}
 
+      - name: 'Test import package'
+        shell: python
+        run: |
+          import ${{ needs.metadata.outputs.package-name }} as pkg
+          print(pkg.__version__)
+
       - name: 'Install test dependencies'
         run: |
-          python -m pip install pytest pytest-cov
+          python -m pip install --upgrade pytest pytest-cov pipreqs
 
       - name: 'Echo environment'
         run: python -m pip list
 
       - name: 'Print System Info'
-        shell: bash
         run: |
           echo "OS and hardware info:"
           uname -a
@@ -126,6 +134,9 @@ jobs:
           df -h
           echo "Available system resources:"
           ulimit -a
+
+      - name: 'Run dependency tests'
+        run: pipreqs ./src
 
       - name: 'Run unit tests'
         run: |
