@@ -42,7 +42,7 @@ jobs:
       - name: 'Download gh-pages artifact'
         uses: actions/download-artifact@v3
         with:
-          name: 'Docs - HTML Build (GH Pages)'
+          name: ${inputs.artifact-name}}
 
       - name: 'Display file tree'
         run: find .
@@ -52,5 +52,5 @@ jobs:
         # https://github.com/actions/deploy-pages
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: artifact
+          artifact_name: artifact.tar
 
