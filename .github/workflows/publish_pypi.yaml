@@ -11,7 +11,6 @@ jobs:
 
   publish_pypi:
     name: 'Publish distribution to PyPI'
-    needs: get_package
     runs-on: ubuntu-latest
     environment:
       name: PyPI
