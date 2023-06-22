@@ -20,19 +20,50 @@ jobs:
     steps:
       - run: echo "${{toJson(github)}}"
 
-  local-test:
+  test-local:
     name: 'Install and test from ${{github.ref}}'
     uses: ./.github/workflows/package_test.yaml
     with:
       install-source: "local"
 
-
+  build-package:
+    name: 'Build distribution package'
+    uses: ./.github/workflows/package_build.yaml
 
   publish-testpypi:
     name: 'Publish on TestPyPI'
-    needs: local-test
+    needs: [test-local, build-package]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: ./.github/workflows/publish_testpypi.yaml
     permissions:
       id-token: write
+
+  publish-pypi:
+    name: 'Publish on PyPI'
+    needs: [test-local, build-package]
+    if: github.event_name == 'release'
+    uses: ./.github/workflows/publish_pypi.yaml
+    permissions:
+      id-token: write
+
+  wait-for-publish:
+    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+    name: 'Wait for package'
+    needs: [publish-pypi, publish-testpypi]
+    if: always() && ( needs.publish-pypi.result == 'success' || needs.publish-testpypi.result == 'success' )
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Waiting ...'
+        run: sleep 300s
+
+  test-testpypi:
+    name: 'Install and test from TestPyPI'
+    needs: [build-package, wait-for-publish, publish-testpypi]
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "testpypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
+
+
+
 
