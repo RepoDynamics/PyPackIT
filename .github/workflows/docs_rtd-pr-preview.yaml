@@ -3,7 +3,7 @@
 # Ref: https://github.com/readthedocs/actions/tree/v1.1/preview
 
 name: 'Docs - ReadTheDocs PR'
-run-name: 'Docs - ReadTheDocs PR'
+run-name: 'Docs: Build ReadTheDocs preview for ${{github.ref}}'
 
 on:
   pull_request_target:
