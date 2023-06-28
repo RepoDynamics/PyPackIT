@@ -80,14 +80,14 @@ jobs:
       - name: 'Order report files'
         if: always()
         run: |
-          mkdir -p lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv _local_reports/mypy lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mkdir -p artifacts/lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mv _local_reports/mypy/* lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
 
       - name: 'Upload reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: lint_reports
+          path: artifacts
           name: Lint-Reports
 
 
@@ -123,12 +123,14 @@ jobs:
       - name: 'Install requirements'
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt update && sudo apt install -y libenchant-2-2
+              sudo apt update
+              sudo apt install -y libenchant-2-2
               sudo apt install -y graphviz
           elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "Requirement already satisfied."
           elif [ "$RUNNER_OS" == "macOS" ]; then
               brew update
+              brew upgrade
               brew install enchant
           else
               echo "$RUNNER_OS not supported"
