@@ -148,7 +148,7 @@ jobs:
           elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "Requirement already satisfied."
           elif [ "$RUNNER_OS" == "macOS" ]; then
-              brew update
+              brew update-reset
               brew install enchant
           else
               echo "$RUNNER_OS not supported"
@@ -232,7 +232,7 @@ jobs:
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ fromJson(needs.metadata.outputs.python-versions)[-1] }}
 
       - name: 'Intall dependencies'
         run: |
@@ -278,23 +278,10 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      - name: Run black
+      - name: 'Run black'
         id: black
         uses: psf/black@stable
         with:
           options: "--check --diff --color --config pyproject.toml"
           src: ./src
           jupyter: true
-
-      - name: Capture console output
-        if: always()
-        run: |
-          echo "${{ toJson(steps) }}" > steps.json
-          jq -r '.["black"].logs' steps.json | base64 --decode > output.txt
-
-      - name: Upload artifact
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: Black Reports
-          path: output.txt
