@@ -64,6 +64,7 @@ jobs:
       id-token: write
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
+      package-version: ${{ needs.build-package.outputs.package-version }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
       platform-name: 'testpypi'
 
@@ -81,6 +82,7 @@ jobs:
       id-token: write
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
+      package-version: ${{ needs.build-package.outputs.package-version }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
       platform-name: 'pypi'
 
