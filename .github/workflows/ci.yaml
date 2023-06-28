@@ -12,6 +12,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+
 jobs:
 
   lint:
@@ -19,10 +20,12 @@ jobs:
     if: always()
     uses: ./.github/workflows/package_lint.yaml
 
+
   build-package:
     name: 'Build distribution package'
     if: always()
     uses: ./.github/workflows/package_build.yaml
+
 
   test-local:
     name: 'Install and test from ${{github.ref}}'
@@ -31,10 +34,12 @@ jobs:
     with:
       install-source: "local"
 
+
   build-docs:
     name: 'Build documentation with Sphinx'
     if: always()
     uses: ./.github/workflows/docs_build.yaml
+
 
   deploy-docs:
     name: 'Deploy docs to GitHub Pages'
@@ -49,6 +54,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
 
   publish-testpypi:
     name: 'Publish on TestPyPI'
@@ -68,14 +74,41 @@ jobs:
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
       platform-name: 'testpypi'
 
+
+  wait-for-testpypi:
+    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+    name: 'Wait for TestPyPI'
+    needs: publish-testpypi
+    if: |
+      always() && 
+      needs.publish-testpypi.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Waiting ...'
+        run: sleep 300s
+
+
+  test-testpypi:
+    name: 'Install and test from TestPyPI'
+    needs: [ build-package, wait-for-testpypi, publish-testpypi ]
+    if: |
+      always() &&
+      needs.publish-testpypi.result == 'success'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "testpypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
+
+
   publish-pypi:
     name: 'Publish on PyPI'
-    needs: [lint, build-package, test-local]
+    needs: [lint, build-package, test-local, test-testpypi]
     if: |
       always() &&
       needs.build-package.result == 'success' &&
       needs.test-local.result == 'success' &&
       needs.lint.result == 'success' &&
+      needs.test-testpypi.result == 'success' &&
       github.event_name == 'release'
     uses: ./.github/workflows/publish_pypi.yaml
     permissions:
@@ -86,32 +119,23 @@ jobs:
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
       platform-name: 'pypi'
 
-  wait-for-publish:
+
+  wait-for-pypi:
     # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
-    name: 'Wait for (Test)PyPI'
-    needs: [publish-pypi, publish-testpypi]
+    name: 'Wait for PyPI'
+    needs: publish-pypi
     if: |
       always() && 
-      ( needs.publish-pypi.result == 'success' || needs.publish-testpypi.result == 'success' )
+      needs.publish-pypi.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: 'Waiting ...'
         run: sleep 300s
 
-  test-testpypi:
-    name: 'Install and test from TestPyPI'
-    needs: [build-package, wait-for-publish, publish-testpypi]
-    if: |
-      always() &&
-      needs.publish-testpypi.result == 'success'
-    uses: ./.github/workflows/package_test.yaml
-    with:
-      install-source: "testpypi"
-      install-version: ${{ needs.build-package.outputs.package-version }}
-
+  
   test-pypi:
     name: 'Install and test from PyPI'
-    needs: [ build-package, wait-for-publish, publish-pypi ]
+    needs: [ build-package, wait-for-pypi, publish-pypi ]
     if: |
       always() &&
       needs.publish-pypi.result == 'success'
