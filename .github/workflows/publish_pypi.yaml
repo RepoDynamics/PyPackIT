@@ -29,7 +29,7 @@ jobs:
     name: 'Publish on ${{inputs.platform}}'
     runs-on: ubuntu-latest
     environment:
-      name: ${{ fromJSON("{'pypi':'PyPI','testpypi':'TestPyPI'}")[inputs.platform] }}
+      name: ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}
       url: ${{ fromJSON("{'pypi':'https://pypi.org/project/${{ inputs.package-name }}','testpypi':'https://test.pypi.org/project/${{ inputs.package-name }}'}")[inputs.platform] }}
 
     permissions:
