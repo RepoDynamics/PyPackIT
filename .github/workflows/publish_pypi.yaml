@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
           echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy","testpypi":"https://test.pypi.org/legacy"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
+          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy/","testpypi":"https://test.pypi.org/legacy/"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
 
       - name: 'Generate summary'
         run: |
