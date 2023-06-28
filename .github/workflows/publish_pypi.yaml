@@ -87,7 +87,7 @@ jobs:
           echo "::endgroup::"
 
   publish:
-    name: 'Publish on ${{needs.process-inputs.outputs.env-name}}'
+    name: 'Publish on ${{needs.process-inputs.outputs.environment-name}}'
     needs: process-inputs
     runs-on: ubuntu-latest
     environment:
@@ -105,7 +105,7 @@ jobs:
       - name: 'Display file tree'
         run: find .
 
-      - name: 'Upload package to ${{needs.process-inputs.outputs.env-name}}'
+      - name: 'Upload package to ${{needs.process-inputs.outputs.environment-name}}'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: ${{ needs.process-inputs.outputs.repository-url }}
