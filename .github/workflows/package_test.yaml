@@ -126,11 +126,14 @@ jobs:
         run: |
           python -m pip install --upgrade pytest pytest-cov pipreqs
 
-      - name: 'Echo environment'
-        run: python -m pip list
-
-      - name: 'Print system info'
+      - name: 'Display info'
         run: |
+          echo "::group::Python version"
+          python -c "import sys; print(sys.version)"
+          echo "::endgroup::"
+          echo "::group::pip list"
+          python -m pip list
+          echo "::endgroup::"
           echo "::group::OS and hardware info"
           uname -a
           echo "::endgroup::"
@@ -147,9 +150,6 @@ jobs:
           find .
           echo "::endgroup::"
 
-      - name: 'Display file tree'
-        run: find .
-
       - name: 'Run dependency tests'
         run: pipreqs ./src --debug --print
 
@@ -164,7 +164,7 @@ jobs:
         # https://github.com/codecov/codecov-action
         uses: codecov/codecov-action@v3.1.4
         with:
-          fail_ci_if_error: true
+          fail_ci_if_error: false
           verbose: true
           env_vars: OS,PYTHON
       
