@@ -59,12 +59,13 @@ jobs:
       needs.build-package.result == 'success' &&
       github.event_name == 'push' && 
       github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/publish_testpypi.yaml
+    uses: ./.github/workflows/publish_pypi.yaml
     permissions:
       id-token: write
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      platform: 'testpypi'
 
   publish-pypi:
     name: 'Publish on PyPI'
@@ -81,6 +82,7 @@ jobs:
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      platform: 'pypi'
 
   wait-for-publish:
     # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
