@@ -78,6 +78,7 @@ jobs:
           mypy ./src --config-file pyproject.toml
 
       - name: 'Order report files'
+        if: always()
         run: |
           mv _local_reports/mypy lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
 
