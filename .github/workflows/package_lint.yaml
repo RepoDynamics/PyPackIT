@@ -67,10 +67,15 @@ jobs:
         run: |
           mkdir -p _local_reports/mypy
           mypy ./src --config-file pyproject.toml
+
+      - name: 'Move reports'
+        if: always()
+        run: |
           mkdir -p artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
           mv _local_reports/mypy/* artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
 
       - name: 'Display info'
+        if: always()
         run: |
           echo "::group::Python version"
           python -c "import sys; print(sys.version)"
@@ -158,17 +163,21 @@ jobs:
         run: |
           mkdir -p _local_reports/pylint/diagrams
           pylint ./src --rcfile pyproject.toml
-          mkdir -p artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
-
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
           pyreverse ${{ needs.metadata.outputs.package-name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
+
+      - name: 'Move reports'
+        if: always()
+        run: |
+          mkdir -p artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
           mv _local_reports/pylint/* artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
 
       - name: 'Display info'
+        if: always()
         run: |
           echo "::group::Python version"
           python -c "import sys; print(sys.version)"
