@@ -77,13 +77,17 @@ jobs:
           mkdir -p _local_reports/mypy
           mypy ./src --config-file pyproject.toml
 
+      - name: 'Order report files'
+        run: |
+          mv _local_reports/mypy lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
+
       - name: 'Upload reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
           path: |
-            _local_reports/mypy/*
-          name: mypy_${{ matrix.python-version }}_${{ matrix.os }}
+            lint_reports/*
+          name: Lint-Reports
 
 
   pylint:
