@@ -11,6 +11,7 @@ run-name: >-
 on:
   workflow_call:
     inputs:
+
       artifact-name:
         description: |
           Name of the artifact containing the distribution package.
@@ -35,12 +36,6 @@ on:
 
 jobs:
 
-  display-inputs:
-    name: 'Display workflow inputs'
-    runs-on: ubuntu-latest
-    steps:
-
-
   process-inputs:
     name: 'Process inputs'
     runs-on: ubuntu-latest
@@ -49,12 +44,14 @@ jobs:
       env-url: ${{ steps.environment.outputs.url }}
       repo-url: ${{ steps.environment.outputs.repo-url }}
     steps:
+
       - name: 'Calculate deployment environment data'
         id: environment
         run: |
           echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
           echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}" >> $GITHUB_OUTPUT
           echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy","testpypi":"https://test.pypi.org/legacy"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
+
       - name: 'Generate summary'
         run: |
           echo "### Inputs:" >> $GITHUB_STEP_SUMMARY
