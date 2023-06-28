@@ -16,9 +16,9 @@ jobs:
   metadata:
     name: 'Load package metadata'
     outputs:
-      package_name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
-      python_versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
-      operating_systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
+      package-name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
+      python-versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
+      operating-systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
@@ -28,7 +28,7 @@ jobs:
         id: get_metadata
         uses: ./.github/actions/get-metadata
 
-      - name: 'Output metadata'
+      - name: 'Display metadata'
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}"
           echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" 
@@ -36,14 +36,14 @@ jobs:
 
 
   mypy:
-    name: 'mypy (Py ${{ matrix.python-version }}, ${{ matrix.os }})'
+    name: 'mypy (${{ matrix.os }}, python ${{ matrix.python-version }})'
     needs: metadata
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
 
     steps:
       - name: 'Checkout repository'
@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: artifacts
-          name: Lint-Reports
+          name: lint
 
 
   pylint:
@@ -98,8 +98,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating_systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
 
     steps:
       - name: 'Checkout repository'
@@ -153,20 +153,22 @@ jobs:
         run: |
           mkdir -p _local_reports/pylint/diagrams
           pylint ./src --rcfile pyproject.toml
+          mkdir -p artifacts/lint_reports/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mv _local_reports/pylint/* artifacts/lint_reports/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          pyreverse ${{ needs.metadata.outputs.package_name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
+          pyreverse ${{ needs.metadata.outputs.package-name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
 
       - name: 'Upload Pylint reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: |
-            _local_reports/pylint/*
-          name: pylint_${{ matrix.python-version }}_${{ matrix.os }}
+          path: _local_reports/pylint/*
+          name: lint
 
       - name: 'Upload diagrams'
         if: always()
@@ -216,7 +218,7 @@ jobs:
         # Action: https://github.com/marketplace/actions/write-file
         uses: DamianReeves/write-file-action@master
         with:
-          path: isort_report.txt
+          path: artifacts/lint_reports/isort.txt
           contents: ${{ steps.run_isort.outputs.isort-result }}
 
       - name: 'Upload isort report'
@@ -224,8 +226,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            isort_report.txt
-          name: isort_report
+            artifacts
+          name: lint
 
 
   black:
