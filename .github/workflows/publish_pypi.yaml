@@ -1,7 +1,7 @@
-# Publish the package on PyPI
+# Publish the package on PyPI or TestPyPI.
 
 name: 'Package - Publish - PyPI'
-run-name: 'Package: Publish on PyPI from ${{github.ref}}'
+run-name: 'Package: Publish on ${{inputs.platform}} from ${{github.ref}}'
 
 on:
   workflow_call:
@@ -16,15 +16,22 @@ on:
         required: true
         type: string
 
+      platform:
+        description: "Platform to publish to; either 'pypi' or 'testpypi'."
+        required: false
+        default: 'testpypi'
+        type: string
+
 
 jobs:
 
-  publish_pypi:
-    name: 'Publish distribution to PyPI'
+  publish:
+    name: 'Publish on ${{inputs.platform}}'
     runs-on: ubuntu-latest
     environment:
-      name: PyPI
-      url: https://pypi.org/project/${{ needs.get_package.outputs.package_name }}
+      name: fromJSON("{'pypi': 'PyPI', 'testpypi': 'TestPyPI'}")[inputs.platform]
+      url: fromJSON("{'pypi': 'https://pypi.org/project/${{ inputs.package-name }}', 'testpypi': 'https://test.pypi.org/project/${{ inputs.package-name }}'}")[inputs.platform]
+
     permissions:
       id-token: write
 
@@ -32,12 +39,17 @@ jobs:
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.get_package.outputs.artifact_name }}
+          name: ${{ inputs.artifact-name }}
           path: dist
+
+      - name: 'Display file tree'
+        run: find .
 
       - name: 'Upload to PyPI'
         # https://github.com/pypa/gh-action-pypi-publish
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          repository-url: https://test.pypi.org/legacy/
           verbose: true
           print-hash: true
+#          skip-existing: true
