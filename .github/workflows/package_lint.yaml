@@ -80,6 +80,7 @@ jobs:
       - name: 'Order report files'
         if: always()
         run: |
+          mkdir -p lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
           mv _local_reports/mypy lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
 
       - name: 'Upload reports'
