@@ -1,7 +1,7 @@
 # Continuous Integration pipeline
 
 name: CI/CD
-run-name: 'CI/CD: Triggered by ${{github.event_name}} at ${{github.ref}}'
+run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
   push:
@@ -15,7 +15,7 @@ on:
 jobs:
 
   lint:
-    name: 'Lint package'
+    name: 'Lint source code'
     if: always()
     uses: ./.github/workflows/package_lint.yaml
 
@@ -55,8 +55,8 @@ jobs:
     needs: [build-package, test-local]
     if: | 
       always() && 
-      needs.test-local.result == 'success' &&
       needs.build-package.result == 'success' &&
+      needs.test-local.result == 'success' &&
       github.event_name == 'push' && 
       github.ref == 'refs/heads/main'
     uses: ./.github/workflows/publish_pypi.yaml
@@ -65,7 +65,7 @@ jobs:
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
-      platform: 'testpypi'
+      platform-name: 'testpypi'
 
   publish-pypi:
     name: 'Publish on PyPI'
@@ -82,7 +82,7 @@ jobs:
     with:
       package-name: ${{ needs.build-package.outputs.package-name }}
       artifact-name: ${{ needs.build-package.outputs.artifact-name }}
-      platform: 'pypi'
+      platform-name: 'pypi'
 
   wait-for-publish:
     # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
