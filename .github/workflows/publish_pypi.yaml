@@ -27,6 +27,13 @@ on:
         required: true
         type: string
 
+      package-version:
+        description: |
+          Version of the package being deployed.
+          This is used to link the deployment to the package's page on (Test)PyPI.
+        required: true
+        type: string
+
       platform-name:
         description: Platform to publish to; either 'testpypi' (default) or 'pypi'.
         required: false
@@ -40,28 +47,10 @@ jobs:
     name: 'Process inputs'
     runs-on: ubuntu-latest
     outputs:
-      env-name: ${{ steps.environment.outputs.name }}
-      env-url: ${{ steps.environment.outputs.url }}
-      repo-url: ${{ steps.environment.outputs.repo-url }}
+      environment-name: ${{ steps.environment.outputs.name }}
+      environment-url: ${{ steps.environment.outputs.url }}
+      repository-url: ${{ steps.environment.outputs.repo-url }}
     steps:
-
-      - name: 'Calculate deployment environment data'
-        id: environment
-        run: |
-          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy/","testpypi":"https://test.pypi.org/legacy/"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-
-      - name: 'Generate summary'
-        run: |
-          echo "### Inputs:" >> $GITHUB_STEP_SUMMARY
-          echo "- artifact-name: ${{inputs.artifact-name}}" >> $GITHUB_STEP_SUMMARY
-          echo "- package-name: ${{inputs.package-name}}" >> $GITHUB_STEP_SUMMARY
-          echo "- platform-name: ${{inputs.platform-name}}" >> $GITHUB_STEP_SUMMARY
-          echo "### Outputs:" >> $GITHUB_STEP_SUMMARY
-          echo "- environment-name: ${{ steps.environment.outputs.name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- environment-url: ${{ steps.environment.outputs.url }}" >> $GITHUB_STEP_SUMMARY
-          echo "- repository-url: ${{ steps.environment.outputs.repo-url }}" >> $GITHUB_STEP_SUMMARY
 
       - name: 'Display inputs'
         run: |
@@ -71,17 +60,26 @@ jobs:
           echo "::group::package-name"
           echo ${{inputs.package-name}}
           echo "::endgroup::"
-          echo "::group::platform"
-          echo ${{inputs.platform}}
+          echo "::group::package-version"
+          echo ${{inputs.package-version}}
+          echo "::endgroup::"
+          echo "::group::platform-name"
+          echo ${{inputs.platform-name}}
           echo "::endgroup::"
 
+      - name: 'Calculate deployment environment data'
+        id: environment
+        run: |
+          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
+          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}/{1}","testpypi":"https://test.pypi.org/project/{0}/{1}"}}', inputs.package-name, inputs.package-version ))[inputs.platform-name] }}" >> $GITHUB_OUTPUT
+          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy/","testpypi":"https://test.pypi.org/legacy/"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
 
       - name: 'Display deployment environment data'
         run: |
-          echo "::group::name"
+          echo "::group::environment-name"
           echo ${{ steps.environment.outputs.name }}
           echo "::endgroup::"
-          echo "::group::url"
+          echo "::group::environment-url"
           echo ${{ steps.environment.outputs.url }}
           echo "::endgroup::"
           echo "::group::repository-url"
@@ -93,8 +91,8 @@ jobs:
     needs: process-inputs
     runs-on: ubuntu-latest
     environment:
-      name: ${{ needs.process-inputs.outputs.env-name }}
-      url: ${{ needs.process-inputs.outputs.env-url }}
+      name: ${{ needs.process-inputs.outputs.environment-name }}
+      url: ${{ needs.process-inputs.outputs.environment-url }}
     permissions:
       id-token: write
     steps:
@@ -110,7 +108,7 @@ jobs:
       - name: 'Upload package to ${{needs.process-inputs.outputs.env-name}}'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: ${{ needs.process-inputs.outputs.repo-url }}
+          repository-url: ${{ needs.process-inputs.outputs.repository-url }}
           verbose: true
           print-hash: true
           skip-existing: false
