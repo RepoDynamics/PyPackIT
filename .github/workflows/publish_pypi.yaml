@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: 'Display target environment'
         run: |
-          echo ${{ fromJSON(format('{"pypi":"https://pypi.org/project/{1}","testpypi":"https://test.pypi.org/project/{2}"}', inputs.package-name, inputs.package-name ))[inputs.platform] }}
+          echo ${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{1}","testpypi":"https://test.pypi.org/project/{2}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}
           echo ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
