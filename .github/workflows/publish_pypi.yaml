@@ -1,23 +1,33 @@
 # Publish the package on PyPI or TestPyPI.
+# This reusable workflow uses the [pypi-publish](https://github.com/pypa/gh-action-pypi-publish) GitHub Action
+# to publish the distribution package on either PyPI or TestPyPI, depending on the input.
 
-name: 'Package - Publish - PyPI'
-run-name: 'Package: Publish on ${{inputs.platform}} from ${{github.ref}}'
+
+name: 'Package - Publish PyPI'
+run-name: >-
+  'Package: Publish on ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}'
+  'from ${{github.ref}}'
 
 on:
   workflow_call:
     inputs:
       artifact-name:
-        description: "Name of the artifact containing the distribution package."
+        description: |
+          Name of the artifact containing the distribution package.
+          The artifact must be uploaded in the caller workflow, prior to calling this workflow.
+          It should contain a source distribution, and as many binary distributions as required.
         required: true
         type: string
 
       package-name:
-        description: "Name of the package on TestPyPI."
+        description: |
+          Name of the package on (Test)PyPI.
+          This is used to link the deployment to the package's page on (Test)PyPI.
         required: true
         type: string
 
       platform:
-        description: "Platform to publish to; either 'pypi' or 'testpypi'."
+        description: Platform to publish to; either 'testpypi' (default) or 'pypi'.
         required: false
         default: 'testpypi'
         type: string
@@ -25,12 +35,47 @@ on:
 
 jobs:
 
+  process-inputs:
+    name: 'Process inputs'
+    runs-on: ubuntu-latest
+    outputs:
+      env-name: ${{ steps.environment.outputs.name }}
+      env-url: ${{ steps.environment.outputs.url }}
+    steps:
+      - name: 'Display inputs'
+        run: |
+          echo "::group::artifact-name"
+          echo ${{inputs.artifact-name}}
+          echo "::endgroup::"
+          echo "::group::package-name"
+          echo ${{inputs.package-name}}
+          echo "::endgroup::"
+          echo "::group::platform"
+          echo ${{inputs.platform}}
+          echo "::endgroup::"
+
+      - name: 'Get environment name and url'
+        id: environment
+        run: |
+          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
+          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}" >> $GITHUB_OUTPUT
+
+      - name: 'Display environment name and url'
+        run: |
+          echo "::group::name"
+          echo ${{ steps.environment.outputs.name }}
+          echo "::endgroup::"
+          echo "::group::url"
+          echo ${{ steps.environment.outputs.url }}
+          echo "::endgroup::"
+
   publish:
     name: 'Publish on ${{inputs.platform}}'
+    needs: process-inputs
     runs-on: ubuntu-latest
     environment:
-      name: ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}
-      url: ${{ fromJSON('{"pypi":"https://pypi.org/project/${{ inputs.package-name }}","testpypi":"https://test.pypi.org/project/${{ inputs.package-name }}"}')[inputs.platform] }}
+      name: ${{ needs.process-inputs.outputs.env-name }}
+      url: ${{ needs.process-inputs.outputs.env-url }}
 
     permissions:
       id-token: write
@@ -38,8 +83,8 @@ jobs:
     steps:
       - name: 'Display target environment'
         run: |
-          echo ${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}
-          echo ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}
+          echo ${{ needs.process-inputs.outputs.env-name }}
+          echo ${{ needs.process-inputs.outputs.env-url }}
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
@@ -50,7 +95,6 @@ jobs:
         run: find .
 
       - name: 'Upload to PyPI'
-        # https://github.com/pypa/gh-action-pypi-publish
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
