@@ -26,7 +26,7 @@ on:
         required: true
         type: string
 
-      platform:
+      platform-name:
         description: Platform to publish to; either 'testpypi' (default) or 'pypi'.
         required: false
         default: 'testpypi'
@@ -35,13 +35,37 @@ on:
 
 jobs:
 
+  display-inputs:
+    name: 'Display workflow inputs'
+    runs-on: ubuntu-latest
+    steps:
+
+
   process-inputs:
     name: 'Process inputs'
     runs-on: ubuntu-latest
     outputs:
       env-name: ${{ steps.environment.outputs.name }}
       env-url: ${{ steps.environment.outputs.url }}
+      repo-url: ${{ steps.environment.outputs.repo-url }}
     steps:
+      - name: 'Calculate deployment environment data'
+        id: environment
+        run: |
+          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
+          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}" >> $GITHUB_OUTPUT
+          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy","testpypi":"https://test.pypi.org/legacy"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
+      - name: 'Generate summary'
+        run: |
+          echo "### Inputs:" >> $GITHUB_STEP_SUMMARY
+          echo "- artifact-name: ${{inputs.artifact-name}}" >> $GITHUB_STEP_SUMMARY
+          echo "- package-name: ${{inputs.package-name}}" >> $GITHUB_STEP_SUMMARY
+          echo "- platform-name: ${{inputs.platform-name}}" >> $GITHUB_STEP_SUMMARY
+          echo "### Outputs:" >> $GITHUB_STEP_SUMMARY
+          echo "- environment-name: ${{ steps.environment.outputs.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- environment-url: ${{ steps.environment.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- repository-url: ${{ steps.environment.outputs.repo-url }}" >> $GITHUB_STEP_SUMMARY
+
       - name: 'Display inputs'
         run: |
           echo "::group::artifact-name"
@@ -54,13 +78,8 @@ jobs:
           echo ${{inputs.platform}}
           echo "::endgroup::"
 
-      - name: 'Get environment name and url'
-        id: environment
-        run: |
-          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}" >> $GITHUB_OUTPUT
-          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}","testpypi":"https://test.pypi.org/project/{1}"}}', inputs.package-name, inputs.package-name ))[inputs.platform] }}" >> $GITHUB_OUTPUT
 
-      - name: 'Display environment name and url'
+      - name: 'Display deployment environment data'
         run: |
           echo "::group::name"
           echo ${{ steps.environment.outputs.name }}
@@ -68,23 +87,20 @@ jobs:
           echo "::group::url"
           echo ${{ steps.environment.outputs.url }}
           echo "::endgroup::"
+          echo "::group::repository-url"
+          echo ${{ steps.environment.outputs.repo-url }}
+          echo "::endgroup::"
 
   publish:
-    name: 'Publish on ${{inputs.platform}}'
+    name: 'Publish on ${{needs.process-inputs.outputs.env-name}}'
     needs: process-inputs
     runs-on: ubuntu-latest
     environment:
       name: ${{ needs.process-inputs.outputs.env-name }}
       url: ${{ needs.process-inputs.outputs.env-url }}
-
     permissions:
       id-token: write
-
     steps:
-      - name: 'Display target environment'
-        run: |
-          echo ${{ needs.process-inputs.outputs.env-name }}
-          echo ${{ needs.process-inputs.outputs.env-url }}
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
@@ -94,10 +110,10 @@ jobs:
       - name: 'Display file tree'
         run: find .
 
-      - name: 'Upload to PyPI'
+      - name: 'Upload package to ${{needs.process-inputs.outputs.env-name}}'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: https://test.pypi.org/legacy/
+          repository-url: ${{ needs.process-inputs.outputs.repo-url }}
           verbose: true
           print-hash: true
-#          skip-existing: true
+          skip-existing: false
