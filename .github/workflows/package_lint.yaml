@@ -63,25 +63,39 @@ jobs:
           python -m pip install .
           python -m pip install mypy[reports]
 
-      - name: 'Environment info'
-        run: |
-          echo "Installed Packages:"
-          pip list
-          echo "Python Version:"
-          python -c "import sys; print(sys.version)"
-          echo "mypy Version:"
-          mypy --version
-
       - name: 'Run mypy'
         run: |
           mkdir -p _local_reports/mypy
           mypy ./src --config-file pyproject.toml
+          mkdir -p artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mv _local_reports/mypy/* artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
 
-      - name: 'Order report files'
-        if: always()
+      - name: 'Display info'
         run: |
-          mkdir -p artifacts/lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv _local_reports/mypy/* artifacts/lint_reports/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
+          echo "::group::Python version"
+          python -c "import sys; print(sys.version)"
+          echo "::endgroup::"
+          echo "::group::mypy Version"
+          mypy --version
+          echo "::endgroup::"
+          echo "::group::pip list"
+          python -m pip list
+          echo "::endgroup::"
+          echo "::group::OS and hardware info"
+          uname -a
+          echo "::endgroup::"
+          echo "::group::Disk space usage"
+          df -h
+          echo "::endgroup::"
+          echo "::group::Available system resources"
+          ulimit -a
+          echo "::endgroup::"
+          echo "::group::Root directory"
+          ls -a
+          echo "::endgroup::"
+          echo "::group::File tree"
+          find .
+          echo "::endgroup::"
 
       - name: 'Upload reports'
         if: always()
@@ -130,7 +144,6 @@ jobs:
               echo "Requirement already satisfied."
           elif [ "$RUNNER_OS" == "macOS" ]; then
               brew update
-              brew upgrade
               brew install enchant
           else
               echo "$RUNNER_OS not supported"
@@ -140,21 +153,12 @@ jobs:
           python -m pip install .
           python -m pip install pylint[spelling]
 
-      - name: 'Environment info'
-        run: |
-          echo "Installed Packages:"
-          pip list
-          echo "Python Version:"
-          python -c "import sys; print(sys.version)"
-          echo "Pylint Version:"
-          pylint --version
 
       - name: 'Run Pylint'
         run: |
           mkdir -p _local_reports/pylint/diagrams
           pylint ./src --rcfile pyproject.toml
-          mkdir -p artifacts/lint_reports/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv _local_reports/pylint/* artifacts/lint_reports/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mkdir -p artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
 
 
       - name: 'Create diagrams'
@@ -162,21 +166,49 @@ jobs:
         if: always()
         run: |
           pyreverse ${{ needs.metadata.outputs.package-name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
+          mv _local_reports/pylint/* artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+
+      - name: 'Display info'
+        run: |
+          echo "::group::Python version"
+          python -c "import sys; print(sys.version)"
+          echo "::endgroup::"
+          echo "::group::Pylint Version"
+          pylint --version
+          echo "::endgroup::"
+          echo "::group::pip list"
+          python -m pip list
+          echo "::endgroup::"
+          echo "::group::OS and hardware info"
+          uname -a
+          echo "::endgroup::"
+          echo "::group::Disk space usage"
+          df -h
+          echo "::endgroup::"
+          echo "::group::Available system resources"
+          ulimit -a
+          echo "::endgroup::"
+          echo "::group::Root directory"
+          ls -a
+          echo "::endgroup::"
+          echo "::group::File tree"
+          find .
+          echo "::endgroup::"
 
       - name: 'Upload Pylint reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: _local_reports/pylint/*
+          path: artifacts
           name: lint
 
-      - name: 'Upload diagrams'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: |
-            _local_reports/pylint/diagrams/*
-          name: diagrams_${{ matrix.python-version }}_${{ matrix.os }}
+#      - name: 'Upload diagrams'
+#        if: always()
+#        uses: actions/upload-artifact@v3
+#        with:
+#          path: |
+#            _local_reports/pylint/diagrams/*
+#          name: diagrams_${{ matrix.python-version }}_${{ matrix.os }}
 
 
   isort:
@@ -218,15 +250,14 @@ jobs:
         # Action: https://github.com/marketplace/actions/write-file
         uses: DamianReeves/write-file-action@master
         with:
-          path: artifacts/lint_reports/isort.txt
+          path: artifacts/isort.txt
           contents: ${{ steps.run_isort.outputs.isort-result }}
 
       - name: 'Upload isort report'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: |
-            artifacts
+          path: artifacts
           name: lint
 
 
