@@ -1,4 +1,5 @@
-# Read the Docs configuration file
+# ReadTheDocs configuration file
+# ReadTheDocs uses this configuration to build the website on readthedocs.io.
 # Reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
 
 
