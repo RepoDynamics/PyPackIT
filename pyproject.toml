@@ -87,8 +87,6 @@ exclude_also = [
     # Don't complain about abstract methods, they aren't run:
     "@(abc\\.)?abstractmethod",
 ]
-
-[tool.coverage.report]
 show_missing = true
 
 [tool.coverage.html]
