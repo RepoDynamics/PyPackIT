@@ -132,7 +132,7 @@ jobs:
       - name: 'Waiting ...'
         run: sleep 300s
 
-  
+
   test-pypi:
     name: 'Install and test from PyPI'
     needs: [ build-package, wait-for-pypi, publish-pypi ]
