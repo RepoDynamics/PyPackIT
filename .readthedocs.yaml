@@ -13,6 +13,8 @@ build:
     python: "mambaforge-4.10"
   jobs:
     post_checkout:
+      # versioningit needs the full git history to determine the package's version at build time.
+      # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
       - git fetch --unshallow
 
 # Install dependencies
