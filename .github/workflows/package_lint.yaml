@@ -35,22 +35,28 @@ jobs:
           echo "OS: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}"
 
 
-  code-ql:
+  CodeQL:
     # Run code scanning with GitHub CodeQL.
+    # Adapted from GitHub starter workflow, e.g.:
+    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fcodeql.yml&workflow_template=code-scanning%2Fcodeql
     # Refs:
+    #  https://github.com/github/codeql-action
     #  https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning-for-a-repository
     name: 'Scan code with CodeQL'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
       actions: read
       contents: read
-      security-events: write
     strategy:
       fail-fast: false
       matrix:
-        language: ['python'] # available: 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby', 'swift'
-        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+        language: ['python']
+        # Available languages: 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby', 'swift'
+        # CodeQL language support: https://aka.ms/codeql-docs/language-support
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -69,13 +75,68 @@ jobs:
 
       - name: Autobuild
         # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
-        # If this step fails, then you should remove it and run the build manually (see below)
+        # If this step fails, then you should remove it and run the build manually instead.
         uses: github/codeql-action/autobuild@v2
 
       - name: 'Perform CodeQL Analysis'
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"
+
+
+  bandit:
+    # Bandit is a security linter designed to find common security issues in Python code.
+    # This action will run Bandit on your codebase.
+    # The results of the scan will be found under the Security tab of your repository.
+    # Adapted from GitHub starter workflow, e.g.:
+    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fbandit.yml&workflow_template=code-scanning%2Fbandit
+    # Refs:
+    #  https://github.com/marketplace/actions/bandit-scan
+    #  https://pypi.org/project/bandit/
+    name: 'Run bandit'
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Bandit Scan'
+        uses: shundor/python-bandit-scan@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+          path: .
+
+
+  pyre:
+    # Pyre is a performant type checker for Python compliant with
+    # PEP 484. Pyre can analyze codebases with millions of lines
+    # of code incrementally – providing instantaneous feedback
+    # to developers as they write code.
+
+    # Adapted from GitHub starter workflow, e.g.:
+    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fpyre.yml&workflow_template=code-scanning%2Fpyre
+    # Refs:
+    #  https://github.com/facebook/pyre-action
+    #  https://pyre-check.org
+    name: 'Run Pyre'
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Run Pyre
+        uses: facebook/pyre-action@v0.0.1
+        with:
+          repo-directory: './'
+          requirements-path: 'requirements.txt'
 
 
   mypy:
