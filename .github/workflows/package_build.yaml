@@ -145,10 +145,12 @@ jobs:
           ulimit -a
 
       - name: 'Build wheel on ${{ matrix.os }}'
+        # https://cibuildwheel.readthedocs.io/en/stable/
+        # https://github.com/pypa/cibuildwheel
+        uses: pypa/cibuildwheel@v2.13.1
         env:
           CIBW_BUILD_VERBOSITY: 2
           CIBW_BUILD: ${{ matrix.python-version }}-*
-        uses: pypa/cibuildwheel@v2.13.1
 
       - name: 'Upload wheel as artifact'
         uses: actions/upload-artifact@v3
