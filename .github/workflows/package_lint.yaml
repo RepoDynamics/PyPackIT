@@ -279,6 +279,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 'Run black'
+        # https://black.readthedocs.io/en/stable/integrations/github_actions.html
+        # https://github.com/psf/black/blob/main/action.yml
         id: black
         uses: psf/black@stable
         with:
