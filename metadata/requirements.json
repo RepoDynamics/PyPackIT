@@ -8,6 +8,47 @@
     }
   },
 
+  "docs": [
+    {
+      "name": "",
+      "install": {
+        "apt": "librsvg2-bin"
+      }
+    }
+  ],
+
+  "tests": [
+    {
+      "name": "Pytest",
+      "description": "Unit testing",
+      "version": "7.3.2",
+      "install": {
+        "pip": {"name": "pytest"},
+        "conda": {"name": "pytest", "channel": "conda-forge"}
+      },
+      "urls": {
+        "homepage": "https://pytest.org",
+        "github": "https://github.com/pytest-dev/pytest",
+        "docs": "https://docs.pytest.org/en/stable/reference/reference.html"
+      }
+    },
+    {
+      "name": "pytest-cov",
+      "description": "Pytest plugin to generate coverage reports using the Coverage.py (https://github.com/nedbat/coveragepy) library.",
+      "version": "4.1.0",
+      "install": {
+        "pip": {"name": "pytest-cov"},
+        "conda": {"name": "pytest-cov", "channel": "conda-forge"}
+      },
+      "urls": {
+        "homepage": "https://pytest-cov.readthedocs.io",
+        "github": "https://github.com/pytest-dev/pytest-cov",
+        "docs": "https://pytest-cov.readthedocs.io"
+      }
+    }
+  ],
+
+
   "dev": [
     {
       "name": "Pylint",
