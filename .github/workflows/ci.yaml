@@ -19,6 +19,12 @@ jobs:
     name: 'Lint source code'
     if: always()
     uses: ./.github/workflows/package_lint.yaml
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
 
 
   build-package:
