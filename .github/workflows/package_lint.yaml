@@ -287,3 +287,25 @@ jobs:
           options: "--check --diff --color --config pyproject.toml"
           src: ./src
           jupyter: true
+
+
+  git-attributes:
+    # Check if all files have a corresponding rule in the '.gitattributes' file.
+    name: 'Check .gitattributes'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Check .gitattributes'
+        # Ref: https://github.com/alexkaratarakis/gitattributes/tree/master#ci-step
+        run: |
+          missing_attributes=$(git ls-files | git check-attr -a --stdin | grep "text: auto")
+          if [[ "$missing_attributes" ]]; then
+            echo ".gitattributes rule missing for the following files:";
+            echo "$missing_attributes";
+            exit 1;
+          else
+            echo "All files have a corresponding rule in .gitattributes";
+            exit 0;
+          fi
