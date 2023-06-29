@@ -1,0 +1,2 @@
+# Licenses
+https://choosealicense.com/
