@@ -37,7 +37,7 @@ jobs:
       - name: try this
         shell: python
         run: |
-          import metadata
+          import metadata_
           print(metadata.main.project)
           
 
