@@ -40,6 +40,8 @@ jobs:
         run: |
           from pathlib import Path
           print(Path.cwd())
+          print("-----")
+          print(list(Path.cwd().glob()))
           
           
 
