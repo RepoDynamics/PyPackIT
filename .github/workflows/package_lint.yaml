@@ -48,7 +48,7 @@ jobs:
           
           import importlib.util
           import sys
-          spec = importlib.util.spec_from_file_location("main", "./metadata_/")
+          spec = importlib.util.spec_from_file_location("main", "./metadata_/main.py")
           module = importlib.util.module_from_spec(spec)
           sys.modules["main"] = module
           spec.loader.exec_module(module)
