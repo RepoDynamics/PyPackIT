@@ -46,14 +46,13 @@ jobs:
           import os
           print(os.environ['PATH'])
           
-          import metadata_
           import importlib.util
           import sys
-          spec = importlib.util.spec_from_file_location("metadata_", ".")
+          spec = importlib.util.spec_from_file_location("main", "./metadata_/")
           module = importlib.util.module_from_spec(spec)
-          sys.modules[module_name] = module
+          sys.modules["main"] = module
           spec.loader.exec_module(module)
-          print(module)
+          print(module.project)
           
           
 
