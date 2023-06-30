@@ -33,10 +33,13 @@ jobs:
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}"
           echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" 
           echo "OS: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}"
+          ls -a
 
       - name: try this
         shell: python
         run: |
+          from pathlib import Path
+          print(Path.cwd())
           import metadata_
           print(metadata.main.project)
           
