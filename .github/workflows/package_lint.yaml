@@ -42,7 +42,11 @@ jobs:
           print(Path.cwd())
           print("-----")
           print(list(Path.cwd().glob("**/*")))
-          import metadata_
+          spec = importlib.util.spec_from_file_location("metadata_", ".")
+          module = importlib.util.module_from_spec(spec)
+          sys.modules[module_name] = module
+          spec.loader.exec_module(module)
+          print(module)
           
           
 
