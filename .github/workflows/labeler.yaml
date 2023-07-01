@@ -1,22 +1,43 @@
-# Label pull-requests based on the paths of the affected files.
+# Label pull-requests.
 
 name: "PR Labeler"
-run-name: "Label new PR"
+run-name: "Label PR at ${{github.ref}}"
 
 on:
-- pull_request_target
+  - pull_request_target
 
 jobs:
 
-  label:
+  labeler:
+    name: 'Labeler'
     permissions:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/labeler@v4.1.0  # https://github.com/actions/labeler
-      with:
-        configuration-path: .github/config/labeler.yaml  # path to the configuration file defining match cases.
-        sync-labels: true  # remove labels if matched files are reverted.
-        dot: true  # include dotfiles, e.g. '.github/'.
+      - name: 'labeler'
+        # https://github.com/actions/labeler
+        uses: actions/labeler@v4.1.0
+        with:
+          # Path to the configuration file defining match cases.
+          configuration-path: .github/config/labeler.yaml
+          # Remove labels if matched files are reverted.
+          sync-labels: true
+          # include dotfiles, e.g. '.github/'.
+          dot: true
+
+  autolabeler:
+    name: 'Autolabeler'
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Label pull request'
+        uses: release-drafter/release-drafter@v5.24.0
+        with:
+          disable-releaser: true
+          config-name: config/autolabeler.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
