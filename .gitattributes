@@ -30,6 +30,8 @@ readme            text
 TODO              text
 
 
+**/py.typed       text
+
 # ------------------------------------------ Documents ---------------------------------------------
 
 *.bibtex          text          diff=bibtex
@@ -45,6 +47,7 @@ TODO              text
 *.RTF                           diff=astextplain
 *.md              text          diff=markdown
 *.mdx             text          diff=markdown
+*.rst             text
 *.tex             text          diff=tex
 *.adoc            text
 *.textile         text
