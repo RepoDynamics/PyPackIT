@@ -26,6 +26,7 @@ jobs:
     name: 'Sync'
     runs-on: ubuntu-latest
     permissions:
+      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
       pull-requests: write
     steps:
 
