@@ -9,3 +9,6 @@
 - name: duplicate
   description: This issue or pull request already exists
   color: cfd3d7
+- name: test
+  description: This issue or pull request concerns tests
+  color: ffffff
