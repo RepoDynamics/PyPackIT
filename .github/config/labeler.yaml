@@ -1,14 +1,134 @@
-# Config file for the GitHub Actions workflow '.github/workflows/labeler.yaml'
-# Ref: https://github.com/actions/labeler
+# Config file for the 'multi-labeler' action,
+# used in the workflow '.github/workflows/pr_labeler.yaml'
+
+# References:
+#  https://github.com/fuxingloh/multi-labeler
 
 
-src:
-  # Any changes inside the 'src' directory, except changes to 'README.md' files.
-  - any: ["src/**", "!src/**/README.md"]
+version: v2
 
-unittests:
-  # Any changes inside the 'tests' directory, except changes to 'README.md' files.
-  - any: ["tests/**", "!tests/**/README.md"]
+labels:
 
-ci-cd:
-- any: [".github/**"]
+  - label: "File: GH Action"
+    # Match when at least one of the changed files is in './github/actions' (excluding README.md).
+    sync: true
+    matcher:
+      files: [ "./github/actions/**", "!./github/actions/**/README.md" ]
+
+
+  - label: "File: GH Config"
+    # Match when at least one of the changed files is in './github/config' (excluding README.md).
+    sync: true
+    matcher:
+      files: [ "./github/config/**", "!./github/config/**/README.md" ]
+
+  - label: "File: GH Config"
+    # Match when './github/codecov.yml' is changed.
+    sync: true
+    matcher:
+      files: [ "./github/codecov.yml" ]
+
+
+  - label: "File: GH Discussion Template"
+    # Match when at least one of the changed files is in './github/DISCUSSION_TEMPLATE' (excluding README.md).
+    sync: true
+    matcher:
+      files: [ "./github/DISCUSSION_TEMPLATE/**", "!./github/DISCUSSION_TEMPLATE/**/README.md" ]
+
+
+  - label: "File: GH Issue Template"
+    # Match when at least one of the changed files is in './github/ISSUE_TEMPLATE' (excluding README.md).
+    sync: true
+    matcher:
+      files: [ "./github/ISSUE_TEMPLATE/**", "!./github/ISSUE_TEMPLATE/**/README.md" ]
+
+
+  - label: "File: GH Pull Request Template"
+    # Match when at least one of the changed files is in './github/PULL_REQUEST_TEMPLATE' (excluding README.md).
+    sync: true
+    matcher:
+      files: [ "./github/PULL_REQUEST_TEMPLATE/**", "!./github/PULL_REQUEST_TEMPLATE/**/README.md" ]
+
+  - label: "File: GH Pull Request Template"
+    # Match when './github/PULL_REQUEST_TEMPLATE.md' is changed.
+    sync: true
+    matcher:
+      files: [ "./github/PULL_REQUEST_TEMPLATE.md" ]
+
+
+  - label: "File: GH Workflow"
+    # Match when at least one of the changed files is in './github/workflows' (excluding README.md).
+    sync: true
+    matcher:
+      files:
+        any: ["./github/workflows/**", "!./github/workflows/**/README.md"]
+
+
+  - label: "File: GH Funding"
+    # Match when './github/FUNDING.yml' is changed.
+    sync: true
+    matcher:
+      files:
+        any: ["./github/FUNDING.yml"]
+
+
+  - label: "File: GH Code Owners"
+    # Match when './github/CODEOWNERS' is changed.
+    sync: true
+    matcher:
+      files:
+        any: [ "./github/CODEOWNERS" ]
+
+
+  - label: "File: Data"
+    # Match when './github/CODEOWNERS' is changed.
+    sync: true
+    matcher:
+      files:
+        any: [ "./github/CODEOWNERS" ]
+
+
+  - label: "File: Repo Readme"
+    # Match when at least one README file is changed.
+    sync: true
+    matcher:
+      files: ["**/README.md"]
+
+
+
+
+  - label: "feat"
+    sync: true # remove label if match failed
+    matcher:
+      # Matcher will match on any 8 matchers
+      title: "^feat:.*"
+      body: "/feat"
+      comment: "/feat"
+      branch: "^feat/.*"
+      baseBranch: "^feat/.*"
+      commits: "^feat:.*"
+      author:
+        - github-actions
+        - fuxingloh
+      files:
+        any: [ "app/*" ]
+        all: [ "!app/config/**" ]
+        count:
+          gte: 1
+          lte: 1000
+
+# Optional, if you want labels to generate a success/failure status check
+checks:
+  - context: "Status Check"
+    url: "https://go.to/detail"
+    description:
+      success: "Ready for review & merge."
+      failure: "Missing labels for release."
+    labels:
+      any:
+        - any
+        - have
+      all:
+        - all
+        - must
+        - have
