@@ -24,6 +24,8 @@ jobs:
   sync-labels:
     name: 'Sync'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - name: 'Checkout repository'
