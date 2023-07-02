@@ -88,9 +88,11 @@ jobs:
           LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
 
       - name: 'Display builds'
+        if: always()
         run: find docs/website_sphinx/_build
 
       - name: 'Order builds'
+        if: always()
         run : |
           mv docs/website_sphinx/_build/dirhtml docs/website_sphinx/_build/html
           mkdir -p docs/website_sphinx/_build/pdf/log
@@ -99,6 +101,7 @@ jobs:
           mv docs/website_sphinx/_build/pdf/log/*.pdf docs/website_sphinx/_build/pdf
 
       - name: 'Display ordered builds'
+        if: always()
         run: find docs/website_sphinx/_build
 
       - name: 'Upload builds'
