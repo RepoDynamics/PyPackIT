@@ -12,39 +12,51 @@ on:
 
 jobs:
 
-  labeler:
-    name: 'Labeler'
+#  labeler:
+#    name: 'Labeler'
+#    permissions:
+#      contents: read
+#      pull-requests: write
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: 'labeler'
+#        # https://github.com/actions/labeler
+#        uses: actions/labeler@v4.1.0
+#        with:
+#          # Path to the configuration file defining match cases.
+#          configuration-path: .github/config/github_labeler.yaml
+#          # Remove labels if matched files are reverted.
+#          sync-labels: true
+#          # include dotfiles, e.g. '.github/'.
+#          dot: true
+#
+#
+#  autolabeler:
+#    name: 'Autolabeler'
+#    permissions:
+#      contents: read
+#      pull-requests: write
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: 'Label pull request'
+#        # https://github.com/release-drafter/release-drafter#autolabeler
+#        uses: release-drafter/release-drafter@v5.24.0
+#        with:
+#          disable-releaser: true
+#          config-name: config/autolabeler.yaml
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  multi-labeler:
+    name: 'Add labels'
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
     steps:
-
-      - name: 'labeler'
-        # https://github.com/actions/labeler
-        uses: actions/labeler@v4.1.0
+      - uses: fuxingloh/multi-labeler@v2
         with:
-          # Path to the configuration file defining match cases.
-          configuration-path: .github/config/labeler.yaml
-          # Remove labels if matched files are reverted.
-          sync-labels: true
-          # include dotfiles, e.g. '.github/'.
-          dot: true
-
-
-  autolabeler:
-    name: 'Autolabeler'
-    permissions:
-      contents: read
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Label pull request'
-        # https://github.com/release-drafter/release-drafter#autolabeler
-        uses: release-drafter/release-drafter@v5.24.0
-        with:
-          disable-releaser: true
-          config-name: config/autolabeler.yaml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config-path: .github/config/labeler.yaml
