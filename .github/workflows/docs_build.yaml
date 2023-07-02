@@ -28,7 +28,7 @@ jobs:
         # https://github.com/mamba-org/setup-micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: requirements/dev/doc.yaml
+          environment-file: docs/website_sphinx/requirements.yaml
           generate-run-shell: true
           init-shell: bash
 
@@ -69,7 +69,7 @@ jobs:
       - name: 'Build HTML'
         if: always()
         run: |
-          cd docs
+          cd docs/website_sphinx
           make clean
           make dirhtml
 
@@ -77,35 +77,35 @@ jobs:
         if: always()
         # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
         run: |
-          cd docs
+          cd docs/website_sphinx
           make latex
 
       - name: 'Build PDF'
         if: always()
         # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
         run : |
-          cd docs/_build/latex
+          cd docs/website_sphinx/_build/latex
           LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
 
       - name: 'Display builds'
-        run: find docs/_build
+        run: find docs/website_sphinx/_build
 
       - name: 'Order builds'
         run : |
-          mv docs/_build/dirhtml docs/_build/html
-          mkdir -p docs/_build/pdf/log
-          mv docs/_build/latex/aux docs/_build/pdf
-          mv docs/_build/latex/pdf/* docs/_build/pdf/log
-          mv docs/_build/pdf/log/*.pdf docs/_build/pdf
+          mv docs/website_sphinx/_build/dirhtml docs/website_sphinx/_build/html
+          mkdir -p docs/website_sphinx/_build/pdf/log
+          mv docs/website_sphinx/_build/latex/aux docs/website_sphinx/_build/pdf
+          mv docs/website_sphinx/_build/latex/pdf/* docs/website_sphinx/_build/pdf/log
+          mv docs/website_sphinx/_build/pdf/log/*.pdf docs/website_sphinx/_build/pdf
 
       - name: 'Display ordered builds'
-        run: find docs/_build
+        run: find docs/website_sphinx/_build
 
       - name: 'Upload builds'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: docs/_build/*
+          path: docs/website_sphinx/_build/*
           name: 'docs'
 
       - name: 'Upload GitHub Pages artifact'
@@ -113,4 +113,4 @@ jobs:
         if: always()
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'docs/_build/html'
+          path: 'docs/website_sphinx/_build/html'
