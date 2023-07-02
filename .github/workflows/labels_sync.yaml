@@ -17,7 +17,6 @@ on:
       - main
     paths:
       - '.github/config/labels.yaml'
-      - '.github/workflows/labels_sync.yaml'
 
 
 jobs:
