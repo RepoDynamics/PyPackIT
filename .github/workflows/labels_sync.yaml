@@ -38,3 +38,4 @@ jobs:
         with:
           manifest: .github/config/labels.yaml
           prune: true  # delete removed labels
+          token: ${{ secrets.GITHUB_TOKEN }}
