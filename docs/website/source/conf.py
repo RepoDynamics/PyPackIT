@@ -13,7 +13,7 @@ import datetime
 
 
 # Open and read the metadata file
-with open("../../metadata/main.json") as f:
+with open("../../../metadata/main.json") as f:
     _data = json.load(f)
 # Generate recurring variables from the metadata to use in several places
 _project_name: str = _data["project"]["name"]

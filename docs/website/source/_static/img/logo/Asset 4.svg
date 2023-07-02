@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 111 38">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-2 {
+
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-family: Arial-Bold, 'Arial';
+        font-size: 12px;
+        letter-spacing: 1rem;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect x="0" y="0" width="100" height="50" rx="1.73" ry="1.73"/>
+    <text class="cls-3" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">HOMEPAGE</text>
+  </g>
+</svg>
