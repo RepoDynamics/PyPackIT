@@ -8,14 +8,6 @@
     }
   },
 
-  "docs": [
-    {
-      "name": "",
-      "install": {
-        "apt": "librsvg2-bin"
-      }
-    }
-  ],
 
   "tests": [
     {
