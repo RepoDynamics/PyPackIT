@@ -70,7 +70,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/website/source/api_ref/_autosummary
+docs/website_sphinx/source/api_ref/_autosummary
 
 # PyBuilder
 .pybuilder/
