@@ -11,7 +11,7 @@ https://github.com/github/gitignore
 [Versioneer](https://github.com/warner/python-versioneer) will automatically infer what version 
 is installed by looking at the `git` tags and how many commits ahead this version is. The format follows 
 [PEP 440](https://www.python.org/dev/peps/pep-0440/) and has the regular expression of:
-```regexp
+```
 \d+.\d+.\d+(?\+\d+-[a-z0-9]+)
 ```
 If the version of this commit is the same as a `git` tag, the installed version is the same as the tag, 
