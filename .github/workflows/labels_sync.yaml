@@ -17,6 +17,7 @@ on:
       - main
     paths:
       - .github/config/labels.yaml
+      - .github/workflows/labels_sync.yaml
 
 
 jobs:
@@ -25,7 +26,7 @@ jobs:
     name: 'Sync'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      pull-requests: write
     steps:
 
       - name: 'Checkout repository'
