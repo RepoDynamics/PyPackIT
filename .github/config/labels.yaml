@@ -2,7 +2,7 @@
 
 - name: 'bug-report: app'
   description: Something isn't working
-  color: AF1F10
+  color: ff0000
 
 - name: enhancement
   description: need an enhancement
