@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: Request an enhancement
+name: 'Request: Enhancement'
 description: Request an improvement in an existing feature, e.g. in terms of functionality, performance, or ease of use.
 title: "[Bug]: "
 labels: ["Request: enhancement"]
