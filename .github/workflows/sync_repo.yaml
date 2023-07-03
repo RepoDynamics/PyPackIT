@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-#          token: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT }}
 
       - name: 'Update dynamic files'
         run: python dev/repo_sync/sync_files.py
