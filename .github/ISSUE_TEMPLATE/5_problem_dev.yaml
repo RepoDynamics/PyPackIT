@@ -2,8 +2,8 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: Report a problem in CI
-description: Report a problem encountered when using the application.
+name: 'Bug Report: Development'
+description: Report a development problem in the repository, e.g. in CI/CD workflows, .
 title: "[Bug]: "
 labels: ["bug", "triage"]
 
