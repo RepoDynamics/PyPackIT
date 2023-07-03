@@ -5,7 +5,7 @@ import json
 
 
 def main():
-    with open("./data/repo_templates/CONTRIBUTING.md") as f:
+    with open("./metadata/templates/CONTRIBUTING.md") as f:
         text = f.read()
     with open("./docs/CONTRIBUTING.md", "w") as f:
         f.write(text.format(project_name="PyPackIT"))
