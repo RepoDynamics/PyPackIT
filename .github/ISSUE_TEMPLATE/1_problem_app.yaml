@@ -4,13 +4,14 @@
 
 name: 'Bug Report: Application'
 description: |
-  Report a problem encountered when using the application, such as unexpected errors and results.
-  Please read the wrgwgwg first.
-  a test link 
-  Unsure? Ask in <a href="https://github.com">aff</a>.
+  Report problems encountered while using the application, such as unexpected results and errors.
+labels: ["Bug: App", "Status: Triage"]
+# assignees:
 
-title: "[Bug]: "
-labels: ["bug", "triage"]
+
+title: |
+  Please provide a concise title including important keywords. 
+  For example: module_name.class_name.method_name throws ValueError when called twice
 
 body:
   
