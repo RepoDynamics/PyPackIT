@@ -1,9 +1,10 @@
 # Template for bug reports
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
-name: Bug Report
-description: Report a bug.
-title: "[Bug]: "
+
+name: Report a problem in the test suite
+description: >-
+  Report problems in the test suite, such as  etc.
 labels: ["bug", "triage"]
 
 body:
