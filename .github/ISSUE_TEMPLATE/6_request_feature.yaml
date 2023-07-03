@@ -2,12 +2,8 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: 'Bug Report: Application'
-description: |
-  Report a problem encountered when using the application, such as unexpected errors and results.
-  Please read the wrgwgwg first.
-  Unsure? Ask in [Discussions](https://github.com)
-
+name: 'Request: New Feature'
+description: Request a brand new feature that is not yet available in the latest version.
 title: "[Bug]: "
 labels: ["bug", "triage"]
 

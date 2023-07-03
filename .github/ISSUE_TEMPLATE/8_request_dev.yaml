@@ -2,10 +2,10 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: 'Request: Feature'
-description: Request a brand new feature that is not yet available in the latest version.
+name: 'Request: DevOps'
+description: Request an improvement in an existing feature, e.g. in terms of functionality, performance, or ease of use.
 title: "[Bug]: "
-labels: ["bug", "triage"]
+labels: ["Request: enhancement"]
 
 body:
   
