@@ -1,10 +1,24 @@
-name: Sync - Repo
-run-name: 'Sync Repo: Triggered on ${{github.ref}} by ${{github.event_name}}'
+# Sync dynamic files after a modification to metadata.
+
+# This workflow is triggered by a push or pull request that modifies files inside the 'metadata' directory.
+# It then calls the local synchronization script at 'dev/repo_sync/sync_files.py' to update dynamic files.
+# The modified files are then automatically committed and pushed to the head branch.
+
+# References:
+#  https://github.com/marketplace/actions/git-auto-commit
+
+
+name: Sync - Metadata
+run-name: 'Sync Metadata: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
   workflow_dispatch:
   push:
+    paths:
+      - 'metadata/**'
   pull_request:
+    paths:
+      - 'metadata/**'
 
 
 jobs:
@@ -22,10 +36,10 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
-      - name: 'Update'
+      - name: 'Update dynamic files'
         run: python dev/repo_sync/sync_files.py
 
-      - name: 'Commit and push'
+      - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
