@@ -1,0 +1,33 @@
+name: Sync - Repo
+run-name: 'Sync Repo: Triggered on ${{github.ref}} by ${{github.event_name}}'
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+#  release:
+#    types: [published]
+#  schedule:
+#    # Weekly tests run on main by default:
+#    #   Scheduled workflows run on the latest commit on the default or base branch.
+#    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
+#    - cron: '0 0 * * *'
+
+
+jobs:
+
+  update:
+    name: 'Update files'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Update'
+        run: python dev/repo_sync/sync_files.py
+
+      - name: 'Commit and push'
+        uses: stefanzweifel/git-auto-commit-action@v4
+
