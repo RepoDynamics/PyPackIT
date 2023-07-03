@@ -13,8 +13,8 @@ body:
   
   - type: markdown
     attributes:
-      value: |
-        Thank you for taking the time to fill out this bug report!
+      value: >-
+        Thank you for taking the time to fill out this bug report! \  
         Please provide a concise title including important keywords.
         [see](https://github.com)
         For example: module_name.class_name.method_name throws ValueError when called twice
