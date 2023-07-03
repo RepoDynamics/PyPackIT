@@ -4,16 +4,16 @@ name: CI/CD
 run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
-  release:
-    types: [published]
-  schedule:
-    # Weekly tests run on main by default:
-    #   Scheduled workflows run on the latest commit on the default or base branch.
-    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
-    - cron: '0 0 * * *'
+#  push:
+#  pull_request:
+#  release:
+#    types: [published]
+#  schedule:
+#    # Weekly tests run on main by default:
+#    #   Scheduled workflows run on the latest commit on the default or base branch.
+#    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
+#    - cron: '0 0 * * *'
 
 
 jobs:
