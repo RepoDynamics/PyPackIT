@@ -1,6 +1,45 @@
-# Contributing
+# Contributing Guidelines
+
+Welcome to the {{project_name}} community!
+We are excited to have you here, 
+and grateful that you are considering contributing to this project! ❤️
+{{project_name}} is a free and open-source software that evolves with the needs of its community,
+and can only grow through the help of great users like you. 
+So, thank you for your support and involvement; we appreciate everything you do!
+
+Note:
+> This project follows the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
+all contributors are acknowledged in the public documentation website and release notes. 
+
+{{project_name}} can use your experience, feedback, and expertise in many different areas, 
+
+
+
+
+
+We appreciate all contributions, from reporting bugs to implementing new features. 
+If you're unclear on how to proceed after reading this guide, please contact us on Discord.
+
 We welcome contributions from external contributors, and this document
 describes how to merge code changes into this {{cookiecutter.repo_name}}. 
+
+
+We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
+
+Reporting a bug
+Discussing the current state of the code
+Submitting a fix
+Proposing new features
+Becoming a maintainer
+
+
+[GitHub Quickstart](https://docs.github.com/en/get-started)
+
+
+## Reporting a Problem
+
+
+
 
 ## Getting Started
 
@@ -54,8 +93,3 @@ describes how to merge code changes into this {{cookiecutter.repo_name}}.
 
 
 ## Additional Resources
-
-* [General GitHub documentation](https://help.github.com/)
-* [PR best practices](http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/)
-* [A guide to contributing to software packages](http://www.contribution-guide.org)
-* [Thinkful PR example](http://www.thinkful.com/learn/github-pull-request-tutorial/#Time-to-Submit-Your-First-PR)
