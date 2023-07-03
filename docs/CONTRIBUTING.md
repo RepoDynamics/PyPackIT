@@ -1,14 +1,16 @@
 # Contributing Guidelines
 
+<p align="justify">
 Welcome to the {{project_name}} community!
 We are excited to have you here, 
-and grateful that you are considering contributing to this project! ❤️
+and grateful that you are considering contributing to this project.
 {{project_name}} is a free and open-source software that evolves with the needs of its community,
 and can only grow through the help of great users like you. 
-So, thank you for your support and involvement; we appreciate everything you do!
+So, thank you for your support and involvement; we appreciate everything you do! 🙏❤️
+</p>
 
-Note:
-> This project follows the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
+> ***Note***: This project follows the 
+[***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
 all contributors are acknowledged in the public documentation website and release notes. 
 
 {{project_name}} can use your experience, feedback, and expertise in many different areas, 
