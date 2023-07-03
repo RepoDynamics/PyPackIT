@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: ​⁤Report a bug
+name: _​⁤Report a bug
 description: Report a problem encountered when using the application.
 title: "[Bug]: "
 labels: ["bug", "triage"]
