@@ -1,6 +1,3 @@
-# Template for bug reports
-# Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
-
 
 name: 'Bug Report: Application'
 description: |
@@ -14,12 +11,33 @@ body:
   - type: markdown
     attributes:
       value: >-
-        Thank you for taking the time to fill out this bug report!
+        Thank you for taking the time to report a problem in our product; we greatly appreciate your contribution!
         
         Please provide a concise title including important keywords.
         [see](https://github.com)
         For example: module_name.class_name.method_name throws ValueError when called twice
-  
+
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Guidelines and Agreements
+      description: >-
+        Please make sure that you are following our 
+        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
+        so that we can process the issue as soon as possible.
+
+      options:
+
+        - label: >-
+            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+          required: true
+
+        - label: >-
+            I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
+          required: true
+
+
   - type: dropdown
     id: package_version
     attributes:
@@ -33,7 +51,8 @@ body:
         - 1.0.3 (Edge)
     validations:
       required: true
-  
+
+
   - type: dropdown
     id: python_version
     attributes:
@@ -45,7 +64,8 @@ body:
         - 3.11
         - 3.10
         - 3.9
-  
+
+
   - type: dropdown
     id: os
     attributes:
@@ -57,7 +77,8 @@ body:
         - Linux
         - MacOS
         - Windows
-  
+
+
   - type: textarea
     id: what-happened
     attributes:
@@ -67,7 +88,8 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  
+
+
   - type: textarea
     id: code
     attributes:
@@ -78,14 +100,16 @@ body:
       render: python
     validations:
       required: true
-      
+
+
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
-  
+
+
   - type: input
     id: contact
     attributes:
@@ -95,11 +119,4 @@ body:
     validations:
       required: false
   
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+
