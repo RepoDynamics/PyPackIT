@@ -5,7 +5,9 @@
 name: 'Bug Report: Application'
 description: |
   Report a problem encountered when using the application, such as unexpected errors and results.
-  Please read the wrgwgwg first.
+  Please read the wrgwgwg first.\  
+  
+  a test link <https://github.com>
   
   Unsure? Ask in <a href="https://github.com">aff</a>.
 
