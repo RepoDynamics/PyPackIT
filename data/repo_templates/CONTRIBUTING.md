@@ -76,10 +76,10 @@ Becoming a maintainer
 
 ## How to contribute changes
 - Clone the repository if you have write access to the main repo, fork the repository if you are a collaborator.
-- Make a new branch with `git checkout -b {your branch name}`
+- Make a new branch with `git checkout -b <your branch name>`
 - Make changes and test your code
 - Ensure that the test environment dependencies (`conda-envs`) line up with the build and deploy dependencies (`conda-recipe/meta.yaml`)
-- Push the branch to the repo (either the main or your fork) with `git push -u origin {your branch name}`
+- Push the branch to the repo (either the main or your fork) with `git push -u origin <your branch name>`
   * Note that `origin` is the default name assigned to the remote, yours may be different
 - Make a PR on GitHub with your changes
 - We'll review the changes and get your code into the repo after lively discussion!
