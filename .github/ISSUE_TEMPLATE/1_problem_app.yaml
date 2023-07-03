@@ -6,7 +6,8 @@ name: 'Bug Report: Application'
 description: |
   Report a problem encountered when using the application, such as unexpected errors and results.
   Please read the wrgwgwg first.
-  Unsure? Ask in [Discussions](https://github.com)
+  
+  Unsure? Ask in <a href="https://github.com">aff</a>.
 
 title: "[Bug]: "
 labels: ["bug", "triage"]
