@@ -1,8 +1,8 @@
 # Define labels available in the repository.
 
-- name: 'bug-report: app'
-  description: Something isn't working
-  color: ff0000
+- name: 'Bug: App'
+  description: Reported problems encountered while using the application, such as unexpected results and errors.
+  color: A00000
 
 - name: enhancement
   description: need an enhancement
