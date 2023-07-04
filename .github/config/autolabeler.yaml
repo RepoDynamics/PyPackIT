@@ -1,5 +1,6 @@
 # Config file for the 'autolabeler' functionality of the GitHub action 'release-drafter',
 # used in the workflow '.github/workflows/pr_labeler.yaml'
+
 # References:
 #  https://github.com/release-drafter/release-drafter#autolabeler
 
