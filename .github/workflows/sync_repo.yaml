@@ -4,8 +4,16 @@
 # It then calls the local synchronization script at 'dev/repo_sync/sync_files.py' to update dynamic files.
 # The modified files are then automatically committed and pushed to the head branch.
 
+# Notes:
+#  This workflow requires a personal access token called 'PAT'
+#  to be created (at https://github.com/settings/personal-access-tokens/new)
+#  and stored as a repository secret in the repository
+#  (see https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-encrypted-secrets-for-your-repository-and-organization-for-github-codespaces#adding-secrets-for-a-repository).
+#  This is required so that the new push event triggers the CI/CD workflow
+#  (see https://github.com/marketplace/actions/git-auto-commit#commits-made-by-this-action-do-not-trigger-new-workflow-runs).
+
 # References:
-#  https://github.com/marketplace/actions/git-auto-commit
+#  Action used for committing and pushing changes: https://github.com/marketplace/actions/git-auto-commit
 
 
 name: Sync - Metadata
