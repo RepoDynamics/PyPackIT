@@ -1,0 +1,116 @@
+# Config file for auto-generating release notes
+
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - octocat
+  categories:
+    - title: Breaking Changes 🛠
+      labels:
+        - Semver-Major
+        - breaking-change
+    - title: Exciting New Features 🎉
+      labels:
+        - Semver-Minor
+        - enhancement
+    - title: Other Changes
+      labels:
+        - "*"
+
+
+template: |
+  This release is the successor of $PREVIOUS_TAG.
+  ## Change Log
+  $CHANGES
+  ## Contributors
+  $CONTRIBUTORS
+
+header: ""
+footer: ""
+category-template: "### $TITLE"
+name-template: "Release $RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+tag-prefix: "v"
+version-template: "$MAJOR.$MINOR.$PATCH"
+change-template: '<details><summary>#$NUMBER: $TITLE</summary>Author: @$AUTHOR<br>$BODY</details>'
+change-title-escapes: '\<*_&'
+no-changes-template: "There are no new changes."
+
+
+categories:
+
+  - title: ⛔ Removed Features
+    labels: 'Category: Removed Feature'
+
+  - title: 🚫 Changed Features
+    labels: 'Category: Changed Feature'
+
+  - title: ⚠️ Deprecated Features
+    labels: 'Category: Deprecated Feature'
+
+  - title: 🌱 New Features
+    labels: 'Category: New Feature'
+
+  - title: 🐞 Bug Fixes
+    labels: fix
+
+  - title: ✨ Enhancements
+    labels: enhancement
+
+  - title: 🚀 Performance Improvements
+    labels: performance
+
+  - title: 📖 Documentation
+    labels: performance
+
+
+
+
+
+  - title: 🛠️ Other improvements
+    labels:
+      - build
+      - chore
+      - ci
+      - documentation
+      - refactor
+      - revert
+      - style
+      - test
+
+
+exclude-labels:
+  - skip-changelog
+  - release
+exclude-contributors:
+  - dependabot
+no-contributors-template: "There are no new contributors."
+replacers:
+  # Remove conventional commits from titles
+  - search: '/- (build|chore|ci|docs|feat|fix|perf|refactor|release|revert|style|test)(\(.*\))?(\!)?\: /g'
+    replace: '- '
+
+
+# Define the output of `RESOLVED_VERSION`
+#  If a pull requests is found with a given label, the corresponding version key will be incremented
+#  from a semantic version. The maximum out of major, minor and patch found in any of the pull requests
+#  will be used to increment the version number. If no pull requests are found with the assigned labels,
+#  the default will be assigned.
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+
+
+include-paths:
+  - src
+

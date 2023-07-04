@@ -1,0 +1,14 @@
+# Config file for the GitHub Actions workflow '.github/workflows/labeler.yaml'
+# Ref: https://github.com/actions/labeler
+
+
+src:
+  # Any changes inside the 'src' directory, except changes to 'README.md' files.
+  - any: ["src/**", "!src/**/README.md"]
+
+unittests:
+  # Any changes inside the 'tests' directory, except changes to 'README.md' files.
+  - any: ["tests/**", "!tests/**/README.md"]
+
+ci-cd:
+- any: [".github/**"]
