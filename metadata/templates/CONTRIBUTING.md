@@ -4,7 +4,7 @@
 Welcome to the {project_name} community!
 We are excited to have you here, 
 and grateful that you are considering contributing to this project.
-{{project_name}} is a free and open-source software that evolves with the needs of its community,
+{project_name} is a free and open-source software that evolves with the needs of its community,
 and can only grow through the help of great users like you. 
 So, thank you for your support and involvement; we appreciate everything you do! 🙏❤️
 </p>
