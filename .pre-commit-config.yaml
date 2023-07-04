@@ -12,7 +12,8 @@ repos:
       - id: trailing-whitespace
 
 
-  # Pylint: https://pylint.readthedocs.io/en/latest/user_guide/installation/pre-commit-integration.html
+  # Pylint
+  # https://pylint.readthedocs.io/en/latest/user_guide/installation/pre-commit-integration.html
   - repo: local
     hooks:
       - id: pylint
@@ -20,23 +21,24 @@ repos:
         entry: pylint
         language: system
         types: [ python ]
-        args:
-          [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
-            "--rcfile=pylintrc", # Link to your config file
-            "--load-plugins=pylint.extensions.docparams", # Load an extension
-          ]
+        args: [ "--rcfile=pyproject.toml" ]
 
+  # mypy
+  #
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.3.0'
+    hooks:
+      - id: mypy
+        args: ['--strict', '--ignore-missing-imports', '--config-file pyproject.toml']
 
-#  # isort - format imports
-#  # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
-#  - repo: https://github.com/pycqa/isort
-#    rev: 5.11.2
-#    hooks:
-#      - id: isort
-#        name: isort (python)
-#        args: ["--profile", "black", "--filter-files"]
+  # isort - format imports
+  # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--settings-path", "pyproject.toml"]
 
 
   # Black - code formatter
@@ -44,7 +46,11 @@ repos:
   - repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
-      - id: black
+      - id: black-jupyter
+
+
+  # Conventional commits
+  # https://github.com/compilerla/conventional-pre-commit
 
 
 

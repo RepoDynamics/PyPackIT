@@ -1,26 +1,39 @@
 # Contributing Guidelines
 
 <p align="justify">
-Welcome to the {project_name} community!
+Welcome to the **{project_name}** community!
 We are excited to have you here, 
 and grateful that you are considering contributing to this project.
-{project_name} is a free and open-source software that evolves with the needs of its community,
-and can only grow through the help of great users like you. 
-So, thank you for your support and involvement; we appreciate everything you do! 🙏❤️
+{project_name} is a free and open-source software that evolves with the needs of its users,
+and can only grow through the help of great members like you. 
+So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
 </p>
 
 > ***Note***: This project follows the 
 [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
+all types of contributions are encouraged and valued, and 
 all contributors are acknowledged in the public documentation website and release notes. 
 
-{{project_name}} can use your experience, feedback, and expertise in many different areas, 
+To keep all documentation on our project organized and easy to find, the complete [contribution guide]({url}) 
+is hosted on our website.
+
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue, assessing changes, and helping you finalize your pull requests.
+
+
+
+If you're unclear on how to proceed after reading this guide, please contact us on Discord.
+
+
+{project_name} can use your experience, feedback, and expertise in many different areas.
+From simply sharing your ideas and feedbacks or reporting a problem, to more hands-on tasks 
+such as 
 
 
 
 
 
 We appreciate all contributions, from reporting bugs to implementing new features. 
-If you're unclear on how to proceed after reading this guide, please contact us on Discord.
+
 
 We welcome contributions from external contributors, and this document
 describes how to merge code changes into this {{cookiecutter.repo_name}}. 
@@ -35,7 +48,9 @@ Proposing new features
 Becoming a maintainer
 
 
-[GitHub Quickstart](https://docs.github.com/en/get-started)
+
+
+
 
 
 ## Reporting a Problem
@@ -45,8 +60,6 @@ Becoming a maintainer
 
 ## Getting Started
 
-* Make sure you have a [GitHub account](https://github.com/signup/free).
-* [Fork](https://help.github.com/articles/fork-a-repo/) this repository on GitHub.
 * On your local machine,
   [clone](https://help.github.com/articles/cloning-a-repository/) your fork of
   the repository.

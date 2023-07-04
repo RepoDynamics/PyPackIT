@@ -13,6 +13,8 @@ So, thank you for your support and involvement; we appreciate everything you do!
 [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
 all contributors are acknowledged in the public documentation website and release notes. 
 
+
+
 {project_name} can use your experience, feedback, and expertise in many different areas, 
 
 
@@ -35,7 +37,7 @@ Proposing new features
 Becoming a maintainer
 
 
-[GitHub Quickstart](https://docs.github.com/en/get-started)
+
 
 
 ## Reporting a Problem

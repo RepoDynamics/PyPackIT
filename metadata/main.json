@@ -1,59 +1,20 @@
 {
 
-  "contact": {
-
-    "organization": {
-      "name": "",
-      "email": "",
-      "orcid": "",
-      "researchgate": "",
-      "linkedin": "",
-      "twitter": ""
-    },
-
-    "corresponding_authors": [
-      {
-        "name": "Armin Ariamajd",
-        "email": "armin.ariam@fu-berlin.de",
-        "orcid": "https://orcid.org/0000-0003-1563-6987",
-        "researchgate": "https://www.researchgate.net/profile/Armin-Ariamajd",
-        "linkedin": "https://www.linkedin.com/in/armin-ariamajd/",
-        "twitter": "https://twitter.com/al___chemist"
-      }
-    ],
-
-    "authors": [
-    ],
-
-    "maintainers": [
-      {
-        "name": "Armin Ariamajd",
-        "email": "armin.ariam@fu-berlin.de",
-        "orcid": "https://orcid.org/0000-0003-1563-6987",
-        "researchgate": "https://www.researchgate.net/profile/Armin-Ariamajd",
-        "linkedin": "https://www.linkedin.com/in/armin-ariamajd/",
-        "twitter": "https://twitter.com/al___chemist"
-      }
-    ],
-
-    "contributors": [
-    ]
-
-  },
-
-
   "project": {
     "name": "PyPackIT",
     "short_description": "Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects",
     "long_description": "PyPackIT is an open-source software for creating other open-source software, specifically Python packages. It streamlines all the tedious and time-consuming \"administrative\" jobs of the software development process, so you can only focus on what truly matters -- implementing your ideas.\\\nWith a single command, PyPackIT creates a professional and robust infrastructure.",
     "keywords": ["python", "package", "packaging", "repository", "documentation", "automated"],
-    "website": "",
-    "email": "a.ariamajd@gmail.com"
+    "website": "https://templaterepo.readthedocs.io",
+    "email": "a.ariamajd@gmail.com",
+    "natural_language": "English",
+    "license": "GNU_AGPLv3+"
   },
 
 
   "package": {
     "name": "template_package",
+    "development_status": 1,
     "short_version": "0.0",
     "long_version": "0.0.1",
     "python_versions": ["3.9", "3.10", "3.11"],
@@ -63,9 +24,9 @@
 
 
   "github": {
-    "user_name": "Armin-Ariamajd",
-    "repo_name": "TemplateRepo",
-    "branch_name": "main"
+    "user": "Armin-Ariamajd",
+    "repo": "TemplateRepo",
+    "branch": "main"
   },
 
 
@@ -96,6 +57,15 @@
     "start_year": 2023,
     "license_name": "GNU Affero General Public License v3 or later (AGPLv3+)",
     "path": "LICENSE"
+  },
+
+  "local_path": {
+    "license": "LICENSE",
+    "readme": "README.md",
+    "requirements": {
+      "main": "requirements/requirements.txt",
+      "optional": "requirements/optional"
+    }
   }
 
 }

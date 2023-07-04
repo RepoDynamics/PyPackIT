@@ -12,11 +12,6 @@ body:
     attributes:
       value: >-
         Thank you for taking the time to report a problem in our product; we greatly appreciate your contribution!
-        
-        Please provide a concise title including important keywords.
-        [see](https://github.com)
-        For example: module_name.class_name.method_name throws ValueError when called twice
-
 
   - type: checkboxes
     id: terms

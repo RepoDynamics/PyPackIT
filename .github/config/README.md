@@ -2,7 +2,7 @@
 This directory contains configuration files for other workflows.
 The following is a description of each file in this directory.
 
-## [`labeler.yaml`](./labeler.yaml)
+## [`labeler.yaml`](./github_labeler.yaml)
 Configurations for the GitHub Actions workflow [PR Labeler](../workflows/pr_labeler.yaml).
 The workflow labels pull requests based on the paths of the affected files.
 This config file contains the defined mapping between the labels and corresponding filepaths.

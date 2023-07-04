@@ -4,6 +4,13 @@
 #
 #
 
+# References:
+# 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
+#    https://packaging.python.org/
+# 2. SetupTools User Guide:
+#    https://setuptools.pypa.io/
+#    https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# 3. https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
 
 [build-system]
 requires = ["setuptools>=61.0", "versioningit"]
@@ -26,6 +33,7 @@ namespaces = true
 [tool.versioningit.vcs]
 method = "git"
 match = ["v*"]
+default-tag = "v0.0.0"
 
 [tool.versioningit.next-version]
 method = "smallest-release"
@@ -218,6 +226,16 @@ thirdparty = 'Non-standard libraries'
 firstparty = 'Self'
 
 
+# ----------------------------------------- YAPF ------------------------------------------------
+# Ref: https://github.com/google/yapf#formatting-style
+# https://github.com/google/yapf/blob/main/yapf/yapflib/style.py
+[tool.yapf]
+based_on_style = 'pep8'
+use_tabs = false
+INDENT_WIDTH = 4
+COLUMN_LIMIT = 100
+
+
 # ----------------------------------------- black ------------------------------------------------
 # Ref: https://black.readthedocs.io/en/stable/usage_and_configuration/index.html
 [tool.black]
@@ -225,6 +243,11 @@ line-length = 100
 
 
 # ----------------------------------------- Project Metadata -------------------------------------
+# References:
+#   PEP 621:
+#     https://peps.python.org/pep-0621/
+#   Python Packaging User Guide - Declaring project metadata:
+#     https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
 dynamic = ["version"]
 name = "template-package"
