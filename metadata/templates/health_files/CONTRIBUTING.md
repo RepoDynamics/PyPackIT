@@ -1,7 +1,7 @@
 # Contributing Guidelines
 
 <p align="justify">
-Welcome to the **{project_name}** community!
+Welcome to the <b>{project_name}</b> community!
 We are excited to have you here, 
 and grateful that you are considering contributing.
 {project_name} is a free and open-source project that evolves with the needs of its users,
