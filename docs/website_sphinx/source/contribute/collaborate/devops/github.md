@@ -32,3 +32,7 @@ Another one: https://github.com/marketplace/actions/auto-labeler
 only matches regex on title or body of PRs.
 
 
+## Configurations you have to set manually after creating a repository
+
+### Automatically Deleting Branches after Merge
+https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches
