@@ -9,6 +9,10 @@ general
 dev-guide/index
 :::
 
+
+So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
+
+
 ## Become a Collaborator
 * writing code; fixing bugs, improving performance and quality, and adding new features
 * adding examples and tutorials to the documentation
