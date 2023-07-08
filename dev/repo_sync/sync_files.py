@@ -3,18 +3,48 @@ from pathlib import Path
 import argparse
 import json
 
+from typing import Optional
+from types import ModuleType
+import importlib.util
+import sys
 
-def main():
-    with open("./metadata/templates/CONTRIBUTING.md") as f:
-        text = f.read()
-    with open("./docs/CONTRIBUTING.md", "w") as f:
-        f.write(text.format(project_name="PyPackIT"))
-    return
+
+class DynamicFileSynchronizer:
+
+    def __init__(
+            self,
+            path_repo: Optional[str | Path] = "./",
+            path_metadata_variables: Optional[str] = "./metadata/variables",
+    ):
+        # Load metadata variables as package
+        spec = importlib.util.spec_from_file_location("metadata", Path(path_metadata_variables)/"__init__.py")
+        metadata = importlib.util.module_from_spec(spec)
+        sys.modules["metadata"] = metadata
+        spec.loader.exec_module(metadata)
+
+        self._metadata: ModuleType = metadata
+        self._path_root = Path(path_repo)
+        return
+
+    def update_all(self):
+        self.update_contributing()
+        return
+
+    def update_contributing(self):
+        with open(self._metadata.paths.TEMPLATE_CONTRIBUTING) as f:
+            text = f.read()
+        with open(self._metadata.paths.CONTRIBUTING, "w") as f:
+            f.write(
+                text.format(
+                    project_name=self._metadata.project.name,
+                    url_contributors=self._metadata.urls.CONTRIBUTORS,
+                    url_release_notes=self._metadata.url.RELEASE_NOTES,
+                    url_contributing=self._metadata.urls.CONTRIBUTING,
+                )
+            )
+        return
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("filepath")
-    # args = parser.parse_args()
-    # main(args.filepath)
-    main()
+    updater = DynamicFileSynchronizer(path_repo="./", path_metadata_variables="./metadata/variables")
+    updater.update_all()
