@@ -17,6 +17,8 @@
   and <a href="{url_releases}">repository</a>.
 </blockquote>
 
+## How To Contribute
+
 <p align="justify">
   To keep all documentation on our project organized and easy to find, 
   the complete [contribution guide]({url_contributing}) 
