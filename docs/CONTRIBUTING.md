@@ -1,7 +1,7 @@
 # Contributing Guidelines
 
 <p align="justify">
-Welcome to the **PyPACKIT** community!
+Welcome to the <b>PyPACKIT</b> community!
 We are excited to have you here, 
 and grateful that you are considering contributing.
 PyPACKIT is a free and open-source project that evolves with the needs of its users,
