@@ -24,9 +24,11 @@ on:
   push:
     paths:
       - 'metadata/**'
+      - 'dev/**'
   pull_request:
     paths:
       - 'metadata/**'
+      - 'dev/**'
 
 
 jobs:
