@@ -36,7 +36,7 @@ class DynamicFileSynchronizer:
         with open(self._metadata.paths.CONTRIBUTING, "w") as f:
             f.write(
                 text.format(
-                    project_name=self._metadata.project.name,
+                    project_name=self._metadata.project.NAME,
                     url_contributors=self._metadata.urls.CONTRIBUTORS,
                     url_release_notes=self._metadata.url.RELEASE_NOTES,
                     url_contributing=self._metadata.urls.CONTRIBUTING,
