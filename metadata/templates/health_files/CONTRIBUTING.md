@@ -13,7 +13,7 @@ So, thank you for your support and involvement; we appreciate all your work! ðŸ™
 We follow the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
 all types of contributions are encouraged and valued, and 
 all contributors are acknowledged on our [public website]({url_contributors}) 
-and [repository]({url_release_notes}).
+and [repository]({url_releases}).
 
 
 To keep all documentation on our project organized and easy to find, 

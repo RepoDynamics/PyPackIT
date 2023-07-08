@@ -17,6 +17,7 @@ GITHUB_REPO: str = f"https://github.com/{project.GITHUB_USER}/{project.GITHUB_RE
 ISSUE_TRACKER: str = f"{GITHUB_REPO}/issues"
 UPDTATE_TRACKER: str = f"{GITHUB_REPO}/pulls"
 DISCUSSIONS: str = f"{GITHUB_REPO}/discussions"
+RELEASES: str = f"{GITHUB_REPO}/releases"
 
 CONTRIBUTING: str = "docs/CONTRIBUTING.md"
 CODE_OF_CONDUCT: str = "docs/CODE_OF_CONDUCT.md"
