@@ -12,9 +12,9 @@ So, thank you for your support and involvement; we appreciate all your work! �
 <blockquote>
   ❤️🙏 We Appreciate All Your Work!
   <br><br>
-  We follow the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
-  all types of contributions are encouraged and valued, and 
-  all contributors are acknowledged on our [public website]({url_contributors}) 
+  We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a> 
+  specifications; all types of contributions are encouraged and valued, and all contributors are 
+  acknowledged on our <a href="{url_contributors}">public website</a> 
   and [repository]({url_releases}).
 </blockquote>
 
