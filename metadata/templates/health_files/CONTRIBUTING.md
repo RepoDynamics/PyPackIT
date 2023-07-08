@@ -9,15 +9,15 @@ and can only survive and grow through the help of great members like you.
 So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
 </p>
 
-<blockquote cite="http://www.worldwildlife.org/who/index.html">
-For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.
+<blockquote>
+  ❤️🙏 We Appreciate All Your Work!
+  <br><br>
+  We follow the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
+  all types of contributions are encouraged and valued, and 
+  all contributors are acknowledged on our [public website]({url_contributors}) 
+  and [repository]({url_releases}).
 </blockquote>
 
-> ❤️🙏 We Appreciate All Your Work!    
-We follow the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
-all types of contributions are encouraged and valued, and 
-all contributors are acknowledged on our [public website]({url_contributors}) 
-and [repository]({url_releases}).
 
 
 To keep all documentation on our project organized and easy to find, 
