@@ -1,12 +1,13 @@
----
-sd_hide_title: true
----
-# Feedback
+# Share Your Feedback
+:::{toctree}
+:hidden:
 
-## Share Your Experience
+report
+security
+:::
+
+
 {{project_name}} evolves with the needs of its users,
-and can only survive and grow through the help and support of great members like you.
-
 
 Share your experience using {{project_name}}, 
 report a bug or problem you encountered, discuss new ideas and request new features, 
