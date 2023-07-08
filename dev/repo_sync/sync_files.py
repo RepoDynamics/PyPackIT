@@ -38,7 +38,7 @@ class DynamicFileSynchronizer:
                 text.format(
                     project_name=self._metadata.project.NAME,
                     url_contributors=self._metadata.urls.CONTRIBUTORS,
-                    url_release_notes=self._metadata.url.RELEASE_NOTES,
+                    url_release_notes=self._metadata.urls.RELEASE_NOTES,
                     url_contributing=self._metadata.urls.CONTRIBUTING,
                 )
             )
