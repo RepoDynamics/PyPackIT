@@ -28,6 +28,7 @@ class DynamicFileSynchronizer:
 
     def update_all(self):
         self.update_contributing()
+        self.update_security()
         return
 
     def update_contributing(self):
@@ -40,6 +41,20 @@ class DynamicFileSynchronizer:
                     url_contributors=self._metadata.urls.CONTRIBUTORS,
                     url_releases=self._metadata.urls.RELEASES,
                     url_contributing=self._metadata.urls.CONTRIBUTING,
+                )
+            )
+        return
+
+    def update_security(self):
+        with open(self._metadata.paths.TEMPLATE_SECURITY) as f:
+            text = f.read()
+        with open(self._metadata.paths.SECURITY, "w") as f:
+            f.write(
+                text.format(
+                    project_name=self._metadata.project.NAME,
+                    url_security_measures=self._metadata.urls.CONTRIBUTORS,
+                    url_security_report=self._metadata.urls.RELEASES,
+                    email_security="armin.ariam@gmail.com",
                 )
             )
         return
