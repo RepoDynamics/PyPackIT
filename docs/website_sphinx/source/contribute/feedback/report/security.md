@@ -1,14 +1,20 @@
-# {project_name} Security and Vulnerability Disclosure Policy
-
-{project_name} takes the security and privacy of all its users and members very seriously, 
+---
+sd_hide_title: true
+---
+# Security Vulnerability
+{{project_name}} takes the security and privacy of all its users and members very seriously, 
 and is committed to [ensuring the safety]({url_security_measures}) of its products and services.
 
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible, 
-2. publish a new security patch release in case a published application was affected,
+2. release a new security patch in case a published application was affected,
 3. release a security advisory, detailing the vulnerability, 
 as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
+
+
+
+## Vulnerability Disclosure Policy
 
 <blockquote>
     🛡️**Supported Versions**
@@ -31,12 +37,12 @@ and how long we ask security researchers to wait before publicly disclosing vuln
 </blockquote>
 
 
-## Reporting a Potential Vulnerability
+### Reporting a Potential Vulnerability
 If you have found a potential vulnerability in our application, website, or repository,
 please report it as soon as possible, following the guidelines described here.
 Please DO NOT 
 
-### Where to Report
+#### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
 of our repository to securely discuss, fix and publish information about security vulnerabilities 
 in {project_name}. To privately report a security vulnerability, 
@@ -107,7 +113,7 @@ on%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---%2
 ---Provide necessary steps to mitigate the problem.--- 
 
 
-### What to Include
+#### What to Include
 In order to help us triage and prioritize submissions, we recommend that your reports:
 * Describe the location the vulnerability was discovered, 
 affected components/versions, and the potential impact of exploitation.
@@ -118,7 +124,7 @@ affected components/versions, and the potential impact of exploitation.
 For more information, see GitHub Documentations on [creating a repository security advisory](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/creating-a-repository-security-advisory)
 and [best practices for writing repository security advisories](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/best-practices-for-writing-repository-security-advisories).
 
-### Response Policy
+#### Response Policy
 When you choose to share your contact information with us, 
 we commit to coordinating with you as openly and as quickly as possible:
 * Within a week, our vulnerability management team will acknowledge receiving your report.
@@ -127,7 +133,7 @@ and be as transparent as possible about what steps we are taking during the reme
 including on issues or challenges that may delay resolution.
 * We will maintain an open dialogue to discuss issues.
 
-### Disclosure Policy
+#### Disclosure Policy
 This project follows a 90-day disclosure timeline.
 If you are a security researcher and would like to disclose the vulnerability you detected,
 we request that you allow us at least 90 days prior to any public exposure.  
@@ -136,21 +142,21 @@ and provides our users a chance to update their applications and protect themsel
 
 
 
-## Testing for Vulnerabilities
+### Testing for Vulnerabilities
 {project_name} is a free and open-source project.
 We encourage security researchers to help us improve our security measures 
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below, 
 describing what systems and types of research are covered under this policy.
 
-### Authorization
+#### Authorization
 If you make a good faith effort to comply with this policy during your security research, 
 we will consider your research to be authorized, will work with you to understand and resolve the issue quickly, 
 and will not recommend or pursue legal action related to your research. 
 Should legal action be initiated by a third party against you for activities that were conducted 
 in accordance with this policy, we will make this authorization known.
 
-### Guidelines
+#### Guidelines
 Under this policy, "research" and "vulnerability discovery" means activities in which you:
 * notify us as soon as possible after you discover a real or potential security issue,
 * make every effort to avoid privacy violations, degradation of user experience, 
@@ -168,13 +174,13 @@ or proprietary information or secrets of any kind), you must:
 * notify us immediately, 
 * and not disclose this data to anyone else.
 
-### Test Methods
+#### Test Methods
 The following test methods are not authorized:
 * Network denial of service (DoS or DDoS) tests or other tests that
 impair access to or damage a system or data.
 * Social engineering (e.g. phishing, vishing), or any other non-technical vulnerability testing.
 
-### Scope
+#### Scope
 This policy applies to the following systems and services:
 * Source code at https://github.com/agency-example/repo
 
@@ -184,5 +190,7 @@ fall outside of this policy's scope and should be reported directly to the vendo
 disclosure policy (if any). If you aren't sure whether a system is in scope or not, 
 or there is a particular system not in scope that you think merits testing, 
 please contact us at {email_security} to discuss it first, before starting your research.
+
+
 
 

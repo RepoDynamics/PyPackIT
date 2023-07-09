@@ -2,8 +2,7 @@
 :::{toctree}
 :hidden:
 
-report
-security
+report/index
 :::
 
 

@@ -9,7 +9,7 @@
 </p>
 
 <blockquote>
-    ❤️🙏 **We Appreciate All Your Work!**
+    ❤️🙏 <b>We Appreciate All Your Work!</b>
     <br>
     We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a> 
     specifications; all types of contributions are encouraged and valued, and all contributors are 
