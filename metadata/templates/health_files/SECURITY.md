@@ -14,7 +14,7 @@ Security advisories are accessible on our website and repository, as well as via
 <blockquote>
     🛡️**Supported Versions**
     <br><br>
-    Currently supported versions for security updates are: {supported_versions} 
+    Currently supported versions for security updates are: 
 </blockquote>
 
 This policy is intended to give users, contributors, and security researchers clear guidelines for 
