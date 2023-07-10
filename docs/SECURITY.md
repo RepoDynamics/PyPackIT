@@ -3,8 +3,7 @@
 PyPACKIT takes the security and privacy of all its users and members very seriously, 
 and is committed to [ensuring the safety](https://.rtfd.io/about#contributors) of its products and services.
 
-In case a security vulnerability that may affect users is detected in PyPACKIT, 
-we take immediate action to:
+In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible, 
 2. publish a new security patch release in case a published application was affected,
 3. release a security advisory, detailing the vulnerability, 
