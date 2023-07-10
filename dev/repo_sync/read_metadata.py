@@ -2,6 +2,8 @@ import importlib.util
 import sys
 import json
 
+# Import metadata package directly
+#  Ref: https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly
 _name = "metadata"
 _spec = importlib.util.spec_from_file_location(_name, "metadata/variables/__init__.py")
 metadata = importlib.util.module_from_spec(_spec)
