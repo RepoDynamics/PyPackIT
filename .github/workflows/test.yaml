@@ -1,0 +1,20 @@
+
+name: Test
+run-name: Test
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+
+  get-metadata:
+    uses: .github/workflows/repo_get-metadata.yaml
+
+  print:
+    needs: get-metadata
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'print'
+        run: echo {{needs.get-metadata.outputs.json}}

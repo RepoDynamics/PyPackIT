@@ -2,6 +2,14 @@
 sd_hide_title: true
 ---
 # Documentation
+:::{toctree}
+:hidden:
+
+website
+readme-files
+health-files
+:::
+
 
 ## Working on Documentation
 

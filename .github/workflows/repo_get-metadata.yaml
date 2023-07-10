@@ -1,0 +1,33 @@
+# Run static code analysis
+
+name: Get Metadata
+run-name: Get Metadata
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+      json:
+        description: 'Repository Metadata'
+        value: ${{jobs.get-metadata.outputs.metadata}}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  get-metadata:
+    name: 'Load package metadata'
+    outputs:
+      metadata: ${{ steps.get_metadata.outputs.json }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Get metadata'
+        id: get_metadata
+        shell: bash
+        # https://stackoverflow.com/questions/67631/how-can-i-import-a-module-dynamically-given-the-full-path
+        run: echo "json=$(python dev/repo_sync/read_metadata.py)" >> $GITHUB_OUTPUT

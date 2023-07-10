@@ -3,8 +3,7 @@ sd_hide_title: true
 ---
 # Security Vulnerability
 {{project_name}} takes the security and privacy of all its users and members very seriously, 
-and is committed to [ensuring the safety]({url_security_measures}) of its products and services.
-
+and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible, 
 2. release a new security patch in case a published application was affected,
@@ -12,21 +11,19 @@ In case a security vulnerability is detected that may affect users, we take imme
 as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
-
+:::{admonition} {{project_name}} Security Measures 🛡
+:class: seealso
+Learn more about our security measures and procedures to handle vulnerability issues on our
+[maintenance guide](../collaborate/maintenance/index).
+:::
 
 ## Vulnerability Disclosure Policy
 
-<blockquote>
-    🛡️**Supported Versions**
-    <br><br>
-    Currently supported versions for security updates are: 
-</blockquote>
-
 This policy is intended to give users, contributors, and security researchers clear guidelines for 
-[reporting potential security vulnerabilities](#reporting-a-potential-vulnerability), 
+[reporting potential security vulnerabilities](#reporting-a-potential-vulnerability) 
 and [conducting vulnerability discovery activities](#testing-for-vulnerabilities). 
 It describes what systems and types of research are covered under this policy,
-how to send us vulnerability reports and what information to include,
+how to send us vulnerability reports, what information to include,
 and how long we ask security researchers to wait before publicly disclosing vulnerabilities.
 
 <blockquote>
@@ -48,6 +45,51 @@ of our repository to securely discuss, fix and publish information about securit
 in {project_name}. To privately report a security vulnerability, 
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability) 
 or [**click here to directly open a private report form**]({url_security_report}).
+
+Other ways to open a security advisory:
+
+On the [Issues]() tab
+
+On the [Security]() tab
+
+
+:::::{admonition} {{project_name}} Security Measures 🛡
+:class: seealso
+ergergg
+::::{dropdown} Email Body
+
+:::{code-block}
+
+---Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.--- 
+
+1. Summary
+---Provide a short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server.---
+
+2. Details
+---Give all details on the vulnerability. Pointing to the incriminated source code is very helpful for the maintainer.---
+
+3. PoC
+---Complete instructions, including specific configuration details, to reproduce the vulnerability.---
+
+4. Impact
+---What kind of vulnerability is it? Who is impacted?---
+
+5. Affected Products
+---For each affected product, name the ecosystem (e.g. pip, GitHub Actions), package- or filename, and affected versions.---
+
+6. Severity
+---Asses the severity of the issue, e.g. using a CVSS vector string (learn more at https://www.first.org/cvss/v3.1/user-guide).---
+
+7. Weaknesses
+---Provide Common Weakness Enumerator (CWE; learn more at https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers).---
+
+8. Mitigation
+---Provide necessary steps to mitigate the problem.--- 
+
+:::
+
+::::
+:::::
 
 <blockquote>
     🥷🏾 <b>Prefer Anonymity?</b>
@@ -86,42 +128,28 @@ on%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---%2
 ">{email_security}</a>.
 </blockquote>
 
----Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.--- 
 
-1. Summary
----Provide a short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server.---
+#### Information to Include
 
-2. Details
----Give all details on the vulnerability. Pointing to the incriminated source code is very helpful for the maintainer.---
+In order to help us assess and triage submissions, 
+please provide as much information as you can, under following sections:
+1. **Title**: A concise title describing the vulnerability.
+2. **Summary**: A short summary of the problem. Make the impact and severity as clear as possible. 
+For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute 
+arbitrary code on the server.
+3. **Details**: Details on the vulnerability, including the location the vulnerability was discovered.
+Pointing to the incriminated source code is very helpful for the maintainer.
+4. **PoC**: Complete instructions, including specific configuration details, to reproduce the vulnerability.
+Proof of concept scripts or screenshots can be helpful to include.
+5. **Impact**: The type of vulnerability in terms of potential impact of exploitation and affected users.
+6. **Affected Products**: Name of the ecosystem (e.g. pip, GitHub Actions), 
+package- or filename, and affected versions, for each affected product. 
+7. **Severity**: Assessment of the severity of the issue, using the [Common Vulnerability Scoring System](https://www.first.org/cvss/specification-document) (CVSS).
+8. **Weaknesses**: A [Common Weakness Enumerator](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers) (CWE), if available. 
+9. **Mitigation**: If known, necessary steps to mitigate the problem.
 
-3. PoC
----Complete instructions, including specific configuration details, to reproduce the vulnerability.---
-
-4. Impact
----What kind of vulnerability is it? Who is impacted?---
-
-5. Affected Products
----For each affected product, name the ecosystem (e.g. pip, GitHub Actions), package- or filename, and affected versions.---
-
-6. Severity
----Asses the severity of the issue, e.g. using a CVSS vector string (learn more at https://www.first.org/cvss/v3.1/user-guide).---
-
-7. Weaknesses
----Provide Common Weakness Enumerator (CWE; learn more at https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers).---
-
-8. Mitigation
----Provide necessary steps to mitigate the problem.--- 
-
-
-#### What to Include
-In order to help us triage and prioritize submissions, we recommend that your reports:
-* Describe the location the vulnerability was discovered, 
-affected components/versions, and the potential impact of exploitation.
-* Offer a detailed description of the vulnerability and the steps needed to reproduce it 
-(proof of concept scripts or screenshots can be helpful).
-* if known, necessary steps to mitigate the issue.
-
-For more information, see GitHub Documentations on [creating a repository security advisory](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/creating-a-repository-security-advisory)
+For more information, also refer to GitHub documentations on 
+[creating a repository security advisory](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/creating-a-repository-security-advisory)
 and [best practices for writing repository security advisories](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/best-practices-for-writing-repository-security-advisories).
 
 #### Response Policy
@@ -134,16 +162,15 @@ including on issues or challenges that may delay resolution.
 * We will maintain an open dialogue to discuss issues.
 
 #### Disclosure Policy
-This project follows a 90-day disclosure timeline.
-If you are a security researcher and would like to disclose the vulnerability you detected,
-we request that you allow us at least 90 days prior to any public exposure.  
+This project follows a 120-day disclosure timeline;
+if you are a security researcher and would like to disclose the vulnerability you detected,
+we request that you **allow us at least 120 days prior to any public exposure**.
 This helps the project contributors to resolve the vulnerability and issue a new release,
 and provides our users a chance to update their applications and protect themselves.
 
 
-
 ### Testing for Vulnerabilities
-{project_name} is a free and open-source project.
+{{project_name}} is a free and open-source project.
 We encourage security researchers to help us improve our security measures 
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below, 
@@ -169,27 +196,28 @@ or use the exploit to pivot to other systems,
 
 Once you've established that a vulnerability exists or encounter 
 any sensitive data (including personally identifiable information, financial information, 
-or proprietary information or secrets of any kind), you must: 
+or proprietary information or secrets of any kind), **you must**: 
 * stop your test, 
 * notify us immediately, 
 * and not disclose this data to anyone else.
 
 #### Test Methods
-The following test methods are not authorized:
+The following test methods are **not authorized**:
 * Network denial of service (DoS or DDoS) tests or other tests that
 impair access to or damage a system or data.
-* Social engineering (e.g. phishing, vishing), or any other non-technical vulnerability testing.
+* Social engineering (e.g. phishing) or any other non-technical vulnerability testing.
 
 #### Scope
-This policy applies to the following systems and services:
-* Source code at https://github.com/agency-example/repo
+This policy applies to any source code, data, or configuration directly stored in our GitHub repository
+at {{url_github_repo}}, and any software, package, website, or other digital products and services that are
+directly published/deployed from this repository.
 
-Any service not expressly listed above, such as any connected services, are excluded from scope 
-and are not authorized for testing. Additionally, vulnerabilities found in systems from our vendors 
+**Any service not expressly listed above**, such as any connected services, are **excluded from scope** 
+and are **not authorized** for testing. Additionally, vulnerabilities found in systems from our vendors 
 fall outside of this policy's scope and should be reported directly to the vendor according to their 
 disclosure policy (if any). If you aren't sure whether a system is in scope or not, 
 or there is a particular system not in scope that you think merits testing, 
-please contact us at {email_security} to discuss it first, before starting your research.
+please contact us at {{email_security}} to discuss it first, before starting your research.
 
 
 
