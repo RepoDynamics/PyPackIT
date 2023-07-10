@@ -9,7 +9,7 @@ on:
 jobs:
 
   get-metadata:
-    uses: .github/workflows/repo_get-metadata.yaml
+    uses: ./.github/workflows/repo_get-metadata.yaml
 
   print:
     needs: get-metadata
