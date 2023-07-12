@@ -5,42 +5,45 @@ sd_hide_title: true
 :::{toctree}
 :hidden:
 
-bug_report
-dev_guide/index
+feedback/index
+collaborate/index
+support/index
+sponsor/index
 :::
-
-Welcome to the **{project_name}** community!
+Welcome to our community!
 We are excited to have you here, 
-and grateful that you are considering contributing to this project.
-{project_name} is a free and open-source software that evolves with the needs of its users,
-and can only grow through the help of great members like you. 
-So, thank you for your support and involvement!
+and grateful that you are considering contributing.
+{{project_name}} is a free and open-source project that can only survive and grow 
+through the help of great members like you.
 
-:::{admonition} We appreciate all your work 🙏❤️
-:class: tip
-We follow the [***All Contributors***](https://allcontributors.org/docs/en/specification) specifications; 
+:::{admonition} We Appreciate All Your Work ❤️🙏
+:class: note
+We follow the [*All Contributors*](https://allcontributors.org/docs/en/specification) specifications; 
 all types of contributions are encouraged and valued, and 
-all contributors are acknowledged in the [public documentation website](../about/index.md#contributors) 
-and [release notes](). 
+all contributors are acknowledged on our [public website](../about/index.md#contributors) 
+and [repository](../news/categoty/release-notes).
 :::
 
+There are many different ways {{project_name}} can benefit from your experience, 
+support, knowledge and expertise:
+* [Share your feedback](feedback/index.md): Tell us your experience using {{project_name}}, 
+report a bug, security vulnerability or problem you encountered, discuss new ideas and request new features, 
+showcase your usage, ask questions, chat with the community, 
+join the conversation and help us improve and tailor {{project_name}} towards your needs.
+* [Become a collaborator or active member](./collaborate/index): Help us with different tasks,
+from communication, marketing and fundraising, to documentation, graphic design,
+web development, project maintenance and DevOps, and most importantly, 
+writing code, adding new features, fixing bugs and improving quality and performance.
+* [Cite and support us](./support): Cite our work in your publications and articles, 
+mention our project in your repository, website, and social media, 
+give {{project_name}} a like, and help us spread the word and attract more users and contributors.
+* [Sponsor us](./sponsor): Buy us a cup of coffee, become a patron, and help us sustainably
+invest our times and resources into improving and maintaining {{project_name}} as
+a free and open-source project.
 
-:::{admonition} For first-time contributors
-:class: tip
-We use [GitHub](https://github.com) to host and manage our project, and communicate with each other.
-If you are unfamiliar with GitHub, please take a look at the [GitHub Documentation](https://docs.github.com/en) 
-and read the [GitHub Quickstart](https://docs.github.com/en/get-started/quickstart). 
-Don't forget to [create a free account](https://github.com/join).
+:::{admonition} Contact us
+:class: seealso
+After reading this guide, if you're still unsure where to start or have questions, 
+please don't hesitate to [contact us](../help/contact/index.md). 
 :::
-
-
-
-
-# Installation
-## Installing the 
-
-[Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
-the repository:
-
-git clone https://github.com/YOUR-USERNAME/Spoon-Knife
 
