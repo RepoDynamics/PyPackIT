@@ -1,10 +1,6 @@
 {
 
   "project": {
-    "name": "PyPackIT",
-    "short_description": "Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects",
-    "long_description": "PyPackIT is an open-source software for creating other open-source software, specifically Python packages. It streamlines all the tedious and time-consuming \"administrative\" jobs of the software development process, so you can only focus on what truly matters -- implementing your ideas.\\\nWith a single command, PyPackIT creates a professional and robust infrastructure.",
-    "keywords": ["python", "package", "packaging", "repository", "documentation", "automated"],
     "website": "https://templaterepo.readthedocs.io",
     "email": "a.ariamajd@gmail.com",
     "natural_language": "English",
@@ -15,8 +11,6 @@
   "package": {
     "name": "template_package",
     "development_status": 1,
-    "short_version": "0.0",
-    "long_version": "0.0.1",
     "python_versions": ["3.9", "3.10", "3.11"],
     "cibuilds": null,
     "operating_systems": ["ubuntu-latest", "macos-latest", "windows-latest"]
@@ -30,32 +24,10 @@
   },
 
 
-  "docs": {
-    "path": "docs/source",
-    "readthedocs_name": "templaterepo",
-    "disqus_shortname": "pypackit",
-    "analytics": {
-      "plausible": {
-        "domain": "",
-        "url": ""
-      },
-      "google": {
-        "id": "G-0X66W6TGL2"
-      }
-    },
-    "header_icon": {
-      "twitter": false,
-      "linkedin": true,
-      "researchgate": true,
-      "orcid": true
-    },
-    "announcement": "<i class=\"fa-solid fa-triangle-exclamation\"></i> The project is under active development and not yet fully implemented."
-  },
+
 
 
   "copyright": {
-    "start_year": 2023,
-    "license_name": "GNU Affero General Public License v3 or later (AGPLv3+)",
     "path": "LICENSE"
   },
 
