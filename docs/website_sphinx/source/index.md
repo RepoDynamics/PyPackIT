@@ -5,13 +5,14 @@ html_theme.sidebar_secondary.remove:
 # Homepage
 :::{toctree}
 :hidden:
+:numbered:
 intro/index
-user_guide/index
-api_ref/index
+manual/index
+api/index
 news/index
-dev_guide/index
+help/index
+contribute/index
 about/index
-faq/index
 :::
 
 :::{image} /_static/img/logo/logo_light.svg
