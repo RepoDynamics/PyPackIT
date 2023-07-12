@@ -11,9 +11,6 @@ on:
         description: 'Repository Metadata'
         value: ${{jobs.get-metadata.outputs.metadata}}
 
-defaults:
-  run:
-    shell: bash
 
 jobs:
 
@@ -28,6 +25,7 @@ jobs:
 
       - name: 'Get metadata'
         id: get_metadata
-        shell: bash
-        # https://stackoverflow.com/questions/67631/how-can-i-import-a-module-dynamically-given-the-full-path
         run: echo "json=$(python dev/repo_sync/read_metadata.py)" >> $GITHUB_OUTPUT
+
+      - name: 'Display metadata'
+        run: echo ${{needs.get-metadata.outputs.json}}
