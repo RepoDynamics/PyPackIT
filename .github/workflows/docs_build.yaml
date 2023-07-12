@@ -1,6 +1,6 @@
 # Build the documentation with Sphinx and upload the builds as artifacts.
 
-name: 'Docs - Build'
+name: 'Docs: Build'
 run-name: 'Docs: Build from ${{github.ref}}'
 
 on:

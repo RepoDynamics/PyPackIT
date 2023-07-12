@@ -3,7 +3,7 @@ This directory contains [workflows](https://docs.github.com/en/actions/using-wor
 used in the CI/CD operations of the repository.
 
 
-## [docs_rtd_pr_preview](docs_rtd-pr-preview.yaml)
+## [docs_rtd_pr_preview](_docs_rtd-pr-preview.yaml)
 https://docs.readthedocs.io/en/latest/pull-requests.html
 https://docs.readthedocs.io/en/latest/guides/pull-requests.html
 

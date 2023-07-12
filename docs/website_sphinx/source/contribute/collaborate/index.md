@@ -175,7 +175,15 @@ the repository.
 
 If you have write access, you can also 
 [directly create a branch from the issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-a-branch-for-an-issue#creating-a-branch-for-an-issue)
-.
+
+
+Naming rules for branches:
+
+Other than the 'main' branch, we have the following types of branch names:
+* `release/v[0-9]+`: Release branches for each past major version, e.g. `release/v1` is created when 
+version `2.0.0` is released.
+* `dev/(app|docs|test|ops)/[0-9]+`: Development branches for applying changes, e.g. `dev/app/11`.
+
 
 
 

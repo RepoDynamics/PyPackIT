@@ -1,10 +1,15 @@
-# Deploy the documentation to GitHub Pages.
+# Deploy website to GitHub Pages.
 
-name: 'Docs - GH Pages'
-run-name: 'Docs: Deploy to GitHub Pages from ${{github.ref_name}}'
+# This reusable workflow must be called in another workflow, where an artifact containing
+# the website has been already uploaded. The name of the artifact is then passed to this
+# workflow from the caller workflow. This workflow will then deploy that artifact to
+# GitHub Pages for this repository, and will output the URL.
+
+
+name: 'Docs: Deploy GH Pages'
+run-name: 'Deploy website to GitHub Pages from ${{github.ref_name}}'
 
 on:
-  workflow_dispatch:
   workflow_call:
     inputs:
       artifact-name:
@@ -12,9 +17,14 @@ on:
           Name of the artifact containing the HTML files. 
           This artifact must have been created in the caller workflow 
           before running this workflow.
-        default: 'Docs - HTML Build (GH Pages)'
+          Note that names other than the default below may sometimes cause problems.
+        default: 'github-pages'
         required: false
         type: string
+    outputs:
+      url:
+        description: URL of the deployed website on GitHub Pages.
+        value: ${{ jobs.deploy.outputs.url }}
 
 
 jobs:
@@ -22,7 +32,7 @@ jobs:
   deploy:
     # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
     # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
-    name: 'Deploy to GitHub Pages'
+    name: 'Deploy website to GitHub Pages from ${{github.ref_name}}'
     permissions:
       contents: read
       pages: write
@@ -30,19 +40,23 @@ jobs:
     environment:
       name: GitHub Pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
+
       - name: 'Setup GitHub Pages'
         # https://github.com/actions/configure-pages
         uses: actions/configure-pages@v3
         with:
+          # Try to enable Pages for the repository if it is not already enabled
+          # (requires write permission for pages).
           enablement: true
 
       - name: 'Download gh-pages artifact'
         uses: actions/download-artifact@v3
         with:
-          name: github-pages
+          name: ${{ inputs.artifact-name }}
 
       - name: 'Display file tree'
         run: find .
@@ -51,4 +65,5 @@ jobs:
         id: deployment
         # https://github.com/actions/deploy-pages
         uses: actions/deploy-pages@v2
-
+        with:
+          artifact_name: ${{ inputs.artifact-name }}

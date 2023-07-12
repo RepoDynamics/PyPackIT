@@ -107,6 +107,7 @@ jobs:
 
       - name: 'Upload package to ${{needs.process-inputs.outputs.environment-name}}'
         uses: pypa/gh-action-pypi-publish@release/v1
+        # https://github.com/marketplace/actions/pypi-publish
         with:
           repository-url: ${{ needs.process-inputs.outputs.repository-url }}
           verbose: true

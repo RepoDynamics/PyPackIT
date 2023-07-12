@@ -4,6 +4,7 @@
 
 python.md
 python_pkgs.md
+versioning
 :::
 
 

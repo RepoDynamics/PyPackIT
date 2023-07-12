@@ -58,7 +58,7 @@ jobs:
       needs.build-docs.result == 'success' &&
       github.event_name == 'push' && 
       (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
-    uses: ./.github/workflows/docs_gh-pages.yaml
+    uses: ./.github/workflows/docs_deploy.yaml
     permissions:
       contents: read
       pages: write
