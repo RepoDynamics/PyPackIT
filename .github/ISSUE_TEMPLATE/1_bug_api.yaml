@@ -1,9 +1,8 @@
-
-name: 'Bug Report: Application'
+name: 'Bug Report: API'
 description: |
   Report problems encountered while using the application, such as unexpected results and errors.
 labels: ["Bug: App", "Status: Triage"]
-# assignees:
+assignees:
 
 
 body:

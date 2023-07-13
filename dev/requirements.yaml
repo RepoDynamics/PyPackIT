@@ -1,0 +1,12 @@
+name: pypackit_dev
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Base
+  - python
+  - pip
+  # Testing
+  - requests

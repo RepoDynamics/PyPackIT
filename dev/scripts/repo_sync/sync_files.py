@@ -61,5 +61,5 @@ class DynamicFileSynchronizer:
 
 
 if __name__ == "__main__":
-    updater = DynamicFileSynchronizer(path_repo="./", path_metadata_variables="./metadata/variables")
+    updater = DynamicFileSynchronizer(path_repo="/", path_metadata_variables="./metadata/variables")
     updater.update_all()

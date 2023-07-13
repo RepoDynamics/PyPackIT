@@ -1,8 +1,29 @@
+
+import re
+from typing import Literal
 from . import project
 
-# The name should be normarlized;
-#   see: https://packaging.python.org/en/latest/specifications/name-normalization/
-name = project.PACKAGE_NAME
+
+NAME: str = re.sub(r'[._-]+', '-', project.NAME.lower())
+"""Name of the package.
+
+It is derived from the package name `NAME` via normalization:
+The name should be lowercased with all runs of the characters period (.), underscore (_) and hyphen (-) 
+replaced with a single hyphen.
+
+References
+----------
+* [Python Packaging User Guide > PyPA specifications > Package name normalization](https://packaging.python.org/en/latest/specifications/name-normalization/)
+"""
+
+
+DEVELOPMENT_STATUS: Literal[1,2,3,4,5,6,7] = 1
+python_versions = ["3.9", "3.10", "3.11"]
+cibuilds = None
+operating_systems = ["ubuntu-latest", "macos-latest", "windows-latest"]
+
+
+
 
 settings = {
   "name": "{{{main.project.slug_name}}}",

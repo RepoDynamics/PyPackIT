@@ -18,7 +18,7 @@ import importlib.util
 # TODO: REMOVE
 # import metadata.variables as _metadata
 
-_spec = importlib.util.spec_from_file_location("metadata", "../../../metadata/variables/__init__.py")
+_spec = importlib.util.spec_from_file_location("metadata", "../../../dev/metadata/__init__.py")
 _metadata = importlib.util.module_from_spec(_spec)
 sys.modules["metadata"] = _metadata
 _spec.loader.exec_module(_metadata)
