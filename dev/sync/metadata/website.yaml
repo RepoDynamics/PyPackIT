@@ -1,0 +1,43 @@
+
+
+rtd_name: templaterepo
+
+is_gh_user_site: false
+
+navbar_icons:
+
+  - id: repo
+
+  - id: issues
+
+  - id: pull_requests
+
+  - id: discussions
+
+  - id: email
+
+  - id: license
+
+  - id: pypi
+
+  - id: twitter
+
+  - id: linkedin
+
+  - id: researchgate
+
+  - id: orcid
+
+disqus_shortname: pypackit
+
+analytics:
+  plausible:
+    domain: ""
+    url: ""
+
+  google:
+    id: "G-0X66W6TGL2"
+
+announcement: >-
+  <i class="fa-solid fa-triangle-exclamation"></i> 
+  The project is under active development and not yet fully implemented.

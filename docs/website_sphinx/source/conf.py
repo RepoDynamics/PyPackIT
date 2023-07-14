@@ -8,20 +8,17 @@ References
 
 
 from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
-import json
 import datetime
+import importlib
 
-
-import sys
-import importlib.util
 
 # TODO: REMOVE
-# import metadata.variables as _metadata
+import dev.metadata as _metadata
 
-_spec = importlib.util.spec_from_file_location("metadata", "../../../dev/metadata/__init__.py")
-_metadata = importlib.util.module_from_spec(_spec)
-sys.modules["metadata"] = _metadata
-_spec.loader.exec_module(_metadata)
+# _spec = importlib.util.spec_from_file_location("metadata", "../../../dev/metadata/__init__.py")
+# _metadata = importlib.util.module_from_spec(_spec)
+# sys.modules["metadata"] = _metadata
+# _spec.loader.exec_module(_metadata)
 
 # Open and read the metadata file
 # with open("../../../metadata/main.json") as f:
@@ -46,7 +43,7 @@ _spec.loader.exec_module(_metadata)
 #
 # _url_copyright = f"{_github_link}/blob/{_data['github']['branch_name']}/{_data['copyright']['path']}"
 # _license_name = _data['copyright']['license_name']
-_author_names_in_order = []
+
 
 """
 Project information
@@ -55,28 +52,21 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
-project: str = _metadata.project.NAME
+project: str = _meta['project']['name']
 
-# TODO
-# author: str = ', '.join(
-#     [_author['name'] for _author in _authors]
-#     + [_author['name'] for _author in _corresponding_authors]
-# )
-#
-# copyright: str = (
-#     (
-#         f"{_copyright_start_year}--{datetime.date.today().year}, "
-#         if _copyright_start_year != datetime.date.today().year else
-#         f"{_copyright_start_year}, "
-#     ) + (_org_name if _org_name != '' else _corresponding_authors[0]['name'])
-# )
-#
-# project_copyright: Union[str, List[str]] = copyright
-#
-# version: str = _short_version
-#
-# release: str = _long_version
+author: str = ', '.join([_author['name'] for _author in _meta['project']['authors']])
 
+copyright: str = (
+    f"{_meta['project']['start_year']}"
+    f"{f'--{datetime.date.today().year}' if _meta['project']['start_year'] != datetime.date.today().year else ''}"
+    f" {_meta['project']['owner']['name']}"
+)
+
+project_copyright: Union[str, List[str]] = copyright
+
+release: str = getattr(importlib.import_module(_meta['package']['name']), '__version__')
+
+version: str = '.'.join(release.split('.')[:2])
 
 """
 General configuration
@@ -269,12 +259,7 @@ html_theme_options: Dict[str, Any] = {
         "image_dark": "_static/img/logo/logo_dark.svg",
         "alt_text": "Logo",
     },
-    # TODO
-    # "announcement": (
-    #     f"https://raw.githubusercontent.com/{_data['github']['user_name']}/"
-    #     f"{_data['github']['repo_name']}/{_data['github']['branch_name']}/"
-    #     f"{_data['docs']['path']}/_templates/announcement.html"
-    # ),
+    "announcement": _meta['url']['announcement'],
 
     # --- Header / Navigation Bar ---
     # Left section
@@ -288,7 +273,7 @@ html_theme_options: Dict[str, Any] = {
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
 
-    "search_bar_text": f"Search {_metadata.project.NAME} ...",
+    "search_bar_text": f"Search {_meta['project']['name']} ...",
     "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "last-updated", "edit-this-page", "sourcelink", ],
     "show_prev_next": True,
@@ -302,45 +287,7 @@ html_theme_options: Dict[str, Any] = {
 
     "header_links_before_dropdown": 7,
 
-    "icon_links": [
-        {
-            "name": "Source Repository",
-            "url": _metadata.urls.GITHUB_REPO,
-            "icon": "fa-brands fa-github",
-        },
-        {
-            "name": "Issues",
-            "url": _metadata.urls.ISSUE_TRACKER,
-            "icon": "fa-regular fa-circle-dot",
-        },
-        {
-            "name": "Pull Requests",
-            "url": _metadata.urls.UPDTATE_TRACKER,
-            "icon": "fa-solid fa-code-pull-request",
-        },
-        {
-            "name": "Discussions",
-            "url": _metadata.urls.DISCUSSIONS,
-            "icon": "fa-solid fa-comments",
-        },
-        # TODO
-        # {
-        #     "name": "Email",
-        #     "url": f"mailto:{_data['project']['email']}",
-        #     "icon": "fa-regular fa-envelope",
-        # },
-        {
-            "name": "Copyright/License",
-            "url": _metadata.urls.LICENSE,
-            "icon": "fa-solid fa-copyright",
-
-        },
-        {
-            "name": "PyPi Package",
-            "url": _metadata.urls.PYPI,
-            "icon": "fa-brands fa-python",
-        },
-    ],
+    "icon_links": [],  # set dynamically below
     "icon_links_label": "External links",
 
     "use_edit_page_button": True,
@@ -357,11 +304,62 @@ html_theme_options: Dict[str, Any] = {
 # -------------------------------------------------------------------------
 # The following part dynamically reads header icon flags from the metadata,
 # and adds the corresponding icons to `html_theme_options['icon_links']`.
-_contact_platform = {
-    "twitter": {"name": "Twitter", "icon": "fa-brands fa-twitter"},
-    "linkedin": {"name": "LinkedIn", "icon": "fa-brands fa-linkedin"},
-    "researchgate": {"name": "ResearchGate", "icon": "fa-brands fa-researchgate"},
-    "orcid": {"name": "ORCiD", "icon": "fa-brands fa-orcid"},
+_navbar_defaults = {
+    "repo": {
+        "name": "Source Repository",
+        "icon": "fa-brands fa-github",
+        "url": _meta['url']['gh_repo']
+    },
+    "issues": {
+        "name": "Issues",
+        "icon": "fa-regular fa-circle-dot",
+        "url": _meta['url']['gh_issues']
+    },
+    "pull_requests": {
+        "name": "Pull Requests",
+        "icon": "fa-solid fa-code-pull-request",
+        "url": _meta['url']['pulls']
+    },
+    "discussions": {
+        "name": "Discussions",
+        "icon": "fa-solid fa-comments",
+        "url": _meta['url']['discussions']
+    },
+    "email": {
+        "name": "Email",
+        "icon": "fa-regular fa-envelope",
+        "url": f"mailto:{_meta['maintainers']['email']['main']}"
+    },
+    "license": {
+        "name": "License",
+        "icon": "fa-solid fa-copyright",
+        "url": _meta['url']['license']
+    },
+    "pypi": {
+        "name": "PyPI Distribution",
+        "icon": "fa-brands fa-python",
+        "url": _meta['url']['pypi']
+    },
+    "twitter": {
+        "name": "Twitter",
+        "icon": "fa-brands fa-twitter",
+        "url": _meta['project']['owner']['external_urls'].get('twitter', '')
+    },
+    "linkedin": {
+        "name": "LinkedIn",
+        "icon": "fa-brands fa-linkedin",
+        "url": _meta['project']['owner']['external_urls'].get('linkedin', '')
+    },
+    "researchgate": {
+        "name": "ResearchGate",
+        "icon": "fa-brands fa-researchgate",
+        "url": _meta['project']['owner']['external_urls'].get('researchgate', '')
+    },
+    "orcid": {
+        "name": "ORCiD",
+        "icon": "fa-brands fa-orcid",
+        "url": _meta['project']['owner']['external_urls'].get('orcid', '')
+    },
 }
 
 
@@ -372,33 +370,23 @@ def _add_icon_link(
         type: Literal['fontawesome', 'url', 'local'] = 'fontawesome'
 ) -> NoReturn:
     """Add an icon link to `html_theme_options['icon_links']`."""
-    html_theme_options['icon_links'].append(
-        {
-            "name": name,
-            "url": url,
-            "icon": icon,
-            "type": type,
-        }
-    )
+    html_theme_options['icon_links'].append({"name": name, "url": url, "icon": icon, "type": type})
     return
 
-# TODO
-# for _contact_type, _show_icon in _data['docs']['header_icon'].items():
-#     if _show_icon:
-#         for _contact_person in [_data['contact']['organization']] + _corresponding_authors:
-#             _contact_url = _contact_person[_contact_type]
-#             if _contact_url != "":
-#                 _add_icon_link(
-#                     name=_contact_platform[_contact_type]['name'],
-#                     url=_contact_url,
-#                     icon=_contact_platform[_contact_type]['icon']
-#                 )
-#                 break
-#         else:
-#             raise ValueError(
-#                 f"Displaying the header icon for {_contact_type} is active, "
-#                 f"but no contact person has a URL."
-#             )
+
+for _icon in _meta['website']['navbar_icons']:
+    _icon_id = _icon.pop('id', None)
+    if _icon_id:
+        _def = _navbar_defaults[_icon_id]
+        _icon.setdefault('name', _def['name'])
+        _icon.setdefault('url', _def['url'])
+        _icon.setdefault('icon', _def['icon'])
+        if _icon.get('icon'):
+            _icon.setdefault('type', 'fontawesome')
+        else:
+            _icon['type'] = _def.get('type') or 'fontawesome'
+    else:
+        _add_icon_link(**_icon)
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 
@@ -406,19 +394,21 @@ def _add_icon_link(
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-# TODO
-# if _data['docs']['analytics']['plausible']['domain'] != "":
-#     html_theme_options['analytics'] = {
-#         "plausible_analytics_domain": _data['docs']['analytics']['plausible']['domain'],
-#         "plausible_analytics_url": _data['docs']['analytics']['plausible']['url'],
-#     }
-# elif _data['docs']['analytics']['google']['id'] != "":
-#     html_theme_options['analytics'] = {
-#         "google_analytics_id": _data['docs']['analytics']['google']['id'],
-#     }
+_analytics = _meta['website'].get('analytics')
+if _analytics:
+    _plausible_analytics = _analytics.get('plausible')
+    if _plausible_analytics and _plausible_analytics.get('domain') and _plausible_analytics.get('url'):
+        html_theme_options['analytics'] = {
+            "plausible_analytics_domain": _plausible_analytics['domain'],
+            "plausible_analytics_url": _plausible_analytics['url'],
+        }
+    _google_analytics = _analytics.get('google')
+    if _google_analytics and _google_analytics.get('id'):
+        html_theme_options['analytics'] = {
+            "google_analytics_id": _google_analytics['id'],
+        }
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
 
 
 # html_theme_path: List[str] = []
@@ -433,16 +423,15 @@ def _add_icon_link(
 
 html_context = {
     # PyData variables
-    "github_user": _metadata.project.GITHUB_USER,
-    "github_repo": _metadata.project.GITHUB_REPO,
-    "github_version": _metadata.project.GITHUB_BRANCH,
-    "doc_path": _metadata.paths.DIR_SPHINX_WEBSITE,
+    "github_user": _meta['project']['owner']['login'],
+    "github_repo": _meta['project']['github']['name'],
+    "github_version": _meta['project']['github']['default_branch'],
+    "doc_path": _meta['paths']['dir_website_sphinx_source'],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
-    # TODO
-    # "_announcement_msg": _announcement,
+    "_announcement_msg": _meta['website']['announcement'],
     "_url_copyright": _metadata.urls.LICENSE,
-    "_license_name": _metadata.project.LICENSE
+    "_license_name": dev._.project.LICENSE
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
@@ -548,7 +537,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{_metadata.project.NAME} Docs"
+htmlhelp_basename: str = f"{dev._.project.NAME} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -585,8 +574,8 @@ References
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_metadata.project.PACKAGE_NAME}_docs.tex",
-        f"{_metadata.project.NAME} Documentation",
+        f"{dev._.project.PACKAGE_NAME}_docs.tex",
+        f"{dev._.project.NAME} Documentation",
         ' \\and '.join(_author_names_in_order),
         'manual',
         False
@@ -615,8 +604,8 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        _metadata.project.PACKAGE_NAME,
-        f"{_metadata.project.NAME} Documentation",
+        dev._.project.PACKAGE_NAME,
+        f"{dev._.project.NAME} Documentation",
         _author_names_in_order,
         "1"
     )
@@ -638,11 +627,11 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_metadata.project.PACKAGE_NAME}_docs",
-        f"{_metadata.project.NAME} Documentation",
+        f"{dev._.project.PACKAGE_NAME}_docs",
+        f"{dev._.project.NAME} Documentation",
         '@*'.join(_author_names_in_order),
-        _metadata.project.PACKAGE_NAME,
-        _metadata.project.SHORT_DESCRIPTION,
+        dev._.project.PACKAGE_NAME,
+        dev._.project.SHORT_DESCRIPTION,
         'Documentation',
         False,
     ),
@@ -693,10 +682,10 @@ myst_enable_extensions: List[str] = [
 myst_heading_anchors: int = 6
 
 myst_substitutions = {
-    "project_name": _metadata.project.NAME,
-    "project_short_description": _metadata.project.SHORT_DESCRIPTION,
-    "project_long_description": _metadata.project.LONG_DESCRIPTION,
-    "package_name": _metadata.project.PACKAGE_NAME,
+    "project_name": dev._.project.NAME,
+    "project_short_description": dev._.project.SHORT_DESCRIPTION,
+    "project_long_description": dev._.project.LONG_DESCRIPTION,
+    "package_name": dev._.project.PACKAGE_NAME,
 }
 
 

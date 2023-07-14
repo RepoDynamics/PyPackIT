@@ -2,23 +2,6 @@
 
 ## PyPI
 
-### classifiers
-
-Classifiers are:
-- Development Status
-- Environment
-- Framework
-- Intended Audience
-- License
-- Natural Language
-- Operating System
-- Programming Language
-- Topic
-- Typing
-
-List of classifiers: https://pypi.org/classifiers/
-or as a python package : https://github.com/pypa/trove-classifiers/blob/main/src/trove_classifiers/__init__.py
-
 ### dependencies
 Either a list of dependencies, or a string representing the filepath (from root) to a txt file containing one
 dependency per line.

@@ -59,7 +59,7 @@
 #
 # }
 
-from . import project
+from dev._ import project
 
 EMAIL_SECURITY: str = "armin.ariam@fu-berlin.de"
 
@@ -79,9 +79,9 @@ The values are lists of GitHub usernames.
 
 
 PRS: dict[str, list[str]] = {
-    # Default owners for everything, unless a later match takes precedence:
+
     '*': [project.AUTHORS[0]],
-    # All files directly under the root directory; these are config files like pyproject.toml.
+
     '/*': [project.AUTHORS[0]],
     # All files and directories under the '.github' directory.
     # These are workflows (sensitive; can be exploited) and other GitHub related configs.

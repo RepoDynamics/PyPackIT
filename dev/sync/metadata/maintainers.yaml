@@ -1,0 +1,26 @@
+
+email:
+  main: "a.ariamajd@gmail.com"
+  security: "a.ariamajd@gmail.com"
+
+
+issue:
+
+  default:
+    - "aariam"
+
+  bug_api:
+    - "aariam"
+
+
+pull_request:
+
+  # Default owners for everything, unless a later match takes precedence.
+  - pattern: "*"
+    reviewers:
+      - "aariam"
+
+  # All files directly under the root directory; these are config files like pyproject.toml.
+  - pattern: "/*"
+    reviewers:
+      - "aariam"

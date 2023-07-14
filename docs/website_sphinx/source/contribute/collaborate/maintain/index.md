@@ -7,4 +7,5 @@ github
 security
 git
 ci
+metadata
 :::

@@ -1,0 +1,19 @@
+name: Announcement
+
+on:
+  workflow_dispatch:
+    inputs:
+      announcement:
+        description: "Announcement message"
+        required: true
+        type: string
+
+jobs:
+
+  announcement:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Display announcement
+        run: echo "${{ github.event.inputs.announcement }}"
+

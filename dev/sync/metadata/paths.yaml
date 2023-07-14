@@ -1,0 +1,7 @@
+
+
+dir_website_sphinx_make: docs/website_sphinx
+dir_website_sphinx_source: docs/website_sphinx/source
+dir_website_sphinx_build: docs/website_sphinx/_build
+
+

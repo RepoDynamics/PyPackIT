@@ -43,7 +43,7 @@ git push origin 0.0.0
 
 This will build the package with version 0.0.0.
 
-Afterwards, until you create the next tag (0.0.1), any push to the main branch will create a development version
+Afterward, until you create the next tag (0.0.1), any push to the main branch will create a development version
 in the form of 0.0.1.devN, where N is the number of commits to the main branch since the last tag.
 This is a [PEP440](https://peps.python.org/pep-0440/#public-version-identifiers)-compliant public version identifier, 
 so that each push to the main branch can be published on TestPyPI. 
