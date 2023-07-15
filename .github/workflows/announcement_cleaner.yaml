@@ -22,8 +22,15 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 'Display announcement'
-        run: git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
-
+        run: |
+          last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
+          current_date=$(date --utc +%s)
+          echo $((current_date - last_commit_date))
+#          if [ $time_difference -gt $duration ]; then
+#              echo "true"
+#          else
+#              echo "false"
+#          fi
 #      - name: 'Update announcement file'
 #        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
 #
