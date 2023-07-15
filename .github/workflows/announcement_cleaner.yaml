@@ -44,11 +44,12 @@ jobs:
           else
               last_commit_date=$(git log -1 --format=%cd --date=unix $filepath)
               echo "Last commit timestamp:  $last_commit_date"
-              echo "Last announcement commit:" >> $GITHUB_STEP_SUMMARY
+              echo "* Last announcement commit:" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
               echo "Current timestamp: $current_date"
+              echo "* Current time and date: $(date -u)" >> $GITHUB_STEP_SUMMARY
               
               elapsed_seconds=$(($current_date - $last_commit_date))
               echo "Elapsed seconds: $elapsed_seconds"
@@ -70,7 +71,7 @@ jobs:
         run: |
           
           
-          echo "Current time and date:" >> $GITHUB_STEP_SUMMARY
+          
 
 #          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
 #          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
