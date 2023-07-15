@@ -33,7 +33,7 @@ jobs:
 
       - name: 'Get metadata'
         id: get_metadata
-        shell: micromamba-shell {0}
+        shell: bash -el {0}
         run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Display metadata'
