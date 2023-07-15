@@ -40,4 +40,4 @@ analytics:
 
 blog_dir_name: news
 
-announcement_retention_time: 2592000  # 30 days (in seconds)
+announcement_retention_time: 10000  #2592000  # 30 days (in seconds)
