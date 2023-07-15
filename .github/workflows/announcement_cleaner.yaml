@@ -33,26 +33,35 @@ jobs:
       - name: 'Calculate expiration date'
         id: expiration-check
         run: |
-          last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo "Last commit timestamp:  $last_commit_date"
           
-          current_date=$(date -u +%s)
-          echo "Current timestamp: $current_date"
+          current_announcement="$(cat ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})"
+          echo "Current announcement: $current_announcement"
           
-          elapsed_seconds=$(($current_date - $last_commit_date))
-          echo "Elapsed seconds: $elapsed_seconds"
-          
-          retention_seconds=$((${{ fromJSON(needs.load-metadata.outputs.json).website.announcement_retention_days }} * 24 * 60 * 60))
-          echo "Retention seconds: $retention_seconds"
-          
-          if (($elapsed_seconds > $retention_seconds)); then
-              echo "Announcement is expired."
-              echo "expired=true" >> $GITHUB_OUTPUT
-          else
-              echo "Announcement is not yet expired."
+          if ($$current_announcement == "")); then
+              echo "No current announcement exists."
               echo "expired=false" >> $GITHUB_OUTPUT
+          else
+              last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
+              echo "Last commit timestamp:  $last_commit_date"
+              
+              current_date=$(date -u +%s)
+              echo "Current timestamp: $current_date"
+              
+              elapsed_seconds=$(($current_date - $last_commit_date))
+              echo "Elapsed seconds: $elapsed_seconds"
+              
+              retention_seconds=$((${{ fromJSON(needs.load-metadata.outputs.json).website.announcement_retention_days }} * 24 * 60 * 60))
+              echo "Retention seconds: $retention_seconds"
+              
+              if (($elapsed_seconds > $retention_seconds)); then
+                  echo "Announcement is expired."
+                  echo "expired=true" >> $GITHUB_OUTPUT
+              else
+                  echo "Announcement is not yet expired."
+                  echo "expired=false" >> $GITHUB_OUTPUT
+              fi
           fi
-
+          
       - name: 'Create job summary'
         if: always()
         run: |
