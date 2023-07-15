@@ -1,4 +1,4 @@
-# Run static code analysis
+# Load repository metadata.
 
 name: "Dispatchable: Load Metadata"
 run-name: Load repository metadata from ${{ github.head_ref || github.ref }}
@@ -61,7 +61,7 @@ jobs:
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
           echo "<pre>" >> $GITHUB_STEP_SUMMARY
-          echo "<code>" >> $GITHUB_STEP_SUMMARY
+          echo "<code class='language-json'>" >> $GITHUB_STEP_SUMMARY
           cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
           echo "</code>" >> $GITHUB_STEP_SUMMARY
           echo "</pre>" >> $GITHUB_STEP_SUMMARY
