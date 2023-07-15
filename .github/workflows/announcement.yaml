@@ -26,9 +26,7 @@ on:
         description: "Announcement message"
         required: true
         type: string
-        default: >-
-          <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-          The project is under active development and not yet fully implemented.
+        default: ""
       trigger:
         description: "Trigger type"
         required: true
