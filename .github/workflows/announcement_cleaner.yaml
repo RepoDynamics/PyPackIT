@@ -55,8 +55,8 @@ jobs:
 
   remove:
     name: 'Remove announcement'
-    needs: expire
-    if: needs.expire.outputs.expired == 'true'
+    needs: check-expiration
+    if: needs.check-expiration.outputs.expired == 'true'
     uses: ./.github/workflows/announcement.yaml
     permissions:
       contents: write
