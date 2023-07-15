@@ -40,7 +40,7 @@ jobs:
 
       - name: 'Display metadata'
         if: always()
-        run: echo "${{toJSON(steps.get-metadata.outputs.json)}}"
+        run: echo ${{toJSON(steps.get-metadata.outputs.json)}}
 
       - name: 'Upload metadata as artifact'
         if: always()
