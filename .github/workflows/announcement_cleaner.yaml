@@ -37,7 +37,7 @@ jobs:
           current_announcement=$(<${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
           echo "Current announcement: $current_announcement"
           
-          if ($current_announcement == ""); then
+          if [ "$current_announcement" = "" ]; then
               echo "No current announcement exists."
               echo "There is currently no announcement." >> $GITHUB_STEP_SUMMARY
               echo "expired=false" >> $GITHUB_OUTPUT
