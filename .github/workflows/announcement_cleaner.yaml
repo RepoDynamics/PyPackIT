@@ -40,9 +40,9 @@ jobs:
           time_difference=$(($current_date - $last_commit_date))
           echo "Elapsed time: $time_difference"
           if ((time_difference > ${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_time }})); then
-              "expired='true'" >> $GITHUB_OUTPUT
+              echo "expired=true" >> $GITHUB_OUTPUT
           else
-              "expired='false'" >> $GITHUB_OUTPUT
+              echo "expired=false" >> $GITHUB_OUTPUT
           fi
 
       - name: 'Remove announcement'
