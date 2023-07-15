@@ -53,8 +53,5 @@ jobs:
         if: always()
         run: |
           echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-#          echo "JSON_RESPONSE<<$EOF" >> "$GITHUB_STEP_SUMMARY"
           cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
-#          echo "$EOF" >> "$GITHUB_STEP_SUMMARY"
           
