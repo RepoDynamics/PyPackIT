@@ -33,15 +33,17 @@ jobs:
       - name: 'Display announcement'
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo "Last commit date: $last_commit_date"
+          echo "Last commit date:  $last_commit_date"
           current_date=$(date -u +%s)
-          echo $current_date
-          echo $((current_date - last_commit_date))
-#          if [ $time_difference -gt $duration ]; then
-#              echo "true"
-#          else
-#              echo "false"
-#          fi
+          echo "Current date: $current_date"
+          time_difference=$(($current_date - $last_commit_date))
+          echo "Elapsed time: $time_difference"
+          if ((time_difference > ${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_time }})); then
+              echo "Expired"
+          else
+              echo "Not expired"
+          fi
+
 #      - name: 'Update announcement file'
 #        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
 #
@@ -54,9 +56,10 @@ jobs:
 #            docs(announcement): update announcement for ${{ inputs.trigger }}
 #          commit_user_name: RepoDynamics[bot]
 #
-#      - name: 'Create job summary'
-#        if: always()
-#        run: |
+      - name: 'Create job summary'
+        if: always()
+        run: |
+          echo $(git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}) >> $GITHUB_STEP_SUMMARY
 #          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
 #          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
 #          echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"

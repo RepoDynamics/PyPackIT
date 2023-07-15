@@ -39,3 +39,5 @@ analytics:
     id: "G-0X66W6TGL2"
 
 blog_dir_name: news
+
+announcement_retention_time: 2592000  # 30 days (in seconds)
