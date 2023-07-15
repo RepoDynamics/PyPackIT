@@ -250,7 +250,7 @@ line-length = 100
 #     https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
 dynamic = ["version"]
-name = "template-package"
+name = "templaterepo"
 readme = {file = "README.md", content-type = "text/markdown"}
 dependencies = [
     "numpy"
