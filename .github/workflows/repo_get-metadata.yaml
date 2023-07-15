@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: 'Checkout repository'
+      - name: 'Checkout repository from ${{ github.head_ref || github.ref }}'
         uses: actions/checkout@v3
         with:
           # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
