@@ -25,7 +25,7 @@ jobs:
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
           echo $last_commit_date
-          current_date=$(date --utc +%s)
+          current_date=$(date -u +%s)
           echo $current_date
           echo $((current_date - last_commit_date))
 #          if [ $time_difference -gt $duration ]; then
