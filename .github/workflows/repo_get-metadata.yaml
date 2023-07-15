@@ -40,7 +40,7 @@ jobs:
 
       - name: 'Display metadata'
         if: always()
-        run: echo cat repo/metadata/metadata_full.json
+        run: cat repo/metadata/metadata_full.json
 
       - name: 'Upload metadata as artifact'
         if: always()
