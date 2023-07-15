@@ -42,12 +42,6 @@ jobs:
         if: always()
         run: cat repo/metadata/metadata_full.json
 
-      - name: 'Upload metadata as artifact'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: repo/metadata/metadata_full.json
-          name: 'metadata'
 
       - name: 'Create summary'
         if: always()
@@ -57,3 +51,9 @@ jobs:
           cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
           echo "```" >> $GITHUB_STEP_SUMMARY
           
+      - name: 'Upload metadata as artifact'
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: repo/metadata/metadata_full.json
+          name: 'metadata'
