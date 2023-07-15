@@ -1,6 +1,6 @@
-name: "1. [C/D]: Make Announcement"
+name: "1. [C/D]: Update Announcement"
 run-name: >-
-  Make Announcement: 
+  Update Announcement: 
   ${{ 
     format('Triggered {0} by {1}.', 
       (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', 

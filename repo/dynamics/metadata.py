@@ -82,8 +82,9 @@ def generate_package_name(project_name: str) -> str:
     return re.sub(r'[._-]+', '-', project_name.lower())
 
 
-def main(path_metadata: str | Path) -> dict:
-    metadata = read_metadata(path_metadata)
+def main(path_metadata: str | Path = None) -> dict:
+    path = Path(path_metadata).resolve() if path_metadata else Path(__file__).parent.parent / 'metadata'
+    metadata = read_metadata(path)
 
     verify_project_start_year(metadata['project']['start_year'])
 

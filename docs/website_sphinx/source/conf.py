@@ -12,10 +12,11 @@ import datetime
 import importlib
 import sys
 
-_spec = importlib.util.spec_from_file_location("metadata", "../../../dev/sync/__init__.py")
-_meta = importlib.util.module_from_spec(_spec)
-sys.modules["metadata"] = _meta
-_spec.loader.exec_module(_meta)
+_spec = importlib.util.spec_from_file_location("metadata", "../../../repo/dynamics/metadata.py")
+_metadata = importlib.util.module_from_spec(_spec)
+sys.modules["metadata"] = _metadata
+_spec.loader.exec_module(_metadata)
+_meta = _metadata.main()
 
 # Open and read the metadata file
 # with open("../../../metadata/main.json") as f:
