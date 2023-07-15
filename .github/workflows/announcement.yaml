@@ -69,7 +69,7 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && join(fromJSON(['manually by', github.actor]), ' ') || join(fromJSON(['automatically for', inputs.trigger]), ' ') }}:" >> $GITHUB_STEP_SUMMARY
+          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
           ${{inputs.announcement}} >> "$GITHUB_STEP_SUMMARY"
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
