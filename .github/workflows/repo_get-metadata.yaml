@@ -56,7 +56,7 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Repository metadata loaded from `${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py`. " >> $GITHUB_STEP_SUMMARY
+          echo "Repository metadata loaded from \`${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py\`. " >> $GITHUB_STEP_SUMMARY
           echo "The JSON output is uploaded as an artifact named `metadata`, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
