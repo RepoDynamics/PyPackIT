@@ -67,6 +67,7 @@ jobs:
               echo "**Retention Period**" >> $GITHUB_STEP_SUMMARY
               echo "* Allowed: $retention_days days" >> $GITHUB_STEP_SUMMARY
               elapsed_days="scale=4 ; $elapsed_seconds / 86400" | bc
+              echo "Elapsed days: $elapsed_days"
               echo "* Elapsed: $elapsed_days days" >> $GITHUB_STEP_SUMMARY
               
               echo "### Result" >> $GITHUB_STEP_SUMMARY
