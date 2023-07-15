@@ -1,0 +1,45 @@
+name: "[A]: Expire Announcement"
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_get-metadata.yaml
+
+  expire:
+    name: 'Make announcement'
+    needs: metadata
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout repository from ${{ github.ref }}'
+        uses: actions/checkout@v3
+
+      - name: 'Display announcement'
+        run: git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+
+#      - name: 'Update announcement file'
+#        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+#
+#      - name: 'Commit changes and push'
+#        # https://github.com/marketplace/actions/git-auto-commit
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          file_pattern: ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+#          commit_message: >-
+#            docs(announcement): update announcement for ${{ inputs.trigger }}
+#          commit_user_name: RepoDynamics[bot]
+#
+#      - name: 'Create job summary'
+#        if: always()
+#        run: |
+#          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
+#          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+#          echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
+#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
