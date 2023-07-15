@@ -1,7 +1,7 @@
 # Run static code analysis
 
 name: "Dispatchable: Load Metadata"
-run-name: Load repository metadata from ${{ github.head_ref }}
+run-name: Load repository metadata from ${{ github.head_ref || github.ref }}
 
 on:
   workflow_dispatch:
