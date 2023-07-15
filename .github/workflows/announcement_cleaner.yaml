@@ -1,8 +1,9 @@
 name: "[A]: Expire Announcement"
 
 on:
-
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
 
@@ -44,14 +45,17 @@ jobs:
           else
               last_commit_date=$(git log -1 --format=%cd --date=unix $filepath)
               echo "Last commit timestamp:  $last_commit_date"
-              echo "### Last Announcement" >> $GITHUB_STEP_SUMMARY
-              echo "Announcement: $current_announcement" >> $GITHUB_STEP_SUMMARY
+              echo "**Last Announcement**" >> $GITHUB_STEP_SUMMARY
+              echo "Announcement message:" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+              echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
               echo "Current timestamp: $current_date"
-              echo "### Current Date" >> $GITHUB_STEP_SUMMARY
-              echo "$(date -u)" >> $GITHUB_STEP_SUMMARY
+              echo "**Current Date**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+              
               
               elapsed_seconds=$(($current_date - $last_commit_date))
               echo "Elapsed seconds: $elapsed_seconds"
@@ -60,10 +64,10 @@ jobs:
               retention_seconds=$((retention_days * 24 * 60 * 60))
               echo "Retention seconds: $retention_seconds"
               
-              echo "### Retention Period" >> $GITHUB_STEP_SUMMARY
-              echo "Allowed: $retention_days days" >> $GITHUB_STEP_SUMMARY
-              elapsed_days=$(($elapsed_seconds / 60 / 60 / 24))
-              echo "Elapsed: $elapsed_days days" >> $GITHUB_STEP_SUMMARY
+              echo "**Retention Period**" >> $GITHUB_STEP_SUMMARY
+              echo "* Allowed: $retention_days days" >> $GITHUB_STEP_SUMMARY
+              elapsed_days="scale=2 ; elapsed_seconds / 86400" | bc
+              echo "* Elapsed: $elapsed_days days" >> $GITHUB_STEP_SUMMARY
               
               echo "### Result" >> $GITHUB_STEP_SUMMARY
               if (($elapsed_seconds > $retention_seconds)); then
