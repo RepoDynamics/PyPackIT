@@ -34,8 +34,8 @@ jobs:
         id: expiration-check
         run: |
           
-          current_announcement="$(<${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})"
-          echo "Current announcement: $current_announcement"
+          current_announcement=$(<${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
+          
           
           if ($$current_announcement == "")); then
               echo "No current announcement exists."
