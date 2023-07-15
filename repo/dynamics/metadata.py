@@ -137,5 +137,6 @@ if __name__ == '__main__':
     try:
         print(main(path))
     except Exception as e:
+        import sys
         print(f"Error: {e}")
-        exit(1)
+        sys.exit(1)
