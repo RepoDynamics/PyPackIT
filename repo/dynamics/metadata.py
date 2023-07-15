@@ -136,6 +136,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     path = Path(args.path).resolve() if args.path else Path(__file__).parent.parent/'metadata'
     try:
+        metadata = main(path)
+        with open(path/'metadata_full.json', 'w') as f:
+            json.dump(metadata, f, indent=4)
         print(json.dumps(main(path)))
     except Exception as e:
         import sys

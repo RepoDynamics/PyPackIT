@@ -38,16 +38,23 @@ jobs:
         shell: bash -el {0}
         run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
-#      - name: 'Display metadata'
-#        if: always()
-#        run: echo "${{steps.get-metadata.outputs.json}} | python -m json.tool"
-#
-      - name: 'Create summary'
+      - name: 'Display metadata'
         if: always()
-        run: |
-          echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "JSON_RESPONSE<<$EOF" >> "$GITHUB_STEP_SUMMARY"
-          "${{steps.get-metadata.outputs.json}}" | python -m json.tool >> "$GITHUB_STEP_SUMMARY"
-          echo "$EOF" >> "$GITHUB_STEP_SUMMARY"
+        run: echo "${{steps.get-metadata.outputs.json}}"
+
+      - name: 'Upload metadata as artifact'
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: repo/metadata/metadata_full.json
+          name: 'metadata'
+
+#      - name: 'Create summary'
+#        if: always()
+#        run: |
+#          echo "## Metadata" >> $GITHUB_STEP_SUMMARY
+#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+#          echo "JSON_RESPONSE<<$EOF" >> "$GITHUB_STEP_SUMMARY"
+#          "${{steps.get-metadata.outputs.json}}" | python -m json.tool >> "$GITHUB_STEP_SUMMARY"
+#          echo "$EOF" >> "$GITHUB_STEP_SUMMARY"
           
