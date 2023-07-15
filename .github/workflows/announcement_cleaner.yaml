@@ -31,6 +31,7 @@ jobs:
           fetch-depth: 0
 
       - name: 'Display announcement'
+        id: expiration-check
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
           echo "Last commit date:  $last_commit_date"
@@ -39,10 +40,17 @@ jobs:
           time_difference=$(($current_date - $last_commit_date))
           echo "Elapsed time: $time_difference"
           if ((time_difference > ${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_time }})); then
-              echo "Expired"
+              "expired=true" >> $GITHUB_OUTPUT
           else
-              echo "Not expired"
+              "expired=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: 'Remove announcement'
+        if: steps.expiration-check.outputs.expired == 'true'
+        uses: ./.github/workflows/announcement.yaml
+        with:
+          announcement: ""
+          trigger: "expiration"
 
 #      - name: 'Update announcement file'
 #        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
