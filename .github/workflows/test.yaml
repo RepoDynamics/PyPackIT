@@ -1,6 +1,6 @@
 
 name: Test
-run-name: Test from from ${{ github.head_ref || github.ref }}
+run-name: Test from ${{ github.head_ref || github.ref }}
 
 on:
   workflow_dispatch:
@@ -20,5 +20,5 @@ jobs:
       - name: 'print'
         run: |
           echo ${{ github.head_ref }}
-          ${{ github.ref }}
+          echo ${{ github.ref }}
           echo "${{fromJSON(needs.get-metadata.outputs.json)}}"
