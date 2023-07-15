@@ -12,6 +12,7 @@ jobs:
     uses: ./.github/workflows/repo_get-metadata.yaml
 
   print:
+    if: always()
     needs: get-metadata
     runs-on: ubuntu-latest
     steps:
