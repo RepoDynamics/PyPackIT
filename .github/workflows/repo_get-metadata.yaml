@@ -42,4 +42,4 @@ jobs:
       - name: 'Create summary'
         run: |
           echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-          echo "${{steps.get-metadata.outputs.json}}" >> $GITHUB_STEP_SUMMARY
+          echo "${{toJSON(steps.get-metadata.outputs.json)}}" >> $GITHUB_STEP_SUMMARY
