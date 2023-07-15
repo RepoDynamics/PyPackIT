@@ -134,4 +134,8 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--path', type=str, help="Path to the metadata directory.", required=False)
     args = parser.parse_args()
     path = Path(args.path).resolve() if args.path else Path(__file__).parent.parent/'metadata'
-    print(main(path))
+    try:
+        print(main(path))
+    except Exception as e:
+        print(f"Error: {e}")
+        exit(1)
