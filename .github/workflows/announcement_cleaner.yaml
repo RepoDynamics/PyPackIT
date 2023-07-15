@@ -13,8 +13,8 @@ jobs:
   expire:
     name: 'Make announcement'
     needs: metadata
-    permissions:
-      contents: write
+    outputs:
+      expired: ${{ steps.expiration-check.outputs.expired }}
     runs-on: ubuntu-latest
     steps:
 
@@ -45,12 +45,15 @@ jobs:
               echo "expired=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: 'Remove announcement'
-        if: steps.expiration-check.outputs.expired == 'true'
-        uses: ./.github/workflows/announcement.yaml
-        with:
-          announcement: ""
-          trigger: "expiration"
+  remove:
+    name: 'Remove announcement'
+    needs: expire
+    if: needs.expire.outputs.expired == 'true'
+    uses: ./.github/workflows/announcement.yaml
+    with:
+      announcement: ""
+      trigger: "expiration"
+
 
 #      - name: 'Update announcement file'
 #        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
@@ -64,10 +67,10 @@ jobs:
 #            docs(announcement): update announcement for ${{ inputs.trigger }}
 #          commit_user_name: RepoDynamics[bot]
 #
-      - name: 'Create job summary'
-        if: always()
-        run: |
-          echo $(git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}) >> $GITHUB_STEP_SUMMARY
+#      - name: 'Create job summary'
+#        if: always()
+#        run: |
+#          echo $(git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}) >> $GITHUB_STEP_SUMMARY
 #          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
 #          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
 #          echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
