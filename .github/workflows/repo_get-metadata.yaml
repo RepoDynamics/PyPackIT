@@ -46,4 +46,8 @@ jobs:
         if: always()
         run: |
           echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-          echo "${{steps.get-metadata.outputs.json}}" | python -m json.tool >> $GITHUB_STEP_SUMMARY
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "JSON_RESPONSE<<$EOF" >> "$GITHUB_STEP_SUMMARY"
+          ${{steps.get-metadata.outputs.json}} | python -m json.tool >> "$GITHUB_STEP_SUMMARY"
+          echo "$EOF" >> "$GITHUB_STEP_SUMMARY"
+          
