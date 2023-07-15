@@ -33,10 +33,49 @@ on:
 
 jobs:
 
-  announcement:
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_get-metadata.yaml
+
+  publish:
+    name: 'Make Announcement'
+    needs: metadata
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
+
+      - name: 'Verify branch'
+        run: |
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "This workflow can only be triggered from the main branch."
+            exit 1
+          fi
 
       - name: Display announcement
         run: echo "${{ github.event.inputs.announcement }}"
 
+      - name: 'Update announcement file'
+        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+
+      - name: 'Commit changes and push'
+        # https://github.com/marketplace/actions/git-auto-commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+          commit_message: 'docs: make announcement for ${{ github.event.inputs.trigger }}'
+          commit_user_name: 'RepoDynamics[bot]'
+
+      - name: 'Create job summary'
+        if: always()
+        run: |
+          echo "Repository metadata loaded from <code>${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
+          echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "<pre>" >> $GITHUB_STEP_SUMMARY
+          echo "<code class='language-python'>" >> $GITHUB_STEP_SUMMARY
+          cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
+          echo "</code>" >> $GITHUB_STEP_SUMMARY
+          echo "</pre>" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
