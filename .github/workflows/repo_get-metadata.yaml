@@ -37,9 +37,9 @@ jobs:
         run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Display metadata'
-        run: echo "${{toJSON(steps.get-metadata.outputs.json)}}" | python -m json.tool
+        run: echo "${{toJSON(steps.get-metadata.outputs.json)}} | python -m json.tool"
 
       - name: 'Create summary'
         run: |
           echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-          echo "${{toJSON(steps.get-metadata.outputs.json)}}" | python -m json.tool >> $GITHUB_STEP_SUMMARY
+          echo "${{toJSON(steps.get-metadata.outputs.json)}} | python -m json.tool" >> $GITHUB_STEP_SUMMARY
