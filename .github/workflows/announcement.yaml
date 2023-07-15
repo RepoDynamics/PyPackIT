@@ -1,5 +1,5 @@
 name: "1. [C/D]: Make Announcement"
-run-name: Make announcement by ${{ github.event_name }} ${{ github.actor }}
+run-name: Make announcement by ${{ github.event_name == "workflow_dispatch" }} ${{ github.actor }}
 
 on:
   workflow_dispatch:
