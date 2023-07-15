@@ -1,7 +1,7 @@
 # Run static code analysis
 
-name: Get Metadata
-run-name: Get Metadata
+name: "Dispatchable: Load Metadata"
+run-name: Load repository metadata from ${{ github.head_ref }}
 
 on:
   workflow_dispatch:
@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
+          ref: ${{ github.head_ref }}
 
       - name: 'Setup environment'
         # https://github.com/mamba-org/setup-micromamba
