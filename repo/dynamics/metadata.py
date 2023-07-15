@@ -90,6 +90,10 @@ def main(path_metadata: str | Path) -> dict:
     metadata['project']['authors'] = [github_user_info(author) for author in metadata['project']['authors']]
     metadata['project']['github'] = github_repo_info(metadata['project']['github']['username'], metadata['project']['name'])
 
+    # TODO
+    metadata['project']['license_name_short'] = ""
+    metadata['project']['license_name_full'] = ""
+
     if not metadata['project'].get('name'):
         metadata['project']['name'] = metadata['project']['github']['name']
     verify_project_name(metadata['project']['name'])
@@ -106,7 +110,10 @@ def main(path_metadata: str | Path) -> dict:
             f"""{"" if metadata['website']['is_gh_user_site'] else f"/{metadata['project']['github']['name']}"}"""
         )
     )
-    metadata['url']['announcement'] = f"{metadata['url']['homepage']}/announcement"
+    metadata['url']['announcement'] = (
+        f"https://raw.githubusercontent.com/{metadata['project']['github']['full_name']}/"
+        f"{metadata['project']['github']['default_branch']}/{metadata['paths']['website_sphinx_announcement']}"
+    )
     metadata['url']['contributors'] = f"{metadata['url']['homepage']}/about#contributors"
     metadata['url']['license'] = f"{metadata['url']['homepage']}/license"
 
@@ -119,3 +126,12 @@ def main(path_metadata: str | Path) -> dict:
     metadata['url']['pypi'] = f"https://pypi.org/project/{metadata['package']['name']}/"
 
     return metadata
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--path', type=str, help="Path to the metadata directory.", required=False)
+    args = parser.parse_args()
+    path = Path(args.path).resolve() if args.path else Path(__file__).parent.parent/'metadata'
+    print(main(path))

@@ -23,9 +23,17 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
+      - name: 'Setup environment'
+        # https://github.com/mamba-org/setup-micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: repo/requirements.yaml
+          generate-run-shell: true
+          init-shell: bash
+
       - name: 'Get metadata'
         id: get_metadata
-        run: echo "json=$(python dev/repo_sync/read_metadata.py)" >> $GITHUB_OUTPUT
+        run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Display metadata'
         run: echo ${{needs.get-metadata.outputs.json}}

@@ -24,3 +24,9 @@ pull_request:
   - pattern: "/*"
     reviewers:
       - "aariam"
+
+  # All files and directories under the '.github' directory.
+  # These are workflows (sensitive; can be exploited) and other GitHub related configs.
+  - pattern: "/.github/"
+    reviewers:
+      - "aariam"

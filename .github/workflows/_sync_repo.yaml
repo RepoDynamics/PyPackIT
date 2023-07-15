@@ -23,12 +23,10 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'metadata/**'
-      - 'dev/**'
+      - 'dev/sync/**'
   pull_request:
     paths:
-      - 'metadata/**'
-      - 'dev/**'
+      - 'dev/sync/**'
 
 
 jobs:

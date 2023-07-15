@@ -6,8 +6,8 @@ channels:
 
 dependencies:
   # Base
-  - python
+  - python = 3.11
   - pip
   # Testing
-  - requests
+  - requests >= 2.31.0, < 3
   - ruamel.yaml >= 0.17.32, < 0.18

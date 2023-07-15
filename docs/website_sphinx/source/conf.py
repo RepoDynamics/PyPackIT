@@ -10,15 +10,12 @@ References
 from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
 import datetime
 import importlib
+import sys
 
-
-# TODO: REMOVE
-import dev.metadata as _metadata
-
-# _spec = importlib.util.spec_from_file_location("metadata", "../../../dev/metadata/__init__.py")
-# _metadata = importlib.util.module_from_spec(_spec)
-# sys.modules["metadata"] = _metadata
-# _spec.loader.exec_module(_metadata)
+_spec = importlib.util.spec_from_file_location("metadata", "../../../dev/sync/__init__.py")
+_meta = importlib.util.module_from_spec(_spec)
+sys.modules["metadata"] = _meta
+_spec.loader.exec_module(_meta)
 
 # Open and read the metadata file
 # with open("../../../metadata/main.json") as f:
@@ -429,9 +426,7 @@ html_context = {
     "doc_path": _meta['paths']['dir_website_sphinx_source'],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
-    "_announcement_msg": _meta['website']['announcement'],
-    "_url_copyright": _metadata.urls.LICENSE,
-    "_license_name": dev._.project.LICENSE
+    "_license_name": _meta['project']['license_name_full'],
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
@@ -537,7 +532,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{dev._.project.NAME} Docs"
+htmlhelp_basename: str = f"{_meta['project']['name']} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -574,9 +569,9 @@ References
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{dev._.project.PACKAGE_NAME}_docs.tex",
-        f"{dev._.project.NAME} Documentation",
-        ' \\and '.join(_author_names_in_order),
+        f"{_meta['package']['name']}_docs.tex",
+        f"{_meta['project']['name']} Documentation",
+        ' \\and '.join([_author['name'] for _author in _meta['project']['authors']]),
         'manual',
         False
     ),
@@ -604,9 +599,9 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        dev._.project.PACKAGE_NAME,
-        f"{dev._.project.NAME} Documentation",
-        _author_names_in_order,
+        _meta['package']['name'],
+        f"{_meta['project']['name']} Documentation",
+        [_author['name'] for _author in _meta['project']['authors']],
         "1"
     )
 ]
@@ -627,11 +622,11 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{dev._.project.PACKAGE_NAME}_docs",
-        f"{dev._.project.NAME} Documentation",
-        '@*'.join(_author_names_in_order),
-        dev._.project.PACKAGE_NAME,
-        dev._.project.SHORT_DESCRIPTION,
+        f"{_meta['package']['name']}_docs",
+        f"{_meta['project']['name']} Documentation",
+        '@*'.join([_author['name'] for _author in _meta['project']['authors']]),
+        _meta['package']['name'],
+        _meta['project']['tagline'],
         'Documentation',
         False,
     ),
@@ -682,10 +677,10 @@ myst_enable_extensions: List[str] = [
 myst_heading_anchors: int = 6
 
 myst_substitutions = {
-    "project_name": dev._.project.NAME,
-    "project_short_description": dev._.project.SHORT_DESCRIPTION,
-    "project_long_description": dev._.project.LONG_DESCRIPTION,
-    "package_name": dev._.project.PACKAGE_NAME,
+    "project_name": _meta['project']['name'],
+    "project_short_description": _meta['project']['tagline'],
+    "project_long_description": _meta['project']['description'],
+    "package_name": _meta['package']['name'],
 }
 
 
@@ -703,7 +698,7 @@ autosummary_generate: bool = True
 
 autosummary_generate_overwrite: bool = True
 
-autosummary_imported_members:bool = False
+autosummary_imported_members: bool = False
 
 autosummary_ignore_module_all: bool = False
 
@@ -720,17 +715,20 @@ References
 ----------
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
-# TODO
-# blog_path: str = "news"
-# blog_baseurl: str = f"https://{_data['docs']['readthedocs_name']}.readthedocs.io/"
-#
-# blog_post_pattern: list[str] = ["news/posts/*.rst", "news/posts/*.md"]
-# post_auto_image: int = 1
-# blog_feed_archives: bool = True
-# fontawesome_included: bool = True
-#
-# if _data['docs']['disqus_shortname'] != "":
-#     disqus_shortname: str = _data['docs']['disqus_shortname']
+
+blog_path: str = _meta['website']['blog_dir_name']
+blog_baseurl: str = _meta['url']['homepage']
+
+blog_post_pattern: list[str] = [
+    f"{_meta['website']['blog_dir_name']}/posts/*.rst",
+    f"{_meta['website']['blog_dir_name']}/posts/*.md"
+]
+post_auto_image: int = 1
+blog_feed_archives: bool = True
+fontawesome_included: bool = True
+
+if _meta['website']['disqus_shortname']:
+    disqus_shortname: str = _meta['docs']['disqus_shortname']
 
 
 """

@@ -38,6 +38,4 @@ analytics:
   google:
     id: "G-0X66W6TGL2"
 
-announcement: >-
-  <i class="fa-solid fa-triangle-exclamation"></i> 
-  The project is under active development and not yet fully implemented.
+blog_dir_name: news
