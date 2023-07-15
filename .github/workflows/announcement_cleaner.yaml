@@ -23,7 +23,7 @@ jobs:
 
       - name: 'Display announcement'
         run: |
-          echo $(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
+          echo $(git log -1 ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
           echo $(git log -1 --format=%cd --date=unix)
           echo $(git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
           echo $(git log -1 --format=%cd)
