@@ -76,7 +76,7 @@ jobs:
                   echo "expired=true" >> $GITHUB_OUTPUT
               else
                   echo "Announcement is not yet expired."
-                  echo "Announcement is not yet expired. It will expire in $(($retention_days-$elapsed_days)) days." >> $GITHUB_STEP_SUMMARY
+                  echo "Announcement is not yet expired. It will expire in $((retention_days-elapsed_days)) days." >> $GITHUB_STEP_SUMMARY
                   echo "expired=false" >> $GITHUB_OUTPUT
               fi
           fi
