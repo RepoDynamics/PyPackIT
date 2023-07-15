@@ -33,8 +33,8 @@ jobs:
       - name: 'Calculate expiration date'
         id: expiration-check
         run: |
-          
-          current_announcement=$(<${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
+          filepath=${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }}
+          current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
           
           if [ "$current_announcement" = "" ]; then
@@ -42,8 +42,10 @@ jobs:
               echo "There is currently no announcement." >> $GITHUB_STEP_SUMMARY
               echo "expired=false" >> $GITHUB_OUTPUT
           else
-              last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})
+              last_commit_date=$(git log -1 --format=%cd --date=unix $filepath)
               echo "Last commit timestamp:  $last_commit_date"
+              echo "Last announcement commit:" >> $GITHUB_STEP_SUMMARY
+              echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
               echo "Current timestamp: $current_date"
@@ -66,8 +68,8 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Last announcement commit:" >> $GITHUB_STEP_SUMMARY
-          echo "$(git log -1 ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})" >> $GITHUB_STEP_SUMMARY
+          
+          
           echo "Current time and date:" >> $GITHUB_STEP_SUMMARY
 
 #          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
