@@ -6,13 +6,13 @@ on:
 
 jobs:
 
-  metadata:
+  load-metadata:
     name: 'Load repository metadata'
     uses: ./.github/workflows/repo_get-metadata.yaml
 
-  expire:
-    name: 'Make announcement'
-    needs: metadata
+  check-expiration:
+    name: 'Check expiration date'
+    needs: load-metadata
     outputs:
       expired: ${{ steps.expiration-check.outputs.expired }}
     runs-on: ubuntu-latest
@@ -30,18 +30,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 'Display announcement'
+      - name: 'Calculate expiration date'
         id: expiration-check
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo "Last commit date:  $last_commit_date"
+          echo "Last commit timestamp:  $last_commit_date"
+          
           current_date=$(date -u +%s)
-          echo "Current date: $current_date"
-          time_difference=$(($current_date - $last_commit_date))
-          echo "Elapsed time: $time_difference"
-          if ((time_difference > ${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_time }})); then
+          echo "Current timestamp: $current_date"
+          
+          elapsed_seconds=$(($current_date - $last_commit_date))
+          echo "Elapsed seconds: $elapsed_seconds"
+          
+          retention_seconds=$((${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_days }} * 24 * 60 * 60))
+          echo "Retention seconds: $retention_seconds"
+          
+          if (($elapsed_seconds > $retention_seconds)); then
+              echo "Announcement is expired."
               echo "expired=true" >> $GITHUB_OUTPUT
           else
+              echo "Announcement is not yet expired."
               echo "expired=false" >> $GITHUB_OUTPUT
           fi
 
