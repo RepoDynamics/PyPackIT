@@ -57,7 +57,7 @@ jobs:
         if: always()
         run: |
           echo "Last announcement commit:" >> $GITHUB_STEP_SUMMARY
-          echo $(git log -1 --format=%cd ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }}) >> $GITHUB_STEP_SUMMARY
+          echo "$(git log -1 --format=%cd ${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }})" >> $GITHUB_STEP_SUMMARY
           echo "Current time and date:" >> $GITHUB_STEP_SUMMARY
 
 #          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
