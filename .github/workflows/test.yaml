@@ -17,4 +17,4 @@ jobs:
     steps:
 
       - name: 'print'
-        run: echo ${{toJSON(needs.get-metadata.outputs.json)}}
+        run: echo "${{needs.get-metadata.outputs.json}}"
