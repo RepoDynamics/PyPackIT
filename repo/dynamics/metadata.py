@@ -2,6 +2,7 @@
 from pathlib import Path
 import re
 import datetime
+import json
 
 import requests
 from ruamel.yaml import YAML
@@ -135,7 +136,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     path = Path(args.path).resolve() if args.path else Path(__file__).parent.parent/'metadata'
     try:
-        print(main(path))
+        print(json.dumps(main(path)))
     except Exception as e:
         import sys
         print(f"Error: {e}")
