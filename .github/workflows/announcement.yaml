@@ -29,7 +29,10 @@ on:
         default: >-
           <i class=\"fa-solid fa-triangle-exclamation\"></i> 
           The project is under active development and not yet fully implemented.
-
+      trigger:
+        description: "Trigger type"
+        required: true
+        type: string
 
 jobs:
 
@@ -38,7 +41,7 @@ jobs:
     uses: ./.github/workflows/repo_get-metadata.yaml
 
   publish:
-    name: 'Make Announcement'
+    name: 'Make announcement'
     needs: metadata
     permissions:
       contents: write
@@ -55,7 +58,7 @@ jobs:
       - name: 'Checkout repository from ${{ github.ref }}'
         uses: actions/checkout@v3
 
-      - name: Display announcement
+      - name: 'Display announcement'
         run: echo "${{ github.event.inputs.announcement }}"
 
       - name: 'Update announcement file'
@@ -66,8 +69,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           file_pattern: ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
-          commit_message: 'docs: make announcement for ${{ github.event.inputs.trigger }}'
-          commit_user_name: 'RepoDynamics[bot]'
+          commit_message: >-
+            docs(announcement): update announcement for ${{ inputs.trigger }}
+          commit_user_name: RepoDynamics[bot]
 
       - name: 'Create job summary'
         if: always()
