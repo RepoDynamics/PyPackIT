@@ -32,9 +32,9 @@ jobs:
           init-shell: bash
 
       - name: 'Get metadata'
-        id: get_metadata
+        id: get-metadata
         shell: bash -el {0}
         run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Display metadata'
-        run: echo ${{needs.get-metadata.outputs.json}}
+        run: echo "${{steps.get-metadata.outputs.json}}"
