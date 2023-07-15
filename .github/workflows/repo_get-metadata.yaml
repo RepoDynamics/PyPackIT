@@ -60,9 +60,19 @@ jobs:
           echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
-          echo "<pre>" >> $GITHUB_STEP_SUMMARY
-          echo '<code class="language-json">' >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
           cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
-          echo "</code>" >> $GITHUB_STEP_SUMMARY
-          echo "</pre>" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
+
+
+#echo "Repository metadata loaded from <code>${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
+#echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
+#echo "<details>" >> $GITHUB_STEP_SUMMARY
+#echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
+#echo "<pre>" >> $GITHUB_STEP_SUMMARY
+#echo '<code class="language-json">' >> $GITHUB_STEP_SUMMARY
+#cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
+#echo "</code>" >> $GITHUB_STEP_SUMMARY
+#echo "</pre>" >> $GITHUB_STEP_SUMMARY
+#echo "</details>" >> $GITHUB_STEP_SUMMARY
