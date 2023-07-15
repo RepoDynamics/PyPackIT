@@ -50,6 +50,8 @@ jobs:
     needs: expire
     if: needs.expire.outputs.expired == 'true'
     uses: ./.github/workflows/announcement.yaml
+    permissions:
+      contents: write
     with:
       announcement: ""
       trigger: "expiration"
