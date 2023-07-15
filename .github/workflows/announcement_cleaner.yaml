@@ -18,6 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: 'Verify branch'
+        run: |
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "This workflow can only be triggered from the main branch."
+            exit 1
+          fi
+
       - name: 'Checkout repository from ${{ github.ref }}'
         uses: actions/checkout@v3
         with:
@@ -25,13 +32,8 @@ jobs:
 
       - name: 'Display announcement'
         run: |
-          echo $(git log -1 ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo $(git log -1 --format=%cd --date=unix)
-          echo $(git log -1 --format=%cd ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo $(git log -1 --format=%cd)
-          
           last_commit_date=$(git log -1 --format=%cd --date=unix ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }})
-          echo $last_commit_date
+          echo "Last commit date: $last_commit_date"
           current_date=$(date -u +%s)
           echo $current_date
           echo $((current_date - last_commit_date))
