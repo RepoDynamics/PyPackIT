@@ -1,7 +1,18 @@
 name: "1. [C/D]: Make Announcement"
-run-name: "Make Announcement: Triggered by ${{ github.event_name == 'workflow_dispatch' && github.actor }}"
+run-name: "Make Announcement: ${{ format('Triggered {0} by {1}.', (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', (github.event_name == 'workflow_dispatch' && github.actor) || github.event.inputs.trigger) }}"
 
 on:
+  workflow_call:
+    inputs:
+      announcement:
+        description: "Announcement message"
+        required: true
+        type: string
+      trigger:
+        description: "Trigger type"
+        required: true
+        type: string
+
   workflow_dispatch:
     inputs:
       announcement:
