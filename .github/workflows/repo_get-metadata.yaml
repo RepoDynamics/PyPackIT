@@ -36,12 +36,12 @@ jobs:
         shell: bash -el {0}
         run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
-      - name: 'Display metadata'
-        if: always()
-        run: echo "${{steps.get-metadata.outputs.json}} | python -m json.tool"
-
-      - name: 'Create summary'
-        if: always()
-        run: |
-          echo "## Metadata" >> $GITHUB_STEP_SUMMARY
-          echo "${{steps.get-metadata.outputs.json}} | python -m json.tool" >> $GITHUB_STEP_SUMMARY
+#      - name: 'Display metadata'
+#        if: always()
+#        run: echo "${{steps.get-metadata.outputs.json}} | python -m json.tool"
+#
+#      - name: 'Create summary'
+#        if: always()
+#        run: |
+#          echo "## Metadata" >> $GITHUB_STEP_SUMMARY
+#          echo "${{steps.get-metadata.outputs.json}} | python -m json.tool" >> $GITHUB_STEP_SUMMARY
