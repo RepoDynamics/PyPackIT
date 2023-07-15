@@ -49,7 +49,7 @@ jobs:
               echo "Announcement message:" >> $GITHUB_STEP_SUMMARY
               echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
               echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
-              echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
