@@ -52,6 +52,9 @@ jobs:
             exit 1
           fi
 
+      - name: 'Checkout repository from ${{ github.ref }}'
+        uses: actions/checkout@v3
+
       - name: Display announcement
         run: echo "${{ github.event.inputs.announcement }}"
 
@@ -71,5 +74,5 @@ jobs:
         run: |
           echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
-          ${{inputs.announcement}} >> "$GITHUB_STEP_SUMMARY"
+          "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
