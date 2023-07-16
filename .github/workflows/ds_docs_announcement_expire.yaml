@@ -62,7 +62,7 @@ jobs:
               echo "* Allowed: $retention_days days ($retention_seconds seconds)" >> $GITHUB_STEP_SUMMARY
               elapsed_days=$(bc -l <<<"scale=2 ; $elapsed_seconds / 86400")
               echo "* Elapsed: $elapsed_days days ($elapsed_seconds seconds)" >> $GITHUB_STEP_SUMMARY
-              echo "* Current Date & Time: $(date -u) (Epoch Time: current_epoch_time)" >> $GITHUB_STEP_SUMMARY
+              echo "* Current Date & Time: $(date -u) (Epoch Time: $current_epoch_time)" >> $GITHUB_STEP_SUMMARY
               echo "* Last Commit Date & Time: $(git log -1 --format=%cd --date=relative $filepath) (Epoch Time: $last_commit_epoch_time)" >> $GITHUB_STEP_SUMMARY
               echo "### 🏁 Result" >> $GITHUB_STEP_SUMMARY
           
@@ -82,7 +82,7 @@ jobs:
     name: 'Remove announcement'
     needs: check-expiration
     if: needs.check-expiration.outputs.expired == 'true'
-    uses: ./.github/workflows/announcement.yaml
+    uses: ./.github/workflows/cd_announcement.yaml
     permissions:
       contents: write
     with:

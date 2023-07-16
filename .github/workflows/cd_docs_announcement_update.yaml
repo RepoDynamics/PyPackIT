@@ -1,8 +1,8 @@
-name: "1. [C/D]: Update Announcement"
+name: "1. Docs: Update Announcement [C/D]"
 run-name: >-
-  Update Announcement: 
+  Docs: Update announcement 
   ${{ 
-    format('Triggered {0} by {1}.', 
+    format('triggered {0} by {1}.', 
       (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', 
       (github.event_name == 'workflow_dispatch' && github.actor) || github.event.inputs.trigger
     ) 
@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       trigger:
-        description: "Trigger type"
+        description: "Reason for announcement, e.g. 'expiration' or 'new release'."
         required: true
         type: string
 
@@ -28,7 +28,7 @@ on:
         type: string
         default: ""
       trigger:
-        description: "Trigger type"
+        description: "Reason for announcement, e.g. 'expiration' or 'new release'."
         required: true
         type: string
 
@@ -39,7 +39,7 @@ jobs:
     uses: ./.github/workflows/repo_get-metadata.yaml
 
   publish:
-    name: 'Make announcement'
+    name: 'Update announcement'
     needs: metadata
     permissions:
       contents: write
