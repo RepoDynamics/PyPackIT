@@ -1,11 +1,17 @@
 # Load repository metadata.
 
 name: "Dispatchable: Load Metadata"
-run-name: Load repository metadata from ${{ github.head_ref || github.ref }}
+run-name: Load repository metadata from ${{ github.event.inputs.branch || github.ref }}
 
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      branch:
+        description: "Branch to load metadata from"
+        required: true
+        type: string
+        default: ""
     outputs:
       json:
         description: 'Repository Metadata'
@@ -25,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
-          ref: ${{ github.head_ref }}
+          ref: ${{ inputs.branch }}
 
       - name: 'Setup environment'
         # https://github.com/mamba-org/setup-micromamba
@@ -56,7 +62,7 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Repository metadata loaded from <code>${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
+          echo "Repository metadata loaded from <code>${{ inputs.branch || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
           echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
