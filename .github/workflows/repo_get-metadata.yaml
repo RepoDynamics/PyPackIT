@@ -9,7 +9,7 @@ on:
     inputs:
       branch:
         description: "Branch to load metadata from"
-        required: true
+        required: false
         type: string
         default: ""
     outputs:
