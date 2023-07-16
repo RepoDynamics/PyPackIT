@@ -53,9 +53,11 @@ jobs:
   multi-labeler:
     name: 'Add labels'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    permissions: write-all
+#      contents: read
+#      pull-requests: write
+#      statuses: write
+#      checks: write
     steps:
       - name: 'multi-labeler'
         # https://github.com/fuxingloh/multi-labeler
