@@ -64,10 +64,6 @@ jobs:
         shell: bash -el {0}
         run: echo "json=$(python ${{ inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
-      - name: 'Display metadata'
-        if: always()
-        run: cat ${{ inputs.path-repodynamics}}/metadata/metadata_full.json
-
       - name: 'Upload metadata as artifact'
         if: always()
         uses: actions/upload-artifact@v3
@@ -84,7 +80,7 @@ jobs:
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
+          cat ${{ inputs.path-repodynamics}}/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
