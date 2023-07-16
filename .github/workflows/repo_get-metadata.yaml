@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: 'Checkout repository from ${{ github.head_ref || github.ref }}'
+      - name: 'Checkout repository from ${{ inputs.branch || github.ref }}'
         uses: actions/checkout@v3
         with:
           # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
@@ -73,15 +73,3 @@ jobs:
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
-
-
-#echo "Repository metadata loaded from <code>${{ github.head_ref || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
-#echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
-#echo "<details>" >> $GITHUB_STEP_SUMMARY
-#echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
-#echo "<pre>" >> $GITHUB_STEP_SUMMARY
-#echo '<code class="language-json">' >> $GITHUB_STEP_SUMMARY
-#cat repo/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
-#echo "</code>" >> $GITHUB_STEP_SUMMARY
-#echo "</pre>" >> $GITHUB_STEP_SUMMARY
-#echo "</details>" >> $GITHUB_STEP_SUMMARY
