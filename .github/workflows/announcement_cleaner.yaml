@@ -11,6 +11,7 @@ jobs:
     name: 'Load repository metadata'
     uses: ./.github/workflows/repo_get-metadata.yaml
 
+
   check-expiration:
     name: 'Check expiration date'
     needs: load-metadata
@@ -40,16 +41,18 @@ jobs:
           
           if [ "$current_announcement" = "" ]; then
               echo "No current announcement exists."
-              echo "There is currently no announcement." >> $GITHUB_STEP_SUMMARY
+              echo "#### Last Announcement" >> $GITHUB_STEP_SUMMARY
+              echo "The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
               echo "expired=false" >> $GITHUB_OUTPUT
           else
               last_commit_date=$(git log -1 --format=%cd --date=unix $filepath)
               echo "Last commit timestamp:  $last_commit_date"
-              echo "**Last Announcement**" >> $GITHUB_STEP_SUMMARY
-              echo "Announcement message:" >> $GITHUB_STEP_SUMMARY
+              echo "### Last Announcement" >> $GITHUB_STEP_SUMMARY
+              echo "* Announcement Message:" >> $GITHUB_STEP_SUMMARY
               echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
               echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
               echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "* Commit Details:" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
@@ -83,17 +86,6 @@ jobs:
               fi
           fi
 
-      - name: 'Create job summary'
-        if: always()
-        run: |
-          
-          
-          
-
-#          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
-#          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
-#          echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
-#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
   remove:
     name: 'Remove announcement'
