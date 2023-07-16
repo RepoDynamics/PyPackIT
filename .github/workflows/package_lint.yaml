@@ -31,7 +31,7 @@ jobs:
       - name: 'Display metadata'
         run: |
           echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}"
-          echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" 
+          echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}"
           echo "OS: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}"
           ls -a
 
@@ -43,10 +43,10 @@ jobs:
           print(Path.cwd())
           print("-----")
           print(list(Path.cwd().glob("**/*")))
-          
+
           import os
           print(os.environ['PATH'])
-          
+
           import importlib.util
           import sys
           name = "metadata"
@@ -57,8 +57,8 @@ jobs:
           metadata = module
           print(metadata.main.project)
 
-          
-          
+
+
 
 
   CodeQL:

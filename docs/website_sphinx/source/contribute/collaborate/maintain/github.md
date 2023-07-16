@@ -3,20 +3,20 @@
 
 ### Templates and Configuration
 The contents of the repository's [Issues]() tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
-and a [configuration file](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser) 
+and a [configuration file](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser)
 under the [.github/ISSUE_TEMPLATE]() directory.
 #### Configuration File
-The configuration file at [./github/ISSUE_TEMPLATE/config.yml]() controls some aspects of the template chooser 
+The configuration file at [./github/ISSUE_TEMPLATE/config.yml]() controls some aspects of the template chooser
 (i.e. the landing page of the repository's 'Issues' section), with following options:
 - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.
 - `contact_links`: An array of dictionaries, defining additional external links for opening issues.
 These links will be displayed after the available issue templates.
 #### Templates
 The issues templates use the GitHub's [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms).
-Each `.yml` file (other than `config.yml`) provides a template for 
-a specific issue type. The issue forms use the YAML format, with a series of defined 
+Each `.yml` file (other than `config.yml`) provides a template for
+a specific issue type. The issue forms use the YAML format, with a series of defined
 [top-level keys](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax)
-such as `name`, `description` and `labels`, and a 
+such as `name`, `description` and `labels`, and a
 [body syntax](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema)
 to define the form fields.
 Any YAML file created in this directory using the specified syntax will be automatically added to the list of possible
@@ -25,7 +25,7 @@ issue forms that users can select from when opening a new issue in the repositor
 
 ## Pull Requests
 
-Different [pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository) 
+Different [pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
 can only be accessed via [query parameters](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
 . Otherwise, the main template directly under [./github] is used.
 
@@ -36,7 +36,7 @@ To add/modify/remove a label, modify the file ./github/config/labels.yaml.
 Labels are then automatically synced by the workflow ./github/workflows/labels_sync.yaml,
 using the [label-syncer](https://github.com/micnncim/action-label-syncer) action.
 
-### Dev notes 
+### Dev notes
 An alternative action to consider: https://github.com/marketplace/actions/issue-label-manager-action
 this has the same functionalities, but uses a JSON file for declaring labels, instead of a YAML file.
 
@@ -54,7 +54,7 @@ the paths of files being changed.
 [autolabeler](https://github.com/release-drafter/release-drafter#autolabeler), which can label PRs based on
 regex matches on title or body of the PR, as well as on branch name.
 
-Other ones with support for multiple conditions, but not for conventional commits: 
+Other ones with support for multiple conditions, but not for conventional commits:
 https://github.com/marketplace/actions/super-labeler
 https://github.com/srvaroa/labeler
 https://github.com/Resnovas/label-mastermind

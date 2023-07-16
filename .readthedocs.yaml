@@ -35,5 +35,3 @@ sphinx:
 
 # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
 formats: all
-
-

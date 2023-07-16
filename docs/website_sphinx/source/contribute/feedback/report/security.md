@@ -2,12 +2,12 @@
 sd_hide_title: true
 ---
 # Security Vulnerability
-{{project_name}} takes the security and privacy of all its users and members very seriously, 
+{{project_name}} takes the security and privacy of all its users and members very seriously,
 and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
-1. fix the issue as soon as possible, 
+1. fix the issue as soon as possible,
 2. release a new security patch in case a published application was affected,
-3. release a security advisory, detailing the vulnerability, 
+3. release a security advisory, detailing the vulnerability,
 as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
@@ -19,9 +19,9 @@ Learn more about our security measures and procedures to handle vulnerability is
 
 ## Vulnerability Disclosure Policy
 
-This policy is intended to give users, contributors, and security researchers clear guidelines for 
-[reporting potential security vulnerabilities](#reporting-a-potential-vulnerability) 
-and [conducting vulnerability discovery activities](#testing-for-vulnerabilities). 
+This policy is intended to give users, contributors, and security researchers clear guidelines for
+[reporting potential security vulnerabilities](#reporting-a-potential-vulnerability)
+and [conducting vulnerability discovery activities](#testing-for-vulnerabilities).
 It describes what systems and types of research are covered under this policy,
 how to send us vulnerability reports, what information to include,
 and how long we ask security researchers to wait before publicly disclosing vulnerabilities.
@@ -29,7 +29,7 @@ and how long we ask security researchers to wait before publicly disclosing vuln
 <blockquote>
     🛡️**Supported Versions**
     <br><br>
-    Questions regarding this policy may be sent to security@agency.gov. 
+    Questions regarding this policy may be sent to security@agency.gov.
     We also invite you to contact us with suggestions for improving this policy.
 </blockquote>
 
@@ -37,13 +37,13 @@ and how long we ask security researchers to wait before publicly disclosing vuln
 ### Reporting a Potential Vulnerability
 If you have found a potential vulnerability in our application, website, or repository,
 please report it as soon as possible, following the guidelines described here.
-Please DO NOT 
+Please DO NOT
 
 #### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
-of our repository to securely discuss, fix and publish information about security vulnerabilities 
-in {project_name}. To privately report a security vulnerability, 
-follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability) 
+of our repository to securely discuss, fix and publish information about security vulnerabilities
+in {project_name}. To privately report a security vulnerability,
+follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
 or [**click here to directly open a private report form**]({url_security_report}).
 
 Other ways to open a security advisory:
@@ -60,7 +60,7 @@ ergergg
 
 :::{code-block}
 
----Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.--- 
+---Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.---
 
 1. Summary
 ---Provide a short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server.---
@@ -84,7 +84,7 @@ ergergg
 ---Provide Common Weakness Enumerator (CWE; learn more at https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers).---
 
 8. Mitigation
----Provide necessary steps to mitigate the problem.--- 
+---Provide necessary steps to mitigate the problem.---
 
 :::
 
@@ -94,7 +94,7 @@ ergergg
 <blockquote>
     🥷🏾 <b>Prefer Anonymity?</b>
     <br><br>
-    Our vulnerability management team also welcomes anonymous emails sent to 
+    Our vulnerability management team also welcomes anonymous emails sent to
     <a href="mailto:{email_security}
 ?subject=
 %5BSecurity%20Vulnerability%20Report%5D%3A%20---Please%20provide%20a%20consc
@@ -131,33 +131,33 @@ on%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---%2
 
 #### Information to Include
 
-In order to help us assess and triage submissions, 
+In order to help us assess and triage submissions,
 please provide as much information as you can, under following sections:
 1. **Title**: A concise title describing the vulnerability.
-2. **Summary**: A short summary of the problem. Make the impact and severity as clear as possible. 
-For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute 
+2. **Summary**: A short summary of the problem. Make the impact and severity as clear as possible.
+For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute
 arbitrary code on the server.
 3. **Details**: Details on the vulnerability, including the location the vulnerability was discovered.
 Pointing to the incriminated source code is very helpful for the maintainer.
 4. **PoC**: Complete instructions, including specific configuration details, to reproduce the vulnerability.
 Proof of concept scripts or screenshots can be helpful to include.
 5. **Impact**: The type of vulnerability in terms of potential impact of exploitation and affected users.
-6. **Affected Products**: Name of the ecosystem (e.g. pip, GitHub Actions), 
-package- or filename, and affected versions, for each affected product. 
+6. **Affected Products**: Name of the ecosystem (e.g. pip, GitHub Actions),
+package- or filename, and affected versions, for each affected product.
 7. **Severity**: Assessment of the severity of the issue, using the [Common Vulnerability Scoring System](https://www.first.org/cvss/specification-document) (CVSS).
-8. **Weaknesses**: A [Common Weakness Enumerator](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers) (CWE), if available. 
+8. **Weaknesses**: A [Common Weakness Enumerator](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories#cve-identification-numbers) (CWE), if available.
 9. **Mitigation**: If known, necessary steps to mitigate the problem.
 
-For more information, also refer to GitHub documentations on 
+For more information, also refer to GitHub documentations on
 [creating a repository security advisory](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/creating-a-repository-security-advisory)
 and [best practices for writing repository security advisories](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/best-practices-for-writing-repository-security-advisories).
 
 #### Response Policy
-When you choose to share your contact information with us, 
+When you choose to share your contact information with us,
 we commit to coordinating with you as openly and as quickly as possible:
 * Within a week, our vulnerability management team will acknowledge receiving your report.
-* To the best of our ability, we will confirm the existence of the vulnerability to you 
-and be as transparent as possible about what steps we are taking during the remediation process, 
+* To the best of our ability, we will confirm the existence of the vulnerability to you
+and be as transparent as possible about what steps we are taking during the remediation process,
 including on issues or challenges that may delay resolution.
 * We will maintain an open dialogue to discuss issues.
 
@@ -171,34 +171,34 @@ and provides our users a chance to update their applications and protect themsel
 
 ### Testing for Vulnerabilities
 {{project_name}} is a free and open-source project.
-We encourage security researchers to help us improve our security measures 
+We encourage security researchers to help us improve our security measures
 by conducting vulnerability discovery activities on our application, website, and repository.
-Before starting, please read the [guidelines](#testing-for-vulnerabilities) below, 
+Before starting, please read the [guidelines](#testing-for-vulnerabilities) below,
 describing what systems and types of research are covered under this policy.
 
 #### Authorization
-If you make a good faith effort to comply with this policy during your security research, 
-we will consider your research to be authorized, will work with you to understand and resolve the issue quickly, 
-and will not recommend or pursue legal action related to your research. 
-Should legal action be initiated by a third party against you for activities that were conducted 
+If you make a good faith effort to comply with this policy during your security research,
+we will consider your research to be authorized, will work with you to understand and resolve the issue quickly,
+and will not recommend or pursue legal action related to your research.
+Should legal action be initiated by a third party against you for activities that were conducted
 in accordance with this policy, we will make this authorization known.
 
 #### Guidelines
 Under this policy, "research" and "vulnerability discovery" means activities in which you:
 * notify us as soon as possible after you discover a real or potential security issue,
-* make every effort to avoid privacy violations, degradation of user experience, 
+* make every effort to avoid privacy violations, degradation of user experience,
 disruption to production systems, and destruction or manipulation of data,
 * only use exploits to the extent necessary to confirm a vulnerability's presence,
-* do not use an exploit to compromise or exfiltrate data, establish persistent command line access, 
+* do not use an exploit to compromise or exfiltrate data, establish persistent command line access,
 or use the exploit to pivot to other systems,
 * provide us a reasonable amount of time to resolve the issue before you disclose it publicly,
 * do not submit a high volume of low-quality reports.
 
-Once you've established that a vulnerability exists or encounter 
-any sensitive data (including personally identifiable information, financial information, 
-or proprietary information or secrets of any kind), **you must**: 
-* stop your test, 
-* notify us immediately, 
+Once you've established that a vulnerability exists or encounter
+any sensitive data (including personally identifiable information, financial information,
+or proprietary information or secrets of any kind), **you must**:
+* stop your test,
+* notify us immediately,
 * and not disclose this data to anyone else.
 
 #### Test Methods
@@ -212,13 +212,9 @@ This policy applies to any source code, data, or configuration directly stored i
 at {{url_github_repo}}, and any software, package, website, or other digital products and services that are
 directly published/deployed from this repository.
 
-**Any service not expressly listed above**, such as any connected services, are **excluded from scope** 
-and are **not authorized** for testing. Additionally, vulnerabilities found in systems from our vendors 
-fall outside of this policy's scope and should be reported directly to the vendor according to their 
-disclosure policy (if any). If you aren't sure whether a system is in scope or not, 
-or there is a particular system not in scope that you think merits testing, 
+**Any service not expressly listed above**, such as any connected services, are **excluded from scope**
+and are **not authorized** for testing. Additionally, vulnerabilities found in systems from our vendors
+fall outside of this policy's scope and should be reported directly to the vendor according to their
+disclosure policy (if any). If you aren't sure whether a system is in scope or not,
+or there is a particular system not in scope that you think merits testing,
 please contact us at {{email_security}} to discuss it first, before starting your research.
-
-
-
-

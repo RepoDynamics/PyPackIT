@@ -8,8 +8,8 @@
    <td style="border-style:none"><img src="https://img.shields.io/static/v1?message=Commits&label=&color=AF1F10&style=flat-square&logo=github"><br>ARMIN</td>
   </tr>
 </table>
- 
- 
+
+
  <picture>
  <source media="(prefers-color-scheme: dark)" srcset="docs/website_sphinx/source/_static/img/logo/logo_dark_full.svg">
  <source media="(prefers-color-scheme: light; max-width: 500px)" srcset="docs/website_sphinx/source/_static/img/logo/logo_light.svg">
@@ -159,5 +159,3 @@ With a single command, PyPackIT creates a professional and robust infrastructure
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 </div>
-
-

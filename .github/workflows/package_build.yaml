@@ -49,8 +49,8 @@ jobs:
 
       - name: 'Print extracted data'
         run: |
-          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}" 
-          echo "Python Versions: '${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}'" 
+          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}"
+          echo "Python Versions: '${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}'"
           echo "OS: '${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}'"
           echo "cibuilds: '${{ toJson(fromJson(steps.get.outputs.json).package.cibuilds) }}'"
 
@@ -89,7 +89,7 @@ jobs:
             print(f'artifact-name={fullname}', file=fh)
             print(f'package-name={name}', file=fh)
             print(f'package-version={ver}', file=fh)
-          
+
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3

@@ -3,7 +3,7 @@ This directory contains templates and configurations used when an issue is opene
 
 ## Templates
 The issues templates use the GitHub's [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms)
-to create customizable web form fields. Each `.yml` file (other than `config.yml`) provides a template for 
+to create customizable web form fields. Each `.yml` file (other than `config.yml`) provides a template for
 a specific issue type. The issue forms use the YAML format, with a series of defined [top-level keys](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax)
 such as `name`, `description` and `labels`, and a [body syntax](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema)
 to define the form fields.
@@ -13,7 +13,7 @@ issue forms that users can select from when opening a new issue in the repositor
 
 
 ## Configurations
-The [config.yml](./config.yml) file contains the configurations for the 
+The [config.yml](./config.yml) file contains the configurations for the
 [template chooser](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser),
 i.e. the landing page of the repository's 'Issues' section.
 

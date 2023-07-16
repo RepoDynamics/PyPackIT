@@ -1,7 +1,7 @@
-
-from pathlib import Path
+# Standard libraries
 import argparse
 import json
+from pathlib import Path
 
 
 def main(filepath):

@@ -8,18 +8,18 @@ title: "[Bug]: "
 labels: ["bug", "triage"]
 
 body:
-  
+
   - type: markdown
     attributes:
       value: |
         Thank you for taking the time to fill out this bug report!
-  
+
   - type: dropdown
     id: package_version
     attributes:
       label: Package Version
       description: |
-        Which versions of our software are affected? 
+        Which versions of our software are affected?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -27,31 +27,31 @@ body:
         - 1.0.3 (Edge)
     validations:
       required: true
-  
+
   - type: dropdown
     id: python_version
     attributes:
       label: |
-        Which Python versions have you tested? 
+        Which Python versions have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
         - 3.11
         - 3.10
         - 3.9
-  
+
   - type: dropdown
     id: os
     attributes:
       label: |
-        Which operating systems have you tested? 
+        Which operating systems have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
         - Linux
         - MacOS
         - Windows
-  
+
   - type: textarea
     id: what-happened
     attributes:
@@ -61,7 +61,7 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  
+
   - type: textarea
     id: code
     attributes:
@@ -72,14 +72,14 @@ body:
       render: python
     validations:
       required: true
-      
+
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
-  
+
   - type: input
     id: contact
     attributes:
@@ -88,7 +88,7 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  
+
   - type: checkboxes
     id: terms
     attributes:

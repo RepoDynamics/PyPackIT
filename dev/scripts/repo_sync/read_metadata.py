@@ -1,6 +1,8 @@
+# Standard libraries
 import importlib.util
-import sys
 import json
+import sys
+
 
 # Import metadata package directly
 #  Ref: https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly
@@ -29,4 +31,3 @@ def as_json_str():
 
 if __name__ == "__main__":
     print(as_json_str())
-

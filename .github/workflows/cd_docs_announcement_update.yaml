@@ -1,11 +1,11 @@
 name: "1. Docs: Update Announcement [C/D]"
 run-name: >-
-  Docs: Update announcement 
-  ${{ 
-    format('triggered {0} by {1}.', 
-      (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', 
+  Docs: Update announcement
+  ${{
+    format('triggered {0} by {1}.',
+      (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically',
       (github.event_name == 'workflow_dispatch' && github.actor) || github.event.inputs.trigger
-    ) 
+    )
   }}
 
 on:

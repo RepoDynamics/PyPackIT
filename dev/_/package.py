@@ -1,6 +1,8 @@
-
+# Standard libraries
 import re
 from typing import Literal
+
+# Non-standard libraries
 from dev._ import project
 
 
@@ -10,13 +12,13 @@ operating_systems = ["ubuntu-latest", "macos-latest", "windows-latest"]
 description: str = "{{{main.project.short_description}}}"
 keywords: str = "{{{main.project.keywords}}}"
 urls: str = {
-  "Homepage": "",
-  "Download": "",
-  "News": "",
-  "Documentation": "",
-  "Bug Tracker": "",
-  "Sponsor": "",
-  "Source": ""
+    "Homepage": "",
+    "Download": "",
+    "News": "",
+    "Documentation": "",
+    "Bug Tracker": "",
+    "Sponsor": "",
+    "Source": "",
 }
 
 authors: str = "{{{credits.authors}}}"

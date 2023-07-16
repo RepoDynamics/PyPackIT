@@ -8,7 +8,7 @@ description: >-
   specifically Python packages. It streamlines all the tedious and time-consuming
   "administrative" jobs of the software development process, so you can only focus
   on what truly matters: implementing your ideas!
-  
+
   With a single command, PyPackIT creates a professional and robust infrastructure.
 
 keywords:
@@ -36,6 +36,3 @@ github:
 
 authors:
   - aariam
-
-
-

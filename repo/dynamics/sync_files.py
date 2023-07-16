@@ -1,23 +1,23 @@
-
-from pathlib import Path
+# Standard libraries
 import argparse
-import json
-
-from typing import Optional
-from types import ModuleType
 import importlib.util
+import json
 import sys
+from pathlib import Path
+from types import ModuleType
+from typing import Optional
 
 
 class DynamicFileSynchronizer:
-
     def __init__(
-            self,
-            path_repo: Optional[str | Path] = "./",
-            path_metadata_variables: Optional[str] = "./metadata/variables",
+        self,
+        path_repo: Optional[str | Path] = "./",
+        path_metadata_variables: Optional[str] = "./metadata/variables",
     ):
         # Load metadata variables as package
-        spec = importlib.util.spec_from_file_location("metadata", Path(path_metadata_variables)/"__init__.py")
+        spec = importlib.util.spec_from_file_location(
+            "metadata", Path(path_metadata_variables) / "__init__.py"
+        )
         metadata = importlib.util.module_from_spec(spec)
         sys.modules["metadata"] = metadata
         spec.loader.exec_module(metadata)
@@ -61,5 +61,7 @@ class DynamicFileSynchronizer:
 
 
 if __name__ == "__main__":
-    updater = DynamicFileSynchronizer(path_repo="/", path_metadata_variables="../../repo/metadata/variables")
+    updater = DynamicFileSynchronizer(
+        path_repo="/", path_metadata_variables="../../repo/metadata/variables"
+    )
     updater.update_all()

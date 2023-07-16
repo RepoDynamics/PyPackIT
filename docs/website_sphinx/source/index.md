@@ -41,13 +41,13 @@ about/index
 :class-img-top: dark-light icon-image
 
 As a starting point for new users, this section provides an **overview**
-of {{project_name}}, describing the **motivations** behind it, 
+of {{project_name}}, describing the **motivations** behind it,
 and highlighting its **objectives** and **capabilities**.
-A summary of related background **information** is provided as well, 
+A summary of related background **information** is provided as well,
 
 **theoretical** and **technical** essential to ... and fully utilizing its
 
-After reading this section, you will have a solid understanding of what {{project_name}} is and does, 
+After reading this section, you will have a solid understanding of what {{project_name}} is and does,
 :::
 
 
@@ -57,7 +57,7 @@ After reading this section, you will have a solid understanding of what {{projec
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide 
+The user guide
 :::
 
 

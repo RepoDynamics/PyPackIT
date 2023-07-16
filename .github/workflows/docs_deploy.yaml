@@ -14,8 +14,8 @@ on:
     inputs:
       artifact-name:
         description: >-
-          Name of the artifact containing the HTML files. 
-          This artifact must have been created in the caller workflow 
+          Name of the artifact containing the HTML files.
+          This artifact must have been created in the caller workflow
           before running this workflow.
           Note that names other than the default below may sometimes cause problems.
         default: 'github-pages'

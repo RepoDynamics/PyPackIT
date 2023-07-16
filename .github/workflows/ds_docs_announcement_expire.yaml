@@ -39,7 +39,7 @@ jobs:
           filepath=${{ fromJSON(needs.load-metadata.outputs.json).paths.website_sphinx_announcement }}
           current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
-          
+
           if [ "$current_announcement" = "" ]; then
               echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
               echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
@@ -51,13 +51,13 @@ jobs:
               echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
               echo "#### ℹ️ Commit Details" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
-              
+
               last_commit_epoch_time=$(git log -1 --format=%cd --date=unix $filepath)
               current_epoch_time=$(date -u +%s)
               elapsed_seconds=$(($current_epoch_time - $last_commit_epoch_time))
               retention_days=${{ fromJSON(needs.load-metadata.outputs.json).website.announcement_retention_days }}
               retention_seconds=$((retention_days * 24 * 60 * 60))
-              
+
               echo "### ⏳️ Retention Period" >> $GITHUB_STEP_SUMMARY
               echo "* Allowed: $retention_days days ($retention_seconds seconds)" >> $GITHUB_STEP_SUMMARY
               elapsed_days=$(bc -l <<<"scale=2 ; $elapsed_seconds / 86400")
@@ -65,7 +65,7 @@ jobs:
               echo "* Current Date & Time: $(date -u) (Epoch Time: $current_epoch_time)" >> $GITHUB_STEP_SUMMARY
               echo "* Last Commit Date & Time: $(git log -1 --format=%cd --date=relative $filepath) (Epoch Time: $last_commit_epoch_time)" >> $GITHUB_STEP_SUMMARY
               echo "### 🏁 Result" >> $GITHUB_STEP_SUMMARY
-          
+
               if (($elapsed_seconds > $retention_seconds)); then
                   echo "Announcement is expired."
                   echo "✅ 🗑 Announcement is expired and will be now removed." >> $GITHUB_STEP_SUMMARY
@@ -88,4 +88,3 @@ jobs:
     with:
       announcement: ""
       trigger: "expiration"
-

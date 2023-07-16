@@ -85,7 +85,7 @@ jobs:
         # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
         run : |
           cd docs/website_sphinx/_build/latex
-          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make 
+          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
 
       - name: 'Display builds'
         if: always()
