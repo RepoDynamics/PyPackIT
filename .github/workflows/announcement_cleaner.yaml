@@ -74,14 +74,14 @@ jobs:
               echo "scale=4 ; $elapsed_seconds / 86400" | bc
               echo "* Elapsed: $elapsed_days days (Current: $(date -u))" >> $GITHUB_STEP_SUMMARY
               
-              echo "### 🏁   Result" >> $GITHUB_STEP_SUMMARY
+              echo "### 🏁 Result" >> $GITHUB_STEP_SUMMARY
               if (($elapsed_seconds > $retention_seconds)); then
                   echo "Announcement is expired."
-                  echo "✅ 🗑 Announcement is expired and will be now removed." >> $GITHUB_STEP_SUMMARY
+                  echo "✅ 🗑 Announcement is expired and will be now removed." >> $GITHUB_STEP_SUMMARY
                   echo "expired=true" >> $GITHUB_OUTPUT
               else
                   echo "Announcement is not yet expired."
-                  echo "❎ 📬 Announcement is not yet expired. It will be removed in $(echo "$retention_days - $elapsed_days" | bc) days." >> $GITHUB_STEP_SUMMARY
+                  echo "❎ 📬 Announcement is not yet expired. It will be removed in $(echo "$retention_days - $elapsed_days" | bc) days." >> $GITHUB_STEP_SUMMARY
                   echo "expired=false" >> $GITHUB_OUTPUT
               fi
           fi
