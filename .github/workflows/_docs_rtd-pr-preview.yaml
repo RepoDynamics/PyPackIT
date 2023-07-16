@@ -12,39 +12,23 @@ on:
 
 jobs:
 
-  metadata:
-    name: 'Load package metadata'
-    outputs:
-      rtd_name: ${{ fromJson(steps.get_metadata.outputs.json).readthedocs.name }}
-    runs-on: ubuntu-latest
+  load-metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_get-metadata.yaml
+    with:
+      branch: ${{ github.base_ref }}
 
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-
-      - run: cat README.md
-        shell: bash
-
-      - name: 'Get metadata'
-        id: get_metadata
-        uses: ./.github/actions/get-metadata
-        with:
-          json_filepath: ./metadata/main.json
-
-      - name: 'Output metadata'
-        run: |
-          echo "ReadTheDocs Name: ${{ fromJson(steps.get_metadata.outputs.json).readthedocs.name }}" 
-  
-
-  pull-request-links:
-    name: 'Build'
-    needs: metadata
+  generate-docs:
+    name: 'Generate preview'
+    needs: load-metadata
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
 
     steps:
-      - name: 'Create preview'
+      - run: echo "${{ toJSON(github.event) }}"
+
+      - name: 'Build docs'
         uses: readthedocs/actions/preview@v1
         with:
-          project-slug: ${{ needs.metadata.outputs.rtd_name }}
+          project-slug: ${{ fromJSON(needs.load-metadata.outputs.json).website.rtd_name }}
