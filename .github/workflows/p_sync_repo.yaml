@@ -16,7 +16,7 @@
 #  Action used for committing and pushing changes: https://github.com/marketplace/actions/git-auto-commit
 
 
-name: Sync - Metadata
+name: "Repo"
 run-name: 'Sync Metadata: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
@@ -53,4 +53,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'meta: sync dynamic files after metadata modification'
-          commit_user_name: 'RepoSync[bot]'
+          commit_user_name: 'RepoDynamics[bot]'
