@@ -5,6 +5,17 @@ run-name: Load repository metadata from ${{ github.event.inputs.branch || github
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to load metadata from"
+        required: false
+        type: string
+        default: ""
+      path-repodynamics:
+        description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
+        default: 'repo'
+        required: false
+        type: string
   workflow_call:
     inputs:
       branch:
@@ -12,6 +23,11 @@ on:
         required: false
         type: string
         default: ""
+      path-repodynamics:
+        description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
+        default: './repo'
+        required: false
+        type: string
     outputs:
       json:
         description: 'Repository Metadata'
@@ -37,7 +53,7 @@ jobs:
         # https://github.com/mamba-org/setup-micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: repo/requirements.yaml
+          environment-file: ${{ inputs.path-repodynamics}}/requirements.yaml
           cache-environment: true
           cache-environment-key: repo-dynamics
           generate-run-shell: true
@@ -46,23 +62,23 @@ jobs:
       - name: 'Get metadata'
         id: get-metadata
         shell: bash -el {0}
-        run: echo "json=$(python repo/dynamics/metadata.py)" >> $GITHUB_OUTPUT
+        run: echo "json=$(python ${{ inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Display metadata'
         if: always()
-        run: cat repo/metadata/metadata_full.json
+        run: cat ${{ inputs.path-repodynamics}}/metadata/metadata_full.json
 
       - name: 'Upload metadata as artifact'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: repo/metadata/metadata_full.json
+          path: ${{ inputs.path-repodynamics}}/metadata/metadata_full.json
           name: 'metadata'
 
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Repository metadata loaded from <code>${{ inputs.branch || github.ref }}/repo/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
+          echo "Repository metadata loaded from <code>${{ inputs.branch || github.ref }}/${{ inputs.path-repodynamics}}/dynamics/metadata.py</code>." >> $GITHUB_STEP_SUMMARY
           echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
