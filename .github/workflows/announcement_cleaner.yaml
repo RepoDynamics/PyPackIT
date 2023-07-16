@@ -41,18 +41,17 @@ jobs:
           
           if [ "$current_announcement" = "" ]; then
               echo "No current announcement exists."
-              echo "#### Last Announcement" >> $GITHUB_STEP_SUMMARY
-              echo "The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
+              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+              echo "* ✅📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
               echo "expired=false" >> $GITHUB_OUTPUT
           else
               last_commit_date=$(git log -1 --format=%cd --date=unix $filepath)
               echo "Last commit timestamp:  $last_commit_date"
-              echo "### Last Announcement" >> $GITHUB_STEP_SUMMARY
-              echo "* Announcement Message:" >> $GITHUB_STEP_SUMMARY
+              echo "#### 📣 Current Announcement" >> $GITHUB_STEP_SUMMARY
               echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
               echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
               echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-              echo "* Commit Details:" >> $GITHUB_STEP_SUMMARY
+              echo "ℹ️ **Commit Details:**" >> $GITHUB_STEP_SUMMARY
               echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
               
               current_date=$(date -u +%s)
@@ -67,21 +66,21 @@ jobs:
               retention_seconds=$((retention_days * 24 * 60 * 60))
               echo "Retention seconds: $retention_seconds"
               
-              echo "**Retention Period**" >> $GITHUB_STEP_SUMMARY
+              echo "#### ⏳️ Retention Period" >> $GITHUB_STEP_SUMMARY
               echo "* Allowed: $retention_days days" >> $GITHUB_STEP_SUMMARY
               elapsed_days=$(bc -l <<<"scale=2 ; $elapsed_seconds / 86400")
               echo "Elapsed days: $elapsed_days"
               echo "scale=4 ; $elapsed_seconds / 86400" | bc
-              echo "* Elapsed: $elapsed_days days" >> $GITHUB_STEP_SUMMARY
+              echo "* Elapsed: $elapsed_days days (Current: $(date -u))" >> $GITHUB_STEP_SUMMARY
               
-              echo "### Result" >> $GITHUB_STEP_SUMMARY
+              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
               if (($elapsed_seconds > $retention_seconds)); then
                   echo "Announcement is expired."
-                  echo "Announcement is expired and will be now removed." >> $GITHUB_STEP_SUMMARY
+                  echo "✅🗑 Announcement is expired and will be now removed." >> $GITHUB_STEP_SUMMARY
                   echo "expired=true" >> $GITHUB_OUTPUT
               else
                   echo "Announcement is not yet expired."
-                  echo "Announcement is not yet expired. It will expire in $(echo "$retention_days - $elapsed_days" | bc) days." >> $GITHUB_STEP_SUMMARY
+                  echo "❎📬 Announcement is not yet expired. It will be removed in $(echo "$retention_days - $elapsed_days" | bc) days." >> $GITHUB_STEP_SUMMARY
                   echo "expired=false" >> $GITHUB_OUTPUT
               fi
           fi
