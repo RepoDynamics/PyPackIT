@@ -13,47 +13,54 @@ labels:
     # Match when at least one of the changed files is in './github/actions' (excluding README.md).
     sync: true
     matcher:
-      files: [ "./github/actions/**", "!./github/actions/**/README.md" ]
+      files:
+        any: [ "./github/actions/**", "!./github/actions/**/README.md" ]
 
 
   - label: "File: GH Config"
     # Match when at least one of the changed files is in './github/config' (excluding README.md).
     sync: true
     matcher:
-      files: [ "./github/config/**", "!./github/config/**/README.md" ]
+      files:
+        any: [ "./github/config/**", "!./github/config/**/README.md" ]
 
   - label: "File: GH Config"
     # Match when './github/codecov.yml' is changed.
     sync: true
     matcher:
-      files: [ "./github/codecov.yml" ]
+      files:
+        any: [ "./github/codecov.yml" ]
 
 
   - label: "File: GH Discussion Template"
     # Match when at least one of the changed files is in './github/DISCUSSION_TEMPLATE' (excluding README.md).
     sync: true
     matcher:
-      files: [ "./github/DISCUSSION_TEMPLATE/**", "!./github/DISCUSSION_TEMPLATE/**/README.md" ]
+      files:
+        any: [ "./github/DISCUSSION_TEMPLATE/**", "!./github/DISCUSSION_TEMPLATE/**/README.md" ]
 
 
   - label: "File: GH Issue Template"
     # Match when at least one of the changed files is in './github/ISSUE_TEMPLATE' (excluding README.md).
     sync: true
     matcher:
-      files: [ "./github/ISSUE_TEMPLATE/**", "!./github/ISSUE_TEMPLATE/**/README.md" ]
+      files:
+        any: [ "./github/ISSUE_TEMPLATE/**", "!./github/ISSUE_TEMPLATE/**/README.md" ]
 
 
   - label: "File: GH Pull Request Template"
     # Match when at least one of the changed files is in './github/PULL_REQUEST_TEMPLATE' (excluding README.md).
     sync: true
     matcher:
-      files: [ "./github/PULL_REQUEST_TEMPLATE/**", "!./github/PULL_REQUEST_TEMPLATE/**/README.md" ]
+      files:
+        any: [ "./github/PULL_REQUEST_TEMPLATE/**", "!./github/PULL_REQUEST_TEMPLATE/**/README.md" ]
 
   - label: "File: GH Pull Request Template"
     # Match when './github/PULL_REQUEST_TEMPLATE.md' is changed.
     sync: true
     matcher:
-      files: [ "./github/PULL_REQUEST_TEMPLATE.md" ]
+      files:
+        any: [ "./github/PULL_REQUEST_TEMPLATE.md" ]
 
 
   - label: "File: GH Workflow"
@@ -92,7 +99,8 @@ labels:
     # Match when at least one README file is changed.
     sync: true
     matcher:
-      files: ["**/README.md"]
+      files:
+        any: ["**/README.md"]
 
 
 
