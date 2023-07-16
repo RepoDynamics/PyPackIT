@@ -26,7 +26,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - run: echo ${{ toJSON(github.event) }}
+      - run: echo "${{ github.event }}"
 
       - name: 'Build docs'
         uses: readthedocs/actions/preview@v1
