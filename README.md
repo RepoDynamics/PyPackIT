@@ -2,6 +2,3 @@
 
 Template Package with PyPackIT
 
-```json
-{"armin":1}
-```
