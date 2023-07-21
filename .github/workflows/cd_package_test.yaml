@@ -5,6 +5,24 @@ run-name: 'Package: Install and test from ${{github.ref}}'
 
 on:
   workflow_dispatch:
+    inputs:
+      json-filepath:
+        description: "Path to the project's main JSON metadata file."
+        default: './metadata/main.json'
+        required: false
+        type: string
+
+      install-source:
+        description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
+        default: 'local'
+        required: false
+        type: string
+
+      install-version:
+        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
+        default: ""
+        required: false
+        type: string
   workflow_call:
     inputs:
       json-filepath:
@@ -40,31 +58,10 @@ jobs:
           echo 'json-filepath: ${{inputs.json-filepath}}'
 
   metadata:
-    # Read package metadata from JSON file and output required parameters.
-    name: 'Read metadata'
-    outputs:
-      package-name: ${{ fromJson(steps.get.outputs.json).package.name }}
-      python-versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}
-      operating-systems: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Checkout repository'
-        # https://github.com/actions/checkout
-        uses: actions/checkout@v3
-
-      - name: 'Get metadata'
-        id: get
-        uses: ./.github/actions/get-metadata
-        with:
-          json-filepath: ${{inputs.json-filepath}}
-
-      - name: 'Display metadata'
-        # Print the outputs to console (for debugging)
-        run: |
-          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}" 
-          echo "Python Versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}" 
-          echo "OS: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}"
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/cd_repo_metadata.yaml
+    with:
+      branch: ${{ github.base_ref }}
 
   test-suite:
     # Install the package and run tests on a matrix of supported Python versions and operating systems.
@@ -74,8 +71,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions) }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -100,6 +97,25 @@ jobs:
       - name: 'Update pip'
         run: python -m pip install --upgrade pip
 
+      - name: 'Install package'
+        run: |
+          if [ "${{inputs.install-source}}" = "local" ]; then
+              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+              echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
+              echo "expired=false" >> $GITHUB_OUTPUT
+              python -m pip install .
+          elif [ "${{inputs.install-source}}" = "testpypi" ]; then
+              python -m pip install 
+              ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
+              --index-url https://test.pypi.org/simple/
+              --extra-index-url https://pypi.org/simple/
+          elif [ "${{inputs.install-source}}" = "pypi" ]; then
+              python -m pip install ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
+          else
+              echo "Invalid install-source: '${{inputs.install-source}}'."
+              exit 1
+          fi
+
       - name: 'Install from local source'
         if: inputs.install-source == 'local'
         run: python -m pip install .
@@ -108,7 +124,7 @@ jobs:
         if: inputs.install-source == 'testpypi'
         run: >-
           python -m pip install 
-          ${{needs.metadata.outputs.package-name}}==${{inputs.install-version}}
+          ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
           --index-url https://test.pypi.org/simple/
           --extra-index-url https://pypi.org/simple/
 

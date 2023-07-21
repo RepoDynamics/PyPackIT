@@ -1,14 +1,14 @@
 # Documentation
 
 
-## [Code of Conduct](../docs/CODE_OF_CONDUCT.md)
+## [Code of Conduct](../repo/templates/health_files/CODE_OF_CONDUCT.md)
 The [code of conduct](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project)
 defines community standards, signals a welcoming and inclusive project, 
 and outlines procedures for handling abuse. To be recognized by GitHub, it must be stored in a file named
 `CODE_OF_CONDUCT` (with or without an extension; 
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`). 
 Additionally, to be displayed in the repository's community profile, it must be created using a template. 
-The [CODE_OF_CONDUCT.md](../docs/CODE_OF_CONDUCT.md) file in this directory is added using the
+The [CODE_OF_CONDUCT.md](../repo/templates/health_files/CODE_OF_CONDUCT.md) file in this directory is added using the
 [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html) template.
 It contains dynamic fields such as project name and maintainer email, which are automatically updated when
 the corresponding metadata are changed.

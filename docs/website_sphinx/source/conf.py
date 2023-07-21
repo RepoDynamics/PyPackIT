@@ -8,7 +8,6 @@ References
 
 
 from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
-import datetime
 import importlib
 import sys
 
@@ -54,11 +53,7 @@ project: str = _meta['project']['name']
 
 author: str = ', '.join([_author['name'] for _author in _meta['project']['authors']])
 
-copyright: str = (
-    f"{_meta['project']['start_year']}"
-    f"{f'--{datetime.date.today().year}' if _meta['project']['start_year'] != datetime.date.today().year else ''}"
-    f" {_meta['project']['owner']['name']}"
-)
+copyright: str = f"{_meta['project']['copyright_year']} {_meta['project']['owner']['name']}"
 
 project_copyright: Union[str, List[str]] = copyright
 

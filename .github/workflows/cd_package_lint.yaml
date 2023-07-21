@@ -14,52 +14,10 @@ defaults:
 jobs:
 
   metadata:
-    name: 'Load package metadata'
-    outputs:
-      package-name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}
-      python-versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}
-      operating-systems: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-
-      - name: 'Get metadata'
-        id: get_metadata
-        uses: ./.github/actions/get-metadata
-
-      - name: 'Display metadata'
-        run: |
-          echo "Package Name: ${{ fromJson(steps.get_metadata.outputs.json).package.name }}"
-          echo "Python Versions: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.python_versions) }}" 
-          echo "OS: ${{ toJson(fromJson(steps.get_metadata.outputs.json).package.operating_systems) }}"
-          ls -a
-
-      - name: try this
-        shell: python
-        # https://stackoverflow.com/questions/67631/how-can-i-import-a-module-dynamically-given-the-full-path
-        run: |
-          from pathlib import Path
-          print(Path.cwd())
-          print("-----")
-          print(list(Path.cwd().glob("**/*")))
-          
-          import os
-          print(os.environ['PATH'])
-          
-          import importlib.util
-          import sys
-          name = "metadata"
-          spec = importlib.util.spec_from_file_location(name, "./metadata_/__init__.py")
-          module = importlib.util.module_from_spec(spec)
-          sys.modules[name] = module
-          spec.loader.exec_module(module)
-          metadata = module
-          print(metadata.main.project)
-
-          
-          
-
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/cd_repo_metadata.yaml
+    with:
+      branch: ${{ github.base_ref }}
 
   CodeQL:
     # Run code scanning with GitHub CodeQL.
@@ -174,8 +132,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions) }}
 
     steps:
       - name: 'Checkout repository'
@@ -249,8 +207,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix) }}
+        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions) }}
 
     steps:
       - name: 'Checkout repository'
@@ -300,7 +258,7 @@ jobs:
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          pyreverse ${{ needs.metadata.outputs.package-name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
+          pyreverse ${{ fromJSON(needs.metadata.outputs.json).package.name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
 
       - name: 'Move reports'
         if: always()
@@ -364,7 +322,7 @@ jobs:
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ fromJson(needs.metadata.outputs.python-versions)[0] }}
+          python-version: ${{ fromJson(needs.metadata.outputs.json).python_versions_latest }}
 
       - name: 'Intall dependencies'
         run: |

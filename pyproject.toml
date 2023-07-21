@@ -51,11 +51,11 @@ require-match = true
 replacement = """dict(
     version="{version}",
     version_tuple={version_tuple},
+    author_date="{author_date:%Y.%m.%d}",
     build_date="{build_date:%Y.%m.%d}",
     branch="{branch}",
     distance="{distance}",
     head_commit_hash="{revision}",
-    vcs_name="{vcs_name}"
 )"""
 source-file = "src/template_package/__init__.py"
 build-file = "template_package/__init__.py"
@@ -243,6 +243,8 @@ line-length = 100
 
 
 # ----------------------------------------- Project Metadata -------------------------------------
+# !!! DO NOT EDIT THIS SECTION MANUALLY !!!
+# This section is automatically updated by PyPackIT
 # References:
 #   PEP 621:
 #     https://peps.python.org/pep-0621/
@@ -251,6 +253,7 @@ line-length = 100
 [project]
 dynamic = ["version"]
 name = "templaterepo"
+license = {file = "LICENSE"}
 readme = {file = "README.md", content-type = "text/markdown"}
 dependencies = [
     "numpy"

@@ -32,20 +32,21 @@ Keywords to describe the project.
 ### License
 Name of the license under which the project is distributed.
 This must be one of the following values (case-insensitive):
-- `GNU-AGPLv3+`: GNU Affero General Public License v3 or later
-- `GNU-AGPLv3`: GNU Affero General Public License v3
-- `GNU-GPLv3+`: GNU General Public License v3 or later
-- `GNU-GPLv3`: GNU General Public License v3
+- `Apache_v2`: [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
+- `GNU_GPL_v3`: [GNU General Public License v3](https://choosealicense.com/licenses/gpl-3.0/)
+- `MIT`: [MIT License](https://choosealicense.com/licenses/mit/)
+- `BSD_2_Clause`: [BSD 2-Clause License](https://choosealicense.com/licenses/bsd-2-clause/)
+- `BSD_3_Clause`: [BSD 3-Clause License](https://choosealicense.com/licenses/bsd-3-clause/)
+- `BSL_v1`: [Boost Software License 1.0](https://choosealicense.com/licenses/bsl-1.0/)
+- `GNU_AGPL_v3+`: [GNU Affero General Public License v3 or later](https://choosealicense.com/licenses/agpl-3.0/)
+- `GNU_AGPL_v3`: [GNU Affero General Public License v3](https://choosealicense.com/licenses/agpl-3.0/)
+- `GNU_GPL_v3+`: [GNU General Public License v3 or later](https://choosealicense.com/licenses/gpl-3.0/)
+
 - `GNU-LGPLv3+`: GNU Lesser General Public License v3 or later
 - `GNU-LGPLv3`: GNU Lesser General Public License v3
-- `BSD-3-Clause`: BSD 3-Clause License
-- `BSD-2-Clause`: BSD 2-Clause License
-- `MIT`: MIT License
-- `BSLv1`: Boost Software License 1.0
 - `Unlicense`: The Unlicense
 
 - `MPL-2.0`: Mozilla Public License 2.0
-- `Apache-2.0`: Apache License 2.0
 - `CC-BY-4.0`: Creative Commons Attribution 4.0 International License
 - `CC-BY-SA-4.0`: Creative Commons Attribution-ShareAlike 4.0 International License
 - `CC-BY-NC-4.0`: Creative Commons Attribution-NonCommercial 4.0 International License

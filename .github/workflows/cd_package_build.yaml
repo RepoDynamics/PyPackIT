@@ -29,30 +29,11 @@ defaults:
 
 jobs:
 
-  metadata:
-    name: 'Get package metadata'
-    outputs:
-      package-name: ${{ fromJson(steps.get.outputs.json).package.name }}
-      python-versions: ${{ toJson(fromJson(steps.get.outputs.json).package.python_publish_versions) }}
-      operating-systems: ${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}
-      cibuilds: ${{ toJson(fromJson(steps.get.outputs.json).package.cibuilds) }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-
-      - name: 'Get metadata'
-        id: get
-        uses: ./.github/actions/get-metadata
-        with:
-          json-filepath: ${{inputs.json-filepath}}
-
-      - name: 'Print extracted data'
-        run: |
-          echo "Package Name: ${{ fromJson(steps.get.outputs.json).package.name }}" 
-          echo "Python Versions: '${{ toJson(fromJson(steps.get.outputs.json).package.python_versions) }}'" 
-          echo "OS: '${{ toJson(fromJson(steps.get.outputs.json).package.operating_systems) }}'"
-          echo "cibuilds: '${{ toJson(fromJson(steps.get.outputs.json).package.cibuilds) }}'"
+  load-metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_get-metadata.yaml
+    with:
+      branch: ${{ github.base_ref }}
 
 
   build-sdist:

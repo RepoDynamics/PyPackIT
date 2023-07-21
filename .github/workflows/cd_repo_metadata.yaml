@@ -25,7 +25,7 @@ on:
         default: ""
       path-repodynamics:
         description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
-        default: './repo'
+        default: 'repo'
         required: false
         type: string
     outputs:

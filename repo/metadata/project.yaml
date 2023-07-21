@@ -1,5 +1,5 @@
 
-name: TemplateRepo
+name: TemplateRepo  # Set to null to use the repository name
 
 tagline: Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects
 
@@ -25,6 +25,10 @@ keywords:
   - development
   - infrastructure
   - streamline
+
+trove_classifiers:
+  - "Typing :: Typed"
+  - "Natural Language :: English"
 
 license: MIT
 

@@ -1,4 +1,4 @@
-name: test_env
+name: full_env
 
 channels:
   - conda-forge
@@ -12,3 +12,9 @@ dependencies:
   - pytest
   - pytest-cov
   - codecov
+  - pylint
+  - black
+  - pre-commit
+
+#  - pip:
+#    - pip-only dependencies

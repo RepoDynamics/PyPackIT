@@ -146,7 +146,8 @@ ensure that the bug is indeed caused by our application.
 After verifying the bug, you have to make sure that it has not yet been fixed or reported.
 To do so, we highly recommend the following steps:
 
-[Search in Discussions](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests) 
+[Search in Discussions](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests)
+and [in issues and pull requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)
 with several different keywords to make sure the issue has not already been reported.
 
 

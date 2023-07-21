@@ -1,48 +1,284 @@
 
 from pathlib import Path
-import re
-import datetime
 import json
+import datetime
+import re
+import argparse
+import sys
 
 import requests
 from ruamel.yaml import YAML
+import trove_classifiers
 
 
-def read_metadata(dir_path: str | Path) -> dict:
-    metadata_dir = Path(dir_path).resolve()
-    if not (metadata_dir.exists() and metadata_dir.is_dir()):
-        raise ValueError(f"Metadata directory '{metadata_dir}' does not exist or is not a directory.")
-    metadata = dict()
-    for metadata_file in metadata_dir.glob("*.yaml"):
-        metadata[metadata_file.stem] = dict(YAML().load(metadata_file))
-    return metadata
+class Metadata:
 
+    def __init__(self, path_metadata: str | Path = None):
+        path = Path(path_metadata).resolve() if path_metadata else _get_metadata_dir_path()
+        if not (path.exists() and path.is_dir()):
+            raise ValueError(f"Metadata directory '{path}' does not exist or is not a directory.")
+        self.metadata = dict()
+        for metadata_file in path.glob("*.yaml"):
+            self.metadata[metadata_file.stem] = dict(YAML(typ='safe').load(metadata_file))
+        return
 
-def verify_project_name(name: str) -> None:
-    if not re.match(r'^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$', name, flags=re.IGNORECASE):
-        raise ValueError(
-            "Project name must only consist of alphanumeric characters, period (.), underscore (_) and hyphen (-), "
-            f"and can only start and end with an alphanumeric character, but got {name}. "
-            "See https://packaging.python.org/en/latest/specifications/name-normalization/ for more details."
+    def get_all(self):
+        self.add_project_copyright_year()
+        self.add_project_owner()
+        self.add_project_authors()
+        self.add_project_maintainers()
+        self.add_project_github()
+        self.add_project_name()
+        self.add_project_license()
+        self.add_package_name()
+        self.add_package_development_status()
+        self.add_package_python_versions()
+        self.add_package_operating_systems()
+        self.add_urls()
+        for classifier in self.metadata['package']['trove_classifiers']:
+            if classifier not in trove_classifiers.classifiers:
+                raise ValueError(f"Trove classifier '{classifier}' is not supported anymore.")
+        return self.metadata
+
+    def add_project_copyright_year(self):
+        start_year = int(self.metadata['project']['start_year'])
+        current_year = datetime.date.today().year
+        if start_year < 1970 or start_year > current_year:
+            raise ValueError(
+                f"Project's start year must be between 1970 and {datetime.date.today().year}, "
+                f"but got {start_year}."
+            )
+        year_range = f"{start_year}{'' if start_year == current_year else f'–{current_year}'}"
+        self.metadata['project']['copyright_year'] = year_range
+        return
+
+    def add_project_owner(self):
+        self.metadata['project']['owner'] = github_user_info(
+            self.metadata['project']['github']['username']
         )
-    return
+        return
 
+    def add_project_authors(self):
+        self.metadata['project']['authors'] = [
+            github_user_info(author) for author in self.metadata['project']['authors']
+        ]
+        return
 
-def verify_project_start_year(year: int | str) -> None:
-    year = int(year)
-    if year < 1970 or year > datetime.date.today().year:
-        raise ValueError(
-            f"Project's start year must be between 1970 and {datetime.date.today().year}, but got {year}."
+    def add_project_maintainers(self):
+        maintainers = dict()
+        for idx, role in enumerate(['issues', 'discussions']):
+            for people in self.metadata['maintainers'][role].values():
+                for person in people:
+                    entry = maintainers.setdefault(person, [0, 0, 0])
+                    entry[idx] += 1
+        for codeowner_entry in self.metadata['maintainers']['pull_requests']:
+            for person in codeowner_entry['reviewers']:
+                entry = maintainers.setdefault(person, [0, 0, 0])
+                entry[2] += 1
+        self.metadata['project']['maintainers'] = [
+            github_user_info(maintainer)
+            for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
+        ]
+        return
+
+    def add_project_github(self):
+        repo_name = self.metadata['project']['github']['repository']
+        if not re.match(r'^[A-Za-z0-9_.-]+$', repo_name):
+            raise ValueError(
+                "Repository names can only contain alphanumeric characters, hyphens (-), underscores (_), "
+                f"and periods (.), but got {repo_name}."
+            )
+        self.metadata['project']['github'] = github_repo_info(
+            self.metadata['project']['github']['username'],
+            repo_name
         )
-    return
+        return
 
+    def add_project_name(self):
+        if not self.metadata['project'].get('name'):
+            metadata['project']['name'] = metadata['project']['github']['name']
+        if not re.match(
+                r'^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$',
+                metadata['project']['name'],
+                flags=re.IGNORECASE
+        ):
+            raise ValueError(
+                "Project name must only consist of alphanumeric characters, period (.), "
+                "underscore (_) and hyphen (-), and can only start and end with an alphanumeric character, "
+                f"but got {metadata['project']['name']}. "
+                "See https://packaging.python.org/en/latest/specifications/name-normalization/ for more details."
+            )
+        return
 
-def verify_github_repo_name(name: str) -> None:
-    if not re.match(r'^[A-Za-z0-9_.-]+$', name):
-        raise ValueError(
-            "Repository names can only contain alphanumeric characters, hyphens (-), underscores (_), and dots (.), "
-            f"but got {name}."
+    def add_project_license(self):
+        name = {
+            'gnu_agpl_v3+': (
+                'GNU AGPL v3.0+',
+                'GNU Affero General Public License v3.0 or later',
+                'GNU Affero General Public License v3 or later (AGPLv3+)'
+            ),
+            'gnu_agpl_v3': (
+                'GNU AGPL v3.0',
+                'GNU Affero General Public License v3.0',
+                'GNU Affero General Public License v3'
+            ),
+            'gnu_gpl_v3+': (
+                'GNU GPL v3.0+',
+                'GNU General Public License v3.0 or later',
+                'GNU General Public License v3 or later (GPLv3+)'
+            ),
+            'gnu_gpl_v3': (
+                'GNU GPL v3.0',
+                'GNU General Public License v3.0',
+                'GNU General Public License v3 (GPLv3)'
+            ),
+            'mozilla_v2': (
+                'MPL v2.0',
+                'Mozilla Public License 2.0',
+                'Mozilla Public License 2.0 (MPL 2.0)',
+            ),
+            'apache_v2': (
+                'Apache v2.0',
+                'Apache License 2.0',
+                'Apache Software License'
+            ),
+            'mit': (
+                'MIT',
+                'MIT License',
+                'MIT License'
+            ),
+            'bsd_2_clause': (
+                'BSD 2-Clause',
+                'BSD 2-Clause License',
+                'BSD License',
+            ),
+            'bsd_3_clause': (
+                'BSD 3-Clause',
+                'BSD 3-Clause License',
+                'BSD License',
+            ),
+            'bsl_v1': (
+                'BSL v1.0',
+                'Boost Software License 1.0',
+                'Boost Software License 1.0 (BSL-1.0)',
+            ),
+            'unlicense': (
+                'Unlicense',
+                'The Unlicense',
+                'The Unlicense (Unlicense)',
+            ),
+        }
+        license_id = self.metadata['project']['license'].lower()
+        if license_id not in name:
+            raise ValueError(f"License ID '{license_id}' is not supported.")
+        short, long, classifier = name[license_id]
+        self.metadata['project']['license_name_short'] = short
+        self.metadata['project']['license_name_full'] = long
+        self.metadata['package']['trove_classifiers'].append(f"License :: OSI Approved :: {classifier}")
+        return
+
+    def add_package_name(self):
+        self.metadata['package']['name'] = re.sub(r'[._-]+', '-', self.metadata['project']['name'].lower())
+        return
+
+    def add_package_development_status(self):
+        phase = {
+            1: "Planning",
+            2: "Pre-Alpha",
+            3: "Alpha",
+            4: "Beta",
+            5: "Production/Stable",
+            6: "Mature",
+            7: "Inactive",
+        }
+        status_code = self.metadata['project']['development_status']
+        if isinstance(status_code, str):
+            status_code = int(status_code)
+        if status_code not in range(1, 8):
+            raise ValueError("Project development status must be an integer between 1 and 7.")
+        self.metadata['package']['trove_classifiers'].append(
+            f"Development Status :: {status_code} - {phase[status_code]}"
         )
+        return
+
+    def add_package_python_versions(self):
+        min_ver = self.metadata['package']['python_version_min']
+        ver = tuple(map(int, min_ver.split('.')))
+        if ver[0] != 3:
+            raise ValueError(f"Minimum Python version must be 3.x, but got {min_ver}.")
+        vers = [f"3.{v[1]}" for v in python_released_versions() if v[0] == 3 and v[1] >= ver[1]]
+        if len(vers) == 0:
+            raise ValueError(f"Minimum Python version is higher than latest release version.")
+        self.metadata['package']['python_versions'] = vers
+        self.metadata['package']['python_versions_cibuild'] = [ver.replace('.', '') for ver in vers]
+        # Add trove classifiers
+        classifiers = [
+            "Programming Language :: Python :: {}".format(postfix) for postfix in ["3 :: Only"] + vers
+        ]
+        self.metadata['package']['trove_classifiers'].extend(classifiers)
+        return
+
+    def add_package_operating_systems(self):
+        trove_classifiers_postfix = {
+            'windows': 'Microsoft :: Windows',
+            'macos': 'MacOS',
+            'linux': 'POSIX :: Linux',
+            'independent': 'OS Independent',
+        }
+        trove_classifier_template = "Operating System :: {}"
+        github_os_matrix = []
+        build_matrix = []
+        for os in self.metadata['package']['operating_systems']:
+            os_id = os['id'].lower()
+            if os_id not in ['linux', 'macos', 'windows']:
+                raise ValueError(
+                    f"Operating system ID '{os_id}' is not supported. "
+                    "Supported operating system IDs are 'linux', 'macos', and 'windows'."
+                )
+            self.metadata['package']['trove_classifiers'].append(
+                trove_classifier_template.format(trove_classifiers_postfix[os_id])
+            )
+            github_runner = f"{os_id if os_id != 'linux' else 'ubuntu'}-latest"
+            github_os_matrix.append(github_runner)
+            if os['cibuilds']:
+                for cibuild in os['cibuilds']:
+                    build_matrix.append((github_runner, cibuild))
+        self.metadata['package']['github_runners'] = github_os_matrix
+        self.metadata['package']['build_matrix'] = build_matrix
+        is_pure_python = not build_matrix
+        self.metadata['package']['is_pure_python'] = is_pure_python
+        if is_pure_python:
+            self.metadata['package']['trove_classifiers'].append(
+                trove_classifier_template.format(trove_classifiers_postfix['independent'])
+            )
+        return
+
+    def add_urls(self):
+        urls = dict()
+        urls['homepage'] = (
+            f"https://{self.metadata['website']['rtd_name']}.readthedocs.io/en/latest"
+            if self.metadata['website'].get('rtd_name') else
+            (
+                f"https://{self.metadata['project']['owner']['login']}.github.io"
+                f"""{"" if self.metadata['website']['is_gh_user_site'] else f"/{self.metadata['project']['github']['name']}"}"""
+            )
+        )
+        urls['announcement'] = (
+            f"https://raw.githubusercontent.com/{self.metadata['project']['github']['full_name']}/"
+            f"{self.metadata['project']['github']['default_branch']}/{self.metadata['paths']['website_sphinx_announcement']}"
+        )
+        urls['contributors'] = f"{urls['homepage']}/about#contributors"
+        urls['license'] = f"{urls['homepage']}/license"
+
+        urls['gh_repo'] = self.metadata['project']['github']['html_url']
+        urls['gh_issues'] = f"{urls['gh_repo']}/issues"
+        urls['gh_pulls'] = f"{urls['gh_repo']}/pulls"
+        urls['gh_discussions'] = f"{urls['gh_repo']}/discussions"
+        urls['gh_releases'] = f"{urls['gh_repo']}/releases"
+
+        urls['pypi'] = f"https://pypi.org/project/{self.metadata['package']['name']}/"
+        self.metadata['urls'] = urls
+        return
 
 
 def github_user_info(username) -> dict:
@@ -59,12 +295,13 @@ def github_user_info(username) -> dict:
         elif account['provider'] == 'linkedin':
             info['external_urls']['linkedin'] = account['url']
         else:
-            url_pattern = '(?:https?://)?(?:www\.)?({}/[\w\-]+)'
             for url, key in [
                 ('orchid\.org', 'orcid'),
                 ('researchgate\.net/profile', 'researchgate')
             ]:
-                match = re.compile(url_pattern.format(url)).fullmatch(account['url'])
+                match = re.compile(
+                    '(?:https?://)?(?:www\.)?({}/[\w\-]+)'.format(url)
+                ).fullmatch(account['url'])
                 if match:
                     info['external_urls'][key] = f"https://{match.group(1)}"
                     break
@@ -78,70 +315,39 @@ def github_repo_info(username, repo_name) -> dict:
     return info
 
 
-def generate_package_name(project_name: str) -> str:
-    return re.sub(r'[._-]+', '-', project_name.lower())
+def python_released_versions() -> list[tuple[int, int, int]]:
+    """
+    Get a list of all Python versions that have been released to date.
+
+    Returns
+    -------
+
+    """
+    # Get all tags from CPython repository
+    tags = requests.get("https://api.github.com/repos/python/cpython/git/refs/tags").json()
+    python_versions = list()
+    for tag in tags:
+        # Match tags that represent final versions, i.e. vN.N.N where Ns are integers
+        match = re.match(r'^refs/tags/v(\d+\.\d+\.\d+)$', tag['ref'])
+        if match:
+            python_versions.append(tuple(map(int, match.group(1).split("."))))
+    return sorted(python_versions)
 
 
-def main(path_metadata: str | Path = None) -> dict:
-    path = Path(path_metadata).resolve() if path_metadata else Path(__file__).parent.parent / 'metadata'
-    metadata = read_metadata(path)
-
-    verify_project_start_year(metadata['project']['start_year'])
-
-    metadata['project']['owner'] = github_user_info(metadata['project']['github']['username'])
-    metadata['project']['authors'] = [github_user_info(author) for author in metadata['project']['authors']]
-    metadata['project']['github'] = github_repo_info(metadata['project']['github']['username'], metadata['project']['name'])
-
-    # TODO
-    metadata['project']['license_name_short'] = ""
-    metadata['project']['license_name_full'] = ""
-
-    if not metadata['project'].get('name'):
-        metadata['project']['name'] = metadata['project']['github']['name']
-    verify_project_name(metadata['project']['name'])
-
-    metadata['package']['name'] = generate_package_name(metadata['project']['name'])
-
-    metadata['url'] = dict()
-
-    metadata['url']['homepage'] = (
-        f"https://{metadata['website']['rtd_name']}.readthedocs.io/en/latest"
-        if metadata['website'].get('rtd_name') else
-        (
-            f"https://{metadata['project']['owner']['login']}.github.io"
-            f"""{"" if metadata['website']['is_gh_user_site'] else f"/{metadata['project']['github']['name']}"}"""
-        )
-    )
-    metadata['url']['announcement'] = (
-        f"https://raw.githubusercontent.com/{metadata['project']['github']['full_name']}/"
-        f"{metadata['project']['github']['default_branch']}/{metadata['paths']['website_sphinx_announcement']}"
-    )
-    metadata['url']['contributors'] = f"{metadata['url']['homepage']}/about#contributors"
-    metadata['url']['license'] = f"{metadata['url']['homepage']}/license"
-
-    metadata['url']['gh_repo'] = metadata['project']['github']['html_url']
-    metadata['url']['gh_issues'] = f"{metadata['url']['gh_repo']}/issues"
-    metadata['url']['gh_pulls'] = f"{metadata['url']['gh_repo']}/pulls"
-    metadata['url']['gh_discussions'] = f"{metadata['url']['gh_repo']}/discussions"
-    metadata['url']['gh_releases'] = f"{metadata['url']['gh_repo']}/releases"
-
-    metadata['url']['pypi'] = f"https://pypi.org/project/{metadata['package']['name']}/"
-
-    return metadata
+def _get_metadata_dir_path():
+    return (Path(__file__).parent.parent.parent/'metadata').resolve()
 
 
 if __name__ == '__main__':
-    import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--path', type=str, help="Path to the metadata directory.", required=False)
     args = parser.parse_args()
-    path = Path(args.path).resolve() if args.path else Path(__file__).parent.parent/'metadata'
+    path = Path().resolve() if args.path else _get_metadata_dir_path()
     try:
-        metadata = main(path)
+        metadata = Metadata(path).get_all()
         with open(path/'metadata_full.json', 'w') as f:
             json.dump(metadata, f, indent=4)
-        print(json.dumps(main(path)))
+        print(json.dumps(metadata))
     except Exception as e:
-        import sys
         print(f"Error: {e}")
         sys.exit(1)

@@ -4,7 +4,7 @@ email:
   security: "a.ariamajd@gmail.com"
 
 
-issue:
+issues:
 
   default:
     - "aariam"
@@ -13,7 +13,7 @@ issue:
     - "aariam"
 
 
-pull_request:
+pull_requests:
 
   # Default owners for everything, unless a later match takes precedence.
   - pattern: "*"
@@ -30,3 +30,10 @@ pull_request:
   - pattern: "/.github/"
     reviewers:
       - "aariam"
+
+
+discussions:
+
+  default:
+    - "aariam"
+
