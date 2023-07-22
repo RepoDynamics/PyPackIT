@@ -18,21 +18,21 @@ body:
         
         ## Guidelines
         
-        Before submitting a report, please make sure that:
+        Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
-        and not a documented behavior that is expected in certain situations.
+        and not an expected behavior that is documented.
         
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
         
         <blockquote>
-            ❤️🙏 <b>We Appreciate All Your Work!</b>
+            💡 <b>Open a discussion instead!</b>
             <br>
-            We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a> 
-            specifications; all types of contributions are encouraged and valued, and all contributors are 
-            acknowledged on our <a href="{metadata[urls][contributors]}">public website</a> 
-            and <a href="{metadata[urls][gh_releases]}">repository</a>.
+            This verification process is non-trivial, and can be time-consuming.
+            If you don't have the time to go through the process, you can always
+            open a discussion instead; we will investigate the problem as soon as possible, 
+            and convert the discussion into an issue if the bug is verified.
         </blockquote>
         
         
