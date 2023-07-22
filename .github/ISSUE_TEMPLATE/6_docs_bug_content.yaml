@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: '🌐 Website: 🪲 Bug Report: Documentation'
+name: '📚 Docs  🪲 Bug Report  📄 Content'
 description: >-
   Report problems in the documentation, such as missing/false explanations, mechanical errors, formatting issues etc.
 labels: ["bug", "triage"]
