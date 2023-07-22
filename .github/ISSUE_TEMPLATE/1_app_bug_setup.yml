@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: '🖥 App: 🪲 Bug Report: Setup'
+name: '🖥 App:   🪲 Bug Report: Setup'
 description: >-
   Report a problem encountered during the download, installation, or initialization of the application.
 title: "[Bug]: "
