@@ -9,30 +9,27 @@ on:
 
 jobs:
 
-  format-issue:
-    name: 'Format issue'
-    runs-on: ubuntu-latest
-    outputs:
-      formatted-issue-body: ${{ steps.format.outputs.body }}
-    steps:
 
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
       - name: 'Format the issue body'
         id: format
-        run: echo "body=$(python meta/scripts/format_issue.py '${{ github.event.issue.body }}')" >> "$GITHUB_OUTPUT"
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "ISSUE_BODY<<$EOF" >> "$GITHUB_ENV"
+          echo "$(python meta/scripts/format_issue.py '${{ github.event.issue.body }}')" >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
 
-  format:
-    runs-on: ubuntu-latest
-    needs: format-issue
-    permissions:
-      issues: write
-    steps:
       - name: Update issue
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'update-issue'
           issue-number: ${{ github.event.issue.number }}
-          body: ${{ needs.format-issue.outputs.formatted-issue-body }}
+          body: ${{ env.ISSUE_BODY }}
           update-mode: 'replace'
