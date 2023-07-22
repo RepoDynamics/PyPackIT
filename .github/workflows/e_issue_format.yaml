@@ -14,9 +14,10 @@ jobs:
     steps:
       - name: Update issue
         uses: actions-cool/issues-helper@v3
+        permissions:
+          issues: write
         with:
           actions: 'update-issue'
-          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: 'xxxx'
           update-mode: 'replace'
