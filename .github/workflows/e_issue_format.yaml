@@ -1,0 +1,22 @@
+
+
+name: "Issues - Format"
+run-name: 'Issues: Format submitted issue'
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update issue
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'update-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: 'xxxx'
+          update-mode: 'replace'
