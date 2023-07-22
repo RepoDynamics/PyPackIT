@@ -2,10 +2,15 @@ blank_issues_enabled: false
 
 contact_links:
 
-  - name:
-    url: https://github.com/orgs/community/discussions
+  - name: 'ℹ️  '
     about: Please ask and answer questions here.
+    url: https://github.com/orgs/community/discussions
 
-  - name: GitHub Security Bug Bounty
-    url: https://bounty.github.com/
+  - name: '⁉️  '
+    about: Please ask and answer questions here.
+    url: https://github.com/orgs/community/discussions
+
+  - name: '📮GitHub Security Bug Bounty'
     about: Please report security vulnerabilities here.
+    url: https://bounty.github.com/
+
