@@ -13,12 +13,12 @@ body:
   - type: markdown
     attributes:
       value: >-
-        Thank you for taking the time to report a bug in {metadata[project][name]}; 
+        Thank you for taking the time to report a problem in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
         
         ## Guidelines
         
-        Before submitting a report, please verify that:
+        ⚠️ Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
         and not a documented expected behavior.
