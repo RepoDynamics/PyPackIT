@@ -4,7 +4,7 @@
 
 name: '🖥 App  🪲 Bug Report  🏗 Setup'
 description: >-
-  Report a problem encountered during the download, installation, or initialization of the application.
+  Report a problem in downloading, installation, or initialization of the application.
 
 title: "[Bug]: "
 labels: ["bug", "triage"]

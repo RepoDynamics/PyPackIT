@@ -3,7 +3,9 @@
 
 
 name: '🖥 App  🫴 Request  💥 Breaking Change'
-description: Request an improvement in an existing feature, e.g. in terms of functionality, performance, or ease of use.
+description: >-
+  Request a backward-incompatible change to the API, 
+  such as a change in the behavior of an existing functionality.
 title: "[Bug]: "
 labels: ["Request: enhancement"]
 
