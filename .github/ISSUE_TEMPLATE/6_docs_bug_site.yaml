@@ -4,7 +4,8 @@
 
 name: '📚 Docs  🪲 Bug Report  🌐 Website'
 description: >-
-  Report problems in the documentation, such as missing/false explanations, mechanical errors, formatting issues etc.
+  Report a technical problem in the documentation website, 
+  such as broken page formatting, loading issues, and unexpected behavior.
 labels: ["bug", "triage"]
 
 body:

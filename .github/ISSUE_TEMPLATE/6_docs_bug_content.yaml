@@ -4,7 +4,8 @@
 
 name: '📚 Docs  🪲 Bug Report  📄 Content'
 description: >-
-  Report problems in the documentation, such as missing/false explanations, mechanical errors, formatting issues etc.
+  Report a problem in the contents of the documentation, 
+  such as missing/false explanations, mechanical errors, broken links etc.
 labels: ["bug", "triage"]
 
 body:
