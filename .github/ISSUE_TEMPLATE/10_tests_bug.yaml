@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: '🧪 Tests: 🪲 Bug Report: '
+name: '🧪 Tests  🪲 Bug Report'
 description: >-
   Report problems in the test suite, such as  etc.
 labels: ["bug", "triage"]
