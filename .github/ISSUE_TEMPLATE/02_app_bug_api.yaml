@@ -15,7 +15,8 @@ body:
       value: >-
         ## Guidelines
         
-        Thank you for taking the time to report a problem in our product; we greatly appreciate your contribution!
+        Thank you for taking the time to report a bug in {metadata[project][name]}; 
+        we greatly appreciate your contribution! ❤️🙏
 
   - type: checkboxes
     id: terms
