@@ -8,9 +8,6 @@ labels: ["Bug: App", "Status: Triage"]
 assignees:
   - aariam
 
-title: >- 
-  Please write a concise and descriptive title, containing keywords that other people might search for,
-  when looking for this bug.
 body:
   
   - type: markdown
@@ -28,6 +25,8 @@ body:
         
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
+        
+        
         
         <blockquote>
             💡 <a href="{}"><b>Open a discussion instead!</b></a>
@@ -61,7 +60,7 @@ body:
   - type: markdown
     attributes:
       value: >-
-        ## 
+        ## System and Version Specifications
 
   - type: dropdown
     id: package_version
