@@ -10,9 +10,4 @@ Copyright disclaimer:
 A copyright disclaimer
 """
 
-from . import _about
-
-
-_about = _about.ProjectMetaData()
-
 __version__ = "This will be set on build"

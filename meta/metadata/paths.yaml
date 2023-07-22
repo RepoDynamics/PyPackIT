@@ -1,0 +1,12 @@
+
+dir_website_sphinx_make: "docs/website_sphinx"
+dir_website_sphinx_source: "docs/website_sphinx/source"
+dir_website_sphinx_build: "docs/website_sphinx/_build"
+
+
+dir_health_files: "docs"
+
+
+website_sphinx_announcement: "docs/website_sphinx/announcement.html"
+
+pypi_readme: "README.md"

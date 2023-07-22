@@ -6,6 +6,14 @@ A short description.
 A long description.
 """
 
+import inspect
+def f():
+    s = inspect.stack()
+    print(s)
+    module_name = inspect.getmodule(s[1][0]).__name__
+    print(module_name)
+
+
 
 def returns_2() -> int:
     """
@@ -14,3 +22,6 @@ def returns_2() -> int:
     Function description
     """
     return 2
+
+
+f()

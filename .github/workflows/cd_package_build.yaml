@@ -29,7 +29,7 @@ defaults:
 
 jobs:
 
-  load-metadata:
+  metadata:
     name: 'Load repository metadata'
     uses: ./.github/workflows/repo_get-metadata.yaml
     with:
@@ -82,7 +82,7 @@ jobs:
   build_wheel:
     name: 'Generate built distribution (pure Python)'
     needs: [metadata, build-sdist]
-    if: needs.metadata.outputs.cibuilds == 'null'
+    if: fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'true'
     runs-on: ubuntu-latest
     steps:
 
@@ -106,13 +106,13 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: [metadata, build-sdist]
-    if: needs.metadata.outputs.cibuilds != 'null'
-    runs-on: ${{ matrix.os }}
+    if: fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'false'
+    runs-on: ${{ matrix.build[0] }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.operating-systems) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.python-versions) }}
+        build: ${{ fromJson(needs.metadata.outputs.json).package.build_matrix }}
+        python-version: ${{ fromJson(needs.metadata.outputs.json).package.python_versions_cibuild }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -130,8 +130,8 @@ jobs:
         # https://github.com/pypa/cibuildwheel
         uses: pypa/cibuildwheel@v2.13.1
         env:
+          CIBW_BUILD: ${{ matrix.python-version }}-${{ matrix.build[1] }}
           CIBW_BUILD_VERBOSITY: 2
-          CIBW_BUILD: ${{ matrix.python-version }}-*
 
       - name: 'Upload wheel as artifact'
         uses: actions/upload-artifact@v3
