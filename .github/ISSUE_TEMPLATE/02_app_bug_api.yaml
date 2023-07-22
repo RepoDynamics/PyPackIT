@@ -18,7 +18,16 @@ body:
         
         ## Guidelines
         
-        ⚠️ Before submitting a report, please verify that:
+        <p align="center">
+        ⚠️ Please note that this issue form is specifically for reporting a non-security-related bug 
+        in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
+        while using the application, either as an import package, a command-line tool,
+        or via a GUI. For reporting a security vulnerability, please fill a 
+        [private security advisory form]() instead. For other types of issues, 
+        such as [reporting a problem during setup](),
+        </p>
+        
+        Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
         and not a documented expected behavior.
