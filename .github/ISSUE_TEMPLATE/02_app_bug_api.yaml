@@ -13,10 +13,14 @@ body:
   - type: markdown
     attributes:
       value: >-
-        ## Guidelines
-        
         Thank you for taking the time to report a bug in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
+        
+        ## Guidelines
+        
+        
+        
+        
 
   - type: checkboxes
     id: terms
