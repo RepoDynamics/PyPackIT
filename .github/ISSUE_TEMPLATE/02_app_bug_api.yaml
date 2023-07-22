@@ -26,6 +26,14 @@ body:
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
         
+        <blockquote>
+            ❤️🙏 <b>We Appreciate All Your Work!</b>
+            <br>
+            We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a> 
+            specifications; all types of contributions are encouraged and valued, and all contributors are 
+            acknowledged on our <a href="{metadata[urls][contributors]}">public website</a> 
+            and <a href="{metadata[urls][gh_releases]}">repository</a>.
+        </blockquote>
         
         
 
