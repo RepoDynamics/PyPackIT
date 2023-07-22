@@ -11,11 +11,11 @@ jobs:
 
   format:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Update issue
         uses: actions-cool/issues-helper@v3
-        permissions:
-          issues: write
         with:
           actions: 'update-issue'
           issue-number: ${{ github.event.issue.number }}
