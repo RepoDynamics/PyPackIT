@@ -18,7 +18,7 @@ body:
         
         ## Guidelines
         
-        <p align="center">
+        <p align="justify">
         ⚠️ Please note that this issue form is specifically for reporting a non-security-related bug 
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
