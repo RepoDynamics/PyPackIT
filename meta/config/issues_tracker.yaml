@@ -2,7 +2,7 @@ blank_issues_enabled: false
 
 contact_links:
 
-  - name: GitHub Community Support
+  - name:
     url: https://github.com/orgs/community/discussions
     about: Please ask and answer questions here.
 
