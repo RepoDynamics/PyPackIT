@@ -27,7 +27,6 @@ body:
         and has not yet been reported.
         
         
-        
         <blockquote>
             💡 <a href="{}"><b>Open a discussion instead!</b></a>
             <br>
@@ -36,6 +35,8 @@ body:
             you can always open a discussion instead; we will investigate the problem as soon as possible, 
             and convert the discussion into an issue if the bug is verified.
         </blockquote>
+        
+        <details>
 
   - type: checkboxes
     id: terms
@@ -59,9 +60,9 @@ body:
 
   - type: markdown
     attributes:
-      value: >-
+      value: |
+        </details>
         <br>
-        
         
         ## System and Version Specifications
 
@@ -83,7 +84,8 @@ body:
   - type: dropdown
     id: python_version
     attributes:
-      label: |
+      label: Python Version
+      description: |
         Which Python versions have you tested? 
         Please select all versions where you have encountered the bug.
       multiple: true
@@ -96,7 +98,8 @@ body:
   - type: dropdown
     id: os
     attributes:
-      label: |
+      label: Operating System
+      description: |
         Which operating systems have you tested? 
         Please select all versions where you have encountered the bug.
       multiple: true
