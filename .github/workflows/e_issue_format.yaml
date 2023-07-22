@@ -21,7 +21,7 @@ jobs:
 
       - name: 'Format the issue body'
         id: format
-        run: echo "body=$(python meta/scripts/format_issue.py '${{ github.event.issue.body }}')" >> $GITHUB_OUTPUT
+        run: echo "body=$(python meta/scripts/format_issue.py '${{ github.event.issue.body }}')" >> "$GITHUB_OUTPUT"
 
   format:
     runs-on: ubuntu-latest
