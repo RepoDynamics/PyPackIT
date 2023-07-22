@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: '🖥 App  🫴 Request  💥 Breaking Change'
+name: '🖥 App  💡 Request  💥 Breaking Change'
 description: >-
   Request a backward-incompatible change to the API, 
   such as a change in the behavior of an existing functionality.

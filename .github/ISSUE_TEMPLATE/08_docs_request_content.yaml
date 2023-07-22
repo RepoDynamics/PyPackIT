@@ -2,7 +2,7 @@
 # Ref: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 
 
-name: '📚 Docs  🫴 Request  💫 New Content'
+name: '📚 Docs  💡 Request  💫 New Content'
 description: Request a brand new feature that is not yet available in the application.
 title: "[Bug]: "
 labels: ["bug", "triage"]
