@@ -19,8 +19,10 @@ body:
         ## Guidelines
         
         Before submitting a report, please make sure that:
+        
         1. The issue you are experiencing is in fact a bug, 
         and not a documented behavior that is expected in certain situations.
+        
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
         
