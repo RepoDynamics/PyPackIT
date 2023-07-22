@@ -1,7 +1,7 @@
 
 
 name: '🖥 App:  🪲 Bug Report:  API'
-description: |
+description: >-
   Report problems encountered while using the application, such as unexpected results and errors.
 labels: ["Bug: App", "Status: Triage"]
 assignees:
