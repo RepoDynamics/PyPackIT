@@ -8,6 +8,9 @@ labels: ["Bug: App", "Status: Triage"]
 assignees:
   - aariam
 
+title: >- 
+  Please write a concise and descriptive title, containing keywords that other people might search for,
+  when looking for this bug.
 body:
   
   - type: markdown
@@ -21,26 +24,24 @@ body:
         Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
-        and not an expected behavior that is documented.
+        and not a documented expected behavior.
         
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
         
         <blockquote>
-            💡 <b>Open a discussion instead!</b>
+            💡 <a href="{}"><b>Open a discussion instead!</b></a>
             <br>
             This verification process is non-trivial, and can be time-consuming.
-            If you don't have the time to go through the process, you can always
-            open a discussion instead; we will investigate the problem as soon as possible, 
+            If you are not a collaborator and don't have the time to go through the process, 
+            you can always open a discussion instead; we will investigate the problem as soon as possible, 
             and convert the discussion into an issue if the bug is verified.
         </blockquote>
-        
-        
 
   - type: checkboxes
     id: terms
     attributes:
-      label: Guidelines and Agreements
+      label: Terms and Conditions
       description: >-
         Please make sure that you are following our 
         [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
@@ -56,6 +57,11 @@ body:
             I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
           required: true
 
+
+  - type: markdown
+    attributes:
+      value: >-
+        ## 
 
   - type: dropdown
     id: package_version
