@@ -187,12 +187,24 @@ body:
         If you have encountered the bug while using the Python API,
         </p>
 
+  - type: input
+    attributes:
+      label: Fully Qualified Name
+      description: |
+        Please provide the fully qualified name of the API endpoint that is causing the problem.
+      placeholder: {}
+    validations:
+      required: false
+
   - type: textarea
     id: code
     attributes:
       label: Minimal Reproducible Example (MRE)
       description: |
-        Please provide a minimal complete verifiable example the most minimal possible example to reproduce the bug.
+        Please provide a minimal complete verifiable code example to reproduce the bug.
+        
+        ⚠️ The contents of this textfield will be automatically rendered as Python code,
+        without the need to wrap it
       placeholder: "import {metadata[package][name]}"
       value: |
         import {metadata[package][name]}

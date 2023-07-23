@@ -27,9 +27,18 @@ jobs:
           echo "$EOF" >> "$GITHUB_ENV"
 
       - name: Update issue
+        # https://github.com/marketplace/actions/issues-helper
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'update-issue'
           issue-number: ${{ github.event.issue.number }}
           body: ${{ env.ISSUE_BODY }}
           update-mode: 'replace'
+
+      - name: Create comment
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. Add some comments.
