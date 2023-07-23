@@ -118,7 +118,7 @@ body:
     attributes:
       value: |
         <br>
-        ## System and Version Specifications
+        <h2>System and Version Specifications</h2>
 
   - type: dropdown
     id: os
@@ -168,7 +168,7 @@ body:
     attributes:
       value: |
         <br>
-        ## Report
+        <h2>Bug Report</h2>
 
   - type: textarea
     id: summary
