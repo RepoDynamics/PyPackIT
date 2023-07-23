@@ -1,26 +1,49 @@
-
-from pathlib import Path
 import json
 import datetime
 import re
 import argparse
 import sys
+from pathlib import Path
+from typing import Optional
 
 import requests
 from ruamel.yaml import YAML
 import trove_classifiers
 
-from . import _utils
 
 class Metadata:
 
-    def __init__(self):
+    def __init__(
+            self,
+            path_root: Optional[str | Path] = None,
+            path_pathfile: Optional[str | Path] = None,
+    ):
+        self.path_root = Path(path_root).resolve() if path_root else Path.cwd().resolve()
+        if not path_pathfile:
+            path_pathfile = self.path_root / 'meta' / 'metadata' / 'paths.yaml'
+        if not isinstance(path_pathfile, (str, Path)):
+            raise TypeError(
+                f"Argument 'path_pathfile' must be a string or a pathlib.Path object, "
+                f"but got {type(path_pathfile)}."
+            )
+        if isinstance(path_pathfile, Path) or (
+                isinstance(path_pathfile, str) and not path_pathfile.startswith('https://')
+        ):
+            path_pathfile = Path(path_pathfile).resolve()
+            if not path_pathfile.exists():
+                raise ValueError(f"Path '{path_pathfile}' does not exist.")
+            if not path_pathfile.is_file():
+                raise ValueError(f"Path '{path_pathfile}' is not a file.")
+            paths = YAML(typ='safe').load(path_pathfile)
+        else:
+            raise NotImplementedError
         self.metadata = dict()
-        for filepath in _utils.path['metadata']:
+        self.metadata['paths'] = paths
+        self.metadata['paths']['abs'] = self._get_absolute_paths()
+        for section, filepath in self.metadata['paths']['abs']['meta']['metadata'].items():
             if not (filepath.exists() and filepath.is_file()):
-                raise ValueError(
-                    f"Metadata file '{filepath.name}' does not exist in {filepath}.")
-            self.metadata[filepath.stem] = dict(YAML(typ='safe').load(filepath))
+                raise ValueError(f"Metadata file '{section}' does not exist in {filepath}.")
+            self.metadata[section] = dict(YAML(typ='safe').load(filepath))
         return
 
     def fill(self):
@@ -316,6 +339,17 @@ class Metadata:
         self.metadata['urls'] = urls
         return
 
+    def _get_absolute_paths(self):
+        def recursive(dic, new_dic):
+            for key, val in dic.items():
+                if isinstance(val, str):
+                    new_dic[key] = self.path_root / val
+                else:
+                    new_dic[key] = recursive(val, dict())
+            return new_dic
+        return recursive(self.metadata['paths'], dict())
+
+
 
 def github_user_info(username) -> dict:
     response = requests.get(f"https://api.github.com/users/{username}")
@@ -369,6 +403,9 @@ def python_released_versions() -> list[tuple[int, int, int]]:
             python_versions.append(tuple(map(int, match.group(1).split("."))))
     return sorted(python_versions)
 
+
+def main(path: Optional[str | Path] = None):
+    print(Path.cwd())
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

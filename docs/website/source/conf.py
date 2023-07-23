@@ -10,8 +10,10 @@ References
 from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
 import importlib
 import sys
+from pathlib import Path
+print("from CONF.PY", Path.cwd())
 
-_spec = importlib.util.spec_from_file_location("metadata", "../../../repo/dynamics/metadata.py")
+_spec = importlib.util.spec_from_file_location("metadata", "../../../meta/scripts/metadata.py")
 _metadata = importlib.util.module_from_spec(_spec)
 sys.modules["metadata"] = _metadata
 _spec.loader.exec_module(_metadata)

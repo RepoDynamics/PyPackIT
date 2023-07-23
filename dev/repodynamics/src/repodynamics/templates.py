@@ -2,7 +2,7 @@ import re
 
 import ruamel.yaml
 
-from . import metadata, _utils
+from . import metadata, paths
 
 
 class Templates:
@@ -129,4 +129,4 @@ class Templates:
         return
 
     def update_issue_forms(self):
-
+        pass

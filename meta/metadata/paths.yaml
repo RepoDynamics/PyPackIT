@@ -1,12 +1,35 @@
 
-dir_website_sphinx_make: "docs/website_sphinx"
-dir_website_sphinx_source: "docs/website_sphinx/source"
-dir_website_sphinx_build: "docs/website_sphinx/_build"
+meta:
+  config:
+    issues_template_chooser: "meta/config/issues_template_chooser.yaml"
+  metadata:
+    project: "meta/metadata/project.yaml"
+    website: "meta/metadata/website.yaml"
+    maintainers: "meta/metadata/maintainers.yaml"
+    package: "src/metadata.yaml"
+  templates:
+    issues: "meta/templates/issue_forms"
+    licenses: "meta/templates/licenses"
+    health_files: "meta/templates/health_files"
 
+health_files:
+  code_of_conduct: "."
+  codeowners: "."
+  contributing: "."
+  governance: "."
+  security: "."
+  support: "."
 
-dir_health_files: "docs"
+docs:
+  website:
+    make: "docs/website"
+    source: "docs/website/source"
+    build: "docs/website/_build"
+    announcement: "docs/website/announcement.html"
 
+data:
+  local_reports: "data/_local_reports"
 
-website_sphinx_announcement: "docs/website_sphinx/announcement.html"
 
 pypi_readme: "README.md"
+

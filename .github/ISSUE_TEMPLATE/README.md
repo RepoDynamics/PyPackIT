@@ -13,7 +13,7 @@ issue forms that users can select from when opening a new issue in the repositor
 
 
 ## Configurations
-The [config.yml](../../meta/config/issues_tracker.yaml) file contains the configurations for the 
+The [config.yml](../../meta/config/issues_template_chooser.yaml) file contains the configurations for the 
 [template chooser](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser),
 i.e. the landing page of the repository's 'Issues' section.
 

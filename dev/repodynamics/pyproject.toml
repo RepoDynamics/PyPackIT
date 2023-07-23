@@ -1,0 +1,32 @@
+
+[build-system]
+requires = ["setuptools>=61.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+
+# ----------------------------------------- setuptools -------------------------------------------
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+
+# ----------------------------------------- Project Metadata -------------------------------------
+#
+[project]
+version = "0.1.0"
+name = "repodynamics"
+dependencies = [
+    "requests >= 2.31.0, < 3",
+    # https://yaml.readthedocs.io/en/stable/
+    "ruamel.yaml >= 0.17.32, < 0.18",
+    # https://tomlkit.readthedocs.io/en/stable/
+    "tomlkit >= 0.11.8, < 0.12",
+    "trove-classifiers",
+]
+
+[project.scripts]
+get-repo-metadata = "repodynamics.metadata:main"
