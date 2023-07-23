@@ -181,7 +181,7 @@ body:
   - type: textarea
     id: code
     attributes:
-      label: Example
+      label: Minimal Complete Verifiable Example (MCVE)
       description: Please provide the most minimal possible example to reproduce the bug.
       placeholder: "import pypackit"
       value: "import pypackit"
