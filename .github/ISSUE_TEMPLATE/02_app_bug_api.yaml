@@ -14,31 +14,35 @@ body:
     attributes:
       value: >-
         <p align="justify">
-        Thank you for taking the time to report a problem in {metadata[project][name]}; 
-        we greatly appreciate your contribution! ❤️🙏
+          Thank you for taking the time to report a problem in {metadata[project][name]}; 
+          we greatly appreciate your contribution! ❤️🙏
         </p>
         <h2>Instructions and Guidelines</h2>
         <h3>⛔ Choosing the right form</h3>
         <p align="justify">
-        Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
-        in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
-        while using the application, either as an import package, a command-line tool,
-        or via a GUI. 
-        <br>
-        <br>
-        To 🚨 <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a> 🚨 
-        please first read our
-        <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
-        fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
-        instead. 
-        <br>
-        <br>
-        For other types of issues, such as problems in
-        <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
-        <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
-        <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
-        or for requesting new features and enhancements, please select the appropriate form
-        from the <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
+          <ul>
+            <li>
+              Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
+              in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
+              while using the application, either as an import package, a command-line tool,
+              or via a GUI. 
+            </li>
+            <li>
+              To 🚨 <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a> 🚨 
+              please first read our
+              <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
+              fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
+              instead. 
+            </li>
+            <li>
+              For other types of issues, such as problems in
+              <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
+              <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
+              <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
+              or for requesting new features and enhancements, please select the appropriate form
+              from the <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
+            </li>
+          </ul>
         </p>
         <blockquote>
           💡 <a href="{}"><b>Contact us</b></a>
