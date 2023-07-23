@@ -24,7 +24,9 @@ body:
         Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
-        or via a GUI. For <b>reporting a security vulnerability</b>, please first read our
+        or via a GUI. 
+        
+        For <b>reporting a security vulnerability</b>, please first read our
         <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
         fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
         instead. 
