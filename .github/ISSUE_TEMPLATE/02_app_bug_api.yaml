@@ -92,11 +92,30 @@ body:
           <a href="{metadata[urls][github][code_of_conduct]}">Code of Conduct</a>, 
           so that we can process the issue as soon as possible.
         </p>
-        <h2></h2>
-        
-        
+        <h3>✅ Agreements</h3>
 
-  
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: >-
+        To submit an API bug report, please agree to the following terms and conditions:
+#      description: >-
+#        Please make sure that you are following our
+#        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
+#        so that we can process the issue as soon as possible.
+
+      options:
+
+        - label: >-
+            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+          required: true
+
+        - label: >-
+            I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
+          required: true
+
+
+
 
   - type: markdown
     attributes:
@@ -188,23 +207,4 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Terms and Conditions
-      description: >-
-        Please make sure that you are following our 
-        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
-        so that we can process the issue as soon as possible.
-
-      options:
-
-        - label: >-
-            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
-          required: true
-
-        - label: >-
-            I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
-          required: true
 
