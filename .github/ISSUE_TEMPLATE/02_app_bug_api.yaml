@@ -20,18 +20,16 @@ body:
         <h2>Instructions and Guidelines</h2>
         <h3>⛔ Choosing the right form</h3>
         <ul>
+          <p align="justify">
           <li>
-            <p align="justify">
               Please note that this form is specifically for reporting a 
               <b>non-security-related bug</b> 
               in the 
               {metadata[project][name]} 
               API, i.e. an unexpected behavior that occurs while using the application, 
               either as an import package, a command-line tool, or via a GUI.
-            </p>
           </li>
           <li>
-            <p align="justify">
               To 🚨 
               <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a>
               🚨 please first read our
@@ -39,18 +37,16 @@ body:
               and fill a 
               <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
               instead.
-            </p>
           </li>
           <li>
-            <p align="justify">
               For other types of issues, such as problems in
               <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
               <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
               <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>, 
               or for requesting new features and enhancements, please select the appropriate form from the 
               <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
-            </p>
           </li>
+          </p>
         </ul>
         <blockquote>
           💡 <a href="{}"><b>Contact us</b></a>
@@ -63,11 +59,8 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
-        
-        
-        
-        ### ⚠️ Verifying the bug
-        
+        <h3>⚠️ Verifying the bug</h3>
+                
         Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
