@@ -41,6 +41,7 @@ body:
         <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
         or for requesting new features and enhancements, please select the appropriate form
         from the <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
+        </p>
         <blockquote>
           💡 <a href="{}"><b>Contact us</b></a>
           <br>
@@ -48,8 +49,6 @@ body:
           Ask a question in the discussion forum 
           or <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
         </blockquote>
-        </p>
-        
         
         
         
