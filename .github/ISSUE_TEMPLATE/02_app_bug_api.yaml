@@ -25,15 +25,13 @@ body:
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
         or via a GUI. 
-        
-        
+        <br>
         To 🚨 <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a> 🚨 
         please first read our
         <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
         fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
         instead. 
-        
-        
+        <br>
         For other types of issues, such as problems in
         <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
         <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
