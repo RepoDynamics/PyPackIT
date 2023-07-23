@@ -13,12 +13,12 @@ body:
   - type: markdown
     attributes:
       value: >-
+        <h1>Instructions and Guidelines</h1>
         <p align="justify">
           Thank you for taking the time to report a problem in {metadata[project][name]}; 
           we greatly appreciate your contribution! ❤️🙏
         </p>
-        <h2>Instructions and Guidelines</h2>
-        <h3>⛔ Choosing the right form</h3>
+        <h2>⛔ Choosing the right form</h2>
         <ul>
           <li>
             <p align="justify">
@@ -63,7 +63,7 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
-        <h3>⚠️ Verifying the bug</h3>
+        <h2>⚠️ Verifying the bug</h2>
                 
         Before submitting a report, please verify that:
         
