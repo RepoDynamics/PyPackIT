@@ -192,7 +192,7 @@ body:
       label: Fully Qualified Name
       description: |
         Please provide the fully qualified name of the API endpoint that is causing the problem.
-      placeholder: {}
+      placeholder: "{}"
     validations:
       required: false
 
@@ -208,7 +208,6 @@ body:
       placeholder: "import {metadata[package][name]}"
       value: |
         import {metadata[package][name]}
-        
 
       render: python
     validations:
