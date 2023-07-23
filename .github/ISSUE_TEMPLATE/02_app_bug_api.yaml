@@ -114,16 +114,25 @@ body:
             I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
           required: true
 
-
-
-
   - type: markdown
     attributes:
       value: |
-        </details>
-        <br>
-        
         ## System and Version Specifications
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: |
+        Which operating systems have you tested? 
+        Please select all versions where you have encountered the bug.
+      multiple: true
+      options:
+        - Linux
+        - MacOS
+        - Windows
+    validations:
+      required: true
 
   - type: dropdown
     id: package_version
@@ -154,18 +163,7 @@ body:
         - 3.9
 
 
-  - type: dropdown
-    id: os
-    attributes:
-      label: Operating System
-      description: |
-        Which operating systems have you tested? 
-        Please select all versions where you have encountered the bug.
-      multiple: true
-      options:
-        - Linux
-        - MacOS
-        - Windows
+
 
 
   - type: textarea
