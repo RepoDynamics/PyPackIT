@@ -200,8 +200,9 @@ body:
     id: code
     attributes:
       label: Minimal Reproducible Example (MRE)
-      description: |
+      description: >-
         Please provide a minimal complete verifiable code example to reproduce the bug.
+        
         ⚠️ The contents of this textfield will be automatically rendered as Python code,
         without the need to wrap it
       placeholder: "import {metadata[package][name]}"
@@ -230,3 +231,12 @@ body:
     validations:
       required: false
 
+  - type: checkboxes
+    attributes:
+      label: Become a Collaborator
+      description: >-
+        Thank you again for filling this bug report.
+      options:
+        - label: >-
+            I am willing to work on the issue and submit a bug fix.
+          required: false
