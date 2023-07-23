@@ -68,24 +68,6 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
-        
-
-  - type: checkboxes
-    attributes:
-      label: "<h3>Agreement</h3>"
-#      description: >-
-#        Please make sure that you are following our
-#        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
-#        so that we can process the issue as soon as possible.
-      options:
-        - label: >-
-            I confirm that
-          required: true
-
-  - type: markdown
-    attributes:
-      value: >-
-        <br>
         <h3>⚠️ Verifying the bug</h3>
                 
         Before submitting a report, please verify that:
