@@ -17,9 +17,9 @@ body:
           Thank you for taking the time to report a problem in {metadata[project][name]}; 
           we greatly appreciate your contribution! ❤️🙏
         </p>
-        <h2>Guidelines</h2>
+        <h2>Terms and Conditions</h2>
         <p align="justify">
-          Before submitting a report, please take a moment to review our guidelines;
+          Before submitting a report, please take a moment to review our terms and conditions;
           this will help us process the issue as fast as possible, 
           and not bother you with additional questions.
         </p>
@@ -71,14 +71,7 @@ body:
 
   - type: checkboxes
     attributes:
-      label: Terms and Conditions
-      description: >-
-        Please make sure that you are following our 
-        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
-        so that we can process the issue as soon as possible.
-
       options:
-
         - label: >-
             I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
           required: true
