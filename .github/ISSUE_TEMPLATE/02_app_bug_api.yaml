@@ -17,9 +17,9 @@ body:
           Thank you for taking the time to report a problem in {metadata[project][name]}; 
           we greatly appreciate your contribution! ❤️🙏
         </p>
-        <h1>Guidelines</h1>
+        <h2>Guidelines</h2>
         
-        <h2>⛔ Choosing the right form</h2>
+        <h3>⛔ Choosing the right form</h3>
         <ul>
           <li>
             <p align="justify">
@@ -64,7 +64,7 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
-        <h2>⚠️ Verifying the bug</h2>
+        <h3>⚠️ Verifying the bug</h3>
                 
         Before submitting a report, please verify that:
         
