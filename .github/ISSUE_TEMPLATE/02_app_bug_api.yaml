@@ -18,8 +18,11 @@ body:
           we greatly appreciate your contribution! ❤️🙏
         </p>
         <h2>Guidelines</h2>
-        Before submitting a report, please take a moment to review our guidelines;
-        this will help us process the issue as fast as possible, and not bother you with additional questions.
+        <p align="justify">
+          Before submitting a report, please take a moment to review our guidelines;
+          this will help us process the issue as fast as possible, 
+          and not bother you with additional questions.
+        </p>
         <h3>⛔ Choosing the right form</h3>
         <ul>
           <li>
@@ -65,6 +68,25 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms and Conditions
+      description: >-
+        Please make sure that you are following our 
+        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
+        so that we can process the issue as soon as possible.
+
+      options:
+
+        - label: >-
+            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+          required: true
+
+  - type: markdown
+    attributes:
+      value: >-
         <h3>⚠️ Verifying the bug</h3>
                 
         Before submitting a report, please verify that:
@@ -83,28 +105,17 @@ body:
             you can always open a discussion instead; we will investigate the problem as soon as possible, 
             and convert the discussion into an issue if the bug is verified.
         </blockquote>
+        <h3>🤝 Code of conduct</h3>
+        <p align="justify">
+          Please make sure that you are following our 
+          <a href="{metadata[urls][github][code_of_conduct]}">Code of Conduct</a>, 
+          so that we can process the issue as soon as possible.
+        </p>
+        <h2></h2>
         
         
 
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Terms and Conditions
-      description: >-
-        Please make sure that you are following our 
-        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
-        so that we can process the issue as soon as possible.
-
-      options:
-
-        - label: >-
-            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
-          required: true
-
-        - label: >-
-            I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
-          required: true
-
+  
 
   - type: markdown
     attributes:
@@ -196,5 +207,23 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms and Conditions
+      description: >-
+        Please make sure that you are following our 
+        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
+        so that we can process the issue as soon as possible.
+
+      options:
+
+        - label: >-
+            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+          required: true
+
+        - label: >-
+            I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
+          required: true
 
