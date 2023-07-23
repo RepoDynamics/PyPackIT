@@ -34,9 +34,15 @@ body:
         instead. 
         
         
-        For other types of issues, such as 
-        <a href="{metadata[urls][github][issues][new][app_bug_setup]}">problems during setup</a>,
+        For other types of issues, such as problems in
+        <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
+        <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
+        <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
+        or for requesting new features and enhancements, please select the appropriate form
+        from the <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
         </p>
+        
+        
         
         
         ### ⚠️ Verifying the bug
