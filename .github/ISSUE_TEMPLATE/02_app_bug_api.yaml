@@ -32,6 +32,7 @@ body:
         <a href="{metadata[urls][github][issues][new][app_bug_setup]}">problems during setup</a>,
         </p>
         
+        
         ### ⚠️ Verifying the bug
         
         Before submitting a report, please verify that:
