@@ -72,7 +72,7 @@ body:
 
   - type: checkboxes
     attributes:
-      label: Agreement
+      label: "### Agreement"
 #      description: >-
 #        Please make sure that you are following our
 #        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
