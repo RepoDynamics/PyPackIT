@@ -301,22 +301,22 @@ _navbar_defaults = {
     "repo": {
         "name": "Source Repository",
         "icon": "fa-brands fa-github",
-        "url": _meta['url']['gh_repo']
+        "url": _meta['url']['github']['home']
     },
     "issues": {
         "name": "Issues",
         "icon": "fa-regular fa-circle-dot",
-        "url": _meta['url']['gh_issues']
+        "url": _meta['url']['github']['issues']['home']
     },
     "pull_requests": {
         "name": "Pull Requests",
         "icon": "fa-solid fa-code-pull-request",
-        "url": _meta['url']['pulls']
+        "url": _meta['url']['github']['pulls']['home']
     },
     "discussions": {
         "name": "Discussions",
         "icon": "fa-solid fa-comments",
-        "url": _meta['url']['discussions']
+        "url": _meta['url']['github']['discussions']['home']
     },
     "email": {
         "name": "Email",

@@ -17,14 +17,19 @@ body:
         we greatly appreciate your contribution! ❤️🙏
         
         ## Guidelines
+        ### Choosing the right form
         
         <p align="justify">
-        ⚠️ Please note that this issue form is specifically for reporting a non-security-related bug 
+        ⚠️ Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
-        or via a GUI. For reporting a security vulnerability, please fill a 
-        [private security advisory form]() instead. For other types of issues, 
-        such as [reporting a problem during setup](),
+        or via a GUI. For <b>reporting a security vulnerability</b>, please first read our
+        <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
+        fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
+        instead. 
+        For other types of issues, such as 
+        <a href="{metadata[urls][github][issues][new][app_bug_setup]}">problems during setup</a>,
+        
         </p>
         
         Before submitting a report, please verify that:

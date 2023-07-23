@@ -178,7 +178,7 @@ impair access to or damage a system or data.
 
 ### Scope
 This policy applies to the following systems and services:
-* Source code at {metadata[urls][gh_repo]}
+* Source code at {metadata[urls][github][home]}
 
 Any service not expressly listed above, such as any connected services, are excluded from scope 
 and are not authorized for testing. Additionally, vulnerabilities found in systems from our vendors 

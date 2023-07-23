@@ -14,7 +14,7 @@
     We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a> 
     specifications; all types of contributions are encouraged and valued, and all contributors are 
     acknowledged on our <a href="{metadata[urls][contributors]}">public website</a> 
-    and <a href="{metadata[urls][gh_releases]}">repository</a>.
+    and <a href="{metadata[urls][github][releases][home]}">repository</a>.
 </blockquote>
 
 ## How To Contribute

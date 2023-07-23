@@ -255,7 +255,44 @@ class Metadata:
         return
 
     def add_urls(self):
-        urls = dict()
+        urls = dict(github=dict(), website=dict())
+
+        urls['github']['home'] = self.metadata['project']['github']['html_url']
+
+        # Main sections
+        for key in ['issues', 'pulls', 'discussions', 'actions', 'releases', 'security']:
+            urls['github'][key] = {'home': f"{urls['github']['home']}/{key}"}
+
+        # Issues
+        urls['github']['issues']['template_chooser'] = f"{urls['github']['issues']['home']}/new/choose"
+        urls['github']['issues']['new'] = {
+            issue_type: f"{urls['github']['issues']['home']}/new?template={idx+1:02}_{issue_type}.yaml"
+            for idx, issue_type in enumerate(
+                [
+                    'app_bug_setup',
+                    'app_bug_api',
+                    'app_request_enhancement',
+                    'app_request_feature',
+                    'app_request_change',
+                    'docs_bug_content',
+                    'docs_bug_site',
+                    'docs_request_content',
+                    'docs_request_feature',
+                    'tests_bug',
+                    'tests_request',
+                    'devops_bug',
+                    'devops_request',
+                    'maintenance_request',
+                ]
+            )
+        }
+
+        # Security
+        urls['github']['security']['policy'] = f"{urls['github']['security']['home']}/policy"
+        urls['github']['security']['advisories'] = f"{urls['github']['security']['home']}/advisories"
+        urls['github']['security']['new_advisory'] = f"{urls['github']['security']['advisories']}/new"
+
+
         urls['homepage'] = (
             f"https://{self.metadata['website']['rtd_name']}.readthedocs.io/en/latest"
             if self.metadata['website'].get('rtd_name') else
@@ -273,11 +310,6 @@ class Metadata:
         urls['license'] = f"{urls['homepage']}/license"
         urls['security_measures'] = f"{urls['homepage']}/contribute/collaborate/maintain/security"
 
-        urls['gh_repo'] = self.metadata['project']['github']['html_url']
-        urls['gh_issues'] = f"{urls['gh_repo']}/issues"
-        urls['gh_pulls'] = f"{urls['gh_repo']}/pulls"
-        urls['gh_discussions'] = f"{urls['gh_repo']}/discussions"
-        urls['gh_releases'] = f"{urls['gh_repo']}/releases"
         urls['gh_security_report'] = f"{urls['gh_repo']}/security/advisories/new"
 
         urls['pypi'] = f"https://pypi.org/project/{self.metadata['package']['name']}/"
