@@ -179,6 +179,10 @@ body:
     validations:
       required: true
 
+  - type: markdown
+    attributes:
+      value: |
+        <h3>🐍 Python API</h3>
 
   - type: textarea
     id: code
