@@ -14,14 +14,10 @@ body:
     attributes:
       value: >-
         <p align="justify">
-        
         Thank you for taking the time to report a problem in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
-        
         <h2>Instructions and Guidelines</h2>
-        
         <h3>⛔ Choosing the right form</h3>
-        
         Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
