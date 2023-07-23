@@ -12,7 +12,7 @@ body:
   
   - type: markdown
     attributes:
-      value: >-
+      value: |
         Thank you for taking the time to report a problem in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
         
@@ -36,10 +36,8 @@ body:
         
         1. The issue you are experiencing is in fact a bug, 
         and not a documented expected behavior.
-        
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
-        
         
         <blockquote>
             💡 <a href="{}"><b>Open a discussion instead!</b></a>
