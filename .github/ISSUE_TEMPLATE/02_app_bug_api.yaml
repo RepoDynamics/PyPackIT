@@ -135,6 +135,21 @@ body:
       required: true
 
   - type: dropdown
+    id: python_version
+    attributes:
+      label: Python Version
+      description: |
+        Which Python versions have you tested? 
+        Please select all versions where you have encountered the bug.
+      multiple: true
+      options:
+        - 3.11
+        - 3.10
+        - 3.9
+    validations:
+      required: true
+
+  - type: dropdown
     id: package_version
     attributes:
       label: Package Version
@@ -148,31 +163,17 @@ body:
     validations:
       required: true
 
-
-  - type: dropdown
-    id: python_version
+  - type: markdown
     attributes:
-      label: Python Version
-      description: |
-        Which Python versions have you tested? 
-        Please select all versions where you have encountered the bug.
-      multiple: true
-      options:
-        - 3.11
-        - 3.10
-        - 3.9
-
-
-
-
+      value: |
+        ## Report
 
   - type: textarea
-    id: what-happened
+    id: summary
     attributes:
-      label: What happened?
+      label: Summary
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "A bug happened!"
     validations:
       required: true
 
