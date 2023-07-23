@@ -43,8 +43,13 @@ body:
         </p>
         
         
-        > 💬 Can't find the right form or unsure about which one to choose? Ask a question in the discussion forum or <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
-        
+        <blockquote>
+            💡 <a href="{}"><b>Contact us</b></a>
+            <br>
+            Can't find the right form or unsure about which one to choose? 
+        Ask a question in the discussion forum 
+        or <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
+        </blockquote>
         
         
         ### ⚠️ Verifying the bug
