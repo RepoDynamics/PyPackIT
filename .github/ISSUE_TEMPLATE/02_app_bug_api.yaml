@@ -71,7 +71,13 @@ body:
 
   - type: checkboxes
     attributes:
+      label: Terms and Conditions
+#      description: >-
+#        Please make sure that you are following our
+#        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
+#        so that we can process the issue as soon as possible.
       options:
+
         - label: >-
             I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
           required: true
