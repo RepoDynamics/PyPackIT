@@ -12,15 +12,16 @@ body:
   
   - type: markdown
     attributes:
-      value: |
+      value: >-
         Thank you for taking the time to report a problem in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
         
         ## Guidelines
-        ### Choosing the right form
+        
+        ### 🚨 Choosing the right form
         
         <p align="justify">
-        ⚠️ Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
+        Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
         in the {metadata[project][name]} API, i.e. an unexpected behavior that occurs
         while using the application, either as an import package, a command-line tool,
         or via a GUI. For <b>reporting a security vulnerability</b>, please first read our
@@ -29,13 +30,15 @@ body:
         instead. 
         For other types of issues, such as 
         <a href="{metadata[urls][github][issues][new][app_bug_setup]}">problems during setup</a>,
-        
         </p>
+        
+        ### ⚠️ Verifying the bug
         
         Before submitting a report, please verify that:
         
         1. The issue you are experiencing is in fact a bug, 
         and not a documented expected behavior.
+        
         2. The bug is reproducible in the latest version of the software, 
         and has not yet been reported.
         
