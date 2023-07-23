@@ -183,13 +183,17 @@ body:
     attributes:
       value: |
         <h3>🐍 Python API</h3>
+        <p align="justify">
+        If you have encountered the bug while using the Python API,
+        </p>
 
   - type: textarea
     id: code
     attributes:
-      label: Minimal Complete Verifiable Example (MCVE)
-      description: Please provide the most minimal possible example to reproduce the bug.
-      placeholder: "import pypackit"
+      label: Minimal Reproducible Example (MRE)
+      description: |
+        Please provide a minimal complete verifiable example the most minimal possible example to reproduce the bug.
+      placeholder: "import {metadata[package][name]}"
       value: |
         import {metadata[package][name]}
         
