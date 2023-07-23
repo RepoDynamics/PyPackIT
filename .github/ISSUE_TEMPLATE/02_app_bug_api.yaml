@@ -18,7 +18,7 @@ body:
         
         ## Guidelines
         
-        ### 🚨 Choosing the right form
+        ### ⛔ Choosing the right form
         
         <p align="justify">
         Please note that this form is specifically for reporting a <b>non-security-related bug</b> 
@@ -27,7 +27,7 @@ body:
         or via a GUI. 
         
         
-        For <b>reporting a security vulnerability</b>, please first read our
+        For 🚨<b>reporting a security vulnerability</b>🚨 please first read our
         <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
         fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
         instead. 
