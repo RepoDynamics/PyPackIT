@@ -68,7 +68,7 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
-        <br>
+        
 
   - type: checkboxes
     attributes:
