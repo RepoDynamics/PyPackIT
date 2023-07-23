@@ -16,7 +16,7 @@ body:
         Thank you for taking the time to report a problem in {metadata[project][name]}; 
         we greatly appreciate your contribution! ❤️🙏
         
-        ## Guidelines
+        ## Instructions and Guidelines
         
         ### ⛔ Choosing the right form
         
@@ -32,6 +32,8 @@ body:
         <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
         fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
         instead. 
+        
+        
         For other types of issues, such as 
         <a href="{metadata[urls][github][issues][new][app_bug_setup]}">problems during setup</a>,
         </p>
@@ -56,7 +58,7 @@ body:
             and convert the discussion into an issue if the bug is verified.
         </blockquote>
         
-        <details>
+        
 
   - type: checkboxes
     id: terms
