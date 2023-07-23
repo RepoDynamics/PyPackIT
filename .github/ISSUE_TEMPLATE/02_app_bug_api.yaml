@@ -19,8 +19,8 @@ body:
         </p>
         <h2>Terms and Conditions</h2>
         <p align="justify">
-          Before submitting a report, please take a moment to review our terms and conditions;
-          this will help us process the issue as fast as possible, 
+          Before submitting a report, please take a moment to review and accept our terms and conditions;
+          they will help us process the issue as fast as possible, 
           and not bother you with additional questions.
         </p>
         <h3>⛔ Choosing the right form</h3>
@@ -68,18 +68,18 @@ body:
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
+        <br>
 
   - type: checkboxes
     attributes:
-      label: Terms and Conditions
+      label: Agreement
 #      description: >-
 #        Please make sure that you are following our
 #        [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
 #        so that we can process the issue as soon as possible.
       options:
-
         - label: >-
-            I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+            I confirm that
           required: true
 
   - type: markdown
