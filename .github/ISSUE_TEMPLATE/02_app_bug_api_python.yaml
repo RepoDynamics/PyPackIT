@@ -202,7 +202,6 @@ body:
       label: Minimal Reproducible Example (MRE)
       description: |
         Please provide a minimal complete verifiable code example to reproduce the bug.
-        
         ⚠️ The contents of this textfield will be automatically rendered as Python code,
         without the need to wrap it
       placeholder: "import {metadata[package][name]}"
