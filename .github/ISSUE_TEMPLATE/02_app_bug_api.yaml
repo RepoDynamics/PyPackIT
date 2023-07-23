@@ -70,7 +70,6 @@ body:
         </blockquote>
 
   - type: checkboxes
-    id: terms
     attributes:
       label: Terms and Conditions
       description: >-
