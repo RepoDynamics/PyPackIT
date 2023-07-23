@@ -29,19 +29,23 @@ body:
             </p>
           </li>
           <li>
+            <p align="justify">
             To 🚨 <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a> 🚨 
             please first read our
             <a href="{metadata[urls][github][security][policy]}">security policy</a>, and then
             fill a <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
-            instead. 
+            instead.
+            </p>
           </li>
           <li>
+            <p align="justify">
             For other types of issues, such as problems in
             <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
             <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
             <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
             or for requesting new features and enhancements, please select the appropriate form
             from the <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
+            </p>
           </li>
         </ul>
         <blockquote>
