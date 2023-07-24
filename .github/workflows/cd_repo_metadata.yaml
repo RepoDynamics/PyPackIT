@@ -77,13 +77,16 @@ jobs:
 
       - name: Cache metadata
         id: cache
+        # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-the-cache-action
+        # https://github.com/actions/cache
         uses: actions/cache@v3
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: |
             metadata.json
             metadata_pretty.json
             metadata_cache.yaml
+          # Cache is invalidated when the week changes, or when the metadata files change.
+          # Ref. hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
           key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml') }}
 
       - name: 'Setup Python'
