@@ -6,6 +6,11 @@ run-name: Load repository metadata from ${{ github.event.inputs.branch || github
 on:
   workflow_dispatch:
     inputs:
+      force-update:
+        description: "Force update of the cached metadata."
+        default: false
+        required: false
+        type: boolean
       branch:
         description: "Branch to load metadata from"
         required: false
@@ -18,6 +23,11 @@ on:
         type: string
   workflow_call:
     inputs:
+      force-update:
+        description: "Force update of the cached metadata."
+        default: false
+        required: false
+        type: boolean
       branch:
         description: "Branch to load metadata from"
         required: false
@@ -39,7 +49,7 @@ jobs:
   load:
     name: 'Load'
     outputs:
-      metadata: ${{ steps.get-metadata.outputs.json }}
+      metadata: ${{ steps.output.outputs.json }}
     runs-on: ubuntu-latest
     steps:
 
@@ -59,7 +69,25 @@ jobs:
 #          generate-run-shell: true
 #          init-shell: bash
 
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y-%W")" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache metadata
+        id: cache
+        uses: actions/cache@v3
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: |
+            metadata.json
+            metadata_pretty.json
+            metadata_cache.yaml
+          key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml') }}
+
       - name: 'Setup Python'
+        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v4
         with:
           python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
@@ -74,14 +102,25 @@ jobs:
       - name: 'Get metadata'
         id: get-metadata
 #        shell: bash -el {0}
-        run: echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
+        run: >-
+          get-metadata
+          --cachefile metadata_cache.yaml
+          --output metadata.json
+          --output_pretty metadata_pretty.json
+
+#        echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
 #        echo "json=$(python ${{inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
+
+      - name: 'Output metadata'
+        if: always()
+        id: output
+        run: echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
 
       - name: 'Upload metadata as artifact'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: metadata.json #${{ inputs.path-repodynamics}}/metadata/metadata_full.json
+          path: metadata_pretty.json #${{ inputs.path-repodynamics}}/metadata/metadata_full.json
           name: 'metadata'
 
       - name: 'Create job summary'
@@ -93,7 +132,7 @@ jobs:
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat metadata.json >> "$GITHUB_STEP_SUMMARY"
+          cat metadata_pretty.json >> "$GITHUB_STEP_SUMMARY"
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

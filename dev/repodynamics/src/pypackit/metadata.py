@@ -114,6 +114,7 @@ class Metadata:
             self,
             path_root: Optional[str | Path] = None,
             path_pathfile: Optional[str | Path] = None,
+            path_cache: Optional[str | Path] = None,
     ):
         self.path_root = Path(path_root).resolve() if path_root else Path.cwd().resolve()
         if not path_pathfile:
@@ -149,7 +150,7 @@ class Metadata:
                 raise ValueError(f"Config file '{section}' does not exist in {filepath}.")
             self.metadata['config'][section] = dict(YAML(typ='safe').load(path))
         self._cache = _MetadataCache(
-            path_cache=self.metadata['path']['abs']['data']['cache'],
+            path_cache=path_cache or self.metadata['path']['abs']['data']['cache'],
             cache_expiration_days=self.metadata['config']['repodynamics']['cache_expiration_days']
         )
         self.fill()
@@ -471,23 +472,27 @@ class Metadata:
 def metadata(
     path_root: Optional[str | Path] = None,
     path_pathfile: Optional[str | Path] = None,
+    path_cache: Optional[str | Path] = None,
 ) -> dict:
-    return Metadata(path_root=path_root, path_pathfile=path_pathfile).metadata
+    return Metadata(path_root=path_root, path_pathfile=path_pathfile, path_cache=path_cache).metadata
 
 
 def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=str, help="Path to the root directory.", required=False)
     parser.add_argument('--pathfile', type=str, help="Path to the paths metadata file.", required=False)
+    parser.add_argument('--cachefile', type=str, help="Path for the cache metadata file.", required=False)
     parser.add_argument('--output', type=str, help="Path for the output metadata file.", required=False)
+    parser.add_argument('--output_pretty', type=str, help="Path for the pretty formatted output metadata file.", required=False)
     args = parser.parse_args()
     try:
-        meta = Metadata(path_root=args.root, path_pathfile=args.pathfile)
+        meta = Metadata(path_root=args.root, path_pathfile=args.pathfile, path_cache=args.cachefile)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
-    print(meta.json())
-    meta.json(write_to_file=True, output_filepath=args.output, indent=4)
+    # print(meta.json())
+    meta.json(write_to_file=True, output_filepath=args.output)
+    meta.json(write_to_file=True, output_filepath=args.output_pretty, indent=4)
     return
 
 
