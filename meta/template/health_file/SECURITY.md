@@ -43,7 +43,7 @@ We use [GitHub's security advisories feature](https://docs.github.com/en/code-se
 of our repository to securely discuss, fix and publish information about security vulnerabilities 
 in {metadata[project][name]}. To privately report a security vulnerability, 
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability) 
-or [**click here to directly open a private report form**]({metadata[urls][gh_security_report]}).
+or [**click here to directly open a private report form**]({metadata[urls][github][security][new_advisory]}).
 
 <blockquote>
     🥷🏾 <b>Prefer Anonymity?</b>

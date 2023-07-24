@@ -11,13 +11,20 @@ from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
 import importlib
 import sys
 from pathlib import Path
-print("from CONF.PY", Path.cwd())
+print("from CONF.PY", Path(__file__).parents[3])
 
-_spec = importlib.util.spec_from_file_location("metadata", "../../../meta/scripts/metadata.py")
-_metadata = importlib.util.module_from_spec(_spec)
-sys.modules["metadata"] = _metadata
-_spec.loader.exec_module(_metadata)
-_meta = _metadata.main()
+import pypackit
+
+_meta = pypackit.metadata(
+    path_root=Path(__file__).parents[3],
+)
+
+
+# _spec = importlib.util.spec_from_file_location("metadata", "../../../meta/scripts/metadata.py")
+# _metadata = importlib.util.module_from_spec(_spec)
+# sys.modules["metadata"] = _metadata
+# _spec.loader.exec_module(_metadata)
+# _meta = _metadata.main()
 
 # Open and read the metadata file
 # with open("../../../metadata/main.json") as f:
@@ -323,7 +330,7 @@ _navbar_defaults = {
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{_meta['maintainers']['email']['main']}"
+        "url": f"mailto:{_meta['maintainer']['email']['main']}"
     },
     "license": {
         "name": "License",
@@ -419,12 +426,12 @@ if _analytics:
 html_context = {
     # PyData variables
     "github_user": _meta['project']['owner']['login'],
-    "github_repo": _meta['project']['github']['name'],
-    "github_version": _meta['project']['github']['default_branch'],
-    "doc_path": _meta['paths']['dir_website_sphinx_source'],
+    "github_repo": _meta['project']['repo']['name'],
+    "github_version": _meta['project']['repo']['default_branch'],
+    "doc_path": _meta['path']['docs']['website']['source'],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
-    "_license_name": _meta['project']['license_name_full'],
+    "_license_name": _meta['project']['license']['shortname'],
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
@@ -726,7 +733,7 @@ blog_feed_archives: bool = True
 fontawesome_included: bool = True
 
 if _meta['website']['disqus_shortname']:
-    disqus_shortname: str = _meta['docs']['disqus_shortname']
+    disqus_shortname: str = _meta['website']['disqus_shortname']
 
 
 """

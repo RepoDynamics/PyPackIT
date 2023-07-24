@@ -1,16 +1,17 @@
 
 meta:
   config:
+    repodynamics: "meta/config/repodynamics.yaml"
     issues_template_chooser: "meta/config/issues_template_chooser.yaml"
   metadata:
     project: "meta/metadata/project.yaml"
     website: "meta/metadata/website.yaml"
-    maintainers: "meta/metadata/maintainers.yaml"
+    maintainer: "meta/metadata/maintainer.yaml"
     package: "src/metadata.yaml"
-  templates:
-    issues: "meta/templates/issue_forms"
-    licenses: "meta/templates/licenses"
-    health_files: "meta/templates/health_files"
+  template:
+    issue: "meta/templates/issue_form"
+    license: "meta/templates/license"
+    health_file: "meta/templates/health_file"
 
 health_files:
   code_of_conduct: "."
@@ -28,7 +29,8 @@ docs:
     announcement: "docs/website/announcement.html"
 
 data:
-  local_reports: "data/_local_reports"
+  local_outputs: "data/_local_output"
+  cache: "data/_cache"
 
 
 pypi_readme: "README.md"

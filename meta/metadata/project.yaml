@@ -30,13 +30,13 @@ trove_classifiers:
   - "Typing :: Typed"
   - "Natural Language :: English"
 
-license: MIT
+license:
+  id: MIT
 
 start_year: 2023
 
-github:
-  username: aariam
-  repository: templaterepo
+repo:
+  full_name: "aariam/templaterepo"
 
 authors:
   - aariam
