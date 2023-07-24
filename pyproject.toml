@@ -57,8 +57,8 @@ replacement = """dict(
     distance="{distance}",
     head_commit_hash="{revision}",
 )"""
-source-file = "src/template_package/__init__.py"
-build-file = "template_package/__init__.py"
+source-file = "src/templaterepo/__init__.py"
+build-file = "templaterepo/__init__.py"
 
 
 # ----------------------------------------- Pytest -----------------------------------------
