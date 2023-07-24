@@ -95,11 +95,13 @@ jobs:
           cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
 
       - name: 'Install RepoDynamics'
+        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -e ${{inputs.path-repodynamics}}
 
       - name: 'Get metadata'
+        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
         id: get-metadata
 #        shell: bash -el {0}
         run: >-
