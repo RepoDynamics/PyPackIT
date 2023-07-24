@@ -10,7 +10,7 @@ from ruamel.yaml import YAML
 import trove_classifiers
 
 import pylinks
-from . import versions
+from pypackit import versions
 
 
 class _MetadataCache:
@@ -158,7 +158,7 @@ class Metadata:
     def json(self, write_to_file: bool = False, output_filepath: Optional[str] = None, **json_kwargs):
         if not write_to_file:
             return json.dumps(self.metadata, **json_kwargs)
-        path = Path(output_filepath) if output_filepath else (
+        path = Path(output_filepath).resolve() if output_filepath else (
                 self.metadata['path']['abs']['data']['local_output'] / 'metadata.json'
         )
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -479,20 +479,16 @@ def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=str, help="Path to the root directory.", required=False)
     parser.add_argument('--pathfile', type=str, help="Path to the paths metadata file.", required=False)
-    parser.add_argument('--output', type=str, help="Path for the output metadata file.", required=False, default=True)
+    parser.add_argument('--output', type=str, help="Path for the output metadata file.", required=False)
     args = parser.parse_args()
     try:
-        metadata = Metadata(path_root=args.root, path_pathfile=args.pathfile)
-        metadata.fill(args.fill)
-        metadata.json()
+        meta = Metadata(path_root=args.root, path_pathfile=args.pathfile)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
-    output_path = _utils.path['local_outputs']
-    output_path.mkdir(parents=True, exist_ok=True)
-    with open(output_path / 'metadata_full.json', 'w') as f:
-        json.dump(metadata, f, indent=4)
-    print(json.dumps(metadata))
+    print(meta.json())
+    meta.json(write_to_file=True, output_filepath=args.output, indent=4)
+    return
 
 
 if __name__ == '__main__':

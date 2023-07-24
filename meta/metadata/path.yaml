@@ -29,7 +29,7 @@ docs:
     announcement: "docs/website/announcement.html"
 
 data:
-  local_outputs: "data/_local_output"
+  local_output: "data/_local_output"
   cache: "data/_cache"
 
 

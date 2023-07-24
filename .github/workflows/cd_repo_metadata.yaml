@@ -13,7 +13,7 @@ on:
         default: ""
       path-repodynamics:
         description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
-        default: 'repo'
+        default: 'dev/repodynamics'
         required: false
         type: string
   workflow_call:
@@ -25,7 +25,7 @@ on:
         default: ""
       path-repodynamics:
         description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
-        default: 'repo'
+        default: 'dev/repodynamics'
         required: false
         type: string
     outputs:
@@ -49,26 +49,38 @@ jobs:
           # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
           ref: ${{ inputs.branch }}
 
-      - name: 'Setup environment'
-        # https://github.com/mamba-org/setup-micromamba
-        uses: mamba-org/setup-micromamba@v1
+#      - name: 'Setup environment'
+#        # https://github.com/mamba-org/setup-micromamba
+#        uses: mamba-org/setup-micromamba@v1
+#        with:
+#          environment-file: ${{ inputs.path-repodynamics}}/requirements.yaml
+#          cache-environment: true
+#          cache-environment-key: repo-dynamics
+#          generate-run-shell: true
+#          init-shell: bash
+
+      - name: 'Setup Python'
+        uses: actions/setup-python@v4
         with:
-          environment-file: ${{ inputs.path-repodynamics}}/requirements.yaml
-          cache-environment: true
-          cache-environment-key: repo-dynamics
-          generate-run-shell: true
-          init-shell: bash
+          python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
+          cache: 'pip'
+          cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
+
+      - name: 'Install RepoDynamics'
+        run: |
+          pip install -e ${{inputs.path-repodynamics}}
 
       - name: 'Get metadata'
         id: get-metadata
-        shell: bash -el {0}
-        run: echo "json=$(python ${{ inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
+#        shell: bash -el {0}
+        run: echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
+#        echo "json=$(python ${{inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
 
       - name: 'Upload metadata as artifact'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: ${{ inputs.path-repodynamics}}/metadata/metadata_full.json
+          path: metadata.json #${{ inputs.path-repodynamics}}/metadata/metadata_full.json
           name: 'metadata'
 
       - name: 'Create job summary'
