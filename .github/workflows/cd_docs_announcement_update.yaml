@@ -36,7 +36,7 @@ jobs:
 
   metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_get-metadata.yaml
+    uses: ./.github/workflows/cd_repo_metadata.yaml
 
   publish:
     name: 'Update announcement'
@@ -60,13 +60,13 @@ jobs:
         run: echo "${{ github.event.inputs.announcement }}"
 
       - name: 'Update announcement file'
-        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: ${{ fromJSON(needs.metadata.outputs.json).paths.website_sphinx_announcement }}
+          file_pattern: ${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}
           commit_message: >-
             docs(announcement): update announcement for ${{ inputs.trigger }}
           commit_user_name: RepoDynamics[bot]
