@@ -13,6 +13,101 @@ import pylinks
 from . import versions
 
 
+class _MetadataCache:
+
+    def __init__(self, path_cache: str | Path, cache_expiration_days: int):
+        self._exp_days = cache_expiration_days
+        path = Path(path_cache)
+        path.mkdir(parents=True, exist_ok=True)
+        self.path_metadata_cache = path / 'metadata.yaml'
+        if not self.path_metadata_cache.exists():
+            self.cache = dict()
+        else:
+            self.cache = YAML(typ='safe').load(self.path_metadata_cache)
+        return
+
+    def user(self, username: str) -> dict:
+        cached_user = self.cache.setdefault('user', dict()).setdefault(username, dict())
+        timestamp = cached_user.get('timestamp')
+        if timestamp and not self._is_expired(timestamp):
+            return cached_user['data']
+        cached_user['data'] = self._user_info(username=username)
+        cached_user['timestamp'] = self.now
+        with open(self.path_metadata_cache, 'w') as f:
+            YAML(typ='safe').dump(self.cache, f)
+        return cached_user['data']
+
+    def repo(self, username, repo_name: str) -> dict:
+        cached_repo = self.cache.setdefault('repo', dict())
+        timestamp = cached_repo.get('timestamp')
+        if timestamp and not self._is_expired(timestamp):
+            return cached_repo['data']
+        repo_info = pylinks.api.github.repo(username, repo_name).info
+        repo_info.pop('owner')
+        cached_repo['data'] = repo_info
+        cached_repo['timestamp'] = self.now
+        with open(self.path_metadata_cache, 'w') as f:
+            YAML(typ='safe').dump(self.cache, f)
+        return cached_repo['data']
+
+    def python_versions(self):
+        cached_version = self.cache.setdefault('python_versions', dict())
+        timestamp = cached_version.get('timestamp')
+        if timestamp and not self._is_expired(timestamp):
+            return cached_version['data']
+        vers = versions.semver_from_github_tags(
+            github_username='python',
+            github_repo_name='cpython',
+            tag_prefix='v'
+        )
+        minors = sorted(set([v[:2] for v in vers if v[0] >= 3]))
+        cached_version['data'] = minors
+        cached_version['timestamp'] = self.now
+        with open(self.path_metadata_cache, 'w') as f:
+            YAML(typ='safe').dump(self.cache, f)
+        return cached_version['data']
+
+    @staticmethod
+    def _user_info(username) -> dict:
+        user = pylinks.api.github.user(username=username)
+        info = user.info
+        # Get website and social accounts
+        info['external_urls'] = {'website': info['blog']}
+        social_accounts = user.social_accounts
+        for account in social_accounts:
+            if account['provider'] == 'twitter':
+                info['external_urls']['twitter'] = account['url']
+            elif account['provider'] == 'linkedin':
+                info['external_urls']['linkedin'] = account['url']
+            else:
+                for url, key in [
+                    ('orchid\.org', 'orcid'),
+                    ('researchgate\.net/profile', 'researchgate')
+                ]:
+                    match = re.compile(
+                        '(?:https?://)?(?:www\.)?({}/[\w\-]+)'.format(url)
+                    ).fullmatch(account['url'])
+                    if match:
+                        info['external_urls'][key] = f"https://{match.group(1)}"
+                        break
+                else:
+                    other_urls = info['external_urls'].setdefault('others', list())
+                    other_urls.append(account['url'])
+        return info
+
+    @property
+    def now(self) -> str:
+        return datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y.%m.%d-%H:%M:%S")
+
+    def _is_expired(self, timestamp: str) -> bool:
+        exp_date = (
+            datetime.datetime.strptime(timestamp, "%Y.%m.%d-%H:%M:%S")
+            + datetime.timedelta(days=self._exp_days)
+        )
+        return exp_date <= datetime.datetime.now()
+
+
+
 class Metadata:
 
     def __init__(
@@ -53,12 +148,12 @@ class Metadata:
             if not (path.exists() and path.is_file()):
                 raise ValueError(f"Config file '{section}' does not exist in {filepath}.")
             self.metadata['config'][section] = dict(YAML(typ='safe').load(path))
-        self._retrieve_cache()
+        self._cache = _MetadataCache(
+            path_cache=self.metadata['path']['abs']['data']['cache'],
+            cache_expiration_days=self.metadata['config']['repodynamics']['cache_expiration_days']
+        )
         self.fill()
         return
-
-    def _retrieve_cache(self):
-        path = Path(self.metadata['path']['data']['cache'])
 
     def json(self, write_to_file: bool = False, output_filepath: Optional[str] = None, **json_kwargs):
         if not write_to_file:
@@ -100,7 +195,7 @@ class Metadata:
 
     def add_project_authors(self):
         self.metadata['project']['authors'] = [
-            self.user_info(author) for author in self.metadata['project']['authors']
+            self._cache.user(author) for author in self.metadata['project']['authors']
         ]
         return
 
@@ -119,7 +214,7 @@ class Metadata:
                 entry[2] += 1
         # Get maintainers' GitHub info sorted in a list based on ranking
         self.metadata['project']['maintainer'] = [
-            self.user_info(maintainer)
+            self._cache.user(maintainer)
             for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
         ]
         return
@@ -137,10 +232,8 @@ class Metadata:
                 "Repository names can only contain alphanumeric characters, hyphens (-), underscores (_), "
                 f"and periods (.), but got {repo_name}."
             )
-        repo_info = pylinks.api.github.repo(username, repo_name).info
-        owner_info = repo_info.pop('owner')
-        self.metadata['project']['repo'] = repo_info
-        self.metadata['project']['owner'] = self.user_info(username=username)
+        self.metadata['project']['repo'] = self._cache.repo(username=username, repo_name=repo_name)
+        self.metadata['project']['owner'] = self._cache.user(username=username)
         if not self.metadata['project'].get('name'):
             self.metadata['project']['name'] = self.metadata['project']['repo']['name']
         if not re.match(
@@ -224,7 +317,6 @@ class Metadata:
         self.metadata['project']['trove_classifiers'].append(f"License :: OSI Approved :: {classifier}")
         return
 
-
     def add_package_development_status(self):
         phase = {
             1: "Planning",
@@ -251,14 +343,10 @@ class Metadata:
         if ver[0] != 3:
             raise ValueError(f"Minimum Python version must be 3.x, but got {min_ver}.")
         # Get a list of all Python versions that have been released to date.
-        current_python_versions = versions.semver_from_github_tags(
-            github_username='python',
-            github_repo_name='cpython',
-            tag_prefix='v'
-        )
+        current_python_versions = self._cache.python_versions()
         vers = [
             '.'.join(map(str, v)) for v in sorted(
-                set([v[:2] for v in current_python_versions if v[0] == 3 and v[1] >= ver[1]])
+                set([tuple(v[:2]) for v in current_python_versions if v[0] == 3 and v[1] >= ver[1]])
             )
         ]
         if len(vers) == 0:
@@ -378,34 +466,6 @@ class Metadata:
                     new_dic[key] = recursive(val, dict())
             return new_dic
         return recursive(self.metadata['path'], dict())
-
-    @staticmethod
-    def user_info(username) -> dict:
-        user = pylinks.api.github.user(username=username)
-        info = user.info
-        # Get website and social accounts
-        info['external_urls'] = {'website': info['blog']}
-        social_accounts = user.social_accounts
-        for account in social_accounts:
-            if account['provider'] == 'twitter':
-                info['external_urls']['twitter'] = account['url']
-            elif account['provider'] == 'linkedin':
-                info['external_urls']['linkedin'] = account['url']
-            else:
-                for url, key in [
-                    ('orchid\.org', 'orcid'),
-                    ('researchgate\.net/profile', 'researchgate')
-                ]:
-                    match = re.compile(
-                        '(?:https?://)?(?:www\.)?({}/[\w\-]+)'.format(url)
-                    ).fullmatch(account['url'])
-                    if match:
-                        info['external_urls'][key] = f"https://{match.group(1)}"
-                        break
-                else:
-                    other_urls = info['external_urls'].setdefault('others', list())
-                    other_urls.append(account['url'])
-        return info
 
 
 def metadata(

@@ -14,7 +14,7 @@ for the entire community. Thank you again! 🙏❤️
 One simple way is by [starring our GitHub repository](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars), 
 which helps us gain visibility and attract more contributors. 
 
-If you mention {{project_name}} in your project, website, or social media, it not only spreads the word 
+If you mention {{name}} in your project, website, or social media, it not only spreads the word 
 about our software but also inspires others to benefit from it. 
 
 
@@ -22,5 +22,5 @@ about our software but also inspires others to benefit from it.
 
 
 ## Cite Us
-If you are writing publications or articles related to a work accomplished with the help of {{project_name}}, 
+If you are writing publications or articles related to a work accomplished with the help of {{name}}, 
 we would be thrilled if you could cite us or acknowledge our contribution.

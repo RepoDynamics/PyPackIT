@@ -15,7 +15,12 @@ print("from CONF.PY", Path(__file__).parents[3])
 
 import pypackit
 
-_meta = pypackit.metadata(
+
+def setup(app):
+    app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
+
+
+rd_meta = pypackit.metadata(
     path_root=Path(__file__).parents[3],
 )
 
@@ -58,15 +63,15 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
-project: str = _meta['project']['name']
+project: str = rd_meta['project']['name']
 
-author: str = ', '.join([_author['name'] for _author in _meta['project']['authors']])
+author: str = ', '.join([_author['name'] for _author in rd_meta['project']['authors']])
 
-copyright: str = f"{_meta['project']['copyright_year']} {_meta['project']['owner']['name']}"
+copyright: str = f"{rd_meta['project']['copyright_year']} {rd_meta['project']['owner']['name']}"
 
 project_copyright: Union[str, List[str]] = copyright
 
-release: str = getattr(importlib.import_module(_meta['package']['name']), '__version__')
+release: str = getattr(importlib.import_module(rd_meta['package']['name']), '__version__')
 
 version: str = '.'.join(release.split('.')[:2])
 
@@ -261,7 +266,7 @@ html_theme_options: Dict[str, Any] = {
         "image_dark": "_static/img/logo/logo_dark.svg",
         "alt_text": "Logo",
     },
-    "announcement": _meta['url']['announcement'],
+    "announcement": rd_meta['url']['announcement'],
 
     # --- Header / Navigation Bar ---
     # Left section
@@ -275,7 +280,7 @@ html_theme_options: Dict[str, Any] = {
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
 
-    "search_bar_text": f"Search {_meta['project']['name']} ...",
+    "search_bar_text": f"Search {rd_meta['project']['name']} ...",
     "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "last-updated", "edit-this-page", "sourcelink", ],
     "show_prev_next": True,
@@ -310,57 +315,57 @@ _navbar_defaults = {
     "repo": {
         "name": "Source Repository",
         "icon": "fa-brands fa-github",
-        "url": _meta['url']['github']['home']
+        "url": rd_meta['url']['github']['home']
     },
     "issues": {
         "name": "Issues",
         "icon": "fa-regular fa-circle-dot",
-        "url": _meta['url']['github']['issues']['home']
+        "url": rd_meta['url']['github']['issues']['home']
     },
     "pull_requests": {
         "name": "Pull Requests",
         "icon": "fa-solid fa-code-pull-request",
-        "url": _meta['url']['github']['pulls']['home']
+        "url": rd_meta['url']['github']['pulls']['home']
     },
     "discussions": {
         "name": "Discussions",
         "icon": "fa-solid fa-comments",
-        "url": _meta['url']['github']['discussions']['home']
+        "url": rd_meta['url']['github']['discussions']['home']
     },
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{_meta['maintainer']['email']['main']}"
+        "url": f"mailto:{rd_meta['maintainer']['email']['main']}"
     },
     "license": {
         "name": "License",
         "icon": "fa-solid fa-copyright",
-        "url": _meta['url']['license']
+        "url": rd_meta['url']['license']
     },
     "pypi": {
         "name": "PyPI Distribution",
         "icon": "fa-brands fa-python",
-        "url": _meta['url']['pypi']
+        "url": rd_meta['url']['pypi']
     },
     "twitter": {
         "name": "Twitter",
         "icon": "fa-brands fa-twitter",
-        "url": _meta['project']['owner']['external_urls'].get('twitter', '')
+        "url": rd_meta['project']['owner']['external_urls'].get('twitter', '')
     },
     "linkedin": {
         "name": "LinkedIn",
         "icon": "fa-brands fa-linkedin",
-        "url": _meta['project']['owner']['external_urls'].get('linkedin', '')
+        "url": rd_meta['project']['owner']['external_urls'].get('linkedin', '')
     },
     "researchgate": {
         "name": "ResearchGate",
         "icon": "fa-brands fa-researchgate",
-        "url": _meta['project']['owner']['external_urls'].get('researchgate', '')
+        "url": rd_meta['project']['owner']['external_urls'].get('researchgate', '')
     },
     "orcid": {
         "name": "ORCiD",
         "icon": "fa-brands fa-orcid",
-        "url": _meta['project']['owner']['external_urls'].get('orcid', '')
+        "url": rd_meta['project']['owner']['external_urls'].get('orcid', '')
     },
 }
 
@@ -376,7 +381,7 @@ def _add_icon_link(
     return
 
 
-for _icon in _meta['website']['navbar_icons']:
+for _icon in rd_meta['website']['navbar_icons']:
     _icon_id = _icon.pop('id', None)
     if _icon_id:
         _def = _navbar_defaults[_icon_id]
@@ -387,6 +392,7 @@ for _icon in _meta['website']['navbar_icons']:
             _icon.setdefault('type', 'fontawesome')
         else:
             _icon['type'] = _def.get('type') or 'fontawesome'
+        _add_icon_link(**_icon)
     else:
         _add_icon_link(**_icon)
 # -------------------------------------------------------------------------
@@ -396,7 +402,7 @@ for _icon in _meta['website']['navbar_icons']:
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = _meta['website'].get('analytics')
+_analytics = rd_meta['website'].get('analytics')
 if _analytics:
     _plausible_analytics = _analytics.get('plausible')
     if _plausible_analytics and _plausible_analytics.get('domain') and _plausible_analytics.get('url'):
@@ -425,13 +431,13 @@ if _analytics:
 
 html_context = {
     # PyData variables
-    "github_user": _meta['project']['owner']['login'],
-    "github_repo": _meta['project']['repo']['name'],
-    "github_version": _meta['project']['repo']['default_branch'],
-    "doc_path": _meta['path']['docs']['website']['source'],
+    "github_user": rd_meta['project']['owner']['login'],
+    "github_repo": rd_meta['project']['repo']['name'],
+    "github_version": rd_meta['project']['repo']['default_branch'],
+    "doc_path": rd_meta['path']['docs']['website']['source'],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
-    "_license_name": _meta['project']['license']['shortname'],
+    "_license_name": rd_meta['project']['license']['shortname'],
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
@@ -537,7 +543,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{_meta['project']['name']} Docs"
+htmlhelp_basename: str = f"{rd_meta['project']['name']} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -574,9 +580,9 @@ References
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_meta['package']['name']}_docs.tex",
-        f"{_meta['project']['name']} Documentation",
-        ' \\and '.join([_author['name'] for _author in _meta['project']['authors']]),
+        f"{rd_meta['package']['name']}_docs.tex",
+        f"{rd_meta['project']['name']} Documentation",
+        ' \\and '.join([_author['name'] for _author in rd_meta['project']['authors']]),
         'manual',
         False
     ),
@@ -604,9 +610,9 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        _meta['package']['name'],
-        f"{_meta['project']['name']} Documentation",
-        [_author['name'] for _author in _meta['project']['authors']],
+        rd_meta['package']['name'],
+        f"{rd_meta['project']['name']} Documentation",
+        [_author['name'] for _author in rd_meta['project']['authors']],
         "1"
     )
 ]
@@ -627,11 +633,11 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{_meta['package']['name']}_docs",
-        f"{_meta['project']['name']} Documentation",
-        '@*'.join([_author['name'] for _author in _meta['project']['authors']]),
-        _meta['package']['name'],
-        _meta['project']['tagline'],
+        f"{rd_meta['package']['name']}_docs",
+        f"{rd_meta['project']['name']} Documentation",
+        '@*'.join([_author['name'] for _author in rd_meta['project']['authors']]),
+        rd_meta['package']['name'],
+        rd_meta['project']['tagline'],
         'Documentation',
         False,
     ),
@@ -682,12 +688,12 @@ myst_enable_extensions: List[str] = [
 myst_heading_anchors: int = 6
 
 myst_substitutions = {
-    "project_name": _meta['project']['name'],
-    "project_short_description": _meta['project']['tagline'],
-    "project_long_description": _meta['project']['description'],
-    "package_name": _meta['package']['name'],
+    "name": rd_meta['project']['name'],
+    # "project_name": rd_meta['project']['name'],
+    # "project_short_description": rd_meta['project']['tagline'],
+    # "project_long_description": rd_meta['project']['description'],
+    # "package_name": rd_meta['package']['name'],
 }
-
 
 
 """
@@ -721,19 +727,19 @@ References
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
 
-blog_path: str = _meta['website']['blog_dir_name']
-blog_baseurl: str = _meta['url']['homepage']
+blog_path: str = rd_meta['website']['blog_dir_name']
+blog_baseurl: str = rd_meta['url']['homepage']
 
 blog_post_pattern: list[str] = [
-    f"{_meta['website']['blog_dir_name']}/posts/*.rst",
-    f"{_meta['website']['blog_dir_name']}/posts/*.md"
+    f"{rd_meta['website']['blog_dir_name']}/posts/*.rst",
+    f"{rd_meta['website']['blog_dir_name']}/posts/*.md"
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
 
-if _meta['website']['disqus_shortname']:
-    disqus_shortname: str = _meta['website']['disqus_shortname']
+if rd_meta['website']['disqus_shortname']:
+    disqus_shortname: str = rd_meta['website']['disqus_shortname']
 
 
 """

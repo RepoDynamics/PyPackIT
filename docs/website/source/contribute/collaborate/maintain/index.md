@@ -8,4 +8,5 @@ security
 git
 ci
 metadata
+devops
 :::

@@ -5,14 +5,13 @@ sd_hide_title: true
 :::{toctree}
 :hidden:
 
-general
 docs/index
 dev/index
 maintain/index
 :::
 
-You can {{project_name}} can use your help in many different ways; a few examples of 
-how {{project_name}} can appreciate from your experience, support, knowledge and expertise are:
+You can {{name}} can use your help in many different ways; a few examples of 
+how {{name}} can appreciate from your experience, support, knowledge and expertise are:
 
 So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
 
@@ -48,18 +47,18 @@ particularly: [How to Contribute to Open Source](https://opensource.guide/how-to
 * proofreading, editing and writing documentation
 
 
-It starts by describing the [general development cycle](./general.md) of the project,
+It starts by describing the general development cycle of the project,
 followed by detailed instructions for different types of contributions.
 If you are interested in becoming an active member or a maintainer of the project,
 we strongly advise you to read all sections chronologically. Otherwise,
-you can read the [general notes](./general.md) and then
+you can read the general notes and then
 head down to the section addressing the type of contribution you want to make
 (see left sidebar), for example [reporting a problem](./report-problem.md) or
 [contributing code](collaborate/dev-guide/index.md).
 
 
 ## License and Copyright
-{{project_name}} is licensed under the {{license_name}}.
+{{name}} is licensed under the {{env.config.rd_meta.project.license.fullname}}.
 In essence, this means that any contribution you make, such as code, media, and documents,
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution, 
@@ -232,7 +231,7 @@ Push the branch to the repo (either the main or your fork) with `git push -u ori
 ### Create a Pull Request
 
 When you are ready for others to examine and comment on your new feature,
-  navigate to your fork of {{cookiecutter.repo_name}} on GitHub and open a [pull
+  navigate to your fork of {{env.config.rd_meta.project.repo.name}} on GitHub and open a [pull
   request](https://help.github.com/articles/using-pull-requests/) (PR). 
 
 There are many ways to [create pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
@@ -261,7 +260,7 @@ Otherwise, [use a keyword](https://docs.github.com/en/issues/tracking-your-work-
 in your pull request (e.g. Resolves #11).
 
 When you're ready to be considered for merging, check the "Ready to go"
-box on the PR page to let the {{cookiecutter.repo_name}} devs know that the changes are complete.
+box on the PR page to let the {{env.config.rd_meta.project.repo.name}} devs know that the changes are complete.
 The code will not be merged until this box is checked, the continuous
 integration returns checkmarks,
 and multiple core developers give "Approved" reviews.

@@ -8,5 +8,5 @@ This is the API reference
    :template: custom-module-template.rst
    :recursive:
 
-   template_package
+   templaterepo
 ```

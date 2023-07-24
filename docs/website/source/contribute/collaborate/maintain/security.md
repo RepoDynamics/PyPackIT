@@ -1,6 +1,6 @@
 # Security Measures
 
-{{project_name}} uses GitHub's [repository security advisories](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories) 
+{{name}} uses GitHub's [repository security advisories](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories) 
 feature to privately report, discuss, manage, and fix potential security vulnerabilities in the project.
 These include vulnerabilities in our published software and deployed websites and applications,
 as well as the repository itself (i.e. GitHub Actions, CI/CD workflows, repository settings etc.).
@@ -15,7 +15,7 @@ Maintainers, especially the vulnerability management team, must make sure that t
 
 :::{admonition} Our Policy 
 :class: important
-{{project_name}} has a clear [response policy]() and [disclosure policy]();
+{{name}} has a clear [response policy]() and [disclosure policy]();
 when a report has been submitted by a third party, the vulnerability management team must
 acknowledge receiving the report within one week, 
 and maintain a transparent and open dialogue with the reporter, until the issue is resolved.

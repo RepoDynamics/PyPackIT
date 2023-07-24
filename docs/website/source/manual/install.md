@@ -1,23 +1,23 @@
 # Installation
 
-{{ project_name }} is distributed on both PyPI and conda-forge repositories,
+{{name}} is distributed on both PyPI and conda-forge repositories,
 and so can be conveniently installed using either `mamba`, `conda` or `pip`.
 Simply select your package manager, and run the corresponding command in your terminal:
 
 :::::{tab-set}
 ::::{tab-item} mamba
 {{":::{code-block} shell
-mamba install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', package_name)}}
+mamba install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
 :::
 ::::
 ::::{tab-item} conda
 {{":::{code-block} shell
-conda install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', package_name)}}
+conda install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
 :::
 ::::
 ::::{tab-item} pip
 {{":::{code-block} shell
-pip install PACKAGE_NAME".replace('PACKAGE_NAME', package_name)}}
+pip install PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
 :::
 ::::
 :::::

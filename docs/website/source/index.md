@@ -4,6 +4,7 @@ html_theme.sidebar_secondary.remove:
 ---
 # Homepage
 :::{toctree}
+:includehidden:
 :hidden:
 :numbered:
 intro/index
@@ -26,11 +27,11 @@ about/index
 :class: only-dark homepage-logo
 :::
 
-[{{ project_short_description }}]{.one-liner}
+[{{ env.config.rd_meta.project.tagline }}]{.one-liner}
 
 ---
 
-{{ project_long_description.replace(project_name, "[{}]{}".format(project_name, "{.project-name}"), 1) }}
+{{ env.config.rd_meta.project.description.replace(name, "[{}]{}".format(name, "{.project-name}"), 1) }}
 
 ::::{card-carousel} 1
 
@@ -41,13 +42,13 @@ about/index
 :class-img-top: dark-light icon-image
 
 As a starting point for new users, this section provides an **overview**
-of {{project_name}}, describing the **motivations** behind it, 
+of {{name}}, describing the **motivations** behind it, 
 and highlighting its **objectives** and **capabilities**.
 A summary of related background **information** is provided as well, 
 
 **theoretical** and **technical** essential to ... and fully utilizing its
 
-After reading this section, you will have a solid understanding of what {{project_name}} is and does, 
+After reading this section, you will have a solid understanding of what {{name}} is and does, 
 :::
 
 
