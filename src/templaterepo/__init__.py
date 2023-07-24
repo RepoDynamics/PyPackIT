@@ -10,4 +10,5 @@ Copyright disclaimer:
 A copyright disclaimer
 """
 
-__version__ = "This will be set on build"
+__version_details__ = "This will be set on build"
+__version__ = __version_details__['version']

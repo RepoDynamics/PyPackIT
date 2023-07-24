@@ -47,6 +47,7 @@ distance-dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
 
 [tool.versioningit.onbuild]
 method = "replace-version"
+regex = "^\s*__version_details__\s*=\s*(?P<version>.*)"
 require-match = true
 replacement = """dict(
     version="{version}",
