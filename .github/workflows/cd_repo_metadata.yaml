@@ -93,7 +93,7 @@ jobs:
           echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat ${{ inputs.path-repodynamics}}/metadata/metadata_full.json >> "$GITHUB_STEP_SUMMARY"
+          cat metadata.json >> "$GITHUB_STEP_SUMMARY"
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
