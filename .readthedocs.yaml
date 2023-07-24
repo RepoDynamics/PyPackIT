@@ -19,7 +19,7 @@ build:
 
 # Install dependencies
 conda:
-  environment: docs/website_sphinx/requirements.yaml
+  environment: docs/website/requirements.yaml
 
 # Install the package
 python:
