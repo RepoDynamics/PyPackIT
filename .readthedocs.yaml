@@ -26,6 +26,8 @@ python:
    install:
      - method: pip
        path: .
+     - method: pip
+       path: dev/repodynamics
 
 # Build documentation with Sphinx
 sphinx:
