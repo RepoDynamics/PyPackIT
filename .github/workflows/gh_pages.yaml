@@ -19,7 +19,7 @@ jobs:
     needs: build-docs
     if: |
       always() && 
-      needs.build-docs.result == 'success' &&
+      needs.build-docs.result == 'success'
     uses: ./.github/workflows/docs_deploy.yaml
     permissions:
       contents: read
