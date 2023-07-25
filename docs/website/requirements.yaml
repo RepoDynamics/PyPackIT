@@ -20,6 +20,7 @@ dependencies:
   - sphinx-copybutton
   - ablog
   - librsvg  # for including SVG files in PDF build (done by latexmk)
+  - sphinxext-opengraph
 
   # Metadata
   - requests >= 2.31.0, < 3

@@ -2,7 +2,7 @@
 sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
-# Homepage
+# {{name}}
 :::{toctree}
 :includehidden:
 :hidden:

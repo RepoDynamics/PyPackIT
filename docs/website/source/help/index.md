@@ -16,7 +16,7 @@ contact/index
         data-reactions-enabled="1"
         data-emit-metadata="1"
         data-input-position="top"
-        data-theme="https://cdn.jsdelivr.net/gh/AAriam/TemplateRepo@main/docs/website/source/_static/css/extensions/giscus.css"
+        data-theme="https://raw.githubusercontent.com/AAriam/TemplateRepo/main/docs/website/source/_static/css/extensions/custom_example.css"
         data-lang="en"
         data-loading="lazy"
         crossorigin="anonymous"

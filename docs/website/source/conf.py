@@ -106,6 +106,8 @@ extensions: List[str] = [
     #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
     #   Note: Doesn't work on `latex_logo`.
     'sphinxcontrib.rsvgconverter',
+    # For adding Open Graph meta tags to HTML output files:
+    'sphinxext.opengraph',
 ]
 
 # source_suffix: Union[str, List[str], Dict[str, str]] = {
@@ -759,3 +761,16 @@ intersphinx_mapping = {
     'numpy': ('https://numpy.org/doc/stable', None),
     'matplotlib': ('https://matplotlib.org/stable', None),
 }
+
+
+"""
+sphinxext.opengraph
+
+Options for `sphinxext.opengraph` extension.
+
+References
+----------
+* https://sphinxext-opengraph.readthedocs.io/en/latest/
+* https://github.com/wpilibsuite/sphinxext-opengraph
+"""
+# TODO: Fill me
