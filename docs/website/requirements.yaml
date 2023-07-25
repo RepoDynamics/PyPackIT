@@ -16,7 +16,7 @@ dependencies:
   - sphinx
   - pydata-sphinx-theme
   - myst-parser
-  - sphinx-design
+  - sphinx-design >= 0.4.1
   - sphinx-copybutton
   - ablog
   - librsvg  # for including SVG files in PDF build (done by latexmk)
