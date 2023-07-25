@@ -1,0 +1,27 @@
+# Continuous Integration pipeline
+
+name: 1. Publish GH Pages
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+
+  build-docs:
+    name: 'Build documentation with Sphinx'
+    if: always()
+    uses: ./.github/workflows/docs_build.yaml
+
+
+  deploy-docs:
+    name: 'Deploy docs to GitHub Pages'
+    needs: build-docs
+    if: |
+      always() && 
+      needs.build-docs.result == 'success' &&
+    uses: ./.github/workflows/docs_deploy.yaml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
