@@ -69,7 +69,7 @@ jobs:
       - name: 'Build HTML'
         if: always()
         run: |
-          cd docs/webiste
+          cd docs/website
           make clean
           make dirhtml
 
