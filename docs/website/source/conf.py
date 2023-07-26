@@ -599,6 +599,7 @@ latex_elements: Dict[str, str] = {
 ''',
     'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
     'printindex': r'\footnotesize\raggedright\printindex',
+    'passoptionstopackages': '\\PassOptionsToPackage{warn}{textcomp}',
 }
 
 # latex_additional_files: List[str] = []

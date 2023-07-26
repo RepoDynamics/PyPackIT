@@ -21,17 +21,6 @@ jobs:
     name: 'Get changed files'
     uses: ./.github/workflows/repo_files_changed.yaml
 
-  test:
-    runs-on: ubuntu-latest
-    needs: changes
-    steps:
-      - run: | 
-          echo ${{needs.changes.outputs.package}}
-          echo ${{needs.changes.outputs.docs}}
-          echo TESTING ${{needs.changes.outputs.workflows == 'true'}}
-          echo ${{needs.changes.outputs.workflows}}
-          echo ${{needs.changes.outputs.repodynamics}}
-          echo ${{needs.changes.outputs.meta}}
 
   lint:
     name: 'Lint source code'
