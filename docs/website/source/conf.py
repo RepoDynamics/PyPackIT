@@ -591,7 +591,6 @@ latex_elements: Dict[str, str] = {
     'preamble': r'''
 \usepackage[titles]{tocloft}
 \usepackage{fontspec}
-\usepackage{fontawesome5}
 \cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
 \setlength{\cftchapnumwidth}{0.75cm}
 \setlength{\cftsecindent}{\cftchapnumwidth}
@@ -599,7 +598,6 @@ latex_elements: Dict[str, str] = {
 ''',
     'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
     'printindex': r'\footnotesize\raggedright\printindex',
-    'passoptionstopackages': '\\PassOptionsToPackage{warn}{textcomp}',
 }
 
 # latex_additional_files: List[str] = []
