@@ -42,6 +42,13 @@ jobs:
               echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
               echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
               echo "expired=false" >> $GITHUB_OUTPUT
+          else
+              echo "### 📣 Current Announcement" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+              echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "#### ℹ️ Commit Details" >> $GITHUB_STEP_SUMMARY
+              echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: 'Check expiration date'
