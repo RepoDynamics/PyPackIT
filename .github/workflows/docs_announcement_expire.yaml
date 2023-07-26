@@ -33,7 +33,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: echo '${{ fromJSON(needs.metadata.outputs.json) }}'
+      - run: echo '${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
 
       - name: 'Check expiration date'
         id: expiration-check
