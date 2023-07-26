@@ -55,6 +55,8 @@ jobs:
           echo "${{ steps.changed.outputs.package_any_changed }}"
           echo "${{ steps.changed.outputs.all_any_changed }}"
           echo "${{ steps.changed.outputs.all.all_changed_and_modified_files }}"
+          echo "${{ steps.changed.outputs.workflows.all_changed_and_modified_files }}"
+
 
       - name: 'Create summary'
         run: |
