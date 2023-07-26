@@ -38,7 +38,7 @@ jobs:
       - name: 'Check expiration date'
         id: expiration-check
         run: |
-          filepath="${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}"
+          filepath='${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
           current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
           
