@@ -24,6 +24,23 @@ jobs:
       - name: Get all test, doc and src files that have changed
         id: changed
         uses: tj-actions/changed-files@v37
+        with:
+          files_yaml: |
+            
+            docs:
+              - 'docs/website/source/**'
+              - 'src/**/*.py'
+              - 'meta/metadata/*.yaml'
+            
+            package:
+              - 'src/**'
+              - 'tests/**/*.py'
+              - 'pyproject.toml'
+              - 'setup.py'
+            
+            
 
       - name: Verify the contents of the .github/outputs/added_files.json file
-        run: echo "${{ steps.changed.outputs.all_changed_and_modified_files }}"
+        run: |
+          echo "${{ steps.changed.outputs.docs_any_changed }}"
+          echo "${{ steps.changed.outputs.package_any_changed }}"
