@@ -132,8 +132,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix) }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions) }}
+        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
 
     steps:
       - name: 'Checkout repository'
