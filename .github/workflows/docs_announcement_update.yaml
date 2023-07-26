@@ -1,11 +1,13 @@
 name: "1. Docs: Update Announcement"
 run-name: "Docs: update announcement (tigger: ${{ github.event.inputs.trigger }})"
 
+
 on:
-  workflow_call:
+
+  workflow_dispatch:
     inputs:
       announcement:
-        description: "Announcement message"
+        description: "Announcement message; to remove announcement, leave this field empty."
         type: string
         default: ""
       trigger:
@@ -13,13 +15,12 @@ on:
         required: true
         type: string
 
-  workflow_dispatch:
+  workflow_call:
     inputs:
       announcement:
-        description: "Announcement message; to remove announcement, leave this field empty."
+        description: "Announcement message"
         required: true
         type: string
-        default: ""
       trigger:
         description: "Reason for announcement, e.g. 'expiration' or 'new release'."
         required: true
@@ -31,7 +32,6 @@ jobs:
   metadata:
     name: 'Load repository metadata'
     uses: ./.github/workflows/repo_meta_get.yaml
-
 
   publish:
     name: 'Update announcement'
