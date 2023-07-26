@@ -24,7 +24,7 @@ jobs:
   lint:
     name: 'Lint source code'
     needs: changes
-    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    if: always() && needs.changes.outputs.package == 'true'
     uses: ./.github/workflows/package_lint.yaml
     permissions:
       # required for all workflows
@@ -36,13 +36,13 @@ jobs:
 
   build-package:
     name: 'Build distribution package'
-    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    if: always() && needs.changes.outputs.package == 'true'
     uses: ./.github/workflows/package_build.yaml
 
 
   test-local:
     name: 'Install and test from ${{github.ref}}'
-    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    if: always() && needs.changes.outputs.package == 'true'
     uses: ./.github/workflows/package_test.yaml
     with:
       install-source: "local"
@@ -50,7 +50,7 @@ jobs:
 
   build-docs:
     name: 'Build documentation with Sphinx'
-    if: always() && needs.changes.outputs.docs_any_changed == 'true'
+    if: always() && needs.changes.outputs.docs == 'true'
     uses: ./.github/workflows/docs_build.yaml
 
 
