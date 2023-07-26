@@ -70,7 +70,7 @@ jobs:
         if: always()
         run: |
           echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
-          cause=${{ (github.event_name == 'workflow_dispatch' && format('{0}{1}', 'manually by @', github.actor)) || 'automatically' }}
+          cause='${{ (github.event_name == 'workflow_dispatch' && format('{0}{1}', 'manually by @', github.actor)) || 'automatically' }}'
           if [ "{{ inputs.announcement }}" = "" ]; then
               echo "The announcement was removed $cause due to following trigger:" >> $GITHUB_STEP_SUMMARY
               echo "> ${{ inputs.trigger }}" >> $GITHUB_STEP_SUMMARY
