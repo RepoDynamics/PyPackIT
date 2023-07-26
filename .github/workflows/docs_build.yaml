@@ -86,7 +86,7 @@ jobs:
 
       - name: 'Display builds'
         if: always()
-        run: find docs/website_sphinx/_build
+        run: find docs/website/_build
 
       - name: 'Order builds'
         if: always()
