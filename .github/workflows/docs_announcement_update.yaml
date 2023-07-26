@@ -36,7 +36,7 @@ jobs:
 
   metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/cd_repo_metadata.yaml
+    uses: ./.github/workflows/repo_meta_get.yaml
 
   publish:
     name: 'Update announcement'
