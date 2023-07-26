@@ -1,13 +1,13 @@
 # Health Files
 
-## [Code of Conduct](../meta/template/health_file/CODE_OF_CONDUCT.md)
+## Code of Conduct
 The [code of conduct](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project)
 defines community standards, signals a welcoming and inclusive project, 
 and outlines procedures for handling abuse. To be recognized by GitHub, it must be stored in a file named
 `CODE_OF_CONDUCT` (with or without an extension; 
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`). 
 Additionally, to be displayed in the repository's community profile, it must be created using a template. 
-The [CODE_OF_CONDUCT.md](../meta/template/health_file/CODE_OF_CONDUCT.md) file in this directory is added using the
+The CODE_OF_CONDUCT.md file in this directory is added using the
 [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html) template.
 It contains dynamic fields such as project name and maintainer email, which are automatically updated when
 the corresponding metadata are changed.
@@ -20,7 +20,7 @@ on the repository's contribute page, and when users open a pull request or creat
 To be recognized by GitHub, it must be stored in a file named
 `CONTRIBUTING` (with or without an extension; 
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`).
-The [CONTRIBUTING.md](../docs/CONTRIBUTING.md) file in this directory contains steps for creating good issues or pull requests,
+The CONTRIBUTING.md file in this directory contains steps for creating good issues or pull requests,
 links to external documentation, mailing lists, and code of conduct.
 
 
@@ -36,4 +36,4 @@ When users create an issue in the repository, they will see a link to the projec
 To be recognized by GitHub, it must be stored in a file named
 `SUPPORT` (with or without an extension; 
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`).
-The [SUPPORT.md](../docs/SUPPORT.md) file in this directory contains ...
+The SUPPORT.md file in this directory contains ...
