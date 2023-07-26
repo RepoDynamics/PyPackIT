@@ -1,12 +1,13 @@
-name: "1. Docs: Update Announcement [C/D]"
+name: "1. Docs: Update Announcement"
 run-name: >-
-  Docs: Update announcement 
-  ${{ 
-    format('triggered {0} by {1}.', 
-      (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', 
-      (github.event_name == 'workflow_dispatch' && github.actor) || github.event.inputs.trigger
-    ) 
-  }}
+  Docs: Update announcement (
+    ${{ 
+      format('triggered {0} by {1}.', 
+        (github.event_name == 'workflow_dispatch' && 'manually') || 'automatically', 
+        (github.event_name == 'workflow_dispatch' && github.actor) || github.event.inputs.trigger
+      ) 
+    }}
+  )
 
 on:
   workflow_call:
@@ -57,10 +58,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 'Display announcement'
-        run: echo "${{ github.event.inputs.announcement }}"
+        run: echo "${{ inputs.announcement }}"
 
       - name: 'Update announcement file'
-        run: echo "${{ github.event.inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}
+        run: echo "${{ inputs.announcement }}" > ${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
@@ -74,7 +75,7 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0} {1}', 'manually by', github.actor)) || format('{0} {1}', 'automatically for', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
+          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0}{1}', 'manually by @', github.actor)) || format('{0} {1}', 'automatically by', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
           echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
