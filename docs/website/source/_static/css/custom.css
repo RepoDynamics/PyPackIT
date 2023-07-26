@@ -15,7 +15,7 @@
 
 /* Style class for the short description shown on homepage XXX */
 .one-liner {
-    margin: 30%;
+    margin: 3%;
     display: grid;
     font-family: "Times New Roman", var(--pst-font-family-base-system);
     font-stretch: expanded;
