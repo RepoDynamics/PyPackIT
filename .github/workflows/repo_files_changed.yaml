@@ -3,12 +3,29 @@ run-name: "Repo: Get changed files in ${{github.event_name}} event"
 
 on:
   workflow_call:
+    outputs:
+      package:
+        value: ${{ jobs.changed.outputs.package_any_modified }}
+      docs:
+        value: ${{ jobs.changed.outputs.docs_any_modified }}
+      workflows:
+        value: ${{ jobs.changed.outputs.workflows_any_modified }}
+      repodynamics:
+        value: ${{ jobs.changed.outputs.repodynamics_any_modified }}
+      meta:
+        value: ${{ jobs.changed.outputs.meta_any_modified }}
 
 jobs:
 
-  changed_files:
-    runs-on: ubuntu-latest
+  changed:
     name: 'Get changed files'
+    outputs:
+      package: ${{ steps.groups.outputs.package_any_modified }}
+      docs: ${{ steps.groups.outputs.docs_any_modified }}
+      workflows: ${{ steps.groups.outputs.workflows_any_modified }}
+      repodynamics: ${{ steps.groups.outputs.repodynamics_any_modified }}
+      meta: ${{ steps.groups.outputs.meta_any_modified }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -43,11 +60,11 @@ jobs:
         run: |
           echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
           
-          echo "${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.repodynamics_any_changed == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.package_any_modified == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.docs_any_modified == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.workflows_any_modified == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.repodynamics_any_modified == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.meta_any_modified == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
           
           echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
           
