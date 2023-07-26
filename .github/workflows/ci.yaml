@@ -48,12 +48,14 @@ jobs:
 
   build-package:
     name: 'Build distribution package'
+    needs: changes
     if: always() && needs.changes.outputs.package == 'true'
     uses: ./.github/workflows/package_build.yaml
 
 
   test-local:
     name: 'Install and test from ${{github.ref}}'
+    needs: changes
     if: always() && needs.changes.outputs.package == 'true'
     uses: ./.github/workflows/package_test.yaml
     with:
@@ -62,6 +64,7 @@ jobs:
 
   build-docs:
     name: 'Build documentation with Sphinx'
+    needs: changes
     if: always() && needs.changes.outputs.docs == 'true'
     uses: ./.github/workflows/docs_build.yaml
 
