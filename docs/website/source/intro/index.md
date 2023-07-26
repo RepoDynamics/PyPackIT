@@ -30,8 +30,6 @@ from web development to data science and machine learning.
   make the development and maintenance of your project a pleasant breeze!
 
 
-
-
 It is designed to automate and streamline the entire journey of creating, documenting, testing, publishing, 
 and maintaining Python packages, allowing you to focus on what truly matters: 
 implementing your ideas and bringing your vision to life!
