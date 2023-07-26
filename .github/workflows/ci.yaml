@@ -30,24 +30,21 @@ jobs:
         uses: tj-actions/changed-files@v37
         with:
           files_yaml: |
-            
             docs:
               - 'docs/website/source/**'
               - 'src/**/*.py'
               - 'meta/metadata/*.yaml'
-            
             package:
               - 'src/**'
               - 'tests/**/*.py'
               - 'pyproject.toml'
               - 'setup.py'
-            
             meta:
               - 'meta/**'
-            
             workflows:
               - '.github/workflows/*.yaml'
-            
+            repodynamics:
+              - 'dev/repodynamics/**'
 
       - name: Verify the contents of the .github/outputs/added_files.json file
         run: |
@@ -55,18 +52,17 @@ jobs:
           echo "${{ steps.groups.outputs.docs_any_changed }}"
           echo "${{ steps.groups.outputs.package_any_changed }}"
           echo "${{ steps.groups.outputs.workflows_any_changed }}"
-          
-
 
       - name: 'Create summary'
         run: |
-          echo "#### 🏁 Changed Groups" >> $GITHUB_STEP_SUMMARY
+          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.repodynamics_any_changed == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
           
-          echo "#### 📝 Changed Files" >> $GITHUB_STEP_SUMMARY
+          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
           for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
             echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
           done
