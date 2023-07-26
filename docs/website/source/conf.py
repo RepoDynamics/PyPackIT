@@ -699,6 +699,13 @@ myst_substitutions = {"meta": meta}
 
 
 """
+Options for `sphinx_design`
+
+"""
+sd_fontawesome_latex = True
+
+
+"""
 Options for `sphinx.ext.autosummary`
 
 References
