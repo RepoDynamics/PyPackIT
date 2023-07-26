@@ -27,6 +27,9 @@ jobs:
         with:
           files_yaml: |
             
+            all:
+              - '**'
+            
             docs:
               - 'docs/website/source/**'
               - 'src/**/*.py'
@@ -37,6 +40,12 @@ jobs:
               - 'tests/**/*.py'
               - 'pyproject.toml'
               - 'setup.py'
+            
+            meta:
+              - 'meta/**'
+            
+            workflows:
+              - '.github/workflows/*.yaml'
             
 
       - name: Verify the contents of the .github/outputs/added_files.json file
