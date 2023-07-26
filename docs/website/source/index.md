@@ -2,7 +2,7 @@
 sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
-# {{name}}
+# {{meta.project.name}}
 :::{toctree}
 :includehidden:
 :hidden:
@@ -11,9 +11,9 @@ intro/index
 manual/index
 api/index
 news/index
-help/index
 contribute/index
 about/index
+help/index
 :::
 
 :::{image} /_static/img/logo/logo_light.svg
@@ -27,113 +27,165 @@ about/index
 :class: only-dark homepage-logo
 :::
 
-[{{ env.config.rd_meta.project.tagline }}]{.one-liner}
+[{{ meta.project.tagline }}]{.one-liner}
 
 ---
 
-{{ env.config.rd_meta.project.description.replace(name, "[{}]{}".format(name, "{.project-name}"), 1) }}
+{{ meta.project.description.replace(meta.project.name, 
+"[{}]{}".format(meta.project.name, "{.project-name}"), 1) }}
+
+
+::::{grid} 1 2 2 2
+:gutter: 3
+
+:::{grid-item-card} Automation
+:class-title: sd-text-center
+{{ meta.project.name }} streamlines a remarkable portion of the process of creating, 
+documenting, testing, publishing, and maintaining Python packages, 
+making your project development a pleasant breeze!
+:::
+
+:::{grid-item-card} Synchronization
+:class-title: sd-text-center
+{{ meta.project.name }} gathers all your project's key information and configuration in one place, 
+and dynamically updates them throughout your repository, Python package, and documentation website.
+:::
+
+:::{grid-item-card} Configuration
+:class-title: sd-text-center
+:text-align: left
+{{ meta.project.name }} elevates your project by providing full configuration for your repository, 
+Python package, and documentation website, according to the latest guidelines and best practices.
+:::
+
+:::{grid-item-card} Customization
+:class-title: sd-text-center
+While carefully configured, {{ meta.project.name }} is also fully customizable, 
+allowing you to tailor every aspect of your development pipeline to your specific needs.
+:::
+
+:::{grid-item-card} Documentation
+:class-title: sd-text-center
+{{ meta.project.name }} comes with a professional website for your project, that is easily
+customizable, and automatically generated and deployed on your preferred platform.
+:::
+
+:::{grid-item-card} Production
+:class-title: sd-text-center
+With {{ meta.project.name }}, the only remaining step to publishing a production-ready
+Python project is adding your code, unit-tests and documentation content. 
+:::
+
+::::
+
 
 ::::{card-carousel} 1
 
-:::{card} Introduction
-:link: pages/intro/index.html
+:::{card} Intro: Discover the Essence of {{meta.project.name}}
+:link: intro/index.html
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
-
-As a starting point for new users, this section provides an **overview**
-of {{name}}, describing the **motivations** behind it, 
-and highlighting its **objectives** and **capabilities**.
-A summary of related background **information** is provided as well, 
-
-**theoretical** and **technical** essential to ... and fully utilizing its
-
-After reading this section, you will have a solid understanding of what {{name}} is and does, 
+Start off with the Introduction section to learn more about 
+{{meta.project.name}}'s motivations, objectives and capabilities. 
+This section offers a high-level overview of {{meta.project.name}}, highlighting its main features, 
+the challenges they address, and the value they bring to your projects. 
+Serving as an excellent starting point for new users, 
+it also provides a summary of related background information and concepts 
+that are essential to fully understanding and utilizing {{meta.project.name}}.
 :::
 
 
-:::{card} User Guide
+:::{card} Manual: Your Comprehensive Guide
 :link: intro/index.html
 :img-top: /_static/img/icon/user_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide 
+Dive into our Manual section for detailed step-by-step instructions on using {{meta.project.name}} efficiently. 
+From setting up your project to deploying it, this comprehensive guide covers all essential aspects 
+of package development and maintenance.
+
+The Manual section contains comprehensive documentation and guides for users to understand 
+the various functionalities and how to use PyPackIT effectively. It will provide step-by-step instructions 
+for different tasks and explain the available features in detail.
+
+The user guide provides in-depth information on the
+key concepts of SciPy with useful background information and explanation.
+
 :::
 
 
-:::{card} API Reference
+:::{card} API: Master the {{meta.project.name}} Programming Interface
 :link: intro/index.html
 :img-top: /_static/img/icon/api.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
+For advanced users seeking deeper insights into PyPackIT, 
+our API section provides a thorough reference guide. 
+Explore the complete Python package documentation and learn to interact programmatically with PyPackIT.
 
-This is the second paragraph.
-
-And a third one.
+This section is likely dedicated to providing a comprehensive API reference for PyPackIT. 
+It will be beneficial for more advanced users who want to interact with PyPackIT programmatically 
+and need detailed information about the available functions and methods.
 :::
 
 
-:::{card} News
+:::{card} News: Stay Informed with {{meta.project.name}} Updates
 :link: intro/index.html
 :img-top: /_static/img/icon/news.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
+Stay up-to-date with the latest news, announcements, and developments related to PyPackIT. 
+The News section keeps you informed about new features, bug fixes, and enhancements that make your 
+Python journey even smoother.
 
-This is the second paragraph.
-
-And a third one.
+The News section will likely keep users updated with the latest developments, updates, 
+and announcements related to PyPackIT. It's essential for users to stay informed about new features, 
+bug fixes, and other project-related news.
 :::
 
 
-:::{card} Developer Guide
+:::{card} Contribute: Join the PyPackIT Community
 :link: intro/index.html
 :img-top: /_static/img/icon/dev_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
-
-This is the second paragraph.
-
-And a third one.
+We believe in collaboration and value contributions from our users. 
+In the Contribute section, you'll find guidelines on how to get involved, 
+report issues, and actively participate in making PyPackIT even better.
 :::
 
 
-:::{card} About
+:::{card} About: Unveiling the PyPackIT Story
 :link: intro/index.html
 :img-top: /_static/img/icon/about.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
+Learn more about the people behind PyPackIT and the project's history. 
+The About section offers insights into our mission, core values, and the dedication driving PyPackIT's success.
 
-This is the second paragraph.
-
-And a third one.
+The About section will likely provide more in-depth information about the PyPackIT project, 
+including its history, the team behind it, its mission, and any notable achievements.
 :::
 
 
-:::{card} Frequently Asked Questions
+:::{card} Help: Find Support When You Need It
 :link: intro/index.html
 :img-top: /_static/img/icon/faq.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
+The Help section is your go-to resource for assistance with any challenges you encounter. 
+Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
 
-This is the second paragraph.
-
-And a third one.
+The Help section can serve as a user support hub, offering assistance to users facing challenges or 
+seeking answers to common questions. It may include FAQs, troubleshooting guides, and ways to reach out 
+to the support team.
 :::
 
 :::{card} Miscellaneous
@@ -149,11 +201,3 @@ And a third one.
 :::
 
 ::::
-
-## Getting Started
-
-:::{tip}
-You can simply copy the contents of each presented code/command block in this documentation
-(like the one below), by hovering your mouse over that block, and clicking on the copy button
-that appears on the right side of the block.
-:::

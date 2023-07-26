@@ -1,4 +1,4 @@
-# Technical Background
+# Background
 :::{toctree}
 :hidden:
 

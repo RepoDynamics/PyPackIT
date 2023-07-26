@@ -12,7 +12,7 @@ valid non-normalized package name here, and then derive the package name from pr
 
 A valid name consists only of ASCII alphanumeric characters, period (.), underscore (_) and hyphen (-), 
 and must start and end with a letter or number. The validating regex is thus (with `IGNORECASE` flag set):
-```regex
+```default
 ^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$
 ```
 If ommited (or set to null), the repository name will be used.

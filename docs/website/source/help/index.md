@@ -2,6 +2,7 @@
 :::{toctree}
 :hidden:
 
+website
 contact/index
 :::
 

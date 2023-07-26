@@ -9,51 +9,18 @@ References
 
 from typing import Any, Dict, Union, List, Literal, Tuple, NoReturn
 import importlib
-import sys
 from pathlib import Path
-print("from CONF.PY", Path(__file__).parents[3])
 
 import pypackit
 
 
 def setup(app):
-    app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
+    # register custom config values
+    # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
+    return
 
 
-rd_meta = pypackit.metadata(
-    path_root=Path(__file__).parents[3],
-)
-
-
-# _spec = importlib.util.spec_from_file_location("metadata", "../../../meta/scripts/metadata.py")
-# _metadata = importlib.util.module_from_spec(_spec)
-# sys.modules["metadata"] = _metadata
-# _spec.loader.exec_module(_metadata)
-# _meta = _metadata.main()
-
-# Open and read the metadata file
-# with open("../../../metadata/main.json") as f:
-#     _data = json.load(f)
-
-# Generate recurring variables from the metadata to use in several places
-# _project_name: str = _metadata.project.NAME
-#
-# _org_name: str = _data['contact']['organization']['name']
-# _authors: List[Dict[str, str]] = _data['contact']['authors']
-# _corresponding_authors: List[Dict[str, str]] = _data['contact']['corresponding_authors']
-#
-# _copyright_start_year: int = _metadata.project.START_YEAR
-# _package_name: str = _data['package']['name']
-# _short_version: str = _data['package']['short_version']
-# _long_version: str = _data['package']['long_version']
-# _github_link: str = f"https://github.com/{_data['github']['user_name']}/{_data['github']['repo_name']}"
-# _author_names_in_order: List[str] = [
-#     _author['name'] for _author in (_data['contact']['authors'] + _data['contact']['corresponding_authors'])
-# ]
-# _announcement = _data['docs']['announcement']
-#
-# _url_copyright = f"{_github_link}/blob/{_data['github']['branch_name']}/{_data['copyright']['path']}"
-# _license_name = _data['copyright']['license_name']
+meta = pypackit.metadata(path_root=Path(__file__).parents[3])
 
 
 """
@@ -63,17 +30,24 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
-project: str = rd_meta['project']['name']
 
-author: str = ', '.join([_author['name'] for _author in rd_meta['project']['authors']])
+project: str = meta['project']['name']
+"""Name of the project"""
 
-copyright: str = f"{rd_meta['project']['copyright_year']} {rd_meta['project']['owner']['name']}"
+author: str = ', '.join([_author['name'] for _author in meta['project']['authors']])
+"""Authors' names"""
 
-project_copyright: Union[str, List[str]] = copyright
+project_copyright: Union[str, List[str]] = (
+    f"{meta['project']['copyright_year']} {meta['project']['owner']['name']}"
+)
+"""Copyright statement(s)"""
 
-release: str = getattr(importlib.import_module(rd_meta['package']['name']), '__version__')
+release: str = getattr(importlib.import_module(meta['package']['name']), '__version__')
+"""Full version, including alpha/beta/rc tags"""
 
-version: str = '.'.join(release.split('.')[:2])
+version: str = '.'.join(release.split('.')[:3])
+"""SemVer version in format X.Y.Z"""
+
 
 """
 General configuration
@@ -82,6 +56,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 """
+
 extensions: List[str] = [
     'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
@@ -109,6 +84,7 @@ extensions: List[str] = [
     # For adding Open Graph meta tags to HTML output files:
     'sphinxext.opengraph',
 ]
+"""List of required Sphinx extensions"""
 
 # source_suffix: Union[str, List[str], Dict[str, str]] = {
 #   '.rst': 'restructuredtext',
@@ -119,12 +95,16 @@ extensions: List[str] = [
 # source_encoding: str = 'utf-8-sig'
 
 root_doc: str = 'index'
+"""Name of the root (homepage) document"""
 
 exclude_patterns: List[str] = ['**Thumbs.db', '**.DS_Store', '**.ipynb_checkpoints', '**README.md']
+"""A list of glob-style patterns to exclude from source files"""
 
 # include_patterns: List[str] = ['**']
+"""A list of glob-style patterns to include in source files"""
 
 templates_path: List[str] = ['_templates']  # Ref: https://www.sphinx-doc.org/en/master/development/templating.html
+"""A list of directories containing extra templates"""
 
 # template_bridge: str = ''
 
@@ -140,31 +120,35 @@ templates_path: List[str] = ['_templates']  # Ref: https://www.sphinx-doc.org/en
 
 # suppress_warnings: List[str] = []
 
-needs_sphinx: str = '5.3'
+needs_sphinx: str = '6.2.1'
 
-# TODO: Fill me
-# needs_extensions: Dict[str, str] = {'sphinxcontrib.something': '1.5'}
+needs_extensions: Dict[str, str] = {
+    'sphinx_design': '0.4.1',
+    'myst_parser': '2.0.0'
+}
 
 # manpages_url: str = ""
 
-# nitpicky: bool = False
+nitpicky: bool = True
+"""Warn about all references where the target cannot be found"""
 
 # nitpick_ignore: List[Tuple[str, str]] = [('py:func', 'int'), ('envvar', 'LD_LIBRARY_PATH')]
 
 # nitpick_ignore_regex: List[Tuple[str, str]] =[(r'py:.*', r'foo.*bar\.B.*')]
 
 numfig: bool = True
+"""Automatically number figures, tables and code-blocks that have a caption"""
 
 numfig_format: Dict[str, str] = {
     'figure': 'Fig. %s',
     'table': 'Table %s',
-    'code-block': 'Code %s',
+    'code-block': 'Snippet %s',
     'section': 'Section %s'
 }
 
-# numfig_secnum_depth: int = 1
+numfig_secnum_depth: int = 2
 
-# smartquotes: bool = True
+smartquotes: bool = True
 
 # smartquotes_action: str = "qDe"
 
@@ -172,7 +156,7 @@ numfig_format: Dict[str, str] = {
 
 # user_agent: str = "Sphinx/X.Y.Z requests/X.Y.Z python/X.Y.Z"
 
-# tls_verify: bool = True
+tls_verify: bool = True
 
 # tls_cacerts: str = ''
 
@@ -180,19 +164,19 @@ numfig_format: Dict[str, str] = {
 
 # today_fmt: str = '%b %d, %Y'
 
-# highlight_language: str = 'default'
+highlight_language: str = 'python3'
 
 # highlight_options: Union[Dict[str, Any], Dict[str, Dict[str, Any]]]
 
 pygments_style: str = 'default'
 
-maximum_signature_line_length: Union[int, None] = 99
+maximum_signature_line_length: Union[int, None] = 80
 
-# add_function_parentheses: bool = True
+add_function_parentheses: bool = True
 
-# add_module_names: bool = True
+add_module_names: bool = True
 
-# toc_object_entries: bool = True
+toc_object_entries: bool = True
 
 toc_object_entries_show_parents: Literal['domain', 'hide', 'all'] = 'all'  # New in version 5.2
 
@@ -202,11 +186,11 @@ show_authors: bool = True
 
 trim_footnote_reference_space: bool = True
 
-# trim_doctest_flags: bool = True
+trim_doctest_flags: bool = True
 
-# strip_signature_backslash: bool = False
+strip_signature_backslash: bool = False
 
-# option_emphasise_placeholders: bool = False
+option_emphasise_placeholders: bool = True
 
 
 """
@@ -266,9 +250,9 @@ html_theme_options: Dict[str, Any] = {
         # "link": "URL or path that logo links to"
         "image_light": "_static/img/logo/logo_light.svg",
         "image_dark": "_static/img/logo/logo_dark.svg",
-        "alt_text": "Logo",
+        "alt_text": meta['project']['name'],
     },
-    "announcement": rd_meta['url']['announcement'],
+    "announcement": meta['url']['announcement'],
 
     # --- Header / Navigation Bar ---
     # Left section
@@ -282,8 +266,8 @@ html_theme_options: Dict[str, Any] = {
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
 
-    "search_bar_text": f"Search {rd_meta['project']['name']} ...",
-    "primary_sidebar_end": ["indices"],
+    "search_bar_text": f"Search {meta['project']['name']} ...",
+    # "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": ["page-toc", "last-updated", "edit-this-page", "sourcelink", ],
     "show_prev_next": True,
     "footer_start": ["version", "copyright", "pypackit_ver"],
@@ -308,66 +292,64 @@ html_theme_options: Dict[str, Any] = {
     "pygment_light_style": "default",
     "pygment_dark_style": "monokai",
 }
-
-
-# -------------------------------------------------------------------------
+# ----------------------------- Dynamically fill html_theme_options ---------------------------------------
 # The following part dynamically reads header icon flags from the metadata,
 # and adds the corresponding icons to `html_theme_options['icon_links']`.
 _navbar_defaults = {
     "repo": {
         "name": "Source Repository",
         "icon": "fa-brands fa-github",
-        "url": rd_meta['url']['github']['home']
+        "url": meta['url']['github']['home']
     },
     "issues": {
         "name": "Issues",
         "icon": "fa-regular fa-circle-dot",
-        "url": rd_meta['url']['github']['issues']['home']
+        "url": meta['url']['github']['issues']['home']
     },
     "pull_requests": {
         "name": "Pull Requests",
         "icon": "fa-solid fa-code-pull-request",
-        "url": rd_meta['url']['github']['pulls']['home']
+        "url": meta['url']['github']['pulls']['home']
     },
     "discussions": {
         "name": "Discussions",
         "icon": "fa-solid fa-comments",
-        "url": rd_meta['url']['github']['discussions']['home']
+        "url": meta['url']['github']['discussions']['home']
     },
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{rd_meta['maintainer']['email']['main']}"
+        "url": f"mailto:{meta['maintainer']['email']['main']}"
     },
     "license": {
         "name": "License",
         "icon": "fa-solid fa-copyright",
-        "url": rd_meta['url']['license']
+        "url": meta['url']['license']
     },
     "pypi": {
         "name": "PyPI Distribution",
         "icon": "fa-brands fa-python",
-        "url": rd_meta['url']['pypi']
+        "url": meta['url']['pypi']
     },
     "twitter": {
         "name": "Twitter",
         "icon": "fa-brands fa-twitter",
-        "url": rd_meta['project']['owner']['external_urls'].get('twitter', '')
+        "url": meta['project']['owner']['external_urls'].get('twitter', '')
     },
     "linkedin": {
         "name": "LinkedIn",
         "icon": "fa-brands fa-linkedin",
-        "url": rd_meta['project']['owner']['external_urls'].get('linkedin', '')
+        "url": meta['project']['owner']['external_urls'].get('linkedin', '')
     },
     "researchgate": {
         "name": "ResearchGate",
         "icon": "fa-brands fa-researchgate",
-        "url": rd_meta['project']['owner']['external_urls'].get('researchgate', '')
+        "url": meta['project']['owner']['external_urls'].get('researchgate', '')
     },
     "orcid": {
         "name": "ORCiD",
         "icon": "fa-brands fa-orcid",
-        "url": rd_meta['project']['owner']['external_urls'].get('orcid', '')
+        "url": meta['project']['owner']['external_urls'].get('orcid', '')
     },
 }
 
@@ -383,7 +365,7 @@ def _add_icon_link(
     return
 
 
-for _icon in rd_meta['website']['navbar_icons']:
+for _icon in meta['website']['navbar_icons']:
     _icon_id = _icon.pop('id', None)
     if _icon_id:
         _def = _navbar_defaults[_icon_id]
@@ -399,12 +381,10 @@ for _icon in rd_meta['website']['navbar_icons']:
         _add_icon_link(**_icon)
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
-
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = rd_meta['website'].get('analytics')
+_analytics = meta['website'].get('analytics')
 if _analytics:
     _plausible_analytics = _analytics.get('plausible')
     if _plausible_analytics and _plausible_analytics.get('domain') and _plausible_analytics.get('url'):
@@ -425,51 +405,50 @@ if _analytics:
 
 # html_style: str
 
-# html_title: str = ''
+html_title: str = meta['project']['name']
 
-# html_short_title: str = ''
+html_short_title: str = meta['project']['name']
 
 # html_baseurl: str = ''
 
 html_context = {
+
     # PyData variables
-    "github_user": rd_meta['project']['owner']['login'],
-    "github_repo": rd_meta['project']['repo']['name'],
-    "github_version": rd_meta['project']['repo']['default_branch'],
-    "doc_path": rd_meta['path']['docs']['website']['source'],
+    "github_user": meta['project']['owner']['login'],
+    "github_repo": meta['project']['repo']['name'],
+    "github_version": meta['project']['repo']['default_branch'],
+    "doc_path": meta['path']['docs']['website']['source'],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
+
     # PyPackIT variables
-    "_license_name": rd_meta['project']['license']['shortname'],
+    "pp_meta": meta,
 }
 
 # html_logo: Union[str, None] = '_static/logo/logo_light.svg'
 
 html_favicon: Union[str, None] = '_static/img/logo/icon.png'
 
-html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
-    'css/custom.css',
-    'css/theme/components/header_logo.css',
-    'css/theme/sections/announcement.css',
-    'css/theme/variables/color.css',
-    'css/theme/variables/font.css',
-    'css/theme/variables/icon.css',
-    'css/theme/variables/layout.css',
-    'css/theme/variables/.css',
-    'css/theme/variables/.css',
-    'css/extensions/sphinx-design.css',
-]
-
-# html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
-
 html_static_path: List[str] = ['_static']
 
 # html_extra_path: List[str] = []
 
+html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
+    str(path).removeprefix(f"{html_static_path[0]}/")
+    for path in (Path(html_static_path[0]) / 'css').glob('**/*.css')
+]
+"""A list of CSS files.
+
+Automatically include all CSS files in the `_static/css` directory.
+"""
+
+# html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
+
 html_last_updated_fmt: Union[str, None] = '%b %d, %Y'
+"""Inserte a ‘Last updated on:’ timestamp at every page bottom, using the given strftime() format."""
 
-# html_permalinks: bool = True
+html_permalinks: bool = True
 
-# html_permalinks_icon: str = '¶'
+html_permalinks_icon: str = '¶'
 
 html_sidebars: Dict[str, Union[List[str], str]] = {
     # "**": ["sidebar-nav-bs"],
@@ -492,27 +471,27 @@ html_sidebars: Dict[str, Union[List[str], str]] = {
 
 # html_copy_source: bool = True
 
-# html_show_sourcelink: bool = True
+html_show_sourcelink: bool = True
 
-# html_sourcelink_suffix: str = ".txt"
+html_sourcelink_suffix: str = ".txt"
 
-# html_use_opensearch: str = ''
+html_use_opensearch: str = meta['url']['website']['base']
 
 # html_file_suffix: str = '.html'
 
 # html_link_suffix: str = '.html'
 
-# html_show_copyright: bool = True
+html_show_copyright: bool = True
 
-# html_show_search_summary: bool = True
+html_show_search_summary: bool = True
 
-# html_show_sphinx: bool = True
+html_show_sphinx: bool = False
 
 # html_output_encoding: str = 'utf-8'
 
 # html_compact_lists: bool = True
 
-# html_secnumber_suffix: str = '. '
+html_secnumber_suffix: str = '. '
 
 html_search_language: str = 'en'
 
@@ -545,7 +524,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{rd_meta['project']['name']} Docs"
+htmlhelp_basename: str = f"{meta['project']['name']} Docs"
 
 # htmlhelp_file_suffix: str = '.html'
 
@@ -579,22 +558,39 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
 """
+
+latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'pdflatex'
+
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{rd_meta['package']['name']}_docs.tex",
-        f"{rd_meta['project']['name']} Documentation",
-        ' \\and '.join([_author['name'] for _author in rd_meta['project']['authors']]),
+        f"{meta['package']['name']}_docs.tex",
+        f"{meta['project']['name']} Documentation",
+        ' \\and '.join([_author['name'] for _author in meta['project']['authors']]),
         'manual',
         False
     ),
 ]
-# latex_logo: str = "_static/img/logo/logo_light.svg"
+
+# latex_logo: str = "_static/img/logo/logo_light.svg" # TODO: Doesn't work with SVG files
+
+latex_show_pagerefs: bool = True
+
+latex_show_urls: Literal['inline', 'footnote', 'no'] = 'footnote'
+
 latex_elements: Dict[str, str] = {
     'papersize': 'a4paper',  # {'letterpaper', 'a4paper'}
     'pointsize': '11pt',
     'figure_align': 'htbp',
 }
+
+# latex_additional_files: List[str] = []
+
+latex_theme: Literal['manual', 'howto'] = 'manual'
+
+# latex_theme_options: Dict[str, Any] = {}
+
+# latex_theme_path: List[str] = []
 
 
 """
@@ -612,9 +608,9 @@ References
 man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
-        rd_meta['package']['name'],
-        f"{rd_meta['project']['name']} Documentation",
-        [_author['name'] for _author in rd_meta['project']['authors']],
+        meta['package']['name'],
+        f"{meta['project']['name']} Documentation",
+        [_author['name'] for _author in meta['project']['authors']],
         "1"
     )
 ]
@@ -635,11 +631,11 @@ References
 texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
-        f"{rd_meta['package']['name']}_docs",
-        f"{rd_meta['project']['name']} Documentation",
-        '@*'.join([_author['name'] for _author in rd_meta['project']['authors']]),
-        rd_meta['package']['name'],
-        rd_meta['project']['tagline'],
+        f"{meta['package']['name']}_docs",
+        f"{meta['project']['name']} Documentation",
+        '@*'.join([_author['name'] for _author in meta['project']['authors']]),
+        meta['package']['name'],
+        meta['project']['tagline'],
         'Documentation',
         False,
     ),
@@ -657,7 +653,12 @@ python_display_short_literal_types: bool = True
 
 python_use_unqualified_type_names: bool = False
 
-python_maximum_signature_line_length: int = 99
+python_maximum_signature_line_length: int = 80
+
+
+# ----------------------------------- End of Sphinx Config ----------------------------------------
+# *************************************************************************************************
+# ----------------------------------- Start of Extensions Config ----------------------------------
 
 
 """
@@ -687,15 +688,14 @@ myst_enable_extensions: List[str] = [
     "attrs_inline",
     "attrs_block",
 ]
+
 myst_heading_anchors: int = 6
 
-myst_substitutions = {
-    "name": rd_meta['project']['name'],
-    # "project_name": rd_meta['project']['name'],
-    # "project_short_description": rd_meta['project']['tagline'],
-    # "project_long_description": rd_meta['project']['description'],
-    # "package_name": rd_meta['package']['name'],
-}
+# myst_html_meta: dict[str, str] = {}
+
+# ------ MyST Extensions Settings ------
+# Ref: https://myst-parser.readthedocs.io/en/latest/configuration.html#extensions
+myst_substitutions = {"meta": meta}
 
 
 """
@@ -729,19 +729,19 @@ References
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
 
-blog_path: str = rd_meta['website']['blog_dir_name']
-blog_baseurl: str = rd_meta['url']['homepage']
+blog_path: str = meta['website']['blog_dir_name']
+blog_baseurl: str = meta['url']['website']['base']
 
 blog_post_pattern: list[str] = [
-    f"{rd_meta['website']['blog_dir_name']}/posts/*.rst",
-    f"{rd_meta['website']['blog_dir_name']}/posts/*.md"
+    f"{meta['website']['blog_dir_name']}/posts/*.rst",
+    f"{meta['website']['blog_dir_name']}/posts/*.md"
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
 
-if rd_meta['website']['disqus_shortname']:
-    disqus_shortname: str = rd_meta['website']['disqus_shortname']
+if meta['website']['disqus_shortname']:
+    disqus_shortname: str = meta['website']['disqus_shortname']
 
 
 """

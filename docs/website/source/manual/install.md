@@ -1,23 +1,23 @@
 # Installation
 
-{{name}} is distributed on both PyPI and conda-forge repositories,
+{{meta.project.name}} is distributed on both PyPI and conda-forge repositories,
 and so can be conveniently installed using either `mamba`, `conda` or `pip`.
 Simply select your package manager, and run the corresponding command in your terminal:
 
 :::::{tab-set}
 ::::{tab-item} mamba
 {{":::{code-block} shell
-mamba install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
+mamba install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', meta.package.name)}}
 :::
 ::::
 ::::{tab-item} conda
 {{":::{code-block} shell
-conda install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
+conda install -c conda-forge PACKAGE_NAME".replace('PACKAGE_NAME', meta.package.name)}}
 :::
 ::::
 ::::{tab-item} pip
 {{":::{code-block} shell
-pip install PACKAGE_NAME".replace('PACKAGE_NAME', env.config.rd_meta.package.name)}}
+pip install PACKAGE_NAME".replace('PACKAGE_NAME', meta.package.name)}}
 :::
 ::::
 :::::
@@ -30,7 +30,7 @@ that appears in its upper right corner.
 
 :::{admonition} Need more help?
 :class: note
-Please refer to the [Introduction](../intro/technical/python_pkgs.md) 
+Please refer to the [Introduction](../intro/background/python_pkgs.md) 
 section for an overview of Python packages and how to install them.
 :::
 

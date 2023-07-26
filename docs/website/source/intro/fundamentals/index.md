@@ -1,0 +1,5 @@
+# Fundamentals
+:::{toctree}
+:hidden:
+versioning
+:::

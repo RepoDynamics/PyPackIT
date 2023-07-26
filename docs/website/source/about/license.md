@@ -3,9 +3,9 @@ sd_hide_title: true
 ---
 # License
 
-## {{name}} License and Copyright
+## {{meta.project.name}} License and Copyright
 We are advocates of [copyleft](https://copyleft.org/) and [open-source](https://opensource.org/) software, 
-and {{name}} is licensed under the {{env.config.rd_meta.project.license.fullname}}. 
+and {{meta.project.name}} is licensed under the {{meta.project.license.fullname}}. 
 Unlike traditional copyright, which restricts the rights of others to use, modify, 
 and distribute a work, [copyleft licenses](https://choosealicense.com/licenses/) grant users the freedom to access, modify, 
 distribute, and redistribute the work and its derivative works, as long as it remains

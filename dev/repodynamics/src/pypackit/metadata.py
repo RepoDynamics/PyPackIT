@@ -405,6 +405,15 @@ class Metadata:
         for key in ['issues', 'pulls', 'discussions', 'actions', 'releases', 'security']:
             urls['github'][key] = {'home': f"{urls['github']['home']}/{key}"}
 
+        urls['github']['tree'] = (
+            f"{self.metadata['project']['repo']['html_url']}/"
+            f"tree/{self.metadata['project']['repo']['default_branch']}"
+        )
+        urls['github']['raw'] = (
+            f"https://raw.githubusercontent.com/{self.metadata['project']['repo']['full_name']}/"
+            f"{self.metadata['project']['repo']['default_branch']}"
+        )
+
         # Issues
         urls['github']['issues']['template_chooser'] = f"{urls['github']['issues']['home']}/new/choose"
         urls['github']['issues']['new'] = {
@@ -434,8 +443,8 @@ class Metadata:
         urls['github']['security']['advisories'] = f"{urls['github']['security']['home']}/advisories"
         urls['github']['security']['new_advisory'] = f"{urls['github']['security']['advisories']}/new"
 
-
-        urls['homepage'] = (
+        urls['website'] = dict()
+        urls['website']['home'] = (
             f"https://{self.metadata['website']['rtd_name']}.readthedocs.io/en/latest"
             if self.metadata['website'].get('rtd_name') else
             (
@@ -443,15 +452,18 @@ class Metadata:
                 f"""{"" if self.metadata['website']['is_gh_user_site'] else f"/{self.metadata['project']['github']['name']}"}"""
             )
         )
+
+        urls['website']['base'] = urls['website']['home']  # TODO
+
         urls['announcement'] = (
             f"https://raw.githubusercontent.com/{self.metadata['project']['repo']['full_name']}/"
             f"{self.metadata['project']['repo']['default_branch']}/"
             f"{self.metadata['path']['docs']['website']['announcement']}"
         )
-        urls['contributors'] = f"{urls['homepage']}/about#contributors"
-        urls['contributing'] = f"{urls['homepage']}/contribute"
-        urls['license'] = f"{urls['homepage']}/license"
-        urls['security_measures'] = f"{urls['homepage']}/contribute/collaborate/maintain/security"
+        urls['contributors'] = f"{urls['website']['home']}/about#contributors"
+        urls['contributing'] = f"{urls['website']['home']}/contribute"
+        urls['license'] = f"{urls['website']['home']}/license"
+        urls['security_measures'] = f"{urls['website']['home']}/contribute/collaborate/maintain/security"
 
 
         urls['pypi'] = f"https://pypi.org/project/{self.metadata['package']['name']}/"

@@ -1,18 +1,19 @@
 
 name: TemplateRepo  # Set to null to use the repository name
 
-tagline: Effortlessly Create, Document, Test, Deploy, and Maintain Python Projects
+tagline: "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
 
 description: >-
-  PyPackIT is an open-source software for creating other open-source software,
-  specifically Python packages. It streamlines all the tedious and time-consuming
-  "administrative" jobs of the software development process, so you can only focus
-  on what truly matters: implementing your ideas!
-  
-  With a single command, PyPackIT creates a professional and robust infrastructure.
+  PyPackIT is a free and open-source toolkit 
+  **empowering the development of open-source Python projects on GitHub**.
+  It is a **dynamic repository template** that provides a complete, professional, and 
+  robust infrastructure for your project, where the only thing missing is your code.
+  With PyPackIT, you can solely focus on what truly matters: 
+  implementing your ideas and bringing your vision to life! 
 
 keywords:
   - python
+  - github
   - packaging
   - template
   - dynamic repository
@@ -31,7 +32,7 @@ trove_classifiers:
   - "Natural Language :: English"
 
 license:
-  id: MIT
+  id: GNU_AGPL_v3+
 
 start_year: 2023
 

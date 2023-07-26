@@ -3,11 +3,11 @@
 ## Issues
 
 ### Templates and Configuration
-The contents of the repository's [Issues]() tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+The contents of the repository's [Issues]({{meta.url.github.issues.home}}) tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
 and a [configuration file](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser) 
-under the [.github/ISSUE_TEMPLATE]() directory.
+under the [.github/ISSUE_TEMPLATE]({{meta.url.github.tree}}/.github) directory.
 #### Configuration File
-The configuration file at [./github/ISSUE_TEMPLATE/config.yml]() controls some aspects of the template chooser 
+The configuration file at [./github/ISSUE_TEMPLATE/config.yml]({{meta.url.github.tree}}/.github/ISSUE_TEMPLATE/config.yml) controls some aspects of the template chooser 
 (i.e. the landing page of the repository's 'Issues' section), with following options:
 - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.
 - `contact_links`: An array of dictionaries, defining additional external links for opening issues.

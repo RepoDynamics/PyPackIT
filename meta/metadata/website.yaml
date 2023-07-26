@@ -1,31 +1,21 @@
 
+custom_base_url: null
 
 rtd_name: templaterepo
 
 is_gh_user_site: false
 
 navbar_icons:
-
-  - id: repo
-
-  - id: issues
-
-  - id: pull_requests
-
-  - id: discussions
-
-  - id: email
-
-  - id: license
-
   - id: pypi
-
+  - id: repo
+  - id: issues
+  - id: pull_requests
+  - id: discussions
+  - id: email
+  - id: license
   - id: twitter
-
   - id: linkedin
-
   - id: researchgate
-
   - id: orcid
 
 disqus_shortname: pypackit

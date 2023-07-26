@@ -8,14 +8,14 @@ on:
 
 jobs:
 
-  load-metadata:
+  metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_get-metadata.yaml
+    uses: ./.github/workflows/repo_meta_get.yaml
 
 
   check-expiration:
     name: 'Check expiration date'
-    needs: load-metadata
+    needs: metadata
     outputs:
       expired: ${{ steps.expiration-check.outputs.expired }}
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
       - name: 'Check expiration date'
         id: expiration-check
         run: |
-          filepath=${{ fromJSON(needs.load-metadata.outputs.json).path.docs.website.announcement }}
+          filepath=${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}
           current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
           

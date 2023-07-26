@@ -10,8 +10,8 @@ dev/index
 maintain/index
 :::
 
-You can {{name}} can use your help in many different ways; a few examples of 
-how {{name}} can appreciate from your experience, support, knowledge and expertise are:
+You can {{meta.project.name}} can use your help in many different ways; a few examples of 
+how {{meta.project.name}} can appreciate from your experience, support, knowledge and expertise are:
 
 So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
 
@@ -53,19 +53,18 @@ If you are interested in becoming an active member or a maintainer of the projec
 we strongly advise you to read all sections chronologically. Otherwise,
 you can read the general notes and then
 head down to the section addressing the type of contribution you want to make
-(see left sidebar), for example [reporting a problem](./report-problem.md) or
-[contributing code](collaborate/dev-guide/index.md).
+(see left sidebar), for example reporting a problem or contributing code.
 
 
 ## License and Copyright
-{{name}} is licensed under the {{env.config.rd_meta.project.license.fullname}}.
+{{meta.project.name}} is licensed under the {{meta.project.license.fullname}}.
 In essence, this means that any contribution you make, such as code, media, and documents,
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution, 
 or that the material you are contributing is under a license that allows this.
 If you have any doubts or concerns, please feel free to [contact us](../../help/contact/index.md).
 
-:::{button-ref} ../../license
+:::{button-ref} /about/license
 :color: danger
 :expand:
 
@@ -134,7 +133,7 @@ or the result of not following the instructions.
 
 Additionally, 
 
-1. [Create a new virtual environment]() on your machine. This provides an isolated environment to
+1. Create a new virtual environment on your machine. This provides an isolated environment to
 ensure that the bug is indeed caused by our application.
 2. [Download and install] the latest development version directly from our repository into the new environment.
 3. 
@@ -231,7 +230,7 @@ Push the branch to the repo (either the main or your fork) with `git push -u ori
 ### Create a Pull Request
 
 When you are ready for others to examine and comment on your new feature,
-  navigate to your fork of {{env.config.rd_meta.project.repo.name}} on GitHub and open a [pull
+  navigate to your fork of {{meta.project.repo.name}} on GitHub and open a [pull
   request](https://help.github.com/articles/using-pull-requests/) (PR). 
 
 There are many ways to [create pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
@@ -260,7 +259,7 @@ Otherwise, [use a keyword](https://docs.github.com/en/issues/tracking-your-work-
 in your pull request (e.g. Resolves #11).
 
 When you're ready to be considered for merging, check the "Ready to go"
-box on the PR page to let the {{env.config.rd_meta.project.repo.name}} devs know that the changes are complete.
+box on the PR page to let the {{meta.project.repo.name}} devs know that the changes are complete.
 The code will not be merged until this box is checked, the continuous
 integration returns checkmarks,
 and multiple core developers give "Approved" reviews.
