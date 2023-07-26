@@ -22,7 +22,11 @@ jobs:
           fetch-depth: 2
 
       - name: Get all test, doc and src files that have changed
-        id: changed
+        id: all
+        uses: tj-actions/changed-files@v37
+
+      - name: Get all test, doc and src files that have changed
+        id: groups
         uses: tj-actions/changed-files@v37
         with:
           files_yaml: |
@@ -61,11 +65,11 @@ jobs:
       - name: 'Create summary'
         run: |
           echo "#### 🏁 Results" >> $GITHUB_STEP_SUMMARY
-          echo "- **Docs**: ${{ (steps.changed.outputs.docs_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Meta**: ${{ (steps.changed.outputs.meta_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Workflows**: ${{ (steps.changed.outputs.workflows_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Package**: ${{ (steps.changed.outputs.package_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Docs**: ${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Meta**: ${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Workflows**: ${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: ${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
           echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
-          for file in ${{ steps.changed.outputs.all.all_changed_and_modified_files }}; do
+          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
             echo "- `$file`" >> $GITHUB_STEP_SUMMARY
           done
