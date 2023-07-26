@@ -33,12 +33,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: echo "${{ needs.metadata.outputs.json }}"
+      - run: echo '${{ needs.metadata.outputs.json }}'
 
       - name: 'Check expiration date'
         id: expiration-check
         run: |
-          echo "${{ needs.metadata.outputs.json }}"
           filepath="${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}"
           current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
