@@ -31,9 +31,6 @@ jobs:
         with:
           files_yaml: |
             
-            all:
-              - '**'
-            
             docs:
               - 'docs/website/source/**'
               - 'src/**/*.py'
@@ -54,21 +51,21 @@ jobs:
 
       - name: Verify the contents of the .github/outputs/added_files.json file
         run: |
-          echo "${{ steps.changed.outputs.all_changed_and_modified_files }}"
-          echo "${{ steps.changed.outputs.docs_any_changed }}"
-          echo "${{ steps.changed.outputs.package_any_changed }}"
-          echo "${{ steps.changed.outputs.all_any_changed }}"
-          echo "${{ steps.changed.outputs.all.all_changed_and_modified_files }}"
-          echo "${{ steps.changed.outputs.workflows.all_changed_and_modified_files }}"
+          echo "${{ steps.all.outputs.all_changed_and_modified_files }}"
+          echo "${{ steps.groups.outputs.docs_any_changed }}"
+          echo "${{ steps.groups.outputs.package_any_changed }}"
+          echo "${{ steps.groups.outputs.workflows_any_changed }}"
+          
 
 
       - name: 'Create summary'
         run: |
           echo "#### 🏁 Results" >> $GITHUB_STEP_SUMMARY
-          echo "- **Docs**: ${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Meta**: ${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Workflows**: ${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Package**: ${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Docs**: ${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Workflows**: ${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Meta**: ${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          
           echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
           for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
             echo "- `$file`" >> $GITHUB_STEP_SUMMARY
