@@ -35,10 +35,16 @@ jobs:
 
       # To make PDF output, we need the latexmk package and some other plugins, which are not available via conda.
       - name: 'Install extra requirements'
-        run: |
+        run: >-
           sudo apt-get update -y
-          sudo apt-get install -y latexmk
-          sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra tex-gyre
+          
+          sudo apt-get install -y 
+            latexmk 
+            texlive-xetex 
+            texlive-latex-recommended 
+            texlive-fonts-recommended 
+            texlive-latex-extra 
+            tex-gyre
 
       - name: 'Install repodynamics'
         run: python -m pip install dev/repodynamics
