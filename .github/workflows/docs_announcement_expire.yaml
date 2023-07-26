@@ -37,6 +37,12 @@ jobs:
           filepath='${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
           current_announcement=$(<$filepath)
           echo "Current announcement: $current_announcement"
+          
+          if [ "$current_announcement" = "" ]; then
+              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+              echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
+              echo "expired=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: 'Check expiration date'
         id: expiration-check
