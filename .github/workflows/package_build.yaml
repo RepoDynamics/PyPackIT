@@ -6,12 +6,6 @@ run-name: 'Package: Build from ${{github.ref}}'
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      json-filepath:
-        description: "Path to the project's main JSON metadata file."
-        default: './metadata/main.json'
-        required: false
-        type: string
     outputs:
       artifact-name:
         description: 'Name of the uploaded artifact containing the distribution archive.'
@@ -31,7 +25,7 @@ jobs:
 
   metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_get-metadata.yaml
+    uses: ./.github/workflows/repo_meta_get.yaml
     with:
       branch: ${{ github.base_ref }}
 
@@ -45,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: 'Checkout repository'
+      - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -70,7 +64,6 @@ jobs:
             print(f'artifact-name={fullname}', file=fh)
             print(f'package-name={name}', file=fh)
             print(f'package-version={ver}', file=fh)
-          
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
@@ -86,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: 'Checkout repository'
+      - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -114,16 +107,11 @@ jobs:
         build: ${{ fromJson(needs.metadata.outputs.json).package.build_matrix }}
         python-version: ${{ fromJson(needs.metadata.outputs.json).package.python_versions_cibuild }}
     steps:
-      - name: 'Checkout repository'
+
+      - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: 'Print system info'
-        run: |
-          uname -a
-          df -h
-          ulimit -a
 
       - name: 'Build wheel on ${{ matrix.os }}'
         # https://cibuildwheel.readthedocs.io/en/stable/
