@@ -24,11 +24,6 @@ jobs:
       - name: Get all test, doc and src files that have changed
         id: changed
         uses: tj-actions/changed-files@v37
-        with:
-          json: "true"
-          write_output_files: true
 
       - name: Verify the contents of the .github/outputs/added_files.json file
-        run: |
-          find .github/outputs
-          cat .github/outputs/added_files.json
+        run: echo "${{ steps.changed.outputs.all_changed_and_modified_files }}"
