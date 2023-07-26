@@ -5,19 +5,19 @@ on:
   workflow_call:
     outputs:
       package:
-        value: ${{ jobs.changed.outputs.package_any_modified }}
+        value: ${{ jobs.changes.outputs.package }}
       docs:
-        value: ${{ jobs.changed.outputs.docs_any_modified }}
+        value: ${{ jobs.changes.outputs.docs }}
       workflows:
-        value: ${{ jobs.changed.outputs.workflows_any_modified }}
+        value: ${{ jobs.changes.outputs.workflows }}
       repodynamics:
-        value: ${{ jobs.changed.outputs.repodynamics_any_modified }}
+        value: ${{ jobs.changes.outputs.repodynamics }}
       meta:
-        value: ${{ jobs.changed.outputs.meta_any_modified }}
+        value: ${{ jobs.changes.outputs.meta }}
 
 jobs:
 
-  changed:
+  changes:
     name: 'Get changed files'
     outputs:
       package: ${{ steps.groups.outputs.package_any_modified }}
