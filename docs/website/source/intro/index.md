@@ -21,11 +21,6 @@ from web development to data science and machine learning.
 
 
 
-
-
-
-
-   
   and is equipped with various tools to automate a remarkable portion of the software development process  
   
   Simply create a new repository from the PyPackIT template, add your project's information, and start coding; 
