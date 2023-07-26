@@ -60,13 +60,13 @@ jobs:
 
       - name: 'Create summary'
         run: |
-          echo "#### 🏁 Results" >> $GITHUB_STEP_SUMMARY
-          echo "- **Package**: ${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Docs**: ${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Workflows**: ${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Meta**: ${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "#### 🏁 Changed Groups" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
           
-          echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
+          echo "#### 📝 Changed Files" >> $GITHUB_STEP_SUMMARY
           for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
             echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
           done
