@@ -69,7 +69,14 @@ jobs:
       - name: 'Create job summary'
         if: always()
         run: |
-          echo "Following announcement was published ${{ (github.event_name == 'workflow_dispatch' && format('{0}{1}', 'manually by @', github.actor)) || format('{0} {1}', 'automatically by', inputs.trigger) }}:" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
-          echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+          cause=${{ (github.event_name == 'workflow_dispatch' && format('{0}{1}', 'manually by @', github.actor)) || 'automatically' }}
+          if [ "{{ inputs.announcement }}" = "" ]; then
+              echo "The announcement was removed $cause due to following trigger:" >> $GITHUB_STEP_SUMMARY
+              echo "> ${{ inputs.trigger }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Following announcement was published $cause (trigger: ${{ inputs.trigger }}):" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+            echo "${{ inputs.announcement }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
