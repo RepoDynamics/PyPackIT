@@ -38,9 +38,18 @@ jobs:
               - 'pyproject.toml'
               - 'setup.py'
             
-            
 
       - name: Verify the contents of the .github/outputs/added_files.json file
         run: |
+          echo "${{ steps.changed.outputs.all_changed_and_modified_files }}"
           echo "${{ steps.changed.outputs.docs_any_changed }}"
           echo "${{ steps.changed.outputs.package_any_changed }}"
+
+      - name: 'Create summary'
+        run: |
+          echo "#### 🏁 Results" >> $GITHUB_STEP_SUMMARY
+          
+          echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
+          for file in ${{ steps.changed.outputs.all_changed_and_modified_files }}; do
+            echo "- `$file`" >> $GITHUB_STEP_SUMMARY
+          done
