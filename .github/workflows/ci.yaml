@@ -48,8 +48,8 @@ jobs:
       - name: 'Create summary'
         run: |
           echo "#### 🏁 Results" >> $GITHUB_STEP_SUMMARY
-          echo '- **Docs**: ${{ (steps.changed.outputs.docs_any_changed == 'true' && "✅") || "❌" }}' >> $GITHUB_STEP_SUMMARY
-          echo '- **Package**: ${{ (steps.changed.outputs.package_any_changed == 'true' && "✅") || "❌" }}' >> $GITHUB_STEP_SUMMARY
+          echo "- **Docs**: ${{ (steps.changed.outputs.docs_any_changed == 'true' && "✅") || "❌" }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: ${{ (steps.changed.outputs.package_any_changed == 'true' && "✅") || "❌" }}" >> $GITHUB_STEP_SUMMARY
           echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
           for file in ${{ steps.changed.outputs.all_changed_and_modified_files }}; do
             echo "- `$file`" >> $GITHUB_STEP_SUMMARY
