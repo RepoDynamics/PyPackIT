@@ -47,7 +47,8 @@ jobs:
           texlive-luatex
           texlive-latex-recommended 
           texlive-latex-extra 
-          texlive-fonts-recommended 
+          texlive-fonts-recommended
+          fonts-font-awesome
           texlive-fonts-extra 
           fonts-freefont-otf
           tex-gyre

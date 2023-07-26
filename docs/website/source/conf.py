@@ -591,7 +591,7 @@ latex_elements: Dict[str, str] = {
     'preamble': r'''
 \usepackage[titles]{tocloft}
 \usepackage{fontspec}
-\usepackage{fontawesome}
+\usepackage{fontawesome5}
 \cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
 \setlength{\cftchapnumwidth}{0.75cm}
 \setlength{\cftsecindent}{\cftchapnumwidth}
