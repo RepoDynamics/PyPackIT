@@ -78,7 +78,7 @@ jobs:
       needs.test-local.result == 'success' &&
       github.event_name == 'push' && 
       github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/publish_pypi.yaml
+    uses: ./.github/workflows/package_release_pypi.yaml
     permissions:
       id-token: write
     with:
@@ -123,7 +123,7 @@ jobs:
       needs.lint.result == 'success' &&
       needs.test-testpypi.result == 'success' &&
       github.event_name == 'release'
-    uses: ./.github/workflows/publish_pypi.yaml
+    uses: ./.github/workflows/package_release_pypi.yaml
     permissions:
       id-token: write
     with:
