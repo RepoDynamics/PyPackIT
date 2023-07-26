@@ -68,5 +68,5 @@ jobs:
           
           echo "#### 📝 Changed files" >> $GITHUB_STEP_SUMMARY
           for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
-            echo "- `$file`" >> $GITHUB_STEP_SUMMARY
+            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
           done
