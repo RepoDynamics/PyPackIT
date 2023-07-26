@@ -82,7 +82,7 @@ jobs:
     name: 'Remove announcement'
     needs: check-expiration
     if: needs.check-expiration.outputs.expired == 'true'
-    uses: ./.github/workflows/cd_announcement.yaml
+    uses: ./.github/workflows/docs_announcement_update.yaml
     permissions:
       contents: write
     with:
