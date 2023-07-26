@@ -50,8 +50,6 @@ make the development and maintenance of your project a pleasant breeze!
 
 
 
-
-
 As the demands for innovative and efficient Python packages grow, 
 the development process becomes increasingly complex and time-consuming. 
 
