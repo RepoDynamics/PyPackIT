@@ -560,7 +560,7 @@ References
 * https://www.sphinx-doc.org/en/master/latex.html
 """
 
-latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'xelatex'
+latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'lualatex'
 
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (

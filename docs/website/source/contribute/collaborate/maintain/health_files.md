@@ -38,3 +38,4 @@ To be recognized by GitHub, it must be stored in a file named
 `SUPPORT` (with or without an extension; 
 files are rendered in rich text format if the file extension is in a supported format, e.g. `.md`).
 The SUPPORT.md file in this directory contains ...
+
