@@ -1,7 +1,7 @@
 # Build the documentation with Sphinx and upload the builds as artifacts.
 
-name: 'Docs: Build'
-run-name: 'Docs: Build from ${{github.ref}}'
+name: '2. Docs: Build'
+run-name: 'Docs: build from ${{github.ref}}'
 
 on:
   workflow_call:
@@ -11,20 +11,19 @@ defaults:
   run:
     shell: micromamba-shell {0}
 
-
 jobs:
 
   build:
     name: 'Build'
     runs-on: ubuntu-latest
-
     steps:
-      - name: 'Checkout repository'
+
+      - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: 'Setup environment'
+      - name: 'Setup conda environment'
         # https://github.com/mamba-org/setup-micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
