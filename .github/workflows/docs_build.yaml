@@ -84,25 +84,25 @@ jobs:
           make clean
           make dirhtml
 
-      - name: 'Build LaTeX'
-        if: always()
-        run: |
-          cd docs/website
-          make latexpdf
-
 #      - name: 'Build LaTeX'
 #        if: always()
-#        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
 #        run: |
 #          cd docs/website
-#          make latex
-#
-#      - name: 'Build PDF'
-#        if: always()
-#        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
-#        run : |
-#          cd docs/website/_build/latex
-#          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
+#          make latexpdf
+
+      - name: 'Build LaTeX'
+        if: always()
+        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
+        run: |
+          cd docs/website
+          make latex
+
+      - name: 'Build PDF'
+        if: always()
+        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
+        run : |
+          cd docs/website/_build/latex
+          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
 
       - name: 'Display builds'
         if: always()
