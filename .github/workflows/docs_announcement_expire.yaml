@@ -33,7 +33,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: echo '${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
+      - run: |
+          filepath='${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
+          echo $filepath
 
       - name: 'Check expiration date'
         id: expiration-check
