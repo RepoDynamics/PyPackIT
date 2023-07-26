@@ -43,6 +43,7 @@ jobs:
           texlive-xetex 
           texlive-latex-recommended 
           texlive-fonts-recommended 
+          texlive-fonts-extra 
           texlive-latex-extra 
           tex-gyre
 
