@@ -28,7 +28,7 @@ jobs:
       - run: | 
           echo ${{needs.changes.outputs.package}}
           echo ${{needs.changes.outputs.docs}}
-          echo TESTING ${{needs.changes.outputs.workflows} == 'true'}
+          echo TESTING ${{needs.changes.outputs.workflows == 'true'}
           echo ${{needs.changes.outputs.workflows}}
           echo ${{needs.changes.outputs.repodynamics}}
           echo ${{needs.changes.outputs.meta}}
