@@ -557,6 +557,7 @@ See reference for a full list.
 References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
+* https://www.sphinx-doc.org/en/master/latex.html
 """
 
 latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'xelatex'
@@ -589,6 +590,8 @@ latex_elements: Dict[str, str] = {
 ''',
     'preamble': r'''
 \usepackage[titles]{tocloft}
+\usepackage{fontspec}
+\usepackage{fontawesome}
 \cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
 \setlength{\cftchapnumwidth}{0.75cm}
 \setlength{\cftsecindent}{\cftchapnumwidth}
