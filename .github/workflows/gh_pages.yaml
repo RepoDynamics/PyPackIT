@@ -18,8 +18,7 @@ jobs:
     name: 'Deploy docs to GitHub Pages'
     needs: build-docs
     if: |
-      always() && 
-      needs.build-docs.result == 'success'
+      always()
     uses: ./.github/workflows/docs_deploy.yaml
     permissions:
       contents: read
