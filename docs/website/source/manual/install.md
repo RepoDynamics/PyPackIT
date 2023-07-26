@@ -30,7 +30,7 @@ that appears in its upper right corner.
 
 :::{admonition} Need more help?
 :class: note
-Please refer to the [Introduction](../intro/background/python_pkgs.md) 
+Please refer to the Introduction(../intro/background/python_pkgs.md) 
 section for an overview of Python packages and how to install them.
 :::
 

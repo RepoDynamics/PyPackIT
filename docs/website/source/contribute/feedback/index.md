@@ -18,7 +18,7 @@ and help us improve and tailor {{meta.project.name}} towards the needs of its us
 ## Report a Problem
 :::{admonition} Report a Security Vulnerability
 :class: danger
-To report a security vulnerability, please follow the instructions in our [Security Policy]()
+To report a security vulnerability, please follow the instructions in our Security Policy
 :::
 
 

@@ -14,7 +14,7 @@ Security advisories are accessible on our website and repository, as well as via
 :::{admonition} {{meta.project.name}} Security Measures 🛡
 :class: seealso
 Learn more about our security measures and procedures to handle vulnerability issues on our
-[maintenance guide](../collaborate/maintenance/index).
+maintenance guide(../collaborate/maintenance/index).
 :::
 
 ## Vulnerability Disclosure Policy
@@ -45,13 +45,13 @@ of our repository to securely discuss, fix and publish information about securit
 in {{meta.project.name}}. 
 To privately report a security vulnerability, 
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability) 
-or [**click here to directly open a private report form**]({url_security_report}).
+or {{ '[**click here to directly open a private report form**]({})'.format(meta.url.github.security.new_advisory) }}.
 
 Other ways to open a security advisory:
 
-On the [Issues]() tab
+On the {{ '[Issues]({})'.format(meta.url.github.issues.home) }} tab
 
-On the [Security]() tab
+On the {{ '[Security]({})'.format(meta.url.github.security.home) }} tab
 
 
 :::::{admonition} {{meta.project.name}} Security Measures 🛡
@@ -59,7 +59,7 @@ On the [Security]() tab
 ergergg
 ::::{dropdown} Email Body
 
-:::{code-block}
+:::{code-block}default
 
 ---Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.--- 
 

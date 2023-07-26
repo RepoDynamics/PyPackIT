@@ -1,5 +1,12 @@
 # Python
 
+## Python Packages
+
+### Mamba
+[documentation](https://mamba.readthedocs.io/en/latest/installation.html#mamba>)
+
+
+
 ## Python Enhancement Proposals (PEPs)
 
 [Python Enhancement Proposals (PEPs)](https://peps.python.org/) are documents that describe and discuss 

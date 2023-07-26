@@ -15,7 +15,7 @@ Maintainers, especially the vulnerability management team, must make sure that t
 
 :::{admonition} Our Policy 
 :class: important
-{{meta.project.name}} has a clear [response policy]() and [disclosure policy]();
+{{meta.project.name}} has a clear response policy and disclosure policy;
 when a report has been submitted by a third party, the vulnerability management team must
 acknowledge receiving the report within one week, 
 and maintain a transparent and open dialogue with the reporter, until the issue is resolved.

@@ -21,7 +21,7 @@ through the help of great members like you.
 We follow the [*All Contributors*](https://allcontributors.org/docs/en/specification) specifications; 
 all types of contributions are encouraged and valued, and 
 all contributors are acknowledged on our [public website](/about/credits.md#contributors) 
-and [repository]({{meta.url.github.releases}}).
+and {{ '[repository]({})'.format(meta.url.github.releases.home) }}.
 :::
 
 There are many different ways {{meta.project.name}} can benefit from your experience, 
