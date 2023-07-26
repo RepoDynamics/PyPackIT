@@ -7,7 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       announcement:
-        description: "Announcement message; to remove announcement, leave this field empty."
+        description: |
+          Announcement message; supports HTML syntax (don't forget to escape with \). 
+          To remove announcement, leave this field empty.
         type: string
         default: ""
       trigger:
