@@ -559,7 +559,7 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
 """
 
-latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'pdflatex'
+latex_engine: Literal['pdflatex', 'xelatex', 'lualatex', 'platex', 'uplatex'] = 'xelatex'
 
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
