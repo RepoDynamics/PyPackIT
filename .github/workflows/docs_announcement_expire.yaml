@@ -33,30 +33,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: |
-          filepath='${{ fromJSON(needs.metadata.outputs.json).path.docs.website.announcement }}'
-          current_announcement=$(<$filepath)
-          echo "Current announcement: $current_announcement"
-          
-          if [ "$current_announcement" = "" ]; then
-              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
-              echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
-              echo "expired=false" >> $GITHUB_OUTPUT
-          else
-              echo "### 📣 Current Announcement" >> $GITHUB_STEP_SUMMARY
-              echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
-              echo "$current_announcement" >> $GITHUB_STEP_SUMMARY
-              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-              echo "#### ℹ️ Commit Details" >> $GITHUB_STEP_SUMMARY
-              echo "$(git log -1 $filepath)" >> $GITHUB_STEP_SUMMARY
-              
-              last_commit_epoch_time=$(git log -1 --format=%cd --date=unix $filepath)
-              current_epoch_time=$(date -u +%s)
-              elapsed_seconds=$(($current_epoch_time - $last_commit_epoch_time))
-              retention_days=${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_days }}
-              retention_seconds=$((retention_days * 24 * 60 * 60))
-          fi
-
       - name: 'Check expiration date'
         id: expiration-check
         run: |
