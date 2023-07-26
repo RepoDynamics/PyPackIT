@@ -6,7 +6,6 @@ on:
     inputs:
       announcement:
         description: "Announcement message"
-        required: true
         type: string
         default: ""
       trigger:
@@ -17,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       announcement:
-        description: "Announcement message"
+        description: "Announcement message; to remove announcement, leave this field empty."
         required: true
         type: string
         default: ""
