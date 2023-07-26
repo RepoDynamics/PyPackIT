@@ -78,6 +78,12 @@ jobs:
           make dirhtml
           make latexpdf
 
+      - name: 'Build LaTeX'
+        if: always()
+        run: |
+          cd docs/website
+          make latexpdf
+
 #      - name: 'Build LaTeX'
 #        if: always()
 #        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
