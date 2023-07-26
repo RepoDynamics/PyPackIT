@@ -1,68 +1,160 @@
-name: CI
+# Continuous Integration pipeline
+
+name: CI/CD
+run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+
 on:
-  workflow_dispatch:
   push:
   pull_request:
 #  release:
 #    types: [published]
-#  schedule:
-#    # Weekly tests run on main by default:
-#    #   Scheduled workflows run on the latest commit on the default or base branch.
-#    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
-#    - cron: '0 0 * * *'
+  schedule:
+    # Weekly tests run on main by default:
+    #   Scheduled workflows run on the latest commit on the default or base branch.
+    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
+    - cron: '0 0 * * *'
+
 
 jobs:
 
-  changed_files:
-    runs-on: ubuntu-latest
+  changes:
     name: 'Get changed files'
+    uses: ./.github/workflows/repo_files_changed.yaml
+
+  lint:
+    name: 'Lint source code'
+    needs: changes
+    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    uses: ./.github/workflows/package_lint.yaml
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+
+  build-package:
+    name: 'Build distribution package'
+    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    uses: ./.github/workflows/package_build.yaml
+
+
+  test-local:
+    name: 'Install and test from ${{github.ref}}'
+    if: always() && needs.changes.outputs.package_any_changed == 'true'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "local"
+
+
+  build-docs:
+    name: 'Build documentation with Sphinx'
+    if: always() && needs.changes.outputs.docs_any_changed == 'true'
+    uses: ./.github/workflows/docs_build.yaml
+
+
+  deploy-docs:
+    name: 'Deploy docs to GitHub Pages'
+    needs: build-docs
+    if: |
+      always() && 
+      needs.build-docs.result == 'success' &&
+      github.event_name == 'push' && 
+      (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    uses: ./.github/workflows/docs_deploy.yaml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+
+  publish-testpypi:
+    name: 'Publish on TestPyPI'
+    needs: [build-package, test-local]
+    if: | 
+      always() && 
+      needs.build-package.result == 'success' &&
+      needs.test-local.result == 'success' &&
+      github.event_name == 'push' && 
+      github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/publish_pypi.yaml
+    permissions:
+      id-token: write
+    with:
+      package-name: ${{ needs.build-package.outputs.package-name }}
+      package-version: ${{ needs.build-package.outputs.package-version }}
+      artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      platform-name: 'testpypi'
+
+
+  wait-for-testpypi:
+    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+    name: 'Wait for TestPyPI'
+    needs: publish-testpypi
+    if: |
+      always() && 
+      needs.publish-testpypi.result == 'success'
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+      - name: 'Waiting ...'
+        run: sleep 300s
 
-      - name: Get all test, doc and src files that have changed
-        id: all
-        uses: tj-actions/changed-files@v37
 
-      - name: Get all test, doc and src files that have changed
-        id: groups
-        uses: tj-actions/changed-files@v37
-        with:
-          files_yaml: |
-            docs:
-              - 'docs/website/source/**'
-              - 'src/**/*.py'
-              - 'meta/metadata/*.yaml'
-            package:
-              - 'src/**'
-              - 'tests/**/*.py'
-              - 'pyproject.toml'
-              - 'setup.py'
-            meta:
-              - 'meta/**'
-            workflows:
-              - '.github/workflows/*.yaml'
-            repodynamics:
-              - 'dev/repodynamics/**'
+  test-testpypi:
+    name: 'Install and test from TestPyPI'
+    needs: [ build-package, wait-for-testpypi, publish-testpypi ]
+    if: |
+      always() &&
+      needs.publish-testpypi.result == 'success'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "testpypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
 
-      - name: Verify the contents of the .github/outputs/added_files.json file
-        run: |
-          echo "${{ steps.all.outputs.all_changed_and_modified_files }}"
-          echo "${{ steps.groups.outputs.docs_any_changed }}"
-          echo "${{ steps.groups.outputs.package_any_changed }}"
-          echo "${{ steps.groups.outputs.workflows_any_changed }}"
 
-      - name: 'Create summary'
-        run: |
-          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.package_any_changed == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.docs_any_changed == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.workflows_any_changed == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.repodynamics_any_changed == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.meta_any_changed == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
-          
-          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
-          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
-            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
-          done
+  publish-pypi:
+    name: 'Publish on PyPI'
+    needs: [lint, build-package, test-local, test-testpypi]
+    if: |
+      always() &&
+      needs.build-package.result == 'success' &&
+      needs.test-local.result == 'success' &&
+      needs.lint.result == 'success' &&
+      needs.test-testpypi.result == 'success' &&
+      github.event_name == 'release'
+    uses: ./.github/workflows/publish_pypi.yaml
+    permissions:
+      id-token: write
+    with:
+      package-name: ${{ needs.build-package.outputs.package-name }}
+      package-version: ${{ needs.build-package.outputs.package-version }}
+      artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      platform-name: 'pypi'
+
+
+  wait-for-pypi:
+    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+    name: 'Wait for PyPI'
+    needs: publish-pypi
+    if: |
+      always() && 
+      needs.publish-pypi.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Waiting ...'
+        run: sleep 300s
+
+
+  test-pypi:
+    name: 'Install and test from PyPI'
+    needs: [ build-package, wait-for-pypi, publish-pypi ]
+    if: |
+      always() &&
+      needs.publish-pypi.result == 'success'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "pypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
+
+
