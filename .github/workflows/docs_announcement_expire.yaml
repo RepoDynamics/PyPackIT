@@ -53,7 +53,7 @@ jobs:
               last_commit_epoch_time=$(git log -1 --format=%cd --date=unix $filepath)
               current_epoch_time=$(date -u +%s)
               elapsed_seconds=$(($current_epoch_time - $last_commit_epoch_time))
-              retention_days=${{ fromJSON(needs.load-metadata.outputs.json).website.announcement_retention_days }}
+              retention_days=${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_days }}
               retention_seconds=$((retention_days * 24 * 60 * 60))
           fi
 
@@ -79,7 +79,7 @@ jobs:
               last_commit_epoch_time=$(git log -1 --format=%cd --date=unix $filepath)
               current_epoch_time=$(date -u +%s)
               elapsed_seconds=$(($current_epoch_time - $last_commit_epoch_time))
-              retention_days=${{ fromJSON(needs.load-metadata.outputs.json).website.announcement_retention_days }}
+              retention_days=${{ fromJSON(needs.metadata.outputs.json).website.announcement_retention_days }}
               retention_seconds=$((retention_days * 24 * 60 * 60))
               
               echo "### ⏳️ Retention Period" >> $GITHUB_STEP_SUMMARY
