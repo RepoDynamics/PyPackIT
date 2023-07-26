@@ -1,4 +1,4 @@
-name: "Scheduled: Docs - Announcement Expiry Check"
+name: "Scheduled - Docs: Announcement Expiry Check"
 run-name: 'Docs: Check announcement expiry'
 
 on:

@@ -6,8 +6,8 @@
 # GitHub Pages for this repository, and will output the URL.
 
 
-name: 'Docs: Deploy GH Pages'
-run-name: 'Deploy website to GitHub Pages from ${{github.ref_name}}'
+name: 'Callable - Docs: Deploy GH Pages'
+run-name: 'Docs: deploy to GitHub Pages from ${{github.ref_name}}'
 
 on:
   workflow_call:
