@@ -1,14 +1,13 @@
 
 
-name: "Issues - Format"
-run-name: 'Issues: Format submitted issue'
+name: "Issues: Format Opened Issue"
+run-name: 'Issues: format opened issue'
 
 on:
   issues:
     types: [opened]
 
 jobs:
-
 
   format:
     runs-on: ubuntu-latest
