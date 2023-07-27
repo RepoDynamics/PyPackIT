@@ -11,10 +11,10 @@ jobs:
   build-docs:
     name: 'Build documentation with Sphinx'
     runs-on: ubuntu-latest
+    permissions:
+      all: write
     steps:
       - name: Create tag
-        permissions:
-          all: write
         uses: actions/github-script@v5
         with:
           script: |
