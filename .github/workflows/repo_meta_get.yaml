@@ -92,10 +92,10 @@ jobs:
       - name: test
         run: |
           echo ${{steps.cache.outputs.cache-hit}}
-          echo {{steps.cache.outputs.cache-hit != 'true'}}
-          echo {{steps.cache.outputs.cache-hit != 'false'}}
-          echo ${{steps.cache.outputs.cache-hit != true}}
-          echo ${{steps.cache.outputs.cache-hit != false}}
+          echo ${{steps.cache.outputs.cache-hit == 'true'}}
+          echo ${{steps.cache.outputs.cache-hit == 'false'}}
+          echo ${{steps.cache.outputs.cache-hit == true}}
+          echo ${{steps.cache.outputs.cache-hit == false}}
           echo "FORCE UPDATE"
           echo ${{inputs.force-update}}
           echo ${{inputs.force-update == 'true'}}
