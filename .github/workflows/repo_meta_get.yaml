@@ -89,6 +89,20 @@ jobs:
           # Ref. hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
           key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml') }}
 
+      - name: test
+        run: |
+          echo ${{steps.cache.outputs.cache-hit}}
+          echo {{steps.cache.outputs.cache-hit != 'true'}}
+          echo {{steps.cache.outputs.cache-hit != 'false'}}
+          echo ${{steps.cache.outputs.cache-hit != true}}
+          echo ${{steps.cache.outputs.cache-hit != false}}
+          echo "FORCE UPDATE"
+          echo ${{inputs.force-update}}
+          echo ${{inputs.force-update == 'true'}}
+          echo ${{inputs.force-update == 'false'}}
+          echo ${{inputs.force-update == true}}
+          echo ${{inputs.force-update == false}}
+
       - name: 'Setup Python'
         if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v4
