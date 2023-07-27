@@ -124,7 +124,7 @@ jobs:
         id: get-metadata
 #        shell: bash -el {0}
         env:
-          UPDATE_CACHE: ${{ inputs.force-update == 'all' && '--update-cache' || '' }}
+          UPDATE_CACHE: ${{ inputs.force-update == 'all' && '--update_cache' || '' }}
         run: >-
           get-metadata
           --cachefile metadata_cache.yaml
