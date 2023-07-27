@@ -15,12 +15,12 @@ from pypackit import versions
 
 class _MetadataCache:
 
-    def __init__(self, path_cache: str | Path, cache_expiration_days: int):
+    def __init__(self, path_cache: str | Path, cache_expiration_days: int, update: bool = False):
         self._exp_days = cache_expiration_days
         path = Path(path_cache)
         path.mkdir(parents=True, exist_ok=True)
         self.path_metadata_cache = path / 'metadata.yaml'
-        if not self.path_metadata_cache.exists():
+        if not self.path_metadata_cache.exists() or update:
             self.cache = dict()
         else:
             self.cache = YAML(typ='safe').load(self.path_metadata_cache)
@@ -115,6 +115,7 @@ class Metadata:
             path_root: Optional[str | Path] = None,
             path_pathfile: Optional[str | Path] = None,
             path_cache: Optional[str | Path] = None,
+            update_cache: bool = False,
     ):
         self.path_root = Path(path_root).resolve() if path_root else Path.cwd().resolve()
         if not path_pathfile:
@@ -151,7 +152,8 @@ class Metadata:
             self.metadata['config'][section] = dict(YAML(typ='safe').load(path))
         self._cache = _MetadataCache(
             path_cache=path_cache or self.metadata['path']['abs']['data']['cache'],
-            cache_expiration_days=self.metadata['config']['repodynamics']['cache_expiration_days']
+            cache_expiration_days=self.metadata['config']['repodynamics']['cache_expiration_days'],
+            update=update_cache
         )
         self.fill()
         return
@@ -485,8 +487,14 @@ def metadata(
     path_root: Optional[str | Path] = None,
     path_pathfile: Optional[str | Path] = None,
     path_cache: Optional[str | Path] = None,
+    update_cache: bool = False,
 ) -> dict:
-    return Metadata(path_root=path_root, path_pathfile=path_pathfile, path_cache=path_cache).metadata
+    return Metadata(
+        path_root=path_root,
+        path_pathfile=path_pathfile,
+        path_cache=path_cache,
+        update_cache=update_cache
+    ).metadata
 
 
 def __main__():
@@ -496,9 +504,10 @@ def __main__():
     parser.add_argument('--cachefile', type=str, help="Path for the cache metadata file.", required=False)
     parser.add_argument('--output', type=str, help="Path for the output metadata file.", required=False)
     parser.add_argument('--output_pretty', type=str, help="Path for the pretty formatted output metadata file.", required=False)
+    parser.add_argument('--update_cache', action=argparse.BooleanOptionalAction, help="Force update cache metadata file.", required=False)
     args = parser.parse_args()
     try:
-        meta = Metadata(path_root=args.root, path_pathfile=args.pathfile, path_cache=args.cachefile)
+        meta = Metadata(path_root=args.root, path_pathfile=args.pathfile, path_cache=args.cachefile, update_cache=args.update_cache)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)

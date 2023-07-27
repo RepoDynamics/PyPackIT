@@ -7,7 +7,12 @@ on:
   workflow_dispatch:
     inputs:
       force-update:
-        description: "Force update of the cached metadata."
+        description: "Ignore cached metadata and force update."
+        default: false
+        required: false
+        type: boolean
+      force-update-cache:
+        description: "Force update the cached API metadata."
         default: false
         required: false
         type: boolean
@@ -25,6 +30,11 @@ on:
     inputs:
       force-update:
         description: "Force update of the cached metadata."
+        default: false
+        required: false
+        type: boolean
+      force-update-cache:
+        description: "Force update the cached API metadata."
         default: false
         required: false
         type: boolean
@@ -113,6 +123,7 @@ jobs:
           --cachefile metadata_cache.yaml
           --output metadata.json
           --output_pretty metadata_pretty.json
+          ${{ inputs.force-update-cache && '--update-cache' || '' }}
 
 #        echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
 #        echo "json=$(python ${{inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
