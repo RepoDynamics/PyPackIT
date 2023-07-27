@@ -7,15 +7,19 @@ on:
   workflow_dispatch:
     inputs:
       force-update:
-        description: "Ignore cached metadata and force update."
-        default: false
+        description: >-
+          Whether to load entirely from cache (if no changes in metadata files are detected),
+          force update the core metadata (but not the cached API metadata),
+          or force update the core metadata and the cached API metadata.
+          Note that when a change is detected, the core metadata is always updated,
+          but non-expired cached API metadata is only updated when `all` is selected.
+        default: none
         required: false
-        type: boolean
-      force-update-cache:
-        description: "Force update the cached API metadata."
-        default: false
-        required: false
-        type: boolean
+        type: choice
+        options:
+          - none
+          - core
+          - all
       branch:
         description: "Branch to load metadata from"
         required: false
@@ -29,15 +33,16 @@ on:
   workflow_call:
     inputs:
       force-update:
-        description: "Force update of the cached metadata."
-        default: false
+        description: >-
+          One of `none`, `core` or `all`, deciding whether to load entirely 
+          from cache (if no changes in metadata files are detected),
+          force update the core metadata (but not the cached API metadata),
+          or force update the core metadata and the cached API metadata.
+          Note that when a change is detected, the core metadata is always updated,
+          but non-expired cached API metadata is only updated when `all` is selected.
+        default: none
         required: false
-        type: boolean
-      force-update-cache:
-        description: "Force update the cached API metadata."
-        default: false
-        required: false
-        type: boolean
+        type: string
       branch:
         description: "Branch to load metadata from"
         required: false
@@ -101,7 +106,7 @@ jobs:
           key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml', 'dev/repodynamics/src/pypackit/metadata.py') }}
 
       - name: 'Setup Python'
-        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v4
         with:
           python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
@@ -109,21 +114,23 @@ jobs:
           cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
 
       - name: 'Install RepoDynamics'
-        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -e ${{inputs.path-repodynamics}}
 
       - name: 'Get metadata'
-        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         id: get-metadata
 #        shell: bash -el {0}
+        env:
+          UPDATE_CACHE: ${{ inputs.force-update == 'all' && '--update-cache' || '' }}
         run: >-
           get-metadata
           --cachefile metadata_cache.yaml
           --output metadata.json
           --output_pretty metadata_pretty.json
-          ${{ inputs.force-update-cache && '--update-cache' || '' }}
+          $UPDATE_CACHE
 
 #        echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
 #        echo "json=$(python ${{inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
