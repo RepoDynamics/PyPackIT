@@ -77,6 +77,7 @@ jobs:
 
       - name: Cache metadata
         id: cache
+        # This returns a cache-hit output, which is either 'true' or 'false' (str, not bool).
         # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-the-cache-action
         # https://github.com/actions/cache
         uses: actions/cache@v3
@@ -89,22 +90,8 @@ jobs:
           # Ref. hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
           key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml') }}
 
-      - name: test
-        run: |
-          echo ${{steps.cache.outputs.cache-hit}}
-          echo ${{steps.cache.outputs.cache-hit == 'true'}}
-          echo ${{steps.cache.outputs.cache-hit == 'false'}}
-          echo ${{steps.cache.outputs.cache-hit == true}}
-          echo ${{steps.cache.outputs.cache-hit == false}}
-          echo "FORCE UPDATE"
-          echo ${{inputs.force-update}}
-          echo ${{inputs.force-update == 'true'}}
-          echo ${{inputs.force-update == 'false'}}
-          echo ${{inputs.force-update == true}}
-          echo ${{inputs.force-update == false}}
-
       - name: 'Setup Python'
-        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v4
         with:
           python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
@@ -112,13 +99,13 @@ jobs:
           cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
 
       - name: 'Install RepoDynamics'
-        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -e ${{inputs.path-repodynamics}}
 
       - name: 'Get metadata'
-        if: inputs.force-update == 'true' || steps.cache.outputs.cache-hit != 'true'
+        if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
         id: get-metadata
 #        shell: bash -el {0}
         run: >-
