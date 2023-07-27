@@ -100,7 +100,7 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: [metadata, build-sdist]
-    if: !fromJSON(needs.metadata.outputs.json).package.is_pure_python
+    if: ! fromJSON(needs.metadata.outputs.json).package.is_pure_python
     runs-on: ${{ matrix.build[0] }}
     strategy:
       fail-fast: false
