@@ -48,6 +48,10 @@ jobs:
       - name: 'Build sdist'
         run: |
           echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python}}
+          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == true}}
+          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == false}}
+          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == "true"}}
+          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == "false"}}
           echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'true'}}
           echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'false'}}
           pipx run build --version
