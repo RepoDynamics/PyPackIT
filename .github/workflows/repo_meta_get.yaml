@@ -88,7 +88,7 @@ jobs:
             metadata_cache.yaml
           # Cache is invalidated when the week changes, or when the metadata files change.
           # Ref. hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
-          key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml', 'dev/repodynamics/pypackit/metadata.py') }}
+          key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml', 'dev/repodynamics/src/pypackit/metadata.py') }}
 
       - name: 'Setup Python'
         if: inputs.force-update || steps.cache.outputs.cache-hit != 'true'
