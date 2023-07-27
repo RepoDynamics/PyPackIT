@@ -32,6 +32,7 @@ jobs:
 
   build-sdist:
     name: 'Generate source distribution'
+    needs: metadata
     outputs:
       package-name: ${{steps.get_name.outputs.package-name}}
       package-version: ${{steps.get_name.outputs.package-version}}
