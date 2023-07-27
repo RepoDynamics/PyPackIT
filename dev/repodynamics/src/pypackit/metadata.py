@@ -388,7 +388,7 @@ class Metadata:
                     build_matrix.append((github_runner, cibuild))
         self.metadata['package']['github_runners'] = github_os_matrix
         self.metadata['package']['build_matrix'] = build_matrix
-        is_pure_python = build_matrix
+        is_pure_python = False
         self.metadata['package']['is_pure_python'] = is_pure_python
         if is_pure_python:
             self.metadata['project']['trove_classifiers'].append(
