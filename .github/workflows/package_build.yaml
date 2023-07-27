@@ -47,12 +47,6 @@ jobs:
 
       - name: 'Build sdist'
         run: |
-          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python}}
-          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == true}}
-          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == false}}
-         
-          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'true'}}
-          echo ${{fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'false'}}
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
@@ -82,7 +76,7 @@ jobs:
   build_wheel:
     name: 'Generate built distribution (pure Python)'
     needs: [metadata, build-sdist]
-    if: always() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'true'
+    if: fromJSON(needs.metadata.outputs.json).package.is_pure_python
     runs-on: ubuntu-latest
     steps:
 
@@ -106,7 +100,7 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: [metadata, build-sdist]
-    if: always() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == 'false'
+    if: !fromJSON(needs.metadata.outputs.json).package.is_pure_python
     runs-on: ${{ matrix.build[0] }}
     strategy:
       fail-fast: false
