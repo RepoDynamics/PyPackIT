@@ -10,17 +10,20 @@ jobs:
 
   build-docs:
     name: 'Build documentation with Sphinx'
-    if: always()
-    uses: ./.github/workflows/docs_build.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/test-tag',
+              sha: context.sha
+            })
 
-
-  deploy-docs:
-    name: 'Deploy docs to GitHub Pages'
-    needs: build-docs
-    if: |
-      always()
-    uses: ./.github/workflows/docs_deploy.yaml
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+      - name: 'Checkout repository from ${{github.ref}}'
+        uses: actions/checkout@v3
+        with:
+          ref: 'refs/tags/test-tag'
