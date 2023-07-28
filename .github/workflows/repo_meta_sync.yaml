@@ -20,6 +20,7 @@ name: "Repo"
 run-name: 'Sync Metadata: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     paths:

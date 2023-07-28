@@ -14,9 +14,27 @@ from pathlib import Path
 import pypackit
 
 
+def rstjinja(app, docname, source):
+    """
+    Render our pages as a jinja template for fancy templating goodness.
+    """
+    # Ref: https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
+    # Make sure we're outputting HTML
+    # if app.builder.format != 'html':
+    #     return
+    try:
+        source[0] = app.builder.templates.render_string(source[0], app.config.html_context)
+    except Exception as e:
+        print(e)
+        print("*"*50)
+        print(docname)
+    return
+
+
 def setup(app):
     # register custom config values
     # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
+    app.connect("source-read", rstjinja)
     return
 
 
@@ -83,6 +101,8 @@ extensions: List[str] = [
     'sphinxcontrib.rsvgconverter',
     # For adding Open Graph meta tags to HTML output files:
     'sphinxext.opengraph',
+    # For adding citations
+    'sphinxcontrib.bibtex',
 ]
 """List of required Sphinx extensions"""
 
@@ -693,7 +713,7 @@ References
 # --- Extensions ----
 #  Ref: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
 myst_enable_extensions: List[str] = [
-    "substitution",
+    # "substitution",
     "smartquotes",
     "replacements",
     "dollarmath",
@@ -708,10 +728,11 @@ myst_enable_extensions: List[str] = [
 myst_heading_anchors: int = 6
 
 # myst_html_meta: dict[str, str] = {}
+myst_sub_delimiters = ["|", "|"]
 
 # ------ MyST Extensions Settings ------
 # Ref: https://myst-parser.readthedocs.io/en/latest/configuration.html#extensions
-myst_substitutions = {"meta": meta}
+# myst_substitutions = {"meta": meta}
 
 
 """
@@ -797,3 +818,18 @@ References
 * https://github.com/wpilibsuite/sphinxext-opengraph
 """
 # TODO: Fill me
+
+
+"""
+sphinxcontrib-bibtex
+
+Options for `sphinxcontrib-bibtex` extension.
+
+References
+----------
+* https://sphinxcontrib-bibtex.readthedocs.io/en/2.5.0/
+"""
+
+bibtex_bibfiles = ['refs.bib']
+bibtex_default_style = 'plain'
+bibtex_reference_style = 'super'

@@ -19,10 +19,12 @@ jobs:
 
       - name: 'Format the issue body'
         id: format
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "ISSUE_BODY<<$EOF" >> "$GITHUB_ENV"
-          echo "$(python meta/scripts/format_issue.py '${{ github.event.issue.body }}')" >> "$GITHUB_ENV"
+          echo "BODY<<$EOF" >> "$GITHUB_ENV"
+          echo "$(python meta/scripts/format_issue.py '$ISSUE_BODY')" >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
 
       - name: Update issue
@@ -31,7 +33,7 @@ jobs:
         with:
           actions: 'update-issue'
           issue-number: ${{ github.event.issue.number }}
-          body: ${{ env.ISSUE_BODY }}
+          body: ${{ env.BODY }}
           update-mode: 'replace'
 
       - name: Create comment

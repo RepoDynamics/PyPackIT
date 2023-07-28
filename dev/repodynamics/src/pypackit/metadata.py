@@ -3,6 +3,7 @@ import datetime
 import re
 import argparse
 import sys
+import unicodedata
 from pathlib import Path
 from typing import Optional, Literal
 
@@ -11,6 +12,96 @@ import trove_classifiers
 
 import pylinks
 from pypackit import versions
+
+
+class Publications:
+
+    def __init__(self, orcid_id: str):
+        self.orcid_id = orcid_id
+
+        dois = pylinks.api.orcid(orcid_id=orcid_id).doi
+        for doi in dois:
+            if doi in cached_publications['data']:
+                continue
+            publication = pylinks.api.doi(doi=doi)
+            cached_publications['data'][doi] = {
+                'dict': publication.citeproc_dict,
+                'bibtex': publication.bibtex,
+                'ris': publication.ris,
+            }
+
+        return
+
+    @staticmethod
+    def jats_to_html(string):
+        convert = {
+            r'<jats:sub>(.*?)</jats:sub>': r'<sub>\1</sub>',
+        }
+        norm = unicodedata.normalize('NFKC', string)
+        paragraph_match = re.search('<jats:p>(.*?)</jats:p>', norm)
+        paragraph = paragraph_match.group(1) if paragraph_match else norm
+        for pattern, repl in convert.items():
+            paragraph = re.sub(pattern, repl, paragraph)
+        return paragraph
+
+    @staticmethod
+    def get_date(data):
+        year = None
+        month = None
+        day = None
+        for choice in (
+                'pubished',
+                'published-online',
+                'published-print',
+                'published-other',
+                'issued',
+                'created',
+                'deposited',
+                'indexed',
+        ):
+            if year and month and day:
+                break
+            date = data.get(choice, dict()).get('date-parts', [None])[0]
+            if date:
+                year = year or date[0]
+                if not month:
+                    if len(date) == 2:
+                        month = date[1]
+                    if len(date) == 3:
+                        month = date[1]
+                        day = date[2]
+        return year, month or 1, day or 1
+
+    def f(self):
+
+        finals = []
+        for doi, pub_data in publications.items():
+            data = pub_data['dict']
+            journal = data['container-title'] or None
+            journal_abbr = (
+                data.get('container-title-short') or pylinks.request(
+                    f"https://abbreviso.toolforge.org/abbreviso/a/{journal}",
+                    response_type='str'
+                ).title()
+            ) if journal else None
+            date = get_date(data)
+            final = {
+                'doi': doi,
+                'url': f"https://doi.org/{doi}",
+                'type': data['type'],  # e.g. 'journal-article', 'posted-content'
+                'subtype': data.get('subtype'),  # e.g. 'preprint' for 'posted-content' type
+                'cite': {"BibTex": pub_data['bibtex'], "RIS": pub_data['ris']},  # bibtex citation string
+                'journal': journal,  # journal name
+                'journal_abbr': journal_abbr,  # journal abbreviation
+                'publisher': data.get('publisher'),  # publisher name
+                'title': data.get('title'),  # title of the publication
+                'pages': data.get('page'),  # page numbers
+                'volume': data.get('volume'),  # volume number
+                'issue': data.get('issue'),  # issue number
+                'year': date[0],
+                'date': datetime.date(*date).strftime("%e %B %Y").lstrip(),
+                'abstract': jats_to_html(data['abstract']) if data.get('abstract') else None,
+            }
 
 
 class _MetadataCache:
@@ -32,7 +123,7 @@ class _MetadataCache:
         if timestamp and not self._is_expired(timestamp):
             return cached_user['data']
         cached_user['data'] = self._user_info(username=username)
-        cached_user['timestamp'] = self.now
+        cached_user['timestamp'] = self._now
         with open(self.path_metadata_cache, 'w') as f:
             YAML(typ='safe').dump(self.cache, f)
         return cached_user['data']
@@ -45,10 +136,31 @@ class _MetadataCache:
         repo_info = pylinks.api.github.repo(username, repo_name).info
         repo_info.pop('owner')
         cached_repo['data'] = repo_info
-        cached_repo['timestamp'] = self.now
+        cached_repo['timestamp'] = self._now
         with open(self.path_metadata_cache, 'w') as f:
             YAML(typ='safe').dump(self.cache, f)
         return cached_repo['data']
+
+    def publications(self, orcid_id: str) -> dict[str, dict]:
+        """
+        Publications of an ORCID ID.
+
+        Returns
+        -------
+        A dictionary of publications, where the keys are DOIs and the values are dictionaries with
+        the following keys:
+        - `dict`: A dictionary of publication metadata in citeproc format.
+        - `bibtex`: A citation string in BibTeX format.
+        """
+        cached_publications = self.cache.setdefault('publications', dict())
+        timestamp = cached_publications.get('timestamp')
+        if timestamp and not self._is_expired(timestamp):
+            return cached_publications['data']
+        cached_publications['data'] = Publications(orcid_id=orcid_id).curated
+        cached_publications['timestamp'] = self._now
+        with open(self.path_metadata_cache, 'w') as f:
+            YAML(typ='safe').dump(self.cache, f)
+        return cached_publications['data']
 
     def python_versions(self):
         cached_version = self.cache.setdefault('python_versions', dict())
@@ -62,7 +174,7 @@ class _MetadataCache:
         )
         minors = sorted(set([v[:2] for v in vers if v[0] >= 3]))
         cached_version['data'] = minors
-        cached_version['timestamp'] = self.now
+        cached_version['timestamp'] = self._now
         with open(self.path_metadata_cache, 'w') as f:
             YAML(typ='safe').dump(self.cache, f)
         return cached_version['data']
@@ -96,7 +208,7 @@ class _MetadataCache:
         return info
 
     @property
-    def now(self) -> str:
+    def _now(self) -> str:
         return datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y.%m.%d-%H:%M:%S")
 
     def _is_expired(self, timestamp: str) -> bool:
@@ -105,7 +217,6 @@ class _MetadataCache:
             + datetime.timedelta(days=self._exp_days)
         )
         return exp_date <= datetime.datetime.now()
-
 
 
 class Metadata:
@@ -211,7 +322,7 @@ class Metadata:
                 for person in people:
                     entry = maintainers.setdefault(person, [0, 0, 0])
                     entry[idx] += 1
-        for codeowner_entry in self.metadata['maintainer']['pull_requests']:
+        for codeowner_entry in self.metadata['maintainer']['pulls']:
             for person in codeowner_entry['reviewers']:
                 entry = maintainers.setdefault(person, [0, 0, 0])
                 entry[2] += 1
@@ -470,6 +581,13 @@ class Metadata:
 
         urls['pypi'] = f"https://pypi.org/project/{self.metadata['package']['name']}/"
         self.metadata['url'] = urls
+        return
+
+    def add_owner_publications(self):
+        orcid_id = self.metadata['project']['owner']['external_urls'].get('orcid')
+        if not orcid_id:
+            return
+        self.metadata['project']['owner']['publications'] = self._cache.publications(orcid_id=orcid_id)
         return
 
     def _get_absolute_paths(self):

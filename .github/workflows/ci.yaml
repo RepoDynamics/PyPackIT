@@ -21,11 +21,15 @@ jobs:
     name: 'Get changed files'
     uses: ./.github/workflows/repo_files_changed.yaml
 
+  metadata:
+    name: 'Load repository metadata'
+
+
 
   lint:
     name: 'Lint source code'
     needs: changes
-    if: always() && needs.changes.outputs.package == 'true'
+    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
     uses: ./.github/workflows/package_lint.yaml
     permissions:
       # required for all workflows
@@ -38,14 +42,14 @@ jobs:
   build-package:
     name: 'Build distribution package'
     needs: changes
-    if: always() && needs.changes.outputs.package == 'true'
+    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
     uses: ./.github/workflows/package_build.yaml
 
 
   test-local:
     name: 'Install and test from ${{github.ref}}'
     needs: changes
-    if: always() && needs.changes.outputs.package == 'true'
+    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
     uses: ./.github/workflows/package_test.yaml
     with:
       install-source: "local"
@@ -54,7 +58,7 @@ jobs:
   build-docs:
     name: 'Build documentation with Sphinx'
     needs: changes
-    if: always() && needs.changes.outputs.docs == 'true'
+    if: always() && (needs.changes.outputs.docs == 'true' || github.event_name == 'schedule')
     uses: ./.github/workflows/docs_build.yaml
 
 

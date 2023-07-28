@@ -38,13 +38,13 @@ the shorter segment is padded out with additional zeros as necessary.
 to track and communicate changes to its public API, i.e. the part of the application that
 users interact with.
 
-Any change to {{meta.project.name}} public API is categorized into one of three groups, 
+Any change to {{pp_meta.project.name}} public API is categorized into one of three groups, 
 according to SemVer:
 * **Patch**: Backward-compatible changes that only fix a problem or improve a feature.
 * **Minor**: Backward-compatible changes that add new features or deprecate existing features.
 * **Major**: Backward-incompatible changes, i.e. removal of deprecated features, or breaking changes to a feature.
 
-On the other hand, each release of {{meta.project.name}} is identified with a unique version number, 
+On the other hand, each release of {{pp_meta.project.name}} is identified with a unique version number, 
 consisting of three non-negative integers X, Y, and Z, formatted as `X.Y.Z` (e.g. `1.0.2`).
 These correspond to the three groups described above, 
 and are called major-, minor-, and patch version, respectively (details coming up). 

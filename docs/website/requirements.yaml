@@ -15,12 +15,13 @@ dependencies:
   # Documentation
   - sphinx >= 6.2.1
   - pydata-sphinx-theme >= 0.13.3
-  - myst-parser >= 2.0.0
+  - myst-parser >= 2.0.0, < 3
   - sphinx-design >= 0.4.1
   - sphinx-copybutton
   - ablog
   - librsvg  # for including SVG files in PDF build (done by latexmk)
   - sphinxext-opengraph
+  - sphinxcontrib-bibtex >= 2.5.0, < 3
 
   # Metadata
   - requests >= 2.31.0, < 3

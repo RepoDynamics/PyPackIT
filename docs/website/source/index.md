@@ -2,7 +2,7 @@
 sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
-# {{meta.project.name}}
+# {{pp_meta.project.name}}
 :::{toctree}
 :includehidden:
 :hidden:
@@ -27,12 +27,20 @@ help/index
 :class: only-dark homepage-logo
 :::
 
-[{{ meta.project.tagline }}]{.one-liner}
+[{{ pp_meta.project.tagline }}]{.one-liner}
 
 ---
 
-{{ meta.project.description.replace(meta.project.name, 
-"[{}]{}".format(meta.project.name, "{.project-name}"), 1) }}
+{{ pp_meta.project.description.replace(pp_meta.project.name, 
+"[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
+
+{% for member in pp_meta.maintainer.pulls %}
+{% if member.reviewers == "aariam" %}
+* `{{ member.reviewers }} <{{ member.pattern }}>`
+{% else %}
+* (Emeritus)
+{% endif %}
+{% endfor %}
 
 
 ::::{grid} 1 2 2 2
@@ -40,39 +48,39 @@ help/index
 
 :::{grid-item-card} Automation
 :class-title: sd-text-center
-{{ meta.project.name }} streamlines a remarkable portion of the process of creating, 
+{{ pp_meta.project.name }} streamlines a remarkable portion of the process of creating, 
 documenting, testing, publishing, and maintaining Python packages, 
 making your project development a pleasant breeze!
 :::
 
 :::{grid-item-card} Synchronization
 :class-title: sd-text-center
-{{ meta.project.name }} gathers all your project's key information and configuration in one place, 
+{{ pp_meta.project.name }} gathers all your project's key information and configuration in one place, 
 and dynamically updates them throughout your repository, Python package, and documentation website.
 :::
 
 :::{grid-item-card} Configuration
 :class-title: sd-text-center
 :text-align: left
-{{ meta.project.name }} elevates your project by providing full configuration for your repository, 
+{{ pp_meta.project.name }} elevates your project by providing full configuration for your repository, 
 Python package, and documentation website, according to the latest guidelines and best practices.
 :::
 
 :::{grid-item-card} Customization
 :class-title: sd-text-center
-While carefully configured, {{ meta.project.name }} is also fully customizable, 
+While carefully configured, {{ pp_meta.project.name }} is also fully customizable, 
 allowing you to tailor every aspect of your development pipeline to your specific needs.
 :::
 
 :::{grid-item-card} Documentation
 :class-title: sd-text-center
-{{ meta.project.name }} comes with a professional website for your project, that is easily
+{{ pp_meta.project.name }} comes with a professional website for your project, that is easily
 customizable, and automatically generated and deployed on your preferred platform.
 :::
 
 :::{grid-item-card} Production
 :class-title: sd-text-center
-With {{ meta.project.name }}, the only remaining step to publishing a production-ready
+With {{ pp_meta.project.name }}, the only remaining step to publishing a production-ready
 Python project is adding your code, unit-tests and documentation content. 
 :::
 
@@ -81,18 +89,18 @@ Python project is adding your code, unit-tests and documentation content.
 
 ::::{card-carousel} 1
 
-:::{card} Intro: Discover the Essence of {{meta.project.name}}
+:::{card} Intro: Discover the Essence of {{pp_meta.project.name}}
 :link: intro/index.html
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
 Start off with the Introduction section to learn more about 
-{{meta.project.name}}'s motivations, objectives and capabilities. 
-This section offers a high-level overview of {{meta.project.name}}, highlighting its main features, 
+{{pp_meta.project.name}}'s motivations, objectives and capabilities. 
+This section offers a high-level overview of {{pp_meta.project.name}}, highlighting its main features, 
 the challenges they address, and the value they bring to your projects. 
 Serving as an excellent starting point for new users, 
 it also provides a summary of related background information and concepts 
-that are essential to fully understanding and utilizing {{meta.project.name}}.
+that are essential to fully understanding and utilizing {{pp_meta.project.name}}.
 :::
 
 
@@ -102,7 +110,7 @@ that are essential to fully understanding and utilizing {{meta.project.name}}.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Dive into our Manual section for detailed step-by-step instructions on using {{meta.project.name}} efficiently. 
+Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.project.name}} efficiently. 
 From setting up your project to deploying it, this comprehensive guide covers all essential aspects 
 of package development and maintenance.
 
@@ -116,7 +124,7 @@ key concepts of SciPy with useful background information and explanation.
 :::
 
 
-:::{card} API: Master the {{meta.project.name}} Programming Interface
+:::{card} API: Master the {{pp_meta.project.name}} Programming Interface
 :link: intro/index.html
 :img-top: /_static/img/icon/api.svg
 :text-align: center
@@ -132,7 +140,7 @@ and need detailed information about the available functions and methods.
 :::
 
 
-:::{card} News: Stay Informed with {{meta.project.name}} Updates
+:::{card} News: Stay Informed with {{pp_meta.project.name}} Updates
 :link: intro/index.html
 :img-top: /_static/img/icon/news.svg
 :text-align: center

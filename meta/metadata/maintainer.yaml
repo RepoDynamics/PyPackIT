@@ -13,7 +13,7 @@ issues:
     - "aariam"
 
 
-pull_requests:
+pulls:
 
   # Default owners for everything, unless a later match takes precedence.
   - pattern: "*"

@@ -1,16 +1,19 @@
 # GitHub
 
+Learn about risks of script injection in GitHub workflows, when using user inputs in inline scripts:
+https://docs.github.com/en/github-ae@latest/actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
+
 ## Issues
 
 
 ### Templates and Configuration
-The contents of the repository's {{ '[Issues]({})'.format(meta.url.github.issues.home) }} tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+The contents of the repository's {{ '[Issues]({})'.format(pp_meta.url.github.issues.home) }} tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
 and a [configuration file](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser) 
-under the {{ '[.github/ISSUE_TEMPLATE]({}/.github)'.format(meta.url.github.tree) }} directory.
+under the {{ '[.github/ISSUE_TEMPLATE]({}/.github)'.format(pp_meta.url.github.tree) }} directory.
 
 #### Configuration File
 The configuration file at 
-{{ '[./github/ISSUE_TEMPLATE/config.yml]({}/.github/ISSUE_TEMPLATE/config.yml)'.format(meta.url.github.tree) }} 
+{{ '[./github/ISSUE_TEMPLATE/config.yml]({}/.github/ISSUE_TEMPLATE/config.yml)'.format(pp_meta.url.github.tree) }} 
 controls some aspects of the template chooser (i.e. the landing page of the repository's 'Issues' section), 
 with following options:
 - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.

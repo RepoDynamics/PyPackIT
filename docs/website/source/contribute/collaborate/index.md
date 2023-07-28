@@ -10,8 +10,8 @@ dev/index
 maintain/index
 :::
 
-You can {{meta.project.name}} can use your help in many different ways; a few examples of 
-how {{meta.project.name}} can appreciate from your experience, support, knowledge and expertise are:
+You can {{pp_meta.project.name}} can use your help in many different ways; a few examples of 
+how {{pp_meta.project.name}} can appreciate from your experience, support, knowledge and expertise are:
 
 So, thank you for your support and involvement; we appreciate all your work! 🙏❤️
 
@@ -57,7 +57,7 @@ head down to the section addressing the type of contribution you want to make
 
 
 ## License and Copyright
-{{meta.project.name}} is licensed under the {{meta.project.license.fullname}}.
+{{pp_meta.project.name}} is licensed under the {{pp_meta.project.license.fullname}}.
 In essence, this means that any contribution you make, such as code, media, and documents,
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution, 
@@ -230,7 +230,7 @@ Push the branch to the repo (either the main or your fork) with `git push -u ori
 ### Create a Pull Request
 
 When you are ready for others to examine and comment on your new feature,
-  navigate to your fork of {{meta.project.repo.name}} on GitHub and open a [pull
+  navigate to your fork of {{pp_meta.project.repo.name}} on GitHub and open a [pull
   request](https://help.github.com/articles/using-pull-requests/) (PR). 
 
 There are many ways to [create pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
@@ -259,7 +259,7 @@ Otherwise, [use a keyword](https://docs.github.com/en/issues/tracking-your-work-
 in your pull request (e.g. Resolves #11).
 
 When you're ready to be considered for merging, check the "Ready to go"
-box on the PR page to let the {{meta.project.repo.name}} devs know that the changes are complete.
+box on the PR page to let the {{pp_meta.project.repo.name}} devs know that the changes are complete.
 The code will not be merged until this box is checked, the continuous
 integration returns checkmarks,
 and multiple core developers give "Approved" reviews.

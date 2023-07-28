@@ -29,6 +29,7 @@ jobs:
       - run: echo "${{ github.event }}"
 
       - name: 'Build docs'
+        # https://github.com/readthedocs/actions/tree/v1/preview
         uses: readthedocs/actions/preview@v1
         with:
           project-slug: ${{ fromJSON(needs.load-metadata.outputs.json).website.rtd_name }}

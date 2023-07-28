@@ -2,7 +2,7 @@
 sd_hide_title: true
 ---
 # Security Vulnerability
-{{meta.project.name}} takes the security and privacy of all its users and members very seriously, 
+{{pp_meta.project.name}} takes the security and privacy of all its users and members very seriously, 
 and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible, 
@@ -11,7 +11,7 @@ In case a security vulnerability is detected that may affect users, we take imme
 as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
-:::{admonition} {{meta.project.name}} Security Measures 🛡
+:::{admonition} {{pp_meta.project.name}} Security Measures 🛡
 :class: seealso
 Learn more about our security measures and procedures to handle vulnerability issues on our
 maintenance guide(../collaborate/maintenance/index).
@@ -42,19 +42,19 @@ Please DO NOT
 #### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
 of our repository to securely discuss, fix and publish information about security vulnerabilities 
-in {{meta.project.name}}. 
+in {{pp_meta.project.name}}. 
 To privately report a security vulnerability, 
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability) 
-or {{ '[**click here to directly open a private report form**]({})'.format(meta.url.github.security.new_advisory) }}.
+or {{ '[**click here to directly open a private report form**]({})'.format(pp_meta.url.github.security.new_advisory) }}.
 
 Other ways to open a security advisory:
 
-On the {{ '[Issues]({})'.format(meta.url.github.issues.home) }} tab
+On the {{ '[Issues]({})'.format(pp_meta.url.github.issues.home) }} tab
 
-On the {{ '[Security]({})'.format(meta.url.github.security.home) }} tab
+On the {{ '[Security]({})'.format(pp_meta.url.github.security.home) }} tab
 
 
-:::::{admonition} {{meta.project.name}} Security Measures 🛡
+:::::{admonition} {{pp_meta.project.name}} Security Measures 🛡
 :class: seealso
 ergergg
 ::::{dropdown} Email Body
@@ -171,7 +171,7 @@ and provides our users a chance to update their applications and protect themsel
 
 
 ### Testing for Vulnerabilities
-{{meta.project.name}} is a free and open-source project.
+{{pp_meta.project.name}} is a free and open-source project.
 We encourage security researchers to help us improve our security measures 
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below, 
@@ -210,7 +210,7 @@ impair access to or damage a system or data.
 
 #### Scope
 This policy applies to any source code, data, or configuration directly stored in our GitHub repository
-at {{meta.url.github.home}}, and any software, package, website, or other digital products and services that are
+at {{pp_meta.url.github.home}}, and any software, package, website, or other digital products and services that are
 directly published/deployed from this repository.
 
 **Any service not expressly listed above**, such as any connected services, are **excluded from scope** 
@@ -218,7 +218,7 @@ and are **not authorized** for testing. Additionally, vulnerabilities found in s
 fall outside of this policy's scope and should be reported directly to the vendor according to their 
 disclosure policy (if any). If you aren't sure whether a system is in scope or not, 
 or there is a particular system not in scope that you think merits testing, 
-please contact us at {{meta.maintainer.email.security}} to discuss it first, before starting your research.
+please contact us at {{pp_meta.maintainer.email.security}} to discuss it first, before starting your research.
 
 
 
