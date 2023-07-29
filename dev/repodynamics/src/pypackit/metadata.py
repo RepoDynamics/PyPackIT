@@ -16,21 +16,59 @@ from pypackit import versions
 
 class Publications:
 
-    def __init__(self, orcid_id: str):
-        self.orcid_id = orcid_id
-
+    def __init__(self, orcid_id: str, ignore_dois: Optional[list[str]] = None):
+        self._orcid_id = orcid_id
+        self._ignore_dois = ignore_dois or []
         dois = pylinks.api.orcid(orcid_id=orcid_id).doi
+        publications = dict()
         for doi in dois:
-            if doi in cached_publications['data']:
+            if doi in self._ignore_dois:
                 continue
             publication = pylinks.api.doi(doi=doi)
-            cached_publications['data'][doi] = {
+            publications[doi] = {
                 'dict': publication.citeproc_dict,
                 'bibtex': publication.bibtex,
                 'ris': publication.ris,
             }
-
+        self.publications = publications
+        self._curated: list = None
         return
+
+    @property
+    def curated(self) -> list:
+        if self._curated:
+            return self._curated
+        finals = []
+        for doi, pub_data in self.publications.items():
+            data = pub_data['dict']
+            journal = data['container-title'] or None
+            journal_abbr = (
+                data.get('container-title-short') or pylinks.request(
+                    f"https://abbreviso.toolforge.org/abbreviso/a/{journal}",
+                    response_type='str'
+                ).title()
+            ) if journal else None
+            date = self._get_date(data)
+            final = {
+                'doi': doi,
+                'url': f"https://doi.org/{doi}",
+                'type': data['type'],  # e.g. 'journal-article', 'posted-content'
+                'subtype': data.get('subtype'),  # e.g. 'preprint' for 'posted-content' type
+                'cite': {"BibTex": pub_data['bibtex'], "RIS": pub_data['ris']},  # bibtex citation string
+                'journal': journal,  # journal name
+                'journal_abbr': journal_abbr,  # journal abbreviation
+                'publisher': data.get('publisher'),  # publisher name
+                'title': data.get('title'),  # title of the publication
+                'pages': data.get('page'),  # page numbers
+                'volume': data.get('volume'),  # volume number
+                'issue': data.get('issue'),  # issue number
+                'year': date[0],
+                'date': datetime.date(*date).strftime("%e %B %Y").lstrip(),
+                'abstract': self.jats_to_html(data['abstract']) if data.get('abstract') else None,
+            }
+            finals.append(final)
+        self._curated = sorted(finals, key=lambda i: i['date'], reverse=True)
+        return self._curated
 
     @staticmethod
     def jats_to_html(string):
@@ -45,7 +83,7 @@ class Publications:
         return paragraph
 
     @staticmethod
-    def get_date(data):
+    def _get_date(data):
         year = None
         month = None
         day = None
@@ -72,36 +110,7 @@ class Publications:
                         day = date[2]
         return year, month or 1, day or 1
 
-    def f(self):
 
-        finals = []
-        for doi, pub_data in publications.items():
-            data = pub_data['dict']
-            journal = data['container-title'] or None
-            journal_abbr = (
-                data.get('container-title-short') or pylinks.request(
-                    f"https://abbreviso.toolforge.org/abbreviso/a/{journal}",
-                    response_type='str'
-                ).title()
-            ) if journal else None
-            date = get_date(data)
-            final = {
-                'doi': doi,
-                'url': f"https://doi.org/{doi}",
-                'type': data['type'],  # e.g. 'journal-article', 'posted-content'
-                'subtype': data.get('subtype'),  # e.g. 'preprint' for 'posted-content' type
-                'cite': {"BibTex": pub_data['bibtex'], "RIS": pub_data['ris']},  # bibtex citation string
-                'journal': journal,  # journal name
-                'journal_abbr': journal_abbr,  # journal abbreviation
-                'publisher': data.get('publisher'),  # publisher name
-                'title': data.get('title'),  # title of the publication
-                'pages': data.get('page'),  # page numbers
-                'volume': data.get('volume'),  # volume number
-                'issue': data.get('issue'),  # issue number
-                'year': date[0],
-                'date': datetime.date(*date).strftime("%e %B %Y").lstrip(),
-                'abstract': jats_to_html(data['abstract']) if data.get('abstract') else None,
-            }
 
 
 class _MetadataCache:
@@ -141,7 +150,7 @@ class _MetadataCache:
             YAML(typ='safe').dump(self.cache, f)
         return cached_repo['data']
 
-    def publications(self, orcid_id: str) -> dict[str, dict]:
+    def publications(self, orcid_id: str) -> list[dict]:
         """
         Publications of an ORCID ID.
 
@@ -156,7 +165,10 @@ class _MetadataCache:
         timestamp = cached_publications.get('timestamp')
         if timestamp and not self._is_expired(timestamp):
             return cached_publications['data']
-        cached_publications['data'] = Publications(orcid_id=orcid_id).curated
+        cached_publications['data'] = Publications(
+            orcid_id=orcid_id,
+            ignore_dois=cached_publications['data'].keys() if cached_publications.get('data') else None
+        ).curated
         cached_publications['timestamp'] = self._now
         with open(self.path_metadata_cache, 'w') as f:
             YAML(typ='safe').dump(self.cache, f)
