@@ -8,10 +8,14 @@ meta:
     website: "meta/metadata/website.yaml"
     maintainer: "meta/metadata/maintainer.yaml"
     package: "src/metadata.yaml"
+    readme: "meta/metadata/readme.yaml"
+    theme: "meta/metadata/theme.yaml"
   template:
     issue: "meta/templates/issue_form"
     license: "meta/templates/license"
     health_file: "meta/templates/health_file"
+  img:
+    logo: "meta/img/logo"
 
 health_file:
   code_of_conduct: "."

@@ -7,6 +7,7 @@ is_gh_user_site: false
 
 navbar_icons:
   - id: pypi
+  - id: conda
   - id: repo
   - id: issues
   - id: pull_requests
@@ -17,6 +18,11 @@ navbar_icons:
   - id: linkedin
   - id: researchgate
   - id: orcid
+
+quicklinks:
+  - - name: Install
+      link: 'manual/install'
+    
 
 disqus_shortname: pypackit
 

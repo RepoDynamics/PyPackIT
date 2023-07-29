@@ -1,0 +1,8 @@
+
+color:
+  primary:
+    light: '#135400'
+    dark: '#459B24'
+  secondary:
+    light: '#055005'
+    dark: '#9CCC00'

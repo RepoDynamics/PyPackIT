@@ -93,7 +93,7 @@ extensions: List[str] = [
     # For displaying a copy button next to code blocks;
     #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
     'sphinx_copybutton',
-    'sphinx_last_updated_by_git',
+    # 'sphinx_last_updated_by_git', TODO: reactivate
     # For including SVG files in LaTeX
     #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
     #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
@@ -268,8 +268,8 @@ html_theme_options: Dict[str, Any] = {
     "logo": {
         # "text": "This will appear just after the logo image",
         # "link": "URL or path that logo links to"
-        "image_light": "_static/img/logo/logo_light.svg",
-        "image_dark": "_static/img/logo/logo_dark.svg",
+        "image_light": "_static/logo/simple_light.svg",
+        "image_dark": "_static/logo/simple_dark.svg",
         "alt_text": meta['project']['name'],
     },
     "announcement": meta['url']['announcement'],
@@ -351,6 +351,13 @@ _navbar_defaults = {
         "icon": "fa-brands fa-python",
         "url": meta['url']['pypi']
     },
+    "conda": {
+        "name": "Conda Distribution",
+        "icon": "_static/img/icon/conda.svg",
+        "url": meta['url']['conda'],
+        "type": "local",
+        "attributes": {"class": "nav-link fa-conda"}
+    },
     "twitter": {
         "name": "Twitter",
         "icon": "fa-brands fa-twitter",
@@ -374,31 +381,23 @@ _navbar_defaults = {
 }
 
 
-def _add_icon_link(
-        name: str,
-        url: str,
-        icon: str,
-        type: Literal['fontawesome', 'url', 'local'] = 'fontawesome'
-) -> NoReturn:
-    """Add an icon link to `html_theme_options['icon_links']`."""
-    html_theme_options['icon_links'].append({"name": name, "url": url, "icon": icon, "type": type})
-    return
-
-
-for _icon in meta['website']['navbar_icons']:
-    _icon_id = _icon.pop('id', None)
-    if _icon_id:
-        _def = _navbar_defaults[_icon_id]
-        _icon.setdefault('name', _def['name'])
-        _icon.setdefault('url', _def['url'])
-        _icon.setdefault('icon', _def['icon'])
-        if _icon.get('icon'):
-            _icon.setdefault('type', 'fontawesome')
+for icon in meta['website']['navbar_icons']:
+    icon_id = icon.pop('id', None)
+    if icon_id:
+        _def = _navbar_defaults[icon_id]
+        icon.setdefault('name', _def['name'])
+        icon.setdefault('url', _def['url'])
+        if icon.get('icon'):
+            if not icon.get('type'):
+                icon.setdefault('type', 'fontawesome')
+            if not icon.get('attributes') and _def.get('attributes'):
+                icon['attributes'] = _def['attributes']
         else:
-            _icon['type'] = _def.get('type') or 'fontawesome'
-        _add_icon_link(**_icon)
-    else:
-        _add_icon_link(**_icon)
+            icon["icon"] = _def["icon"]
+            icon['type'] = _def.get('type') or 'fontawesome'
+            if _def.get('attributes'):
+                icon['attributes'] = _def['attributes']
+    html_theme_options["icon_links"].append(icon)
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
@@ -444,11 +443,22 @@ html_context = {
     "pp_meta": meta,
 }
 
-# html_logo: Union[str, None] = '_static/logo/logo_light.svg'
+# html_logo: Union[str, None] = ''
 
-html_favicon: Union[str, None] = '_static/img/logo/icon.png'
+html_favicon: Union[str, None] = '../../../meta/img/logo/icon.png'
 
-html_static_path: List[str] = ['_static']
+html_static_path: List[str] = [
+    '_static',
+    '../../../meta/img',
+    # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
+    # added to the root of static path, since PyData always looks there, regardless of the set path.
+    # Ref:
+    #  https://github.com/pydata/pydata-sphinx-theme/issues/1325
+    #  https://github.com/pydata/pydata-sphinx-theme/issues/1328
+    #  https://github.com/pydata/pydata-sphinx-theme/issues/1385
+    '../../../meta/img/logo/simple_dark.svg',
+    '../../../meta/img/logo/simple_light.svg',
+]
 
 # html_extra_path: List[str] = []
 
@@ -593,7 +603,7 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     ),
 ]
 
-# latex_logo: str = "_static/img/logo/logo_light.svg" # TODO: Doesn't work with SVG files
+latex_logo: str = "_static/logo/full_light.png"  # Doesn't work with SVG files
 
 latex_show_pagerefs: bool = True
 

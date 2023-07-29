@@ -16,12 +16,12 @@ about/index
 help/index
 :::
 
-:::{image} /_static/img/logo/logo_light.svg
+:::{image} _static/logo/full_light.svg
 :alt: Logo
 :align: center
 :class: only-light homepage-logo
 :::
-:::{image} /_static/img/logo/logo_dark.svg
+:::{image} _static/logo/full_dark.svg
 :alt: Logo
 :align: center
 :class: only-dark homepage-logo
@@ -30,6 +30,7 @@ help/index
 [{{ pp_meta.project.tagline }}]{.one-liner}
 
 ---
+
 
 {{ pp_meta.project.description.replace(pp_meta.project.name, 
 "[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}

@@ -15,7 +15,7 @@ This is a sample blog post.
 
 Some more text for this subsection
 
-```{image} /_static/img/logo/logo_dark.svg
+```{image} /_static/logo/logo_dark.svg
 :alt: fishy
 :class: bg-primary
 :width: 200px

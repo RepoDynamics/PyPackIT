@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="200" height="100" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="200" height="100" stroke="red" stroke-width="3px" fill="white" rx="1.73" ry="1.73"/>
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">TEXT</text>
-</svg>

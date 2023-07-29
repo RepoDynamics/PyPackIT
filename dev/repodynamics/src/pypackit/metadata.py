@@ -593,7 +593,7 @@ class Metadata:
         urls['license'] = f"{urls['website']['home']}/license"
         urls['security_measures'] = f"{urls['website']['home']}/contribute/collaborate/maintain/security"
 
-
+        urls["conda"] = f"https://anaconda.org/conda-forge/{self.metadata['package']['name']}/"
         urls['pypi'] = f"https://pypi.org/project/{self.metadata['package']['name']}/"
         self.metadata['url'] = urls
         return

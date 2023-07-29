@@ -92,3 +92,57 @@ html[data-theme=dark] .icon-image {
     margin: 0;
     padding: 0;
 }
+
+i.fa-twitter:hover {
+   color: #1DA1F2;
+}
+
+i.fa-linkedin:hover {
+   color: #0A66C2;
+}
+
+i.fa-researchgate:hover {
+   color: #40BA9B;
+}
+
+i.fa-orcid:hover {
+   color: #A5CD39;
+}
+
+i.fa-python:hover {
+   color: #FFD43B;
+}
+
+html[data-theme=dark] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
+
+html[data-theme=light] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
+
+html[data-theme=dark] .fa-conda {
+   filter: invert(80%) sepia(1%) saturate(0%) hue-rotate(31deg) brightness(83%) contrast(89%);
+}
+
+html[data-theme=light] .fa-conda {
+   filter: invert(40%) sepia(0%) saturate(2%) hue-rotate(322deg) brightness(95%) contrast(87%);
+}
+
+.quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.quicklinks ul {
+    flex: 1 0 auto; /* Here flex-basis is set to auto */
+    margin: 0 10px;
+}
+
+@media (max-width: 600px) {
+    .quicklinks ul {
+        flex: 1 0 100%; /* On small screens, each <ul> takes up the full width */
+        margin: 10px 0;
+    }
+}

@@ -40,7 +40,7 @@ class ShieldsBadge(_badge.Badge):
             height: str = None,
             align: str = None,
             link: str | URL = None,
-            default_theme: Literal['light', 'dark'] = 'dark',
+            default_theme: Literal['light', 'dark'] = 'light',
             html_syntax: str | dict[Literal['tag_seperator', 'content_indent'], str] = None
     ):
         """
