@@ -3,4 +3,5 @@
 :hidden:
 license
 credits
+publications
 :::

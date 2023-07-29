@@ -34,56 +34,15 @@ help/index
 {{ pp_meta.project.description.replace(pp_meta.project.name, 
 "[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
 
-{% for member in pp_meta.maintainer.pulls %}
-{% if member.reviewers == "aariam" %}
-* `{{ member.reviewers }} <{{ member.pattern }}>`
-{% else %}
-* (Emeritus)
-{% endif %}
-{% endfor %}
-
 
 ::::{grid} 1 2 2 2
 :gutter: 3
-
-:::{grid-item-card} Automation
+{% for point in pp_meta.project.key_points %}
+:::{grid-item-card} {{point.title}}
 :class-title: sd-text-center
-{{ pp_meta.project.name }} streamlines a remarkable portion of the process of creating, 
-documenting, testing, publishing, and maintaining Python packages, 
-making your project development a pleasant breeze!
+{{point.description}}
 :::
-
-:::{grid-item-card} Synchronization
-:class-title: sd-text-center
-{{ pp_meta.project.name }} gathers all your project's key information and configuration in one place, 
-and dynamically updates them throughout your repository, Python package, and documentation website.
-:::
-
-:::{grid-item-card} Configuration
-:class-title: sd-text-center
-:text-align: left
-{{ pp_meta.project.name }} elevates your project by providing full configuration for your repository, 
-Python package, and documentation website, according to the latest guidelines and best practices.
-:::
-
-:::{grid-item-card} Customization
-:class-title: sd-text-center
-While carefully configured, {{ pp_meta.project.name }} is also fully customizable, 
-allowing you to tailor every aspect of your development pipeline to your specific needs.
-:::
-
-:::{grid-item-card} Documentation
-:class-title: sd-text-center
-{{ pp_meta.project.name }} comes with a professional website for your project, that is easily
-customizable, and automatically generated and deployed on your preferred platform.
-:::
-
-:::{grid-item-card} Production
-:class-title: sd-text-center
-With {{ pp_meta.project.name }}, the only remaining step to publishing a production-ready
-Python project is adding your code, unit-tests and documentation content. 
-:::
-
+{% endfor %}
 ::::
 
 

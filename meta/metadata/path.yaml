@@ -13,7 +13,7 @@ meta:
     license: "meta/templates/license"
     health_file: "meta/templates/health_file"
 
-health_files:
+health_file:
   code_of_conduct: "."
   codeowners: "."
   contributing: "."

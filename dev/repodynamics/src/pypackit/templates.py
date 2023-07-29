@@ -1,36 +1,56 @@
+from typing import Optional
+from pathlib import Path
 import re
 
 import ruamel.yaml
 
-from . import metadata, paths
+from . import metadata
 
 
 class Templates:
 
-    def __init__(self):
-        self.metadata = metadata.Metadata().fill()
-        self._path_dir_health_files = _utils.path['root'] / self.metadata['paths']['dir_health_files']
+    def __init__(
+            self,
+            path_root: Optional[str | Path] = None,
+            path_pathfile: Optional[str | Path] = None,
+            path_cache: Optional[str | Path] = None,
+            update_cache: bool = False,
+    ):
+        self.metadata = metadata(
+            path_root=path_root,
+            path_pathfile=path_pathfile,
+            path_cache=path_cache,
+            update_cache=update_cache,
+        )
+        self._path_root = Path(self.metadata['path']['abs']['root'])
         return
 
+    def update_readme(self):
+        pass
+
     def update_health_files(self):
-        for filepath in _utils.path['template_health_files'].glob("*.md"):
+        for filepath in Path(self.metadata['path']['abs']['meta']['template']['health_file']).glob("*.md"):
+            target_path = self.metadata['path']['abs']['health_file'].get(filepath.stem.casefold())
+            if not target_path:
+                continue
             with open(filepath) as f:
                 text = f.read()
-            with open(self._path_dir_health_files / filepath.name, "w") as f:
+            with open(Path(target_path) / filepath.name, "w") as f:
                 f.write(text.format(metadata=self.metadata))
 
     def update_license(self):
         filename = self.metadata['project']['license'].lower().rstrip("+")
-        with open(_utils.path['template_licenses'] / f'{filename}.txt') as f:
+        with open(Path(self.metadata['path']['abs']['meta']['template']['license']) / f'{filename}.txt') as f:
             text = f.read()
-        with open(_utils.path['root'] / 'LICENSE', "w") as f:
+        with open(self._path_root / 'LICENSE', "w") as f:
             f.write(text.format(metadata=self.metadata))
         return
 
     def update_package_init_docstring(self):
         filename = self.metadata['project']['license'].lower().rstrip("+")
-        with open(_utils.path['template_licenses'] / f'{filename}_notice.txt') as f:
-            copyright_notice = f.read().format(metadata=self.metadata)
+        with open(Path(self.metadata['path']['abs']['meta']['template']['license']) / f'{filename}_notice.txt') as f:
+            text = f.read()
+        copyright_notice = text.format(metadata=self.metadata)
         docstring = f"""{self.metadata['project']['name']}
 
 {self.metadata['project']['tagline']}
@@ -38,7 +58,19 @@ class Templates:
 {self.metadata['project']['description']}
 
 {copyright_notice}"""
-        path_init = _utils.path['src'] / self.metadata['package']['name'] / '__init__.py'
+        path_src = self._path_root / "src"
+        path_package = path_src / self.metadata['package']['name']
+        if not path_package.exists():
+            package_dirs = [
+                sub for sub in [sub for sub in path_src.iterdir() if sub.is_dir()]
+                if "__init__.py" in [subsub.name for subsub in sub.iterdir()]
+            ]
+            if len(package_dirs) > 1:
+                raise ValueError(
+                    f"More than one package directory found in '{path_src}'."
+                )
+            package_dirs[0].rename(path_package)
+        path_init = path_package / '__init__.py'
         with open(path_init) as f:
             text = f.read()
         docstring_pattern = r'(\"\"\")(.*?)(\"\"\")'
@@ -69,7 +101,7 @@ class Templates:
         for entry in self.metadata['maintainers']['pull_requests']:
             reviewers = ' '.join([f'@{reviewer}' for reviewer in entry['reviewers']])
             text += f'{entry["pattern"]: <{max_len}}   {reviewers}\n'
-        with open(self._path_dir_health_files / 'CODEOWNERS', "w") as f:
+        with open(Path(self.metadata['path']['abs']['health_file']['codeowners']) / 'CODEOWNERS', "w") as f:
             f.write(text)
         return
 
@@ -83,7 +115,7 @@ class Templates:
         ----------
         https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files
         """
-        path_funding_file = _utils.path['path_github'] / 'FUNDING.yml'
+        path_funding_file = self._path_root / '.github' / 'FUNDING.yml'
         if not self.metadata['project']['funding']:
             path_funding_file.unlink(missing_ok=True)
             return

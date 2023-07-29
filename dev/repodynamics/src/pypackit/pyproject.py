@@ -7,6 +7,8 @@ from pathlib import Path
 import tomlkit
 import tomlkit.items
 
+import pypackit
+
 
 class PyProjectTOML:
 

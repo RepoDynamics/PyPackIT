@@ -62,12 +62,13 @@ class Publications:
                 'pages': data.get('page'),  # page numbers
                 'volume': data.get('volume'),  # volume number
                 'issue': data.get('issue'),  # issue number
+                'date_tuple': date,  # tuple of (year, month, day)
                 'year': date[0],
                 'date': datetime.date(*date).strftime("%e %B %Y").lstrip(),
                 'abstract': self.jats_to_html(data['abstract']) if data.get('abstract') else None,
             }
             finals.append(final)
-        self._curated = sorted(finals, key=lambda i: i['date'], reverse=True)
+        self._curated = sorted(finals, key=lambda i: i['date_tuple'], reverse=True)
         return self._curated
 
     @staticmethod
@@ -205,7 +206,7 @@ class _MetadataCache:
                 info['external_urls']['linkedin'] = account['url']
             else:
                 for url, key in [
-                    ('orchid\.org', 'orcid'),
+                    ('orcid\.org', 'orcid'),
                     ('researchgate\.net/profile', 'researchgate')
                 ]:
                     match = re.compile(
@@ -262,6 +263,7 @@ class Metadata:
         self.metadata = dict()
         self.metadata['path'] = paths
         self.metadata['path']['abs'] = self._get_absolute_paths()
+        self.metadata['path']['abs']['root'] = self.path_root
         for section, filepath in self.metadata['path']['abs']['meta']['metadata'].items():
             path = Path(filepath)
             if not (path.exists() and path.is_file()):
@@ -302,6 +304,7 @@ class Metadata:
         self.add_package_python_versions()
         self.add_package_operating_systems()
         self.add_urls()
+        self.add_owner_publications()
         for classifier in self.metadata['project']['trove_classifiers']:
             if classifier not in trove_classifiers.classifiers:
                 raise ValueError(f"Trove classifier '{classifier}' is not supported anymore.")
