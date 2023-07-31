@@ -89,38 +89,38 @@ jobs:
           make clean
           make dirhtml
 
+##      - name: 'Build LaTeX'
+##        if: always()
+##        run: |
+##          cd docs/website
+##          make latexpdf
+#
 #      - name: 'Build LaTeX'
 #        if: always()
+#        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
 #        run: |
 #          cd docs/website
-#          make latexpdf
-
-      - name: 'Build LaTeX'
-        if: always()
-        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
-        run: |
-          cd docs/website
-          make latex
-
-      - name: 'Build PDF'
-        if: always()
-        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
-        run : |
-          cd docs/website/_build/latex
-          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
-
-      - name: 'Display builds'
-        if: always()
-        run: find docs/website/_build
-
-      - name: 'Order builds'
-        if: always()
-        run : |
-          mv docs/website/_build/dirhtml docs/website/_build/html
-          mkdir -p docs/website/_build/pdf/log
-          mv docs/website/_build/latex/aux docs/website/_build/pdf
-          mv docs/website/_build/latex/pdf/* docs/website/_build/pdf/log
-          mv docs/website/_build/pdf/log/*.pdf docs/website/_build/pdf
+#          make latex
+#
+#      - name: 'Build PDF'
+#        if: always()
+#        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
+#        run : |
+#          cd docs/website/_build/latex
+#          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
+#
+#      - name: 'Display builds'
+#        if: always()
+#        run: find docs/website/_build
+#
+#      - name: 'Order builds'
+#        if: always()
+#        run : |
+#          mv docs/website/_build/dirhtml docs/website/_build/html
+#          mkdir -p docs/website/_build/pdf/log
+#          mv docs/website/_build/latex/aux docs/website/_build/pdf
+#          mv docs/website/_build/latex/pdf/* docs/website/_build/pdf/log
+#          mv docs/website/_build/pdf/log/*.pdf docs/website/_build/pdf
 
       - name: 'Display ordered builds'
         if: always()
