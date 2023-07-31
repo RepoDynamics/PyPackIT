@@ -19,14 +19,14 @@ import pypackit
 class ReadMe:
     def __init__(self, metadata: dict):
         self._metadata = metadata
-        self._github_repo_link_gen = pylinks.github.user(self.github["user"]).repo(
-            self.github["repo"]
-        )
-        self._github_badges = bdg.shields.GitHub(
-            user=self.github["user"],
-            repo=self.github["repo"],
-            branch=self.github["branch"],
-        )
+        # self._github_repo_link_gen = pylinks.github.user(self.github["user"]).repo(
+        #     self.github["repo"]
+        # )
+        # self._github_badges = bdg.shields.GitHub(
+        #     user=self.github["user"],
+        #     repo=self.github["repo"],
+        #     branch=self.github["branch"],
+        # )
         return
 
     def generate(self) -> html.element.ElementCollection:
@@ -157,53 +157,75 @@ class ReadMe:
         )
         content = [description]
         for key_point in self._metadata['project']['key_points']:
-            content.append(self.button(text=key_point['title'], color='primary'))
-            content.append(html.element.P(align="justify", content=[key_point['description']]))
+            content.extend(
+                [
+                    self.spacer(width="10%", align="left"),
+                    self.spacer(width="10%", align="right"),
+                    self.button(text=key_point["title"], color="primary"),
+                    html.element.P(align="justify", content=[key_point["description"]])
+                ]
+            )
         return content
 
-
     def menu(self):
-        path_docs = Path(self._metadata["path"]["abs"]["docs"]["website"]["source"])
-        with open(path_docs / "index.md") as f:
-            text = f.read()
-        toctree = re.findall(r":::{toctree}\s((.|\s)*?)\s:::", text, re.DOTALL)[0][0]
-        top_section_filenames = [entry for entry in toctree.splitlines() if not entry.startswith(":")]
-        top_section_names = []
-        for filename in top_section_filenames:
-            with open((path_docs / filename).with_suffix(".md")) as f:
+
+        def get_top_data():
+            with open(path_docs / "index.md") as f:
                 text = f.read()
-            top_section_names.append(re.findall(r"^# (.*)", text, re.MULTILINE)[0])
+            toctree = re.findall(r":::{toctree}\s((.|\s)*?)\s:::", text, re.DOTALL)[0][0]
+            top_section_filenames = [entry for entry in toctree.splitlines() if not entry.startswith(":")]
+            top_section_names = []
+            for filename in top_section_filenames:
+                with open((path_docs / filename).with_suffix(".md")) as f:
+                    text = f.read()
+                top_section_names.append(re.findall(r"^# (.*)", text, re.MULTILINE)[0])
+            return [
+                {"text": text, "link": str(Path(link).with_suffix(""))}
+                for text, link in zip(top_section_names, top_section_filenames)
+            ]
 
-
-
-
-        bottom = copy.deepcopy(self._metadata["header"]["bottom_menu"])
-        if "gradient_colors" in top and "gradient_colors" in bottom:
-            for theme in ("dark", "light"):
-                if (
-                    theme in top["gradient_colors"]
-                    and top["gradient_colors"][theme][1] is None
-                    and theme in bottom["gradient_colors"]
-                    and bottom["gradient_colors"][theme][0] is None
-                ):
-                    grad_colors = pcit.gradient.interpolate_rgb(
-                        color_start=pcit.color.hexa(top["gradient_colors"][theme][0]),
-                        color_end=pcit.color.hexa(bottom["gradient_colors"][theme][1]),
-                        count=len(top["buttons"]) + len(bottom["buttons"]),
-                    ).hex()
-                    top["gradient_colors"][theme][1] = grad_colors[
-                        len(top["buttons"]) - 1
-                    ]
-                    bottom["gradient_colors"][theme][0] = grad_colors[
-                        len(top["buttons"])
-                    ]
-        if self._metadata["header"]["style"] == "tall_logo":
-            top.pop("width", None)
-        top_menu = menu(**top)
-        if self._metadata["header"]["style"] == "tall_logo":
-            top_menu.content.elements.append("<br><br>")
-        bottom_menu = menu(**bottom)
-        return top_menu, bottom_menu
+        def get_bottom_data():
+            return [
+                {"text": item['title'], "link": item['path']}
+                for group in self._metadata['website']['quicklinks'] for item in group
+                if item.get('include_in_readme')
+            ]
+        path_docs = Path(self._metadata["path"]["abs"]["docs"]["website"]["source"])
+        top_data = get_top_data()
+        bottom_data = get_bottom_data()
+        colors = [
+            pcit.gradient.interpolate_rgb(
+                color_start=pcit.color.hexa(self._metadata['theme']['color']['primary'][theme]),
+                color_end=pcit.color.hexa(self._metadata['theme']['color']['secondary'][theme]),
+                count=len(top_data) + len(bottom_data),
+            ).hex()
+            for theme in ("light", "dark")
+        ]
+        buttons = [
+            self.button(
+                text=data['text'],
+                color=(color_light, color_dark),
+                link=f"{self._metadata['url']['website']['home']}/{data['link']}",
+            ) for data, color_light, color_dark in zip(top_data+bottom_data, colors[0], colors[1])
+        ]
+        menu_top, menu_bottom = [
+            html.element.DIV(
+                align="center",
+                content=[
+                    ("&nbsp;" * 2).join(
+                       [str(badge.as_html_picture(tag_seperator="", content_indent="")) for badge in badges]
+                    )
+                ]
+            ) for badges in (buttons[:len(top_data)], buttons[len(top_data):])
+        ]
+        menu_bottom.content.elements.insert(0, html.element.HR(width="100%"))
+        menu_bottom.content.elements.append(html.element.HR(width="80%"))
+        if self._metadata['readme']['header']['style'] == 'vertical':
+            menu_top.content.elements.insert(0, html.element.HR(width="80%"))
+            menu_top.content.elements.append(html.element.HR(width="100%"))
+        else:
+            menu_top.content.elements.append("<br><br>")
+        return menu_top, menu_bottom
 
     def continuous_integration(self, data):
         def github(filename, **kwargs):
@@ -380,7 +402,7 @@ class ReadMe:
     def button(
             self,
             text: str,
-            color: Literal['primary', 'secondary'],
+            color: Literal['primary', 'secondary'] | tuple[str, str],
             link: Optional[str] = None,
             title: Optional[str] = None
     ):
@@ -388,8 +410,11 @@ class ReadMe:
             text=text,
             style="for-the-badge",
             color={
-                "dark": self._metadata['theme']['color'][color]['dark'],
-                "light": self._metadata['theme']['color'][color]['light'],
+                theme: (
+                    self._metadata['theme']['color'][color][theme]
+                    if isinstance(color, str) else color[idx]
+                )
+                for idx, theme in enumerate(("light", "dark"))
             },
             alt=text,
             title=title or text,
@@ -431,88 +456,6 @@ def marker(start=None, end=None, main: bool = False):
 
 
 """Components for creating a GitHub README file in HTML."""
-
-
-def menu(
-    buttons: Sequence[dict[str, str]],
-    align: str = "center",
-    width: Optional[dict[str, str]] = None,
-    num_spaces: int = 1,
-    button_defaults: Optional[dict] = None,
-    gradient_colors: Optional[dict[Literal["dark", "light"], tuple[str, str]]] = None,
-) -> html.element.DIV:
-    """
-    Create a horizontal series of buttons, optionally sandwiched between two lines.
-
-    Parameters
-    ----------
-    buttons
-        A sequence of dictionaries, each describing one button, with the following keys:
-
-        label : str
-            The text on the button, which will also be used for its HTML element's 'alt' attribute.
-        description : str
-            A longer text to show when hovering on the button, i.e. the 'title' attribute of the HTML element.
-        link : str
-            Target path of the button, i.e. the 'href' attribute of its HTML <a> element.
-    colors_dark
-    colors_light
-    height
-    width
-    num_spaces
-    default_theme
-
-    Returns
-    -------
-
-    """
-    if not button_defaults:
-        button_defaults = dict()
-    grad_colors = {"dark": None, "light": None}
-    if gradient_colors:
-        for theme, gradient in gradient_colors.items():
-            if theme not in ("dark", "light"):
-                raise ValueError()
-            if not isinstance(gradient, (list, tuple)) or len(gradient) != 2:
-                raise ValueError()
-            grad_colors[theme] = (
-                pcit.gradient.interpolate_rgb(
-                    pcit.hexa(gradient[0]), pcit.hexa(gradient[1]), count=len(buttons)
-                )
-                .rgb(as_str=True)
-                .tolist()
-            )
-
-    badges = []
-    for idx, button in enumerate(buttons):
-        args = copy.deepcopy(button)
-        if "color" not in args:
-            args["color"] = dict()
-        if "right" not in args["color"]:
-            args["color"]["right"] = dict()
-        if "dark" not in args["color"]["right"]:
-            if grad_colors["dark"]:
-                args["color"]["right"]["dark"] = grad_colors["dark"][idx]
-        if "light" not in args["color"]["right"]:
-            if grad_colors["light"]:
-                args["color"]["right"]["light"] = grad_colors["light"][idx]
-        badges.append(bdg.shields.static(**(button_defaults | args)))
-
-    seperator = f"{'&nbsp;' * num_spaces}"
-    menu_content = []
-    if width and width.get("top"):
-        menu_content.append(html.element.HR(width=width.get("top")))
-    menu_content.append(
-        seperator.join(
-            [
-                str(badge.as_html_picture(tag_seperator="", content_indent=""))
-                for badge in badges
-            ]
-        )
-    )
-    if width and width.get("bottom"):
-        menu_content.append(html.element.HR(width=width.get("bottom")))
-    return html.element.DIV(align=align, content=menu_content)
 
 
 def connect(

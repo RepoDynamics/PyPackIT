@@ -20,10 +20,12 @@ navbar_icons:
   - id: orcid
 
 quicklinks:
-  - - name: Install
-      link: 'manual/install'
-    
-
+  - - title: Install
+      path: 'manual/install'
+  - - title: Releases
+      path: 'news/category/release'
+  - - title: Q&A
+      path: 'help/ask'
 disqus_shortname: pypackit
 
 analytics:

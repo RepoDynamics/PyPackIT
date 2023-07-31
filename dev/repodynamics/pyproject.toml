@@ -26,6 +26,10 @@ dependencies = [
     # https://tomlkit.readthedocs.io/en/stable/
     "tomlkit >= 0.11.8, < 0.12",
     "trove-classifiers",
+
+    # pycolorit
+    "jax",
+
 ]
 requires-python = ">=3.9"
 
