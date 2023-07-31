@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We, the members, contributors, maintainers, and creators of ***{{cookiecutter.project_name}}***, 
+We, the members, contributors, maintainers, and creators of ***{{cookiecutter.project_name}}***,
 pledge to act and interact in ways that contribute to an open, welcoming,
 diverse, inclusive, healthy, and harassment-free community for every person involved in this project.
 
@@ -53,7 +53,7 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement, 
+reported to the community leaders responsible for enforcement,
 at [{{cookiecutter.maintainer_email}}](mailto:{{cookiecutter.maintainer_email}}).
 All complaints will be reviewed and investigated promptly and fairly.
 

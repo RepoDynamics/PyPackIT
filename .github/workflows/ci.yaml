@@ -62,9 +62,9 @@ jobs:
     name: 'Deploy docs to GitHub Pages'
     needs: build-docs
     if: |
-      always() && 
+      always() &&
       needs.build-docs.result == 'success' &&
-      github.event_name == 'push' && 
+      github.event_name == 'push' &&
       (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     uses: ./.github/workflows/docs_deploy.yaml
     permissions:
@@ -76,11 +76,11 @@ jobs:
   publish-testpypi:
     name: 'Publish on TestPyPI'
     needs: [build-package, test-local]
-    if: | 
-      always() && 
+    if: |
+      always() &&
       needs.build-package.result == 'success' &&
       needs.test-local.result == 'success' &&
-      github.event_name == 'push' && 
+      github.event_name == 'push' &&
       github.ref == 'refs/heads/main'
     uses: ./.github/workflows/package_release_pypi.yaml
     permissions:
@@ -97,7 +97,7 @@ jobs:
     name: 'Wait for TestPyPI'
     needs: publish-testpypi
     if: |
-      always() && 
+      always() &&
       needs.publish-testpypi.result == 'success'
     runs-on: ubuntu-latest
     steps:
@@ -142,7 +142,7 @@ jobs:
     name: 'Wait for PyPI'
     needs: publish-pypi
     if: |
-      always() && 
+      always() &&
       needs.publish-pypi.result == 'success'
     runs-on: ubuntu-latest
     steps:
@@ -160,5 +160,3 @@ jobs:
     with:
       install-source: "pypi"
       install-version: ${{ needs.build-package.outputs.package-version }}
-
-

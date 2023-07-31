@@ -1,16 +1,17 @@
 """URLs for GitHub users, repositories, branches, and more."""
 
 
-from typing import Optional, Literal
+# Standard libraries
 import re
+from typing import Literal, Optional
 
+# Non-standard libraries
 import requests
-
-from pylinks import url, settings
+from pylinks import settings, url
 from pylinks.url import URL
 
 
-BASE_URL = url(url='https://github.com')
+BASE_URL = url(url="https://github.com")
 
 
 class User:
@@ -27,8 +28,10 @@ class User:
         """
         if not isinstance(name, str):
             raise TypeError(f"`name` must be a string, not {type(name)}.")
-        if re.match(r'^[A-Za-z0-9-]+$', name) is None:
-            raise ValueError('GitHub usernames can only contain alphanumeric characters and dashes.')
+        if re.match(r"^[A-Za-z0-9-]+$", name) is None:
+            raise ValueError(
+                "GitHub usernames can only contain alphanumeric characters and dashes."
+            )
         self._name = name
         if validate is True or (validate is None and not settings.offline_mode):
             requests.get(str(self.homepage)).raise_for_status()
@@ -50,7 +53,7 @@ class User:
         """URL of the GitHub user's homepage."""
         return BASE_URL / self.name
 
-    def repo(self, repo_name: str, validate: Optional[bool] = None) -> 'Repo':
+    def repo(self, repo_name: str, validate: Optional[bool] = None) -> "Repo":
         """A repository of the user."""
         return Repo(user=self, name=repo_name, validate=validate)
 
@@ -75,11 +78,13 @@ class Repo:
         elif isinstance(user, User):
             self._user = user
         else:
-            raise TypeError(f"`user` must be a User instance or a username as string, not {type(user)}.")
+            raise TypeError(
+                f"`user` must be a User instance or a username as string, not {type(user)}."
+            )
         if not isinstance(name, str):
             raise TypeError("`repo_name` must be a string.")
         self._name = name
-        if re.match(r'^[A-Za-z0-9_.-]+$', name) is None:
+        if re.match(r"^[A-Za-z0-9_.-]+$", name) is None:
             raise ValueError(
                 'GitHub repository names can only contain "_", "-", ".", and alphanumeric characters.'
             )
@@ -117,9 +122,11 @@ class Repo:
         filename : str
             Filename of the workflow, e.g. 'ci.yaml'.
         """
-        return self.homepage / 'actions/workflows' / filename
+        return self.homepage / "actions/workflows" / filename
 
-    def pr_issues(self, pr: bool = True, closed: Optional[bool] = None, label: Optional[str] = None) -> URL:
+    def pr_issues(
+        self, pr: bool = True, closed: Optional[bool] = None, label: Optional[str] = None
+    ) -> URL:
         """
         URL of pull requests or issues in the repository.
 
@@ -133,18 +140,18 @@ class Repo:
         label : str, default: None
             A specific label to query.
         """
-        url = self.homepage / ('pulls' if pr else 'issues')
+        url = self.homepage / ("pulls" if pr else "issues")
         if closed is None and label is None:
             return url
-        url.quote_safe = '+'
-        url.queries['q'] = f"is:{'pr' if pr else 'issue'}"
+        url.quote_safe = "+"
+        url.queries["q"] = f"is:{'pr' if pr else 'issue'}"
         if closed is not None:
-            url.queries['q'] += f'+is:{"closed" if closed else "open"}'
+            url.queries["q"] += f'+is:{"closed" if closed else "open"}'
         if label is not None:
-            url.queries['q'] += f'+label:{label}'
+            url.queries["q"] += f"+label:{label}"
         return url
 
-    def releases(self, tag: Optional[str | Literal['latest']] = None) -> URL:
+    def releases(self, tag: Optional[str | Literal["latest"]] = None) -> URL:
         """
         URL of the releases overview page, or a specific release.
 
@@ -156,17 +163,17 @@ class Repo:
             In addition to a tag name, the keyword 'latest' can also be used, in which case the URL will
             always point to the latest release page.
         """
-        base_url = self.homepage / 'releases'
+        base_url = self.homepage / "releases"
         if not tag:
             return base_url
-        if tag == 'latest':
-            return base_url / 'latest'
-        return base_url / 'tag' / tag
+        if tag == "latest":
+            return base_url / "latest"
+        return base_url / "tag" / tag
 
     @property
     def commits(self) -> URL:
         """URL of commits page."""
-        return self.homepage / 'commits'
+        return self.homepage / "commits"
 
     def discussions(self, category: Optional[str] = None) -> URL:
         """
@@ -177,12 +184,12 @@ class Repo:
         category : str, default: None
             An optional discussions category, e.g. 'announcements'.
         """
-        url = self.homepage / 'discussions'
+        url = self.homepage / "discussions"
         if category:
-            url /= f'categories/{category}'
+            url /= f"categories/{category}"
         return url
 
-    def milestones(self, state: Literal['open', 'closed'] = 'open'):
+    def milestones(self, state: Literal["open", "closed"] = "open"):
         """
         URL of summary page for open or closed milestones.
 
@@ -191,12 +198,12 @@ class Repo:
         state : {'open', 'closed'}, default: 'open'
             Whether to link to open or closed milestones.
         """
-        url = self.homepage / 'milestones'
+        url = self.homepage / "milestones"
         if state:
-            url.queries['state'] = state
+            url.queries["state"] = state
         return url
 
-    def branch(self, branch_name: str, validate: Optional[bool] = None) -> 'Branch':
+    def branch(self, branch_name: str, validate: Optional[bool] = None) -> "Branch":
         """A branch of the Repository"""
         return Branch(repo=self, name=branch_name, validate=validate)
 
@@ -222,7 +229,7 @@ class Branch:
         if not isinstance(name, str):
             raise TypeError("`name` must be a string.")
         self._name = name
-        if re.match(r'^[A-Za-z0-9_.-]+$', name) is None:
+        if re.match(r"^[A-Za-z0-9_.-]+$", name) is None:
             raise ValueError(
                 'GitHub branch names can only contain "_", "-", ".", and alphanumeric characters.'
             )
@@ -238,7 +245,7 @@ class Branch:
     @property
     def homepage(self) -> URL:
         """URL of the branch's homepage."""
-        return self.repo.homepage / 'tree' / self.name
+        return self.repo.homepage / "tree" / self.name
 
     @property
     def name(self) -> str:
@@ -254,22 +261,26 @@ class Branch:
         filename : str
             Filename of the workflow, e.g. 'ci.yaml'.
         """
-        url = self.repo.homepage / 'actions/workflows' / filename
-        url.queries = {
-            'query': f'branch:{self.name}'
-        }
+        url = self.repo.homepage / "actions/workflows" / filename
+        url.queries = {"query": f"branch:{self.name}"}
         return url
 
     def file(self, filename: str, raw: bool = False) -> URL:
         """URL of a specific file in the branch."""
         if raw:
-            return url('https://raw.githubusercontent.com') / self.repo.user.name / self.repo.name / self.name / filename
+            return (
+                url("https://raw.githubusercontent.com")
+                / self.repo.user.name
+                / self.repo.name
+                / self.name
+                / filename
+            )
         return self.homepage / filename
 
     @property
     def commits(self) -> URL:
         """URL of commits page for this branch."""
-        return self.repo.homepage / 'commits' / self.name
+        return self.repo.homepage / "commits" / self.name
 
 
 def user(name: str, validate: Optional[bool] = None) -> User:

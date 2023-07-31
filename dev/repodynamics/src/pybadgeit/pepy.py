@@ -7,36 +7,37 @@ References
 """
 
 
-from typing import Optional, Sequence, Literal
+# Standard libraries
+from typing import Literal, Optional, Sequence
 
+# Non-standard libraries
+from pybadgeit import _badge
 from pylinks import url
 from pylinks.url import URL
 
-from pybadgeit import _badge
 
-
-_BASE_URL = url('https://static.pepy.tech')
+_BASE_URL = url("https://static.pepy.tech")
 
 
 class PePyBadge(_badge.Badge):
     """PePy badge for PyPI package downloads."""
 
     def __init__(
-            self,
-            path: str,
-            left_text: str = None,
-            left_color_light: str = None,
-            left_color_dark: str = None,
-            right_color_light: str = None,
-            right_color_dark: str = None,
-            units: Literal['international_system', 'abbreviation', 'none'] = 'international_system',
-            alt: str = None,
-            title: str = None,
-            width: str = None,
-            height: str = None,
-            align: str = None,
-            link: str | URL = None,
-            default_theme: Literal['light', 'dark'] = 'dark',
+        self,
+        path: str,
+        left_text: str = None,
+        left_color_light: str = None,
+        left_color_dark: str = None,
+        right_color_light: str = None,
+        right_color_dark: str = None,
+        units: Literal["international_system", "abbreviation", "none"] = "international_system",
+        alt: str = None,
+        title: str = None,
+        width: str = None,
+        height: str = None,
+        align: str = None,
+        link: str | URL = None,
+        default_theme: Literal["light", "dark"] = "dark",
     ):
         """
         Parameters
@@ -56,7 +57,13 @@ class PePyBadge(_badge.Badge):
             Formatting of the number of downloads.
         """
         super().__init__(
-            alt=alt, title=title, width=width, height=height, align=align, link=link, default_theme=default_theme
+            alt=alt,
+            title=title,
+            width=width,
+            height=height,
+            align=align,
+            link=link,
+            default_theme=default_theme,
         )
         self._url: URL = url(str(path))
         self.left_text: str = left_text
@@ -67,7 +74,7 @@ class PePyBadge(_badge.Badge):
         self.units = units
         return
 
-    def url(self, mode: Literal['light', 'dark', 'clean'] = 'dark') -> URL:
+    def url(self, mode: Literal["light", "dark", "clean"] = "dark") -> URL:
         """
         URL of the badge image.
 
@@ -83,20 +90,22 @@ class PePyBadge(_badge.Badge):
             A URL object, which among others, has a __str__ method to output the URL as a string.
         """
         url = self._url.copy()
-        if mode == 'clean':
+        if mode == "clean":
             return url
         for key, val in (
-                ('units', self.units),
-                ('left_text', self.left_text),
-                ('left_color', self.left_color_dark if mode == 'dark' else self.left_color_light),
-                ('right_color', self.right_color_dark if mode == 'dark' else self.right_color_light),
+            ("units", self.units),
+            ("left_text", self.left_text),
+            ("left_color", self.left_color_dark if mode == "dark" else self.left_color_light),
+            ("right_color", self.right_color_dark if mode == "dark" else self.right_color_light),
         ):
             if val is not None:
                 url.queries[key] = val
         return url
 
 
-def pypi_downloads(package_name: str, period: Literal['total', 'month', 'week'] = 'total') -> PePyBadge:
+def pypi_downloads(
+    package_name: str, period: Literal["total", "month", "week"] = "total"
+) -> PePyBadge:
     """
     Number of downloads for a PyPI package.
 
@@ -107,14 +116,13 @@ def pypi_downloads(package_name: str, period: Literal['total', 'month', 'week'] 
     period : {'total', 'month', 'week'}, default: 'total'
         The period to query.
     """
-    path = _BASE_URL/'personalized-badge'/package_name
-    path.queries['period'] = period
-    left_text = "Total Downloads" if period == 'total' else f'Downloads/{period.capitalize()}'
+    path = _BASE_URL / "personalized-badge" / package_name
+    path.queries["period"] = period
+    left_text = "Total Downloads" if period == "total" else f"Downloads/{period.capitalize()}"
     return PePyBadge(
         path=path,
         left_text=left_text,
-        left_color_dark='grey',
-        left_color_light='grey',
-        link=url(f'https://pepy.tech/project/{package_name}?display=monthly')
+        left_color_dark="grey",
+        left_color_light="grey",
+        link=url(f"https://pepy.tech/project/{package_name}?display=monthly"),
     )
-

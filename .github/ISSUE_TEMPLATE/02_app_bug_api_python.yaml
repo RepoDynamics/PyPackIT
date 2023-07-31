@@ -9,40 +9,40 @@ assignees:
   - aariam
 
 body:
-  
+
   - type: markdown
     attributes:
       value: >-
         <p align="justify">
-          Thank you for taking the time to report a problem in {metadata[project][name]}; 
+          Thank you for taking the time to report a problem in {metadata[project][name]};
           we greatly appreciate your contribution! ❤️🙏
         </p>
         <h2>Terms and Conditions</h2>
         <p align="justify">
           Before submitting a report, please take a moment to review and accept our terms and conditions;
-          they will help us process the issue as fast as possible, 
+          they will help us process the issue as fast as possible,
           and not bother you with additional questions.
         </p>
         <h3>⛔ Choosing the right form</h3>
         <ul>
           <li>
             <p align="justify">
-              Please note that this form is specifically for reporting a 
-              <b>non-security-related bug</b> 
-              in the 
-              {metadata[project][name]} 
-              API, i.e. an unexpected behavior that occurs while using the application, 
+              Please note that this form is specifically for reporting a
+              <b>non-security-related bug</b>
+              in the
+              {metadata[project][name]}
+              API, i.e. an unexpected behavior that occurs while using the application,
               either as an import package, a command-line tool, or via a GUI.
             </p>
           </li>
           <li>
             <p align="justify">
-              To 🚨 
+              To 🚨
               <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a>
               🚨 please first read our
-              <a href="{metadata[urls][github][security][policy]}">security policy</a>, 
-              and fill a 
-              <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a> 
+              <a href="{metadata[urls][github][security][policy]}">security policy</a>,
+              and fill a
+              <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a>
               instead.
             </p>
           </li>
@@ -51,8 +51,8 @@ body:
               For other types of issues, such as problems in
               <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
               <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
-              <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>, 
-              or for requesting new features and enhancements, please select the appropriate form from the 
+              <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
+              or for requesting new features and enhancements, please select the appropriate form from the
               <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
             </p>
           </li>
@@ -61,35 +61,35 @@ body:
           💡 <a href="{}"><b>Contact us</b></a>
           <br>
           <p align="justify">
-            Can't find the right form or unsure about which one to choose? 
-            Ask a question in the 
-            <a href="{}">discussion forum</a>, 
-            or 
+            Can't find the right form or unsure about which one to choose?
+            Ask a question in the
+            <a href="{}">discussion forum</a>,
+            or
             <a href="{metadata[urls][github][issues][new][discussion]}">contact us directly</a>.
           </p>
         </blockquote>
         <h3>⚠️ Verifying the bug</h3>
-                
+
         Before submitting a report, please verify that:
-        
-        1. The issue you are experiencing is in fact a bug, 
+
+        1. The issue you are experiencing is in fact a bug,
         and not a documented expected behavior.
-        
-        2. The bug is reproducible in the latest version of the software, 
+
+        2. The bug is reproducible in the latest version of the software,
         and has not yet been reported.
-        
+
         <blockquote>
             💡 <a href="{}"><b>Open a discussion instead!</b></a>
             <br>
             This verification process is non-trivial, and can be time-consuming.
-            If you are not a collaborator and don't have the time to go through the process, 
-            you can always open a discussion instead; we will investigate the problem as soon as possible, 
+            If you are not a collaborator and don't have the time to go through the process,
+            you can always open a discussion instead; we will investigate the problem as soon as possible,
             and convert the discussion into an issue if the bug is verified.
         </blockquote>
         <h3>🤝 Code of conduct</h3>
         <p align="justify">
-          Please make sure that you are following our 
-          <a href="{metadata[urls][github][code_of_conduct]}">Code of Conduct</a>, 
+          Please make sure that you are following our
+          <a href="{metadata[urls][github][code_of_conduct]}">Code of Conduct</a>,
           so that we can process the issue as soon as possible.
         </p>
         <h3>✅ Agreements</h3>
@@ -125,7 +125,7 @@ body:
     attributes:
       label: Operating System
       description: |
-        Which operating systems have you tested? 
+        Which operating systems have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -140,7 +140,7 @@ body:
     attributes:
       label: Python Version
       description: |
-        Which Python versions have you tested? 
+        Which Python versions have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -155,7 +155,7 @@ body:
     attributes:
       label: Package Version
       description: |
-        Which versions of our software are affected? 
+        Which versions of our software are affected?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -202,7 +202,7 @@ body:
       label: Minimal Reproducible Example (MRE)
       description: >-
         Please provide a minimal complete verifiable code example to reproduce the bug.
-        
+
         ⚠️ The contents of this textfield will be automatically rendered as Python code,
         without the need to wrap it
       placeholder: "import {metadata[package][name]}"

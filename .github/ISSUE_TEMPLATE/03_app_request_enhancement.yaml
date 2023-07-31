@@ -2,13 +2,13 @@
 
 name: '🖥 App  🔔 Request  🚀 Enhancement'
 description: >-
-  Request an improvement to an existing feature in the application, 
+  Request an improvement to an existing feature in the application,
   for example in terms of performance, functionality, or ease of use.
 labels: ["Bug: App", "Status: Triage"]
 
 
 body:
-  
+
   - type: markdown
     attributes:
       value: >-
@@ -19,7 +19,7 @@ body:
     attributes:
       label: Guidelines and Agreements
       description: >-
-        Please make sure that you are following our 
+        Please make sure that you are following our
         [Bug Report Guidelines](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CONTRIBUTING.md#how-to-contribute-changes),
         so that we can process the issue as soon as possible.
 
@@ -39,7 +39,7 @@ body:
     attributes:
       label: Package Version
       description: |
-        Which versions of our software are affected? 
+        Which versions of our software are affected?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -53,7 +53,7 @@ body:
     id: python_version
     attributes:
       label: |
-        Which Python versions have you tested? 
+        Which Python versions have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -66,7 +66,7 @@ body:
     id: os
     attributes:
       label: |
-        Which operating systems have you tested? 
+        Which operating systems have you tested?
         Please select all versions where you have encountered the bug.
       multiple: true
       options:
@@ -114,5 +114,4 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  
 

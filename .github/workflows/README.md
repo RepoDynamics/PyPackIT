@@ -1,5 +1,5 @@
 # GitHub Actions Workflows
-This directory contains [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows) 
+This directory contains [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
 used in the CI/CD operations of the repository.
 
 
@@ -9,7 +9,7 @@ https://docs.readthedocs.io/en/latest/guides/pull-requests.html
 
 
 ## Releases
-GitHub has [built-in functionality](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes) 
+GitHub has [built-in functionality](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)
 to automatically generate release notes.
 
 
