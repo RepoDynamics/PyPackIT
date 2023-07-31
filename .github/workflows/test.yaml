@@ -14,7 +14,7 @@ jobs:
     steps:
 
       - run: |
-          printf '%s\n' "GIT" > foo.json
+          printf '%s\n' "$GIT" > foo.json
           cat foo.json
 
       - name: 'Checkout repository from ${{github.ref}}'
