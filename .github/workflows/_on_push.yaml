@@ -1,0 +1,26 @@
+
+name: CI/CD
+run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+
+on: push
+
+jobs:
+
+  changes:
+    name: 'Get changed files'
+    uses: ./.github/workflows/repo_files_changed.yaml
+
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_meta_get.yaml
+
+  sync:
+    name: 'Sync files'
+    needs: changes
+    if: (needs.changes.outputs.repodynamics == 'true' || needs.changes.outputs.meta == 'true')
+
+  package:
+    name: 'Test package'
+    needs: changes
+    if: needs.changes.outputs.package == 'true'
+    uses: ./.github/workflows/package.yaml

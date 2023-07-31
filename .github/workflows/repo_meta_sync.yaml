@@ -22,18 +22,15 @@ run-name: 'Sync Metadata: Triggered on ${{github.ref}} by ${{github.event_name}}
 on:
   workflow_call:
   workflow_dispatch:
-  push:
-    paths:
-      - 'repo/**'
-  pull_request:
-    paths:
-      - 'repo/**'
 
 
 jobs:
 
   update:
     name: 'Update files'
+    outputs:
+      changes_detected : ${{ steps.commit.outputs.changes_detected }}
+      commit_hash: ${{ steps.commit.outputs.commit_hash }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -46,12 +43,27 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
+      - name: 'Setup Python'
+        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
+          cache: 'pip'
+          cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
+
+      - name: 'Install RepoDynamics'
+        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ${{inputs.path-repodynamics}}
+
       - name: 'Update dynamic files'
-        run: python dev/repo_sync/sync_files.py
+        run: repodynamics-sync-files
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
+        id: commit
         with:
           commit_message: 'meta: sync dynamic files after metadata modification'
           commit_user_name: 'RepoDynamics[bot]'

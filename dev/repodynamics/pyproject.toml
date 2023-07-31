@@ -35,4 +35,5 @@ requires-python = ">=3.9"
 
 
 [project.scripts]
-get-metadata = "pypackit.metadata:__main__"
+repodynamics-get-metadata = "pypackit.metadata:__main__"
+repodynamics-sync-files = "pypackit.templates:__main__"

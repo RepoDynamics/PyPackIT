@@ -21,10 +21,6 @@ jobs:
     name: 'Get changed files'
     uses: ./.github/workflows/repo_files_changed.yaml
 
-  metadata:
-    name: 'Load repository metadata'
-
-
 
   lint:
     name: 'Lint source code'
