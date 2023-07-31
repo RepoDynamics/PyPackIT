@@ -1,0 +1,27 @@
+name: Testing
+
+on: pull_request
+
+jobs:
+  labeler:
+    name: 'Labeler'
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: echo ${{ github }}
+      - run: echo ${{ github.event }}
+      - run: echo ${{ github.head_ref }}
+      - run: echo ${{ github.base_ref }}
+      - run: echo ${{ github.ref }}
+
+      - name: 'Checkout repository from ${{github.ref}}'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - run: cat README.md >> "$GITHUB_STEP_SUMMARY"
+
