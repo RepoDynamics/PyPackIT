@@ -28,7 +28,7 @@ dependencies = [
     "trove-classifiers",
 
     # pycolorit
-    "jax",
+    "jax[cpu]",
 
 ]
 requires-python = ">=3.9"
