@@ -1,6 +1,8 @@
 name: Testing
 
-on: pull_request
+on:
+  - pull_request
+  - push
 
 jobs:
   labeler:
@@ -14,6 +16,7 @@ jobs:
     steps:
 
       - run: |
+          echo "$GIT" >> $GITHUB_OUTPUT
           printf '%s\n' "$GIT" > foo.json
           cat foo.json
 
@@ -22,5 +25,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: cat README.md >> "$GITHUB_STEP_SUMMARY"
+      - run: |
+          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
+          cat README.md >> "$GITHUB_STEP_SUMMARY"
+        
 
