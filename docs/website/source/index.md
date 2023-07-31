@@ -16,25 +16,20 @@ about/index
 help/index
 :::
 
-:::{image} _static/logo/full_light.svg
-:alt: Logo
+{% for theme in ["light", "dark"] %}
+:::{image} {{pp_meta.url.website.base}}/_static/logo/full_{{theme}}.svg
+:alt: {{pp_meta.project.name}}
 :align: center
-:class: only-light homepage-logo
+:class: only-{{theme}} homepage-logo
 :::
-:::{image} _static/logo/full_dark.svg
-:alt: Logo
-:align: center
-:class: only-dark homepage-logo
-:::
+{% endfor %}
 
 [{{ pp_meta.project.tagline }}]{.one-liner}
 
 ---
 
-
 {{ pp_meta.project.description.replace(pp_meta.project.name, 
 "[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
-
 
 ::::{grid} 1 2 2 2
 :gutter: 3
