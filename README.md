@@ -2,4 +2,4 @@
 
 Template Package with PyPackIT
 
-TESTT
+TEST
