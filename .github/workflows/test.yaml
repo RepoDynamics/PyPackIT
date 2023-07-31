@@ -9,13 +9,13 @@ jobs:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
+    env:
+      GIT: ${{ toJSON(github) }}
     steps:
 
-      - run: echo """${{ toJSON(github) }}"""
-      - run: echo """${{ toJSON(github.event) }}"""
-      - run: echo ${{ github.head_ref }}
-      - run: echo ${{ github.base_ref }}
-      - run: echo ${{ github.ref }}
+      - run: |
+          printf '%s\n' "GIT" > foo.json
+          cat foo.json
 
       - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
