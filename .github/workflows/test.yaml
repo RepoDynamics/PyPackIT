@@ -16,7 +16,7 @@ jobs:
     steps:
 
       - run: |
-          echo "$GIT" >> $GITHUB_OUTPUT
+          echo "json=$GIT" >> $GITHUB_OUTPUT
           printf '%s\n' "$GIT" > foo.json
           cat foo.json
 
