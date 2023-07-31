@@ -1,8 +1,8 @@
 # GitHub Pull Requests Templates
 This directory contains additional templates for pull requests.
 
-By default, the template defined at [./github/pull_request_template.md](./github/pull_request_template.md) 
-is used when opening a pull request. To use the extra templates in this directory, 
+By default, the template defined at [./github/pull_request_template.md](./github/pull_request_template.md)
+is used when opening a pull request. To use the extra templates in this directory,
 the `template` [query parameter](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
 must be added to the URL of the pull request form, defining the name of the template to use.
 For example, to use a template file named `my_custom_template.md`, add the following query string at the end of the

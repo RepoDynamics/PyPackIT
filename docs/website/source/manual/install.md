@@ -30,12 +30,12 @@ that appears in its upper right corner.
 
 :::{admonition} Need more help?
 :class: note
-Please refer to the Introduction(../intro/background/python_pkgs.md) 
+Please refer to the Introduction(../intro/background/python_pkgs.md)
 section for an overview of Python packages and how to install them.
 :::
 
 :::{admonition} For developers
 :class: seealso
-To install the latest development version, or for editable installs, 
+To install the latest development version, or for editable installs,
 see the [Developer Guide](../contribute/index.md).
 :::

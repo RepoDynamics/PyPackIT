@@ -10,7 +10,7 @@ but it is highly recommended to keep all names consistent, i.e. the package name
 should be the normalized version of the project name. Therefore, we enforce the restrictions of a
 valid non-normalized package name here, and then derive the package name from project name via normalization.
 
-A valid name consists only of ASCII alphanumeric characters, period (.), underscore (_) and hyphen (-), 
+A valid name consists only of ASCII alphanumeric characters, period (.), underscore (_) and hyphen (-),
 and must start and end with a letter or number. The validating regex is thus (with `IGNORECASE` flag set):
 ```default
 ^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$
@@ -27,7 +27,7 @@ A single-sentence description of the project.
 A long description of the project that can have multiple paragraphs, with Markdown or HTML formatting.
 
 ### Keywords
-Keywords to describe the project. 
+Keywords to describe the project.
 
 ### License
 Name of the license under which the project is distributed.
@@ -68,7 +68,7 @@ All other characters are automatically replaced with hyphens, that is:
 repo_name = re.sub(r'[^A-Za-z0-9_.-]', '-', project_name),
 ```
 
-Also, GitHub retains the capitalization only when displaying the repository name; 
+Also, GitHub retains the capitalization only when displaying the repository name;
 otherwise, names are not case-sensitive. That is, "PyPackIT" will be displayed as is,
 but any other capitalization of the word in any URL or address will also point to the same repository.
 
@@ -80,7 +80,7 @@ GitHub usernames of project's main authors.
 
 ### Name (derived)
 Name of the package, derived from the project name, via normalization:
-The name is lowercased with all runs of the characters period (.), underscore (_) and hyphen (-) 
+The name is lowercased with all runs of the characters period (.), underscore (_) and hyphen (-)
 replaced with a single hyphen:
 ```python
 package_name = re.sub(r'[._-]+', '-', project_name.lower())
@@ -134,7 +134,7 @@ The values are lists of GitHub usernames.
 Code owners that will be automatically requested to review pull requests before merging.
 
 Each key is a glob pattern (with slightly modified rules; see reference) to match files and directories that
-a list of GitHub usernames (the value) own.  
+a list of GitHub usernames (the value) own.
 
 #### Notes
 * Code owners must have write permissions for the repository.

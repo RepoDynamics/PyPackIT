@@ -8,4 +8,3 @@ sd_hide_title: true
 general
 install
 :::
-

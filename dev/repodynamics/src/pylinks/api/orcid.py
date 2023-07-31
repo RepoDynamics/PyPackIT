@@ -1,12 +1,14 @@
+# Standard libraries
 import re
 import warnings
+
+# Non-standard libraries
 import pylinks
 
 
 class Orcid:
-
     def __init__(self, orcid_id: str):
-        match = re.match(r'(?:https?://)?(?:orcid\.org/)?(\d{4}-\d{4}-\d{4}-\d{3}[0-9X])', orcid_id)
+        match = re.match(r"(?:https?://)?(?:orcid\.org/)?(\d{4}-\d{4}-\d{4}-\d{3}[0-9X])", orcid_id)
         if not match:
             raise ValueError(f"Invalid ORCID ID: {orcid_id}")
         self.id = match.group(1)
@@ -20,8 +22,8 @@ class Orcid:
         if not self._data:
             self._data = pylinks.request(
                 url=f"https://pub.orcid.org/v3.0/{self.id}",
-                headers={'Accept': 'application/json'},
-                response_type='json'
+                headers={"Accept": "application/json"},
+                response_type="json",
             )
         return self._data
 

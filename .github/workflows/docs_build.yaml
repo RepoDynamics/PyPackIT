@@ -40,23 +40,23 @@ jobs:
         #   https://github.com/sphinx-doc/sphinx-docker-images/tree/master
         run: >-
           sudo apt-get update -y
-      
+
           sudo apt-get install --no-install-recommends -y
           graphviz
           imagemagick
-          latexmk 
+          latexmk
           lmodern
-          texlive-xetex 
+          texlive-xetex
           texlive-luatex
-          texlive-latex-recommended 
-          texlive-latex-extra 
+          texlive-latex-recommended
+          texlive-latex-extra
           texlive-fonts-recommended
           fonts-font-awesome
-          texlive-fonts-extra 
+          texlive-fonts-extra
           fonts-freefont-otf
           tex-gyre
           xindy
-          
+
           npm install --save @fortawesome/fontawesome-free
 
       - name: 'Install repodynamics'
