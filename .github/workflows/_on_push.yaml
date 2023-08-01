@@ -1,0 +1,49 @@
+# Continuous Integration pipeline
+
+name: CI
+run-name: 'CI/CD: Triggered on ${{github.ref}}'
+
+on: push
+
+
+jobs:
+
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_meta.yaml
+
+  changes:
+    name: 'Get changed files'
+    uses: ./.github/workflows/repo_files_change.yaml
+
+  sync:
+    name: 'Sync files'
+    needs: changes
+    if: needs.changes.outputs.meta == 'true'
+    uses: ./.github/workflows/repo_sync.yaml
+    permissions:
+      contents: write
+
+  package:
+    name: 'Test package'
+    needs: [metadata, changes, sync]
+    if: !failure() && needs.changes.outputs.package == 'true'
+    uses: ./.github/workflows/package.yaml
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+      base-ref: ${{ github.event.before }}
+      head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
+
+  docs:
+    name: 'Build documentation with Sphinx'
+    needs: [metadata, changes, sync]
+    if: !failure() && needs.changes.outputs.docs == 'true'
+    uses: ./.github/workflows/docs_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}

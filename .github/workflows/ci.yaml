@@ -4,7 +4,6 @@ name: CI/CD
 run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
-  push:
   pull_request:
 #  release:
 #    types: [published]
