@@ -11,9 +11,9 @@ meta:
     readme: "meta/metadata/readme.yaml"
     theme: "meta/metadata/theme.yaml"
   template:
-    issue: "meta/templates/issue_form"
-    license: "meta/templates/license"
-    health_file: "meta/templates/health_file"
+    issue: "meta/template/issue_form"
+    license: "meta/template/license"
+    health_file: "meta/template/health_file"
   img:
     logo: "meta/img/logo"
 

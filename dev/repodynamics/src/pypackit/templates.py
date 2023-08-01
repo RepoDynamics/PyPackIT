@@ -42,7 +42,7 @@ class Templates:
     def update_readme(self):
         text = readme.ReadMe(metadata=self.metadata).header()
         with open(self._path_root / "README.md", "w") as f:
-            f.write(text)
+            f.write(str(text))
         return
 
     def update_health_files(self):
@@ -58,7 +58,7 @@ class Templates:
                 f.write(text.format(metadata=self.metadata))
 
     def update_license(self):
-        filename = self.metadata["project"]["license"].lower().rstrip("+")
+        filename = self.metadata["project"]["license"]['id'].lower().rstrip("+")
         with open(
             Path(self.metadata["path"]["abs"]["meta"]["template"]["license"]) / f"{filename}.txt"
         ) as f:
@@ -68,7 +68,7 @@ class Templates:
         return
 
     def update_package_init_docstring(self):
-        filename = self.metadata["project"]["license"].lower().rstrip("+")
+        filename = self.metadata["project"]["license"]['id'].lower().rstrip("+")
         with open(
             Path(self.metadata["path"]["abs"]["meta"]["template"]["license"])
             / f"{filename}_notice.txt"
@@ -120,10 +120,10 @@ class Templates:
         https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#codeowners-syntax
         """
         max_len = max(
-            [len(entry["pattern"]) for entry in self.metadata["maintainers"]["pull_requests"]]
+            [len(entry["pattern"]) for entry in self.metadata["maintainer"]["pulls"]]
         )
         text = ""
-        for entry in self.metadata["maintainers"]["pull_requests"]:
+        for entry in self.metadata["maintainer"]["pulls"]:
             reviewers = " ".join([f"@{reviewer}" for reviewer in entry["reviewers"]])
             text += f'{entry["pattern"]: <{max_len}}   {reviewers}\n'
         with open(
