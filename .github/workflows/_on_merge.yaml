@@ -48,7 +48,7 @@ jobs:
           import json
           import os
           
-          x = json.loads("""${{ toJSON(github) }}""")
+          x = json.loads("""${{ toJSON(github) }}""", strict=False)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'json={json.dumps(x)}', file=fh)
           with open("github_workload.json", "w") as f:
