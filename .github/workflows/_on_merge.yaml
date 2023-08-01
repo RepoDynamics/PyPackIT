@@ -34,7 +34,7 @@ jobs:
       release-notes: ${{ steps.log.outputs.release-notes }}
       docs: ${{ steps.log.outputs.docs }}
       tag: ${{ steps.log.outputs.tag }}
-      commit-hash: ${{ steps.commit.outputs.commit-hash }}
+      commit-hash: ${{ steps.commit.outputs.commit_hash }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
