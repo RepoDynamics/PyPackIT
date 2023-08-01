@@ -30,6 +30,7 @@ jobs:
     if: ${{ !failure() && needs.changes.outputs.package == 'true' }}
     uses: ./.github/workflows/package_ci.yaml
     permissions:
+      pull-requests: write
       security-events: write
       actions: read
       contents: read
