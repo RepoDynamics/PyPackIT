@@ -22,9 +22,9 @@ jobs:
         echo The PR was merged
 
   metadata:
-  name: 'Load repository metadata'
-  needs: merged
-  uses: ./.github/workflows/repo_meta.yaml
+    name: 'Load repository metadata'
+    needs: merged
+    uses: ./.github/workflows/repo_meta.yaml
 
   log:
     name: 'Log changes'
