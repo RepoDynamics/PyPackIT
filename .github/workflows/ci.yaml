@@ -19,7 +19,7 @@ jobs:
 
   metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta_get.yaml
+    uses: ./.github/workflows/repo_meta.yaml
 
   changes:
     name: 'Get changed files'
@@ -29,7 +29,7 @@ jobs:
     name: 'Sync files'
     needs: changes
     if: needs.changes.outputs.meta == 'true'
-    uses: ./.github/workflows/repo_meta_sync.yaml
+    uses: ./.github/workflows/repo_sync.yaml
 
 #  update:
 #    needs: sync
