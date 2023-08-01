@@ -1,7 +1,2 @@
 # Changelog
-Testing 123
-Testing 123
-Testing 123
-Testing 123
-Testing 123
-Testing 123
+This document tracks all changes to the API.

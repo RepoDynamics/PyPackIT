@@ -36,7 +36,6 @@ on:
         value: ${{jobs.build-sdist.outputs.package-version}}
 
 
-
 jobs:
 
   load-metadata:
@@ -61,6 +60,13 @@ jobs:
             echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
           fi
 
+  build:
+    name: 'Build distribution package'
+    needs: metadata
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+
   lint:
     name: 'Lint source code'
     needs: metadata
@@ -77,15 +83,6 @@ jobs:
       pull-requests: write
       actions: read
       contents: read
-
-
-  build:
-    name: 'Build distribution package'
-    needs: metadata
-    uses: ./.github/workflows/package_build.yaml
-    with:
-      metadata: ${{needs.metadata.outputs.json}}
-
 
   test:
     name: 'Install and test from ${{github.ref}}'

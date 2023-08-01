@@ -4,28 +4,4 @@ on:
   - workflow_call
 
 jobs:
-  labeler:
-    name: 'from called'
-    runs-on: ubuntu-latest
-    steps:
 
-      - run: |
-          import json
-          import os
-          x = json.loads("""${{ toJSON(github) }}""")
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'json={json.dumps(x)}', file=fh)
-
-        id: ff
-        shell: python
-
-      - run: echo "${{ steps.ff.outputs.json }}"
-
-      - name: 'Checkout repository from ${{github.ref}}'
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - run: |
-          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-          cat README.md >> "$GITHUB_STEP_SUMMARY"

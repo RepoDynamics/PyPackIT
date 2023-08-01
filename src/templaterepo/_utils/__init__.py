@@ -25,6 +25,3 @@ def returns_2() -> int:
     Function description
     """
     return 2
-
-
-f()

@@ -24,6 +24,11 @@ jobs:
   log:
     name: 'Log changes'
     needs: merged
+    outputs:
+      release: ${{ steps.log.outputs.release }}
+      docs: ${{ steps.log.outputs.docs }}
+      tag: ${{ steps.log.outputs.tag }}
+      commit-hash: ${{ steps.commit.outputs.commit-hash }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -46,7 +51,8 @@ jobs:
 #          python -m pip install --upgrade pip
 #          pip install dev/repodynamics
 
-      - run: python dev/repodynamics/src/pypackit/cd.py "${{ github.event_path }}"
+      - id: log
+        run: python dev/repodynamics/src/pypackit/cd.py "${{ github.event_path }}"
 
 #      - run: |
 #          import json
@@ -69,12 +75,55 @@ jobs:
         id: commit
         with:
           branch: ${{ github.base_ref }}
-          commit_message: 'release: updating changelog'
+          commit_message: 'chore: update changelog'
           commit_user_name: 'RepoDynamics[bot]'
 
       - run: |
           echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
           cat README.md >> "$GITHUB_STEP_SUMMARY"
+      
+
+  tag:
+    name: 'Create release tag'
+    needs: log
+    if: needs.log.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.log.outputs.commit-hash }}
+
+      - name: Tag and push current repo code
+        run: |
+          git config --global user.email ${{ github.actor }}@users.noreply.github.com
+          git config --global user.name ${{ github.actor }}
+          git tag -a ${{ needs.log.outputs.tag }} -m "Release ${{ needs.log.outputs.tag }}"
+          git push origin ${{ needs.log.outputs.tag }}
+
+  docs-build:
+    name: 'Build documentation with Sphinx'
+    needs: [log, tag]
+    if: ${{ !failure() && needs.log.outputs.docs == 'true' }}
+    uses: ./.github/workflows/docs_build.yaml
+    with:
+      checkout-ref: ${{ (needs.log.outputs.release == 'true' && needs.log.outputs.tag) || needs.log.outputs.commit-hash }}
+
+  docs-deploy:
+    name: 'Deply documentation website'
+    needs: [docs-build]
+    uses: ./.github/workflows/docs_deploy.yaml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+#  release:
+#    name: 'Publish release'
+#    needs: [log, tag]
+#    if: needs.log.outputs.release == 'true'
 
 #  test:
 #    runs-on: ubuntu-latest
