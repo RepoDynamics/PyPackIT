@@ -1,0 +1,109 @@
+# Continuous Integration pipeline
+
+name: CI/CD
+run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+
+jobs:
+
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_meta.yaml
+
+  changes:
+    name: 'Get changed files'
+    uses: ./.github/workflows/repo_files_change.yaml
+
+  sync:
+    name: 'Sync files'
+    needs: changes
+    if: needs.changes.outputs.meta == 'true'
+    uses: ./.github/workflows/repo_sync.yaml
+    permissions:
+      contents: write
+
+  update:
+    needs: sync
+    if: |
+      !failure() &&
+      github.event_name == 'pull_request' &&
+      ( github.base_ref == 'main' || startsWith(github.base_ref, 'release/v') ) &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true
+    uses: ./.github/workflows/repo_meta_log.yaml
+
+  package:
+    name: 'Test package'
+    needs: [changes, metadata, sync, update]
+    if: !failure() && needs.changes.outputs.package == 'true'
+    uses: ./.github/workflows/package.yaml
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+      base-ref: ${{ github.base_ref || github.event.before }}
+      head-ref: ${{ github.head_ref || needs.sync.outputs.commit-hash || github.event.after }}
+
+
+  build-docs:
+    name: 'Build documentation with Sphinx'
+    needs: [changes, metadata, sync]
+    if: !failure() && (needs.changes.outputs.docs == 'true' || github.event_name == 'schedule')
+    uses: ./.github/workflows/docs_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+
+
+  publish-testpypi:
+    name: 'Publish on TestPyPI'
+    needs: [build-package, test-local]
+    if: |
+      always() &&
+      needs.build-package.result == 'success' &&
+      needs.test-local.result == 'success' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/package_release_pypi.yaml
+    permissions:
+      id-token: write
+    with:
+      package-name: ${{ needs.build-package.outputs.package-name }}
+      package-version: ${{ needs.build-package.outputs.package-version }}
+      artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      platform-name: 'testpypi'
+
+
+  wait-for-testpypi:
+    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
+    name: 'Wait for TestPyPI'
+    needs: publish-testpypi
+    if: |
+      always() &&
+      needs.publish-testpypi.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Waiting ...'
+        run: sleep 300s
+
+
+  test-testpypi:
+    name: 'Install and test from TestPyPI'
+    needs: [ build-package, wait-for-testpypi, publish-testpypi ]
+    if: |
+      always() &&
+      needs.publish-testpypi.result == 'success'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "testpypi"
+      install-version: ${{ needs.build-package.outputs.package-version }}
