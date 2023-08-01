@@ -27,18 +27,20 @@ jobs:
       meta: ${{ steps.groups.outputs.meta_any_modified }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: 'Get all changed files'
-        id: all
         # https://github.com/marketplace/actions/changed-files
         uses: tj-actions/changed-files@v37
+        id: all
 
       - name: 'Get changed groups'
-        id: groups
         uses: tj-actions/changed-files@v37
+        id: groups
         with:
           files_yaml: |
             package:

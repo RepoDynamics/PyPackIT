@@ -6,6 +6,10 @@ run-name: 'Package: Build from ${{github.ref}}'
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      metadata:
+        description: 'Metadata of the repository.'
+        required: true
     outputs:
       artifact-name:
         description: 'Name of the uploaded artifact containing the distribution archive.'
@@ -23,16 +27,29 @@ defaults:
 
 jobs:
 
-  metadata:
+  load-metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta_get.yaml
-    with:
-      branch: ${{ github.base_ref }}
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/repo_meta.yaml
 
+  metadata:
+    name: 'set repository metadata'
+    needs: load-metadata
+    if: !failure()
+    outputs:
+      json: ${{steps.load-metadata.outputs.json}}
+    steps:
+      - name: 'Load repository metadata'
+        id: load-metadata
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
+          else
+            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+          fi
 
   build-sdist:
     name: 'Generate source distribution'
-    needs: metadata
     outputs:
       package-name: ${{steps.get_name.outputs.package-name}}
       package-version: ${{steps.get_name.outputs.package-version}}
@@ -57,13 +74,10 @@ jobs:
           import os
           from pathlib import Path
           fullname = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
-          name, ver = fullname.rsplit('-', 1)
-          print("Artifact name:", fullname)
-          print("Package name:", name)
-          print("Package version:", ver)
+          package_name, ver = fullname.rsplit('-', 1)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'artifact-name={fullname}', file=fh)
-            print(f'package-name={name}', file=fh)
+            print(f'package-name={package_name}', file=fh)
             print(f'package-version={ver}', file=fh)
 
       - name: 'Upload sdist as artifact'
@@ -71,6 +85,13 @@ jobs:
         with:
           path: dist/*.tar.gz
           name: ${{steps.get_name.outputs.artifact-name}}
+
+      - name: 'Generate summary'
+        run: |
+          echo "Source distribution created:" >> $GITHUB_STEP_SUMMARY
+          echo "- Package name: ${{steps.get_name.outputs.package-name}}" >> $GITHUB_STEP_SUMMARY
+          echo "- Package version: ${{steps.get_name.outputs.package-version}}" >> $GITHUB_STEP_SUMMARY
+          echo "- Artifact name: ${{steps.get_name.outputs.artifact-name}}" >> $GITHUB_STEP_SUMMARY
 
 
   build_wheel:

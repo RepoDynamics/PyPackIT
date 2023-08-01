@@ -3,13 +3,14 @@
 name: "Issues: Format Opened Issue"
 run-name: 'Issues: format opened issue'
 
-on:
-  issues:
-    types: [opened]
+on: issues
+
 
 jobs:
 
-  format:
+  format-opened:
+    name: 'Format opened issue'
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -24,7 +25,7 @@ jobs:
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "BODY<<$EOF" >> "$GITHUB_ENV"
-          echo "$(python meta/scripts/format_issue.py '$ISSUE_BODY')" >> "$GITHUB_ENV"
+          echo "$(python dev/repodynamics/src/pypackit/format_issue.py '$ISSUE_BODY')" >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
 
       - name: Update issue

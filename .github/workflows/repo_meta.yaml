@@ -126,7 +126,7 @@ jobs:
         env:
           UPDATE_CACHE: ${{ inputs.force-update == 'all' && '--update_cache' || '' }}
         run: >-
-          get-metadata
+          repodynamics-get-metadata
           --cachefile metadata_cache.yaml
           --output metadata.json
           --output_pretty metadata_pretty.json

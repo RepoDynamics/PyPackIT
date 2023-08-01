@@ -7,8 +7,8 @@
 name: "PR Labeler"
 run-name: "Label PR at ${{github.ref}}"
 
-on:
-  - pull_request_target
+on: pull_request_target
+
 
 jobs:
 
@@ -69,7 +69,7 @@ jobs:
   metadata:
     name: 'Load repository metadata'
     if: github.event.action == 'opened'
-    uses: ./.github/workflows/repo_get-metadata.yaml
+    uses: ./.github/workflows/repo_meta.yaml
     with:
       branch: ${{ github.base_ref }}
 

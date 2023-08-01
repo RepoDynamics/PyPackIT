@@ -5,6 +5,11 @@ run-name: 'Docs: build from ${{github.ref}}'
 
 on:
   workflow_call:
+    inputs:
+      checkout-ref:
+        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        required: false
+        default: ""
   workflow_dispatch:
 
 defaults:
@@ -22,6 +27,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Setup conda environment'
         # https://github.com/mamba-org/setup-micromamba

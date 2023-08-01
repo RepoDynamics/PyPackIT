@@ -6,6 +6,22 @@ run-name: Test lint
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      metadata:
+        description: 'Metadata of the repository.'
+        required: true
+      checkout-ref:
+        description: 'Reference to checkout.'
+        required: false
+        default: ""
+      base-ref:
+        description: 'Base reference.'
+        required: false
+        default: ""
+      head-ref:
+        description: 'Head reference.'
+        required: false
+        default: ""
 
 defaults:
   run:
@@ -13,11 +29,55 @@ defaults:
 
 jobs:
 
-  metadata:
+  load-metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta_get.yaml
-    with:
-      branch: ${{ github.base_ref }}
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/repo_meta.yaml
+
+  metadata:
+    name: 'set repository metadata'
+    needs: load-metadata
+    if: !failure()
+    outputs:
+      json: ${{steps.load-metadata.outputs.json}}
+    steps:
+      - name: 'Load repository metadata'
+        id: load-metadata
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
+          else
+            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+          fi
+
+  dependency-review:
+  # This Action will scan dependency manifest files that change as part of a Pull Request,
+  # surfacing known-vulnerable versions of the packages declared or updated in the PR.
+  # Once installed, if the workflow run is marked as required,
+  # PRs introducing known-vulnerable packages will be blocked from merging.
+
+    name: 'Dependency Review'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Review dependencies'
+        # Source repository: https://github.com/actions/dependency-review-action
+        # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
+        # https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-dependency-review
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: low
+          fail-on-scopes: development, runtime, unknown
+          comment-summary-in-pr: true
+          base-ref: ${{ inputs.base-ref }}
+          head-ref: ${{ inputs.head-ref }}
+
 
   CodeQL:
     # Run code scanning with GitHub CodeQL.
@@ -46,6 +106,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Initialize CodeQL'
         # Initializes the CodeQL tools for scanning.
@@ -88,6 +149,8 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Bandit Scan'
         uses: shundor/python-bandit-scan@v1.0
@@ -117,6 +180,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
+          ref: ${{ inputs.checkout-ref }}
 
       - name: Run Pyre
         uses: facebook/pyre-action@v0.0.1
@@ -140,6 +204,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Setup Python ${{ matrix.python-version }}'
         id: setup_python
@@ -215,6 +280,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Setup Python ${{ matrix.python-version }}'
         id: setup_python
@@ -317,6 +383,8 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Setup Python'
         id: setup_python
@@ -367,6 +435,8 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Run black'
         # https://black.readthedocs.io/en/stable/integrations/github_actions.html
@@ -386,6 +456,8 @@ jobs:
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Check .gitattributes'
         # Ref: https://github.com/alexkaratarakis/gitattributes/tree/master#ci-step

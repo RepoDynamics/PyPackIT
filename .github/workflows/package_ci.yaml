@@ -1,0 +1,78 @@
+name: 'Package - CI'
+run-name: 'Package: Build from ${{github.ref}}'
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      metadata:
+        description: 'Repository metadata as a JSON string.'
+        required: true
+      checkout-ref:
+        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        required: false
+        default: ""
+    outputs:
+      artifact-name:
+        description: 'Name of the uploaded artifact containing the distribution archive.'
+        value: ${{jobs.build-sdist.outputs.artifact-name}}
+      package-name:
+        description: 'Name of the package.'
+        value: ${{jobs.build-sdist.outputs.package-name}}
+      package-version:
+        description: 'Version of the package.'
+        value: ${{jobs.build-sdist.outputs.package-version}}
+
+
+
+jobs:
+
+  load-metadata:
+    name: 'Load repository metadata'
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/repo_meta.yaml
+
+  metadata:
+    name: 'set repository metadata'
+    needs: load-metadata
+    if: !failure()
+    outputs:
+      json: ${{steps.load-metadata.outputs.json}}
+    steps:
+      - name: 'Load repository metadata'
+        id: load-metadata
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
+          else
+            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+          fi
+
+  lint:
+    name: 'Lint source code'
+    needs: metadata
+    uses: ./.github/workflows/package_lint.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ inputs.checkout-ref }}
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+
+  build:
+    name: 'Build distribution package'
+    needs: metadata
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+
+
+  test:
+    name: 'Install and test from ${{github.ref}}'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      install-source: "local"

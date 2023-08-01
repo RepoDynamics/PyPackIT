@@ -14,22 +14,31 @@ on:
 
       install-source:
         description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
-        default: 'local'
+        type: choice
+        options:
+          - local
+          - testpypi
+          - pypi
+        default: local
         required: false
-        type: string
 
       install-version:
         description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
         default: ""
         required: false
         type: string
+
   workflow_call:
     inputs:
-      json-filepath:
-        description: "Path to the project's main JSON metadata file."
-        default: './metadata/main.json'
+
+      metadata:
+        description: 'Repository metadata as a JSON string.'
+        required: true
+
+      checkout-ref:
+        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         required: false
-        type: string
+        default: ""
 
       install-source:
         description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
@@ -57,11 +66,26 @@ jobs:
           echo 'install-version: ${{inputs.install-version}}'
           echo 'json-filepath: ${{inputs.json-filepath}}'
 
-  metadata:
+  load-metadata:
     name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta_get.yaml
-    with:
-      branch: ${{ github.base_ref }}
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/repo_meta.yaml
+
+  metadata:
+    name: 'set repository metadata'
+    needs: load-metadata
+    if: !failure()
+    outputs:
+      json: ${{steps.load-metadata.outputs.json}}
+    steps:
+      - name: 'Load repository metadata'
+        id: load-metadata
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
+          else
+            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+          fi
 
   test-suite:
     # Install the package and run tests on a matrix of supported Python versions and operating systems.
@@ -85,6 +109,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ inputs.checkout-ref }}
 
       - name: 'Set up Python ${{inputs.python-version}}'
         uses: actions/setup-python@v4
