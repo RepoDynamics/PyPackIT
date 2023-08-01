@@ -1,36 +1,71 @@
 # Continuous Integration pipeline
 
-name: CI/CD
-run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+name: CD
+run-name: 'CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
   pull_request:
-#  release:
-#    types: [published]
-  schedule:
-    # Weekly tests run on main by default:
-    #   Scheduled workflows run on the latest commit on the default or base branch.
-    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
-    - cron: '0 0 * * *'
+    branches:
+      - main
+      - 'release/v[0-9]+'
+    types:
+      - closed
 
 
 jobs:
 
-  metadata:
-    name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta.yaml
-
-  changes:
-    name: 'Get changed files'
-    uses: ./.github/workflows/repo_files_change.yaml
-
-  sync:
-    name: 'Sync files'
-    needs: changes
-    if: needs.changes.outputs.meta == 'true'
-    uses: ./.github/workflows/repo_sync.yaml
+  test:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
+    steps:
+
+      - name: 'Checkout repository'
+          uses: actions/checkout@v3
+            #        with:
+            # For pull requests, check out the source branch (head_ref), not the target branch
+            #          ref: ${{ github.head_ref }}
+            #          token: ${{ secrets.PAT }}
+
+      - name: 'Setup Python'
+        uses: actions/setup-python@v4
+
+
+#      - name: 'Install RepoDynamics'
+#        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install dev/repodynamics
+
+      #      - name: 'Update dynamic files'
+      #        run: repodynamics-sync-files
+
+      - run: printf '%s\n' "Testing 123" > TEST.txt
+
+      - name: 'Commit changes and push'
+        # https://github.com/marketplace/actions/git-auto-commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: commit
+        with:
+          commit_message: 'meta: sync dynamic files after metadata modification'
+          commit_user_name: 'RepoDynamics[bot]'
+
+
+#  metadata:
+#    name: 'Load repository metadata'
+#    uses: ./.github/workflows/repo_meta.yaml
+#
+#  changes:
+#    name: 'Get changed files'
+#    uses: ./.github/workflows/repo_files_change.yaml
+#
+#  sync:
+#    name: 'Sync files'
+#    needs: changes
+#    if: needs.changes.outputs.meta == 'true'
+#    uses: ./.github/workflows/repo_sync.yaml
+#    permissions:
+#      contents: write
 
 #  update:
 #    needs: sync
