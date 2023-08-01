@@ -4,8 +4,8 @@ name: CI/CD
 run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
-  push:
-  pull_request:
+#  push:
+#  pull_request:
 #  release:
 #    types: [published]
   schedule:
@@ -19,43 +19,53 @@ jobs:
 
   changes:
     name: 'Get changed files'
-    uses: ./.github/workflows/repo_files_changed.yaml
+    uses: ./.github/workflows/repo_files_change.yaml
 
+  metadata:
+    name: 'Load repository metadata'
+    uses: ./.github/workflows/repo_meta_get.yaml
 
-  lint:
-    name: 'Lint source code'
+  sync:
+    name: 'Sync files'
     needs: changes
-    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
-    uses: ./.github/workflows/package_lint.yaml
+    if: needs.changes.outputs.meta == 'true'
+    uses: ./.github/workflows/package.yaml
+
+  update:
+    needs: [sync]
+    if: |
+      !failure() &&
+      github.event_name == 'pull_request' &&
+      ( github.base_ref == 'main' || startsWith(github.base_ref, 'release/v') ) &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true
+    
+      
+
+  package:
+    name: 'Test package'
+    needs: [changes, metadata, sync]
+    if: !failure() && needs.changes.outputs.package == 'true'
+    uses: ./.github/workflows/package.yaml
     permissions:
-      # required for all workflows
       security-events: write
-      # only required for workflows in private repositories
       actions: read
       contents: read
-
-
-  build-package:
-    name: 'Build distribution package'
-    needs: changes
-    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
-    uses: ./.github/workflows/package_build.yaml
-
-
-  test-local:
-    name: 'Install and test from ${{github.ref}}'
-    needs: changes
-    if: always() && (needs.changes.outputs.package == 'true' || github.event_name == 'schedule')
-    uses: ./.github/workflows/package_test.yaml
     with:
-      install-source: "local"
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+      base-ref: ${{ github.base_ref || github.event.before }}
+      head-ref: ${{ github.head_ref || needs.sync.outputs.commit-hash || github.event.after }}
 
 
   build-docs:
     name: 'Build documentation with Sphinx'
-    needs: changes
-    if: always() && (needs.changes.outputs.docs == 'true' || github.event_name == 'schedule')
+    needs: [changes, metadata, sync]
+    if: !failure() && (needs.changes.outputs.docs == 'true' || github.event_name == 'schedule')
     uses: ./.github/workflows/docs_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
 
 
   deploy-docs:
