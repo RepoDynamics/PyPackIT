@@ -196,7 +196,7 @@ jobs:
   mypy:
     name: 'mypy (${{ matrix.os }}, python ${{ matrix.python-version }})'
     needs: metadata
-    if: ${{ !failure() }}
+    if: ${{ always() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
