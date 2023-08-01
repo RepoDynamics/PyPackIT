@@ -49,12 +49,8 @@ jobs:
 #          token: ${{ secrets.PAT }}
 
       - name: 'Setup Python'
-        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v4
-        with:
-          python-version-file: ${{inputs.path-repodynamics}}/pyproject.toml
-          cache: 'pip'
-          cache-dependency-path: ${{inputs.path-repodynamics}}/pyproject.toml
+        
 
       - name: 'Install RepoDynamics'
         if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
