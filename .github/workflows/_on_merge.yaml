@@ -46,7 +46,7 @@ jobs:
 #          python -m pip install --upgrade pip
 #          pip install dev/repodynamics
 
-      - run: python dev/reposynamics/src/pypackit/cd.py "${{ github.event_path }}"
+      - run: python dev/repodynamics/src/pypackit/cd.py "${{ github.event_path }}"
 
 #      - run: |
 #          import json
