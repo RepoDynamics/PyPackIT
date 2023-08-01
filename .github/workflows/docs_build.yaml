@@ -8,6 +8,7 @@ on:
     inputs:
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        type: string
         required: false
         default: ""
   workflow_dispatch:
