@@ -58,6 +58,22 @@ labels:
         any: [ "*" ]
 
 
+  - label: "Release: major"
+    sync: true
+    matcher:
+      commits: "^[\w\-]+(\([^)]+\))?!: "
+
+  - label: "Release: minor"
+    sync: true
+    matcher:
+      commits: "^feat(\([^)]+\))?: "
+
+  - label: "Release: patch"
+    sync: true
+    matcher:
+      commits: "^fix(\([^)]+\))?: "
+
+
 #  - label: "File: GH Action"
 #    # Match when at least one of the changed files is in './github/actions' (excluding README.md).
 #    sync: true
