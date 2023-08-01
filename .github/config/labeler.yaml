@@ -61,22 +61,22 @@ labels:
   - label: "Release: major"
     sync: true
     matcher:
-      commits: "^[\w\-]+(\([^)]+\))?!: "
+      commits: "^[\\w\\-]+(\\([^)]+\\))?!: "
 
   - label: "Release: minor"
     sync: true
     matcher:
-      commits: "^feat(\([^)]+\))?: "
+      commits: "^feat(\\([^)]+\\))?: "
 
   - label: "Release: patch"
     sync: true
     matcher:
-      commits: "^fix(\([^)]+\))?: "
+      commits: "^fix(\\([^)]+\\))?: "
 
   - label: "Deploy: website"
     sync: true
     matcher:
-      commits: "^website(\([^)]+\))?: "
+      commits: "^website(\\([^)]+\\))?: "
 
 
 #  - label: "File: GH Action"
