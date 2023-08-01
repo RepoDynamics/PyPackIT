@@ -1,15 +1,19 @@
-import subprocess
+# Standard libraries
 import argparse
 import json
+import subprocess
+
 
 def latest_tag() -> list[int] | None:
     git_describe = subprocess.run(
         args=["git", "describe", "--match", "v[0-9]*.[0-9]*.[0-9]*", "--abbrev=0"],
         capture_output=True,
     )
-    return list(
-        map(int, git_describe.stdout.decode().strip().removeprefix("v").split("."))
-    ) if git_describe.returncode == 0 else None
+    return (
+        list(map(int, git_describe.stdout.decode().strip().removeprefix("v").split(".")))
+        if git_describe.returncode == 0
+        else None
+    )
 
 
 def func(event: dict):
