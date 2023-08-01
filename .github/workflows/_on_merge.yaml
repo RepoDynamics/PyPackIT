@@ -49,7 +49,7 @@ jobs:
       - run: |
           import json
           import os
-          
+
           x = json.loads("""${{ toJSON(github) }}""", strict=False)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'json={json.dumps(x, )}', file=fh)
@@ -72,7 +72,7 @@ jobs:
 
       - run: |
           echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-          cat README.md >> "$GITHUB_STEP_SUMMARY"  
+          cat README.md >> "$GITHUB_STEP_SUMMARY"
 
 #  test:
 #    runs-on: ubuntu-latest
