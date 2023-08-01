@@ -50,14 +50,14 @@ jobs:
           
           x = json.loads("""${{ toJSON(github) }}""", strict=False)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'json={json.dumps(x)}', file=fh)
+            print(f'json={json.dumps(x, )}', file=fh)
           with open("github_workload.json", "w") as f:
             json.dump(x, f, indent=4)
 
         id: ff
         shell: python
 
-      - run: echo "${{ steps.ff.outputs.json }}"
+#      - run: echo "${{ steps.ff.outputs.json }}"
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
