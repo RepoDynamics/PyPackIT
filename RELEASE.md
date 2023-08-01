@@ -1,0 +1,24 @@
+## feat: test
+## Description
+Provide a brief description of the PR's purpose here.
+
+## Content
+Notable points that this PR has either accomplished or will accomplish.
+- [ ] TODO 1
+
+## Questions
+- [ ] Question1
+
+## Status
+ - [ ] Tests
+ - [ ] Docs
+ - [ ] CHANGELOG updated
+ - [ ] Issue raised/referenced
+ - [ ] Ready to merge
+
+
+<!-- readthedocs-preview templaterepo start -->
+----
+:books: Documentation preview :books:: https://templaterepo--60.org.readthedocs.build/en/60/
+
+<!-- readthedocs-preview templaterepo end -->
