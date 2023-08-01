@@ -40,7 +40,7 @@ This is the initial release of the project. Infrastructure is now in place to su
 
     def release(self, release: list[bool], latest_tag: list[int]):
         with open("CHANGELOG.md", "a") as f:
-            f.write(f"## {self.event.pull_request.title}\n{self.event.pull_request.body}\n")
+            f.write(f"## {self.event['pull_request']['title']}\n{self.event['pull_request']['body']}\n")
         if release[0]:
             new_version = f"v{latest_tag[0] + 1}.0.0"
         elif release[1]:
