@@ -7,10 +7,20 @@ on:
     inputs:
       metadata:
         description: 'Repository metadata as a JSON string.'
-        required: true
         type: string
+        required: true
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        type: string
+        required: false
+        default: ""
+      base-ref:
+        description: 'Base reference.'
+        type: string
+        required: false
+        default: ""
+      head-ref:
+        description: 'Head reference.'
         type: string
         required: false
         default: ""
@@ -58,6 +68,8 @@ jobs:
     with:
       metadata: ${{needs.metadata.outputs.json}}
       checkout-ref: ${{ inputs.checkout-ref }}
+      base-ref: ${{ inputs.base-ref }}
+      head-ref: ${{ inputs.head-ref }}
     permissions:
       # required for all workflows
       security-events: write

@@ -8,18 +8,22 @@ on:
   workflow_call:
     inputs:
       metadata:
-        description: 'Metadata of the repository.'
+        description: 'Repository metadata as a JSON string.'
+        type: string
         required: true
       checkout-ref:
-        description: 'Reference to checkout.'
+        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        type: string
         required: false
         default: ""
       base-ref:
         description: 'Base reference.'
+        type: string
         required: false
         default: ""
       head-ref:
         description: 'Head reference.'
+        type: string
         required: false
         default: ""
 
