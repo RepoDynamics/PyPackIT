@@ -30,6 +30,8 @@ jobs:
     needs: changes
     if: needs.changes.outputs.meta == 'true'
     uses: ./.github/workflows/repo_sync.yaml
+    permissions:
+      contents: write
 
 #  update:
 #    needs: sync
