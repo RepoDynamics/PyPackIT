@@ -50,13 +50,13 @@ jobs:
 
       - name: 'Setup Python'
         uses: actions/setup-python@v4
-        
+
 
       - name: 'Install RepoDynamics'
         if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install -e ${{inputs.path-repodynamics}}
+          pip install dev/repodynamics
 
       - name: 'Update dynamic files'
         run: repodynamics-sync-files
