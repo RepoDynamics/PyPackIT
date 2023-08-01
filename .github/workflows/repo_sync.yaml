@@ -65,6 +65,8 @@ jobs:
       - name: 'Update dynamic files'
         run: repodynamics-sync-files
 
+      - run: printf 'TEST" > TEST.txt
+
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
