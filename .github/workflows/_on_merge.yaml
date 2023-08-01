@@ -173,6 +173,12 @@ jobs:
           name: docs
           path: documentation
 
+      - name: 'Zip artifacts'
+        run: |
+          mv distribution/*.tar.gz ./
+          zip -r wheels.zip distribution
+          zip -r documentation.zip documentation
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -180,8 +186,9 @@ jobs:
           tag_name: ${{ needs.log.outputs.tag }}
           body_path: RELEASE.md
           files: |
-            distribution/**
-            documentation/**
+            wheels.zip
+            documentation.zip
+            *.tar.gz
 
 
 #  release:
