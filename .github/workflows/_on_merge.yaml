@@ -19,13 +19,8 @@ jobs:
     permissions:
       contents: write
     steps:
-
-      - name: 'Checkout repository'
-          uses: actions/checkout@v3
-            #        with:
-            # For pull requests, check out the source branch (head_ref), not the target branch
-            #          ref: ${{ github.head_ref }}
-            #          token: ${{ secrets.PAT }}
+      - name: 'Chekout'
+        uses: actions/checkout@v3
 
       - name: 'Setup Python'
         uses: actions/setup-python@v4
