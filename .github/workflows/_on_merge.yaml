@@ -25,6 +25,8 @@ jobs:
     name: 'Log changes'
     needs: merged
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - name: 'Checkout ${{github.base_ref}}'
