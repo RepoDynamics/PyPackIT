@@ -6,7 +6,7 @@ on:
 
 jobs:
   labeler:
-    name: 'Labeler'
+    name: 'from caller'
     uses: ./.github/workflows/test.yaml
 
 

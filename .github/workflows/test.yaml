@@ -1,13 +1,11 @@
 name: Testing
 
 on:
-  - pull_request
-  - push
   - workflow_call
 
 jobs:
   labeler:
-    name: 'Labeler'
+    name: 'from called'
     runs-on: ubuntu-latest
     steps:
 
