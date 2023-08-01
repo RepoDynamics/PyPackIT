@@ -11,14 +11,16 @@ jobs:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
-    env:
-      GIT: ${{ toJSON(github) }}
     steps:
 
       - run: |
-          printf '%s\n' "$GIT" > github_context.json
-          echo "json=$(cat github_context.json)" >> $GITHUB_OUTPUT
+          import json
+          x = json.loads("""${{ toJSON(github) }}""")
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f'json={json.dumps(x)}', file=fh)
+
         id: ff
+        shell: python
 
       - run: echo "${{ steps.ff.outputs.json }}"
 
