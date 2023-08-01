@@ -31,15 +31,15 @@ jobs:
     if: needs.changes.outputs.meta == 'true'
     uses: ./.github/workflows/repo_meta_sync.yaml
 
-  update:
-    needs: sync
-    if: |
-      !failure() &&
-      github.event_name == 'pull_request' &&
-      ( github.base_ref == 'main' || startsWith(github.base_ref, 'release/v') ) &&
-      github.event.action == 'closed' &&
-      github.event.pull_request.merged == true
-    uses: ./.github/workflows/repo_meta_log.yaml
+#  update:
+#    needs: sync
+#    if: |
+#      !failure() &&
+#      github.event_name == 'pull_request' &&
+#      ( github.base_ref == 'main' || startsWith(github.base_ref, 'release/v') ) &&
+#      github.event.action == 'closed' &&
+#      github.event.pull_request.merged == true
+#    uses: ./.github/workflows/repo_meta_log.yaml
 
 #  package:
 #    name: 'Test package'
