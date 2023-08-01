@@ -10,8 +10,8 @@ import tomlkit.items
 
 
 class PyProjectTOML:
-    def __init__(self, metadata: dict, path_pyproject: str | Path = "./pyproject.toml"):
-        self._path = Path(path_pyproject)
+    def __init__(self, metadata: dict,):
+        self._path = Path(metadata['path']['abs']['root']) / 'pyproject.toml'
         with open(self._path) as f:
             self._file: tomlkit.TOMLDocument = tomlkit.load(f)
         self._metadata: dict = metadata
@@ -20,12 +20,12 @@ class PyProjectTOML:
     def update(self):
         self.update_header_comment()
         self.update_project_table()
-        self.update_project_urls()
-        self.update_project_maintainers()
-        self.update_project_authors()
+        # self.update_project_urls()
+        # self.update_project_maintainers()
+        # self.update_project_authors()
         self.update_versioningit_onbuild()
-        # with open(self._path, "w") as f:
-        #     f.write(self._file.as_string())
+        with open(self._path, "w") as f:
+            f.write(tomlkit.dumps(self._file))
 
     def update_header_comment(self):
         lines = [
@@ -50,14 +50,14 @@ class PyProjectTOML:
             "readme": ("str", self._metadata["path"]["pypi_readme"]),
             "requires-python": ("str", f">= {self._metadata['package']['python_version_min']}"),
             "license": ("inline_table", {"file": "LICENSE"}),
-            "authors": ("array_of_inline_tables", ),
-            "maintainers": ("array_of_inline_tables", ),
+            # "authors": ("array_of_inline_tables", ),
+            # "maintainers": ("array_of_inline_tables", ),
             "keywords": ("array", self._metadata["project"]["keywords"]),
             "classifiers": ("array", self._metadata["project"]["trove_classifiers"]),
             "urls": (
                 "table",
                 {
-                    "Homepage": "",
+                    "Homepage": self._metadata['url']['website']['home'],
                     "Download": "",
                     "News": "",
                     "Documentation": "",
@@ -66,9 +66,9 @@ class PyProjectTOML:
                     "Source": "",
                 },
             ),
-            "scripts": "table",
-            "gui-scripts": "table",
-            "entry-points": "table_of_tables",
+            # "scripts": "table",
+            # "gui-scripts": "table",
+            # "entry-points": "table_of_tables",
             "dependencies": (
                 "array",
                 (
@@ -92,6 +92,8 @@ class PyProjectTOML:
             ),
         }
         for key, (dtype, val) in data_type.items():
+            if not val:
+                continue
             if dtype == "str":
                 toml_val = val
             elif dtype == "array":
@@ -99,7 +101,8 @@ class PyProjectTOML:
             elif dtype == "table":
                 toml_val = val
             elif dtype == "inline_table":
-                toml_val = tomlkit.inline_table().update(val)
+                toml_val = tomlkit.inline_table()
+                toml_val.update(val)
             elif dtype == "array_of_inline_tables":
                 toml_val = tomlkit.array().multiline(True)
                 for table in val:
@@ -153,7 +156,7 @@ class PyProjectTOML:
         https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#urls
         """
         urls = tomlkit.inline_table()
-        for url_key, url_val in self._metadata["urls"].items():
+        for url_key, url_val in self._metadata["url"].items():
             urls[url_key] = url_val
         self._file["project"]["urls"] = urls
         return

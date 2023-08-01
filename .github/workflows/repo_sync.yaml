@@ -58,8 +58,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install dev/repodynamics
 
-#      - name: 'Update dynamic files'
-#        run: repodynamics-sync-files
+      - name: 'Update dynamic files'
+        run: repodynamics-sync-files
 
 
       - name: 'Commit changes and push'

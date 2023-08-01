@@ -7,7 +7,7 @@ import sys
 
 # Non-standard libraries
 import ruamel.yaml
-from . import metadata, readme
+from . import metadata, readme, pyproject
 
 
 class Templates:
@@ -37,6 +37,7 @@ class Templates:
         self.update_pyproject()
 
     def update_pyproject(self):
+        pyproject.PyProjectTOML(metadata=self.metadata).update()
         return
 
     def update_readme(self):
