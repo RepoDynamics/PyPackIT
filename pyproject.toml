@@ -1,8 +1,8 @@
-#
-#
-#
-#
-#
+# TemplateRepo pyproject.toml File.
+# Automatically generated on 2023.08.01 at 22:33:14 UTC by PyPackIT 0.1.0
+# This file contains build system requirements and information,
+#  which are used by pip to build the package.
+#  For more information, see https://pypackit.readthedocs.io
 
 # References:
 # 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
@@ -255,7 +255,48 @@ line-length = 100
 dynamic = ["version"]
 name = "templaterepo"
 license = {file = "LICENSE"}
-readme = {file = "README.md", content-type = "text/markdown"}
+readme = "README.md"
 dependencies = [
-    "numpy"
+    'numpy >= 1.21.2',
 ]
+description = "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
+requires-python = ">= 3.9"
+keywords = [
+    'python',
+    'github',
+    'packaging',
+    'template',
+    'dynamic repository',
+    'repository template',
+    'documentation',
+    'testing',
+    'deployment',
+    'maintenance',
+    'automation',
+    'development',
+    'infrastructure',
+    'streamline',
+]
+classifiers = [
+    'Typing :: Typed',
+    'Natural Language :: English',
+    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+    'Development Status :: 1 - Planning',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: MacOS',
+    'Operating System :: POSIX :: Linux',
+    'Operating System :: OS Independent',
+]
+
+[project.urls]
+Homepage = "https://AAriam.github.io/TemplateRepo"
+Download = ""
+News = ""
+Documentation = ""
+"Bug Tracker" = ""
+Sponsor = ""
+Source = ""
