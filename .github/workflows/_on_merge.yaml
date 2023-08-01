@@ -149,7 +149,7 @@ jobs:
       platform-name: 'pypi'
 
   release:
-    needs: [metadata, log, tag, package-build]
+    needs: [metadata, log, tag, package-build, docs-build]
     if: ${{ !failure() && needs.log.outputs.release == 'true' }}
     permissions:
       contents: write
