@@ -77,11 +77,12 @@ jobs:
 
   test-testpypi:
     name: 'Install and test from TestPyPI'
-    needs: [ build-package, wait-for-testpypi ]
+    needs: [ metadata, package, wait-for-testpypi ]
 #    if: |
 #      always() &&
 #      needs.publish-testpypi.result == 'success'
     uses: ./.github/workflows/package_test.yaml
     with:
+      metadata: ${{ needs.metadata.outputs.json }}
       install-source: "testpypi"
-      install-version: ${{ needs.build-package.outputs.package-version }}
+      install-version: ${{ needs.package.outputs.package-version }}
