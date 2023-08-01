@@ -1,3 +1,3 @@
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/website_sphinx/source/_static/img/logo/logo_dark.svg"><source media="(prefers-color-scheme: light)" srcset="docs/website_sphinx/source/_static/img/logo/logo_light.svg"><img alt="YOUR-ALT-TEXT" src="docs/website_sphinx/source/_static/img/logo/logo_dark.svg"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://aariam.github.io/TemplateRepo/_static/logo/full_dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://aariam.github.io/TemplateRepo/_static/logo/full_light.svg"><img alt="YOUR-ALT-TEXT" src="https://aariam.github.io/TemplateRepo/_static/logo/full_light.svg"></picture>
 
-PyPackIT v.0.1.3
+PyPackIT v.0.1.4
