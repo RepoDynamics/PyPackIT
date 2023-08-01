@@ -38,6 +38,7 @@ jobs:
     if: !failure()
     outputs:
       json: ${{steps.load-metadata.outputs.json}}
+    runs-on: ubuntu-latest
     steps:
       - name: 'Load repository metadata'
         id: load-metadata

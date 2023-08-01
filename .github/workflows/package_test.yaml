@@ -74,9 +74,10 @@ jobs:
   metadata:
     name: 'set repository metadata'
     needs: load-metadata
-    if: !failure()
+    if: ${{ !failure() }}
     outputs:
       json: ${{steps.load-metadata.outputs.json}}
+    runs-on: ubuntu-latest
     steps:
       - name: 'Load repository metadata'
         id: load-metadata
