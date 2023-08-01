@@ -90,5 +90,7 @@ jobs:
   test:
     name: 'Install and test from ${{github.ref}}'
     uses: ./.github/workflows/package_test.yaml
+    needs: metadata
     with:
+      metadata: ${{needs.metadata.outputs.json}}
       install-source: "local"
