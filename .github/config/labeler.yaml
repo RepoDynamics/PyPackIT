@@ -13,49 +13,49 @@ labels:
     sync: true
     matcher:
       files:
-        any: [ "./.github/**" ]
+        any: [ ".github/**" ]
 
   - label: "Modified: data"
     sync: true
     matcher:
       files:
-        any: [ "./data/**" ]
+        any: [ "data/**" ]
 
   - label: "Modified: dev"
     sync: true
     matcher:
       files:
-        any: [ "./dev/**" ]
+        any: [ "dev/**" ]
 
   - label: "Modified: docs"
     sync: true
     matcher:
       files:
-        any: [ "./docs/**" ]
+        any: [ "docs/**" ]
 
   - label: "Modified: meta"
     sync: true
     matcher:
       files:
-        any: [ "./meta/**" ]
+        any: [ "meta/**" ]
 
   - label: "Modified: src"
     sync: true
     matcher:
       files:
-        any: [ "./src/**" ]
+        any: [ "src/**" ]
 
   - label: "Modified: tests"
     sync: true
     matcher:
       files:
-        any: [ "./tests/**" ]
+        any: [ "tests/**" ]
 
   - label: "Modified: root"
     sync: true
     matcher:
       files:
-        any: [ "./*" ]
+        any: [ "*" ]
 
 
 #  - label: "File: GH Action"
