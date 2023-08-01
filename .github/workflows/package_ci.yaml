@@ -37,7 +37,7 @@ jobs:
   metadata:
     name: 'set repository metadata'
     needs: load-metadata
-    if: !failure()
+    if: ${{ !failure() }}
     outputs:
       json: ${{steps.load-metadata.outputs.json}}
     steps:
