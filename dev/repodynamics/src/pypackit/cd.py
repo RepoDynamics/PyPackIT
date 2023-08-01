@@ -36,12 +36,14 @@ This is the initial release of the project. Infrastructure is now in place to su
             print(f"release=true", file=fh)
             print(f"docs=true", file=fh)
             print(f"tag=v0.0.0", file=fh)
+            print(f"release-notes={log}", file=fh)
         return
 
     def release(self, release: list[bool], latest_tag: list[int]):
+        log = f"## {self.event['pull_request']['title']}\n{self.event['pull_request']['body']}"
         with open("CHANGELOG.md", "a") as f:
             f.write(
-                f"## {self.event['pull_request']['title']}\n{self.event['pull_request']['body']}\n"
+                log
             )
         if release[0]:
             new_version = f"v{latest_tag[0] + 1}.0.0"
@@ -53,6 +55,7 @@ This is the initial release of the project. Infrastructure is now in place to su
             print(f"tag={new_version}", file=fh)
             print(f"release=true", file=fh)
             print(f"docs=true", file=fh)
+            print(f"release-notes={log}", file=fh)
         return
 
     def docs(self):

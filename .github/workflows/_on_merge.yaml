@@ -31,6 +31,7 @@ jobs:
     needs: merged
     outputs:
       release: ${{ steps.log.outputs.release }}
+      release-notes: ${{ steps.log.outputs.release-notes }}
       docs: ${{ steps.log.outputs.docs }}
       tag: ${{ steps.log.outputs.tag }}
       commit-hash: ${{ steps.commit.outputs.commit-hash }}
@@ -137,7 +138,7 @@ jobs:
   publish-pypi:
     name: 'Publish on PyPI'
     needs: [package-build]
-    if: ${{ !failure() }}
+    if: ${{ !failure() && needs.log.outputs.release == 'true' }}
     uses: ./.github/workflows/package_release_pypi.yaml
     permissions:
       id-token: write
@@ -147,6 +148,41 @@ jobs:
       artifact-name: ${{ needs.package-build.outputs.artifact-name }}
       platform-name: 'pypi'
 
+  release:
+    needs: [metadata, log, tag, package-build]
+    if: ${{ !failure() && needs.log.outputs.release == 'true' }}
+    permissions:
+      contents: write
+      discussions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.log.outputs.tag }}
+
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.package-build.outputs.artifact-name }}
+          path: distribution
+
+      - name: 'Download gh-pages artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: documentation
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{fromJSON(needs.metadata.outputs.json).project.name}} ${{ needs.log.outputs.tag }}
+          body: |
+            ${{ needs.log.outputs.release-notes }}
+          files: |
+            distribution
+            documentation
+            
 
 #  release:
 #    name: 'Publish release'
