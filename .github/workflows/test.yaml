@@ -16,9 +16,11 @@ jobs:
     steps:
 
       - run: |
-          echo "json=$GIT" >> $GITHUB_OUTPUT
-          printf '%s\n' "$GIT" > foo.json
-          cat foo.json
+          printf '%s\n' "$GIT" > github_context.json
+          echo "json=$(cat github_context.json)" >> $GITHUB_OUTPUT
+        id: ff
+
+      - run: echo "${{ steps.ff.outputs.json }}" 
 
       - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
