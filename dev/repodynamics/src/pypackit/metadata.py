@@ -263,7 +263,7 @@ class Metadata:
         self.metadata = dict()
         self.metadata['path'] = paths
         self.metadata['path']['abs'] = self._get_absolute_paths()
-        self.metadata['path']['abs']['root'] = self.path_root
+        self.metadata['path']['abs']['root'] = str(self.path_root)
         for section, filepath in self.metadata['path']['abs']['meta']['metadata'].items():
             path = Path(filepath)
             if not (path.exists() and path.is_file()):
