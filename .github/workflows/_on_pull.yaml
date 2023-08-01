@@ -1,7 +1,7 @@
 # Continuous Integration pipeline
 
 name: CI/CD
-run-name: 'CI/CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+run-name: 'CI/CD: Triggered on ${{github.ref}}'
 
 on:
   pull_request:

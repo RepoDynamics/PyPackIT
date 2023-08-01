@@ -73,6 +73,7 @@ jobs:
     uses: ./.github/workflows/package_build.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ inputs.checkout-ref }}
 
   lint:
     name: 'Lint source code'
