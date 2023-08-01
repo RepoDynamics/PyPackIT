@@ -212,8 +212,3 @@ jobs:
           fail_ci_if_error: false
           verbose: true
           env_vars: OS,PYTHON
-
-
-
-
-

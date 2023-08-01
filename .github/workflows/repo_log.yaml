@@ -29,4 +29,3 @@ jobs:
       - run: |
           echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
           cat README.md >> "$GITHUB_STEP_SUMMARY"
-
