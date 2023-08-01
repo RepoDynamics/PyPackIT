@@ -73,6 +73,11 @@ labels:
     matcher:
       commits: "^fix(\([^)]+\))?: "
 
+  - label: "Deploy: website"
+    sync: true
+    matcher:
+      commits: "^website(\([^)]+\))?: "
+
 
 #  - label: "File: GH Action"
 #    # Match when at least one of the changed files is in './github/actions' (excluding README.md).
