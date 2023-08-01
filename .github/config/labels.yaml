@@ -68,5 +68,3 @@
 - name: 'Modified: root'
   description: 'Modified files in root directory.'
   color: 'A00000'
-
-
