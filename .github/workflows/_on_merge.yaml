@@ -46,18 +46,20 @@ jobs:
 #          python -m pip install --upgrade pip
 #          pip install dev/repodynamics
 
-      - run: |
-          import json
-          import os
-          
-          x = json.loads("""${{ toJSON(github) }}""", strict=False)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'json={json.dumps(x, )}', file=fh)
-          with open("github_workload.json", "w") as f:
-            json.dump(x, f, indent=4)
+      - run: python dev/reposynamics/src/pypackit/cd.py "${{ github.event_path }}"
 
-        id: ff
-        shell: python
+#      - run: |
+#          import json
+#          import os
+#
+#          x = json.loads("""${{ toJSON(github) }}""", strict=False)
+#          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+#            print(f'json={json.dumps(x, )}', file=fh)
+#          with open("github_workload.json", "w") as f:
+#            json.dump(x, f, indent=4)
+#
+#        id: ff
+#        shell: python
 
 #      - run: echo "${{ steps.ff.outputs.json }}"
 
