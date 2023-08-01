@@ -34,6 +34,9 @@ jobs:
       contents: read
     with:
       metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ github.head_ref }}
+      base-ref: ${{ github.base_ref }}
+      head-ref: ${{ github.head_ref }}
 
 
   docs:
@@ -41,6 +44,8 @@ jobs:
     needs: [changes]
     if: ${{ !failure() && needs.changes.outputs.docs == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
+    with:
+      checkout-ref: ${{ github.head_ref }}
 
 
   publish-testpypi:
