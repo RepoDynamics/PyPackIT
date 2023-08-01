@@ -46,5 +46,4 @@ jobs:
     if: ${{ !failure() && needs.changes.outputs.docs == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
     with:
-      metadata: ${{needs.metadata.outputs.json}}
       checkout-ref: ${{ needs.sync.outputs.commit-hash }}
