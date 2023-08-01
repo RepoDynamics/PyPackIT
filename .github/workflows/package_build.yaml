@@ -8,7 +8,8 @@ on:
   workflow_call:
     inputs:
       metadata:
-        description: 'Metadata of the repository.'
+        description: 'Repository metadata as a JSON string.'
+        type: string
         required: true
     outputs:
       artifact-name:
