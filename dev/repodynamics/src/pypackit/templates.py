@@ -2,10 +2,12 @@
 import re
 from pathlib import Path
 from typing import Optional
+import argparse
+import sys
 
 # Non-standard libraries
 import ruamel.yaml
-from . import metadata
+from . import metadata, readme
 
 
 class Templates:
@@ -25,8 +27,23 @@ class Templates:
         self._path_root = Path(self.metadata["path"]["abs"]["root"])
         return
 
+    def update(self):
+        self.update_readme()
+        self.update_license()
+        self.update_health_files()
+        self.update_codeowners()
+        self.update_package_init_docstring()
+        self.update_funding()
+        self.update_pyproject()
+
+    def update_pyproject(self):
+        return
+
     def update_readme(self):
-        pass
+        text = readme.ReadMe(metadata=self.metadata).header()
+        with open(self._path_root / "README.md", "w") as f:
+            f.write(text)
+        return
 
     def update_health_files(self):
         for filepath in Path(self.metadata["path"]["abs"]["meta"]["template"]["health_file"]).glob(
@@ -172,3 +189,45 @@ class Templates:
 
     def update_issue_forms(self):
         pass
+
+def __main__():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=str, help="Path to the root directory.", required=False)
+    parser.add_argument(
+        "--pathfile", type=str, help="Path to the paths metadata file.", required=False
+    )
+    parser.add_argument(
+        "--cachefile", type=str, help="Path for the cache metadata file.", required=False
+    )
+    parser.add_argument(
+        "--output", type=str, help="Path for the output metadata file.", required=False
+    )
+    parser.add_argument(
+        "--output_pretty",
+        type=str,
+        help="Path for the pretty formatted output metadata file.",
+        required=False,
+    )
+    parser.add_argument(
+        "--update_cache",
+        action=argparse.BooleanOptionalAction,
+        help="Force update cache metadata file.",
+        required=False,
+    )
+    args = parser.parse_args()
+    try:
+        Templates(
+            path_root=args.root,
+            path_pathfile=args.pathfile,
+            path_cache=args.cachefile,
+            update_cache=args.update_cache,
+        ).update()
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+    return
+
+
+if __name__ == "__main__":
+    __main__()

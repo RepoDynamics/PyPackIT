@@ -1,4 +1,4 @@
-from . import readme
+from . import readme, pyproject, templates
 from .metadata import metadata
 
 

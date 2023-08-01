@@ -149,8 +149,8 @@ class ReadMe:
         for key_point in self._metadata["project"]["key_points"]:
             content.extend(
                 [
-                    self.spacer(width="10%", align="left"),
-                    self.spacer(width="10%", align="right"),
+                    # self.spacer(width="10%", align="left"),
+                    # self.spacer(width="10%", align="right"),
                     self.button(text=key_point["title"], color="primary"),
                     html.element.P(align="justify", content=[key_point["description"]]),
                 ]

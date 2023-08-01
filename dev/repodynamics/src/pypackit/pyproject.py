@@ -11,14 +11,25 @@ import tomlkit.items
 
 class PyProjectTOML:
     def __init__(self, metadata: dict, path_pyproject: str | Path = "./pyproject.toml"):
-        with open(path_pyproject) as f:
+        self._path = Path(path_pyproject)
+        with open(self._path) as f:
             self._file: tomlkit.TOMLDocument = tomlkit.load(f)
         self._metadata: dict = metadata
         return
 
+    def update(self):
+        self.update_header_comment()
+        self.update_project_table()
+        self.update_project_urls()
+        self.update_project_maintainers()
+        self.update_project_authors()
+        self.update_versioningit_onbuild()
+        # with open(self._path, "w") as f:
+        #     f.write(self._file.as_string())
+
     def update_header_comment(self):
         lines = [
-            f"{self._metadata['project_name']} pyproject.toml File.",
+            f"{self._metadata['project']['name']} pyproject.toml File.",
             (
                 "Automatically generated on "
                 f"{datetime.datetime.utcnow().strftime('%Y.%m.%d at %H:%M:%S UTC')} "
@@ -36,13 +47,13 @@ class PyProjectTOML:
         data_type = {
             "name": ("str", self._metadata["package"]["name"]),
             "description": ("str", self._metadata["project"]["tagline"]),
-            "readme": ("str", self._metadata["paths"]["pypi_readme"]),
+            "readme": ("str", self._metadata["path"]["pypi_readme"]),
             "requires-python": ("str", f">= {self._metadata['package']['python_version_min']}"),
-            "license": ("inline_table", {"file": self._metadata["paths"]["licenses"][0]}),
-            "authors": "array_of_inline_tables",
-            "maintainers": "array_of_inline_tables",
+            "license": ("inline_table", {"file": "LICENSE"}),
+            "authors": ("array_of_inline_tables", ),
+            "maintainers": ("array_of_inline_tables", ),
             "keywords": ("array", self._metadata["project"]["keywords"]),
-            "classifiers": ("array", self._metadata["package"]["trove_classifiers"]),
+            "classifiers": ("array", self._metadata["project"]["trove_classifiers"]),
             "urls": (
                 "table",
                 {
@@ -154,5 +165,3 @@ class PyProjectTOML:
         return
 
 
-def from_filepath(filepath):
-    file = pypackit.jsons.read(filepath)
