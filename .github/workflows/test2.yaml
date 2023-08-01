@@ -1,0 +1,12 @@
+name: Testing
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  labeler:
+    name: 'Labeler'
+    uses: ./.github/workflows/test.yaml
+
+
