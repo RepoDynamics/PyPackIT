@@ -20,7 +20,7 @@ jobs:
           x = json.loads("""${{ toJSON(github) }}""", strict=False)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'json={json.dumps(x, )}', file=fh)
-          with open("github_workload_dispatch.json", "w") as f:
+          with open("github_workload_dispatch_.json", "w") as f:
             json.dump(x, f, indent=4)
 
       - name: 'Commit changes and push'
@@ -30,4 +30,4 @@ jobs:
         with:
           commit_message: 'release: updating changelog'
           commit_user_name: 'RepoDynamics[bot]'
-          tagging_message: "v0.0.5"
+          tagging_message: "v0.0.6"
