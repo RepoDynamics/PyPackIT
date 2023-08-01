@@ -24,3 +24,6 @@ Notable points that this PR has either accomplished or will accomplish.
 :books: Documentation preview :books:: https://templaterepo--56.org.readthedocs.build/en/56/
 
 <!-- readthedocs-preview templaterepo end -->
+
+## Initial release
+This is the initial release of the project. Infrastructure is now in place to support future releases.
