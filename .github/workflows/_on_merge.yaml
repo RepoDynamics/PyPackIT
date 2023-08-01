@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: 'Chekout'
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
 
       - name: 'Setup Python'
         uses: actions/setup-python@v4
@@ -36,7 +38,7 @@ jobs:
       #        run: repodynamics-sync-files
 
       - run: |
-          printf '%s\n' "Testing 123" > TESTXXX.txt
+          printf '%s\n' "Testing 123" >> CHANGELOG.md
           cat TEST.txt
 
       - name: 'Commit changes and push'
