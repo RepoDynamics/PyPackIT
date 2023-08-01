@@ -35,7 +35,9 @@ jobs:
       #      - name: 'Update dynamic files'
       #        run: repodynamics-sync-files
 
-      - run: printf '%s\n' "Testing 123" > TEST.txt
+      - run: |
+          printf '%s\n' "Testing 123" > TESTXXX.txt
+          cat TEST.txt
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
