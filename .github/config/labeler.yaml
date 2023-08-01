@@ -13,7 +13,7 @@ labels:
     sync: true
     matcher:
       files:
-        any: [ "./github/**" ]
+        any: [ "./.github/**" ]
 
   - label: "Modified: data"
     sync: true
@@ -57,7 +57,7 @@ labels:
       files:
         any: [ "./*" ]
 
-  
+
 #  - label: "File: GH Action"
 #    # Match when at least one of the changed files is in './github/actions' (excluding README.md).
 #    sync: true
