@@ -12,6 +12,9 @@ issues:
   bug_api:
     - "aariam"
 
+  bug_docs:
+    - "aariam"
+
 
 pulls:
 
