@@ -180,8 +180,8 @@ jobs:
           tag_name: ${{ needs.log.outputs.tag }}
           body_path: RELEASE.md
           files: |
-            distribution
-            documentation
+            distribution/**
+            documentation/**
 
 
 #  release:
