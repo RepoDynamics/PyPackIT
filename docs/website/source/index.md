@@ -31,6 +31,7 @@ help/index
 {{ pp_meta.project.description.replace(pp_meta.project.name, 
 "[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
 
+
 ::::{grid} 1 2 2 2
 :gutter: 3
 {% for point in pp_meta.project.key_points %}
