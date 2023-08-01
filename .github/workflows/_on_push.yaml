@@ -27,8 +27,7 @@ jobs:
   package:
     name: 'Test package'
     needs: [metadata, changes, sync]
-    if: |
-      !failure() && needs.changes.outputs.package == 'true'
+    if: ${{ !failure() && needs.changes.outputs.package == 'true' }}
     uses: ./.github/workflows/package_ci.yaml
     permissions:
       security-events: write
@@ -43,8 +42,7 @@ jobs:
   docs:
     name: 'Build documentation with Sphinx'
     needs: [metadata, changes, sync]
-    if: |
-      !failure() && needs.changes.outputs.docs == 'true'
+    if: {{ !failure() && needs.changes.outputs.docs == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
