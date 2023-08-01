@@ -1,6 +1,4 @@
-
 class Settings:
-
     def __init__(self):
         self._offline_mode = False
         return

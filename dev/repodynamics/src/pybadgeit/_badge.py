@@ -2,19 +2,20 @@
 
 
 # Standard libraries
-from typing import Literal, Optional
-from abc import ABC, abstractmethod
 import copy
+from abc import ABC, abstractmethod
+from typing import Literal, Optional
+
 # Non-standard libraries
-from pylinks.url import URL
 from pyhtmlit import element as html
+from pylinks.url import URL
 
 
 class Badge(ABC):
     """Abstract base class for badges."""
 
     @abstractmethod
-    def url(self, mode: Literal['dark', 'light', 'clean'] = 'clean') -> str | URL:
+    def url(self, mode: Literal["dark", "light", "clean"] = "clean") -> str | URL:
         """
         URL of the badge image.
 
@@ -32,15 +33,15 @@ class Badge(ABC):
         ...
 
     def __init__(
-            self,
-            alt: Optional[str],
-            title: Optional[str],
-            width: Optional[str],
-            height: Optional[str],
-            align: Optional[str],
-            link: Optional[str | URL],
-            default_theme: Literal['light', 'dark'],
-            html_syntax: str | dict[Literal['tag_seperator', 'content_indent'], str] = None,
+        self,
+        alt: Optional[str],
+        title: Optional[str],
+        width: Optional[str],
+        height: Optional[str],
+        align: Optional[str],
+        link: Optional[str | URL],
+        default_theme: Literal["light", "dark"],
+        html_syntax: str | dict[Literal["tag_seperator", "content_indent"], str] = None,
     ):
         """
         Parameters
@@ -70,12 +71,15 @@ class Badge(ABC):
         self.align = align
         self.link = link
         self.default_theme = default_theme
-        self._html_syntax = {'tag_seperator': '\n', 'content_indent': '\t'}
+        self._html_syntax = {"tag_seperator": "\n", "content_indent": "\t"}
         self.html_syntax = html_syntax
         return
 
     def as_html_picture(
-            self, link: bool = True, tag_seperator: Optional[str] = None, content_indent: Optional[str] = None
+        self,
+        link: bool = True,
+        tag_seperator: Optional[str] = None,
+        content_indent: Optional[str] = None,
     ) -> html.PICTURE | html.A:
         """
         The badge as an HTML 'picture' element, that may be wrapped by an anchor ('a') element.
@@ -91,25 +95,36 @@ class Badge(ABC):
             An HTML element from the `pyhtmlit` package, which among others, has a __str__ method to
             output the HTML syntax of the element.
         """
-        tag_seperator = tag_seperator or self.html_syntax['tag_seperator']
-        content_indent = content_indent or self.html_syntax['content_indent']
+        tag_seperator = tag_seperator or self.html_syntax["tag_seperator"]
+        content_indent = content_indent or self.html_syntax["content_indent"]
         picture = html.PICTURE(
-            img=self.as_html_img(link=False, tag_seperator=tag_seperator, content_indent=content_indent),
+            img=self.as_html_img(
+                link=False, tag_seperator=tag_seperator, content_indent=content_indent
+            ),
             sources=[
-                html.SOURCE(srcset=self.url('dark'), media="(prefers-color-scheme: dark)"),
-                html.SOURCE(srcset=self.url('light'), media="(prefers-color-scheme: light)")
+                html.SOURCE(srcset=self.url("dark"), media="(prefers-color-scheme: dark)"),
+                html.SOURCE(srcset=self.url("light"), media="(prefers-color-scheme: light)"),
             ],
             tag_seperator=tag_seperator,
-            content_indent=content_indent
+            content_indent=content_indent,
         )
-        return picture if not link or self.link is None else html.A(
-            href=self.link,
-            content=[picture],
-            tag_seperator=tag_seperator,
-            content_indent=content_indent
+        return (
+            picture
+            if not link or self.link is None
+            else html.A(
+                href=self.link,
+                content=[picture],
+                tag_seperator=tag_seperator,
+                content_indent=content_indent,
+            )
         )
 
-    def as_html_img(self, link: bool = True, tag_seperator: Optional[str] = None, content_indent: Optional[str] = None):
+    def as_html_img(
+        self,
+        link: bool = True,
+        tag_seperator: Optional[str] = None,
+        content_indent: Optional[str] = None,
+    ):
         """
         The badge as an HTML 'img' element, that may be wrapped by an anchor ('a') element.
 
@@ -124,8 +139,8 @@ class Badge(ABC):
             An HTML element from the `pyhtmlit` package, which among others, has a __str__ method to
             output the HTML syntax of the element.
         """
-        tag_seperator = tag_seperator or self.html_syntax['tag_seperator']
-        content_indent = content_indent or self.html_syntax['content_indent']
+        tag_seperator = tag_seperator or self.html_syntax["tag_seperator"]
+        content_indent = content_indent or self.html_syntax["content_indent"]
         img = html.IMG(
             src=self.url(self.default_theme),
             alt=self.alt,
@@ -134,8 +149,15 @@ class Badge(ABC):
             height=self.height,
             align=self.align,
         )
-        return img if not link or self.link is None else html.A(
-            href=self.link, content=[img], tag_seperator=tag_seperator, content_indent=content_indent
+        return (
+            img
+            if not link or self.link is None
+            else html.A(
+                href=self.link,
+                content=[img],
+                tag_seperator=tag_seperator,
+                content_indent=content_indent,
+            )
         )
 
     def __str__(self):
@@ -160,11 +182,11 @@ class Badge(ABC):
         if value is None:
             return
         if isinstance(value, str):
-            self._html_syntax = {'tag_seperator': value, 'content_indent': value}
+            self._html_syntax = {"tag_seperator": value, "content_indent": value}
             return
         if isinstance(value, dict):
             for key, val in value.items():
-                if key not in ('tag_seperator', 'content_indent'):
+                if key not in ("tag_seperator", "content_indent"):
                     raise ValueError()
                 if not isinstance(val, str):
                     raise ValueError()
@@ -173,6 +195,8 @@ class Badge(ABC):
         raise ValueError()
 
     def display(self):
-        from IPython.display import display, HTML
+        # Non-standard libraries
+        from IPython.display import HTML, display
+
         display(HTML(str(self)))
         return

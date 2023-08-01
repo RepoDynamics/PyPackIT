@@ -34,7 +34,7 @@ on:
     inputs:
       force-update:
         description: >-
-          One of `none`, `core` or `all`, deciding whether to load entirely 
+          One of `none`, `core` or `all`, deciding whether to load entirely
           from cache (if no changes in metadata files are detected),
           force update the core metadata (but not the cached API metadata),
           or force update the core metadata and the cached API metadata.

@@ -1,8 +1,10 @@
-from typing import Any
+# Standard libraries
 import re
+from typing import Any
 
-from setuptools import setup
+# Non-standard libraries
 import versioningit
+from setuptools import setup
 
 
 def versioningit_format_custom(
@@ -15,7 +17,7 @@ def versioningit_format_custom(
     branch: str | None = description.branch
     if not branch:
         issue_nr = "unknown"
-    elif branch == params['default-branch']:
+    elif branch == params["default-branch"]:
         issue_nr = "0"
     else:
         match = re.match(r"^dev/(\d+)$", branch)
@@ -33,12 +35,10 @@ def versioningit_format_custom(
         "distance-dirty": "{base_version}.{issue_nr}.dev{distance}.{author_date:%Y.%m.%d}.{rev}.dirty",
     }
     if description.state not in formats:
-        raise versioningit.ConfigError(
-            f"No format string found for state {description.state!r}."
-        )
+        raise versioningit.ConfigError(f"No format string found for state {description.state!r}.")
     fmt = formats[description.state]
     return fmt.format_map(fields)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setup(cmdclass=versioningit.get_cmdclasses())

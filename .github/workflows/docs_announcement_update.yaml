@@ -8,7 +8,7 @@ on:
     inputs:
       announcement:
         description: |
-          Announcement message; supports HTML syntax (don't forget to escape with \). 
+          Announcement message; supports HTML syntax (don't forget to escape with \).
           To remove announcement, leave this field empty.
         type: string
         default: ""
