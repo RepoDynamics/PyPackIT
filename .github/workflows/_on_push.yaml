@@ -29,7 +29,7 @@ jobs:
     needs: [metadata, changes, sync]
     if: |
       !failure() && needs.changes.outputs.package == 'true'
-    uses: ./.github/workflows/package.yaml
+    uses: ./.github/workflows/package_ci.yaml
     permissions:
       security-events: write
       actions: read
