@@ -8,8 +8,10 @@ on:
       metadata:
         description: 'Repository metadata as a JSON string.'
         required: true
+        type: string
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        type: string
         required: false
         default: ""
     outputs:
