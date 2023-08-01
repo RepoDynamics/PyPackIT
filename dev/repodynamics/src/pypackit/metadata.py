@@ -596,7 +596,7 @@ class Metadata:
         # )
 
         urls["website"]["base"] = urls["website"]["home"]  # TODO
-
+        urls["website"]["news"] = f"{urls["website"]["home"]}/news"
         urls["announcement"] = (
             f"https://raw.githubusercontent.com/{self.metadata['project']['repo']['full_name']}/"
             f"{self.metadata['project']['repo']['default_branch']}/"
