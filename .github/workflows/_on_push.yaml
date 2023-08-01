@@ -42,7 +42,7 @@ jobs:
   docs:
     name: 'Build documentation with Sphinx'
     needs: [metadata, changes, sync]
-    if: {{ !failure() && needs.changes.outputs.docs == 'true' }}
+    if: ${{ !failure() && needs.changes.outputs.docs == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
