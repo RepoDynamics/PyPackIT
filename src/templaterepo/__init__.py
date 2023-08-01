@@ -11,4 +11,4 @@ A copyright disclaimer
 """
 
 __version_details__ = "This will be set on build"
-__version__ = __version_details__['version']
+__version__ = __version_details__["version"]

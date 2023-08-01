@@ -10,4 +10,3 @@ html {
     --pst-header-article-height: calc(var(--pst-header-height) * 2 / 3);  /* calc(var(--pst-header-height) * 2 / 3) */
     --pst-sidebar-secondary: 17rem;  /* 17rem */
 }
-

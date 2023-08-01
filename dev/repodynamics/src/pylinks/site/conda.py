@@ -2,12 +2,12 @@
 
 
 # Standard libraries
-from typing import Optional
 import re
+from typing import Optional
+
 # Non-standard libraries
 import requests
-# Self
-from pylinks import url, settings
+from pylinks import settings, url
 from pylinks.url import URL
 
 
@@ -17,7 +17,7 @@ BASE_URL = url(url="https://anaconda.org")
 class Package:
     """A Conda package."""
 
-    def __init__(self, name: str, channel: str = 'conda-forge', validate: Optional[bool] = None):
+    def __init__(self, name: str, channel: str = "conda-forge", validate: Optional[bool] = None):
         """
         Parameters
         ----------
@@ -32,14 +32,16 @@ class Package:
         if not isinstance(name, str):
             raise TypeError(f"`name` must be a string, not {type(name)}.")
         if re.match("^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$", name, flags=re.IGNORECASE) is None:
-            raise ValueError('Distribution name is invalid; see https://peps.python.org/pep-0508/#names.')
+            raise ValueError(
+                "Distribution name is invalid; see https://peps.python.org/pep-0508/#names."
+            )
         self._name = name
         self._channel = channel
         if validate is True or (validate is None and not settings.offline_mode):
             requests.get(str(self.homepage)).raise_for_status()
 
     def __repr__(self):
-        return f'conda.Package(name={self.name}, channel={self.channel}) @ {self.homepage}'
+        return f"conda.Package(name={self.name}, channel={self.channel}) @ {self.homepage}"
 
     def __str__(self):
         return str(self.homepage)

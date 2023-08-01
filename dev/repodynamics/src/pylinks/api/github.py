@@ -1,23 +1,23 @@
+# Standard libraries
 import re
 
-
-from pylinks import url, request
+# Non-standard libraries
+from pylinks import request, url
 
 
 BASE_URL = url("https://api.github.com")
 
 
 def _response(url_segment):
-    return request(url=BASE_URL / url_segment, response_type='json')
+    return request(url=BASE_URL / url_segment, response_type="json")
 
 
 class User:
-
     def __init__(self, username: str):
         self.username = username
         return
 
-    def _response(self, url: str = ''):
+    def _response(self, url: str = ""):
         return _response(f"users/{self.username}/{url}")
 
     @property
@@ -28,7 +28,7 @@ class User:
     def social_accounts(self) -> dict:
         return self._response(f"social_accounts")
 
-    def repo(self, repo_name) -> 'Repo':
+    def repo(self, repo_name) -> "Repo":
         return Repo(username=self.username, repo_name=repo_name)
 
 
@@ -42,7 +42,7 @@ class Repo:
         self.repo_name = repo_name
         return
 
-    def _response(self, url: str = ''):
+    def _response(self, url: str = ""):
         return _response(f"repos/{self.username}/{self.repo_name}/{url}")
 
     @property

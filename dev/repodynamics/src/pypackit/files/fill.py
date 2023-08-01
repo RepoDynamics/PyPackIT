@@ -1,10 +1,10 @@
-from pathlib import Path
+# Standard libraries
 import json
 import re
+from pathlib import Path
 
 
 class JSONLoader:
-
     def __init__(self, filepath):
         self._data = self._read(filepath)
         self.dir_path = Path(filepath).parent
@@ -18,10 +18,10 @@ class JSONLoader:
 
     def recursive_subst(self, value):
         if isinstance(value, str):
-            match_whole_str = re.match(r'{{{([^{}]*)}}}$', value)
+            match_whole_str = re.match(r"{{{([^{}]*)}}}$", value)
             if match_whole_str:
                 return self.substitute_val(match_whole_str.group(1))
-            return re.sub(r'{{{(.*?)}}}', lambda x: str(self.substitute_val(x.group(1))), value)
+            return re.sub(r"{{{(.*?)}}}", lambda x: str(self.substitute_val(x.group(1))), value)
         if isinstance(value, list):
             return [self.recursive_subst(elem) for elem in value]
         if isinstance(value, dict):
@@ -36,8 +36,8 @@ class JSONLoader:
         filename, *address = match.strip().split(".")
         parsed_address = []
         for add in address:
-            name = re.match(r'^([^[]+)', add).group()
-            indices = re.findall(r'\[([^\]]+)\]', add)
+            name = re.match(r"^([^[]+)", add).group()
+            indices = re.findall(r"\[([^\]]+)\]", add)
             parsed_address.append(name)
             parsed_ind = []
             for idx in indices:
@@ -55,7 +55,6 @@ class JSONLoader:
         return new_file.recursive_subst(value=target)
 
     def retrieve_address(self, address):
-
         def recursive_retrieve(obj, add):
             if len(add) == 0:
                 return obj
@@ -72,7 +71,7 @@ class JSONLoader:
         return recursive_retrieve(self._data, add=address)
 
     def path_sibling(self, name):
-        return self.dir_path / f'{name}.json'
+        return self.dir_path / f"{name}.json"
 
     def get_sibling(self, name):
         return JSONLoader(filepath=self.path_sibling(name))

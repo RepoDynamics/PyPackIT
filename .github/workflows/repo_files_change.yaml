@@ -62,15 +62,15 @@ jobs:
       - name: 'Create summary'
         run: |
           echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "${{ (steps.groups.outputs.package_any_modified == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.docs_any_modified == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.workflows_any_modified == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.repodynamics_any_modified == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
           echo "${{ (steps.groups.outputs.meta_any_modified == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
-          
+
           for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
             echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
           done

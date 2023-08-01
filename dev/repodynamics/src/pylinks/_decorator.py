@@ -2,9 +2,11 @@
 Custom decorators used by different functions within the library.
 """
 
-from typing import Callable, Optional, Union, Tuple, Type, NamedTuple
-from functools import wraps
+
+# Standard libraries
 import time
+from functools import wraps
+from typing import Callable, NamedTuple, Optional, Tuple, Type, Union
 
 
 __author__ = "Armin Ariamajd"
@@ -27,6 +29,7 @@ class RetryConfig(NamedTuple):
         After the n-th function call, the waiting time will be equal to:
         `sleep_time_init` * `sleep_time_scale` ^ (n - 1).
     """
+
     num_tries: int = 3
     sleep_time_init: float = 1
     sleep_time_scale: float = 3
@@ -49,7 +52,7 @@ def retry_on_exception(
     config : opencadd._decorator.RetryConfig, default: RetryConfig(3, 1, 3)
         Retry configuration.
     catch : Type[Exception] | Tuple[Type[Exception]], default: Exception
-        Exception type(s) that will be ignored during the retries. 
+        Exception type(s) that will be ignored during the retries.
         All other exceptions will be raised immediately.
 
     Returns
@@ -72,5 +75,7 @@ def retry_on_exception(
                         raise e
                     time.sleep(curr_sleep_seconds)
                     curr_sleep_seconds *= config.sleep_time_scale
+
         return retry_wrapper
+
     return retry_decorator if function is None else retry_decorator(function)

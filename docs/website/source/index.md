@@ -28,7 +28,7 @@ help/index
 
 ---
 
-{{ pp_meta.project.description.replace(pp_meta.project.name, 
+{{ pp_meta.project.description.replace(pp_meta.project.name,
 "[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
 
 
@@ -50,12 +50,12 @@ help/index
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
-Start off with the Introduction section to learn more about 
-{{pp_meta.project.name}}'s motivations, objectives and capabilities. 
-This section offers a high-level overview of {{pp_meta.project.name}}, highlighting its main features, 
-the challenges they address, and the value they bring to your projects. 
-Serving as an excellent starting point for new users, 
-it also provides a summary of related background information and concepts 
+Start off with the Introduction section to learn more about
+{{pp_meta.project.name}}'s motivations, objectives and capabilities.
+This section offers a high-level overview of {{pp_meta.project.name}}, highlighting its main features,
+the challenges they address, and the value they bring to your projects.
+Serving as an excellent starting point for new users,
+it also provides a summary of related background information and concepts
 that are essential to fully understanding and utilizing {{pp_meta.project.name}}.
 :::
 
@@ -66,12 +66,12 @@ that are essential to fully understanding and utilizing {{pp_meta.project.name}}
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.project.name}} efficiently. 
-From setting up your project to deploying it, this comprehensive guide covers all essential aspects 
+Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.project.name}} efficiently.
+From setting up your project to deploying it, this comprehensive guide covers all essential aspects
 of package development and maintenance.
 
-The Manual section contains comprehensive documentation and guides for users to understand 
-the various functionalities and how to use PyPackIT effectively. It will provide step-by-step instructions 
+The Manual section contains comprehensive documentation and guides for users to understand
+the various functionalities and how to use PyPackIT effectively. It will provide step-by-step instructions
 for different tasks and explain the available features in detail.
 
 The user guide provides in-depth information on the
@@ -86,12 +86,12 @@ key concepts of SciPy with useful background information and explanation.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-For advanced users seeking deeper insights into PyPackIT, 
-our API section provides a thorough reference guide. 
+For advanced users seeking deeper insights into PyPackIT,
+our API section provides a thorough reference guide.
 Explore the complete Python package documentation and learn to interact programmatically with PyPackIT.
 
-This section is likely dedicated to providing a comprehensive API reference for PyPackIT. 
-It will be beneficial for more advanced users who want to interact with PyPackIT programmatically 
+This section is likely dedicated to providing a comprehensive API reference for PyPackIT.
+It will be beneficial for more advanced users who want to interact with PyPackIT programmatically
 and need detailed information about the available functions and methods.
 :::
 
@@ -102,12 +102,12 @@ and need detailed information about the available functions and methods.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Stay up-to-date with the latest news, announcements, and developments related to PyPackIT. 
-The News section keeps you informed about new features, bug fixes, and enhancements that make your 
+Stay up-to-date with the latest news, announcements, and developments related to PyPackIT.
+The News section keeps you informed about new features, bug fixes, and enhancements that make your
 Python journey even smoother.
 
-The News section will likely keep users updated with the latest developments, updates, 
-and announcements related to PyPackIT. It's essential for users to stay informed about new features, 
+The News section will likely keep users updated with the latest developments, updates,
+and announcements related to PyPackIT. It's essential for users to stay informed about new features,
 bug fixes, and other project-related news.
 :::
 
@@ -118,8 +118,8 @@ bug fixes, and other project-related news.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-We believe in collaboration and value contributions from our users. 
-In the Contribute section, you'll find guidelines on how to get involved, 
+We believe in collaboration and value contributions from our users.
+In the Contribute section, you'll find guidelines on how to get involved,
 report issues, and actively participate in making PyPackIT even better.
 :::
 
@@ -130,10 +130,10 @@ report issues, and actively participate in making PyPackIT even better.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Learn more about the people behind PyPackIT and the project's history. 
+Learn more about the people behind PyPackIT and the project's history.
 The About section offers insights into our mission, core values, and the dedication driving PyPackIT's success.
 
-The About section will likely provide more in-depth information about the PyPackIT project, 
+The About section will likely provide more in-depth information about the PyPackIT project,
 including its history, the team behind it, its mission, and any notable achievements.
 :::
 
@@ -144,11 +144,11 @@ including its history, the team behind it, its mission, and any notable achievem
 :text-align: center
 :class-img-top: dark-light icon-image
 
-The Help section is your go-to resource for assistance with any challenges you encounter. 
+The Help section is your go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
 
-The Help section can serve as a user support hub, offering assistance to users facing challenges or 
-seeking answers to common questions. It may include FAQs, troubleshooting guides, and ways to reach out 
+The Help section can serve as a user support hub, offering assistance to users facing challenges or
+seeking answers to common questions. It may include FAQs, troubleshooting guides, and ways to reach out
 to the support team.
 :::
 

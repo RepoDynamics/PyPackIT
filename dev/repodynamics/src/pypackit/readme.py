@@ -1,18 +1,16 @@
 # Standard libraries
-from typing import Optional, Sequence, Literal
-import datetime
-from pathlib import Path
-import re
-import itertools
 import copy
+import datetime
+import itertools
+import re
+from pathlib import Path
+from typing import Literal, Optional, Sequence
 
 # Non-standard libraries
-import pyhtmlit as html
-import pylinks
 import pybadgeit as bdg
 import pycolorit as pcit
-
-# Self
+import pyhtmlit as html
+import pylinks
 import pypackit
 
 
@@ -32,9 +30,7 @@ class ReadMe:
     def generate(self) -> html.element.ElementCollection:
         file_content = html.element.ElementCollection(
             elements=[
-                html.element.Comment(
-                    f"{self._metadata['project']['name']} ReadMe File"
-                ),
+                html.element.Comment(f"{self._metadata['project']['name']} ReadMe File"),
                 html.element.Comment(
                     f"Document automatically generated on "
                     f"{datetime.datetime.utcnow().strftime('%Y.%m.%d at %H:%M:%S UTC')} "
@@ -115,9 +111,7 @@ class ReadMe:
 
     def logo(self) -> html.element.A:
         style = self._metadata["readme"]["header"]["style"]
-        url = (
-            f"{self._metadata['url']['website']['base']}" + "/_static/logo/full_{}.svg"
-        )
+        url = f"{self._metadata['url']['website']['base']}" + "/_static/logo/full_{}.svg"
         picture_tag = html.element.PICTURE(
             img=html.element.IMG(
                 src=url.format("light"),
@@ -134,13 +128,9 @@ class ReadMe:
                 for theme in ("dark", "light")
             ],
         )
-        logo = html.element.A(
-            href=self._metadata["url"]["website"]["home"], content=[picture_tag]
-        )
+        logo = html.element.A(href=self._metadata["url"]["website"]["home"], content=[picture_tag])
         if self._metadata["readme"]["header"]["style"] == "horizontal":
-            logo.content.elements.append(
-                self.spacer(width="10px", height="300px", align="left")
-            )
+            logo.content.elements.append(self.spacer(width="10px", height="300px", align="left"))
         return logo
 
     def header_body(self):
@@ -156,24 +146,25 @@ class ReadMe:
             }
         )
         content = [description]
-        for key_point in self._metadata['project']['key_points']:
+        for key_point in self._metadata["project"]["key_points"]:
             content.extend(
                 [
                     self.spacer(width="10%", align="left"),
                     self.spacer(width="10%", align="right"),
                     self.button(text=key_point["title"], color="primary"),
-                    html.element.P(align="justify", content=[key_point["description"]])
+                    html.element.P(align="justify", content=[key_point["description"]]),
                 ]
             )
         return content
 
     def menu(self):
-
         def get_top_data():
             with open(path_docs / "index.md") as f:
                 text = f.read()
             toctree = re.findall(r":::{toctree}\s((.|\s)*?)\s:::", text, re.DOTALL)[0][0]
-            top_section_filenames = [entry for entry in toctree.splitlines() if not entry.startswith(":")]
+            top_section_filenames = [
+                entry for entry in toctree.splitlines() if not entry.startswith(":")
+            ]
             top_section_names = []
             for filename in top_section_filenames:
                 with open((path_docs / filename).with_suffix(".md")) as f:
@@ -186,41 +177,48 @@ class ReadMe:
 
         def get_bottom_data():
             return [
-                {"text": item['title'], "link": item['path']}
-                for group in self._metadata['website']['quicklinks'] for item in group
-                if item.get('include_in_readme')
+                {"text": item["title"], "link": item["path"]}
+                for group in self._metadata["website"]["quicklinks"]
+                for item in group
+                if item.get("include_in_readme")
             ]
+
         path_docs = Path(self._metadata["path"]["abs"]["docs"]["website"]["source"])
         top_data = get_top_data()
         bottom_data = get_bottom_data()
         colors = [
             pcit.gradient.interpolate_rgb(
-                color_start=pcit.color.hexa(self._metadata['theme']['color']['primary'][theme]),
-                color_end=pcit.color.hexa(self._metadata['theme']['color']['secondary'][theme]),
+                color_start=pcit.color.hexa(self._metadata["theme"]["color"]["primary"][theme]),
+                color_end=pcit.color.hexa(self._metadata["theme"]["color"]["secondary"][theme]),
                 count=len(top_data) + len(bottom_data),
             ).hex()
             for theme in ("light", "dark")
         ]
         buttons = [
             self.button(
-                text=data['text'],
+                text=data["text"],
                 color=(color_light, color_dark),
                 link=f"{self._metadata['url']['website']['home']}/{data['link']}",
-            ) for data, color_light, color_dark in zip(top_data+bottom_data, colors[0], colors[1])
+            )
+            for data, color_light, color_dark in zip(top_data + bottom_data, colors[0], colors[1])
         ]
         menu_top, menu_bottom = [
             html.element.DIV(
                 align="center",
                 content=[
                     ("&nbsp;" * 2).join(
-                       [str(badge.as_html_picture(tag_seperator="", content_indent="")) for badge in badges]
+                        [
+                            str(badge.as_html_picture(tag_seperator="", content_indent=""))
+                            for badge in badges
+                        ]
                     )
-                ]
-            ) for badges in (buttons[:len(top_data)], buttons[len(top_data):])
+                ],
+            )
+            for badges in (buttons[: len(top_data)], buttons[len(top_data) :])
         ]
         menu_bottom.content.elements.insert(0, html.element.HR(width="100%"))
         menu_bottom.content.elements.append(html.element.HR(width="80%"))
-        if self._metadata['readme']['header']['style'] == 'vertical':
+        if self._metadata["readme"]["header"]["style"] == "vertical":
             menu_top.content.elements.insert(0, html.element.HR(width="80%"))
             menu_top.content.elements.append(html.element.HR(width="100%"))
         else:
@@ -233,9 +231,7 @@ class ReadMe:
             return badge
 
         def readthedocs(rtd_name, rtd_version=None, **kwargs):
-            badge = bdg.shields.build_read_the_docs(
-                project=rtd_name, version=rtd_version, **kwargs
-            )
+            badge = bdg.shields.build_read_the_docs(project=rtd_name, version=rtd_version, **kwargs)
             return badge
 
         def codecov(**kwargs):
@@ -269,18 +265,13 @@ class ReadMe:
         return div
 
     def activity(self, data):
-
-        pr_button = bdg.shields.static(
-            text="Pull Requests", style="for-the-badge", color="444"
-        )
+        pr_button = bdg.shields.static(text="Pull Requests", style="for-the-badge", color="444")
 
         prs = []
         issues = []
         for label in (None, "bug", "enhancement", "documentation"):
             prs.append(self._github_badges.pr_issue(label=label, raw=True, logo=None))
-            issues.append(
-                self._github_badges.pr_issue(label=label, raw=True, pr=False, logo=None)
-            )
+            issues.append(self._github_badges.pr_issue(label=label, raw=True, pr=False, logo=None))
 
         prs_div = html.element.DIV(
             align="right", content=html.element.ElementCollection(prs, "\n<br>\n")
@@ -362,7 +353,6 @@ class ReadMe:
         return div
 
     def project_badge(self):
-
         data = self._metadata["footer"]["package_badge"]
         badge = self._github_badges.release_version(
             display_name="release",
@@ -400,19 +390,20 @@ class ReadMe:
         return badge
 
     def button(
-            self,
-            text: str,
-            color: Literal['primary', 'secondary'] | tuple[str, str],
-            link: Optional[str] = None,
-            title: Optional[str] = None
+        self,
+        text: str,
+        color: Literal["primary", "secondary"] | tuple[str, str],
+        link: Optional[str] = None,
+        title: Optional[str] = None,
     ):
         return bdg.shields.static(
             text=text,
             style="for-the-badge",
             color={
                 theme: (
-                    self._metadata['theme']['color'][color][theme]
-                    if isinstance(color, str) else color[idx]
+                    self._metadata["theme"]["color"][color][theme]
+                    if isinstance(color, str)
+                    else color[idx]
                 )
                 for idx, theme in enumerate(("light", "dark"))
             },

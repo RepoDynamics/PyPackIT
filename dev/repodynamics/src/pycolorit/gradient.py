@@ -1,15 +1,16 @@
 """Working with colors."""
 
+
+# Non-standard libraries
+import numpy as np
 from pycolorit import rgb
 from pycolorit.color import Color
 
-import numpy as np
-
 
 def interpolate_rgb(
-        color_start: tuple[int, int, int] | Color,
-        color_end: tuple[int, int, int] | Color,
-        count: int = 3
+    color_start: tuple[int, int, int] | Color,
+    color_end: tuple[int, int, int] | Color,
+    count: int = 3,
 ) -> Color:
     """
     Create intermediate colors between two given RGB colors.
@@ -34,8 +35,16 @@ def interpolate_rgb(
     """
     if not isinstance(count, int) or count <= 0:
         raise ValueError("count must be positive integer")
-    c1 = rgb(color_start).rgb()[0] if not isinstance(color_start, Color) else color_start.rgb()[0].astype(int)
-    c2 = rgb(color_end).rgb()[0] if not isinstance(color_end, Color) else color_end.rgb()[0].astype(int)
+    c1 = (
+        rgb(color_start).rgb()[0]
+        if not isinstance(color_start, Color)
+        else color_start.rgb()[0].astype(int)
+    )
+    c2 = (
+        rgb(color_end).rgb()[0]
+        if not isinstance(color_end, Color)
+        else color_end.rgb()[0].astype(int)
+    )
     if count == 1:
         return rgb(c1)
     if count == 2:
@@ -44,5 +53,3 @@ def interpolate_rgb(
     colors = ((np.arange(count)[..., np.newaxis] * step) + c1[np.newaxis, ...]).astype(np.uint8)
     colors[-1] = c2
     return rgb(colors)
-
-

@@ -1,5 +1,8 @@
-from typing import Optional
+# Standard libraries
 import re
+from typing import Optional
+
+# Non-standard libraries
 import pylinks
 
 
@@ -26,7 +29,7 @@ class DOI:
             * 'https://doi.org/10.1039/d2sc03130b'
             * 'dx.doi.org/10.1093/nar/gkac267'
         """
-        match = re.match(r'(?:https?://)?(?:dx\.)?(?:doi\.org/)?(10\.\d+/\S+)', doi)
+        match = re.match(r"(?:https?://)?(?:dx\.)?(?:doi\.org/)?(10\.\d+/\S+)", doi)
         if not match:
             raise ValueError(f"Invalid DOI: {doi}")
         self.doi = match.group(1)
@@ -48,16 +51,13 @@ class DOI:
         locale : str, optional
             Locale to use for the citation; see https://github.com/citation-style-language/locales.
         """
-        accept = 'text/x-bibliography'
+        accept = "text/x-bibliography"
         if style:
-            accept += f'; style={style}'
+            accept += f"; style={style}"
         if locale:
-            accept += f'; locale={locale}'
+            accept += f"; locale={locale}"
         return pylinks.request(
-            self.url,
-            headers={"accept": accept},
-            encoding="utf-8",
-            response_type='str'
+            self.url, headers={"accept": accept}, encoding="utf-8", response_type="str"
         )
 
     @property
@@ -66,7 +66,7 @@ class DOI:
             self.url,
             headers={"accept": "application/x-bibtex"},
             encoding="utf-8",
-            response_type='str'
+            response_type="str",
         )
 
     @property
@@ -75,7 +75,7 @@ class DOI:
             self.url,
             headers={"accept": "application/x-research-info-systems"},
             encoding="utf-8",
-            response_type='str'
+            response_type="str",
         )
 
     @property
@@ -87,7 +87,7 @@ class DOI:
             self.url,
             headers={"accept": "application/citeproc+json"},
             encoding="utf-8",
-            response_type='json'
+            response_type="json",
         )
 
 
