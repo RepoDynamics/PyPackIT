@@ -1,35 +1,35 @@
 {
     "action": "closed",
-    "number": 52,
+    "number": 54,
     "pull_request": {
         "_links": {
             "comments": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/issues/52/comments"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/issues/54/comments"
             },
             "commits": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52/commits"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54/commits"
             },
             "html": {
-                "href": "https://github.com/AAriam/TemplateRepo/pull/52"
+                "href": "https://github.com/AAriam/TemplateRepo/pull/54"
             },
             "issue": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/issues/52"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/issues/54"
             },
             "review_comment": {
                 "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/comments{/number}"
             },
             "review_comments": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52/comments"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54/comments"
             },
             "self": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54"
             },
             "statuses": {
-                "href": "https://api.github.com/repos/AAriam/TemplateRepo/statuses/b0da120782268f788e80173027f9d6568ecda4e0"
+                "href": "https://api.github.com/repos/AAriam/TemplateRepo/statuses/5a7d0421bad6e1fc6d8b7fdadb6769af111cc7f9"
             }
         },
         "active_lock_reason": null,
-        "additions": 1,
+        "additions": 11,
         "assignee": null,
         "assignees": [],
         "author_association": "OWNER",
@@ -106,8 +106,8 @@
                 "name": "TemplateRepo",
                 "node_id": "R_kgDOJi8gRg",
                 "notifications_url": "https://api.github.com/repos/AAriam/TemplateRepo/notifications{?since,all,participating}",
-                "open_issues": 17,
-                "open_issues_count": 17,
+                "open_issues": 18,
+                "open_issues_count": 18,
                 "owner": {
                     "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
                     "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -130,9 +130,9 @@
                 },
                 "private": false,
                 "pulls_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls{/number}",
-                "pushed_at": "2023-08-01T14:34:42Z",
+                "pushed_at": "2023-08-01T15:14:20Z",
                 "releases_url": "https://api.github.com/repos/AAriam/TemplateRepo/releases{/id}",
-                "size": 1202,
+                "size": 1236,
                 "squash_merge_commit_message": "COMMIT_MESSAGES",
                 "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
                 "ssh_url": "git@github.com:AAriam/TemplateRepo.git",
@@ -154,7 +154,7 @@
                 "watchers_count": 0,
                 "web_commit_signoff_required": false
             },
-            "sha": "e868fa4076cb7962c5938fbc866256c2703702c2",
+            "sha": "14dffaca19ed32931614d9289905569c207c57ba",
             "user": {
                 "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
                 "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -177,19 +177,19 @@
             }
         },
         "body": "## Description\r\nProvide a brief description of the PR's purpose here.\r\n\r\n## Content\r\nNotable points that this PR has either accomplished or will accomplish.\r\n- [ ] TODO 1\r\n\r\n## Questions\r\n- [ ] Question1\r\n\r\n## Status\r\n - [ ] Tests\r\n - [ ] Docs\r\n - [ ] CHANGELOG updated\r\n - [ ] Issue raised/referenced\r\n - [ ] Ready to merge\r\n",
-        "changed_files": 1,
-        "closed_at": "2023-08-01T14:34:38Z",
+        "changed_files": 5,
+        "closed_at": "2023-08-01T15:14:21Z",
         "comments": 0,
-        "comments_url": "https://api.github.com/repos/AAriam/TemplateRepo/issues/52/comments",
-        "commits": 1,
-        "commits_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52/commits",
-        "created_at": "2023-08-01T14:34:32Z",
-        "deletions": 0,
-        "diff_url": "https://github.com/AAriam/TemplateRepo/pull/52.diff",
+        "comments_url": "https://api.github.com/repos/AAriam/TemplateRepo/issues/54/comments",
+        "commits": 2,
+        "commits_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54/commits",
+        "created_at": "2023-08-01T15:14:06Z",
+        "deletions": 8,
+        "diff_url": "https://github.com/AAriam/TemplateRepo/pull/54.diff",
         "draft": false,
         "head": {
-            "label": "AAriam:r4",
-            "ref": "r4",
+            "label": "AAriam:ddd",
+            "ref": "ddd",
             "repo": {
                 "allow_auto_merge": false,
                 "allow_forking": true,
@@ -259,8 +259,8 @@
                 "name": "TemplateRepo",
                 "node_id": "R_kgDOJi8gRg",
                 "notifications_url": "https://api.github.com/repos/AAriam/TemplateRepo/notifications{?since,all,participating}",
-                "open_issues": 17,
-                "open_issues_count": 17,
+                "open_issues": 18,
+                "open_issues_count": 18,
                 "owner": {
                     "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
                     "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -283,9 +283,9 @@
                 },
                 "private": false,
                 "pulls_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls{/number}",
-                "pushed_at": "2023-08-01T14:34:42Z",
+                "pushed_at": "2023-08-01T15:14:20Z",
                 "releases_url": "https://api.github.com/repos/AAriam/TemplateRepo/releases{/id}",
-                "size": 1202,
+                "size": 1236,
                 "squash_merge_commit_message": "COMMIT_MESSAGES",
                 "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
                 "ssh_url": "git@github.com:AAriam/TemplateRepo.git",
@@ -307,7 +307,7 @@
                 "watchers_count": 0,
                 "web_commit_signoff_required": false
             },
-            "sha": "b0da120782268f788e80173027f9d6568ecda4e0",
+            "sha": "5a7d0421bad6e1fc6d8b7fdadb6769af111cc7f9",
             "user": {
                 "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
                 "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -329,17 +329,45 @@
                 "url": "https://api.github.com/users/AAriam"
             }
         },
-        "html_url": "https://github.com/AAriam/TemplateRepo/pull/52",
-        "id": 1458233873,
-        "issue_url": "https://api.github.com/repos/AAriam/TemplateRepo/issues/52",
-        "labels": [],
+        "html_url": "https://github.com/AAriam/TemplateRepo/pull/54",
+        "id": 1458302000,
+        "issue_url": "https://api.github.com/repos/AAriam/TemplateRepo/issues/54",
+        "labels": [
+            {
+                "color": "A00000",
+                "default": false,
+                "description": "Modified files in root directory.",
+                "id": 5798780594,
+                "name": "Modified: root",
+                "node_id": "LA_kwDOJi8gRs8AAAABWaJesg",
+                "url": "https://api.github.com/repos/AAriam/TemplateRepo/labels/Modified:%20root"
+            },
+            {
+                "color": "A00000",
+                "default": false,
+                "description": "Modified files in .github directory.",
+                "id": 5798780596,
+                "name": "Modified: github",
+                "node_id": "LA_kwDOJi8gRs8AAAABWaJetA",
+                "url": "https://api.github.com/repos/AAriam/TemplateRepo/labels/Modified:%20github"
+            },
+            {
+                "color": "A00000",
+                "default": false,
+                "description": "Modified files in dev directory.",
+                "id": 5798780600,
+                "name": "Modified: dev",
+                "node_id": "LA_kwDOJi8gRs8AAAABWaJeuA",
+                "url": "https://api.github.com/repos/AAriam/TemplateRepo/labels/Modified:%20dev"
+            }
+        ],
         "locked": false,
         "maintainer_can_modify": false,
-        "merge_commit_sha": "b2af11bf927b3dce3b166bc5a069a5d98f92b3f3",
+        "merge_commit_sha": "fbc5830147c4b21509ed6dfe06488f240560c0bd",
         "mergeable": null,
         "mergeable_state": "unknown",
         "merged": true,
-        "merged_at": "2023-08-01T14:34:38Z",
+        "merged_at": "2023-08-01T15:14:21Z",
         "merged_by": {
             "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
             "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -361,20 +389,20 @@
             "url": "https://api.github.com/users/AAriam"
         },
         "milestone": null,
-        "node_id": "PR_kwDOJi8gRs5W6uIR",
-        "number": 52,
-        "patch_url": "https://github.com/AAriam/TemplateRepo/pull/52.patch",
+        "node_id": "PR_kwDOJi8gRs5W6-ww",
+        "number": 54,
+        "patch_url": "https://github.com/AAriam/TemplateRepo/pull/54.patch",
         "rebaseable": null,
         "requested_reviewers": [],
         "requested_teams": [],
         "review_comment_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/comments{/number}",
         "review_comments": 0,
-        "review_comments_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52/comments",
+        "review_comments_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54/comments",
         "state": "closed",
-        "statuses_url": "https://api.github.com/repos/AAriam/TemplateRepo/statuses/b0da120782268f788e80173027f9d6568ecda4e0",
+        "statuses_url": "https://api.github.com/repos/AAriam/TemplateRepo/statuses/5a7d0421bad6e1fc6d8b7fdadb6769af111cc7f9",
         "title": "Update README.md",
-        "updated_at": "2023-08-01T14:34:39Z",
-        "url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/52",
+        "updated_at": "2023-08-01T15:14:21Z",
+        "url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls/54",
         "user": {
             "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
             "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -457,8 +485,8 @@
         "name": "TemplateRepo",
         "node_id": "R_kgDOJi8gRg",
         "notifications_url": "https://api.github.com/repos/AAriam/TemplateRepo/notifications{?since,all,participating}",
-        "open_issues": 17,
-        "open_issues_count": 17,
+        "open_issues": 18,
+        "open_issues_count": 18,
         "owner": {
             "avatar_url": "https://avatars.githubusercontent.com/u/80158628?v=4",
             "events_url": "https://api.github.com/users/AAriam/events{/privacy}",
@@ -481,9 +509,9 @@
         },
         "private": false,
         "pulls_url": "https://api.github.com/repos/AAriam/TemplateRepo/pulls{/number}",
-        "pushed_at": "2023-08-01T14:34:42Z",
+        "pushed_at": "2023-08-01T15:14:20Z",
         "releases_url": "https://api.github.com/repos/AAriam/TemplateRepo/releases{/id}",
-        "size": 1202,
+        "size": 1236,
         "ssh_url": "git@github.com:AAriam/TemplateRepo.git",
         "stargazers_count": 0,
         "stargazers_url": "https://api.github.com/repos/AAriam/TemplateRepo/stargazers",
