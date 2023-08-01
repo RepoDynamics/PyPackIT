@@ -28,6 +28,7 @@ NEWS              text
 readme            text
 *README*          text
 TODO              text
+MANIFEST.in       text
 
 
 *.typed           text

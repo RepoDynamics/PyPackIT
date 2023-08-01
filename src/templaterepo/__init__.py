@@ -7,7 +7,7 @@ A longer description of the project.
 
 Copyright disclaimer:
 
-A copyright disclaimer.  
+A copyright disclaimer.
 """
 
 __version_details__ = "This will be set on build"

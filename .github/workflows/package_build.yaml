@@ -43,12 +43,11 @@ jobs:
     steps:
       - name: 'Load repository metadata'
         id: load-metadata
+        env:
+          METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
-          else
-            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
-          fi
+          printf '%s\n' "$METADATA" > metadata.json
+          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
 
   build-sdist:
     name: 'Generate source distribution'
@@ -99,7 +98,7 @@ jobs:
   build_wheel:
     name: 'Generate built distribution (pure Python)'
     needs: [metadata, build-sdist]
-    if: fromJSON(needs.metadata.outputs.json).package.is_pure_python == true
+    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == true }}
     runs-on: ubuntu-latest
     steps:
 
@@ -123,7 +122,7 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: [metadata, build-sdist]
-    if: fromJSON(needs.metadata.outputs.json).package.is_pure_python == false
+    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == false }}
     runs-on: ${{ matrix.build[0] }}
     strategy:
       fail-fast: false
