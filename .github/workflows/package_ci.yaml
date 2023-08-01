@@ -53,12 +53,18 @@ jobs:
     steps:
       - name: 'Load repository metadata'
         id: load-metadata
+        env:
+          METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
-          else
-            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
-          fi
+          printf '%s\n' "$METADATA" > metadata.json
+          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
+#          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+#            echo "json=${{ needs.load-metadata.outputs.json }}" >> $GITHUB_OUTPUT
+#          else
+#
+#
+#            echo "json=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+#          fi
 
   build:
     name: 'Build distribution package'
