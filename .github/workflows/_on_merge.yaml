@@ -47,7 +47,7 @@ jobs:
       - run: |
           import json
           import os
-          import pypackit
+          
           x = json.loads("""${{ toJSON(github) }}""")
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'json={json.dumps(x)}', file=fh)
