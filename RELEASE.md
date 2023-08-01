@@ -1,4 +1,4 @@
-## feat: test
+## fix: test
 ## Description
 Provide a brief description of the PR's purpose here.
 
@@ -19,6 +19,6 @@ Notable points that this PR has either accomplished or will accomplish.
 
 <!-- readthedocs-preview templaterepo start -->
 ----
-:books: Documentation preview :books:: https://templaterepo--60.org.readthedocs.build/en/60/
+:books: Documentation preview :books:: https://templaterepo--61.org.readthedocs.build/en/61/
 
 <!-- readthedocs-preview templaterepo end -->
