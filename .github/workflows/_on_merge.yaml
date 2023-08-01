@@ -14,6 +14,64 @@ on:
 
 jobs:
 
+  merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo The PR was merged
+
+  log:
+    name: 'Log changes'
+    needs: merged
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout ${{github.base_ref}}'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          fetch-depth: 0
+
+      - name: 'Setup Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+#      - name: 'Install RepoDynamics'
+#        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install dev/repodynamics
+
+      - run: |
+          import json
+          import os
+          import pypackit
+          x = json.loads("""${{ toJSON(github) }}""")
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f'json={json.dumps(x)}', file=fh)
+          with open("github_workload.json", "w") as f:
+            json.dump(x, f, indent=4)
+
+        id: ff
+        shell: python
+
+      - run: echo "${{ steps.ff.outputs.json }}"
+
+      - name: 'Commit changes and push'
+        # https://github.com/marketplace/actions/git-auto-commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: commit
+        with:
+          branch: ${{ github.base_ref }}
+          commit_message: 'release: updating changelog'
+          commit_user_name: 'RepoDynamics[bot]'
+
+      - run: |
+          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
+          cat README.md >> "$GITHUB_STEP_SUMMARY"  
+
   test:
     runs-on: ubuntu-latest
     permissions:
