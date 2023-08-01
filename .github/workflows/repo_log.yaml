@@ -1,7 +1,0 @@
-name: Testing
-
-on:
-  - workflow_call
-
-jobs:
-

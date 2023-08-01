@@ -69,6 +69,7 @@ jobs:
   build:
     name: 'Build distribution package'
     needs: metadata
+    if: ${{ !failure() }}
     uses: ./.github/workflows/package_build.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
@@ -76,6 +77,7 @@ jobs:
   lint:
     name: 'Lint source code'
     needs: metadata
+    if: ${{ !failure() }}
     uses: ./.github/workflows/package_lint.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
@@ -94,6 +96,7 @@ jobs:
     name: 'Install and test from ${{github.ref}}'
     uses: ./.github/workflows/package_test.yaml
     needs: metadata
+    if: ${{ !failure() }}
     with:
       metadata: ${{needs.metadata.outputs.json}}
       install-source: "local"
