@@ -83,5 +83,12 @@ https://docs.github.com/en/code-security/security-advisories/repository-security
 
 
 
-# Codecov
+## Codecov
 codecoverage : https://about.codecov.io/
+
+
+## Funding
+GitHub configuration file for displaying a sponsor button in the repository.
+References:
+  GitHub documentation for this file: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+  GitHub documentation on GitHub Sponsors: https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors
