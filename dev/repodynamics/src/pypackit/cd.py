@@ -1,11 +1,11 @@
 # Standard libraries
 import argparse
 import json
-import subprocess
 import os
+import subprocess
+
 
 class MergeLogger:
-
     def __init__(self, path_event_payload_file: str):
         with open(path_event_payload_file) as f:
             self.event = json.load(f)
@@ -28,7 +28,7 @@ class MergeLogger:
     def initial_release(self):
         log = """
 ## Initial release
-This is the initial release of the project. Infrastructure is now in place to support future releases. 
+This is the initial release of the project. Infrastructure is now in place to support future releases.
 """
         with open("CHANGELOG.md", "a") as f:
             f.write(log)
@@ -71,7 +71,7 @@ This is the initial release of the project. Infrastructure is now in place to su
 
     @property
     def labels(self):
-        return [label['name'] for label in self.event["pull_request"]["labels"]]
+        return [label["name"] for label in self.event["pull_request"]["labels"]]
 
     def update_type(self):
         release = [False, False, False]
@@ -84,8 +84,6 @@ This is the initial release of the project. Infrastructure is now in place to su
                     if label == f"Release: {release_type}":
                         release[segment] = True
         return release, docs
-
-
 
     @staticmethod
     def latest_tag() -> list[int] | None:
@@ -100,14 +98,11 @@ This is the initial release of the project. Infrastructure is now in place to su
         )
 
 
-
-
 def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", type=str, help="Path to the root directory.")
     args = parser.parse_args()
     MergeLogger(path_event_payload_file=args.path).run()
-
     # with open("event_workload.json", "w") as f:
     #     json.dump(event, f, indent=4)
     # try:
