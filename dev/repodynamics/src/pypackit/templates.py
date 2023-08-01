@@ -1,13 +1,13 @@
 # Standard libraries
+import argparse
 import re
+import sys
 from pathlib import Path
 from typing import Optional
-import argparse
-import sys
 
 # Non-standard libraries
 import ruamel.yaml
-from . import metadata, readme, pyproject
+from . import metadata, pyproject, readme
 
 
 class Templates:
@@ -59,7 +59,7 @@ class Templates:
                 f.write(text.format(metadata=self.metadata))
 
     def update_license(self):
-        filename = self.metadata["project"]["license"]['id'].lower().rstrip("+")
+        filename = self.metadata["project"]["license"]["id"].lower().rstrip("+")
         with open(
             Path(self.metadata["path"]["abs"]["meta"]["template"]["license"]) / f"{filename}.txt"
         ) as f:
@@ -69,7 +69,7 @@ class Templates:
         return
 
     def update_package_init_docstring(self):
-        filename = self.metadata["project"]["license"]['id'].lower().rstrip("+")
+        filename = self.metadata["project"]["license"]["id"].lower().rstrip("+")
         with open(
             Path(self.metadata["path"]["abs"]["meta"]["template"]["license"])
             / f"{filename}_notice.txt"
@@ -120,9 +120,7 @@ class Templates:
         ----------
         https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#codeowners-syntax
         """
-        max_len = max(
-            [len(entry["pattern"]) for entry in self.metadata["maintainer"]["pulls"]]
-        )
+        max_len = max([len(entry["pattern"]) for entry in self.metadata["maintainer"]["pulls"]])
         text = ""
         for entry in self.metadata["maintainer"]["pulls"]:
             reviewers = " ".join([f"@{reviewer}" for reviewer in entry["reviewers"]])
@@ -190,6 +188,7 @@ class Templates:
 
     def update_issue_forms(self):
         pass
+
 
 def __main__():
     parser = argparse.ArgumentParser()

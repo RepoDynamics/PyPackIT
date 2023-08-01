@@ -10,8 +10,11 @@ import tomlkit.items
 
 
 class PyProjectTOML:
-    def __init__(self, metadata: dict,):
-        self._path = Path(metadata['path']['abs']['root']) / 'pyproject.toml'
+    def __init__(
+        self,
+        metadata: dict,
+    ):
+        self._path = Path(metadata["path"]["abs"]["root"]) / "pyproject.toml"
         with open(self._path) as f:
             self._file: tomlkit.TOMLDocument = tomlkit.load(f)
         self._metadata: dict = metadata
@@ -57,13 +60,13 @@ class PyProjectTOML:
             "urls": (
                 "table",
                 {
-                    "Homepage": self._metadata['url']['website']['home'],
-                    "Download": self._metadata['url']['github']['releases']['home'],
-                    "News": self._metadata['url']['website']['news'],
-                    "Documentation": self._metadata['url']['website']['home'],
-                    "Bug Tracker": self._metadata['url']['github']['issues']['home'],
+                    "Homepage": self._metadata["url"]["website"]["home"],
+                    "Download": self._metadata["url"]["github"]["releases"]["home"],
+                    "News": self._metadata["url"]["website"]["news"],
+                    "Documentation": self._metadata["url"]["website"]["home"],
+                    "Bug Tracker": self._metadata["url"]["github"]["issues"]["home"],
                     # "Sponsor": "",
-                    "Source": self._metadata['url']['github']['home'],
+                    "Source": self._metadata["url"]["github"]["home"],
                 },
             ),
             # "scripts": "table",
@@ -166,5 +169,3 @@ class PyProjectTOML:
         tab["source-file"] = f"src/{self._metadata['package']['name']}/__init__.py"
         tab["build-file"] = f"{self._metadata['package']['name']}/__init__.py"
         return
-
-

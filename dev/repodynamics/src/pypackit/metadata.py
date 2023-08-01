@@ -583,9 +583,9 @@ class Metadata:
 
         urls["website"] = dict()
         urls["website"]["home"] = (
-                f"https://{self.metadata['project']['owner']['login']}.github.io"
-                f"""{"" if self.metadata['website']['is_gh_user_site'] else f"/{self.metadata['project']['repo']['name']}"}"""
-            )
+            f"https://{self.metadata['project']['owner']['login']}.github.io"
+            f"""{"" if self.metadata['website']['is_gh_user_site'] else f"/{self.metadata['project']['repo']['name']}"}"""
+        )
         #     (
         #     f"https://{self.metadata['website']['rtd_name']}.readthedocs.io/en/latest"
         #     if self.metadata["website"].get("rtd_name")
