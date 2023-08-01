@@ -177,8 +177,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{fromJSON(needs.metadata.outputs.json).project.name}} ${{ needs.log.outputs.tag }}
-          body: |
-            ${{ needs.log.outputs.release-notes }}
+          body_path: RELEASE.md
           files: |
             distribution
             documentation

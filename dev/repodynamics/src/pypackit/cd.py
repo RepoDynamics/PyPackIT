@@ -36,7 +36,8 @@ This is the initial release of the project. Infrastructure is now in place to su
             print(f"release=true", file=fh)
             print(f"docs=true", file=fh)
             print(f"tag=v0.0.0", file=fh)
-            print(f"release-notes={log}", file=fh)
+        with open("RELEASE.md", "w") as f:
+            f.write(log)
         return
 
     def release(self, release: list[bool], latest_tag: list[int]):
@@ -55,7 +56,8 @@ This is the initial release of the project. Infrastructure is now in place to su
             print(f"tag={new_version}", file=fh)
             print(f"release=true", file=fh)
             print(f"docs=true", file=fh)
-            print(f"release-notes={log}", file=fh)
+        with open("RELEASE.md", "w") as f:
+            f.write(log)
         return
 
     def docs(self):
