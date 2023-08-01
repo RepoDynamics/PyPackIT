@@ -21,6 +21,11 @@ jobs:
     - run: |
         echo The PR was merged
 
+  metadata:
+  name: 'Load repository metadata'
+  needs: merged
+  uses: ./.github/workflows/repo_meta.yaml
+
   log:
     name: 'Log changes'
     needs: merged
@@ -119,6 +124,29 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
+  package-build:
+    name: 'Build distribution package'
+    needs: [metadata, log, tag]
+    if: ${{ !failure() && needs.log.outputs.release == 'true' }}
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
+      checkout-ref: ${{ needs.log.outputs.tag }}
+
+  publish-pypi:
+    name: 'Publish on PyPI'
+    needs: [package-build]
+    if: ${{ !failure() }}
+    uses: ./.github/workflows/package_release_pypi.yaml
+    permissions:
+      id-token: write
+    with:
+      package-name: ${{ needs.package-build.outputs.package-name }}
+      package-version: ${{ needs.package-build.outputs.package-version }}
+      artifact-name: ${{ needs.package-build.outputs.artifact-name }}
+      platform-name: 'pypi'
+
 
 #  release:
 #    name: 'Publish release'
