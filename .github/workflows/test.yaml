@@ -15,6 +15,7 @@ jobs:
 
       - run: |
           import json
+          import os
           x = json.loads("""${{ toJSON(github) }}""")
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             print(f'json={json.dumps(x)}', file=fh)
