@@ -11,6 +11,18 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v3
+
+      - shell: python
+        run: |
+          import json
+          import os
+
+          x = json.loads("""${{ toJSON(github) }}""", strict=False)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f'json={json.dumps(x, )}', file=fh)
+          with open("github_workload_dispatch.json", "w") as f:
+            json.dump(x, f, indent=4)
+
       - name: Tag and push current repo code
         run: |
           git config --global user.email ${{ github.actor }}@users.noreply.github.com
