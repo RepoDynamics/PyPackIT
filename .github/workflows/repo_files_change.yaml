@@ -85,7 +85,7 @@ jobs:
           <details><summary>🖥 Details</summary>
           
           ```json
-          {json.dumps(all_files, indent=4)}
+          {json.dumps(all_groups, indent=4)}
           ```
           
           </details>
