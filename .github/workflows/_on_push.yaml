@@ -18,41 +18,33 @@ jobs:
           GH_CONTEXT: ${{ toJson(github) }}
         shell: python
         run: |
-          import json
           import os
+          import json
         
           context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
           _ = context.pop('token')
           payload = context.pop('event')
           context_sorted = dict(sorted(context.items()))
           payload_sorted = dict(sorted(payload.items()))
-          
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
-          <details>
-          <summary>🖥 GitHub context</summary>
+          <details><summary>🖥 GitHub context</summary>
           
           ```json
           {json.dumps(context_sorted, indent=4)}
           ```
           
-          </details>
-          
-          <details>
-          <summary>🖥 Event payload</summary>
+          </details><details><summary>🖥 Event payload</summary>
           
           ```json
           {json.dumps(payload_sorted, indent=4)}
           ```
           
           </details>
-          
-          
           """, 
               file=fh
             )
-    
 
   metadata:
     name: 'Load repository metadata'
