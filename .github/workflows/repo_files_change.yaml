@@ -1,11 +1,26 @@
-name: "Callable: Get Changed Files"
-run-name: "Repo: Get changed files in ${{github.event_name}} event"
+# Get all files that have been modified during an event (e.g. push, pull request).
+#
+# This is a callable-only workflow, which uses the `tj-actions/changed-files` action
+# to detect all files that have been modified during an event (e.g. push, pull request),
+# and outputs them as a JSON string.
+#
+# The keys of the JSON dictionary are the groups that the files belong to,
+# defined in `.github/config/changed_files.yaml`. Another key is `all`, which is added as extra
+# (i.e. without being defined in the config file), which contains details on changes in the entire repository.
+# Each value is then a dictionary itself, as defined in the action's documentation.
+#
+# References:
+# - https://github.com/marketplace/actions/changed-files
+
+
+name: "[On Call]: Get Changed Files"
 
 on:
   workflow_call:
     outputs:
       json:
         value: ${{ jobs.changes.outputs.json }}
+
 
 jobs:
 
