@@ -20,6 +20,7 @@ jobs:
   changes:
     name: 'changes'
     outputs:
+      json: ${{ steps.output.outputs.json }}
       package: ${{ steps.groups.outputs.package_any_modified }}
       docs: ${{ steps.groups.outputs.docs_any_modified }}
       workflows: ${{ steps.groups.outputs.workflows_any_modified }}
@@ -45,6 +46,7 @@ jobs:
           files_yaml_from_source_file: .github/config/changed_files.yaml
 
       - name: 'Create summary'
+        id: output
         env:
           GROUPS: ${{ toJson(steps.groups.outputs) }}
           ALL: ${{ toJson(steps.all.outputs) }}
@@ -68,6 +70,8 @@ jobs:
           )
           all_groups = {"all": all_files} | sep_groups
           file_list = "\n".join(sorted(all_files['all_changed_and_modified_files'].split()))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            print(f"json={json.dumps(all_groups)}", file=fh)
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
@@ -107,3 +111,11 @@ jobs:
 #          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
 #            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
 #          done
+
+  test:
+    name: 'test'
+    needs: changes
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: echo "${{ needs.changes.outputs.json }}"
