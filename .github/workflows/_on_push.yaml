@@ -8,8 +8,9 @@ on: push
 
 jobs:
 
-  intro:
-    name: 'Intro Summary'
+  context:
+    # Generate output summary of the workflow run context.
+    name: 'Context'
     runs-on: ubuntu-latest
     steps:
       - name: 'Output summary'
@@ -19,54 +20,38 @@ jobs:
         run: |
           import json
           import os
-          
+        
           context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
           _ = context.pop('token')
           payload = context.pop('event')
-          with open("github_context.json", "w") as f:
-            json.dump(dict(sorted(context.items())), f, indent=4)
-          with open("event_payload.json", "w") as f:
-            json.dump(dict(sorted(payload.items())), f, indent=4)
+          context_sorted = dict(sorted(context.items()))
+          payload_sorted = dict(sorted(payload.items()))
+          
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
           <details>
-          <summary>🖥 github context</summary>
+          <summary>🖥 GitHub context</summary>
           
           ```json
-          {json.dumps(context, indent=4)}
+          {json.dumps(context_sorted, indent=4)}
           ```
           
           </details>
+          
+          <details>
+          <summary>🖥 Event payload</summary>
+          
+          ```json
+          {json.dumps(payload_sorted, indent=4)}
+          ```
+          
+          </details>
+          
+          
           """, 
               file=fh
             )
-
-#      - run: |
-#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-#          echo "GH_CONT<<$EOF" >> "$GITHUB_ENV"
-#          echo "$GH_CONTEXT" >> "$GITHUB_ENV"
-#          echo "$EOF" >> "$GITHUB_ENV"
-#      - run: |
-#          echo "<details>" >> $GITHUB_STEP_SUMMARY
-#          echo "<summary>🖥 github context</summary>" >> $GITHUB_STEP_SUMMARY
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-#          cat github_context.json >> $GITHUB_STEP_SUMMARY
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "</details>" >> $GITHUB_STEP_SUMMARY
-#          echo "<details>" >> $GITHUB_STEP_SUMMARY
-#          echo "<summary>🖥 event payload</summary>" >> $GITHUB_STEP_SUMMARY
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-#          cat event_payload.json >> "$GITHUB_STEP_SUMMARY"
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-#          echo "" >> $GITHUB_STEP_SUMMARY
-#          echo "</details>" >> $GITHUB_STEP_SUMMARY
-          
     
 
   metadata:
