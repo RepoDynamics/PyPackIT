@@ -47,15 +47,11 @@ jobs:
       - name: 'Create summary'
         env:
           GROUPS: ${{ toJson(steps.groups.outputs) }}
-          GROUPSX: ${{ steps.groups.outputs }}
           ALL: ${{ toJson(steps.all.outputs) }}
         shell: python
         run: |
           import os
           import json
-          
-          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
-              print(type(${{ env.GROUPSX }}), file=fh)
           
           groups = json.loads("""${{ env.GROUPS }}""", strict=False)
           all_files = dict(sorted(json.loads("""${{ env.ALL }}""", strict=False).items()))
@@ -68,14 +64,12 @@ jobs:
           for group_name, group_attrs in sep_groups.items():
             sep_groups[group_name] = dict(sorted(group_attrs.items()))
             group_summary_str += (
-              f"- {'✅' if group_attrs['any_modified'] else '❌'} **{group_name.capitalize()}**\n"
+              f"- {'✅' if group_attrs['any_modified'] == 'true' else '❌'}  **{group_name}**\n"
           )
-            with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
-              print(group_attrs['any_modified'], type(group_attrs['any_modified']), file=fh)
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
-          ### Changed Categories
+          ### Modified Categories
           {group_summary_str}
           
           <details><summary>🖥 All files</summary>
