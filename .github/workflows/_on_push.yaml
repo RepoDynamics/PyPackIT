@@ -3,7 +3,10 @@
 name: CI
 run-name: 'CI: Triggered on ${{github.ref}}'
 
-on: push
+on:
+  push:
+    branches:
+      - 'dev/[0-9]+'
 
 
 jobs:
