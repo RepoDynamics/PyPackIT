@@ -18,6 +18,8 @@ jobs:
         shell: python
         run: |
           import json
+          import os
+          
           context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
           _ = context.pop('token')
           payload = context.pop('event')
