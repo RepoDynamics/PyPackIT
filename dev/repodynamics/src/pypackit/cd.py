@@ -4,11 +4,13 @@ import json
 import os
 import subprocess
 
+from . import metadata
 
 class MergeLogger:
-    def __init__(self, path_event_payload_file: str):
+    def __init__(self, path_event_payload_file: str, path_root: str):
         with open(path_event_payload_file) as f:
             self.event = json.load(f)
+        self.metadata = metadata(path_root=path_root)
         return
 
     def run(self):
@@ -26,12 +28,19 @@ class MergeLogger:
         return
 
     def initial_release(self):
-        log = """
-## Initial release
+        log = f"""
+## [{self.metadata['project']['name']} 0.0.0]({self.metadata['url']['github']['releases']['home']}/tag/v0.0.0)
 This is the initial release of the project. Infrastructure is now in place to support future releases.
+        """
+        changelog = f"""
+# Changelog
+This document tracks all changes to the {self.metadata['project']['name']} API.
+
+{log}
+
 """
-        with open("CHANGELOG.md", "a") as f:
-            f.write(log)
+        with open("CHANGELOG.md", "w") as f:
+            f.write(changelog)
         with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
             print(f"release=true", file=fh)
             print(f"docs=true", file=fh)
