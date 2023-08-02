@@ -4,16 +4,8 @@ run-name: "Repo: Get changed files in ${{github.event_name}} event"
 on:
   workflow_call:
     outputs:
-      package:
-        value: ${{ jobs.changes.outputs.package }}
-      docs:
-        value: ${{ jobs.changes.outputs.docs }}
-      workflows:
-        value: ${{ jobs.changes.outputs.workflows }}
-      repodynamics:
-        value: ${{ jobs.changes.outputs.repodynamics }}
-      meta:
-        value: ${{ jobs.changes.outputs.meta }}
+      json:
+        value: ${{ jobs.changes.outputs.json }}
 
 jobs:
 
@@ -21,11 +13,6 @@ jobs:
     name: 'changes'
     outputs:
       json: ${{ steps.output.outputs.json }}
-      package: ${{ steps.groups.outputs.package_any_modified }}
-      docs: ${{ steps.groups.outputs.docs_any_modified }}
-      workflows: ${{ steps.groups.outputs.workflows_any_modified }}
-      repodynamics: ${{ steps.groups.outputs.repodynamics_any_modified }}
-      meta: ${{ steps.groups.outputs.meta_any_modified }}
     runs-on: ubuntu-latest
     steps:
 
@@ -45,33 +32,9 @@ jobs:
         with:
           files_yaml_from_source_file: .github/config/changed_files.yaml
 
-      - name: 'Create summary'
+      - name: 'Output'
         id: output
+        run: python '.github/scripts/changed_files.py'
         env:
           GROUPS: ${{ toJson(steps.groups.outputs) }}
           ALL: ${{ toJson(steps.all.outputs) }}
-#        shell: python
-        run: python '.github/scripts/changed_files.py'
-
-#        run: |
-#          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-#
-#          echo "- ${{ (steps.groups.outputs.package_any_modified == 'true' && '✅') || '❌' }}  **Package**" >> $GITHUB_STEP_SUMMARY
-#          echo "- ${{ (steps.groups.outputs.docs_any_modified == 'true' && '✅') || '❌' }}  **Docs**" >> $GITHUB_STEP_SUMMARY
-#          echo "- ${{ (steps.groups.outputs.workflows_any_modified == 'true' && '✅') || '❌' }}  **Workflows**" >> $GITHUB_STEP_SUMMARY
-#          echo "- ${{ (steps.groups.outputs.repodynamics_any_modified == 'true' && '✅') || '❌' }}  **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
-#          echo "- ${{ (steps.groups.outputs.meta_any_modified == 'true' && '✅') || '❌' }}  **Meta**" >> $GITHUB_STEP_SUMMARY
-#
-#          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
-#
-#          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
-#            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
-#          done
-
-  test:
-    name: 'test'
-    needs: changes
-    runs-on: ubuntu-latest
-    steps:
-
-      - run: echo "${{ needs.changes.outputs.json }}"
