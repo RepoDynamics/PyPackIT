@@ -1,62 +1,117 @@
 # Standard libraries
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 import argparse
 import sys
+import os
 
 # Non-standard libraries
 import ruamel.yaml
-from . import metadata, readme, pyproject
+from pypackit import metadata
 
 
 class Templates:
-    def __init__(
-        self,
-        path_root: Optional[str | Path] = None,
-        path_pathfile: Optional[str | Path] = None,
-        path_cache: Optional[str | Path] = None,
-        update_cache: bool = False,
-    ):
-        self.metadata = metadata(
-            path_root=path_root,
-            path_pathfile=path_pathfile,
-            path_cache=path_cache,
-            update_cache=update_cache,
-        )
+    def __init__(self, metadata: dict, log: Optional[Literal["github"]] = None):
+        self.metadata = metadata
+        self.log = log
         self._path_root = Path(self.metadata["path"]["abs"]["root"])
         return
 
     def update(self):
-        self.update_readme()
         self.update_license()
         self.update_health_files()
         self.update_codeowners()
         self.update_package_init_docstring()
         self.update_funding()
-        self.update_pyproject()
-
-    def update_pyproject(self):
-        pyproject.PyProjectTOML(metadata=self.metadata).update()
-        return
-
-    def update_readme(self):
-        text = readme.ReadMe(metadata=self.metadata).header()
-        with open(self._path_root / "README.md", "w") as f:
-            f.write(str(text))
         return
 
     def update_health_files(self):
-        for filepath in Path(self.metadata["path"]["abs"]["meta"]["template"]["health_file"]).glob(
-            "*.md"
-        ):
-            target_path = self.metadata["path"]["abs"]["health_file"].get(filepath.stem.casefold())
-            if not target_path:
+        def get_allowed_paths(template_name):
+            # Health files are only allowed in the root, docs, and .github directories
+            return [
+                Path(self.metadata["path"]["abs"]["root"]) / allowed_path_rel / f"{template_name}.md"
+                for allowed_path_rel in ['.', 'docs', '.github']
+            ]
+        log = "<h4>Health Files</h4>\n<ul>\n"
+        health_files = ["CODE_OF_CONDUCT", "CONTRIBUTING", "GOVERNANCE", "SECURITY", "SUPPORT"]
+        for health_file in health_files:
+            allowed_paths = get_allowed_paths(health_file)
+            if not self.metadata["path"]["health_file"][health_file.casefold()]:
+                # Health file is disabled; delete it if it exists
+                removed = False
+                for path in allowed_paths:
+                    if path.exists():
+                        path.unlink()
+                        removed = True
+                log += f"&nbsp;&nbsp;&nbsp;&nbsp;{'🔴' if removed else '⚫'}  {health_file}<br>"
                 continue
-            with open(filepath) as f:
-                text = f.read()
-            with open(Path(target_path) / filepath.name, "w") as f:
-                f.write(text.format(metadata=self.metadata))
+            path_target = Path(
+                self.metadata["path"]["abs"]["health_file"][health_file.casefold()]
+            ) / f"{health_file}.md"
+            if path_target not in allowed_paths:
+                error = f"⛔ ERROR: Path '{path_target}' is not an allowed path for health files."
+                if self.log == "github":
+                    print(error)
+                    sys.exit(1)
+                raise ValueError(error)
+            if path_target.exists():
+                with open(path_target) as f:
+                    text_old = f.read()
+            else:
+                text_old = ""
+            allowed_paths.remove(path_target)
+            for allowed_path in allowed_paths:
+                # Again, make sure no duplicates exist
+                if allowed_path.exists():
+                    allowed_path.unlink()
+            with open(
+                Path(self.metadata["path"]["abs"]["meta"]["template"]["health_file"]) / f"{health_file}.md"
+            ) as f:
+                text_template = f.read()
+            text_new = text_template.format(metadata=self.metadata)
+            if text_old == text_new:
+                # File exists and is unchanged
+                log += f"&nbsp;&nbsp;&nbsp;&nbsp;⚪️  {health_file}<br>"
+                continue
+            elif not text_old:
+                # File is being created
+                log += f"&nbsp;&nbsp;&nbsp;&nbsp;🟢  {health_file}<br>"
+            else:
+                # File is being modified
+                log += f"""
+<details>
+    <summary>🟣  {health_file}</summary>
+    <table width="100%">
+        <tr>
+            <th>Before</th>
+            <th>After</th>
+        </tr>
+        <tr>
+            <td>
+                <pre>
+                    <code>
+                        {text_old}
+                    </code>
+                </pre>
+            </td>
+            <td>
+                <pre>
+                    <code>
+                        {text_new}
+                    </code>
+                </pre>
+            </td> 
+        </tr>
+    </table>
+</details>
+"""
+            if self.log == "github":
+                with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+                    print(log, file=fh)
+            with open(path_target, "w") as f:
+                f.write(text_new)
+            return
 
     def update_license(self):
         filename = self.metadata["project"]["license"]['id'].lower().rstrip("+")
@@ -190,6 +245,7 @@ class Templates:
 
     def update_issue_forms(self):
         pass
+
 
 def __main__():
     parser = argparse.ArgumentParser()
