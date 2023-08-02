@@ -53,18 +53,23 @@ jobs:
           import os
           import json
           
-          groups = dict(sorted(json.loads("""${{ env.GROUPS }}""", strict=False).items()))
+          groups = json.loads("""${{ env.GROUPS }}""", strict=False)
           all_files = dict(sorted(json.loads("""${{ env.ALL }}""", strict=False).items()))
           sep_groups = dict()
           for item_name, val in groups.items():
             group_name, attr = item_name.split("_", 1)
             group = sep_groups.setdefault(group_name, dict())
             group[attr] = val
+          group_summary_str = ""
+          for group_name, group_attrs in sep_groups.items():
+            sep_groups[group_name] = dict(sorted(group_attrs.items()))
+            group_summary_str += (
+              f"- {'✅' if group_attrs['any_modified'] else '❌'} **{group_name.capitalize()}**\n"
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
           ### Changed Categories
-          
+          {group_summary_str}
           
           <details><summary>🖥 All files</summary>
           
