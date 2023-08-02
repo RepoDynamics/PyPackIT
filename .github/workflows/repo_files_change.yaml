@@ -64,14 +64,14 @@ jobs:
           for group_name, group_attrs in sep_groups.items():
             sep_groups[group_name] = dict(sorted(group_attrs.items()))
             group_summary_str += (
-              f"- {'✅' if group_attrs['any_modified'] == 'true' else '❌'}  **{group_name}**\n"
+              f"- {'✅' if group_attrs['any_modified'] == 'true' else '❌'}  {group_name}\n"
           )
           all_groups = {"all": all_files} | sep_groups
           file_list = "\n".join(sorted(all_files['all_changed_and_modified_files'].split()))
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
-          ### Modified Categories
+          #### Modified Categories
           {group_summary_str}
           
           <details><summary>🖥 Changed Files</summary>
