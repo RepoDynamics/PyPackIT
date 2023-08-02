@@ -65,6 +65,7 @@ jobs:
             sep_groups[group_name] = dict(sorted(group_attrs.items()))
             group_summary_str += (
               f"- {'✅' if group_attrs['any_modified'] else '❌'} **{group_name.capitalize()}**\n"
+          )
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
