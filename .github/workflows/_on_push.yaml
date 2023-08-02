@@ -15,7 +15,14 @@ jobs:
       - name: 'Output summary'
         env:
           GH_CONTEXT: ${{ toJson(github) }}
+        shell: python
         run: |
+          import json
+          context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
+          print(context)
+          
+
+      - run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "GH_CONT<<$EOF" >> "$GITHUB_ENV"
           echo "$GH_CONTEXT" >> "$GITHUB_ENV"
