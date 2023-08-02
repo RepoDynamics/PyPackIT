@@ -20,9 +20,11 @@ jobs:
           import json
           context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
           _ = context.pop('token')
-          _ = context.pop('event')
+          payload = context.pop('event')
           with open("github_context.json", "w") as f:
-            json.dump(context, f, indent=4)
+            json.dump(dict(sorted(context.items())), f, indent=4)
+          with open("event_payload.json", "w") as f:
+            json.dump(dict(sorted(payload.items())), f, indent=4)
 
 #      - run: |
 #          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
@@ -43,7 +45,7 @@ jobs:
           echo "<summary>🖥 event payload</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat ${{github.event_path}} >> "$GITHUB_STEP_SUMMARY"
+          cat event_payload.json >> "$GITHUB_STEP_SUMMARY"
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
