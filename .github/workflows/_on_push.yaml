@@ -1,7 +1,7 @@
 # Continuous Integration pipeline
 
 name: CI
-run-name: 'CI: Triggered on ${{github.ref}}'
+run-name: 'CI: ${{github.ref}}'
 
 on: push
 
