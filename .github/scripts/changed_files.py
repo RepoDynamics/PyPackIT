@@ -1,13 +1,13 @@
 import os
 import json
 
-with open(os.environ["GROUPS"]) as f:
-    groups = json.load(f)
-with open(os.environ["ALL"]) as f:
-    all_files = json.load(f)
+# with open(os.environ["GROUPS"]) as f:
+#     groups = json.load(f)
+# with open(os.environ["ALL"]) as f:
+#     all_files = json.load(f)
 
-# groups = json.loads("""${{ env.GROUPS }}""", strict=False)
-# all_files = dict(sorted(json.loads("""${{ env.ALL }}""", strict=False).items()))
+groups = json.loads(os.environ["GROUPS"], strict=False)
+all_files = dict(sorted(json.loads(os.environ["ALL"], strict=False).items()))
 sep_groups = dict()
 
 for item_name, val in groups.items():
