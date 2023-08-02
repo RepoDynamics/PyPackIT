@@ -15,38 +15,9 @@ jobs:
     # as job summary, for the purpose of logging and debugging.
     runs-on: ubuntu-latest
     steps:
-      - name: 'Output summary'
+      - run: python '.github/scripts/context_summary.py'
         env:
           GH_CONTEXT: ${{ toJson(github) }}
-        shell: python
-        run: |
-          import os
-          import json
-        
-          context = json.loads("""${{ env.GH_CONTEXT }}""", strict=False)
-          _ = context.pop('token')
-          payload = context.pop('event')
-          context_sorted = dict(sorted(context.items()))
-          payload_sorted = dict(sorted(payload.items()))
-          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
-            print(
-              f"""
-          <details><summary>🖥 GitHub context</summary>
-          
-          ```json
-          {json.dumps(context_sorted, indent=4)}
-          ```
-          
-          </details><details><summary>🖥 Event payload</summary>
-          
-          ```json
-          {json.dumps(payload_sorted, indent=4)}
-          ```
-          
-          </details>
-          """, 
-              file=fh
-            )
 
   changes:
     name: 'Repository Files'
@@ -60,7 +31,7 @@ jobs:
 
 
   sync:
-    name: 'Sync files'
+    name: 'Repository Files'
     needs: changes
     if: needs.changes.outputs.meta == 'true'
     uses: ./.github/workflows/repo_sync.yaml
