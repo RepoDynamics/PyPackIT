@@ -75,16 +75,18 @@ jobs:
           ### Modified Categories
           {group_summary_str}
           <details><summary>🖥 Changed Files</summary>
+          
           {file_list}
+          
           </details>
           
-          <details><summary>🖥 All files</summary>
+          <details><summary>🖥 Global Attributes</summary>
           
           ```json
           {json.dumps(all_files, indent=4)}
           ```
           
-          </details><details><summary>🖥 File Categories</summary>
+          </details><details><summary>🖥 Categories Attributes</summary>
           
           ```json
           {json.dumps(sep_groups, indent=4)}
