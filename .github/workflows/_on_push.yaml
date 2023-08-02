@@ -1,6 +1,6 @@
 # Continuous Integration pipeline
 
-name: CI
+name: "[On Push]: CI"
 run-name: 'CI: ${{github.ref}}'
 
 on: push
