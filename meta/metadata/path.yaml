@@ -17,7 +17,10 @@ meta:
   img:
     logo: "meta/img/logo"
 
-health_file:
+health_file:  # dict of strings
+  # Target path of GitHub Community Health Files
+  # These must be placed either in root (`.`), `docs`, or `.github` directory of the repository.
+  # Setting to an empty string will remove the file (but not the template).
   code_of_conduct: "."
   codeowners: "."
   contributing: "."
