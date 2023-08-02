@@ -9,8 +9,10 @@ on: push
 jobs:
 
   context:
-    # Generate output summary of the workflow run context.
     name: 'Workflow Run: context'
+    # Generate output summary of the workflow run context.
+    # This job outputs a sanitized version of the `github` context of the workflow run
+    # as job summary, for the purpose of logging and debugging.
     runs-on: ubuntu-latest
     steps:
       - name: 'Output summary'
