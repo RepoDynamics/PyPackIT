@@ -33,10 +33,10 @@ jobs:
     # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
     # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
     name: 'Deploy website to GitHub Pages from ${{github.ref_name}}'
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    permissions: write-all  # TODO: set back
+#      contents: read
+#      pages: write
+#      id-token: write
     environment:
       name: GitHub Pages
       url: ${{ steps.deployment.outputs.page_url }}

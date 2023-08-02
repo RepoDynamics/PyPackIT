@@ -84,9 +84,9 @@ jobs:
           commit_message: 'chore: update changelog'
           commit_user_name: 'RepoDynamics[bot]'
 
-      - run: |
-          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
-          cat README.md >> "$GITHUB_STEP_SUMMARY"
+#      - run: |
+#          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
+#          cat README.md >> "$GITHUB_STEP_SUMMARY"
 
 
   tag:
@@ -121,10 +121,10 @@ jobs:
     name: 'Deply documentation website'
     needs: [docs-build]
     uses: ./.github/workflows/docs_deploy.yaml
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    permissions: write-all  # TODO: set back
+#      contents: read
+#      pages: write
+#      id-token: write
 
   package-build:
     name: 'Build distribution package'
