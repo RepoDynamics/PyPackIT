@@ -47,11 +47,15 @@ jobs:
       - name: 'Create summary'
         env:
           GROUPS: ${{ toJson(steps.groups.outputs) }}
+          GROUPSX: ${{ steps.groups.outputs }}
           ALL: ${{ toJson(steps.all.outputs) }}
         shell: python
         run: |
           import os
           import json
+          
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+              print(type(${{ env.GROUPSX }}), file=fh)
           
           groups = json.loads("""${{ env.GROUPS }}""", strict=False)
           all_files = dict(sorted(json.loads("""${{ env.ALL }}""", strict=False).items()))
