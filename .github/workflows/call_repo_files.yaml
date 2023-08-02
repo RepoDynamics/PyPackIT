@@ -13,7 +13,7 @@
 # - https://github.com/marketplace/actions/changed-files
 
 
-name: "[On Call]: Get Changed Files"
+name: "[On Call]: get changed files"
 
 on:
   workflow_call:
