@@ -25,31 +25,45 @@ jobs:
             json.dump(dict(sorted(context.items())), f, indent=4)
           with open("event_payload.json", "w") as f:
             json.dump(dict(sorted(payload.items())), f, indent=4)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+            print(
+              f"""
+          <details>
+          <summary>🖥 github context</summary>
+          
+          ```json
+          {json.dumps(context, indent=4)}
+          ```
+          
+          </details>
+          """, 
+              file=fh
+            )
 
 #      - run: |
 #          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 #          echo "GH_CONT<<$EOF" >> "$GITHUB_ENV"
 #          echo "$GH_CONTEXT" >> "$GITHUB_ENV"
 #          echo "$EOF" >> "$GITHUB_ENV"
-      - run: |
-          echo "<details>" >> $GITHUB_STEP_SUMMARY
-          echo "<summary>🖥 github context</summary>" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat github_context.json >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "</details>" >> $GITHUB_STEP_SUMMARY
-          echo "<details>" >> $GITHUB_STEP_SUMMARY
-          echo "<summary>🖥 event payload</summary>" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat event_payload.json >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "</details>" >> $GITHUB_STEP_SUMMARY
+#      - run: |
+#          echo "<details>" >> $GITHUB_STEP_SUMMARY
+#          echo "<summary>🖥 github context</summary>" >> $GITHUB_STEP_SUMMARY
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+#          cat github_context.json >> $GITHUB_STEP_SUMMARY
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "</details>" >> $GITHUB_STEP_SUMMARY
+#          echo "<details>" >> $GITHUB_STEP_SUMMARY
+#          echo "<summary>🖥 event payload</summary>" >> $GITHUB_STEP_SUMMARY
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+#          cat event_payload.json >> "$GITHUB_STEP_SUMMARY"
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "</details>" >> $GITHUB_STEP_SUMMARY
           
     
 
