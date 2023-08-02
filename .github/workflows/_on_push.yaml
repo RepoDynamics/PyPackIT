@@ -10,7 +10,7 @@ jobs:
 
   context:
     # Generate output summary of the workflow run context.
-    name: 'Context'
+    name: 'Workflow Run: context'
     runs-on: ubuntu-latest
     steps:
       - name: 'Output summary'
