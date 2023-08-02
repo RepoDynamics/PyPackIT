@@ -66,9 +66,7 @@ jobs:
             group_summary_str += (
               f"- {'✅' if group_attrs['any_modified'] == 'true' else '❌'}  **{group_name}**\n"
           )
-          file_list = "\n".join(
-            [f"- `{path}`" for path in sorted(all_files['all_changed_and_modified_files'].split())]
-          )
+          file_list = "\n".join(sorted(all_files['all_changed_and_modified_files'].split()))
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
@@ -76,7 +74,9 @@ jobs:
           {group_summary_str}
           <details><summary>🖥 Changed Files</summary>
           
+          ```bash
           {file_list}
+          ```
           
           </details>
           
