@@ -62,7 +62,7 @@ on:
 jobs:
 
   load:
-#    name: 'Load'
+    name: ''
     outputs:
       metadata: ${{ steps.output.outputs.json }}
     runs-on: ubuntu-latest
