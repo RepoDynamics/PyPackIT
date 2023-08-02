@@ -36,7 +36,7 @@ jobs:
       contents: read
     with:
       metadata: ${{needs.metadata.outputs.json}}
-      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+      checkout-ref: ${{ github.ref_name }}
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
 
@@ -46,4 +46,4 @@ jobs:
     if: ${{ !failure() && needs.changes.outputs.docs == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
     with:
-      checkout-ref: ${{ needs.sync.outputs.commit-hash }}
+      checkout-ref: ${{ github.ref_name }}
