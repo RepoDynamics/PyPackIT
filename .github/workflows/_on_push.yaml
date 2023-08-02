@@ -16,9 +16,12 @@ jobs:
         env:
           GH_CONTEXT: ${{ toJson(github) }}
         run: |
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
           echo "${{ env.GH_CONTEXT }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
           cat ${{github.event_path}} >> "$GITHUB_STEP_SUMMARY"
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
     
 
