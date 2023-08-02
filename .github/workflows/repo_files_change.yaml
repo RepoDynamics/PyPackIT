@@ -71,6 +71,9 @@ jobs:
               f"""
           ### Modified Categories
           {group_summary_str}
+          <details><summary>🖥 Changed Files</summary>
+          {"\n".join([f"- `{path}`" for path in sorted(all_files['all_changed_and_modified_files'].split())])}
+          </details>
           
           <details><summary>🖥 All files</summary>
           
