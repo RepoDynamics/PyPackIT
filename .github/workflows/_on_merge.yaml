@@ -51,14 +51,13 @@ jobs:
         with:
           python-version: '3.x'
 
-#      - name: 'Install RepoDynamics'
-#        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install dev/repodynamics
+      - name: 'Install RepoDynamics'
+        run: |
+          python -m pip install --upgrade pip
+          pip install dev/repodynamics
 
       - id: log
-        run: python dev/repodynamics/src/pypackit/cd.py "${{ github.event_path }}"
+        run: repodynamics-deploy "${{ github.event_path }}"
 
 #      - run: |
 #          import json

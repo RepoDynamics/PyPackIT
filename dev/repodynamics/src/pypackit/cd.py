@@ -7,7 +7,7 @@ import subprocess
 from . import metadata
 
 class MergeLogger:
-    def __init__(self, path_event_payload_file: str, path_root: str):
+    def __init__(self, path_event_payload_file: str, path_root: str = None):
         with open(path_event_payload_file) as f:
             self.event = json.load(f)
         self.metadata = metadata(path_root=path_root)
