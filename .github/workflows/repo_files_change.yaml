@@ -42,22 +42,7 @@ jobs:
         uses: tj-actions/changed-files@v37
         id: groups
         with:
-          files_yaml: |
-            package:
-              - 'src/**'
-              - 'tests/**/*.py'
-              - 'pyproject.toml'
-              - 'setup.py'
-            docs:
-              - 'docs/website/source/**'
-              - 'src/**/*.py'
-              - 'meta/metadata/*.yaml'
-            workflows:
-            - '.github/workflows/*.yaml'
-            repodynamics:
-              - 'dev/repodynamics/**'
-            meta:
-              - 'meta/**'
+          files_yaml_from_source_file: .github/config/changed_files.yaml
 
       - name: 'Create summary'
         env:
@@ -68,11 +53,19 @@ jobs:
           import os
           import json
           
-          groups = json.loads("""${{ env.GROUPS }}""", strict=False)
-          all_files = json.loads("""${{ env.ALL }}""", strict=False)
+          groups = dict(sorted(json.loads("""${{ env.GROUPS }}""", strict=False).items()))
+          all_files = dict(sorted(json.loads("""${{ env.ALL }}""", strict=False).items()))
+          sep_groups = dict()
+          for item_name, val in groups.items():
+            group_name, attr = item_name.split("_", 1)
+            group = sep_groups.setdefault(group_name, dict())
+            group[attr] = val
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
             print(
               f"""
+          ### Changed Categories
+          
+          
           <details><summary>🖥 All files</summary>
           
           ```json
@@ -82,7 +75,7 @@ jobs:
           </details><details><summary>🖥 File Categories</summary>
           
           ```json
-          {json.dumps(groups, indent=4)}
+          {json.dumps(sep_groups, indent=4)}
           ```
           
           </details>
