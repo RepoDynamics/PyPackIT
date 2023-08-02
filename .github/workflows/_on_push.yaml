@@ -3,13 +3,19 @@
 name: CI
 run-name: 'CI: Triggered on ${{github.ref}}'
 
-on:
-  push:
-    branches:
-      - 'dev/[0-9]+'
+on: push
 
 
 jobs:
+
+  intro:
+    name: 'Intro Summary'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          cat ${{github.event_path}} >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> $GITHUB_STEP_SUMMARY
 
   metadata:
     name: 'Load repository metadata'
