@@ -20,7 +20,7 @@ jobs:
           echo "GH_CONT<<$EOF" >> "$GITHUB_ENV"
           echo "$('$GH_CONTEXT')" >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
-          
+      - run: |
           echo "<details>" >> $GITHUB_STEP_SUMMARY
           echo "<summary>🖥 github context</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
