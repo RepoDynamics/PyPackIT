@@ -18,7 +18,7 @@ on:
 jobs:
 
   changes:
-    name: 'Get changed files'
+    name: 'changes'
     outputs:
       package: ${{ steps.groups.outputs.package_any_modified }}
       docs: ${{ steps.groups.outputs.docs_any_modified }}
@@ -60,17 +60,47 @@ jobs:
               - 'meta/**'
 
       - name: 'Create summary'
+        env:
+          GROUPS: ${{ toJson(steps.groups.outputs) }}
+          ALL: ${{ toJson(steps.all.outputs) }}
+        shell: python
         run: |
-          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
+          import os
+          import json
+          
+          groups = json.loads("""${{ env.GROUPS }}""", strict=False)
+          all_files = json.loads("""${{ env.ALL }}""", strict=False)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+            print(
+              f"""
+          <details><summary>🖥 All files</summary>
+          
+          ```json
+          {json.dumps(all_files, indent=4)}
+          ```
+          
+          </details><details><summary>🖥 File Categories</summary>
+          
+          ```json
+          {json.dumps(groups, indent=4)}
+          ```
+          
+          </details>
+          """, 
+              file=fh
+            )
 
-          echo "${{ (steps.groups.outputs.package_any_modified == 'true' && '✅') || '❌' }} **Package**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.docs_any_modified == 'true' && '✅') || '❌' }} **Docs**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.workflows_any_modified == 'true' && '✅') || '❌' }} **Workflows**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.repodynamics_any_modified == 'true' && '✅') || '❌' }} **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
-          echo "${{ (steps.groups.outputs.meta_any_modified == 'true' && '✅') || '❌' }} **Meta**" >> $GITHUB_STEP_SUMMARY
-
-          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
-
-          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
-            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
-          done
+#        run: |
+#          echo "### Changed Groups" >> $GITHUB_STEP_SUMMARY
+#
+#          echo "- ${{ (steps.groups.outputs.package_any_modified == 'true' && '✅') || '❌' }}  **Package**" >> $GITHUB_STEP_SUMMARY
+#          echo "- ${{ (steps.groups.outputs.docs_any_modified == 'true' && '✅') || '❌' }}  **Docs**" >> $GITHUB_STEP_SUMMARY
+#          echo "- ${{ (steps.groups.outputs.workflows_any_modified == 'true' && '✅') || '❌' }}  **Workflows**" >> $GITHUB_STEP_SUMMARY
+#          echo "- ${{ (steps.groups.outputs.repodynamics_any_modified == 'true' && '✅') || '❌' }}  **RepoDynamics**" >> $GITHUB_STEP_SUMMARY
+#          echo "- ${{ (steps.groups.outputs.meta_any_modified == 'true' && '✅') || '❌' }}  **Meta**" >> $GITHUB_STEP_SUMMARY
+#
+#          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
+#
+#          for file in ${{ steps.all.outputs.all_changed_and_modified_files }}; do
+#            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
+#          done

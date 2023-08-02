@@ -48,13 +48,16 @@ jobs:
               file=fh
             )
 
+  changes:
+    name: 'Repository Files'
+    # Get all changed files in the repository and the groups they belong to.
+    uses: ./.github/workflows/repo_files_change.yaml
+
   metadata:
-    name: 'Load repository metadata'
+    name: 'Repository Metadata'
     uses: ./.github/workflows/repo_meta.yaml
 
-  changes:
-    name: 'Get changed files'
-    uses: ./.github/workflows/repo_files_change.yaml
+
 
   sync:
     name: 'Sync files'
