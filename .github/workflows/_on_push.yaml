@@ -15,6 +15,11 @@ jobs:
     # as job summary, for the purpose of logging and debugging.
     runs-on: ubuntu-latest
     steps:
+      - name: 'Chekout repository'
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: .github/scripts/context_summary.py
+          sparse-checkout-cone-mode: false
       - run: python '.github/scripts/context_summary.py'
         env:
           GH_CONTEXT: ${{ toJson(github) }}
