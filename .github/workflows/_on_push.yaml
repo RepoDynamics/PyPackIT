@@ -68,7 +68,7 @@ jobs:
       - name: 'Update repository homepage'
         run: >-
           gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
-          --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
+          --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}"
 
       - name: 'Format repository topics'
         id: topics
