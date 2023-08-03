@@ -71,12 +71,20 @@ jobs:
           METADATA: ${{ needs.metadata.outputs.json }}
         shell: python
         run: |
-            import json
-            import os
-            metadata = json.loads(os.environ['METADATA'], strict=False)
-            topics = ' '.join(metadata['project']['keywords'])
-            with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
-                print(f"topics={topics}", file=fh)
+          import json
+          import os
+          metadata = json.loads(os.environ['METADATA'], strict=False)
+          keywords = metadata['project']['keywords']
+          # GitHub only allows max. 50 characters for topics
+          char_count = 0
+          for idx, keyword in enumerate(keywords):
+            word_len = len(keyword)
+            if char_count + word_len >= 50:
+              break
+            char_count += len(keyword)
+          topics = ' '.join(keywords[:idx])
+          with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
+              print(f"topics={topics}", file=fh)
 
       - name: 'Update repository topics'
         run: gh repo edit --add-topic "${{ steps.topics.outputs.topics }}"
