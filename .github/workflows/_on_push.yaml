@@ -91,7 +91,7 @@ jobs:
             char_count += len(keyword)
             github_keywords.append(keyword.replace(' ', '-'))
           with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
-            print(f"keywords={keywords}", file=fh)
+            print(f"keywords={github_keywords}", file=fh)
 
       - name: 'Update repository topics'
         uses: actions/github-script@v6
