@@ -91,15 +91,13 @@ jobs:
 
           # The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
           query = """
-          repository(name: "templaterepo", owner: "aariam") {
-              id
-              discussionCategories(first: 100) {
-                edges {
-                  node {
-                    id
-                    name
-                  }
-                  cursor
+          repository(name: "TemplateRepo", owner: "aariam") {
+            discussionCategories(first: 100) {
+              edges {
+                node {
+                  name
+                  slug
+                  id
                 }
               }
             }
