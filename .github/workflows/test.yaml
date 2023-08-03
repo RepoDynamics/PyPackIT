@@ -5,36 +5,65 @@ on:
 
 jobs:
 
-  tag:
-    name: 'Create tag'
+#  tag:
+#    name: 'Create tag'
+#    runs-on: ubuntu-latest
+#    permissions: write-all
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - shell: python
+#        run: |
+#          import json
+#          import os
+#
+#          x = json.loads("""${{ toJSON(github) }}""", strict=False)
+#          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+#            print(f'json={json.dumps(x, )}', file=fh)
+#          with open("github_workload_dispatch_.json", "w") as f:
+#            json.dump(x, f, indent=4)
+#
+#      - name: Tag and push current repo code
+#        run: |
+#          git config --global user.email ${{ github.actor }}@users.noreply.github.com
+#          git config --global user.name ${{ github.actor }}
+#          git tag -a "v0.0.7" -m "Release version 0.0.7"
+#          git push origin "v0.0.5"
+#
+#      - name: 'Commit changes and push'
+#        # https://github.com/marketplace/actions/git-auto-commit
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        id: commit
+#        with:
+#          commit_message: 'release: updating changelog'
+#          commit_user_name: 'RepoDynamics[bot]'
+#          tagging_message: "v0.0.6"
+
+
+
+  list-issues:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
-      - uses: actions/checkout@v3
-
-      - shell: python
-        run: |
-          import json
-          import os
-
-          x = json.loads("""${{ toJSON(github) }}""", strict=False)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'json={json.dumps(x, )}', file=fh)
-          with open("github_workload_dispatch_.json", "w") as f:
-            json.dump(x, f, indent=4)
-
-      - name: Tag and push current repo code
-        run: |
-          git config --global user.email ${{ github.actor }}@users.noreply.github.com
-          git config --global user.name ${{ github.actor }}
-          git tag -a "v0.0.7" -m "Release version 0.0.7"
-          git push origin "v0.0.5"
-
-      - name: 'Commit changes and push'
-        # https://github.com/marketplace/actions/git-auto-commit
-        uses: stefanzweifel/git-auto-commit-action@v4
-        id: commit
+      - uses: actions/github-script@v6
         with:
-          commit_message: 'release: updating changelog'
-          commit_user_name: 'RepoDynamics[bot]'
-          tagging_message: "v0.0.6"
+          script: |
+            const query = `query($owner:String!, $name:String!) {
+              repository(owner:$owner, name:$name){
+                id
+                discussionCategories(first:100) {
+                  edges {
+                    node {
+                      id
+                      name
+                    }
+                    cursor
+                  }
+                }
+              }
+            }`;
+            const variables = {
+              owner: context.repo.owner,
+              name: context.repo.repo,
+            }
+            const result = await github.graphql(query, variables)
+            console.log(result)
