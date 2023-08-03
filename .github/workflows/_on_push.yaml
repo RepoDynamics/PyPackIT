@@ -74,11 +74,12 @@ jobs:
       - name: 'Update repository topics'
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.PAT }}
           script: |
             github.rest.repos.replaceAllTopics({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              names: ['test1', 'test2']
+              names: ${{ fromJSON(needs.metadata.outputs.json).project.keywords }}
             })
 
       - name: 'Format repository topics'
