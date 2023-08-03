@@ -90,7 +90,7 @@ jobs:
           #              break
           #            char_count += len(keyword)
           #            github_keywords.append(keyword.replace(' ', '-'))
-          github_keywords = [key.replace('_', '-') for key in keywords]
+          github_keywords = [key.replace(' ', '-') for key in keywords]
           with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
             print(f"keywords={github_keywords}", file=fh)
 
