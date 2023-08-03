@@ -71,17 +71,6 @@ jobs:
           gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
           --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}"
 
-      - name: 'Update repository topics'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.PAT }}
-          script: |
-            github.rest.repos.replaceAllTopics({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords) }}
-            })
-
       - name: 'Format repository topics'
         id: topics
         env:
@@ -90,17 +79,32 @@ jobs:
         run: |
           import json
           import os
-          import subprocess
           metadata = json.loads(os.environ['METADATA'], strict=False)
           keywords = metadata['project']['keywords']
           # GitHub only allows max. 50 characters for topics
           char_count = 0
-          for idx, keyword in enumerate(keywords):
+          github_keywords = []
+          for keyword in keywords:
             word_len = len(keyword)
             if char_count + word_len >= 50:
               break
             char_count += len(keyword)
-            subprocess.run(['gh', 'repo', 'edit', '--add-topic', keyword])
+            github_keywords.append(keyword.replace(' ', '-'))
+          with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
+            print(f"keywords={keywords}", file=fh)
+
+      - name: 'Update repository topics'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            github.rest.repos.replaceAllTopics({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              names: ${{ steps.topics.outputs.keywords }}
+            })
+
+      
             
 #          topics = ' '.join([f'"{key}"' for key in keywords[:idx]])
 #          print(topics)
