@@ -90,7 +90,7 @@ jobs:
               print(f"topics={topics}", file=fh)
 
       - name: 'Update repository topics'
-        run: gh repo edit --add-topic ${{ steps.topics.outputs.topics }}
+        run: gh repo edit --add-topic "test"
 
   package:
     name: 'Test package'
