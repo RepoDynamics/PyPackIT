@@ -23,7 +23,7 @@ with open("metadata_pretty.json") as f:
     metadata_text = f.read()
 
 log += f"""<br>
-<details><summary>🖥 Metadata</summary>
+<details><summary>🖥 Metadata</summary><br>
 
 ```json
 {metadata_text}
