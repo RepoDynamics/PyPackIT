@@ -82,7 +82,7 @@ jobs:
             if char_count + word_len >= 50:
               break
             char_count += len(keyword)
-          topics = ' '.join(keywords[:idx])
+          topics = ' '.join([f'"{key}"' for key in keywords[:idx]])
           print(topics)
           print(len(topics))
           print(len(topics.replace(' ', '')))
@@ -90,7 +90,7 @@ jobs:
               print(f"topics={topics}", file=fh)
 
       - name: 'Update repository topics'
-        run: gh repo edit --add-topic "${{ steps.topics.outputs.topics }}"
+        run: gh repo edit --add-topic ${{ steps.topics.outputs.topics }}
 
   package:
     name: 'Test package'
