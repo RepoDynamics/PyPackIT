@@ -73,15 +73,19 @@ jobs:
 
       - name: 'Update repository info'
         uses: actions/github-script@v6
+        env:
+          REPO_NAME: ${{ fromJSON(needs.metadata.outputs.json).project.name }}
+          REPO_DESCRIPTION: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }}
+          REPO_HOMEPAGE: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
         with:
           github-token: ${{ secrets.PAT }}
           script: |
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: '${{ fromJSON(needs.metadata.outputs.json).project.name }}',
-              description: '${{ fromJSON(needs.metadata.outputs.json).project.tagline }}',
-              homepage: '${{ fromJSON(needs.metadata.outputs.json).url.website.home }}',
+              name: $REPO_NAME,
+              description: $REPO_DESCRIPTION,
+              homepage: $REPO_HOMEPAGE,
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
