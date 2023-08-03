@@ -64,7 +64,6 @@ jobs:
       - name: 'Update repository description'
         run: >-
           gh repo edit 
-          "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
           --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
 
 
