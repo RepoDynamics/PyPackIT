@@ -79,9 +79,9 @@ jobs:
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: ${{ fromJSON(needs.metadata.outputs.json).project.name }},
-              description: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }},
-              homepage: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }},
+              name: '${{ fromJSON(needs.metadata.outputs.json).project.name }}',
+              description: '${{ fromJSON(needs.metadata.outputs.json).project.tagline }}',
+              homepage: '${{ fromJSON(needs.metadata.outputs.json).url.website.home }}',
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
