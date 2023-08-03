@@ -91,15 +91,17 @@ jobs:
 
           # The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
           query = """
-          {
-            viewer {
-              login
-            }
-            rateLimit {
-              limit
-              cost
-              remaining
-              resetAt
+          repository(name: "templaterepo", owner: "aariam") {
+              id
+              discussionCategories(first: 100) {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                  cursor
+                }
+              }
             }
           }
           """
