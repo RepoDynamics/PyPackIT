@@ -55,11 +55,11 @@ jobs:
       fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
       fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - name: 'Update repository info'
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.PAT }}
           script: |
             github.rest.repos.update({
               owner: context.repo.owner,
