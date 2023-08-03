@@ -1,5 +1,4 @@
 from .metadata import metadata
-from . import readme, pyproject, templates, cd
-
+from .files import pyproject
 
 __version__ = "0.1.0"

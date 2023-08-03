@@ -383,6 +383,7 @@ html_title: str = meta["project"]["name"]
 
 html_short_title: str = meta["project"]["name"]
 # html_baseurl: str = ''
+html_secnumber_suffix: str = ". "
 html_context = {
     # PyData variables
     "github_user": meta["project"]["owner"]["login"],
@@ -392,6 +393,7 @@ html_context = {
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
     "pp_meta": meta,
+    "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
 html_favicon: Union[str, None] = "../../../meta/img/logo/icon.png"
@@ -410,8 +412,8 @@ html_static_path: List[str] = [
 ]
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
-    str(path).removeprefix(f"{html_static_path[0]}/")
-    for path in (Path(html_static_path[0]) / "css").glob("**/*.css")
+    str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
+    for glob in ["**/*.css", "**/*.css_t"] for path in (Path(html_static_path[0]) / "css").glob(glob)
 ]
 """A list of CSS files.
 
@@ -454,7 +456,6 @@ html_show_search_summary: bool = True
 html_show_sphinx: bool = False
 # html_output_encoding: str = 'utf-8'
 # html_compact_lists: bool = True
-html_secnumber_suffix: str = ". "
 
 html_search_language: str = "en"
 # html_search_options: Dict[str, Any]
@@ -697,8 +698,8 @@ post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
 
-if meta["website"]["disqus_shortname"]:
-    disqus_shortname: str = meta["website"]["disqus_shortname"]
+# if meta["website"]["disqus_shortname"]:
+#     disqus_shortname: str = meta["website"]["disqus_shortname"]
 
 
 """
