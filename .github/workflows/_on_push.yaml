@@ -62,7 +62,7 @@ jobs:
           REPO_NAME: ${{ fromJSON(needs.metadata.outputs.json).project.name }}
           REPO_DESCRIPTION: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }}
           REPO_HOMEPAGE: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
-          REPO_KEYWORDS: ${{ fromJSON(needs.metadata.outputs.json).project.keywords_slugs }}
+          REPO_KEYWORDS: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }}
         with:
           github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
           script: |
