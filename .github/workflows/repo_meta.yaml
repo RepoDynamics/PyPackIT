@@ -132,7 +132,7 @@ jobs:
 
       - name: 'Create job summary'
         if: ${{ !failure() }}
-        run: python ./github/scripts/summary_metadata.py
+        run: python .github/scripts/summary_metadata.py
         env:
           FORCE_UPDATE: ${{ inputs.force-update }}
           CACHE-HIT: ${{ steps.cache.outputs.cache-hit }}
