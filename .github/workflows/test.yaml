@@ -75,23 +75,14 @@ jobs:
     steps:
       - run: |
           pip install --upgrade pip
-          pip install requests
+          pip install dev/repodynamics
 
       - shell: python
         run: |
-          import requests
+          import pylinks
           import os
-          
-          headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
-
-          def run_query(query): 
-              r = requests.post('https://api.github.com/graphql', json={'query': query}, headers=headers)
-              r.raise_for_status()
-              return r.json()
-
-          # The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
+            
           query = """
-          {
             repository(name: "TemplateRepo", owner: "aariam") {
               discussionCategories(first: 100) {
                 edges {
@@ -103,7 +94,5 @@ jobs:
                 }
               }
             }
-          }
           """
-          result = run_query(query) # Execute the query
-          print(result)
+          print(pylinks.api.github.GraphQL(token=os.environ['GITHUB_TOKEN']).query(query))
