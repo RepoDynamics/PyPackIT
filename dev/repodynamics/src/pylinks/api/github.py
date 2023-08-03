@@ -20,7 +20,7 @@ class GraphQL:
     def query(self, query):
         return request(
             "https://api.github.com/graphql",
-            method="POST",
+            verb="POST",
             json={"query": f"{{{query}}}"},
             headers={"Authorization": f"Bearer {self.token}"},
             response_type="json",
