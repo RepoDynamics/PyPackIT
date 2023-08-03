@@ -143,18 +143,42 @@ class _MetadataCache:
             YAML(typ="safe").dump(self.cache, f)
         return cached_user["data"]
 
-    def repo(self, username, repo_name: str) -> dict:
+    def repo(self, username, repo_name: str, github_token: Optional[str] = None) -> dict:
         cached_repo = self.cache.setdefault("repo", dict())
         timestamp = cached_repo.get("timestamp")
         if timestamp and not self._is_expired(timestamp):
             return cached_repo["data"]
         repo_info = pylinks.api.github.repo(username, repo_name).info
         repo_info.pop("owner")
+        if github_token:
+            repo_info["discussions"] = self.repo_discussions(username, repo_name, github_token)
         cached_repo["data"] = repo_info
         cached_repo["timestamp"] = self._now
         with open(self.path_metadata_cache, "w") as f:
             YAML(typ="safe").dump(self.cache, f)
         return cached_repo["data"]
+
+    @staticmethod
+    def repo_discussions(username: str, repo_name: str, token: str) -> list[dict]:
+        graph_ql_query = f"""
+            repository(name: "{repo_name}", owner: "{username}") {{
+              discussionCategories(first: 100) {{
+                edges {{
+                  node {{
+                    name
+                    slug
+                    id
+                  }}
+                }}
+              }}
+            }}
+        """
+        response: dict = pylinks.api.github.GraphQL(token).query(graph_ql_query)
+        discussions = [
+            entry["node"]
+            for entry in response["data"]["repository"]["discussionCategories"]["edges"]
+        ]
+        return discussions
 
     def publications(self, orcid_id: str) -> list[dict]:
         """
@@ -243,7 +267,9 @@ class Metadata:
         path_pathfile: Optional[str | Path] = None,
         path_cache: Optional[str | Path] = None,
         update_cache: bool = False,
+        github_token: Optional[str] = None,
     ):
+        self.github_token = github_token
         self.path_root = Path(path_root).resolve() if path_root else Path.cwd().resolve()
         if not path_pathfile:
             path_pathfile = self.path_root / "meta" / "metadata" / "path.yaml"
@@ -370,7 +396,9 @@ class Metadata:
                 "Repository names can only contain alphanumeric characters, hyphens (-), underscores (_), "
                 f"and periods (.), but got {repo_name}."
             )
-        self.metadata["project"]["repo"] = self._cache.repo(username=username, repo_name=repo_name)
+        self.metadata["project"]["repo"] = self._cache.repo(
+            username=username, repo_name=repo_name, github_token=self.github_token
+        )
         self.metadata["project"]["owner"] = self._cache.user(username=username)
         if not self.metadata["project"].get("name"):
             self.metadata["project"]["name"] = self.metadata["project"]["repo"]["name"]
@@ -673,6 +701,12 @@ def __main__():
         help="Force update cache metadata file.",
         required=False,
     )
+    parser.add_argument(
+        "--github_token",
+        type=str,
+        help="GitHub Token to access the GitHub GraphQL API; without this, discussion categories cant be retrieved.",
+        required=False,
+    )
     args = parser.parse_args()
     try:
         meta = Metadata(
@@ -680,6 +714,7 @@ def __main__():
             path_pathfile=args.pathfile,
             path_cache=args.cachefile,
             update_cache=args.update_cache,
+            github_token=args.github_token,
         )
     except Exception as e:
         print(f"Error: {e}")
