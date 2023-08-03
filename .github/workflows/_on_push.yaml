@@ -66,7 +66,7 @@ jobs:
         with:
           github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
           script: |
-            const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE } = process.env
+            const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE, REPO_KEYWORDS } = process.env
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
