@@ -3,7 +3,8 @@
 
 name: TemplateRepo  # Set to null to use the repository name
 
-tagline: "Python Projects Perfected: Innovate, Develop, and Deploy' Effortlessly!"
+tagline: |
+  "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
 
 description: >-
   PyPackIT is a free and open-source toolkit
