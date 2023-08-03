@@ -1,15 +1,13 @@
 
 meta:
-  config:
-    repodynamics: "meta/config/repodynamics.yaml"
-    issues_template_chooser: "meta/config/issues_template_chooser.yaml"
   metadata:
-    project: "meta/metadata/project.yaml"
-    website: "meta/metadata/website.yaml"
-    maintainer: "meta/metadata/maintainer.yaml"
+    config: "meta/config.yaml"
+    project: "metaproject.yaml"
+    website: "meta/website.yaml"
+    maintainer: "meta/maintainer.yaml"
     package: "src/metadata.yaml"
-    readme: "meta/metadata/readme.yaml"
-    theme: "meta/metadata/theme.yaml"
+    readme: "meta/readme.yaml"
+    theme: "meta/theme.yaml"
   template:
     issue: "meta/template/issue_form"
     license: "meta/template/license"

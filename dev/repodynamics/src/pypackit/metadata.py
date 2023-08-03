@@ -251,7 +251,7 @@ class Metadata:
         self.github_token = github_token
         self.path_root = Path(path_root).resolve() if path_root else Path.cwd().resolve()
         if not path_pathfile:
-            path_pathfile = self.path_root / "meta" / "metadata" / "path.yaml"
+            path_pathfile = self.path_root / "meta" / "path.yaml"
         if not isinstance(path_pathfile, (str, Path)):
             raise TypeError(
                 f"Argument 'path_pathfile' must be a string or a pathlib.Path object, "
@@ -277,15 +277,9 @@ class Metadata:
             if not (path.exists() and path.is_file()):
                 raise ValueError(f"Metadata file '{section}' does not exist in {filepath}.")
             self.metadata[section] = dict(YAML(typ="safe").load(path))
-        self.metadata["config"] = dict()
-        for section, filepath in self.metadata["path"]["abs"]["meta"]["config"].items():
-            path = Path(filepath)
-            if not (path.exists() and path.is_file()):
-                raise ValueError(f"Config file '{section}' does not exist in {filepath}.")
-            self.metadata["config"][section] = dict(YAML(typ="safe").load(path))
         self._cache = _MetadataCache(
             path_cache=path_cache or self.metadata["path"]["abs"]["data"]["cache"],
-            cache_expiration_days=self.metadata["config"]["repodynamics"]["cache_expiration_days"],
+            cache_expiration_days=self.metadata["config"]["cache_expiration_days"],
             update=update_cache,
         )
         self.fill()
