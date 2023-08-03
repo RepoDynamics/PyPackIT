@@ -70,6 +70,8 @@ jobs:
 
   graphql:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - run: |
           pip install --upgrade pip
