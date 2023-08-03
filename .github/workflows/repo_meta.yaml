@@ -20,11 +20,6 @@ on:
           - none
           - core
           - all
-      branch:
-        description: "Branch to load metadata from"
-        required: false
-        type: string
-        default: ""
       path-repodynamics:
         description: "Path to the `repo` directory containing the metadata, templates and dynamics module."
         default: 'dev/repodynamics'
@@ -71,26 +66,15 @@ jobs:
       - name: 'Checkout repository from ${{ inputs.branch || github.ref }}'
         uses: actions/checkout@v3
         with:
-          # For pull requests, check out the source branch (head_ref), not the target branch (base_ref).
           ref: ${{ inputs.branch }}
 
-#      - name: 'Setup environment'
-#        # https://github.com/mamba-org/setup-micromamba
-#        uses: mamba-org/setup-micromamba@v1
-#        with:
-#          environment-file: ${{ inputs.path-repodynamics}}/requirements.yaml
-#          cache-environment: true
-#          cache-environment-key: repo-dynamics
-#          generate-run-shell: true
-#          init-shell: bash
-
-      - name: Get Date
+      - name: 'Get current date'
         id: get-date
         run: |
           echo "date=$(/bin/date -u "+%Y-%W")" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Cache metadata
+      - name: 'Cache metadata'
         id: cache
         # This returns a cache-hit output, which is either 'true' or 'false' (str, not bool).
         # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-the-cache-action
@@ -101,9 +85,17 @@ jobs:
             metadata.json
             metadata_pretty.json
             metadata_cache.yaml
-          # Cache is invalidated when the week changes, or when the metadata files change.
+          # Cache is invalidated when metadata files are changed, or after a week.
           # Ref. hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
-          key: metadata-${{ steps.get-date.outputs.date }}-${{ hashFiles('meta/metadata/*.yaml', 'meta/config/*.yaml', 'src/metadata.yaml', 'dev/repodynamics/src/pypackit/metadata.py') }}
+          key: >-
+            metadata-${{ steps.get-date.outputs.date }}-${{
+              hashFiles(
+                'meta/metadata/*.yaml',
+                'meta/config/*.yaml',
+                'src/metadata.yaml',
+                'dev/repodynamics/src/**/*.py'
+              )
+            }}
 
       - name: 'Setup Python'
         if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
@@ -122,42 +114,44 @@ jobs:
       - name: 'Get metadata'
         if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         id: get-metadata
-#        shell: bash -el {0}
         env:
-          UPDATE_CACHE: ${{ inputs.force-update == 'all' && '--update_cache' || '' }}
+          UPDATE_CACHE: ${{ (inputs.force-update == 'all' && '--update_cache') || '' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           repodynamics-get-metadata
           --cachefile metadata_cache.yaml
           --output metadata.json
           --output_pretty metadata_pretty.json
+          --github_token $GITHUB_TOKEN
           $UPDATE_CACHE
 
-#        echo "json=$(get-metadata --output metadata.json)" >> $GITHUB_OUTPUT
-#        echo "json=$(python ${{inputs.path-repodynamics}}/dynamics/metadata.py)" >> $GITHUB_OUTPUT
-
       - name: 'Output metadata'
-        if: always()
+        if: ${{ !failure() }}
         id: output
         run: echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
 
-      - name: 'Upload metadata as artifact'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: metadata_pretty.json #${{ inputs.path-repodynamics}}/metadata/metadata_full.json
-          name: 'metadata'
-
       - name: 'Create job summary'
-        if: always()
+        if: ${{ !failure() }}
+        shell: python
+        env:
+          FORCE_UPDATE: ${{ inputs.force-update }}
+          CACHE-HIT: ${{ steps.cache.outputs.cache-hit }}
         run: |
-          echo "Repository metadata loaded from <code>${{ inputs.branch || github.ref }}</code>." >> $GITHUB_STEP_SUMMARY
-          echo "The JSON output is uploaded as an artifact named <code>metadata</code>, and can also be viewed below:" >> $GITHUB_STEP_SUMMARY
-          echo "<details>" >> $GITHUB_STEP_SUMMARY
-          echo "<summary>🖥 JSON Output</summary>" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat metadata_pretty.json >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          import os
+          import json
+          
+          with open("metadata_pretty.json") as f:
+            metadata_text = f.read() 
+          
+          log = """
+          <details><summary>🖥 Repository Metadata</summary>
+
+          ```json
+          {metadata_text}
+          ```
+          
+          </details>
+          """
+          
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+            print(log, file=fh)
