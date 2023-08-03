@@ -81,15 +81,16 @@ jobs:
           import os
           metadata = json.loads(os.environ['METADATA'], strict=False)
           keywords = metadata['project']['keywords']
-          # GitHub only allows max. 50 characters for topics
-          char_count = 0
-          github_keywords = []
-          for keyword in keywords:
-            word_len = len(keyword)
-            if char_count + word_len >= 50:
-              break
-            char_count += len(keyword)
-            github_keywords.append(keyword.replace(' ', '-'))
+          #          # GitHub only allows max. 50 characters for topics
+          #          char_count = 0
+          #          github_keywords = []
+          #          for keyword in keywords:
+          #            word_len = len(keyword)
+          #            if char_count + word_len >= 50:
+          #              break
+          #            char_count += len(keyword)
+          #            github_keywords.append(keyword.replace(' ', '-'))
+          github_keywords = [key.replace('_', '-') for key in keywords]
           with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
             print(f"keywords={github_keywords}", file=fh)
 
