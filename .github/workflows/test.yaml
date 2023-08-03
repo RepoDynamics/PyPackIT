@@ -67,3 +67,39 @@ jobs:
             }
             const result = await github.graphql(query, variables)
             console.log(result)
+
+  graphql:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          pip install --upgrade pip
+          pip install requests
+
+      - shell: python
+        run: |
+          import requests
+          import os
+          
+          headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
+
+          def run_query(query): 
+              r = requests.post('https://api.github.com/graphql', json={'query': query}, headers=headers)
+              r.raise_for_status()
+              return r.json()
+
+          # The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
+          query = """
+          {
+            viewer {
+              login
+            }
+            rateLimit {
+              limit
+              cost
+              remaining
+              resetAt
+            }
+          }
+          """
+          result = run_query(query) # Execute the query
+          print(result)
