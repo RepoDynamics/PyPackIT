@@ -79,7 +79,7 @@ jobs:
             github.rest.repos.replaceAllTopics({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              names: ${{ fromJSON(needs.metadata.outputs.json).project.keywords }}
+              names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords) }}
             })
 
       - name: 'Format repository topics'
