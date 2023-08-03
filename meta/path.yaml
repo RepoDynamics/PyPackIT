@@ -2,7 +2,7 @@
 meta:
   metadata:
     config: "meta/config.yaml"
-    project: "metaproject.yaml"
+    project: "meta/project.yaml"
     website: "meta/website.yaml"
     maintainer: "meta/maintainer.yaml"
     package: "src/metadata.yaml"
