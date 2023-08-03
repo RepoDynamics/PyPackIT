@@ -83,6 +83,9 @@ jobs:
               break
             char_count += len(keyword)
           topics = ' '.join(keywords[:idx])
+          print(topics)
+          print(len(topics))
+          print(len(topics.replace(' ', '')))
           with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
               print(f"topics={topics}", file=fh)
 
