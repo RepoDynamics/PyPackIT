@@ -317,6 +317,10 @@ class Metadata:
         self.add_package_operating_systems()
         self.add_urls()
         self.add_owner_publications()
+        self.metadata['project']['keywords_slugs'] = [
+            re.sub(r"[^a-zA-Z0-9]", "-", key.lower())
+            for key in self.metadata['project']['keywords']
+        ]
         for classifier in self.metadata["project"]["trove_classifiers"]:
             if classifier not in trove_classifiers.classifiers:
                 raise ValueError(f"Trove classifier '{classifier}' is not supported anymore.")
