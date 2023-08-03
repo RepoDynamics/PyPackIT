@@ -68,6 +68,27 @@ class Repo:
     def tags(self) -> list[dict]:
         return self._response(f"git/refs/tags")
 
+    def discussion_categories(self, access_token: str) -> list[dict]:
+        query = f"""
+            repository(name: "{self.repo_name}", owner: "{self.username}") {{
+              discussionCategories(first: 25) {{
+                edges {{
+                  node {{
+                    name
+                    slug
+                    id
+                  }}
+                }}
+              }}
+            }}
+        """
+        response: dict = GraphQL(access_token).query(query)
+        discussions = [
+            entry["node"]
+            for entry in response["data"]["repository"]["discussionCategories"]["edges"]
+        ]
+        return discussions
+
 
 def repo(username, repo_name) -> Repo:
     return Repo(username=username, repo_name=repo_name)

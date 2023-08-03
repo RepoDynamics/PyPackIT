@@ -148,37 +148,16 @@ class _MetadataCache:
         timestamp = cached_repo.get("timestamp")
         if timestamp and not self._is_expired(timestamp):
             return cached_repo["data"]
-        repo_info = pylinks.api.github.repo(username, repo_name).info
+        repo_api = pylinks.api.github.repo(username, repo_name)
+        repo_info = repo_api.info
         repo_info.pop("owner")
         if github_token:
-            repo_info["discussions"] = self.repo_discussions(username, repo_name, github_token)
+            repo_info["discussions"] = repo_api.discussion_categories(github_token)
         cached_repo["data"] = repo_info
         cached_repo["timestamp"] = self._now
         with open(self.path_metadata_cache, "w") as f:
             YAML(typ="safe").dump(self.cache, f)
         return cached_repo["data"]
-
-    @staticmethod
-    def repo_discussions(username: str, repo_name: str, token: str) -> list[dict]:
-        graph_ql_query = f"""
-            repository(name: "{repo_name}", owner: "{username}") {{
-              discussionCategories(first: 100) {{
-                edges {{
-                  node {{
-                    name
-                    slug
-                    id
-                  }}
-                }}
-              }}
-            }}
-        """
-        response: dict = pylinks.api.github.GraphQL(token).query(graph_ql_query)
-        discussions = [
-            entry["node"]
-            for entry in response["data"]["repository"]["discussionCategories"]["edges"]
-        ]
-        return discussions
 
     def publications(self, orcid_id: str) -> list[dict]:
         """
