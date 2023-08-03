@@ -57,13 +57,18 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
+#      - name: 'Checkout repository'
+#        uses: actions/checkout@v3
 
       - name: 'Update repository description'
         run: >-
-          gh repo edit 
+          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
           --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
+
+      - name: 'Update repository homepage'
+        run: >-
+          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
+          --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
 
       - name: 'Format repository topics'
         id: topics
