@@ -54,6 +54,7 @@ jobs:
       github.ref == 'refs/heads/main' &&
       fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
     runs-on: ubuntu-latest
+    permissions: write-all
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
