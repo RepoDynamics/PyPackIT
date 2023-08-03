@@ -73,6 +73,7 @@ jobs:
         run: |
           import json
           import os
+          import subprocess
           metadata = json.loads(os.environ['METADATA'], strict=False)
           keywords = metadata['project']['keywords']
           # GitHub only allows max. 50 characters for topics
@@ -82,15 +83,17 @@ jobs:
             if char_count + word_len >= 50:
               break
             char_count += len(keyword)
-          topics = ' '.join([f'"{key}"' for key in keywords[:idx]])
-          print(topics)
-          print(len(topics))
-          print(len(topics.replace(' ', '')))
-          with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
-              print(f"topics={topics}", file=fh)
-
-      - name: 'Update repository topics'
-        run: gh repo edit --add-topic "test"
+            subprocess.run(['gh', 'repo', 'edit', '--add-topic', keyword])
+            
+#          topics = ' '.join([f'"{key}"' for key in keywords[:idx]])
+#          print(topics)
+#          print(len(topics))
+#          print(len(topics.replace(' ', '')))
+#          with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
+#              print(f"topics={topics}", file=fh)
+#
+#      - name: 'Update repository topics'
+#        run: gh repo edit --add-topic "test"
 
   package:
     name: 'Test package'
