@@ -4,18 +4,16 @@ import os
 cache_hit = os.environ["CACHE-HIT"] == "true"
 force_update = os.environ["FORCE_UPDATE"]
 
-log = f"""#### Conditions
-- {'✅' if force_update == "all" else ('❌' if force_update == "none" else '☑️')}  Force update ({force_update})
+log = f"""
+- {'✅' if force_update == "all" else ('❌' if force_update == "none" else '☑️')}  Force update (input: {force_update})
 - {'✅' if cache_hit else '❌'}  Cache hit
-#### Results
 """
-
 if not cache_hit or force_update == "all":
-    log += "- All metadata was recalculated from scratch."
+    log += "- ➡️ Updated all metadata"
 elif force_update == "core":
-    log += "- Core metadata was recalculated from scratch, while API metadata was loaded from cache."
+    log += "- ➡️ Updated core metadata but loaded API metadata from cache"
 elif force_update == "none":
-    log += "- Metadata was loaded entirely from cache."
+    log += "- ➡️ Loaded all metadata from cache"
 else:
     raise ValueError(f"Unknown force_update value: {force_update}")
 
