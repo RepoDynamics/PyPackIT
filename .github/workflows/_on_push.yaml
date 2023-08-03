@@ -54,18 +54,33 @@ jobs:
       github.ref == 'refs/heads/main' &&
       fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
     runs-on: ubuntu-latest
-    permissions: write-all
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
       - name: 'Update repository description'
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: >-
           gh repo edit 
-          --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
+            --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
 
+      - name: 'Format repository topics'
+        id: topics
+        env:
+          METADATA: ${{ needs.metadata.outputs.json }}
+        shell: python
+        run: |
+            import json
+            import os
+            metadata = json.loads(os.environ['METADATA'], strict=False)
+            topics = ' '.join(metadata['project']['keywords'])
+            with open(os.environ['GITHUB_OUTPUT'], "a") as fh:
+                print(f"topics={topics}", file=fh)
+
+      - name: 'Update repository topics'
+        run: >-
+          gh repo edit --add-topic ${{ steps.topics.outputs.topics }}
 
   package:
     name: 'Test package'
