@@ -61,15 +61,32 @@ jobs:
 #      - name: 'Checkout repository'
 #        uses: actions/checkout@v3
 
-      - name: 'Update repository description'
-        run: >-
-          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
-          --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
+#      - name: 'Update repository description'
+#        run: >-
+#          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
+#          --description "${{ fromJSON(needs.metadata.outputs.json).project.tagline }}"
+#
+#      - name: 'Update repository homepage'
+#        run: >-
+#          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
+#          --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}"
 
-      - name: 'Update repository homepage'
-        run: >-
-          gh repo edit "${{ fromJSON(needs.metadata.outputs.json).project.repo.full_name }}"
-          --homepage "${{ fromJSON(needs.metadata.outputs.json).url.website.home }}"
+      - name: 'Update repository info'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            github.rest.repos.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: ${{ fromJSON(needs.metadata.outputs.json).project.name }},
+              description: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }},
+              homepage: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }},
+              has_issues: true,
+              default_branch: 'main',
+              delete_branch_on_merge: true,
+              allow_forking: false,
+            })
 
       - name: 'Format repository topics'
         id: topics
