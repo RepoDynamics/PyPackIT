@@ -69,9 +69,9 @@ jobs:
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: ${REPO_NAME},
-              description: ${REPO_DESCRIPTION},
-              homepage: ${REPO_HOMEPAGE},
+              name: REPO_NAME,
+              description: REPO_DESCRIPTION,
+              homepage: REPO_HOMEPAGE,
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
