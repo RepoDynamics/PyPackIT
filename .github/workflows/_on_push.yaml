@@ -52,10 +52,11 @@ jobs:
     needs: [metadata, changes]
     if: |
       github.ref == 'refs/heads/main' &&
+      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
       fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.PAT }}
+#    env:
+#      GITHUB_TOKEN: ${{ secrets.PAT }}
     permissions: write-all
     steps:
 #      - name: 'Checkout repository'

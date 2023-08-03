@@ -1,2 +1,6 @@
 
+
 cache_expiration_days: 7
+
+# Needs personal access token named `REPO_ADMIN_TOKEN` with 'Administration' scope for the repository.
+update_repo_settings: true
