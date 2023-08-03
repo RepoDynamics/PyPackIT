@@ -85,7 +85,6 @@ jobs:
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
-              allow_forking: false,
             })
 
       - name: 'Format repository topics'
