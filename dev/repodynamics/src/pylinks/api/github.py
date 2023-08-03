@@ -12,6 +12,21 @@ def _response(url_segment):
     return request(url=BASE_URL / url_segment, response_type="json")
 
 
+class GraphQL:
+    def __init__(self, token):
+        self.token = token
+        return
+
+    def query(self, query):
+        return request(
+            "https://api.github.com/graphql",
+            method="POST",
+            json={"query": f"{{{query}}}"},
+            headers={"Authorization": f"Bearer {self.token}"},
+            response_type="json",
+        )
+
+
 class User:
     def __init__(self, username: str):
         self.username = username
