@@ -62,11 +62,10 @@ jobs:
           REPO_NAME: ${{ fromJSON(needs.metadata.outputs.json).project.name }}
           REPO_DESCRIPTION: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }}
           REPO_HOMEPAGE: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
-          REPO_KEYWORDS: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }}
         with:
           github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
           script: |
-            const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE, REPO_KEYWORDS } = process.env
+            const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE } = process.env
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -76,11 +75,14 @@ jobs:
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
+              security_and_analysis.advanced_security.status: 'enabled',
+              security_and_analysis.secret_scanning.status: 'enabled',
+              security_and_analysis.secret_scanning_push_protection.status: 'enabled',
             })
             github.rest.repos.replaceAllTopics({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              names: REPO_KEYWORDS,
+              names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }},
             })
 
 
