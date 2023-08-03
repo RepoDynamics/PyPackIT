@@ -132,26 +132,7 @@ jobs:
 
       - name: 'Create job summary'
         if: ${{ !failure() }}
-        shell: python
+        run: python ./github/scripts/summary_metadata.py
         env:
           FORCE_UPDATE: ${{ inputs.force-update }}
           CACHE-HIT: ${{ steps.cache.outputs.cache-hit }}
-        run: |
-          import os
-          import json
-          
-          with open("metadata_pretty.json") as f:
-            metadata_text = f.read() 
-          
-          log = f"""
-          <details><summary>🖥 Repository Metadata</summary>
-
-          ```json
-          {metadata_text}
-          ```
-          
-          </details>
-          """
-          
-          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
-            print(log, file=fh)
