@@ -93,7 +93,7 @@ jobs:
               repo: context.repo.repo,
               names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }},
             })
-            rest.repos.updateBranchProtection({
+            github.rest.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
               branch: 'main',
