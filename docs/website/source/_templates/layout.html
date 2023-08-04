@@ -1,0 +1,34 @@
+{%- extends "pydata_sphinx_theme/layout.html" %}
+
+{% block docs_body %}
+
+{{ super() }}
+
+{%- if meta is mapping -%}
+    {%- set category = meta.get('category') -%}
+    {%- if category is not none -%}
+        {%- for discussion_category in pp_meta.project.repo.discussions -%}
+            {%- if discussion_category.name == category -%}
+<script src="https://giscus.app/client.js"
+        data-repo="{{pp_meta.project.repo.full_name}}}}"
+        data-repo-id="{{pp_meta.project.repo.node_id}}"
+        data-category="{{category}}"
+        data-category-id="{{discussion_category.id}}"
+        data-mapping="specific"
+        data-term="{{title.split(pp_title_sep)[-1]}}"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+{%- endif -%}
+
+{% endblock %}
