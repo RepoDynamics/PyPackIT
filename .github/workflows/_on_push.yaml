@@ -118,11 +118,19 @@ jobs:
               lock_branch: false,
               allow_fork_syncing: true,
             })
-            github.rest.repos.createPagesSite({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              build_type: 'workflow',
-            })
+            try {
+              await github.rest.repos.createPagesSite({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                build_type: 'workflow',
+              });
+            } catch (error) {
+              if (error.status === 409) {
+                console.log('GitHub Pages is already enabled. Continuing...');
+              } else {
+                throw error;
+              }
+            }
 
 
   package:
