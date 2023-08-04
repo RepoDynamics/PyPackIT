@@ -1,7 +1,7 @@
 # Continuous Integration pipeline
 
 name: CD
-run-name: 'CD: Triggered on ${{github.ref}} by ${{github.event_name}}'
+run-name: 'CD: Triggered on ${{github.ref}}'
 
 on:
   pull_request:
@@ -14,12 +14,29 @@ on:
 
 jobs:
 
+  not-merged:
+    name: 'Verify merge'
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+          echo "* The pull request was closed without merging." >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          cat ${{github.event_path}} >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> $GITHUB_STEP_SUMMARY
+
   merged:
+    name: 'Verify merge'
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo The PR was merged
+        echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
+        echo "* The pull request was merged; initiating deployment sequence." >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+        cat ${{github.event_path}} >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> $GITHUB_STEP_SUMMARY
 
   metadata:
     name: 'Load repository metadata'
@@ -120,10 +137,10 @@ jobs:
     name: 'Deply documentation website'
     needs: [docs-build]
     uses: ./.github/workflows/docs_deploy.yaml
-    permissions: write-all  # TODO: set back
-#      contents: read
-#      pages: write
-#      id-token: write
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
   package-build:
     name: 'Build distribution package'

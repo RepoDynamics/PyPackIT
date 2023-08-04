@@ -16,23 +16,23 @@
 #  Action used for committing and pushing changes: https://github.com/marketplace/actions/git-auto-commit
 
 
-name: "Repo"
+name: "Repo - sync files"
 run-name: 'Sync Metadata: Triggered on ${{github.ref}} by ${{github.event_name}}'
 
 on:
+  workflow_dispatch:
   workflow_call:
     outputs:
       changes-detected:
         value: ${{jobs.update.outputs.changes-detected}}
       commit-hash:
         value: ${{jobs.update.outputs.commit-hash}}
-  workflow_dispatch:
 
 
 jobs:
 
-  update:
-    name: 'Update files'
+  sync:
+    name: 'sync'
     outputs:
       changes-detected : ${{ steps.commit.outputs.changes_detected }}
       commit-hash: ${{ steps.commit.outputs.commit_hash }}
@@ -50,17 +50,16 @@ jobs:
 
       - name: 'Setup Python'
         uses: actions/setup-python@v4
-
+        with:
+          python-version: '3.x'
 
       - name: 'Install RepoDynamics'
-        if: inputs.force-update != 'none' || steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install dev/repodynamics
 
       - name: 'Update dynamic files'
         run: repodynamics-sync-files
-
 
       - name: 'Commit changes and push'
         # https://github.com/marketplace/actions/git-auto-commit
@@ -69,3 +68,5 @@ jobs:
         with:
           commit_message: 'meta: sync dynamic files after metadata modification'
           commit_user_name: 'RepoDynamics[bot]'
+          commit_user_email: 'contact@repodynamics.org'
+          commit_author: 'RepoDynamics[bot] <contact@repodynamics.org>'

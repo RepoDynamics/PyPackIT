@@ -68,7 +68,23 @@ class Repo:
     def tags(self) -> list[dict]:
         return self._response(f"git/refs/tags")
 
-    def discussion_categories(self, access_token: str) -> list[dict]:
+    def discussion_categories(self, access_token: str) -> list[dict[str, str]]:
+        """Get discussion categories for a repository.
+
+        Parameters
+        ----------
+        access_token : str
+            GitHub access token.
+
+        Returns
+        -------
+            A list of discussion categories as dictionaries with keys "name", "slug", and "id".
+
+        References
+        ----------
+        - [GitHub Docs](https://docs.github.com/en/graphql/guides/using-the-graphql-api-for-discussions)
+        -
+        """
         query = f"""
             repository(name: "{self.repo_name}", owner: "{self.username}") {{
               discussionCategories(first: 25) {{

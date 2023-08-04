@@ -10,7 +10,7 @@
         {%- for discussion_category in pp_meta.project.repo.discussions -%}
             {%- if discussion_category.name == category -%}
 <script src="https://giscus.app/client.js"
-        data-repo="{{pp_meta.project.repo.full_name}}}}"
+        data-repo="{{pp_meta.project.repo.full_name}}"
         data-repo-id="{{pp_meta.project.repo.node_id}}"
         data-category="{{category}}"
         data-category-id="{{discussion_category.id}}"
@@ -32,3 +32,5 @@
 {%- endif -%}
 
 {% endblock %}
+
+<!-- data-theme="https://raw.githubusercontent.com/AAriam/TemplateRepo/main/docs/website/source/_static/css/extensions/custom_example.css" -->

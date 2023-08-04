@@ -1,7 +1,7 @@
 ---
 date: 16.05.2023
 author: Armin Ariamajd
-category: Manual
+category: Release
 tags: sample, template
 ---
 
