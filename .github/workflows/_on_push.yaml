@@ -100,7 +100,7 @@ jobs:
               required_status_checks: {
                 strict: true,
                 checks: [
-                  {context: 'test-package'},
+                  {context: 'TestPackage'},
                 ]
               },
               enforce_admins: null,
@@ -117,6 +117,11 @@ jobs:
               required_conversation_resolution: true,
               lock_branch: false,
               allow_fork_syncing: true,
+            })
+            github.rest.repos.createPagesSite({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              build_type: 'workflow',
             })
 
 
