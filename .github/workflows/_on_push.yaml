@@ -75,9 +75,7 @@ jobs:
               has_issues: true,
               default_branch: 'main',
               delete_branch_on_merge: true,
-              security_and_analysis.advanced_security.status: 'enabled',
-              security_and_analysis.secret_scanning.status: 'enabled',
-              security_and_analysis.secret_scanning_push_protection.status: 'enabled',
+              security_and_analysis: {advanced_security: {status: 'enabled'}},
             })
             github.rest.repos.replaceAllTopics({
               owner: context.repo.owner,
