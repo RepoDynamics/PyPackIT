@@ -54,83 +54,9 @@ jobs:
       github.ref == 'refs/heads/main' &&
       fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
       fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Update repository info'
-        # https://octokit.github.io/rest.js/v19
-        # https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28
-        uses: actions/github-script@v6
-        env:
-          REPO_NAME: ${{ fromJSON(needs.metadata.outputs.json).project.name }}
-          REPO_DESCRIPTION: ${{ fromJSON(needs.metadata.outputs.json).project.tagline }}
-          REPO_HOMEPAGE: ${{ fromJSON(needs.metadata.outputs.json).url.website.home }}
-        with:
-          github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
-          script: |
-            const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE } = process.env
-            github.rest.repos.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: REPO_NAME,
-              description: REPO_DESCRIPTION,
-              homepage: REPO_HOMEPAGE,
-              has_issues: true,
-              has_wiki: false,
-              default_branch: 'main',
-              allow_squash_merge: true,
-              squash_merge_commit_title: 'PR_TITLE',
-              squash_merge_commit_message: 'PR_BODY',
-              allow_merge_commit: true,
-              merge_commit_title: 'PR_TITLE',
-              merge_commit_message: 'PR_BODY',
-              allow_update_branch: true,
-              delete_branch_on_merge: true,
-              security_and_analysis: {secret_scanning: {status: 'enabled'}},
-              security_and_analysis: {secret_scanning_push_protection: {status: 'enabled'}},
-            })
-            github.rest.repos.replaceAllTopics({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }},
-            })
-            github.rest.repos.updateBranchProtection({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              branch: 'main',
-              required_status_checks: {
-                strict: true,
-                checks: [
-                  {context: 'TestPackage'},
-                ]
-              },
-              enforce_admins: null,
-              required_pull_request_reviews: {
-                dismiss_stale_reviews: true,
-                require_code_owner_reviews: true,
-                required_approving_review_count: 1,
-                require_last_push_approval: true,
-              },
-              restrictions: null,
-              required_linear_history: true,
-              allow_force_pushes: false,
-              allow_deletions: false,
-              required_conversation_resolution: true,
-              lock_branch: false,
-              allow_fork_syncing: true,
-            })
-            try {
-              await github.rest.repos.createPagesSite({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                build_type: 'workflow',
-              });
-            } catch (error) {
-              if (error.status === 409) {
-                console.log('GitHub Pages is already enabled. Continuing...');
-              } else {
-                throw error;
-              }
-            }
+    uses: ./.github/workflows/repo_config.yaml
+    with:
+      metadata: ${{needs.metadata.outputs.json}}
 
 
   package:
