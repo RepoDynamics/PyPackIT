@@ -7,7 +7,12 @@
 name: "PR Labeler"
 run-name: "Label PR at ${{github.ref}}"
 
-on: pull_request_target
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 
 jobs:
@@ -73,7 +78,7 @@ jobs:
     with:
       branch: ${{ github.base_ref }}
 
-  generate-docs:
+  docs-preview:
     # Build the ReadTheDocs website for pull-requests and add a link to the pull request's description.
     # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
 

@@ -1,4 +1,4 @@
-# Get all files that have been modified during an event (e.g. push, pull request).
+# Get all files that have been modified due to an event (e.g. push, pull request).
 #
 # This is a callable-only workflow, which uses the `tj-actions/changed-files` action
 # to detect all files that have been modified during an event (e.g. push, pull request),
@@ -9,8 +9,18 @@
 # (i.e. without being defined in the config file), which contains details on changes in the entire repository.
 # Each value is then a dictionary itself, as defined in the action's documentation.
 #
-# References:
+# Notes
+# -----
+# The boolean values in the output are given as strings, i.e. `true` and `false`.
+#
+# References
+# ----------
 # - https://github.com/marketplace/actions/changed-files
+#
+# See Also
+# --------
+# - Local Python script at `.github/scripts/changed_files.py` generating the output of this workflow.
+# - Configuration file at `.github/config/changed_files.yaml` defining the groups of files to be considered.
 
 
 name: "[On Call]: get changed files"
@@ -25,12 +35,11 @@ on:
 jobs:
 
   changes:
-    name: 'changes'
     outputs:
       json: ${{ steps.output.outputs.json }}
+    name: 'changes'
     runs-on: ubuntu-latest
     steps:
-
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:

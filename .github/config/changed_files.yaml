@@ -7,9 +7,10 @@ github:
   - '.github/**/*.yml'
 package:
   - 'src/**'
-  - 'tests/**/*.py'
   - 'pyproject.toml'
   - 'setup.py'
+  - 'MANIFEST.in'
+  - '!**/README.md'
 docs:
   - 'docs/website/source/**'
   - 'src/**/*.py'
@@ -18,3 +19,5 @@ dev:
   - 'dev/repodynamics/**'
 meta:
   - 'meta/**'
+tests:
+  - 'tests/**/*.py'

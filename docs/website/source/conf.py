@@ -37,6 +37,7 @@ def setup(app):
     # register custom config values
     # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
     app.connect("source-read", rstjinja)
+    # app.add_css_file("css/theme/custom.css")
     return
 
 
@@ -642,6 +643,7 @@ myst_enable_extensions: List[str] = [
     "tasklist",
     "attrs_inline",
     "attrs_block",
+    "html_image",
 ]
 
 myst_heading_anchors: int = 6

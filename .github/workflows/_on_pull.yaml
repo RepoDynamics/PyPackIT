@@ -1,31 +1,67 @@
 # Continuous Integration pipeline
 
-name: CI/CD
-run-name: 'CI/CD: Triggered on ${{github.ref}}'
+name: "[On Pull]: CI/CD"
+run-name: 'CI/CD: ${{github.ref}}'
 
 on:
   pull_request:
     types:
-      - opened
-      - synchronize
+      - labeled
+      - unlabeled
       - reopened
+      - synchronize
 
 
 jobs:
 
-  metadata:
-    name: 'Load repository metadata'
-    uses: ./.github/workflows/repo_meta.yaml
+  context:
+    # Output summary of the workflow run's `github` context.
+    # This job outputs a sanitized version of the `github` context as job summary,
+    # for logging/debugging purposes.
+    name: 'Workflow Run / context'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          sparse-checkout: .github/scripts/context_summary.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Generate context summary'
+        run: python '.github/scripts/context_summary.py'
+        env:
+          GH_CONTEXT: ${{ toJson(github) }}
+
 
   changes:
-    name: 'Get changed files'
-    uses: ./.github/workflows/repo_files_change.yaml
+    # Get all changed files/categories in the repository due to the push event.
+    #
+    # Returns
+    # -------
+    # json : str
+    #     String representation of a JSON object.
+    name: 'Repository Files'
+    uses: ./.github/workflows/repo_changes.yaml
+
+
+  metadata:
+    # Load repository metadata.
+    #
+    # Returns
+    # -------
+    # json : str
+    #     String representation of a JSON object containing the repository metadata.
+    name: 'Repository Metadata'
+    uses: ./.github/workflows/repo_meta.yaml
 
 
   package:
     name: 'Test package'
     needs: [changes, metadata]
-    if: ${{ !failure() && needs.changes.outputs.package == 'true' }}
+    if: |
+      fromJSON(needs.changes.outputs.json).package.any_modified == 'true' ||
+      fromJSON(needs.changes.outputs.json).tests.any_modified == 'true'
     uses: ./.github/workflows/package_ci.yaml
     permissions:
       pull-requests: write
@@ -42,7 +78,7 @@ jobs:
   docs:
     name: 'Build documentation with Sphinx'
     needs: [changes]
-    if: ${{ !failure() && needs.changes.outputs.docs == 'true' }}
+    if: fromJSON(needs.changes.outputs.json).docs.any_modified == 'true'
     uses: ./.github/workflows/docs_build.yaml
     with:
       checkout-ref: ${{ github.head_ref }}
@@ -50,20 +86,22 @@ jobs:
 
   publish-testpypi:
     name: 'Publish on TestPyPI'
-    needs: [package]
-#    if: |
-#      always() &&
-#      needs.build-package.result == 'success' &&
-#      needs.test-local.result == 'success' &&
-#      github.event_name == 'push' &&
-#      github.ref == 'refs/heads/main'
+    needs: [changes, package]
+    if: |
+      github.base_ref == 'main' &&
+      fromJSON(needs.changes.outputs.json).package.any_modified == 'true'
+#    always() &&
+#    needs.build-package.result == 'success' &&
+#    needs.test-local.result == 'success' &&
+#    github.event_name == 'push' &&
+#    github.ref == 'refs/heads/main'
     uses: ./.github/workflows/package_release_pypi.yaml
     permissions:
       id-token: write
     with:
-      package-name: ${{ needs.build-package.outputs.package-name }}
-      package-version: ${{ needs.build-package.outputs.package-version }}
-      artifact-name: ${{ needs.build-package.outputs.artifact-name }}
+      package-name: ${{ needs.package.outputs.package-name }}
+      package-version: ${{ needs.package.outputs.package-version }}
+      artifact-name: ${{ needs.package.outputs.artifact-name }}
       platform-name: 'testpypi'
 
 

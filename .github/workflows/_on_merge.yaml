@@ -14,6 +14,26 @@ on:
 
 jobs:
 
+  context:
+    # Generate output summary of the workflow run's `github` context.
+    #
+    # This job outputs a sanitized version of the `github` context as job summary,
+    # for logging/debugging purposes.
+    name: 'Workflow Run / context'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'
+          sparse-checkout: .github/scripts/context_summary.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Generate context summary'
+        run: python '.github/scripts/context_summary.py'
+        env:
+          GH_CONTEXT: ${{ toJson(github) }}
+
   not-merged:
     name: 'Verify merge'
     if: github.event.pull_request.merged == false
