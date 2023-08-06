@@ -67,7 +67,8 @@ jobs:
 #          fi
 
   build:
-    name: 'Build distribution package'
+    # Build source and binary distributions
+    name: 'Build'
     needs: metadata
     if: ${{ !failure() }}
     uses: ./.github/workflows/package_build.yaml
