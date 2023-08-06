@@ -3,6 +3,7 @@
 name: 'Package - Build'
 run-name: 'Package: Build from ${{github.ref}}'
 
+
 on:
   workflow_dispatch:
   workflow_call:
@@ -17,9 +18,6 @@ on:
         required: false
         default: ""
     outputs:
-      artifact-name:
-        description: 'Name of the uploaded artifact containing the distribution archive.'
-        value: ${{jobs.build-sdist.outputs.artifact-name}}
       package-name:
         description: 'Name of the package.'
         value: ${{jobs.build-sdist.outputs.package-name}}
@@ -27,39 +25,43 @@ on:
         description: 'Version of the package.'
         value: ${{jobs.build-sdist.outputs.package-version}}
 
+
 defaults:
   run:
     shell: bash
 
-jobs:
 
+jobs:
   load-metadata:
-    name: 'Load repository metadata'
+    name: 'Repo Metadata'
     if: github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/repo_meta.yaml
 
   metadata:
-    name: 'set repository metadata'
+    name: 'Set Metadata'
     needs: load-metadata
     if: ${{ !failure() }}
     outputs:
       json: ${{steps.load-metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
-      - name: 'Load repository metadata'
         id: load-metadata
+        shell: python
         env:
           METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
         run: |
-          printf '%s\n' "$METADATA" > metadata.json
-          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
+          import os
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print(f"json={os.environ['METADATA']}", file=fh)
+#        run: |
+#          printf '%s\n' "$METADATA" > metadata.json
+#          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
 
   build-sdist:
-    name: 'Generate source distribution'
+    name: 'Source Distribution /'
     outputs:
       package-name: ${{steps.get_name.outputs.package-name}}
       package-version: ${{steps.get_name.outputs.package-version}}
-      artifact-name: ${{steps.get_name.outputs.artifact-name}}
     runs-on: ubuntu-latest
     steps:
 
@@ -74,36 +76,32 @@ jobs:
           pipx run build --version
           pipx run build --sdist --outdir dist/
 
-      - name: 'Get build name'
-        id: get_name
-        shell: python
-        run: |
-          import os
-          from pathlib import Path
-          fullname = list((Path.cwd()/"dist").glob("*.tar.gz"))[0].stem.rstrip(".tar")
-          package_name, ver = fullname.rsplit('-', 1)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'artifact-name={fullname}', file=fh)
-            print(f'package-name={package_name}', file=fh)
-            print(f'package-version={ver}', file=fh)
-
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
-          name: ${{steps.get_name.outputs.artifact-name}}
+          name: Distribution Package
 
-      - name: 'Generate summary'
-        run: |
-          echo "Source distribution created:" >> $GITHUB_STEP_SUMMARY
-          echo "- Package name: ${{steps.get_name.outputs.package-name}}" >> $GITHUB_STEP_SUMMARY
-          echo "- Package version: ${{steps.get_name.outputs.package-version}}" >> $GITHUB_STEP_SUMMARY
-          echo "- Artifact name: ${{steps.get_name.outputs.artifact-name}}" >> $GITHUB_STEP_SUMMARY
+      - name: 'Test README file'
+        # https://twine.readthedocs.io/en/stable/#twine-check
+        # https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
+        run: pipx run twine check dist/*
+
+      - name: 'Checkout workflow script'
+        uses: actions/checkout@v3
+        with:
+          ref: "main"
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Output and summary'
+        id: output
+        run: python .github/script/workflow.py
 
 
   build_wheel:
-    name: 'Generate built distribution (pure Python)'
-    needs: [metadata, build-sdist]
+    name: 'Binary Distribution'
+    needs: metadata
     if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == true }}
     runs-on: ubuntu-latest
     steps:
@@ -123,12 +121,18 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.whl
-          name: ${{needs.build-sdist.outputs.artifact-name}}
+          name: Distribution Package
+
+      - name: 'Test README file'
+        # https://twine.readthedocs.io/en/stable/#twine-check
+        # https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
+        run: pipx run twine check dist/*
+
 
 
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
-    needs: [metadata, build-sdist]
+    needs: metadata
     if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == false }}
     runs-on: ${{ matrix.build[0] }}
     strategy:
@@ -156,4 +160,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-          name: ${{needs.build-sdist.outputs.artifact-name}}
+          name: Distribution Package
