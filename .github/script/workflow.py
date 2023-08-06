@@ -90,15 +90,17 @@ def changed_files(categories: dict, total: dict) -> tuple[dict, str]:
     return {"json": json.dumps(all_groups)}, log
 
 
-def package_build_sdist(self):
-    fullname = list((Path.cwd() / "dist").glob("*.tar.gz"))[0].stem.removesuffix(".tar.gz")
-    package_name, version = fullname.rsplit("-", 1)
-    self._output({"package-name": package_name, "package-version": version})
+def package_build_sdist() -> tuple[dict, str]:
+    filename = list((Path.cwd() / "dist").glob("*.tar.gz"))[0]
+    dist_name = filename.stem.removesuffix(".tar.gz")
+    package_name, version = dist_name.rsplit("-", 1)
+    output = {"package-name": package_name, "package-version": version}
     log = f"""
-           - Package Name: `{package_name}`
-           - Package Version: `{version}`
-       """
-    return
+       - Package Name: `{package_name}`
+       - Package Version: `{version}`
+       - Filename: `{filename.name}`
+   """
+    return output, _dedent(log)
 
 
 def _details(content: str, summary: str = "Details") -> str:
