@@ -31,34 +31,29 @@ on:
       json:
         value: ${{ jobs.changes.outputs.json }}
 
-
 jobs:
-
-  changes:
+  changed_files:
+    name: 'Changes /'
     outputs:
       json: ${{ steps.output.outputs.json }}
-    name: 'changes'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: 'Get all changed files'
         # https://github.com/marketplace/actions/changed-files
         uses: tj-actions/changed-files@v37
-        id: all
-
-      - name: 'Get changed groups'
+        id: total
+      - name: 'Get changed categories'
         uses: tj-actions/changed-files@v37
-        id: groups
+        id: categories
         with:
           files_yaml_from_source_file: .github/config/changed_files.yaml
-
       - name: 'Output'
         id: output
-        run: python '.github/scripts/changed_files.py'
+        run: python .github/script/workflow.py
         env:
-          GROUPS: ${{ toJson(steps.groups.outputs) }}
-          ALL: ${{ toJson(steps.all.outputs) }}
+          CATEGORIES: ${{ toJson(steps.categories.outputs) }}
+          TOTAL: ${{ toJson(steps.total.outputs) }}
