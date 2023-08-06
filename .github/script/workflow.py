@@ -159,7 +159,7 @@ def _dedent(text: str, remove_terminal_newlines: bool = True) -> str:
 
 if __name__ == "__main__":
 
-    def input(job_id: str) -> dict:
+    def read_input(job_id: str) -> dict:
         """
         Parse inputs from environment variables.
         """
@@ -185,7 +185,7 @@ if __name__ == "__main__":
                 sys.exit(1)
         return args
 
-    def output(values: dict) -> Optional[dict]:
+    def write_output(values: dict) -> Optional[dict]:
         print("OUTPUTS:")
         print("--------")
         print(values)
@@ -194,7 +194,7 @@ if __name__ == "__main__":
                 print(f"{name.replace('_', '-')}={value}", file=fh)
         return
 
-    def summary(content: str) -> None:
+    def write_summary(content: str) -> None:
         print("SUMMARY:")
         print("--------")
         print(content)
@@ -203,11 +203,13 @@ if __name__ == "__main__":
         return
 
     job_id = os.environ["GITHUB_JOB"].replace('-', '_')
-    kwargs = input(job_id=job_id)
+    kwargs = read_input(job_id=job_id)
     try:
         outputs, summary = globals()[job_id](**kwargs)
     except Exception as e:
         print(f"ERROR: {e}")
         sys.exit(1)
-    output(values=outputs)
-    summary(content=summary)
+    if outputs:
+        write_output(values=outputs)
+    if summary:
+        write_summary(content=summary)
