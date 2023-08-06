@@ -1,4 +1,5 @@
 # Standard libraries
+from typing import Optional
 import re
 
 # Non-standard libraries
@@ -67,6 +68,37 @@ class Repo:
     @property
     def tags(self) -> list[dict]:
         return self._response(f"git/refs/tags")
+
+    def tag_names(self, pattern: Optional[str] = None) -> list[str | tuple[str, ...]]:
+        tags = [tag['ref'].removeprefix("refs/tags") for tag in self.tags]
+        if not pattern:
+            return tags
+        pattern = re.compile(pattern)
+        hits = []
+        for tag in tags:
+            match = pattern.match(tag)
+            if match:
+                hits.append(match.groups() or tag)
+        return hits
+
+    def semantic_versions(self, tag_prefix: str = "v") -> list[tuple[int, int, int]]:
+        """
+        Get a list of all tags from a GitHub repository that represent SemVer version numbers,
+        i.e. 'X.Y.Z' where X, Y, and Z are integers.
+
+        Parameters
+        ----------
+        tag_prefix : str, default: 'v'
+            Prefix of tags to match.
+
+        Returns
+        -------
+        A sorted list of SemVer version numbers as tuples of integers. For example:
+            `[(0, 1, 0), (0, 1, 1), (0, 2, 0), (1, 0, 0), (1, 1, 0)]`
+        """
+        tags = self.tag_names(pattern=rf"^{tag_prefix}(\d+\.\d+\.\d+)$")
+        return sorted([tuple(map(int, tag[0].split("."))) for tag in tags])
+
 
     def discussion_categories(self, access_token: str) -> list[dict[str, str]]:
         """Get discussion categories for a repository.
