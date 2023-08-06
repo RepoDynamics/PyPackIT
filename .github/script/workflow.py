@@ -205,8 +205,9 @@ if __name__ == "__main__":
     job_id = os.environ["GITHUB_JOB"].replace('-', '_')
     kwargs = input(job_id=job_id)
     try:
-        globals()[job_id](**kwargs)
+        outputs, summary = globals()[job_id](**kwargs)
     except Exception as e:
         print(f"ERROR: {e}")
         sys.exit(1)
-
+    output(values=outputs)
+    summary(content=summary)
