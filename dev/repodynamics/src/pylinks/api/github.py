@@ -70,7 +70,7 @@ class Repo:
         return self._response(f"git/refs/tags")
 
     def tag_names(self, pattern: Optional[str] = None) -> list[str | tuple[str, ...]]:
-        tags = [tag['ref'].removeprefix("refs/tags") for tag in self.tags]
+        tags = [tag['ref'].removeprefix("refs/tags/") for tag in self.tags]
         if not pattern:
             return tags
         pattern = re.compile(pattern)
