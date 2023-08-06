@@ -11,7 +11,6 @@ from typing import Literal, Optional
 # Non-standard libraries
 import pylinks
 import trove_classifiers
-from pypackit import versions
 from ruamel.yaml import YAML
 
 
@@ -190,8 +189,8 @@ class _MetadataCache:
         timestamp = cached_version.get("timestamp")
         if timestamp and not self._is_expired(timestamp):
             return cached_version["data"]
-        vers = versions.semver_from_github_tags(
-            github_username="python", github_repo_name="cpython", tag_prefix="v"
+        vers = pylinks.api.github.repo(username="python", repo_name="cpython").semantic_versions(
+            tag_prefix="v"
         )
         minors = sorted(set([v[:2] for v in vers if v[0] >= 3]))
         cached_version["data"] = minors
@@ -667,12 +666,6 @@ def __main__():
         "--output", type=str, help="Path for the output metadata file.", required=False
     )
     parser.add_argument(
-        "--output_pretty",
-        type=str,
-        help="Path for the pretty formatted output metadata file.",
-        required=False,
-    )
-    parser.add_argument(
         "--update_cache",
         action=argparse.BooleanOptionalAction,
         help="Force update cache metadata file.",
@@ -698,7 +691,6 @@ def __main__():
         sys.exit(1)
     # print(meta.json())
     meta.json(write_to_file=True, output_filepath=args.output)
-    meta.json(write_to_file=True, output_filepath=args.output_pretty, indent=4)
     return
 
 
