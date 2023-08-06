@@ -1,8 +1,6 @@
 from typing import Literal, Optional, get_type_hints
 import os
 import json
-import inspect
-import textwrap
 from pathlib import Path
 import sys
 
@@ -11,11 +9,11 @@ def github_context(context: dict) -> tuple[None, str]:
     _ = context.pop("token")
     payload_data = context.pop("event")
     context_details = _details(
-        content=_codeblock(content=json.dumps(dict(sorted(context.items())), indent=4)),
+        content=_codeblock(content=json.dumps(dict(sorted(context.items())), indent=4), language="json"),
         summary="🖥 GitHub Context",
     )
     payload_details = _details(
-        content=_codeblock(content=json.dumps(dict(sorted(payload_data.items())), indent=4)),
+        content=_codeblock(content=json.dumps(dict(sorted(payload_data.items())), indent=4), language="json"),
         summary="🖥 Event Payload",
     )
     return None, f"{context_details}\n{payload_details}"
@@ -39,13 +37,13 @@ def metadata(cache_hit: bool, force_update: str, metadata_filepath: str) -> tupl
         summary="🖥 Metadata"
     )
     log = f"""
-        - {force_update_emoji}  Force update (input: {force_update})
-        - {cache_hit_emoji}  Cache hit
-        - ➡️ {result}
-        <br>
-        {metadata}
-    """
-    return None, _dedent(log)
+- {force_update_emoji}  Force update (input: {force_update})
+- {cache_hit_emoji}  Cache hit
+- ➡️ {result}
+<br>
+{metadata}
+"""
+    return None, log
 
 
 def changed_files(categories: dict, total: dict) -> tuple[dict, str]:
@@ -81,13 +79,14 @@ def changed_files(categories: dict, total: dict) -> tuple[dict, str]:
         content=_codeblock(content=json.dumps(all_groups, indent=4), language="json"),
         summary="🖥 Details",
     )
-    log = f"""#### Modified Categories
-        {group_summary_str}
+    log = f"""
+#### Modified Categories
+{group_summary_str}
 
-        {changed_files}
-        {details}
+{changed_files}
+{details}
     """
-    return {"json": json.dumps(all_groups)}, _dedent(log)
+    return {"json": json.dumps(all_groups)}, log
 
 
 def package_build_sdist() -> tuple[dict, str]:
@@ -96,11 +95,11 @@ def package_build_sdist() -> tuple[dict, str]:
     package_name, version = dist_name.rsplit("-", 1)
     output = {"package-name": package_name, "package-version": version}
     log = f"""
-       - Package Name: `{package_name}`
-       - Package Version: `{version}`
-       - Filename: `{filename.name}`
-   """
-    return output, _dedent(log)
+- Package Name: `{package_name}`
+- Package Version: `{version}`
+- Filename: `{filename.name}`
+"""
+    return output, log
 
 
 def package_publish_pypi(
@@ -125,13 +124,13 @@ def package_publish_pypi(
         summary="🖥 Distribution Files",
     )
     log = f"""
-        - Package Name: `{package_name}`
-        - Package Version: `{package_version}`
-        - Platform: `{platform_name}`
-        - {dist_files}
-        - Download URL: `{outputs["download_url"]}`
-    """
-    return outputs, _dedent(log)
+- Package Name: `{package_name}`
+- Package Version: `{package_version}`
+- Platform: `{platform_name}`
+- {dist_files}
+- Download URL: `{outputs["download_url"]}`
+"""
+    return outputs, log
 
 
 def _details(content: str, summary: str = "Details") -> str:
@@ -151,10 +150,6 @@ def _codeblock(content: str, language: str = "") -> str:
 ```
 """
     return text
-
-
-def _dedent(text: str, remove_terminal_newlines: bool = True) -> str:
-    return inspect.cleandoc(text) if remove_terminal_newlines else textwrap.dedent(text)
 
 
 if __name__ == "__main__":
