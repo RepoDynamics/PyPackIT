@@ -106,3 +106,24 @@ publish the package on TestPyPI and PyPI.
 2. Open the [Publishing](https://pypi.org/manage/account/publishing/) section.
 3. Go to 'Add a new pending publisher' and add the package data
    (see [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/) for more info).
+
+#### Description
+The project description shown on PyPI is defined in pyproject.toml, under the \[project] table.
+
+PyPI uses the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package to generate
+HTML outputs from the provided README file. The renderer only allows for 
+[certain HTML tags and attributes](https://github.com/pypa/readme_renderer/blob/9dbb3522d23758fafa330cba4e4f89213503e8d3/readme_renderer/clean.py#L24C1-L68)
+. For example, the <picture> tag that is [allowed in GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to)
+to specify the dark/light theme of an image, is not allowed in PyPI. Therefore, the GitHub README file
+cannot be used as is, and a separate README file must be created for PyPI.
+
+The [Twine](https://twine.readthedocs.io/) Python package, which is PyPI's recommended tool for uploading packages
+to PyPI, has a command to check the README file for PyPI compatibility: [`twine check`](https://twine.readthedocs.io/en/stable/#twine-check).
+This command is run automatically by the [pypi-publish](https://github.com/marketplace/actions/pypi-publish) GitHub action,
+when the [`verify-metadata`](https://github.com/marketplace/actions/pypi-publish#disabling-metadata-verification) input is set to `true` (see [pypi-publish code](https://github.com/pypa/gh-action-pypi-publish/blob/413a8d5d62d32e541601a504492b8d5c5501a001/twine-upload.sh#L115C1-L117C3)). We have this check implemented in our publishing workflow.
+However, twine check, which uses the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package under the hood,
+is not sufficient on its own, as it only checks whether the file could have been rendered by PyPI. However,
+for example if there are unsupported HTML tags in the README file, twine check will pass, but those tags
+will be rendered as plain text on PyPI (see [twine code](https://github.com/pypa/twine/blob/main/twine/commands/check.py)). Therefore, we also need to visually investigate the rendered README
+file. This is done by using the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package in an extra
+step to generate and upload the rendered README file as an artifact.  
