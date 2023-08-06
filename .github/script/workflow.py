@@ -21,7 +21,7 @@ def github_context(context: dict) -> tuple[None, str]:
     return None, f"{context_details}\n{payload_details}"
 
 
-def summary_metadata(cache_hit: bool, force_update: str, metadata_filepath: str) -> tuple[None, str]:
+def metadata(cache_hit: bool, force_update: str, metadata_filepath: str) -> tuple[None, str]:
     force_update_emoji = "✅" if force_update == "all" else ("❌" if force_update == "none" else "☑️")
     cache_hit_emoji = "✅" if cache_hit else "❌"
     if not cache_hit or force_update == "all":
