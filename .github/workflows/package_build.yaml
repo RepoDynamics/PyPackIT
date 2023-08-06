@@ -45,7 +45,7 @@ jobs:
       json: ${{steps.load-metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
-        id: load-metadata
+      - id: load-metadata
         shell: python
         env:
           METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
