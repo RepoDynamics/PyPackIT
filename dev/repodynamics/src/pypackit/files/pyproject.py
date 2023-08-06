@@ -10,11 +10,12 @@ import tomlkit.items
 
 
 class PyProjectTOML:
-    def __init__(self, metadata: dict,):
-        self._path = Path(metadata['path']['abs']['root']) / 'pyproject.toml'
-        with open(self._path) as f:
+
+    def __init__(self, metadata: dict):
+        self.path = Path(metadata['path']['abs']['root']) / 'pyproject.toml'
+        with open(self.path) as f:
             self._file: tomlkit.TOMLDocument = tomlkit.load(f)
-        self._metadata: dict = metadata
+        self.meta: dict = metadata
         return
 
     def update(self):
@@ -24,12 +25,12 @@ class PyProjectTOML:
         # self.update_project_maintainers()
         # self.update_project_authors()
         self.update_versioningit_onbuild()
-        with open(self._path, "w") as f:
+        with open(self.path, "w") as f:
             f.write(tomlkit.dumps(self._file))
 
     def update_header_comment(self):
         lines = [
-            f"{self._metadata['project']['name']} pyproject.toml File.",
+            f"{self.meta['project']['name']} pyproject.toml File.",
             (
                 "Automatically generated on "
                 f"{datetime.datetime.utcnow().strftime('%Y.%m.%d at %H:%M:%S UTC')} "
@@ -45,25 +46,25 @@ class PyProjectTOML:
 
     def update_project_table(self):
         data_type = {
-            "name": ("str", self._metadata["package"]["name"]),
-            "description": ("str", self._metadata["project"]["tagline"]),
-            "readme": ("str", self._metadata["path"]["pypi_readme"]),
-            "requires-python": ("str", f">= {self._metadata['package']['python_version_min']}"),
+            "name": ("str", self.meta["package"]["name"]),
+            "description": ("str", self.meta["project"]["tagline"]),
+            "readme": ("str", self.meta["path"]["pypi_readme"]),
+            "requires-python": ("str", f">= {self.meta['package']['python_version_min']}"),
             "license": ("inline_table", {"file": "LICENSE"}),
             # "authors": ("array_of_inline_tables", ),
             # "maintainers": ("array_of_inline_tables", ),
-            "keywords": ("array", self._metadata["project"]["keywords"]),
-            "classifiers": ("array", self._metadata["project"]["trove_classifiers"]),
+            "keywords": ("array", self.meta["project"]["keywords"]),
+            "classifiers": ("array", self.meta["project"]["trove_classifiers"]),
             "urls": (
                 "table",
                 {
-                    "Homepage": self._metadata['url']['website']['home'],
-                    "Download": self._metadata['url']['github']['releases']['home'],
-                    "News": self._metadata['url']['website']['news'],
-                    "Documentation": self._metadata['url']['website']['home'],
-                    "Bug Tracker": self._metadata['url']['github']['issues']['home'],
+                    "Homepage": self.meta['url']['website']['home'],
+                    "Download": self.meta['url']['github']['releases']['home'],
+                    "News": self.meta['url']['website']['news'],
+                    "Documentation": self.meta['url']['website']['home'],
+                    "Bug Tracker": self.meta['url']['github']['issues']['home'],
                     # "Sponsor": "",
-                    "Source": self._metadata['url']['github']['home'],
+                    "Source": self.meta['url']['github']['home'],
                 },
             ),
             # "scripts": "table",
@@ -72,8 +73,8 @@ class PyProjectTOML:
             "dependencies": (
                 "array",
                 (
-                    [dep["pip_spec"] for dep in self._metadata["package"]["dependencies"]]
-                    if self._metadata["package"]["dependencies"]
+                    [dep["pip_spec"] for dep in self.meta["package"]["dependencies"]]
+                    if self.meta["package"]["dependencies"]
                     else None
                 ),
             ),
@@ -82,11 +83,11 @@ class PyProjectTOML:
                 (
                     {
                         group_name: [dep["pip_spec"] for dep in deps]
-                        for group_name, deps in self._metadata["package"][
+                        for group_name, deps in self.meta["package"][
                             "optional_dependencies"
                         ].items()
                     }
-                    if self._metadata["package"]["optional_dependencies"]
+                    if self.meta["package"]["optional_dependencies"]
                     else None
                 ),
             ),
@@ -120,7 +121,7 @@ class PyProjectTOML:
 
     def _update_project_authors_maintainers(self, role: Literal["authors", "maintainers"]):
         people = tomlkit.array().multiline(True)
-        for person in self._metadata["project"][role]:
+        for person in self.meta["project"][role]:
             person_dict = dict(name=person["name"])
             if person.get("email"):
                 person_dict["email"] = person["email"]
@@ -156,15 +157,15 @@ class PyProjectTOML:
         https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#urls
         """
         urls = tomlkit.inline_table()
-        for url_key, url_val in self._metadata["url"].items():
+        for url_key, url_val in self.meta["url"].items():
             urls[url_key] = url_val
         self._file["project"]["urls"] = urls
         return
 
     def update_versioningit_onbuild(self):
         tab = self._file["tool"]["versioningit"]["onbuild"]
-        tab["source-file"] = f"src/{self._metadata['package']['name']}/__init__.py"
-        tab["build-file"] = f"{self._metadata['package']['name']}/__init__.py"
+        tab["source-file"] = f"src/{self.meta['package']['name']}/__init__.py"
+        tab["build-file"] = f"{self.meta['package']['name']}/__init__.py"
         return
 
 
