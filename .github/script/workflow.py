@@ -165,6 +165,8 @@ if __name__ == "__main__":
         """
         params = get_type_hints(globals()[job_id])
         args = {}
+        if not params:
+            return args
         for name, typ in params:
             param_env_name = f"RD_{name.upper()}"
             val = os.environ.get(param_env_name)
