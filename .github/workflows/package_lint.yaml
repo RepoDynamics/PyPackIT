@@ -53,6 +53,18 @@ jobs:
         run: |
           printf '%s\n' "$METADATA" > metadata.json
           echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
+  
+  pypi_readme:
+    name: 'Render PyPI README'
+    runs-on: ubuntu-latest
+    steps:
+      - run: pip install readme-renderer
+      - run: python -m readme_renderer README.md --output readme_pypi.html
+      - name: 'Upload reports'
+        uses: actions/upload-artifact@v3
+        with:
+         path: readme_pypi.html
+         name: PyPI README
 
   dependency-review:
   # This Action will scan dependency manifest files that change as part of a Pull Request,
