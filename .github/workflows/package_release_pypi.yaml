@@ -3,96 +3,49 @@
 # to publish the distribution package on either PyPI or TestPyPI, depending on the input.
 
 
-name: 'Package - Publish PyPI'
-run-name: >-
-  'Package: Publish on ${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform] }}'
-  'from ${{github.ref}}'
+name: '[On Call]: Package - Publish PyPI'
 
 on:
   workflow_call:
     inputs:
+      platform-name:
+        description: |
+          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
+        type: string
+        required: false
+        default: 'TestPyPI'
+
+      package-name:
+        description: |
+          Name of the package on (Test)PyPI.
+          This is used to link the deployment to the package's page on (Test)PyPI.
+        type: string
+        required: true
+
+      package-version:
+        description: |
+          Version of the package being deployed.
+          This is used to link the deployment to the package's page on (Test)PyPI.
+        type: string
+        required: true
 
       artifact-name:
         description: |
           Name of the artifact containing the distribution package.
           The artifact must be uploaded in the caller workflow, prior to calling this workflow.
           It should contain a source distribution, and as many binary distributions as required.
-        required: true
         type: string
-
-      package-name:
-        description: |
-          Name of the package on (Test)PyPI.
-          This is used to link the deployment to the package's page on (Test)PyPI.
-        required: true
-        type: string
-
-      package-version:
-        description: |
-          Version of the package being deployed.
-          This is used to link the deployment to the package's page on (Test)PyPI.
-        required: true
-        type: string
-
-      platform-name:
-        description: Platform to publish to; either 'testpypi' (default) or 'pypi'.
         required: false
-        default: 'testpypi'
-        type: string
-
+        default: Distribution Package
 
 jobs:
 
-  process-inputs:
-    name: 'Process inputs'
-    runs-on: ubuntu-latest
-    outputs:
-      environment-name: ${{ steps.environment.outputs.name }}
-      environment-url: ${{ steps.environment.outputs.url }}
-      repository-url: ${{ steps.environment.outputs.repo-url }}
-    steps:
-
-      - name: 'Display inputs'
-        run: |
-          echo "::group::artifact-name"
-          echo ${{inputs.artifact-name}}
-          echo "::endgroup::"
-          echo "::group::package-name"
-          echo ${{inputs.package-name}}
-          echo "::endgroup::"
-          echo "::group::package-version"
-          echo ${{inputs.package-version}}
-          echo "::endgroup::"
-          echo "::group::platform-name"
-          echo ${{inputs.platform-name}}
-          echo "::endgroup::"
-
-      - name: 'Calculate deployment environment data'
-        id: environment
-        run: |
-          echo "name=${{ fromJSON('{"pypi":"PyPI","testpypi":"TestPyPI"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-          echo "url=${{ fromJSON(format('{{"pypi":"https://pypi.org/project/{0}/{1}","testpypi":"https://test.pypi.org/project/{0}/{1}"}}', inputs.package-name, inputs.package-version ))[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-          echo "repo-url=${{ fromJSON('{"pypi":"https://upload.pypi.org/legacy/","testpypi":"https://test.pypi.org/legacy/"}')[inputs.platform-name] }}" >> $GITHUB_OUTPUT
-
-      - name: 'Display deployment environment data'
-        run: |
-          echo "::group::environment-name"
-          echo ${{ steps.environment.outputs.name }}
-          echo "::endgroup::"
-          echo "::group::environment-url"
-          echo ${{ steps.environment.outputs.url }}
-          echo "::endgroup::"
-          echo "::group::repository-url"
-          echo ${{ steps.environment.outputs.repo-url }}
-          echo "::endgroup::"
-
-  publish:
-    name: 'Publish on ${{needs.process-inputs.outputs.environment-name}}'
-    needs: process-inputs
+  package-release-pypi:
+    name: "${{inputs.platform-name}} /"
     runs-on: ubuntu-latest
     environment:
-      name: ${{ needs.process-inputs.outputs.environment-name }}
-      url: ${{ needs.process-inputs.outputs.environment-url }}
+      name: ${{ inputs.platform-name }}
+      url: ${{ steps.script.outputs.download-url }}
     permissions:
       id-token: write
     steps:
@@ -102,14 +55,29 @@ jobs:
           name: ${{ inputs.artifact-name }}
           path: dist
 
-      - name: 'Display file tree'
-        run: find .
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
 
-      - name: 'Upload package to ${{needs.process-inputs.outputs.environment-name}}'
+      - name: 'Run script'
+        id: script
+        env:
+          RD_PACKAGE_NAME: ${{ inputs.package-name }}
+          RD_PACKAGE_VERSION: ${{ inputs.package-version }}
+          RD_PLATFORM_NAME: ${{ inputs.platform-name }}
+          RD_DIST_PATH: dist
+        run: python .github/script/workflow.py
+
+      - name: 'Upload package'
         uses: pypa/gh-action-pypi-publish@release/v1
         # https://github.com/marketplace/actions/pypi-publish
         with:
-          repository-url: ${{ needs.process-inputs.outputs.repository-url }}
+          packages-dir: dist
+          repository-url: ${{ steps.script.outputs.upload-url }}
+          verify-metadata: true
           verbose: true
           print-hash: true
           skip-existing: false

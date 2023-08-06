@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal, Optional, get_type_hints
 import os
 import json
 import inspect
@@ -7,18 +7,18 @@ from pathlib import Path
 import sys
 
 
-def github_context(gh_context: dict) -> tuple[None, str]:
-    _ = gh_context.pop("token")
-    payload_data = gh_context.pop("event")
-    context = _details(
-        content=_codeblock(content=json.dumps(dict(sorted(gh_context.items())), indent=4)),
+def github_context(context: dict) -> tuple[None, str]:
+    _ = context.pop("token")
+    payload_data = context.pop("event")
+    context_details = _details(
+        content=_codeblock(content=json.dumps(dict(sorted(context.items())), indent=4)),
         summary="🖥 GitHub Context",
     )
-    payload = _details(
+    payload_details = _details(
         content=_codeblock(content=json.dumps(dict(sorted(payload_data.items())), indent=4)),
         summary="🖥 Event Payload",
     )
-    return None, f"{context}\n{payload}"
+    return None, f"{context_details}\n{payload_details}"
 
 
 def summary_metadata(cache_hit: bool, force_update: str, metadata_filepath: str) -> tuple[None, str]:
@@ -103,6 +103,37 @@ def package_build_sdist() -> tuple[dict, str]:
     return output, _dedent(log)
 
 
+def package_publish_pypi(
+        package_name: str, package_version: str, platform_name: str, dist_path: str = "dist"
+) -> tuple[dict, str]:
+    download_url = {
+        "PyPI": "https://pypi.org/project",
+        "TestPyPI": "https://test.pypi.org/project",
+    }
+    upload_url = {
+        "PyPI": "https://upload.pypi.org/legacy/",
+        "TestPyPI": "https://test.pypi.org/legacy/",
+    }
+    outputs = {
+        "download_url": f"{download_url[platform_name]}/{package_name}/{package_version}",
+        "upload_url": upload_url[platform_name],
+    }
+
+    dists = "\n".join([path.name for path in list(Path(dist_path).glob("*.*"))])
+    dist_files = _details(
+        content=_codeblock(content=dists, language="bash"),
+        summary="🖥 Distribution Files",
+    )
+    log = f"""
+        - Package Name: `{package_name}`
+        - Package Version: `{package_version}`
+        - Platform: `{platform_name}`
+        - {dist_files}
+        - Download URL: `{outputs["download_url"]}`
+    """
+    return outputs, log
+
+
 def _details(content: str, summary: str = "Details") -> str:
     text = f"""
         <details>
@@ -128,15 +159,17 @@ def _dedent(text: str, remove_terminal_newlines: bool = True) -> str:
 
 if __name__ == "__main__":
 
-    def input(*params: tuple[str, Literal['str', 'dict']]) -> dict:
+    def input(job_id: str) -> dict:
         """
         Parse inputs from environment variables.
         """
+        params = get_type_hints(job_id)
         args = {}
         for name, typ in params:
-            val = os.environ.get(name.upper())
+            param_env_name = f"RD_{name.upper()}"
+            val = os.environ.get(param_env_name)
             if val is None:
-                print(f"ERROR: Missing input: {name}")
+                print(f"ERROR: Missing input: {param_env_name}")
                 sys.exit(1)
             if typ is str:
                 args[name] = val
@@ -155,7 +188,7 @@ if __name__ == "__main__":
         print(values)
         with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
             for name, value in values.items():
-                print(f"{name}={value}", file=fh)
+                print(f"{name.replace('_', '-')}={value}", file=fh)
         return
 
     def summary(content: str) -> None:
@@ -166,20 +199,8 @@ if __name__ == "__main__":
             print(content, file=fh)
         return
 
-    job_id = os.environ["GITHUB_JOB"]
-    match job_id:
-        case "github_context":
-            kwargs = input(("gh_context", "dict"))
-        case "metadata":
-            kwargs = input(("cache_hit", bool), ("force_update", str), ("metadata_filepath", str))
-        case "changed_files":
-            kwargs = input(("categories", dict), ("total", dict))
-        case "package_build_sdist":
-            kwargs = {}
-        case _:
-            print(f"ERROR: Unknown job_id: {job_id}")
-            sys.exit(1)
-
+    job_id = os.environ["GITHUB_JOB"].replace('-', '_')
+    kwargs = input(job_id=job_id)
     try:
         globals()[job_id](**kwargs)
     except Exception as e:

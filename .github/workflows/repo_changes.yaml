@@ -55,5 +55,5 @@ jobs:
         id: output
         run: python .github/script/workflow.py
         env:
-          CATEGORIES: ${{ toJson(steps.categories.outputs) }}
-          TOTAL: ${{ toJson(steps.total.outputs) }}
+          RD_CATEGORIES: ${{ toJson(steps.categories.outputs) }}
+          RD_TOTAL: ${{ toJson(steps.total.outputs) }}

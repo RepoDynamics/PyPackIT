@@ -6,24 +6,21 @@ run-name: 'CI: ${{github.ref}}'
 on: push
 
 jobs:
-  github_context:
-    # Generate output summary of the workflow run's `github` context.
-    #
-    # This job outputs a sanitized version of the `github` context as job summary,
-    # for logging/debugging purposes.
-    name: 'Workflow Run / Context'
+  github-context:
+    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
+    name: 'Workflow Run / context'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout script'
         uses: actions/checkout@v3
         with:
-          ref: 'main'
+          ref: 'main'  # Always load the script from the 'main' branch
           sparse-checkout: .github/script/workflow.py
           sparse-checkout-cone-mode: false
       - name: 'Generate context summary'
-        run: python .github/script/workflow.py
         env:
-          GH_CONTEXT: ${{ toJson(github) }}
+          RD_CONTEXT: ${{ toJson(github) }}
+        run: python .github/script/workflow.py
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
