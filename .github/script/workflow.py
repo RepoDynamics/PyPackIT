@@ -174,6 +174,8 @@ if __name__ == "__main__":
             kwargs = input(("cache_hit", bool), ("force_update", str), ("metadata_filepath", str))
         case "changed_files":
             kwargs = input(("categories", dict), ("total", dict))
+        case "package_build_sdist":
+            kwargs = {}
         case _:
             print(f"ERROR: Unknown job_id: {job_id}")
             sys.exit(1)
