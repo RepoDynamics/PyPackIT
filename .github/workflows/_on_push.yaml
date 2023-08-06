@@ -8,7 +8,7 @@ on: push
 jobs:
   github-context:
     # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
-    name: 'Workflow Run / context'
+    name: 'Workflow Context /'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout script'
