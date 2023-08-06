@@ -5,29 +5,25 @@ run-name: 'CI: ${{github.ref}}'
 
 on: push
 
-
 jobs:
-
-  context:
+  github_context:
     # Generate output summary of the workflow run's `github` context.
     #
     # This job outputs a sanitized version of the `github` context as job summary,
     # for logging/debugging purposes.
-    name: 'Workflow Run / context'
+    name: 'Workflow Run / Context'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout script'
         uses: actions/checkout@v3
         with:
           ref: 'main'
-          sparse-checkout: .github/scripts/context_summary.py
+          sparse-checkout: .github/script/workflow.py
           sparse-checkout-cone-mode: false
-
       - name: 'Generate context summary'
-        run: python '.github/scripts/context_summary.py'
+        run: python .github/script/workflow.py
         env:
           GH_CONTEXT: ${{ toJson(github) }}
-
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
@@ -36,9 +32,8 @@ jobs:
     # -------
     # json : str
     #     String representation of a JSON object containing info about all changes.
-    name: 'Repository Files'
+    name: 'Repo Files'
     uses: ./.github/workflows/repo_changes.yaml
-
 
   metadata:
     # Load repository metadata.
@@ -47,21 +42,19 @@ jobs:
     # -------
     # json : str
     #     String representation of a JSON object containing the repository metadata.
-    name: 'Repository Metadata'
+    name: 'Repo Metadata'
     uses: ./.github/workflows/repo_meta.yaml
 
-
   sync:
-    name: 'Repository Files'
+    name: 'Repo Files'
     needs: changes
     if: fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
     uses: ./.github/workflows/repo_sync.yaml
     permissions:
       contents: write
 
-
   settings:
-    name: 'Repository Settings'
+    name: 'Repo Settings'
     needs: [metadata, changes]
     if: |
       github.ref == 'refs/heads/main' &&
@@ -71,9 +64,8 @@ jobs:
     with:
       metadata: ${{needs.metadata.outputs.json}}
 
-
   package:
-    name: 'Test package'
+    name: 'Package'
     needs: [metadata, changes, sync]
     if: ${{ !failure() && fromJSON(needs.changes.outputs.json).package.any_modified == 'true' }}
     uses: ./.github/workflows/package_ci.yaml
@@ -88,9 +80,8 @@ jobs:
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
 
-
   docs:
-    name: 'Build documentation with Sphinx'
+    name: 'Docs'
     needs: [changes, sync]
     if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
