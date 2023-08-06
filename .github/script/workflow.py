@@ -87,7 +87,7 @@ def changed_files(categories: dict, total: dict) -> tuple[dict, str]:
         {changed_files}
         {details}
     """
-    return {"json": json.dumps(all_groups)}, log
+    return {"json": json.dumps(all_groups)}, _dedent(log)
 
 
 def package_build_sdist() -> tuple[dict, str]:
@@ -131,26 +131,26 @@ def package_publish_pypi(
         - {dist_files}
         - Download URL: `{outputs["download_url"]}`
     """
-    return outputs, log
+    return outputs, _dedent(log)
 
 
 def _details(content: str, summary: str = "Details") -> str:
     text = f"""
-        <details>
-            <summary>{summary}</summary>
-            {content}
-        </details>
-    """
-    return _dedent(text)
+<details>
+<summary>{summary}</summary>
+{content}
+</details>
+"""
+    return text
 
 
 def _codeblock(content: str, language: str = "") -> str:
     text = f"""
-    ```{language}
-    {content}
-    ```
-    """
-    return _dedent(text, remove_terminal_newlines=False)
+```{language}
+{content}
+```
+"""
+    return text
 
 
 def _dedent(text: str, remove_terminal_newlines: bool = True) -> str:
