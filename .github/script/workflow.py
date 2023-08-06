@@ -163,7 +163,7 @@ if __name__ == "__main__":
         """
         Parse inputs from environment variables.
         """
-        params = get_type_hints(job_id)
+        params = get_type_hints(globals()[job_id])
         args = {}
         for name, typ in params:
             param_env_name = f"RD_{name.upper()}"
