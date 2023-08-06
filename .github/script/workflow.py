@@ -167,7 +167,7 @@ if __name__ == "__main__":
         args = {}
         if not params:
             return args
-        for name, typ in params:
+        for name, typ in params.items():
             param_env_name = f"RD_{name.upper()}"
             val = os.environ.get(param_env_name)
             if val is None:
