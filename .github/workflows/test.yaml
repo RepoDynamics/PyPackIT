@@ -39,61 +39,73 @@ jobs:
 #          commit_user_name: 'RepoDynamics[bot]'
 #          tagging_message: "v0.0.6"
 
-
-
-  list-issues:
+  environ:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            const query = `query($owner:String!, $name:String!) {
-              repository(owner:$owner, name:$name){
-                id
-                discussionCategories(first:100) {
-                  edges {
-                    node {
-                      id
-                      name
-                    }
-                    cursor
-                  }
-                }
-              }
-            }`;
-            const variables = {
-              owner: context.repo.owner,
-              name: context.repo.repo,
-            }
-            const result = await github.graphql(query, variables)
-            console.log(result)
-
-  graphql:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          pip install --upgrade pip
-          pip install dev/repodynamics
-
       - shell: python
         run: |
-          import pylinks
           import os
-            
-          query = """
-            repository(name: "TemplateRepo", owner: "aariam") {
-              discussionCategories(first: 100) {
-                edges {
-                  node {
-                    name
-                    slug
-                    id
-                  }
-                }
-              }
-            }
-          """
-          print(pylinks.api.github.GraphQL(token=os.environ['GITHUB_TOKEN']).query(query))
+          import json
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
+            print(f'{json.dumps(dict(os.environ), indent=4)}', file=fh)
+          
+    
+    
+
+
+#  list-issues:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/github-script@v6
+#        with:
+#          script: |
+#            const query = `query($owner:String!, $name:String!) {
+#              repository(owner:$owner, name:$name){
+#                id
+#                discussionCategories(first:100) {
+#                  edges {
+#                    node {
+#                      id
+#                      name
+#                    }
+#                    cursor
+#                  }
+#                }
+#              }
+#            }`;
+#            const variables = {
+#              owner: context.repo.owner,
+#              name: context.repo.repo,
+#            }
+#            const result = await github.graphql(query, variables)
+#            console.log(result)
+#
+#  graphql:
+#    runs-on: ubuntu-latest
+#    env:
+#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#    steps:
+#      - uses: actions/checkout@v3
+#      - run: |
+#          pip install --upgrade pip
+#          pip install dev/repodynamics
+#
+#      - shell: python
+#        run: |
+#          import pylinks
+#          import os
+#
+#          query = """
+#            repository(name: "TemplateRepo", owner: "aariam") {
+#              discussionCategories(first: 100) {
+#                edges {
+#                  node {
+#                    name
+#                    slug
+#                    id
+#                  }
+#                }
+#              }
+#            }
+#          """
+#          print(pylinks.api.github.GraphQL(token=os.environ['GITHUB_TOKEN']).query(query))
