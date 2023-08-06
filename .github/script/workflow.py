@@ -137,8 +137,9 @@ def _details(content: str, summary: str = "Details") -> str:
     text = f"""
 <details>
 <summary>{summary}</summary>
-<br>
+
 {content}
+
 </details>
 """
     return text
