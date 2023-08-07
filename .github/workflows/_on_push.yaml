@@ -31,7 +31,8 @@ jobs:
     name: 'Workflow Context /'
     steps:
 #      - uses: actions/checkout@v3
-       - uses: repodynamics/workflow-context@main
+      - name: 'Workflow Run Context'
+        uses: repodynamics/workflow-context@main
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
