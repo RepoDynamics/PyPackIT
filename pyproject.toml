@@ -294,9 +294,3 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://AAriam.github.io/TemplateRepo"
-Download = ""
-News = ""
-Documentation = ""
-"Bug Tracker" = ""
-Sponsor = ""
-Source = ""
