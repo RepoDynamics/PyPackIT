@@ -39,17 +39,24 @@ jobs:
 #          commit_user_name: 'RepoDynamics[bot]'
 #          tagging_message: "v0.0.6"
 
-  environ:
+#  environ:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - shell: python
+#        run: |
+#          import os
+#          import json
+#          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
+#            print(f'{json.dumps(dict(os.environ), indent=4)}', file=fh)
+
+
+  context:
     runs-on: ubuntu-latest
+    name: 'Workflow Context /'
     steps:
-      - shell: python
-        run: |
-          import os
-          import json
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
-            print(f'{json.dumps(dict(os.environ), indent=4)}', file=fh)
-          
-    
+      #      - uses: actions/checkout@v3
+      - name: 'Workflow Run Context'
+        uses: repodynamics/workflow-context@main
     
 
 
