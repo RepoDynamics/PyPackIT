@@ -4,16 +4,18 @@ import json
 from pathlib import Path
 import sys
 
+from markitup import html, md
+
 
 def github_context(context: dict) -> tuple[None, str]:
     _ = context.pop("token")
     payload_data = context.pop("event")
-    context_details = _details(
-        content=_codeblock(content=json.dumps(dict(sorted(context.items())), indent=4), language="json"),
+    context_details = html.details(
+        content=md.code_block(json.dumps(dict(sorted(context.items())), indent=4), "json"),
         summary="🖥 GitHub Context",
     )
-    payload_details = _details(
-        content=_codeblock(content=json.dumps(dict(sorted(payload_data.items())), indent=4), language="json"),
+    payload_details = html.details(
+        content=md.code_block(json.dumps(dict(sorted(payload_data.items())), indent=4), "json"),
         summary="🖥 Event Payload",
     )
     return None, f"{context_details}\n{payload_details}"
@@ -31,18 +33,19 @@ def metadata(cache_hit: bool, force_update: str, metadata_filepath: str) -> tupl
     else:
         raise ValueError(f"Unknown force_update value: {force_update}")
     with open(metadata_filepath) as f:
-        metadata = json.load(f)
-    metadata = _details(
-        content=_codeblock(content=json.dumps(metadata, indent=4), language="json"),
+        metadata_dict = json.load(f)
+    metadata_details = html.details(
+        content=md.code_block(json.dumps(metadata_dict, indent=4), "json"),
         summary="🖥 Metadata"
     )
-    log = f"""
-- {force_update_emoji}  Force update (input: {force_update})
-- {cache_hit_emoji}  Cache hit
-- ➡️ {result}
-<br>
-{metadata}
-"""
+    results_list = html.ul(
+        [
+            f"{force_update_emoji}  Force update (input: {force_update})",
+            f"{cache_hit_emoji}  Cache hit",
+            f"➡️ {result}",
+        ]
+    )
+    log = f"{results_list}\n<br>\n{metadata_details}"
     return None, log
 
 
@@ -57,36 +60,32 @@ def changed_files(categories: dict, total: dict) -> tuple[dict, str]:
     """
     # Parse and clean outputs
     sep_groups = dict()
-    group_summary_str = ""
     for item_name, val in categories.items():
         group_name, attr = item_name.split("_", 1)
         group = sep_groups.setdefault(group_name, dict())
         group[attr] = val
+    group_summary_list = []
     for group_name, group_attrs in sep_groups.items():
         sep_groups[group_name] = dict(sorted(group_attrs.items()))
-        group_summary_str += (
-            f"- {'✅' if group_attrs['any_modified'] == 'true' else '❌'}  {group_name}\n"
+        group_summary_list.append(
+            f"{'✅' if group_attrs['any_modified'] == 'true' else '❌'}  {group_name}"
         )
     total = dict(sorted(total.items()))
     all_groups = {"all": total} | sep_groups
     file_list = "\n".join(sorted(total["all_changed_and_modified_files"].split()))
     # Write job summary
-    changed_files = _details(
-        content=_codeblock(content=file_list, language="bash"),
+    changed_files = html.details(
+        content=md.code_block(file_list, "bash"),
         summary="🖥 Changed Files",
     )
-    details = _details(
-        content=_codeblock(content=json.dumps(all_groups, indent=4), language="json"),
+    details = html.details(
+        content=md.code_block(json.dumps(all_groups, indent=4), "json"),
         summary="🖥 Details",
     )
-    log = f"""
-#### Modified Categories
-{group_summary_str}
-
-{changed_files}
-{details}
-    """
-    return {"json": json.dumps(all_groups)}, log
+    log = html.ElementCollection(
+        [html.h(4, "Modified Categories"), html.ul(group_summary_list), changed_files, details]
+    )
+    return {"json": json.dumps(all_groups)}, str(log)
 
 
 def package_build_sdist() -> tuple[dict, str]:
@@ -94,12 +93,14 @@ def package_build_sdist() -> tuple[dict, str]:
     dist_name = filename.stem.removesuffix(".tar.gz")
     package_name, version = dist_name.rsplit("-", 1)
     output = {"package-name": package_name, "package-version": version}
-    log = f"""
-- Package Name: `{package_name}`
-- Package Version: `{version}`
-- Filename: `{filename.name}`
-"""
-    return output, log
+    log = html.ul(
+        [
+            f"📦 Package Name: `{package_name}`",
+            f"📦 Package Version: `{version}`",
+            f"📦 Filename: `{filename.name}`",
+        ]
+    )
+    return output, str(log)
 
 
 def package_publish_pypi(
@@ -119,36 +120,20 @@ def package_publish_pypi(
     }
 
     dists = "\n".join([path.name for path in list(Path(dist_path).glob("*.*"))])
-    dist_files = _details(
-        content=_codeblock(content=dists, language="bash"),
+    dist_files = html.details(
+        content=md.code_block(dists, "bash"),
         summary="🖥 Distribution Files",
     )
-    log = f"""
-- Package Name: `{package_name}`
-- Package Version: `{package_version}`
-- Platform: `{platform_name}`
-- {dist_files}
-- Download URL: `{outputs["download_url"]}`
-"""
-    return outputs, log
-
-
-def _details(content: str, summary: str = "Details") -> str:
-    text = f"""
-<details><summary>{summary}</summary><br>
-{content}
-</details>
-"""
-    return text
-
-
-def _codeblock(content: str, language: str = "") -> str:
-    text = f"""
-```{language}
-{content}
-```
-"""
-    return text
+    log_list = html.ul(
+        [
+            f"📦 Package Name: `{package_name}`",
+            f"📦 Package Version: `{package_version}`",
+            f"📦 Platform: `{platform_name}`",
+            f"📦 Download URL: `{outputs['download_url']}`",
+        ]
+    )
+    log = html.ElementCollection([log_list, dist_files])
+    return outputs, str(log)
 
 
 if __name__ == "__main__":
