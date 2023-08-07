@@ -9,7 +9,7 @@ from typing import Literal, Optional, Sequence
 # Non-standard libraries
 import pybadgeit as bdg
 import pycolorit as pcit
-import pyhtmlit as html
+import markitup as html
 import pylinks
 import pypackit
 
