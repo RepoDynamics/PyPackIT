@@ -30,9 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Workflow Context /'
     steps:
-      - uses: actions/checkout@v3
-      - id: foo
-        uses: repodynamics/workflow-context@main
+#      - uses: actions/checkout@v3
+       - uses: repodynamics/workflow-context@main
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
