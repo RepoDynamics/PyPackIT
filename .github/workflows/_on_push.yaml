@@ -1,26 +1,38 @@
 # Continuous Integration pipeline
 
+
 name: "[On Push]: CI"
 run-name: 'CI: ${{github.ref}}'
 
+
 on: push
 
+
 jobs:
-  github-context:
-    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
-    name: 'Workflow Context /'
+
+#  github-context:
+#    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
+#    name: 'Workflow Context /'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: 'Checkout script'
+#        uses: actions/checkout@v3
+#        with:
+#          ref: 'main'  # Always load the script from the 'main' branch
+#          sparse-checkout: .github/script/workflow.py
+#          sparse-checkout-cone-mode: false
+#      - name: 'Generate context summary'
+#        env:
+#          RD_CONTEXT: ${{ toJson(github) }}
+#        run: python .github/script/workflow.py
+
+  hello_world_job:
     runs-on: ubuntu-latest
+    name: A job to say hello
     steps:
-      - name: 'Checkout script'
-        uses: actions/checkout@v3
-        with:
-          ref: 'main'  # Always load the script from the 'main' branch
-          sparse-checkout: .github/script/workflow.py
-          sparse-checkout-cone-mode: false
-      - name: 'Generate context summary'
-        env:
-          RD_CONTEXT: ${{ toJson(github) }}
-        run: python .github/script/workflow.py
+      - uses: actions/checkout@v3
+      - id: foo
+        uses: repodynamics/workflow-context@main
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
@@ -32,6 +44,7 @@ jobs:
     name: 'Repo Files'
     uses: ./.github/workflows/repo_changes.yaml
 
+
   metadata:
     # Load repository metadata.
     #
@@ -42,6 +55,7 @@ jobs:
     name: 'Repo Metadata'
     uses: ./.github/workflows/repo_meta.yaml
 
+
   sync:
     name: 'Repo Files'
     needs: changes
@@ -49,6 +63,7 @@ jobs:
     uses: ./.github/workflows/repo_sync.yaml
     permissions:
       contents: write
+
 
   settings:
     name: 'Repo Settings'
@@ -60,6 +75,7 @@ jobs:
     uses: ./.github/workflows/repo_config.yaml
     with:
       metadata: ${{needs.metadata.outputs.json}}
+
 
   package:
     name: 'Package'
@@ -76,6 +92,7 @@ jobs:
       checkout-ref: ${{ github.ref_name }}
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
+
 
   docs:
     name: 'Docs'
