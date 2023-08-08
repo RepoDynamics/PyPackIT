@@ -56,7 +56,10 @@ jobs:
     steps:
       #      - uses: actions/checkout@v3
       - name: 'Workflow Run Context'
-        uses: repodynamics/workflow-context@main
+        uses: repodynamics/context@main
+
+      - name: 'Workflow Metadata'
+        uses: repodynamics/meta@main
     
 
 
