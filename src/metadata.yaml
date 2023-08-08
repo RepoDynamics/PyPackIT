@@ -18,6 +18,12 @@ operating_systems:
 python_version_min: "3.9"
 
 
+trove_classifiers:
+  - "Typing :: Typed"
+  - "Natural Language :: English"
+
+
+
 # Array of tables
 dependencies:
 
