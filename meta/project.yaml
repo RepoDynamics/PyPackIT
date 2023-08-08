@@ -61,9 +61,6 @@ keywords:
   - infrastructure
   - streamline
 
-trove_classifiers:
-  - "Typing :: Typed"
-  - "Natural Language :: English"
 
 license:
   id: GNU_AGPL_v3+
