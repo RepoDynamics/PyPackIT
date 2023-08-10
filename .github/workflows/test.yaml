@@ -15,6 +15,7 @@ jobs:
         with:
           sparse-checkout: meta/data
           sparse-checkout-cone-mode: false
+          path: ../repodynamics_metadata
       - run: pwd
       - run: ls -la
       - run: find .
