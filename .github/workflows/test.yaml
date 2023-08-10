@@ -4,6 +4,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  test-location:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pwd
+      - run: ls -la
+      - run: find .
+      - run: find / -type d > before.txt
+      - uses: actions/checkout@v3
+      - run: pwd
+      - run: ls -la
+      - run: find .
+      - run: find / -type d > after.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          path: before.txt
+          name: 'docs'
+      - uses: actions/upload-artifact@v3
+        with:
+          path: after.txt
+          name: 'docs'
+
 
 #  tag:
 #    name: 'Create tag'
@@ -38,25 +59,3 @@ jobs:
 #
 #      - name: 'Workflow Metadata'
 #        uses: repodynamics/meta@main
-
-
- test-location:
-   runs-on: ubuntu-latest
-   steps:
-     - run: pwd
-     - run: ls -la
-     - run: find .
-     - run: find / -type d > before.txt
-     - uses: actions/checkout@v3
-     - run: pwd
-     - run: ls -la
-     - run: find .
-     - run: find / -type d > after.txt
-     - uses: actions/upload-artifact@v3
-      with:
-        path: before.txt
-        name: 'docs'
-     - uses: actions/upload-artifact@v3
-       with:
-         path: after.txt
-         name: 'docs'
