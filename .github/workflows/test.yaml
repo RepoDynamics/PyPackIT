@@ -13,9 +13,7 @@ jobs:
       - run: ls -la $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
         with:
-          sparse-checkout: |
-            meta/*.yaml
-            meta/*.yml
+          sparse-checkout: meta/data
       - run: pwd
       - run: ls -la
       - run: find .
