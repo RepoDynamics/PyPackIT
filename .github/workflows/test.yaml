@@ -11,18 +11,6 @@ jobs:
 #    permissions: write-all
 #    steps:
 #      - uses: actions/checkout@v3
-#
-#      - shell: python
-#        run: |
-#          import json
-#          import os
-#
-#          x = json.loads("""${{ toJSON(github) }}""", strict=False)
-#          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-#            print(f'json={json.dumps(x, )}', file=fh)
-#          with open("github_workload_dispatch_.json", "w") as f:
-#            json.dump(x, f, indent=4)
-#
 #      - name: Tag and push current repo code
 #        run: |
 #          git config --global user.email ${{ github.actor }}@users.noreply.github.com
@@ -39,83 +27,24 @@ jobs:
 #          commit_user_name: 'RepoDynamics[bot]'
 #          tagging_message: "v0.0.6"
 
-#  environ:
+
+#  context:
 #    runs-on: ubuntu-latest
+#    name: 'Workflow Context /'
 #    steps:
-#      - shell: python
-#        run: |
-#          import os
-#          import json
-#          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
-#            print(f'{json.dumps(dict(os.environ), indent=4)}', file=fh)
-
-
-  context:
-    runs-on: ubuntu-latest
-    name: 'Workflow Context /'
-    steps:
-      #      - uses: actions/checkout@v3
-      - name: 'Workflow Run Context'
-        uses: repodynamics/context@main
-
-      - name: 'Workflow Metadata'
-        uses: repodynamics/meta@main
-    
-
-
-#  list-issues:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/github-script@v6
-#        with:
-#          script: |
-#            const query = `query($owner:String!, $name:String!) {
-#              repository(owner:$owner, name:$name){
-#                id
-#                discussionCategories(first:100) {
-#                  edges {
-#                    node {
-#                      id
-#                      name
-#                    }
-#                    cursor
-#                  }
-#                }
-#              }
-#            }`;
-#            const variables = {
-#              owner: context.repo.owner,
-#              name: context.repo.repo,
-#            }
-#            const result = await github.graphql(query, variables)
-#            console.log(result)
+#      #      - uses: actions/checkout@v3
+#      - name: 'Workflow Run Context'
+#        uses: repodynamics/context@main
 #
-#  graphql:
-#    runs-on: ubuntu-latest
-#    env:
-#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#    steps:
-#      - uses: actions/checkout@v3
-#      - run: |
-#          pip install --upgrade pip
-#          pip install dev/repodynamics
-#
-#      - shell: python
-#        run: |
-#          import pylinks
-#          import os
-#
-#          query = """
-#            repository(name: "TemplateRepo", owner: "aariam") {
-#              discussionCategories(first: 100) {
-#                edges {
-#                  node {
-#                    name
-#                    slug
-#                    id
-#                  }
-#                }
-#              }
-#            }
-#          """
-#          print(pylinks.api.github.GraphQL(token=os.environ['GITHUB_TOKEN']).query(query))
+#      - name: 'Workflow Metadata'
+#        uses: repodynamics/meta@main
+
+
+ test-location:
+   runs-on: ubuntu-latest
+   steps:
+     - run: find .
+     - run: find /
+     - uses: actions/checkout@v3
+     - run: find .
+     - run: find /
