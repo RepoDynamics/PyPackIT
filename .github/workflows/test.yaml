@@ -10,20 +10,20 @@ jobs:
       - run: pwd
       - run: ls -la
       - run: find .
-      - run: find / -type d > before.txt
+      - run: ls -la $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
       - run: pwd
       - run: ls -la
       - run: find .
-      - run: find / -type d > after.txt
-      - uses: actions/upload-artifact@v3
-        with:
-          path: before.txt
-          name: 'docs'
-      - uses: actions/upload-artifact@v3
-        with:
-          path: after.txt
-          name: 'docs'
+      - run: ls -la $GITHUB_WORKSPACE
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          path: before.txt
+#          name: 'docs'
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          path: after.txt
+#          name: 'docs'
 
 
 #  tag:
