@@ -10,7 +10,7 @@ jobs:
       - run: pwd
       - run: ls -la
       - run: find .
-      - run: ls -la /home/runner/work/R
+      - run: ls -la $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
         with:
           sparse-checkout: |
