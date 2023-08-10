@@ -14,6 +14,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           sparse-checkout: meta/data
+        sparse-checkout-cone-mode: false
       - run: pwd
       - run: ls -la
       - run: find .
