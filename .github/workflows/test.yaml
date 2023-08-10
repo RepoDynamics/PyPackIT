@@ -15,7 +15,7 @@ jobs:
         with:
           sparse-checkout: meta/data
           sparse-checkout-cone-mode: false
-          path: _repodynamics_metadata
+          path: _repodynamics
       - run: pwd
       - run: ls -la
       - run: find .
@@ -28,6 +28,12 @@ jobs:
 #        with:
 #          path: after.txt
 #          name: 'docs'
+
+  test-meta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: repodynamics/meta@main
+
 
 
 #  tag:
