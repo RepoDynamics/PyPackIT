@@ -1,6 +1,27 @@
 # Main metadata file for the project.
 
-name: TemplateRepo  # Set to null to use the repository name
+
+# Name of the project; set to null to use the repository name.
+name: null
+
+repo:
+  name: "templaterepo"
+
+owner: "aariam"
+
+authors:
+  - username: aariam
+    roles:
+      - Conceptualization
+
+copyright:
+  year_start: 2023
+  license:
+    id: GNU_AGPL_v3+
+
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files
+funding:
+  github: aariam
 
 tagline: "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
 
@@ -12,8 +33,23 @@ description: >-
   With PyPackIT, you can solely focus on what truly matters:
   implementing your ideas and bringing your vision to life!
 
-key_points:
+keywords:
+  - python
+  - github
+  - packaging
+  - template
+  - dynamic repository
+  - repository template
+  - documentation
+  - testing
+  - deployment
+  - maintenance
+  - automation
+  - development
+  - infrastructure
+  - streamline
 
+keynotes:
   - title: Automation
     description: >-
       PyPackIT streamlines a remarkable portion of the process of creating,
@@ -44,35 +80,3 @@ key_points:
     description: >-
       With PyPackIT, the only remaining step to publishing a production-ready
       Python project is adding your code, unit-tests and documentation content.
-
-keywords:
-  - python
-  - github
-  - packaging
-  - template
-  - dynamic repository
-  - repository template
-  - documentation
-  - testing
-  - deployment
-  - maintenance
-  - automation
-  - development
-  - infrastructure
-  - streamline
-
-
-license:
-  id: GNU_AGPL_v3+
-
-start_year: 2023
-
-repo:
-  full_name: "aariam/templaterepo"
-
-authors:
-  - aariam
-
-# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files
-funding:
-  github: aariam

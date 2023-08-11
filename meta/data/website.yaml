@@ -42,3 +42,7 @@ analytics:
 blog_dir_name: news
 
 announcement_retention_days: 30
+
+path:
+  news: news
+

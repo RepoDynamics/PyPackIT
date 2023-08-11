@@ -1,10 +1,22 @@
 
-
-cache_expiration_days: 7
+meta:
+  api_cache_expiration_days: 7
+  get_owner_publications: true
 
 # Needs personal access token named `REPO_ADMIN_TOKEN` with 'Administration' scope for the repository.
 update_repo_settings: true
 
+
+health_file:  # dict of strings
+  # Target path of GitHub Community Health Files
+  # These must be placed either in root (`.`), `docs`, or `.github` directory of the repository.
+  # Setting to an empty string will remove the file (but not the template).
+  code_of_conduct: "."
+  codeowners: "."
+  contributing: "."
+  governance: "."
+  security: "."
+  support: "."
 
 
 blank_issues_enabled: false

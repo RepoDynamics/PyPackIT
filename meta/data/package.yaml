@@ -2,31 +2,22 @@
 
 development_status: 1
 
-
 operating_systems:
-
     - id: windows
       cibuilds: null  # https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip
-
     - id: macos
       cibuilds: null
-
     - id: linux
       cibuilds: null
 
-
 python_version_min: "3.9"
-
 
 trove_classifiers:
   - "Typing :: Typed"
   - "Natural Language :: English"
 
-
-
-# Array of tables
 dependencies:
-
+# Array of tables
   - name: numpy
     used_for: |
       Numerical computing.
@@ -42,17 +33,16 @@ dependencies:
       spec: null
 
 
-# Table of arrays of tables
 optional_dependencies: null
+# Table of arrays of tables
 
-
-# Table
 scripts: null
-
-
 # Table
+
 gui_scripts: null
+# Table
 
-
-# Table of tables
 entry_points: null
+# Table of tables
+
+pypi_readme: "README.md"
