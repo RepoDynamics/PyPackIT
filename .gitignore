@@ -145,4 +145,5 @@ cython_debug/
 
 # RepoDynamics
 data/_local/
+!data/_local/README.md
 !/dev/build/
