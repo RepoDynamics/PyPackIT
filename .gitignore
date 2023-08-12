@@ -144,6 +144,6 @@ cython_debug/
 .DS_Store
 
 # RepoDynamics
-data/_local/*
-!data/_local/README.md
+.local/*
+!.local/README.md
 !/dev/build/
