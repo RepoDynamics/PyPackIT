@@ -1,17 +1,7 @@
-{
-  "alt_1": {
-    "repo": "",
-    "ref": "",
-    "path": ""
-  },
-  "alt_2": {
-      "repo": "",
-      "ref": "",
-      "path": ""
-  },
-  "alt_3": {
-      "repo": "",
-      "ref": "",
-      "path": ""
+[
+  {
+    "repo": "RepoDynamics/MetaTemplates",
+    "ref": "main",
+    "path": "pypackit/default"
   }
-}
+]
