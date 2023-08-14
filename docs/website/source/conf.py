@@ -414,7 +414,8 @@ html_static_path: List[str] = [
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
-    for glob in ["**/*.css", "**/*.css_t"] for path in (Path(html_static_path[0]) / "css").glob(glob)
+    for glob in ["**/*.css", "**/*.css_t"]
+    for path in (Path(html_static_path[0]) / "css").glob(glob)
 ]
 """A list of CSS files.
 

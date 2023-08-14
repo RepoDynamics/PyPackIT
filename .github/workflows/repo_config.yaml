@@ -29,7 +29,7 @@ jobs:
           retries: 2
           script: |
             const { REPO_NAME, REPO_DESCRIPTION, REPO_HOMEPAGE } = process.env
-            
+
             github.rest.repos.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -50,13 +50,13 @@ jobs:
               security_and_analysis: {secret_scanning: {status: 'enabled'}},
               security_and_analysis: {secret_scanning_push_protection: {status: 'enabled'}},
             })
-            
+
             github.rest.repos.replaceAllTopics({
               owner: context.repo.owner,
               repo: context.repo.repo,
               names: ${{ toJSON(fromJSON(needs.metadata.outputs.json).project.keywords_slugs) }},
             })
-            
+
             github.rest.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -82,7 +82,7 @@ jobs:
               lock_branch: false,
               allow_fork_syncing: true,
             })
-            
+
             try {
               await github.rest.repos.createPagesSite({
                 owner: context.repo.owner,

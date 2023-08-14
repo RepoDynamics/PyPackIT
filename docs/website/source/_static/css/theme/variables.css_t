@@ -181,4 +181,3 @@ html[data-theme="light"] .bd-header {
 html[data-theme="dark"] .bd-header {
     background: black !important;
 }
-
