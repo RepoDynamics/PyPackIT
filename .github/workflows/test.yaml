@@ -4,6 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  test-checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: 'main'
+      - run: ls -la
+      - uses: actions/checkout@v3
+        with:
+          ref: 'announcement'
+      - run: ls -la
+
   test-location:
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +44,8 @@ jobs:
 
   test-meta:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: repodynamics/meta@main
 
