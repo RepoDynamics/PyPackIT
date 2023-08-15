@@ -1,0 +1,13 @@
+
+name: Docs
+
+on: workflow_dispatch
+
+jobs:
+
+  announcement:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: repodynamics/announce@main
