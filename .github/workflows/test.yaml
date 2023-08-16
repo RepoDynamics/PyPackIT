@@ -15,11 +15,10 @@ jobs:
       - run: pwd
       - run: ls -la
       - run: ls -la $GITHUB_WORKSPACE
+      - run: git sparse-checkout disable
       - uses: actions/checkout@v3
         with:
           ref: 'announcement'
-          sparse-checkout: ''
-          sparse-checkout-cone-mode: true
       - run: pwd
       - run: ls -la
       - run: ls -la $GITHUB_WORKSPACE
