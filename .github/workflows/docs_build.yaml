@@ -1,21 +1,11 @@
 # Build the documentation with Sphinx and upload the builds as artifacts.
 
-name: '2. Docs: Build'
+name: 'Docs: Build'
 run-name: 'Docs: build from ${{github.ref}}'
 
 on:
-  workflow_call:
-    inputs:
-      checkout-ref:
-        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
-        type: string
-        required: false
-        default: ""
   workflow_dispatch:
 
-defaults:
-  run:
-    shell: micromamba-shell {0}
 
 jobs:
 
@@ -23,127 +13,4 @@ jobs:
     name: 'Build'
     runs-on: ubuntu-latest
     steps:
-
-      - name: 'Checkout repository from ${{github.ref}}'
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ inputs.checkout-ref }}
-
-      - name: 'Setup conda environment'
-        # https://github.com/mamba-org/setup-micromamba
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          environment-file: docs/website/requirements.yaml
-          cache-environment: true
-          cache-environment-key: sphinx-website-requirements
-          generate-run-shell: true
-          init-shell: bash
-
-#      # To make PDF output, we need the latexmk package and some other plugins, which are not available via conda.
-#      - name: 'Install extra requirements'
-#        # Ref:
-#        #   https://fontawesome.com/docs/web/setup/packages#the-free-package
-#        #   https://github.com/sphinx-doc/sphinx-docker-images/tree/master
-#        run: >-
-#          sudo apt-get update -y
-#
-#          sudo apt-get install --no-install-recommends -y
-#          graphviz
-#          imagemagick
-#          latexmk
-#          lmodern
-#          texlive-xetex
-#          texlive-luatex
-#          texlive-latex-recommended
-#          texlive-latex-extra
-#          texlive-fonts-recommended
-#          fonts-font-awesome
-#          texlive-fonts-extra
-#          fonts-freefont-otf
-#          tex-gyre
-#          xindy
-#
-#          npm install --save @fortawesome/fontawesome-free
-
-      - name: 'Install repodynamics'
-        run: python -m pip install dev/repodynamics
-
-      - name: 'Install package'
-        run: python -m pip install .
-
-      - name: 'Display conda environment'
-        shell: bash -el {0}
-        run: micromamba list
-
-      - name: 'Display pip environment'
-        run: pip list
-
-#      - name: 'Display non-Python packages'
-#        run: |
-#          echo "latexmk Version:"
-#          latexmk --version
-#          echo "rsvg Version:"
-#          rsvg-convert --version
-
-      - name: 'Display directory tree'
-        shell: bash -el {0}
-        run: ls -a
-
-      - name: 'Build HTML'
-        run: |
-          cd docs/website
-          make clean
-          make dirhtml
-          mv _build/dirhtml _build/html
-
-##      - name: 'Build LaTeX'
-##        if: always()
-##        run: |
-##          cd docs/website
-##          make latexpdf
-#
-#      - name: 'Build LaTeX'
-#        if: always()
-#        # Use `make latex` instead of `make latexpdf` to be able to pass extra arguments to `latexmk` in next step.
-#        run: |
-#          cd docs/website
-#          make latex
-#
-#      - name: 'Build PDF'
-#        if: always()
-#        # latexmk docs: https://ctan.mc1.root.project-creative.net/support/latexmk/latexmk.pdf
-#        run : |
-#          cd docs/website/_build/latex
-#          LATEXMKOPTS="-outdir=./pdf -auxdir=./aux -bibfudge- -makeindexfudge-" make
-#
-#      - name: 'Display builds'
-#        if: always()
-#        run: find docs/website/_build
-#
-#      - name: 'Order builds'
-#        if: always()
-#        run : |
-#
-#          mkdir -p docs/website/_build/pdf/log
-#          mv docs/website/_build/latex/aux docs/website/_build/pdf
-#          mv docs/website/_build/latex/pdf/* docs/website/_build/pdf/log
-#          mv docs/website/_build/pdf/log/*.pdf docs/website/_build/pdf
-
-      - name: 'Display ordered builds'
-        if: always()
-        run: find docs/website/_build
-
-      - name: 'Upload builds'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: docs/website/_build/*
-          name: 'docs'
-
-      - name: 'Upload GitHub Pages artifact'
-        # https://github.com/actions/upload-pages-artifact
-        if: always()
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'docs/website/_build/html'
+      - uses: repodynamics/sphinxbuild@main
