@@ -1,0 +1,41 @@
+
+name: "[On Schedule]"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # Every day at midnight UTC.
+    - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
+
+
+jobs:
+
+  meta:
+    name: 'Load repository metadata'
+    outputs:
+      meta: ${{ steps.read.outputs.meta }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout main branch'
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
+      - name: 'Read repository metadata'
+        id: read
+        run: echo "meta=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
+
+  announcement-check:
+    name: "Announcement Expiry Check"
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
+    needs: meta
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: "Run Repodynamics Announce"
+        uses: repodynamics/announce@main
+        with:
+          retention-days: ${{ fromJSON(needs.meta.outputs.meta).website.announcement_retention_days }}
+
+
