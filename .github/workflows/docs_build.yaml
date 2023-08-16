@@ -13,4 +13,4 @@ jobs:
     name: 'Build'
     runs-on: ubuntu-latest
     steps:
-      - uses: repodynamics/sphinxbuild@main
+      - uses: repodynamics/sphinxdocs@main
