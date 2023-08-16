@@ -27,4 +27,4 @@ jobs:
       - uses: repoDynamics/announce@main
         with:
           announcement: ${{ inputs.announcement }}
-          description: ${{ inputs.trigger }}
+          description: ${{ inputs.description }}
