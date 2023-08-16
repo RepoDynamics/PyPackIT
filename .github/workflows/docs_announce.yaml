@@ -1,0 +1,30 @@
+name: "Docs: Update Announcement"
+run-name: "Docs: update announcement manually"
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      announcement:
+        type: string
+        required: true
+        description: |
+          Announcement message; supports HTML syntax (don't forget to escape with \).
+          To remove announcement, set to 'null'.
+      description:
+        type: string
+        required: true
+        description: "Reason for announcement, e.g. 'expiration' or 'new release'."
+
+
+jobs:
+  update:
+    name: 'Update Announcement'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: repoDynamics/announce@main
+        with:
+          announcement: ${{ inputs.announcement }}
+          description: ${{ inputs.trigger }}
