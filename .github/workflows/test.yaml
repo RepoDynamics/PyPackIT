@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: 'main'
+          sparse-checkout: meta/requirements.txt
+          sparse-checkout-cone-mode: false
       - run: pwd
       - run: ls -la
       - run: ls -la $GITHUB_WORKSPACE
