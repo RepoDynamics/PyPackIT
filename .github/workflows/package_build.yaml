@@ -1,80 +1,64 @@
 # Generate a distribution package for PyPI.
+# Publish the package on PyPI or TestPyPI.
+# This reusable workflow uses the [pypi-publish](https://github.com/pypa/gh-action-pypi-publish) GitHub Action
+# to publish the distribution package on either PyPI or TestPyPI, depending on the input.
 
-name: 'Package - Build'
+
+name: 'Package: Build'
 run-name: 'Package: Build from ${{github.ref}}'
 
 
 on:
   workflow_dispatch:
   workflow_call:
+
     inputs:
-      metadata:
-        description: 'Repository metadata as a JSON string.'
-        type: string
-        required: true
+
       checkout-ref:
-        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
+        default: ''
         required: false
-        default: ""
+        description: |
+          Reference (i.e. branch, tag or SHA) of the current repository to checkout, 
+          i.e. the `ref` input of `actions/checkout`.
+
+      publish-platform:
+        type: string
+        default: 'TestPyPI'
+        required: false
+        description: |
+          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
+
     outputs:
-      package-name:
-        description: 'Name of the package.'
+
+      name:
+        description: Name of the package.
         value: ${{jobs.build-sdist.outputs.package-name}}
-      package-version:
-        description: 'Version of the package.'
+
+      version:
+        description: Version of the package.
         value: ${{jobs.build-sdist.outputs.package-version}}
 
 
-defaults:
-  run:
-    shell: bash
-
-
 jobs:
-  load-metadata:
-    name: 'Repo Metadata'
-    if: github.event_name == 'workflow_dispatch'
-    uses: ./.github/workflows/repo_meta.yaml
 
-  metadata:
-    name: 'Set Metadata'
-    needs: load-metadata
-    if: ${{ !failure() }}
-    outputs:
-      json: ${{steps.load-metadata.outputs.json}}
+  readme:
+    name: 'Generate README'
     runs-on: ubuntu-latest
     steps:
-      - id: load-metadata
-        shell: python
-        env:
-          METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
-        run: |
-          import os
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-              print(f"json={os.environ['METADATA']}", file=fh)
-#        run: |
-#          printf '%s\n' "$METADATA" > metadata.json
-#          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
+      - uses: repodynamics@readme@main
+
 
   build-sdist:
     name: 'Source Distribution /'
     outputs:
       package-name: ${{steps.get_name.outputs.package-name}}
       package-version: ${{steps.get_name.outputs.package-version}}
+    needs: readme
     runs-on: ubuntu-latest
     steps:
 
-      - name: 'Checkout repository from ${{github.ref}}'
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ inputs.checkout-ref }}
 
-      - name: 'Build sdist'
-        run: |
-          pipx run build --version
-          pipx run build --sdist --outdir dist/
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
@@ -152,6 +136,8 @@ jobs:
         # https://cibuildwheel.readthedocs.io/en/stable/
         # https://github.com/pypa/cibuildwheel
         uses: pypa/cibuildwheel@v2.13.1
+        with:
+          output-dir: dist
         env:
           CIBW_BUILD: ${{ matrix.python-version }}-${{ matrix.build[1] }}
           CIBW_BUILD_VERBOSITY: 2
@@ -161,3 +147,46 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
           name: Distribution Package
+
+
+  package-release-pypi:
+    name: "${{inputs.platform-name}} /"
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.platform-name }}
+      url: ${{ steps.script.outputs.download-url }}
+    permissions:
+      id-token: write
+    steps:
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: dist
+
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Run script'
+        id: script
+        env:
+          RD_PACKAGE_NAME: ${{ inputs.package-name }}
+          RD_PACKAGE_VERSION: ${{ inputs.package-version }}
+          RD_PLATFORM_NAME: ${{ inputs.platform-name }}
+          RD_DIST_PATH: dist
+        run: python .github/script/workflow.py
+
+      - name: 'Upload package'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # https://github.com/marketplace/actions/pypi-publish
+        with:
+          packages-dir: dist
+          repository-url: ${{ steps.script.outputs.upload-url }}
+          verify-metadata: true
+          verbose: true
+          print-hash: true
+          skip-existing: false
