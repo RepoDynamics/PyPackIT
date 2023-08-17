@@ -5,32 +5,26 @@ name: "[On Push]: CI"
 run-name: 'CI: ${{github.ref}}'
 
 
-on: push
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'release/v[0-9]+'
 
 
 jobs:
 
-#  github-context:
-#    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
-#    name: 'Workflow Context /'
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 'Checkout script'
-#        uses: actions/checkout@v3
-#        with:
-#          ref: 'main'  # Always load the script from the 'main' branch
-#          sparse-checkout: .github/script/workflow.py
-#          sparse-checkout-cone-mode: false
-#      - name: 'Generate context summary'
-#        env:
-#          RD_CONTEXT: ${{ toJson(github) }}
-#        run: python .github/script/workflow.py
-
-  context:
+  init:
+    name: 'RepoDynamics'
     runs-on: ubuntu-latest
-    name: 'Workflow Context /'
+    outputs:
+      metadata: ${{ steps.meta.outputs.metadata }}
     steps:
-#      - uses: actions/checkout@v3
+      - name: 'Meta'
+        id: meta
+        uses: repodynamics/meta@main
+        with:
+          mode: sync
       - name: 'Workflow Run Context'
         uses: repodynamics/workflow-context@main
 
@@ -45,17 +39,6 @@ jobs:
     uses: ./.github/workflows/repo_changes.yaml
 
 
-  metadata:
-    # Load repository metadata.
-    #
-    # Returns
-    # -------
-    # json : str
-    #     String representation of a JSON object containing the repository metadata.
-    name: 'Repo Metadata'
-    uses: ./.github/workflows/repo_meta.yaml
-
-
   sync:
     name: 'Repo Files'
     needs: changes
@@ -63,18 +46,6 @@ jobs:
     uses: ./.github/workflows/repo_sync.yaml
     permissions:
       contents: write
-
-
-  settings:
-    name: 'Repo Settings'
-    needs: [metadata, changes]
-    if: |
-      github.ref == 'refs/heads/main' &&
-      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
-      fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
-    uses: ./.github/workflows/repo_config.yaml
-    with:
-      metadata: ${{needs.metadata.outputs.json}}
 
 
   package:

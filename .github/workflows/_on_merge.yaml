@@ -158,6 +158,23 @@ jobs:
       contents: read
       pages: write
       id-token: write
+  # Adapt this instead:
+  deploy:
+    # Ref: https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+    # Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
+    name: 'Deploy website to GitHub Pages from ${{github.ref_name}}'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: GitHub Pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+
 
   package-build:
     name: 'Build distribution package'

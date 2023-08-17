@@ -1,0 +1,29 @@
+
+
+name: "[On Push]: CI"
+
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release/v[0-9]+'
+
+
+jobs:
+
+  repo-config:
+    name: 'Repo Settings'
+    needs: [ metadata, changes ]
+    if: |
+      github.ref == 'refs/heads/main' &&
+      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
+      fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
+    permissions:
+      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: repodynamics/config@main
+        with:
+          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}

@@ -1,5 +1,5 @@
 
-name: "[On Schedule]"
+name: "CT"
 
 on:
   workflow_dispatch:

@@ -1,7 +1,9 @@
 # Continuous Integration pipeline
 
+
 name: "[On Pull]: CI/CD"
 run-name: 'CI/CD: ${{github.ref}}'
+
 
 on:
   pull_request:
@@ -13,26 +15,21 @@ on:
 
 
 jobs:
-
-  context:
-    # Output summary of the workflow run's `github` context.
-    # This job outputs a sanitized version of the `github` context as job summary,
-    # for logging/debugging purposes.
+  github-context:
+    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
     name: 'Workflow Run / context'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout script'
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.base_ref }}
-          sparse-checkout: .github/scripts/context_summary.py
+          ref: 'main'  # Always load the script from the 'main' branch
+          sparse-checkout: .github/script/workflow.py
           sparse-checkout-cone-mode: false
-
       - name: 'Generate context summary'
-        run: python '.github/scripts/context_summary.py'
         env:
-          GH_CONTEXT: ${{ toJson(github) }}
-
+          RD_CONTEXT: ${{ toJson(github) }}
+        run: python .github/script/workflow.py
 
   changes:
     # Get all changed files/categories in the repository due to the push event.
@@ -44,7 +41,6 @@ jobs:
     name: 'Repository Files'
     uses: ./.github/workflows/repo_changes.yaml
 
-
   metadata:
     # Load repository metadata.
     #
@@ -55,9 +51,8 @@ jobs:
     name: 'Repository Metadata'
     uses: ./.github/workflows/repo_meta.yaml
 
-
   package:
-    name: 'Test package'
+    name: 'Package'
     needs: [changes, metadata]
     if: |
       fromJSON(needs.changes.outputs.json).package.any_modified == 'true' ||
@@ -74,18 +69,16 @@ jobs:
       base-ref: ${{ github.base_ref }}
       head-ref: ${{ github.head_ref }}
 
-
   docs:
-    name: 'Build documentation with Sphinx'
+    name: 'Docs'
     needs: [changes]
     if: fromJSON(needs.changes.outputs.json).docs.any_modified == 'true'
     uses: ./.github/workflows/docs_build.yaml
     with:
       checkout-ref: ${{ github.head_ref }}
 
-
   publish-testpypi:
-    name: 'Publish on TestPyPI'
+    name: 'Package / Publish'
     needs: [changes, package]
     if: |
       github.base_ref == 'main' &&
@@ -102,8 +95,7 @@ jobs:
       package-name: ${{ needs.package.outputs.package-name }}
       package-version: ${{ needs.package.outputs.package-version }}
       artifact-name: ${{ needs.package.outputs.artifact-name }}
-      platform-name: 'testpypi'
-
+      platform-name: 'TestPyPI'
 
   wait-for-testpypi:
     # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
@@ -116,7 +108,6 @@ jobs:
     steps:
       - name: 'Waiting ...'
         run: sleep 300s
-
 
   test-testpypi:
     name: 'Install and test from TestPyPI'
