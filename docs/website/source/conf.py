@@ -11,9 +11,7 @@ References
 import importlib
 from pathlib import Path
 from typing import Any, Dict, List, Literal, NoReturn, Tuple, Union
-
-# Non-standard libraries
-import pypackit
+import json
 
 
 def rstjinja(app, docname, source):
@@ -41,7 +39,35 @@ def setup(app):
     return
 
 
-meta = pypackit.metadata(path_root=Path(__file__).parents[3])
+with open(Path(__file__).parents[3] / "meta" / "metadata.json") as f:
+    meta = json.load(f)
+
+
+def add_project_maintainers(self):
+    # Sort maintainers based on the number of assigned issue types, discussion categories,
+    # and pull request reviews, in that order.
+
+    for idx, role in enumerate(["issues", "discussions"]):
+        for people in self.metadata["maintainer"][role].values():
+            for person in people:
+
+                entry[idx] += 1
+    for codeowner_entry in self.metadata["maintainer"]["pulls"]:
+        for person in codeowner_entry["reviewers"]:
+            entry = maintainers.setdefault(person, [0, 0, 0])
+            entry[2] += 1
+    # Get maintainers' GitHub info sorted in a list based on ranking
+    self.metadata["project"]["maintainer"] = [
+        self._cache.user(maintainer)
+        for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
+    ]
+    return
+
+
+
+
+
+
 
 
 """
