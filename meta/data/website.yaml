@@ -3,8 +3,6 @@ custom_base_url: null
 
 rtd_name: templaterepo
 
-is_gh_user_site: false
-
 navbar_icons:
   - id: pypi
   - id: conda
