@@ -1,10 +1,10 @@
-"""TemplateRepo
+"""templaterepo
 
-Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+    Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 
-PyPackIT is a free and open-source toolkit <b>empowering the development of open-source Python projects on GitHub</b>. It is a <b>dynamic repository template</b> that provides a complete, professional, and robust infrastructure for your project, where the only thing missing is your code. With PyPackIT, you can solely focus on what truly matters: implementing your ideas and bringing your vision to life!
+    PyPackIT is a free and open-source toolkit <b>empowering the development of open-source Python projects on GitHub</b>. It is a <b>dynamic repository template</b> that provides a complete, professional, and robust infrastructure for your project, where the only thing missing is your code. With PyPackIT, you can solely focus on what truly matters: implementing your ideas and bringing your vision to life!
 
-Copyright (C) { project.copyright_year } { project.owner.name }
+    Copyright (C) 2023 Armin Ariamajd
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -18,7 +18,8 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
+
+    """
 
 __version_details__ = "This will be set on build"
 __version__ = __version_details__["version"]
