@@ -207,7 +207,7 @@ txt_report = "_local_reports/mypy"
 # Ref: https://pycqa.github.io/isort/docs/configuration/options.html
 [tool.isort]
 profile = "black"
-src_paths = ["template_package"]
+src_paths = ["src", "tests"]
 conda_env = ""
 lines_before_imports = 2
 lines_after_imports = 2
