@@ -1,54 +1,45 @@
 # Install package from a given source and run unit-tests.
 
+
 name: 'Package - Test'
 run-name: 'Package: Install and test from ${{github.ref}}'
+
 
 on:
   workflow_dispatch:
     inputs:
-      json-filepath:
-        description: "Path to the project's main JSON metadata file."
-        default: './metadata/main.json'
-        required: false
-        type: string
-
-      install-source:
-        description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
-        type: choice
-        options:
-          - local
-          - testpypi
-          - pypi
-        default: local
-        required: false
-
-      install-version:
-        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
-        default: ""
-        required: false
-        type: string
-
-  workflow_call:
-    inputs:
-
-      metadata:
-        description: 'Repository metadata as a JSON string.'
-        type: string
-        required: true
-
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
         required: false
         default: ""
-
-      install-source:
-        description: "Source to install the package; options: 'local', 'testpypi', 'pypi'."
-        default: 'local'
+      package-source:
+        description: "Installation source of the package"
+        type: choice
+        options:
+          - GitHub
+          - TestPyPI
+          - PyPI
+        default: GitHub
+        required: false
+      package-version:
+        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
+        default: ""
         required: false
         type: string
-
-      install-version:
+  workflow_call:
+    inputs:
+      checkout-ref:
+        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        type: string
+        required: false
+        default: ""
+      package-source:
+        description: "Installation source of the package"
+        type: string
+        default: GitHub
+        required: false
+      package-version:
         description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
         default: ""
         required: false
@@ -57,158 +48,46 @@ on:
 
 jobs:
 
-  display-inputs:
-    # Print the input arguments to console (for debugging)
-    name: 'Display inputs'
+  init:
+    name: 'set repository metadata'
+    outputs:
+      metadata: ${{steps.metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
       - name: 'Display inputs'
         run: |
-          echo 'install-source: ${{inputs.install-source}}'
-          echo 'install-version: ${{inputs.install-version}}'
-          echo 'json-filepath: ${{inputs.json-filepath}}'
+          echo 'install-source: ${{inputs.package-source}}'
+          echo 'install-version: ${{inputs.package-version}}'
+          echo 'checkout-ref: ${{inputs.checkout-ref}}'
 
-  load-metadata:
-    name: 'Load repository metadata'
-    if: github.event_name == 'workflow_dispatch'
-    uses: ./.github/workflows/repo_meta.yaml
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
 
-  metadata:
-    name: 'set repository metadata'
-    needs: load-metadata
-    if: ${{ !failure() }}
-    outputs:
-      json: ${{steps.load-metadata.outputs.json}}
-    runs-on: ubuntu-latest
-    steps:
       - name: 'Load repository metadata'
-        id: load-metadata
-        env:
-          METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
-        run: |
-          printf '%s\n' "$METADATA" > metadata.json
-          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
+        id: metadata
+        run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
-  test-suite:
+  test:
     # Install the package and run tests on a matrix of supported Python versions and operating systems.
     name: 'Test (Py ${{ matrix.python-version }}, ${{ matrix.os }})'
-    needs: metadata
-    if: ${{ !failure() }}
-    runs-on: ${{ matrix.os }}
+    needs: init
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
+        os: ${{ fromJson(needs.init.outputs.metadata).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.metadata).package.python_versions }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
-    defaults:
-      run:
-        shell: bash
-
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
+      - uses: repodynamics/pytests@main
         with:
-          fetch-depth: 0
-          ref: ${{ inputs.checkout-ref }}
-
-      - name: 'Set up Python ${{inputs.python-version}}'
-        uses: actions/setup-python@v4
-        with:
+          package-source: ${{inputs.package-source}}
+          package-version: ${{inputs.package-version}}
+          checkout-ref: ${{inputs.checkout-ref}}
           python-version: ${{ matrix.python-version }}
-
-      - name: 'Display Python version'
-        run: python -c "import sys; print(sys.version)"
-
-      - name: 'Update pip'
-        run: python -m pip install --upgrade pip
-
-      - name: 'Install package'
-        run: |
-          if [ "${{inputs.install-source}}" = "local" ]; then
-              echo "#### 🏁 Result" >> $GITHUB_STEP_SUMMARY
-              echo "* ✅ 📭 No announcement to check. The last announcement was removed $(git log -1 --format=%cd --date=relative $filepath) ($(git log -1 --format=%cd $filepath))." >> $GITHUB_STEP_SUMMARY
-              echo "expired=false" >> $GITHUB_OUTPUT
-              python -m pip install .
-          elif [ "${{inputs.install-source}}" = "testpypi" ]; then
-              python -m pip install
-              ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
-              --index-url https://test.pypi.org/simple/
-              --extra-index-url https://pypi.org/simple/
-          elif [ "${{inputs.install-source}}" = "pypi" ]; then
-              python -m pip install ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
-          else
-              echo "Invalid install-source: '${{inputs.install-source}}'."
-              exit 1
-          fi
-
-      - name: 'Install from local source'
-        if: inputs.install-source == 'local'
-        run: python -m pip install .
-
-      - name: 'Install from TestPyPI'
-        if: inputs.install-source == 'testpypi'
-        run: >-
-          python -m pip install
-          ${{fromJSON(needs.metadata.outputs.json).package.name}}==${{inputs.install-version}}
-          --index-url https://test.pypi.org/simple/
-          --extra-index-url https://pypi.org/simple/
-
-      - name: 'Install from PyPI'
-        if: inputs.install-source == 'pypi'
-        run: python -m pip install ${{needs.metadata.outputs.package-name}}==${{inputs.install-version}}
-
-      - name: 'Test import package'
-        shell: python
-        run: |
-          import ${{ needs.metadata.outputs.package-name }} as pkg
-          print(pkg.__version__)
-
-      - name: 'Install test dependencies'
-        run: |
-          python -m pip install --upgrade pytest pytest-cov pipreqs
-
-      - name: 'Display info'
-        run: |
-          echo "::group::Python version"
-          python -c "import sys; print(sys.version)"
-          echo "::endgroup::"
-          echo "::group::pip list"
-          python -m pip list
-          echo "::endgroup::"
-          echo "::group::OS and hardware info"
-          uname -a
-          echo "::endgroup::"
-          echo "::group::Disk space usage"
-          df -h
-          echo "::endgroup::"
-          echo "::group::Available system resources"
-          ulimit -a
-          echo "::endgroup::"
-          echo "::group::Root directory"
-          ls -a
-          echo "::endgroup::"
-          echo "::group::File tree"
-          find .
-          echo "::endgroup::"
-
-      - name: 'Run dependency tests'
-        run: pipreqs ./src --debug --print
-
-      - name: 'Run unit tests'
-        run: >-
-          pytest -c pyproject.toml
-          --cov=${{needs.metadata.outputs.package-name}}
-          --cov-report=xml
-
-      - name: 'Upload coverage reports to codecov'
-        if: always() && ${{inputs.install-source}} == 'local'
-        # https://github.com/marketplace/actions/codecov
-        # https://github.com/codecov/codecov-action
-        uses: codecov/codecov-action@v3.1.4
-        with:
-          fail_ci_if_error: false
-          verbose: true
-          env_vars: OS,PYTHON
