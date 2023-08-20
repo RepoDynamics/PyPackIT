@@ -343,22 +343,22 @@ _navbar_defaults = {
     "twitter": {
         "name": "Twitter",
         "icon": "fa-brands fa-twitter",
-        "url": meta["project"]["owner"]["external_urls"].get("twitter", ""),
+        "url": meta["owner"]["url"].get("twitter", ""),
     },
     "linkedin": {
         "name": "LinkedIn",
         "icon": "fa-brands fa-linkedin",
-        "url": meta["project"]["owner"]["external_urls"].get("linkedin", ""),
+        "url": meta["owner"]["url"].get("linkedin", ""),
     },
     "researchgate": {
         "name": "ResearchGate",
         "icon": "fa-brands fa-researchgate",
-        "url": meta["project"]["owner"]["external_urls"].get("researchgate", ""),
+        "url": meta["owner"]["url"].get("researchgate", ""),
     },
     "orcid": {
         "name": "ORCiD",
         "icon": "fa-brands fa-orcid",
-        "url": meta["project"]["owner"]["external_urls"].get("orcid", ""),
+        "url": meta["owner"]["url"].get("orcid", ""),
     },
 }
 

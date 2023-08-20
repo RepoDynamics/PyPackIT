@@ -5,9 +5,10 @@
 name: null
 
 repo:
-  name: "templaterepo"
+  name: templaterepo
 
-owner: "aariam"
+owner:
+  username: aariam
 
 authors:
   - username: aariam
