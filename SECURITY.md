@@ -10,7 +10,7 @@ as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
 
-https://{'username': 'aariam', 'name': 'Armin Ariamajd', 'company': 'Freie Universität Berlin (FUB)', 'location': 'Berlin', 'email': None, 'bio': 'Studying M.Sc. Computational Sciences and M.Sc. Chemistry, and working as teaching assistant in theoretical chemistry at FUB.', 'id': 80158628, 'node_id': 'MDQ6VXNlcjgwMTU4NjI4', 'avatar_url': 'https://avatars.githubusercontent.com/u/80158628?v=4', 'url': {'website': '', 'github': 'https://github.com/AAriam', 'linkedin': 'https://linkedin.com/in/armin-ariamajd', 'twitter': 'https://twitter.com/Al___Chemist', 'researchgate': 'https://researchgate.net/profile/Armin_Ariamajd', 'orcid': 'https://orcid.org/0000-0003-1563-6987'}}.github.io/TemplateRepo/contribute/collaborate/maintain/security
+https://aariam.github.io/TemplateRepo/contribute/collaborate/maintain/security
 
 <blockquote>
     🛡️**Supported Versions**
