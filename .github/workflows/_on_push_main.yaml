@@ -1,6 +1,6 @@
 
 
-name: "[On Push]: CI"
+name: "[On Push]: Release Branch"
 
 
 on:
