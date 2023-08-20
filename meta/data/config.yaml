@@ -7,7 +7,7 @@ meta:
 update_repo_settings: true
 
 
-health_file:  # dict of strings
+health_file_path:  # dict of strings
   # Target path of GitHub Community Health Files
   # These must be placed either in root (`.`), `docs`, or `.github` directory of the repository.
   # Setting to an empty string will remove the file (but not the template).
@@ -19,14 +19,13 @@ health_file:  # dict of strings
   support: "."
 
 
-blank_issues_enabled: false
+issues:
+  blank_issues_enabled: false
+  contact_links:
+    - name:
+      url: https://github.com/orgs/community/discussions
+      about: Please ask and answer questions here.
+    - name: GitHub Security Bug Bounty
+      url: https://bounty.github.com/
+      about: Please report security vulnerabilities here.
 
-contact_links:
-
-  - name:
-    url: https://github.com/orgs/community/discussions
-    about: Please ask and answer questions here.
-
-  - name: GitHub Security Bug Bounty
-    url: https://bounty.github.com/
-    about: Please report security vulnerabilities here.
