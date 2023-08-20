@@ -48,4 +48,4 @@ jobs:
     if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: repodynamics/sphinxdocs@main
+      - uses: RepoDynamics/SphinxDocs@main
