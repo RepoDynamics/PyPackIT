@@ -26,26 +26,26 @@ jobs:
 #      - name: 'Workflow Run Context'
 #        uses: repodynamics/workflow-context@main
 
-  package:
-    name: 'Package'
-    needs: init
-    if: fromJSON(needs.init.outputs.changes).package.any_modified == 'true' }}
-    uses: ./.github/workflows/package_ci.yaml
-    permissions:
-      pull-requests: write
-      security-events: write
-      actions: read
-      contents: read
-    with:
-      metadata: ${{needs.metadata.outputs.json}}
-      checkout-ref: ${{ github.ref_name }}
-      base-ref: ${{ github.event.before }}
-      head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
-
-  docs:
-    name: 'Docs'
-    needs: init
-    if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: RepoDynamics/SphinxDocs@main
+#  package:
+#    name: 'Package'
+#    needs: init
+#    if: fromJSON(needs.init.outputs.changes).package.any_modified == 'true' }}
+#    uses: ./.github/workflows/package_ci.yaml
+#    permissions:
+#      pull-requests: write
+#      security-events: write
+#      actions: read
+#      contents: read
+#    with:
+#      metadata: ${{needs.metadata.outputs.json}}
+#      checkout-ref: ${{ github.ref_name }}
+#      base-ref: ${{ github.event.before }}
+#      head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
+#
+#  docs:
+#    name: 'Docs'
+#    needs: init
+#    if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: RepoDynamics/SphinxDocs@main
