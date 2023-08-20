@@ -1,9 +1,7 @@
 # Continuous Integration pipeline
 
-
 name: "[On Push]: CI"
 run-name: 'CI: ${{github.ref}}'
-
 
 on:
   push:
@@ -11,47 +9,27 @@ on:
       - 'main'
       - 'release/v[0-9]+'
 
-
 jobs:
 
   init:
-    name: 'RepoDynamics'
+    name: 'Initialize'
     runs-on: ubuntu-latest
     outputs:
       metadata: ${{ steps.meta.outputs.metadata }}
+    permissions:
+      contents: write
     steps:
-      - name: 'Meta'
+      - uses: repodynamics/meta@main
         id: meta
-        uses: repodynamics/meta@main
         with:
-          mode: sync
+          sync-mode: push
       - name: 'Workflow Run Context'
         uses: repodynamics/workflow-context@main
 
-  changes:
-    # Get all changed files/categories in the repository due to the push event.
-    #
-    # Returns
-    # -------
-    # json : str
-    #     String representation of a JSON object containing info about all changes.
-    name: 'Repo Files'
-    uses: ./.github/workflows/repo_changes.yaml
-
-
-  sync:
-    name: 'Repo Files'
-    needs: changes
-    if: fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
-    uses: ./.github/workflows/repo_sync.yaml
-    permissions:
-      contents: write
-
-
   package:
     name: 'Package'
-    needs: [metadata, changes, sync]
-    if: ${{ !failure() && fromJSON(needs.changes.outputs.json).package.any_modified == 'true' }}
+    needs: init
+    if: fromJSON(needs.init.outputs.changes).package.any_modified == 'true' }}
     uses: ./.github/workflows/package_ci.yaml
     permissions:
       pull-requests: write
@@ -64,10 +42,9 @@ jobs:
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
 
-
   docs:
     name: 'Docs'
-    needs: [changes, sync]
+    needs: init
     if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
     uses: ./.github/workflows/docs_build.yaml
     with:
