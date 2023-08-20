@@ -18,8 +18,8 @@ trove_classifiers:
   - "Natural Language :: English"
 
 dependencies:
-# Array of tables
-  - name: numpy
+# Table of tables
+  numpy:
     used_for: |
       Numerical computing.
     url_source: ""
@@ -35,15 +35,40 @@ dependencies:
 
 
 optional_dependencies: null
-# Table of arrays of tables
+# Table of tables
+#  group_1:
+#    package_1:
+#      used_for: ""
+#      url_source: ""
+#      url_homepage: ""
+#      url_docs: ""
+#      pip_spec: ""
+#      conda:
+#        channel: null
+#        spec: null
+
 
 scripts: null
-# Table
+# Table of tables
+#  entry_point_1:
+#    ref: "my_package:main"
+#    description: ""
+
 
 gui_scripts: null
-# Table
+# Table of tables
+#  entry_point_1:
+#    ref: "my_package:main"
+#    description: ""
 
 entry_points: null
 # Table of tables
-
-pypi_readme: "README.md"
+#  group_1:
+#    description: ""
+#    entry_points:
+#      entry_point_1:
+#        ref: "my_package:main"
+#        description: ""
+#      entry_point_2:
+#        ref: "my_package:main"
+#        description: ""
