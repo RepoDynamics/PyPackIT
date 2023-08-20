@@ -1,6 +1,7 @@
 
 
-name: "[On Push]: Release Branch"
+name: "[On Push Release Branch]: CD"
+run-name: 'CD: ${{github.ref_name}}'
 
 
 on:
@@ -12,9 +13,22 @@ on:
 
 jobs:
 
+  init:
+    name: 'Initialize'
+    runs-on: ubuntu-latest
+    outputs:
+      metadata: ${{ steps.meta.outputs.metadata }}
+    permissions:
+      contents: write
+    steps:
+      - uses: repodynamics/meta@main
+        id: meta
+        with:
+          sync: push
+
   repo-config:
     name: 'Repo Settings'
-    needs: [ metadata, changes ]
+    needs: init
     if: |
       github.ref == 'refs/heads/main' &&
       fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&

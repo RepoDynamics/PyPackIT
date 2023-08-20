@@ -67,7 +67,7 @@ jobs:
         # https://github.com/fuxingloh/multi-labeler
         uses: fuxingloh/multi-labeler@v2
         with:
-          config-path: .github/config/labeler.yaml
+          config-path: meta/.out/labels_pr.yaml
 
 
   metadata:

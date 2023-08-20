@@ -1,7 +1,7 @@
 # Continuous Integration pipeline
 
-name: "[On Push]: Development Branch"
-run-name: 'CI: ${{github.ref}}'
+name: "[On Push Development Branch]: CI"
+run-name: 'CI: ${{github.ref_name}}'
 
 on:
   push:
@@ -23,8 +23,8 @@ jobs:
         id: meta
         with:
           sync: push
-#      - name: 'Workflow Run Context'
-#        uses: repodynamics/workflow-context@main
+      - name: 'Workflow Run Context'
+        uses: repodynamics/workflow-context@main
 
 #  package:
 #    name: 'Package'
