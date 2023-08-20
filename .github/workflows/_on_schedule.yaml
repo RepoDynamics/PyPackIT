@@ -39,3 +39,14 @@ jobs:
           retention-days: ${{ fromJSON(needs.meta.outputs.meta).website.announcement_retention_days }}
 
 
+  meta-update:
+    name: 'Check for metadata updates'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout main branch'
+        uses: actions/checkout@v3
+      - name: 'Meta'
+        uses: repodynamics/meta@main
+        with:
+          mode: pull
