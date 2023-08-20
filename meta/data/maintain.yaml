@@ -4,11 +4,9 @@ email:
   security: "a.ariamajd@gmail.com"
 
 issues:
-  default:
+  app_bug_setup:
     - "aariam"
-  bug_api:
-    - "aariam"
-  bug_docs:
+  app_bug_api:
     - "aariam"
 
 pulls:
