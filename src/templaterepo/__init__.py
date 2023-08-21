@@ -1,4 +1,4 @@
-"""templaterepo
+"""TemplateRepo
 
     Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 

@@ -1,6 +1,6 @@
-# templaterepo Security and Vulnerability Disclosure Policy
+# TemplateRepo Security and Vulnerability Disclosure Policy
 
-templaterepo takes the security and privacy of all its users and members very seriously,
+TemplateRepo takes the security and privacy of all its users and members very seriously,
 and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible,
@@ -10,7 +10,7 @@ as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
 
-https://aariam.github.io/TemplateRepo/contribute/collaborate/maintain/security
+https://AAriam.github.io/TemplateRepo/contribute/collaborate/maintain/security
 
 <blockquote>
     🛡️**Supported Versions**
@@ -41,7 +41,7 @@ Please DO NOT
 ### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
 of our repository to securely discuss, fix and publish information about security vulnerabilities
-in templaterepo. To privately report a security vulnerability,
+in TemplateRepo. To privately report a security vulnerability,
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
 or [**click here to directly open a private report form**](https://github.com/AAriam/TemplateRepo/security/advisories/new).
 
@@ -139,7 +139,7 @@ and provides our users a chance to update their applications and protect themsel
 
 
 ## Testing for Vulnerabilities
-templaterepo is a free and open-source project.
+TemplateRepo is a free and open-source project.
 We encourage security researchers to help us improve our security measures
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below,
