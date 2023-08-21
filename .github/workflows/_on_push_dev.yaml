@@ -24,6 +24,7 @@ jobs:
         with:
           sync: push
       - name: 'Workflow Run Context'
+        if: ${{ !cancelled() }}
         uses: repodynamics/workflow-context@main
 
 #  package:
