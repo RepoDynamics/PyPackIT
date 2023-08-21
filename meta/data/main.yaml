@@ -4,19 +4,12 @@
 # Name of the project; set to null to use the repository name.
 name: null
 
-repo:
-  name: templaterepo
-
-owner:
-  username: aariam
-
 authors:
   - username: aariam
     roles:
       - Conceptualization
 
 copyright:
-  year_start: 2023
   # Set license to null to disable.
   license:
     id: GNU_AGPL_v3+

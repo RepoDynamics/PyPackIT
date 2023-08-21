@@ -1,4 +1,7 @@
 
+# {source, parent, self}
+target_repo: source
+
 meta:
   api_cache_expiration_days: 7
   get_owner_publications: true
