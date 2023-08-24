@@ -6,8 +6,9 @@ run-name: 'CI: ${{github.ref_name}}'
 on:
   push:
     branches-ignore:
-      - 'main'
-      - 'release/v[0-9]+'
+      - main
+      - release/v[0-9]+
+      - announcement
 
 jobs:
 
