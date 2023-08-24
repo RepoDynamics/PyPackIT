@@ -24,7 +24,7 @@ and so could have contained any unicode character.
 :::{note}
 The validating regex for `name` is (with `IGNORECASE` flag set):
 ```default
-^([A-Z0-9]|[A-Z0-9][A-Z0-9._- ]*[A-Z0-9])$
+^[A-Za-z0-9](?:[A-Za-z0-9 ._-]*[A-Za-z0-9])?$
 ```
 :::
 
