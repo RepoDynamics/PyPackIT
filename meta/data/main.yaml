@@ -1,25 +1,8 @@
-# Main metadata file for the project.
 
+name: ""
 
-# Name of the project; set to null to use the repository name.
-name: null
-
-authors:
-  - username: aariam
-    roles:
-      - Conceptualization
-
-copyright:
-  # Set license to null to disable.
-  license:
-    id: GNU_AGPL_v3+
-
-# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files
-# Set to null to disable.
-funding:
-  github: aariam
-
-tagline: "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
+tagline: >-
+  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 
 description: >-
   PyPackIT is a free and open-source toolkit
@@ -51,28 +34,285 @@ keynotes:
       PyPackIT streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
       making your project development a pleasant breeze!
-
   - title: Synchronization
     description: >-
       PyPackIT gathers all your project's key information and configuration in one place,
       and dynamically updates them throughout your repository, Python package, and documentation website.
-
   - title: Configuration
     description: >-
       PyPackIT elevates your project by providing full configuration for your repository,
       Python package, and documentation website, according to the latest guidelines and best practices.
-
   - title: Customization
     description: >-
       While carefully configured, PyPackIT is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs.
-
+      allowing you to tailor every aspect of your development pipeline to your specific needs
   - title: Documentation
     description: >-
       PyPackIT comes with a professional website for your project, that is easily
       customizable, and automatically generated and deployed on your preferred platform.
-
   - title: Production
     description: >-
       With PyPackIT, the only remaining step to publishing a production-ready
       Python project is adding your code, unit-tests and documentation content.
+
+license_id: gnu_agpl_v3+
+
+authors:
+  - username: aariam
+    roles:
+      - Conceptualization
+
+email:
+  main: a.ariamajd@gmail.com
+  security: a.ariamajd@gmail.com
+  code_of_conduct: a.ariamajd@gmail.com
+  support: a.ariamajd@gmail.com
+
+funding:
+  github: aariam
+
+health_file:
+  code_of_conduct: "."
+  codeowners: "."
+  contributing: "."
+  governance: "."
+  security: "."
+  support: "."
+
+labels:
+  - name: 'Bug: App'
+    description: Reported problems encountered while using the application, such as unexpected results and errors.
+    color: A00000
+    issues:
+      - app_bug_api
+
+  - name: enhancement
+    description: need an enhancement
+    color: d73a4a
+
+  - name: documentation
+    description: Improvements or additions to documentation
+    color: 0075ca
+
+  - name: duplicate
+    description: This issue or pull request already exists
+    color: cfd3d7
+
+  - name: test
+    description: This issue or pull request concerns tests
+    color: ffffff
+
+  - name: 'Release: major'
+    description: 'Major release.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        commits: "^[\\w\\-]+(\\([^)]+\\))?!: "
+
+  - name: 'Release: minor'
+    description: 'Minor release.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        commits: "^feat(\\([^)]+\\))?: "
+
+  - name: 'Release: patch'
+    description: 'Patch release.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        commits: "^fix(\\([^)]+\\))?: "
+
+  - name: 'Deploy: website'
+    description: 'Deploy website.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        commits: "^website(\\([^)]+\\))?: "
+
+  - name: 'Modified: github'
+    description: 'Modified files in .github directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ ".github/**" ]
+
+  - name: 'Modified: data'
+    description: 'Modified files in data directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "data/**" ]
+
+  - name: 'Modified: dev'
+    description: 'Modified files in dev directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "dev/**" ]
+
+  - name: 'Modified: docs'
+    description: 'Modified files in docs directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "docs/**" ]
+
+  - name: 'Modified: meta'
+    description: 'Modified files in meta directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "meta/**" ]
+
+  - name: 'Modified: src'
+    description: 'Modified files in src directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "src/**" ]
+
+  - name: 'Modified: tests'
+    description: 'Modified files in tests directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "tests/**" ]
+
+  - name: 'Modified: root'
+    description: 'Modified files in root directory.'
+    color: 'A00000'
+    pulls:
+      sync: true
+      matcher:
+        files:
+          any: [ "*" ]
+
+discussions:
+  - slug: announcements
+    assignees:
+      - aariam
+
+issues:
+  - name: app_bug_setup
+    assignees:
+      - "aariam"
+  - name: app_bug_api
+    assignees:
+      - "aariam"
+
+issues_contact_links:
+  - name: Test
+    url: https://github.com/orgs/community/discussions
+    about: Please ask and answer questions here.
+  - name: GitHub Security Bug Bounty
+    url: https://bounty.github.com/
+    about: Please report security vulnerabilities here.
+
+issues_blank_enabled: false
+
+pulls:
+  # Default owners for everything, unless a later match takes precedence.
+  - pattern: "*"
+    reviewers:
+      - "aariam"
+  # All files directly under the root directory; these are config files like pyproject.toml.
+  - pattern: "/*"
+    reviewers:
+      - "aariam"
+  # All files and directories under the '.github' directory.
+  # These are workflows (sensitive; can be exploited) and other GitHub related configs.
+  - pattern: "/.github/"
+    reviewers:
+      - "aariam"
+
+# Needs personal access token named `REPO_ADMIN_TOKEN` with 'Administration' scope for the repository.
+repo_config:
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  default_branch: main
+  allow_merge_commit: true
+  allow_squash_merge: true
+  allow_rebase_merge: true
+  merge_commit_title: 'PR_TITLE'
+  squash_merge_commit_title: 'PR_TITLE'
+  merge_commit_message: 'PR_BODY'
+  squash_merge_commit_message: 'PR_BODY'
+  allow_auto_merge: false
+  allow_update_branch: true
+  delete_branch_on_merge: true
+
+repo_target: source
+
+api_cache_expiration_days: 7
+
+get_owner_publications: true
+
+color:
+  primary: ['135400', '459B24']
+  secondary: ['055005', '9CCC00']
+
+base_url: ""
+
+read_the_docs_name: templaterepo
+
+announcement_retention_days: 30
+
+navbar_icons:
+  - id: pypi
+  - id: conda
+  - id: repo
+  - id: issues
+  - id: pull_requests
+  - id: discussions
+  - id: email
+  - id: license
+  - id: twitter
+  - id: linkedin
+  - id: researchgate
+  - id: orcid
+
+quicklinks:
+  - - title: Install
+      path: 'manual/install'
+      include_in_readme: true
+  - - title: Releases
+      path: 'news/category/release'
+      include_in_readme: true
+  - - title: Q&A
+      path: 'help/ask'
+      include_in_readme: true
+
+web_analytics:
+  plausible:
+    domain: ""
+    url: ""
+  google_id: "G-0X66W6TGL2"
+
+readme:
+  header:
+    style: "vertical"
+
+  body:
+    style: "ver"
+    sections:
+      - id: "ci"
