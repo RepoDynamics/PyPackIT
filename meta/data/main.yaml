@@ -212,10 +212,10 @@ discussions:
       - aariam
 
 issues:
-  - name: app_bug_setup
+  - slug: app_bug_setup
     assignees:
       - "aariam"
-  - name: app_bug_api
+  - slug: app_bug_api
     assignees:
       - "aariam"
 
