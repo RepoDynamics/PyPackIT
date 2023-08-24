@@ -39,7 +39,7 @@ def setup(app):
     return
 
 
-with open(Path(__file__).parents[3] / "meta" / "metadata.json") as f:
+with open(Path(__file__).parents[3] / "meta" / ".out" / "metadata.json") as f:
     meta = json.load(f)
 
 
@@ -78,18 +78,18 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
 
-project: str = meta["project"]["name"]
+project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join([_author["name"] for _author in meta["project"]["authors"]])
+author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
 """Authors' names"""
 
 project_copyright: Union[
     str, List[str]
-] = f"{meta['project']['copyright_year']} {meta['project']['owner']['name']}"
+] = meta['copyright_notice']
 """Copyright statement(s)"""
 
-release: str = getattr(importlib.import_module(meta["package"]["name"]), "__version__")
+release: str = getattr(importlib.import_module(meta["package_name"]), "__version__")
 """Full version, including alpha/beta/rc tags"""
 
 version: str = ".".join(release.split(".")[:3])
