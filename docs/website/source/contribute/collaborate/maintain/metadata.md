@@ -1,57 +1,208 @@
 # Metadata
 
-## Project
-The `project.yaml` file contains the general info on the project.
+## General Data
 
-### Name
-Name of the project;
-this is only used in documents to refer to the project, so technically it can contain any unicode character,
-but it is highly recommended to keep all names consistent, i.e. the package name, which has restrictions,
-should be the normalized version of the project name. Therefore, we enforce the restrictions of a
-valid non-normalized package name here, and then derive the package name from project name via normalization.
+### `name`
+- string, optional, default: `null`  
 
-A valid name consists only of ASCII alphanumeric characters, period (.), underscore (_) and hyphen (-),
-and must start and end with a letter or number. The validating regex is thus (with `IGNORECASE` flag set):
+Name of the project. 
+It must only contain ASCII alphanumeric characters, spaces, periods (.), underscores (_) and hyphens (-).
+Additionally, it must start and end with an alphanumeric character.
+
+If omitted or set to null, the repository name will be used instead: 
+all hyphens in the repository name are replaced with spaces, and the first letter of each word is capitalized. 
+
+:::{note}
+The package name is derived from the name of the project, via normalization[^name-normalization]:
+The project name is lowercased, with all runs of spaces, periods (.), underscores (_) and hyphens (-)
+replaced with a single hyphen. 
+That is why we enforce the restrictions of a valid non-normalized package name here, 
+otherwise the project name is only used in documents to refer to the project, 
+and so could have contained any unicode character.
+:::
+
+:::{note}
+The validating regex for `name` is (with `IGNORECASE` flag set):
 ```default
-^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$
+^([A-Z0-9]|[A-Z0-9][A-Z0-9._- ]*[A-Z0-9])$
 ```
-If ommited (or set to null), the repository name will be used.
+:::
 
-#### References
-* [Python Packaging User Guide > PyPA specifications > Package name normalization](https://packaging.python.org/en/latest/specifications/name-normalization/)
+[^name-normalization]: [Python Packaging User Guide > PyPA specifications > Package name normalization](https://packaging.python.org/en/latest/specifications/name-normalization/)
 
-### Tagline
-A single-sentence description of the project.
 
-### Description
+### `tagline`
+- string, required
+
+A short tagline, slogan, or description of the project.
+
+
+### `description`
+- string, required
 A long description of the project that can have multiple paragraphs, with Markdown or HTML formatting.
 
-### Keywords
-Keywords to describe the project.
 
-### License
-Name of the license under which the project is distributed.
+### `keywords`
+- list of strings, optional, default: `null`
+
+Keywords to describe the project. 
+Each keyword must only contain 50 or less ASCII alphanumeric characters, spaces, and hyphens (-).
+Additionally, it must start and end with an alphanumeric character.
+
+
+### `keynotes`
+- list of dictionaries, optional, default: `null`
+
+A list of keynotes about the project.
+Each keynote is a dictionary with the following keys:
+- `title`: string, required  
+    Title of the keynote.
+- `description`: string, required  
+    Description of the keynote.
+
+
+### `license_id`
+- string, optional, default: `null`
+
+Identifier of the license under which the project is distributed.
 This must be one of the following values (case-insensitive):
-- `Apache_v2`: [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
+- `GNU_AGPL_v3+`: [GNU Affero General Public License v3 or later](https://choosealicense.com/licenses/agpl-3.0/)
+- `GNU_AGPL_v3`: [GNU Affero General Public License v3](https://choosealicense.com/licenses/agpl-3.0/)
+- `GNU_GPL_v3+`: [GNU General Public License v3 or later](https://choosealicense.com/licenses/gpl-3.0/)
 - `GNU_GPL_v3`: [GNU General Public License v3](https://choosealicense.com/licenses/gpl-3.0/)
+- `MPL_v2`: Mozilla Public License 2.0
+- `Apache_v2`: [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 - `MIT`: [MIT License](https://choosealicense.com/licenses/mit/)
 - `BSD_2_Clause`: [BSD 2-Clause License](https://choosealicense.com/licenses/bsd-2-clause/)
 - `BSD_3_Clause`: [BSD 3-Clause License](https://choosealicense.com/licenses/bsd-3-clause/)
 - `BSL_v1`: [Boost Software License 1.0](https://choosealicense.com/licenses/bsl-1.0/)
-- `GNU_AGPL_v3+`: [GNU Affero General Public License v3 or later](https://choosealicense.com/licenses/agpl-3.0/)
-- `GNU_AGPL_v3`: [GNU Affero General Public License v3](https://choosealicense.com/licenses/agpl-3.0/)
-- `GNU_GPL_v3+`: [GNU General Public License v3 or later](https://choosealicense.com/licenses/gpl-3.0/)
-
-- `GNU-LGPLv3+`: GNU Lesser General Public License v3 or later
-- `GNU-LGPLv3`: GNU Lesser General Public License v3
 - `Unlicense`: The Unlicense
 
-- `MPL-2.0`: Mozilla Public License 2.0
-- `CC-BY-4.0`: Creative Commons Attribution 4.0 International License
-- `CC-BY-SA-4.0`: Creative Commons Attribution-ShareAlike 4.0 International License
-- `CC-BY-NC-4.0`: Creative Commons Attribution-NonCommercial 4.0 International License
-- `CC-BY-NC-SA-4.0`: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
-- `CC0-1.0`: Creative Commons Zero v1.0 Universal
+
+### `authors`
+- list of dictionaries, optional, default: `null`
+
+A list of authors of the project.
+Authors must be listed in order of their contribution to the project.
+Each author is represented by a dictionary with two keys:
+- `username`: string, required  
+    GitHub username of the author.
+- `roles`: list of strings, optional, default: `null`  
+    Roles of the author in the project.
+    
+
+### `email`
+- dictionary of strings
+
+A dictionary of email addresses for different purposes:
+- `main`: string, required  
+   Main contact email address for the project. This is a required field, and 
+   is used for other purposes if the other keys are not provided.
+- `security`: string, optional, default: `main` 
+   Email address for reporting security vulnerabilities.
+- `support`: string, optional, default: `main` 
+   Email address for support.
+- `code_of_conduct`: string, optional, default: `main` 
+   Email address for reporting code of conduct violations.
+
+
+## Repository Settings
+
+### `funding`
+- dictionary, optional, default: `null`
+
+Configuration for the sponsor section of the repository[^github-funding].
+The dictionary must have one or several of the following keys:
+- `community_bridge`: string   
+   Project name for the [LFX Mentorship](https://lfx.linuxfoundation.org/tools/mentorship) 
+   (formerly CommunityBridge) platform.
+- `github`: string or list of strings  
+   Up to 4 GitHub usernames.
+- `issuehunt`: string  
+   [IssueHunt](https://issuehunt.io/) username.
+- `ko_fi`: string  
+   [Ko-fi](https://ko-fi.com/) username.
+- `liberapay`: string  
+   [Liberapay](https://liberapay.com/) username.
+- `open_collective`: string  
+   [Open Collective](https://opencollective.com/) username.
+- `otechie`: string  
+   [Otechie](https://otechie.com/) username.
+- `patreon`: string  
+   [Patreon](https://www.patreon.com/) username.
+- `tidelift`: string  
+   A string in the format PLATFORM-NAME/PACKAGE-NAME for the [Tidelift](https://tidelift.com/) platform,
+    where PLATFORM-NAME is one of the following: npm, pypi, rubygems, maven, packagist, nuget.
+- `custom`: string or list of strings   
+   Up to 4 custom URLs.
+
+[^github-funding]: [GitHub Documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files)
+
+
+### `health_file`
+- dictionary of strings, optional, default: `null`
+
+Target paths for GitHub Community Health Files.
+These must be placed either in root (`.`), `docs`, or `.github` directory of the repository.
+Providing each of the following keys will create the corresponding file in the repository.
+- `code_of_conduct`: '.', 'docs', or '.github'
+- `codeowners`: '.', 'docs', or '.github'
+- `contributing`: '.', 'docs', or '.github'
+- `governance`: '.', 'docs', or '.github'
+- `security`: '.', 'docs', or '.github'
+- `support`: '.', 'docs', or '.github'
+
+
+### `labels`
+- list of dictionaries
+
+A list of labels for the issues, pull requests and discussions in the repository.
+Each label is represented by a dictionary with the following keys:
+- `name`: string, required  
+    Name of the label.
+- `description`: string, required  
+    Description of the label.
+- `color`: string, required
+    Color of the label, in hexadecimal format (e.g. `ff0000` for red).
+- `issues`: list of strings, optional, default: `null`  
+    Names of the issue templates that this label should be applied to.
+- `pulls`: dictionary, optional, default: `null`
+    Configuration for applying this label to pull requests.
+    For more information, see the [multi-labeler](https://github.com/fuxingloh/multi-labeler) action
+        
+
+### `issues`
+- list of dictionaries, optional, default: `null`
+
+Issue templates used in the repository, and their corresponding assignees, 
+provided as a list of dictionaries with the following keys:
+- `name`: string, required  
+    Name of the issue template form.
+- `assignees`: list of strings, optional  
+    GitHub usernames of the assignees for the issue template form.
+    If not provided, the repository owner will be the assignee.
+    If an empty list is provided, the issue template form will be used without any assignees.
+
+The issue forms are displayed in the order they are provided here.
+
+
+### `issues_contact_links`
+- list of dictionaries, optional, default: `null`
+
+
+
+
+## Maintenance
+
+
+
+
+
+## General Repository Settings
+
+
+
+
 
 ### Start Year
 The year in which the project was started. This is used to generate the copyright notice.
@@ -76,19 +227,44 @@ but any other capitalization of the word in any URL or address will also point t
 GitHub usernames of project's main authors.
 
 
-## Package
+## Package Data
 
-### Name (derived)
-Name of the package, derived from the project name, via normalization:
-The name is lowercased with all runs of the characters period (.), underscore (_) and hyphen (-)
-replaced with a single hyphen:
-```python
-package_name = re.sub(r'[._-]+', '-', project_name.lower())
-```
-#### References
-* [Python Packaging User Guide > PyPA specifications > Package name normalization](https://packaging.python.org/en/latest/specifications/name-normalization/)
+### `package.development_status`
+- integer
 
-### Trove Classifiers
+Development status of the package, 
+according to the following scheme (see Trove classifiers for more details):
+  1 : Planning
+  2 : Pre-Alpha
+  3 : Alpha
+  4 : Beta
+  5 : Production/Stable
+  6 : Mature
+  7 : Inactive
+
+
+### `package.python_version_min`
+- string
+
+Minimum Python version required to run the package. This must be a valid Python 3 version string in the 
+format '3.Y' or '3.Y.Z', where Y and Z are minor and patch versions, respectively.
+
+
+### `package.operating_systems`
+- dictionary
+
+Operating systems supported by the package, as a dictionary with the following keys:
+- `windows`
+- `macos`
+- `linux`
+Each value may be an empty dictionary, or a dictionary with the following keys:
+- `runner`: string, optional
+- `cibw_build`: string, optional
+
+
+### `package.trove_classifiers`
+- list of strings
+
 Trove classifiers for the package, used by PyPI.
 Classifiers are categorized into the following groups:
 - Development Status
@@ -106,17 +282,21 @@ Classifiers are categorized into the following groups:
 * [List of classifiers](https://pypi.org/classifiers/)
 * [List of classifiers as a Python package](https://github.com/pypa/trove-classifiers/blob/main/src/trove_classifiers/__init__.py)
 
-### Development Status
-Development status of the package, according to the following scheme (see Trove classifiers for more details):
-  1 : Planning
-  2 : Pre-Alpha
-  3 : Alpha
-  4 : Beta
-  5 : Production/Stable
-  6 : Mature
-  7 : Inactive
+### `package.dependencies`
+- list of dictionaries
+
+Dependencies of the package, as a list of dictionaries with the following keys:
+- `name`: string, required
+- `pip_spec`: string, required,
+- `conda_spec`: string, optional, default: `null`
+- `conda_channel`: string, optional, default: `conda-forge`
+- `usage`: string, optional, default: `null`
+- `url_homepage`: string, optional, default: `null`
+- `url_docs`: string, optional, default: `null`
+- `url_source`: string, optional, default: `null`
 
 
+### `package.optional_dependencies`
 
 
 ## Maintainers
@@ -145,3 +325,14 @@ https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-
 #### References
 * GitHub documentation about code owners:
 https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+
+## Website Settings
+
+### `navbar_icons`
+- list of dictionaries, optional, default: `null`
+
+### `quicklinks`
+- list of lists of dictionaries, optional, default: `null`
+
+
