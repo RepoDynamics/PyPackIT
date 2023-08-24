@@ -86,7 +86,7 @@ jobs:
   build_wheel:
     name: 'Binary Distribution'
     needs: metadata
-    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == true }}
+    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.pure_python == true }}
     runs-on: ubuntu-latest
     steps:
 
@@ -117,13 +117,13 @@ jobs:
   build_wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: metadata
-    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.is_pure_python == false }}
-    runs-on: ${{ matrix.build[0] }}
+    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.pure_python == false }}
+    runs-on: ${{ matrix.platform.runner }}
     strategy:
       fail-fast: false
       matrix:
-        build: ${{ fromJson(needs.metadata.outputs.json).package.build_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.json).package.python_versions_cibuild }}
+        platform: ${{ fromJson(needs.metadata.outputs.json).package.cibw_matrix_platform }}
+        py-ver: ${{ fromJson(needs.metadata.outputs.json).package.cibw_matrix_python }}
     steps:
 
       - name: 'Checkout repository from ${{github.ref}}'
@@ -139,7 +139,7 @@ jobs:
         with:
           output-dir: dist
         env:
-          CIBW_BUILD: ${{ matrix.python-version }}-${{ matrix.build[1] }}
+          CIBW_BUILD: ${{ matrix.py-ver }}-${{ matrix.platform.cibw_platform }}
           CIBW_BUILD_VERBOSITY: 2
 
       - name: 'Upload wheel as artifact'
