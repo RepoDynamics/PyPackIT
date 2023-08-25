@@ -41,4 +41,3 @@ jobs:
       - uses: repodynamics/config@main
         with:
           admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
-

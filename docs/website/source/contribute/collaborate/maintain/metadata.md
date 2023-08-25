@@ -3,21 +3,21 @@
 ## General Data
 
 ### `name`
-- string, optional, default: `null`  
+- string, optional, default: `null`
 
-Name of the project. 
+Name of the project.
 It must only contain ASCII alphanumeric characters, spaces, periods (.), underscores (_) and hyphens (-).
 Additionally, it must start and end with an alphanumeric character.
 
-If omitted or set to null, the repository name will be used instead: 
-all hyphens in the repository name are replaced with spaces, and the first letter of each word is capitalized. 
+If omitted or set to null, the repository name will be used instead:
+all hyphens in the repository name are replaced with spaces, and the first letter of each word is capitalized.
 
 :::{note}
 The package name is derived from the name of the project, via normalization[^name-normalization]:
 The project name is lowercased, with all runs of spaces, periods (.), underscores (_) and hyphens (-)
-replaced with a single hyphen. 
-That is why we enforce the restrictions of a valid non-normalized package name here, 
-otherwise the project name is only used in documents to refer to the project, 
+replaced with a single hyphen.
+That is why we enforce the restrictions of a valid non-normalized package name here,
+otherwise the project name is only used in documents to refer to the project,
 and so could have contained any unicode character.
 :::
 
@@ -39,13 +39,14 @@ A short tagline, slogan, or description of the project.
 
 ### `description`
 - string, required
+
 A long description of the project that can have multiple paragraphs, with Markdown or HTML formatting.
 
 
 ### `keywords`
 - list of strings, optional, default: `null`
 
-Keywords to describe the project. 
+Keywords to describe the project.
 Each keyword must only contain 50 or less ASCII alphanumeric characters, spaces, and hyphens (-).
 Additionally, it must start and end with an alphanumeric character.
 
@@ -55,10 +56,10 @@ Additionally, it must start and end with an alphanumeric character.
 
 A list of keynotes about the project.
 Each keynote is a dictionary with the following keys:
-- `title`: string, required  
-    Title of the keynote.
-- `description`: string, required  
-    Description of the keynote.
+- `title`: string, required\
+Title of the keynote.
+- `description`: string, required\
+Description of the keynote.
 
 
 ### `license_id`
@@ -85,25 +86,25 @@ This must be one of the following values (case-insensitive):
 A list of authors of the project.
 Authors must be listed in order of their contribution to the project.
 Each author is represented by a dictionary with two keys:
-- `username`: string, required  
-    GitHub username of the author.
-- `roles`: list of strings, optional, default: `null`  
-    Roles of the author in the project.
-    
+- `username`: string, required\
+GitHub username of the author.
+- `roles`: list of strings, optional, default: `null`\
+Roles of the author in the project.
+
 
 ### `email`
 - dictionary of strings
 
 A dictionary of email addresses for different purposes:
-- `main`: string, required  
-   Main contact email address for the project. This is a required field, and 
-   is used for other purposes if the other keys are not provided.
-- `security`: string, optional, default: `main` 
-   Email address for reporting security vulnerabilities.
-- `support`: string, optional, default: `main` 
-   Email address for support.
-- `code_of_conduct`: string, optional, default: `main` 
-   Email address for reporting code of conduct violations.
+- `main`: string, required\
+Main contact email address for the project. This is a required field, and
+is used for other purposes if the other keys are not provided.
+- `security`: string, optional, default: `main`\
+Email address for reporting security vulnerabilities.
+- `support`: string, optional, default: `main`\
+Email address for support.
+- `code_of_conduct`: string, optional, default: `main`\
+Email address for reporting code of conduct violations.
 
 
 ## Repository Settings
@@ -113,28 +114,28 @@ A dictionary of email addresses for different purposes:
 
 Configuration for the sponsor section of the repository[^github-funding].
 The dictionary must have one or several of the following keys:
-- `community_bridge`: string   
-   Project name for the [LFX Mentorship](https://lfx.linuxfoundation.org/tools/mentorship) 
-   (formerly CommunityBridge) platform.
-- `github`: string or list of strings  
-   Up to 4 GitHub usernames.
-- `issuehunt`: string  
-   [IssueHunt](https://issuehunt.io/) username.
-- `ko_fi`: string  
-   [Ko-fi](https://ko-fi.com/) username.
-- `liberapay`: string  
-   [Liberapay](https://liberapay.com/) username.
-- `open_collective`: string  
-   [Open Collective](https://opencollective.com/) username.
-- `otechie`: string  
-   [Otechie](https://otechie.com/) username.
-- `patreon`: string  
-   [Patreon](https://www.patreon.com/) username.
-- `tidelift`: string  
-   A string in the format PLATFORM-NAME/PACKAGE-NAME for the [Tidelift](https://tidelift.com/) platform,
-    where PLATFORM-NAME is one of the following: npm, pypi, rubygems, maven, packagist, nuget.
-- `custom`: string or list of strings   
-   Up to 4 custom URLs.
+- `community_bridge`: string\
+Project name for the [LFX Mentorship](https://lfx.linuxfoundation.org/tools/mentorship)
+(formerly CommunityBridge) platform.
+- `github`: string or list of strings\
+Up to 4 GitHub usernames.
+- `issuehunt`: string\
+[IssueHunt](https://issuehunt.io/) username.
+- `ko_fi`: string\
+[Ko-fi](https://ko-fi.com/) username.
+- `liberapay`: string\
+[Liberapay](https://liberapay.com/) username.
+- `open_collective`: string\
+[Open Collective](https://opencollective.com/) username.
+- `otechie`: string\
+[Otechie](https://otechie.com/) username.
+- `patreon`: string\
+[Patreon](https://www.patreon.com/) username.
+- `tidelift`: string\
+A string in the format PLATFORM-NAME/PACKAGE-NAME for the [Tidelift](https://tidelift.com/) platform,
+where PLATFORM-NAME is one of the following: npm, pypi, rubygems, maven, packagist, nuget.
+- `custom`: string or list of strings\
+Up to 4 custom URLs.
 
 [^github-funding]: [GitHub Documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository#about-funding-files)
 
@@ -158,30 +159,30 @@ Providing each of the following keys will create the corresponding file in the r
 
 A list of labels for the issues, pull requests and discussions in the repository.
 Each label is represented by a dictionary with the following keys:
-- `name`: string, required  
-    Name of the label.
-- `description`: string, required  
-    Description of the label.
-- `color`: string, required
-    Color of the label, in hexadecimal format (e.g. `ff0000` for red).
-- `issues`: list of strings, optional, default: `null`  
-    Names of the issue templates that this label should be applied to.
-- `pulls`: dictionary, optional, default: `null`
-    Configuration for applying this label to pull requests.
-    For more information, see the [multi-labeler](https://github.com/fuxingloh/multi-labeler) action
-        
+- `name`: string, required\
+Name of the label.
+- `description`: string, required\
+Description of the label.
+- `color`: string, required\
+Color of the label, in hexadecimal format (e.g. `ff0000` for red).
+- `issues`: list of strings, optional, default: `null`\
+Names of the issue templates that this label should be applied to.
+- `pulls`: dictionary, optional, default: `null`\
+Configuration for applying this label to pull requests.
+For more information, see the [multi-labeler](https://github.com/fuxingloh/multi-labeler) action
+
 
 ### `issues`
 - list of dictionaries, optional, default: `null`
 
-Issue templates used in the repository, and their corresponding assignees, 
+Issue templates used in the repository, and their corresponding assignees,
 provided as a list of dictionaries with the following keys:
-- `name`: string, required  
-    Name of the issue template form.
-- `assignees`: list of strings, optional  
-    GitHub usernames of the assignees for the issue template form.
-    If not provided, the repository owner will be the assignee.
-    If an empty list is provided, the issue template form will be used without any assignees.
+- `name`: string, required\
+Name of the issue template form.
+- `assignees`: list of strings, optional\
+GitHub usernames of the assignees for the issue template form.
+If not provided, the repository owner will be the assignee.
+If an empty list is provided, the issue template form will be used without any assignees.
 
 The issue forms are displayed in the order they are provided here.
 
@@ -232,7 +233,7 @@ GitHub usernames of project's main authors.
 ### `package.development_status`
 - integer
 
-Development status of the package, 
+Development status of the package,
 according to the following scheme (see Trove classifiers for more details):
   1 : Planning
   2 : Pre-Alpha
@@ -246,7 +247,7 @@ according to the following scheme (see Trove classifiers for more details):
 ### `package.python_version_min`
 - string
 
-Minimum Python version required to run the package. This must be a valid Python 3 version string in the 
+Minimum Python version required to run the package. This must be a valid Python 3 version string in the
 format '3.Y' or '3.Y.Z', where Y and Z are minor and patch versions, respectively.
 
 
@@ -334,5 +335,3 @@ https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-f
 
 ### `quicklinks`
 - list of lists of dictionaries, optional, default: `null`
-
-

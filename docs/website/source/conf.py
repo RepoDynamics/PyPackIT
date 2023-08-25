@@ -9,9 +9,9 @@ References
 
 # Standard libraries
 import importlib
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Literal, NoReturn, Tuple, Union
-import json
 
 
 def rstjinja(app, docname, source):
@@ -46,11 +46,9 @@ with open(Path(__file__).parents[3] / "meta" / ".out" / "metadata.json") as f:
 def add_project_maintainers(self):
     # Sort maintainers based on the number of assigned issue types, discussion categories,
     # and pull request reviews, in that order.
-
     for idx, role in enumerate(["issues", "discussions"]):
         for people in self.metadata["maintainer"][role].values():
             for person in people:
-
                 entry[idx] += 1
     for codeowner_entry in self.metadata["maintainer"]["pulls"]:
         for person in codeowner_entry["reviewers"]:
@@ -62,12 +60,6 @@ def add_project_maintainers(self):
         for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
     ]
     return
-
-
-
-
-
-
 
 
 """
@@ -84,9 +76,7 @@ project: str = meta["name"]
 author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
 """Authors' names"""
 
-project_copyright: Union[
-    str, List[str]
-] = meta['copyright_notice']
+project_copyright: Union[str, List[str]] = meta["copyright_notice"]
 """Copyright statement(s)"""
 
 release: str = getattr(importlib.import_module(meta["package_name"]), "__version__")
@@ -440,7 +430,8 @@ html_static_path: List[str] = [
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
-    for glob in ["**/*.css", "**/*.css_t"] for path in (Path(html_static_path[0]) / "css").glob(glob)
+    for glob in ["**/*.css", "**/*.css_t"]
+    for path in (Path(html_static_path[0]) / "css").glob(glob)
 ]
 """A list of CSS files.
 
@@ -483,7 +474,6 @@ html_show_search_summary: bool = True
 html_show_sphinx: bool = False
 # html_output_encoding: str = 'utf-8'
 # html_compact_lists: bool = True
-
 html_search_language: str = "en"
 # html_search_options: Dict[str, Any]
 # html_search_scorer: str
@@ -725,11 +715,8 @@ blog_post_pattern: list[str] = [
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
-
 # if meta["website"]["disqus_shortname"]:
 #     disqus_shortname: str = meta["website"]["disqus_shortname"]
-
-
 """
 Options for `sphinx.ext.intersphinx`
 

@@ -111,7 +111,7 @@ publish the package on TestPyPI and PyPI.
 The project description shown on PyPI is defined in pyproject.toml, under the \[project] table.
 
 PyPI uses the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package to generate
-HTML outputs from the provided README file. The renderer only allows for 
+HTML outputs from the provided README file. The renderer only allows for
 [certain HTML tags and attributes](https://github.com/pypa/readme_renderer/blob/9dbb3522d23758fafa330cba4e4f89213503e8d3/readme_renderer/clean.py#L24C1-L68)
 . For example, the <picture> tag that is [allowed in GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to)
 to specify the dark/light theme of an image, is not allowed in PyPI. Therefore, the GitHub README file
@@ -126,4 +126,4 @@ is not sufficient on its own, as it only checks whether the file could have been
 for example if there are unsupported HTML tags in the README file, twine check will pass, but those tags
 will be rendered as plain text on PyPI (see [twine code](https://github.com/pypa/twine/blob/main/twine/commands/check.py)). Therefore, we also need to visually investigate the rendered README
 file. This is done by using the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package in an extra
-step to generate and upload the rendered README file as an artifact.  
+step to generate and upload the rendered README file as an artifact.

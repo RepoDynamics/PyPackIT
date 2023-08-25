@@ -19,7 +19,7 @@ on:
         default: ''
         required: false
         description: |
-          Reference (i.e. branch, tag or SHA) of the current repository to checkout, 
+          Reference (i.e. branch, tag or SHA) of the current repository to checkout,
           i.e. the `ref` input of `actions/checkout`.
 
       publish-platform:
