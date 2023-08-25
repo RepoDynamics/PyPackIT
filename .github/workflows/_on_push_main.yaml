@@ -13,31 +13,31 @@ on:
 
 jobs:
 
-  init:
-    name: 'Initialize'
-    runs-on: ubuntu-latest
-    outputs:
-      metadata: ${{ steps.meta.outputs.metadata }}
-    permissions:
-      contents: write
-    steps:
-      - uses: repodynamics/meta@main
-        id: meta
-        with:
-          sync: push
-
-  repo-config:
-    name: 'Repo Settings'
-    needs: init
-    if: |
-      github.ref == 'refs/heads/main' &&
-      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
-      fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
-    permissions:
-      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: repodynamics/config@main
-        with:
-          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+#  init:
+#    name: 'Initialize'
+#    runs-on: ubuntu-latest
+#    outputs:
+#      metadata: ${{ steps.meta.outputs.metadata }}
+#    permissions:
+#      contents: write
+#    steps:
+#      - uses: repodynamics/meta@main
+#        id: meta
+#        with:
+#          sync: push
+#
+#  repo-config:
+#    name: 'Repo Settings'
+#    needs: init
+#    if: |
+#      github.ref == 'refs/heads/main' &&
+#      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
+#      fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
+#    permissions:
+#      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
+#      pull-requests: write
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: repodynamics/config@main
+#        with:
+#          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
