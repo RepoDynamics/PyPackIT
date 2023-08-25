@@ -29,7 +29,7 @@ package:
         # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
         # https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications
 
-  optional_dependencies:
+#  optional_dependencies:
 #    - name: group_1
 #      packages:
 #        - name: numpy
@@ -42,17 +42,17 @@ package:
 #          conda_spec: ""
 #          conda_channel: ""
 
-  scripts:
+#  scripts:
 #    - name: entry_point_1
 #      ref: "my_package:main"
 #      description: ""
 
-  gui_scripts:
+#  gui_scripts:
 #    - name: entry_point_1
 #      ref: "my_package:main"
 #      description: ""
 
-  entry_points:
+#  entry_points:
   # Table of tables
   #  group_1:
   #    description: ""
