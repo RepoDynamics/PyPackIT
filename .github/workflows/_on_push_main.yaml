@@ -84,6 +84,9 @@ jobs:
     needs: [init, package-build, package-test, package-lint, docs]
     permissions:
       contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/Publish@main
 
 
   docs:

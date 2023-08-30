@@ -192,14 +192,14 @@ jobs:
 
   mypy:
     name: 'mypy (${{ matrix.os }}, python ${{ matrix.python-version }})'
-    needs: metadata
+    needs: init
     if: ${{ always() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
+        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.meta)package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -269,14 +269,14 @@ jobs:
 
   pylint:
     name: 'Pylint'
-    needs: metadata
+    needs: init
     if: ${{ !failure() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
+        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.meta)package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
