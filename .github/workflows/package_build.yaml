@@ -14,6 +14,14 @@ on:
 
     inputs:
 
+      repository:
+        description: |
+          Repository to checkout, i.e. the `repository` input of `actions/checkout`.
+          This is only required when the workflow is called from another workflow.
+        type: string
+        default: ${{ github.repository }}
+        required: false
+
       checkout-ref:
         type: string
         default: ''
@@ -22,12 +30,6 @@ on:
           Reference (i.e. branch, tag or SHA) of the current repository to checkout,
           i.e. the `ref` input of `actions/checkout`.
 
-      publish-platform:
-        type: string
-        default: 'TestPyPI'
-        required: false
-        description: |
-          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
 
     outputs:
 
@@ -42,15 +44,33 @@ on:
 
 jobs:
 
-  readme:
-    name: 'Generate README'
+  init:
+    name: Initialize
+    outputs:
+      meta: ${{steps.meta.outputs.metadata}}
     runs-on: ubuntu-latest
     steps:
-      - uses: repodynamics@readme@main
+#      - name: 'Display inputs'
+#        run: |
+#          echo 'install-source: ${{inputs.package-source}}'
+#          echo 'install-version: ${{inputs.package-version}}'
+#          echo 'checkout-ref: ${{inputs.checkout-ref}}'
+
+      - name: Checkout Metadata
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.checkout-ref }}
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
+
+      - name: 'Load repository metadata'
+        id: meta
+        run: echo "metadata=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
 
   build-sdist:
-    name: 'Source Distribution /'
+    name: 'Source Distribution'
     outputs:
       package-name: ${{steps.get_name.outputs.package-name}}
       package-version: ${{steps.get_name.outputs.package-version}}
@@ -58,18 +78,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.checkout-ref }}
+          fetch-depth: 0
 
+      - name: 'Build sdist'
+        shell: bash
+        run: |
+          pipx run build --version
+          pipx run build --sdist --outdir dist
+
+      - name: 'Test README file'
+        # https://twine.readthedocs.io/en/stable/#twine-check
+        # https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
+        run: pipx run twine check dist/*
 
       - name: 'Upload sdist as artifact'
         uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
           name: Distribution Package
-
-      - name: 'Test README file'
-        # https://twine.readthedocs.io/en/stable/#twine-check
-        # https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-        run: pipx run twine check dist/*
 
       - name: 'Checkout workflow script'
         uses: actions/checkout@v3
@@ -83,16 +114,17 @@ jobs:
         run: python .github/script/workflow.py
 
 
-  build_wheel:
+  build-wheel:
     name: 'Binary Distribution'
-    needs: metadata
-    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.pure_python == true }}
+    needs: init
+    if: fromJSON(needs.init.outputs.meta).package.pure_python == true
     runs-on: ubuntu-latest
     steps:
 
       - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
+          repository: ${{ inputs.repository }}
           fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
 
@@ -113,22 +145,22 @@ jobs:
         run: pipx run twine check dist/*
 
 
-
-  build_wheels:
+  build-wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: metadata
-    if: ${{ !failure() && fromJSON(needs.metadata.outputs.json).package.pure_python == false }}
+    if: fromJSON(needs.init.outputs.meta).package.pure_python == false
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJson(needs.metadata.outputs.json).package.cibw_matrix_platform }}
-        py-ver: ${{ fromJson(needs.metadata.outputs.json).package.cibw_matrix_python }}
+        platform: ${{ fromJson(needs.init.outputs.meta).package.cibw_matrix_platform }}
+        py-ver: ${{ fromJson(needs.init.outputs.meta).package.cibw_matrix_python }}
     steps:
 
       - name: 'Checkout repository from ${{github.ref}}'
         uses: actions/checkout@v3
         with:
+          repository: ${{ inputs.repository }}
           fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
 
@@ -147,46 +179,3 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
           name: Distribution Package
-
-
-  package-release-pypi:
-    name: "${{inputs.platform-name}} /"
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ inputs.platform-name }}
-      url: ${{ steps.script.outputs.download-url }}
-    permissions:
-      id-token: write
-    steps:
-      - name: 'Download sdist and wheels artifacts'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ inputs.artifact-name }}
-          path: dist
-
-      - name: 'Checkout script'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.base_ref }}
-          sparse-checkout: .github/script/workflow.py
-          sparse-checkout-cone-mode: false
-
-      - name: 'Run script'
-        id: script
-        env:
-          RD_PACKAGE_NAME: ${{ inputs.package-name }}
-          RD_PACKAGE_VERSION: ${{ inputs.package-version }}
-          RD_PLATFORM_NAME: ${{ inputs.platform-name }}
-          RD_DIST_PATH: dist
-        run: python .github/script/workflow.py
-
-      - name: 'Upload package'
-        uses: pypa/gh-action-pypi-publish@release/v1
-        # https://github.com/marketplace/actions/pypi-publish
-        with:
-          packages-dir: dist
-          repository-url: ${{ steps.script.outputs.upload-url }}
-          verify-metadata: true
-          verbose: true
-          print-hash: true
-          skip-existing: false

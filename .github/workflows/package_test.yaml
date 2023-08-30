@@ -8,11 +8,13 @@ run-name: 'Package: Install and test from ${{github.ref}}'
 on:
   workflow_dispatch:
     inputs:
+
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
         required: false
         default: ""
+
       package-source:
         description: "Installation source of the package"
         type: choice
@@ -22,23 +24,34 @@ on:
           - PyPI
         default: GitHub
         required: false
+
       package-version:
         description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
         default: ""
         required: false
         type: string
+
   workflow_call:
     inputs:
+
+      repository:
+        description: Repository to checkout, i.e. the `repository` input of `actions/checkout`.
+        type: string
+        default: ${{ github.repository }}
+        required: false
+
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
         required: false
         default: ""
+
       package-source:
         description: "Installation source of the package"
         type: string
         default: GitHub
         required: false
+
       package-version:
         description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
         default: ""
@@ -49,9 +62,9 @@ on:
 jobs:
 
   init:
-    name: 'set repository metadata'
+    name: 'Load Metadata'
     outputs:
-      metadata: ${{steps.metadata.outputs.json}}
+      meta: ${{steps.metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
       - name: 'Display inputs'
@@ -63,6 +76,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          repository: ${{ inputs.repository }}
           ref: ${{ inputs.checkout-ref }}
           sparse-checkout: meta/.out/metadata.json
           sparse-checkout-cone-mode: false
@@ -78,8 +92,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.init.outputs.metadata).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.init.outputs.metadata).package.python_versions }}
+        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.meta).package.python_versions }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -87,7 +101,9 @@ jobs:
     steps:
       - uses: repodynamics/pytests@main
         with:
+          package-name: ${{fromJson(needs.init.outputs.meta).package.name}}
           package-source: ${{inputs.package-source}}
           package-version: ${{inputs.package-version}}
+          repository: ${{ inputs.repository }}
           checkout-ref: ${{inputs.checkout-ref}}
           python-version: ${{ matrix.python-version }}

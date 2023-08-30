@@ -10,20 +10,13 @@ on:
 
 jobs:
 
-  meta:
-    name: 'Load repository metadata'
-    outputs:
-      meta: ${{ steps.read.outputs.meta }}
+  init:
+    name: 'Maintenance'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout main branch'
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: meta/.out/metadata.json
-          sparse-checkout-cone-mode: false
-      - name: 'Read repository metadata'
-        id: read
-        run: echo "meta=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
+      - uses: repodynamics/init@main
+
 
   announcement-check:
     name: "Announcement Expiry Check"
@@ -33,20 +26,31 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: 'Checkout main branch'
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
+      - name: 'Read repository metadata'
+        id: meta
+        run: echo "meta=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
       - name: "Run Repodynamics Announce"
         uses: repodynamics/announce@main
         with:
-          retention-days: ${{ fromJSON(needs.meta.outputs.meta).website.announcement_retention_days }}
+          retention-days: ${{ fromJSON(steps.meta.outputs.meta).website.announcement_retention_days }}
 
 
-  meta-update:
-    name: 'Check for metadata updates'
+  package:
+    name: 'Test Package'
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout main branch'
         uses: actions/checkout@v3
-      - name: 'Meta'
-        uses: repodynamics/meta@main
-        with:
-          mode: pull
+
+  docs:
+    name: 'Test Website'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: repodynamics/sphinxdocs@main
