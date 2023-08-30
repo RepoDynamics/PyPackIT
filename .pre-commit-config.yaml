@@ -11,31 +11,22 @@ repos:
     hooks:
       - id: check-ast
         verbose: true
-        log_file: .local/reports/pre-commit/check-ast.log
       - id: check-case-conflict
         verbose: true
-        log_file: .local/reports/pre-commit/check-case-conflict.log
       - id: check-executables-have-shebangs
         verbose: true
-        log_file: .local/reports/pre-commit/check-executables-have-shebangs.log
       - id: check-shebang-scripts-are-executable
         verbose: true
-        log_file: .local/reports/pre-commit/check-shebang-scripts-are-executable.log
       - id: check-symlinks
         verbose: true
-        log_file: .local/reports/pre-commit/check-symlinks.log
       - id: check-toml
         verbose: true
-        log_file: .local/reports/pre-commit/check-toml.log
       - id: check-yaml
         verbose: true
-        log_file: .local/reports/pre-commit/check-yaml.log
       - id: end-of-file-fixer
         verbose: true
-        log_file: .local/reports/pre-commit/end-of-file-fixer.log
       - id: trailing-whitespace
         verbose: true
-        log_file: .local/reports/pre-commit/trailing-whitespace.log
 
 
 #  # Pylint
@@ -65,7 +56,6 @@ repos:
         name: isort (python)
         args: ["--settings-path", "pyproject.toml"]
         verbose: true
-        log_file: .local/reports/pre-commit/isort.log
 
 
   # Black - code formatter
@@ -74,8 +64,8 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black-jupyter
+        args: ["--color", "--config", "pyproject.toml"]
         verbose: true
-        log_file: .local/reports/pre-commit/black-jupyter.log
 
 
   # Conventional commits
