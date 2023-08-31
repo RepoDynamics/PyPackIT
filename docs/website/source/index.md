@@ -2,7 +2,7 @@
 sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
-# {{pp_meta.project.name}}
+# {{pp_meta.name}}
 :::{toctree}
 :includehidden:
 :hidden:
@@ -18,23 +18,23 @@ help/index
 
 {% for theme in ["light", "dark"] %}
 :::{image} {{pp_meta.url.website.base}}/_static/logo/full_{{theme}}.svg
-:alt: {{pp_meta.project.name}}
+:alt: {{pp_meta.name}}
 :align: center
 :class: only-{{theme}} homepage-logo
 :::
 {% endfor %}
 
-[{{ pp_meta.project.tagline }}]{.one-liner}
+[{{ pp_meta.tagline }}]{.one-liner}
 
 ---
 
-{{ pp_meta.project.description.replace(pp_meta.project.name,
-"[{}]{}".format(pp_meta.project.name, "{.project-name}"), 1) }}
+{{ pp_meta.description.replace(pp_meta.name,
+"[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
 ::::{grid} 1 2 2 2
 :gutter: 3
-{% for point in pp_meta.project.key_points %}
+{% for point in pp_meta.key_points %}
 :::{grid-item-card} {{point.title}}
 :class-title: sd-text-center
 {{point.description}}
@@ -45,18 +45,18 @@ help/index
 
 ::::{card-carousel} 1
 
-:::{card} Intro: Discover the Essence of {{pp_meta.project.name}}
+:::{card} Intro: Discover the Essence of {{pp_meta.name}}
 :link: intro/index.html
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
 Start off with the Introduction section to learn more about
-{{pp_meta.project.name}}'s motivations, objectives and capabilities.
-This section offers a high-level overview of {{pp_meta.project.name}}, highlighting its main features,
+{{pp_meta.name}}'s motivations, objectives and capabilities.
+This section offers a high-level overview of {{pp_meta.name}}, highlighting its main features,
 the challenges they address, and the value they bring to your projects.
 Serving as an excellent starting point for new users,
 it also provides a summary of related background information and concepts
-that are essential to fully understanding and utilizing {{pp_meta.project.name}}.
+that are essential to fully understanding and utilizing {{pp_meta.name}}.
 :::
 
 
@@ -66,7 +66,7 @@ that are essential to fully understanding and utilizing {{pp_meta.project.name}}
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.project.name}} efficiently.
+Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.name}} efficiently.
 From setting up your project to deploying it, this comprehensive guide covers all essential aspects
 of package development and maintenance.
 
@@ -80,7 +80,7 @@ key concepts of SciPy with useful background information and explanation.
 :::
 
 
-:::{card} API: Master the {{pp_meta.project.name}} Programming Interface
+:::{card} API: Master the {{pp_meta.name}} Programming Interface
 :link: intro/index.html
 :img-top: /_static/img/icon/api.svg
 :text-align: center
@@ -96,7 +96,7 @@ and need detailed information about the available functions and methods.
 :::
 
 
-:::{card} News: Stay Informed with {{pp_meta.project.name}} Updates
+:::{card} News: Stay Informed with {{pp_meta.name}} Updates
 :link: intro/index.html
 :img-top: /_static/img/icon/news.svg
 :text-align: center

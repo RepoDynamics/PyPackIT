@@ -1,6 +1,6 @@
 # Installation
 
-{{pp_meta.project.name}} is distributed on both PyPI and conda-forge repositories,
+{{pp_meta.name}} is distributed on both PyPI and conda-forge repositories,
 and so can be conveniently installed using either `mamba`, `conda` or `pip`.
 Simply select your package manager, and run the corresponding command in your terminal:
 

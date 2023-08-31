@@ -1,5 +1,5 @@
 <div class="quicklinks">
-{% for group in pp_meta.website.quicklinks %}
+{% for group in pp_meta.quicklinks %}
     <ul>
 {% for item in group %}
         <li><a href="{{ pathto(item.path) }}">{{ item.title }}</a></li>
