@@ -281,19 +281,20 @@ classifiers = [
     'Typing :: Typed',
     'Natural Language :: English',
     'Development Status :: 1 - Planning',
+    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
     'Programming Language :: Python :: 3 :: Only',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
-    'Operating System :: Microsoft :: Windows',
-    'Operating System :: MacOS',
     'Operating System :: POSIX :: Linux',
-    'Operating System :: OS Independent',
+    'Operating System :: MacOS',
+    'Operating System :: Microsoft :: Windows',
 ]
 authors = [
     {name = "Armin Ariamajd"},
 ]
 maintainers = [
+    {name = "Armin Ariamajd"},
     {name = "Armin Ariamajd"},
 ]
 

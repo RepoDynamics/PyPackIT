@@ -1,10 +1,10 @@
 # Contributing Guidelines
 
 <p align="justify">
-    Welcome to the <b>TemplateRepo</b> community!
+    Welcome to the <b>Templaterepo</b> community!
     We are excited to have you here,
     and grateful that you are considering contributing.
-    TemplateRepo is a free and open-source project that evolves with the needs of its users,
+    Templaterepo is a free and open-source project that evolves with the needs of its users,
     and can only survive and grow through the help of great members like you.
 </p>
 
