@@ -407,7 +407,7 @@ html_short_title: str = meta["name"]
 html_secnumber_suffix: str = ". "
 html_context = {
     # PyData variables
-    "github_user": meta["owner"]["login"],
+    "github_user": meta["owner"]["username"],
     "github_repo": meta["repo"]["name"],
     "github_version": meta["repo"]["default_branch"],
     "doc_path": "docs/website/source",  # meta["path"]["docs"]["website"]["source"],
