@@ -249,7 +249,7 @@ html_theme_options: Dict[str, Any] = {
         # "link": "URL or path that logo links to"
         "image_light": "_static/logo/simple_light.svg",
         "image_dark": "_static/logo/simple_dark.svg",
-        "alt_text": meta["project"]["name"],
+        "alt_text": meta["name"],
     },
     "announcement": meta["url"]["announcement"],
     # --- Header / Navigation Bar ---
@@ -263,7 +263,7 @@ html_theme_options: Dict[str, Any] = {
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
-    "search_bar_text": f"Search {meta['project']['name']} ...",
+    "search_bar_text": f"Search {meta['name']} ...",
     # "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": [
         "page-toc",
@@ -315,7 +315,7 @@ _navbar_defaults = {
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{meta['maintainer']['email']['main']}",
+        "url": f"mailto:{meta['email']['main']}",
     },
     "license": {"name": "License", "icon": "fa-solid fa-copyright", "url": meta["url"]["license"]},
     "pypi": {
@@ -353,7 +353,7 @@ _navbar_defaults = {
 }
 
 
-for icon in meta["website"]["navbar_icons"]:
+for icon in meta["navbar_icons"]:
     icon_id = icon.pop("id", None)
     if icon_id:
         _def = _navbar_defaults[icon_id]
@@ -375,7 +375,7 @@ for icon in meta["website"]["navbar_icons"]:
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = meta["website"].get("analytics")
+_analytics = meta.get("web_analytics")
 if _analytics:
     _plausible_analytics = _analytics.get("plausible")
     if (
@@ -396,17 +396,17 @@ if _analytics:
 # -------------------------------------------------------------------------
 # html_theme_path: List[str] = []
 # html_style: str
-html_title: str = meta["project"]["name"]
+html_title: str = meta["name"]
 
-html_short_title: str = meta["project"]["name"]
+html_short_title: str = meta["name"]
 # html_baseurl: str = ''
 html_secnumber_suffix: str = ". "
 html_context = {
     # PyData variables
-    "github_user": meta["project"]["owner"]["login"],
-    "github_repo": meta["project"]["repo"]["name"],
-    "github_version": meta["project"]["repo"]["default_branch"],
-    "doc_path": meta["path"]["docs"]["website"]["source"],
+    "github_user": meta["owner"]["login"],
+    "github_repo": meta["repo"]["name"],
+    "github_version": meta["repo"]["default_branch"],
+    "doc_path": "docs/website/source",  # meta["path"]["docs"]["website"]["source"],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
     "pp_meta": meta,
@@ -495,7 +495,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{meta['project']['name']} Docs"
+htmlhelp_basename: str = f"{meta['name']} Docs"
 # htmlhelp_file_suffix: str = '.html'
 # htmlhelp_link_suffix: str = '.html'
 """
@@ -533,8 +533,8 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs.tex",
-        f"{meta['project']['name']} Documentation",
-        " \\and ".join([_author["name"] for _author in meta["project"]["authors"]]),
+        f"{meta['name']} Documentation",
+        " \\and ".join([_author["name"] for _author in meta["authors"]]),
         "manual",
         False,
     ),
@@ -586,8 +586,8 @@ man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
         meta["package"]["name"],
-        f"{meta['project']['name']} Documentation",
-        [_author["name"] for _author in meta["project"]["authors"]],
+        f"{meta['name']} Documentation",
+        [_author["name"] for _author in meta["authors"]],
         "1",
     )
 ]
@@ -609,10 +609,10 @@ texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs",
-        f"{meta['project']['name']} Documentation",
-        "@*".join([_author["name"] for _author in meta["project"]["authors"]]),
+        f"{meta['name']} Documentation",
+        "@*".join([_author["name"] for _author in meta["authors"]]),
         meta["package"]["name"],
-        meta["project"]["tagline"],
+        meta["tagline"],
         "Documentation",
         False,
     ),
@@ -705,12 +705,12 @@ References
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
 
-blog_path: str = meta["website"]["blog_dir_name"]
+blog_path: str = "news"  # TODO meta["website"]["blog_dir_name"]
 blog_baseurl: str = meta["url"]["website"]["base"]
 
 blog_post_pattern: list[str] = [
-    f"{meta['website']['blog_dir_name']}/posts/*.rst",
-    f"{meta['website']['blog_dir_name']}/posts/*.md",
+    f"{blog_path}/posts/*.rst",
+    f"{blog_path}/posts/*.md",
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
