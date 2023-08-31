@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We, the members, contributors, maintainers, and creators of ***TemplateRepo***,
+We, the members, contributors, maintainers, and creators of ***Templaterepo***,
 pledge to act and interact in ways that contribute to an open, welcoming,
 diverse, inclusive, healthy, and harassment-free community for every person involved in this project.
 

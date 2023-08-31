@@ -1,0 +1,52 @@
+- name: 'Bug: App'
+  description: Reported problems encountered while using the application, such as
+    unexpected results and errors.
+  color: A00000
+- name: enhancement
+  description: need an enhancement
+  color: d73a4a
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0075ca
+- name: duplicate
+  description: This issue or pull request already exists
+  color: cfd3d7
+- name: test
+  description: This issue or pull request concerns tests
+  color: ffffff
+- name: 'Release: major'
+  description: Major release.
+  color: A00000
+- name: 'Release: minor'
+  description: Minor release.
+  color: A00000
+- name: 'Release: patch'
+  description: Patch release.
+  color: A00000
+- name: 'Deploy: website'
+  description: Deploy website.
+  color: A00000
+- name: 'Modified: github'
+  description: Modified files in .github directory.
+  color: A00000
+- name: 'Modified: data'
+  description: Modified files in data directory.
+  color: A00000
+- name: 'Modified: dev'
+  description: Modified files in dev directory.
+  color: A00000
+- name: 'Modified: docs'
+  description: Modified files in docs directory.
+  color: A00000
+- name: 'Modified: meta'
+  description: Modified files in meta directory.
+  color: A00000
+- name: 'Modified: src'
+  description: Modified files in src directory.
+  color: A00000
+- name: 'Modified: tests'
+  description: Modified files in tests directory.
+  color: A00000
+- name: 'Modified: root'
+  description: Modified files in root directory.
+  color: A00000
