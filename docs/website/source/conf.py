@@ -251,7 +251,7 @@ html_theme_options: Dict[str, Any] = {
         "image_dark": "_static/logo/simple_dark.svg",
         "alt_text": meta["name"],
     },
-    "announcement": meta["url"]["announcement"],
+    "announcement": meta["url"]["website"]["announcement"],
     # --- Header / Navigation Bar ---
     # Left section
     "navbar_start": ["navbar-logo"],
