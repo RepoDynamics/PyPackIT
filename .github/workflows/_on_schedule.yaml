@@ -21,7 +21,6 @@ jobs:
   announcement-check:
     name: "Announcement Expiry Check"
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
-    needs: meta
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -38,7 +37,6 @@ jobs:
         uses: repodynamics/announce@main
         with:
           retention-days: ${{ fromJSON(steps.meta.outputs.meta).website.announcement_retention_days }}
-
 
   package-test-local:
     name: 'Test Package'
