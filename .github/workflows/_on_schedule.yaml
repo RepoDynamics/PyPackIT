@@ -40,13 +40,19 @@ jobs:
           retention-days: ${{ fromJSON(steps.meta.outputs.meta).website.announcement_retention_days }}
 
 
-  package:
+  package-test-local:
     name: 'Test Package'
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout main branch'
-        uses: actions/checkout@v3
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      package-source: GitHub
+
+  package-test-pypi:
+    name: 'Test Package'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      package-source: PyPI
 
   docs:
     name: 'Test Website'

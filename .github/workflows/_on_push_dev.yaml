@@ -16,19 +16,20 @@ jobs:
     name: 'Initialization'
     runs-on: ubuntu-latest
     outputs:
-      run-package-ci: ${{ steps.init.outputs.run_package_ci }}
-      run-docs-ci: ${{ steps.init.outputs.run_docs_ci }}
-      latest-hash: ${{ steps.init.outputs.commit-hash }}
+      package-test: ${{ steps.init.outputs.package-test }}
+      package-lint: ${{ steps.init.outputs.package-lint }}
+      docs: ${{ steps.init.outputs.docs }}
+      latest-hash: ${{ steps.init.outputs.hash }}
     permissions:
       contents: write
     steps:
-      - uses: repodynamics/init@main
-        id: init
+      - id: init
+        uses: repodynamics/init@main
 
   package-test:
     name: 'Test Package'
     needs: init
-    if: needs.init.outputs.run-package-ci == 'true'
+    if: needs.init.outputs.package-test == 'true'
     uses: ./.github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
@@ -37,7 +38,7 @@ jobs:
   package-lint:
     name: 'Lint Package'
     needs: init
-    if: needs.init.outputs.run-package-ci == 'true'
+    if: needs.init.outputs.package-lint == 'true'
     permissions:
       pull-requests: write
       security-events: write
@@ -52,7 +53,7 @@ jobs:
   docs:
     name: 'Docs'
     needs: init
-    if: needs.init.outputs.run-docs-ci == 'true'
+    if: needs.init.outputs.docs == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: RepoDynamics/SphinxDocs@main
