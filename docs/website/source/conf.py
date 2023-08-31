@@ -79,7 +79,7 @@ author: str = ", ".join([_author["name"] for _author in meta["authors"] if _auth
 project_copyright: Union[str, List[str]] = meta["copyright_notice"]
 """Copyright statement(s)"""
 
-release: str = getattr(importlib.import_module(meta["package_name"]), "__version__")
+release: str = getattr(importlib.import_module(meta["package"]["name"]), "__version__")
 """Full version, including alpha/beta/rc tags"""
 
 version: str = ".".join(release.split(".")[:3])
