@@ -317,7 +317,11 @@ _navbar_defaults = {
         "icon": "fa-regular fa-envelope",
         "url": f"mailto:{meta['email']['main']}",
     },
-    "license": {"name": "License", "icon": "fa-solid fa-copyright", "url": meta["url"]["license"]},
+    "license": {
+        "name": "License",
+        "icon": "fa-solid fa-copyright",
+        "url": meta["url"]["website"]["license"],
+    },
     "pypi": {
         "name": "PyPI Distribution",
         "icon": "fa-brands fa-python",
