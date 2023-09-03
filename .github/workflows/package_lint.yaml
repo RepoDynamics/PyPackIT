@@ -29,27 +29,18 @@ defaults:
 
 jobs:
 
-  init:
+  meta:
     name: 'Load Metadata'
     outputs:
-      meta: ${{steps.metadata.outputs.json}}
+      data: ${{steps.metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
-#      - name: 'Display inputs'
-#        run: |
-#          echo 'install-source: ${{inputs.package-source}}'
-#          echo 'install-version: ${{inputs.package-version}}'
-#          echo 'checkout-ref: ${{inputs.checkout-ref}}'
-
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           ref: ${{ inputs.checkout-ref }}
           sparse-checkout: meta/.out/metadata.json
           sparse-checkout-cone-mode: false
-
-      - name: 'Load repository metadata'
-        id: metadata
+      - id: metadata
         run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
   dependency-review:
@@ -58,6 +49,7 @@ jobs:
   # Once installed, if the workflow run is marked as required,
   # PRs introducing known-vulnerable packages will be blocked from merging
     name: 'Dependency Review'
+    if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
     runs-on: ubuntu-latest
     permissions:
       contents: read

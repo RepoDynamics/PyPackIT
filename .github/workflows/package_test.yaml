@@ -1,16 +1,15 @@
 # Install package from a given source and run unit-tests.
-
+# Install the package and run tests on a matrix of supported Python versions and operating systems.
 
 name: 'Package - Test'
 run-name: 'Package: Install and test from ${{github.ref}}'
-
 
 on:
   workflow_dispatch:
     inputs:
 
       checkout-ref:
-        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
+        description: Reference to checkout, i.e. the `ref` input of `actions/checkout`.
         type: string
         required: false
         default: ""
@@ -26,7 +25,9 @@ on:
         required: false
 
       package-version:
-        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
+        description: |
+          Version of the package to install, when package-source is not 'GitHub'.
+          If not specified, the latest version is installed.
         default: ""
         required: false
         type: string
@@ -35,65 +36,51 @@ on:
     inputs:
 
       repository:
-        description: Repository to checkout, i.e. the `repository` input of `actions/checkout`.
+        description: Repository to checkout, i.e. the `repository` input of `actions/checkout`
         type: string
         default: ${{ github.repository }}
         required: false
 
       checkout-ref:
-        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
         required: false
         default: ""
 
       package-source:
-        description: "Installation source of the package"
         type: string
         default: GitHub
         required: false
 
       package-version:
-        description: "Version of the package to install, when `install_source` is 'testpypi' or 'pypi'."
         default: ""
         required: false
         type: string
 
-
 jobs:
 
-  init:
+  meta:
     name: 'Load Metadata'
     outputs:
-      meta: ${{steps.metadata.outputs.json}}
+      data: ${{steps.metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
-      - name: 'Display inputs'
-        run: |
-          echo 'install-source: ${{inputs.package-source}}'
-          echo 'install-version: ${{inputs.package-version}}'
-          echo 'checkout-ref: ${{inputs.checkout-ref}}'
-
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.checkout-ref }}
           sparse-checkout: meta/.out/metadata.json
           sparse-checkout-cone-mode: false
-
-      - name: 'Load repository metadata'
-        id: metadata
+      - id: metadata
         run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
   test:
-    # Install the package and run tests on a matrix of supported Python versions and operating systems.
-    name: 'Test (Py ${{ matrix.python-version }}, ${{ matrix.os }})'
-    needs: init
+    name: 'Test-Suite (py${{ matrix.python-version }}, ${{ matrix.os }})'
+    needs: meta
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.init.outputs.meta).package.python_versions }}
+        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -101,9 +88,9 @@ jobs:
     steps:
       - uses: repodynamics/pytests@main
         with:
-          package-name: ${{fromJson(needs.init.outputs.meta).package.name}}
-          package-source: ${{inputs.package-source}}
-          package-version: ${{inputs.package-version}}
           repository: ${{ inputs.repository }}
           checkout-ref: ${{inputs.checkout-ref}}
           python-version: ${{ matrix.python-version }}
+          package-name: ${{fromJson(needs.meta.outputs.data).package.name}}
+          package-source: ${{inputs.package-source}}
+          package-version: ${{inputs.package-version}}

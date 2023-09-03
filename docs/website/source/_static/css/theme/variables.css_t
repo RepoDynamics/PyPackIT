@@ -101,10 +101,13 @@ Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_t
 */
 
 
-{% for theme in ["light", "dark"] %} {% set outer_loop = loop %}
-html[data-theme="{{theme}}"] {  {% for name, color in pp_meta.color.items() %}
-    --pst-color-{{name}}: #{{color[outer_loop.index0]}};  {% endfor %}
+{% for theme in ["light", "dark"] %}
+{% set outer_loop = loop %}
+{% for name, color in pp_meta.color.items() %}
+html[data-theme="{{theme}}"] {
+    --pst-color-{{name}}: #{{color[outer_loop.index0]}};
 }
+{% endfor %}
 {% endfor %}
 
 
