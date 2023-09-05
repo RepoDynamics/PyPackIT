@@ -1,0 +1,20 @@
+# mypy
+# Ref: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
+
+[tool.mypy]
+packages = ["template_package"]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+incremental = false
+show_error_context = true
+show_column_numbers = true
+pretty = true
+color_output = true
+show_traceback = true
+any_exprs_report = "_local_reports/mypy"
+html_report = "_local_reports/mypy"
+linecount_report = "_local_reports/mypy"
+linecoverage_report = "_local_reports/mypy"
+lineprecision_report = "_local_reports/mypy"
+txt_report = "_local_reports/mypy"

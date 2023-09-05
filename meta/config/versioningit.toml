@@ -1,0 +1,34 @@
+# versioningit
+
+[tool.versioningit]
+
+[tool.versioningit.vcs]
+method = "git"
+match = ["v[0-9]*.[0-9]*.[0-9]*"]
+default-tag = "v0.0.0"
+
+[tool.versioningit.tag2version]
+regex = "^v(?P<version>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)$"
+require-match = true
+
+[tool.versioningit.format]
+# The format used by versioneer
+# Ref: https://versioningit.readthedocs.io/en/stable/index.html#example-configurations
+method = { module = "setup", value = "versioningit_format_custom"}
+default-branch = "main"
+
+[tool.versioningit.onbuild]
+method = "replace-version"
+regex = "^\\s*__version_details__\\s*=\\s*(?P<version>.*)"
+require-match = true
+replacement = """dict(
+    version="{version}",
+    version_tuple={version_tuple},
+    author_date="{author_date:%Y.%m.%d}",
+    build_date="{build_date:%Y.%m.%d}",
+    branch="{branch}",
+    distance="{distance}",
+    head_commit_hash="{revision}",
+)"""
+source-file = "src/templaterepo/__init__.py"
+build-file = "templaterepo/__init__.py"
