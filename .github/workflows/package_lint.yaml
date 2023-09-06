@@ -7,10 +7,6 @@ on:
   workflow_dispatch:
   workflow_call:
     inputs:
-      metadata:
-        description: 'Repository metadata as a JSON string.'
-        type: string
-        required: true
       checkout-ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
@@ -33,46 +29,27 @@ defaults:
 
 jobs:
 
-  load-metadata:
-    name: 'Load repository metadata'
-    if: github.event_name == 'workflow_dispatch'
-    uses: ./.github/workflows/repo_meta.yaml
-
-  metadata:
-    name: 'set repository metadata'
-    needs: load-metadata
-    if: ${{ !failure() }}
+  meta:
+    name: 'Load Metadata'
     outputs:
-      json: ${{steps.load-metadata.outputs.json}}
+      data: ${{steps.metadata.outputs.json}}
     runs-on: ubuntu-latest
     steps:
-      - name: 'Load repository metadata'
-        id: load-metadata
-        env:
-          METADATA: ${{ needs.load-metadata.outputs.json || inputs.metadata }}
-        run: |
-          printf '%s\n' "$METADATA" > metadata.json
-          echo "json=$(cat metadata.json)" >> $GITHUB_OUTPUT
-  
-  pypi_readme:
-    name: 'Render PyPI README'
-    runs-on: ubuntu-latest
-    steps:
-      - run: pip install readme-renderer
-      - run: python -m readme_renderer README.md --output readme_pypi.html
-      - name: 'Upload reports'
-        uses: actions/upload-artifact@v3
+      - uses: actions/checkout@v3
         with:
-         path: readme_pypi.html
-         name: PyPI README
+          ref: ${{ inputs.checkout-ref }}
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
+      - id: metadata
+        run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
   dependency-review:
   # This Action will scan dependency manifest files that change as part of a Pull Request,
   # surfacing known-vulnerable versions of the packages declared or updated in the PR.
   # Once installed, if the workflow run is marked as required,
-  # PRs introducing known-vulnerable packages will be blocked from merging.
-
+  # PRs introducing known-vulnerable packages will be blocked from merging
     name: 'Dependency Review'
+    if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -147,74 +124,74 @@ jobs:
           category: "/language:${{matrix.language}}"
 
 
-#  bandit:
-#    # Bandit is a security linter designed to find common security issues in Python code.
-#    # This action will run Bandit on your codebase.
-#    # The results of the scan will be found under the Security tab of your repository.
-#    # Adapted from GitHub starter workflow, e.g.:
-#    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fbandit.yml&workflow_template=code-scanning%2Fbandit
-#    # Refs:
-#    #  https://github.com/marketplace/actions/bandit-scan
-#    #  https://pypi.org/project/bandit/
-#    name: 'Run bandit'
-#    permissions:
-#      contents: read # for actions/checkout to fetch code
-#      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-#      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 'Checkout repository'
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ${{ inputs.checkout-ref }}
-#
-#      - name: 'Bandit Scan'
-#        uses: shundor/python-bandit-scan@v1.0
-#        with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
-#          path: .
-#
-#
-#  pyre:
-#    # Pyre is a performant type checker for Python compliant with
-#    # PEP 484. Pyre can analyze codebases with millions of lines
-#    # of code incrementally – providing instantaneous feedback
-#    # to developers as they write code.
-#
-#    # Adapted from GitHub starter workflow, e.g.:
-#    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fpyre.yml&workflow_template=code-scanning%2Fpyre
-#    # Refs:
-#    #  https://github.com/facebook/pyre-action
-#    #  https://pyre-check.org
-#    name: 'Run Pyre'
-#    permissions:
-#      actions: read
-#      contents: read
-#      security-events: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          submodules: true
-#          ref: ${{ inputs.checkout-ref }}
-#
-#      - name: Run Pyre
-#        uses: facebook/pyre-action@v0.0.1
-#        with:
-#          repo-directory: './'
-#          requirements-path: 'requirements.txt'
+  bandit:
+    # Bandit is a security linter designed to find common security issues in Python code.
+    # This action will run Bandit on your codebase.
+    # The results of the scan will be found under the Security tab of your repository.
+    # Adapted from GitHub starter workflow, e.g.:
+    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fbandit.yml&workflow_template=code-scanning%2Fbandit
+    # Refs:
+    #  https://github.com/marketplace/actions/bandit-scan
+    #  https://pypi.org/project/bandit/
+    name: 'Run bandit'
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
+
+      - name: 'Bandit Scan'
+        uses: shundor/python-bandit-scan@v1.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+          path: .
+
+
+  pyre:
+    # Pyre is a performant type checker for Python compliant with
+    # PEP 484. Pyre can analyze codebases with millions of lines
+    # of code incrementally – providing instantaneous feedback
+    # to developers as they write code.
+
+    # Adapted from GitHub starter workflow, e.g.:
+    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fpyre.yml&workflow_template=code-scanning%2Fpyre
+    # Refs:
+    #  https://github.com/facebook/pyre-action
+    #  https://pyre-check.org
+    name: 'Run Pyre'
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          ref: ${{ inputs.checkout-ref }}
+
+      - name: Run Pyre
+        uses: facebook/pyre-action@v0.0.1
+        with:
+          repo-directory: './'
+          requirements-path: 'requirements.txt'
 
 
   mypy:
     name: 'mypy (${{ matrix.os }}, python ${{ matrix.python-version }})'
-    needs: metadata
+    needs: init
     if: ${{ always() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
+        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.meta).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -284,14 +261,14 @@ jobs:
 
   pylint:
     name: 'Pylint'
-    needs: metadata
+    needs: init
     if: ${{ !failure() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.metadata.outputs.json).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.metadata.outputs.package).python_versions }}
+        os: ${{ fromJson(needs.init.outputs.meta).package.github_os_matrix }}
+        python-version: ${{ fromJson(needs.init.outputs.meta).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -392,102 +369,3 @@ jobs:
 #          path: |
 #            _local_reports/pylint/diagrams/*
 #          name: diagrams_${{ matrix.python-version }}_${{ matrix.os }}
-
-
-  isort:
-    name: 'Isort'
-    needs: metadata
-    if: ${{ !failure() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.checkout-ref }}
-
-      - name: 'Setup Python'
-        id: setup_python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ fromJson(needs.metadata.outputs.json).python_versions_latest }}
-
-      - name: 'Intall dependencies'
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade colorama
-
-      - name: 'Display Python version'
-        run: |
-          echo '${{ steps.setup_python.outputs.python-version }}'
-          python -c "import sys; print(sys.version)"
-
-      - name: Run isort
-        # https://github.com/marketplace/actions/python-isort
-        # https://pycqa.github.io/isort/docs/configuration/github_action.html
-        uses: isort/isort-action@master
-        id: run_isort
-        with:
-          sort-paths: ./src
-          configuration: "--settings-path pyproject.toml --check-only --diff"
-#          requirements-files: "requirements.txt requirements-test.txt"
-
-      - name: 'Save output'
-        if: always()
-        # Action: https://github.com/marketplace/actions/write-file
-        uses: DamianReeves/write-file-action@master
-        with:
-          path: artifacts/isort.txt
-          contents: ${{ steps.run_isort.outputs.isort-result }}
-
-      - name: 'Upload isort report'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: artifacts
-          name: lint
-
-
-  black:
-    name: 'Black'
-    needs: metadata
-    if: ${{ !failure() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.checkout-ref }}
-
-      - name: 'Run black'
-        # https://black.readthedocs.io/en/stable/integrations/github_actions.html
-        # https://github.com/psf/black/blob/main/action.yml
-        id: black
-        uses: psf/black@stable
-        with:
-          options: "--check --diff --color --config pyproject.toml"
-          src: ./src
-          jupyter: true
-
-
-  git-attributes:
-    # Check if all files have a corresponding rule in the '.gitattributes' file.
-    name: 'Check .gitattributes'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.checkout-ref }}
-
-      - name: 'Check .gitattributes'
-        # Ref: https://github.com/alexkaratarakis/gitattributes/tree/master#ci-step
-        run: |
-          missing_attributes=$(git ls-files | git check-attr -a --stdin | grep "text: auto")
-          if [[ "$missing_attributes" ]]; then
-            echo ".gitattributes rule missing for the following files:";
-            echo "$missing_attributes";
-            exit 1;
-          else
-            echo "All files have a corresponding rule in .gitattributes";
-            exit 0;
-          fi

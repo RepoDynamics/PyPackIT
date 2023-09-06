@@ -255,7 +255,7 @@ line-length = 100
 dynamic = ["version"]
 name = "templaterepo"
 license = {file = "LICENSE"}
-readme = "README.md"
+readme = ".local/README_PYPI.md"
 dependencies = [
     'numpy >= 1.21.2',
 ]
@@ -280,17 +280,29 @@ keywords = [
 classifiers = [
     'Typing :: Typed',
     'Natural Language :: English',
-    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
     'Development Status :: 1 - Planning',
+    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
     'Programming Language :: Python :: 3 :: Only',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
-    'Operating System :: Microsoft :: Windows',
-    'Operating System :: MacOS',
     'Operating System :: POSIX :: Linux',
-    'Operating System :: OS Independent',
+    'Operating System :: MacOS',
+    'Operating System :: Microsoft :: Windows',
+]
+authors = [
+    {name = "Armin Ariamajd"},
+]
+maintainers = [
+    {name = "Armin Ariamajd"},
+    {name = "Armin Ariamajd"},
 ]
 
 [project.urls]
 Homepage = "https://AAriam.github.io/TemplateRepo"
+Download = "https://github.com/AAriam/TemplateRepo/releases"
+News = "https://AAriam.github.io/TemplateRepo/news"
+Documentation = "https://AAriam.github.io/TemplateRepo"
+"Bug Tracker" = "https://github.com/AAriam/TemplateRepo/issues"
+Sponsor = "https://AAriam.github.io/TemplateRepo/contribute/collaborate/maintain/sponsor"
+Source = "https://github.com/AAriam/TemplateRepo"

@@ -1,12 +1,12 @@
 # General Information
 
 ## Development Life Cycle
-{{pp_meta.project.name}} follows a triphasic development life cycle:
+{{pp_meta.name}} follows a triphasic development life cycle:
 - **Development Phase**: This phase starts with the planning step, followed by pre-alpha, alpha
 https://en.wikipedia.org/wiki/Software_release_life_cycle
 
 ### Versioning
-* {{pp_meta.project.name}} follows the [Semantic Versioning (SemVer) 2.0.0](../intro/fundamentals/versioning.md#semantic-versioning)
+* {{pp_meta.name}} follows the [Semantic Versioning (SemVer) 2.0.0](../intro/fundamentals/versioning.md#semantic-versioning)
 version scheme, with a **strict Major.Minor.Patch** format and no added segments.
 * During the initial development phase, releases with major version zero, i.e. `0.Y.Z`, are published.
 These are pre-releases with potentially unstable API, meaning that backward-incompatible breaking changes
@@ -15,7 +15,7 @@ may be introduced in new minor releases without an earlier deprecation warning.
 defining a stable API in version `1.0.0`.
 * Our ideal goal is to never have to release a version `3.0.0`; we use `0.Y.Z` releases to
 rapidly reach a complete and stable API that is well-structured and sufficiently tested. This is then followed
-by a long period of `1.Y.Z` releases, during which {{pp_meta.project.name}} evolves with feedback from its users,
+by a long period of `1.Y.Z` releases, during which {{pp_meta.name}} evolves with feedback from its users,
 and adopts itself to their needs.
 
 ### Changelog
@@ -39,7 +39,7 @@ test-suites, and maintenance, please refer to the maintenance guide.
 :::
 
 ### Continuous Delivery
-* {{pp_meta.project.name}} practices continuous delivery with a one-change-per-release policy.
+* {{pp_meta.name}} practices continuous delivery with a one-change-per-release policy.
 * Each new release contains either only patch updates, minor updates, or major updates, where all changes
 are related to a single feature, or a closely-related family of features.
 * For example, new major versions only consist of updates that remove or change
@@ -62,7 +62,7 @@ will always be applied exactly in version `(X+1).0.0`.
 
 
 ### Supported Versions
-{{pp_meta.project.name}} always supports its **two latest major versions**, with one distinction:
+{{pp_meta.name}} always supports its **two latest major versions**, with one distinction:
 > ⚠️ New features will only be added to the latest major version.
 
 That is, while the second-latest major version continues receiving patch updates
@@ -73,9 +73,9 @@ to fix problems that are discovered later, it will not receive any new minor upd
 Since our plan is to
 
 
-### {{pp_meta.project.name}} as Dependency
-Managing {{pp_meta.project.name}} as a dependency in your project is super easy. Simply apply a version constraint
+### {{pp_meta.name}} as Dependency
+Managing {{pp_meta.name}} as a dependency in your project is super easy. Simply apply a version constraint
 to only allow minor and patch updates. That is, when you are using version `X.Y.Z` (`X` != 0)
 in your development and tests, define a constraint in your dependency as `< (X+1).0.0`. For example, if the
-{{pp_meta.project.name}} version used is `1.Y.Z`, then the constraint should be "{{pp_meta.project.name}} < 2.0.0".
+{{pp_meta.name}} version used is `1.Y.Z`, then the constraint should be "{{pp_meta.name}} < 2.0.0".
 This will make sure that you will receive all bug fixes, improvements and other patch updates

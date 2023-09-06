@@ -9,9 +9,9 @@ References
 
 # Standard libraries
 import importlib
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Literal, NoReturn, Tuple, Union
-import json
 
 
 def rstjinja(app, docname, source):
@@ -39,18 +39,16 @@ def setup(app):
     return
 
 
-with open(Path(__file__).parents[3] / "meta" / "metadata.json") as f:
+with open(Path(__file__).parents[3] / "meta" / ".out" / "metadata.json") as f:
     meta = json.load(f)
 
 
 def add_project_maintainers(self):
     # Sort maintainers based on the number of assigned issue types, discussion categories,
     # and pull request reviews, in that order.
-
     for idx, role in enumerate(["issues", "discussions"]):
         for people in self.metadata["maintainer"][role].values():
             for person in people:
-
                 entry[idx] += 1
     for codeowner_entry in self.metadata["maintainer"]["pulls"]:
         for person in codeowner_entry["reviewers"]:
@@ -64,12 +62,6 @@ def add_project_maintainers(self):
     return
 
 
-
-
-
-
-
-
 """
 Project information
 
@@ -78,15 +70,13 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
 
-project: str = meta["project"]["name"]
+project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join([_author["name"] for _author in meta["project"]["authors"]])
+author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
 """Authors' names"""
 
-project_copyright: Union[
-    str, List[str]
-] = f"{meta['project']['copyright_year']} {meta['project']['owner']['name']}"
+project_copyright: Union[str, List[str]] = meta["copyright_notice"]
 """Copyright statement(s)"""
 
 release: str = getattr(importlib.import_module(meta["package"]["name"]), "__version__")
@@ -259,9 +249,9 @@ html_theme_options: Dict[str, Any] = {
         # "link": "URL or path that logo links to"
         "image_light": "_static/logo/simple_light.svg",
         "image_dark": "_static/logo/simple_dark.svg",
-        "alt_text": meta["project"]["name"],
+        "alt_text": meta["name"],
     },
-    "announcement": meta["url"]["announcement"],
+    "announcement": meta["url"]["website"]["announcement"],
     # --- Header / Navigation Bar ---
     # Left section
     "navbar_start": ["navbar-logo"],
@@ -273,7 +263,7 @@ html_theme_options: Dict[str, Any] = {
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
     "navbar_align": "content",  # {"left", "right", "content"}
-    "search_bar_text": f"Search {meta['project']['name']} ...",
+    "search_bar_text": f"Search {meta['name']} ...",
     # "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": [
         "page-toc",
@@ -325,9 +315,13 @@ _navbar_defaults = {
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{meta['maintainer']['email']['main']}",
+        "url": f"mailto:{meta['email']['main']}",
     },
-    "license": {"name": "License", "icon": "fa-solid fa-copyright", "url": meta["url"]["license"]},
+    "license": {
+        "name": "License",
+        "icon": "fa-solid fa-copyright",
+        "url": meta["url"]["website"]["license"],
+    },
     "pypi": {
         "name": "PyPI Distribution",
         "icon": "fa-brands fa-python",
@@ -343,27 +337,27 @@ _navbar_defaults = {
     "twitter": {
         "name": "Twitter",
         "icon": "fa-brands fa-twitter",
-        "url": meta["project"]["owner"]["external_urls"].get("twitter", ""),
+        "url": meta["owner"]["url"].get("twitter", ""),
     },
     "linkedin": {
         "name": "LinkedIn",
         "icon": "fa-brands fa-linkedin",
-        "url": meta["project"]["owner"]["external_urls"].get("linkedin", ""),
+        "url": meta["owner"]["url"].get("linkedin", ""),
     },
     "researchgate": {
         "name": "ResearchGate",
         "icon": "fa-brands fa-researchgate",
-        "url": meta["project"]["owner"]["external_urls"].get("researchgate", ""),
+        "url": meta["owner"]["url"].get("researchgate", ""),
     },
     "orcid": {
         "name": "ORCiD",
         "icon": "fa-brands fa-orcid",
-        "url": meta["project"]["owner"]["external_urls"].get("orcid", ""),
+        "url": meta["owner"]["url"].get("orcid", ""),
     },
 }
 
 
-for icon in meta["website"]["navbar_icons"]:
+for icon in meta["navbar_icons"]:
     icon_id = icon.pop("id", None)
     if icon_id:
         _def = _navbar_defaults[icon_id]
@@ -385,7 +379,7 @@ for icon in meta["website"]["navbar_icons"]:
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = meta["website"].get("analytics")
+_analytics = meta.get("web_analytics")
 if _analytics:
     _plausible_analytics = _analytics.get("plausible")
     if (
@@ -406,17 +400,17 @@ if _analytics:
 # -------------------------------------------------------------------------
 # html_theme_path: List[str] = []
 # html_style: str
-html_title: str = meta["project"]["name"]
+html_title: str = meta["name"]
 
-html_short_title: str = meta["project"]["name"]
+html_short_title: str = meta["name"]
 # html_baseurl: str = ''
 html_secnumber_suffix: str = ". "
 html_context = {
     # PyData variables
-    "github_user": meta["project"]["owner"]["login"],
-    "github_repo": meta["project"]["repo"]["name"],
-    "github_version": meta["project"]["repo"]["default_branch"],
-    "doc_path": meta["path"]["docs"]["website"]["source"],
+    "github_user": meta["owner"]["username"],
+    "github_repo": meta["repo"]["name"],
+    "github_version": meta["repo"]["default_branch"],
+    "doc_path": "docs/website/source",  # meta["path"]["docs"]["website"]["source"],
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
     "pp_meta": meta,
@@ -440,7 +434,8 @@ html_static_path: List[str] = [
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
-    for glob in ["**/*.css", "**/*.css_t"] for path in (Path(html_static_path[0]) / "css").glob(glob)
+    for glob in ["**/*.css", "**/*.css_t"]
+    for path in (Path(html_static_path[0]) / "css").glob(glob)
 ]
 """A list of CSS files.
 
@@ -483,7 +478,6 @@ html_show_search_summary: bool = True
 html_show_sphinx: bool = False
 # html_output_encoding: str = 'utf-8'
 # html_compact_lists: bool = True
-
 html_search_language: str = "en"
 # html_search_options: Dict[str, Any]
 # html_search_scorer: str
@@ -505,7 +499,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
 """
-htmlhelp_basename: str = f"{meta['project']['name']} Docs"
+htmlhelp_basename: str = f"{meta['name']} Docs"
 # htmlhelp_file_suffix: str = '.html'
 # htmlhelp_link_suffix: str = '.html'
 """
@@ -543,8 +537,8 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs.tex",
-        f"{meta['project']['name']} Documentation",
-        " \\and ".join([_author["name"] for _author in meta["project"]["authors"]]),
+        f"{meta['name']} Documentation",
+        " \\and ".join([_author["name"] for _author in meta["authors"]]),
         "manual",
         False,
     ),
@@ -596,8 +590,8 @@ man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
     (
         root_doc,
         meta["package"]["name"],
-        f"{meta['project']['name']} Documentation",
-        [_author["name"] for _author in meta["project"]["authors"]],
+        f"{meta['name']} Documentation",
+        [_author["name"] for _author in meta["authors"]],
         "1",
     )
 ]
@@ -619,10 +613,10 @@ texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs",
-        f"{meta['project']['name']} Documentation",
-        "@*".join([_author["name"] for _author in meta["project"]["authors"]]),
+        f"{meta['name']} Documentation",
+        "@*".join([_author["name"] for _author in meta["authors"]]),
         meta["package"]["name"],
-        meta["project"]["tagline"],
+        meta["tagline"],
         "Documentation",
         False,
     ),
@@ -715,21 +709,18 @@ References
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
 
-blog_path: str = meta["website"]["blog_dir_name"]
+blog_path: str = "news"  # TODO meta["website"]["blog_dir_name"]
 blog_baseurl: str = meta["url"]["website"]["base"]
 
 blog_post_pattern: list[str] = [
-    f"{meta['website']['blog_dir_name']}/posts/*.rst",
-    f"{meta['website']['blog_dir_name']}/posts/*.md",
+    f"{blog_path}/posts/*.rst",
+    f"{blog_path}/posts/*.md",
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
 fontawesome_included: bool = True
-
 # if meta["website"]["disqus_shortname"]:
 #     disqus_shortname: str = meta["website"]["disqus_shortname"]
-
-
 """
 Options for `sphinx.ext.intersphinx`
 

@@ -1,0 +1,69 @@
+
+
+name: 'Package: Publish'
+run-name: 'Package: Build from ${{github.ref}}'
+
+
+on:
+  workflow_call:
+    inputs:
+      publish-platform:
+        type: string
+        default: 'TestPyPI'
+        required: false
+        description: |
+          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
+
+    outputs:
+
+      name:
+        description: Name of the package.
+        value: ${{jobs.build-sdist.outputs.package-name}}
+
+      version:
+        description: Version of the package.
+        value: ${{jobs.build-sdist.outputs.package-version}}
+
+
+jobs:
+  package-release-pypi:
+    name: Publish on ${{ inputs.publish-platform }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.publish-platform }}
+      url: ${{ steps.script.outputs.download-url }}
+    permissions:
+      id-token: write
+    steps:
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: Distribution Package
+          path: dist
+
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Run script'
+        id: script
+        env:
+          RD_PACKAGE_NAME: ${{ inputs.package-name }}
+          RD_PACKAGE_VERSION: ${{ inputs.package-version }}
+          RD_PLATFORM_NAME: ${{ inputs.platform-name }}
+          RD_DIST_PATH: dist
+        run: python .github/script/workflow.py
+
+      - name: 'Upload package'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # https://github.com/marketplace/actions/pypi-publish
+        with:
+          packages-dir: dist
+          repository-url: ${{ steps.script.outputs.upload-url }}
+          verify-metadata: true
+          verbose: true
+          print-hash: true
+          skip-existing: false

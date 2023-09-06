@@ -16,12 +16,12 @@ def versioningit_format_custom(
 ) -> str:
     branch: str | None = description.branch
     if not branch:
-        issue_nr = "unknown"
+        issue_nr = "999999999"
     elif branch == params["default-branch"]:
         issue_nr = "0"
     else:
         match = re.match(r"^dev/(\d+)$", branch)
-        issue_nr = match.group(1) if match else branch
+        issue_nr = match.group(1) if match else "999999999"
 
     fields = {
         **description.fields,

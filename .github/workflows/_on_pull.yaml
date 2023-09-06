@@ -8,115 +8,73 @@ run-name: 'CI/CD: ${{github.ref}}'
 on:
   pull_request:
     types:
-      - labeled
-      - unlabeled
+      - opened
       - reopened
       - synchronize
 
 
 jobs:
-  github-context:
-    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
-    name: 'Workflow Run / context'
+
+  init:
+    name: 'Initialization'
     runs-on: ubuntu-latest
+    outputs:
+      run-package-ci: ${{ steps.init.outputs.run_package_ci }}
+      run-docs-ci: ${{ steps.init.outputs.run_docs_ci }}
     steps:
-      - name: 'Checkout script'
-        uses: actions/checkout@v3
-        with:
-          ref: 'main'  # Always load the script from the 'main' branch
-          sparse-checkout: .github/script/workflow.py
-          sparse-checkout-cone-mode: false
-      - name: 'Generate context summary'
-        env:
-          RD_CONTEXT: ${{ toJson(github) }}
-        run: python .github/script/workflow.py
-
-  changes:
-    # Get all changed files/categories in the repository due to the push event.
-    #
-    # Returns
-    # -------
-    # json : str
-    #     String representation of a JSON object.
-    name: 'Repository Files'
-    uses: ./.github/workflows/repo_changes.yaml
-
-  metadata:
-    # Load repository metadata.
-    #
-    # Returns
-    # -------
-    # json : str
-    #     String representation of a JSON object containing the repository metadata.
-    name: 'Repository Metadata'
-    uses: ./.github/workflows/repo_meta.yaml
-
-  package:
-    name: 'Package'
-    needs: [changes, metadata]
-    if: |
-      fromJSON(needs.changes.outputs.json).package.any_modified == 'true' ||
-      fromJSON(needs.changes.outputs.json).tests.any_modified == 'true'
-    uses: ./.github/workflows/package_ci.yaml
-    permissions:
-      pull-requests: write
-      security-events: write
-      actions: read
-      contents: read
-    with:
-      metadata: ${{needs.metadata.outputs.json}}
-      checkout-ref: ${{ github.head_ref }}
-      base-ref: ${{ github.base_ref }}
-      head-ref: ${{ github.head_ref }}
+      - uses: repodynamics/init@main
+        id: init
 
   docs:
     name: 'Docs'
-    needs: [changes]
-    if: fromJSON(needs.changes.outputs.json).docs.any_modified == 'true'
-    uses: ./.github/workflows/docs_build.yaml
-    with:
-      checkout-ref: ${{ github.head_ref }}
-
-  publish-testpypi:
-    name: 'Package / Publish'
-    needs: [changes, package]
-    if: |
-      github.base_ref == 'main' &&
-      fromJSON(needs.changes.outputs.json).package.any_modified == 'true'
-#    always() &&
-#    needs.build-package.result == 'success' &&
-#    needs.test-local.result == 'success' &&
-#    github.event_name == 'push' &&
-#    github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/package_release_pypi.yaml
-    permissions:
-      id-token: write
-    with:
-      package-name: ${{ needs.package.outputs.package-name }}
-      package-version: ${{ needs.package.outputs.package-version }}
-      artifact-name: ${{ needs.package.outputs.artifact-name }}
-      platform-name: 'TestPyPI'
-
-  wait-for-testpypi:
-    # Wait for 5 min before running the next job, to make sure package is registered at TestPyPI
-    name: 'Wait for TestPyPI'
-    needs: publish-testpypi
-#    if: |
-#      always() &&
-#      needs.publish-testpypi.result == 'success'
+    needs: init
+    if: needs.init.outputs.run-docs-ci == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Waiting ...'
-        run: sleep 300s
+      - uses: RepoDynamics/SphinxDocs@main
 
-  test-testpypi:
-    name: 'Install and test from TestPyPI'
-    needs: [ metadata, package, wait-for-testpypi ]
-#    if: |
-#      always() &&
-#      needs.publish-testpypi.result == 'success'
+  package-test:
+    name: 'Test Package'
+    needs: init
+    if: needs.init.outputs.run-package-ci == 'true'
     uses: ./.github/workflows/package_test.yaml
     with:
-      metadata: ${{ needs.metadata.outputs.json }}
-      install-source: "testpypi"
-      install-version: ${{ needs.package.outputs.package-version }}
+      package-source: GitHub
+
+  package-lint:
+    name: 'Lint Package'
+    needs: init
+    if: needs.init.outputs.run-package-ci == 'true'
+    permissions:
+      pull-requests: write
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    uses: ./.github/workflows/package_lint.yaml
+
+  package-build:
+    name: 'Package / Publish'
+    needs: [init, package-test, package-lint]
+    if: needs.init.outputs.publish-package == 'true'
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      repository: ${{ github.event.pull_request.head.repo.full_name }}
+      checkout-ref: ${{ github.event.pull_request.head.sha }}
+      publish-platform: 'TestPyPI'
+
+  package-publish:
+    needs: package-build
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/package_publish.yaml
+
+  test-testpypi:
+    name: 'Test Published Package'
+    needs: [package-build, package-publish]
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      repository: ${{ github.event.pull_request.head.repo.full_name }}
+      checkout-ref: ${{ github.event.pull_request.head.sha }}
+      package-source: TestPyPI
+      package-version: ${{ needs.package-build.outputs.package-version }}

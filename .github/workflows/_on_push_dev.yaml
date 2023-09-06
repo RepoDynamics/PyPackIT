@@ -1,51 +1,62 @@
 # Continuous Integration pipeline
 
-name: "[On Push]: Development Branch"
-run-name: 'CI: ${{github.ref}}'
+name: "[On Push Development Branch]: CI"
+run-name: 'CI: ${{github.ref_name}}'
 
 on:
   push:
     branches-ignore:
-      - 'main'
-      - 'release/v[0-9]+'
+      - main
+      - release/v[0-9]+
+      - announcement
 
 jobs:
 
   init:
-    name: 'Initialize'
+    name: 'Initialization'
     runs-on: ubuntu-latest
     outputs:
-      metadata: ${{ steps.meta.outputs.metadata }}
+      package-test: ${{ steps.init.outputs.package-test }}
+      package-lint: ${{ steps.init.outputs.package-lint }}
+      docs: ${{ steps.init.outputs.docs }}
+      latest-hash: ${{ steps.init.outputs.hash }}
     permissions:
       contents: write
     steps:
-      - uses: repodynamics/meta@main
-        id: meta
-        with:
-          sync: push
-#      - name: 'Workflow Run Context'
-#        uses: repodynamics/workflow-context@main
+      - id: init
+        uses: repodynamics/init@main
 
-#  package:
-#    name: 'Package'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.changes).package.any_modified == 'true' }}
-#    uses: ./.github/workflows/package_ci.yaml
-#    permissions:
-#      pull-requests: write
-#      security-events: write
-#      actions: read
-#      contents: read
-#    with:
-#      metadata: ${{needs.metadata.outputs.json}}
-#      checkout-ref: ${{ github.ref_name }}
-#      base-ref: ${{ github.event.before }}
-#      head-ref: ${{ needs.sync.outputs.commit-hash || github.event.after }}
-#
-#  docs:
-#    name: 'Docs'
-#    needs: init
-#    if: ${{ !failure() && fromJSON(needs.changes.outputs.json).docs.any_modified == 'true' }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: RepoDynamics/SphinxDocs@main
+  package-test:
+    name: 'Test Package'
+    needs: init
+    if: needs.init.outputs.package-test == 'true'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      package-source: GitHub
+
+  package-lint:
+    name: 'Lint Package'
+    needs: init
+    if: needs.init.outputs.package-lint == 'true'
+    permissions:
+      pull-requests: write
+      security-events: write
+      actions: read
+      contents: read
+    uses: ./.github/workflows/package_lint.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      base-ref: ${{ github.event.before }}
+      head-ref: ${{ needs.init.outputs.latest-hash }}
+
+  docs:
+    name: 'Docs'
+    needs: init
+    if: needs.init.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/SphinxDocs@main
+        with:
+          checkout-ref: ${{ needs.init.outputs.latest-hash }}
+          deploy: false

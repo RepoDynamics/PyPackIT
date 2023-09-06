@@ -10,11 +10,20 @@ on:
 
 jobs:
 
-  meta:
-    name: 'Load repository metadata'
-    outputs:
-      meta: ${{ steps.read.outputs.meta }}
+  init:
+    name: 'Maintenance'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
     runs-on: ubuntu-latest
+    steps:
+      - uses: repodynamics/init@main
+
+
+  announcement-check:
+    name: "Announcement Expiry Check"
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: 'Checkout main branch'
         uses: actions/checkout@v3
@@ -22,31 +31,30 @@ jobs:
           sparse-checkout: meta/.out/metadata.json
           sparse-checkout-cone-mode: false
       - name: 'Read repository metadata'
-        id: read
+        id: meta
         run: echo "meta=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
-
-  announcement-check:
-    name: "Announcement Expiry Check"
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * *'
-    needs: meta
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
       - name: "Run Repodynamics Announce"
         uses: repodynamics/announce@main
         with:
-          retention-days: ${{ fromJSON(needs.meta.outputs.meta).website.announcement_retention_days }}
+          retention-days: ${{ fromJSON(steps.meta.outputs.meta).website.announcement_retention_days }}
 
+  package-test-local:
+    name: 'Test Package'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      package-source: GitHub
 
-  meta-update:
-    name: 'Check for metadata updates'
+  package-test-pypi:
+    name: 'Test Package'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      package-source: PyPI
+
+  docs:
+    name: 'Test Website'
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 0 * * 1'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout main branch'
-        uses: actions/checkout@v3
-      - name: 'Meta'
-        uses: repodynamics/meta@main
-        with:
-          mode: pull
+      - uses: repodynamics/sphinxdocs@main

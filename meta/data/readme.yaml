@@ -1,9 +1,0 @@
-
-
-header:
-  style: "vertical"
-
-body:
-  style: "ver"
-  sections:
-    - id: "ci"

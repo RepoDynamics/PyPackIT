@@ -1,74 +1,65 @@
-# Runtime dependencies of the package.
-language: python
+package:
 
-development_status: 1
+  development_status: 1
 
-operating_systems:
-    - id: windows
-      cibuilds: null  # https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip
-    - id: macos
-      cibuilds: null
-    - id: linux
-      cibuilds: null
+  python_version_min: "3.9"
 
-python_version_min: "3.9"
+  operating_systems:
+    linux:
+      runner: ubuntu-latest
+      # https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip
+    macos:
+    windows:
 
-trove_classifiers:
-  - "Typing :: Typed"
-  - "Natural Language :: English"
+  trove_classifiers:
+    - "Typing :: Typed"
+    - "Natural Language :: English"
 
-dependencies:
-# Table of tables
-  numpy:
-    used_for: |
-      Numerical computing.
-    url_source: ""
-    url_homepage: ""
-    url_docs: ""
-    # https://peps.python.org/pep-0508/#specification
-    pip_spec: "numpy >= 1.21.2"
-    conda:
-      channel: null
-      # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
-      # https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications
-      spec: null
+  dependencies:
+    # list of tables
+    - name: numpy
+      usage: Numerical computing.
+      url_source: ""
+      url_homepage: ""
+      url_docs: ""
+      # https://peps.python.org/pep-0508/#specification
+      pip_spec: "numpy >= 1.21.2"
+      conda_spec: ""
+      conda_channel: ""
+        # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
+        # https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications
 
+#  optional_dependencies:
+#    - name: group_1
+#      packages:
+#        - name: numpy
+#          usage: Numerical computing.
+#          url_source: ""
+#          url_homepage: ""
+#          url_docs: ""
+#          # https://peps.python.org/pep-0508/#specification
+#          pip_spec: "numpy >= 1.21.2"
+#          conda_spec: ""
+#          conda_channel: ""
 
-optional_dependencies: null
-# Table of tables
-#  group_1:
-#    package_1:
-#      used_for: ""
-#      url_source: ""
-#      url_homepage: ""
-#      url_docs: ""
-#      pip_spec: ""
-#      conda:
-#        channel: null
-#        spec: null
+#  scripts:
+#    - name: entry_point_1
+#      ref: "my_package:main"
+#      description: ""
 
+#  gui_scripts:
+#    - name: entry_point_1
+#      ref: "my_package:main"
+#      description: ""
 
-scripts: null
-# Table of tables
-#  entry_point_1:
-#    ref: "my_package:main"
-#    description: ""
-
-
-gui_scripts: null
-# Table of tables
-#  entry_point_1:
-#    ref: "my_package:main"
-#    description: ""
-
-entry_points: null
-# Table of tables
-#  group_1:
-#    description: ""
-#    entry_points:
-#      entry_point_1:
-#        ref: "my_package:main"
-#        description: ""
-#      entry_point_2:
-#        ref: "my_package:main"
-#        description: ""
+#  entry_points:
+  # Table of tables
+  #  group_1:
+  #    description: ""
+  #    entry_points:
+  #      entry_point_1:
+  #        ref: "my_package:main"
+  #        description: ""
+  #      entry_point_2:
+  #        ref: "my_package:main"
+  #        description: ""

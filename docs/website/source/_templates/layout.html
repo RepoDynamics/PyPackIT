@@ -7,11 +7,11 @@
 {%- if meta is mapping -%}
     {%- set category = meta.get('category') -%}
     {%- if category is not none -%}
-        {%- for discussion_category in pp_meta.project.repo.discussions -%}
-            {%- if discussion_category.name == category -%}
+        {%- for discussion_category in pp_meta.discussions -%}
+            {%- if discussion_category.slug == category -%}
 <script src="https://giscus.app/client.js"
-        data-repo="{{pp_meta.project.repo.full_name}}"
-        data-repo-id="{{pp_meta.project.repo.node_id}}"
+        data-repo="{{pp_meta.repo.full_name}}"
+        data-repo-id="{{pp_meta.repo.node_id}}"
         data-category="{{category}}"
         data-category-id="{{discussion_category.id}}"
         data-mapping="specific"

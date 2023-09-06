@@ -1,6 +1,8 @@
 # pre-commit configuration file
 # Ref: https://pre-commit.com/
 
+default_language_version:
+  python: python3.11
 
 repos:
 
@@ -8,33 +10,42 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-ast
+        verbose: true
       - id: check-case-conflict
+        verbose: true
       - id: check-executables-have-shebangs
+        verbose: true
       - id: check-shebang-scripts-are-executable
+        verbose: true
       - id: check-symlinks
+        verbose: true
       - id: check-toml
+        verbose: true
       - id: check-yaml
+        verbose: true
       - id: end-of-file-fixer
+        verbose: true
       - id: trailing-whitespace
+        verbose: true
 
 
-  # Pylint
-  # https://pylint.readthedocs.io/en/latest/user_guide/installation/pre-commit-integration.html
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [ python ]
-        args: [ "--rcfile=pyproject.toml" ]
-
-  # mypy
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.4.1'
-    hooks:
-      - id: mypy
-        args: ['--strict', '--ignore-missing-imports', '--config-file pyproject.toml']
+#  # Pylint
+#  # https://pylint.readthedocs.io/en/latest/user_guide/installation/pre-commit-integration.html
+#  - repo: local
+#    hooks:
+#      - id: pylint
+#        name: pylint
+#        entry: pylint
+#        language: system
+#        types: [ python ]
+#        args: [ "--rcfile=pyproject.toml" ]
+#
+#  # mypy
+#  - repo: https://github.com/pre-commit/mirrors-mypy
+#    rev: 'v1.4.1'
+#    hooks:
+#      - id: mypy
+#        args: ['--strict', '--ignore-missing-imports', '--config-file pyproject.toml']
 
   # isort - format imports
   # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
@@ -44,6 +55,7 @@ repos:
       - id: isort
         name: isort (python)
         args: ["--settings-path", "pyproject.toml"]
+        verbose: true
 
 
   # Black - code formatter
@@ -52,6 +64,8 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black-jupyter
+        args: ["--color", "--config", "pyproject.toml"]
+        verbose: true
 
 
   # Conventional commits
