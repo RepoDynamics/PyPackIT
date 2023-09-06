@@ -35,7 +35,9 @@ def versioningit_format_custom(
         "distance-dirty": "{base_version}.{issue_nr}.dev{distance}.{author_date:%Y.%m.%d}.{rev}.dirty",
     }
     if description.state not in formats:
-        raise versioningit.ConfigError(f"No format string found for state {description.state!r}.")
+        raise versioningit.ConfigError(
+            f"No format string found for state {description.state!r}."
+        )
     fmt = formats[description.state]
     return fmt.format_map(fields)
 
