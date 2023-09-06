@@ -1,5 +1,16 @@
 package:
 
+  init: |
+    {name}
+
+    {tagline}
+
+    {description}
+
+    Copyright {copyright_notice}
+
+    {license_notice}
+
   development_status: 1
 
   python_version_min: "3.9"

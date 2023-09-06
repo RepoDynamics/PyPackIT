@@ -1,0 +1,5 @@
+# black formatter
+# Ref: https://black.readthedocs.io/en/stable/usage_and_configuration/index.html
+
+[tool.black]
+line-length = 100

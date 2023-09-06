@@ -1,0 +1,81 @@
+# Pylint
+# Ref: https://github.com/pylint-dev/pylint/blob/v2.17.4/examples/pyproject.toml
+
+[tool.pylint.main]
+# fail-on =
+fail-under = 10
+recursive=true
+ignore = ["CVS"]
+jobs = 0
+limit-inference-results = 500
+load-plugins = [
+    "pylint.extensions.broad_try_clause",
+    "pylint.extensions.code_style",
+    "pylint.extensions.emptystring",
+    "pylint.extensions.comparetozero",
+    "pylint.extensions.comparison_placement",
+    "pylint.extensions.confusing_elif",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.consider_refactoring_into_while_condition",
+    "pylint.extensions.consider_ternary_expression",
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.mccabe",
+    "pylint.extensions.dict_init_mutate",
+    "pylint.extensions.docstyle",
+    "pylint.extensions.dunder",
+    "pylint.extensions.check_elif",
+    "pylint.extensions.empty_comment",
+    "pylint.extensions.eq_without_hash",
+    "pylint.extensions.private_import",
+    "pylint.extensions.magic_value",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.docparams",
+    "pylint.extensions.redefined_loop_name",
+    "pylint.extensions.set_membership",
+    "pylint.extensions.typing",
+    "pylint.extensions.while_used",
+]
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
+
+[tool.pylint.design]
+max-args = 10
+max-attributes = 20
+max-bool-expr = 5
+max-public-methods = 50
+max-returns = 6
+max-statements = 50
+min-public-methods = 2
+
+[tool.pylint.format]
+max-line-length = 100
+max-module-lines = 1000
+
+[tool.pylint.imports]
+ext-import-graph = "_local_reports/pylint/diagrams/import_graph_external.svg"
+import-graph = "_local_reports/pylint/diagrams/import_graph_all.svg"
+int-import-graph = "_local_reports/pylint/diagrams/import_graph_internal.svg"
+
+[tool.pylint.logging]
+logging-format-style = "new"
+
+[tool.pylint."messages control"]
+disable = []
+
+[tool.pylint.reports]
+reports = true
+score = true
+msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
+output-format = [
+    "json:_local_reports/pylint/json.json",
+    "text:_local_reports/pylint/text.txt",
+    "parseable:_local_reports/pylint/parseable.txt",
+    "msvs:_local_reports/pylint/msvs.txt",
+    "colorized",
+]
+
+[tool.pylint.spelling]
+spelling-dict = "en_US"

@@ -1,0 +1,9 @@
+# Pytest
+# Ref: https://docs.pytest.org/en/stable/reference/reference.html#ini-options-ref
+# Ref: https://docs.pytest.org/en/stable/reference/customize.html
+
+[tool.pytest.ini_options]
+log_cli = true
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra --verbose --color=yes --full-trace --cov-config=pyproject.toml"

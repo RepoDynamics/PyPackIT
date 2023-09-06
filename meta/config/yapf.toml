@@ -1,0 +1,9 @@
+# YAPF
+# Ref: https://github.com/google/yapf#formatting-style
+# https://github.com/google/yapf/blob/main/yapf/yapflib/style.py
+
+[tool.yapf]
+based_on_style = 'pep8'
+use_tabs = false
+INDENT_WIDTH = 4
+COLUMN_LIMIT = 100

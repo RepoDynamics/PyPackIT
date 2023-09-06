@@ -1,0 +1,6 @@
+
+extensions:
+  - type: template
+    repo: RepoDynamics/MetaTemplates
+    ref: main
+    path: pypackit/default/template

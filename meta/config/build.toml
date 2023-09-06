@@ -1,0 +1,19 @@
+# References:
+# 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
+#    https://packaging.python.org/
+# 2. SetupTools User Guide:
+#    https://setuptools.pypa.io/
+#    https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# 3. https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=61.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
