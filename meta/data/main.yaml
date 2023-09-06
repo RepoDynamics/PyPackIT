@@ -264,6 +264,8 @@ repo_target: source
 
 api_cache_expiration_days: 7
 
+workflow_hooks_config_path: ".pre-commit-config.yaml"
+
 get_owner_publications: true
 
 color:
