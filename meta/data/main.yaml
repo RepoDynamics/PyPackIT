@@ -226,7 +226,7 @@ issues_contact_links:
     url: https://bounty.github.com/
     about: Please report security vulnerabilities here.
 
-issues_blank_enabled: false
+issues_blank_enabled: true
 
 pulls:
   # Default owners for everything, unless a later match takes precedence.
