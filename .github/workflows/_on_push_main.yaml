@@ -1,7 +1,8 @@
 
 
 name: "[On Push Release Branch]: CD"
-run-name: 'CD: ${{github.ref_name}}'
+run-name: |
+  CD: Branch '${{github.ref_name}}'
 
 
 on:
@@ -46,14 +47,14 @@ jobs:
   build:
     name: 'Package / Publish'
     needs: init
-    uses: ./.github/workflows/package_build.yaml
+    uses: .github/workflows/package_build.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   test:
     name: 'Test Package'
     needs: init
-    uses: ./.github/workflows/package_test.yaml
+    uses: .github/workflows/package_test.yaml
     with:
       package-source: GitHub
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
@@ -66,7 +67,7 @@ jobs:
       security-events: write
       actions: read
       contents: read
-    uses: ./.github/workflows/package_lint.yaml
+    uses: .github/workflows/package_lint.yaml
     with:
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.init.outputs.latest-hash }}
@@ -94,12 +95,12 @@ jobs:
     if: needs.init.outputs.publish == 'true'
     permissions:
       id-token: write
-    uses: ./.github/workflows/package_publish.yaml
+    uses: .github/workflows/package_publish.yaml
 
   test-testpypi:
     name: 'Test Published Package'
     needs: [init, build, publish-testpypi]
-    uses: ./.github/workflows/package_test.yaml
+    uses: .github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
       package-source: TestPyPI
@@ -117,7 +118,7 @@ jobs:
   test-pypi:
     name: 'Test Published Package'
     needs: [init, build, publish-pypi]
-    uses: ./.github/workflows/package_test.yaml
+    uses: .github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
       package-source: PyPI

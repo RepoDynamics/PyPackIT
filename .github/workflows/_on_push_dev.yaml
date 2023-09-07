@@ -1,7 +1,8 @@
 # Continuous Integration pipeline
 
 name: "[On Push Development Branch]: CI"
-run-name: 'CI: ${{github.ref_name}}'
+run-name: |
+  CI: Branch '${{github.ref_name}}'
 
 on:
   push:
