@@ -55,9 +55,9 @@ max-line-length = 100
 max-module-lines = 1000
 
 [tool.pylint.imports]
-ext-import-graph = "_local_reports/pylint/diagrams/import_graph_external.svg"
-import-graph = "_local_reports/pylint/diagrams/import_graph_all.svg"
-int-import-graph = "_local_reports/pylint/diagrams/import_graph_internal.svg"
+ext-import-graph = ".local/reports/pylint/diagrams/import_graph_external.svg"
+import-graph = ".local/reports/pylint/diagrams/import_graph_all.svg"
+int-import-graph = ".local/reports/pylint/diagrams/import_graph_internal.svg"
 
 [tool.pylint.logging]
 logging-format-style = "new"
@@ -70,10 +70,10 @@ reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:_local_reports/pylint/json.json",
-    "text:_local_reports/pylint/text.txt",
-    "parseable:_local_reports/pylint/parseable.txt",
-    "msvs:_local_reports/pylint/msvs.txt",
+    "json:.local/reports/pylint/json.json",
+    "text:.local/reports/pylint/text.txt",
+    "parseable:.local/reports/pylint/parseable.txt",
+    "msvs:.local/reports/pylint/msvs.txt",
     "colorized",
 ]
 
