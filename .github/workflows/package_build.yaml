@@ -119,7 +119,7 @@ jobs:
         id: get_name
         env:
           RD_PYPUBLISH__PATH_DIST: dist
-        run: python -m repodynamics.actions pybuild
+        run: python -m repodynamics.actions pybuild build
 
 #      - name: 'Checkout workflow script'
 #        uses: actions/checkout@v3
