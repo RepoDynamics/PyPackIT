@@ -262,7 +262,6 @@ jobs:
   pylint:
     name: 'Pylint'
     needs: meta
-    if: ${{ !failure() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
