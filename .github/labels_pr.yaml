@@ -1,0 +1,66 @@
+version: v1
+labels:
+- label: 'Release: major'
+  sync: true
+  matcher:
+    commits: '^[\w\-]+(\([^)]+\))?!: '
+- label: 'Release: minor'
+  sync: true
+  matcher:
+    commits: '^feat(\([^)]+\))?: '
+- label: 'Release: patch'
+  sync: true
+  matcher:
+    commits: '^fix(\([^)]+\))?: '
+- label: 'Deploy: website'
+  sync: true
+  matcher:
+    commits: '^website(\([^)]+\))?: '
+- label: 'Modified: github'
+  sync: true
+  matcher:
+    files:
+      any:
+      - .github/**
+- label: 'Modified: data'
+  sync: true
+  matcher:
+    files:
+      any:
+      - data/**
+- label: 'Modified: dev'
+  sync: true
+  matcher:
+    files:
+      any:
+      - dev/**
+- label: 'Modified: docs'
+  sync: true
+  matcher:
+    files:
+      any:
+      - docs/**
+- label: 'Modified: meta'
+  sync: true
+  matcher:
+    files:
+      any:
+      - meta/**
+- label: 'Modified: src'
+  sync: true
+  matcher:
+    files:
+      any:
+      - src/**
+- label: 'Modified: tests'
+  sync: true
+  matcher:
+    files:
+      any:
+      - tests/**
+- label: 'Modified: root'
+  sync: true
+  matcher:
+    files:
+      any:
+      - '*'
