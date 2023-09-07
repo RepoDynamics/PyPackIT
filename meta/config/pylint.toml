@@ -63,7 +63,11 @@ int-import-graph = ".local/reports/pylint/diagrams/import_graph_internal.svg"
 logging-format-style = "new"
 
 [tool.pylint."messages control"]
-disable = []
+disable = [
+    "wrong-spelling-in-comment",
+    "wrong-spelling-in-docstring",
+    "line-too-long"
+]
 
 [tool.pylint.reports]
 reports = true
