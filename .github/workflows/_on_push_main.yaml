@@ -92,7 +92,7 @@ jobs:
   publish-testpypi:
     name: 'Package / Publish'
     needs: [init, build, test, lint]
-    if: needs.init.outputs.publish == 'true'
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     permissions:
       id-token: write
     uses: ./.github/workflows/package_publish.yaml
@@ -100,6 +100,7 @@ jobs:
   test-testpypi:
     name: 'Test Published Package'
     needs: [init, build, publish-testpypi]
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
@@ -109,6 +110,7 @@ jobs:
   publish-pypi:
     name: 'Package / Publish'
     needs: test-testpypi
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_publish.yaml
     permissions:
       id-token: write
@@ -118,6 +120,7 @@ jobs:
   test-pypi:
     name: 'Test Published Package'
     needs: [init, build, publish-pypi]
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
@@ -126,7 +129,7 @@ jobs:
 
   release:
     needs: [ init, build, website, test-pypi ]
-    if: needs.init.outputs.publish == 'true'
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     permissions:
       contents: write
       discussions: write
