@@ -79,7 +79,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
+        os: ${{ fromJson(needs.meta.outputs.data).package.github_runners }}
         python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
     env:
       OS: ${{ matrix.os }}
