@@ -54,8 +54,8 @@ jobs:
       - name: 'Run script'
         id: script
         env:
-          RD_PYPUBLISH__PLATFORM: ${{ inputs.platform }}
-          RD_PYPUBLISH__PATH_DIST: dist
+          RD_PYBUILD__PLATFORM: ${{ inputs.platform }}
+          RD_PYBUILD__PATH_DIST: dist
         run: python -m repodynamics.actions pybuild publish
 
       - name: 'Upload package'
