@@ -119,7 +119,7 @@ jobs:
       platform: 'PyPI'
 
   test-pypi:
-    name: 'Test Published Package'
+    name: 'PubTest PyPI'
     needs: [init, build, publish-pypi]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
