@@ -20,7 +20,7 @@ jobs:
     name: Publish on ${{ inputs.platform }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.publish-platform }}
+      name: ${{ inputs.platform }}
       url: ${{ steps.script.outputs.download-url }}
     permissions:
       id-token: write
