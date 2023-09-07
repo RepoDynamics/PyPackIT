@@ -44,7 +44,6 @@ jobs:
       - shell: bash
         run: |
           # Install RepoDynamics
-          python "${{ github.action_path }}/heading.py" "2" "Install RepoDynamics"
           echo "::group::Install Dependencies"
           python -m pip install repodynamics
           echo "::endgroup::"

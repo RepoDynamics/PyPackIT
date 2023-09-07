@@ -2,7 +2,8 @@
 
 
 name: "[On Pull]: CI/CD"
-run-name: 'CI/CD: ${{github.ref}}'
+run-name: |
+  CI/CD: PR #${{github.event.pull_request.number}}: ${{github.event.pull_request.title}}
 
 
 on:
