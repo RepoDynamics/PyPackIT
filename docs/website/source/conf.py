@@ -422,19 +422,19 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[str, None] = "../../../meta/img/logo/icon.png"
+html_favicon: Union[str, None] = "../../../meta/media/logo/icon.png"
 
 html_static_path: List[str] = [
     "_static",
-    "../../../meta/img",
+    "../../../meta/media",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
     # added to the root of static path, since PyData always looks there, regardless of the set path.
     # Ref:
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1325
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1328
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1385
-    "../../../meta/img/logo/simple_dark.svg",
-    "../../../meta/img/logo/simple_light.svg",
+    "../../../meta/media/logo/simple_dark.svg",
+    "../../../meta/media/logo/simple_light.svg",
 ]
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
