@@ -168,7 +168,7 @@ jobs:
 
   build-wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
-    needs: metadata
+    needs: meta
     if: fromJSON(needs.meta.outputs.data).package.pure_python == false
     runs-on: ${{ matrix.platform.runner }}
     strategy:
