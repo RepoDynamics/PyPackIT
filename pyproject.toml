@@ -248,10 +248,10 @@ dependencies = [
 license = {file = "LICENSE"}
 
 [project.urls]
-Homepage = "https://arminariam.com"
+Homepage = "https://aariam.github.io/TemplateRepo"
 Download = "https://github.com/AAriam/TemplateRepo/releases"
-News = "https://arminariam.com/news"
-Documentation = "https://arminariam.com"
+News = "https://aariam.github.io/TemplateRepo/news"
+Documentation = "https://aariam.github.io/TemplateRepo"
 "Bug Tracker" = "https://github.com/AAriam/TemplateRepo/issues"
-Sponsor = "https://arminariam.com/contribute/collaborate/maintain/sponsor"
+Sponsor = "https://aariam.github.io/TemplateRepo/contribute/collaborate/maintain/sponsor"
 Source = "https://github.com/AAriam/TemplateRepo"
