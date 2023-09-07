@@ -74,7 +74,7 @@ jobs:
 
   website:
     name: 'Docs'
-    needs: init
+    needs: [init, repo-config]
     permissions:
       contents: read
       pages: write
