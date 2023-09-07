@@ -90,7 +90,7 @@ jobs:
           checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   publish-testpypi:
-    name: 'Package / Publish'
+    name: 'Publish TestPyPI'
     needs: [init, build, test, lint]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     permissions:
@@ -98,7 +98,7 @@ jobs:
     uses: ./.github/workflows/package_publish.yaml
 
   test-testpypi:
-    name: 'Test Published Package'
+    name: 'Test TestPyPI'
     needs: [init, build, publish-testpypi]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
