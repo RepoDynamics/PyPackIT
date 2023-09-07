@@ -16,6 +16,8 @@ jobs:
   init:
     name: 'Initialization'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       latest-hash: ${{ steps.init.outputs.hash }}
       release: ${{ steps.init.outputs.release }}
