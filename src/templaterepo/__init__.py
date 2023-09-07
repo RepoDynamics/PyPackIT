@@ -1,8 +1,10 @@
-"""Templaterepo
+"""TemplateRepo
 
 Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 
 PyPackIT is a free and open-source toolkit <b>empowering the development of open-source Python projects on GitHub</b>. It is a <b>dynamic repository template</b> that provides a complete, professional, and robust infrastructure for your project, where the only thing missing is your code. With PyPackIT, you can solely focus on what truly matters: implementing your ideas and bringing your vision to life!
+
+Copyright 2023 Armin Ariamajd
 
 Copyright (C) 2023 Armin Ariamajd
 

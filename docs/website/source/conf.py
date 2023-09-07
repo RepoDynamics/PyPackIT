@@ -23,9 +23,7 @@ def rstjinja(app, docname, source):
     # if app.builder.format != 'html':
     #     return
     try:
-        source[0] = app.builder.templates.render_string(
-            source[0], app.config.html_context
-        )
+        source[0] = app.builder.templates.render_string(source[0], app.config.html_context)
     except Exception as e:
         print(e)
         print("*" * 50)
@@ -59,9 +57,7 @@ def add_project_maintainers(self):
     # Get maintainers' GitHub info sorted in a list based on ranking
     self.metadata["project"]["maintainer"] = [
         self._cache.user(maintainer)
-        for maintainer, _ in sorted(
-            sorted(maintainers.items(), key=lambda i: i[1], reverse=True)
-        )
+        for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
     ]
     return
 
@@ -77,9 +73,7 @@ References
 project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join(
-    [_author["name"] for _author in meta["authors"] if _author["name"]]
-)
+author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
 """Authors' names"""
 
 project_copyright: Union[str, List[str]] = meta["copyright_notice"]
@@ -200,9 +194,7 @@ add_module_names: bool = True
 
 toc_object_entries: bool = True
 
-toc_object_entries_show_parents: Literal[
-    "domain", "hide", "all"
-] = "all"  # New in version 5.2
+toc_object_entries_show_parents: Literal["domain", "hide", "all"] = "all"  # New in version 5.2
 
 show_authors: bool = True
 # modindex_common_prefix: List[str] = []
@@ -544,9 +536,7 @@ References
 * https://www.sphinx-doc.org/en/master/latex.html
 """
 
-latex_engine: Literal[
-    "pdflatex", "xelatex", "lualatex", "platex", "uplatex"
-] = "lualatex"
+latex_engine: Literal["pdflatex", "xelatex", "lualatex", "platex", "uplatex"] = "lualatex"
 
 latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     (
