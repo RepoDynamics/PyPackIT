@@ -24,6 +24,7 @@ jobs:
       release: ${{ steps.init.outputs.release }}
       website-url: ${{ steps.init.outputs.website_url }}
       docs: ${{ steps.init.outputs.docs }}
+      publish: ${{ steps.init.outputs.publish }}
     steps:
       - uses: repodynamics/init@main
         id: init
