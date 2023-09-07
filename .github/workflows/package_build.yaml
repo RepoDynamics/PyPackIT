@@ -30,7 +30,6 @@ on:
           Reference (i.e. branch, tag or SHA) of the current repository to checkout,
           i.e. the `ref` input of `actions/checkout`.
 
-
     outputs:
 
       name:
@@ -44,10 +43,10 @@ on:
 
 jobs:
 
-  init:
+  meta:
     name: Initialize
     outputs:
-      meta: ${{steps.meta.outputs.metadata}}
+      data: ${{steps.meta.outputs.metadata}}
     runs-on: ubuntu-latest
     steps:
 #      - name: 'Display inputs'
@@ -102,22 +101,44 @@ jobs:
           path: dist/*.tar.gz
           name: Distribution Package
 
-      - name: 'Checkout workflow script'
-        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          ref: "main"
-          sparse-checkout: .github/script/workflow.py
-          sparse-checkout-cone-mode: false
+          python-version: '3.x'
+          cache: 'pip'
+          cache-dependency-path: .local/repodynamics/requirements.txt
+      - shell: bash
+        run: |
+          # Install RepoDynamics
+          python "${{ github.action_path }}/heading.py" "2" "Install RepoDynamics"
+          echo "::group::Install Dependencies"
+          python -m pip install repodynamics
+          echo "::endgroup::"
+          echo "::group::Display pip environment"
+          python -m pip list
+          echo "::endgroup::"
 
-      - name: 'Output and summary'
-        id: output
-        run: python .github/script/workflow.py
+      - name: 'Run script'
+        id: get_name
+        env:
+          RD_PYPUBLISH__PATH_DIST: dist
+        run: python -m repodynamics.actions pybuild
+
+#      - name: 'Checkout workflow script'
+#        uses: actions/checkout@v3
+#        with:
+#          ref: "main"
+#          sparse-checkout: .github/script/workflow.py
+#          sparse-checkout-cone-mode: false
+#
+#      - name: 'Output and summary'
+#        id: output
+#        run: python .github/script/workflow.py
 
 
   build-wheel:
     name: 'Binary Distribution'
-    needs: init
-    if: fromJSON(needs.init.outputs.meta).package.pure_python == true
+    needs: meta
+    if: fromJSON(needs.meta.outputs.data).package.pure_python == true
     runs-on: ubuntu-latest
     steps:
 
@@ -148,13 +169,13 @@ jobs:
   build-wheels:
     name: 'Generate native built distribution on ${{ matrix.os }}'
     needs: metadata
-    if: fromJSON(needs.init.outputs.meta).package.pure_python == false
+    if: fromJSON(needs.meta.outputs.data).package.pure_python == false
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJson(needs.init.outputs.meta).package.cibw_matrix_platform }}
-        py-ver: ${{ fromJson(needs.init.outputs.meta).package.cibw_matrix_python }}
+        platform: ${{ fromJson(needs.meta.outputs.data).package.cibw_matrix_platform }}
+        py-ver: ${{ fromJson(needs.meta.outputs.data).package.cibw_matrix_python }}
     steps:
 
       - name: 'Checkout repository from ${{github.ref}}'

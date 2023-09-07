@@ -17,170 +17,154 @@ jobs:
     name: 'Initialization'
     runs-on: ubuntu-latest
     outputs:
-      docs-only: ${{ steps.init.outputs.docs-only }}
+      latest-hash: ${{ steps.init.outputs.hash }}
+      release: ${{ steps.init.outputs.release }}
+      website-url: ${{ steps.init.outputs.website_url }}
+      docs: ${{ steps.init.outputs.docs }}
     steps:
       - uses: repodynamics/init@main
         id: init
 
-#  repo-config:
-#    name: 'Repo Settings'
-#    needs: init
+  repo-config:
+    name: 'Repo Settings'
+    needs: init
 #    if: |
 #      github.ref == 'refs/heads/main' &&
 #      fromJSON(needs.metadata.outputs.json).config.update_repo_settings == true &&
 #      fromJSON(needs.changes.outputs.json).meta.any_modified == 'true'
-#    permissions:
-#      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
-#      pull-requests: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: repodynamics/config@main
-#        with:
-#          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
-#
-#  build:
-#    name: 'Package / Publish'
-#    uses: ./.github/workflows/package_build.yaml
-#
-#  test:
-#    name: 'Test Package'
-#    uses: ./.github/workflows/package_test.yaml
-#    with:
-#      package-source: GitHub
-#
-#  lint:
-#    name: 'Lint Package'
-#    permissions:
-#      pull-requests: write
-#      security-events: write
-#      actions: read
-#      contents: read
-#    uses: ./.github/workflows/package_lint.yaml
-#    with:
-#      base-ref: ${{ github.event.before }}
-#      head-ref: ${{ needs.event.after }}
-#
-#  website:
-#    name: 'Docs'
-#    needs: init
-#    permissions:
-#      contents: read
-#      pages: write
-#      id-token: write
-#    environment:
-#      name: GitHub Pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: RepoDynamics/SphinxDocs@main
-#        with:
-#          deploy: ${{ needs.init.outputs.docs-only == 'true' }}
-#
-#  decide:
-#    name: 'Decide'
-#    outputs:
-#      publish-package: ${{ steps.decide.outputs.publish_package }}
-#      tag: ${{ steps.decide.outputs.tag }}
-#    needs: [init, package-build, package-test, package-lint, docs]
-#    permissions:
-#      contents: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: RepoDynamics/Publish@main
-#
-#
-#  docs:
-#    name: 'Docs'
-#    needs: decide
-#    permissions:
-#      contents: read
-#      pages: write
-#      id-token: write
-#    environment:
-#      name: GitHub Pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: RepoDynamics/SphinxDocs@main
-#        with:
-#          checkout-ref: ${{ needs.decide.outputs.tag }}
-#          deploy: true
-#
-#
-#  publish-testpypi:
-#    name: 'Package / Publish'
-#    needs: decide
-#    if: needs.decide.outputs.publish-package == 'true'
-#    uses: ./.github/workflows/package_publish.yaml
-#    permissions:
-#      id-token: write
-#
-#  test-testpypi:
-#    name: 'Test Published Package'
-#    needs: [decide, package-publish]
-#    uses: ./.github/workflows/package_test.yaml
-#    with:
-#      checkout-ref: ${{ needs.decide.outputs.tag }}
-#      package-source: TestPyPI
-#      package-version: ${{ needs.package-publish.outputs.package-version }}
-#
-#  publish-pypi:
-#    name: 'Package / Publish'
-#    needs: [decide, test-testpypi]
-#    uses: ./.github/workflows/package_publish.yaml
-#    permissions:
-#      id-token: write
-#    with:
-#      publish-platform: 'PyPI'
-#
-#  test-pypi:
-#    name: 'Test Published Package'
-#    needs: [ decide, package-publish2 ]
-#    uses: ./.github/workflows/package_test.yaml
-#    with:
-#      checkout-ref: ${{ needs.decide.outputs.tag }}
-#      package-source: PyPI
-#      package-version: ${{ needs.package-publish2.outputs.package-version }}
-#
-#
-#  release:
-#    needs: [ metadata, log, tag, package-build, docs-build ]
-#    if: ${{ !failure() && needs.log.outputs.release == 'true' }}
-#    permissions:
-#      contents: write
-#      discussions: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ${{ needs.log.outputs.tag }}
-#
-#      - name: 'Download sdist and wheels artifacts'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: ${{ needs.package-build.outputs.artifact-name }}
-#          path: distribution
-#
-#      - name: 'Download gh-pages artifact'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: docs
-#          path: documentation
-#
-#      - name: 'Zip artifacts'
-#        run: |
-#          mv distribution/*.tar.gz ./
-#          zip -r wheels.zip distribution
-#          zip -r documentation.zip documentation
-#
-#      - name: Release
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          name: ${{fromJSON(needs.metadata.outputs.json).project.name}} ${{ needs.log.outputs.tag }}
-#          tag_name: ${{ needs.log.outputs.tag }}
-#          body_path: RELEASE.md
-#          files: |
-#            wheels.zip
-#            documentation.zip
-#            *.tar.gz
+    permissions:
+      # https://github.com/micnncim/action-label-syncer/issues/79#issuecomment-1558111026
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: repodynamics/config@main
+        with:
+          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+
+  build:
+    name: 'Package / Publish'
+    needs: init
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+
+  test:
+    name: 'Test Package'
+    needs: init
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      package-source: GitHub
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+
+  lint:
+    name: 'Lint Package'
+    needs: init
+    permissions:
+      pull-requests: write
+      security-events: write
+      actions: read
+      contents: read
+    uses: ./.github/workflows/package_lint.yaml
+    with:
+      base-ref: ${{ github.event.before }}
+      head-ref: ${{ needs.init.outputs.latest-hash }}
+
+  website:
+    name: 'Docs'
+    needs: init
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: GitHub Pages
+      url: ${{ steps.init.outputs.website_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/SphinxDocs@main
+        with:
+          deploy: ${{ needs.init.outputs.docs == 'true' }}
+          checkout-ref: ${{ needs.init.outputs.latest-hash }}
+
+  publish-testpypi:
+    name: 'Package / Publish'
+    needs: [init, build, test, lint]
+    if: needs.init.outputs.publish == 'true'
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/package_publish.yaml
+
+  test-testpypi:
+    name: 'Test Published Package'
+    needs: [init, build, publish-testpypi]
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      package-source: TestPyPI
+      package-version: ${{ needs.build.outputs.package-version }}
+
+  publish-pypi:
+    name: 'Package / Publish'
+    needs: test-testpypi
+    uses: ./.github/workflows/package_publish.yaml
+    permissions:
+      id-token: write
+    with:
+      platform: 'PyPI'
+
+  test-pypi:
+    name: 'Test Published Package'
+    needs: [init, build, publish-pypi]
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      package-source: PyPI
+      package-version: ${{ needs.build.outputs.package-version }}
+
+  release:
+    needs: [ init, build, docs, test-pypi ]
+    if: needs.init.outputs.publish == 'true'
+    permissions:
+      contents: write
+      discussions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.init.outputs.tag }}
+
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: Distribution Package
+          path: distribution
+
+      - name: 'Download Release Notes'
+        uses: actions/download-artifact@v3
+        with:
+          name: release_notes
+          path: release_notes
+
+      - name: 'Download gh-pages artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: documentation
+
+      - name: 'Zip artifacts'
+        run: |
+          mv distribution/*.tar.gz ./
+          zip -r wheels.zip distribution
+          zip -r documentation.zip documentation
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ needs.init.outputs.name }} ${{ needs.init.outputs.latest-hash }}
+          tag_name: ${{ needs.init.outputs.latest-hash }}
+          body_path: release_notes/release_notes.md
+          files: |
+            wheels.zip
+            documentation.zip
+            *.tar.gz

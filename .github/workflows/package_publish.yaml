@@ -7,22 +7,12 @@ run-name: 'Package: Build from ${{github.ref}}'
 on:
   workflow_call:
     inputs:
-      publish-platform:
+      platform:
         type: string
         default: 'TestPyPI'
         required: false
         description: |
           Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
-
-    outputs:
-
-      name:
-        description: Name of the package.
-        value: ${{jobs.build-sdist.outputs.package-name}}
-
-      version:
-        description: Version of the package.
-        value: ${{jobs.build-sdist.outputs.package-version}}
 
 
 jobs:
@@ -41,21 +31,35 @@ jobs:
           name: Distribution Package
           path: dist
 
-      - name: 'Checkout script'
-        uses: actions/checkout@v3
+#      - name: 'Checkout script'
+#        uses: actions/checkout@v3
+#        with:
+#          ref: ${{ github.base_ref }}
+#          sparse-checkout: .github/script/workflow.py
+#          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-python@v4
         with:
-          ref: ${{ github.base_ref }}
-          sparse-checkout: .github/script/workflow.py
-          sparse-checkout-cone-mode: false
+          python-version: '3.x'
+          cache: 'pip'
+          cache-dependency-path: .local/repodynamics/requirements.txt
+      - shell: bash
+        run: |
+          # Install RepoDynamics
+          python "${{ github.action_path }}/heading.py" "2" "Install RepoDynamics"
+          echo "::group::Install Dependencies"
+          python -m pip install repodynamics
+          echo "::endgroup::"
+          echo "::group::Display pip environment"
+          python -m pip list
+          echo "::endgroup::"
 
       - name: 'Run script'
         id: script
         env:
-          RD_PACKAGE_NAME: ${{ inputs.package-name }}
-          RD_PACKAGE_VERSION: ${{ inputs.package-version }}
-          RD_PLATFORM_NAME: ${{ inputs.platform-name }}
-          RD_DIST_PATH: dist
-        run: python .github/script/workflow.py
+          RD_PYPUBLISH__PLATFORM: ${{ inputs.platform }}
+          RD_PYPUBLISH__PATH_DIST: dist
+        run: python -m repodynamics.actions pybuild publish
 
       - name: 'Upload package'
         uses: pypa/gh-action-pypi-publish@release/v1

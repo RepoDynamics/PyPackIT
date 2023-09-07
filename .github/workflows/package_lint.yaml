@@ -190,8 +190,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
+        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -262,13 +262,12 @@ jobs:
   pylint:
     name: 'Pylint'
     needs: meta
-    if: ${{ !failure() }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
+        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -312,20 +311,20 @@ jobs:
 
       - name: 'Run Pylint'
         run: |
-          mkdir -p _local_reports/pylint/diagrams
+          mkdir -p .local/reports/pylint/diagrams
           pylint ./src --rcfile pyproject.toml
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          pyreverse ${{ fromJSON(needs.metadata.outputs.json).package.name }} --output-directory _local_reports/pylint/diagrams --output html --module-names y --colorized
+          pyreverse ${{ fromJSON(needs.meta.outputs.data).package.name }} --output-directory .local/reports/pylint/diagrams --output html --module-names y --colorized
 
       - name: 'Move reports'
         if: always()
         run: |
-          mkdir -p artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv _local_reports/pylint/* artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mkdir -p .local/artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
+          mv .local/reports/pylint/* .local/artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
 
       - name: 'Display info'
         if: always()
@@ -359,7 +358,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: artifacts
+          path: .local/artifacts
           name: lint
 
 #      - name: 'Upload diagrams'

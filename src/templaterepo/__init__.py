@@ -22,5 +22,5 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-__version_details__ = "This will be set on build"
+__version_details__ = {"version": "0.0.0"}
 __version__ = __version_details__["version"]
