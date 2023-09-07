@@ -17,7 +17,7 @@ on:
 
 jobs:
   package-release-pypi:
-    name: Publish on ${{ inputs.publish-platform }}
+    name: Publish on ${{ inputs.platform }}
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.publish-platform }}
@@ -41,8 +41,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-          cache: 'pip'
-          cache-dependency-path: .local/repodynamics/requirements.txt
       - shell: bash
         run: |
           # Install RepoDynamics
