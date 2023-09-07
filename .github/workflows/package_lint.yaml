@@ -190,8 +190,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_os_matrix }}
+        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
@@ -266,8 +266,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_os_matrix }}
-        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_os_matrix }}
+        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
       - name: 'Checkout repository'
