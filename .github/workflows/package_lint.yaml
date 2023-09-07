@@ -190,7 +190,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(needs.meta.outputs.data).package.github_os_matrix }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
         python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
@@ -266,7 +266,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(needs.meta.outputs.data).package.github_os_matrix }}
+        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
         python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
 
     steps:
