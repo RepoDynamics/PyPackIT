@@ -211,7 +211,7 @@ name = "templaterepo"
 dynamic = [
     'version',
 ]
-description = "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
+description = "Python Projects Perfected"
 readme = ".local/README_PYPI.md"
 requires-python = ">= 3.9"
 authors = [
