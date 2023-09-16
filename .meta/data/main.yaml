@@ -266,3 +266,4 @@ readme:
 path:
   source: "src"
   tests: "tests"
+  cache: ".local/cache"
