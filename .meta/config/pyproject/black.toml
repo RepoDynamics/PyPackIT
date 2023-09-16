@@ -2,4 +2,7 @@
 # Ref: https://black.readthedocs.io/en/stable/usage_and_configuration/index.html
 
 [tool.black]
+required-version = "23.9.1"
+target-version = "${{package.python_versions_py3x}}"
 line-length = 100
+verbose = true
