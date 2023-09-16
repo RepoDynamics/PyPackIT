@@ -3,6 +3,7 @@
 
 [tool.isort]
 profile = "black"
+line_length = 100
 src_paths = ["src", "tests"]
 conda_env = ""
 lines_before_imports = 2

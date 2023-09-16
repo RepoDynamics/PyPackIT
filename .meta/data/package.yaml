@@ -42,6 +42,7 @@ package:
 
 #  optional_dependencies:
 #    - name: group_1
+#      description: ""
 #      packages:
 #        - name: numpy
 #          usage: Numerical computing.

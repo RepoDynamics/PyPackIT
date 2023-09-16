@@ -1,74 +1,24 @@
 
+conventional_commits_types:
+  - type: style
+    description: |
+      Formatting changes that do not affect the meaning of the code
+  - type: refactor
+    description: A code change that neither fixes a bug nor adds a feature
+  - type: build
+    description: Changes that affect the build system or external dependencies
+  - type: ci
+    description: Changes to our CI configuration files and scripts
+  - type: test
+    description: Adding missing tests or correcting existing tests
+  - type: chore
+    description: Routine tasks
 
-tagline: >-
-  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 
-description: >-
-  PyPackIT is a free and open-source toolkit
-  <b>empowering the development of open-source Python projects on GitHub</b>.
-  It is a <b>dynamic repository template</b> that provides a complete, professional, and
-  robust infrastructure for your project, where the only thing missing is your code.
-  With PyPackIT, you can solely focus on what truly matters:
-  implementing your ideas and bringing your vision to life!
+meta_check_action_type:
+  release_branch: amend
+  dev_branch: commit
 
-keywords:
-  - python
-  - github
-  - packaging
-  - template
-  - dynamic repository
-  - repository template
-  - documentation
-  - testing
-  - deployment
-  - maintenance
-  - automation
-  - development
-  - infrastructure
-  - streamline
-
-keynotes:
-  - title: Automation
-    description: >-
-      PyPackIT streamlines a remarkable portion of the process of creating,
-      documenting, testing, publishing, and maintaining Python packages,
-      making your project development a pleasant breeze!
-  - title: Synchronization
-    description: >-
-      PyPackIT gathers all your project's key information and configuration in one place,
-      and dynamically updates them throughout your repository, Python package, and documentation website.
-  - title: Configuration
-    description: >-
-      PyPackIT elevates your project by providing full configuration for your repository,
-      Python package, and documentation website, according to the latest guidelines and best practices.
-  - title: Customization
-    description: >-
-      While carefully configured, PyPackIT is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs
-  - title: Documentation
-    description: >-
-      PyPackIT comes with a professional website for your project, that is easily
-      customizable, and automatically generated and deployed on your preferred platform.
-  - title: Production
-    description: >-
-      With PyPackIT, the only remaining step to publishing a production-ready
-      Python project is adding your code, unit-tests and documentation content.
-
-license_id: gnu_agpl_v3+
-
-authors:
-  - username: aariam
-    roles:
-      - Conceptualization
-
-email:
-  main: a.ariamajd@gmail.com
-  security: a.ariamajd@gmail.com
-  code_of_conduct: a.ariamajd@gmail.com
-  support: a.ariamajd@gmail.com
-
-funding:
-  github: aariam
 
 health_file:
   code_of_conduct: "."
@@ -205,10 +155,7 @@ labels:
         files:
           any: [ "*" ]
 
-discussions:
-  - slug: announcements
-    assignees:
-      - aariam
+
 
 issues:
   - slug: app_bug_setup
@@ -268,9 +215,7 @@ workflow_hooks_config_path: ".pre-commit-config.yaml"
 
 get_owner_publications: true
 
-color:
-  primary: ['135400', '459B24']
-  secondary: ['055005', '9CCC00']
+
 
 base_url: ""
 
@@ -317,3 +262,6 @@ readme:
     style: "ver"
     sections:
       - id: "ci"
+
+path:
+  source: "src"
