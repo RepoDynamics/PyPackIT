@@ -148,4 +148,4 @@ cython_debug/
 !.local/**/
 !.local/**/README.md
 !.local/config.yaml
-!/dev/build/
+!/.dev/build/
