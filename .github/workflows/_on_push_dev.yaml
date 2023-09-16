@@ -1,8 +1,7 @@
-# Continuous Integration pipeline
+# Continuous Integration pipeline for non-release branches
 
-name: "[On Push Development Branch]: CI"
-run-name: |
-  CI: Branch '${{github.ref_name}}'
+name: "[Push] Non-Release Branch"
+run-name: "CI: Dev Branch '${{ github.ref_name }}'"
 
 on:
   push:
@@ -12,7 +11,6 @@ on:
       - announcement
 
 jobs:
-
   init:
     name: 'Initialization'
     runs-on: ubuntu-latest
@@ -28,7 +26,7 @@ jobs:
         uses: repodynamics/init@main
 
   package-test:
-    name: 'Test Package'
+    name: 'Package / Test-Suite'
     needs: init
     if: needs.init.outputs.package-test == 'true'
     uses: ./.github/workflows/package_test.yaml
@@ -37,7 +35,7 @@ jobs:
       package-source: GitHub
 
   package-lint:
-    name: 'Lint Package'
+    name: 'Package / Lint'
     needs: init
     if: needs.init.outputs.package-lint == 'true'
     permissions:

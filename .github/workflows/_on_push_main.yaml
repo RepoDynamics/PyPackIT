@@ -1,19 +1,15 @@
+# Continuous Integration/Deployment pipeline for release branches
 
-
-name: "[On Push Release Branch]: CD"
-run-name: |
-  CD: Branch '${{github.ref_name}}'
-
+name: "[Push] Release Branch"
+run-name: "CD: Release Branch '${{github.ref_name}}'"
 
 on:
   push:
     branches:
-      - 'main'
-      - 'release/v[0-9]+'
-
+      - main
+      - release/v[0-9]+
 
 jobs:
-
   init:
     name: 'Initialization'
     runs-on: ubuntu-latest
@@ -46,14 +42,14 @@ jobs:
           admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
 
   build:
-    name: 'Package / Publish'
+    name: 'Package / Build'
     needs: init
     uses: ./.github/workflows/package_build.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   test:
-    name: 'Test Package'
+    name: 'Package / Test-Suite / GitHub'
     needs: init
     uses: ./.github/workflows/package_test.yaml
     with:
@@ -61,7 +57,7 @@ jobs:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   lint:
-    name: 'Lint Package'
+    name: 'Package / Lint'
     needs: init
     permissions:
       pull-requests: write
@@ -91,7 +87,7 @@ jobs:
           checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   publish-testpypi:
-    name: 'Publish TestPyPI'
+    name: 'Package / Publish / TestPyPI'
     needs: [init, build, test, lint]
     if: ${{ needs.init.outputs.publish == 'true' }}
     permissions:
@@ -99,7 +95,7 @@ jobs:
     uses: ./.github/workflows/package_publish.yaml
 
   test-testpypi:
-    name: 'Test TestPyPI'
+    name: 'Package / Test-Suite / TestPyPI'
     needs: [init, build, publish-testpypi]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
@@ -109,7 +105,7 @@ jobs:
       package-version: ${{ needs.build.outputs.package-version }}
 
   publish-pypi:
-    name: 'Package / Publish'
+    name: 'Package / Publish / PyPI'
     needs: test-testpypi
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_publish.yaml
@@ -119,7 +115,7 @@ jobs:
       platform: 'PyPI'
 
   test-pypi:
-    name: 'PubTest PyPI'
+    name: 'Package / Test-Suite / PyPI'
     needs: [init, build, publish-pypi]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     uses: ./.github/workflows/package_test.yaml
@@ -129,6 +125,7 @@ jobs:
       package-version: ${{ needs.build.outputs.package-version }}
 
   release:
+    name: 'Release'
     needs: [ init, build, website, test-pypi ]
     if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
     permissions:

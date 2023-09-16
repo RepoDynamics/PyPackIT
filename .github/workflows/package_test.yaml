@@ -9,13 +9,14 @@ on:
     inputs:
 
       checkout-ref:
-        description: Reference to checkout, i.e. the `ref` input of `actions/checkout`.
+        description: |
+          Git reference (e.g. commit hash, branch name, tag) to checkout the repository at.
         type: string
         required: false
         default: ""
 
       package-source:
-        description: "Installation source of the package"
+        description: Installation source of the package
         type: choice
         options:
           - GitHub
@@ -74,7 +75,7 @@ jobs:
         run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
   test:
-    name: 'Test-Suite (py${{ matrix.python-version }}, ${{ matrix.os }})'
+    name: 'Python ${{ matrix.python-version }} / ${{ matrix.os }}'
     needs: meta
     strategy:
       fail-fast: false
