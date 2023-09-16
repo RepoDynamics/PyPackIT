@@ -265,3 +265,4 @@ readme:
 
 path:
   source: "src"
+  tests: "tests"
