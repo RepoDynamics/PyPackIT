@@ -1,0 +1,1 @@
+pylint[spelling] >= 2.7.15, < 2.8
