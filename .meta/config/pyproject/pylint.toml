@@ -2,10 +2,7 @@
 # Ref: https://github.com/pylint-dev/pylint/blob/v2.17.4/examples/pyproject.toml
 
 [tool.pylint.main]
-# fail-on =
 fail-under = 10
-recursive=true
-ignore = ["CVS"]
 jobs = 0
 limit-inference-results = 500
 load-plugins = [
@@ -37,6 +34,10 @@ load-plugins = [
     "pylint.extensions.typing",
     "pylint.extensions.while_used",
 ]
+persistent = true
+py-version = "${{package.python_version_min}}"
+recursive = true
+source-roots = ["${{path.source}}"]
 
 [tool.pylint.basic]
 good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
@@ -45,41 +46,43 @@ good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
 max-args = 10
 max-attributes = 20
 max-bool-expr = 5
+max-branches = 15
+max-locals = 15
 max-public-methods = 50
-max-returns = 6
+max-returns = 10
 max-statements = 50
-min-public-methods = 2
+min-public-methods = 1
 
 [tool.pylint.format]
 max-line-length = 100
-max-module-lines = 1000
+max-module-lines = 2000
 
 [tool.pylint.imports]
-ext-import-graph = ".local/report/pylint/diagrams/import_graph_external.svg"
-import-graph = ".local/report/pylint/diagrams/import_graph_all.svg"
-int-import-graph = ".local/report/pylint/diagrams/import_graph_internal.svg"
+ext-import-graph = ".local/report/pylint/import_graphs/external.svg"
+import-graph = ".local/report/pylint/import_graphs/all.svg"
+int-import-graph = ".local/report/pylint/import_graphs/internal.svg"
 
 [tool.pylint.logging]
 logging-format-style = "new"
 
 [tool.pylint."messages control"]
-disable = [
-    "wrong-spelling-in-comment",
-    "wrong-spelling-in-docstring",
-    "line-too-long"
-]
+confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFINED"]
 
 [tool.pylint.reports]
 reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:.local/report/pylint/json.json",
-    "text:.local/report/pylint/text.txt",
-    "parseable:.local/report/pylint/parseable.txt",
-    "msvs:.local/report/pylint/msvs.txt",
+    "json:.local/report/pylint/report_json.json",
+    "text:.local/report/pylint/report_text.txt",
+    "parseable:.local/report/pylint/report_parseable.txt",
+    "msvs:.local/report/pylint/report_msvs.txt",
     "colorized",
 ]
+
+[tool.pylint.similarities]
+ignore-comments = true
+min-similarity-lines = 8
 
 [tool.pylint.spelling]
 spelling-dict = "en_US"
