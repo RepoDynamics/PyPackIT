@@ -87,6 +87,7 @@ repos:
     rev: v0.0.290
     hooks:
       - id: ruff
+        stages: [ pre-commit, manual ]
         args: [ --fix, --exit-non-zero-on-fix ]
         types_or: [python, pyi, jupyter]
 
@@ -128,9 +129,3 @@ repos:
         language: system
         types: [ python ]
         args: [ "--rcfile=pyproject.toml" ]
-
-
-
-
-  # Conventional commits
-  # https://github.com/compilerla/conventional-pre-commit
