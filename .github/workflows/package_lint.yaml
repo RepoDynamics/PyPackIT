@@ -43,6 +43,7 @@ jobs:
       - id: metadata
         run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
+
   dependency-review:
   # This Action will scan dependency manifest files that change as part of a Pull Request,
   # surfacing known-vulnerable versions of the packages declared or updated in the PR.
@@ -79,15 +80,11 @@ jobs:
     # Refs:
     #  https://github.com/github/codeql-action
     #  https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning-for-a-repository
-    name: 'Scan code with CodeQL'
+    name: 'CodeQL Security Scan'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
-      # required for all workflows
       security-events: write
-      # only required for workflows in private repositories
-      actions: read
-      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -124,151 +121,153 @@ jobs:
           category: "/language:${{matrix.language}}"
 
 
-#  bandit:
-#    # Bandit is a security linter designed to find common security issues in Python code.
-#    # This action will run Bandit on your codebase.
-#    # The results of the scan will be found under the Security tab of your repository.
-#    # Adapted from GitHub starter workflow, e.g.:
-#    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fbandit.yml&workflow_template=code-scanning%2Fbandit
-#    # Refs:
-#    #  https://github.com/marketplace/actions/bandit-scan
-#    #  https://pypi.org/project/bandit/
-#    name: 'Run bandit'
-#    permissions:
-#      contents: read # for actions/checkout to fetch code
-#      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-#      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 'Checkout repository'
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ${{ inputs.checkout-ref }}
-#
-#      - name: 'Bandit Scan'
-#        uses: shundor/python-bandit-scan@v1.0
-#        with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
-#          path: .
+  bandit:
+    # Refs:
+    #  https://github.com/marketplace/actions/bandit-scan
+    #  https://pypi.org/project/bandit/
+    #  https://bandit.readthedocs.io/en/latest/
+    #  https://github.com/PyCQA/bandit
+    name: 'bandit'
+    needs: meta
+    permissions:
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
 
+      - name: 'Setup Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-#  pyre:
-#    # Pyre is a performant type checker for Python compliant with
-#    # PEP 484. Pyre can analyze codebases with millions of lines
-#    # of code incrementally – providing instantaneous feedback
-#    # to developers as they write code.
-#
-#    # Adapted from GitHub starter workflow, e.g.:
-#    #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fpyre.yml&workflow_template=code-scanning%2Fpyre
-#    # Refs:
-#    #  https://github.com/facebook/pyre-action
-#    #  https://pyre-check.org
-#    name: 'Run Pyre'
-#    permissions:
-#      actions: read
-#      contents: read
-#      security-events: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          submodules: true
-#          ref: ${{ inputs.checkout-ref }}
-#
-#      - name: Run Pyre
-#        uses: facebook/pyre-action@v0.0.1
-#        with:
-#          repo-directory: './'
-#          requirements-path: 'requirements.txt'
+      - name: 'Setup Environment'
+        shell: bash
+        run: |
+          echo "::group::Install Dependencies"
+          python -m pip install bandit[toml] bandit-sarif-formatter
+          echo "::endgroup::"
+          echo "::group::Display pip environment"
+          python -m pip list
+          echo "::endgroup::"
+
+      - name: 'Run bandit'
+        shell: bash
+        run: |
+          echo "::group::Create temporary directory"
+          TEMP_REPORT_DIR=".local/.temp/bandit
+          mkdir -p $TEMP_REPORT_DIR
+          echo "::endgroup::"
+          
+          echo "::group::Run bandit"
+          bandit \
+          ${{ fromJSON(needs.meta.outputs.data).path.source }} \
+          --configfile pyproject.toml \
+          --recursive \
+          --aggregate file \ 
+          --number 5 \
+          --severity-level medium \
+          --confidence-level medium \
+          --format sarif \
+          --output $TEMP_REPORT_DIR/report.sarif \
+          --verbose
+          echo "::endgroup::"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: Lint Reports
+          path: .local/.temp
+
+      - name: Upload SARIF file
+        # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
+        # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: .local/.temp/bandit/report.sarif
+          category: "bandit"
 
 
   mypy:
-    name: 'mypy (${{ matrix.os }}, python ${{ matrix.python-version }})'
+    name: 'MyPy / Python ${{ matrix.python-version }} / ${{ matrix.os }}'
     needs: meta
-    if: ${{ always() }}
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
         python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
-
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: 'Checkout repository'
+      - name: 'Checkout Repository'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
 
-      - name: 'Setup Python ${{ matrix.python-version }}'
+      - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_version_max }}
+          cache: pip
+          cache-dependency-path: .github/requirements/mypy.txt
 
-      - name: 'Install requirements'
+      - name: 'Setup Environment'
         run: |
+          echo "::group::Upgrade pip"
           python -m pip install --upgrade pip
+          echo "::endgroup::"
+          
+          echo "::group::Install package"
           python -m pip install .
-          python -m pip install mypy[reports]
-
-      - name: 'Run mypy'
-        run: |
-          mkdir -p _local_reports/mypy
-          mypy ./src --config-file pyproject.toml
-
-      - name: 'Move reports'
-        if: always()
-        run: |
-          mkdir -p artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv _local_reports/mypy/* artifacts/mypy/python_${{ matrix.python-version }}/${{ matrix.os }}
-
-      - name: 'Display info'
-        if: always()
-        run: |
-          echo "::group::Python version"
-          python -c "import sys; print(sys.version)"
           echo "::endgroup::"
-          echo "::group::mypy Version"
-          mypy --version
+          
+          echo "::group::Install mypy"
+          python -m pip install -r .github/requirements/mypy.txt
           echo "::endgroup::"
-          echo "::group::pip list"
+          
+          echo "::group::Display pip environment"
           python -m pip list
           echo "::endgroup::"
-          echo "::group::OS and hardware info"
-          uname -a
+
+      - name: 'Run MyPy'
+        run: |
+          echo "::group::Create temporary directory"
+          TEMP_REPORT_DIR=".local/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
+          mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
-          echo "::group::Disk space usage"
-          df -h
-          echo "::endgroup::"
-          echo "::group::Available system resources"
-          ulimit -a
-          echo "::endgroup::"
-          echo "::group::Root directory"
-          ls -a
-          echo "::endgroup::"
-          echo "::group::File tree"
-          find .
+          
+          echo "::group::Run mypy"
+          mypy \
+          --python-version ${{ matrix.python-version }} \
+          --config-file pyproject.toml \
+          --any-exprs-report $TEMP_REPORT_DIR \
+          --html-report $TEMP_REPORT_DIR \
+          --linecount-report $TEMP_REPORT_DIR \
+          --linecoverage-report $TEMP_REPORT_DIR \
+          --lineprecision-report $TEMP_REPORT_DIR \
+          --txt-report $TEMP_REPORT_DIR \
+          --xml-report $TEMP_REPORT_DIR 
           echo "::endgroup::"
 
       - name: 'Upload reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: artifacts
-          name: lint
+          name: Lint Reports
+          path: .local/.temp
 
 
   pylint:
-    name: 'Pylint'
+    name: 'PyLint / ${{ matrix.os }}'
     needs: meta
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
-        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
-
+    runs-on: ${{ matrix.os }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -276,11 +275,13 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
 
-      - name: 'Setup Python ${{ matrix.python-version }}'
+      - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_version_max }}
+          cache: pip
+          cache-dependency-path: .github/requirements/pylint.txt
 
       - name: 'Setup MSYS2'
         if: runner.os == 'Windows'
@@ -289,7 +290,7 @@ jobs:
           update: true
           install: mingw-w64-x86_64-enchant
 
-      - name: 'Install requirements'
+      - name: 'Install Extra Requirements'
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
               sudo apt update
@@ -304,67 +305,66 @@ jobs:
               echo "$RUNNER_OS not supported"
               exit 1
           fi
-          python -m pip install --upgrade pip
-          python -m pip install .
-          python -m pip install pylint[spelling]
 
+      - name: 'Setup Environment'
+        run: |
+          echo "::group::Upgrade pip"
+          python -m pip install --upgrade pip
+          echo "::endgroup::"
+          
+          echo "::group::Install package"
+          python -m pip install .
+          echo "::endgroup::"
+          
+          echo "::group::Install pylint"
+          python -m pip install -r .github/requirements/pylint.txt
+          echo "::endgroup::"
+          
+          echo "::group::Display pip environment"
+          python -m pip list
+          echo "::endgroup::"
 
       - name: 'Run Pylint'
         run: |
-          mkdir -p .local/reports/pylint/diagrams
-          pylint ./src --rcfile pyproject.toml
+          echo "::group::Create temporary directory"
+          TEMP_DIR=.local/.temp/pylint/${{ matrix.os }}
+          mkdir -p $TEMP_DIR/import_graphs
+          echo "::endgroup::"
+          
+          echo "::group::Run pylint"
+          pylint \
+          ${{ fromJSON(needs.meta.outputs.data).package.name }} \
+          --rcfile pyproject.toml \
+          --import-graph $TEMP_DIR/import_graphs/all.svg \
+          --ext-import-graph $TEMP_DIR/import_graphs/external.svg \
+          --int-import-graph $TEMP_DIR/import_graphs/internal.svg \
+          --output-format=colorized,text:$TEMP_DIR/report_text.txt,json:$TEMP_DIR/report_json.json,parseable:$TEMP_DIR/report_parseable.txt,msvs:$TEMP_DIR/report_msvs.txt \
+          -j 0
+          echo "::endgroup::"
 
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
         run: |
-          pyreverse ${{ fromJSON(needs.meta.outputs.data).package.name }} --output-directory .local/reports/pylint/diagrams --output html --module-names y --colorized
-
-      - name: 'Move reports'
-        if: always()
-        run: |
-          mkdir -p .local/artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
-          mv .local/reports/pylint/* .local/artifacts/pylint/python_${{ matrix.python-version }}/${{ matrix.os }}
-
-      - name: 'Display info'
-        if: always()
-        run: |
-          echo "::group::Python version"
-          python -c "import sys; print(sys.version)"
+          echo "::group::Create temporary directory"
+          TEMP_DIR=.local/.temp/pylint/${{ matrix.os }}/diagrams
+          mkdir -p $TEMP_DIR
           echo "::endgroup::"
-          echo "::group::Pylint Version"
-          pylint --version
-          echo "::endgroup::"
-          echo "::group::pip list"
-          python -m pip list
-          echo "::endgroup::"
-          echo "::group::OS and hardware info"
-          uname -a
-          echo "::endgroup::"
-          echo "::group::Disk space usage"
-          df -h
-          echo "::endgroup::"
-          echo "::group::Available system resources"
-          ulimit -a
-          echo "::endgroup::"
-          echo "::group::Root directory"
-          ls -a
-          echo "::endgroup::"
-          echo "::group::File tree"
-          find .
+          
+          echo "::group::Run pyreverse"
+          pyreverse \ 
+          ${{ fromJSON(needs.meta.outputs.data).package.name }} \ 
+          --source-roots ${{ fromJSON(needs.meta.outputs.data).path.source }} \
+          --output-directory $TEMP_DIR \
+          --output html \
+          --module-names y \ 
+          --colorized \
+          --max-color-depth 5 
           echo "::endgroup::"
 
       - name: 'Upload Pylint reports'
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: .local/artifacts
-          name: lint
-
-#      - name: 'Upload diagrams'
-#        if: always()
-#        uses: actions/upload-artifact@v3
-#        with:
-#          path: |
-#            _local_reports/pylint/diagrams/*
-#          name: diagrams_${{ matrix.python-version }}_${{ matrix.os }}
+          name: Lint Reports
+          path: .local/.temp
