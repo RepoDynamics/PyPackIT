@@ -11,13 +11,11 @@ warn_return_any = true
 # Miscellaneous strictness flags
 strict = true
 
-
 # Configuring error messages
 show_error_context = true
 show_column_numbers = true
 pretty = true
 color_output = true
-
 
 # Incremental mode
 cache_dir = ".local/cache/mypy"
