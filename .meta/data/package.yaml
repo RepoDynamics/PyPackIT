@@ -26,7 +26,7 @@ package:
     - "Typing :: Typed"
     - "Natural Language :: English"
 
-  dependencies:
+  core_dependencies:
     # list of tables
     - name: numpy
       usage: Numerical computing.
@@ -54,7 +54,7 @@ package:
 #          conda_spec: ""
 #          conda_channel: ""
 
-#  scripts:
+#  cli_scripts:
 #    - name: entry_point_1
 #      ref: "my_package:main"
 #      description: ""
