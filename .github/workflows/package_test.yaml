@@ -1,7 +1,7 @@
 # Install package from a given source and run unit-tests.
 # Install the package and run tests on a matrix of supported Python versions and operating systems.
 
-name: 'Package - Test'
+name: 'Package: Test'
 run-name: 'Package: Install and test from ${{github.ref}}'
 
 on:
