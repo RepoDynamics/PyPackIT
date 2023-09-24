@@ -1,7 +1,6 @@
-# Run static code analysis
 
-name: Lint
-run-name: Test lint
+name: 'Package: Lint'
+run-name: 'Package: Lint'
 
 on:
   workflow_dispatch:
@@ -23,10 +22,6 @@ on:
         required: false
         default: ""
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
 
   meta:
@@ -42,36 +37,6 @@ jobs:
           sparse-checkout-cone-mode: false
       - id: metadata
         run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
-
-
-  dependency-review:
-  # This Action will scan dependency manifest files that change as part of a Pull Request,
-  # surfacing known-vulnerable versions of the packages declared or updated in the PR.
-  # Once installed, if the workflow run is marked as required,
-  # PRs introducing known-vulnerable packages will be blocked from merging
-    name: 'Dependency Review'
-    if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-
-      - name: 'Review dependencies'
-        # Source repository: https://github.com/actions/dependency-review-action
-        # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
-        # https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-dependency-review
-        uses: actions/dependency-review-action@v3
-        with:
-          fail-on-severity: low
-          fail-on-scopes: development, runtime, unknown
-          comment-summary-in-pr: true
-          base-ref: ${{ inputs.base-ref }}
-          head-ref: ${{ inputs.head-ref }}
-
 
   CodeQL:
     # Run code scanning with GitHub CodeQL.
@@ -95,8 +60,8 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
+          fetch-depth: 0
 
       - name: 'Initialize CodeQL'
         # Initializes the CodeQL tools for scanning.
@@ -119,6 +84,37 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"
+
+
+  dependency-review:
+    # This Action will scan dependency manifest files that change as part of a Pull Request,
+    # surfacing known-vulnerable versions of the packages declared or updated in the PR.
+    # Once installed, if the workflow run is marked as required,
+    # PRs introducing known-vulnerable packages will be blocked from merging
+    name: 'Dependency Review'
+    if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout-ref }}
+
+      - name: 'Review dependencies'
+        # Source repository: https://github.com/actions/dependency-review-action
+        # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
+        # https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-dependency-review
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: low
+          fail-on-scopes: development, runtime, unknown
+          comment-summary-in-pr: true
+          base-ref: ${{ inputs.base-ref }}
+          head-ref: ${{ inputs.head-ref }}
+
 
 
   bandit:
@@ -203,8 +199,8 @@ jobs:
       - name: 'Checkout Repository'
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
+          fetch-depth: 0
 
       - name: 'Setup Python'
         id: setup_python
@@ -272,8 +268,8 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           ref: ${{ inputs.checkout-ref }}
+          fetch-depth: 0
 
       - name: 'Setup Python'
         id: setup_python
