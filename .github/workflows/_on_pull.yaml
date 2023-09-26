@@ -23,6 +23,7 @@ jobs:
       run-package-ci: ${{ steps.init.outputs.run_package_ci }}
       run-docs-ci: ${{ steps.init.outputs.run_docs_ci }}
     steps:
+      - uses: repodynamics/context@main
       - uses: repodynamics/init@main
         id: init
 
@@ -62,7 +63,6 @@ jobs:
     with:
       repository: ${{ github.event.pull_request.head.repo.full_name }}
       checkout-ref: ${{ github.event.pull_request.head.sha }}
-      publish-platform: 'TestPyPI'
 
   package-publish:
     needs: package-build
