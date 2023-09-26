@@ -1,4 +1,4 @@
-<div align="center"><!-- ------------------------- START : Logo ------------------------- -->
+ergrg<div align="center"><!-- ------------------------- START : Logo ------------------------- -->
 <a href="https://aariam.github.io/TemplateRepo"><picture><source media="(prefers-color-scheme: dark)" srcset="https://aariam.github.io/TemplateRepo/_static/logo/full_dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://aariam.github.io/TemplateRepo/_static/logo/full_light.svg"><img alt="TemplateRepo: Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!" title="Welcome to TemplateRepo! Click to visit our website and learn more." width="80%" height="auto" align="center" src="https://aariam.github.io/TemplateRepo/_static/logo/full_light.svg"></picture></a>
 <!-- ------------------------- END : Logo ------------------------- -->
 <!-- ------------------------- START : Top Panel ------------------------- -->
