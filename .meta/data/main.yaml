@@ -1,19 +1,4 @@
 
-conventional_commits_types:
-  - type: style
-    description: |
-      Formatting changes that do not affect the meaning of the code
-  - type: refactor
-    description: A code change that neither fixes a bug nor adds a feature
-  - type: build
-    description: Changes that affect the build system or external dependencies
-  - type: ci
-    description: Changes to our CI configuration files and scripts
-  - type: test
-    description: Adding missing tests or correcting existing tests
-  - type: chore
-    description: Routine tasks
-
 
 meta_check_action_type:
   release_branch: amend
