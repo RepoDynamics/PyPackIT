@@ -28,13 +28,11 @@ package:
 
   core_dependencies:
     # list of tables
-    - name: numpy
+    - pip_spec: "numpy >= 1.21.2"  # https://peps.python.org/pep-0508/#specification
       usage: Numerical computing.
       url_source: ""
       url_homepage: ""
       url_docs: ""
-      # https://peps.python.org/pep-0508/#specification
-      pip_spec: "numpy >= 1.21.2"
       conda_spec: ""
       conda_channel: ""
         # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
