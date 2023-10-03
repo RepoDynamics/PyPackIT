@@ -1,0 +1,68 @@
+
+
+name: "Issues: Format Opened Issue"
+run-name: 'Issues: format opened issue'
+
+
+on: issues
+
+
+jobs:
+
+  github-context:
+    # Generate summary of the workflow run's `github` context, for logging/debugging purposes.
+    name: 'Workflow Context /'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'  # Always load the script from the 'main' branch
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
+      - name: 'Generate context summary'
+        env:
+          RD_CONTEXT: ${{ toJson(github) }}
+        run: python .github/script/workflow.py
+
+
+  issue-opened:
+    name: 'Format opened issue'
+    if: github.event.action == 'opened'
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout script'
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'  # Always load the script from the 'main' branch
+          sparse-checkout: .github/script/workflow.py
+          sparse-checkout-cone-mode: false
+
+      - name: 'Format the issue body'
+        id: format
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "BODY<<$EOF" >> "$GITHUB_ENV"
+          echo "$(python dev/repodynamics/src/pypackit/format_issue.py '$ISSUE_BODY')" >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
+
+      - name: Update issue
+        # https://github.com/marketplace/actions/issues-helper
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'update-issue'
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ env.BODY }}
+          update-mode: 'replace'
+
+      - name: Create comment
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. Add some comments.
