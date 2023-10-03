@@ -1,0 +1,69 @@
+# Install package from a given source and run unit-tests.
+# Install the package and run tests on a matrix of supported Python versions and operating systems.
+
+name: 'Package: Manual Test'
+run-name: 'Package: Install and test from ${{github.ref}}'
+
+on:
+  workflow_call:
+    inputs:
+
+      repository:
+        description: Repository to checkout, i.e. the `repository` input of `actions/checkout`
+        type: string
+        default: ${{ github.repository }}
+        required: false
+
+      checkout-ref:
+        type: string
+        required: false
+        default: ""
+
+      package-source:
+        type: string
+        default: GitHub
+        required: false
+
+      package-version:
+        default: ""
+        required: false
+        type: string
+
+jobs:
+
+  meta:
+    name: 'Load Metadata'
+    outputs:
+      data: ${{steps.metadata.outputs.json}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.checkout-ref }}
+          sparse-checkout: meta/.out/metadata.json
+          sparse-checkout-cone-mode: false
+      - id: metadata
+        run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
+
+  test:
+    name: 'Python ${{ matrix.python-version }} / ${{ matrix.os }}'
+    needs: meta
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.meta.outputs.data).package.github_runners }}
+        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: repodynamics/pytests@main
+        with:
+          repository: ${{ inputs.repository }}
+          checkout-ref: ${{inputs.checkout-ref}}
+          python-version: ${{ matrix.python-version }}
+          package-name: ${{fromJson(needs.meta.outputs.data).package.name}}
+          package-source: ${{inputs.package-source}}
+          package-version: ${{inputs.package-version}}
