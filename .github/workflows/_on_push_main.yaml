@@ -49,7 +49,7 @@ jobs:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   test:
-    name: 'Package / Test-Suite / GitHub'
+    name: 'Package / Test / GitHub'
     needs: init
     uses: ./.github/workflows/package_test.yaml
     with:
