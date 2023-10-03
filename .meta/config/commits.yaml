@@ -1,0 +1,163 @@
+
+commit_types_primary:
+
+  package_release_major:
+    description: 'major release'
+    type: major
+    label_suffix: 'major-release'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+      - remove
+      - change
+
+  package_release_minor:
+    type: minor
+    label_suffix: 'minor-release'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+        - deprecate
+        - feat
+        - enhance
+
+  package_release_patch:
+    type: patch
+    label_suffix: 'patch-release'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+        - secure
+        - fix
+        - perf
+
+  package_release_post:
+    type: post
+    label_suffix: 'post-release'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+        - docs
+        - notes
+
+  website_deploy:
+    type: web
+    label_suffix: 'website'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+        - website-remove
+        - website-change
+        - website-feat
+        - website-fix
+
+  package_non_release:
+    type: private
+    description: 'package'
+    allow_unconventional_commits: true
+    allowed_sub_types:
+      - priv_remove
+      - priv_change
+      - priv_feat
+      - priv_enhance
+      - priv_fix
+      - priv_perf
+      - priv_docs
+      - build
+      - refactor
+      - style
+
+
+
+commit_types_secondary:
+
+  - type: style
+    description: |
+      Formatting changes that do not affect the meaning of the code
+  - type: refactor
+    description: A code change that neither fixes a bug nor adds a feature
+  - type: build
+    description: Changes that affect the build system or external dependencies
+  - type: ci
+    description: Changes to our CI configuration files and scripts
+  - type: test
+    description: Adding missing tests or correcting existing tests
+  - type: chore
+    description: Routine tasks
+
+  remove:
+    description: 'Remove a feature/component from the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'removed'
+  change:
+    description: 'Change a feature/component in the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'changed'
+  deprecate:
+    description: 'Deprecate a feature/component from the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'deprecated'
+  feat:
+    description: 'Add a feature/component to the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'added'
+  enhance:
+    description: 'Enhance a feature/component in the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'enhanced'
+  secure:
+    description: 'Fix a security issue in the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'security'
+  fix:
+    description: 'Fix a bug in the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'fixed'
+  perf:
+    description: 'Improve performance in the public API.'
+    changelog_id: 'main'
+    changelog_section_id: 'improved'
+  docs:
+    description: 'Fix documentation.'
+    changelog_id: 'main'
+    changelog_section_id: 'docs'
+  notes:
+    description: 'Fix release notes.'
+    changelog_id: 'main'
+    changelog_section_id: 'notes'
+
+  priv_remove:
+    description: 'Remove a feature/component from the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'removed'
+  priv_change:
+    description: 'Change a feature/component in the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'changed'
+  priv_feat:
+    description: 'Add a feature/component to the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'added'
+  priv_enhance:
+    description: 'Enhance a feature/component in the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'enhanced'
+  priv_fix:
+    description: 'Fix a bug in the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'fixed'
+  priv_perf:
+    description: 'Improve performance in the private API.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'improved'
+  priv_docs:
+    description: 'Fix documentation.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'docs'
+  build:
+    description: 'Change the build system.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'build'
+  refactor:
+    description: 'Refactor code.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'refactor'
+  style:
+    description: 'Change code style.'
+    changelog_id: 'package_private'
+    changelog_section_id: 'style'
