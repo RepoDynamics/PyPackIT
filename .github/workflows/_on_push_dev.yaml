@@ -5,36 +5,38 @@ run-name: "CI: Dev Branch '${{ github.ref_name }}'"
 
 on:
   push:
-    branches-ignore:
-      - main
-      - release/v[0-9]+
-      - announcement
+    branches:
+      - dev/[0-9]+
 
 jobs:
+
   init:
     name: 'Initialization'
     runs-on: ubuntu-latest
     outputs:
       package-test: ${{ steps.init.outputs.package-test }}
       package-lint: ${{ steps.init.outputs.package-lint }}
+      package-publish: ${{ steps.init.outputs.package-publish }}
       docs: ${{ steps.init.outputs.docs }}
-      latest-hash: ${{ steps.init.outputs.hash }}
+      ref: ${{ steps.init.outputs.hash }}
     permissions:
       contents: write
     steps:
       - id: init
         uses: repodynamics/init@main
 
-  package-test:
-    name: 'Package / Test-Suite'
+  docs:
+    name: 'Docs'
     needs: init
-    if: needs.init.outputs.package-test == 'true'
-    uses: ./.github/workflows/package_test.yaml
-    with:
-      checkout-ref: ${{ needs.init.outputs.latest-hash }}
-      package-source: GitHub
+    if: needs.init.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/SphinxDocs@main
+        with:
+          checkout-ref: ${{ needs.init.outputs.ref }}
+          deploy: false
 
-  package-lint:
+  lint:
     name: 'Package / Lint'
     needs: init
     if: needs.init.outputs.package-lint == 'true'
@@ -45,17 +47,42 @@ jobs:
       contents: read
     uses: ./.github/workflows/package_lint.yaml
     with:
-      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      checkout-ref: ${{ needs.init.outputs.ref }}
       base-ref: ${{ github.event.before }}
-      head-ref: ${{ needs.init.outputs.latest-hash }}
+      head-ref: ${{ needs.init.outputs.ref }}
 
-  docs:
-    name: 'Docs'
+  test:
+    name: 'Package / Test / GitHub'
     needs: init
-    if: needs.init.outputs.docs == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: RepoDynamics/SphinxDocs@main
-        with:
-          checkout-ref: ${{ needs.init.outputs.latest-hash }}
-          deploy: false
+    if: needs.init.outputs.package-test == 'true'
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.ref }}
+      package-source: GitHub
+
+  build:
+    name: 'Package / Build'
+    needs: init
+    if: needs.init.outputs.package-publish == 'true'
+    uses: ./.github/workflows/package_build.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.ref }}
+
+  publish:
+    name: 'Package / Publish / TestPyPI'
+    needs: [ init, build, test, lint ]
+    if: ${{ needs.init.outputs.publish == 'true' }}
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/package_publish.yaml
+
+  test-published:
+    name: 'Package / Test / TestPyPI'
+    needs: [ init, build, publish ]
+    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
+    uses: ./.github/workflows/package_test.yaml
+    with:
+      checkout-ref: ${{ needs.init.outputs.latest-hash }}
+      package-source: TestPyPI
+      package-version: ${{ needs.build.outputs.package-version }}
+
