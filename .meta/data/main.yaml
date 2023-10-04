@@ -201,44 +201,6 @@ workflow_hooks_config_path: ".pre-commit-config.yaml"
 get_owner_publications: true
 
 
-
-base_url: ""
-
-read_the_docs_name: templaterepo
-
-announcement_retention_days: 30
-
-navbar_icons:
-  - id: pypi
-  - id: conda
-  - id: repo
-  - id: issues
-  - id: pull_requests
-  - id: discussions
-  - id: email
-  - id: license
-  - id: twitter
-  - id: linkedin
-  - id: researchgate
-  - id: orcid
-
-quicklinks:
-  - - title: Install
-      path: 'manual/install'
-      include_in_readme: true
-  - - title: Releases
-      path: 'news/category/release'
-      include_in_readme: true
-  - - title: Q&A
-      path: 'help/ask'
-      include_in_readme: true
-
-web_analytics:
-  plausible:
-    domain: ""
-    url: ""
-  google_id: "G-0X66W6TGL2"
-
 readme:
   header:
     style: "vertical"

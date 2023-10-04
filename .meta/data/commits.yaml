@@ -62,6 +62,8 @@ commit_types_primary:
       - refactor
       - style
 
+  tests:
+
 
 
 commit_types_secondary:
