@@ -13,7 +13,6 @@ coverage:
         target: 100%
         threshold: 5%
 
-
 comment:
   layout: "header, diff, flags, files"
   require_changes: false
