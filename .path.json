@@ -1,0 +1,11 @@
+{
+   "file": {
+      "meta": {
+         "config_local": ".local/config.yaml"
+      }
+   },
+
+   "dir": {
+      "source": "src"
+   }
+}
