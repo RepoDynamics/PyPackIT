@@ -1,13 +1,14 @@
-# Continuous Integration/Deployment pipeline for release branches
+# Continuous Integration/Deployment pipeline
 
-name: "[Push] Release Branch"
-run-name: "CD: Release Branch '${{github.ref_name}}'"
+name: "[Push] CI/CD"
+run-name: "CI/CD: Branch '${{github.ref_name}}'"
 
 on:
   push:
     branches:
       - main
       - release/v[0-9]+
+      - dev/[0-9]+
 
 jobs:
   init:
@@ -16,10 +17,15 @@ jobs:
     permissions:
       contents: write
     outputs:
+      package-test: ${{ steps.init.outputs.package-test }}
+      package-lint: ${{ steps.init.outputs.package-lint }}
+      package-publish: ${{ steps.init.outputs.package-publish }}
+      ref: ${{ steps.init.outputs.hash }}
       latest-hash: ${{ steps.init.outputs.hash }}
       release: ${{ steps.init.outputs.release }}
       website-url: ${{ steps.init.outputs.website_url }}
       docs: ${{ steps.init.outputs.docs }}
+      docs-deploy: ${{ steps.init.outputs.docs-deploy }}
       publish: ${{ steps.init.outputs.publish }}
     steps:
       - uses: repodynamics/init@main
@@ -44,6 +50,7 @@ jobs:
   build:
     name: 'Package / Build'
     needs: init
+    if: needs.init.outputs.package-publish == 'true'
     uses: ./.github/workflows/package_build.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
@@ -51,6 +58,7 @@ jobs:
   test:
     name: 'Package / Test / GitHub'
     needs: init
+    if: needs.init.outputs.package-test == 'true'
     uses: ./.github/workflows/package_test.yaml
     with:
       package-source: GitHub
@@ -66,12 +74,14 @@ jobs:
       contents: read
     uses: ./.github/workflows/package_lint.yaml
     with:
+      checkout-ref: ${{ needs.init.outputs.ref }}
       base-ref: ${{ github.event.before }}
       head-ref: ${{ needs.init.outputs.latest-hash }}
 
   website:
     name: 'Docs'
     needs: [init, repo-config]
+    if: needs.init.outputs.docs == 'true'
     permissions:
       contents: read
       pages: write
@@ -83,21 +93,21 @@ jobs:
     steps:
       - uses: RepoDynamics/SphinxDocs@main
         with:
-          deploy: ${{ needs.init.outputs.docs == 'true' }}
+          deploy: ${{ needs.init.outputs.docs-deploy == 'true' }}
           checkout-ref: ${{ needs.init.outputs.latest-hash }}
 
   publish-testpypi:
     name: 'Package / Publish / TestPyPI'
     needs: [init, build, test, lint]
-    if: ${{ needs.init.outputs.publish == 'true' }}
+    if: ${{ needs.init.outputs.publish-testpypi == 'true' }}
     permissions:
       id-token: write
     uses: ./.github/workflows/package_publish.yaml
 
   test-testpypi:
-    name: 'Package / Test-Suite / TestPyPI'
+    name: 'Package / Test / TestPyPI'
     needs: [init, build, publish-testpypi]
-    if: ${{ !failure() && needs.init.outputs.publish == 'true' }}
+    if: ${{ !failure() && needs.init.outputs.publish-testpypi == 'true' }}
     uses: ./.github/workflows/package_test.yaml
     with:
       checkout-ref: ${{ needs.init.outputs.latest-hash }}
