@@ -1,0 +1,18 @@
+# Needs personal access token named `REPO_ADMIN_TOKEN` with 'Administration' scope for the repository.
+repo_config:
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  default_branch: main
+  allow_merge_commit: true
+  allow_squash_merge: true
+  allow_rebase_merge: true
+  merge_commit_title: 'PR_TITLE'
+  squash_merge_commit_title: 'PR_TITLE'
+  merge_commit_message: 'PR_BODY'
+  squash_merge_commit_message: 'PR_BODY'
+  allow_auto_merge: false
+  allow_update_branch: true
+  delete_branch_on_merge: true
+
+repo_target: source

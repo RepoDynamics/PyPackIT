@@ -51,28 +51,3 @@ keynotes:
     description: >-
       With PyPackIT, the only remaining step to publishing a production-ready
       Python project is adding your code, unit-tests and documentation content.
-
-license_id: gnu_agpl_v3+
-
-color:
-  primary: ['135400', '459B24']
-  secondary: ['055005', '9CCC00']
-
-authors:
-  - username: aariam
-    roles:
-      - Conceptualization
-
-email:
-  main: a.ariamajd@gmail.com
-  security: a.ariamajd@gmail.com
-  code_of_conduct: a.ariamajd@gmail.com
-  support: a.ariamajd@gmail.com
-
-funding:
-  github: aariam
-
-discussions:
-  - slug: announcements
-    assignees:
-      - aariam

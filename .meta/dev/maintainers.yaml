@@ -1,0 +1,34 @@
+email:
+  main: a.ariamajd@gmail.com
+  security: a.ariamajd@gmail.com
+  code_of_conduct: a.ariamajd@gmail.com
+  support: a.ariamajd@gmail.com
+
+
+pulls:
+  # Default owners for everything, unless a later match takes precedence.
+  - pattern: "*"
+    reviewers:
+      - "aariam"
+  # All files directly under the root directory; these are config files like pyproject.toml.
+  - pattern: "/*"
+    reviewers:
+      - "aariam"
+  # All files and directories under the '.github' directory.
+  # These are workflows (sensitive; can be exploited) and other GitHub related configs.
+  - pattern: "/.github/"
+    reviewers:
+      - "aariam"
+
+issues:
+  - slug: app_bug_setup
+    assignees:
+      - "aariam"
+  - slug: app_bug_api
+    assignees:
+      - "aariam"
+
+discussions:
+  - slug: announcements
+    assignees:
+      - aariam

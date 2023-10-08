@@ -1,0 +1,12 @@
+
+meta_check_action_type:
+  release_branch: amend
+  dev_branch: commit
+
+get_owner_publications: true
+
+
+
+
+workflow_hooks_config_path: ".pre-commit-config.yaml"
+

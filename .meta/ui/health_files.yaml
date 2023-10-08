@@ -1,0 +1,16 @@
+health_file:
+  code_of_conduct:
+    path: .
+    text: ""
+  contributing:
+    path: .
+    text: ""
+  governance:
+    path: .
+    text: ""
+  security:
+    path: .
+    text: ""
+  support:
+    path: .
+    text: ""

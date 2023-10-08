@@ -1,0 +1,9 @@
+issues_contact_links:
+  - name: Test
+    url: https://github.com/orgs/community/discussions
+    about: Please ask and answer questions here.
+  - name: GitHub Security Bug Bounty
+    url: https://bounty.github.com/
+    about: Please report security vulnerabilities here.
+
+issues_blank_enabled: false
