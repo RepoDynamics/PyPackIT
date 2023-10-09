@@ -1,0 +1,36 @@
+package:
+
+  python_version_min: "3.9"
+
+  operating_systems:
+    linux:
+      runner: ubuntu-latest
+      # https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip
+    macos:
+    windows:
+
+  core_dependencies:
+    # list of tables
+    - pip_spec: "numpy >= 1.21.2"  # https://peps.python.org/pep-0508/#specification
+      usage: Numerical computing.
+      url_source: ""
+      url_homepage: ""
+      url_docs: ""
+      conda_spec: ""
+      conda_channel: ""
+      # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
+      # https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications
+
+  #  optional_dependencies:
+  #    - name: group_1
+  #      description: ""
+  #      packages:
+  #        - name: numpy
+  #          usage: Numerical computing.
+  #          url_source: ""
+  #          url_homepage: ""
+  #          url_docs: ""
+  #          # https://peps.python.org/pep-0508/#specification
+  #          pip_spec: "numpy >= 1.21.2"
+  #          conda_spec: ""
+  #          conda_channel: ""
