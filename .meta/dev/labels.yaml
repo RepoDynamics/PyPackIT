@@ -1,138 +1,228 @@
+label:
+  group:
+    primary_commit_type:
+      prefix: 'Type: '
+      color: '0366d6'
+      labels:
+        package_release_major:
+          suffix: 'major-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a major release of the package.
+        package_release_minor:
+          suffix: 'minor-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
+        package_release_patch:
+          suffix: 'patch-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
+        package_release_post:
+          suffix: 'post-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a post release of the package.
+        website_deploy:
+          suffix: 'website'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in deployment of the website.
+        meta:
+          suffix: 'meta'
+          description: |
+            An issue/pull-request about the meta content of the repository.
+        package_non_release:
+          suffix: 'package'
+          description: |
+            An issue/pull-request about the package that does not result in a new release,
+            such as a change in the private API or the build system, or code refactoring and style changes.
+        tests:
+          suffix: 'test'
+          description: |
+            An issue/pull-request about the test suite.
+        workflows:
+          suffix: 'ci'
+          description: |
+            An issue/pull-request about the GitHub workflows of the repository.
 
-label_group:
-  commit_type:
-    prefix: 'Type: '
-    color: '0366d6'
-    description: 'Type of change:'
-  dev_status:
-    prefix: 'Status: '
-    color: '0366d6'
-    description: 'Development status:'
+    status:
+      prefix: 'Status: '
+      color: '0366d6'
+      labels:
+        triage:
+          suffix: 'triage'
+          description: |
+            The issue/pull-request is being triaged.
+        rejected:
+          suffix: 'rejected'
+          description: |
+            The issue/pull-request has been rejected.
+        duplicate:
+          suffix: 'duplicate'
+          description: |
+            The issue/pull-request is a duplicate.
+        invalid:
+          suffix: 'invalid'
+          description: |
+            The issue/pull-request is invalid.
+        queued:
+          suffix: 'queued'
+          description: |
+            The issue/pull-request is queued for processing.
+        discuss:
+          suffix: 'discuss'
+          description: |
+            The issue/pull-request requires more discussion.
+        need_volunteer:
+          suffix: 'need-volunteer'
+          description: |
+            The issue/pull-request requires a volunteer.
+        in_dev:
+          suffix: 'in-development'
+          description: |
+            The issue/pull-request is being developed.
+        in_review:
+          suffix: 'in-review'
+          description: |
+            The issue/pull-request is being reviewed.
+        alpha:
+          suffix: 'alpha'
+          description: |
+            The issue/pull-request is in alpha release.
+        beta:
+          suffix: 'beta'
+          description: |
+            The issue/pull-request is in beta release.
+        rc:
+          suffix: 'rc'
+          description: |
+            The issue/pull-request is published as a release candidate.
+        merged:
+          suffix: 'merged'
+          description: |
+            The issue/pull-request has been merged into a release branch.
 
-
-labels:
-  - name: 'Bug: App'
-    description: Reported problems encountered while using the application, such as unexpected results and errors.
-    color: A00000
-    issues:
-      - app_bug_api
-
-  - name: enhancement
-    description: need an enhancement
-    color: d73a4a
-
-  - name: documentation
-    description: Improvements or additions to documentation
-    color: 0075ca
-
-  - name: duplicate
-    description: This issue or pull request already exists
-    color: cfd3d7
-
-  - name: test
-    description: This issue or pull request concerns tests
-    color: ffffff
-
-  - name: 'Release: major'
-    description: 'Major release.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        commits: "^[\\w\\-]+(\\([^)]+\\))?!: "
-
-  - name: 'Release: minor'
-    description: 'Minor release.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        commits: "^feat(\\([^)]+\\))?: "
-
-  - name: 'Release: patch'
-    description: 'Patch release.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        commits: "^fix(\\([^)]+\\))?: "
-
-  - name: 'Deploy: website'
-    description: 'Deploy website.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        commits: "^website(\\([^)]+\\))?: "
-
-  - name: 'Modified: github'
-    description: 'Modified files in .github directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ ".github/**" ]
-
-  - name: 'Modified: data'
-    description: 'Modified files in data directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "data/**" ]
-
-  - name: 'Modified: dev'
-    description: 'Modified files in dev directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "dev/**" ]
-
-  - name: 'Modified: docs'
-    description: 'Modified files in docs directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "docs/**" ]
-
-  - name: 'Modified: meta'
-    description: 'Modified files in meta directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "meta/**" ]
-
-  - name: 'Modified: src'
-    description: 'Modified files in src directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "src/**" ]
-
-  - name: 'Modified: tests'
-    description: 'Modified files in tests directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "tests/**" ]
-
-  - name: 'Modified: root'
-    description: 'Modified files in root directory.'
-    color: 'A00000'
-    pulls:
-      sync: true
-      matcher:
-        files:
-          any: [ "*" ]
+#
+#labels:
+#  - name: 'Bug: App'
+#    description: Reported problems encountered while using the application, such as unexpected results and errors.
+#    color: A00000
+#    issues:
+#      - app_bug_api
+#
+#  - name: enhancement
+#    description: need an enhancement
+#    color: d73a4a
+#
+#  - name: documentation
+#    description: Improvements or additions to documentation
+#    color: 0075ca
+#
+#  - name: duplicate
+#    description: This issue or pull request already exists
+#    color: cfd3d7
+#
+#  - name: test
+#    description: This issue or pull request concerns tests
+#    color: ffffff
+#
+#  - name: 'Release: major'
+#    description: 'Major release.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        commits: "^[\\w\\-]+(\\([^)]+\\))?!: "
+#
+#  - name: 'Release: minor'
+#    description: 'Minor release.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        commits: "^feat(\\([^)]+\\))?: "
+#
+#  - name: 'Release: patch'
+#    description: 'Patch release.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        commits: "^fix(\\([^)]+\\))?: "
+#
+#  - name: 'Deploy: website'
+#    description: 'Deploy website.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        commits: "^website(\\([^)]+\\))?: "
+#
+#  - name: 'Modified: github'
+#    description: 'Modified files in .github directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ ".github/**" ]
+#
+#  - name: 'Modified: data'
+#    description: 'Modified files in data directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "data/**" ]
+#
+#  - name: 'Modified: dev'
+#    description: 'Modified files in dev directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "dev/**" ]
+#
+#  - name: 'Modified: docs'
+#    description: 'Modified files in docs directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "docs/**" ]
+#
+#  - name: 'Modified: meta'
+#    description: 'Modified files in meta directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "meta/**" ]
+#
+#  - name: 'Modified: src'
+#    description: 'Modified files in src directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "src/**" ]
+#
+#  - name: 'Modified: tests'
+#    description: 'Modified files in tests directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "tests/**" ]
+#
+#  - name: 'Modified: root'
+#    description: 'Modified files in root directory.'
+#    color: 'A00000'
+#    pulls:
+#      sync: true
+#      matcher:
+#        files:
+#          any: [ "*" ]
