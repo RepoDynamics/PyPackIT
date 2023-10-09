@@ -3,40 +3,53 @@ commit:
   primary:
 
     package_release_major:
-      description: 'major release'
+      description: |
+        Remove features/components from - or introduce breaking changes to - the public API, 
+        and publish a new major release of the package.
       type: major
-      label_suffix: 'major-release'
       sub_types:
         any: [ remove, change ]
         exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels, ]
 
     package_release_minor:
+      description: |
+          Add features/components to - or enhance/deprecate existing features in - the public API, 
+          and publish a new minor release of the package.
       type: minor
-      label_suffix: 'minor-release'
       sub_types:
         any: [ deprecate, feat, enhance ]
 
     package_release_patch:
+      description: |
+          Fix bugs or security issues in the public API, 
+          or improve the performance of existing functionalities, 
+          and publish a new patch release of the package.
       type: patch
-      label_suffix: 'patch-release'
       sub_types:
         any: [ secure, fix, perf ]
 
     package_release_post:
+      description: |
+          Fix documentation or release notes in a previous package release, 
+          and publish a new post release.
       type: post
-      label_suffix: 'post-release'
       sub_types:
         any: [ docs, notes ]
 
     website_deploy:
+      description: |
+          Change the website content, design or backend, 
+          and re-deploy the website.
       type: web
-      label_suffix: 'website'
       sub_types:
         any: [ web-content, web-design, web-backend ]
 
     package_non_release:
+      description: |
+          Change the private API, the build system, or refactor code, 
+          without affecting the public API, 
+          and without publishing a new package release.
       type: pkg
-      label_suffix: 'package'
       sub_types:
         any:
           - priv-remove
@@ -51,8 +64,10 @@ commit:
           - style
 
     tests:
+      description: |
+          Change the test-suite, without affecting the public API, 
+          and without publishing a new package release.
       type: test
-      label_suffix: 'test'
       sub_types:
         any:
           - test-remove
@@ -67,14 +82,16 @@ commit:
           - test-style
 
     workflows:
+      description: |
+          Change the GitHub workflows of the repository.
       type: ci
-      label_suffix: 'ci'
       sub_types:
         any: [ ci ]
 
     meta:
+      description: |
+          Change the meta content of the repository.
       type: meta
-      label_suffix: 'meta'
       sub_types:
         any:
           - meta-credits
