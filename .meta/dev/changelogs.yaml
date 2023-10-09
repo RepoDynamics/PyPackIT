@@ -181,8 +181,10 @@ changelog:
         title: Package Metadata
         description: Changes to package/metadata.yaml file.
       - id: package_build
+        title: Package Build System.
         description: Changes to package/config_build files.
       - id: package_tools
+        title: Package Configurations.
         description: Changes to package/config_tools files.
 
   ci:
