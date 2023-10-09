@@ -11,8 +11,6 @@ package:
 
     {license_notice}
 
-  development_status: 1
-
   python_version_min: "3.9"
 
   operating_systems:
