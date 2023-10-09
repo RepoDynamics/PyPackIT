@@ -1,73 +1,23 @@
 package:
 
-  init: |
-    {name}
-
-    {tagline}
-
-    {description}
-
-    Copyright {copyright_notice}
-
-    {license_notice}
-
-  python_version_min: "3.9"
-
-  operating_systems:
-    linux:
-      runner: ubuntu-latest
-      # https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip
-    macos:
-    windows:
-
   trove_classifiers:
     - "Typing :: Typed"
     - "Natural Language :: English"
 
-  core_dependencies:
-    # list of tables
-    - pip_spec: "numpy >= 1.21.2"  # https://peps.python.org/pep-0508/#specification
-      usage: Numerical computing.
-      url_source: ""
-      url_homepage: ""
-      url_docs: ""
-      conda_spec: ""
-      conda_channel: ""
-        # https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html#requirements-section
-        # https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications
-
-#  optional_dependencies:
-#    - name: group_1
-#      description: ""
-#      packages:
-#        - name: numpy
-#          usage: Numerical computing.
-#          url_source: ""
-#          url_homepage: ""
-#          url_docs: ""
-#          # https://peps.python.org/pep-0508/#specification
-#          pip_spec: "numpy >= 1.21.2"
-#          conda_spec: ""
-#          conda_channel: ""
-
-#  cli_scripts:
-#    - name: entry_point_1
-#      ref: "my_package:main"
-#      description: ""
-
-#  gui_scripts:
-#    - name: entry_point_1
-#      ref: "my_package:main"
-#      description: ""
-
-#  entry_points:
-  # Table of tables
-  #  group_1:
-  #    description: ""
-  #    entry_points:
-  #      entry_point_1:
-  #        ref: "my_package:main"
-  #        description: ""
-  #      entry_point_2:
-  #        ref: "my_package:main"
-  #        description: ""
+  urls:
+    # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata
+    # For a list of URL keys, see:
+    # https://github.com/pypi/warehouse/blob/e69029dc1b23eb2436a940038b927e772238a7bf/warehouse/templates/packaging/detail.html#L20-L62
+    # equivalent keys: "home", "homepage", "home page"
+    Homepage: ${{ url.website.base }}
+    # equivalent keys: "download"
+    Download: ${{ url.github.releases.home }}
+    # equivalent keys: "changelog", "change log", "changes", "release notes", "news", "what's new", "history"
+    News: ${{ url.website.news }}
+    # equivalent keys: "docs", "documentation"
+    Documentation: ${{ url.website.base }}
+    # equivalent keys (startswith): "bug", "issue", "tracker", "report"
+    Issue-Tracker: ${{ url.github.issues.home }}
+    # equivalent keys (startswith): "funding", "donate", "donation", "sponsor"
+    Sponsor: ${{ url.website.sponsor }}
+    Source: ${{ url.github.home }}
