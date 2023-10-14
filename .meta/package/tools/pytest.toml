@@ -21,7 +21,7 @@ python_classes = ["Test*", "*Test"]
 python_files = ["test_*.py", "*_test.py"]
 python_functions = ["test_*", "*_test"]
 required_plugins = ["pytest-cov>=4.1.0,<5"]
-testpaths = ["${{path.tests}}"]
+testpaths = ["${{path.dir.tests}}"]
 
 
 # pytest-cov / Coverage.py
