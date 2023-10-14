@@ -37,7 +37,7 @@ load-plugins = [
 persistent = true
 py-version = "${{package.python_version_min}}"
 recursive = true
-source-roots = ["${{path.source}}"]
+source-roots = ["${{path.dir.source}}"]
 
 [tool.pylint.basic]
 good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
