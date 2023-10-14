@@ -4,7 +4,7 @@
 [tool.isort]
 profile = "black"
 line_length = 100
-src_paths = ["${{path.source}}", "${{path.tests}}"]
+src_paths = ["${{path.dir.source}}", "${{path.dir.tests}}"]
 skip_gitignore = true
 lines_before_imports = 2
 lines_after_imports = 2
