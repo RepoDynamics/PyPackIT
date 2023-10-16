@@ -105,7 +105,6 @@ jobs:
     #  https://bandit.readthedocs.io/en/latest/
     #  https://github.com/PyCQA/bandit
     name: 'bandit'
-    needs: meta
     permissions:
       security-events: write
     runs-on: ubuntu-latest
@@ -170,7 +169,6 @@ jobs:
 
   mypy:
     name: 'MyPy / Python ${{ matrix.python-version }} / ${{ matrix.os }}'
-    needs: meta
     strategy:
       fail-fast: false
       matrix:
@@ -239,7 +237,6 @@ jobs:
 
   pylint:
     name: 'PyLint / ${{ matrix.os }}'
-    needs: meta
     strategy:
       fail-fast: false
       matrix:
