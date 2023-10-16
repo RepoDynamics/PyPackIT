@@ -9,43 +9,43 @@ changelog:
       and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     sections:
       - id: removed
-        title: ⛔ Removed Features
+        title: ⛔ Removed Features
         description: |
           Features that have been removed from the public API.
       - id: changed
-        title: 🚫 Changed Features
+        title: 🚫 Changed Features
         description: |
             Features that have been changed in the public API.
       - id: deprecated
-        title: ⚠️ Deprecated Features
+        title: ⚠️ Deprecated Features
         description: |
             Features that have been deprecated in the public API.
       - id: added
-        title: 🌱 New Features
+        title: 🌱 New Features
         description: |
             Features that have been added to the public API.
       - id: enhanced
-        title: ✨ Enhanced Features
+        title: ✨ Enhanced Features
         description: |
             Features that have been enhanced in the public API.
       - id: security
-        title: 🛡️ Security Fixes
+        title: 🛡️ Security Fixes
         description: |
             Security fixes that have been applied to the public API.
       - id: fixed
-        title: 🐞 Bug Fixes
+        title: 🐞 Bug Fixes
         description: |
             Bug fixes that have been applied to the public API.
       - id: improved
-        title: 🚀 Performance Improvements
+        title: 🚀 Performance Improvements
         description: |
             Performance improvements that have been applied to the public API.
       - id: docs
-        title: 📝 Docstring Fixes
+        title: 📝 Docstring Fixes
         description: |
             Docstring fixes that have been applied to the public API.
       - id: notes
-        title: 📔️ Release-Notes Fixes
+        title: 📔️ Release-Notes Fixes
         description: |
             Release-Notes fixes that have been applied to the public API.
 
