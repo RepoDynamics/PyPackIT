@@ -1,6 +1,7 @@
 discussion:
   forms:
-    - title: Is this a bug?
+    - slug: bug_question
+      title: Is this a bug?
       labels:
           - bug
       body:
