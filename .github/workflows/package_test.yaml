@@ -5,74 +5,60 @@ name: 'Package: Test'
 run-name: 'Package: Install and test from ${{github.ref}}'
 
 on:
-  workflow_dispatch:
-    inputs:
-
-      checkout-ref:
-        description: |
-          Git reference (e.g. commit hash, branch name, tag) to checkout the repository at.
-        type: string
-        required: false
-        default: ""
-
-      package-source:
-        description: Installation source of the package
-        type: choice
-        options:
-          - GitHub
-          - TestPyPI
-          - PyPI
-        default: GitHub
-        required: false
-
-      package-version:
-        description: |
-          Version of the package to install, when package-source is not 'GitHub'.
-          If not specified, the latest version is installed.
-        default: ""
-        required: false
-        type: string
-
   workflow_call:
     inputs:
-
+      metadata:
+        type: string
+        required: true
+        description: |
+          CI metadata as a JSON string.
+      ref:
+        type: string
+        required: false
+        default: ""
+        description: |
+          Git reference (e.g. commit hash, branch name, tag) to checkout the repository at.
       repository:
         description: Repository to checkout, i.e. the `repository` input of `actions/checkout`
         type: string
         default: ${{ github.repository }}
         required: false
-
-      checkout-ref:
-        type: string
-        required: false
-        default: ""
-
       package-source:
         type: string
         default: GitHub
         required: false
-
+        description: Installation source of the package; one of 'GitHub', 'TestPyPI', 'PyPI'.
       package-version:
         default: ""
         required: false
         type: string
+        description: |
+          Version of the package to install, when package-source is not 'GitHub'.
+          If not specified, the latest version is installed.
 
 jobs:
-
   meta:
-    name: 'Load Metadata'
+    name: Initialize
     outputs:
-      data: ${{steps.metadata.outputs.json}}
+      data: ${{steps.meta.outputs.metadata}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: 'Checkout Metadata'
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v3
         with:
           repository: ${{ inputs.repository }}
-          ref: ${{ inputs.checkout-ref }}
-          sparse-checkout: meta/.out/metadata.json
+          ref: ${{ inputs.ref }}
+          sparse-checkout: .github/.metadata_ci.json
           sparse-checkout-cone-mode: false
-      - id: metadata
-        run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
+      - name: 'Load repository metadata'
+        id: meta
+        run: |
+          if [ "${{github.event_name}}" = "workflow_dispatch" ]; then
+            echo "metadata=$(cat .github/.metadata_ci.json)" >> $GITHUB_OUTPUT
+          else
+            echo "metadata=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
+          fi
 
   test:
     name: 'Python ${{ matrix.python-version }} / ${{ matrix.os }}'
@@ -90,8 +76,10 @@ jobs:
       - uses: repodynamics/pytests@main
         with:
           repository: ${{ inputs.repository }}
-          checkout-ref: ${{inputs.checkout-ref}}
+          ref: ${{ inputs.ref }}
           python-version: ${{ matrix.python-version }}
-          package-name: ${{fromJson(needs.meta.outputs.data).package.name}}
-          package-source: ${{inputs.package-source}}
-          package-version: ${{inputs.package-version}}
+          package-source: ${{ inputs.package-source }}
+          package-name: ${{ fromJson(needs.meta.outputs.data).package.name }}
+          package-version: ${{ inputs.package-version }}
+          path-tests: ${{ fromJson(needs.meta.outputs.data).path.dir.tests }}
+          path-local: ${{ fromJson(needs.meta.outputs.data).path.dir.local }}

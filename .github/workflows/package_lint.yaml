@@ -3,40 +3,25 @@ name: 'Package: Lint'
 run-name: 'Package: Lint'
 
 on:
-  workflow_dispatch:
   workflow_call:
     inputs:
-      checkout-ref:
+      metadata:
+        type: string
+        required: true
+        description: |
+          CI metadata as a JSON string.
+      ref:
         description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
         type: string
         required: false
         default: ""
-      base-ref:
+      ref-before:
         description: 'Base reference.'
-        type: string
-        required: false
-        default: ""
-      head-ref:
-        description: 'Head reference.'
         type: string
         required: false
         default: ""
 
 jobs:
-
-  meta:
-    name: 'Load Metadata'
-    outputs:
-      data: ${{steps.metadata.outputs.json}}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.checkout-ref }}
-          sparse-checkout: meta/.out/metadata.json
-          sparse-checkout-cone-mode: false
-      - id: metadata
-        run: echo "json=$(cat meta/.out/metadata.json)" >> $GITHUB_OUTPUT
 
   CodeQL:
     # Run code scanning with GitHub CodeQL.
@@ -60,7 +45,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.checkout-ref }}
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
 
       - name: 'Initialize CodeQL'
@@ -85,7 +70,6 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-
   dependency-review:
     # This Action will scan dependency manifest files that change as part of a Pull Request,
     # surfacing known-vulnerable versions of the packages declared or updated in the PR.
@@ -97,11 +81,10 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.checkout-ref }}
+          ref: ${{ inputs.ref }}
 
       - name: 'Review dependencies'
         # Source repository: https://github.com/actions/dependency-review-action
@@ -112,10 +95,8 @@ jobs:
           fail-on-severity: low
           fail-on-scopes: development, runtime, unknown
           comment-summary-in-pr: true
-          base-ref: ${{ inputs.base-ref }}
-          head-ref: ${{ inputs.head-ref }}
-
-
+          base-ref: ${{ inputs.ref-before }}
+          head-ref: ${{ inputs.ref }}
 
   bandit:
     # Refs:
@@ -132,7 +113,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.checkout-ref }}
+          ref: ${{ inputs.ref }}
 
       - name: 'Setup Python'
         uses: actions/setup-python@v4
@@ -155,13 +136,13 @@ jobs:
         shell: bash
         run: |
           echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR=".local/.temp/bandit
+          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.local }}/.temp/bandit"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
           
           echo "::group::Run bandit"
           bandit \
-          ${{ fromJSON(needs.meta.outputs.data).path.source }} \
+          ${{ fromJSON(inputs.metadata).path.source }} \
           --configfile pyproject.toml \
           --recursive \
           --aggregate file \ 
@@ -177,16 +158,15 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: Lint Reports
-          path: .local/.temp
+          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
 
       - name: Upload SARIF file
         # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
         # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: .local/.temp/bandit/report.sarif
+          sarif_file: ${{ fromJSON(inputs.metadata).path.local }}/.temp/bandit/report.sarif
           category: "bandit"
-
 
   mypy:
     name: 'MyPy / Python ${{ matrix.python-version }} / ${{ matrix.os }}'
@@ -194,21 +174,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
-        python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJSON(inputs.metadata).package.github_runners }}
+        python-version: ${{ fromJSON(inputs.metadata).package.python_versions }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.checkout-ref }}
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
 
       - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_version_max }}
+          python-version: ${{ fromJSON(inputs.metadata).package.python_version_max }}
           cache: pip
           cache-dependency-path: .github/workflow_requirements/mypy.txt
 
@@ -223,7 +203,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Install mypy"
-          python -m pip install -r .github/requirements/mypy.txt
+          python -m pip install -r .github/workflow_requirements/mypy.txt
           echo "::endgroup::"
           
           echo "::group::Display pip environment"
@@ -233,7 +213,7 @@ jobs:
       - name: 'Run MyPy'
         run: |
           echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR=".local/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
+          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.local }}/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
           
@@ -255,8 +235,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: .local/.temp
-
+          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
 
   pylint:
     name: 'PyLint / ${{ matrix.os }}'
@@ -264,20 +243,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(needs.meta.outputs.data).package.github_runners }}
+        os: ${{ fromJSON(inputs.metadata).package.github_runners }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.checkout-ref }}
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
 
       - name: 'Setup Python'
         id: setup_python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ fromJSON(needs.meta.outputs.data).package.python_version_max }}
+          python-version: ${{ fromJSON(inputs.metadata).package.python_version_max }}
           cache: pip
           cache-dependency-path: .github/workflow_requirements/pylint.txt
 
@@ -315,7 +294,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Install pylint"
-          python -m pip install -r .github/requirements/pylint.txt
+          python -m pip install -r .github/workflow_requirements/pylint.txt
           echo "::endgroup::"
           
           echo "::group::Display pip environment"
@@ -325,13 +304,13 @@ jobs:
       - name: 'Run Pylint'
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=.local/.temp/pylint/${{ matrix.os }}
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.local }}/.temp/pylint/${{ matrix.os }}
           mkdir -p $TEMP_DIR/import_graphs
           echo "::endgroup::"
           
           echo "::group::Run pylint"
           pylint \
-          ${{ fromJSON(needs.meta.outputs.data).package.name }} \
+          ${{ fromJSON(inputs.metadata).package.name }} \
           --rcfile pyproject.toml \
           --import-graph $TEMP_DIR/import_graphs/all.svg \
           --ext-import-graph $TEMP_DIR/import_graphs/external.svg \
@@ -345,14 +324,14 @@ jobs:
         if: always()
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=.local/.temp/pylint/${{ matrix.os }}/diagrams
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.local }}/.temp/pylint/${{ matrix.os }}/diagrams
           mkdir -p $TEMP_DIR
           echo "::endgroup::"
           
           echo "::group::Run pyreverse"
           pyreverse \ 
-          ${{ fromJSON(needs.meta.outputs.data).package.name }} \ 
-          --source-roots ${{ fromJSON(needs.meta.outputs.data).path.source }} \
+          ${{ fromJSON(inputs.metadata).package.name }} \ 
+          --source-roots ${{ fromJSON(inputs.metadata).path.source }} \
           --output-directory $TEMP_DIR \
           --output html \
           --module-names y \ 
@@ -365,4 +344,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: .local/.temp
+          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
