@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+[project]
+name = "pypackit_tests"
+version = "0.0.0"
+dependencies = [
+    'pytest >= 7.4.2, < 8',
+    'pytest-cov >= 4.1.0, < 5',
+    'pipreqs',
+]
