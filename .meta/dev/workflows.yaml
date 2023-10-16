@@ -3,6 +3,9 @@ workflow:
     meta_check_action:
       release_branch: amend
       dev_branch: commit
+    schedule:
+      test: '0 0 * * 1'  # Every Monday at midnight UTC.
+      sync: '0 0 * * *'  # Every day at midnight UTC.
 
     get_owner_publications: true
 
