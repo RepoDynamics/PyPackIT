@@ -1,7 +1,13 @@
 package:
 
+  manifest:
+    - graft ${{ path.dir.source }}/${{ package.name }}
+    - include CODE_OF_CONDUCT.md
+    - global-exclude *.py[cod] __pycache__ *.so
+
+  typed: true
+
   trove_classifiers:
-    - "Typing :: Typed"
     - "Natural Language :: English"
 
   urls:
