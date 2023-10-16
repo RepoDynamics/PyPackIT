@@ -18,7 +18,7 @@ maintainer:
         - "/.github/": [ aariam ]
 
   issue:
-    app_bug_setup: [ aariam ]
+    app_bug_api: [ aariam ]
 
   discussion:
     announcements: [ aariam ]
