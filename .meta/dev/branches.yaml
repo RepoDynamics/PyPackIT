@@ -1,4 +1,8 @@
 branch:
+
+  default:
+    name: main
+
   group:
     dev:
       prefix: dev/
