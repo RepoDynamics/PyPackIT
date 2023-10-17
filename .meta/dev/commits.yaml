@@ -2,7 +2,7 @@ commit:
 
   primary:
 
-    package_release_major:
+    package_major:
       description: |
         Remove features/components from - or introduce breaking changes to - the public API, 
         and publish a new major release of the package.
@@ -11,7 +11,7 @@ commit:
         any: [ remove, change ]
         exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels, ]
 
-    package_release_minor:
+    package_minor:
       description: |
           Add features/components to - or enhance/deprecate existing features in - the public API, 
           and publish a new minor release of the package.
@@ -19,7 +19,7 @@ commit:
       sub_types:
         any: [ deprecate, feat, enhance ]
 
-    package_release_patch:
+    package_patch:
       description: |
           Fix bugs or security issues in the public API, 
           or improve the performance of existing functionalities, 
@@ -28,7 +28,7 @@ commit:
       sub_types:
         any: [ secure, fix, perf ]
 
-    package_release_post:
+    package_post:
       description: |
           Fix documentation or release notes in a previous package release, 
           and publish a new post release.
@@ -36,15 +36,18 @@ commit:
       sub_types:
         any: [ docs, notes ]
 
-    website_deploy:
+    website:
       description: |
-          Change the website content, design or backend, 
-          and re-deploy the website.
+          Change the website content, design or backend.
       type: web
       sub_types:
         any: [ web-content, web-design, web-backend ]
+      announcement:
+        scope: announcement
+        changelog_id: 'website'
+        changelog_section_id: 'content'
 
-    package_non_release:
+    package_private:
       description: |
           Change the private API, the build system, or refactor code, 
           without affecting the public API, 
