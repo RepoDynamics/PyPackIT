@@ -1,0 +1,39 @@
+# Update the website announcement
+
+name: "Website: Announcement"
+run-name: "CI/CD: '${{github.ref}}'"
+
+on:
+  workflow_dispatch:
+    inputs:
+      announcement:
+        type: string
+        required: true
+        description: |
+          New announcement message to show on the website; 
+          supports HTML syntax (don't forget to escape with \).
+          Set to 'null' to remove announcement.
+      description:
+        type: string
+        required: false
+        description: |
+          Commit description (i.e. without type and title) 
+          for the announcement commit and changelog entry.
+
+jobs:
+  init:
+    name: 'RepoDynamics Init'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 'Verify Branch'
+        if: github.ref_name != github.event.repository.default_branch
+        run: |
+          echo "This workflow can only be run on the default branch."
+          exit 1
+      - name: init
+        uses: repodynamics/init@main
+        with:
+          website-announcement: ${{ inputs.announcement }}
+          website-announcement-message: ${{ inputs.description }}
