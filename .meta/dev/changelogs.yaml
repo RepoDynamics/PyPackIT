@@ -53,6 +53,12 @@ changelog:
     path: docs/website/CHANGELOG.md
     title: "${{name}} Changelog (Website)"
     intro: ""
+    entry:
+      title: "[{ver_dist}] – {date}"
+      intro: |
+        - Commit Type: {commit_type}
+        - Commit Title: {commit_title}
+        - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
     sections:
       - id: content
         title: Content
