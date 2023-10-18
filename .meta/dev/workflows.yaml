@@ -1,7 +1,7 @@
 workflow:
   init:
     meta_check_action:
-      release_branch: amend
+      release_branch: fail
       dev_branch: commit
     schedule:
       test: '0 0 * * 1'  # Every Monday at midnight UTC.
