@@ -256,6 +256,7 @@ commit:
     ci:
       description: 'Change the CI configuration files and scripts.'
       changelog_id: 'workflows'
+      changelog_section_id: 'workflows'
 
     meta-credits:
       description: 'Change credits meta content.'
