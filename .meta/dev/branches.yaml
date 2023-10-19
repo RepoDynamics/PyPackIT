@@ -6,3 +6,5 @@ branch:
   group:
     dev:
       prefix: dev/
+    ci_pull:
+      prefix: ci-pull/
