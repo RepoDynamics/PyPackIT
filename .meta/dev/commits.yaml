@@ -84,7 +84,6 @@ commit:
           - build
           - refactor
           - style
-
     tests:
       description: |
           Change the test-suite, without affecting the public API, 
@@ -102,7 +101,6 @@ commit:
           - test-build
           - test-refactor
           - test-style
-
     workflows:
       description: |
           Change the GitHub workflows of the repository.
