@@ -4,6 +4,8 @@ branch:
     name: main
 
   group:
+    release:
+      prefix: release/
     dev:
       prefix: dev/
     ci_pull:
