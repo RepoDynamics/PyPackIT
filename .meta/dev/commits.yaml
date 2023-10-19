@@ -1,6 +1,6 @@
 commit:
 
-  primary:
+  primary_action:
 
     package_major:
       description: |
@@ -47,6 +47,25 @@ commit:
         changelog_id: 'website'
         changelog_section_id: 'content'
 
+    meta:
+      description: |
+        Change the meta content of the repository.
+      type: meta
+      sub_types:
+        any:
+          - meta-credits
+          - meta-extensions
+          - meta-intro
+          - meta-license
+          - meta-changelog
+          - meta-commits
+          - meta-issues
+          - meta-labels
+          - meta-maintainers
+          - meta-repo
+          - meta-workflows
+
+  primary_custom:
     package_private:
       description: |
           Change the private API, the build system, or refactor code, 
@@ -91,26 +110,15 @@ commit:
       sub_types:
         any: [ ci ]
 
-    meta:
-      description: |
-          Change the meta content of the repository.
-      type: meta
-      sub_types:
-        any:
-          - meta-credits
-          - meta-extensions
-          - meta-intro
-          - meta-license
-          - meta-changelog
-          - meta-commits
-          - meta-issues
-          - meta-labels
-          - meta-maintainers
-          - meta-repo
-          - meta-workflows
+  secondary_action:
+    meta_sync:
+      type: meta-sync
+    revert:
+      type: revert
+    hook_fix:
+      type: hook-fix
 
-  secondary:
-
+  secondary_custom:
     remove:
       description: 'Remove a feature/component from the public API.'
       changelog_id: 'package_public'
@@ -307,8 +315,3 @@ commit:
       description: 'Change package tools meta content.'
       changelog_id: 'meta'
       changelog_section_id: 'package_tools'
-
-  action:
-    meta-update: meta-update
-    revert: revert
-    auto-refactor: auto-refactor
