@@ -37,32 +37,9 @@ on:
           If not specified, the latest version is installed.
 
 jobs:
-  meta:
-    name: Initialize
-    outputs:
-      data: ${{steps.meta.outputs.metadata}}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout Metadata'
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.ref }}
-          sparse-checkout: .github/.metadata_ci.json
-          sparse-checkout-cone-mode: false
-      - name: 'Load repository metadata'
-        id: meta
-        run: |
-          if [ "${{github.event_name}}" = "workflow_dispatch" ]; then
-            echo "metadata=$(cat .github/.metadata_ci.json)" >> $GITHUB_OUTPUT
-          else
-            echo "metadata=${{ inputs.metadata }}" >> $GITHUB_OUTPUT
-          fi
 
   test:
     name: 'Python ${{ matrix.python-version }} / ${{ matrix.os }}'
-    needs: meta
     strategy:
       fail-fast: false
       matrix:
