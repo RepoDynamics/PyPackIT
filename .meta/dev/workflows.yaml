@@ -1,8 +1,25 @@
 workflow:
   init:
     meta_check_action:
-      release_branch: fail
-      dev_branch: commit
+      push_main: fail
+      push_release: fail
+      push_dev: commit
+      push_other: none
+      pull_main: fail
+      pull_release: fail
+      pull_dev: fail
+      pull_other: fail
+      schedule: pull
+    hooks_check_action:
+      push_main: fail
+      push_release: fail
+      push_dev: commit
+      push_other: none
+      pull_main: fail
+      pull_release: fail
+      pull_dev: fail
+      pull_other: fail
+      schedule: pull
     schedule:
       test: '0 0 * * 1'  # Every Monday at midnight UTC.
       sync: '0 0 * * *'  # Every day at midnight UTC.
