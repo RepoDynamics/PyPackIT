@@ -24,6 +24,32 @@ on:
     - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
   workflow_dispatch:
     inputs:
+      meta-sync:
+        type: choice
+        options:
+          - report
+          - amend
+          - commit
+          - pull
+          - none
+        default: report
+        required: true
+        description: |
+          The action to take when the dynamic files are out of sync with the repository meta content.
+          Selecting 'none' will disable this action.
+      hooks:
+        type: choice
+        options:
+          - report
+          - amend
+          - commit
+          - pull
+          - none
+        default: report
+        required: true
+        description: |
+          The action to take when running the workflow hooks.
+          Selecting 'none' will disable this action.
       package-build:
         type: boolean
         required: false
@@ -69,6 +95,16 @@ jobs:
           package-lint: ${{ inputs.package-lint }}
           package-test: ${{ inputs.package-test }}
           website-build: ${{ inputs.website-build }}
+          meta-sync: ${{ inputs.meta-sync }}
+          hooks: ${{ inputs.hooks }}
+
+  init-fail:
+    name: 'Init Failure'
+    runs-on: ubuntu-latest
+    needs: init
+    if: fromJSON(needs.init.outputs.config).fail
+    steps:
+      - run: exit 1
 
   build:
     name: 'Package / Build'
