@@ -1,3 +1,3 @@
-import pypackit_tests
+import pypackit_tests as testsuite
 
-pypackit_tests.run()
+testsuite.run()
