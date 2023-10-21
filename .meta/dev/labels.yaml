@@ -1,26 +1,32 @@
 label:
+
+  auto_group:
+    version:
+      prefix: "Version: "
+      color: "0366d6"
+
   group:
-    primary_commit_type:
+    primary_type:
       prefix: 'Type: '
       color: '0366d6'
       labels:
-        package_release_major:
+        package_major:
           suffix: 'major-release'
           description: |
             Resolving/merging the labeled issue/pull-request will result in a major release of the package.
-        package_release_minor:
+        package_minor:
           suffix: 'minor-release'
           description: |
             Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
-        package_release_patch:
+        package_patch:
           suffix: 'patch-release'
           description: |
             Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
-        package_release_post:
+        package_post:
           suffix: 'post-release'
           description: |
             Resolving/merging the labeled issue/pull-request will result in a post release of the package.
-        website_deploy:
+        website:
           suffix: 'website'
           description: |
             Resolving/merging the labeled issue/pull-request will result in deployment of the website.
@@ -28,7 +34,7 @@ label:
           suffix: 'meta'
           description: |
             An issue/pull-request about the meta content of the repository.
-        package_non_release:
+        package_private:
           suffix: 'package'
           description: |
             An issue/pull-request about the package that does not result in a new release,
@@ -41,6 +47,15 @@ label:
           suffix: 'ci'
           description: |
             An issue/pull-request about the GitHub workflows of the repository.
+
+    sub_type:
+      prefix: 'SubType: '
+      color: '0366d6'
+      labels:
+        api:
+          suffix: 'api'
+          description: |
+            Related to the public API.
 
     status:
       prefix: 'Status: '

@@ -11,8 +11,9 @@ issue:
 
   forms:
     - id: app_bug_api
-      primary_commit_id: package_release_patch
-      name: '🖥 App  🐞 Bug Report  📱 API'
+      primary_commit_id: package_patch
+      name: ' 🖥 App 🐞 Bug Report 📱 API'
+      labels: ["SubType: api"]
       description: >-
         Report a problem encountered while using the application, 
         such as unexpected results and errors.
@@ -21,7 +22,7 @@ issue:
           attributes:
             value: >-
               <p align="justify">
-                Thank you for taking the time to report a problem in {metadata[project][name]};
+                Thank you for taking the time to report a problem in ${{ name }};
                 we greatly appreciate your contribution! ❤️🙏
               </p>
               <h2>Terms and Conditions</h2>
@@ -34,33 +35,27 @@ issue:
               <ul>
                 <li>
                   <p align="justify">
-                    Please note that this form is specifically for reporting a
-                    <b>non-security-related bug</b>
-                    in the
-                    {metadata[project][name]}
-                    API, i.e. an unexpected behavior that occurs while using the application,
+                    Please note that this form is specifically for reporting a <b>non-security-related bug</b>
+                    in the ${{name}} API, i.e. an unexpected behavior that occurs while using the application,
                     either as an import package, a command-line tool, or via a GUI.
                   </p>
                 </li>
                 <li>
                   <p align="justify">
-                    To 🚨
-                    <a href="{metadata[urls][github][security][home]}"><b>report a security vulnerability</b></a>
+                    To 🚨 <a href="${{url.github.security.home}}"><b>report a security vulnerability</b></a>
                     🚨 please first read our
-                    <a href="{metadata[urls][github][security][policy]}">security policy</a>,
-                    and fill a
-                    <a href="{metadata[urls][github][security][new_advisory]}">private security advisory form</a>
-                    instead.
+                    <a href="${{url.github.security.policy}}">security policy</a>, and fill a
+                    <a href="${{url.github.security.new_advisory}}">private security advisory form</a> instead.
                   </p>
                 </li>
                 <li>
                   <p align="justify">
                     For other types of issues, such as problems in
-                    <a href="{metadata[urls][github][issues][new][app_bug_setup]}">setup</a>,
-                    <a href="{metadata[urls][github][issues][new][docs_bug_site]}">website</a>, or
-                    <a href="{metadata[urls][github][issues][new][docs_bug_content]}">documentation</a>,
-                    or for requesting new features and enhancements, please select the appropriate form from the
-                    <a href="{metadata[urls][github][issues][template_chooser]}">template chooser</a>.
+                    <a href="${{url.github.issues.new.app_bug_setup]}">setup</a>,
+                    <a href="${{url.github.issues.new.docs_bug_site]}">website</a>, or
+                    <a href="${{url.github.issues.new.docs_bug_content]}">documentation</a>,
+                    or for requesting new features and enhancements, please select the appropriate form 
+                    from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
               </ul>
@@ -78,13 +73,13 @@ issue:
               <h3>⚠️ Verifying the bug</h3>
 
               Before submitting a report, please verify that:
-
-              1. The issue you are experiencing is in fact a bug,
-              and not a documented expected behavior.
-
-              2. The bug is reproducible in the latest version of the software,
-              and has not yet been reported.
-
+              <ol>
+                <li>
+                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+                </li>
+                <li>
+                  The bug is reproducible in the latest version of the software, and has not yet been reported.
+                </li>
               <blockquote>
                   💡 <a href="{}"><b>Open a discussion instead!</b></a>
                   <br>
@@ -96,7 +91,7 @@ issue:
               <h3>🤝 Code of conduct</h3>
               <p align="justify">
                 Please make sure that you are following our
-                <a href="{metadata[urls][github][code_of_conduct]}">Code of Conduct</a>,
+                <a href="${{url.github.health_file.code_of_conduct}}">Code of Conduct</a>,
                 so that we can process the issue as soon as possible.
               </p>
               <h3>✅ Agreements</h3>
@@ -112,17 +107,17 @@ issue:
             #        so that we can process the issue as soon as possible.
             options:
               - label: >-
-                  I have read the [Contributing Guidelines]() and am following the [Bug Report Guidelines]().
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  and am following the [Bug Report Guidelines]().
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the [Code of Conduct](https://github.com/Armin-Ariamajd/TemplateRepo/blob/main/docs/CODE_OF_CONDUCT.md).
+                  I have read, understood, and agree to follow the 
+                  [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
 
         - type: markdown
           attributes:
-            value: |
-              <br>
-              <h2>System and Version Specifications</h2>
+            value: <br><h2>System and Version Specifications</h2>
 
         - type: dropdown
           id: os
@@ -132,10 +127,7 @@ issue:
               Which operating systems have you tested?
               Please select all versions where you have encountered the bug.
             multiple: true
-            options:
-              - Linux
-              - MacOS
-              - Windows
+            options: ${{ package.os_titles }}
           validations:
             required: true
 
@@ -147,10 +139,7 @@ issue:
               Which Python versions have you tested?
               Please select all versions where you have encountered the bug.
             multiple: true
-            options:
-              - 3.11
-              - 3.10
-              - 3.9
+            options: ${{ package.python_versions }}
           validations:
             required: true
 
