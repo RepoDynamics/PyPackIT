@@ -56,6 +56,18 @@ label:
           suffix: 'api'
           description: |
             Related to the public API.
+        gui:
+          suffix: 'gui'
+          description: |
+            Related to the graphical user interface.
+        cli:
+          suffix: 'cli'
+          description: |
+            Related to the command-line interface.
+        setup:
+          suffix: 'setup'
+          description: |
+              Related to package installation.
 
     status:
       prefix: 'Status: '
