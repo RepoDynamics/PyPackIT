@@ -66,3 +66,13 @@ web:
       domain: ""
       url: ""
     google_id: "G-0X66W6TGL2"
+
+  path:
+    contact: 'help/contact'
+    news: 'news'
+    contributors: 'about/#contributors'
+    contributing: 'contribute'
+    bug_report: 'contribute/feedback/report'
+    license: 'license'
+    security_measures: 'contribute/collaborate/maintain/security'
+    sponsor: 'contribute/collaborate/maintain/sponsor'
