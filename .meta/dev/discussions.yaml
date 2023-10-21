@@ -1,6 +1,17 @@
 discussion:
   forms:
-    - slug: bug_question
+    - slug: question_issues
+      title: Is this a bug?
+      labels:
+          - bug
+      body:
+        - type: markdown
+          id: bug
+          attributes:
+              value: |
+                **Describe the bug**
+
+    - slug: question_bug
       title: Is this a bug?
       labels:
           - bug
