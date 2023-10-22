@@ -103,189 +103,177 @@ jobs:
     name: 'Init Failure'
     runs-on: ubuntu-latest
     needs: init
+    if: fromJSON(needs.init.outputs.config).fail
     steps:
-      - run: echo "${{ needs.init.outputs.config }}"
-      - run: echo "${{ fromJSON(needs.init.outputs.config).fail }}"
-      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == true }}"
-      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == false }}"
-      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == 'true' }}"
-      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == 'false' }}"
+      - run: exit 1
 
-#  init-fail:
-#    name: 'Init Failure'
-#    runs-on: ubuntu-latest
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).fail
-#    steps:
-#      - run: exit 1
-#
-#  build:
-#    name: 'Package / Build'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).run.package_build
-#    uses: ./.github/workflows/_pkg_build.yaml
-#    with:
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-#
-#  test:
-#    name: 'Package / Test / GitHub'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).run.package_test_local
-#    uses: ./.github/workflows/_pkg_test.yaml
-#    with:
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-#      package-source: GitHub
-#
-#  lint:
-#    name: 'Package / Lint'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).run.package_lint
-#    permissions:
-#      pull-requests: write
-#      security-events: write
-#      actions: read
-#      contents: read
-#    uses: ./.github/workflows/_pkg_lint.yaml
-#    with:
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
-#
-#  website:
-#    name: 'Website'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).run.website_build
-#    permissions:
-#      contents: read
-#      pages: write
-#      id-token: write
-#    environment:
-#      name: GitHub Pages
-#      url: ${{ fromJSON(needs.init.outputs.metadata).url.website.base }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: RepoDynamics/SphinxDocs@main
-#        with:
-#          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#          deploy: ${{ fromJSON(needs.init.outputs.config).run.website_deploy }}
-#          path-website: ${{ fromJSON(needs.init.outputs.metadata).path.dir.website }}
-#          path-package-setup: "."
-#
-#  website-rtd-preview:
-#    # Build the ReadTheDocs website for pull-requests and add a link to the pull request's description.
-#    # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
-#    name: 'Docs / Preview'
-#    needs: init
-#    if: fromJSON(needs.init.outputs.config).run.website_rtd_preview
-#    runs-on: ubuntu-latest
-#    permissions:
-#      pull-requests: write
-#    steps:
-#      - name: 'Build Preview'
-#        # https://github.com/readthedocs/actions/tree/v1/preview
-#        uses: readthedocs/actions/preview@v1
-#        with:
-#          project-slug: ${{ fromJSON(needs.init.outputs.metadata).web.readthedocs.name }}
-#
-#  publish-testpypi:
-#    name: 'Package / Publish / TestPyPI'
-#    needs: [init, build, test, lint]
-#    if: fromJSON(needs.init.outputs.config).run.package_publish_testpypi
-#    permissions:
-#      id-token: write
-#    uses: ./.github/workflows/_pkg_publish.yaml
-#    with:
-#      platform: TestPyPI
-#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
-#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
-#
-#  test-testpypi:
-#    name: 'Package / Test / TestPyPI'
-#    needs: [init, build, publish-testpypi]
-#    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
-#    uses: ./.github/workflows/_pkg_test.yaml
-#    with:
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-#      package-source: TestPyPI
-#      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
-#
-#  publish-pypi:
-#    name: 'Package / Publish / PyPI'
-#    needs: test-testpypi
-#    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
-#    permissions:
-#      id-token: write
-#    uses: ./.github/workflows/_pkg_publish.yaml
-#    with:
-#      platform: PyPI
-#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
-#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
-#
-#  test-pypi:
-#    name: 'Package / Test / PyPI'
-#    needs: [init, build, publish-pypi]
-#    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
-#    uses: ./.github/workflows/_pkg_test.yaml
-#    with:
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-#      package-source: PyPI
-#      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
-#
-#  release:
-#    name: 'Release'
-#    needs: [ init, build, website, test-pypi ]
-#    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.github_release }}
-#    permissions:
-#      contents: write
-#      discussions: write
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#
-#      - name: 'Download sdist and wheels artifacts'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: Distribution Package
-#          path: distribution
-#
-#      - name: 'Download Release Notes'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: release_notes
-#          path: release_notes
-#
-#      - name: 'Download gh-pages artifact'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: Documentation
-#          path: documentation
-#
-#      - name: 'Zip artifacts'
-#        run: |
-#          mv distribution/*.tar.gz ./
-#          zip -r wheels.zip distribution
-#          zip -r documentation.zip documentation
-#
-#      - name: Release
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          name: ${{ fromJSON(needs.init.outputs.config).release.name }}
-#          tag_name: ${{ fromJSON(needs.init.outputs.config).release.tag_name }}
-#          body: ${{ fromJSON(needs.init.outputs.config).release.body }}
-#          prerelease: ${{ fromJSON(needs.init.outputs.config).release.prerelease }}
-#          discussion_category_name: ${{ fromJSON(needs.init.outputs.config).release.discussion_category_name }}
-#          files: |
-#            wheels.zip
-#            documentation.zip
-#            *.tar.gz
+  build:
+    name: 'Package / Build'
+    needs: init
+    if: fromJSON(needs.init.outputs.config).run.package_build
+    uses: ./.github/workflows/_pkg_build.yaml
+    with:
+      metadata: ${{ needs.init.outputs.metadata }}
+      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
+
+  test:
+    name: 'Package / Test / GitHub'
+    needs: init
+    if: fromJSON(needs.init.outputs.config).run.package_test_local
+    uses: ./.github/workflows/_pkg_test.yaml
+    with:
+      metadata: ${{ needs.init.outputs.metadata }}
+      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
+      package-source: GitHub
+
+  lint:
+    name: 'Package / Lint'
+    needs: init
+    if: fromJSON(needs.init.outputs.config).run.package_lint
+    permissions:
+      pull-requests: write
+      security-events: write
+      actions: read
+      contents: read
+    uses: ./.github/workflows/_pkg_lint.yaml
+    with:
+      metadata: ${{ needs.init.outputs.metadata }}
+      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
+
+  website:
+    name: 'Website'
+    needs: init
+    if: fromJSON(needs.init.outputs.config).run.website_build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: GitHub Pages
+      url: ${{ fromJSON(needs.init.outputs.metadata).url.website.base }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/SphinxDocs@main
+        with:
+          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+          deploy: ${{ fromJSON(needs.init.outputs.config).run.website_deploy }}
+          path-website: ${{ fromJSON(needs.init.outputs.metadata).path.dir.website }}
+          path-package-setup: "."
+
+  website-rtd-preview:
+    # Build the ReadTheDocs website for pull-requests and add a link to the pull request's description.
+    # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
+    name: 'Docs / Preview'
+    needs: init
+    if: fromJSON(needs.init.outputs.config).run.website_rtd_preview
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: 'Build Preview'
+        # https://github.com/readthedocs/actions/tree/v1/preview
+        uses: readthedocs/actions/preview@v1
+        with:
+          project-slug: ${{ fromJSON(needs.init.outputs.metadata).web.readthedocs.name }}
+
+  publish-testpypi:
+    name: 'Package / Publish / TestPyPI'
+    needs: [init, build, test, lint]
+    if: fromJSON(needs.init.outputs.config).run.package_publish_testpypi
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/_pkg_publish.yaml
+    with:
+      platform: TestPyPI
+      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
+      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
+
+  test-testpypi:
+    name: 'Package / Test / TestPyPI'
+    needs: [init, build, publish-testpypi]
+    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
+    uses: ./.github/workflows/_pkg_test.yaml
+    with:
+      metadata: ${{ needs.init.outputs.metadata }}
+      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
+      package-source: TestPyPI
+      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
+
+  publish-pypi:
+    name: 'Package / Publish / PyPI'
+    needs: test-testpypi
+    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/_pkg_publish.yaml
+    with:
+      platform: PyPI
+      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
+      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
+
+  test-pypi:
+    name: 'Package / Test / PyPI'
+    needs: [init, build, publish-pypi]
+    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
+    uses: ./.github/workflows/_pkg_test.yaml
+    with:
+      metadata: ${{ needs.init.outputs.metadata }}
+      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
+      package-source: PyPI
+      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
+
+  release:
+    name: 'Release'
+    needs: [ init, build, website, test-pypi ]
+    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.github_release }}
+    permissions:
+      contents: write
+      discussions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+
+      - name: 'Download sdist and wheels artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: Distribution Package
+          path: distribution
+
+      - name: 'Download Release Notes'
+        uses: actions/download-artifact@v3
+        with:
+          name: release_notes
+          path: release_notes
+
+      - name: 'Download gh-pages artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: Documentation
+          path: documentation
+
+      - name: 'Zip artifacts'
+        run: |
+          mv distribution/*.tar.gz ./
+          zip -r wheels.zip distribution
+          zip -r documentation.zip documentation
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ fromJSON(needs.init.outputs.config).release.name }}
+          tag_name: ${{ fromJSON(needs.init.outputs.config).release.tag_name }}
+          body: ${{ fromJSON(needs.init.outputs.config).release.body }}
+          prerelease: ${{ fromJSON(needs.init.outputs.config).release.prerelease }}
+          discussion_category_name: ${{ fromJSON(needs.init.outputs.config).release.discussion_category_name }}
+          files: |
+            wheels.zip
+            documentation.zip
+            *.tar.gz
