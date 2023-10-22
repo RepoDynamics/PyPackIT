@@ -15,8 +15,8 @@ issue:
       pre_process:
         if_any: [ "${{ package.releases.gui_scripts }}" ]
       primary_commit_id: package_patch
+      sub_type: gui
       name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
-      labels: [ "SubType: gui" ]
       description: >-
         Report a problem (e.g. errors and unexpected results) encountered 
         while using the application's graphical user interface (GUI).
@@ -250,10 +250,10 @@ issue:
 
     - id: app_bug_cli
       primary_commit_id: package_patch
+      sub_type: cli
       pre_process:
         if_any: [ "${{ package.releases.cli_scripts }}" ]
       name: ' 🖥 App 🐞 Bug Report ⌨️ CLI'
-      labels: [ "SubType: cli" ]
       description: >-
         Report a problem (e.g. errors and unexpected results) encountered 
         while using the application's command-line interface (CLI).
@@ -493,8 +493,8 @@ issue:
 
     - id: app_bug_api
       primary_commit_id: package_patch
+      sub_type: api
       name: ' 🖥 App 🐞 Bug Report 📱 API'
-      labels: ["SubType: api"]
       description: >-
         Report a problem (e.g. errors and unexpected results) encountered 
         while using the application's Python API.
@@ -607,6 +607,7 @@ issue:
             value: <h3>🧑‍💻 Collaborate</h3>
 
         - type: checkboxes
+          id: collab
           attributes:
             label: |
               Thank you again for filling this bug report.
@@ -693,6 +694,7 @@ issue:
               <h2>Bug Report</h2>
 
         - type: input
+          id: api_entry
           attributes:
             label: Fully Qualified Name
             description: |
@@ -738,10 +740,49 @@ issue:
           validations:
             required: true
 
+      post_process:
+        assign_creator:
+          if_checkbox:
+            id: collab
+            number: 1
+            is_checked: true
+        body: |
+          <h2>Bug Location</h2>
+          <ul>
+          <li><b>Package Version</b>: {package_version}</li>
+          <li><b>Fully Qualified Name</b>: {api_entry}</li>
+          </ul>
+          <h2>System and Version Specifications</h2>
+          <li><b>Operating System</b>: {os}</li>
+          <li><b>Python Version</b>: {python_version}</li>
+          <li><b>Package Manager</b>: {package_manager}</li>
+          <li>
+          <details>
+          <summary><b>Environment</b></summary>
+          
+          ```
+          {environment}
+          ```
+          
+          </details></li>
+          </ul>
+          <h2>Bug Summary</h2>
+          
+          {summary}
+          
+          <h2>Unit-Test / Minimal Reproducible Example (MRE)</h2>
+            
+          {code}
+          
+          <h2>Error Message</h2>
+          
+          {log}
+
+
     - id: app_bug_setup
       primary_commit_id: package_patch
+      sub_type: setup
       name: ' 🖥 App 🐞 Bug Report ⚙️ Setup'
-      labels: ["SubType: setup"]
       description: >-
         Report a problem in downloading, installation, or initialization of the application.
       body:
@@ -959,8 +1000,8 @@ issue:
 
     - id: app_request_enhancement
       primary_commit_id: package_minor
+      sub_type: enhancement
       name: ' 🖥 App 🔔 Request 🚀 Enhancement'
-      labels: [ "SubType: enhancement" ]
       description: >-
         Request an improvement to an existing feature in the application,
         for example in terms of performance, functionality, or ease of use.
@@ -1157,8 +1198,8 @@ issue:
 
     - id: app_request_feature
       primary_commit_id: package_minor
+      sub_type: feat
       name: ' 🖥 App 🔔 Request ✨ New Feature'
-      labels: [ "SubType: feat" ]
       description: >-
         Request a brand new feature that is not yet available in the application.
       body:
@@ -1354,8 +1395,8 @@ issue:
 
     - id: app_request_breaking
       primary_commit_id: package_major
+      sub_type: breaking
       name: ' 🖥 App 🔔 Request 💥 Breaking Change'
-      labels: [ "SubType: breaking" ]
       description: >-
         Request a backward-incompatible change to the API,
         such as a change in the behavior of an existing functionality.
