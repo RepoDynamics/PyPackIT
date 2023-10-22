@@ -99,6 +99,18 @@ jobs:
           meta-sync: ${{ inputs.meta-sync }}
           hooks: ${{ inputs.hooks }}
 
+  init-fail:
+    name: 'Init Failure'
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - run: echo "${{ needs.init.outputs.config }}"
+      - run: echo "${{ fromJSON(needs.init.outputs.config).fail }}"
+      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == true }}"
+      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == false }}"
+      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == 'true' }}"
+      - run: echo "${{ fromJSON(needs.init.outputs.config).fail == 'false' }}"
+
 #  init-fail:
 #    name: 'Init Failure'
 #    runs-on: ubuntu-latest
