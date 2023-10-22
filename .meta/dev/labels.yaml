@@ -68,6 +68,18 @@ label:
           suffix: 'setup'
           description: |
               Related to package installation.
+        enhancement:
+          suffix: 'enhancement'
+          description: |
+            An enhancement to an existing feature or functionality.
+        feat:
+          suffix: 'feat'
+          description: |
+              A new feature or functionality.
+        breaking:
+          suffix: 'breaking'
+          description: |
+              A backward-incompatible change to the API, such as a change in the behavior of an existing functionality.
 
     status:
       prefix: 'Status: '
