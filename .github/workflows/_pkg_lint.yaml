@@ -1,6 +1,5 @@
 
-name: 'Package: Lint'
-run-name: 'Package: Lint'
+name: '[Callable]: Package - Lint'
 
 on:
   workflow_call:

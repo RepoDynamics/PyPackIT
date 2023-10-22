@@ -1,7 +1,7 @@
 # Update the website announcement
 
-name: "Website: Announcement"
-run-name: "CI/CD: '${{github.ref}}'"
+name: "Website Announcement"
+run-name: "Website: Manual Announcement Update"
 
 on:
   workflow_dispatch:

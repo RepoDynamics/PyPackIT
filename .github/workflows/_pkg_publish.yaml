@@ -1,6 +1,5 @@
 
-name: 'Package: Publish'
-run-name: 'Package: Publish from ${{github.ref}}'
+name: '[Callable]: Package - Publish'
 
 on:
   workflow_call:

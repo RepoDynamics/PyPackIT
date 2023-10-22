@@ -1,27 +1,27 @@
 # Continuous Integration/Deployment pipeline
 
-name: "[CI/CD Workflow]"
+name: "CI/CD Workflow"
 run-name: "CI/CD: '${{github.ref}}'"
 
 on:
-#  issues:
-#  issue_comment:
-#  pull_request:
-#    types:
-#      - opened
-#      - reopened
-#      - synchronize
-#  pull_request_review:
-#  pull_request_review_comment:
-#  pull_request_target:
-#    types:
-#      - opened
-#      - reopened
-#      - synchronize
-#  push:
-#  schedule:
-#    - cron: '0 0 * * *'  # Every day at midnight UTC.
-#    - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
+  issues:
+  issue_comment:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  pull_request_review:
+  pull_request_review_comment:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+  schedule:
+    - cron: '0 0 * * *'  # Every day at midnight UTC.
+    - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
   workflow_dispatch:
     inputs:
       meta-sync:
