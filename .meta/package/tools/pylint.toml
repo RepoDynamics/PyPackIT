@@ -52,7 +52,7 @@ max-statements = 50
 min-public-methods = 1
 
 [tool.pylint.format]
-max-line-length = 100
+max-line-length = "${{package.dev_config.max_line_length}}"
 max-module-lines = 2000
 
 [tool.pylint.imports]
@@ -82,5 +82,5 @@ output-format = [
 ignore-comments = true
 min-similarity-lines = 8
 
-[tool.pylint.spelling]
-spelling-dict = "en_US"
+#[tool.pylint.spelling]
+#spelling-dict = "en_US"

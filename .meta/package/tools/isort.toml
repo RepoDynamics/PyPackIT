@@ -3,7 +3,7 @@
 
 [tool.isort]
 profile = "black"
-line_length = 100
+line_length = "${{package.dev_config.max_line_length}}"
 src_paths = ["${{path.dir.source}}", "${{path.dir.tests}}"]
 skip_gitignore = true
 lines_before_imports = 2

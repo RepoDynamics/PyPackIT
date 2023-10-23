@@ -4,5 +4,5 @@
 [tool.black]
 required-version = "23.9.1"
 target-version = "${{package.python_versions_py3x}}"
-line-length = 100
+line-length = "${{package.dev_config.max_line_length}}"
 verbose = true
