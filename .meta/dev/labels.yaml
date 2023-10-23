@@ -37,8 +37,7 @@ label:
         package_private:
           suffix: 'package'
           description: |
-            An issue/pull-request about the package that does not result in a new release,
-            such as a change in the private API or the build system, or code refactoring and style changes.
+            An issue/pull-request about the package that does not result in a new release.
         tests:
           suffix: 'test'
           description: |
@@ -79,7 +78,7 @@ label:
         breaking:
           suffix: 'breaking'
           description: |
-              A backward-incompatible change to the API, such as a change in the behavior of an existing functionality.
+              A backward-incompatible change to the API.
 
     status:
       prefix: 'Status: '
