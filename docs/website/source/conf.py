@@ -320,7 +320,7 @@ _navbar_defaults = {
     "email": {
         "name": "Email",
         "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{meta['email']['main']}",
+        "url": f"mailto:{meta['maintainer']['email']['main']}",
     },
     "license": {
         "name": "License",
