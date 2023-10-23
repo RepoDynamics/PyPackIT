@@ -42,8 +42,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJson(needs.meta.outputs.data).package.github_runners }}
-        python-version: ${{ fromJson(needs.meta.outputs.data).package.python_versions }}
+        os: ${{ fromJson(inputs.metadata).package.github_runners }}
+        python-version: ${{ fromJson(inputs.metadata).package.python_versions }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -55,7 +55,7 @@ jobs:
           ref: ${{ inputs.ref }}
           python-version: ${{ matrix.python-version }}
           package-source: ${{ inputs.package-source }}
-          package-name: ${{ fromJson(needs.meta.outputs.data).package.name }}
+          package-name: ${{ fromJson(inputs.metadata).package.name }}
           package-version: ${{ inputs.package-version }}
-          path-tests: ${{ fromJson(needs.meta.outputs.data).path.dir.tests }}
-          path-local: ${{ fromJson(needs.meta.outputs.data).path.dir.local }}
+          path-tests: ${{ fromJson(inputs.metadata).path.dir.tests }}
+          path-local: ${{ fromJson(inputs.metadata).path.dir.local }}
