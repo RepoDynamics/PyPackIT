@@ -140,7 +140,7 @@ jobs:
           
           echo "::group::Run bandit"
           bandit \
-          ${{ fromJSON(inputs.metadata).path.source }} \
+          ${{ fromJSON(inputs.metadata).path.dir.source }} \
           --configfile pyproject.toml \
           --recursive \
           --aggregate file \
@@ -331,14 +331,14 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Run pyreverse"
-          pyreverse \ 
-          ${{ fromJSON(inputs.metadata).package.name }} \ 
+          pyreverse \
           --source-roots ${{ fromJSON(inputs.metadata).path.dir.source }} \
           --output-directory $TEMP_DIR \
           --output html \
-          --module-names y \ 
+          --module-names y \
           --colorized \
-          --max-color-depth 5 
+          --max-color-depth 5 \
+          ${{ fromJSON(inputs.metadata).package.name }}
           echo "::endgroup::"
 
       - name: 'Upload Pylint reports'
