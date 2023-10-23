@@ -8,8 +8,6 @@ limit-inference-results = 500
 load-plugins = [
     "pylint.extensions.broad_try_clause",
     "pylint.extensions.code_style",
-    "pylint.extensions.emptystring",
-    "pylint.extensions.comparetozero",
     "pylint.extensions.comparison_placement",
     "pylint.extensions.confusing_elif",
     "pylint.extensions.for_any_all",
