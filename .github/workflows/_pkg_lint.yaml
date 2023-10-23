@@ -190,6 +190,7 @@ jobs:
           cache-dependency-path: .github/workflow_requirements/mypy.txt
 
       - name: 'Setup Environment'
+        shell: bash
         run: |
           echo "::group::Upgrade pip"
           python -m pip install --upgrade pip
@@ -208,6 +209,7 @@ jobs:
           echo "::endgroup::"
 
       - name: 'Run MyPy'
+        shell: bash
         run: |
           echo "::group::Create temporary directory"
           TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
@@ -264,6 +266,7 @@ jobs:
           install: mingw-w64-x86_64-enchant
 
       - name: 'Install Extra Requirements'
+        shell: bash
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
               sudo apt update
@@ -280,6 +283,7 @@ jobs:
           fi
 
       - name: 'Setup Environment'
+        shell: bash
         run: |
           echo "::group::Upgrade pip"
           python -m pip install --upgrade pip
@@ -298,6 +302,7 @@ jobs:
           echo "::endgroup::"
 
       - name: 'Run Pylint'
+        shell: bash
         run: |
           echo "::group::Create temporary directory"
           TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}
@@ -318,6 +323,7 @@ jobs:
       - name: 'Create diagrams'
         # https://pylint.readthedocs.io/en/latest/pyreverse.html
         if: always()
+        shell: bash
         run: |
           echo "::group::Create temporary directory"
           TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}/diagrams
