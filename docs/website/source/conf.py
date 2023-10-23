@@ -252,8 +252,8 @@ html_theme_options: Dict[str, Any] = {
     "logo": {
         # "text": "This will appear just after the logo image",
         # "link": "URL or path that logo links to"
-        "image_light": "_static/logo/simple_light.svg",
-        "image_dark": "_static/logo/simple_dark.svg",
+        "image_light": "_static/simple_light.svg",
+        "image_dark": "_static/simple_dark.svg",
         "alt_text": meta["name"],
     },
     "announcement": meta["url"]["website"]["announcement"],
@@ -267,7 +267,7 @@ html_theme_options: Dict[str, Any] = {
     # Persistent right section
     "navbar_persistent": ["search-button"],
     # Alignment of `navbar_center`
-    "navbar_align": "content",  # {"left", "right", "content"}
+    "navbar_align": "left",  # {"left", "right", "content"}
     "search_bar_text": f"Search {meta['name']} ...",
     # "primary_sidebar_end": ["indices"],
     "secondary_sidebar_items": [
@@ -433,8 +433,8 @@ html_static_path: List[str] = [
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1325
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1328
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1385
-    "../../../.meta/ui/logo/simple_dark.svg",
-    "../../../.meta/ui/logo/simple_light.svg",
+    # "../../../.meta/ui/logo/simple_dark.svg",
+    # "../../../.meta/ui/logo/simple_light.svg",
 ]
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
