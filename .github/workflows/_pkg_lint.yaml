@@ -143,7 +143,7 @@ jobs:
           ${{ fromJSON(inputs.metadata).path.source }} \
           --configfile pyproject.toml \
           --recursive \
-          --aggregate file \ 
+          --aggregate file \
           --number 5 \
           --severity-level medium \
           --confidence-level medium \
