@@ -198,10 +198,10 @@ issue:
               in the environment where you have encountered the bug. Follow the instructions below 
               based on the package manager you have selected:
 
-              **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
 
-              **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
               (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
@@ -436,10 +436,10 @@ issue:
               in the environment where you have encountered the bug. Follow the instructions below 
               based on the package manager you have selected:
               
-              **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
               
-              **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
               (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
@@ -677,10 +677,10 @@ issue:
               in the environment where you have encountered the bug. Follow the instructions below 
               based on the package manager you have selected:
               
-              **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
               
-              **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
               (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
               and copy the contents of the generated `environment.yml` file here.
 #            placeholder: Tell us what you see!
@@ -963,10 +963,10 @@ issue:
               in the environment where you have encountered the bug. Follow the instructions below 
               based on the package manager you have selected:
               
-              **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
               
-              **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
               (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
