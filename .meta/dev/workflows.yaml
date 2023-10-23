@@ -29,10 +29,10 @@ workflow:
   tool:
     pylint:
       pip_spec:
-        - pylint[spelling] >= 2.7.15, < 2.8
+        - pylint[spelling] >= 3.0, < 4
     mypy:
       pip_spec:
-        - mypy[reports] >=1.5.1, <1.6
+        - mypy[reports] >= 1.6, < 2
     bandit:
       pip_spec:
         - bandit[toml]
