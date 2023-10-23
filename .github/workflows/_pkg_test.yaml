@@ -57,5 +57,5 @@ jobs:
           package-source: ${{ inputs.package-source }}
           package-name: ${{ fromJson(inputs.metadata).package.name }}
           package-version: ${{ inputs.package-version }}
-          path-tests: ${{ fromJson(inputs.metadata).path.dir.tests }}
-          path-local: ${{ fromJson(inputs.metadata).path.dir.local }}
+          path-tests: ./${{ fromJson(inputs.metadata).path.dir.tests }}
+          path-local: ./${{ fromJson(inputs.metadata).path.dir.local }}
