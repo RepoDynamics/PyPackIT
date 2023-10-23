@@ -333,7 +333,7 @@ jobs:
           echo "::group::Run pyreverse"
           pyreverse \ 
           ${{ fromJSON(inputs.metadata).package.name }} \ 
-          --source-roots ${{ fromJSON(inputs.metadata).path.source }} \
+          --source-roots ${{ fromJSON(inputs.metadata).path.dir.source }} \
           --output-directory $TEMP_DIR \
           --output html \
           --module-names y \ 
