@@ -39,7 +39,7 @@ def setup(app):
     return
 
 
-with open(Path(__file__).parents[3] / "meta" / ".out" / "metadata.json") as f:
+with open(Path(__file__).parents[3] / ".github" / ".metadata.json") as f:
     meta = json.load(f)
 
 

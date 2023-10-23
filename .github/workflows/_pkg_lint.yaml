@@ -134,7 +134,7 @@ jobs:
         shell: bash
         run: |
           echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.local }}/.temp/bandit"
+          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/bandit"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
           
@@ -156,14 +156,14 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
+          path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
 
       - name: Upload SARIF file
         # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
         # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: ${{ fromJSON(inputs.metadata).path.local }}/.temp/bandit/report.sarif
+          sarif_file: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/bandit/report.sarif
           category: "bandit"
 
   mypy:
@@ -210,7 +210,7 @@ jobs:
       - name: 'Run MyPy'
         run: |
           echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.local }}/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
+          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
           
@@ -232,7 +232,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
+          path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
 
   pylint:
     name: 'PyLint / ${{ matrix.os }}'
@@ -300,7 +300,7 @@ jobs:
       - name: 'Run Pylint'
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=${{ fromJSON(inputs.metadata).path.local }}/.temp/pylint/${{ matrix.os }}
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}
           mkdir -p $TEMP_DIR/import_graphs
           echo "::endgroup::"
           
@@ -320,7 +320,7 @@ jobs:
         if: always()
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=${{ fromJSON(inputs.metadata).path.local }}/.temp/pylint/${{ matrix.os }}/diagrams
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}/diagrams
           mkdir -p $TEMP_DIR
           echo "::endgroup::"
           
@@ -340,4 +340,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.local }}/.temp
+          path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
