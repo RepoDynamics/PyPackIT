@@ -76,7 +76,7 @@ project: str = meta["name"]
 author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
 """Authors' names"""
 
-project_copyright: Union[str, List[str]] = meta["copyright_notice"]
+project_copyright: Union[str, List[str]] = meta["copyright"]["notice"]
 """Copyright statement(s)"""
 
 release: str = getattr(importlib.import_module(meta["package"]["name"]), "__version__")
@@ -362,7 +362,7 @@ _navbar_defaults = {
 }
 
 
-for icon in meta["navbar_icons"]:
+for icon in meta["web"]["navbar_icons"]:
     icon_id = icon.pop("id", None)
     if icon_id:
         _def = _navbar_defaults[icon_id]
@@ -384,7 +384,7 @@ for icon in meta["navbar_icons"]:
 # -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = meta.get("web_analytics")
+_analytics = meta["web"].get("analytics")
 if _analytics:
     _plausible_analytics = _analytics.get("plausible")
     if (
@@ -415,26 +415,26 @@ html_context = {
     "github_user": meta["owner"]["username"],
     "github_repo": meta["repo"]["name"],
     "github_version": meta["repo"]["default_branch"],
-    "doc_path": "docs/website/source",  # meta["path"]["docs"]["website"]["source"],
+    "doc_path": f'{meta["path"]["dir"]["website"]}/source',
     "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
     # PyPackIT variables
     "pp_meta": meta,
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[str, None] = "../../../meta/media/logo/icon.png"
+html_favicon: Union[str, None] = "../../../.meta/logo/icon.png"
 
 html_static_path: List[str] = [
     "_static",
-    "../../../meta/media",
+    "../../../.meta/logo",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
     # added to the root of static path, since PyData always looks there, regardless of the set path.
     # Ref:
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1325
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1328
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1385
-    "../../../meta/media/logo/simple_dark.svg",
-    "../../../meta/media/logo/simple_light.svg",
+    "../../../.meta/logo/simple_dark.svg",
+    "../../../.meta/logo/simple_light.svg",
 ]
 # html_extra_path: List[str] = []
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
@@ -714,7 +714,7 @@ References
 * https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
 """
 
-blog_path: str = "news"  # TODO meta["website"]["blog_dir_name"]
+blog_path: str = meta["web"]["path"]["news"]
 blog_baseurl: str = meta["url"]["website"]["base"]
 
 blog_post_pattern: list[str] = [
