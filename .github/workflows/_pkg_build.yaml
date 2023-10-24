@@ -55,7 +55,7 @@ jobs:
         run: pipx run twine check dist/*
 
   build-wheel:
-    name: 'Binary Distribution'
+    name: 'Pure Binary Distribution'
     if: fromJSON(inputs.metadata).package.pure_python == true
     runs-on: ubuntu-latest
     steps:
@@ -80,7 +80,7 @@ jobs:
         run: pipx run twine check dist/*
 
   build-wheels:
-    name: 'Generate native built distribution on ${{ matrix.os }}'
+    name: 'Native Binary Distribution / ${{ matrix.os }}'
     if: fromJSON(inputs.metadata).package.pure_python == false
     runs-on: ${{ matrix.platform.runner }}
     strategy:

@@ -23,7 +23,7 @@ on:
 
 jobs:
   package-release-pypi:
-    name: Publish on ${{ inputs.platform }}
+    name: ${{ inputs.platform }}
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.platform }}
