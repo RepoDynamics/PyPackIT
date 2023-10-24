@@ -81,8 +81,11 @@ jobs:
   init:
     name: 'RepoDynamics'
     uses: ./.github/workflows/_repodynamics.yaml
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     with:
-      admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       package-build: ${{ inputs.package-build }}
       package-lint: ${{ inputs.package-lint }}
       package-test: ${{ inputs.package-test }}
