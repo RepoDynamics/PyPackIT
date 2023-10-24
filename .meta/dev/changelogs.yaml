@@ -54,7 +54,8 @@ changelog:
     name: Website
     path: docs/website/CHANGELOG.md
     title: "${{name}} Changelog (Website)"
-    intro: ""
+    intro: |
+      This changelog documents the changes to the website.
     entry:
       title: "[{ver_dist}] – {date}"
       intro: |
@@ -198,8 +199,12 @@ changelog:
         title: Package Configurations.
         description: Changes to package/config_tools files.
 
-  ci:
+  workflows:
     name: Workflows
     path: .github/CHANGELOG.md
     title: ${{name}} Changelog (Workflows)
     intro: This changelog documents the changes to the workflows.
+    sections:
+      - id: workflows
+        title: Workflows
+        description: Changes to workflows.
