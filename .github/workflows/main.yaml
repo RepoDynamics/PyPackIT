@@ -1,7 +1,8 @@
 # Continuous Integration/Deployment pipeline
 
 name: "CI/CD Workflow"
-run-name: "CI/CD: '${{github.ref}}'"
+run-name: |
+  CI/CD: ${{ github.ref }}
 
 on:
   issues:
