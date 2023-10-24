@@ -9,7 +9,7 @@ commit:
       type: major
       sub_types:
         any: [ remove, change ]
-        exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels, ]
+        exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
 
     package_minor:
       description: |
