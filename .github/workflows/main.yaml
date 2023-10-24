@@ -92,6 +92,8 @@ jobs:
       website-build: ${{ inputs.website-build }}
       meta-sync: ${{ inputs.meta-sync }}
       hooks: ${{ inputs.hooks }}
+    secrets:
+      repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
 
   build:
     name: 'Package Build'

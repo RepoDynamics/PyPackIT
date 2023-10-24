@@ -41,9 +41,17 @@ on:
         default: false
         description: |
           Build the documentation with Sphinx and upload the builds as artifacts.
+    secrets:
+      repo-admin-token:
+        description: 'Token with admin permissions to the repository.'
+        required: false
     outputs:
-      config: ${{ jobs.init.outputs.config }}
-      metadata: ${{ jobs.init.outputs.metadata }}
+      config:
+        value: ${{ jobs.init.outputs.config }}
+        description: 'Configurations for subsequent workflow jobs.'
+      metadata:
+        value: ${{ jobs.init.outputs.metadata }}
+        description: 'Repository ci-metadata.'
 
 jobs:
   init:
@@ -60,7 +68,7 @@ jobs:
       - id: init
         uses: repodynamics/init@main
         with:
-          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          admin-token: ${{ secrets.repo-admin-token }}
           package-build: ${{ inputs.package-build }}
           package-lint: ${{ inputs.package-lint }}
           package-test: ${{ inputs.package-test }}
