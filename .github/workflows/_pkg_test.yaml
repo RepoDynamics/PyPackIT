@@ -38,7 +38,7 @@ on:
 jobs:
 
   test:
-    name: 'Python ${{ matrix.python-version }} / ${{ matrix.os }}'
+    name: '${{ matrix.os }} - Py ${{ matrix.python-version }}'
     strategy:
       fail-fast: false
       matrix:

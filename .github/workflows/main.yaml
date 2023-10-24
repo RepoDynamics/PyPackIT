@@ -77,39 +77,18 @@ on:
           Build the documentation with Sphinx and upload the builds as artifacts.
 
 jobs:
-  init:
-    name: 'RepoDynamics / Init'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    outputs:
-      config: ${{ steps.init.outputs.config }}
-      metadata: ${{ steps.init.outputs.metadata-ci }}
-    steps:
-      - id: init
-        uses: repodynamics/init@main
-        with:
-          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
-          package-build: ${{ inputs.package-build }}
-          package-lint: ${{ inputs.package-lint }}
-          package-test: ${{ inputs.package-test }}
-          website-build: ${{ inputs.website-build }}
-          meta-sync: ${{ inputs.meta-sync }}
-          hooks: ${{ inputs.hooks }}
 
-  init-fail:
-    name: 'RepoDynamics / Status'
-    runs-on: ubuntu-latest
-    needs: init
-    steps:
-      - run: |
-          if [ "${{ fromJSON(needs.init.outputs.config).fail }}" = "true" ]; then
-            exit 1
-          else
-            exit 0
-          fi     
+  init:
+    name: 'RepoDynamics'
+    uses: ./.github/workflows/_repodynamics.yaml
+    with:
+      admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+      package-build: ${{ inputs.package-build }}
+      package-lint: ${{ inputs.package-lint }}
+      package-test: ${{ inputs.package-test }}
+      website-build: ${{ inputs.website-build }}
+      meta-sync: ${{ inputs.meta-sync }}
+      hooks: ${{ inputs.hooks }}
 
   build:
     name: 'Package Build'

@@ -167,7 +167,7 @@ jobs:
           category: "bandit"
 
   mypy:
-    name: 'MyPy / Python ${{ matrix.python-version }} / ${{ matrix.os }}'
+    name: 'MyPy (${{ matrix.os }}, Py ${{ matrix.python-version }})'
     strategy:
       fail-fast: false
       matrix:
@@ -237,7 +237,7 @@ jobs:
           path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
 
   pylint:
-    name: 'PyLint / ${{ matrix.os }}'
+    name: 'PyLint (${{ matrix.os }})'
     strategy:
       fail-fast: false
       matrix:

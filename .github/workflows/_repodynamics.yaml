@@ -1,0 +1,81 @@
+name: '[Callable]: RepoDynamics'
+
+on:
+  workflow_call:
+    inputs:
+      meta-sync:
+        type: string
+        default: report
+        required: false
+        description: |
+          The action to take when the dynamic files are out of sync with the repository meta content.
+          Selecting 'none' will disable this action.
+      hooks:
+        type: string
+        default: report
+        required: false
+        description: |
+          The action to take when running the workflow hooks.
+          Selecting 'none' will disable this action.
+      package-build:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Build the package and upload the builds as artifacts.
+      package-lint:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Run the linting workflow.
+      package-test:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Run the test workflow on package.
+      website-build:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Build the documentation with Sphinx and upload the builds as artifacts.
+    outputs:
+      config: ${{ jobs.init.outputs.config }}
+      metadata: ${{ jobs.init.outputs.metadata }}
+
+jobs:
+  init:
+    name: 'Init'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    outputs:
+      config: ${{ steps.init.outputs.config }}
+      metadata: ${{ steps.init.outputs.metadata-ci }}
+    steps:
+      - id: init
+        uses: repodynamics/init@main
+        with:
+          admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          package-build: ${{ inputs.package-build }}
+          package-lint: ${{ inputs.package-lint }}
+          package-test: ${{ inputs.package-test }}
+          website-build: ${{ inputs.website-build }}
+          meta-sync: ${{ inputs.meta-sync }}
+          hooks: ${{ inputs.hooks }}
+
+  init-fail:
+    name: 'Status'
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - run: |
+          if [ "${{ fromJSON(needs.init.outputs.config).fail }}" = "true" ]; then
+            exit 1
+          else
+            exit 0
+          fi

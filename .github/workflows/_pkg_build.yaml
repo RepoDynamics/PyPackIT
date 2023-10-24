@@ -80,7 +80,7 @@ jobs:
         run: pipx run twine check dist/*
 
   build-wheels:
-    name: 'Native Binary Distribution / ${{ matrix.os }}'
+    name: 'Native Binary Distribution: ${{ matrix.os }}'
     if: fromJSON(inputs.metadata).package.pure_python == false
     runs-on: ${{ matrix.platform.runner }}
     strategy:
