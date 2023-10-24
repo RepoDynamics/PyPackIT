@@ -86,10 +86,10 @@ jobs:
       issues: write
       pull-requests: write
     with:
-      package-build: ${{ inputs.package-build }}
-      package-lint: ${{ inputs.package-lint }}
-      package-test: ${{ inputs.package-test }}
-      website-build: ${{ inputs.website-build }}
+      package-build: ${{ inputs.package-build | false }}
+      package-lint: ${{ inputs.package-lint | false }}
+      package-test: ${{ inputs.package-test | false }}
+      website-build: ${{ inputs.website-build | false }}
       meta-sync: ${{ inputs.meta-sync }}
       hooks: ${{ inputs.hooks }}
     secrets:
