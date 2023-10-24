@@ -236,12 +236,6 @@ jobs:
           name: Distribution Package
           path: distribution
 
-      - name: 'Download Release Notes'
-        uses: actions/download-artifact@v3
-        with:
-          name: release_notes
-          path: release_notes
-
       - name: 'Download gh-pages artifact'
         uses: actions/download-artifact@v3
         with:
