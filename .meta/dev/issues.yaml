@@ -1302,6 +1302,7 @@ issue:
             value: <h3>🧑‍💻 Collaborate</h3>
 
         - type: checkboxes
+          id: collab
           attributes:
             label: |
               Thank you again for filling this feature request.
@@ -1391,6 +1392,26 @@ issue:
           #            placeholder: Tell us what you see!
           validations:
             required: true
+
+      post_process:
+        assign_creator:
+          if_checkbox:
+            id: collab
+            number: 1
+            is_checked: true
+        body: |
+          <h2>Feature Location</h2>
+          <ul>
+          <li><b>Package Version</b>: {package_version}</li>
+          <li><b>Package Interface</b>: {package_interface}</li>
+          <li><b>Operating System</b>: {os}</li>
+          <li><b>Python Version</b>: {python_version}</li>
+          <li><b>Package Manager</b>: {package_manager}</li>
+          </ul>
+          <h2>Request Summary</h2>
+
+          {summary}
+      
 
     - id: app_request_breaking
       primary_commit_id: package_major
