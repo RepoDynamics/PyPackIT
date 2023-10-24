@@ -1,24 +1,31 @@
 maintainer:
 
   email:
-    main: a.ariamajd@gmail.com
-    security: a.ariamajd@gmail.com
-    code_of_conduct: a.ariamajd@gmail.com
-    support: a.ariamajd@gmail.com
+    main: "${{ owner.email }}"
+    security: "${{ owner.email }}"
+    code_of_conduct: "${{ owner.email }}"
+    support: "${{ owner.email }}"
 
   pull:
     reviewer:
       by_path:
         # Default owners for everything, unless a later match takes precedence.
-        - "*": [ aariam ]
+        - "*": [ "${{ owner.username }}" ]
         # All files directly under the root directory; these are config files like pyproject.toml.
-        - "/*": [ aariam ]
+        - "/*": [ "${{ owner.username }}" ]
         # All files and directories under the '.github' directory.
         # These are workflows (sensitive; can be exploited) and other GitHub related configs.
-        - "/.github/": [ aariam ]
+        - "/.github/": [ "${{ owner.username }}" ]
 
   issue:
-    app_bug_api: [ aariam ]
+    app_bug_gui: [ "${{ owner.username }}" ]
+    app_bug_cli: [ "${{ owner.username }}" ]
+    app_bug_api: [ "${{ owner.username }}" ]
+    app_bug_setup: [ "${{ owner.username }}" ]
+    app_request_enhancement: [ "${{ owner.username }}" ]
+    app_request_feature: [ "${{ owner.username }}" ]
+    app_request_breaking: [ "${{ owner.username }}" ]
+
 
   discussion:
-    announcements: [ aariam ]
+    announcements: [ "${{ owner.username }}" ]

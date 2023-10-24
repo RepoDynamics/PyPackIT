@@ -778,8 +778,6 @@ issue:
           
           {log}
 
-
-
     - id: app_bug_setup
       primary_commit_id: package_patch
       sub_type: setup
@@ -1351,7 +1349,7 @@ issue:
             multiple: false
             options: ${{ package.releases.package_managers }}
           validations:
-            required: true
+            required: false
 
         - type: markdown
           attributes:
