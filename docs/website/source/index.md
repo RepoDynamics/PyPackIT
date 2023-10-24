@@ -17,7 +17,7 @@ help/index
 :::
 
 {% for theme in ["light", "dark"] %}
-:::{image} {{pp_meta.url.website.base}}/_static/logo/full_{{theme}}.svg
+:::{image} {{pp_meta.url.website.base}}/_static/full_{{theme}}.svg
 :alt: {{pp_meta.name}}
 :align: center
 :class: only-{{theme}} homepage-logo
