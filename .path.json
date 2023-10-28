@@ -1,9 +1,0 @@
-{
-   "dir": {
-      "meta": ".meta",
-      "source": "src",
-      "local": ".local",
-      "tests": "tests",
-      "website": "docs/website"
-   }
-}
