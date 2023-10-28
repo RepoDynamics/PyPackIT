@@ -1,4 +1,5 @@
-
+# Meta Directory
+This directory contains all the meta content of the repository.
 
 ## PyPI
 
