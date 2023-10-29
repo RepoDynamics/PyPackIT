@@ -387,11 +387,7 @@ for icon in meta["web"]["navbar_icons"]:
 _analytics = meta["web"].get("analytics")
 if _analytics:
     _plausible_analytics = _analytics.get("plausible")
-    if (
-        _plausible_analytics
-        and _plausible_analytics.get("domain")
-        and _plausible_analytics.get("url")
-    ):
+    if _plausible_analytics and _plausible_analytics.get("domain") and _plausible_analytics.get("url"):
         html_theme_options["analytics"] = {
             "plausible_analytics_domain": _plausible_analytics["domain"],
             "plausible_analytics_url": _plausible_analytics["url"],
