@@ -7,11 +7,12 @@ repo:
     description: "${{ tagline }}"
     homepage: "${{ url.website.base }}"
     topics: "${{ keyword_slugs }}"
-    security_and_analysis:
-      secret_scanning:
-        status: enabled
-      secret_scanning_push_protection:
-        status: enabled
+    secret_scanning: true
+    secret_scanning_push_protection: true
+    vulnerability_alerts: true
+    automated_security_fixes: true
+    private_vulnerability_reporting: true
+    has_discussions: true
     has_projects: false
     has_wiki: false
     allow_merge_commit: true
