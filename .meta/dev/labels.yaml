@@ -5,6 +5,10 @@ label:
       prefix: "Version: "
       color: "0366d6"
 
+    target:
+      prefix: "Target: "
+      color: "0366d6"
+
   group:
     primary_type:
       prefix: 'Type: '
