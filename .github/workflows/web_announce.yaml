@@ -33,7 +33,7 @@ jobs:
           echo "This workflow can only be run on the default branch."
           exit 1
       - name: init
-        uses: repodynamics/init@main
+        uses: repodynamics/init@v1
         with:
           website-announcement: ${{ inputs.announcement }}
           website-announcement-message: ${{ inputs.description }}

@@ -66,7 +66,7 @@ jobs:
       metadata: ${{ steps.init.outputs.metadata-ci }}
     steps:
       - id: init
-        uses: repodynamics/init@main
+        uses: repodynamics/init@v1
         with:
           admin-token: ${{ secrets.repo-admin-token }}
           package-build: ${{ inputs.package-build }}
