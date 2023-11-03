@@ -7,7 +7,6 @@ channels:
   - defaults
 
 dependencies:
-
   # Base
   - python
   - pip
@@ -23,12 +22,7 @@ dependencies:
   - sphinxext-opengraph
   - sphinxcontrib-bibtex >= 2.5.0, < 3
 
-  # Metadata
-  - requests >= 2.31.0, < 3
-  - ruamel.yaml >= 0.17.32, < 0.18
-
   # Pip-only dependencies
   - pip:
-    # Documentation
     - sphinx-last-updated-by-git
     - sphinxcontrib-svg2pdfconverter
