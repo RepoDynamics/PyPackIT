@@ -1,6 +1,6 @@
 discussion:
-  forms:
-    - slug: question_issues
+  form:
+    question_issues:
       # A default title that will be pre-populated in the discussion submission form.
       title: "[General] "
 
@@ -62,7 +62,7 @@ discussion:
               ### The thrilling conclusion
               _to our template_
 
-    - slug: question_bug
+    question_bug:
       title: Is this a bug?
       labels:
           - bug
