@@ -1,5 +1,3 @@
-# Super Meta Content
-
 ## Repository Paths
 Along with the `.github` directory, PyPackIT works with a few other directories in your repository. 
 You can change the default paths of these directories by creating a `.path.json` file 
