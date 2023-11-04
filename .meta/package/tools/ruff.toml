@@ -2,7 +2,7 @@
 
 [tool.ruff]
 required-version = "0.0.290"
-cache-dir = "${{path.dir.local}}/cache/ruff"
+cache-dir = "${{ path.dir.local.cache.ruff }}"
 format = "grouped"
 ignore-init-module-imports = true
 line-length = 100

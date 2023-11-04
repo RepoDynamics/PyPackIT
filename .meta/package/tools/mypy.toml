@@ -18,19 +18,19 @@ pretty = true
 color_output = true
 
 # Incremental mode
-cache_dir = ".local/cache/mypy"
+cache_dir = "${{ path.dir.local.cache.mypy }}"
 
 # Advanced options
 show_traceback = true
 raise_exceptions = true
 
 # Report generation
-any_exprs_report = ".local/report/mypy"
-html_report = ".local/report/mypy"
-linecount_report = ".local/report/mypy"
-linecoverage_report = ".local/report/mypy"
-lineprecision_report = ".local/report/mypy"
-txt_report = ".local/report/mypy"
+any_exprs_report = "${{ path.dir.local.report.mypy }}"
+html_report = "${{ path.dir.local.report.mypy }}"
+linecount_report = "${{ path.dir.local.report.mypy }}"
+linecoverage_report = "${{ path.dir.local.report.mypy }}"
+lineprecision_report = "${{ path.dir.local.report.mypy }}"
+txt_report = "${{ path.dir.local.report.mypy }}"
 
 # Miscellaneous
 verbosity = 2
