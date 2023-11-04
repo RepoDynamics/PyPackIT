@@ -189,6 +189,17 @@ jobs:
           cache: pip
           cache-dependency-path: .github/workflow_requirements/mypy.txt
 
+      - name: 'Load MyPy Cache'
+        uses: actions/cache@v3
+        with:
+          path: ${{ fromJSON(inputs.metadata).path.dir.local.cache.mypy }}
+          key: >-
+            mypy
+            -${{ matrix.os }}
+            -${{ matrix.python-version }}
+            -${{ inputs.ref-before }}
+            -${{ hashFiles('.github/workflow_requirements/mypy.txt') }}
+
       - name: 'Setup Environment'
         shell: bash
         run: |
@@ -212,7 +223,7 @@ jobs:
         shell: bash
         run: |
           echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/mypy/py_${{ matrix.python-version }}/${{ matrix.os }}"
+          TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local.report.mypy }}/${{ matrix.os }}/py_${{ matrix.python-version }}"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
           
@@ -234,7 +245,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
+          path: ${{ fromJSON(inputs.metadata).path.dir.local.report }}
 
   pylint:
     name: 'PyLint (${{ matrix.os }})'
@@ -305,17 +316,17 @@ jobs:
         shell: bash
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}
-          mkdir -p $TEMP_DIR/import_graphs
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local.report.pylint }}/${{ matrix.os }}
+          mkdir -p $TEMP_DIR
           echo "::endgroup::"
           
           echo "::group::Run pylint"
           pylint \
           ${{ fromJSON(inputs.metadata).package.name }} \
           --rcfile pyproject.toml \
-          --import-graph $TEMP_DIR/import_graphs/all.svg \
-          --ext-import-graph $TEMP_DIR/import_graphs/external.svg \
-          --int-import-graph $TEMP_DIR/import_graphs/internal.svg \
+          --import-graph $TEMP_DIR/import_graph_total.svg \
+          --int-import-graph $TEMP_DIR/import_graph_internal.svg \
+          --ext-import-graph $TEMP_DIR/import_graph_external.svg \
           --output-format=colorized,text:$TEMP_DIR/report_text.txt,json:$TEMP_DIR/report_json.json,parseable:$TEMP_DIR/report_parseable.txt,msvs:$TEMP_DIR/report_msvs.txt \
           -j 0
           echo "::endgroup::"
