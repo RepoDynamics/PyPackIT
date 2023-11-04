@@ -11,29 +11,16 @@ on:
         required: true
         description: |
           CI metadata as a JSON string.
-      ref:
+      config:
         type: string
-        required: false
-        default: ""
+        required: true
         description: |
-          Git reference (e.g. commit hash, branch name, tag) to checkout the repository at.
-      repository:
-        description: Repository to checkout, i.e. the `repository` input of `actions/checkout`
-        type: string
-        default: ${{ github.repository }}
-        required: false
+          CI configuration as a JSON string.
       package-source:
         type: string
         default: GitHub
         required: false
         description: Installation source of the package; one of 'GitHub', 'TestPyPI', 'PyPI'.
-      package-version:
-        default: ""
-        required: false
-        type: string
-        description: |
-          Version of the package to install, when package-source is not 'GitHub'.
-          If not specified, the latest version is installed.
 
 jobs:
 
@@ -49,13 +36,10 @@ jobs:
       PYTHON: ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: repodynamics/pytests@main
+      - uses: repodynamics/pytests@v1
         with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.ref }}
-          python-version: ${{ matrix.python-version }}
+          config: ${{ inputs.config }}
+          metadata: ${{ inputs.metadata }}
           package-source: ${{ inputs.package-source }}
-          package-name: ${{ fromJson(inputs.metadata).package.name }}
-          package-version: ${{ inputs.package-version }}
-          path-tests: ./${{ fromJson(inputs.metadata).path.dir.tests }}
-          path-local: ./${{ fromJson(inputs.metadata).path.dir.local }}
+          python-version: ${{ matrix.python-version }}
+          os: ${{ matrix.os }}
