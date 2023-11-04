@@ -117,9 +117,8 @@ jobs:
     if: fromJSON(needs.init.outputs.config).run.package_test_local
     uses: ./.github/workflows/_pkg_test.yaml
     with:
+      config: ${{ needs.init.outputs.config }}
       metadata: ${{ needs.init.outputs.metadata }}
-      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
       package-source: GitHub
 
   lint:
@@ -191,11 +190,9 @@ jobs:
     if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
+      config: ${{ needs.init.outputs.config }}
       metadata: ${{ needs.init.outputs.metadata }}
-      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
       package-source: TestPyPI
-      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
 
   publish-pypi:
     name: 'Package Publish'
@@ -215,11 +212,9 @@ jobs:
     if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
+      config: ${{ needs.init.outputs.config }}
       metadata: ${{ needs.init.outputs.metadata }}
-      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
       package-source: PyPI
-      package-version: ${{ fromJSON(needs.init.outputs.config).package.version }}
 
   release:
     name: 'Release'
