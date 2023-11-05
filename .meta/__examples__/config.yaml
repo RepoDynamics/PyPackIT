@@ -1,0 +1,4 @@
+repodynamics:
+  cache_retention_days:
+    extensions: 1
+    api: 1
