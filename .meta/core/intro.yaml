@@ -2,11 +2,11 @@ tagline: >-
   Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
 
 description: >-
-  PyPackIT is a free and open-source toolkit
+  ${{ name }} is a free and open-source toolkit
   <b>empowering the development of open-source Python projects on GitHub</b>.
   It is a <b>dynamic repository template</b> that provides a complete, professional, and
   robust infrastructure for your project, where the only thing missing is your code.
-  With PyPackIT, you can solely focus on what truly matters:
+  With ${{ name }}, you can solely focus on what truly matters:
   implementing your ideas and bringing your vision to life!
 
 keywords:
@@ -28,26 +28,26 @@ keywords:
 keynotes:
   - title: Automation
     description: >-
-      PyPackIT streamlines a remarkable portion of the process of creating,
+      ${{ name }} streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
       making your project development a pleasant breeze!
   - title: Synchronization
     description: >-
-      PyPackIT gathers all your project's key information and configuration in one place,
+      ${{ name }} gathers all your project's key information and configuration in one place,
       and dynamically updates them throughout your repository, Python package, and documentation website.
   - title: Configuration
     description: >-
-      PyPackIT elevates your project by providing full configuration for your repository,
+      ${{ name }} elevates your project by providing full configuration for your repository,
       Python package, and documentation website, according to the latest guidelines and best practices.
   - title: Customization
     description: >-
-      While carefully configured, PyPackIT is also fully customizable,
+      While carefully configured, ${{ name }} is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs
   - title: Documentation
     description: >-
-      PyPackIT comes with a professional website for your project, that is easily
+      ${{ name }} comes with a professional website for your project, that is easily
       customizable, and automatically generated and deployed on your preferred platform.
   - title: Production
     description: >-
-      With PyPackIT, the only remaining step to publishing a production-ready
+      With ${{ name }}, the only remaining step to publishing a production-ready
       Python project is adding your code, unit-tests and documentation content.
