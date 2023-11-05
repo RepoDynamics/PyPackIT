@@ -1,0 +1,23 @@
+license:
+  # Either enter the ID of a supported license:
+  id: gnu_agpl_v3+
+  # or if you want to use another license that is not supported, provide the license information directly:
+  shortname: MCT v1.0
+  fullname: My Custom License v1.0
+  text: |
+    My Custom License v1.0
+    ======================
+
+    This is a custom license.
+
+    It is not supported by the Repodynamics project.
+
+    Please consider using one of the supported licenses instead.
+  notice: |
+    This project is licensed under My Custom License v1.0.
+    Here is a short notice about the license with the most important information 
+    and a link to the full license text.
+  trove_classifier: License :: Other/Proprietary License
+copyright:
+  year_start: 2021
+  owner: Armin Ariamajd
