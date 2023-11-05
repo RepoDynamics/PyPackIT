@@ -1,0 +1,8 @@
+extensions:
+  - type: core/credits
+    repo: RepoDynamics/MetaTemplates
+    ref: main
+    path: pypackit/default/template
+    append_list: true
+    append_dict: true
+    raise_duplicate: false
