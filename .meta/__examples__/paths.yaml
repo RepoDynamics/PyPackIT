@@ -1,0 +1,23 @@
+path:
+  dir:
+    source: src
+    tests: tests
+    website: docs/website
+    local:
+      root: .local
+      cache:
+        root: cache
+        repodynamics: repodynamics
+        coverage: coverage
+        mypy: mypy
+        pylint: pylint
+        pytest: pytest
+        ruff: ruff
+      report:
+        root: report
+        repodynamics: repodynamics
+        coverage: coverage
+        mypy: mypy
+        pylint: pylint
+        pytest: pytest
+        ruff: ruff
