@@ -1,0 +1,17 @@
+tagline: Replace this text with a one-sentence tagline or slogan for your project.
+
+description: >-
+  Replace this text with a one-paragraph description of your project.
+
+keywords:
+  - Replace this text with a keyword describing your project
+  - Add as many keywords as you like, each on its own line (beginning with a "- ")
+
+keynotes:
+  - title: Replace this text with a title for a keynote of your project
+    description: >-
+      Replace this text with a one-paragraph description of the keynote.
+  - title: Add another title here
+    description: >-
+      Don't forget its description!
+      Add as many keynotes as you like; each must have a title and a description.
