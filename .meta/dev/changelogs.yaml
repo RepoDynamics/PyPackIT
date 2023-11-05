@@ -2,7 +2,7 @@ changelog:
   package_public:
     name: Public API
     path: CHANGELOG.md
-    title: "${{name}} Changelog (Public API)"
+    title: ${{name}} Changelog (Public API)
     intro: |
       All notable changes to this project will be documented in this file.
   
@@ -49,7 +49,6 @@ changelog:
         title: 📔️ Release-Notes Fixes
         description: |
             Release-Notes fixes that have been applied to the public API.
-
   website:
     name: Website
     path: docs/website/CHANGELOG.md
@@ -72,7 +71,6 @@ changelog:
       - id: backend
         title: Backend
         description: Changes to website backend.
-
   package_private:
     name: Private API
     path: ".dev/CHANGELOG.md"
@@ -111,7 +109,6 @@ changelog:
       - id: style
         title: 🎨 Style Changes
         description: Code style changes.
-
   tests:
     name: Test Suite
     path: "tests/CHANGELOG.md"
@@ -149,7 +146,6 @@ changelog:
       - id: style
         title: 🎨 Style Changes
         description: Code style changes in the test-suite.
-
   meta:
     name: Meta Content
     path: .meta/CHANGELOG.md
@@ -198,7 +194,6 @@ changelog:
       - id: package_tools
         title: Package Configurations.
         description: Changes to package/config_tools files.
-
   workflows:
     name: Workflows
     path: .github/CHANGELOG.md
