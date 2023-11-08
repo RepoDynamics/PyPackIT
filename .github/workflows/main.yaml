@@ -5,30 +5,30 @@ run-name: |
   CI/CD: ${{ github.ref }}
 
 on:
-  issues:
-    types:
-      - opened
-      - labeled
-  issue_comment:
-    types:
-      - created
-      - edited
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - labeled
-      - closed
-  pull_request_target:
-    types:
-      - opened
-      - reopened
-      - synchronize
-  push:
-  schedule:
-    - cron: '0 0 * * *'  # Every day at midnight UTC.
-    - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
+#  issues:
+#    types:
+#      - opened
+#      - labeled
+#  issue_comment:
+#    types:
+#      - created
+#      - edited
+#  pull_request:
+#    types:
+#      - opened
+#      - reopened
+#      - synchronize
+#      - labeled
+#      - closed
+#  pull_request_target:
+#    types:
+#      - opened
+#      - reopened
+#      - synchronize
+#  push:
+#  schedule:
+#    - cron: '0 0 * * *'  # Every day at midnight UTC.
+#    - cron: '0 0 * * 1'  # Every Monday at midnight UTC.
   workflow_dispatch:
     inputs:
       meta-sync:
