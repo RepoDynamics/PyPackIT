@@ -87,7 +87,7 @@ jobs:
 
   init:
     name: 'RepoDynamics'
-    if: ${{ github.repository != 'AAriam/TemplateRepo' }}
+    if: github.repository != 'AAriam/TemplateRepo'
     uses: ./.github/workflows/_repodynamics.yaml
     permissions:
       contents: write
