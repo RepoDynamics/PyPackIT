@@ -167,7 +167,7 @@ issue:
           validations:
             required: true
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -391,7 +391,7 @@ issue:
           validations:
             required: true
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -617,7 +617,7 @@ issue:
           validations:
             required: true
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -702,7 +702,7 @@ issue:
         body: |
           <h2>Bug Location</h2>
           <ul>
-          <li><b>Package Version</b>: {package_version}</li>
+          <li><b>Package Version</b>: {version}</li>
           <li><b>Fully Qualified Name</b>: {api_entry}</li>
           </ul>
           <h2>System and Version Specifications</h2>
@@ -886,7 +886,7 @@ issue:
           validations:
             required: true
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -1091,7 +1091,7 @@ issue:
               <br>
               <h2>Enhancement Request</h2>
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -1277,7 +1277,7 @@ issue:
               <br>
               <h2>Feature Request</h2>
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
@@ -1317,7 +1317,7 @@ issue:
         body: |
           <h2>Feature Location</h2>
           <ul>
-          <li><b>Package Version</b>: {package_version}</li>
+          <li><b>Package Version</b>: {version}</li>
           <li><b>Package Interface</b>: {package_interface}</li>
           <li><b>Operating System</b>: {os}</li>
           <li><b>Python Version</b>: {python_version}</li>
@@ -1481,7 +1481,7 @@ issue:
               <br>
               <h2>Modification Request</h2>
         - type: dropdown
-          id: package_version
+          id: version
           attributes:
             label: Package Version
             description: |
