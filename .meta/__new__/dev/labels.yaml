@@ -136,7 +136,7 @@ label:
           suffix: 'rc'
           description: |
             The issue/pull-request is published as a release candidate.
-        merged:
-          suffix: 'merged'
+        final:
+          suffix: 'final'
           description: |
             The issue/pull-request has been merged into a release branch.
