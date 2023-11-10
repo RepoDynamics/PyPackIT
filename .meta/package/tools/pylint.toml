@@ -71,10 +71,10 @@ reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
 output-format = [
-    "json:${{ path.local.report.pylint }}/report_json.json",
-    "text:${{ path.local.report.pylint }}/report_text.txt",
-    "parseable:${{ path.local.report.pylint }}/report_parseable.txt",
-    "msvs:${{ path.local.report.pylint }}/report_msvs.txt",
+    "json:${{ path.dir.local.report.pylint }}/report_json.json",
+    "text:${{ path.dir.local.report.pylint }}/report_text.txt",
+    "parseable:${{ path.dir.local.report.pylint }}/report_parseable.txt",
+    "msvs:${{ path.dir.local.report.pylint }}/report_msvs.txt",
     "colorized",
 ]
 
