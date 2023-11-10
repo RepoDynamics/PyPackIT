@@ -1,0 +1,29 @@
+package:
+
+  manifest:
+    - graft ${{ path.dir.source }}/${{ package.name }}
+    - include CODE_OF_CONDUCT.md
+    - global-exclude *.py[cod] __pycache__ *.so
+
+  typed: true
+
+  trove_classifiers:
+    - "Natural Language :: English"
+
+  urls:
+    # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata
+    # For a list of URL keys, see:
+    # https://github.com/pypi/warehouse/blob/e69029dc1b23eb2436a940038b927e772238a7bf/warehouse/templates/packaging/detail.html#L20-L62
+    # equivalent keys: "home", "homepage", "home page"
+    Homepage: ${{ url.website.base }}
+    # equivalent keys: "download"
+    Download: ${{ url.github.releases.home }}
+    # equivalent keys: "changelog", "change log", "changes", "release notes", "news", "what's new", "history"
+    News: ${{ url.website.news }}
+    # equivalent keys: "docs", "documentation"
+    Documentation: ${{ url.website.base }}
+    # equivalent keys (startswith): "bug", "issue", "tracker", "report"
+    Issue-Tracker: ${{ url.github.issues.home }}
+    # equivalent keys (startswith): "funding", "donate", "donation", "sponsor"
+    Sponsor: ${{ url.website.sponsor }}
+    Source: ${{ url.github.home }}

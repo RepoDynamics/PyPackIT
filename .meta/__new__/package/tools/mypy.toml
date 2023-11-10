@@ -1,0 +1,36 @@
+# mypy
+# Ref: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
+
+[tool.mypy]
+# Import discovery
+packages = ["${{package.name}}"]
+
+# Configuring warnings
+warn_return_any = true
+
+# Miscellaneous strictness flags
+strict = true
+
+# Configuring error messages
+show_error_context = true
+show_column_numbers = true
+pretty = true
+color_output = true
+
+# Incremental mode
+cache_dir = "${{ path.dir.local.cache.mypy }}"
+
+# Advanced options
+show_traceback = true
+raise_exceptions = true
+
+# Report generation
+any_exprs_report = "${{ path.dir.local.report.mypy }}"
+html_report = "${{ path.dir.local.report.mypy }}"
+linecount_report = "${{ path.dir.local.report.mypy }}"
+linecoverage_report = "${{ path.dir.local.report.mypy }}"
+lineprecision_report = "${{ path.dir.local.report.mypy }}"
+txt_report = "${{ path.dir.local.report.mypy }}"
+
+# Miscellaneous
+verbosity = 2

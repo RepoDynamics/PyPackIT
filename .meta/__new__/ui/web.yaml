@@ -1,0 +1,78 @@
+web:
+  base_url: ""
+
+  readthedocs:
+    # ReadTheDocs configuration file
+    # ReadTheDocs uses this configuration to build the website on readthedocs.io.
+    # Reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
+    name: templaterepo  # Slug name (not in readthedocs config file)
+    # Required
+    version: 2
+    # Set the version of Python and other tools you might need
+    build:
+      os: ubuntu-22.04
+      tools:
+        python: "mambaforge-4.10"
+      jobs:
+        post_checkout:
+          # versioningit needs the full git history to determine the package's version at build time.
+          # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
+          - git fetch --unshallow
+    # Install dependencies
+    conda:
+      environment: docs/website/requirements.yaml
+    # Install the package
+    python:
+      install:
+        - method: pip
+          path: .
+    # Build documentation with Sphinx
+    sphinx:
+      configuration: docs/website/source/conf.py
+      builder: dirhtml
+      fail_on_warning: false
+    # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+    formats: all
+
+  announcement_retention_days: 30
+
+  navbar_icons:
+    - id: pypi
+    - id: conda
+    - id: repo
+    - id: issues
+    - id: pull_requests
+    - id: discussions
+    - id: email
+    - id: license
+    - id: twitter
+    - id: linkedin
+    - id: researchgate
+    - id: orcid
+
+  quicklinks:
+    - - title: Install
+        path: 'manual/install'
+        include_in_readme: true
+    - - title: Releases
+        path: 'news/category/release'
+        include_in_readme: true
+    - - title: Q&A
+        path: 'help/ask'
+        include_in_readme: true
+
+  analytics:
+    plausible:
+      domain: ""
+      url: ""
+    google_id: "G-0X66W6TGL2"
+
+  path:
+    contact: 'help/contact'
+    news: 'news'
+    contributors: 'about/#contributors'
+    contributing: 'contribute'
+    bug_report: 'contribute/feedback/report'
+    license: 'license'
+    security_measures: 'contribute/collaborate/maintain/security'
+    sponsor: 'contribute/collaborate/maintain/sponsor'

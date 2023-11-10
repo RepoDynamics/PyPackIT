@@ -1,0 +1,4 @@
+# https://bandit.readthedocs.io/en/latest/config.html
+
+[tool.bandit]
+targets = ["${{path.dir.source}}"]

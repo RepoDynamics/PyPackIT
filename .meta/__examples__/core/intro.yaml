@@ -1,50 +1,29 @@
-tagline: >-
-  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+# Project Introduction
+# --------------------
+# This file contains descriptors for the project.
+
+
+# Name of the project.
+# By default, the name of the project is derived from the name of the repository,
+# by replacing all hyphens with spaces. You can override this by uncommenting the
+# following line and replacing the value with the name of your project:
+# name: My Cool Project
+
+
+tagline: The Best Python Project Ever
+
 description: >-
-  ${{ name }} is a free and open-source toolkit
-  <b>empowering the development of open-source Python projects on GitHub</b>.
-  It is a <b>dynamic repository template</b> that provides a complete, professional, and
-  robust infrastructure for your project, where the only thing missing is your code.
-  With ${{ name }}, you can solely focus on what truly matters:
-  implementing your ideas and bringing your vision to life!
+  Replace this text with a one-paragraph description of your project.
+
 keywords:
-  - python
-  - github
-  - packaging
-  - template
-  - dynamic repository
-  - repository template
-  - documentation
-  - testing
-  - deployment
-  - maintenance
-  - automation
-  - development
-  - infrastructure
-  - streamline
+  - Replace this text with a keyword describing your project
+  - Add as many keywords as you like, each on its own line (beginning with a "- ")
+
 keynotes:
-  - title: Automation
+  - title: Replace this text with a title for a keynote of your project
     description: >-
-      ${{ name }} streamlines a remarkable portion of the process of creating,
-      documenting, testing, publishing, and maintaining Python packages,
-      making your project development a pleasant breeze!
-  - title: Synchronization
+      Replace this text with a one-paragraph description of the keynote.
+  - title: Add another title here
     description: >-
-      ${{ name }} gathers all your project's key information and configuration in one place,
-      and dynamically updates them throughout your repository, Python package, and documentation website.
-  - title: Configuration
-    description: >-
-      ${{ name }} elevates your project by providing full configuration for your repository,
-      Python package, and documentation website, according to the latest guidelines and best practices.
-  - title: Customization
-    description: >-
-      While carefully configured, ${{ name }} is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs
-  - title: Documentation
-    description: >-
-      ${{ name }} comes with a professional website for your project, that is easily
-      customizable, and automatically generated and deployed on your preferred platform.
-  - title: Production
-    description: >-
-      With ${{ name }}, the only remaining step to publishing a production-ready
-      Python project is adding your code, unit-tests and documentation content.
+      Don't forget its description!
+      Add as many keynotes as you like; each must have a title and a description.

@@ -1,8 +1,34 @@
+# Meta Content Extensions
+# -----------------------
+# This file contains declarations of extended meta contents to be fetched from other GitHub repositories.
+# An example is provided below (commented out); to use, uncomment the following block
+# by removing the firs '#' character from the beginning of each line.
+# If you don't want to add any extensions, you can delete this file.
+
+
+# The single root key of this file:
 extensions:
+  # A list of extension declarations, ordered by priority (highest first).
+    # Type of the extension:
   - type: core/credits
-    repo: RepoDynamics/MetaTemplates
+    # Full name of the GitHub repository (username/repo-name) to fetch the files from:
+    repo: RepoDynamics/MetaExtensions
+    # The reference (branch, tag, commit etc.) in the repository to fetch the files from
+    # (optional; if not provided, data will be fetched from the HEAD of repository's default branch):
     ref: main
+    # Path to the file in the repository to fetch:
     path: pypackit/default/template
+    # Whether to append the elements of the lists present in the extended content
+    # to the corresponding existing lists present in higher-priority content (default: true).
+    # If false, any list that has a corresponding existing list in higher-priority content will
+    # be treated as a duplicate (see `raise_duplicate` below):
     append_list: true
+    # Whether to append the key-value pairs of the dictionaries present in the extended content
+    # to the corresponding existing dictionaries present in higher-priority content (default: true).
+    # If false, any dictionary that has a corresponding existing dictionary in higher-priority content will
+    # be treated as a duplicate (see `raise_duplicate` below):
     append_dict: true
+    # Whether to raise an exception if a list or dictionary in the extended content
+    # has a corresponding existing list or dictionary in higher-priority content (default: false).
+    # If false, the list or dictionary in the extended content will be ignored:
     raise_duplicate: false

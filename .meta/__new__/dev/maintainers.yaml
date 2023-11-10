@@ -1,0 +1,31 @@
+maintainer:
+
+  email:
+    main: "${{ owner.email }}"
+    security: "${{ owner.email }}"
+    code_of_conduct: "${{ owner.email }}"
+    support: "${{ owner.email }}"
+
+  pull:
+    reviewer:
+      by_path:
+        # Default owners for everything, unless a later match takes precedence.
+        - "*": [ "${{ owner.username }}" ]
+        # All files directly under the root directory; these are config files like pyproject.toml.
+        - "/*": [ "${{ owner.username }}" ]
+        # All files and directories under the '.github' directory.
+        # These are workflows (sensitive; can be exploited) and other GitHub related configs.
+        - "/.github/": [ "${{ owner.username }}" ]
+
+  issue:
+    app_bug_gui: [ "${{ owner.username }}" ]
+    app_bug_cli: [ "${{ owner.username }}" ]
+    app_bug_api: [ "${{ owner.username }}" ]
+    app_bug_setup: [ "${{ owner.username }}" ]
+    app_request_enhancement: [ "${{ owner.username }}" ]
+    app_request_feature: [ "${{ owner.username }}" ]
+    app_request_breaking: [ "${{ owner.username }}" ]
+
+
+  discussion:
+    announcements: [ "${{ owner.username }}" ]

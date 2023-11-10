@@ -23,7 +23,9 @@ workflow:
     schedule:
       test: '0 0 * * 1'  # Every Monday at midnight UTC.
       sync: '0 0 * * *'  # Every day at midnight UTC.
+
     get_owner_publications: true
+
   tool:
     pylint:
       pip_spec:
@@ -35,6 +37,7 @@ workflow:
       pip_spec:
         - bandit[toml]
         - bandit-sarif-formatter
+
   pre_commit:
     # pre-commit configuration file
     # Ref: https://pre-commit.com/

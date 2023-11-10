@@ -1,0 +1,23 @@
+package:
+  conda:
+    about:
+      summary: binary diff and patch using the BSDIFF4-format
+      # Long description in Markdown format.
+      description: |
+        A Python library for structural cheminformatics
+      home: https://github.com/ilanschnell/bsdiff4
+      doc_url: https://numpy.org/doc/stable/
+      dev_url: https://github.com/numpy/numpy
+      license: MIT
+      license_family: MIT
+      license_file:
+        - LICENSE
+
+      prelink_message:
+        - prelink_message_file.txt
+        - folder-with-all-prelink-messages/
+
+    extra:
+      recipe-maintainers:
+        - jakirkham
+      feedstock-name: scipy

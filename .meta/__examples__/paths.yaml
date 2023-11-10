@@ -1,12 +1,30 @@
+# Repository Paths
+# ----------------
+# This file contains declarations of key paths in the repository.
+# All available configurations and their default values are listed below.
+# If you don't want to change any of the default values, you can delete this file.
+
+
+# The single root key of this file:
 path:
+  # Paths to directories in the repository:
   dir:
+    # Source-code:
     source: src
+    # Test-suite:
     tests: tests
+    # Website:
     website: docs/website
+    # Local directory; this directory will be automatically added to `.gitignore`,
+    # and is used to store local files, such as cache files, logs and reports from various tools:
     local:
+      # Name of the local directory:
       root: .local
+      # Paths to subdirectories in the local directory:
       cache:
+        # Name of the cache directory:
         root: cache
+        # Paths to subdirectories in the cache directory:
         repodynamics: repodynamics
         coverage: coverage
         mypy: mypy
@@ -14,7 +32,9 @@ path:
         pytest: pytest
         ruff: ruff
       report:
+        # Name of the report directory:
         root: report
+        # Paths to subdirectories in the report directory:
         repodynamics: repodynamics
         coverage: coverage
         mypy: mypy

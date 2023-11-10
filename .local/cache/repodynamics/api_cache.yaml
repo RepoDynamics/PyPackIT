@@ -1,0 +1,333 @@
+doi_10.1039/d2sc03130b:
+  data: &id001
+    abstract: Combinatorial detergent synthesis permits access to an unexplored part
+      of the detergentome and provides new directions for the preparation of custom-made
+      detergents for future applications.
+    cite: {BibTex: "@article{Urner_2022,\n\tdoi = {10.1039/d2sc03130b},\n\turl = {https://doi.org/10.1039%2Fd2sc03130b},\n\tyear
+        = 2022,\n\tpublisher = {Royal Society of Chemistry ({RSC})},\n\tvolume = {13},\n\tnumber
+        = {35},\n\tpages = {10299--10307},\n\tauthor = {Leonhard H. Urner and Armin
+        Ariamajd and Alex Weikum},\n\ttitle = {Combinatorial synthesis enables scalable
+        designer detergents for membrane protein studies},\n\tjournal = {Chemical
+        Science}\n}", RIS: "TY  - JOUR\nDO  - 10.1039/d2sc03130b\nUR  - http://dx.doi.org/10.1039/d2sc03130b\nTI
+        \ - Combinatorial synthesis enables scalable designer detergents for membrane
+        protein studies\nT2  - Chemical Science\nAU  - Urner, Leonhard H.\nAU  - Ariamajd,
+        Armin\nAU  - Weikum, Alex\nPY  - 2022\nPB  - Royal Society of Chemistry (RSC)\nSP
+        \ - 10299-10307\nIS  - 35\nVL  - 13\nSN  - 2041-6520\nSN  - 2041-6539\nER
+        \ - \n"}
+    date: 30 August 2022
+    date_tuple: [2022, 8, 30]
+    doi: 10.1039/d2sc03130b
+    issue: '35'
+    journal: Chemical Science
+    journal_abbr: Chem. Sci.
+    pages: 10299-10307
+    publisher: Royal Society of Chemistry (RSC)
+    subtype: null
+    title: Combinatorial synthesis enables scalable designer detergents for membrane
+      protein studies
+    type: journal-article
+    url: https://doi.org/10.1039/d2sc03130b
+    volume: '13'
+    year: 2022
+  timestamp: '2023_11_09_00_29_59'
+doi_10.1093/nar/gkac267:
+  data: &id002
+    abstract: Computational pipelines have become a crucial part of modern drug discovery
+      campaigns. Setting up and maintaining such pipelines, however, can be challenging
+      and time-consuming—especially for novice scientists in this domain. TeachOpenCADD
+      is a platform that aims to teach domain-specific skills and to provide pipeline
+      templates as starting points for research projects. We offer Python-based solutions
+      for common tasks in cheminformatics and structural bioinformatics in the form
+      of Jupyter notebooks, based on open source resources only. Including the 12
+      newly released additions, TeachOpenCADD now contains 22 notebooks that cover
+      both theoretical background as well as hands-on programming. To promote reproducible
+      and reusable research, we apply software best practices to our notebooks such
+      as testing with automated continuous integration and adhering to the idiomatic
+      Python style. The new TeachOpenCADD website is available at https://projects.volkamerlab.org/teachopencadd
+      and all code is deposited on GitHub.
+    cite: {BibTex: "@article{Sydow_2022,\n\tdoi = {10.1093/nar/gkac267},\n\turl =
+        {https://doi.org/10.1093%2Fnar%2Fgkac267},\n\tyear = 2022,\n\tmonth = {may},\n\tpublisher
+        = {Oxford University Press ({OUP})},\n\tvolume = {50},\n\tnumber = {W1},\n\tpages
+        = {W753--W760},\n\tauthor = {Dominique Sydow and Jaime Rodr{\\'{\\i}}guez-Guerra
+        and Talia~B Kimber and David Schaller and Corey~J Taylor and Yonghui Chen
+        and Mareike Leja and Sakshi Misra and Michele Wichmann and Armin Ariamajd
+        and Andrea Volkamer},\n\ttitle = {{TeachOpenCADD} 2022: open source and {FAIR}
+        Python pipelines to assist in structural bioinformatics and cheminformatics
+        research},\n\tjournal = {Nucleic Acids Research}\n}", RIS: "TY  - JOUR\nDO
+        \ - 10.1093/nar/gkac267\nUR  - http://dx.doi.org/10.1093/nar/gkac267\nTI  -
+        TeachOpenCADD 2022: open source and FAIR Python pipelines to assist in structural
+        bioinformatics and cheminformatics research\nT2  - Nucleic Acids Research\nAU
+        \ - Sydow, Dominique\nAU  - Rodríguez-Guerra, Jaime\nAU  - Kimber, Talia B\nAU
+        \ - Schaller, David\nAU  - Taylor, Corey J\nAU  - Chen, Yonghui\nAU  - Leja,
+        Mareike\nAU  - Misra, Sakshi\nAU  - Wichmann, Michele\nAU  - Ariamajd, Armin\nAU
+        \ - Volkamer, Andrea\nPY  - 2022\nDA  - 2022/05/07\nPB  - Oxford University
+        Press (OUP)\nSP  - W753-W760\nIS  - W1\nVL  - 50\nSN  - 0305-1048\nSN  - 1362-4962\nER
+        \ - \n"}
+    date: 7 May 2022
+    date_tuple: [2022, 5, 7]
+    doi: 10.1093/nar/gkac267
+    issue: W1
+    journal: Nucleic Acids Research
+    journal_abbr: Nucleic Acids Res.
+    pages: W753-W760
+    publisher: Oxford University Press (OUP)
+    subtype: null
+    title: 'TeachOpenCADD 2022: open source and FAIR Python pipelines to assist in
+      structural bioinformatics and cheminformatics research'
+    type: journal-article
+    url: https://doi.org/10.1093/nar/gkac267
+    volume: '50'
+    year: 2022
+  timestamp: '2023_11_09_00_29_57'
+doi_10.26434/chemrxiv-2021-8x13n:
+  data: &id003
+    abstract: Computational pipelines have become a crucial part of modern drug discovery
+      campaigns. Setting up and maintaining such pipelines, however, can be challenging
+      and time-consuming --- especially for novice scientists in this domain. TeachOpenCADD
+      is a platform that aims to teach domain-specific skills and to provide pipeline
+      templates as starting points for research projects. We offer Python-based solutions
+      for common tasks in cheminformatics and structural bioinformatics in the form
+      of Jupyter notebooks and based on open source resources only. Including the
+      12 newly released additions, TeachOpenCADD now contains 22 notebooks that each
+      cover both theoretical background as well as hands-on programming. To promote
+      reproducible and reusable research, we apply software best practices to our
+      notebooks such as testing with an automated continuous integration and adhering
+      to a more idiomatic Python style. The new TeachOpenCADD website is available
+      at https://projects.volkamerlab.org/teachopencadd and all code is deposited
+      on GitHub.
+    cite: {BibTex: "@article{Sydow_2021,\n\tdoi = {10.26434/chemrxiv-2021-8x13n},\n\turl
+        = {https://doi.org/10.26434%2Fchemrxiv-2021-8x13n},\n\tyear = 2021,\n\tmonth
+        = {dec},\n\tpublisher = {American Chemical Society ({ACS})},\n\tauthor = {Dominique
+        Sydow and Jaime Rodr{\\'{\\i}}guez-Guerra and Talia B. Kimber and David Schaller
+        and Corey J. Taylor and Yonghui Chen and Mareike Leja and Sakshi Misra and
+        Michele Wichmann and Armin Ariamajd and Andrea Volkamer},\n\ttitle = {{TeachOpenCADD}
+        2021: Open Source and {FAIR} Python Pipelines to Assist in Structural Bioinformatics
+        and Cheminformatics Research}\n}", RIS: "TY  - GENERIC\nDO  - 10.26434/chemrxiv-2021-8x13n\nUR
+        \ - http://dx.doi.org/10.26434/chemrxiv-2021-8x13n\nTI  - TeachOpenCADD 2021:
+        Open Source and FAIR Python Pipelines to Assist in Structural Bioinformatics
+        and Cheminformatics Research\nAU  - Sydow, Dominique\nAU  - Rodríguez-Guerra,
+        Jaime\nAU  - Kimber, Talia B.\nAU  - Schaller, David\nAU  - Taylor, Corey
+        J.\nAU  - Chen, Yonghui\nAU  - Leja, Mareike\nAU  - Misra, Sakshi\nAU  - Wichmann,
+        Michele\nAU  - Ariamajd, Armin\nAU  - Volkamer, Andrea\nPY  - 2021\nDA  -
+        2021/12/13\nPB  - American Chemical Society (ACS)\nER  - \n"}
+    date: 13 December 2021
+    date_tuple: [2021, 12, 13]
+    doi: 10.26434/chemrxiv-2021-8x13n
+    issue: null
+    journal: null
+    journal_abbr: null
+    pages: null
+    publisher: American Chemical Society (ACS)
+    subtype: preprint
+    title: 'TeachOpenCADD 2021: Open Source and FAIR Python Pipelines to Assist in
+      Structural Bioinformatics and Cheminformatics Research'
+    type: posted-content
+    url: https://doi.org/10.26434/chemrxiv-2021-8x13n
+    volume: null
+    year: 2021
+  timestamp: '2023_11_09_00_30_03'
+doi_10.3762/bjoc.17.8:
+  data: &id004
+    abstract: A series of 2-(perfluoroalkylthio)benzothiazolium (BT-SR<sub>F</sub>)
+      salts have been synthesized that serve as convenient sources of hitherto underexplored
+      perfluoroalkylthiolate anions. An investigation of their reactivity in a deoxygenative
+      nucleophilic substitution reaction led to the development of an unprecedented
+      process that provides pentafluoroethyl and heptafluoropropyl thioethers directly
+      from readily available alcohols.
+    cite: {BibTex: "@article{Ariamajd_2021,\n\tdoi = {10.3762/bjoc.17.8},\n\turl =
+        {https://doi.org/10.3762%2Fbjoc.17.8},\n\tyear = 2021,\n\tmonth = {jan},\n\tpublisher
+        = {Beilstein Institut},\n\tvolume = {17},\n\tpages = {83--88},\n\tauthor =
+        {Armin Ariamajd and Nils J Gerwien and Benjamin Schwabe and Stefan Dix and
+        Matthew N Hopkinson},\n\ttitle = {Benzothiazolium salts as reagents for the
+        deoxygenative perfluoroalkylthiolation of alcohols},\n\tjournal = {Beilstein
+        Journal of Organic Chemistry}\n}", RIS: "TY  - JOUR\nDO  - 10.3762/bjoc.17.8\nUR
+        \ - http://dx.doi.org/10.3762/bjoc.17.8\nTI  - Benzothiazolium salts as reagents
+        for the deoxygenative perfluoroalkylthiolation of alcohols\nT2  - Beilstein
+        Journal of Organic Chemistry\nAU  - Ariamajd, Armin\nAU  - Gerwien, Nils J\nAU
+        \ - Schwabe, Benjamin\nAU  - Dix, Stefan\nAU  - Hopkinson, Matthew N\nPY  -
+        2021\nDA  - 2021/01/08\nPB  - Beilstein Institut\nSP  - 83-88\nVL  - 17\nSN
+        \ - 1860-5397\nER  - \n"}
+    date: 8 January 2021
+    date_tuple: [2021, 1, 8]
+    doi: 10.3762/bjoc.17.8
+    issue: null
+    journal: Beilstein Journal of Organic Chemistry
+    journal_abbr: Beilstein J. Org. Chem.
+    pages: 83-88
+    publisher: Beilstein Institut
+    subtype: null
+    title: Benzothiazolium salts as reagents for the deoxygenative perfluoroalkylthiolation
+      of alcohols
+    type: journal-article
+    url: https://doi.org/10.3762/bjoc.17.8
+    volume: '17'
+    year: 2021
+  timestamp: '2023_11_09_00_30_01'
+publications_orcid_https://orcid.org/0000-0003-1563-6987:
+  data: [10.1093/nar/gkac267, 10.1039/d2sc03130b, 10.3762/bjoc.17.8, 10.26434/chemrxiv-2021-8x13n]
+  timestamp: '2023_11_09_00_29_55'
+python_versions:
+  data:
+  - [3, 0, 1]
+  - [3, 1, 1]
+  - [3, 1, 2]
+  - [3, 1, 3]
+  - [3, 1, 4]
+  - [3, 1, 5]
+  - [3, 2, 1]
+  - [3, 2, 2]
+  - [3, 2, 3]
+  - [3, 2, 4]
+  - [3, 2, 5]
+  - [3, 2, 6]
+  - [3, 3, 0]
+  - [3, 3, 1]
+  - [3, 3, 2]
+  - [3, 3, 3]
+  - [3, 3, 4]
+  - [3, 3, 5]
+  - [3, 3, 6]
+  - [3, 3, 7]
+  - [3, 4, 0]
+  - [3, 4, 1]
+  - [3, 4, 2]
+  - [3, 4, 3]
+  - [3, 4, 4]
+  - [3, 4, 5]
+  - [3, 4, 6]
+  - [3, 4, 7]
+  - [3, 4, 8]
+  - [3, 4, 9]
+  - [3, 4, 10]
+  - [3, 5, 0]
+  - [3, 5, 1]
+  - [3, 5, 2]
+  - [3, 5, 3]
+  - [3, 5, 4]
+  - [3, 5, 5]
+  - [3, 5, 6]
+  - [3, 5, 7]
+  - [3, 5, 8]
+  - [3, 5, 9]
+  - [3, 5, 10]
+  - [3, 6, 0]
+  - [3, 6, 1]
+  - [3, 6, 2]
+  - [3, 6, 3]
+  - [3, 6, 4]
+  - [3, 6, 5]
+  - [3, 6, 6]
+  - [3, 6, 7]
+  - [3, 6, 8]
+  - [3, 6, 9]
+  - [3, 6, 10]
+  - [3, 6, 11]
+  - [3, 6, 12]
+  - [3, 6, 13]
+  - [3, 6, 14]
+  - [3, 6, 15]
+  - [3, 7, 0]
+  - [3, 7, 1]
+  - [3, 7, 2]
+  - [3, 7, 3]
+  - [3, 7, 4]
+  - [3, 7, 5]
+  - [3, 7, 6]
+  - [3, 7, 7]
+  - [3, 7, 8]
+  - [3, 7, 9]
+  - [3, 7, 10]
+  - [3, 7, 11]
+  - [3, 7, 12]
+  - [3, 7, 13]
+  - [3, 7, 14]
+  - [3, 7, 15]
+  - [3, 7, 16]
+  - [3, 7, 17]
+  - [3, 8, 0]
+  - [3, 8, 1]
+  - [3, 8, 2]
+  - [3, 8, 3]
+  - [3, 8, 4]
+  - [3, 8, 5]
+  - [3, 8, 6]
+  - [3, 8, 7]
+  - [3, 8, 8]
+  - [3, 8, 9]
+  - [3, 8, 10]
+  - [3, 8, 11]
+  - [3, 8, 12]
+  - [3, 8, 13]
+  - [3, 8, 14]
+  - [3, 8, 15]
+  - [3, 8, 16]
+  - [3, 8, 17]
+  - [3, 8, 18]
+  - [3, 9, 0]
+  - [3, 9, 1]
+  - [3, 9, 2]
+  - [3, 9, 3]
+  - [3, 9, 4]
+  - [3, 9, 5]
+  - [3, 9, 6]
+  - [3, 9, 7]
+  - [3, 9, 8]
+  - [3, 9, 9]
+  - [3, 9, 10]
+  - [3, 9, 11]
+  - [3, 9, 12]
+  - [3, 9, 13]
+  - [3, 9, 14]
+  - [3, 9, 15]
+  - [3, 9, 16]
+  - [3, 9, 17]
+  - [3, 9, 18]
+  - [3, 10, 0]
+  - [3, 10, 1]
+  - [3, 10, 2]
+  - [3, 10, 3]
+  - [3, 10, 4]
+  - [3, 10, 5]
+  - [3, 10, 6]
+  - [3, 10, 7]
+  - [3, 10, 8]
+  - [3, 10, 9]
+  - [3, 10, 10]
+  - [3, 10, 11]
+  - [3, 10, 12]
+  - [3, 10, 13]
+  - [3, 11, 0]
+  - [3, 11, 1]
+  - [3, 11, 2]
+  - [3, 11, 3]
+  - [3, 11, 4]
+  - [3, 11, 5]
+  - [3, 11, 6]
+  - [3, 12, 0]
+  timestamp: '2023_11_09_00_30_04'
+repo__aariam_templaterepo_source:
+  data: {created_at: '2023-05-14T17:39:52Z', default_branch: main, full_name: AAriam/TemplateRepo,
+    html_url: 'https://github.com/AAriam/TemplateRepo', id: 640622662, name: TemplateRepo,
+    node_id: R_kgDOJi8gRg, owner: AAriam}
+  timestamp: '2023_11_09_00_29_54'
+user__aariam:
+  data:
+    avatar_url: https://avatars.githubusercontent.com/u/80158628?v=4
+    bio: Studying M.Sc. Computational Sciences and M.Sc. Chemistry, and working as
+      teaching assistant in theoretical chemistry at FUB.
+    company: Freie Universität Berlin (FUB)
+    email: null
+    id: 80158628
+    location: Berlin
+    name: Armin Ariamajd
+    node_id: MDQ6VXNlcjgwMTU4NjI4
+    publications:
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+    url: {github: 'https://github.com/AAriam', linkedin: 'https://linkedin.com/in/armin-ariamajd',
+      orcid: 'https://orcid.org/0000-0003-1563-6987', researchgate: 'https://researchgate.net/profile/Armin_Ariamajd',
+      twitter: 'https://twitter.com/Al___Chemist', website: ''}
+    username: aariam
+  timestamp: '2023_11_09_00_29_54'
