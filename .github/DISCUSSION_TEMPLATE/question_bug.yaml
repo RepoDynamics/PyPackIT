@@ -1,0 +1,8 @@
+title: Is this a bug?
+labels:
+- bug
+body:
+- type: markdown
+  id: bug
+  attributes:
+    value: "**Describe the bug**\n"

@@ -1,0 +1,1 @@
+mypy[reports] >= 1.6, < 2

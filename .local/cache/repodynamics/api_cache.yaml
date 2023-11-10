@@ -29,7 +29,7 @@ doi_10.1039/d2sc03130b:
     url: https://doi.org/10.1039/d2sc03130b
     volume: '13'
     year: 2022
-  timestamp: '2023_11_09_00_29_59'
+  timestamp: '2023_11_10_21_38_27'
 doi_10.1093/nar/gkac267:
   data: &id002
     abstract: Computational pipelines have become a crucial part of modern drug discovery
@@ -78,7 +78,7 @@ doi_10.1093/nar/gkac267:
     url: https://doi.org/10.1093/nar/gkac267
     volume: '50'
     year: 2022
-  timestamp: '2023_11_09_00_29_57'
+  timestamp: '2023_11_10_21_38_26'
 doi_10.26434/chemrxiv-2021-8x13n:
   data: &id003
     abstract: Computational pipelines have become a crucial part of modern drug discovery
@@ -125,7 +125,7 @@ doi_10.26434/chemrxiv-2021-8x13n:
     url: https://doi.org/10.26434/chemrxiv-2021-8x13n
     volume: null
     year: 2021
-  timestamp: '2023_11_09_00_30_03'
+  timestamp: '2023_11_10_21_38_30'
 doi_10.3762/bjoc.17.8:
   data: &id004
     abstract: A series of 2-(perfluoroalkylthio)benzothiazolium (BT-SR<sub>F</sub>)
@@ -162,10 +162,10 @@ doi_10.3762/bjoc.17.8:
     url: https://doi.org/10.3762/bjoc.17.8
     volume: '17'
     year: 2021
-  timestamp: '2023_11_09_00_30_01'
+  timestamp: '2023_11_10_21_38_29'
 publications_orcid_https://orcid.org/0000-0003-1563-6987:
   data: [10.1093/nar/gkac267, 10.1039/d2sc03130b, 10.3762/bjoc.17.8, 10.26434/chemrxiv-2021-8x13n]
-  timestamp: '2023_11_09_00_29_55'
+  timestamp: '2023_11_10_21_38_23'
 python_versions:
   data:
   - [3, 0, 1]
@@ -304,12 +304,12 @@ python_versions:
   - [3, 11, 5]
   - [3, 11, 6]
   - [3, 12, 0]
-  timestamp: '2023_11_09_00_30_04'
+  timestamp: '2023_11_10_21_38_32'
 repo__aariam_templaterepo_source:
   data: {created_at: '2023-05-14T17:39:52Z', default_branch: main, full_name: AAriam/TemplateRepo,
     html_url: 'https://github.com/AAriam/TemplateRepo', id: 640622662, name: TemplateRepo,
     node_id: R_kgDOJi8gRg, owner: AAriam}
-  timestamp: '2023_11_09_00_29_54'
+  timestamp: '2023_11_10_21_38_21'
 user__aariam:
   data:
     avatar_url: https://avatars.githubusercontent.com/u/80158628?v=4
@@ -330,4 +330,4 @@ user__aariam:
       orcid: 'https://orcid.org/0000-0003-1563-6987', researchgate: 'https://researchgate.net/profile/Armin_Ariamajd',
       twitter: 'https://twitter.com/Al___Chemist', website: ''}
     username: aariam
-  timestamp: '2023_11_09_00_29_54'
+  timestamp: '2023_11_10_21_38_22'
