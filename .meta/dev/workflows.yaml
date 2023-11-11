@@ -110,7 +110,7 @@ workflow:
           hooks:
             - id: ruff
               stages: [ pre-commit, manual ]
-              args: [ --fix, --exit-non-zero-on-fix ]
+              args: [ --fix, --exit-non-zero-on-fix, --config, pyproject.toml ]
               types_or: [ python, pyi, jupyter ]
               verbose: true
         - repo: https://github.com/pycqa/isort
