@@ -73,7 +73,7 @@ References
 project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join([_author["name"] for _author in meta["authors"] if _author["name"]])
+author: str = ", ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]])
 """Authors' names"""
 
 project_copyright: Union[str, List[str]] = meta["copyright"]["notice"]
@@ -539,7 +539,7 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
         root_doc,
         f"{meta['package']['name']}_docs.tex",
         f"{meta['name']} Documentation",
-        " \\and ".join([_author["name"] for _author in meta["authors"]]),
+        " \\and ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]]),
         "manual",
         False,
     ),
@@ -592,7 +592,7 @@ man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
         root_doc,
         meta["package"]["name"],
         f"{meta['name']} Documentation",
-        [_author["name"] for _author in meta["authors"]],
+        [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
         "1",
     )
 ]
@@ -615,7 +615,7 @@ texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
         root_doc,
         f"{meta['package']['name']}_docs",
         f"{meta['name']} Documentation",
-        "@*".join([_author["name"] for _author in meta["authors"]]),
+        "@*".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]]),
         meta["package"]["name"],
         meta["tagline"],
         "Documentation",
