@@ -245,7 +245,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.dir.local.report }}
+          path: ${{ fromJSON(inputs.metadata).path.dir.local.report.root }}
 
   pylint:
     name: 'PyLint (${{ matrix.os }})'
@@ -337,7 +337,7 @@ jobs:
         shell: bash
         run: |
           echo "::group::Create temporary directory"
-          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/pylint/${{ matrix.os }}/diagrams
+          TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local.report.root }}/pyreverse/${{ matrix.os }}
           mkdir -p $TEMP_DIR
           echo "::endgroup::"
           
@@ -357,4 +357,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ fromJSON(inputs.metadata).path.dir.local }}/.temp
+          path: ${{ fromJSON(inputs.metadata).path.dir.local.root }}
