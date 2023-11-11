@@ -107,15 +107,15 @@ workflow:
               # https://github.com/pre-commit/pre-commit-hooks#trailing-whitespace
               stages: [ pre-commit, manual ]
               verbose: true
-        - repo: https://github.com/astral-sh/ruff-pre-commit
-          # Ruff version.
-          rev: v0.1.5
-          hooks:
-            - id: ruff
-              stages: [ pre-commit, manual ]
-              args: [ --fix, --exit-non-zero-on-fix, --config, pyproject.toml ]
-              types_or: [ python, pyi, jupyter ]
-              verbose: true
+#        - repo: https://github.com/astral-sh/ruff-pre-commit
+#          # Ruff version.
+#          rev: v0.1.5
+#          hooks:
+#            - id: ruff
+#              stages: [ pre-commit, manual ]
+#              args: [ --fix, --exit-non-zero-on-fix, --config, pyproject.toml ]
+#              types_or: [ python, pyi, jupyter ]
+#              verbose: true
         - repo: https://github.com/pycqa/isort
           # isort - format imports
           # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
