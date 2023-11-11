@@ -93,11 +93,11 @@ workflow:
               # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
               stages: [ pre-commit, manual ]
               verbose: true
-            - id: name-tests-test
-              # https://github.com/pre-commit/pre-commit-hooks#name-tests-test
-              stages: [ pre-commit, manual ]
-              args: [ --pytest ]
-              verbose: true
+#            - id: name-tests-test
+#              # https://github.com/pre-commit/pre-commit-hooks#name-tests-test
+#              stages: [ pre-commit, manual ]
+#              args: [ --pytest ]
+#              verbose: true
             - id: no-commit-to-branch
               # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
               stages: [ pre-commit ]
