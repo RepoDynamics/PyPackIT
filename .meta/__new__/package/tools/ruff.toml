@@ -45,6 +45,9 @@ select = [
 src = ["${{path.dir.source}}", "${{path.dir.tests}}"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 
+[tool.ruff.lint.per-file-ignores]
+"${{ path.dir.tests }}/src" = ["S101"]
+
 [tool.ruff.flake8-annotations]
 allow-star-arg-any = true
 suppress-dummy-args = true
