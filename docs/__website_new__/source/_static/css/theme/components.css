@@ -1,0 +1,48 @@
+/*  make the article content grow to fit all available width */
+/* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
+.bd-article-container {
+  max-width: 100em;
+!important
+}
+
+/* Stack footer items horizontally instead of vertically */
+.footer-items__start, .footer-items__end {
+  flex-direction: row;
+}
+
+/*!* Add a separating border line for all but the last item *!*/
+/*.footer-item:not(:last-child) {*/
+/*  border-right: 1px solid var(--pst-color-text-base);*/
+/*  margin-right: .5em;*/
+/*  padding-right: .5em;*/
+/*}*/
+
+
+
+/* Logo in the header */
+/* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/components/header/_header-logo.scss */
+/* Logo container */
+.navbar-brand {
+  display: flex;
+  position: relative;
+  margin: 0;
+  padding: 0.5rem 0;
+  height: var(--pst-header-height);
+  max-height: var(--pst-header-height);
+  width: auto;
+  max-width: 150px;
+  /* Ensure that the logo stays the same length while other content shrinks */
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Logo image */
+.navbar-brand img {
+  width: auto;
+  height: 100%;
+  max-height: 80%;
+}
+/* If there's no logo image, use a p element with the site title */
+.navbar-brand p {
+  margin-bottom: 0;
+}

@@ -1,0 +1,18 @@
+<div class="quicklinks">
+{% for group in pp_meta.quicklinks %}
+    <ul>
+{% for item in group %}
+        <li><a href="{{ pathto(item.path) }}">{{ item.title }}</a></li>
+{% endfor %}
+    </ul>
+{% endfor %}
+</div>
+
+
+
+        <li><a href="{{ pathto('pages/intro/index') }}"><i class="fa-solid fa-handshake"></i> Code of Conduct</a></li>
+        <li><a href="{{ pathto('pages/intro/index') }}">References</a></li>
+        <li><a href="{{ pathto('contribute/feedback/index') }}">Share Feedback</a></li>
+        <li><a href="{{ pathto('contribute/collaborate/index') }}">Collaborate</a></li>
+        <li><a href="{{ pathto('contribute/support/index') }}">Cite & Support</a></li>
+        <li><a href="{{ pathto('contribute/sponsor/index') }}">Sponsor Us</a></li>

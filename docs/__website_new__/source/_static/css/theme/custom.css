@@ -1,0 +1,132 @@
+
+/*Justify text in paragraphs*/
+.bd-article p {
+    text-align: justify;
+}
+
+.bd-content {
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.bd-article-container {
+  max-width: 100em;
+}
+
+/* Style class for the short description shown on homepage XXX */
+.one-liner {
+    margin: 3%;
+    display: grid;
+    font-family: "Times New Roman", var(--pst-font-family-base-system);
+    font-stretch: expanded;
+    font-style: italic;
+    font-size: var(--pst-font-size-h4);
+    text-align: center;
+}
+
+
+/*
+Change the color of custom SVG icons to the primary color of the theme.
+To do so, icons are stored in black color, and a filter generator is used
+to get the filter that gives the primary color starting from black.
+Notice that the filter must be manually changed when the primary color is changed.
+To get new filters, find an online CSS filter generator, enter the primary colors for the
+light and dark themes, and substitute the filters below.
+Example CSS filter generators:
+* https://isotropic.co/tool/hex-color-to-css-filter/)
+* https://codepen.io/sosuke/pen/Pjoqqp
+*/
+html[data-theme=light] .icon-image {
+    /*filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);*/
+    filter: invert(16%) sepia(100%) saturate(3912%) hue-rotate(266deg) brightness(80%) contrast(96%);
+}
+html[data-theme=dark] .icon-image {
+    /*filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);*/
+    filter: invert(55%) sepia(21%) saturate(2879%) hue-rotate(86deg) brightness(98%) contrast(97%);
+}
+
+
+.homepage-logo {
+    margin: 3% 0 2% 0;
+    max-height: 200px;
+}
+
+
+.project-name {
+    color: var(--pst-color-primary);
+    font-weight: bold;
+}
+
+
+.digit {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+!important
+}
+
+.quicklinks ul {
+    list-style: none;
+    display: block;
+    float: left;
+    text-align: left;
+    font-size: var(--pst-font-size-h6);
+}
+
+.quicklinks h6 {
+    margin: 0;
+}
+
+/*.quicklinks a {*/
+/*    color: var(--pst-color-text-base);*/
+/*    height: 1rem;*/
+/*}*/
+
+
+
+.inline-img {
+    color: var(--pst-color-text-base);
+    height: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+
+i.fa-twitter:hover {color: #1DA1F2}
+i.fa-linkedin:hover {color: #0A66C2}
+i.fa-researchgate:hover {color: #40BA9B}
+i.fa-orcid:hover {color: #A5CD39}
+i.fa-python:hover {color: #FFD43B}
+html[data-theme=light] .fa-conda {
+   filter: invert(40%) sepia(0%) saturate(2%) hue-rotate(322deg) brightness(95%) contrast(87%);
+}
+html[data-theme=light] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
+html[data-theme=dark] .fa-conda {
+   filter: invert(80%) sepia(1%) saturate(0%) hue-rotate(31deg) brightness(83%) contrast(89%);
+}
+html[data-theme=dark] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
+
+
+.quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.quicklinks ul {
+    flex: 1 0 auto; /* Here flex-basis is set to auto */
+    margin: 0 10px;
+}
+
+@media (max-width: 600px) {
+    .quicklinks ul {
+        flex: 1 0 100%; /* On small screens, each <ul> takes up the full width */
+        margin: 10px 0;
+    }
+}
