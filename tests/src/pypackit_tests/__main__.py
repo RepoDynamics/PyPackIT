@@ -1,4 +1,6 @@
-# Non-standard libraries
+"""Run all tests for the package."""
+
+
 import pypackit_tests as testsuite
 
 
