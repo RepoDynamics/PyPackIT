@@ -42,6 +42,7 @@ select = [
   "PL",  # pylint
   "RUF", # ruff-specific rules
 ]
+ignore = ["PLR1711"]
 src = ["${{path.dir.source}}", "${{path.dir.tests}}"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 
