@@ -143,16 +143,20 @@ verbosity = 2
 targets = ["src"]
 
 [tool.ruff]
-required-version = "0.0.290"
+required-version = "0.1.5"
 cache-dir = ".local/cache/ruff"
-format = "grouped"
+output-format = "grouped"
 ignore-init-module-imports = true
 line-length = 100
 show-fixes = true
 show-source = true
 select = ["F", "E", "W", "N", "D", "UP", "YTT", "S", "BLE", "FBT", "B", "COM", "C4", "DTZ", "EM", "EXE", "ICN", "PIE", "PT", "RSE", "RET", "SIM", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "RUF"]
+ignore = ["PLR1711"]
 src = ["src", "tests"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/src" = ["S101"]
 
 [tool.ruff.flake8-annotations]
 allow-star-arg-any = true
