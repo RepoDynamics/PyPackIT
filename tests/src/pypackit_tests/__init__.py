@@ -18,16 +18,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """  # noqa: D400
 
 
+# Standard libraries
 import subprocess
 
 
 def run(path_root: str = ".", path_config: str = "pyproject.toml"):
     """Run the test-suite."""
-    process = subprocess.run(
+    subprocess.run(
         ["pytest", f"--rootdir={path_root}", f"--config-file={path_config}"],
         text=True,
         cwd=path_root,
         capture_output=False,
-        check=True
+        check=True,
     )
-    return
