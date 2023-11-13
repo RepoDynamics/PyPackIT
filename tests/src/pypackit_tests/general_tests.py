@@ -1,6 +1,7 @@
 """General tests"""  # noqa: D400
 
 
+# Self
 import pypackit as pkg
 
 
