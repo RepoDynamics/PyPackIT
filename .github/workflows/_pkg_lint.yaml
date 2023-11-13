@@ -137,7 +137,7 @@ jobs:
           TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local }}/.temp/bandit"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
-          
+
           echo "::group::Run bandit"
           bandit \
           ${{ fromJSON(inputs.metadata).path.dir.source }} \
@@ -206,15 +206,15 @@ jobs:
           echo "::group::Upgrade pip"
           python -m pip install --upgrade pip
           echo "::endgroup::"
-          
+
           echo "::group::Install package"
           python -m pip install .
           echo "::endgroup::"
-          
+
           echo "::group::Install mypy"
           python -m pip install -r .github/workflow_requirements/mypy.txt
           echo "::endgroup::"
-          
+
           echo "::group::Display pip environment"
           python -m pip list
           echo "::endgroup::"
@@ -226,7 +226,7 @@ jobs:
           TEMP_REPORT_DIR="${{ fromJSON(inputs.metadata).path.dir.local.report.mypy }}/${{ matrix.os }}/py_${{ matrix.python-version }}"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
-          
+
           echo "::group::Run mypy"
           mypy \
           --python-version ${{ matrix.python-version }} \
@@ -237,7 +237,7 @@ jobs:
           --linecoverage-report $TEMP_REPORT_DIR \
           --lineprecision-report $TEMP_REPORT_DIR \
           --txt-report $TEMP_REPORT_DIR \
-          --xml-report $TEMP_REPORT_DIR 
+          --xml-report $TEMP_REPORT_DIR
           echo "::endgroup::"
 
       - name: 'Upload reports'
@@ -299,15 +299,15 @@ jobs:
           echo "::group::Upgrade pip"
           python -m pip install --upgrade pip
           echo "::endgroup::"
-          
+
           echo "::group::Install package"
           python -m pip install .
           echo "::endgroup::"
-          
+
           echo "::group::Install pylint"
           python -m pip install -r .github/workflow_requirements/pylint.txt
           echo "::endgroup::"
-          
+
           echo "::group::Display pip environment"
           python -m pip list
           echo "::endgroup::"
@@ -319,7 +319,7 @@ jobs:
           TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local.report.pylint }}/${{ matrix.os }}
           mkdir -p $TEMP_DIR
           echo "::endgroup::"
-          
+
           echo "::group::Run pylint"
           pylint \
           ${{ fromJSON(inputs.metadata).package.name }} \
@@ -340,7 +340,7 @@ jobs:
           TEMP_DIR=${{ fromJSON(inputs.metadata).path.dir.local.report.root }}/pyreverse/${{ matrix.os }}
           mkdir -p $TEMP_DIR
           echo "::endgroup::"
-          
+
           echo "::group::Run pyreverse"
           pyreverse \
           --source-roots ${{ fromJSON(inputs.metadata).path.dir.source }} \
