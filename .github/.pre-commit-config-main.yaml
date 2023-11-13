@@ -60,13 +60,6 @@ repos:
     - pre-commit
     - manual
     verbose: true
-  - id: name-tests-test
-    stages:
-    - pre-commit
-    - manual
-    args:
-    - --pytest
-    verbose: true
   - id: no-commit-to-branch
     stages:
     - pre-commit
