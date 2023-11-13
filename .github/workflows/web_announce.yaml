@@ -10,14 +10,14 @@ on:
         type: string
         required: true
         description: |
-          New announcement message to show on the website; 
+          New announcement message to show on the website;
           supports HTML syntax (don't forget to escape with \).
           Set to 'null' to remove announcement.
       description:
         type: string
         required: false
         description: |
-          Commit description (i.e. without type and title) 
+          Commit description (i.e. without type and title)
           for the announcement commit and changelog entry.
 
 jobs:
