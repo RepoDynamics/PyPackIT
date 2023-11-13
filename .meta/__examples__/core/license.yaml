@@ -28,7 +28,7 @@ license:
   # For demonstration purposes, the following lines override all the default values of the license:
   shortname: GNU AGPL v3.0+
   fullname: GNU Affero General Public License v3.0 or later
-  trove_classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+  trove_classifier: "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)"
   notice: |
     Copyright (C) ${{copyright.notice}}
 
