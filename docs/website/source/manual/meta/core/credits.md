@@ -10,9 +10,9 @@ author:
 ```
 
 #### Funding Options
-GitHub allows you to add a *Sponsor* button together with a *Sponsor this project* section 
-to the main page of your repository, to increase the visibility of funding options 
-for your open source project. Clicking on the *Sponsor* button opens the *Sponsor this project* section, 
+GitHub allows you to add a *Sponsor* button together with a *Sponsor this project* section
+to the main page of your repository, to increase the visibility of funding options
+for your open source project. Clicking on the *Sponsor* button opens the *Sponsor this project* section,
 where a list of links to your specified funding platforms is displayed to the user.
 GitHub lets you specify up to 4 sponsored GitHub accounts (one of which can be a GitHub organization),
 up to 4 custom URLs, plus one name (either username, package name, or project name, depending on the platform)
@@ -59,7 +59,7 @@ funding:
 - Key: `community_bridge`
 - Type: `string`
 
-To add an LFX Mentorship (CommunityBridge) account, add a key `community_bridge`, 
+To add an LFX Mentorship (CommunityBridge) account, add a key `community_bridge`,
 where the value is the name of the project on LFX.
 Example:
 ```yaml
@@ -71,7 +71,7 @@ funding:
 - Key: `issuehunt`
 - Type: `string`
 
-To add an IssueHunt account, add a key `issuehunt`, 
+To add an IssueHunt account, add a key `issuehunt`,
 where the value is your IssueHunt username.
 Example:
 ```yaml
@@ -83,7 +83,7 @@ funding:
 - Key: `ko_fi`
 - Type: `string`
 
-To add a Ko-fi account, add a key `ko_fi`, 
+To add a Ko-fi account, add a key `ko_fi`,
 where the value is your Ko-fi username.
 Example:
 ```yaml
@@ -95,7 +95,7 @@ funding:
 - Key: `liberapay`
 - Type: `string`
 
-To add a Liberapay account, add a key `liberapay`, 
+To add a Liberapay account, add a key `liberapay`,
 where the value is your Liberapay username.
 Example:
 ```yaml
@@ -107,7 +107,7 @@ funding:
 - Key: `open_collective`
 - Type: `string`
 
-To add an Open Collective account, add a key `open_collective`, 
+To add an Open Collective account, add a key `open_collective`,
 where the value is your Open Collective username.
 Example:
 ```yaml
@@ -119,7 +119,7 @@ funding:
 - Key: `otechie`
 - Type: `string`
 
-To add an Otechie account, add a key `otechie`, 
+To add an Otechie account, add a key `otechie`,
 where the value is your Otechie username.
 Example:
 ```yaml
@@ -131,7 +131,7 @@ funding:
 - Key: `patreon`
 - Type: `string`
 
-To add a Patreon account, add a key `patreon`, 
+To add a Patreon account, add a key `patreon`,
 where the value is your Patreon username.
 Example:
 ```yaml
@@ -143,7 +143,7 @@ funding:
 - Key: `tidelift`
 - Type: `string`
 
-To add a Tidelift account, add a key `tidelift`, 
+To add a Tidelift account, add a key `tidelift`,
 where the value is a string with the format `<PLATFORM-NAME>/<PACKAGE-NAME>`.
 `<PACKAGE-NAME>` is the name of your package, and platform name is the name of the package manager
 hosting your package; it must be one of the following:
@@ -156,7 +156,7 @@ funding:
 
 ##### How it Works
 GitHub looks for a YAML file at `.github/FUNDING.yml` in the default branch of the repository;
-If it exists and has the correct format, GitHub will display the 
+If it exists and has the correct format, GitHub will display the
 *Sponsor* button and *Sponsor this project* section on the repository's main page,
 and will use the information in the file to populate the *Sponsor this project* section,
 otherwise, the *Sponsor* button and *Sponsor this project* section will not be displayed.
