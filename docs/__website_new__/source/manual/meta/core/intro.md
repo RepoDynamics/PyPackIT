@@ -103,5 +103,3 @@ keynotes:
       While carefully configured, PyPackIT is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs
 ```
-
-
