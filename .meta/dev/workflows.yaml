@@ -23,7 +23,7 @@ workflow:
     schedule:
       test: '0 0 * * 1'  # Every Monday at midnight UTC.
       sync: '0 0 * * *'  # Every day at midnight UTC.
-    get_owner_publications: true
+    get_owner_publications: false
   tool:
     pylint:
       pip_spec:
