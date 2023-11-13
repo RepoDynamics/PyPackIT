@@ -101,7 +101,7 @@ workflow:
               verbose: true
         - repo: https://github.com/astral-sh/ruff-pre-commit
           # Ruff version.
-          rev: v0.0.290
+          rev: v0.1.5
           hooks:
             - id: ruff
               stages: [ pre-commit, manual ]
