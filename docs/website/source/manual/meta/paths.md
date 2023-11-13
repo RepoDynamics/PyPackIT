@@ -1,7 +1,7 @@
 ## Repository Paths
-Along with the `.github` directory, PyPackIT works with a few other directories in your repository. 
+Along with the `.github` directory, PyPackIT works with a few other directories in your repository.
 
-To change the meta directory, create a file at `.github/.repodynamics_meta_path.txt` 
+To change the meta directory, create a file at `.github/.repodynamics_meta_path.txt`
 and put the path to your meta directory (relative to the root of repository) in it; for example:
 ```
 some_directory/my_custom_meta_directory
