@@ -15,7 +15,7 @@ issue:
       sub_type: gui
       name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
       description: >-
-        Report a problem (e.g. errors and unexpected results) encountered 
+        Report a problem (e.g. errors and unexpected results) encountered
         while using the application's graphical user interface (GUI).
       body:
         - type: markdown
@@ -25,21 +25,21 @@ issue:
                 Thank you for taking the time to report a problem in ${{ name }};
                 we greatly appreciate your contribution! ❤️🙏
               </p>
-              
+
               <h2>Terms and Conditions</h2>
               <p align="justify">
                 Before submitting a report, please take a moment to review and accept our terms and conditions;
                 they will help us process the issue as fast as possible,
                 and not bother you with additional questions.
               </p>
-              
+
               <h3>⛔ Choosing the right form</h3>
-              
+
               <ul>
                 <li>
                   <p align="justify">
                     Please note that this form is specifically for reporting a <b>non-security-related bug</b>
-                    in the ${{name}} GUI, i.e. an unexpected behavior that occurs while using the 
+                    in the ${{name}} GUI, i.e. an unexpected behavior that occurs while using the
                     application via a graphical user interface it provides.
                   </p>
                 </li>
@@ -58,24 +58,24 @@ issue:
                     <a href="${{url.github.issues.new.app_bug_setup]}">installation process</a>,
                     <a href="${{url.github.issues.new.docs_bug_site]}">website</a>, or
                     <a href="${{url.github.issues.new.docs_bug_content]}">documentation</a>,
-                    or for requesting new features and enhancements, please select the appropriate form 
+                    or for requesting new features and enhancements, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
               </ul>
-              
+
               <blockquote>
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
-              
+
               <h3>⚠️ Verifying the bug</h3>
-              
+
               Before submitting a report, please make sure that you are following our
               <a href="${{url.website.bug_report}}">Bug Report Guidelines</a> to verify that:
               <ol>
@@ -86,7 +86,7 @@ issue:
                   The bug is reproducible in the latest version of the release, and has not yet been reported.
                 </li>
               </ol>
-              
+
               <blockquote>
                   💡 <a href="${{url.github.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
                   <br>
@@ -95,15 +95,15 @@ issue:
                   you can always open a discussion instead; we will investigate the problem as soon as possible,
                   and convert the discussion into an issue if the bug is verified.
               </blockquote>
-              
+
               <h3>🤝 Code of conduct</h3>
-              
+
               <p align="justify">
                 Please make sure that you are following our
                 <a href="${{url.github.health_file.code_of_conduct}}">Code of Conduct</a>,
                 so that we can process the issue as soon as possible.
               </p>
-              
+
               <h3>✅ Agreements</h3>
         - type: checkboxes
           id: terms
@@ -112,11 +112,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -182,15 +182,15 @@ issue:
           attributes:
             label: Environment
             description: >-
-              Please provide the details of all installed packages and their exact versions 
-              in the environment where you have encountered the bug. Follow the instructions below 
+              Please provide the details of all installed packages and their exact versions
+              in the environment where you have encountered the bug. Follow the instructions below
               based on the package manager you have selected:
 
               1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
 
               2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
+              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
           validations:
@@ -226,8 +226,8 @@ issue:
               Please provide an exact step-by-step instruction to reproduce the bug.
               You can also include screenshots/recordings by dragging and dropping them here.
             value: |
-              1. 
-              2. 
+              1.
+              2.
               3.
           validations:
             required: true
@@ -238,7 +238,7 @@ issue:
         if_any: [ "${{ package.releases.cli_scripts }}" ]
       name: ' 🖥 App 🐞 Bug Report ⌨️ CLI'
       description: >-
-        Report a problem (e.g. errors and unexpected results) encountered 
+        Report a problem (e.g. errors and unexpected results) encountered
         while using the application's command-line interface (CLI).
       body:
         - type: markdown
@@ -248,22 +248,22 @@ issue:
                 Thank you for taking the time to report a problem in ${{ name }};
                 we greatly appreciate your contribution! ❤️🙏
               </p>
-              
+
               <h2>Terms and Conditions</h2>
-              
+
               <p align="justify">
                 Before submitting a report, please take a moment to review and accept our terms and conditions;
                 they will help us process the issue as fast as possible,
                 and not bother you with additional questions.
               </p>
-              
+
               <h3>⛔ Choosing the right form</h3>
-              
+
               <ul>
                 <li>
                   <p align="justify">
                     Please note that this form is specifically for reporting a <b>non-security-related bug</b>
-                    in the ${{name}} CLI, i.e. an unexpected behavior that occurs while using the 
+                    in the ${{name}} CLI, i.e. an unexpected behavior that occurs while using the
                     application via a command-line interface (i.e. console script) it provides.
                   </p>
                 </li>
@@ -282,24 +282,24 @@ issue:
                     <a href="${{url.github.issues.new.app_bug_setup]}">installation process</a>,
                     <a href="${{url.github.issues.new.docs_bug_site]}">website</a>, or
                     <a href="${{url.github.issues.new.docs_bug_content]}">documentation</a>,
-                    or for requesting new features and enhancements, please select the appropriate form 
+                    or for requesting new features and enhancements, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
               </ul>
-              
+
               <blockquote>
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
-              
+
               <h3>⚠️ Verifying the bug</h3>
-              
+
               Before submitting a report, please make sure that you are following our
               <a href="${{url.website.bug_report}}">Bug Report Guidelines</a> to verify that:
               <ol>
@@ -310,7 +310,7 @@ issue:
                   The bug is reproducible in the latest version of the release, and has not yet been reported.
                 </li>
               </ol>
-              
+
               <blockquote>
                   💡 <a href="${{url.github.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
                   <br>
@@ -319,15 +319,15 @@ issue:
                   you can always open a discussion instead; we will investigate the problem as soon as possible,
                   and convert the discussion into an issue if the bug is verified.
               </blockquote>
-              
+
               <h3>🤝 Code of conduct</h3>
-              
+
               <p align="justify">
                 Please make sure that you are following our
                 <a href="${{url.github.health_file.code_of_conduct}}">Code of Conduct</a>,
                 so that we can process the issue as soon as possible.
               </p>
-              
+
               <h3>✅ Agreements</h3>
         - type: checkboxes
           id: terms
@@ -336,11 +336,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -406,15 +406,15 @@ issue:
           attributes:
             label: Environment
             description: >-
-              Please provide the details of all installed packages and their exact versions 
-              in the environment where you have encountered the bug. Follow the instructions below 
+              Please provide the details of all installed packages and their exact versions
+              in the environment where you have encountered the bug. Follow the instructions below
               based on the package manager you have selected:
-              
+
               1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
-              
+
               2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
+              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
           validations:
@@ -464,7 +464,7 @@ issue:
       sub_type: api
       name: ' 🖥 App 🐞 Bug Report 📱 API'
       description: >-
-        Report a problem (e.g. errors and unexpected results) encountered 
+        Report a problem (e.g. errors and unexpected results) encountered
         while using the application's Python API.
       body:
         - type: markdown
@@ -474,17 +474,17 @@ issue:
                 Thank you for taking the time to report a problem in ${{ name }};
                 we greatly appreciate your contribution! ❤️🙏
               </p>
-              
+
               <h2>Terms and Conditions</h2>
-              
+
               <p align="justify">
                 Before submitting a report, please take a moment to review and accept our terms and conditions;
                 they will help us process the issue as fast as possible,
                 and not bother you with additional questions.
               </p>
-              
+
               <h3>⛔ Choosing the right form</h3>
-              
+
               <ul>
                 <li>
                   <p align="justify">
@@ -507,22 +507,22 @@ issue:
                     <a href="${{url.github.issues.new.app_bug_setup]}">installation process</a>,
                     <a href="${{url.github.issues.new.docs_bug_site]}">website</a>, or
                     <a href="${{url.github.issues.new.docs_bug_content]}">documentation</a>,
-                    or for requesting new features and enhancements, please select the appropriate form 
+                    or for requesting new features and enhancements, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
               </ul>
-              
+
               <blockquote>
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
-              
+
               <h3>⚠️ Verifying the bug</h3>
 
               Before submitting a report, please make sure that you are following our
@@ -535,7 +535,7 @@ issue:
                   The bug is reproducible in the latest version of the release, and has not yet been reported.
                 </li>
               </ol>
-              
+
               <blockquote>
                   💡 <a href="${{url.github.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
                   <br>
@@ -544,15 +544,15 @@ issue:
                   you can always open a discussion instead; we will investigate the problem as soon as possible,
                   and convert the discussion into an issue if the bug is verified.
               </blockquote>
-              
+
               <h3>🤝 Code of conduct</h3>
-              
+
               <p align="justify">
                 Please make sure that you are following our
                 <a href="${{url.github.health_file.code_of_conduct}}">Code of Conduct</a>,
                 so that we can process the issue as soon as possible.
               </p>
-              
+
               <h3>✅ Agreements</h3>
         - type: checkboxes
           id: terms
@@ -561,11 +561,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -632,15 +632,15 @@ issue:
           attributes:
             label: Environment
             description: >-
-              Please provide the details of all installed packages and their exact versions 
-              in the environment where you have encountered the bug. Follow the instructions below 
+              Please provide the details of all installed packages and their exact versions
+              in the environment where you have encountered the bug. Follow the instructions below
               based on the package manager you have selected:
-              
+
               1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
-              
+
               2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
+              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
               and copy the contents of the generated `environment.yml` file here.
 #            placeholder: Tell us what you see!
           validations:
@@ -672,11 +672,11 @@ issue:
           attributes:
             label: Unit-Test / Minimal Reproducible Example (MRE)
             description: >-
-              Please provide a unit-test (preferred) or a 
+              Please provide a unit-test (preferred) or a
               minimal complete verifiable code example to test/reproduce the bug.
             value: |
               import ${{package.name]}
-              
+
               def unit_test():
                   # write a unit-test here to reproduce the bug
                   ...
@@ -712,23 +712,23 @@ issue:
           <li>
           <details>
           <summary><b>Environment</b></summary>
-          
+
           ```
           {environment}
           ```
-          
+
           </details></li>
           </ul>
           <h2>Bug Summary</h2>
-          
+
           {summary}
-          
+
           <h2>Unit-Test / Minimal Reproducible Example (MRE)</h2>
-            
+
           {code}
-          
+
           <h2>Error Message</h2>
-          
+
           {log}
     - id: app_bug_setup
       primary_commit_id: package_patch
@@ -744,22 +744,22 @@ issue:
                 Thank you for taking the time to report a problem in ${{ name }};
                 we greatly appreciate your contribution! ❤️🙏
               </p>
-              
+
               <h2>Terms and Conditions</h2>
-              
+
               <p align="justify">
                 Before submitting a report, please take a moment to review and accept our terms and conditions;
                 they will help us process the issue as fast as possible,
                 and not bother you with additional questions.
               </p>
-              
+
               <h3>⛔ Choosing the right form</h3>
-              
+
               <ul>
                 <li>
                   <p align="justify">
                     Please note that this form is specifically for reporting a <b>non-security-related bug</b>
-                    in the ${{name}} setup process, i.e. an unexpected behavior that occurs during the 
+                    in the ${{name}} setup process, i.e. an unexpected behavior that occurs during the
                     download, installation, or initialization of the application.
                   </p>
                 </li>
@@ -777,24 +777,24 @@ issue:
                     <a href="${{url.github.issues.new.app_bug_api]}">Python API</a>,
                     <a href="${{url.github.issues.new.docs_bug_site]}">website</a>, or
                     <a href="${{url.github.issues.new.docs_bug_content]}">documentation</a>,
-                    or for requesting new features and enhancements, please select the appropriate form 
+                    or for requesting new features and enhancements, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
               </ul>
-              
+
               <blockquote>
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
-              
+
               <h3>⚠️ Verifying the bug</h3>
-              
+
               Before submitting a report, please make sure that you are following our
               <a href="${{url.website.bug_report}}">Bug Report Guidelines</a> to verify that:
               <ol>
@@ -805,7 +805,7 @@ issue:
                   The bug is reproducible in the latest version of the release, and has not yet been reported.
                 </li>
               </ol>
-              
+
               <blockquote>
                   💡 <a href="${{url.github.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
                   <br>
@@ -814,15 +814,15 @@ issue:
                   you can always open a discussion instead; we will investigate the problem as soon as possible,
                   and convert the discussion into an issue if the bug is verified.
               </blockquote>
-              
+
               <h3>🤝 Code of conduct</h3>
-              
+
               <p align="justify">
                 Please make sure that you are following our
                 <a href="${{url.github.health_file.code_of_conduct}}">Code of Conduct</a>,
                 so that we can process the issue as soon as possible.
               </p>
-              
+
               <h3>✅ Agreements</h3>
         - type: checkboxes
           id: terms
@@ -831,11 +831,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -901,15 +901,15 @@ issue:
           attributes:
             label: Environment
             description: >-
-              Please provide the details of all installed packages and their exact versions 
-              in the environment where you have encountered the bug. Follow the instructions below 
+              Please provide the details of all installed packages and their exact versions
+              in the environment where you have encountered the bug. Follow the instructions below
               based on the package manager you have selected:
-              
+
               1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
               and copy the contents of the generated `requirements.txt` file here.
-              
+
               2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`), 
+              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
               and copy the contents of the generated `environment.yml` file here.
           #            placeholder: Tell us what you see!
           validations:
@@ -975,7 +975,7 @@ issue:
                     <a href="${{url.github.issues.new.app_request_feature]}">new features</a>,
                     <a href="${{url.github.issues.new.app_request_breaking]}">breaking changes</a>, and
                     <a href="${{url.github.issues.new.web_request_frontend]}">changes in the website content</a>,
-                    or for reporting bugs, please select the appropriate form 
+                    or for reporting bugs, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
@@ -985,8 +985,8 @@ issue:
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
@@ -1000,7 +1000,7 @@ issue:
                   Your request is in fact for a non-breaking enhancement, and not a breaking change or new feature.
                 </li>
                 <li>
-                  The request is not implemented in the latest version of the release, 
+                  The request is not implemented in the latest version of the release,
                   and has not yet been filed by another person.
                 </li>
               </ol>
@@ -1030,11 +1030,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -1150,7 +1150,7 @@ issue:
               <ul>
                 <li>
                   <p align="justify">
-                    Please note that this form is specifically for requesting a 
+                    Please note that this form is specifically for requesting a
                     <b>non-breaking new feature</b> in ${{name}}.
                   </p>
                 </li>
@@ -1160,7 +1160,7 @@ issue:
                     <a href="${{url.github.issues.new.app_request_enhancement]}">enhancements</a>,
                     <a href="${{url.github.issues.new.app_request_breaking]}">breaking changes</a>, and
                     <a href="${{url.github.issues.new.web_request_frontend]}">changes in the website content</a>,
-                    or for reporting bugs, please select the appropriate form 
+                    or for reporting bugs, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
@@ -1170,8 +1170,8 @@ issue:
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
@@ -1185,7 +1185,7 @@ issue:
                   Your request is in fact for a non-breaking new feature, and not a breaking change or an enhancement.
                 </li>
                 <li>
-                  The feature is not implemented in the latest version of the release, 
+                  The feature is not implemented in the latest version of the release,
                   and has not yet been requested by another person.
                 </li>
               </ol>
@@ -1215,11 +1215,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
@@ -1356,7 +1356,7 @@ issue:
               <ul>
                 <li>
                   <p align="justify">
-                    Please note that this form is specifically for requesting a 
+                    Please note that this form is specifically for requesting a
                     <b>breaking change</b> in ${{name}}.
                   </p>
                 </li>
@@ -1366,7 +1366,7 @@ issue:
                     <a href="${{url.github.issues.new.app_request_enhancement]}">enhancements</a>,
                     <a href="${{url.github.issues.new.app_request_feature]}">new features</a>, and
                     <a href="${{url.github.issues.new.web_request_frontend]}">changes in the website content</a>,
-                    or for reporting bugs, please select the appropriate form 
+                    or for reporting bugs, please select the appropriate form
                     from the <a href="${{url.github.issues.template_chooser]}">issue template chooser</a>.
                   </p>
                 </li>
@@ -1376,8 +1376,8 @@ issue:
                 💡 <a href="${{url.website.contact}}"><b>Contact us</b></a>
                 <br>
                 <p align="justify">
-                  Can't find the right form or unsure about which one to choose? 
-                  Ask a question and get help in the 
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
                   <a href="${{url.github.discussions.new.question_issues}}">discussion forum</a>.
                 </p>
               </blockquote>
@@ -1420,11 +1420,11 @@ issue:
               To submit an issue, please agree to the following terms and conditions:
             options:
               - label: >-
-                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}}) 
+                  I have read the [Contributing Guidelines](${{url.github.health_file.contributing}})
                   and am following the [Bug Report Guidelines](${{url.website.bug_report}}).
                 required: true
               - label: >-
-                  I have read, understood, and agree to follow the 
+                  I have read, understood, and agree to follow the
                   [Code of Conduct](${{url.github.health_file.code_of_conduct}}).
                 required: true
         - type: markdown
