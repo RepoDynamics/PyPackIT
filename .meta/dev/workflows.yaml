@@ -40,7 +40,7 @@ workflow:
     # Ref: https://pre-commit.com/
     main: &pre-commit-config
       default_language_version:
-        python: python3.11
+        python: python3
       minimum_pre_commit_version: 3.3.3
       repos:
         - repo: https://github.com/pre-commit/pre-commit-hooks
