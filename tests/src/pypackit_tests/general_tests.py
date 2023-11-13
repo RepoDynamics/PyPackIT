@@ -1,4 +1,4 @@
-import templaterepo as pkg
+import pypackit as pkg
 
 
 def version_test():
