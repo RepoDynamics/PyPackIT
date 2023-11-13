@@ -1,6 +1,6 @@
-# TemplateRepo Security and Vulnerability Disclosure Policy
+# PyPackIT Security and Vulnerability Disclosure Policy
 
-TemplateRepo takes the security and privacy of all its users and members very seriously,
+PyPackIT takes the security and privacy of all its users and members very seriously,
 and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible,
@@ -10,7 +10,7 @@ as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
 
-https://aariam.github.io/TemplateRepo/contribute/collaborate/maintain/security
+https://repodynamics.github.io/PyPackIT/contribute/collaborate/maintain/security
 
 <blockquote>
     🛡️**Supported Versions**
@@ -41,15 +41,15 @@ Please DO NOT
 ### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
 of our repository to securely discuss, fix and publish information about security vulnerabilities
-in TemplateRepo. To privately report a security vulnerability,
+in PyPackIT. To privately report a security vulnerability,
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
-or [**click here to directly open a private report form**](https://github.com/AAriam/TemplateRepo/security/advisories/new).
+or [**click here to directly open a private report form**](https://github.com/RepoDynamics/PyPackIT/security/advisories/new).
 
 <blockquote>
     🥷🏾 <b>Prefer Anonymity?</b>
     <br><br>
     Our vulnerability management team also welcomes anonymous emails sent to
-    <a href="mailto:None
+    <a href="mailto:a.ariamajd@gmail.com
 ?subject=
 %5BSecurity%20Vulnerability%20Report%5D%3A%20---Please%20provide%20a%20consc
 ise%20title%20here---
@@ -79,7 +79,7 @@ ons.---%0D%0A%0D%0A6.%20Severity%0D%0A---Asses%20the%20severity%20of%20the%2
 security-advisories%2Frepository-security-advisories%2Fabout-repository-secu
 rity-advisories%23cve-identification-numbers%29.---%0D%0A%0D%0A8.%20Mitigati
 on%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---%2
-">None</a>.
+">a.ariamajd@gmail.com</a>.
 </blockquote>
 
 ---Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.---
@@ -139,7 +139,7 @@ and provides our users a chance to update their applications and protect themsel
 
 
 ## Testing for Vulnerabilities
-TemplateRepo is a free and open-source project.
+PyPackIT is a free and open-source project.
 We encourage security researchers to help us improve our security measures
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below,
@@ -178,11 +178,11 @@ impair access to or damage a system or data.
 
 ### Scope
 This policy applies to the following systems and services:
-* Source code at https://github.com/AAriam/TemplateRepo
+* Source code at https://github.com/RepoDynamics/PyPackIT
 
 Any service not expressly listed above, such as any connected services, are excluded from scope
 and are not authorized for testing. Additionally, vulnerabilities found in systems from our vendors
 fall outside of this policy's scope and should be reported directly to the vendor according to their
 disclosure policy (if any). If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at None to discuss it first, before starting your research.
+please contact us at a.ariamajd@gmail.com to discuss it first, before starting your research.

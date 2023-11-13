@@ -1,3 +1,3 @@
-import templaterepo_tests as testsuite
+import pypackit_tests as testsuite
 
 testsuite.run()

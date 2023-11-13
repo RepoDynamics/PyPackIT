@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We, the members, contributors, maintainers, and creators of ***TemplateRepo***,
+We, the members, contributors, maintainers, and creators of ***PyPackIT***,
 pledge to act and interact in ways that contribute to an open, welcoming,
 diverse, inclusive, healthy, and harassment-free community for every person involved in this project.
 
@@ -54,7 +54,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement,
-at [None](mailto:None).
+at [a.ariamajd@gmail.com](mailto:a.ariamajd@gmail.com).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

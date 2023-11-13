@@ -29,89 +29,8 @@ method = "replace-version"
 regex = "^\\s*__version_details__\\s*=\\s*(?P<version>.*)"
 require-match = true
 replacement = "dict(\n    version=\"{version}\",\n    version_tuple={version_tuple},\n    author_date=\"{author_date:%Y.%m.%d}\",\n    build_date=\"{build_date:%Y.%m.%d}\",\n    branch=\"{branch}\",\n    distance=\"{distance}\",\n    head_commit_hash=\"{revision}\",\n)"
-source-file = "src/templaterepo/__init__.py"
-build-file = "templaterepo/__init__.py"
-
-[tool.mypy]
-packages = ["templaterepo"]
-warn_return_any = true
-strict = true
-show_error_context = true
-show_column_numbers = true
-pretty = true
-color_output = true
-cache_dir = ".local/cache/mypy"
-show_traceback = true
-raise_exceptions = true
-any_exprs_report = ".local/report/mypy"
-html_report = ".local/report/mypy"
-linecount_report = ".local/report/mypy"
-linecoverage_report = ".local/report/mypy"
-lineprecision_report = ".local/report/mypy"
-txt_report = ".local/report/mypy"
-verbosity = 2
-
-[tool.bandit]
-targets = ["src"]
-
-[tool.isort]
-profile = "black"
-line_length = 100
-src_paths = ["src", "tests"]
-skip_gitignore = true
-lines_before_imports = 2
-lines_after_imports = 2
-lines_between_sections = 0
-verbose = true
-color_output = true
-only_modified = true
-filter_files = true
-no_lines_before = ["future", "stdlib", "thirdparty", "firstparty", "localfolder"]
-dedup_headings = true
-overwrite_in_place = true
-
-[tool.isort.import_headings]
-future = "Futures"
-stdlib = "Standard libraries"
-thirdparty = "Non-standard libraries"
-firstparty = "Self"
-
-[tool.pytest.ini_options]
-addopts = "-r a --verbose --color=yes --full-trace --cov --cov-config=pyproject.toml --cov-report=term-missing:skip-covered --cov-report=html --cov-report=xml --strict-config --strict-markers"
-cache_dir = ".local/cache/pytest"
-console_output_style = "count"
-log_auto_indent = true
-log_cli = true
-log_cli_format = "%(levelname)s %(message)s"
-log_cli_level = "INFO"
-log_file = ".local/report/pytest/log.txt"
-log_file_date_format = "%Y-%m-%d %H:%M:%S"
-log_file_format = "%(asctime)s %(levelname)s %(message)s"
-log_file_level = "DEBUG"
-log_format = "%(asctime)s %(levelname)s %(message)s"
-log_level = "DEBUG"
-minversion = "7.4.2"
-python_classes = ["Test*", "*Test"]
-python_files = ["test_*.py", "tests_*.py", "*_test.py", "*_tests.py"]
-python_functions = ["test_*", "tests_*", "*_test", "*_tests"]
-required_plugins = ["pytest-cov>=4.1.0,<5"]
-testpaths = ["tests"]
-
-[tool.coverage]
-[tool.coverage.run]
-branch = true
-data_file = ".local/cache/coverage/.coverage"
-source_pkgs = ["templaterepo"]
-
-[tool.coverage.report]
-exclude_also = ["def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:", "@(abc\\.)?abstractmethod"]
-show_missing = true
-
-[tool.coverage.html]
-directory = ".local/report/coverage"
-
-[tool.coverage.xml]
-output = ".local/report/coverage/coverage.xml"
+source-file = "src/pypackit/__init__.py"
+build-file = "pypackit/__init__.py"
 
 [tool.pylint]
 [tool.pylint.main]
@@ -163,16 +82,69 @@ output-format = ["json:.local/report/pylint/report_json.json", "text:.local/repo
 ignore-comments = true
 min-similarity-lines = 8
 
-[tool.black]
-required-version = "23.9.1"
-target-version = ["py39", "py310", "py311", "py312"]
-line-length = 100
-verbose = true
+[tool.pytest.ini_options]
+addopts = "-r a --verbose --color=yes --full-trace --cov --cov-config=pyproject.toml --cov-report=term-missing:skip-covered --cov-report=html --cov-report=xml --strict-config --strict-markers"
+cache_dir = ".local/cache/pytest"
+console_output_style = "count"
+log_auto_indent = true
+log_cli = true
+log_cli_format = "%(levelname)s %(message)s"
+log_cli_level = "INFO"
+log_file = ".local/report/pytest/log.txt"
+log_file_date_format = "%Y-%m-%d %H:%M:%S"
+log_file_format = "%(asctime)s %(levelname)s %(message)s"
+log_file_level = "DEBUG"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_level = "DEBUG"
+minversion = "7.4.2"
+python_classes = ["Test*", "*Test"]
+python_files = ["test_*.py", "tests_*.py", "*_test.py", "*_tests.py"]
+python_functions = ["test_*", "tests_*", "*_test", "*_tests"]
+required_plugins = ["pytest-cov>=4.1.0,<5"]
+testpaths = ["tests"]
+
+[tool.coverage]
+[tool.coverage.run]
+branch = true
+data_file = ".local/cache/coverage/.coverage"
+source_pkgs = ["pypackit"]
+
+[tool.coverage.report]
+exclude_also = ["def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:", "@(abc\\.)?abstractmethod"]
+show_missing = true
+
+[tool.coverage.html]
+directory = ".local/report/coverage"
+
+[tool.coverage.xml]
+output = ".local/report/coverage/coverage.xml"
+
+[tool.mypy]
+packages = ["pypackit"]
+warn_return_any = true
+strict = true
+show_error_context = true
+show_column_numbers = true
+pretty = true
+color_output = true
+cache_dir = ".local/cache/mypy"
+show_traceback = true
+raise_exceptions = true
+any_exprs_report = ".local/report/mypy"
+html_report = ".local/report/mypy"
+linecount_report = ".local/report/mypy"
+linecoverage_report = ".local/report/mypy"
+lineprecision_report = ".local/report/mypy"
+txt_report = ".local/report/mypy"
+verbosity = 2
+
+[tool.bandit]
+targets = ["src"]
 
 [tool.ruff]
-required-version = "0.1.5"
+required-version = "0.0.290"
 cache-dir = ".local/cache/ruff"
-output-format = "grouped"
+format = "grouped"
 ignore-init-module-imports = true
 line-length = 100
 show-fixes = true
@@ -201,8 +173,36 @@ max-args = 10
 max-public-methods = 50
 max-returns = 10
 
+[tool.black]
+required-version = "23.9.1"
+target-version = ["py39", "py310", "py311", "py312"]
+line-length = 100
+verbose = true
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src", "tests"]
+skip_gitignore = true
+lines_before_imports = 2
+lines_after_imports = 2
+lines_between_sections = 0
+verbose = true
+color_output = true
+only_modified = true
+filter_files = true
+no_lines_before = ["future", "stdlib", "thirdparty", "firstparty", "localfolder"]
+dedup_headings = true
+overwrite_in_place = true
+
+[tool.isort.import_headings]
+future = "Futures"
+stdlib = "Standard libraries"
+thirdparty = "Non-standard libraries"
+firstparty = "Self"
+
 [project]
-name = "templaterepo"
+name = "pypackit"
 dynamic = [
     'version',
 ]
@@ -210,10 +210,10 @@ description = "Python Projects Perfected: Innovate, Develop, and Deploy Effortle
 readme = "src/readme_pypi.md"
 requires-python = ">= 3.9"
 authors = [
-    {name = "Armin Ariamajd"},
+    {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
 ]
 maintainers = [
-    {name = "Armin Ariamajd"},
+    {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
 ]
 keywords = [
     'python',
@@ -250,10 +250,10 @@ dependencies = [
 license = {file = "LICENSE"}
 
 [project.urls]
-Homepage = "https://aariam.github.io/TemplateRepo"
-Download = "https://github.com/AAriam/TemplateRepo/releases"
-News = "https://aariam.github.io/TemplateRepo/news"
-Documentation = "https://aariam.github.io/TemplateRepo"
-Issue-Tracker = "https://github.com/AAriam/TemplateRepo/issues"
-Sponsor = "https://aariam.github.io/TemplateRepo/contribute/collaborate/maintain/sponsor"
-Source = "https://github.com/AAriam/TemplateRepo"
+Homepage = "https://repodynamics.github.io/PyPackIT"
+Download = "https://github.com/RepoDynamics/PyPackIT/releases"
+News = "https://repodynamics.github.io/PyPackIT/news"
+Documentation = "https://repodynamics.github.io/PyPackIT"
+Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
+Sponsor = "https://repodynamics.github.io/PyPackIT/contribute/collaborate/maintain/sponsor"
+Source = "https://github.com/RepoDynamics/PyPackIT"

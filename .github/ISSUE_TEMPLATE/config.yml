@@ -2,7 +2,7 @@ blank_issues_enabled: false
 contact_links:
 - name: 🎓️  Learn More
   about: Not sure where to start? Read our contributing guide to learn more.
-  url: https://github.com/AAriam/TemplateRepo/blob/main/CONTRIBUTING.md
+  url: https://github.com/RepoDynamics/PyPackIT/blob/main/CONTRIBUTING.md
 - name: 💬  Contact Us
   about: Have another inquiry or need help? Contact us directly!
-  url: https://aariam.github.io/TemplateRepo/help/contact
+  url: https://repodynamics.github.io/PyPackIT/help/contact

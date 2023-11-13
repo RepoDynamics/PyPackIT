@@ -91,6 +91,8 @@ repos:
     args:
     - --fix
     - --exit-non-zero-on-fix
+    - --config
+    - pyproject.toml
     types_or:
     - python
     - pyi
