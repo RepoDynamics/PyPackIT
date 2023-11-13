@@ -31,3 +31,4 @@ def run(path_root: str = ".", path_config: str = "pyproject.toml"):
         capture_output=False,
         check=True,
     )
+    return
