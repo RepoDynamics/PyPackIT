@@ -156,7 +156,7 @@ src = ["src", "tests"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/src" = ["S101"]
+"tests/src/**" = ["S101"]
 
 [tool.ruff.flake8-annotations]
 allow-star-arg-any = true
