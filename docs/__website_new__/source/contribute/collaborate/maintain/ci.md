@@ -10,4 +10,4 @@ into the CI workflow, and can be easily [customized](https://docs.github.com/en/
 Action: https://github.com/github/codeql-action/
 
 
-## 
+##
