@@ -2,7 +2,7 @@ commit:
   primary_action:
     package_major:
       description: |
-        Remove features/components from - or introduce breaking changes to - the public API, 
+        Remove features/components from - or introduce breaking changes to - the public API,
         and publish a new major release of the package.
       type: major
       sub_types:
@@ -10,22 +10,22 @@ commit:
         exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
     package_minor:
       description: |
-          Add features/components to - or enhance/deprecate existing features in - the public API, 
+          Add features/components to - or enhance/deprecate existing features in - the public API,
           and publish a new minor release of the package.
       type: minor
       sub_types:
         any: [ deprecate, feat, enhance ]
     package_patch:
       description: |
-          Fix bugs or security issues in the public API, 
-          or improve the performance of existing functionalities, 
+          Fix bugs or security issues in the public API,
+          or improve the performance of existing functionalities,
           and publish a new patch release of the package.
       type: patch
       sub_types:
         any: [ secure, fix, perf ]
     package_post:
       description: |
-          Fix documentation or release notes in a previous package release, 
+          Fix documentation or release notes in a previous package release,
           and publish a new post release.
       type: post
       sub_types:
@@ -60,8 +60,8 @@ commit:
   primary_custom:
     package_private:
       description: |
-          Change the private API, the build system, or refactor code, 
-          without affecting the public API, 
+          Change the private API, the build system, or refactor code,
+          without affecting the public API,
           and without publishing a new package release.
       type: pkg
       sub_types:
@@ -78,7 +78,7 @@ commit:
           - style
     tests:
       description: |
-          Change the test-suite, without affecting the public API, 
+          Change the test-suite, without affecting the public API,
           and without publishing a new package release.
       type: test
       sub_types:
