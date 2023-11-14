@@ -1,1 +1,10 @@
-## Core Metadata
+# Core Metadata
+
+
+:::{toctree}
+:hidden:
+
+intro
+license
+credits
+:::
