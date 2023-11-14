@@ -110,10 +110,20 @@ access to `Read and write`.
 5. Click on the {bdg-success}`Generate token` button at the bottom of the page.
 6. Copy the displayed token to your clipboard.
 7. Go back to your new repository, and click on the `Settings` tab.
-8. Under the `Security` tab on the left menu, click on `Secrets and variables`, and select `Actions`.
-9. On the `Secrets` tab, click on the `New repository secret` button.
+8. Under the `Security` section on the left menu, click on `Secrets and variables`, and select `Actions`.
+9. On the `Secrets` tab, click on the {bdg-success}`New repository secret` button.
 10. In the `Name` field, enter `REPO_ADMIN_TOKEN`,
-paste the token you copied in step 6 into the `Secret` field, and click on the `Add secret` button.
+paste the token you copied in step 6 into the `Secret` field, 
+and click on the {bdg-success}`Add secret` button.
+
+:::{admonition} For organization-owned repositories
+:class: important
+If your repository is owned by an organization (as opposed to a personal account),
+your organization must allow GitHub Actions to create pull requests.
+This can be set in the organization's `Settings` page, under
+`Actions > General > Workflow permissions`,
+at https://github.com/organizations/YOUR-ORGANIZATION-NAME/settings/actions.
+:::
 
 
 ## Activate PyPI and TestPyPI Publishing
@@ -133,3 +143,17 @@ or [log in to your existing account](https://pypi.org/account/login/).
    only this time under `Environment name`, enter `TestPyPI`.
 
 ## Configure Your New Repository
+Going back to your new repository, you should see that 
+the workflow has completed successfully (with a green checkmark).
+If it is still running, wait for it to complete. 
+Otherwise, if the workflow has failed (commonly due to an internal GitHub error),
+re-run it by clicking on the `Re-run all jobs` button.
+${{ pp_meta.name }} will also generate job reports and extensive logs for each workflow run,
+which can be investigated in case of a failure or unexpected behavior.
+
+After the workflow has completed successfully, 
+you will see that a second commit has been added to your repository's default branch,
+and that it now contains only three directories: `.github`, `.meta`, and `docs`.
+
+The `.meta` directory is where all the metadata and configurations for your repository and project are stored.
+
