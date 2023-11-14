@@ -7,5 +7,7 @@ sd_hide_title: true
 :hidden:
 
 getting-started/index
+meta/index
+dev-cycle/index
 general
 :::
