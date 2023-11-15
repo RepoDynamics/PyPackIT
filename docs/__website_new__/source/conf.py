@@ -283,7 +283,7 @@ html_theme_options: Dict[str, Any] = {
     "navigation_depth": 3,
     "show_toc_level": 2,
     "header_links_before_dropdown": 7,
-    "icon_links": [],  # set dynamically below
+    "icon_links": meta["web"]["navbar_icons"],
     "icon_links_label": "External links",
     "use_edit_page_button": True,
     # Code highlighting color themes
@@ -294,94 +294,6 @@ html_theme_options: Dict[str, Any] = {
     "pygment_dark_style": "monokai",
 }
 # ----------------------------- Dynamically fill html_theme_options ---------------------------------------
-# The following part dynamically reads header icon flags from the metadata,
-# and adds the corresponding icons to `html_theme_options['icon_links']`.
-_navbar_defaults = {
-    "repo": {
-        "name": "Source Repository",
-        "icon": "fa-brands fa-github",
-        "url": meta["url"]["github"]["home"],
-    },
-    "issues": {
-        "name": "Issues",
-        "icon": "fa-regular fa-circle-dot",
-        "url": meta["url"]["github"]["issues"]["home"],
-    },
-    "pull_requests": {
-        "name": "Pull Requests",
-        "icon": "fa-solid fa-code-pull-request",
-        "url": meta["url"]["github"]["pulls"]["home"],
-    },
-    "discussions": {
-        "name": "Discussions",
-        "icon": "fa-solid fa-comments",
-        "url": meta["url"]["github"]["discussions"]["home"],
-    },
-    "email": {
-        "name": "Email",
-        "icon": "fa-regular fa-envelope",
-        "url": f"mailto:{meta['maintainer']['email']['main']}",
-    },
-    "license": {
-        "name": "License",
-        "icon": "fa-solid fa-copyright",
-        "url": meta["url"]["website"]["license"],
-    },
-    "pypi": {
-        "name": "PyPI Distribution",
-        "icon": "fa-brands fa-python",
-        "url": meta["url"]["pypi"],
-    },
-    "conda": {
-        "name": "Conda Distribution",
-        "icon": "_static/img/icon/conda.svg",
-        "url": meta["url"]["conda"],
-        "type": "local",
-        "attributes": {"class": "nav-link fa-conda"},
-    },
-    "twitter": {
-        "name": "Twitter",
-        "icon": "fa-brands fa-twitter",
-        "url": meta["owner"]["url"].get("twitter", ""),
-    },
-    "linkedin": {
-        "name": "LinkedIn",
-        "icon": "fa-brands fa-linkedin",
-        "url": meta["owner"]["url"].get("linkedin", ""),
-    },
-    "researchgate": {
-        "name": "ResearchGate",
-        "icon": "fa-brands fa-researchgate",
-        "url": meta["owner"]["url"].get("researchgate", ""),
-    },
-    "orcid": {
-        "name": "ORCiD",
-        "icon": "fa-brands fa-orcid",
-        "url": meta["owner"]["url"].get("orcid", ""),
-    },
-}
-
-
-for icon in meta["web"]["navbar_icons"]:
-    icon_id = icon.pop("id", None)
-    if icon_id:
-        _def = _navbar_defaults[icon_id]
-        icon.setdefault("name", _def["name"])
-        icon.setdefault("url", _def["url"])
-        if icon.get("icon"):
-            if not icon.get("type"):
-                icon.setdefault("type", "fontawesome")
-            if not icon.get("attributes") and _def.get("attributes"):
-                icon["attributes"] = _def["attributes"]
-        else:
-            icon["icon"] = _def["icon"]
-            icon["type"] = _def.get("type") or "fontawesome"
-            if _def.get("attributes"):
-                icon["attributes"] = _def["attributes"]
-    html_theme_options["icon_links"].append(icon)
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
 # The following part dynamically reads analytics options from the metadata, and sets them up.
 # Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
 _analytics = meta["web"].get("analytics")
