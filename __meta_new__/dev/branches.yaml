@@ -1,0 +1,27 @@
+branch:
+  default:
+    name: main
+    protection_rules:
+      allow_deletion: false
+      allow_force_push: false
+  group:
+    release:
+      prefix: release/v
+      protection_rules:
+        allow_deletion: false
+        allow_force_push: false
+    pre_release:
+      prefix: pre-release/v
+      protection_rules:
+        allow_deletion: false
+        allow_force_push: false
+    dev:
+      prefix: dev/
+      protection_rules:
+        allow_deletion: true
+        allow_force_push: true
+    ci_pull:
+      prefix: ci-pull/
+      protection_rules:
+        allow_deletion: true
+        allow_force_push: true
