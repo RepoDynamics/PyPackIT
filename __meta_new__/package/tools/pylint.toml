@@ -1,0 +1,86 @@
+# Pylint
+# Ref: https://github.com/pylint-dev/pylint/blob/v2.17.4/examples/pyproject.toml
+
+[tool.pylint.main]
+fail-under = 10
+jobs = 0
+limit-inference-results = 500
+load-plugins = [
+    "pylint.extensions.broad_try_clause",
+    "pylint.extensions.code_style",
+    "pylint.extensions.comparison_placement",
+    "pylint.extensions.confusing_elif",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.consider_refactoring_into_while_condition",
+    "pylint.extensions.consider_ternary_expression",
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.mccabe",
+    "pylint.extensions.dict_init_mutate",
+    "pylint.extensions.docstyle",
+    "pylint.extensions.dunder",
+    "pylint.extensions.check_elif",
+    "pylint.extensions.empty_comment",
+    "pylint.extensions.eq_without_hash",
+    "pylint.extensions.private_import",
+    "pylint.extensions.magic_value",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.docparams",
+    "pylint.extensions.redefined_loop_name",
+    "pylint.extensions.set_membership",
+    "pylint.extensions.typing",
+    "pylint.extensions.while_used",
+]
+persistent = true
+py-version = "${{package.python_version_min}}"
+recursive = true
+source-roots = ["${{path.dir.source}}"]
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "_"]
+
+[tool.pylint.design]
+max-args = 10
+max-attributes = 20
+max-bool-expr = 5
+max-branches = 15
+max-locals = 15
+max-public-methods = 50
+max-returns = 10
+max-statements = 50
+min-public-methods = 1
+
+[tool.pylint.format]
+max-line-length = "${{package.dev_config.max_line_length}}"
+max-module-lines = 2000
+
+[tool.pylint.imports]
+import-graph = "${{ path.dir.local.report.pylint }}/import_graph_total.svg"
+int-import-graph = "${{ path.dir.local.report.pylint }}/import_graph_internal.svg"
+ext-import-graph = "${{ path.dir.local.report.pylint }}/import_graph_external.svg"
+
+[tool.pylint.logging]
+logging-format-style = "new"
+
+[tool.pylint."messages control"]
+confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFINED"]
+
+[tool.pylint.reports]
+reports = true
+score = true
+msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
+output-format = [
+    "json:${{ path.dir.local.report.pylint }}/report_json.json",
+    "text:${{ path.dir.local.report.pylint }}/report_text.txt",
+    "parseable:${{ path.dir.local.report.pylint }}/report_parseable.txt",
+    "msvs:${{ path.dir.local.report.pylint }}/report_msvs.txt",
+    "colorized",
+]
+
+[tool.pylint.similarities]
+ignore-comments = true
+min-similarity-lines = 8
+
+#[tool.pylint.spelling]
+#spelling-dict = "en_US"
