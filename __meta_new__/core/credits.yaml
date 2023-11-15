@@ -1,0 +1,56 @@
+# Project Credits
+# ---------------
+# This file contains information about the core authors, contributors and funding options of the project.
+# All entries in this file are optional.
+# If you don't want to set any of the values, you can delete this file.
+
+
+# Authors of the project:
+author:
+  # Declarations of author roles (optional).
+  # If provided, you can then use the keys of this object as values for the `roles` property
+  # of the `entries` array elements, in order to specify the roles of each author:
+  role:
+    # ID (key) of the role:
+    concept:
+      # Title of the role:
+      title: Conceptualization
+      # Description of the role:
+      description: Development of the initial idea for the project.
+      # Abbreviation of the role:
+      abbreviation: CNCPT
+    # Another role:
+    dev:
+      title: Software Development
+      description: Implementation of the project.
+      abbreviation: DEV
+    # Another role:
+    maint:
+      title: Maintenance
+      description: Maintenance of the project.
+      abbreviation: MAINT
+  # List of authors (in order of contribution):
+  entries:
+    # First author:
+      # GitHub username of the author.
+      # You can also use the special value `${{ owner.username }}` to refer to the owner of the repository.
+      # All other data, such as name, email, avatar etc. will be fetched automatically from GitHub:
+    - username: ${{ owner.username }}
+      # Roles of the author (optional; if not provided, no roles will be assigned):
+      roles: [ concept, dev ]
+    # Another author:
+    - username: RepoDynamicsBot
+      roles: [ maint ]
+
+# Funding options to display on the GitHub repository (optional).
+funding:
+  github: [ AAriam ]
+  custom: [ https://paypal.me/AAriam ]
+  community_bridge: repodynamics
+  issuehunt: aariam
+  ko_fi: aariam
+  liberapay: aariam
+  open_collective: aariam
+  otechie: aariam
+  patreon: aariam
+  tidelift: pypi/repodynamics
