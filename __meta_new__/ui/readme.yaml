@@ -1,16 +1,12 @@
 readme:
-
   repo:
     header:
       style: "vertical"
-
     body:
       style: "ver"
       sections:
         - id: "ci"
-
   package: {}
-
   dir:
     .github: |
       # GitHub Directory
