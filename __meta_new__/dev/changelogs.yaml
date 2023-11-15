@@ -1,0 +1,205 @@
+changelog:
+  package_public:
+    name: Public API
+    path: CHANGELOG.md
+    title: ${{name}} Changelog (Public API)
+    intro: |
+      All notable changes to this project will be documented in this file.
+
+      The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+      and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+    sections:
+      - id: removed
+        title: ⛔ Removed Features
+        description: |
+          Features that have been removed from the public API.
+      - id: changed
+        title: 🚫 Changed Features
+        description: |
+            Features that have been changed in the public API.
+      - id: deprecated
+        title: ⚠️ Deprecated Features
+        description: |
+            Features that have been deprecated in the public API.
+      - id: added
+        title: 🌱 New Features
+        description: |
+            Features that have been added to the public API.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: |
+            Features that have been enhanced in the public API.
+      - id: security
+        title: 🛡️ Security Fixes
+        description: |
+            Security fixes that have been applied to the public API.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: |
+            Bug fixes that have been applied to the public API.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: |
+            Performance improvements that have been applied to the public API.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: |
+            Docstring fixes that have been applied to the public API.
+      - id: notes
+        title: 📔️ Release-Notes Fixes
+        description: |
+            Release-Notes fixes that have been applied to the public API.
+  website:
+    name: Website
+    path: docs/website/CHANGELOG.md
+    title: "${{name}} Changelog (Website)"
+    intro: |
+      This changelog documents the changes to the website.
+    entry:
+      title: "[{ver_dist}] – {date}"
+      intro: |
+        - Commit Type: {commit_type}
+        - Commit Title: {commit_title}
+        - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
+    sections:
+      - id: content
+        title: Content
+        description: Changes to website content.
+      - id: design
+        title: Design
+        description: Changes to website design.
+      - id: backend
+        title: Backend
+        description: Changes to website backend.
+  package_private:
+    name: Private API
+    path: ".dev/CHANGELOG.md"
+    title: "${{name}} Changelog (Private API)"
+    intro: |
+      This file contains changes to the private API, as well as changes that
+      do not induce a version bump.
+    sections:
+      - id: removed
+        title: ⛔ Removed Features
+        description: Features that have been removed from the private API.
+      - id: changed
+        title: 🚫 Changed Features
+        description: Features that have been changed in the private API.
+      - id: added
+        title: 🌱 New Features
+        description: Features that have been added to the private API.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: Features that have been enhanced in the private API.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: Bug fixes that have been applied to the private API.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: Performance improvements that have been applied to the private API.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: Docstring fixes that have been applied to the private API.
+      - id: build
+        title: 🛠️ Build System Changes
+        description: Changes to the package build system.
+      - id: refactor
+        title: 🧹 Refactorings
+        description: Code refactorings.
+      - id: style
+        title: 🎨 Style Changes
+        description: Code style changes.
+  tests:
+    name: Test Suite
+    path: "tests/CHANGELOG.md"
+    title: "${{name}} Changelog (Test Suite)"
+    intro: |
+      This changelog documents the changes to the test suite.
+    sections:
+      - id: removed
+        title: ⛔ Removed Features
+        description: Features that have been removed from the test suite.
+      - id: changed
+        title: 🚫 Changed Features
+        description: Features that have been changed in the test suite.
+      - id: added
+        title: 🌱 New Features
+        description: Features that have been added to the test suite.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: Features that have been enhanced in the test suite.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: Bug fixes that have been applied to the test suite.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: Performance improvements that have been applied to the test suite.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: Docstring fixes that have been applied to the test suite.
+      - id: build
+        title: 🛠️ Build System Changes
+        description: Changes to the test-suite build system.
+      - id: refactor
+        title: 🧹 Refactorings
+        description: Code refactorings in the test-suite.
+      - id: style
+        title: 🎨 Style Changes
+        description: Code style changes in the test-suite.
+  meta:
+    name: Meta Content
+    path: .meta/CHANGELOG.md
+    title: ${{name}} Changelog (Meta)
+    intro: This changelog documents the changes to the meta content.
+    sections:
+      - id: credits
+        title: Credits
+        description: Changes to core/credits.yaml file.
+      - id: extensions
+        title: Extensions
+        description: Changes to core/extensions.yaml file.
+      - id: intro
+        title: Intro
+        description: Changes to core/intro.yaml file.
+      - id: license
+        title: License
+        description: Changes to core/license.yaml file.
+      - id: changelog
+        title: Changelogs
+        description: Changes to dev/changelogs.yaml file.
+      - id: commits
+        title: Commits
+        description: Changes to dev/commits.yaml file.
+      - id: issues
+        title: Issues
+        description: Changes to dev/issues.yaml file.
+      - id: labels
+        title: Labels
+        description: Changes to dev/labels.yaml file.
+      - id: maintainers
+        title: Maintainers
+        description: Changes to dev/maintainers.yaml file.
+      - id: repo
+        title: Repo
+        description: Changes to dev/repo.yaml file.
+      - id: workflows
+        title: Workflows
+        description: Changes to dev/workflows.yaml file.
+      - id: package_metadata
+        title: Package Metadata
+        description: Changes to package/metadata.yaml file.
+      - id: package_build
+        title: Package Build System.
+        description: Changes to package/config_build files.
+      - id: package_tools
+        title: Package Configurations.
+        description: Changes to package/config_tools files.
+  workflows:
+    name: Workflows
+    path: .github/CHANGELOG.md
+    title: ${{name}} Changelog (Workflows)
+    intro: This changelog documents the changes to the workflows.
+    sections:
+      - id: workflows
+        title: Workflows
+        description: Changes to workflows.
