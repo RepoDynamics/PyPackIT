@@ -1,0 +1,70 @@
+# Project License and Copyright
+# -----------------------------
+# This file contains the license and copyright information for the project.
+
+
+# license : object, optional
+#    License information of the project.
+#    To select one of the pre-defined licenses,
+#    set a single key `id` to the ID of the license (case-insensitive).
+#    Supported license IDs and their corresponding full names are:
+#       GNU_AGPL_v3+: GNU Affero General Public License v3 or later
+#       GNU_AGPL_v3: GNU Affero General Public License v3
+#       GNU_GPL_v3+: GNU General Public License v3 or later
+#       GNU_GPL_v3: GNU General Public License v3
+#       MPL_v2: Mozilla Public License 2.0
+#       Apache_v2: Apache License 2.0
+#       MIT: MIT License
+#       BSD_2_Clause: BSD 2-Clause License
+#       BSD_3_Clause: BSD 3-Clause License
+#       BSL_v1: Boost Software License 1.0
+#       Unlicense: The Unlicense
+#
+#    Example:
+#       license:
+#          id: gnu_agpl_v3+
+#
+#    Alternatively, to use another license not listed above,
+#    set the following keys:
+#       shortname : string
+#          Short name of the license.
+#       fullname : string
+#          Full name of the license.
+#       text : string
+#          Full text of the license.
+#       notice : string
+#          Short notice text of the license.
+#       trove_classifier : string, optional
+#          Trove classifier of the license.
+#
+#    Example:
+#       license:
+#          shortname: MIT
+#          fullname: MIT License
+#          text: |
+#             MIT License
+#             ===========
+#             ...
+#          notice: MIT License
+#          trove_classifier: License :: OSI Approved :: MIT License
+#
+#    Note that even when using a pre-defined license (by providing the `id` key),
+#    you can still override the full name, short name, text, notice, and trove classifier of the license,
+#    by providing the corresponding keys.
+#    To remove the license from the repository and project, delete the whole `license` key,
+#    or set it to `null`.
+license:
+  id: gnu_agpl_v3+
+
+
+
+# copyright : object, optional
+copyright:
+  # Name of the copyright owner.
+  # By default, this is dynamically set to the name of the repository owner (fetched from GitHub):
+  owner: ${{ owner.name }}
+  # Start year of the project.
+  # When not provided, it will be automatically set to the creation year of the repository.
+  # If you want to set it to a different year, you can do so by uncommenting the following line
+  # and changing the value. Note that the year must be between 1980 and the current year:
+#  year_start: 2021
