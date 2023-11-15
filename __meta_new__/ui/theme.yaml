@@ -1,3 +1,18 @@
+# Project Theme Configuration
+# ===========================
+# Configurations defining the visual theme of the project.
+#
+# Properties
+# ----------
+# color : object
+#    Colors of the project's theme.
+#    All colors must be in hexadecimal format (without the leading `#` character).
+#    The following properties can be set:
+#       primary : array, default: ["135400", "459B24"]
+#          Primary colors of the project for the light and dark themes.
+#       secondary : array, default: ["055005", "9CCC00"]
+#          Secondary colors of the project for the light and dark themes.
+
 color:
   primary: ['135400', '459B24']
   secondary: ['055005', '9CCC00']
