@@ -1,6 +1,6 @@
 # Project Credits
 
-#### `author`
+## Authors
 
 ##### `author.role`
 Example:
@@ -9,7 +9,7 @@ author:
   role: Founder
 ```
 
-#### Funding Options
+## Funding Options
 GitHub allows you to add a *Sponsor* button together with a *Sponsor this project* section
 to the main page of your repository, to increase the visibility of funding options
 for your open source project. Clicking on the *Sponsor* button opens the *Sponsor this project* section,
