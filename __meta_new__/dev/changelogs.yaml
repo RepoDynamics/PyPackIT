@@ -2,37 +2,45 @@
 # ========================
 # Configurations for different changelog files.
 #
-# Parameters
+# Properties
 # ----------
 # changelog : object, optional
 #    Configurations for the changelog files.
-#    For each changelog, you must add a key-value pair to this object,
+#    For each changelog, add a key-value pair,
 #    where the key is the ID of the changelog (to reference in other places),
-#    and the value is an object with the following keys:
-#       name : string
-#          Name of the changelog.
-#       path : string
-#          Path to the changelog file, relative to the root of the repository.
+#    and the value is an object:
+#    ----------
+#    Properties
+#    ----------
+#    name : string
+#       Name of the changelog.
+#    path : string
+#       Path to the changelog file, relative to the root of the repository.
+#    title : string
+#       Title of the changelog.
+#    intro : string
+#       Introduction text of the changelog.
+#    entry : object, optional
+#       Configurations for the entries in the changelog.
+#       ----------
+#       Properties
+#       ----------
 #       title : string
-#          Title of the changelog.
+#          Title of the entry.
 #       intro : string
-#          Introduction text of the changelog.
-#       entry : object, optional
-#          Configurations for the entries in the changelog.
-#          The following keys can be set:
-#             title : string
-#                Title of the entry.
-#             intro : string
-#                Introduction text of the entry.
-#       sections : array of objects
-#          Sections of each entry in the changelog.
-#          Each element of the list must be an object with the following keys:
-#             id : string
-#                ID of the section (to reference in other places).
-#             title : string
-#                Title of the section.
-#             description : string
-#                Description of the section.
+#          Introduction text of the entry.
+#    sections : array of objects
+#       Sections of each entry in the changelog.
+#       Each element of the list is an object:
+#       ----------
+#       Properties
+#       ----------
+#       id : string
+#          ID of the section (to reference in other places).
+#       title : string
+#          Title of the section.
+#       description : string
+#          Description of the section.
 
 changelog:
   package_public:
