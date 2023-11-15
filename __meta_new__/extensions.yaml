@@ -1,0 +1,41 @@
+# Meta Content Extensions
+# =======================
+# This file contains declarations of extended meta contents to be fetched from other GitHub repositories.
+# If you do not want to add any extensions, you can delete this file.
+#
+# Parameters
+# ----------
+# extensions : array of objects, optional
+#    A list of extension declarations, ordered by priority (highest first).
+#    Each element of the list must be an object with following keys:
+#       type : string
+#          Type of the extension.
+#       repo : string
+#          Full name of the GitHub repository (username/repo-name) to fetch the files from.
+#       path : string
+#          Path to the file in the repository to fetch.
+#       ref : string, default: most recent commit on the default branch
+#          The reference (branch, tag, commit etc.) in the repository to fetch the files from.
+#          If not provided, the most recent commit on the default branch will be used.
+#       append_list : boolean, default: true
+#          Whether to append the elements of the lists present in the extended content
+#          to the corresponding existing lists present in higher-priority content.
+#          If set to `false`, any list that has a corresponding existing list in higher-priority content
+#          will be treated as a duplicate (see `raise_duplicate` below).
+#       append_dict : boolean, default: true
+#          Whether to append the key-value pairs of the dictionaries present in the extended content
+#          to the corresponding existing dictionaries present in higher-priority content.
+#          If set to `false`, any dictionary that has a corresponding existing dictionary
+#          in higher-priority content will be treated as a duplicate (see `raise_duplicate` below).
+#       raise_duplicate : boolean, default: false
+#          Whether to raise an exception if a list or dictionary in the extended content
+#          has a corresponding existing list or dictionary in higher-priority content.
+#          If set to `false`, the list or dictionary in the extended content will be ignored.
+extensions:
+  - type: core/credits
+    repo: RepoDynamics/MetaExtensions
+    ref: main
+    path: pypackit/default/template
+    append_list: true
+    append_dict: true
+    raise_duplicate: false
