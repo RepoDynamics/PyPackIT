@@ -1,3 +1,142 @@
+# Commits Configurations
+# ======================
+#
+# Properties
+# ----------
+# commits : object, optional
+#    Configurations for commits.
+#    ----------
+#    Properties
+#    ----------
+#    primary_action : object, optional
+#       Configurations for primary action commit types.
+#       ----------
+#       Properties
+#       ----------
+#       package_major : object, optional
+#          Configurations for major package release action commit.
+#          ----------
+#          Properties
+#          ----------
+#          description : string
+#             Description of the commit type.
+#          type : string, default: "major"
+#             Conventional commit type.
+#          sub_types : object, optional
+#             Configurations for commit sub-types of the commit.
+#             ----------
+#             Properties
+#             ----------
+#             any : array of strings, optional
+#                A list of `secondary_custom` commit-type IDs,
+#                of which at least one must be present in the head branch.
+#             exclude : array of strings, optional
+#                A list of `secondary_custom` commit-type IDs
+#                that must not be present in the head branch.
+#       package_minor : object, optional
+#          Configurations for minor package release action commit.
+#          The keys are the same as for the major package release action commit.
+#          --------
+#          Defaults
+#          --------
+#          description: |
+#              Add features/components to - or enhance/deprecate existing features in - the public API,
+#              and publish a new minor release of the package.
+#          type: minor
+#       package_patch : object, optional
+#          Configurations for patch package release action commit.
+#          The keys are the same as for the major package release action commit.
+#          --------
+#          Defaults
+#          --------
+#          description: |
+#              Fix bugs or security issues in the public API,
+#              or improve the performance of existing functionalities,
+#              and publish a new patch release of the package.
+#          type: patch
+#       package_post : object, optional
+#          Configurations for post package release action commit.
+#          The keys are the same as for the major package release action commit.
+#          --------
+#          Defaults
+#          --------
+#          description: |
+#              Fix documentation or release notes in a previous package release,
+#              and publish a new post release.
+#          type: post
+#       website : object, optional
+#          Configurations for website action commit.
+#          The keys are the same as for the major package release action commit,
+#          with the following additions:
+#          ----------
+#          Properties
+#          ----------
+#          announcement : object, optional
+#             Configurations for announcement website action commit.
+#             ----------
+#             Properties
+#             ----------
+#             scope : string, default: "announcement"
+#                Scope of the conventional commit.
+#             changelog_id : string, default: "website"
+#                ID of the changelog to which the commit will be added.
+#             changelog_section_id : string, default: "content"
+#                ID of the section of the changelog to which the commit will be added.
+#       meta : object, optional
+#          Configurations for meta action commit.
+#          The keys are the same as for the major package release action commit.
+#          --------
+#          Defaults
+#          --------
+#          description: |
+#              Change the meta content of the repository.
+#          type: meta
+#    primary_custom : object, optional
+#       Configurations for primary custom commit types.
+#       For each custom commit type, a key-value pair must be added,
+#       where the key is the ID of the commit type (to reference in other places),
+#       and the value is an object with the same properties as the `package_major` object.
+#    secondary_action : object, optional
+#       Configurations for secondary action commit types.
+#       ----------
+#       Properties
+#       ----------
+#       meta_sync : object, optional
+#          Configurations for meta sync action commit.
+#          ----------
+#          Properties
+#          ----------
+#          type : string, default: "meta-sync"
+#             Conventional commit type.
+#       revert : object, optional
+#          Configurations for revert action commit.
+#          ----------
+#          Properties
+#          ----------
+#          type : string, default: "revert"
+#             Conventional commit type.
+#       hook_fix : object, optional
+#          Configurations for hook fix action commit.
+#          ----------
+#          Properties
+#          ----------
+#          type : string, default: "hook-fix"
+#             Conventional commit type.
+#    secondary_custom : object, optional
+#       Configurations for secondary custom commit types.
+#       For each custom commit type, a key-value pair must be added,
+#       where the key is the ID of the commit type (to reference in other places),
+#       and the value is an object:
+#       ----------
+#       Properties
+#       ----------
+#       description : string
+#          Description of the commit type.
+#       changelog_id : string
+#          ID of the changelog to which the commit will be added.
+#       changelog_section_id : string
+#          ID of the section of the changelog to which the commit will be added.
+
 commit:
   primary_action:
     package_major:
@@ -10,7 +149,7 @@ commit:
         exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
     package_minor:
       description: |
-          Add features/components to - or enhance/deprecate existing features in - the public API,
+          Add features/components to, or enhance/deprecate existing features in, the public API,
           and publish a new minor release of the package.
       type: minor
       sub_types:
