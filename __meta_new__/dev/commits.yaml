@@ -1,0 +1,301 @@
+commit:
+  primary_action:
+    package_major:
+      description: |
+        Remove features/components from - or introduce breaking changes to - the public API,
+        and publish a new major release of the package.
+      type: major
+      sub_types:
+        any: [ remove, change ]
+        exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
+    package_minor:
+      description: |
+          Add features/components to - or enhance/deprecate existing features in - the public API,
+          and publish a new minor release of the package.
+      type: minor
+      sub_types:
+        any: [ deprecate, feat, enhance ]
+    package_patch:
+      description: |
+          Fix bugs or security issues in the public API,
+          or improve the performance of existing functionalities,
+          and publish a new patch release of the package.
+      type: patch
+      sub_types:
+        any: [ secure, fix, perf ]
+    package_post:
+      description: |
+          Fix documentation or release notes in a previous package release,
+          and publish a new post release.
+      type: post
+      sub_types:
+        any: [ docs, notes ]
+    website:
+      description: |
+          Change the website content, design or backend.
+      type: web
+      sub_types:
+        any: [ web-content, web-design, web-backend ]
+      announcement:
+        scope: announcement
+        changelog_id: 'website'
+        changelog_section_id: 'content'
+    meta:
+      description: |
+        Change the meta content of the repository.
+      type: meta
+      sub_types:
+        any:
+          - meta-credits
+          - meta-extensions
+          - meta-intro
+          - meta-license
+          - meta-changelog
+          - meta-commits
+          - meta-issues
+          - meta-labels
+          - meta-maintainers
+          - meta-repo
+          - meta-workflows
+  primary_custom:
+    package_private:
+      description: |
+          Change the private API, the build system, or refactor code,
+          without affecting the public API,
+          and without publishing a new package release.
+      type: pkg
+      sub_types:
+        any:
+          - priv-remove
+          - priv-change
+          - priv-feat
+          - priv-enhance
+          - priv-fix
+          - priv-perf
+          - priv-docs
+          - build
+          - refactor
+          - style
+    tests:
+      description: |
+          Change the test-suite, without affecting the public API,
+          and without publishing a new package release.
+      type: test
+      sub_types:
+        any:
+          - test-remove
+          - test-change
+          - test-feat
+          - test-enhance
+          - test-fix
+          - test-perf
+          - test-docs
+          - test-build
+          - test-refactor
+          - test-style
+    workflows:
+      description: |
+          Change the GitHub workflows of the repository.
+      type: ci
+      sub_types:
+        any: [ ci ]
+  secondary_action:
+    meta_sync:
+      type: meta-sync
+    revert:
+      type: revert
+    hook_fix:
+      type: hook-fix
+  secondary_custom:
+    remove:
+      description: 'Remove a feature/component from the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'removed'
+    change:
+      description: 'Change a feature/component in the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'changed'
+    deprecate:
+      description: 'Deprecate a feature/component from the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'deprecated'
+    feat:
+      description: 'Add a feature/component to the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'added'
+    enhance:
+      description: 'Enhance a feature/component in the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'enhanced'
+    secure:
+      description: 'Fix a security issue in the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'security'
+    fix:
+      description: 'Fix a bug in the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'fixed'
+    perf:
+      description: 'Improve performance in the public API.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'improved'
+    docs:
+      description: 'Fix documentation.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'docs'
+    notes:
+      description: 'Fix release notes.'
+      changelog_id: 'package_public'
+      changelog_section_id: 'notes'
+    web-content:
+      description: 'Change the website content.'
+      changelog_id: 'website'
+      changelog_section_id: 'content'
+    web-design:
+      description: 'Change the website design.'
+      changelog_id: 'website'
+      changelog_section_id: 'design'
+    web-backend:
+      description: 'Change the website backend.'
+      changelog_id: 'website'
+      changelog_section_id: 'backend'
+    priv-remove:
+      description: 'Remove a feature/component from the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'removed'
+    priv-change:
+      description: 'Change a feature/component in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'changed'
+    priv-feat:
+      description: 'Add a feature/component to the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'added'
+    priv-enhance:
+      description: 'Enhance a feature/component in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'enhanced'
+    priv-fix:
+      description: 'Fix a bug in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'fixed'
+    priv-perf:
+      description: 'Improve performance in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'improved'
+    priv-docs:
+      description: 'Fix documentation.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'docs'
+    build:
+      description: 'Change the build system.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'build'
+    refactor:
+      description: 'Refactor code.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'refactor'
+    style:
+      description: 'Change text style and formatting without affecting the meaning.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'style'
+    test-remove:
+      description: 'Remove a feature/component from the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'removed'
+    test-change:
+      description: 'Change a feature/component in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'changed'
+    test-feat:
+      description: 'Add a feature/component to the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'added'
+    test-enhance:
+      description: 'Enhance a feature/component in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'enhanced'
+    test-fix:
+      description: 'Fix a bug in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'fixed'
+    test-perf:
+      description: 'Improve performance in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'improved'
+    test-docs:
+      description: 'Fix documentation in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'docs'
+    test-build:
+      description: 'Change the test-suite build system.'
+      changelog_id: 'tests'
+      changelog_section_id: 'build'
+    test-refactor:
+      description: 'Refactor code in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'refactor'
+    test-style:
+      description: 'Change text style and formatting in the test-suite without affecting the meaning.'
+      changelog_id: 'tests'
+      changelog_section_id: 'style'
+    ci:
+      description: 'Change the CI configuration files and scripts.'
+      changelog_id: 'workflows'
+      changelog_section_id: 'workflows'
+    meta-credits:
+      description: 'Change credits meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'credits'
+    meta-extensions:
+      description: 'Change extensions meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'extensions'
+    meta-intro:
+      description: 'Change intro meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'intro'
+    meta-license:
+      description: 'Change license meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'license'
+    meta-changelog:
+      description: 'Change changelog meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'changelog'
+    meta-commits:
+      description: 'Change commits meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'commits'
+    meta-issues:
+      description: 'Change issues meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'issues'
+    meta-labels:
+      description: 'Change labels meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'labels'
+    meta-maintainers:
+      description: 'Change maintainers meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'maintainers'
+    meta-repo:
+      description: 'Change repo meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'repo'
+    meta-workflows:
+      description: 'Change workflows meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'workflows'
+    meta-package:
+      description: 'Change package meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package'
+    meta-package-build:
+      description: 'Change package build meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package_build'
+    meta-package-tools:
+      description: 'Change package tools meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package_tools'
