@@ -31,11 +31,14 @@
 #          Whether to raise an exception if a list or dictionary in the extended content
 #          has a corresponding existing list or dictionary in higher-priority content.
 #          If set to `false`, the list or dictionary in the extended content will be ignored.
-extensions:
-  - type: core/credits
-    repo: RepoDynamics/MetaExtensions
-    ref: main
-    path: pypackit/default/template
-    append_list: true
-    append_dict: true
-    raise_duplicate: false
+#
+# Examples
+# --------
+# - Extend the `issues` meta content from the file `.meta/dev/issues.yaml`
+#   located in the repository `RepoDynamics/MetaExtensions` on the `PyPackIT/v1` reference:
+#
+#   extensions:
+#     - type: dev/issues
+#       repo: RepoDynamics/MetaExtensions
+#       path: .meta/dev/issues.yaml
+#       ref: PyPackIT/v1
