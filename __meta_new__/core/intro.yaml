@@ -2,7 +2,7 @@
 # ====================
 # Descriptors for the project.
 #
-# Parameters
+# Properties
 # ----------
 # name : string, optional, default: derived from repository name
 #    Name of the project.
