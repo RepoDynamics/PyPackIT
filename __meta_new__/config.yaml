@@ -1,0 +1,26 @@
+# Base Configurations
+# ===================
+# This file contains the base configurations that are needed
+# during the initialization of the CI/CD pipelines.
+# All configurations in this file have default values.
+# Therefore, if you do not need to change any of the default values,
+# you can also delete this file entirely.
+#
+# Parameters
+# ----------
+# repodynamics : object, optional
+#    Configurations required by RepoDynamics (i.e., PyPackIT backend)
+#    The following keys can be set:
+#       cache_retention_days : object, optional
+#          Number of days to keep the cache data for various meta contents.
+#          The following keys can be set:
+#             extensions : integer, optional, default: 1
+#                Number of days to keep the cached extended meta content (defined in `extensions.yaml`)
+#                retrieved from other repositories.
+#             api : integer, optional, default: 1
+#                Number of days to keep the cached data retrieved from various wep APIs,
+#                such as GitHub repo/users data, software versions, publications etc.
+repodynamics:
+  cache_retention_days:
+    extensions: 1
+    api: 1
