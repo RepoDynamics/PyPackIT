@@ -1,56 +1,93 @@
 # Project Credits
-# ---------------
-# This file contains information about the core authors, contributors and funding options of the project.
+# ===============
+# Information about the core authors, contributors and funding options of the project.
 # All entries in this file are optional.
-# If you don't want to set any of the values, you can delete this file.
-
-
-# Authors of the project:
-author:
-  # Declarations of author roles (optional).
-  # If provided, you can then use the keys of this object as values for the `roles` property
-  # of the `entries` array elements, in order to specify the roles of each author:
-  role:
-    # ID (key) of the role:
-    concept:
-      # Title of the role:
-      title: Conceptualization
-      # Description of the role:
-      description: Development of the initial idea for the project.
-      # Abbreviation of the role:
-      abbreviation: CNCPT
-    # Another role:
-    dev:
-      title: Software Development
-      description: Implementation of the project.
-      abbreviation: DEV
-    # Another role:
-    maint:
-      title: Maintenance
-      description: Maintenance of the project.
-      abbreviation: MAINT
-  # List of authors (in order of contribution):
-  entries:
-    # First author:
-      # GitHub username of the author.
-      # You can also use the special value `${{ owner.username }}` to refer to the owner of the repository.
-      # All other data, such as name, email, avatar etc. will be fetched automatically from GitHub:
-    - username: ${{ owner.username }}
-      # Roles of the author (optional; if not provided, no roles will be assigned):
-      roles: [ concept, dev ]
-    # Another author:
-    - username: RepoDynamicsBot
-      roles: [ maint ]
-
-# Funding options to display on the GitHub repository (optional).
-funding:
-  github: [ AAriam ]
-  custom: [ https://paypal.me/AAriam ]
-  community_bridge: repodynamics
-  issuehunt: aariam
-  ko_fi: aariam
-  liberapay: aariam
-  open_collective: aariam
-  otechie: aariam
-  patreon: aariam
-  tidelift: pypi/repodynamics
+# Therefore, If you do not wish to set any of the values, you can delete this file.
+#
+# Parameters
+# ----------
+# author : object, optional
+#    Authors of the project
+#    The following keys can be set:
+#       role : object, optional
+#          Declarations of author roles.
+#          For each role, you must add a key-value pair to this object,
+#          where the key is the ID of the role (to reference in other places),
+#          and the value is an object with the following keys:
+#             title : string
+#                Title of the role.
+#             description : string
+#                Description of the role.
+#             abbreviation : string
+#                Abbreviation of the role.
+#       entries : array of objects, default: [ "${{ owner.username }}" ]
+#          List of authors, in order of contribution.
+#          Each element of the list must be an object with the following keys:
+#             username : string
+#                GitHub username of the author.
+#                All other data, such as name, email, avatar etc. will be fetched automatically from GitHub.
+#             roles : array of strings, optional
+#                List of role IDs of the author's roles.
+#                The role IDs must be keys of the `role` object above.
+#                If not provided, no roles will be assigned to the author.
+#          If not provided, the repository owner will be automatically added as the only author.
+# funding : object, optional
+#    Funding options to display on the GitHub repository.
+#    The following keys can be set:
+#       github : string or array of strings, optional
+#          GitHub usernames of up to four sponsored GitHub accounts,
+#          one of which can be a GitHub organization.
+#       custom : string or array of strings, optional
+#          URLs of up to four custom funding options.
+#       community_bridge : string, optional
+#          Name of the project on Community Bridge.
+#       issuehunt : string, optional
+#          Username of the project on IssueHunt.
+#       ko_fi : string, optional
+#          Username of the project on Ko-fi.
+#       liberapay : string, optional
+#          Username of the project on Liberapay.
+#       open_collective : string, optional
+#          Username of the project on Open Collective.
+#       otechie : string, optional
+#          Username of the project on Otechie.
+#       patreon : string, optional
+#          Username of the project on Patreon.
+#       tidelift : string, optional
+#          A string with the format <PLATFORM-NAME>/<PACKAGE-NAME>,
+#          where <PACKAGE-NAME> is the name of your package,
+#          and platform name is the name of the package manager
+#          hosting your package; it must be one of the following:
+#          "npm", "pypi", "maven", "rubygems", "nuget", "packagist".
+#          Example: "pypi/repodynamics"
+#
+# Examples
+# --------
+# - Setting author roles and assigning them to authors:
+#
+#   author:
+#     role:
+#       concept:
+#         title: Conceptualization
+#         description: Development of the initial idea for the project.
+#         abbreviation: CNCPT
+#       dev:
+#         title: Software Development
+#         description: Implementation of the project.
+#         abbreviation: DEV
+#       maint:
+#         title: Maintenance
+#         description: Maintenance of the project.
+#         abbreviation: MAINT
+#     entries:
+#       - username: ${{ owner.username }}
+#         roles: [ concept, dev, maint ]
+#       - username: RepoDynamicsBot
+#         roles: [ maint ]
+#
+# - Setting funding options:
+#
+#   funding:
+#     github: [ ${{ owner.username }}, RepoDynamicsBot ]
+#     custom: https://paypal.me/A-PAYPAL-USERNAME
+#     tideleft: pypi/${{ package.name }}
