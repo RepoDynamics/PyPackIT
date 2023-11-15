@@ -1,0 +1,142 @@
+label:
+
+  auto_group:
+    version:
+      prefix: "Version: "
+      color: "0366d6"
+
+    target:
+      prefix: "Target: "
+      color: "0366d6"
+
+  group:
+    primary_type:
+      prefix: 'Type: '
+      color: A00000
+      labels:
+        package_major:
+          suffix: 'major-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a major release of the package.
+        package_minor:
+          suffix: 'minor-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
+        package_patch:
+          suffix: 'patch-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
+        package_post:
+          suffix: 'post-release'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in a post release of the package.
+        website:
+          suffix: 'website'
+          description: |
+            Resolving/merging the labeled issue/pull-request will result in deployment of the website.
+        meta:
+          suffix: 'meta'
+          description: |
+            An issue/pull-request about the meta content of the repository.
+        package_private:
+          suffix: 'package'
+          description: |
+            An issue/pull-request about the package that does not result in a new release.
+        tests:
+          suffix: 'test'
+          description: |
+            An issue/pull-request about the test suite.
+        workflows:
+          suffix: 'ci'
+          description: |
+            An issue/pull-request about the GitHub workflows of the repository.
+
+    sub_type:
+      prefix: 'SubType: '
+      color: '0366d6'
+      labels:
+        api:
+          suffix: 'api'
+          description: |
+            Related to the public API.
+        gui:
+          suffix: 'gui'
+          description: |
+            Related to the graphical user interface.
+        cli:
+          suffix: 'cli'
+          description: |
+            Related to the command-line interface.
+        setup:
+          suffix: 'setup'
+          description: |
+              Related to package installation.
+        enhancement:
+          suffix: 'enhancement'
+          description: |
+            An enhancement to an existing feature or functionality.
+        feat:
+          suffix: 'feat'
+          description: |
+              A new feature or functionality.
+        breaking:
+          suffix: 'breaking'
+          description: |
+              A backward-incompatible change to the API.
+
+    status:
+      prefix: 'Status: '
+      color: '0366d6'
+      labels:
+        triage:
+          suffix: 'triage'
+          description: |
+            The issue/pull-request is being triaged.
+        rejected:
+          suffix: 'rejected'
+          description: |
+            The issue/pull-request has been rejected.
+        duplicate:
+          suffix: 'duplicate'
+          description: |
+            The issue/pull-request is a duplicate.
+        invalid:
+          suffix: 'invalid'
+          description: |
+            The issue/pull-request is invalid.
+        queued:
+          suffix: 'queued'
+          description: |
+            The issue/pull-request is queued for processing.
+        discuss:
+          suffix: 'discuss'
+          description: |
+            The issue/pull-request requires more discussion.
+        need_volunteer:
+          suffix: 'need-volunteer'
+          description: |
+            The issue/pull-request requires a volunteer.
+        in_dev:
+          suffix: 'in-development'
+          description: |
+            The issue/pull-request is being developed.
+        in_review:
+          suffix: 'in-review'
+          description: |
+            The issue/pull-request is being reviewed.
+        alpha:
+          suffix: 'alpha'
+          description: |
+            The issue/pull-request is in alpha release.
+        beta:
+          suffix: 'beta'
+          description: |
+            The issue/pull-request is in beta release.
+        rc:
+          suffix: 'rc'
+          description: |
+            The issue/pull-request is published as a release candidate.
+        final:
+          suffix: 'final'
+          description: |
+            The issue/pull-request has been merged into a release branch.
