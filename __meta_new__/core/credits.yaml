@@ -91,3 +91,25 @@
 #     github: [ ${{ owner.username }}, RepoDynamicsBot ]
 #     custom: https://paypal.me/A-PAYPAL-USERNAME
 #     tideleft: pypi/${{ package.name }}
+
+author:
+  role:
+    concept:
+      title: Conceptualization
+      description: Development of the initial idea for the project.
+      abbreviation: CNCPT
+    dev:
+      title: Software Development
+      description: Implementation of the project.
+      abbreviation: DEV
+    maint:
+      title: Maintenance
+      description: Maintenance of the project.
+      abbreviation: MAINT
+  entries:
+    - username: ${{ owner.username }}
+      roles: [ concept, dev, maint ]
+    - username: RepoDynamicsBot
+      roles: [ maint ]
+funding:
+  github: [ ${{ owner.username }} ]
