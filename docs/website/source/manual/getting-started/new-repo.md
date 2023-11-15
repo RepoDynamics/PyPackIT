@@ -155,5 +155,19 @@ After the workflow has completed successfully,
 you will see that a second commit has been added to your repository's default branch,
 and that it now contains only three directories: `.github`, `.meta`, and `docs`.
 
+The repository is now in the initialization phase.
+In this phase, the branch protection rules have not been applied yet,
+so you can directly make changes to the default branch and push them to the remote repository.
+The goal is to configure your repository by modifying the content of the `.meta` directory,
+until you are satisfied with the results. Open the project introduction metadata file at
+`./.meta/core/intro.md` and add a tagline, description, and some keywords and keynotes
+for your project. Commit your changes and push them to the remote repository.
+Don't worry about the commit message, as all commits will be squashed into a single commit
+at the end of the initialization phase (triggered when you push a commit with the message "init").
+
+After you have pushed your changes, the CI/CD workflow will automatically run again.
+After the workflow has completed successfully, you will see that all dynamic files and directories
+
+
 The `.meta` directory is where all the metadata and configurations for your repository and project are stored.
 
