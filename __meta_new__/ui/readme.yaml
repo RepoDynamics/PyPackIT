@@ -1,3 +1,19 @@
+# Readme Configurations
+# =====================
+# Configurations for the project's README files.
+#
+# Properties
+# ----------
+# readme : object, optional
+#    Configurations for the project's README files.
+#    ----------
+#    Properties
+#    ----------
+#    dir : object, optional
+#       Configurations for the directory README files in the repository.
+#       For each readme file, add a key-value pair where the key is the path to the directory,
+#       and the value is the content of the README file (supports MarkDown).
+
 readme:
   repo:
     header:
@@ -10,7 +26,6 @@ readme:
   dir:
     .github: |
       # GitHub Directory
-
     .github/DISCUSSION_TEMPLATE: |
       # Discussion Category Forms
       [Discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms)
@@ -25,7 +40,6 @@ readme:
       For example, the template for the "New Announcements" category should be stored in `.github/DISCUSSION_TEMPLATE/new-announcements.yml`.
       Discussion forms, like issue forms, are written in YAML, using the
       GitHub [form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema).
-
     .github/ISSUE_TEMPLATE: |
       # GitHub Issues Settings
       This directory contains templates and configurations used when an issue is opened in the repository.
@@ -53,7 +67,6 @@ readme:
 
       ## References
       - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
-
     .github/PULL_REQUEST_TEMPLATE: |
       # GitHub Pull Requests Templates
       This directory contains additional templates for pull requests.
@@ -72,7 +85,6 @@ readme:
 
       ## References
       - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
-
     .github/workflows: |
       # GitHub Actions Workflows
       This directory contains [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
@@ -107,7 +119,6 @@ readme:
 
       ## Useful Links
       - [Workflow security: `pull_request` vs `pull_request_target`](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
-
     "${{ path.dir.meta }}": |
       # Meta Directory
       This directory contains all the meta content of the repository.
@@ -122,7 +133,6 @@ readme:
       Either a dictionary, where keys are the name of the group of optional dependencies, and the values are lists of
       corresponding dependencies, or a string representing the path (from root) to a directory containing one
       txt file (named <group name>.txt) with one dependency per line, for each dependency group.
-
     "${{ path.dir.website }}": |
       # Documentation Website
 
