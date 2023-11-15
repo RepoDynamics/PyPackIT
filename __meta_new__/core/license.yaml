@@ -1,8 +1,9 @@
 # Project License and Copyright
-# -----------------------------
-# This file contains the license and copyright information for the project.
-
-
+# =============================
+# License and copyright information for the project.
+#
+# Parameters
+# ----------
 # license : object, optional
 #    License information of the project.
 #    To select one of the pre-defined licenses,
@@ -19,11 +20,6 @@
 #       BSD_3_Clause: BSD 3-Clause License
 #       BSL_v1: Boost Software License 1.0
 #       Unlicense: The Unlicense
-#
-#    Example:
-#       license:
-#          id: gnu_agpl_v3+
-#
 #    Alternatively, to use another license not listed above,
 #    set the following keys:
 #       shortname : string
@@ -36,35 +32,43 @@
 #          Short notice text of the license.
 #       trove_classifier : string, optional
 #          Trove classifier of the license.
-#
-#    Example:
-#       license:
-#          shortname: MIT
-#          fullname: MIT License
-#          text: |
-#             MIT License
-#             ===========
-#             ...
-#          notice: MIT License
-#          trove_classifier: License :: OSI Approved :: MIT License
-#
 #    Note that even when using a pre-defined license (by providing the `id` key),
 #    you can still override the full name, short name, text, notice, and trove classifier of the license,
 #    by providing the corresponding keys.
 #    To remove the license from the repository and project, delete the whole `license` key,
 #    or set it to `null`.
+# copyright : object, optional
+#    Information about the project's copyright.
+#    The following keys can be set:
+#       owner : string, default: "${{ owner.name }}"
+#          Name of the copyright owner.
+#          By default, this is dynamically set to the name of the repository owner (fetched from GitHub).
+#       start_year : integer, default: creation year of the repository
+#          Start year of the project; must be between 1980 and the current year.
+#          When not provided, it will be automatically set to the creation year of the repository.
+# Examples
+# --------
+# - Setting a pre-defined license (for example, the GNU Affero General Public License v3 or later):
+#   license:
+#      id: gnu_agpl_v3+
+# - Setting a custom license:
+#   license:
+#      shortname: MCL v1.0
+#      fullname: My Custom License 1.0
+#      text: |
+#                         My Custom License
+#                     Version 1.0, January 2024
+#               https://mywebsite.com/my-custom-license
+#         This is the full text of my custom license.
+#      notice: |
+#         Licensed under My Custom License, Version 1.0 (the "License");
+#         you may not use this file except in compliance with the License.
+#         You may obtain a copy of the License at https://mywebsite.com/my-custom-license
+# - Changing the copyright owner and start year of the project:
+#   copyright:
+#      owner: John Doe
+#      start_year: 2020
 license:
   id: gnu_agpl_v3+
-
-
-
-# copyright : object, optional
 copyright:
-  # Name of the copyright owner.
-  # By default, this is dynamically set to the name of the repository owner (fetched from GitHub):
   owner: ${{ owner.name }}
-  # Start year of the project.
-  # When not provided, it will be automatically set to the creation year of the repository.
-  # If you want to set it to a different year, you can do so by uncommenting the following line
-  # and changing the value. Note that the year must be between 1980 and the current year:
-#  year_start: 2021
