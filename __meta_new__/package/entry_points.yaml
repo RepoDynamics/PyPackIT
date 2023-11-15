@@ -1,0 +1,23 @@
+package: {}
+
+#  cli_scripts:
+#    - name: entry_point_1
+#      ref: "my_package:main"
+#      description: ""
+
+#  gui_scripts:
+#    - name: entry_point_1
+#      ref: "my_package:main"
+#      description: ""
+
+#  entry_points:
+  # Table of tables
+  #  group_1:
+  #    description: ""
+  #    entry_points:
+  #      entry_point_1:
+  #        ref: "my_package:main"
+  #        description: ""
+  #      entry_point_2:
+  #        ref: "my_package:main"
+  #        description: ""
