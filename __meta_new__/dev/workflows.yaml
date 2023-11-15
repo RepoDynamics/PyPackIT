@@ -1,0 +1,156 @@
+workflow:
+  init:
+    meta_check_action:
+      push_main: fail
+      push_release: fail
+      push_dev: commit
+      push_other: none
+      pull_main: fail
+      pull_release: fail
+      pull_dev: fail
+      pull_other: fail
+      schedule: pull
+    hooks_check_action:
+      push_main: fail
+      push_release: fail
+      push_dev: commit
+      push_other: none
+      pull_main: fail
+      pull_release: fail
+      pull_dev: fail
+      pull_other: fail
+      schedule: pull
+    schedule:
+      test: '0 0 * * 1'  # Every Monday at midnight UTC.
+      sync: '0 0 * * *'  # Every day at midnight UTC.
+
+    get_owner_publications: false
+
+  tool:
+    pylint:
+      pip_spec:
+        - pylint[spelling] >= 3.0, < 4
+    mypy:
+      pip_spec:
+        - mypy[reports] >= 1.6, < 2
+    bandit:
+      pip_spec:
+        - bandit[toml]
+        - bandit-sarif-formatter
+
+  pre_commit:
+    # pre-commit configuration file
+    # Ref: https://pre-commit.com/
+    main: &pre-commit-config
+      default_language_version:
+        python: python3
+      minimum_pre_commit_version: 3.3.3
+      repos:
+        - repo: https://github.com/pre-commit/pre-commit-hooks
+          rev: v4.4.0
+          hooks:
+            - id: check-ast
+              # https://github.com/pre-commit/pre-commit-hooks#check-ast
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-case-conflict
+              # https://github.com/pre-commit/pre-commit-hooks#check-case-conflict
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-executables-have-shebangs
+              # https://github.com/pre-commit/pre-commit-hooks#check-executables-have-shebangs
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-json
+              # https://github.com/pre-commit/pre-commit-hooks#check-json
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-shebang-scripts-are-executable
+              # https://github.com/pre-commit/pre-commit-hooks#check-shebang-scripts-are-executable
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-symlinks
+              # https://github.com/pre-commit/pre-commit-hooks#check-symlinks
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-toml
+              # https://github.com/pre-commit/pre-commit-hooks#check-toml
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-xml
+              # https://github.com/pre-commit/pre-commit-hooks#check-xml
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: check-yaml
+              # https://github.com/pre-commit/pre-commit-hooks#check-yaml
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: end-of-file-fixer
+              # https://github.com/pre-commit/pre-commit-hooks#end-of-file-fixer
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: mixed-line-ending
+              # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
+              stages: [ pre-commit, manual ]
+              verbose: true
+            - id: no-commit-to-branch
+              # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
+              stages: [ pre-commit ]
+              args: [ --branch, main, --pattern, release/.* ]
+              verbose: true
+            - id: trailing-whitespace
+              # https://github.com/pre-commit/pre-commit-hooks#trailing-whitespace
+              stages: [ pre-commit, manual ]
+              verbose: true
+#        - repo: https://github.com/astral-sh/ruff-pre-commit
+#          # Ruff version.
+#          rev: v0.1.5
+#          hooks:
+#            - id: ruff
+#              stages: [ pre-commit, manual ]
+#              args: [ --fix, --exit-non-zero-on-fix, --config, pyproject.toml ]
+#              types_or: [ python, pyi, jupyter ]
+#              verbose: true
+        - repo: https://github.com/pycqa/isort
+          # isort - format imports
+          # https://pycqa.github.io/isort/docs/configuration/pre-commit.html
+          rev: 5.12.0
+          hooks:
+            - id: isort
+              stages: [ pre-commit, manual ]
+              args: [ "--settings-path", "pyproject.toml" ]
+              verbose: true
+        - repo: https://github.com/psf/black-pre-commit-mirror
+          # Black - code formatter
+          # https://black.readthedocs.io/en/stable/integrations/source_version_control.html
+          rev: 23.9.1
+          hooks:
+            - id: black-jupyter
+              stages: [ pre-commit, manual ]
+              args: [ "--config", "pyproject.toml" ]
+              verbose: true
+    release: *pre-commit-config
+    pre_release: *pre-commit-config
+    dev: *pre-commit-config
+    other: *pre-commit-config
+
+  codecov:
+    # Codecov configuration file
+    # https://docs.codecov.com/docs/codecov-yaml
+    # https://docs.codecov.com/docs/codecovyml-reference
+
+    coverage:
+      precision: 2
+      round: nearest
+      range: "90...100"
+
+      status:
+        project:
+          default:
+            target: 100%
+            threshold: 5%
+
+    comment:
+      layout: "header, diff, flags, files"
+      require_changes: false
+      behavior: default
