@@ -1,0 +1,53 @@
+# References:
+# 1. Python Packaging User Guide by the Python Packaging Authority (PyPA):
+#    https://packaging.python.org/
+# 2. SetupTools User Guide:
+#    https://setuptools.pypa.io/
+#    https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# 3. https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
+
+
+[build-system]
+requires = ["setuptools>=61.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+
+[tool.versioningit.vcs]
+method = "git"
+match = ["${{tag.group.version.prefix}}[0-9]*.[0-9]*.[0-9]*"]
+default-tag = "${{tag.group.version.prefix}}0.0.0"
+
+[tool.versioningit.tag2version]
+rmprefix = "${{tag.group.version.prefix}}"
+
+[tool.versioningit.format]
+# The format used by versioneer
+# Ref: https://versioningit.readthedocs.io/en/stable/index.html#example-configurations
+distance = "{base_version}+{distance}-{revision}"
+dirty = "{base_version}.dirty"
+distance-dirty = "{base_version}+{distance}-{revision}.dirty"
+
+[tool.versioningit.onbuild]
+method = "replace-version"
+regex = "^\\s*__version_details__\\s*=\\s*(?P<version>.*)"
+require-match = true
+replacement = """dict(
+    version="{version}",
+    version_tuple={version_tuple},
+    author_date="{author_date:%Y.%m.%d}",
+    build_date="{build_date:%Y.%m.%d}",
+    branch="{branch}",
+    distance="{distance}",
+    head_commit_hash="{revision}",
+)"""
+source-file = "${{path.dir.source}}/${{package.name}}/__init__.py"
+build-file = "${{package.name}}/__init__.py"
