@@ -2,6 +2,7 @@
 All metadata describing your project are stored in the `core/intro.yaml` file 
 in the repository's `meta` directory.
 
+
 ## Name
 By default, that is when the `core/intro.yaml` file is not present or doesn't contain a `name` key,
 the name of the project is derived from the name of the repository, 
@@ -40,6 +41,7 @@ The project name is lowercased, with all runs of spaces, periods, underscores an
 replaced with a single hyphen.
 :::
 [^name-normalization]: [Python Packaging User Guide > PyPA specifications > Package name normalization](https://packaging.python.org/en/latest/specifications/name-normalization/)
+
 
 ## Tagline
 You can define a single-line tagline, slogan, or description of the project by adding a `tagline` key
@@ -112,15 +114,11 @@ will be omitted from the GitHub repository topics.
 
 
 ## Keynotes
-A list of keynotes about the project.
-- list of dictionaries
-- Default: []
-
-Each keynote is a dictionary with the following keys:
-- `title`: string, required\
-Title of the keynote.
-- `description`: string, required\
-Description of the keynote.
+Keynotes are bullet points that describe the main features of your project.
+They are shown in the main README file of the repository, as well as the homepage of your project's website
+and your package's PyPI homepage.
+You can add a list of keynotes by adding a `keynotes` key to the `core/intro.yaml` file. 
+Each keynote is an object with a `title` and a short `description`:
 
 :::{code-block} yaml
 :caption: 🗂 `./.meta/core/intro.yaml`
@@ -128,19 +126,24 @@ Description of the keynote.
 keynotes:
   - title: Automation
     description: >-
-      PyPackIT streamlines a remarkable portion of the process of creating,
+      ${‎{ name }} streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
       making your project development a pleasant breeze!
   - title: Synchronization
     description: >-
-      PyPackIT gathers all your project's key information and configuration in one place,
-      and dynamically updates them throughout your repository, Python package, and documentation website.
+      ${‎{ name }} gathers all your project's key information 
+      and configuration in one place,
+      and dynamically updates them throughout your repository,
+      Python package, and documentation website.
   - title: Configuration
     description: >-
-      PyPackIT elevates your project by providing full configuration for your repository,
-      Python package, and documentation website, according to the latest guidelines and best practices.
+      ${‎{ name }} elevates your project by providing 
+      full configuration for your repository,
+      Python package, and documentation website, 
+      according to the latest guidelines and best practices.
   - title: Customization
     description: >-
-      While carefully configured, PyPackIT is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs
+      While carefully configured, ${‎{ name }} is also fully customizable,
+      allowing you to tailor every aspect of your development pipeline 
+      to your specific needs.
 :::
