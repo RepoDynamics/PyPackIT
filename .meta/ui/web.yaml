@@ -37,18 +37,45 @@ web:
   announcement_retention_days: 30
 
   navbar_icons:
-    - id: pypi
-    - id: conda
-    - id: repo
-    - id: issues
-    - id: pull_requests
-    - id: discussions
-    - id: email
-    - id: license
-    - id: twitter
-    - id: linkedin
-    - id: researchgate
-    - id: orcid
+    - name: PyPI Distribution
+      icon: fa-brands fa-python
+      url: ${{ url.pypi }}
+    - name: Conda Distribution
+      icon: _static/img/icon/conda.svg
+      url: ${{ url.conda }}
+      type: local
+      attributes:
+        class: nav-link fa-conda
+    - name: Source Repository
+      icon: fa-brands fa-github
+      url: ${{ url.github.home }}
+    - name: Issues
+      icon: fa-regular fa-circle-dot
+      url: ${{ url.github.issues.home }}
+    - name: Pull Requests
+      icon: fa-solid fa-code-pull-request
+      url: ${{ url.github.pulls.home }}
+    - name: Discussions
+      icon: fa-solid fa-comments
+      url: ${{ url.github.discussions.home }}
+    - name: Email
+      icon: fa-regular fa-envelope
+      url: mailto:${{ maintainer.email.main }}
+    - name: License
+      icon: fa-solid fa-copyright
+      url: ${{ url.website.license }}
+    - name: Twitter
+      icon: fa-brands fa-twitter
+      url: ${{ owner.url.twitter }}
+    - name: LinkedIn
+      icon: fa-brands fa-linkedin
+      url: ${{ owner.url.linkedin }}
+    - name: ResearchGate
+      icon: fa-brands fa-researchgate
+      url: ${{ owner.url.researchgate }}
+    - name: ORCiD
+      icon: fa-brands fa-orcid
+      url: ${{ owner.url.orcid }}
 
   quicklinks:
     - - title: Install
