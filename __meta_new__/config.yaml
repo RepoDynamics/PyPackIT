@@ -19,6 +19,7 @@
 #             api : integer, optional, default: 1
 #                Number of days to keep the cached data retrieved from various wep APIs,
 #                such as GitHub repo/users data, software versions, publications etc.
+
 repodynamics:
   cache_retention_days:
     extensions: 1
