@@ -1,7 +1,6 @@
 # Base Configurations
 # ===================
-# This file contains the base configurations that are needed
-# during the initialization of the CI/CD pipelines.
+# Base configurations that are needed during the initialization of the CI/CD pipelines.
 # All configurations in this file have default values.
 # Therefore, if you do not need to change any of the default values,
 # you can also delete this file entirely.
