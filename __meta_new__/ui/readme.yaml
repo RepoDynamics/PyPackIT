@@ -1,0 +1,144 @@
+readme:
+
+  repo:
+    header:
+      style: "vertical"
+
+    body:
+      style: "ver"
+      sections:
+        - id: "ci"
+
+  package: {}
+
+  dir:
+    .github: |
+      # GitHub Directory
+
+    .github/DISCUSSION_TEMPLATE: |
+      # Discussion Category Forms
+      [Discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms)
+      customize the templates that are available for community members to use
+      when they open new discussions in the repository.
+      It encourages community members to include specific, structured information
+      in their discussions by using customizable web form fields.
+
+      To be recognized by GitHub, discussion category forms must be stored in the directory `/.github/DISCUSSION_TEMPLATE/`
+      (i.e. this directory). Each YAML file defines a form for a specific discussion category, indicated by the
+      filename, which must correspond with the slug for one of the discussion categories.
+      For example, the template for the "New Announcements" category should be stored in `.github/DISCUSSION_TEMPLATE/new-announcements.yml`.
+      Discussion forms, like issue forms, are written in YAML, using the
+      GitHub [form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema).
+
+    .github/ISSUE_TEMPLATE: |
+      # GitHub Issues Settings
+      This directory contains templates and configurations used when an issue is opened in the repository.
+
+      ## Templates
+      The issues templates use the GitHub's [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms)
+      to create customizable web form fields. Each `.yml` file (other than `config.yml`) provides a template for
+      a specific issue type. The issue forms use the YAML format, with a series of defined [top-level keys](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax)
+      such as `name`, `description` and `labels`, and a [body syntax](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema)
+      to define the form fields.
+
+      Any YAML file created in this directory using the specified syntax will be automatically added to the list of possible
+      issue forms that users can select from when opening a new issue in the repository.
+
+
+      ## Configurations
+      The [config.yml](../../.meta/config/issues_template_chooser.yaml) file contains the configurations for the
+      [template chooser](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser),
+      i.e. the landing page of the repository's 'Issues' section.
+
+      ### Options
+      - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.
+      - `contact_links`: An array of dictionaries, defining additional external links for opening issues.
+      These options will be displayed alongside the available templates in the 'Issues' section of the repository.
+
+      ## References
+      - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+
+    .github/PULL_REQUEST_TEMPLATE: |
+      # GitHub Pull Requests Templates
+      This directory contains additional templates for pull requests.
+
+      By default, the template defined at [./github/pull_request_template.md](./github/pull_request_template.md)
+      is used when opening a pull request. To use the extra templates in this directory,
+      the `template` [query parameter](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
+      must be added to the URL of the pull request form, defining the name of the template to use.
+      For example, to use a template file named `my_custom_template.md`, add the following query string at the end of the
+      URL: `?template=my_custom_template.md`. A full URL may e.g. look like this:
+      https://github.com/my-username/my-repo/compare/main...my-branch?template=my_custom_template.md
+
+      ## Notes
+      - Pull request template filenames are not case-sensitive, and can have an extension such as `.md` or `.txt`.
+      - The YAML syntax used for issue forms is not supported for pull requests templates.
+
+      ## References
+      - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
+
+    .github/workflows: |
+      # GitHub Actions Workflows
+      This directory contains [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
+      used in the CI/CD operations of the repository.
+
+      ## [docs_rtd_pr_preview](_docs_rtd-pr-preview.yaml)
+      https://docs.readthedocs.io/en/latest/pull-requests.html
+      https://docs.readthedocs.io/en/latest/guides/pull-requests.html
+
+      ## Releases
+      GitHub has [built-in functionality](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)
+      to automatically generate release notes.
+
+      ## Used Actions
+
+      ### setup-python
+      https://github.com/marketplace/actions/setup-python
+
+      ### setup-micromamba
+      https://github.com/mamba-org/setup-micromamba
+      replacing [provision-with-micromamba](https://github.com/mamba-org/provision-with-micromamba)
+
+      ## Syntax
+
+      ### on: schedule: cron
+      schedule : https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+      cron tasks: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07
+
+      ## References
+      - [GitHub Actions Documentation](https://docs.github.com/en/actions)
+      - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
+
+      ## Useful Links
+      - [Workflow security: `pull_request` vs `pull_request_target`](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
+
+    "${{ path.dir.meta }}": |
+      # Meta Directory
+      This directory contains all the meta content of the repository.
+
+      ## PyPI
+
+      ### dependencies
+      Either a list of dependencies, or a string representing the filepath (from root) to a txt file containing one
+      dependency per line.
+
+      ### optional_dependencies
+      Either a dictionary, where keys are the name of the group of optional dependencies, and the values are lists of
+      corresponding dependencies, or a string representing the path (from root) to a directory containing one
+      txt file (named <group name>.txt) with one dependency per line, for each dependency group.
+
+    "${{ path.dir.website }}": |
+      # Documentation Website
+
+      ## Requirements
+
+      ### sphinxext-opengraph
+      To add [Open Graph](https://ogp.me/) meta tags to each HTML page of the site.
+
+      PyPI: https://pypi.org/project/sphinxext-opengraph
+      conda-forge: https://anaconda.org/conda-forge/sphinxext-opengraph
+      GitHub: https://github.com/wpilibsuite/sphinxext-opengraph
+      Docs: https://sphinxext-opengraph.readthedocs.io/en/latest/
+
+      ### Extra Requirements
+      from 'apt': "librsvg2-bin"
