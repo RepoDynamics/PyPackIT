@@ -1,0 +1,61 @@
+# Repository Paths
+# ================
+# This file contains declarations of key paths in the repository.
+# All available configurations and their default values are listed below.
+# If you don't want to change any of the default values, you can delete this file.
+#
+# Parameters
+# ----------
+# path : object, optional
+#    Paths to files and directories in the repository.
+#    The following keys can be set:
+#       dir : object, optional
+#          Paths to directories in the repository.
+#          The following keys can be set:
+#             source : string, default: "src"
+#                Path to the source directory containing the top-level package directory.
+#             tests : string, default: "tests"
+#                Path to the test-suite directory.
+#             website : string, default: "website"
+#                Path to the website directory.
+#             local : object, optional
+#                Paths to the local directory and its subdirectories.
+#                This directory is used to store local files,
+#                such as cache files, logs and reports from various tools.
+#                It will be automatically added to the `.gitignore` file.
+#                The following keys can be set:
+#                   root : string, default: ".local"
+#                      Path to the root of the local directory.
+#                   cache : object, optional
+#                      Paths to the cache subdirectory within the local directory,
+#                      and its subdirectories.
+#                      In addition to the default keys, you can also add other
+#                      custom keys to use in your custom configurations for other tools.
+#                      The following are the default keys:
+#                         root : string, default: cache
+#                            Path to the root of the cache subdirectory.
+path:
+  dir:
+    source: src
+    tests: tests
+    website: docs/website
+    local:
+      root: .local
+      cache:
+        root: cache
+        repodynamics: repodynamics
+        coverage: coverage
+        mypy: mypy
+        pylint: pylint
+        pytest: pytest
+        ruff: ruff
+      report:
+        # Name of the report directory:
+        root: report
+        # Paths to subdirectories in the report directory:
+        repodynamics: repodynamics
+        coverage: coverage
+        mypy: mypy
+        pylint: pylint
+        pytest: pytest
+        ruff: ruff
