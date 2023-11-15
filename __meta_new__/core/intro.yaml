@@ -1,0 +1,75 @@
+# Project Introduction
+# --------------------
+# This file contains descriptors for the project.
+
+
+# name : string, optional, default: derived from repository name
+#    Name of the project.
+#    By default (i.e., when the `name` key is not present or set to an empty string),
+#    the name of the project is derived from the name of the repository,
+#    by replacing all hyphens with spaces.
+name: ""
+
+
+# tagline : string, optional
+#    A short description, or slogan of the project.
+tagline: >-
+  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+
+
+# description : string, optional
+#    A long description of the project.
+description: >-
+  ${{ name }} is a free and open-source toolkit
+  <b>empowering the development of open-source Python projects on GitHub</b>.
+  It is a <b>dynamic repository template</b> that provides a complete, professional, and
+  robust infrastructure for your project, where the only thing missing is your code.
+  With ${{ name }}, you can solely focus on what truly matters:
+  implementing your ideas and bringing your vision to life!
+
+
+# keywords : array of strings, optional
+keywords:
+  - python
+  - github
+  - packaging
+  - template
+  - dynamic repository
+  - repository template
+  - documentation
+  - testing
+  - deployment
+  - maintenance
+  - automation
+  - development
+  - infrastructure
+  - streamline
+
+
+# keynotes : array of objects, optional
+keynotes:
+  - title: Automation
+    description: >-
+      ${{ name }} streamlines a remarkable portion of the process of creating,
+      documenting, testing, publishing, and maintaining Python packages,
+      making your project development a pleasant breeze!
+  - title: Synchronization
+    description: >-
+      ${{ name }} gathers all your project's key information and configuration in one place,
+      and dynamically updates them throughout your repository, Python package, and documentation website.
+  - title: Configuration
+    description: >-
+      ${{ name }} elevates your project by providing full configuration for your repository,
+      Python package, and documentation website, according to the latest guidelines and best practices.
+  - title: Customization
+    description: >-
+      While carefully configured, ${{ name }} is also fully customizable,
+      allowing you to tailor every aspect of your development pipeline to your specific needs
+  - title: Documentation
+    description: >-
+      ${{ name }} comes with a professional website for your project, that is easily
+      customizable, and automatically generated and deployed on your preferred platform.
+  - title: Production
+    description: >-
+      With ${{ name }}, the only remaining step to publishing a production-ready
+      Python project is adding your code, unit-tests and documentation content.
