@@ -6,16 +6,19 @@
 # ----------
 # web : object, optional
 #    Configurations for the project's website.
+#    ----------
 #    Properties
 #    ----------
 #    analytics : object, optional
 #       Configurations of web analytics services.
+#       ----------
 #       Properties
 #       ----------
 #       google_id : string, optional
 #          Google Analytics ID.
 #       plausible : object, optional
 #          Plausible Analytics data.
+#          ----------
 #          Properties
 #          ----------
 #          domain : string
