@@ -27,7 +27,7 @@ These include:
   [PyPI](https://pypi.org/) and [TestPyPI](https://test.pypi.org/) platforms.
 - Generating release notes, updating changelogs, and creating
   [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases),
-  blog posts and website announcements for each package release. 
+  blog posts and website announcements for each package release.
 - Building and deploying your website to [GitHub Pages](https://pages.github.com/).
 - Managing and updating your [GitHub repository's settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features)
   and various features, such as
@@ -37,7 +37,7 @@ These include:
   [topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics),
   [funding options](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository),
   [social media preview](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview),
-  
+
 - Adding and dynamically updating various GitHub configuration files, such as
   [README files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes),
   [license files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository),
@@ -46,7 +46,7 @@ These include:
   [pull request templates](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-issue-and-pull-request-templates),
   [code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners),
   [citation files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files),
-  
+
   [pre-commit hooks](https://pre-commit.com/),
   and [many more](#../manual/usage/meta.md#meta-files).
 
