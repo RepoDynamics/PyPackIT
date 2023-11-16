@@ -142,6 +142,7 @@ or [log in to your existing account](https://pypi.org/account/login/).
 4. Do the same in your [TestPyPI](https://test.pypi.org/manage/account/publishing/) account,
    only this time under `Environment name`, enter `TestPyPI`.
 
+
 ## Configure Your New Repository
 Going back to your new repository, you should see that 
 the workflow has completed successfully (with a green checkmark).
@@ -151,23 +152,70 @@ re-run it by clicking on the `Re-run all jobs` button.
 ${{ pp_meta.name }} will also generate job reports and extensive logs for each workflow run,
 which can be investigated in case of a failure or unexpected behavior.
 
-After the workflow has completed successfully, 
+After the workflow completed successfully, 
 you will see that a second commit has been added to your repository's default branch,
 and that it now contains only three directories: `.github`, `.meta`, and `docs`.
-
 The repository is now in the initialization phase.
 In this phase, the branch protection rules have not been applied yet,
 so you can directly make changes to the default branch and push them to the remote repository.
+You also don't have to worry about the commit messages in this phase, 
+as all commits will be squashed into a single commit at the end of the initialization phase
+(triggered when you push a commit with the message "init").
 The goal is to configure your repository by modifying the content of the `.meta` directory,
-until you are satisfied with the results. Open the project introduction metadata file at
-`./.meta/core/intro.md` and add a tagline, description, and some keywords and keynotes
-for your project. Commit your changes and push them to the remote repository.
-Don't worry about the commit message, as all commits will be squashed into a single commit
-at the end of the initialization phase (triggered when you push a commit with the message "init").
+until you are satisfied with the results.
 
-After you have pushed your changes, the CI/CD workflow will automatically run again.
-After the workflow has completed successfully, you will see that all dynamic files and directories
+All available meta contents are already provided in the `.meta` directory,
+where all general configurations and settings are set to sensible default values.
+Therefore, as the first step, you only need to add some basic information about your project,
+and provide some project-specific configurations:
+
+- Open the project introduction metadata file at
+  `./.meta/core/intro.yaml` and add a tagline, description, and some keywords and keynotes
+  for your project.
+- Open the project theme metadata file at `./.meta/ui/theme.yaml` and add the colors for your project.
+- Open the logo directory at `./.meta/ui/logo` and add your project's logos.
+- By default, the [GNU Affero General Public License v3 or later] is selected as the license for your project.
+  If you want to use a different license, modify the license metadata file at `./.meta/core/license.yaml`
+  to select a different pre-defined license or provide your own custom license.
+- If you want to add multiple authors
+  (by default, the repository owner is added automatically as the only author),
+  or want to add funding options to your project,
+  open the project credits metadata file at `./.meta/core/credits.yaml` and add the corresponding information.
+- By default, the repository owner is set as the only maintainer for all issues, pull requests,
+  and discussions, and their email address (read from their GitHub account) is set as 
+  the contact email address for the project.
+  You can change these in the project maintainers metadata file at `./.meta/dev/maintainers.yaml`.
+
+After you have committed and pushed your changes, the CI/CD workflow will automatically run again.
+During the initialization phase, the workflow will perform the following tasks on each push:
+- Update all dynamics directories and files, according to the `meta` content.
+- Update the repository's general info and settings, according to the `repo.config` specifications
+  in the `./.meta/dev/repo.yaml` file.
+  This includes the repository's description, website URL, and topics (keywords),
+  which are displayed under the `About` section of the repository's homepage on GitHub, along with
+  security settings such as secret scanning, vulnerability alerts, automated security fixes,
+  and private security advisories, as well as enabling/disabling different GitHub features
+  such as issues, discussions, projects, and wiki.
+  Note that issues, squash merges, and the ability of GitHub Actions to create and approve pull requests 
+  are always automatically enabled by {{pp_meta.name}}, since they are required for its functionalities.
+- Update the repository's labels, according to the specifications in the `./.meta/dev/labels.yaml` file.
+- Activate the repository's GitHub Pages if necessary, update its custom URL
+  if specified in the `web.base_url` specification of the `./.meta/ui/web.yaml` file,
+  and deploy the website to GitHub Pages.
+- Update the name of the repository's default branch, according to the `branch.default.name` specification
+  in the `./.meta/dev/branches.yaml` file.
 
 
-The `.meta` directory is where all the metadata and configurations for your repository and project are stored.
+## Initialize Your Project
+After you feel satisfied with the results, you can initialize your project by pushing a commit
+with the message "init" to the default branch of your repository.
+This will signal the end of the initialization phase, and will trigger the following tasks
+(after running the tasks in the initialization phase for one last time):
+- Squash all commits in the default branch into a single commit.
+- Tag the commit with the version number `0.0.0`.
+- Publish your package to PyPI and TestPyPI.
+- Apply the branch protection rules to all branches.
 
+After the workflow completes, your repository is now fully initialized and in its normal state.
+From this point on, you must follow the development cycle of {{pp_meta.name}}
+to make changes to your repository.
