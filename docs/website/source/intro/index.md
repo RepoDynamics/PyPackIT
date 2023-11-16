@@ -57,6 +57,6 @@ These include:
   [security policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository),
   [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project),
   and governance policy.
-  
+
 
 A prominent feature of {{ pp_meta.name }} is the centralized control center it provides;
