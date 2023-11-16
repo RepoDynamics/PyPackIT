@@ -4,4 +4,5 @@
 :hidden:
 
 concepts
+repo-structure
 :::
