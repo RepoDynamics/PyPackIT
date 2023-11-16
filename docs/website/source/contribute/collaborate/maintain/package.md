@@ -66,22 +66,6 @@ ahead from the last tag, and then `-YYYYYY` where the `Y`'s are replaced with th
 
 ## Build
 
-### Conda
-Conda packages are built with [conda-build](https://docs.conda.io/projects/conda-build/),
-using instructions that are mostly defined in a single YAML file named
-[meta.yaml](https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html).
-The YAML file can be created [from scratch](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs.html)
-, or with help of other utilities, such as [conda skeleton](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs-skeleton.html)
-. After build, the package distribution can be
-[uploaded](https://docs.anaconda.com/free/anacondaorg/user-guide/tasks/work-with-packages/#uploading-packages)
-on an Anaconda channel. While this may be done on a [personal channel](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/create-custom-channels.html)
-, this complicates the installation process for users as they now have to specify the channel as well.
-A more convenient alternative is to publish the package on the [conda-forge](https://conda-forge.org/) channel.
-This requires following the [instructions](https://conda-forge.org/docs/maintainer/adding_pkgs.html).
-
-
-
-
 ## Publishing
 References:
 [Python Packaging User Guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/)
@@ -93,19 +77,6 @@ to build multiple wheels on a matrix of OS and Python versions. This is only don
 Then, we use the [pypi-publish](https://github.com/marketplace/actions/pypi-publish) GitHub action,
 to publish the package on PyPI and TestPyPI, using trusted publishing.
 
-
-### Setting Up PyPI and TestPyPI
-
-Workflows use [trusted publishing](https://docs.pypi.org/trusted-publishers/) to automatically
-publish the package on TestPyPI and PyPI.
-
-### PyPI
-
-1. [Register](https://pypi.org/account/register/) an account on [PyPI](https://pypi.org/),
-   or [log in](https://pypi.org/account/login/) to your existing account
-2. Open the [Publishing](https://pypi.org/manage/account/publishing/) section.
-3. Go to 'Add a new pending publisher' and add the package data
-   (see [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/) for more info).
 
 #### Description
 The project description shown on PyPI is defined in pyproject.toml, under the \[project] table.
