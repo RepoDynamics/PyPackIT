@@ -29,7 +29,7 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃ ┣ 📄 <a href="dev/issues" title="Issues">issues.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="dev/labels" title="Labels">labels.yaml</a>
- ┃ ┃ 
+ ┃ ┃
  ┃ ┣ 📄 <a href="dev/maintainers" title="Maintainers">maintainers.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="dev/pulls" title="Pull Requests">pulls.yaml</a>
@@ -97,7 +97,7 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃ ┣ 📄 <a href="ui/theme" title="Theme">theme.yaml</a>
  ┃ ┃
  ┃ ┗ 📄 <a href="ui/web" title="Website">web.yaml</a>
- ┃ 
+ ┃
  ┣ 📄 <a href="config" title="Base Configurations">config.yaml</a>
  ┃
  ┣ 📄 <a href="extensions" title="Meta Extensions">extensions.yaml</a>
