@@ -11,39 +11,33 @@
 	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/index">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=4EA020" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=4FA11F" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=115300" media="(prefers-color-scheme: light)">
 		<img alt="Manual" title="Manual" height="35px" src="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=115300">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/api/index">
-	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=API&style=for-the-badge&color=58A51C" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=API&style=for-the-badge&color=0F5301" media="(prefers-color-scheme: light)">
-		<img alt="API" title="API" height="35px" src="https://img.shields.io/static/v1?label=&message=API&style=for-the-badge&color=0F5301">
-	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/news/index">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=62AB18" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=0E5201" media="(prefers-color-scheme: light)">
-		<img alt="News" title="News" height="35px" src="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=0E5201">
+		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=5AA71B" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=0F5301" media="(prefers-color-scheme: light)">
+		<img alt="News" title="News" height="35px" src="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=0F5301">
 	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/contribute/index">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=6BB014" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=0C5202" media="(prefers-color-scheme: light)">
-		<img alt="Contribute" title="Contribute" height="35px" src="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=0C5202">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=65AD16" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=0D5201" media="(prefers-color-scheme: light)">
+		<img alt="Contribute" title="Contribute" height="35px" src="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=0D5201">
 	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/about/index">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=75B610" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0B5102" media="(prefers-color-scheme: light)">
-		<img alt="About" title="About" height="35px" src="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0B5102">
+		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=70B312" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0C5202" media="(prefers-color-scheme: light)">
+		<img alt="About" title="About" height="35px" src="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0C5202">
 	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/help/index">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=7FBB0C" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=095103" media="(prefers-color-scheme: light)">
-		<img alt="Help" title="Help" height="35px" src="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=095103">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=7BB90D" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=0A5103" media="(prefers-color-scheme: light)">
+		<img alt="Help" title="Help" height="35px" src="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=0A5103">
 	</picture>
 </a>
 <hr width="100%"></div>
@@ -91,13 +85,13 @@
 <div align="center"><hr width="100%">
 <a href="https://repodynamics.github.io/PyPackIT/manual/install">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=88C108" media="(prefers-color-scheme: dark)">
-		<source srcset="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=085003" media="(prefers-color-scheme: light)">
-		<img alt="Install" title="Install" height="35px" src="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=085003">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=86BF09" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=085103" media="(prefers-color-scheme: light)">
+		<img alt="Install" title="Install" height="35px" src="https://img.shields.io/static/v1?label=&message=Install&style=for-the-badge&color=085103">
 	</picture>
 </a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/news/category/release">
 	<picture>
-		<source srcset="https://img.shields.io/static/v1?label=&message=Releases&style=for-the-badge&color=92C604" media="(prefers-color-scheme: dark)">
+		<source srcset="https://img.shields.io/static/v1?label=&message=Releases&style=for-the-badge&color=91C504" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Releases&style=for-the-badge&color=065004" media="(prefers-color-scheme: light)">
 		<img alt="Releases" title="Releases" height="35px" src="https://img.shields.io/static/v1?label=&message=Releases&style=for-the-badge&color=065004">
 	</picture>

@@ -9,7 +9,7 @@ discussions__RepoDynamics/PyPackIT:
   - {id: DIC_kwDOJi8gRs4CWomt, name: Release, slug: release}
   - {id: DIC_kwDOJi8gRs4CWomx, name: Show and tell, slug: show-and-tell}
   - {id: DIC_kwDOJi8gRs4CXp_t, name: Usage, slug: usage}
-  timestamp: '2023_11_13_04_39_14'
+  timestamp: '2023_11_16_03_42_42'
 doi_10.1039/d2sc03130b:
   data: &id001
     abstract: Combinatorial detergent synthesis permits access to an unexplored part
@@ -316,7 +316,7 @@ python_versions:
   - [3, 11, 5]
   - [3, 11, 6]
   - [3, 12, 0]
-  timestamp: '2023_11_13_04_39_16'
+  timestamp: '2023_11_16_03_42_45'
 repo__aariam_templaterepo_source:
   data: {created_at: '2023-05-14T17:39:52Z', default_branch: main, full_name: AAriam/TemplateRepo,
     html_url: 'https://github.com/AAriam/TemplateRepo', id: 640622662, name: TemplateRepo,
@@ -326,7 +326,7 @@ repo__repodynamics_pypackit_source:
   data: {created_at: '2023-05-14T17:39:52Z', default_branch: main, full_name: RepoDynamics/PyPackIT,
     html_url: 'https://github.com/RepoDynamics/PyPackIT', id: 640622662, name: PyPackIT,
     node_id: R_kgDOJi8gRg, owner: RepoDynamics}
-  timestamp: '2023_11_13_04_39_14'
+  timestamp: '2023_11_16_03_42_42'
 user__aariam:
   data:
     avatar_url: https://avatars.githubusercontent.com/u/80158628?v=4
@@ -362,4 +362,4 @@ user__repodynamics:
     url: {github: 'https://github.com/RepoDynamics', twitter: 'https://twitter.com/Al___Chemist',
       website: 'https://repodynamics.github.io'}
     username: repodynamics
-  timestamp: '2023_11_13_04_39_14'
+  timestamp: '2023_11_16_03_42_42'
