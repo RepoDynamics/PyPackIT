@@ -76,7 +76,7 @@ These include:
   and settings for various tools such as
   [versioningit](https://versioningit.readthedocs.io/en/stable/)
   (for automatic version determination based on repository tags),
-  [Ruff](https://docs.astral.sh/ruff/), [Mypy](https://mypy.readthedocs.io), 
+  [Ruff](https://docs.astral.sh/ruff/), [Mypy](https://mypy.readthedocs.io),
   [Pylint](https://pylint.readthedocs.io/), [black](https://black.readthedocs.io)
   and [isort](https://pycqa.github.io/isort/) (for code linting and formatting),
   and [pytest](https://docs.pytest.org/) and [coverage.py](https://coverage.readthedocs.io/) (for testing and code coverage).
@@ -85,7 +85,7 @@ These include:
 Another prominent feature of {{ pp_meta.name }} is the centralized control center it provides;
 all metadata, configurations, and settings required for the above tasks are thoughtfully structured
 and gathered in one place, under a single directory in your repository, called the `meta` directory.
-When you apply a change to the repository's `meta` content, {{ pp_meta.name }} will automatically 
+When you apply a change to the repository's `meta` content, {{ pp_meta.name }} will automatically
 apply the corresponding changes to the entire repository and its contents, and update all relevant files,
 configurations, and settings accordingly. Therefore, besides your source code, unit tests, and documentation content,
 all other aspects of your project are automatically managed by {{ pp_meta.name }} according to your specifications
@@ -104,7 +104,7 @@ by fetching additional information from external sources.
 For example:
 - Name and the owner of the repository are automatically detected, and their full information
   is retrieved from the [GitHub API](https://docs.github.com/en/rest?apiVersion=2022-11-28).
-- Information on the repository owner and all specified authors and maintainers, 
+- Information on the repository owner and all specified authors and maintainers,
   such as full name, email, bio, profile picture, affiliation, and linked social accounts,
   is fetched from the GitHub API.
 - If the owner specifies their [ORCiD](https://orcid.org/) ID in their GitHub profile,
