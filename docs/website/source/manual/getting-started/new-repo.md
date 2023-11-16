@@ -119,7 +119,7 @@ access to `Read and write`.
 8. Under the `Security` section on the left menu, click on `Secrets and variables`, and select `Actions`.
 9. On the `Secrets` tab, click on the {bdg-success}`New repository secret` button.
 10. In the `Name` field, enter `REPO_ADMIN_TOKEN`,
-paste the token you copied in step 6 into the `Secret` field, 
+paste the token you copied in step 6 into the `Secret` field,
 and click on the {bdg-success}`Add secret` button.
 
 :::{admonition} For organization-owned repositories
@@ -155,21 +155,21 @@ or [log in to your existing account](https://pypi.org/account/login/).
 
 
 ## Configure Your New Repository
-Going back to your new repository, you should see that 
+Going back to your new repository, you should see that
 the workflow has completed successfully (with a green checkmark).
-If it is still running, wait for it to complete. 
+If it is still running, wait for it to complete.
 Otherwise, if the workflow has failed (commonly due to an internal GitHub error),
 re-run it by clicking on the `Re-run all jobs` button.
 ${{ pp_meta.name }} will also generate job reports and extensive logs for each workflow run,
 which can be investigated in case of a failure or unexpected behavior.
 
-After the workflow completed successfully, 
+After the workflow completed successfully,
 you will see that a second commit has been added to your repository's default branch,
 and that it now contains only three directories: `.github`, `.meta`, and `docs`.
 The repository is now in the initialization phase.
 In this phase, the branch protection rules have not been applied yet,
 so you can directly make changes to the default branch and push them to the remote repository.
-You also don't have to worry about the commit messages in this phase, 
+You also don't have to worry about the commit messages in this phase,
 as all commits will be squashed into a single commit at the end of the initialization phase
 (triggered when you push a commit with the message "init").
 The goal is to configure your repository by modifying the content of the `.meta` directory,
@@ -193,7 +193,7 @@ and provide some project-specific configurations:
   or want to add funding options to your project,
   open the project credits metadata file at `./.meta/core/credits.yaml` and add the corresponding information.
 - By default, the repository owner is set as the only maintainer for all issues, pull requests,
-  and discussions, and their email address (read from their GitHub account) is set as 
+  and discussions, and their email address (read from their GitHub account) is set as
   the contact email address for the project.
   You can change these in the project maintainers metadata file at `./.meta/dev/maintainers.yaml`.
 
@@ -207,7 +207,7 @@ During the initialization phase, the workflow will perform the following tasks o
   security settings such as secret scanning, vulnerability alerts, automated security fixes,
   and private security advisories, as well as enabling/disabling different GitHub features
   such as issues, discussions, projects, and wiki.
-  Note that issues, squash merges, and the ability of GitHub Actions to create and approve pull requests 
+  Note that issues, squash merges, and the ability of GitHub Actions to create and approve pull requests
   are always automatically enabled by {{pp_meta.name}}, since they are required for its functionalities.
 - Update the repository's labels, according to the specifications in the `./.meta/dev/labels.yaml` file.
 - Activate the repository's GitHub Pages if necessary, update its custom URL
