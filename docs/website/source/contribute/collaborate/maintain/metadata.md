@@ -3,25 +3,10 @@
 ## General Data
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### `license_id`
 - string, optional, default: `null`
 
 Identifier of the license under which the project is distributed.
-
-
 
 ### `authors`
 - list of dictionaries, optional, default: `null`
@@ -33,7 +18,6 @@ Each author is represented by a dictionary with two keys:
 GitHub username of the author.
 - `roles`: list of strings, optional, default: `null`\
 Roles of the author in the project.
-
 
 ### `email`
 - dictionary of strings
@@ -48,7 +32,6 @@ Email address for reporting security vulnerabilities.
 Email address for support.
 - `code_of_conduct`: string, optional, default: `main`\
 Email address for reporting code of conduct violations.
-
 
 ## Repository Settings
 
