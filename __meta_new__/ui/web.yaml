@@ -77,18 +77,18 @@ web:
     - name: License
       icon: fa-solid fa-copyright
       url: ${{ url.website.license }}
-    - name: Twitter
-      icon: fa-brands fa-twitter
-      url: ${{ owner.url.twitter }}
-    - name: LinkedIn
-      icon: fa-brands fa-linkedin
-      url: ${{ owner.url.linkedin }}
-    - name: ResearchGate
-      icon: fa-brands fa-researchgate
-      url: ${{ owner.url.researchgate }}
-    - name: ORCiD
-      icon: fa-brands fa-orcid
-      url: ${{ owner.url.orcid }}
+#    - name: Twitter
+#      icon: fa-brands fa-twitter
+#      url: ${{ owner.url.twitter }}
+#    - name: LinkedIn
+#      icon: fa-brands fa-linkedin
+#      url: ${{ owner.url.linkedin }}
+#    - name: ResearchGate
+#      icon: fa-brands fa-researchgate
+#      url: ${{ owner.url.researchgate }}
+#    - name: ORCiD
+#      icon: fa-brands fa-orcid
+#      url: ${{ owner.url.orcid }}
   path:
     contact: 'help/contact'
     news: 'news'
