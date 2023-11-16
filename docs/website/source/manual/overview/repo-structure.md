@@ -12,7 +12,7 @@ such as issue-, discussion-, and pull request templates.
 
 When a repository is first initialized from the {{pp_meta.name}} template,
 the `./.github` directory will only contain workflow files.
-These are configurations that define the continuous integration and delivery (CI/CD) 
+These are configurations that define the continuous integration and delivery (CI/CD)
 pipelines of the repository, allowing the whole development and maintenance process of your project
 to be automatically managed by {{pp_meta.name}}.
 In general, you should never modify these files directly, since all configurations and data that
@@ -20,8 +20,8 @@ are specific to each project are read automatically from the repository's `meta`
 The only exception is when you want to add a new feature/functionality to your pipelines,
 which is not covered by {{pp_meta.name}} and is completely orthogonal to its functionalities.
 
-After the repository is configured, a number of other files and directories 
-will also be automatically added to the `./.github` directory, 
+After the repository is configured, a number of other files and directories
+will also be automatically added to the `./.github` directory,
 including issue-, discussion-, and pull request templates, and other GitHub configuration files.
 {{pp_meta.name}} also uses the `./.github` directory to store some of its own data and settings,
 as well as configuration files for other external tools that are used by {{pp_meta.name}}.
@@ -57,7 +57,7 @@ instead, {{pp_meta.name}} will automatically rename it for you
 when you change the package name in the `meta` content. {{pp_meta.name}} will also automatically
 update all import statements in your source code to reflect the new package name.
 
-In addition, the `source` directory must always be placed at the root of the repository, 
+In addition, the `source` directory must always be placed at the root of the repository,
 but you can change its name via the `meta` content.
 When the repository is first initialized, {{pp_meta.name}} will automatically create the `source` directory
 (default: `src`) and the top-level package directory, along with the top-level `__init__.py` file.
