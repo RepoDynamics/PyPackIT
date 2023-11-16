@@ -126,7 +126,12 @@ at https://github.com/organizations/YOUR-ORGANIZATION-NAME/settings/actions.
 :::
 
 
-## Activate PyPI and TestPyPI Publishing
+## Activate PyPI and TestPyPI Trusted Publishing
+
+Workflows use [trusted publishing](https://docs.pypi.org/trusted-publishers/) to automatically
+publish the package on TestPyPI and PyPI.
+(see [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/) for more info)
+
 1. [Create an account on PyPI](https://pypi.org/account/register/)
 or [log in to your existing account](https://pypi.org/account/login/).
 2. Navigate to the [Publishing](https://pypi.org/manage/account/publishing/) section of your account.
