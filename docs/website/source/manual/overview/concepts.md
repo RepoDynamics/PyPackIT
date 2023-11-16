@@ -4,7 +4,7 @@
 ## Brnach Types
 {{ pp_meta.name }} categorizes each branch of your repository into one of the following five types:
 - **Release**: Release branches are the publication source for the different major versions of your package.
-- **Pre-release**: Pre-release branches are transient branches that are 
+- **Pre-release**: Pre-release branches are transient branches that are
   the publication source for pre-release versions of your package, before they are merged into
   a release branch and published as a final release.
 - **Development**: Development branches are created from a release branch,
@@ -70,6 +70,6 @@ using the commit messages of the secondary custom commits.
 ## Label Types
 {{ pp_meta.name }} uses GitHub labels to categorize issues and pull requests.
 This not only helps the maintainers to organize and prioritize their work,
-but also allows {{ pp_meta.name }} to automatically manage 
+but also allows {{ pp_meta.name }} to automatically manage
 the development and maintenance process of your project.
 {{ pp_meta.name }} uses the following labels to categorize issues and pull requests:
