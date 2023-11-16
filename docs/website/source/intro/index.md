@@ -28,7 +28,13 @@ These include:
 - Generating release notes, updating changelogs, and creating
   [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases),
   blog posts and website announcements for each package release.
-- Building and deploying your website to [GitHub Pages](https://pages.github.com/).
+- Updating, building and deploying your website to [GitHub Pages](https://pages.github.com/).
+- Processing and managing your project's
+  [issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues),
+  [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests),
+  [branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches),
+  [tags and releases](https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags),
+  [discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions) etc.
 - Managing and updating your [GitHub repository's settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features)
   and various features, such as
   [security analysis](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository),
@@ -37,18 +43,20 @@ These include:
   [topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics),
   [funding options](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository),
   [social media preview](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview),
-
 - Adding and dynamically updating various GitHub configuration files, such as
   [README files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes),
   [license files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository),
-  [issue templates](https://docs.github.com/en/issues/using-templates-for-issues-and-pull-requests/about-issue-and-pull-request-templates),
-  [discussion templates](https://docs.github.com/en/discussions/setting-up-and-managing-discussions/configuring-a-discussions-template-for-your-repository),
-  [pull request templates](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-issue-and-pull-request-templates),
+  [issue templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates#issue-templates),
+  [discussion templates](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms),
+  [pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates#pull-request-templates),
   [code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners),
   [citation files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files),
-
-  [pre-commit hooks](https://pre-commit.com/),
-  and [many more](#../manual/usage/meta.md#meta-files).
-
+  and other [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+  such as [code of conduct](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project),
+  [contributing guidelines](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors),
+  [security policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository),
+  [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project),
+  and governance policy.
+  
 
 A prominent feature of {{ pp_meta.name }} is the centralized control center it provides;
