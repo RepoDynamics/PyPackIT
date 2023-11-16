@@ -9,7 +9,6 @@ html_theme.sidebar_secondary.remove:
 :numbered:
 intro/index
 manual/index
-api/index
 news/index
 contribute/index
 about/index
