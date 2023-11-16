@@ -15,7 +15,7 @@
 #       Declarations of author roles.
 #       For each role, you must add a key-value pair to this object,
 #       where the key is the ID of the role (to reference in other places),
-#       and the value is an object:
+#       and the value is an object with the following properties:
 #       ----------
 #       Properties
 #       ----------
@@ -28,7 +28,7 @@
 #    entries : array of objects, default: [ "${{ owner.username }}" ]
 #       List of authors, in order of contribution.
 #       If not provided, the repository owner will be automatically added as the only author.
-#       Each element of the list must be an object:
+#       Each element of the list must be an object with the following properties:
 #       ----------
 #       Properties
 #       ----------
@@ -99,25 +99,3 @@
 #      github: [ ${{ owner.username }}, RepoDynamicsBot ]
 #      custom: https://paypal.me/A-PAYPAL-USERNAME
 #      tideleft: pypi/${{ package.name }}
-
-author:
-  role:
-    concept:
-      title: Conceptualization
-      description: Development of the initial idea for the project.
-      abbreviation: CNCPT
-    dev:
-      title: Software Development
-      description: Implementation of the project.
-      abbreviation: DEV
-    maint:
-      title: Maintenance
-      description: Maintenance of the project.
-      abbreviation: MAINT
-  entries:
-    - username: ${{ owner.username }}
-      roles: [ concept, dev, maint ]
-    - username: RepoDynamicsBot
-      roles: [ maint ]
-funding:
-  github: [ ${{ owner.username }} ]
