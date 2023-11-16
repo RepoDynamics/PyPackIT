@@ -2,6 +2,12 @@
 
 
 ## Create a New Repository From {{pp_meta.name}} Template
+
+The first step is to create a new repository from the {{pp_meta.name}} template repository.
+To do so, follow these steps (see also the corresponding
+[GitHub documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
+):
+
 1. Sign in to your [GitHub](https://github.com) account, and navigate to the
 {{ '[{} GitHub repository]({})'.format(pp_meta.name, pp_meta.url.github.home) }}.
 2. Click on the {bdg-success}`Use this template` button and select the
