@@ -4,14 +4,22 @@
     text-align: justify;
 }
 
-.bd-content {
-  flex-grow: 1;
-  max-width: 100%;
+/*.bd-content {*/
+/*  flex-grow: 1;*/
+/*  max-width: 100%;*/
+/*}*/
+
+/*.bd-article-container {*/
+/*  max-width: 100em;*/
+/*}*/
+
+.bd-main .bd-content .bd-article-container {
+  max-width: 100%;  /* default is 60em */
+}
+.bd-page-width {
+  max-width: 90%;  /* default is 88rem */
 }
 
-.bd-article-container {
-  max-width: 100em;
-}
 
 /* Style class for the short description shown on homepage XXX */
 .one-liner {
