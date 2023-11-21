@@ -18,27 +18,27 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃
  ┣ 🗂 <a href="dev" title="Development Configurations">dev</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/branches" title="Branches">branches.yaml</a>
+ ┃ ┣ 📄 <a href="dev/branches" title="Branches">branch.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/changelogs" title="Changelogs">changelogs.yaml</a>
+ ┃ ┣ 📄 <a href="dev/changelogs" title="Changelogs">changelog.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/commits" title="Commits">commits.yaml</a>
+ ┃ ┣ 📄 <a href="dev/commits" title="Commits">commit.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/discussions" title="Discussions">discussions.yaml</a>
+ ┃ ┣ 📄 <a href="dev/discussions" title="Discussions">discussion.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/issues" title="Issues">issues.yaml</a>
+ ┃ ┣ 📄 <a href="dev/issues" title="Issues">issue.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/labels" title="Labels">labels.yaml</a>
+ ┃ ┣ 📄 <a href="dev/labels" title="Labels">label.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/maintainers" title="Maintainers">maintainers.yaml</a>
+ ┃ ┣ 📄 <a href="dev/maintainers" title="Maintainers">maintainer.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/pulls" title="Pull Requests">pulls.yaml</a>
+ ┃ ┣ 📄 <a href="dev/pulls" title="Pull Requests">pull.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="dev/repo" title="Repository">repo.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/tags" title="Tags">tags.yaml</a>
+ ┃ ┣ 📄 <a href="dev/tags" title="Tags">tag.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="dev/workflows" title="Workflows">workflows.yaml</a>
+ ┃ ┗ 📄 <a href="dev/workflows" title="Workflows">workflow.yaml</a>
  ┃
  ┣ 🗂 <a href="package" title="Package">package</a>
  ┃ ┃
@@ -90,7 +90,7 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃ ┃ ┃
  ┃ ┃ ┗ 📄 <a href="" title="">simple_light.svg</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="ui/health_files" title="Health Files">health_files.yaml</a>
+ ┃ ┣ 📄 <a href="ui/health_files" title="Health Files">health_file.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="ui/readme" title="Readme Files">readme.yaml</a>
  ┃ ┃
@@ -102,14 +102,14 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃
  ┣ 📄 <a href="extensions" title="Meta Extensions">extensions.yaml</a>
  ┃
- ┗ 📄 <a href="paths" title="Repository Paths">paths.yaml</a>
+ ┗ 📄 <a href="path" title="Repository Paths">path.yaml</a>
 </pre>
 
 
 :::{toctree}
 :hidden:
 
-paths
+path
 extensions
 config
 core/index
