@@ -1,23 +1,26 @@
 # Base Configurations
 
 :::::{tab-set}
-
 ::::{tab-item} Info
-Content 1
+- **Relative Path**: `{{ pp_meta.custom.meta[docname].path }}`
+- **Pre-configured**: {{ pp_meta.custom.meta[docname].pre_config }}
 ::::
-
 ::::{tab-item} Schema
 :::{code-block} yaml
-{{pp_meta.custom.schema.config.full}}
+{{ pp_meta.custom.meta[docname].schema_str }}
 :::
 ::::
-
-::::{tab-item} Defaults
-Content 2
+::::{tab-item} Default
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].default_str }}
+:::
 ::::
-
+::::{tab-item} Example
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].example_str }}
+:::
+::::
 :::::
-
 
 
 Base configurations are those that are needed during the initialization of the CI/CD pipelines.
@@ -31,12 +34,7 @@ and set the corresponding values:
 
 :::{code-block} yaml
 :caption: 🗂 `./.meta/config.yaml`
-# Number of days to keep the cache data for meta contents
-cache_retention_days:
-  # For extended `meta` content retrieved from other repositories
-  extensions: 1
-  # For data retrieved from web APIs
-  api: 1
+
 :::
 
 When working with a local clone of the repository on your computer,
