@@ -19,6 +19,29 @@ some_directory/my_custom_meta_directory
 
 
 ## Other Directories
+
+:::::{tab-set}
+::::{tab-item} Info
+- **Relative Path**: `{{ pp_meta.custom.meta[docname].path }}`
+- **Pre-configured**: {{ pp_meta.custom.meta[docname].pre_config }}
+::::
+::::{tab-item} Schema
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].schema_str }}
+:::
+::::
+::::{tab-item} Default
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].default_str }}
+:::
+::::
+::::{tab-item} Example
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].example_str }}
+:::
+::::
+:::::
+
 All other paths can be configured in the `path.yaml` file located at the root of the `meta` directory.
 The file must contain an object with a single key `dir`.
 Within the `dir` object, you can define alternative paths for the `source` directory,
@@ -29,38 +52,7 @@ When no `path.yaml` file is present, {{pp_meta.name}} will use the following def
 
 :::{code-block} yaml
 :caption: 🗂 `./.meta/path.yaml`
-dir:
-  # Name of the source directory
-  source: src
-  # Path to the tests directory
-  tests: tests
-  # Path to the website directory
-  website: docs/website
-  local:
-    # Path to the local directory
-    root: .local
-    cache:
-      # Name of the cache directory under the local directory
-      root: cache
-      # Name of subdirectories under the cache directory
-      # You can add other keys here for other tools that you use
-      repodynamics: repodynamics
-      coverage: coverage
-      mypy: mypy
-      pylint: pylint
-      pytest: pytest
-      ruff: ruff
-    report:
-      # Name of the report directory under the local directory
-      root: report
-      # Name of subdirectories under the report directory
-      # You can add other keys here for other tools that you use
-      repodynamics: repodynamics
-      coverage: coverage
-      mypy: mypy
-      pylint: pylint
-      pytest: pytest
-      ruff: ruff
+
 :::
 
 Note that you do not have to specify all keys in the `path.yaml` file.
