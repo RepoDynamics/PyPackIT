@@ -3,22 +3,25 @@ from importlib.resources import files
 from ruamel.yaml import YAML
 
 
-def extract_defaults_from_schema(schema: str) -> str:
-    def recursive_extract(properties, defaults):
+def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
+    def recursive_extract(properties, defaults, all_have_defaults=True):
         for key, defs in properties.items():
             if "default" not in defs:
+                all_have_defaults = False
                 continue
             if "properties" in defs:
-                defaults[key] = recursive_extract(defs["properties"], defs["default"])
+                default_vals, all_have_defaults = recursive_extract(defs["properties"], defs["default"])
+                defaults[key] = default_vals
             else:
                 defaults[key] = defs["default"]
-        return defaults
+        return defaults, all_have_defaults
     schema = YAML(typ="safe").load(schema)
     if "properties" not in schema:
         out = schema["default"]
+        all_have_defaults = False
     else:
-        out = recursive_extract(schema["properties"], schema["default"])
-    return YAML(typ=["rt", "string"]).dumps(out, add_final_eol=True)
+        out, all_have_defaults = recursive_extract(schema["properties"], schema["default"])
+    return YAML(typ=["rt", "string"]).dumps(out, add_final_eol=True), all_have_defaults
 
 
 def schemas():
@@ -27,8 +30,8 @@ def schemas():
     out = {}
     for filepath in filepaths:
         schema = filepath.read_text()
-        schema_defaults = extract_defaults_from_schema(schema)
-        entry = {"full": schema, "defaults": schema_defaults}
+        defaults, all_have_defaults = extract_defaults_from_schema(schema)
+        entry = {"full": schema, "defaults": defaults, "all_have_defaults": all_have_defaults}
         rel_path = filepath.relative_to(path)
         name = rel_path.stem
         if rel_path.parent == Path("."):
