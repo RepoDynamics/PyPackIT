@@ -377,7 +377,7 @@ html_sidebars: Dict[str, Union[List[str], str]] = {
 # html_use_index: bool = True
 # html_split_index: bool = False
 # html_copy_source: bool = True
-html_show_sourcelink: bool = True
+html_show_sourcelink: bool = False
 
 html_sourcelink_suffix: str = ".txt"
 
