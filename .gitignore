@@ -78,6 +78,5 @@ cython_debug/
 .idea/
 .DS_Store
 .local
-!.local/**/
 !.local/**/README.md
 !.local/config.yaml
