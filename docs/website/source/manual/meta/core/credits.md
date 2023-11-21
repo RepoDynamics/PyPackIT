@@ -1,6 +1,10 @@
 # Project Credits
+All metadata declaring the authors, funcding options, and other credits for your project
+are stored in the `core/credits.yaml` file in the repository's `meta` directory.
+
 
 ## Authors
+
 
 ##### `author.role`
 Example:
@@ -12,10 +16,11 @@ author:
 ## Funding Options
 GitHub allows you to add a *Sponsor* button together with a *Sponsor this project* section
 to the main page of your repository, to increase the visibility of funding options
-for your open source project. Clicking on the *Sponsor* button opens the *Sponsor this project* section,
+for your open-source project. Clicking on the *Sponsor* button opens the *Sponsor this project* section,
 where a list of links to your specified funding platforms is displayed to the user.
-GitHub lets you specify up to 4 sponsored GitHub accounts (one of which can be a GitHub organization),
-up to 4 custom URLs, plus one name (either username, package name, or project name, depending on the platform)
+GitHub lets you specify up to four sponsored GitHub accounts (one of which can be a GitHub organization),
+up to four custom URLs,
+plus one name (either username, package name, or project name, depending on the platform)
 per supported external funding platform (see below).
 For more information, see the [About GitHub Sponsors](https://docs.github.com/en/sponsors/getting-started-with-github-sponsors/about-github-sponsors)
 and [Displaying a sponsor button in your repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository)
