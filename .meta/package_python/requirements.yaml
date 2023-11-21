@@ -1,4 +1,4 @@
-python_version_min: "3.9"
+python_version_min: "3.10"
 
 operating_systems:
   linux:
