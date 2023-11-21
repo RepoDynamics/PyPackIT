@@ -3,6 +3,6 @@
 :::{toctree}
 :hidden:
 
-concepts
 repo-structure
+concepts
 :::
