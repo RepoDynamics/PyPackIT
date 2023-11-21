@@ -1,4 +1,27 @@
 # Meta Extensions
+
+:::::{tab-set}
+::::{tab-item} Info
+- **Relative Path**: `{{ pp_meta.custom.meta[docname].path }}`
+- **Pre-configured**: {{ pp_meta.custom.meta[docname].pre_config }}
+::::
+::::{tab-item} Schema
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].schema_str }}
+:::
+::::
+::::{tab-item} Default
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].default_str }}
+:::
+::::
+::::{tab-item} Example
+:::{code-block} yaml
+{{ pp_meta.custom.meta[docname].example_str }}
+:::
+::::
+:::::
+
 {{pp_meta.name}} allows you to store some or all of your repository's `meta` content
 in other repositories, and have them automatically fetched when needed.
 This is particularly useful when you are managing multiple repositories,
@@ -50,23 +73,7 @@ the configurations/data from the extension with the highest priority will be use
 
 :::{code-block} yaml
 :caption: 🗂 `./.meta/extension.yaml`
-# First (highest-priority) extension
-- type: dev/changelogs
-  repo: MyUsername/MyExtensionsRepo
-  path: path/to/changelogs.yaml
-  ref: my-branch
-# Second (lower-priority) extension
-- type: dev/changelogs
-  repo: RepoDynamics/MetaExtensions
-  path: .meta/dev/branches.yaml
-  ref: PyPackIT/v1
-  append_list: false
-  append_dict: false
-# Another extension
-- type: dev/issues
-  repo: RepoDynamics/MetaExtensions
-  path: .meta/dev/issues.yaml
-  ref: PyPackIT/v1
+
 :::
 
 Note that you cannot extend the `extensions.yaml` file itself, or any other `meta` file that is
