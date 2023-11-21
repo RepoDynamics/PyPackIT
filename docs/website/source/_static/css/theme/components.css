@@ -1,9 +1,10 @@
 /*  make the article content grow to fit all available width */
 /* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
-.bd-article-container {
-  max-width: 100em;
-!important
-}
+
+/*.bd-article-container {*/
+/*  max-width: 100em;*/
+/*!important*/
+/*}*/
 
 /* Stack footer items horizontally instead of vertically */
 .footer-items__start, .footer-items__end {
