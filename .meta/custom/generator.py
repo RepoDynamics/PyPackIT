@@ -1,5 +1,7 @@
-from pathlib import Path
+# Standard libraries
 from importlib.resources import files
+
+# Non-standard libraries
 from ruamel.yaml import YAML
 
 
@@ -10,11 +12,14 @@ def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
                 all_have_defaults = False
                 continue
             if "properties" in defs:
-                default_vals, all_have_defaults = recursive_extract(defs["properties"], defs["default"])
+                default_vals, all_have_defaults = recursive_extract(
+                    defs["properties"], defs["default"]
+                )
                 defaults[key] = default_vals
             else:
                 defaults[key] = defs["default"]
         return defaults, all_have_defaults
+
     schema = YAML(typ="safe").load(schema)
     if "properties" not in schema:
         out = schema["default"]
@@ -34,14 +39,14 @@ def schemas():
         schema = filepath.read_text()
         defaults, all_have_defaults = extract_defaults_from_schema(schema)
         rel_path = filepath.relative_to(path_schema)
-        path_example = (path_examples / rel_path)
+        path_example = path_examples / rel_path
 
         entry = {
             "schema_str": schema,
             "default_str": defaults,
             "example_str": path_example.read_text() if path_example.exists() else "",
             "pre_config": all_have_defaults,
-            "path": str(rel_path)
+            "path": str(rel_path),
         }
         out[f"manual/meta/{rel_path.with_suffix('')}"] = entry
         # name = rel_path.stem
@@ -57,5 +62,3 @@ def run(metadata) -> dict:
     out = {}
     out |= schemas()
     return out
-
-# run("")

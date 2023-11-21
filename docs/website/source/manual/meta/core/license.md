@@ -96,7 +96,7 @@ license:
 ## Copyright
 By default, PyPackIT uses the creation date of your repository,
 and the name of the repository owner (set in their GitHub account),
-to generate a copyright notice, which is used in README files and on your website. 
+to generate a copyright notice, which is used in README files and on your website.
 The notice is of the form `{START-YEAR}–{CURRENT-YEAR} {OWNER-NAME}` (e.g. `2023–2024 John Doe`)
 when the repository creation year is not the same as the current year,
 and `{CURRENT-YEAR} {OWNER-NAME}` (e.g. `2024 John Doe`) otherwise.

@@ -22,13 +22,13 @@
 ::::
 :::::
 
-All metadata describing your project are stored in the `core/intro.yaml` file 
+All metadata describing your project are stored in the `core/intro.yaml` file
 in the repository's `meta` directory.
 
 
 ## Name
 By default, that is when the `core/intro.yaml` file is not present or doesn't contain a `name` key,
-the name of the project is derived from the name of the repository, 
+the name of the project is derived from the name of the repository,
 by replacing each hyphen in the repository name with a space:
 ```python
 def derive_project_name(repo_name: str) -> str:
@@ -79,7 +79,7 @@ tagline: >-
 
 This is used in several places, such as the `description` metadata of your package
 (displayed at the top of the PyPI page of your package),
-and by default the `description` field of your GitHub repository 
+and by default the `description` field of your GitHub repository
 displayed under the `About` section of your repository homepage.
 However, the latter can be also set to a different value in the `dev/repo.yaml` file.
 
@@ -93,11 +93,11 @@ with Markdown or HTML formatting, by adding a `description` key to the `core/int
 # Project description
 description: >-
   ${‎{ name }} is a free and open-source toolkit
-  <b>empowering the development of open-source 
+  <b>empowering the development of open-source
   Python projects on GitHub</b>.
   It is a <b>dynamic repository template</b>
   that provides a complete, professional, and
-  robust infrastructure for your project, 
+  robust infrastructure for your project,
   where the only thing missing is your code.
   With ${‎{ name }}, you can solely focus on what truly matters:
   implementing your ideas and bringing your vision to life!
@@ -140,7 +140,7 @@ will be omitted from the GitHub repository topics.
 Keynotes are bullet points that describe the main features of your project.
 They are shown in the main README file of the repository, as well as the homepage of your project's website
 and your package's PyPI homepage.
-You can add a list of keynotes by adding a `keynotes` key to the `core/intro.yaml` file. 
+You can add a list of keynotes by adding a `keynotes` key to the `core/intro.yaml` file.
 Each keynote is an object with a `title` and a short `description`:
 
 :::{code-block} yaml
@@ -154,19 +154,19 @@ keynotes:
       making your project development a pleasant breeze!
   - title: Synchronization
     description: >-
-      ${‎{ name }} gathers all your project's key information 
+      ${‎{ name }} gathers all your project's key information
       and configuration in one place,
       and dynamically updates them throughout your repository,
       Python package, and documentation website.
   - title: Configuration
     description: >-
-      ${‎{ name }} elevates your project by providing 
+      ${‎{ name }} elevates your project by providing
       full configuration for your repository,
-      Python package, and documentation website, 
+      Python package, and documentation website,
       according to the latest guidelines and best practices.
   - title: Customization
     description: >-
       While carefully configured, ${‎{ name }} is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline 
+      allowing you to tailor every aspect of your development pipeline
       to your specific needs.
 :::
