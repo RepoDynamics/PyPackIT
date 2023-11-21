@@ -28,15 +28,12 @@ Currently, the only configuration is the number of days to keep the caches for t
 and other data obtained through various web APIs,
 such as GitHub repo/users data, software versions, publications etc.
 
-To change the default values (one day for both extensions and API data, as shown below),
-create a file named `config.yaml` in the root of the `meta` directory,
-and set the corresponding values:
-
-:::{code-block} yaml
-:caption: 🗂 `./.meta/config.yaml`
-
-:::
-
+:::{admonition} Local Configuration
+:class: tip
 When working with a local clone of the repository on your computer,
 you can overwrite these configurations by creating another `config.yaml` file (with the same syntax)
-in the root of the `local` directory.
+in the root of the repository's `local` directory.
+:::
+
+
+
