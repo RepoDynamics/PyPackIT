@@ -11,7 +11,7 @@ References
 import importlib
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Literal, NoReturn, Tuple, Union
+from typing import Any, Literal, Union
 
 
 def rstjinja(app, docname, source):
@@ -73,13 +73,15 @@ References
 project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]])
+author: str = ", ".join(
+    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]]
+)
 """Authors' names"""
 
-project_copyright: Union[str, List[str]] = meta["copyright"]["notice"]
+project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
 """Copyright statement(s)"""
 
-release: str = getattr(importlib.import_module(meta["package"]["name"]), "__version__")
+release: str = importlib.import_module(meta["package"]["name"]).__version__
 """Full version, including alpha/beta/rc tags"""
 
 version: str = ".".join(release.split(".")[:3])
@@ -94,7 +96,7 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 """
 
-extensions: List[str] = [
+extensions: list[str] = [
     "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
     "sphinx.ext.mathjax",
@@ -133,7 +135,7 @@ extensions: List[str] = [
 root_doc: str = "index"
 """Name of the root (homepage) document"""
 
-exclude_patterns: List[str] = [
+exclude_patterns: list[str] = [
     "**Thumbs.db",
     "**.DS_Store",
     "**.ipynb_checkpoints",
@@ -143,8 +145,8 @@ exclude_patterns: List[str] = [
 # include_patterns: List[str] = ['**']
 """A list of glob-style patterns to include in source files"""
 
-templates_path: List[str] = [
-    "_templates"
+templates_path: list[str] = [
+    "_templates",
 ]  # Ref: https://www.sphinx-doc.org/en/master/development/templating.html
 """A list of directories containing extra templates"""
 # template_bridge: str = ''
@@ -156,7 +158,7 @@ templates_path: List[str] = [
 # suppress_warnings: List[str] = []
 needs_sphinx: str = "6.2.1"
 
-needs_extensions: Dict[str, str] = {"sphinx_design": "0.4.1", "myst_parser": "2.0.0"}
+needs_extensions: dict[str, str] = {"sphinx_design": "0.4.1", "myst_parser": "2.0.0"}
 # manpages_url: str = ""
 nitpicky: bool = True
 """Warn about all references where the target cannot be found"""
@@ -165,7 +167,7 @@ nitpicky: bool = True
 numfig: bool = True
 """Automatically number figures, tables and code-blocks that have a caption"""
 
-numfig_format: Dict[str, str] = {
+numfig_format: dict[str, str] = {
     "figure": "Fig. %s",
     "table": "Table %s",
     "code-block": "Snippet %s",
@@ -246,7 +248,7 @@ References
 """
 html_theme: str = "pydata_sphinx_theme"
 
-html_theme_options: Dict[str, Any] = {
+html_theme_options: dict[str, Any] = {
     # `logo` is added due to this issue:
     #  https://github.com/pydata/pydata-sphinx-theme/issues/1094#issuecomment-1368264928
     "logo": {
@@ -299,7 +301,11 @@ html_theme_options: Dict[str, Any] = {
 _analytics = meta["web"].get("analytics")
 if _analytics:
     _plausible_analytics = _analytics.get("plausible")
-    if _plausible_analytics and _plausible_analytics.get("domain") and _plausible_analytics.get("url"):
+    if (
+        _plausible_analytics
+        and _plausible_analytics.get("domain")
+        and _plausible_analytics.get("url")
+    ):
         html_theme_options["analytics"] = {
             "plausible_analytics_domain": _plausible_analytics["domain"],
             "plausible_analytics_url": _plausible_analytics["url"],
@@ -332,7 +338,7 @@ html_context = {
 # html_logo: Union[str, None] = ''
 html_favicon: Union[str, None] = "../../../.meta/ui/logo/icon.png"
 
-html_static_path: List[str] = [
+html_static_path: list[str] = [
     "_static",
     "../../../.meta/ui/logo",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
@@ -345,7 +351,7 @@ html_static_path: List[str] = [
     # "../../../.meta/ui/logo/simple_light.svg",
 ]
 # html_extra_path: List[str] = []
-html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
+html_css_files: list[Union[str, tuple[str, dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
     for glob in ["**/*.css", "**/*.css_t"]
     for path in (Path(html_static_path[0]) / "css").glob(glob)
@@ -362,7 +368,7 @@ html_permalinks: bool = True
 
 html_permalinks_icon: str = "¶"
 
-html_sidebars: Dict[str, Union[List[str], str]] = {
+html_sidebars: dict[str, Union[list[str], str]] = {
     # "**": ["sidebar-nav-bs"],
     "news/**": [
         "ablog/postcard.html",
@@ -370,7 +376,7 @@ html_sidebars: Dict[str, Union[List[str], str]] = {
         "ablog/tagcloud.html",
         "ablog/categories.html",
         "ablog/archives.html",
-    ]
+    ],
 }
 # html_additional_pages: Dict[str, str]
 # html_domain_indices: Union[bool, List[str]] = True
@@ -446,12 +452,14 @@ References
 
 latex_engine: Literal["pdflatex", "xelatex", "lualatex", "platex", "uplatex"] = "lualatex"
 
-latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
+latex_documents: list[tuple[str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs.tex",
         f"{meta['name']} Documentation",
-        " \\and ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]]),
+        " \\and ".join(
+            [_author["name"] for _author in meta["author"]["entries"] if _author["name"]]
+        ),
         "manual",
         False,
     ),
@@ -463,7 +471,7 @@ latex_show_pagerefs: bool = True
 
 latex_show_urls: Literal["inline", "footnote", "no"] = "footnote"
 
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     "papersize": "a4paper",  # {'letterpaper', 'a4paper'}
     "pointsize": "11pt",
     "figure_align": "htbp",
@@ -499,14 +507,14 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-manual-page-output
 """
-man_pages: List[Tuple[str, str, str, Union[str, List[str]], str]] = [
+man_pages: list[tuple[str, str, str, Union[str, list[str]], str]] = [
     (
         root_doc,
         meta["package"]["name"],
         f"{meta['name']} Documentation",
         [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
         "1",
-    )
+    ),
 ]
 
 
@@ -522,7 +530,7 @@ References
 ----------
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-texinfo-output
 """
-texinfo_documents: List[Tuple[str, str, str, str, str, str, str, bool]] = [
+texinfo_documents: list[tuple[str, str, str, str, str, str, str, bool]] = [
     (
         root_doc,
         f"{meta['package']['name']}_docs",
@@ -565,7 +573,7 @@ References
 """
 # --- Extensions ----
 #  Ref: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
-myst_enable_extensions: List[str] = [
+myst_enable_extensions: list[str] = [
     # "substitution",
     "smartquotes",
     "replacements",

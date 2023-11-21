@@ -15,10 +15,10 @@ and set the corresponding values:
 cache_retention_days:
   # For extended `meta` content retrieved from other repositories
   extensions: 1
-  # For data retrieved from web APIs 
+  # For data retrieved from web APIs
   api: 1
 :::
 
 When working with a local clone of the repository on your computer,
-you can overwrite these configurations by creating another `config.yaml` file (with the same syntax) 
+you can overwrite these configurations by creating another `config.yaml` file (with the same syntax)
 in the root of the `local` directory.
