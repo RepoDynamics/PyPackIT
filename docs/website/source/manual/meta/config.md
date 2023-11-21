@@ -1,5 +1,25 @@
 # Base Configurations
 
+:::::{tab-set}
+
+::::{tab-item} Info
+Content 1
+::::
+
+::::{tab-item} Schema
+:::{code-block} yaml
+{{pp_meta.custom.schema.config.full}}
+:::
+::::
+
+::::{tab-item} Defaults
+Content 2
+::::
+
+:::::
+
+
+
 Base configurations are those that are needed during the initialization of the CI/CD pipelines.
 Currently, the only configuration is the number of days to keep the caches for the fetched extensions,
 and other data obtained through various web APIs,
