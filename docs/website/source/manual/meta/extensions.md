@@ -13,8 +13,7 @@ This is done both on local clones, as well as on the GitHub servers when running
 
 To add an extension to your repository's `meta` content, create a file named `extensions.yaml`
 in the root of your repository's `meta` directory.
-The file must contain an object with a single key `extensions`,
-where the value is an array of objects, each declaring a single extension for a specific `meta` file.
+The file must contain an array of objects, each declaring a single extension for a specific `meta` file.
 Each object must contain the following keys:
 - `type`: This is the relative path (from the root of the `meta` directory) to the `meta` file
 being extended, without the `.yaml` extension.
@@ -43,34 +42,33 @@ in the extended content is already set in a higher-priority content.
 If set to `false`, the duplicates will be simply ignored.
 
 The following is an example that extends the 
-`changelogs.yaml` and `issues.yaml` files under the `dev` subdirectory.
-Note that when defining multiple extensions for the same `meta` file (in this case, `dev/changelogs`), 
+`changelog.yaml` and `issue.yaml` files under the `dev` subdirectory.
+Note that when defining multiple extensions for the same `meta` file (in this case, `dev/changelog`), 
 they must be ordered by priority (highest first).
 This means that when two extensions share some common configurations/data,
 the configurations/data from the extension with the highest priority will be used.
 
 :::{code-block} yaml
-:caption: 🗂 `./.meta/extensions.yaml`
-extensions:
-  # First (highest-priority) extension
-  - type: dev/changelogs
-    repo: MyUsername/MyExtensionsRepo
-    path: path/to/changelogs.yaml
-    ref: my-branch
-  # Second (lower-priority) extension
-  - type: dev/changelogs
-    repo: RepoDynamics/MetaExtensions
-    path: .meta/dev/branches.yaml
-    ref: PyPackIT/v1
-    append_list: false
-    append_dict: false
-  # Another extension
-  - type: dev/issues
-    repo: RepoDynamics/MetaExtensions
-    path: .meta/dev/issues.yaml
-    ref: PyPackIT/v1
+:caption: 🗂 `./.meta/extension.yaml`
+# First (highest-priority) extension
+- type: dev/changelogs
+  repo: MyUsername/MyExtensionsRepo
+  path: path/to/changelogs.yaml
+  ref: my-branch
+# Second (lower-priority) extension
+- type: dev/changelogs
+  repo: RepoDynamics/MetaExtensions
+  path: .meta/dev/branches.yaml
+  ref: PyPackIT/v1
+  append_list: false
+  append_dict: false
+# Another extension
+- type: dev/issues
+  repo: RepoDynamics/MetaExtensions
+  path: .meta/dev/issues.yaml
+  ref: PyPackIT/v1
 :::
 
 Note that you cannot extend the `extensions.yaml` file itself, or any other `meta` file that is
-directly under the root of the `meta` directory, namely `paths.yaml` and `config.yaml`,
+directly under the root of the `meta` directory, namely `path.yaml` and `config.yaml`,
 since these files are needed before any extensions can be fetched. 
