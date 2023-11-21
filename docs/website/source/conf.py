@@ -23,7 +23,7 @@ def rstjinja(app, docname, source):
     # if app.builder.format != 'html':
     #     return
     try:
-        source[0] = app.builder.templates.render_string(source[0], app.config.html_context)
+        source[0] = app.builder.templates.render_string(source[0], app.config.html_context | {"docname": app.env.docname})
     except Exception as e:
         print(e)
         print("*" * 50)
