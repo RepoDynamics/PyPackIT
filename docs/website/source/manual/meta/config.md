@@ -34,6 +34,3 @@ When working with a local clone of the repository on your computer,
 you can overwrite these configurations by creating another `config.yaml` file (with the same syntax)
 in the root of the repository's `local` directory.
 :::
-
-
-
