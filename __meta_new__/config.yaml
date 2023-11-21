@@ -7,24 +7,18 @@
 #
 # Properties
 # ----------
-# repodynamics : object, optional
-#    Configurations required by RepoDynamics (i.e., PyPackIT backend).
+# cache_retention_days : object, optional
+#    Number of days to keep the cache data for various meta contents.
 #    ----------
 #    Properties
 #    ----------
-#    cache_retention_days : object, optional
-#       Number of days to keep the cache data for various meta contents.
-#       ----------
-#       Properties
-#       ----------
-#       extensions : integer, optional, default: 1
-#          Number of days to keep the cached extended meta content (defined in `extensions.yaml`)
-#          retrieved from other repositories.
-#       api : integer, optional, default: 1
-#          Number of days to keep the cached data retrieved from various wep APIs,
-#          such as GitHub repo/users data, software versions, publications etc.
+#    extensions : integer, optional, default: 1
+#       Number of days to keep the cached extended meta content (defined in `extensions.yaml`)
+#       retrieved from other repositories.
+#    api : integer, optional, default: 1
+#       Number of days to keep the cached data retrieved from various wep APIs,
+#       such as GitHub repo/users data, software versions, publications etc.
 
-repodynamics:
-  cache_retention_days:
-    extensions: 1
-    api: 1
+cache_retention_days:
+  extensions: 1
+  api: 1

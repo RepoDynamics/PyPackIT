@@ -1,0 +1,102 @@
+# Branch Configurations
+# =====================
+# Configurations for the branches of the repository.
+# All configurations in this file have default values.
+# Therefore, if you do not need to change any of the default values,
+# you can also delete this file entirely.
+#
+# Properties
+# ----------
+# default : object, optional
+#    Configurations for the default branch of the repository.
+#    ----------
+#    Properties
+#    ----------
+#    name : string, default: "main"
+#       Name of the default branch.
+#    protection_rules : object, optional
+#       Branch protection rules for the default branch.
+#       ----------
+#       Properties
+#       ----------
+#       allow_deletion : boolean, default: false
+#          Allow deletion of the default branch.
+#       allow_force_push : boolean, default: false
+#          Allow force push to the default branch.
+# group : object, optional
+#    Configurations for different branch groups of the repository.
+#    ----------
+#    Properties
+#    ----------
+#    release : object, optional
+#       Configurations for the release branch group.
+#       ----------
+#       Properties
+#       ----------
+#       prefix : string, default: "release/v"
+#          Prefix for the branch names in the group.
+#       protection_rules : object, optional
+#          Branch protection rules for branches in the group.
+#          The keys are the same as for the default branch.
+#          --------
+#          Defaults
+#          --------
+#          allow_deletion : false
+#          allow_force_push : false
+#    pre_release : object, optional
+#       Configurations for the pre-release branch group.
+#       The keys are the same as for the release branch group.
+#       --------
+#       Defaults
+#       --------
+#       prefix: "pre-release/v"
+#       protection_rules:
+#          allow_deletion : false
+#          allow_force_push : false
+#    dev : object, optional
+#       Configurations for the development branch group.
+#       The keys are the same as for the release branch group.
+#       --------
+#       Defaults
+#       --------
+#       prefix: "dev/"
+#       protection_rules:
+#          allow_deletion : true
+#          allow_force_push : true
+#    ci_pull : object, optional
+#       Configurations for the CI pull request head branch group.
+#       The keys are the same as for the release branch group.
+#       --------
+#       Defaults
+#       --------
+#       prefix: "ci-pull/"
+#       protection_rules:
+#          allow_deletion : true
+#          allow_force_push : true
+
+default:
+  name: main
+  protection_rules:
+    allow_deletion: false
+    allow_force_push: false
+group:
+  release:
+    prefix: release/v
+    protection_rules:
+      allow_deletion: false
+      allow_force_push: false
+  pre_release:
+    prefix: pre-release/v
+    protection_rules:
+      allow_deletion: false
+      allow_force_push: false
+  dev:
+    prefix: dev/
+    protection_rules:
+      allow_deletion: true
+      allow_force_push: true
+  ci_pull:
+    prefix: ci-pull/
+    protection_rules:
+      allow_deletion: true
+      allow_force_push: true

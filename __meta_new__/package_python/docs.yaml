@@ -1,0 +1,11 @@
+docs:
+  main_init: |
+    ${{name}}
+
+    ${{tagline}}
+
+    ${{description}}
+
+    Copyright ${{copyright.notice}}
+
+    ${{license.notice}}

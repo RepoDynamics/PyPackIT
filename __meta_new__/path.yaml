@@ -1,0 +1,96 @@
+# Repository Paths
+# ================
+# This file contains declarations of key paths in the repository.
+# All available configurations and their default values are listed below.
+# If you don't want to change any of the default values, you can delete this file.
+#
+# Properties
+# ----------
+# dir : object, optional
+#    Paths to directories in the repository.
+#    ----------
+#    Properties
+#    ----------
+#    source : string, default: "src"
+#       Path to the source directory containing the top-level package directory.
+#    tests : string, default: "tests"
+#       Path to the test-suite directory.
+#    website : string, default: "website"
+#       Path to the website directory.
+#    local : object, optional
+#       Paths to the local directory and its subdirectories.
+#       This directory is used to store local files,
+#       such as cache files, logs and reports from various tools.
+#       It will be automatically added to the `.gitignore` file.
+#       ----------
+#       Properties
+#       ----------
+#       root : string, default: ".local"
+#          Path to the root of the local directory.
+#       cache : object, optional
+#          Paths to the cache subdirectory within the local directory,
+#          and its subdirectories.
+#          In addition to the default keys, you can also add other
+#          custom keys to use in your custom configurations for other tools.
+#          ----------
+#          Properties
+#          ----------
+#          root : string, default: "cache"
+#             Path to the root of the cache subdirectory, relative to the local directory.
+#          repodynamics : string, default: "repodynamics"
+#             Path to the RepoDynamics cache directory, relative to the cache directory.
+#          coverage : string, default: "coverage"
+#             Path to the Coverage cache directory, relative to the cache directory.
+#          mypy : string, default: "mypy"
+#             Path to the MyPy cache directory, relative to the cache directory.
+#          pylint : string, default: "pylint"
+#             Path to the PyLint cache directory, relative to the cache directory.
+#          pytest : string, default: "pytest"
+#             Path to the PyTest cache directory, relative to the cache directory.
+#          ruff : string, default: "ruff"
+#             Path to the Ruff cache directory, relative to the cache directory.
+#       report : object, optional
+#          Paths to the report subdirectory within the local directory,
+#          and its subdirectories.
+#          In addition to the default keys, you can also add other
+#          custom keys to use in your custom configurations for other tools.
+#          ----------
+#          Properties
+#          ---------
+#          root : string, default: "report"
+#             Path to the root of the report subdirectory, relative to the local directory.
+#          repodynamics : string, default: "repodynamics"
+#             Path to the RepoDynamics reports directory, relative to the report directory.
+#          coverage : string, default: "coverage"
+#             Path to the Coverage reports directory, relative to the report directory.
+#          mypy : string, default: "mypy"
+#             Path to the MyPy reports directory, relative to the report directory.
+#          pylint : string, default: "pylint"
+#             Path to the PyLint reports directory, relative to the report directory.
+#          pytest : string, default: "pytest"
+#             Path to the PyTest reports directory, relative to the report directory.
+#          ruff : string, default: "ruff"
+#             Path to the Ruff reports directory, relative to the report directory.
+
+dir:
+  source: src
+  tests: tests
+  website: docs/website
+  local:
+    root: .local
+    cache:
+      root: cache
+      repodynamics: repodynamics
+      coverage: coverage
+      mypy: mypy
+      pylint: pylint
+      pytest: pytest
+      ruff: ruff
+    report:
+      root: report
+      repodynamics: repodynamics
+      coverage: coverage
+      mypy: mypy
+      pylint: pylint
+      pytest: pytest
+      ruff: ruff

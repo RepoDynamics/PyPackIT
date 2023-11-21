@@ -1,0 +1,22 @@
+# Tags Configurations
+# ===================
+# Configurations for the repository tags.
+#
+# Properties
+# ----------
+# group : object, optional
+#    Configurations for different tag groups.
+#    ----------
+#    Properties
+#    ----------
+#    version : object, optional
+#       Configurations for the version tag group.
+#       ----------
+#       Properties
+#       ----------
+#       prefix : string, default: "ver/"
+#          Prefix of version tags.
+
+group:
+  version:
+    prefix: ver/
