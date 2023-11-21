@@ -18,27 +18,27 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃
  ┣ 🗂 <a href="dev" title="Development Configurations">dev</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/branches" title="Branches">branch.yaml</a>
+ ┃ ┣ 📄 <a href="dev/branch" title="Branches">branch.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/changelogs" title="Changelogs">changelog.yaml</a>
+ ┃ ┣ 📄 <a href="dev/changelog" title="Changelogs">changelog.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/commits" title="Commits">commit.yaml</a>
+ ┃ ┣ 📄 <a href="dev/commit" title="Commits">commit.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/discussions" title="Discussions">discussion.yaml</a>
+ ┃ ┣ 📄 <a href="dev/discussion" title="Discussions">discussion.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/issues" title="Issues">issue.yaml</a>
+ ┃ ┣ 📄 <a href="dev/issue" title="Issues">issue.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/labels" title="Labels">label.yaml</a>
+ ┃ ┣ 📄 <a href="dev/label" title="Labels">label.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/maintainers" title="Maintainers">maintainer.yaml</a>
+ ┃ ┣ 📄 <a href="dev/maintainer" title="Maintainers">maintainer.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/pulls" title="Pull Requests">pull.yaml</a>
+ ┃ ┣ 📄 <a href="dev/pull" title="Pull Requests">pull.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="dev/repo" title="Repository">repo.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="dev/tags" title="Tags">tag.yaml</a>
+ ┃ ┣ 📄 <a href="dev/tag" title="Tags">tag.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="dev/workflows" title="Workflows">workflow.yaml</a>
+ ┃ ┗ 📄 <a href="dev/workflow" title="Workflows">workflow.yaml</a>
  ┃
  ┣ 🗂 <a href="package" title="Package">package</a>
  ┃ ┃
@@ -90,7 +90,7 @@ full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
  ┃ ┃ ┃
  ┃ ┃ ┗ 📄 <a href="" title="">simple_light.svg</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="ui/health_files" title="Health Files">health_file.yaml</a>
+ ┃ ┣ 📄 <a href="ui/health_file" title="Health Files">health_file.yaml</a>
  ┃ ┃
  ┃ ┣ 📄 <a href="ui/readme" title="Readme Files">readme.yaml</a>
  ┃ ┃

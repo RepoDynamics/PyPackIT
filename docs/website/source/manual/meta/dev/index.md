@@ -4,15 +4,15 @@
 :::{toctree}
 :hidden:
 
-branches
-changelogs
-commits
-discussions
-issues
-labels
-maintainers
-pulls
+branch
+changelog
+commit
+discussion
+issue
+label
+maintainer
+pull
 repo
-tags
-workflows
+tag
+workflow
 :::
