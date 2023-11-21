@@ -40,7 +40,7 @@ jobs = 0
 limit-inference-results = 500
 load-plugins = ["pylint.extensions.broad_try_clause", "pylint.extensions.code_style", "pylint.extensions.comparison_placement", "pylint.extensions.confusing_elif", "pylint.extensions.for_any_all", "pylint.extensions.consider_refactoring_into_while_condition", "pylint.extensions.consider_ternary_expression", "pylint.extensions.bad_builtin", "pylint.extensions.mccabe", "pylint.extensions.dict_init_mutate", "pylint.extensions.docstyle", "pylint.extensions.dunder", "pylint.extensions.check_elif", "pylint.extensions.empty_comment", "pylint.extensions.eq_without_hash", "pylint.extensions.private_import", "pylint.extensions.magic_value", "pylint.extensions.redefined_variable_type", "pylint.extensions.no_self_use", "pylint.extensions.overlapping_exceptions", "pylint.extensions.docparams", "pylint.extensions.redefined_loop_name", "pylint.extensions.set_membership", "pylint.extensions.typing", "pylint.extensions.while_used"]
 persistent = true
-py-version = "3.9"
+py-version = "3.10"
 recursive = true
 source-roots = ["src"]
 
@@ -199,7 +199,7 @@ verbosity = 2
 
 [tool.black]
 required-version = "23.9.1"
-target-version = ["py39", "py310", "py311", "py312"]
+target-version = ["py310", "py311", "py312"]
 line-length = 100
 verbose = true
 
@@ -213,7 +213,7 @@ dynamic = [
 ]
 description = "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
 readme = "src/readme_pypi.md"
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 authors = [
     {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
 ]
@@ -246,7 +246,6 @@ classifiers = [
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
-    'Programming Language :: Python :: 3.9',
     'Typing :: Typed',
 ]
 dependencies = [

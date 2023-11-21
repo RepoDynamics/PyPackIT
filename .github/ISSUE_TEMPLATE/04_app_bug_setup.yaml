@@ -96,7 +96,6 @@ body:
       where you have encountered the bug.\n"
     multiple: true
     options:
-    - '3.9'
     - '3.10'
     - '3.11'
     - '3.12'
