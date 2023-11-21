@@ -23,39 +23,45 @@ Changing these settings and pushing them to the remote repository's default bran
 apply the corresponding changes to the entire repository, i.e., branch protection rules will be updated,
 and all corresponding branches will be renamed.
 
-All specifications are stored in the `dev/branches.yaml` file in the repository's `meta` directory.
-The file must contain a YAML object with a single root key named `branch`.
+All specifications are stored in the `dev/branch.yaml` file in the repository's `meta` directory.
 
 ## Default Branch
-The settings for the default branch are specified under the `default` key of the `branch` object.
+The settings for the default branch are specified under the `default` key.
 
 :::{code-block} yaml
-:caption: 🗂 `./.meta/dev/branches.yaml`
-branch:
-  default:
-    name: main
+:caption: 🗂 `./.meta/dev/branch.yaml`
+default:
+  name: main
+  protection_rules:
+    allow_deletion: false
+    allow_force_push: false
+:::
+
+## Branch Groups
+For each branch group, you can specify its prefix and protection rules, under the
+corresponding key in the `group` dictionary:
+
+:::{code-block} yaml
+:caption: 🗂 `./.meta/dev/branch.yaml`
+group:
+  ci_pull:
+    prefix: ci-pull/
+    protection_rules:
+      allow_deletion: true
+      allow_force_push: true
+  dev:
+    prefix: dev/
+    protection_rules:
+      allow_deletion: true
+      allow_force_push: true
+  pre_release:
+    prefix: pre-release/v
     protection_rules:
       allow_deletion: false
       allow_force_push: false
-  group:
-    release:
-      prefix: release/v
-      protection_rules:
-        allow_deletion: false
-        allow_force_push: false
-    pre_release:
-      prefix: pre-release/v
-      protection_rules:
-        allow_deletion: false
-        allow_force_push: false
-    dev:
-      prefix: dev/
-      protection_rules:
-        allow_deletion: true
-        allow_force_push: true
-    ci_pull:
-      prefix: ci-pull/
-      protection_rules:
-        allow_deletion: true
-        allow_force_push: true
+  release:
+    prefix: release/v
+    protection_rules:
+      allow_deletion: false
+      allow_force_push: false
 :::
