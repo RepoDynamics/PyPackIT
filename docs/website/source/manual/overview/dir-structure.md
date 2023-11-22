@@ -1,21 +1,26 @@
-# Repository Structure
-Every {{pp_meta.name}} repository must conform to a specific directory structure.
-For example, some directories must always be present in a specific location,
-while some other directories must have a specific substructure, but their location is configurable.
+# Directory Structure
+
+{{ pp_meta.name }} recognizes and works with six main directories in your repository:
 
 - [Meta Direcotry](#meta-directory): The main control center of the repository,
   containing all configurations and metadata for the entire project.
 - [GitHub Directory](#github-directory): The directory where GitHub looks for GitHub Actions workflow files
   and other configuration files.
-  {{pp_meta.name}} also uses this directory to store some of its own data and settings.
-- [Source Directory](#source-directory): The directory where all source code of your package is stored.
-- [Tests Directory](#tests-directory): The directory where all tests of your package are stored.
-- [Website Directory](#website-directory): The directory where all content of your website is stored.
-- [Local Directory](#local-directory): The directory where all local data and settings are stored.
+  {{pp_meta.name}} also uses this directory to store some of its own data and settings,
+  as well as configuration files for other external tools.
+- [Source Directory](#source-directory): Contains the top-level package directory and thus all source code of your package.
+- [Tests Directory](#tests-directory): Contains your package's entire test suite as a standalone Python package.
+- [Website Directory](#website-directory): All content and required files to build your website are stored in this directory.
+- [Local Directory](#local-directory): Used to store cached data, reports, and logs, when working on a local clone of the repository.
+
+Other than the GitHub directory, which has a fixed name and location,
+you can [customize the paths](../meta/path.md) to all other five directories.
+However, each directory must conform to a specific substructure;
+these are all created automatically when you initialize your repository from the {{pp_meta.name}} template.
 
 
 ## Meta Directory
-The `meta` directory is the main control center of your repository,
+The meta directory is the main control center of your repository,
 where all configurations, metadata, and settings
 for your GitHub repository (and its corresponding git repository),
 package, website, development pipeline, and other tools are stored in one place.
