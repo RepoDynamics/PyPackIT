@@ -5,9 +5,9 @@
 :::{toctree}
 :hidden:
 
-health_files
+health_file
 logo
-readmes
+readme
 theme
 web
 :::
