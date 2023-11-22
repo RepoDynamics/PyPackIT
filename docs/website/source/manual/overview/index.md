@@ -3,6 +3,6 @@
 :::{toctree}
 :hidden:
 
-repo-structure
+dir-structure
 concepts
 :::
