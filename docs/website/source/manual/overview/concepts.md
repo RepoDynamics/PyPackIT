@@ -30,7 +30,7 @@ These are further divided into two categories, primary action commits, and prima
 
 
 #### Primary Action Types
-Primary action commits signify a primary action that is to be performed by ${pp_meta.name}},
+Primary action commits signify a primary action that is to be performed by {{ pp_meta.name }}
 when changes are applied to a release branch. These actions are:
 - **Package release**: Publish a new release of the package. This action is further categorized into:
   - **Major release**: Publish a new major release.
