@@ -1,9 +1,24 @@
 # Configurations and Metadata
 
+Other than the source codes of your package, its unittests, and the content of your website,
+all other contents and configurations for your entire project are managed through the
+control center of your repository, provided by {{pp_meta.name}}.
+
+
+
 Almost all of the configurations and metadata are stored in YAML files.
+
+:::{admonition} Learn more about YAML and TOML formats
+:class: seealso
 To learn more about the YAML file format,
 see [Learn YAML in Y Minutes](https://learnxinyminutes.com/docs/yaml/), or check out the
 full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
+To learn more about the TOML file format,
+see [Learn TOML in Y Minutes](https://learnxinyminutes.com/docs/toml/), or check out the
+full specification at [toml.io](https://toml.io/en/v1.0.0).
+:::
+
+
 
 <pre>
 📦 meta
