@@ -41,7 +41,23 @@ def setup(app):
     return
 
 
-with open(Path(__file__).parents[3] / ".github" / ".metadata.json") as f:
+def _get_path_repo_root() -> Path:
+    """Get the path to the root of the repository."""
+    num_up = -1
+    for parent_dir in Path(__file__).parents:
+        num_up += 1
+        for path in parent_dir.iterdir():
+            if path.is_dir() and path.name == ".github" and (path / ".metadata.json").is_file():
+                return parent_dir, num_up
+    raise RuntimeError(
+        "Could not find the repository root. "
+        "The repository root must have a `.github` directory containing a `.metadata.json` file."
+    )
+
+
+_path_root, _num_up = _get_path_repo_root()
+
+with open(_path_root / ".github" / ".metadata.json") as f:
     meta = json.load(f)
 
 
@@ -83,7 +99,7 @@ author: str = ", ".join(
 project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
 """Copyright statement(s)"""
 
-release: str = importlib.import_module(meta["package"]["name"]).__version__
+release: str = "1.0.0.b1"  # TODO: Make dynamic
 """Full version, including alpha/beta/rc tags"""
 
 version: str = ".".join(release.split(".")[:3])
@@ -160,7 +176,7 @@ templates_path: list[str] = [
 # suppress_warnings: List[str] = []
 needs_sphinx: str = "6.2.1"
 
-needs_extensions: dict[str, str] = {"sphinx_design": "0.4.1", "myst_parser": "2.0.0"}
+needs_extensions: dict[str, str] = {"sphinx_design": "0.5", "myst_parser": "2.0"}
 # manpages_url: str = ""
 nitpicky: bool = True
 """Warn about all references where the target cannot be found"""
@@ -256,8 +272,8 @@ html_theme_options: dict[str, Any] = {
     "logo": {
         # "text": "This will appear just after the logo image",
         # "link": "URL or path that logo links to"
-        "image_light": "_static/simple_light.svg",
-        "image_dark": "_static/simple_dark.svg",
+        "image_light": "_static/logo_simple_light.svg",
+        "image_dark": "_static/logo_simple_dark.svg",
         "alt_text": meta["name"],
     },
     "announcement": meta["url"]["website"]["announcement"],
@@ -338,11 +354,11 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[str, None] = "../../../.meta/ui/logo/icon.png"
+html_favicon: Union[str, None] = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/favicon.png"
 
 html_static_path: list[str] = [
     "_static",
-    "../../../.meta/ui/logo",
+    f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
     # added to the root of static path, since PyData always looks there, regardless of the set path.
     # Ref:
@@ -467,7 +483,7 @@ latex_documents: list[tuple[str, str, str, str, str, bool]] = [
     ),
 ]
 
-latex_logo: str = "_static/logo/full_light.png"  # Doesn't work with SVG files
+latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
 
 latex_show_pagerefs: bool = True
 
