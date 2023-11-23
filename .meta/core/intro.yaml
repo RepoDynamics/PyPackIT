@@ -1,53 +1,85 @@
 tagline: >-
-  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+  A fully automated, plug and play, professional software project management solution
+  for Python packages on GitHub
 
 description: >-
-  ${{ name }} is a free and open-source toolkit
-  <b>empowering the development of open-source Python projects on GitHub</b>.
-  It is a <b>dynamic repository template</b> that provides a complete, professional, and
-  robust infrastructure for your project, where the only thing missing is your code.
-  With ${{ name }}, you can solely focus on what truly matters:
+  ${{ name }} is a fully automated, plug and play, professional software project management solution,
+  <b>empowering the development of Python packages on GitHub</b>.
+  It is a free and open-source software built on top of GitHub Actions,
+  and offered as a GitHub repository template that can be readily utilized
+  by new and existing projects.
+  ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
+  Python package, and documentation website,
+  along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows
+  that automate your entire software development process.
+  With ${{ name }}, you are free to solely focus on what truly matters:
   implementing your ideas and bringing your vision to life!
 
 keywords:
-  - python
-  - github
-  - packaging
-  - template
-  - dynamic repository
-  - repository template
-  - documentation
-  - testing
-  - deployment
-  - maintenance
-  - automation
-  - development
-  - infrastructure
-  - streamline
+  - Project Management
+  - Software Development
+  - DevOps
+  - Continuous Integration
+  - Continuous Deployment
+  - Continuous Testing
+  - Automation
+  - Maintenance
+  - GitHub Actions
+  - Developer Experience
+  - Deployment Manager
+  - Release Automation
+  - Repository Template
+  - Dynamic Repository
+  - Infrastructure as Code
+  - Python
+  - Packaging
+  - Documentation
+  - Website
+  - Bot
+  - Config
+  - CI
+  - CD
+  - Git
+  - GitOps
+  - GitHub
+  - GitHub API
+  - Template
 
 keynotes:
+
   - title: Automation
     description: >-
       ${{ name }} streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
       making your project development a pleasant breeze!
+
   - title: Synchronization
     description: >-
       ${{ name }} gathers all your project's key information and configuration in one place,
       and dynamically updates them throughout your repository, Python package, and documentation website.
+
   - title: Configuration
     description: >-
       ${{ name }} elevates your project by providing full configuration for your repository,
       Python package, and documentation website, according to the latest guidelines and best practices.
+
   - title: Customization
     description: >-
       While carefully configured, ${{ name }} is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs
+
   - title: Documentation
     description: >-
       ${{ name }} comes with a professional website for your project, that is easily
       customizable, and automatically generated and deployed on your preferred platform.
+
   - title: Production
     description: >-
       With ${{ name }}, the only remaining step to publishing a production-ready
       Python project is adding your code, unit-tests and documentation content.
+      where the only thing missing is your code.
+
+  - title: Plug & Play
+    description: >-
+      With ${{ name }} you are only a few clicks away from releasing your Python package
+      on PyPI and GitHub, and having your documentation website up and running.
