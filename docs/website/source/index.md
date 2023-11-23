@@ -16,33 +16,22 @@ help/index
 :::
 
 {% for theme in ["light", "dark"] %}
-:::{image} {{pp_meta.url.website.base}}/_static/full_{{theme}}.svg
+:::{image} _static/logo_full_{{theme}}.svg
 :alt: {{pp_meta.name}}
 :align: center
 :class: only-{{theme}} homepage-logo
 :::
 {% endfor %}
 
-[{{ pp_meta.tagline }}]{.one-liner}
-
 ---
 
+{.homepage}
 {{ pp_meta.description.replace(pp_meta.name,
 "[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
-::::{grid} 1 2 2 2
-:gutter: 3
-{% for point in pp_meta.keynotes %}
-:::{grid-item-card} {{point.title}}
-:class-title: sd-text-center
-{{point.description}}
-:::
-{% endfor %}
-::::
-
-
 ::::{card-carousel} 1
+:class: homepage
 
 :::{card} Intro: Discover the Essence of {{pp_meta.name}}
 :link: intro/index.html
