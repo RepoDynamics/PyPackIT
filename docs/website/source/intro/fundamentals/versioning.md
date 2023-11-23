@@ -4,6 +4,15 @@ is the process of assigning a unique and meaningful identifier to each unique st
 
 A standardized version scheme for identifying Python software distributions
 was introduced in [PEP 440](https://peps.python.org/pep-0440/).
+
+:::{admonition} PyPA Version Specifiers
+:class: seealso
+The up-to-date, canonical reference for specifying Python package versions is
+maintained on the [PyPA specifications page](https://packaging.python.org/en/latest/specifications/),
+under [Version Specifiers](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-specifiers).
+:::
+
+
 According to PEP 440, canonical [public version identifiers](https://peps.python.org/pep-0440/#public-version-identifiers)
 must be unique within a given distribution, and must comply with the following scheme (each `N` must be a non-negative integer):
 :::{code-block} none
