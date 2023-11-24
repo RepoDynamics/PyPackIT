@@ -1,7 +1,7 @@
 # Main Concepts
 
 
-## Brnach Types
+## Branch Types
 {{ pp_meta.name }} categorizes each branch of your repository into one of the following five types:
 - **Release**: Release branches are the publication source for the different major versions of your package.
 - **Pre-release**: Pre-release branches are transient branches that are
