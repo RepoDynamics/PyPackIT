@@ -1,5 +1,5 @@
 <div align="center"><!-- ------------------------- START : Logo ------------------------- -->
-<a href="https://repodynamics.github.io/PyPackIT"><picture><source media="(prefers-color-scheme: dark)" srcset=".meta/ui/logo/full_dark.svg"><source media="(prefers-color-scheme: light)" srcset=".meta/ui/logo/full_light.svg"><img alt="PyPackIT: Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src=".meta/ui/logo/full_light.svg"></picture></a>
+<a href="https://repodynamics.github.io/PyPackIT"><picture><source media="(prefers-color-scheme: dark)" srcset=".meta/ui/branding/logo_full_dark.svg"><source media="(prefers-color-scheme: light)" srcset=".meta/ui/branding/logo_full_light.svg"><img alt="PyPackIT: A fully automated, plug and play, professional software project management solution for Python packages on GitHub" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src=".meta/ui/branding/logo_full_light.svg"></picture></a>
 <!-- ------------------------- END : Logo ------------------------- -->
 <!-- ------------------------- START : Top Panel ------------------------- -->
 <div align="center"><hr width="80%">
@@ -43,7 +43,7 @@
 <hr width="100%"></div>
 <!-- ------------------------- END : Top Panel ------------------------- -->
 <!-- ------------------------- START : Description ------------------------- -->
-<p align="justify"><a href="https://repodynamics.github.io/PyPackIT"><strong><em>PyPackIT</em></strong></a> is a free and open-source toolkit <b>empowering the development of open-source Python projects on GitHub</b>. It is a <b>dynamic repository template</b> that provides a complete, professional, and robust infrastructure for your project, where the only thing missing is your code. With PyPackIT, you can solely focus on what truly matters: implementing your ideas and bringing your vision to life!</p>
+<p align="justify"><a href="https://repodynamics.github.io/PyPackIT"><strong><em>PyPackIT</em></strong></a> is a fully automated, plug and play, professional software project management solution, <b>empowering the development of Python packages on GitHub</b>. It is a free and open-source software built on top of GitHub Actions, and offered as a GitHub repository template that can be readily utilized by new and existing projects. PyPackIT provides a complete, professional, and robust infrastructure for your repository, Python package, and documentation website, along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows that automate your entire software development process. With PyPackIT, you are free to solely focus on what truly matters: implementing your ideas and bringing your vision to life!</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automation&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automation&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
@@ -79,7 +79,13 @@
 	<source srcset="https://img.shields.io/static/v1?label=&message=Production&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Production" title="Production" height="35px" src="https://img.shields.io/static/v1?label=&message=Production&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">With PyPackIT, the only remaining step to publishing a production-ready Python project is adding your code, unit-tests and documentation content.</p>
+<p align="justify">With PyPackIT, the only remaining step to publishing a production-ready Python project is adding your code, unit-tests and documentation content. where the only thing missing is your code.</p>
+<picture>
+	<source srcset="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
+	<source srcset="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
+	<img alt="Plug & Play" title="Plug & Play" height="35px" src="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=135400">
+</picture>
+<p align="justify">With PyPackIT you are only a few clicks away from releasing your Python package on PyPI and GitHub, and having your documentation website up and running.</p>
 <!-- ------------------------- END : Description ------------------------- -->
 <!-- ------------------------- START : Bottom Panel ------------------------- -->
 <div align="center"><hr width="100%">

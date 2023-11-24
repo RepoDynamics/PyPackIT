@@ -104,22 +104,6 @@ python_functions = ["test_*", "tests_*", "*_test", "*_tests"]
 required_plugins = ["pytest-cov>=4.1.0,<5"]
 testpaths = ["tests"]
 
-[tool.coverage]
-[tool.coverage.run]
-branch = true
-data_file = ".local/cache/coverage/.coverage"
-source_pkgs = ["pypackit"]
-
-[tool.coverage.report]
-exclude_also = ["def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:", "@(abc\\.)?abstractmethod"]
-show_missing = true
-
-[tool.coverage.html]
-directory = ".local/report/coverage"
-
-[tool.coverage.xml]
-output = ".local/report/coverage/coverage.xml"
-
 [tool.isort]
 profile = "black"
 line_length = 100
@@ -203,6 +187,22 @@ target-version = ["py310", "py311", "py312"]
 line-length = 100
 verbose = true
 
+[tool.coverage]
+[tool.coverage.run]
+branch = true
+data_file = ".local/cache/coverage/.coverage"
+source_pkgs = ["pypackit"]
+
+[tool.coverage.report]
+exclude_also = ["def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:", "@(abc\\.)?abstractmethod"]
+show_missing = true
+
+[tool.coverage.html]
+directory = ".local/report/coverage"
+
+[tool.coverage.xml]
+output = ".local/report/coverage/coverage.xml"
+
 [tool.bandit]
 targets = ["src"]
 
@@ -211,7 +211,7 @@ name = "pypackit"
 dynamic = [
     'version',
 ]
-description = "Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!"
+description = "A fully automated, plug and play, professional software project management solution for Python packages on GitHub"
 readme = "src/readme_pypi.md"
 requires-python = ">= 3.10"
 authors = [
@@ -221,20 +221,26 @@ maintainers = [
     {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
 ]
 keywords = [
-    'python',
-    'github',
-    'packaging',
-    'template',
-    'dynamic repository',
-    'repository template',
-    'documentation',
-    'testing',
-    'deployment',
-    'maintenance',
-    'automation',
-    'development',
-    'infrastructure',
-    'streamline',
+    'Project Management',
+    'Software Development',
+    'DevOps',
+    'Continuous Integration',
+    'Continuous Deployment',
+    'Continuous Testing',
+    'Automation',
+    'Maintenance',
+    'GitHub Actions',
+    'Developer Experience',
+    'Deployment Manager',
+    'Release Automation',
+    'Repository Template',
+    'Dynamic Repository',
+    'Infrastructure as Code',
+    'Python',
+    'Packaging',
+    'Website',
+    'Bot',
+    'Config',
 ]
 classifiers = [
     'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',

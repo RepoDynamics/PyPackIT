@@ -1,11 +1,15 @@
 """PyPackIT
 
-Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+A fully automated, plug and play, professional software project management solution for
+Python packages on GitHub
 
-PyPackIT is a free
-and open-source toolkit <b>empowering the development of open-source Python projects on GitHub</b>.
-It is a <b>dynamic repository template</b> that provides a complete, professional, and robust
-infrastructure for your project, where the only thing missing is your code. With PyPackIT, you can
+PyPackIT is a fully automated, plug and play, professional software
+project management solution, <b>empowering the development of Python packages on GitHub</b>. It is a
+free and open-source software built on top of GitHub Actions, and offered as a GitHub repository
+template that can be readily utilized by new and existing projects. PyPackIT provides a complete,
+professional, and robust infrastructure for your repository, Python package, and documentation
+website, along with a full set of continuous integration, deployment, and testing (CI/CD/CT)
+workflows that automate your entire software development process. With PyPackIT, you are free to
 solely focus on what truly matters: implementing your ideas and bringing your vision to life!
 Copyright 2023 RepoDynamics
 
