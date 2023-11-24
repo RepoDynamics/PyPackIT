@@ -8,7 +8,7 @@ description: |
   It is a free and open-source software built on top of GitHub Actions,
   and offered as a GitHub repository template that can be readily utilized
   by new and existing projects.
-  
+
   ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
   Python package, and documentation website,
   along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows
