@@ -38,70 +38,55 @@ help/index
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
-Start off with the Introduction section to learn more about
+
+Start off with the introduction section to learn more about
 {{pp_meta.name}}'s motivations, objectives and capabilities.
 This section offers a high-level overview of {{pp_meta.name}}, highlighting its main features,
 the challenges they address, and the value they bring to your projects.
 Serving as an excellent starting point for new users,
-it also provides a summary of related background information and concepts
+it also provides a summary of useful background information and concepts
 that are essential to fully understanding and utilizing {{pp_meta.name}}.
 :::
 
 
 :::{card} Manual: Your Comprehensive Guide
-:link: intro/index.html
+:link: manual/index.html
 :img-top: /_static/img/icon/user_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Dive into our Manual section for detailed step-by-step instructions on using {{pp_meta.name}} efficiently.
-From setting up your project to deploying it, this comprehensive guide covers all essential aspects
-of package development and maintenance.
-
-The Manual section contains comprehensive documentation and guides for users to understand
-the various functionalities and how to use PyPackIT effectively. It will provide step-by-step instructions
-for different tasks and explain the available features in detail.
-
-The user guide provides in-depth information on the
-key concepts of SciPy with useful background information and explanation.
-
+Dive into the user manual for in-depth information on the key concepts of {{pp_meta.name}},
+along with detailed explanations of all its features and functionalities.
+From step-by-step instructions on setting up {{pp_meta.name}} for the first time
+and integrating it into your new or existing project,
+to comprehensive guides on how to use its various features and functionalities
+in your software development process,
+the user manual covers everything you need to know
+to fully leverage {{pp_meta.name}}'s capabilities.
+Acting as the main reference for new and experienced users alike,
+this section also provides a full overview of all configurations, metadata, and settings
+that can be used to fully customize {{pp_meta.name}} to your specific needs.
 :::
-
-
-:::{card} API: Master the {{pp_meta.name}} Programming Interface
-:link: intro/index.html
-:img-top: /_static/img/icon/api.svg
-:text-align: center
-:class-img-top: dark-light icon-image
-
-For advanced users seeking deeper insights into PyPackIT,
-our API section provides a thorough reference guide.
-Explore the complete Python package documentation and learn to interact programmatically with PyPackIT.
-
-This section is likely dedicated to providing a comprehensive API reference for PyPackIT.
-It will be beneficial for more advanced users who want to interact with PyPackIT programmatically
-and need detailed information about the available functions and methods.
-:::
-
 
 :::{card} News: Stay Informed with {{pp_meta.name}} Updates
-:link: intro/index.html
+:link: news/index.html
 :img-top: /_static/img/icon/news.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Stay up-to-date with the latest news, announcements, and developments related to PyPackIT.
-The News section keeps you informed about new features, bug fixes, and enhancements that make your
-Python journey even smoother.
-
-The News section will likely keep users updated with the latest developments, updates,
-and announcements related to PyPackIT. It's essential for users to stay informed about new features,
-bug fixes, and other project-related news.
+Check out our blog to stay up to date with the latest news, announcements,
+and developments of the {{pp_meta.name}} project.
+The news section keeps you informed about {{pp_meta.name}}'s new releases,
+and their new features, bug fixes, and enhancements that make your software development process even smoother.
+Being the main source of information about {{pp_meta.name}}'s latest developments,
+this section is a full-fledged blog with RSS feed support that you can subscribe to,
+so you never miss out on any important updates.
+It also provides insights into the project's roadmap,
+and the team's plans for the future of {{pp_meta.name}}.
 :::
 
-
 :::{card} Contribute: Join the PyPackIT Community
-:link: intro/index.html
+:link: contribute/index.html
 :img-top: /_static/img/icon/dev_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
@@ -111,9 +96,8 @@ In the Contribute section, you'll find guidelines on how to get involved,
 report issues, and actively participate in making PyPackIT even better.
 :::
 
-
 :::{card} About: Unveiling the PyPackIT Story
-:link: intro/index.html
+:link: about/index.html
 :img-top: /_static/img/icon/about.svg
 :text-align: center
 :class-img-top: dark-light icon-image
@@ -125,9 +109,8 @@ The About section will likely provide more in-depth information about the PyPack
 including its history, the team behind it, its mission, and any notable achievements.
 :::
 
-
 :::{card} Help: Find Support When You Need It
-:link: intro/index.html
+:link: help/index.html
 :img-top: /_static/img/icon/faq.svg
 :text-align: center
 :class-img-top: dark-light icon-image
@@ -138,18 +121,6 @@ Explore FAQs, troubleshoot common issues, and connect with our support team for 
 The Help section can serve as a user support hub, offering assistance to users facing challenges or
 seeking answers to common questions. It may include FAQs, troubleshooting guides, and ways to reach out
 to the support team.
-:::
-
-:::{card} Miscellaneous
-:link: intro/index.html
-:text-align: center
-:img-top: /_static/img/icon/misc.svg
-:class-img-top: dark-light icon-image
-
-* Item one
-* item two
-* uwrgw wowinwnwfw wrgww egeg eg eerg e erheh
-* gegethe
 :::
 
 ::::
