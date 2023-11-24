@@ -43,7 +43,19 @@
 <hr width="100%"></div>
 <!-- ------------------------- END : Top Panel ------------------------- -->
 <!-- ------------------------- START : Description ------------------------- -->
-<p align="justify"><a href="https://repodynamics.github.io/PyPackIT"><strong><em>PyPackIT</em></strong></a> is a fully automated, plug and play, professional software project management solution, <b>empowering the development of Python packages on GitHub</b>. It is a free and open-source software built on top of GitHub Actions, and offered as a GitHub repository template that can be readily utilized by new and existing projects. PyPackIT provides a complete, professional, and robust infrastructure for your repository, Python package, and documentation website, along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows that automate your entire software development process. With PyPackIT, you are free to solely focus on what truly matters: implementing your ideas and bringing your vision to life!</p>
+<p align="justify"><a href="https://repodynamics.github.io/PyPackIT"><strong><em>PyPackIT</em></strong></a> is a fully automated, plug and play, professional software project management solution,
+<b>empowering the development of Python packages on GitHub</b>.
+It is a free and open-source software built on top of GitHub Actions,
+and offered as a GitHub repository template that can be readily utilized
+by new and existing projects.
+
+PyPackIT provides a complete, professional, and robust infrastructure for your repository,
+Python package, and documentation website,
+along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows
+that automate your entire software development process.
+With PyPackIT, you are free to solely focus on what truly matters:
+implementing your ideas and bringing your vision to life!
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automation&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automation&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
