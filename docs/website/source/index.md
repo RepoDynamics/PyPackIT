@@ -44,7 +44,7 @@ Start off with the introduction section to learn more about
 This section offers a high-level overview of {{pp_meta.name}}, highlighting its main features,
 the challenges they address, and the value they bring to your projects.
 Serving as an excellent starting point for new users,
-it also provides a summary of useful background information and concepts
+it also provides a summary of fundamental concepts and background information
 that are essential to fully understanding and utilizing {{pp_meta.name}}.
 :::
 
