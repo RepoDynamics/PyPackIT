@@ -210,16 +210,12 @@ keynotes:
       and that you can easily collaborate with other developers on your project,
       without having to install any software or configure any tools on your local machine.
 
-  - title: Production
-    description: >-
-      With ${{ name }}, the only remaining step to publishing a production-ready
-      Python project is adding your code, unit-tests and documentation content.
-      where the only thing missing is your code.
-
   - title: Plug & Play
     description: >-
       With ${{ name }} you are only a few clicks away from releasing your Python package
-      on PyPI and GitHub, and having your documentation website up and running.
+      on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
+      professional, and dynamic repository up and running, where the only remaining steps in your
+      software development process are adding your code, unit-tests and documentation content.
 
   - title: Self-Contained & Secure
     description: >-
