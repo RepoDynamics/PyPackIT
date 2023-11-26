@@ -7,7 +7,7 @@ description: >-
   <b>empowering the development of Python packages on GitHub</b>.
   It is a free and open-source software built on top of GitHub Actions,
   and offered as a GitHub repository template that can be readily utilized
-  by new and existing projects.<br>
+  by new and existing projects.
   ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
   Python package, test suite, and documentation website,
   along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows
@@ -94,7 +94,7 @@ keynotes:
       and metadata files scattered across your repository and each with its own format and syntax,
       you can simply manage your entire project from within the control center,
       using a single, unified, and consistent interface;
-      {{ name }} automatically translates your changes into the appropriate formats,
+      ${{ name }} automatically translates your changes into the appropriate formats,
       generates all necessary files in the required locations, and updates them dynamically.
       
       The control center contains all key information and metadata of your project,
@@ -222,12 +222,12 @@ keynotes:
       ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
       with the exception of a handful of fundamental GitHub Actions and Python libraries from
       official sources such as the Python Packaging Authority and GitHub itself,
-      {{ name }} has no external dependencies, and does not rely on any third-party services.
+      ${{ name }} has no external dependencies, and does not rely on any third-party services.
       Instead, all key features and functionalities of ${{ name }} are implemented natively,
       in a series of open-source GitHub Actions and Python libraries developed and maintained
       by the ${{ name }} team.
       This makes ${{ name }} highly secure, robust, error-proof, and reliable,
-      and gives the {{ name }} team full control over the entire software stack,
+      and gives the ${{ name }} team full control over the entire software stack,
       allowing us to rapidly respond to any issues or bugs that may arise,
       and to continuously improve and enhance the platform.
       It also ensures that the entire infrastructure of ${{ name }} is fully transparent,
