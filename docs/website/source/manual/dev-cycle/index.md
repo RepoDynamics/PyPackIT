@@ -1,5 +1,13 @@
 # Development Cycle
 
+:::{toctree}
+:hidden:
+
+intro
+cycle
+:::
+
+
 Every change in the repository is initiated by opening an issue.
 Each issue form is linked to a specific primary commit type.
 In addition, each issue form has a field where the person submitting the issue can specify
