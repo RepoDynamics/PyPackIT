@@ -5,7 +5,7 @@
 
 background/index
 overview/index
-fundamentals/index
+basics/index
 :::
 
 
@@ -37,8 +37,8 @@ highlighting its main features and capabilities,
 the challenges they address, and the value they bring to your projects.
 :::
 
-:::{grid-item-card} Fundamentals
-:link: fundamentals/index
+:::{grid-item-card} Basics
+:link: basics/index
 :link-type: doc
 :margin: 3 3 auto auto
 :width: 100%

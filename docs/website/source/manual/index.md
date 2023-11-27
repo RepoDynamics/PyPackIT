@@ -3,10 +3,10 @@
 :::{toctree}
 :hidden:
 
-overview/index
-getting-started/index
-control-center/index
-dev-cycle/index
+fundamentals/index
+install/index
+control/index
+usage/index
 :::
 
 
@@ -28,34 +28,34 @@ The {{ pp_meta.name }} user manual is organized into the following main sections
 ::::{grid} 1 2 2 2
 :gutter: 3
 
-:::{grid-item-card} Overview
+:::{grid-item-card} Fundamentals
 :class-title: sd-text-center
-:link: overview/index
+:link: fundamentals/index
 :link-type: doc
 
 An overview of {{ pp_meta.name }}'s functionalities and how it works.
 :::
 
-:::{grid-item-card} Getting Started
+:::{grid-item-card} Installation
 :class-title: sd-text-center
-:link: getting-started/index
+:link: install/index
 :link-type: doc
 
 A step-by-step guide to getting started with {{ pp_meta.name }}.
 :::
 
-:::{grid-item-card} Configurations and Metadata
+:::{grid-item-card} Control Center
 :class-title: sd-text-center
-:link: control-center/index
+:link: control/index
 :link-type: doc
 
 A full reference of all available configurations and metadata
   that can be specified in the repository's `meta` directory.
 :::
 
-:::{grid-item-card} Development Cycle
+:::{grid-item-card} Usage
 :class-title: sd-text-center
-:link: dev-cycle/index
+:link: usage/index
 :link-type: doc
 
 A detailed description of the development cycle of a {{ pp_meta.name }} repository.
