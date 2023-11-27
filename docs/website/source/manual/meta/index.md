@@ -1,5 +1,19 @@
 # Configurations and Metadata
 
+:::{toctree}
+:hidden:
+
+path
+extensions
+config
+core/index
+dev/index
+package/index
+ui/index
+generated/index
+:::
+
+
 Other than the source codes of your package, its unittests, and the content of your website,
 all other contents and configurations for your entire project are managed through the
 control center of your repository, provided by {{pp_meta.name}}.
@@ -119,16 +133,3 @@ full specification at [toml.io](https://toml.io/en/v1.0.0).
  ┃
  ┗ 📄 <a href="path" title="Repository Paths">path.yaml</a>
 </pre>
-
-
-:::{toctree}
-:hidden:
-
-path
-extensions
-config
-core/index
-dev/index
-package/index
-ui/index
-:::
