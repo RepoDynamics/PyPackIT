@@ -1,6 +1,6 @@
 # Generated Metadata
 
-### `repo`
+## `repo`
 - dictionary of strings
 
 Target repository's metadata as a dictionary with the following keys:
