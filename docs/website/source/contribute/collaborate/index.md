@@ -57,7 +57,7 @@ head down to the section addressing the type of contribution you want to make
 
 
 ## License and Copyright
-{{pp_meta.name}} is licensed under the {{pp_meta.project.license.fullname}}.
+{{pp_meta.name}} is licensed under the {{pp_meta.license.fullname}}.
 In essence, this means that any contribution you make, such as code, media, and documents,
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution,
@@ -89,7 +89,7 @@ to [contribute to the project](https://docs.github.com/en/get-started/quickstart
 and use [GitHub Discussions](https://docs.github.com/en/discussions/quickstart)
 as the starting point for most of our
 [communications](https://docs.github.com/en/get-started/quickstart/communicating-on-github).
-With a standardized workflow, almost all activities in {project_name} follow the same steps.
+With a standardized workflow, almost all activities in {{pp_meta.name}} follow the same steps.
 
 Also have a look at GitHub documentation on [planning and tracking tools](https://docs.github.com/en/issues/tracking-your-work-with-issues/planning-and-tracking-work-for-your-team-or-project)
 .
