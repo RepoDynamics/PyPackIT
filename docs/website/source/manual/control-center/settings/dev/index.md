@@ -1,4 +1,4 @@
-# Development Configurations
+# Development
 
 
 :::{toctree}

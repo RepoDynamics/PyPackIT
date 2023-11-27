@@ -1,4 +1,4 @@
-# Generated Metadata
+# Outputs
 
 :::{toctree}
 :hidden:

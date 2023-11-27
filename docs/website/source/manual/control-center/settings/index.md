@@ -1,4 +1,4 @@
-# Configurations and Metadata
+# Settings
 
 :::{toctree}
 :hidden:
@@ -10,7 +10,6 @@ core/index
 dev/index
 package/index
 ui/index
-generated/index
 :::
 
 

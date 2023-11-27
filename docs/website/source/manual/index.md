@@ -5,7 +5,7 @@
 
 overview/index
 getting-started/index
-meta/index
+control-center/index
 dev-cycle/index
 :::
 
@@ -46,7 +46,7 @@ A step-by-step guide to getting started with {{ pp_meta.name }}.
 
 :::{grid-item-card} Configurations and Metadata
 :class-title: sd-text-center
-:link: meta/index
+:link: control-center/index
 :link-type: doc
 
 A full reference of all available configurations and metadata
