@@ -78,7 +78,7 @@ Then, we use the [pypi-publish](https://github.com/marketplace/actions/pypi-publ
 to publish the package on PyPI and TestPyPI, using trusted publishing.
 
 
-#### Description
+## Description
 The project description shown on PyPI is defined in pyproject.toml, under the \[project] table.
 
 PyPI uses the [readme_renderer](https://pypi.org/project/readme-renderer/) Python package to generate
