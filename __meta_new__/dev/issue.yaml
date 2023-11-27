@@ -11,7 +11,7 @@ forms:
     pre_process:
       if_any: [ "${{ package.releases.gui_scripts }}" ]
     primary_type: release_patch
-    sub_type: gui
+    subtype: gui
     name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
     description: >-
       Report a problem (e.g. errors and unexpected results) encountered
@@ -232,7 +232,7 @@ forms:
           required: true
   - id: app_bug_cli
     primary_type: release_patch
-    sub_type: cli
+    subtype: cli
     pre_process:
       if_any: [ "${{ package.releases.cli_scripts }}" ]
     name: ' 🖥 App 🐞 Bug Report ⌨️ CLI'
@@ -460,7 +460,7 @@ forms:
           required: true
   - id: app_bug_api
     primary_type: release_patch
-    sub_type: api
+    subtype: api
     name: ' 🖥 App 🐞 Bug Report 📱 API'
     description: >-
       Report a problem (e.g., errors and unexpected results) encountered
@@ -731,7 +731,7 @@ forms:
         {log}
   - id: app_bug_setup
     primary_type: release_patch
-    sub_type: setup
+    subtype: setup
     name: ' 🖥 App 🐞 Bug Report ⚙️ Setup'
     description: >-
       Report a problem in downloading, installation, or initialization of the application.
@@ -937,7 +937,7 @@ forms:
           required: false
   - id: app_request_enhancement
     primary_type: release_minor
-    sub_type: enhancement
+    subtype: enhancement
     name: ' 🖥 App 🔔 Request 🚀 Enhancement'
     description: >-
       Request an improvement to an existing feature in the application,
@@ -1123,7 +1123,7 @@ forms:
           required: true
   - id: app_request_feature
     primary_type: release_minor
-    sub_type: feat
+    subtype: feat
     name: ' 🖥 App 🔔 Request ✨ New Feature'
     description: >-
       Request a brand new feature that is not yet available in the application.
@@ -1328,7 +1328,7 @@ forms:
 
   - id: app_request_breaking
     primary_type: release_major
-    sub_type: breaking
+    subtype: breaking
     name: ' 🖥 App 🔔 Request 💥 Breaking Change'
     description: >-
       Request a backward-incompatible change to the API,
