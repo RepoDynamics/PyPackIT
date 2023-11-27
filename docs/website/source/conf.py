@@ -300,7 +300,7 @@ html_theme_options: dict[str, Any] = {
     "footer_start": ["version", "copyright", "pypackit_ver"],
     "footer_end": ["quicklinks"],  # "sphinx-version", "theme-version"
     "show_nav_level": 1,
-    "navigation_depth": 3,
+    "navigation_depth": 5,
     "show_toc_level": 2,
     "header_links_before_dropdown": 7,
     "icon_links": meta["web"]["navbar_icons"],
