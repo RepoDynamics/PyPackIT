@@ -1,5 +1,5 @@
 primary_action:
-  package_major:
+  release_major:
     description: |
       Remove features/components from - or introduce breaking changes to - the public API,
       and publish a new major release of the package.
@@ -7,14 +7,14 @@ primary_action:
     sub_types:
       any: [ remove, change ]
       exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
-  package_minor:
+  release_minor:
     description: |
         Add features/components to - or enhance/deprecate existing features in - the public API,
         and publish a new minor release of the package.
     type: minor
     sub_types:
       any: [ deprecate, feat, enhance ]
-  package_patch:
+  release_patch:
     description: |
         Fix bugs or security issues in the public API,
         or improve the performance of existing functionalities,
@@ -22,7 +22,7 @@ primary_action:
     type: patch
     sub_types:
       any: [ secure, fix, perf ]
-  package_post:
+  release_post:
     description: |
         Fix documentation or release notes in a previous package release,
         and publish a new post release.
