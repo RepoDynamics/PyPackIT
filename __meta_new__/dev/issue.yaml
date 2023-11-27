@@ -10,7 +10,7 @@ forms:
   - id: app_bug_gui
     pre_process:
       if_any: [ "${{ package.releases.gui_scripts }}" ]
-    primary_commit_id: package_patch
+    primary_type: release_patch
     sub_type: gui
     name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
     description: >-
@@ -231,7 +231,7 @@ forms:
         validations:
           required: true
   - id: app_bug_cli
-    primary_commit_id: package_patch
+    primary_type: release_patch
     sub_type: cli
     pre_process:
       if_any: [ "${{ package.releases.cli_scripts }}" ]
@@ -459,11 +459,11 @@ forms:
         validations:
           required: true
   - id: app_bug_api
-    primary_commit_id: package_patch
+    primary_type: release_patch
     sub_type: api
     name: ' 🖥 App 🐞 Bug Report 📱 API'
     description: >-
-      Report a problem (e.g. errors and unexpected results) encountered
+      Report a problem (e.g., errors and unexpected results) encountered
       while using the application's Python API.
     body:
       - type: markdown
@@ -730,7 +730,7 @@ forms:
 
         {log}
   - id: app_bug_setup
-    primary_commit_id: package_patch
+    primary_type: release_patch
     sub_type: setup
     name: ' 🖥 App 🐞 Bug Report ⚙️ Setup'
     description: >-
@@ -936,7 +936,7 @@ forms:
         validations:
           required: false
   - id: app_request_enhancement
-    primary_commit_id: package_minor
+    primary_type: release_minor
     sub_type: enhancement
     name: ' 🖥 App 🔔 Request 🚀 Enhancement'
     description: >-
@@ -1122,7 +1122,7 @@ forms:
         validations:
           required: true
   - id: app_request_feature
-    primary_commit_id: package_minor
+    primary_type: release_minor
     sub_type: feat
     name: ' 🖥 App 🔔 Request ✨ New Feature'
     description: >-
@@ -1327,7 +1327,7 @@ forms:
         {summary}
 
   - id: app_request_breaking
-    primary_commit_id: package_major
+    primary_type: release_major
     sub_type: breaking
     name: ' 🖥 App 🔔 Request 💥 Breaking Change'
     description: >-
@@ -1513,7 +1513,7 @@ forms:
           required: true
 
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '📚 Docs  🪲 Bug Report  📄 Content'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1522,7 +1522,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '📚 Docs  🪲 Bug Report  🌐 Website'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1531,7 +1531,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '📚 Docs  🔔 Request  💫 New Content'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1539,7 +1539,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '📚 Docs  🔔 Request  ✨ New Feature'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1547,7 +1547,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '🧪 Tests  🪲 Bug Report'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1555,7 +1555,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '🧪 Tests  🔔 Request'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1563,7 +1563,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '🏗 DevOps  🪲 Bug Report'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1571,7 +1571,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '🏗 DevOps  🔔 Request'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
@@ -1580,7 +1580,7 @@ forms:
 #      body:
 #
 #    - id: web_bug_frontend
-#      primary_commit_id: web
+#      primary_type: web
 #      name: '🧹  Maintenance  🔔 Request'
 #      labels: [ "SubType: breaking" ]
 #      description: >-
