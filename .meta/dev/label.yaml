@@ -4,7 +4,7 @@ auto_group:
     prefix: "Version: "
     color: "0366d6"
 
-  target:
+  branch:
     prefix: "Target: "
     color: "0366d6"
 
@@ -13,19 +13,19 @@ group:
     prefix: 'Type: '
     color: A00000
     labels:
-      package_major:
+      release_major:
         suffix: 'major-release'
         description: |
           Resolving/merging the labeled issue/pull-request will result in a major release of the package.
-      package_minor:
+      release_minor:
         suffix: 'minor-release'
         description: |
           Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
-      package_patch:
+      release_patch:
         suffix: 'patch-release'
         description: |
           Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
-      package_post:
+      release_post:
         suffix: 'post-release'
         description: |
           Resolving/merging the labeled issue/pull-request will result in a post release of the package.
