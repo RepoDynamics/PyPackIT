@@ -14,7 +14,7 @@
 - [Local Directory](#local-directory): Used to store cached data, reports, and logs, when working on a local clone of the repository.
 
 Other than the GitHub directory, which has a fixed name and location,
-you can [customize the paths](../control-center/options/path.md) to all other five directories.
+you can [customize the paths](../control/options/path.md) to all other five directories.
 However, each directory must conform to a specific substructure;
 these are all created automatically when you initialize your repository from the {{pp_meta.name}} template.
 
