@@ -252,14 +252,14 @@ Display a form only if the package has a GUI interface:
 :caption: 🗂 `.meta/dev/issue.yaml`
 forms:
   - pre_process:
-      if_any: [ "${{ package.releases.gui_scripts }}" ]
+      if_any: [ "${‎{ package.releases.gui_scripts }}" ]
 :::
 Display a form only if the package has a CLI interface:
 :::{code-block} yaml
 :caption: 🗂 `.meta/dev/issue.yaml`
 forms:
   - pre_process:
-      if_any: [ "${{ package.releases.cli_scripts }}" ]
+      if_any: [ "${‎{ package.releases.cli_scripts }}" ]
 :::
 Display an element within a form only if the package has scripts:
 :::{code-block} yaml
@@ -267,7 +267,7 @@ Display an element within a form only if the package has scripts:
 forms:
   - body:
       - pre_process:
-          if_any: [ "${{ package.releases.has_scripts }}" ]
+          if_any: [ "${‎{ package.releases.has_scripts }}" ]
 :::
 ::::
 
