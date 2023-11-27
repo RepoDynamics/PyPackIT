@@ -218,4 +218,4 @@ and are **not authorized** for testing. Additionally, vulnerabilities found in s
 fall outside of this policy's scope and should be reported directly to the vendor according to their
 disclosure policy (if any). If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at {{pp_meta.email.security}} to discuss it first, before starting your research.
+please contact us at {{pp_meta.maintainer.email.security}} to discuss it first, before starting your research.
