@@ -70,7 +70,7 @@ Example:
 :caption: 🗂 `./.meta/core/credits.yaml`
 author:
   entries:
-    - username: ${{ owner.username }}
+    - username: ${‎{ owner.username }}
       roles: [ concept, dev, maint ]
     - username: RepoDynamicsBot
       roles: [ maint ]
