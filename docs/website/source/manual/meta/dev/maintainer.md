@@ -22,5 +22,9 @@
 ::::
 :::::
 
-## [Code Owners](CODEOWNERS)
+## Pull Request Reviewers
+
+### Code Owners
 https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+## Issue Assignees
