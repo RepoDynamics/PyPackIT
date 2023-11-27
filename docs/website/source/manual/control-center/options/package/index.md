@@ -1,5 +1,4 @@
-# Package Configurations and Metadata
-
+# Package
 
 :::{toctree}
 :hidden:

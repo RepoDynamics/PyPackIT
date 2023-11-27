@@ -1,4 +1,4 @@
-# Meta Extensions
+# Extensions
 
 :::::{tab-set}
 ::::{tab-item} Info

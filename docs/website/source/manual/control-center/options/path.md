@@ -1,4 +1,4 @@
-# Repository Paths
+# Paths
 You can change the name and location of your repository's main directories.
 Notice that these changes are not applied automatically, meaning that you must manually
 rename the directories and update the corresponding paths in the `meta` content in the same commit.

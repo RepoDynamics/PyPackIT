@@ -1,4 +1,4 @@
-# Settings
+# Options
 
 :::{toctree}
 :hidden:

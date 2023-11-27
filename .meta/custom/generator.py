@@ -48,7 +48,7 @@ def schemas():
             "pre_config": all_have_defaults,
             "path": str(rel_path),
         }
-        out[f"manual/control-center/settings/{rel_path.with_suffix('')}"] = entry
+        out[f"manual/control-center/options/{rel_path.with_suffix('')}"] = entry
         # name = rel_path.stem
         # if rel_path.parent == Path("."):
         #     out[name] = entry
