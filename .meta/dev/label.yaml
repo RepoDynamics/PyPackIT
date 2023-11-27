@@ -50,7 +50,7 @@ group:
         description: |
           An issue/pull-request about the GitHub workflows of the repository.
 
-  sub_type:
+  subtype:
     prefix: 'SubType: '
     color: '0366d6'
     labels:
