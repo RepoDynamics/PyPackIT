@@ -8,7 +8,7 @@
 #    ----------
 #    Properties
 #    ----------
-#    package_major : object, optional
+#    release_major : object, optional
 #       Configurations for major package release action commit.
 #       ----------
 #       Properties
@@ -28,7 +28,7 @@
 #          exclude : array of strings, optional
 #             A list of `secondary_custom` commit-type IDs
 #             that must not be present in the head branch.
-#    package_minor : object, optional
+#    release_minor : object, optional
 #       Configurations for minor package release action commit.
 #       The keys are the same as for the major package release action commit.
 #       --------
@@ -38,7 +38,7 @@
 #           Add features/components to - or enhance/deprecate existing features in - the public API,
 #           and publish a new minor release of the package.
 #       type: minor
-#    package_patch : object, optional
+#    release_patch : object, optional
 #       Configurations for patch package release action commit.
 #       The keys are the same as for the major package release action commit.
 #       --------
@@ -49,7 +49,7 @@
 #           or improve the performance of existing functionalities,
 #           and publish a new patch release of the package.
 #       type: patch
-#    package_post : object, optional
+#    release_post : object, optional
 #       Configurations for post package release action commit.
 #       The keys are the same as for the major package release action commit.
 #       --------
@@ -90,7 +90,7 @@
 #    Configurations for primary custom commit types.
 #    For each custom commit type, a key-value pair must be added,
 #    where the key is the ID of the commit type (to reference in other places),
-#    and the value is an object with the same properties as the `package_major` object.
+#    and the value is an object with the same properties as the `release_major` object.
 # secondary_action : object, optional
 #    Configurations for secondary action commit types.
 #    ----------
@@ -133,7 +133,7 @@
 #       ID of the section of the changelog to which the commit will be added.
 
 primary_action:
-  package_major:
+  release_major:
     description: |
       Remove features/components from - or introduce breaking changes to - the public API,
       and publish a new major release of the package.
@@ -141,14 +141,14 @@ primary_action:
     sub_types:
       any: [ remove, change ]
       exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
-  package_minor:
+  release_minor:
     description: |
         Add features/components to, or enhance/deprecate existing features in, the public API,
         and publish a new minor release of the package.
     type: minor
     sub_types:
       any: [ deprecate, feat, enhance ]
-  package_patch:
+  release_patch:
     description: |
         Fix bugs or security issues in the public API,
         or improve the performance of existing functionalities,
@@ -156,7 +156,7 @@ primary_action:
     type: patch
     sub_types:
       any: [ secure, fix, perf ]
-  package_post:
+  release_post:
     description: |
         Fix documentation or release notes in a previous package release,
         and publish a new post release.
