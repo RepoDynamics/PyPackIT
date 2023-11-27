@@ -54,9 +54,7 @@ your project name can only contain ASCII alphanumeric characters,
 spaces, periods `.`, underscores `_` and hyphens `-`.
 Additionally, it must start and end with an alphanumeric character,
 meaning that the name must match the following regex:
-```regex
-^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$
-```
+`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$`.
 
 :::{note}
 The package name is derived from the name of the project, via normalization[^name-normalization]:
