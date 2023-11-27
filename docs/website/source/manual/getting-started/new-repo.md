@@ -18,10 +18,7 @@ option from the dropdown menu.
 :::{admonition} Naming convention
 :class: important
 A GitHub repository name can only contain alphanumeric characters,
-hyphens, underscores, and periods. That is, the matching regular expression is:
-```regex
-^[a-zA-Z0-9._-]+$
-```
+hyphens, underscores, and periods. That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
 By default, {{pp_meta.name}} also derives the name of your project, as well as the package name,
 from the repository name. The project name on itself has no restrictions, and is simply constructed
 by replacing each hyphen in the repository name with a space:
@@ -35,9 +32,7 @@ requires that the package name consists only of ASCII alphanumeric characters,
 hyphens, underscores, and periods.
 Additionally, it must start and end with an alphanumeric character,
 meaning that a valid non-normalized project name must match the following regex:
-```regex
-^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$
-```
+`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$`.
 PyPA then normalizes the package name by lowercasing the non-normalized name,
 and replacing all runs of consecutive hyphens, underscores, and periods with a single hyphen:
 ```python
