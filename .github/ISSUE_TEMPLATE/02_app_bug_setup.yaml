@@ -82,7 +82,10 @@ body:
     description: "Which operating systems have you tested?\nPlease select all options
       where you have encountered the bug.\n"
     multiple: true
-    options: []
+    options:
+    - Linux
+    - Windows
+    - macOS
   validations:
     required: true
 - type: dropdown
@@ -92,7 +95,10 @@ body:
     description: "Which Python versions have you tested?\nPlease select all versions
       where you have encountered the bug.\n"
     multiple: true
-    options: []
+    options:
+    - '3.10'
+    - '3.11'
+    - '3.12'
   validations:
     required: true
 - type: dropdown
@@ -102,7 +108,9 @@ body:
     description: "Which package manager have you used to download and install the
       package?\n"
     multiple: false
-    options: []
+    options:
+    - conda
+    - pip
   validations:
     required: true
 - type: dropdown
@@ -112,7 +120,8 @@ body:
     description: "Which versions of our software are affected?\nPlease select all
       versions where you have encountered the bug.\n"
     multiple: true
-    options: []
+    options:
+    - 0.0.0
   validations:
     required: true
 - type: textarea

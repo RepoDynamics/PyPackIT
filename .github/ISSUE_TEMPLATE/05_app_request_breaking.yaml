@@ -75,7 +75,10 @@ body:
     description: "Does this request apply to a specific operating system?\nIf so,
       please select the appropriate option.\n"
     multiple: false
-    options: []
+    options:
+    - Linux
+    - Windows
+    - macOS
   validations:
     required: false
 - type: dropdown
@@ -85,7 +88,10 @@ body:
     description: "Does this request apply to a specific Python version?\nIf so, please
       select the appropriate option.\n"
     multiple: false
-    options: []
+    options:
+    - '3.10'
+    - '3.11'
+    - '3.12'
   validations:
     required: false
 - type: dropdown
@@ -95,7 +101,9 @@ body:
     description: "Does this request apply to a specific package manager?\nIf so, please
       select the appropriate option.\n"
     multiple: false
-    options: []
+    options:
+    - conda
+    - pip
   validations:
     required: true
 - type: markdown
@@ -107,7 +115,8 @@ body:
     label: Package Version
     description: "Which version of our software is this request for?\n"
     multiple: false
-    options: []
+    options:
+    - 0.0.0
   validations:
     required: true
 - type: textarea
