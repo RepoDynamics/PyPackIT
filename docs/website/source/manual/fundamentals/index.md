@@ -34,15 +34,23 @@ A detailed explanation of the directory structure of your repository,
 and how {{pp_meta.name}} uses it to manage your project.
 :::
 
-:::{grid-item-card} Main Concepts
+:::{grid-item-card} Concepts
 :link: concepts/index
 :link-type: doc
 :class-title: sd-text-center
 
 A comprehensive overview of the key concepts defined by {{pp_meta.name}},
-and how they are used in the software development process of your project.
+and how they fit in your software development process.
 :::
 
+:::{grid-item-card} Workflows
+:link: workflows/index
+:link-type: doc
+:class-title: sd-text-center
 
+An extensive summary of the continuous integration, deployment, and testing (CI/CD/CT) workflows
+implemented by {{pp_meta.name}}, and how they are used to fully automate
+the entire software development process of your project.
+:::
 
 ::::
