@@ -10,6 +10,11 @@ outputs/index
 :::
 
 
+Acting as the main reference for new and experienced users alike,
+this section also provides a full overview of all configurations, metadata, and settings
+that can be used to fully customize {{pp_meta.name}} to your specific needs.
+
+
 ::::{grid} 1 2 2 2
 :gutter: 3
 
