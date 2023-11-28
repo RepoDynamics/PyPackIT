@@ -1,7 +1,22 @@
 # Overview
 
+{{pp_meta.name}} is a fully configured, yet highly customizable automation system
+that integrates with your GitHub repository and takes responsibility for a large portion
+of common tasks in every step of the development and maintenance process of your software project.
+From configuring your repository, Python package, test-suite, documentation website,
+and all other related tools and services according to the latest standards and best practices,
+to managing your project's branches, issues, pull requests, and releases,
+{{pp_meta.name}} provides an exhaustive set of fully-configured
+continuous integration, deployment, and testing (CI/CD/CT) workflows
+that render your entire development and maintenance pipelines automated and dynamic.
+These workflows, which are built on
+[GitHub Actions](https://github.com/features/actions)—GitHub's own powerful automation platform—contain
+detailed instructions and commands for automatically performing a variety of tasks every time an event
+(e.g., pushing to a branch, opening an issue or pull request, etc.) occurs in your repository.
 
-{{ pp_meta.name }} is provided as a
+
+
+{{pp_meta.name}} is provided as a
 [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository),
 and uses [GitHub Actions](https://github.com/features/actions)
 to automate the entire development and maintenance process of your project.
