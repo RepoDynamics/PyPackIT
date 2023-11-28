@@ -7,6 +7,7 @@ fundamentals/index
 install/index
 control/index
 usage/index
+technical/index
 :::
 
 
@@ -57,6 +58,16 @@ and all its available features and options.
 
 An in-depth guide on how to use {{ pp_meta.name}}'s various features and functionalities
 in your software development process.
+:::
+
+:::{grid-item-card} Technical
+:class-title: sd-text-center
+:link: technical/index
+:link-type: doc
+:margin: 3 3 auto auto
+
+Technical details on {{ pp_meta.name }}'s architecture, implementation, and infrastructure,
+along with instructions on how to update, extend, and customize it.
 :::
 
 ::::
