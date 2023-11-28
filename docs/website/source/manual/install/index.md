@@ -7,12 +7,18 @@ new-repo
 existing-repo
 :::
 
-
 {{pp_meta.name}} can be used for both new and existing projects.
-If your project does not yet have a GitHub repository,
-follow the instructions under the Creating a New Repository section.
-Otherwise, if you want to apply {{pp_meta.name}} to an existing repository,
-go to the Integrating an Existing Repository section.
+It is built on top of GitHub Actions,
+and uses GitHub Actions workflows to interact with your repository and
+automate the entire development and maintenance process of your project.
+Therefore, installing {{ pp_meta.name }} in your GitHub repository is a matter of adding these workflows
+and other necessary files to your repository, and setting up a few configurations.
+For new repositories, this is a straightforward process, as you can
+use the {{ pp_meta.name }} repository template to create a new repository
+that contains all the necessary files.
+For existing repositories, the process is a bit more involved,
+as you need to manually add these files and bring your repository
+to a state that is compatible with {{ pp_meta.name }}.
 
 
 ::::{grid} 1 2 2 2
@@ -23,7 +29,8 @@ go to the Integrating an Existing Repository section.
 :link: new-repo
 :link-type: doc
 
-An overview of {{ pp_meta.name }}'s functionalities and how it works.
+A step-by-step guide to creating a new GitHub repository and installing {{ pp_meta.name }}
+using the {{ pp_meta.name }} repository template.
 :::
 
 :::{grid-item-card} Existing Repository
@@ -31,7 +38,7 @@ An overview of {{ pp_meta.name }}'s functionalities and how it works.
 :link: existing-repo
 :link-type: doc
 
-A step-by-step guide to getting started with {{ pp_meta.name }}.
+A step-by-step guide to installing {{ pp_meta.name }} in an existing GitHub repository.
 :::
 
 ::::
