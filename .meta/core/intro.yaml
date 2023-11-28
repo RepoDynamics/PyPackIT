@@ -9,9 +9,20 @@ description: >-
   and offered as a GitHub repository template that can be readily utilized
   by new and existing projects.
   ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
-  Python package, test suite, and documentation website,
-  along with a full set of continuous integration, deployment, and testing (CI/CD/CT) workflows
-  that automate your entire software development process.
+  Python package, test suite, and documentation website, according to the latest standards and best practices.
+  It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT)
+  workflows that render your GitHub repository and all its contents entirely dynamic.
+  Managing your repository's settings, branches, labels, issues, and pull requests;
+  dynamically generating and updating all necessary configuration files;
+  linting, formatting, and testing your code on the cloud;
+  versioning, building, and publishing your package on PyPI;
+  creating GitHub releases with detailed release notes and changelogs;
+  and generating and deploying a complete documentation website on GitHub Pages,
+  are just a few examples of how ${{ name }} automates your entire software development process.
+  By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline,
+  ${{ name }} fuels innovation and growth in the Python ecosystem,
+  by enabling aspiring and experienced developers alike to rapidly build professional software,
+  readily share them with the world, and effortlessly maintain their projects.
   With ${{ name }}, you are free to solely focus on what truly matters:
   implementing your ideas and bringing your vision to life!
 
