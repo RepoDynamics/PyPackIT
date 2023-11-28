@@ -21,4 +21,4 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 livehtml:
-	sphinx-autobuild -a "$(SOURCEDIR)" "$(BUILDDIR)" $(O) --open-browser
+	sphinx-autobuild -a "$(SOURCEDIR)" "$(BUILDDIR)" $(O) --open-browser -b=dirhtml
