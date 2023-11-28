@@ -4,7 +4,8 @@
 :hidden:
 
 structure/index
-concepts
+concepts/index
+workflows/index
 :::
 
 This section provides a comprehensive overview of all fundamental aspects of {{ pp_meta.name }},
@@ -34,7 +35,7 @@ and how {{pp_meta.name}} uses it to manage your project.
 :::
 
 :::{grid-item-card} Main Concepts
-:link: concepts
+:link: concepts/index
 :link-type: doc
 :class-title: sd-text-center
 
