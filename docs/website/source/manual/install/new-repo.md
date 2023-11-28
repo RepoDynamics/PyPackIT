@@ -1,12 +1,19 @@
-# Creating a New Repository
+# New Repository
+
+To create a new GitHub repository with {{pp_meta.name}} installed, you need to perform the following steps:
+1. [Create a repository from the {{pp_meta.name}} repository template](#create-a-repository-from-template).
+2. [Add a personal access token as repository secret](#add-a-personal-access-token).
+3. [Activate trusted publishing for PyPI and TestPyPI](#activate-trusted-publishing).
+4. [Add project metadata](#add-project-metadata).
+5. [Initialize project](#initialize-project).
 
 
-## Create a New Repository From {{pp_meta.name}} Template
+## Create a Repository From Template
 
-The first step is to create a new repository from the {{pp_meta.name}} template repository.
-To do so, follow these steps (see also the corresponding
-[GitHub documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-):
+The first step is to create a new repository from the {{pp_meta.name}} template repository,
+which will automatically add all necessary files and directories to your newly created repository.
+To do so, follow the steps below
+(cf. [GitHub documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)):
 
 1. Sign in to your [GitHub](https://github.com) account, and navigate to the
 {{ '[{} GitHub repository]({})'.format(pp_meta.name, pp_meta.url.github.home) }}.
@@ -17,6 +24,7 @@ option from the dropdown menu.
 
 :::{admonition} Naming convention
 :class: important
+
 A GitHub repository name can only contain alphanumeric characters,
 hyphens, underscores, and periods. That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
 By default, {{pp_meta.name}} also derives the name of your project, as well as the package name,
@@ -91,31 +99,46 @@ one of your organizations (instead of your current account) by selecting it from
 Following the above instructions will create a new repository in your selected account
 using the {{pp_meta.name}} template, and will redirect you to the new repository.
 Navigating to the `Actions` tab of your new repository, you will see that a workflow is running.
-This will initialize your new repository by removing all unnecessary files and directories
+This will initialize your new repository by removing all extra files and directories
+(i.e., those that belong to the {{pp_meta.name}} repository, but are not part of the template)
 and bringing your repository to a clean state.
-While waiting for the workflow to complete, and before making any changes to your repository,
+While waiting for the workflow to complete, and before making any other changes to your repository,
 follow the next steps below.
 
 
 ## Add a Personal Access Token
-{{pp_meta.name}} requires a personal access token to authenticate with GitHub and perform various tasks.
+
+{{pp_meta.name}} works by interacting with your repository and its contents,
+and performing various tasks on your behalf. To be allowed to do so,
+{{pp_meta.name}} needs a token to authenticate with GitHub.
+By default, GitHub automatically creates a unique [`GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret)
+at the beginning of each workflow run, to be used by the workflow to authenticate with GitHub.
+However, this token has limited [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
+by design, and is not sufficient for {{pp_meta.name}} to perform all its tasks,
+such as modifying the repository's settings.
+Therefore, you (i.e., the repository owner, or a user with admin permissions to the repository),
+need to create a personal access token with the required permissions for the repository,
+and store it as a secret in your repository,
+so that {{pp_meta.name}} can use it instead of the `GITHUB_TOKEN` to perform the
+tasks that require higher permissions. To do so, follow the steps below:
 
 1. On your GitHub account, navigate to [Settings > Developer settings > Personal access tokens > Fine-grained tokens > Generate new token](https://github.com/settings/personal-access-tokens/new)
-to create a new [fine-grained personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
+   to create a new [fine-grained personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
 2. Under `Token name`, enter a name for your token (e.g. `<YOUR-REPO-NAME>_REPODYNAMICS_ADMIN_TOKEN`),
-and choose an expiration date under `Expiration`. Note that you have to repeat these steps after the token expires.
+   and choose an expiration date under `Expiration`.
+   Note that you have to repeat these steps to replace the token after it expires.
 3. Under `Repository access` choose `Only select repositories`
-and select your new repository from the dropdown menu.
+   and select your new repository from the dropdown menu.
 4. Under `Permissions` select `Repository permissions` and set the `Administration` and `Pages`
-access to `Read and write`.
+   access to `Read and write`.
 5. Click on the {bdg-success}`Generate token` button at the bottom of the page.
 6. Copy the displayed token to your clipboard.
 7. Go back to your new repository, and click on the `Settings` tab.
 8. Under the `Security` section on the left menu, click on `Secrets and variables`, and select `Actions`.
 9. On the `Secrets` tab, click on the {bdg-success}`New repository secret` button.
 10. In the `Name` field, enter `REPO_ADMIN_TOKEN`,
-paste the token you copied in step 6 into the `Secret` field,
-and click on the {bdg-success}`Add secret` button.
+    paste the token you copied in step 6 into the `Secret` field,
+    and click on the {bdg-success}`Add secret` button.
 
 :::{admonition} For organization-owned repositories
 :class: important
@@ -127,14 +150,17 @@ at https://github.com/organizations/YOUR-ORGANIZATION-NAME/settings/actions.
 :::
 
 
-## Activate PyPI and TestPyPI Trusted Publishing
+## Activate Trusted Publishing
 
-Workflows use [trusted publishing](https://docs.pypi.org/trusted-publishers/) to automatically
-publish the package on TestPyPI and PyPI.
-(see [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/) for more info)
+{{ pp_meta.name }} uses [trusted publishing](https://docs.pypi.org/trusted-publishers/)
+(i.e., the [OpenID Connect (OIDC)](https://openid.net/connect/) standard)
+to automatically authenticate with PyPI servers and publish your Python package on TestPyPI and PyPI,
+without the need for authentication credentials (e.g., username and password).
+(cf. [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)). You need to activate trusted publishing for both PyPI and TestPyPI in
+your respective accounts, by following the steps below:
 
 1. [Create an account on PyPI](https://pypi.org/account/register/)
-or [log in to your existing account](https://pypi.org/account/login/).
+   or [log in to your existing account](https://pypi.org/account/login/).
 2. Navigate to the [Publishing](https://pypi.org/manage/account/publishing/) section of your account.
 3. Fill in the form under the `Add a new pending publisher` section:
    1. Under `PyPI Project Name`, enter the name you have selected for your package.
@@ -145,17 +171,18 @@ or [log in to your existing account](https://pypi.org/account/login/).
    3. Under `Reposiroty name`, enter the name of your new repository.
    4. Under `Workflow name`, enter `_pkg_publish.yaml`.
    5. Under `Environment name`, enter `PyPI`.
-4. Do the same in your [TestPyPI](https://test.pypi.org/manage/account/publishing/) account,
+4. Repeat the above steps in your [TestPyPI](https://test.pypi.org/manage/account/publishing/) account,
    only this time under `Environment name`, enter `TestPyPI`.
 
 
-## Configure Your New Repository
+## Add Project Metadata
+
 Going back to your new repository, you should see that
 the workflow has completed successfully (with a green checkmark).
 If it is still running, wait for it to complete.
 Otherwise, if the workflow has failed (commonly due to an internal GitHub error),
 re-run it by clicking on the `Re-run all jobs` button.
-${{ pp_meta.name }} will also generate job reports and extensive logs for each workflow run,
+{{ pp_meta.name }} will also generate job reports and extensive logs for each workflow run,
 which can be investigated in case of a failure or unexpected behavior.
 
 After the workflow completed successfully,
@@ -165,10 +192,18 @@ The repository is now in the initialization phase.
 In this phase, the branch protection rules have not been applied yet,
 so you can directly make changes to the default branch and push them to the remote repository.
 You also don't have to worry about the commit messages in this phase,
-as all commits will be squashed into a single commit at the end of the initialization phase
-(triggered when you push a commit with the message "init").
-The goal is to configure your repository by modifying the content of the `.meta` directory,
-until you are satisfied with the results.
+as all commits will be squashed into a single commit at the [end of the initialization phase](#initialize-project).
+The goal is to add your project's basic information and metadata,
+and configure your repository until you are satisfied with the results.
+
+The `.meta` directory is the default location of your repository's [control center](../control/index.md),
+where all configurations, metadata, and settings for your GitHub repository (and its corresponding git repository),
+package, website, development pipeline, and other tools are stored in one place.
+When you apply a change to the repository's `meta` content and push it to the remote repository,
+{{pp_meta.name}} will automatically apply the corresponding changes to entire repository and its content,
+so that the repository is always in a consistent state with its `meta` content.
+
+by modifying the contents of the 
 
 All available meta contents are already provided in the `.meta` directory,
 where all general configurations and settings are set to sensible default values.
@@ -212,7 +247,8 @@ During the initialization phase, the workflow will perform the following tasks o
   in the `./.meta/dev/branches.yaml` file.
 
 
-## Initialize Your Project
+## Initialize Project
+
 After you feel satisfied with the results, you can initialize your project by pushing a commit
 with the message "init" to the default branch of your repository.
 This will signal the end of the initialization phase, and will trigger the following tasks
