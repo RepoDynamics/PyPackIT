@@ -71,5 +71,3 @@ along with instructions on how to update, extend, and customize it.
 :::
 
 ::::
-
-
