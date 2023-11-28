@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  color: var(--pst-color-background);
   padding: 0.25rem 12.5%; /* Horizontal padding so the width is 75% */
 }
 
