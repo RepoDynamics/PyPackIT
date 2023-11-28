@@ -1,4 +1,5 @@
-# Fundamentals
+# Basics
+
 :::{toctree}
 :hidden:
 python
