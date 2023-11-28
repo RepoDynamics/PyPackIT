@@ -3,7 +3,10 @@
 :::{toctree}
 :hidden:
 
-dev-cycle
+dev/index
+package/index
+tests/index
+website/index
 :::
 
 
