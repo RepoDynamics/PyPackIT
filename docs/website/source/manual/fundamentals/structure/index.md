@@ -26,11 +26,11 @@ In addition to several [files in the root directory](root),
 - [Tests](tests): Contains your package's entire test suite as a standalone Python package.
 - [Website](website): All contents and configuration files required to build your website
   are stored in this directory.
-- [Docs](#docs-directory): One of the directories where GitHub looks for
+- [Docs](docs): One of the directories where GitHub looks for
   the community health files of your repository,
   along with some other configuration files.
   By default, {{pp_meta.name}} also places the website directory inside this directory.
-- [Local](#local-directory): When working on a local clone of the repository,
+- [Local](local): When working on a local clone of the repository,
   this directory is used to store cached data, reports, and logs. 
 
 These directories all have their default names and locations,
