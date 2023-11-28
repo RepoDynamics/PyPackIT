@@ -3,7 +3,7 @@
 :::{toctree}
 :hidden:
 
-location
+structure
 substitutions/index
 options/index
 outputs/index
@@ -18,13 +18,13 @@ that can be used to fully customize {{pp_meta.name}} to your specific needs.
 ::::{grid} 1 2 2 2
 :gutter: 3
 
-:::{grid-item-card} Location
+:::{grid-item-card} Structure and Location
 :class-title: sd-text-center
-:link: location
+:link: structure
 :link-type: doc
 
-Instructions on the location of your repository's control center,
-and how to change it.
+An overview of the general structure and location of your repository's control center,
+and instructions on how to customize its location.
 :::
 
 :::{grid-item-card} Substitutions
