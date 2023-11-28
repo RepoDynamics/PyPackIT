@@ -82,12 +82,20 @@ html[data-theme=dark] .icon-image {
 !important
 }
 
+.quicklinks {
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
 .quicklinks ul {
     list-style: none;
     display: block;
-    float: left;
+    float: right;
     text-align: left;
     font-size: var(--pst-font-size-h6);
+    margin: 0;
+    padding: 0;
 }
 
 .quicklinks h6 {
