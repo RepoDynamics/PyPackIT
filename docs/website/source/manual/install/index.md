@@ -5,6 +5,7 @@
 
 new-repo
 existing-repo
+versioning
 :::
 
 {{pp_meta.name}} can be used for both new and existing projects.
@@ -39,6 +40,18 @@ using the {{ pp_meta.name }} repository template.
 :link-type: doc
 
 A step-by-step guide to installing {{ pp_meta.name }} in an existing GitHub repository.
+:::
+
+:::{grid-item-card} Version Management
+:class-title: sd-text-center
+:link: versioning
+:link-type: doc
+:margin: 3 3 auto auto
+
+Information on {{ pp_meta.name}}'s versioning scheme,
+and instructions on version management,
+such as updating and upgrading {{ pp_meta.name }} in your repository,
+or pinning it to a specific version.
 :::
 
 ::::
