@@ -6,7 +6,7 @@
 :hidden:
 
 health_file
-logo
+branding
 readme
 theme
 web
