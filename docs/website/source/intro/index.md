@@ -13,7 +13,9 @@ Serving as a starting point for new users,
 this section provides an introduction to
 {{pp_meta.name}}, its motivations, objectives, and capabilities,
 along with a summary of related fundamental concepts and useful background information.
-It is divided into three main parts:
+If this is your first time using {{pp_meta.name}},
+we highly recommend that you at least read through the [overview](overview/index.md) page,
+before proceeding to the [user manual](../manual/index.md).
 
 ::::{grid} 1 1 2 2
 :gutter: 3
