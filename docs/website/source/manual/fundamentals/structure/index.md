@@ -13,7 +13,8 @@ local
 root
 :::
 
-{{ pp_meta.name }} recognizes and works with six main directories in your repository:
+In addition to several [files in the root directory](root),
+{{ pp_meta.name }} recognizes and works with six main directories and their contents in your repository:
 
 - [Meta](meta): The main control center of the repository,
   containing all information, configurations and metadata for the entire project.
@@ -39,26 +40,26 @@ Therefore, your repository will have the following
 main directory structure (files and subdirectories omitted) by default:
 
 <pre>
-📦 &lt;root&gt;
+📦 <a href="root" title="Root Files">&lt;root&gt;</a>
  ┃
- ┣ 🗂 <a href="#github-directory" title="GitHub Directory">.github</a>
+ ┣ 🗂 <a href="github" title="GitHub Directory">.github</a>
  ┃
- ┣ 🗂 <a href="#local-directory" title="Local Directory">.local</a>
+ ┣ 🗂 <a href="local" title="Local Directory">.local</a>
  ┃
- ┣ 🗂 <a href="#meta-directory" title="Meta Directory">.meta</a>
+ ┣ 🗂 <a href="meta" title="Meta Directory">.meta</a>
  ┃
- ┣ 🗂 <a href="#docs-directory" title="Docs Directory">docs</a>
+ ┣ 🗂 <a href="docs" title="Docs Directory">docs</a>
  ┃ ┃
- ┃ ┗ 🗂 <a href="#website-directory" title="Website Directory">website</a>
+ ┃ ┗ 🗂 <a href="website" title="Website Directory">website</a>
  ┃
- ┣ 🗂 <a href="#source-directory" title="Source Directory">src</a>
+ ┣ 🗂 <a href="source" title="Source Directory">src</a>
  ┃
- ┗ 🗂 <a href="#tests-directory" title="Tests Directory">tests</a>
+ ┗ 🗂 <a href="tests" title="Tests Directory">tests</a>
 </pre>
 
-
-
-Other than the GitHub directory, which has a fixed name and location,
-you can [customize the paths](../../control/options/path.md) to all other five directories.
-However, each directory must conform to a specific substructure;
-these are all created automatically when you initialize your repository from the {{pp_meta.name}} template.
+Apart from the GitHub and Docs directories, whose names and locations are fixed due to GitHub's requirements,
+you can [customize the paths](../../control/options/path.md) to all other directories,
+including the [meta directory](../../control/location.md).
+However, each directory must still conform to a specific substructure,
+meaning that {{pp_meta.name}} will look for specific files and subdirectories
+in specific locations inside each directory, as described in the corresponding sections.
