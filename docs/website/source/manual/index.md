@@ -19,7 +19,9 @@ to comprehensive guides on how to use its various features and functionalities
 in your software development process,
 this section covers everything you need to know
 to fully leverage {{pp_meta.name}}'s capabilities.
-
+Acting as the main source of information for new and experienced users alike,
+it also provides a full reference of all {{pp_meta.name}}'s available configurations
+and options that can be set to fully customize it according to your project's specific needs.
 
 ::::{grid} 1 2 2 2
 :gutter: 3
@@ -47,8 +49,8 @@ and start using it in your new or existing project.
 :link: control/index
 :link-type: doc
 
-A detailed explanation of your repository's control center,
-and all its available features and options.
+A detailed explanation of your repository's control center and its feature,
+along with a full reference of all its available options.
 :::
 
 :::{grid-item-card} Usage
