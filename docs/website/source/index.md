@@ -63,9 +63,6 @@ to comprehensive guides on how to use its various features and functionalities
 in your software development process,
 the user manual covers everything you need to know
 to fully leverage {{pp_meta.name}}'s capabilities.
-Acting as the main reference for new and experienced users alike,
-this section also provides a full overview of all configurations, metadata, and settings
-that can be used to fully customize {{pp_meta.name}} to your specific needs.
 :::
 
 :::{card} News: Stay Informed with {{pp_meta.name}} Updates
@@ -74,15 +71,14 @@ that can be used to fully customize {{pp_meta.name}} to your specific needs.
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Check out our blog to stay up to date with the latest news, announcements,
+Check out our blog to stay up to date with the latest announcements
 and developments of the {{pp_meta.name}} project.
-The news section keeps you informed about {{pp_meta.name}}'s new releases,
-and their new features, bug fixes, and enhancements that make your software development process even smoother.
-Being the main source of information about {{pp_meta.name}}'s latest developments,
-this section is a full-fledged blog with RSS feed support that you can subscribe to,
-so you never miss out on any important updates.
-It also provides insights into the project's roadmap,
+This section keeps you informed about {{pp_meta.name}}'s new releases with detailed changelogs,
+and provides insights into the project's roadmap
 and the team's plans for the future of {{pp_meta.name}}.
+Being the main source of information about {{pp_meta.name}}'s latest developments,
+the news section is a full-fledged blog with RSS feed support that you can subscribe to,
+so you never miss out on any important updates.
 :::
 
 :::{card} Contribute: Join the Community
@@ -93,14 +89,12 @@ and the team's plans for the future of {{pp_meta.name}}.
 
 {{ pp_meta.name }} is a free and open-source project that can only survive
 and grow through the help and support of great members like you.
-From sharing your feedback and ideas, or becoming a contributor and helping us develop the project,
-to spreading the word and helping us reach more people,
-or becoming a sponsor and supporting the project financially,
-there are many different ways how {{ pp_meta.name }} can benefit from your experience,
-support, knowledge and expertise.
 If you are interested in joining the {{ pp_meta.name }} community,
 head over to our contribution guide to learn more about how you can help.
-We highly appreciate all your work!
+From sharing your feedback and ideas or becoming a collaborator and helping us develop the project,
+to spreading the word and helping us reach more people
+or becoming a sponsor and supporting the project financially,
+we highly appreciate all your contributions!
 :::
 
 :::{card} About: Unveiling the {{ pp_meta.name }} Story
