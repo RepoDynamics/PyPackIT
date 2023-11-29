@@ -1,12 +1,9 @@
 # Overview
 
 
-
-
 ${{ name }} streamlines a remarkable portion of the process of creating,
-      documenting, testing, publishing, and maintaining Python packages,
-      making your project development a pleasant breeze!
-
+documenting, testing, publishing, and maintaining Python packages,
+making your project development a pleasant breeze!
 
 and is equipped with various tools to automate a remarkable portion of the software development process
 It is designed to automate and streamline the entire journey of creating, documenting, testing, publishing,
@@ -48,4 +45,3 @@ such as updating metadata, generating README files with custom badges, and deplo
 GitHub Pages. The website, built using Sphinx, MyST, and PyData Sphinx Theme, comes pre-populated with
 extensive documentation and collaboration guides, leaving users free to concentrate on enhancing their
 code's functionality.
-
