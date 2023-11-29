@@ -7,8 +7,6 @@ ${{ name }} streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
       making your project development a pleasant breeze!
 
-PyPackIT is an open-source toolkit designed to revolutionize Python package development and maintenance,
-empowering developers to focus on their ideas rather than administrative tasks.
 
 and is equipped with various tools to automate a remarkable portion of the software development process
 It is designed to automate and streamline the entire journey of creating, documenting, testing, publishing,
