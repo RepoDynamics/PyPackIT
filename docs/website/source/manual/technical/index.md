@@ -23,7 +23,6 @@ or auditing the source code for security and other purposes.
 
 A comprehensive overview of {{ pp_meta.name }}'s architecture,
 implementation, and infrastructure.
-
 :::
 
 ::::
