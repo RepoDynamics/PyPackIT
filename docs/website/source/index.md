@@ -85,28 +85,33 @@ It also provides insights into the project's roadmap,
 and the team's plans for the future of {{pp_meta.name}}.
 :::
 
-:::{card} Contribute: Join the PyPackIT Community
+:::{card} Contribute: Join the Community
 :link: contribute/index.html
 :img-top: /_static/img/icon/dev_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-We believe in collaboration and value contributions from our users.
-In the Contribute section, you'll find guidelines on how to get involved,
-report issues, and actively participate in making PyPackIT even better.
+{{ pp_meta.name }} is a free and open-source project that can only survive
+and grow through the help and support of great members like you.
+From sharing your feedback and ideas, or becoming a contributor and helping us develop the project,
+to spreading the word and helping us reach more people,
+or becoming a sponsor and supporting the project financially,
+there are many different ways how {{ pp_meta.name }} can benefit from your experience,
+support, knowledge and expertise.
+If you are interested in joining the {{ pp_meta.name }} community,
+head over to our contribution guide to learn more about how you can help.
+We highly appreciate all your work!
 :::
 
-:::{card} About: Unveiling the PyPackIT Story
+:::{card} About: Unveiling the {{ pp_meta.name }} Story
 :link: about/index.html
 :img-top: /_static/img/icon/about.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
-Learn more about the people behind PyPackIT and the project's history.
-The About section offers insights into our mission, core values, and the dedication driving PyPackIT's success.
-
-The About section will likely provide more in-depth information about the PyPackIT project,
-including its history, the team behind it, its mission, and any notable achievements.
+Learn more about the team behind {{ pp_meta.name }} and the project's history.
+The About section offers insights into our mission, core values,
+and the dedication driving {{ pp_meta.name }}'s success.
 :::
 
 :::{card} Help: Find Support When You Need It
@@ -117,10 +122,6 @@ including its history, the team behind it, its mission, and any notable achievem
 
 The Help section is your go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
-
-The Help section can serve as a user support hub, offering assistance to users facing challenges or
-seeking answers to common questions. It may include FAQs, troubleshooting guides, and ways to reach out
-to the support team.
 :::
 
 ::::
