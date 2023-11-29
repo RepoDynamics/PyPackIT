@@ -10,6 +10,7 @@ core/index
 dev/index
 package/index
 ui/index
+custom/index
 :::
 
 
