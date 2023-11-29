@@ -142,7 +142,7 @@ keynotes:
       across multiple projects.
 
   - title: Dynamic Content
-    description: >-
+    description: |
       With the help of the provided control center and its templating capabilities,
       ${{ name }} allows you to make most parts of your repository's contents and interfaces dynamic.
       In addition to all the configuration and metadata files described above,
@@ -183,7 +183,7 @@ keynotes:
       across all interfaces and platforms, while eliminating any redundancy and manual intervention.
 
   - title: Fully Configured
-    description: >-
+    description: |
       Not only does ${{ name }} come with well-thought-out default configurations for all
       its own options and settings, it also elevates your project by providing a complete set of
       configurations for your repository, Python package, test suite, documentation website,
@@ -192,7 +192,7 @@ keynotes:
       and are updated dynamically whenever you make changes to the corresponding settings in the control center.
 
   - title: Highly Customizable
-    description: >-
+    description: |
       While carefully configured, ${{ name }} is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs.
       
@@ -206,12 +206,12 @@ keynotes:
       to your entire project.
 
   - title: Website Included
-    description: >-
+    description: |
       ${{ name }} comes with a professional website for your project, that is easily
       customizable, and automatically generated and deployed on your preferred platform.
 
   - title: Cloud Development
-    description: >-
+    description: |
       ${{ name }} is a cloud-based solution, that is fully integrated with GitHub,
       and utilizes GitHub Actions to automate your entire software development process.
       This means that you can fully manage your project from within GitHub,
@@ -222,14 +222,14 @@ keynotes:
       without having to install any software or configure any tools on your local machine.
 
   - title: Plug & Play
-    description: >-
+    description: |
       With ${{ name }} you are only a few clicks away from releasing your Python package
       on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
       professional, and dynamic repository up and running, where the only remaining steps in your
       software development process are adding your code, unit-tests and documentation content.
 
   - title: Self-Contained & Secure
-    description: >-
+    description: |
       ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
       with the exception of a handful of fundamental GitHub Actions and Python libraries from
       official sources such as the Python Packaging Authority and GitHub itself,
