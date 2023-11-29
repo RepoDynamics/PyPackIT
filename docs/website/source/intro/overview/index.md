@@ -1,15 +1,7 @@
 # Overview
 
 
-::::{grid} 1 2 2 2
-:gutter: 3
-{% for point in pp_meta.keynotes %}
-:::{grid-item-card} {{point.title}}
-:class-title: sd-text-center
-{{point.description}}
-:::
-{% endfor %}
-::::
+
 
 ${{ name }} streamlines a remarkable portion of the process of creating,
       documenting, testing, publishing, and maintaining Python packages,
