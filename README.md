@@ -147,49 +147,125 @@ across multiple projects.
 	<source srcset="https://img.shields.io/static/v1?label=&message=Dynamic%20Content&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Dynamic Content" title="Dynamic Content" height="35px" src="https://img.shields.io/static/v1?label=&message=Dynamic%20Content&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">With the help of the provided control center and its templating capabilities, PyPackIT allows you to make most parts of your repository's contents and interfaces dynamic. In addition to all the configuration and metadata files described above, the following are a few examples of how this feature is further utilized:
-Issue and discussion forms of your repository (defined in the control center) are completely dynamic. For example, they contain dropdown menus for the user to select the package version, Python version, operating system, and other specifications relevant to the issue. Instead of hard coding these specifications in the forms, which would require you to manually update them every time there is a change (e.g. when a new package version is released, or when support for a specific Python version or operating system is added or removed), PyPackIT uses its templating mechanism to dynamically reference the corresponding specifications. Since these are automatically updated whenever there is a change, this ensures that the forms are always up to date, without the need for any manual intervention on your part.
-Similarly, changelogs and release notes, which are automatically generated and updated according to the templates defined in the control center, also use a variety of dynamic references, such as package version, release date, commit hash, link to the corresponding pull request, dependency and requirement changes, list of contributors, and of course, the details of applied changes. These are all dynamically obtained from various contexts, so that complete changelog entries and release notes can be automatically generated and added to your repository and website upon merging a pull request into a release branch. 
-Furthermore, all community health files (e.g. contribution guidelines, code of conduct, support guidelines, security policy, etc.), license files, and directory README files are also dynamically generated and updated according to the templates defined in the control center. They include dynamic references to various information defined in your control center, such as the name of the project, owner and copyright information, contact information, list of maintainers, links to additional information on your website, and so on. Therefore, instead of requiring you to manually scan multiple files and update the corresponding information whenever there is a change, PyPackIT automatically updates all relevant files whenever any of the referenced information changes.
+<p align="justify">With the help of the provided control center and its templating capabilities,
+PyPackIT allows you to make most parts of your repository's contents and interfaces dynamic.
+In addition to all the configuration and metadata files described above,
+the following are a few examples of how this feature is further utilized:
+
+Issue and discussion forms of your repository (defined in the control center) are completely dynamic.
+For example, they contain dropdown menus for the user to select the package version, Python version,
+operating system, and other specifications relevant to the issue.
+Instead of hard coding these specifications in the forms, which would require you to manually
+update them every time there is a change (e.g. when a new package version is released, or when support
+for a specific Python version or operating system is added or removed),
+PyPackIT uses its templating mechanism to dynamically reference the corresponding specifications.
+Since these are automatically updated whenever there is a change, this ensures that the forms
+are always up to date, without the need for any manual intervention on your part.
+
+Similarly, changelogs and release notes, which are automatically generated and updated according
+to the templates defined in the control center, also use a variety of dynamic references,
+such as package version, release date, commit hash, link to the corresponding pull request,
+dependency and requirement changes, list of contributors, and of course, the details of applied changes.
+These are all dynamically obtained from various contexts, so that complete changelog entries and
+release notes can be automatically generated and added to your repository and website
+upon merging a pull request into a release branch. 
+
+Furthermore, all community health files (e.g. contribution guidelines, code of conduct,
+support guidelines, security policy, etc.), license files, and directory README files are also
+dynamically generated and updated according to the templates defined in the control center.
+They include dynamic references to various information defined in your control center,
+such as the name of the project, owner and copyright information, contact information,
+list of maintainers, links to additional information on your website, and so on.
+Therefore, instead of requiring you to manually scan multiple files and update
+the corresponding information whenever there is a change,
+PyPackIT automatically updates all relevant files whenever any of the referenced information changes.
   
-In addition, the entire content defined in your control center is also made available to your documentation website, allowing you to dynamically reference any piece of information, configuration, or metadata of your project in your website's content. This allows you to easily maintain a consistent and unified presentation of your project across all interfaces and platforms, while eliminating any redundancy and manual intervention.</p>
+In addition, the entire content defined in your control center is also made available
+to your documentation website, allowing you to dynamically reference any piece of information,
+configuration, or metadata of your project in your website's content.
+This allows you to easily maintain a consistent and unified presentation of your project
+across all interfaces and platforms, while eliminating any redundancy and manual intervention.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Fully%20Configured&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Fully%20Configured&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Fully Configured" title="Fully Configured" height="35px" src="https://img.shields.io/static/v1?label=&message=Fully%20Configured&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">Not only does PyPackIT come with well-thought-out default configurations for all its own options and settings, it also elevates your project by providing a complete set of configurations for your repository, Python package, test suite, documentation website, and all other tools and external services, according to the latest guidelines and best practices. These are automatically applied to your new or existing project when you first start using PyPackIT, and are updated dynamically whenever you make changes to the corresponding settings in the control center.</p>
+<p align="justify">Not only does PyPackIT come with well-thought-out default configurations for all
+its own options and settings, it also elevates your project by providing a complete set of
+configurations for your repository, Python package, test suite, documentation website,
+and all other tools and external services, according to the latest guidelines and best practices.
+These are automatically applied to your new or existing project when you first start using PyPackIT,
+and are updated dynamically whenever you make changes to the corresponding settings in the control center.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Highly%20Customizable&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Highly%20Customizable&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Highly Customizable" title="Highly Customizable" height="35px" src="https://img.shields.io/static/v1?label=&message=Highly%20Customizable&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">While carefully configured, PyPackIT is also fully customizable, allowing you to tailor every aspect of your development pipeline to your specific needs.
-PyPackIT also allows you to extend your project's configuration and metadata with your own custom specifications, which can then be referenced and utilized anywhere in your project, the same way as the built-in contents of the control center. For more complex custom specifications that cannot be defined in YAML files, or for data that must be generated/retrieved dynamically at runtime (e.g. data retrieved from a web API), PyPackIT allows you to define custom Python scripts that are automatically executed during the workflow runs, and whose outputs are then made available to your entire project.</p>
+<p align="justify">While carefully configured, PyPackIT is also fully customizable,
+allowing you to tailor every aspect of your development pipeline to your specific needs.
+
+PyPackIT also allows you to extend your project's configuration and metadata with
+your own custom specifications, which can then be referenced and utilized anywhere in
+your project, the same way as the built-in contents of the control center.
+For more complex custom specifications that cannot be defined in YAML files,
+or for data that must be generated/retrieved dynamically at runtime
+(e.g. data retrieved from a web API), PyPackIT allows you to define custom Python scripts
+that are automatically executed during the workflow runs, and whose outputs are then made available
+to your entire project.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Website%20Included&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Website%20Included&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Website Included" title="Website Included" height="35px" src="https://img.shields.io/static/v1?label=&message=Website%20Included&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">PyPackIT comes with a professional website for your project, that is easily customizable, and automatically generated and deployed on your preferred platform.</p>
+<p align="justify">PyPackIT comes with a professional website for your project, that is easily
+customizable, and automatically generated and deployed on your preferred platform.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Cloud%20Development&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Cloud%20Development&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Cloud Development" title="Cloud Development" height="35px" src="https://img.shields.io/static/v1?label=&message=Cloud%20Development&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">PyPackIT is a cloud-based solution, that is fully integrated with GitHub, and utilizes GitHub Actions to automate your entire software development process. This means that you can fully manage your project from within GitHub, and that all your project's key information and configuration are stored in your repository, and are fully accessible and editable from within GitHub. This also means that you can fully manage your project from any device, and that you can easily collaborate with other developers on your project, without having to install any software or configure any tools on your local machine.</p>
+<p align="justify">PyPackIT is a cloud-based solution, that is fully integrated with GitHub,
+and utilizes GitHub Actions to automate your entire software development process.
+This means that you can fully manage your project from within GitHub,
+and that all your project's key information and configuration are stored in your repository,
+and are fully accessible and editable from within GitHub.
+This also means that you can fully manage your project from any device,
+and that you can easily collaborate with other developers on your project,
+without having to install any software or configure any tools on your local machine.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Plug & Play" title="Plug & Play" height="35px" src="https://img.shields.io/static/v1?label=&message=Plug%20%26%20Play&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">With PyPackIT you are only a few clicks away from releasing your Python package on PyPI and GitHub, deploying a complete documentation website, and having a fully configured, professional, and dynamic repository up and running, where the only remaining steps in your software development process are adding your code, unit-tests and documentation content.</p>
+<p align="justify">With PyPackIT you are only a few clicks away from releasing your Python package
+on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
+professional, and dynamic repository up and running, where the only remaining steps in your
+software development process are adding your code, unit-tests and documentation content.
+</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Self-Contained%20%26%20Secure&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Self-Contained%20%26%20Secure&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 	<img alt="Self-Contained & Secure" title="Self-Contained & Secure" height="35px" src="https://img.shields.io/static/v1?label=&message=Self-Contained%20%26%20Secure&style=for-the-badge&color=135400">
 </picture>
-<p align="justify">PyPackIT's entire infrastructure is natively implemented, self-contained, and highly secure; with the exception of a handful of fundamental GitHub Actions and Python libraries from official sources such as the Python Packaging Authority and GitHub itself, PyPackIT has no external dependencies, and does not rely on any third-party services. Instead, all key features and functionalities of PyPackIT are implemented natively, in a series of open-source GitHub Actions and Python libraries developed and maintained by the PyPackIT team. This makes PyPackIT highly secure, robust, error-proof, and reliable, and gives the PyPackIT team full control over the entire software stack, allowing us to rapidly respond to any issues or bugs that may arise, and to continuously improve and enhance the platform. It also ensures that the entire infrastructure of PyPackIT is fully transparent, and easily auditable by the community.</p>
+<p align="justify">PyPackIT's entire infrastructure is natively implemented, self-contained, and highly secure;
+with the exception of a handful of fundamental GitHub Actions and Python libraries from
+official sources such as the Python Packaging Authority and GitHub itself,
+PyPackIT has no external dependencies, and does not rely on any third-party services.
+Instead, all key features and functionalities of PyPackIT are implemented natively,
+in a series of open-source GitHub Actions and Python libraries developed and maintained
+by the PyPackIT team.
+This makes PyPackIT highly secure, robust, error-proof, and reliable,
+and gives the PyPackIT team full control over the entire software stack,
+allowing us to rapidly respond to any issues or bugs that may arise,
+and to continuously improve and enhance the platform.
+It also ensures that the entire infrastructure of PyPackIT is fully transparent,
+and easily auditable by the community.
+</p>
 <!-- ------------------------- END : Description ------------------------- -->
 <!-- ------------------------- START : Bottom Panel ------------------------- -->
 <div align="center"><hr width="100%">
