@@ -3,6 +3,7 @@
 :::{toctree}
 :hidden:
 
+keynotes/index
 background/index
 overview/index
 basics/index
@@ -27,6 +28,14 @@ before proceeding to the [user manual](../manual/index.md).
 
 A review of the state of the art in the software development process
 within the Python ecosystem, and the current challenges faced by developers.
+:::
+
+:::{grid-item-card} Keynotes
+:link: keynotes/index
+:link-type: doc
+:class-title: sd-text-center
+
+A short summary of {{pp_meta.name}}'s key features and capabilities,
 :::
 
 :::{grid-item-card} Overview
