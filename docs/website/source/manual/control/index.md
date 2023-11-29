@@ -9,10 +9,18 @@ options/index
 outputs/index
 :::
 
-
-Acting as the main reference for new and experienced users alike,
-this section also provides a full overview of all configurations, metadata, and settings
-that can be used to fully customize {{pp_meta.name}} to your specific needs.
+Your repository's control center is the singular interface from which you can manage your entire project.
+It contains all available settings for {{ pp_meta.name }} itself,
+along with all information, configurations, and metadata of your project and all its components,
+gathered in one place and presented in a clear, consistent, and concise format.
+Any change applied to the control center is automatically propagated throughout your repository,
+Python package, test suite, documentation website, and all other supported tools and external services.
+Therefore, instead of having to deal with multiple interfaces and diverse configuration
+and metadata files scattered across your repository and each with its own format and syntax,
+you can simply manage your entire project from within the control center,
+using a single, unified, and consistent interface;
+{{ pp_meta.name }} automatically translates your changes into the appropriate formats,
+generates all necessary files in the required locations, and updates them dynamically.
 
 
 ::::{grid} 1 2 2 2
