@@ -54,19 +54,19 @@ keynotes:
       ${{ name }} fully automates your entire software development process from start to finish,
       using a complete set of fully-configured GitHub Actions workflows,
       professionally designed and implemented according to the latest standards and best practices.
-      
+
       The following is a simplified example of one of ${{ name }}'s main workflows:
-      
+
       Every time a new issue is opened in your repository, ${{ name }} automatically
       processes the issue and reformats the text into a pre-defined style,
-      to ensure consistency and readability across all issues in your repository. 
+      to ensure consistency and readability across all issues in your repository.
       It also adds a comment to the issue, which tracks its status,
       and is automatically updated whenever there is a progress.
       Moreover, based on the contents of the issue, it is automatically assigned to a defined maintainer,
       and tagged with various labels that indicate the type and status of the issue,
       along with its target branches and package versions.
       The assigned maintainer can then triage the issue and change its status label accordingly.
-      
+
       For example, if the issue is labeled as accepted,
       ${{ name }} automatically creates a new development branch from each of the issue's target branches,
       and transforms the issue into draft pull requests for each of the development branches.
@@ -77,7 +77,7 @@ keynotes:
       Furthermore, depending on the type of changes,
       ${{ name }} automatically publishes developmental versions of your package on TestPyPI,
       and generates previews of your documentation website throughout the development process.
-      
+
       Finally, when a development branch is marked as complete, ${{ name }} automatically
       removes the draft status from the corresponding pull request,
       adds a summary of all applied changes, and requests reviews from the assigned maintainers.
@@ -107,7 +107,7 @@ keynotes:
       using a single, unified, and consistent interface;
       ${{ name }} automatically translates your changes into the appropriate formats,
       generates all necessary files in the required locations, and updates them dynamically.
-      
+
       The control center contains all key information and metadata of your project,
       such as its name, description, keywords, license and copyright information,
       authors/maintainers and their roles, contact information, citations,
@@ -118,7 +118,7 @@ keynotes:
       the project's owner, authors, maintainers, and contributors, are periodically retrieved
       from GitHub, and a full list of your package's active releases and their corresponding
       information are generated and maintained automatically.
-      
+
       Furthermore, the control center contains all configurations and metadata for your
       GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
       GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
@@ -132,7 +132,7 @@ keynotes:
       (e.g. settings for various linting, formatting, and testing tools such as
       Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
       pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
-      
+
       In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
       and customization, ${{ name }} allows for complex and recursive templating within all contents of
       the control center, meaning that you can reference and reuse any piece of configuration or data
@@ -147,7 +147,7 @@ keynotes:
       ${{ name }} allows you to make most parts of your repository's contents and interfaces dynamic.
       In addition to all the configuration and metadata files described above,
       the following are a few examples of how this feature is further utilized:
-      
+
       Issue and discussion forms of your repository (defined in the control center) are completely dynamic.
       For example, they contain dropdown menus for the user to select the package version, Python version,
       operating system, and other specifications relevant to the issue.
@@ -157,15 +157,15 @@ keynotes:
       ${{ name }} uses its templating mechanism to dynamically reference the corresponding specifications.
       Since these are automatically updated whenever there is a change, this ensures that the forms
       are always up to date, without the need for any manual intervention on your part.
-      
+
       Similarly, changelogs and release notes, which are automatically generated and updated according
       to the templates defined in the control center, also use a variety of dynamic references,
       such as package version, release date, commit hash, link to the corresponding pull request,
       dependency and requirement changes, list of contributors, and of course, the details of applied changes.
       These are all dynamically obtained from various contexts, so that complete changelog entries and
       release notes can be automatically generated and added to your repository and website
-      upon merging a pull request into a release branch. 
-      
+      upon merging a pull request into a release branch.
+
       Furthermore, all community health files (e.g. contribution guidelines, code of conduct,
       support guidelines, security policy, etc.), license files, and directory README files are also
       dynamically generated and updated according to the templates defined in the control center.
@@ -175,7 +175,7 @@ keynotes:
       Therefore, instead of requiring you to manually scan multiple files and update
       the corresponding information whenever there is a change,
       ${{ name }} automatically updates all relevant files whenever any of the referenced information changes.
-        
+
       In addition, the entire content defined in your control center is also made available
       to your documentation website, allowing you to dynamically reference any piece of information,
       configuration, or metadata of your project in your website's content.
@@ -195,7 +195,7 @@ keynotes:
     description: |
       While carefully configured, ${{ name }} is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs.
-      
+
       ${{ name }} also allows you to extend your project's configuration and metadata with
       your own custom specifications, which can then be referenced and utilized anywhere in
       your project, the same way as the built-in contents of the control center.

@@ -57,7 +57,7 @@ The following is a simplified example of one of PyPackIT's main workflows:
 
 Every time a new issue is opened in your repository, PyPackIT automatically
 processes the issue and reformats the text into a pre-defined style,
-to ensure consistency and readability across all issues in your repository. 
+to ensure consistency and readability across all issues in your repository.
 It also adds a comment to the issue, which tracks its status,
 and is automatically updated whenever there is a progress.
 Moreover, based on the contents of the issue, it is automatically assigned to a defined maintainer,
@@ -168,7 +168,7 @@ such as package version, release date, commit hash, link to the corresponding pu
 dependency and requirement changes, list of contributors, and of course, the details of applied changes.
 These are all dynamically obtained from various contexts, so that complete changelog entries and
 release notes can be automatically generated and added to your repository and website
-upon merging a pull request into a release branch. 
+upon merging a pull request into a release branch.
 
 Furthermore, all community health files (e.g. contribution guidelines, code of conduct,
 support guidelines, security policy, etc.), license files, and directory README files are also
@@ -179,7 +179,7 @@ list of maintainers, links to additional information on your website, and so on.
 Therefore, instead of requiring you to manually scan multiple files and update
 the corresponding information whenever there is a change,
 PyPackIT automatically updates all relevant files whenever any of the referenced information changes.
-  
+
 In addition, the entire content defined in your control center is also made available
 to your documentation website, allowing you to dynamically reference any piece of information,
 configuration, or metadata of your project in your website's content.
