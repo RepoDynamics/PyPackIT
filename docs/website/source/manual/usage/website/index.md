@@ -1,1 +1,7 @@
 # Website
+
+:::{toctree}
+:hidden:
+
+substitutions
+:::
