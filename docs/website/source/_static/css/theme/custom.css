@@ -60,7 +60,7 @@ html[data-theme=dark] .icon-image {
     max-width: 800px;
 }
 
-.element_in_page_without_sidebar {
+.element-in-page-without-sidebar {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
