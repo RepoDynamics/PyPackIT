@@ -1,7 +1,7 @@
 # Structure and Location
 
 To change the path of the `meta` directory (default: `./.meta`),
-create a file at `./.github/.repodynamics_meta_path.txt`
+create a file at `{{ pp_meta.custom.path.file_path_meta }}`
 and put the new path (relative to the root of repository) in it.
 Example:
 
