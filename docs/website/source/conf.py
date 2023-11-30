@@ -368,7 +368,7 @@ html_static_path: list[str] = [
     # "../../../.meta/ui/logo/simple_dark.svg",
     # "../../../.meta/ui/logo/simple_light.svg",
 ]
-# html_extra_path: List[str] = []
+html_extra_path: list[str] = ["404.html"]
 html_css_files: list[Union[str, tuple[str, dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
     for glob in ["**/*.css", "**/*.css_t"]
