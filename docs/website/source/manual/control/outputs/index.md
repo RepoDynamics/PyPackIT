@@ -66,7 +66,7 @@ and all related configuration and metadata files.
 :link-type: doc
 
 GitHub-specific configuration files for your repository,
-such as issue, pull request, and discussion templates, etc. 
+such as issue, pull request, and discussion templates, etc.
 :::
 
 :::{grid-item-card} Git Files

@@ -2,9 +2,8 @@
 from importlib.resources import files
 
 # Non-standard libraries
-from ruamel.yaml import YAML
-
 from repodynamics.path import RelativePath
+from ruamel.yaml import YAML
 
 
 def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
@@ -15,7 +14,8 @@ def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
                 continue
             if "properties" in defs:
                 default_vals, all_have_defaults = recursive_extract(
-                    defs["properties"], defs["default"]
+                    defs["properties"],
+                    defs["default"],
                 )
                 defaults[key] = default_vals
             else:
@@ -50,7 +50,7 @@ def schemas():
             "pre_config": all_have_defaults,
             "path": str(rel_path),
         }
-        docs_path = str(rel_path.with_suffix(''))
+        docs_path = str(rel_path.with_suffix(""))
         if docs_path.startswith("package_python/"):
             docs_path = f"package/{docs_path.removeprefix('package_python/')}"
         out[f"manual/control/options/{docs_path}"] = entry
@@ -67,8 +67,9 @@ def paths():
     return {
         "path": {
             name: f"./{rel_path}"
-            for name, rel_path in RelativePath.__dict__.items() if not name.startswith("_")
-        }
+            for name, rel_path in RelativePath.__dict__.items()
+            if not name.startswith("_")
+        },
     }
 
 

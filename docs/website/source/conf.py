@@ -8,7 +8,6 @@ References
 
 
 # Standard libraries
-import importlib
 import json
 from pathlib import Path
 from typing import Any, Literal, Union
@@ -24,7 +23,8 @@ def rstjinja(app, docname, source):
     #     return
     try:
         source[0] = app.builder.templates.render_string(
-            source[0], app.config.html_context | {"docname": app.env.docname}
+            source[0],
+            app.config.html_context | {"docname": app.env.docname},
         )
     except Exception as e:
         print(e)
@@ -51,7 +51,7 @@ def _get_path_repo_root() -> Path:
                 return parent_dir, num_up
     raise RuntimeError(
         "Could not find the repository root. "
-        "The repository root must have a `.github` directory containing a `.metadata.json` file."
+        "The repository root must have a `.github` directory containing a `.metadata.json` file.",
     )
 
 
@@ -354,7 +354,9 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[str, None] = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/favicon.png"
+html_favicon: Union[
+    str, None
+] = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/favicon.png"
 
 html_static_path: list[str] = [
     "_static",
