@@ -1,14 +1,23 @@
 # Structure and Location
 
+
+## Location
+By default, your repository's control center is located at `./.meta`, i.e., a directory named `.meta`
+placed at the root of your repository.
+You can customize the location of this directory
+by creating a file at `{{ pp_meta.custom.path.file_path_meta }}`
+containing the new path (relative to the root of repository).
+
 To change the path of the `meta` directory (default: `./.meta`),
 create a file at `{{ pp_meta.custom.path.file_path_meta }}`
 and put the new path (relative to the root of repository) in it.
 Example:
 
 :::{code-block}
-:caption: 🗂 `./.github/.repodynamics_meta_path.txt`
+:caption: 🗂 `{{ pp_meta.custom.path.file_path_meta }}`
 some_directory/my_custom_meta_directory
 :::
+
 
 
 ## Structure
@@ -30,13 +39,21 @@ full specification at [toml.io](https://toml.io/en/v1.0.0).
 <pre>
 📦 meta
  ┃
- ┣ 🗂 <a href="core" title="Core Metadata">core</a>
+ ┣ 🗂 <a href="/manual/control/options/core" title="Core Metadata">core</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="core/credits" title="Project Credits">credits.yaml</a>
+ ┃ ┣ 📄 <a href="/manual/control/options/core/credits" title="Project Credits">credits.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="core/intro" title="Project Introduction">intro.yaml</a>
+ ┃ ┣ 📄 <a href="/manual/control/options/core/intro" title="Project Introduction">intro.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="core/license" title="License and Copyright">license.yaml</a>
+ ┃ ┗ 📄 <a href="/manual/control/options/core/license" title="License and Copyright">license.yaml</a>
+ ┃
+ ┣ 🗂 <a href="/manual/control/options/custom" title="Custom Metadata">core</a>
+ ┃ ┃
+ ┃ ┣ 📄 <a href="/manual/control/options/custom/#static-variables" title="Static Custom Variables">custom.yaml</a>
+ ┃ ┃
+ ┃ ┣ 📄 <a href="/manual/control/options/custom/#dynamic-variables" title="Dynamic Custom Variables">generator.py</a>
+ ┃ ┃
+ ┃ ┗ 📄 <a href="/manual/control/options/custom/#requirements" title="Dynamic Custom Variables">generator.py</a>
  ┃
  ┣ 🗂 <a href="dev" title="Development Configurations">dev</a>
  ┃ ┃
