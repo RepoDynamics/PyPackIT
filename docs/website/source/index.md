@@ -25,13 +25,13 @@ help/index
 
 ---
 
-{.homepage}
+{.element_in_page_without_sidebar}
 {{ pp_meta.description.replace(pp_meta.name,
 "[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
 ::::{card-carousel} 1
-:class: homepage
+:class: element_in_page_without_sidebar
 
 :::{card} Intro: Discover the Essence of {{pp_meta.name}}
 :link: intro/index.html
