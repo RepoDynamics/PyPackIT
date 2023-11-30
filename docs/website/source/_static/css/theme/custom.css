@@ -153,3 +153,22 @@ html[data-theme=dark] .fa-conda:hover {
         margin: 10px 0;
     }
 }
+
+.h1_title {
+    font-size: var(--pst-font-size-h1);
+    font-weight: bold;
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.inline_icon {
+    color: var(--pst-color-text-base)
+}
+
+.inline_icon:hover {
+    color: var(--pst-color-primary)
+}
