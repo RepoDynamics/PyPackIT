@@ -4,6 +4,8 @@ from importlib.resources import files
 # Non-standard libraries
 from ruamel.yaml import YAML
 
+from repodynamics.path import RelativePath
+
 
 def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
     def recursive_extract(properties, defaults, all_have_defaults=True):
@@ -61,7 +63,17 @@ def schemas():
     return {"meta": out}
 
 
+def paths():
+    return {
+        "path": {
+            name: f"./{rel_path}"
+            for name, rel_path in RelativePath.__dict__.items() if not name.startswith("_")
+        }
+    }
+
+
 def run(metadata) -> dict:
     out = {}
     out |= schemas()
+    out |= paths()
     return out
