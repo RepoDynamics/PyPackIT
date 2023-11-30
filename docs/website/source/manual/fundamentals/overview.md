@@ -99,7 +99,8 @@ When you apply a change to the repository's `meta` content, {{ pp_meta.name }} w
 apply the corresponding changes to the entire repository and its contents, and update all relevant files,
 configurations, and settings accordingly. Therefore, besides your source code, unit tests, and documentation content,
 all other aspects of your project are automatically managed by {{ pp_meta.name }} according to your specifications
-in the `meta` directory. {{ pp_meta.name }} also allows for complex and recursive templating for all the `meta` content,
+in the `meta` directory.
+{{ pp_meta.name }} also allows for complex and recursive templating for all the `meta` content,
 meaning that you can reference and use any part of the `meta` content in all other parts, eliminating the need for
 redundant and repetitive configurations and data, which are hard to modify.
 This provides a high degree of customization and flexibility,
