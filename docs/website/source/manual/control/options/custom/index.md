@@ -8,3 +8,5 @@ you can also define your own custom variables.
 
 
 ## Dynamic Variables
+
+### Requirements
