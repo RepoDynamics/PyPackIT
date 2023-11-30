@@ -93,7 +93,7 @@ html[data-theme=dark] .icon-image {
     display: block;
     float: right;
     text-align: left;
-    font-size: var(--pst-font-size-h6);
+    font-size: var(--pst-font-size-base);
     margin: 0;
     padding: 0;
 }
