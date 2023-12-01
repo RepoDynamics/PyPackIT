@@ -3,7 +3,7 @@
 :::{toctree}
 :hidden:
 
-structure
+structure/index
 substitutions/index
 options/index
 outputs/index
@@ -28,7 +28,7 @@ generates all necessary files in the required locations, and updates them dynami
 
 :::{grid-item-card} Structure and Location
 :class-title: sd-text-center
-:link: structure
+:link: structure/index
 :link-type: doc
 
 An overview of the general structure and location of your repository's control center,
