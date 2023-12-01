@@ -5,9 +5,9 @@
 :::{toctree}
 :hidden:
 
-health_file
-branding
-readme
-theme
-web
+health_file/index
+branding/index
+readme/index
+theme/index
+web/index
 :::
