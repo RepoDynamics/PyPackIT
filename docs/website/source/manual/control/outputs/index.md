@@ -80,7 +80,7 @@ such as gitignore and gitattributes files.
 
 :::{grid-item-card} Tools Config Files
 :class-title: sd-text-center
-:link: outputs/index
+:link: tools
 :link-type: doc
 
 Configuration files for external tools and services used in your project.
