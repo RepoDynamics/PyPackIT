@@ -53,7 +53,7 @@ def schemas():
         docs_path = str(rel_path.with_suffix(""))
         if docs_path.startswith("package_python/"):
             docs_path = f"package/{docs_path.removeprefix('package_python/')}"
-        out[f"manual/control/options/{docs_path}"] = entry
+        out[f"manual/control/options/{docs_path}/index"] = entry
         # name = rel_path.stem
         # if rel_path.parent == Path("."):
         #     out[name] = entry
