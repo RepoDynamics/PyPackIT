@@ -58,8 +58,8 @@ main directory structure (files and subdirectories omitted) by default:
 </pre>
 
 Apart from the GitHub and Docs directories, whose names and locations are fixed due to GitHub's requirements,
-you can [customize the paths](../../control/options/path.md) to all other directories,
-including the [meta directory](../../control/structure.md).
+you can [customize the paths](../../control/options/path/index.md) to all other directories,
+including the [meta directory](../../control/structure/index.md).
 However, each directory must still conform to a specific substructure,
 meaning that {{pp_meta.name}} will look for specific files and subdirectories
 in specific locations inside each directory, as described in the corresponding sections.
