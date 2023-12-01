@@ -123,8 +123,8 @@ main directory structure (files and subdirectories omitted) by default:
 Apart from the GitHub and Docs directories, whose names and locations are fixed due to GitHub's requirements,
 you can [customize the paths](../../control/options/path/index.md) to all other directories,
 including the [control center directory](../../control/structure/index.md#location).
-However, each directory must still conform to a specific substructure,
+However, **each directory must conform to a specific substructure**,
 meaning that {{pp_meta.name}} will look for specific files and subdirectories
 in specific locations inside each directory, as described in the corresponding sections.
-Also, all directories must be orthogonal to each other,
+Also, **all directories must be orthogonal to each other**,
 meaning that none of them can be a subdirectory of another.
