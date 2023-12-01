@@ -12,7 +12,9 @@ and can be used for substitutions in your website's content.
 See [Manual > Usage > Website > Substitutions](../../usage/website/substitutions.md) for more information.
 :::
 
+
 ## Syntax
+
 Substitutions are defined using the syntax `${‎{ PATH }}`
 (the whitespace between `PATH` and the curly braces is optional and ignored),
 where `PATH` is the full address to the control center's content you want to substitute,
@@ -26,5 +28,6 @@ the substituted part will also be converted to a string.
 Substitutions are evaluated recursively, meaning that you can use substitutions
 to reference a content that itself contains substitutions; you only need to make sure
 to not create any circular references.
+
 
 ## Examples
