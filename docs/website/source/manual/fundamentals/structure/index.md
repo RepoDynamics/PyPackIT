@@ -126,3 +126,5 @@ including the [control center directory](../../control/structure/index.md#locati
 However, each directory must still conform to a specific substructure,
 meaning that {{pp_meta.name}} will look for specific files and subdirectories
 in specific locations inside each directory, as described in the corresponding sections.
+Also, all directories must be orthogonal to each other,
+meaning that none of them can be a subdirectory of another.
