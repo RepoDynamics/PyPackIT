@@ -1,13 +1,5 @@
 # Paths
-You can change the name and location of your repository's main directories.
-Notice that these changes are not applied automatically, meaning that you must manually
-rename the directories and update the corresponding paths in the `meta` content in the same commit.
-Also, all directories must be orthogonal to each other, meaning that none of them can be a subdirectory
-of another.
 
-
-
-## Other Directories
 
 :::::{tab-set}
 ::::{tab-item} Info
@@ -30,6 +22,14 @@ of another.
 :::
 ::::
 :::::
+
+You can change the name and location of your repository's main directories.
+Notice that these changes are not applied automatically, meaning that you must manually
+rename the directories and update the corresponding paths in the `meta` content in the same commit.
+Also, all directories must be orthogonal to each other, meaning that none of them can be a subdirectory
+of another.
+
+
 
 All other paths can be configured in the `path.yaml` file located at the root of the `meta` directory.
 The file must contain an object with a single key `dir`.
