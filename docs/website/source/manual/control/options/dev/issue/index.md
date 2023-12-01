@@ -40,7 +40,7 @@ that is, it must match the following regular expression: `^[a-zA-Z0-9][a-zA-Z0-9
 
 The issue ID is used for two purposes:
 - Referencing the issue in other parts of the control center
-  (see [Issue Assignees](../maintainer/maintainer.md#issue-assignees)).
+  (see [Issue Assignees](../maintainer/index.md#issue-assignees)).
 - Generating the filename of the issue template's YAML file.
 
 ::::{dropdown} Example
@@ -55,9 +55,9 @@ forms:
 ### Primary Type
 
 Each form must be assigned a primary type,
-which must match the key of one of the [primary type labels](../label/label.md#primary-types),
-and consequently, the key of either one of the [primary action commit types](../commit/commit.md#primary-action-types),
-or one of the [primary custom commit types](../commit/commit.md#primary-custom-types).
+which must match the key of one of the [primary type labels](../label/index.md#primary-types),
+and consequently, the key of either one of the [primary action commit types](../commit/index.md#primary-action-types),
+or one of the [primary custom commit types](../commit/index.md#primary-custom-types).
 
 This is used to correlate each issue in the repository with a primary commit type:
 {{ pp_meta.name }} automatically adds the corresponding primary type label
@@ -80,7 +80,7 @@ forms:
 
 If two or more forms are assigned the same [primary type](#primary-type),
 they must each define a unique subtype.
-The subtype must match the key of one of the [subtype labels](../label/label.md#subtypes).
+The subtype must match the key of one of the [subtype labels](../label/index.md#subtypes).
 {{ pp_meta.name }} automatically adds the corresponding subtype label
 to each issue that is created using the form,
 and uses that with conjunction with the primary type label
@@ -133,10 +133,10 @@ forms:
 Optionally, a list of additional labels can be assigned to each form,
 which are then automatically added to each issue that is created using the form.
 Each assigned label must exactly match the full name of an existing label in the repository,
-as defined in the [label configurations](../label/label.md).
+as defined in the [label configurations](../label/index.md).
 
-Note that the [primary type](../label/label.md#primary-types), [subtype](../label/label.md#subtypes),
-and [status](../label/label.md#statuses) labels are automatically added to each issue,
+Note that the [primary type](../label/index.md#primary-types), [subtype](../label/index.md#subtypes),
+and [status](../label/index.md#statuses) labels are automatically added to each issue,
 and do not need to be specified here.
 
 ::::{dropdown} Example
@@ -204,15 +204,15 @@ with several additional options and constraints:
   It makes sense to add version to forms that concern an issue with the package,
   and branch to forms for package-independent issues.
   When branch is set, {{ pp_meta.name }} parses the the user input
-  and automatically adds the corresponding [branch labels](../label/label.md#branches)
+  and automatically adds the corresponding [branch labels](../label/index.md#branches)
   to each issue that is created using the form.
   Similarly, when version is set, {{ pp_meta.name }} determines the branch
   hosting each selected version, and automatically adds both
-  [version labels](../label/label.md#versions) and branch labels to each issue.
+  [version labels](../label/index.md#versions) and branch labels to each issue.
   During the triage process, the maintainers can add or remove version/branch labels
   as needed; for example, the user may have selected only one version where they encountered the issue,
   but during the triage process, the maintainers may determine that the issue affects multiple versions.
-  Subsequently, when the issue is labeled as [in development](../label/label.md#statuses),
+  Subsequently, when the issue is labeled as [in development](../label/index.md#statuses),
   {{ pp_meta.name }} automatically creates a new development branch from each branch that is labeled.
 - The value of the `label` key for each element that defines it (i.e., all but the `markdown` element)
   must be unique across all form elements.
