@@ -165,6 +165,16 @@ html[data-theme=dark] .fa-conda:hover {
     margin-top: 20px;
 }
 
+.centered-text-h2 {
+    font-size: var(--pst-font-size-h2);
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+
 .inline_icon {
     color: var(--pst-color-text-base)
 }
