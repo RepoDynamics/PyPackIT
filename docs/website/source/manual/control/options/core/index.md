@@ -3,9 +3,9 @@
 :::{toctree}
 :hidden:
 
-intro
-license
-credits
+intro/index
+license/index
+credits/index
 :::
 
 
@@ -19,7 +19,7 @@ and are divided into three main categories/files:
 
 :::{grid-item-card} Project Introduction
 :class-title: sd-text-center
-:link: intro
+:link: intro/index
 :link-type: doc
 
 General information about your project,
@@ -28,7 +28,7 @@ such as name, descriptions, keywords etc.
 
 :::{grid-item-card} License and Copyright
 :class-title: sd-text-center
-:link: license
+:link: license/index
 :link-type: doc
 
 License and copyright information of your project.
@@ -36,7 +36,7 @@ License and copyright information of your project.
 
 :::{grid-item-card} Project Credits
 :class-title: sd-text-center
-:link: credits
+:link: credits/index
 :link-type: doc
 
 Authors, funding options, and other credits for your project.
