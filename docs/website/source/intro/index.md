@@ -23,7 +23,7 @@ before proceeding to the [user manual](../manual/index.md).
 :gutter: 3
 
 :::{grid-item-card} Outline
-:link: keynotes/index
+:link: outline/index
 :link-type: doc
 :class-title: sd-text-center
 
