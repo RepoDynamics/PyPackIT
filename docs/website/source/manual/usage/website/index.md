@@ -4,4 +4,5 @@
 :hidden:
 
 substitutions
+custom-404
 :::
