@@ -60,6 +60,12 @@ you cannot add any additional files or directories to the control center;
 that are not part of the control center structure below.
 
 
+:::{card}
+Directory structure of your repository's control center.
+Click on any file or directory name to learn more about it
+in the corresponding section under [Options](options/index.md).
+^^^
+
 <pre>
 📦 &lt;CONTROL-CENTER-DIRECTORY&gt;
  ┃
@@ -173,3 +179,5 @@ that are not part of the control center structure below.
  ┃
  ┗ 📄 <a href="/manual/control/options/path" title="Repository Paths">path.yaml</a>
 </pre>
+
+:::
