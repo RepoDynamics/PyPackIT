@@ -42,24 +42,45 @@ def schemas():
         defaults, all_have_defaults = extract_defaults_from_schema(schema)
         rel_path = filepath.relative_to(path_schema)
         path_example = path_examples / rel_path
-
+        example_str = path_example.read_text() if path_example.exists() else ""
         entry = {
             "schema_str": schema,
             "default_str": defaults,
-            "example_str": path_example.read_text() if path_example.exists() else "",
+            "example_str": example_str,
             "pre_config": all_have_defaults,
             "path": str(rel_path),
         }
         docs_path = str(rel_path.with_suffix(""))
         if docs_path.startswith("package_python/"):
             docs_path = f"package/{docs_path.removeprefix('package_python/')}"
-        out[f"manual/control/options/{docs_path}/index"] = entry
         # name = rel_path.stem
         # if rel_path.parent == Path("."):
         #     out[name] = entry
         # else:
         #     sub_dict = out.setdefault(rel_path.parent.name, {})
         #     sub_dict[name] = entry
+        command = f""":::::{{tab-set}}
+::::{{tab-item}} Info
+- **Relative Path**: `{rel_path}`
+- **Pre-configured**: {all_have_defaults}
+::::
+::::{{tab-item}} Schema
+:::{{code-block}} yaml
+{schema}
+:::
+::::
+::::{{tab-item}} Default
+:::{{code-block}} yaml
+{defaults}
+:::
+::::
+::::{{tab-item}} Example
+:::{{code-block}} yaml
+{example_str}
+:::
+::::
+:::::"""
+        out[f"manual/control/options/{docs_path}/index"] = command
     return {"meta": out}
 
 
