@@ -107,7 +107,7 @@ including documentation website, repository README files, health files, themes a
 :margin: 3 3 auto auto
 
 User-defined custom variables that can be used
-throughout your repository's control center and documentation website.  
+throughout your repository's control center and documentation website.
 :::
 
 ::::
