@@ -1,7 +1,7 @@
 # Paths
 
 
-{{ pp_meta.custom.meta[docname] }}
+{{ pp_meta.custom.meta[docname].tabs }}
 
 
 You can change the name and location of your repository's main directories.
