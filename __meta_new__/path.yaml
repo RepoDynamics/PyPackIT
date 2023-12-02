@@ -10,74 +10,72 @@
 #    Properties
 #    ----------
 #    source : string, default: "src"
-#       Path to the source directory containing the top-level package directory.
+#       Path to the source directory.
 #    tests : string, default: "tests"
-#       Path to the test-suite directory.
+#       Path to the tests directory.
 #    website : string, default: "website"
 #       Path to the website directory.
 #    local : object, optional
 #       Paths to the local directory and its subdirectories.
-#       This directory is used to store local files,
-#       such as cache files, logs and reports from various tools.
-#       It will be automatically added to the `.gitignore` file.
 #       ----------
 #       Properties
 #       ----------
 #       root : string, default: ".local"
-#          Path to the root of the local directory.
+#          Path to the local directory.
 #       cache : object, optional
-#          Paths to the cache subdirectory within the local directory,
-#          and its subdirectories.
-#          In addition to the default keys, you can also add other
-#          custom keys to use in your custom configurations for other tools.
+#          Paths to the cache subdirectory of the local directory, and its subdirectories.
 #          ----------
 #          Properties
 #          ----------
 #          root : string, default: "cache"
 #             Path to the root of the cache subdirectory, relative to the local directory.
 #          repodynamics : string, default: "repodynamics"
-#             Path to the RepoDynamics cache directory, relative to the cache directory.
+#             Path to the RepoDynamics cache subdirectory, relative to the cache subdirectory.
 #          coverage : string, default: "coverage"
-#             Path to the Coverage cache directory, relative to the cache directory.
+#             Path to the Coverage cache subdirectory, relative to the cache subdirectory.
 #          mypy : string, default: "mypy"
-#             Path to the MyPy cache directory, relative to the cache directory.
+#             Path to the Mypy cache subdirectory, relative to the cache subdirectory.
 #          pylint : string, default: "pylint"
-#             Path to the PyLint cache directory, relative to the cache directory.
+#             Path to the Pylint cache subdirectory, relative to the cache subdirectory.
 #          pytest : string, default: "pytest"
-#             Path to the PyTest cache directory, relative to the cache directory.
+#             Path to the Pytest cache subdirectory, relative to the cache subdirectory.
 #          ruff : string, default: "ruff"
-#             Path to the Ruff cache directory, relative to the cache directory.
+#             Path to the Ruff cache subdirectory, relative to the cache subdirectory.
+#          **kwargs : string, optional
+#             Paths to other custom subdirectories of the cache subdirectory.
+#             These can be referenced in your custom configurations for other tools.
 #       report : object, optional
-#          Paths to the report subdirectory within the local directory,
-#          and its subdirectories.
-#          In addition to the default keys, you can also add other
-#          custom keys to use in your custom configurations for other tools.
+#          Paths to the report subdirectory of the local directory, and its subdirectories.
 #          ----------
 #          Properties
 #          ---------
 #          root : string, default: "report"
 #             Path to the root of the report subdirectory, relative to the local directory.
 #          repodynamics : string, default: "repodynamics"
-#             Path to the RepoDynamics reports directory, relative to the report directory.
+#             Path to the RepoDynamics reports subdirectory, relative to the report subdirectory.
 #          coverage : string, default: "coverage"
-#             Path to the Coverage reports directory, relative to the report directory.
+#             Path to the Coverage reports subdirectory, relative to the report subdirectory.
 #          mypy : string, default: "mypy"
-#             Path to the MyPy reports directory, relative to the report directory.
+#             Path to the Mypy reports subdirectory, relative to the report subdirectory.
 #          pylint : string, default: "pylint"
-#             Path to the PyLint reports directory, relative to the report directory.
+#             Path to the Pylint reports subdirectory, relative to the report subdirectory.
 #          pytest : string, default: "pytest"
-#             Path to the PyTest reports directory, relative to the report directory.
+#             Path to the Pytest reports subdirectory, relative to the report subdirectory.
 #          ruff : string, default: "ruff"
-#             Path to the Ruff reports directory, relative to the report directory.
+#             Path to the Ruff reports subdirectory, relative to the report subdirectory.
+#          **kwargs : string, optional
+#             Paths to other custom subdirectories of the report subdirectory.
+#             These can be referenced in your custom configurations for other tools.
 #
 # Notes
 # -----
-# - All available configurations and their default values are listed below.
-# - If you don't need to customize any of the default values, you can delete this file.
+# - All defined options in this file have default values.
+#   If you don't need to customize any of the default values nor add any custom values,
+#   you can delete this file.
 #
 # References
 # ----------
-# - Documentation:
+# - Documentation: https://pypackit.repodynamics.com/manual/control/options/path/
 
 
 dir:
