@@ -280,14 +280,14 @@ forms:
   - post_process:
       body: |
         <h2>Bug Location</h2>
-        
+
         <ul>
         <li><b>Package Version</b>: {version}</li>
         <li><b>Fully Qualified Name</b>: {api_entry}</li>
         </ul>
-        
+
         <h2>System and Version Specifications</h2>
-        
+
         <ul>
         <li><b>Operating System</b>: {os}</li>
         <li><b>Python Version</b>: {python_version}</li>
@@ -295,25 +295,25 @@ forms:
         <li>
         <details>
         <summary><b>Environment</b></summary>
-        
+
         ```
         {environment}
         ```
-        
+
         </details>
         </li>
         </ul>
-        
+
         <h2>Bug Summary</h2>
-        
+
         {summary}
-        
+
         <h2>Unit-Test / Minimal Reproducible Example (MRE)</h2>
-        
+
         {code}
-        
+
         <h2>Error Message</h2>
-        
+
         {log}
 :::
 ::::
@@ -365,5 +365,3 @@ https://docs.github.com/en/communities/using-templates-to-encourage-useful-issue
 
 
 ### External Links
-
-

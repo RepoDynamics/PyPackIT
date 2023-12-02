@@ -47,4 +47,3 @@ author:
     - username: RepoDynamicsBot
       roles: [ maint ]
 :::
-
