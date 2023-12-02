@@ -1,39 +1,39 @@
 <div align="center"><!-- ------------------------- START : Logo ------------------------- -->
-<a href="https://repodynamics.github.io/PyPackIT"><picture><source media="(prefers-color-scheme: dark)" srcset=".meta/ui/branding/logo_full_dark.svg"><source media="(prefers-color-scheme: light)" srcset=".meta/ui/branding/logo_full_light.svg"><img alt="PyPackIT: A fully automated, plug and play, professional software project management solution for Python packages on GitHub" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src=".meta/ui/branding/logo_full_light.svg"></picture></a>
+<a href="https://pypackit.repodynamics.com"><picture><source media="(prefers-color-scheme: dark)" srcset=".meta/ui/branding/logo_full_dark.svg"><source media="(prefers-color-scheme: light)" srcset=".meta/ui/branding/logo_full_light.svg"><img alt="PyPackIT: A fully automated, plug and play, professional software project management solution for Python packages on GitHub" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src=".meta/ui/branding/logo_full_light.svg"></picture></a>
 <!-- ------------------------- END : Logo ------------------------- -->
 <!-- ------------------------- START : Top Panel ------------------------- -->
 <div align="center"><hr width="80%">
-<a href="https://repodynamics.github.io/PyPackIT/intro/index">
+<a href="https://pypackit.repodynamics.com/intro/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Intro&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Intro&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
 		<img alt="Intro" title="Intro" height="35px" src="https://img.shields.io/static/v1?label=&message=Intro&style=for-the-badge&color=135400">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/index">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/manual/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=4A9E21" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=125300" media="(prefers-color-scheme: light)">
 		<img alt="Manual" title="Manual" height="35px" src="https://img.shields.io/static/v1?label=&message=Manual&style=for-the-badge&color=125300">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/news/index">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/news/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=50A11F" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=115300" media="(prefers-color-scheme: light)">
 		<img alt="News" title="News" height="35px" src="https://img.shields.io/static/v1?label=&message=News&style=for-the-badge&color=115300">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/contribute/index">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/contribute/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=56A41C" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=105301" media="(prefers-color-scheme: light)">
 		<img alt="Contribute" title="Contribute" height="35px" src="https://img.shields.io/static/v1?label=&message=Contribute&style=for-the-badge&color=105301">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/about/index">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/about/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=5CA81A" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0F5201" media="(prefers-color-scheme: light)">
 		<img alt="About" title="About" height="35px" src="https://img.shields.io/static/v1?label=&message=About&style=for-the-badge&color=0F5201">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/help/index">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/help/index">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=62AB18" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Help&style=for-the-badge&color=0E5201" media="(prefers-color-scheme: light)">
@@ -43,7 +43,7 @@
 <hr width="100%"></div>
 <!-- ------------------------- END : Top Panel ------------------------- -->
 <!-- ------------------------- START : Description ------------------------- -->
-<p align="justify"><a href="https://repodynamics.github.io/PyPackIT"><strong><em>PyPackIT</em></strong></a> is a fully automated, plug and play, professional software project management solution, <b>empowering the development of Python packages on GitHub</b>. It is a free and open-source software built on top of GitHub Actions, and offered as a GitHub repository template that can be readily utilized by new and existing projects. PyPackIT provides a complete, professional, and robust infrastructure for your repository, Python package, test suite, and documentation website, according to the latest standards and best practices. It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT) workflows that render your GitHub repository and all its contents entirely dynamic. Managing your repository's settings, branches, labels, issues, and pull requests; dynamically generating and updating all necessary configuration files; linting, formatting, and testing your code on the cloud; versioning, building, and publishing your package on PyPI; creating GitHub releases with detailed release notes and changelogs; and generating and deploying a complete documentation website on GitHub Pages, are just a few examples of how PyPackIT automates your entire software development process. By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline, PyPackIT fuels innovation and growth in the Python ecosystem, by enabling aspiring and experienced developers alike to rapidly build professional software, readily share them with the world, and effortlessly maintain their projects. With PyPackIT, you are free to solely focus on what truly matters: implementing your ideas and bringing your vision to life!</p>
+<p align="justify"><a href="https://pypackit.repodynamics.com"><strong><em>PyPackIT</em></strong></a> is a fully automated, plug and play, professional software project management solution, <b>empowering the development of Python packages on GitHub</b>. It is a free and open-source software built on top of GitHub Actions, and offered as a GitHub repository template that can be readily utilized by new and existing projects. PyPackIT provides a complete, professional, and robust infrastructure for your repository, Python package, test suite, and documentation website, according to the latest standards and best practices. It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT) workflows that render your GitHub repository and all its contents entirely dynamic. Managing your repository's settings, branches, labels, issues, and pull requests; dynamically generating and updating all necessary configuration files; linting, formatting, and testing your code on the cloud; versioning, building, and publishing your package on PyPI; creating GitHub releases with detailed release notes and changelogs; and generating and deploying a complete documentation website on GitHub Pages, are just a few examples of how PyPackIT automates your entire software development process. By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline, PyPackIT fuels innovation and growth in the Python ecosystem, by enabling aspiring and experienced developers alike to rapidly build professional software, readily share them with the world, and effortlessly maintain their projects. With PyPackIT, you are free to solely focus on what truly matters: implementing your ideas and bringing your vision to life!</p>
 <picture>
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automated%20Workflows&style=for-the-badge&color=459B24" media="(prefers-color-scheme: dark)">
 	<source srcset="https://img.shields.io/static/v1?label=&message=Automated%20Workflows&style=for-the-badge&color=135400" media="(prefers-color-scheme: light)">
@@ -269,61 +269,61 @@ and easily auditable by the community.
 <!-- ------------------------- END : Description ------------------------- -->
 <!-- ------------------------- START : Bottom Panel ------------------------- -->
 <div align="center"><hr width="100%">
-<a href="https://repodynamics.github.io/PyPackIT/intro/outline">
+<a href="https://pypackit.repodynamics.com/intro/outline">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Outline&style=for-the-badge&color=67AE15" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Outline&style=for-the-badge&color=0D5202" media="(prefers-color-scheme: light)">
 		<img alt="Outline" title="Outline" height="35px" src="https://img.shields.io/static/v1?label=&message=Outline&style=for-the-badge&color=0D5202">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/intro/background">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/intro/background">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Background&style=for-the-badge&color=6DB113" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Background&style=for-the-badge&color=0C5202" media="(prefers-color-scheme: light)">
 		<img alt="Background" title="Background" height="35px" src="https://img.shields.io/static/v1?label=&message=Background&style=for-the-badge&color=0C5202">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/intro/overview">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/intro/overview">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Overview&style=for-the-badge&color=73B510" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Overview&style=for-the-badge&color=0B5102" media="(prefers-color-scheme: light)">
 		<img alt="Overview" title="Overview" height="35px" src="https://img.shields.io/static/v1?label=&message=Overview&style=for-the-badge&color=0B5102">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/intro/basics">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/intro/basics">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Basics&style=for-the-badge&color=79B80E" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Basics&style=for-the-badge&color=0A5103" media="(prefers-color-scheme: light)">
 		<img alt="Basics" title="Basics" height="35px" src="https://img.shields.io/static/v1?label=&message=Basics&style=for-the-badge&color=0A5103">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/fundamentals">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/manual/fundamentals">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Fundamentals&style=for-the-badge&color=7FBB0C" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Fundamentals&style=for-the-badge&color=095103" media="(prefers-color-scheme: light)">
 		<img alt="Fundamentals" title="Fundamentals" height="35px" src="https://img.shields.io/static/v1?label=&message=Fundamentals&style=for-the-badge&color=095103">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/install">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/manual/install">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Installation&style=for-the-badge&color=84BE09" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Installation&style=for-the-badge&color=085103" media="(prefers-color-scheme: light)">
 		<img alt="Installation" title="Installation" height="35px" src="https://img.shields.io/static/v1?label=&message=Installation&style=for-the-badge&color=085103">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/control">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/manual/control">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Control%20Center&style=for-the-badge&color=8AC207" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Control%20Center&style=for-the-badge&color=075004" media="(prefers-color-scheme: light)">
 		<img alt="Control Center" title="Control Center" height="35px" src="https://img.shields.io/static/v1?label=&message=Control%20Center&style=for-the-badge&color=075004">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/manual/usage">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/manual/usage">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Usage&style=for-the-badge&color=90C504" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Usage&style=for-the-badge&color=065004" media="(prefers-color-scheme: light)">
 		<img alt="Usage" title="Usage" height="35px" src="https://img.shields.io/static/v1?label=&message=Usage&style=for-the-badge&color=065004">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/news/category/release">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/news/category/release">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Release%20Notes&style=for-the-badge&color=96C802" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Release%20Notes&style=for-the-badge&color=055004" media="(prefers-color-scheme: light)">
 		<img alt="Release Notes" title="Release Notes" height="35px" src="https://img.shields.io/static/v1?label=&message=Release%20Notes&style=for-the-badge&color=055004">
 	</picture>
-</a>&nbsp;&nbsp; <a href="https://repodynamics.github.io/PyPackIT/help/ask">
+</a>&nbsp;&nbsp; <a href="https://pypackit.repodynamics.com/help/ask">
 	<picture>
 		<source srcset="https://img.shields.io/static/v1?label=&message=Q%26A&style=for-the-badge&color=9CCC00" media="(prefers-color-scheme: dark)">
 		<source srcset="https://img.shields.io/static/v1?label=&message=Q%26A&style=for-the-badge&color=055005" media="(prefers-color-scheme: light)">

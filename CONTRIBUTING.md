@@ -13,7 +13,7 @@
     <br>
     We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a>
     specifications; all types of contributions are encouraged and valued, and all contributors are
-    acknowledged on our <a href="https://repodynamics.github.io/PyPackIT/about/#contributors">public website</a>
+    acknowledged on our <a href="https://pypackit.repodynamics.com/about/#contributors">public website</a>
     and <a href="https://github.com/RepoDynamics/PyPackIT/releases">repository</a>.
 </blockquote>
 
@@ -21,5 +21,5 @@
 
 <p align="justify">
     To keep all documentation on our project organized and easy to find, the complete
-    <a href="https://repodynamics.github.io/PyPackIT/contribute">contribution guide</a> is hosted on our website.
+    <a href="https://pypackit.repodynamics.com/contribute">contribution guide</a> is hosted on our website.
 </p>

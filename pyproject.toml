@@ -215,10 +215,10 @@ description = "A fully automated, plug and play, professional software project m
 readme = "src/readme_pypi.md"
 requires-python = ">= 3.10"
 authors = [
-    {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
+    {name = "RepoDynamics", email = "contact@repodynamics.com"},
 ]
 maintainers = [
-    {name = "RepoDynamics", email = "a.ariamajd@gmail.com"},
+    {name = "RepoDynamics", email = "contact@repodynamics.com"},
 ]
 keywords = [
     'Project Management',
@@ -260,10 +260,10 @@ dependencies = [
 license = {file = "LICENSE"}
 
 [project.urls]
-Homepage = "https://repodynamics.github.io/PyPackIT"
+Homepage = "https://pypackit.repodynamics.com"
 Download = "https://github.com/RepoDynamics/PyPackIT/releases"
-News = "https://repodynamics.github.io/PyPackIT/news"
-Documentation = "https://repodynamics.github.io/PyPackIT"
+News = "https://pypackit.repodynamics.com/news"
+Documentation = "https://pypackit.repodynamics.com"
 Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
-Sponsor = "https://repodynamics.github.io/PyPackIT/contribute/collaborate/maintain/sponsor"
+Sponsor = "https://pypackit.repodynamics.com/contribute/collaborate/maintain/sponsor"
 Source = "https://github.com/RepoDynamics/PyPackIT"

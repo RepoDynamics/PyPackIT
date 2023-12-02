@@ -32,17 +32,16 @@ body:
       \      or for requesting new features and enhancements, please select the appropriate
       form\n      from the <a href=\"${{url.github.issues.template_chooser]}\">issue
       template chooser</a>.\n    </p>\n  </li>\n</ul>\n<blockquote>\n  💡 <a href=\"\
-      https://repodynamics.github.io/PyPackIT/help/contact\"><b>Contact us</b></a>\n\
-      \  <br>\n  <p align=\"justify\">\n    Can't find the right form or unsure about
-      which one to choose?\n    Ask a question and get help in the\n    <a href=\"\
-      https://github.com/RepoDynamics/PyPackIT/discussions/new?category=question_issues\"\
+      https://pypackit.repodynamics.com/help/contact\"><b>Contact us</b></a>\n  <br>\n\
+      \  <p align=\"justify\">\n    Can't find the right form or unsure about which
+      one to choose?\n    Ask a question and get help in the\n    <a href=\"https://github.com/RepoDynamics/PyPackIT/discussions/new?category=question_issues\"\
       >discussion forum</a>.\n  </p>\n</blockquote>\n<h3>⚠️ Verifying the bug</h3>\n
       Before submitting a report, please make sure that you are following our <a href=\"\
-      https://repodynamics.github.io/PyPackIT/contribute/feedback/report\">Bug Report
-      Guidelines</a> to verify that: <ol>\n  <li>\n    The issue you are experiencing
-      is in fact a bug, and not a documented expected behavior.\n  </li>\n  <li>\n\
-      \    The bug is reproducible in the latest version of the release, and has not
-      yet been reported.\n  </li>\n</ol>\n<blockquote>\n    💡 <a href=\"https://github.com/RepoDynamics/PyPackIT/discussions/new?category=question_issues\"\
+      https://pypackit.repodynamics.com/contribute/feedback/report\">Bug Report Guidelines</a>
+      to verify that: <ol>\n  <li>\n    The issue you are experiencing is in fact
+      a bug, and not a documented expected behavior.\n  </li>\n  <li>\n    The bug
+      is reproducible in the latest version of the release, and has not yet been reported.\n\
+      \  </li>\n</ol>\n<blockquote>\n    💡 <a href=\"https://github.com/RepoDynamics/PyPackIT/discussions/new?category=question_issues\"\
       ><b>Open a discussion instead!</b></a>\n    <br>\n    This verification process
       is non-trivial, and can be time-consuming.\n    If you are not a collaborator
       and don't have the time to go through the process,\n    you can always open
@@ -58,7 +57,7 @@ body:
     label: 'To submit an issue, please agree to the following terms and conditions:'
     options:
     - label: I have read the [Contributing Guidelines](https://github.com/RepoDynamics/PyPackIT/blob/main/CONTRIBUTING.md)
-        and am following the [Bug Report Guidelines](https://repodynamics.github.io/PyPackIT/contribute/feedback/report).
+        and am following the [Bug Report Guidelines](https://pypackit.repodynamics.com/contribute/feedback/report).
       required: true
     - label: I have read, understood, and agree to follow the [Code of Conduct](https://github.com/RepoDynamics/PyPackIT/blob/main/CODE_OF_CONDUCT.md).
       required: true
