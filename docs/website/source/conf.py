@@ -602,6 +602,7 @@ myst_enable_extensions: list[str] = [
     "colon_fence",
     "deflist",
     "tasklist",
+    "fieldlist",
     "attrs_inline",
     "attrs_block",
     "html_image",
