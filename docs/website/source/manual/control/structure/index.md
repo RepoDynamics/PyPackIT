@@ -23,13 +23,7 @@ By default, the control center is located at `./.meta`, i.e., a directory named 
 placed at the root of your repository.
 You can customize the location of this directory
 by creating a file at `{{ pp_meta.custom.path.file_path_meta }}`
-containing the new path (relative to the root of repository).
-If this file exists, {{ pp_meta.name }} will look for the control center directory
-at the path specified in this file,
-otherwise, it will look for it at the default location, i.e., at `./.meta`.
-Note that you must also manually rename/move the control center directory to match the new path
-in the same commit where you create/modify/delete the path declaration file.
-
+containing the new path, relative to the root of your repository.
 
 ::::{dropdown} Example
 
@@ -45,6 +39,22 @@ some_directory/my_custom_meta_directory
 :::
 
 ::::
+
+
+If this file exists, {{ pp_meta.name }} will look for the control center directory
+at the path specified in the file,
+otherwise, it will look for it at the default location, i.e., at `./.meta`.
+
+
+:::{admonition} Important Considerations
+:class: important
+
+- You must also manually rename/move the control center directory to match the new path
+  in the same commit where you create/modify/delete the path declaration file.
+- The control center directory must be orthogonal to all other
+  [main directories](/manual/fundamentals/structure/index.md) in your repository,
+  meaning that it cannot be a subdirectory of any other main directory.
+:::
 
 
 ## Structure
