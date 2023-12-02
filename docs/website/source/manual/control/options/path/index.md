@@ -3,8 +3,18 @@
 
 {{ pp_meta.custom.meta[docname].tabs }}
 
+From the seven [main directories](/manual/fundamentals/structure/index.md) that {{pp_meta.name}}
+recognizes and works with, the [GitHub directory](/manual/fundamentals/structure/github.md)
+and the [Docs directory](/manual/fundamentals/structure/docs.md) have fixed paths
+according to GitHub requirements, while the path to the other five directories can be customized.
+[Customizing the path to the control center directory](/manual/control/structure/index.md#location)
+requires a configuration file outside the control center directory itself, as discussed before.
+The path to the other four directories can be customized
+using the `{{ pp_meta.custom.meta[docname].path }}` file in your repository's control center,
+as described in this section.
 
-You can change the name and location of your repository's main directories.
+
+
 Notice that these changes are not applied automatically, meaning that you must manually
 rename the directories and update the corresponding paths in the `meta` content in the same commit.
 Also, all directories must be orthogonal to each other, meaning that none of them can be a subdirectory
