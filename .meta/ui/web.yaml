@@ -1,4 +1,4 @@
-base_url: ""
+base_url: https://pypackit.repodynamics.com
 
 readthedocs:
   # ReadTheDocs configuration file
