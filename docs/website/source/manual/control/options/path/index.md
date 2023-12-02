@@ -7,11 +7,17 @@ From the seven [main directories](/manual/fundamentals/structure/index.md) that 
 recognizes and works with, the [GitHub directory](/manual/fundamentals/structure/github.md)
 and the [Docs directory](/manual/fundamentals/structure/docs.md) have fixed paths
 according to GitHub requirements, while the path to the other five directories can be customized.
+As discussed before,
 [Customizing the path to the control center directory](/manual/control/structure/index.md#location)
-requires a configuration file outside the control center directory itself, as discussed before.
-The path to the other four directories can be customized
-using the `{{ pp_meta.custom.meta[docname].path }}` file in your repository's control center,
-as described in this section.
+requires a configuration file outside the control center directory.
+The path to the remaining four directories,
+i.e., the [source](/manual/fundamentals/structure/source.md),
+[tests](/manual/fundamentals/structure/tests.md),
+[website](/manual/fundamentals/structure/website.md), and
+[local](/manual/fundamentals/structure/local.md) directories,
+along with the paths to subdirectories of the local directory,
+can be customized using the `{{ pp_meta.custom.meta[docname].path }}` file
+in your repository's control center, as described in this section.
 
 
 
