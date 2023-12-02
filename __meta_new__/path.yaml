@@ -1,8 +1,6 @@
 # Repository Paths
 # ================
-# This file contains declarations of key paths in the repository.
-# All available configurations and their default values are listed below.
-# If you don't want to change any of the default values, you can delete this file.
+# Declarations of paths to the main directories in the repository.
 #
 # Properties
 # ----------
@@ -71,6 +69,16 @@
 #             Path to the PyTest reports directory, relative to the report directory.
 #          ruff : string, default: "ruff"
 #             Path to the Ruff reports directory, relative to the report directory.
+#
+# Notes
+# -----
+# - All available configurations and their default values are listed below.
+# - If you don't need to customize any of the default values, you can delete this file.
+#
+# References
+# ----------
+# - Documentation:
+
 
 dir:
   source: src
