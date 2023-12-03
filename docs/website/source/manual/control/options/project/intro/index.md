@@ -13,9 +13,8 @@ keynotes
 
 {{ pp_meta.custom.meta[docname].tabs }}
 
-
-All metadata describing your project are stored in the `core/intro.yaml` file
-in the repository's `meta` directory.
+The {{ pp_meta.custom.meta[docname].path }} file allows you to customize the name of your project,
+and to provide a variety of descriptors that are used to describe and categorize your project. 
 
 
 ::::{grid} 1 1 3 3
@@ -26,7 +25,7 @@ in the repository's `meta` directory.
 :link: name
 :link-type: doc
 
-Name of your project.
+A custom name for your project.
 :::
 
 :::{grid-item-card} Tagline
@@ -34,7 +33,7 @@ Name of your project.
 :link: tagline
 :link-type: doc
 
-Tagline of your project.
+A short description, tagline, or slogan for your project.
 :::
 
 :::{grid-item-card} Description
@@ -42,7 +41,7 @@ Tagline of your project.
 :link: description
 :link-type: doc
 
-Description of your project.
+An introductory description or abstract for your project.
 :::
 
 :::{grid-item-card} Keywords
@@ -51,7 +50,7 @@ Description of your project.
 :link-type: doc
 :margin: 3 3 auto 0
 
-Keywords of your project.
+A list of keywords categorizing your project.
 :::
 
 :::{grid-item-card} Keynotes
@@ -60,7 +59,7 @@ Keywords of your project.
 :link-type: doc
 :margin: 3 3 0 auto
 
-Keynotes of your project.
+A list of keynotes, highlighting the main aspects of your project.
 :::
 
 ::::
