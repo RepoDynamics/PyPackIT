@@ -1,15 +1,23 @@
 # Tagline
-You can define a single-line tagline, slogan, or description of the project by adding a `tagline` key
-to the `core/intro.yaml` file:
+A tagline is a single-sentence description or slogan for your project,
+used to summarize its purpose and/or its value proposition.
+
+
+## Setting
+
+You can set a tagline by adding a `tagline` key
+to the `project/intro.yaml` file:
 
 :::{code-block} yaml
-:caption: 🗂 `./.meta/core/intro.yaml`
+:caption: 🗂 `project/intro.yaml`
 # Project tagline
-tagline: >-
-  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+tagline: The Best Python Project Ever
 :::
 
-This is used in several places, such as the `description` metadata of your package
+
+## Usage
+
+The tagline is used in several places, such as the `description` metadata of your package
 (displayed at the top of the PyPI page of your package),
 and by default the `description` field of your GitHub repository
 displayed under the `About` section of your repository homepage.
