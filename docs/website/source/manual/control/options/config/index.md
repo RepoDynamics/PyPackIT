@@ -22,7 +22,7 @@ and are thus needed before the processing of the control center can begin.
 :link-type: doc
 :margin: 3 3 auto auto
 
-Settings for various cached data, 
+Settings for various cached data,
 such as extension files and other data obtained through various web APIs.
 :::
 

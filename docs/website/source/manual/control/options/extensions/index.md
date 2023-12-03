@@ -18,7 +18,7 @@ each declaring a single extension for a specific file.
 Each object defines the following keys:
 
 :type: ***string***
-    
+
     The YAML or TOML file in the control center to extend, defined by its relative path
     from the root of the control center, excluding the file extension.
     For example, to extend the `dev/branch.yaml` file, set this to `dev/branch`.
