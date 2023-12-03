@@ -1,4 +1,4 @@
-# Core Metadata
+# Project
 
 :::{toctree}
 :hidden:
@@ -17,7 +17,7 @@ and are divided into three main categories/files:
 ::::{grid} 1 1 3 3
 :gutter: 3
 
-:::{grid-item-card} Project Introduction
+:::{grid-item-card} Introduction
 :class-title: sd-text-center
 :link: intro/index
 :link-type: doc
@@ -34,7 +34,7 @@ such as name, descriptions, keywords etc.
 License and copyright information of your project.
 :::
 
-:::{grid-item-card} Project Credits
+:::{grid-item-card} Credits
 :class-title: sd-text-center
 :link: credits/index
 :link-type: doc

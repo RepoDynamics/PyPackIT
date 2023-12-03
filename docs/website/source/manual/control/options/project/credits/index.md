@@ -1,4 +1,4 @@
-# Project Credits
+# Credits
 
 :::{toctree}
 :hidden:

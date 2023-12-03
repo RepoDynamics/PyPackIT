@@ -1,4 +1,4 @@
-# Project Introduction
+# Introduction
 
 :::{toctree}
 :hidden:
