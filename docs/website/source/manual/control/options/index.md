@@ -62,7 +62,7 @@ Base configurations for the control center itself.
 
 :::{grid-item-card} Project
 :class-title: sd-text-center
-:link: core/index
+:link: project/index
 :link-type: doc
 
 Core information about your project,
@@ -97,7 +97,7 @@ including build settings, PEP 621 metadata, dependencies, entry points, etc.
 :link-type: doc
 
 Configurations, metadata, and media files for your project's user interfaces,
-including documentation website, repository README files, health files, themes and branding, etc.
+including documentation website, README files, health files, themes and branding, etc.
 :::
 
 :::{grid-item-card} Custom
