@@ -1,9 +1,13 @@
 # Description
-You can add a long description of the project that can have multiple paragraphs,
-with Markdown or HTML formatting, by adding a `description` key to the `core/intro.yaml` file:
+A description acts as an abstract for your project,
+providing new users with a quick overview of the project's main features and functionalities.
+
+
+## Setting
+You can set a description by adding a `description` key to the `project/intro.yaml` file:
 
 :::{code-block} yaml
-:caption: 🗂 `./.meta/core/intro.yaml`
+:caption: 🗂 `project/intro.yaml`
 # Project description
 description: >-
   ${‎{ name }} is a free and open-source toolkit
@@ -17,7 +21,20 @@ description: >-
   implementing your ideas and bringing your vision to life!
 :::
 
-This is used in the main README file of the repository, as well as the `readme` metadata of your package
-(formerly known as `long_description`) displayed on the PyPI homepage of the package,
-and the homepage of your project's website. Notice the use of substitution pattern `${‎{ name }}`
+You can use simple HTML formatting elements in the description,
+such as `<b>` for bold text, `<i>` for italic text, `<u>` for underlined text, etc.
+Also, the description can have multiple paragraphs,
+separated by `<br>` tags; do not introduce any newlines in the YAML text directly,
+as this will break the formatting.
+Notice the use of substitution pattern `${‎{ name }}`
 to reference the project name dynamically.
+
+
+## Usage
+
+The description is used in the main README file of the repository,
+as well as the `readme` metadata of your package
+(formerly known as `long_description`) displayed on the PyPI homepage of the package,
+and the homepage of your project's website.
+It serves as a short introduction to your project,
+providing new users with a quick overview of the project's purpose and value proposition.
