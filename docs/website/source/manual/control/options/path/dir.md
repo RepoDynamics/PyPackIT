@@ -110,11 +110,11 @@ Also, you can entirely omit the `path.yaml` file if you do not want to customize
 
 ::::{dropdown} Example
 
-For example, if you only want to 
+For example, if you only want to
 - change the path of the source directory to `my_source_directory`,
 - change the path of the cache subdirectory to `my_cache_directory`, and
 - add a new subdirectory `my_tool_subdirectory` under the report subdirectory
-  for the tool `my_tool`, 
+  for the tool `my_tool`,
 
 then your `path.yaml` file should look like this:
 
