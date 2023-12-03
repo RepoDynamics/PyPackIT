@@ -11,18 +11,195 @@ For more information, see the [About GitHub Sponsors](https://docs.github.com/en
 and [Displaying a sponsor button in your repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository)
 pages in the [GitHub Sponsors Docs](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors).
 
-All configurations are set under the `funding` key in the `core/credits.yaml` file.
+
+## Setting
+All configurations are set under the `funding` key in the `project/credits.yaml` file.
 If the file/key is not present (default), this option will be disabled.
 If set, the value of the `funding` key must be an object with any number of
-the supported key-value pairs (one for each type of platform) described below.
+the supported key-value pairs (one for each type of platform) described below:
 
- Example:
-```yaml
-funding:
-   github: [ repodynamics, aariam ]
-   tidelift: pypi/PyPackIT
-   custom: https://some-custom-funding-platform.com/my-project
-```
+:github: ***string*** *or* ***array of strings***, ***optional***
+    
+    [GitHub Sponsors](https://github.com/sponsors) account(s);
+    either a single GitHub username (as a string),
+    or an array of up to four GitHub usernames of
+    [sponsored personal accounts](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/setting-up-github-sponsors-for-your-personal-account)
+    and/or [sponsored organization accounts](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/setting-up-github-sponsors-for-your-organization).
+    
+    ::::{dropdown} Examples
+    :margin: 3
+    
+    - Single username:
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       github: ${‎{ owner.username }}
+    :::
+
+    - Multiple usernames:
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       github: [ ${‎{ owner.username }}, RepoDynamicsBot ]
+    :::
+    
+    ::::
+
+:community_bridge: ***string***, ***optional***
+    
+    Name of your accounr/project on the
+    [LFX Mentorship (CommunityBridge)](https://lfx.linuxfoundation.org/tools/mentorship)
+    platform.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       community_bridge: my_lfx_account_name
+    :::
+    
+    ::::
+
+:issuehunt: ***string***, ***optional***
+    
+    Your [IssueHunt](https://issuehunt.io/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       issuehunt: my_issuehunt_username
+    :::
+    
+    ::::
+
+:ko_fi: ***string***, ***optional***
+    
+    Your [Ko-fi](https://ko-fi.com/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       ko_fi: my_kofi_username
+    :::
+    
+    ::::
+
+:liberapay: ***string***, ***optional***
+    
+    Your [Liberapay](https://liberapay.com/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       liberapay: my_liberapay_username
+    :::
+    
+    ::::
+
+:open_collective: ***string***, ***optional***
+
+    Your [Open Collective](https://opencollective.com/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       open_collective: my_opencollective_username
+    :::
+    
+    ::::
+
+:otechie: ***string***, ***optional***
+    
+    Your [Otechie](https://otechie.com/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       otechie: my_otechie_username
+    :::
+    
+    ::::
+
+:patreon: ***string***, ***optional***
+        
+    Your [Patreon](https://www.patreon.com/) username.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       patreon: my_patreon_username
+    :::
+    
+    ::::
+
+:tidelift: ***string***, ***optional***
+    
+    Your package address set in your [Tidelift](https://tidelift.com/) account.
+    The package address must have the format `pypi/<PACKAGE-NAME>`,
+    where `<PACKAGE-NAME>` is the name of your package on PyPI.
+    
+    ::::{dropdown} Example
+    :margin: 3
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       tidelift: pypi/${‎{ package.name }}
+    :::
+    
+    ::::
+
+:custom: ***string*** *or* ***array of strings***, ***optional***
+    
+    Custom funding platform(s);
+    either a single URL (as a string),
+    or an array of up to four URLs to custom funding platforms.
+    
+    ::::{dropdown} Examples
+    :margin: 3
+    
+    - Single URL:
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       custom: https://some-custom-funding-platform.com/my-project
+    :::
+
+    - Multiple URLs:
+    
+    :::{code-block} yaml
+    :caption: 🗂 `.project/credits.yaml`
+    funding:
+       custom: [ https://some-custom-funding-platform.com/my-project, https://some-other-custom-funding-platform.com/my-project ]
+    :::
+    
+    ::::
+
+
+## Usage
 
 GitHub looks for a YAML file at `.github/FUNDING.yml` in the default branch of the repository;
 If it exists and has the correct format, GitHub will display the
@@ -31,112 +208,3 @@ and will use the information in the file to populate the *Sponsor this project* 
 otherwise, the *Sponsor* button and *Sponsor this project* section will not be displayed.
 {{ name }} automatically generates the `.github/FUNDING.yml` file when the `funding` key is set,
 and will update/remove the file when the `funding` key is updated/removed.
-
-
-## [GitHub Sponsors](https://github.com/sponsors)
-
-To add sponsored GitHub accounts, add a key `github`, where the value is either a single
-GitHub username, or an array of up to four GitHub usernames.
-Example (single username):
-```yaml
-funding:
-   github: aariam
-```
-Example (multiple usernames):
-```yaml
-funding:
-   github: [ repodynamics, aariam ]
-```
-
-
-## [LFX Mentorship (CommunityBridge)](https://lfx.linuxfoundation.org/tools/mentorship)
-
-To add an LFX Mentorship (CommunityBridge) account, add a key `community_bridge`,
-where the value is the name of the project on LFX.
-Example:
-```yaml
-funding:
-   community_bridge: pypackit
-```
-
-
-## [IssueHunt](https://issuehunt.io/)
-
-To add an IssueHunt account, add a key `issuehunt`,
-where the value is your IssueHunt username.
-Example:
-```yaml
-funding:
-   issuehunt: aariam
-```
-
-
-## [Ko-fi](https://ko-fi.com/)
-
-To add a Ko-fi account, add a key `ko_fi`,
-where the value is your Ko-fi username.
-Example:
-```yaml
-funding:
-   ko_fi: aariam
-```
-
-
-## [Liberapay](https://liberapay.com/)
-
-To add a Liberapay account, add a key `liberapay`,
-where the value is your Liberapay username.
-Example:
-```yaml
-funding:
-   liberapay: aariam
-```
-
-
-## [Open Collective](https://opencollective.com/)
-
-To add an Open Collective account, add a key `open_collective`,
-where the value is your Open Collective username.
-Example:
-```yaml
-funding:
-   open_collective: aariam
-```
-
-
-## [Otechie](https://otechie.com/)
-
-To add an Otechie account, add a key `otechie`,
-where the value is your Otechie username.
-Example:
-```yaml
-funding:
-   otechie: aariam
-```
-
-
-## [Patreon](https://www.patreon.com/)
-
-To add a Patreon account, add a key `patreon`,
-where the value is your Patreon username.
-Example:
-```yaml
-funding:
-   patreon: aariam
-```
-
-
-## [Tidelift](https://tidelift.com/)
-- Key: `tidelift`
-- Type: `string`
-
-To add a Tidelift account, add a key `tidelift`,
-where the value is a string with the format `<PLATFORM-NAME>/<PACKAGE-NAME>`.
-`<PACKAGE-NAME>` is the name of your package, and platform name is the name of the package manager
-hosting your package; it must be one of the following:
-`npm`, `pypi`, `maven`, `rubygems`, `nuget`, `packagist`.
-Example:
-```yaml
-funding:
-   tidelift: pypi/PyPackIT
-```
