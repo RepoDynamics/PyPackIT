@@ -79,13 +79,13 @@ in the corresponding section under [Options](../options/index.md).
 <pre>
 📦 &lt;CONTROL-CENTER-DIRECTORY&gt;
  ┃
- ┣ 🗂 <a href="/manual/control/options/core" title="Core Metadata">core</a>
+ ┣ 🗂 <a href="/manual/control/options/project" title="Project Information">project</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/core/credits" title="Project Credits">credits.yaml</a>
+ ┃ ┣ 📄 <a href="/manual/control/options/project/credits" title="Project Credits">credits.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/core/intro" title="Project Introduction">intro.yaml</a>
+ ┃ ┣ 📄 <a href="/manual/control/options/project/intro" title="Project Introduction">intro.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/core/license" title="License and Copyright">license.yaml</a>
+ ┃ ┗ 📄 <a href="/manual/control/options/project/license" title="License and Copyright">license.yaml</a>
  ┃
  ┣ 🗂 <a href="/manual/control/options/custom" title="Custom Metadata">custom</a>
  ┃ ┃
