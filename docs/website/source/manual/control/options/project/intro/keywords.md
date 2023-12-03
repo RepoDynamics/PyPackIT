@@ -1,6 +1,11 @@
 # Keywords
-You can add a list of keywords to describe the project by adding a `keywords` key
-to the `core/intro.yaml` file:
+Keywords help to categorize your project and make it easier to discover
+on platforms such as GitHub and PyPI.
+
+
+## Setting
+You can add a list of keywords to by adding a `keywords` key
+to the `project/intro.yaml` file:
 
 :::{code-block} yaml
 :caption: 🗂 `./.meta/core/intro.yaml`
@@ -14,7 +19,9 @@ keywords:
   - repository template
 :::
 
-These keywords are used in the `keywords` metadata of your package,
+
+## Usage
+Keywords are used in the `keywords` metadata of your package,
 and by default, the `topics` section of your GitHub repository, displayed under the `About` section.
 While PyPA doesn't impose any restrictions on the keywords,
 GitHub requires that each keyword only contains 50 or less ASCII alphanumeric characters and hyphens.
