@@ -6,7 +6,7 @@
 path/index
 extensions/index
 config/index
-core/index
+project/index
 dev/index
 package/index
 ui/index
@@ -60,7 +60,7 @@ Base configurations for the control center itself.
 ::::{grid} 1 1 2 2
 :gutter: 3
 
-:::{grid-item-card} Core Metadata
+:::{grid-item-card} Project
 :class-title: sd-text-center
 :link: core/index
 :link-type: doc
