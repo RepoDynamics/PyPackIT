@@ -9,9 +9,9 @@ credits/index
 :::
 
 
-Core metadata are used to define and describe your project.
-They are all stored in the `core` subdirectory of your repository's control center,
-and are divided into three main categories/files:
+The options available in the `project` subdirectory of your repository's control center
+are used to define and describe key aspects of your project.
+They are categorized into three main groups, each stored in a separate file.
 
 
 ::::{grid} 1 1 3 3
