@@ -87,7 +87,7 @@ cached copies of the extension files, and if not found,
 it will fetch them from the GitHub servers and cache them for future use.
 This is done both on local devices, and on the GitHub servers when running the workflows:
 On local devices, the extension files are cached in the RepoDynamics cache directory
-under the local directory of the reposition, whereas on the GitHub servers,
+under the local directory of the repository, whereas on the GitHub servers,
 they are cached in the GitHub Actions cache directory (not part of the repository files)
 that can be accessed from the Actions tab of the repository.
 Subsequently, the contents of the extension files are merged into the contents of the target file,
