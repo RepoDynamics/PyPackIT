@@ -82,8 +82,9 @@ Each object defines the following keys:
 
 During the processing of your repository's control center,
 for each YAML or TOML file, {{pp_meta.name}} checks if there are any extensions defined for it.
-If so, it will first look for unexpired cached copies of the extension files,
-and if not found, it will fetch them from the GitHub servers and cache them for future use.
+If so, it will first look for [unexpired](/manual/control/options/config/cache.md)
+cached copies of the extension files, and if not found,
+it will fetch them from the GitHub servers and cache them for future use.
 This is done both on local devices, and on the GitHub servers when running the workflows:
 On local devices, the extension files are cached in the RepoDynamics cache directory
 under the local directory of the reposition, whereas on the GitHub servers,
