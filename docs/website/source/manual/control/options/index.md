@@ -3,9 +3,9 @@
 :::{toctree}
 :hidden:
 
-path/index
 extensions/index
 config/index
+path/index
 project/index
 dev/index
 package/index
@@ -28,14 +28,6 @@ and are organized into subdirectories within your repository's control center.
 ::::{grid} 1 1 3 3
 :gutter: 3
 
-:::{grid-item-card} Paths
-:class-title: sd-text-center
-:link: path/index
-:link-type: doc
-
-Path definitions for your repository's main directories.
-:::
-
 :::{grid-item-card} Extensions
 :class-title: sd-text-center
 :link: extensions/index
@@ -50,6 +42,14 @@ Extension definitions for your control center's contents.
 :link-type: doc
 
 Base configurations for the control center itself.
+:::
+
+:::{grid-item-card} Paths
+:class-title: sd-text-center
+:link: path/index
+:link-type: doc
+
+Path definitions for your repository's main directories.
 :::
 
 ::::
