@@ -17,7 +17,7 @@ include-package-data = true
 zip-safe = false
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["${{path.dir.source}}"]
 namespaces = true
 
 
