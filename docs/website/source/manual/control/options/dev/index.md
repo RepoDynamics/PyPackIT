@@ -17,6 +17,13 @@ workflow/index
 :::
 
 
+The options available in the `dev` subdirectory of your repository's control center
+consist of configurations and metadata
+for your software development process,
+GitHub/Git repository, CI/CD/CT workflows,
+and most of {{ pp_meta.name }}-specific options and settings.
+
+
 ::::{grid} 1 1 3 3
 :gutter: 3
 
