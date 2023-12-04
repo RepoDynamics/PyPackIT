@@ -42,7 +42,9 @@ the supported key-value pairs (one for each type of platform) described below:
     :::{code-block} yaml
     :caption: 🗂 `.project/credits.yaml`
     funding:
-       github: [ ${‎{ owner.username }}, RepoDynamicsBot ]
+       github:
+          - ${‎{ owner.username }}
+          - RepoDynamicsBot
     :::
     
     ::::
@@ -185,7 +187,7 @@ the supported key-value pairs (one for each type of platform) described below:
     :::{code-block} yaml
     :caption: 🗂 `.project/credits.yaml`
     funding:
-       custom: https://some-custom-funding-platform.com/my-project
+       custom: https://custom-url.com/my-project
     :::
 
     - Multiple URLs:
@@ -193,7 +195,9 @@ the supported key-value pairs (one for each type of platform) described below:
     :::{code-block} yaml
     :caption: 🗂 `.project/credits.yaml`
     funding:
-       custom: [ https://some-custom-funding-platform.com/my-project, https://some-other-custom-funding-platform.com/my-project ]
+       custom:
+          - https://custom-url.com/my-project
+          - https://other-url.com/my-project
     :::
     
     ::::
