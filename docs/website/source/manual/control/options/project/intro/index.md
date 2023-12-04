@@ -13,7 +13,7 @@ keynotes
 
 {{ pp_meta.custom.meta[docname].tabs }}
 
-The {{ pp_meta.custom.meta[docname].path }} file allows you to customize the name of your project,
+The `{{ pp_meta.custom.meta[docname].path }}` file allows you to customize the name of your project,
 and to provide a variety of descriptors that are used to describe and categorize your project.
 
 
