@@ -27,7 +27,7 @@ On the other hand, if you use this to substitute a part of a string,
 the substituted part will also be converted to a string.
 Substitutions are evaluated recursively, meaning that you can use substitutions
 to reference a content that itself contains substitutions; you only need to make sure
-to not create any circular references.
+not to create any circular references.
 
 
 ## Examples
