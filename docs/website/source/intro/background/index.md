@@ -1,27 +1,108 @@
 # Background
 
-Since the last decade, Python has become one of the most popular programming languages in the world.
-Its high-level abstractions and simple syntax have made software development
-accessible to a wider range of users.
-Python's dynamic nature allows for rapid prototyping and implementation of complex concepts,
-enabling users to readily test their ideas and share them with others.
+
+## Python
+
+[Python](https://www.python.org/) is a general-purpose, multi-paradigm programming language,
+created by Guido van Rossum and first released in 1991.[^python-timeline]
+It has since evolved into one of the most popular programming languages in the world,
+consistently ranking among the top five languages in the [TIOBE Index](https://www.tiobe.com/tiobe-index/)
+throughout the last decade, and topping the list since 2021.
+
+[^python-timeline]: [G. van Rossum (2009). A Brief Timeline of Python. The History of Python](https://python-history.blogspot.com/2009/01/brief-timeline-of-python.html)
+
+Python was designed with an emphasis on code readability and simplicity;
+its high-level abstractions and straightforward syntax
+have made software development accessible to a wider range of users,
+while still being powerful and robust enough to support advanced applications.
+Python is a dynamically typed, interpreted language, with automatic memory management,
+which allows for rapid prototyping and implementation of complex concepts,
+enabling users to readily develop their ideas and share them with others.
+
 Owing to an active community of open-source developers, Python's rich ecosystem of libraries
-and frameworks has grown exponentially, making it a powerful tool for a wide range of applications.
-
-Its versatility has made it one of the most widely adopted languages in science and technology.
-
-
-
-short development cycles,
-Its simplicity, versatility, and efficiency have made it the language of choice for a wide range of applications,
-from web development to data science and machine learning.
-
-
-As the demands for innovative and efficient Python packages grow,
-the development process becomes increasingly complex and time-consuming.
+and frameworks has grown exponentially over the years,
+making it a powerful and versatile tool for a wide range of applications,
+from web development, to data science, artificial intelligence, and machine learning.
+Not only do large organizations like Google, NASA, and CERN use Python in many of their projects,
+but it has also become the language of choice for many startups,
+small businesses, and academic research groups.
+For example, the majority of scientific software across various disciplines of computational sciences
+are now being published as Python packages.
 
 
-## Documentation
+## GitHub
+
+The growth of the Python ecosystem and its open-source libraries has been further accelerated
+by the emergence of cloud-based platforms for version control systems (VCSs),
+such as [GitHub](https://github.com),
+which marked a significant shift in how software is developed, shared, and maintained.
+Their purpose is to facilitate collaborative software development,
+by providing a centralized location for storing code, tracking changes,
+and managing contributions from multiple developers.
+They are especially crucial for open-source projects,
+where developers from various backgrounds contribute to a shared codebase,
+and feedback from the community is an integral part of the development process.
+
+GitHub, launched in 2008, has quickly risen to prominence
+as the world's largest host of source code,
+with more than 100 million developers working on over 372 million repositories,
+as of November 2023 .[^github-stats]
+In addition to its user-friendly interface, GitHub offers an extensive set of features
+that have solidified its position in the software development landscape, including:
+- **Version Control**: At its core, GitHub provides git-based version control,
+  enabling developers to track changes, revert to previous states, 
+  and manage different versions of their code efficiently.
+- **Issue Tracking**: GitHub includes an issue tracking system that allows developers
+  to report bugs, request features, and discuss improvements within the platform.
+- **Collaboration Tools**: Features such as pull requests, code reviews, and branch management
+  facilitate collaboration among developers, making it easier to contribute to and maintain projects.
+- **Automation Tools**: GitHub allows for building continuous integration, deployment, and
+  testing (CI/CD/CT) pipelines, enabling automatic testing, building, and deployment of software projects,
+  directly from GitHub repositories and without the need for third-party platforms.
+- **Web Hosting**: GitHub provides free web hosting for static websites stored in GitHub repositories,
+  making it easier to publish documentation and other project-related content.
+- **Integration**: GitHub can be readily integrated with various development tools and services,
+  enhancing its utility in different stages of software development.
+
+[^github-stats]: [GitHub (2023). Octoverse: The state of open source and rise of AI in 2023.](https://github.blog/2023-11-08-the-state-of-open-source-and-ai/)
+
+
+## State of the Art
+
+The Python programming language and its vibrant ecosystem have made software development
+more accessible and efficient than ever before, enabling a diverse community of users,
+from professional developers and researchers, to amateur programmers and enthusiasts,
+to promptly implement their novel ideas and share their valuable work with the world.
+In addition, the rise of comprehensive cloud-based services like GitHub has undeniably revolutionized
+the software development process, making it easier to collaborate on projects and share code,
+and streamlining the process of building, testing, documenting, deploying, and maintaining software.
+However, despite these significant advancements, the current landscape of Python software development
+is still not without its challenges; these render the goal of rapid development, publishing,
+and maintenance of professional and effective Python software a non-trivial task,
+particularly for smaller teams or projects that lack dedicated developers for each step of the process.
+The following sections discuss several challenges in the current landscape of Python software development,
+which often act as significant barriers to smaller development teams,
+inadvertently hampering innovation and growth within the Python community.
+
+
+### Setup and Configuration
+
+The first step in developing a Python package is setting up the project directory,
+which involves creating the necessary files and directories, and configuring the project structure.
+This process can be tedious and time-consuming, especially for new users,
+who may not be familiar with the required files and their contents.
+While there are several tools available to automate this process,
+they often require additional configuration and customization to suit the specific needs of the project.
+Moreover, the process of setting up a project directory is only the first step;
+it is often followed by a series of additional steps, such as installing dependencies,
+configuring the development environment, and setting up a CI/CD pipeline,
+which can be equally challenging and time-consuming.
+
+
+## Code Quality and Testing
+
+
+### Documentation
 
 Documentation is an essential aspect of software development,
 weaving together the intricacies of code with the clarity of language,
@@ -84,3 +165,24 @@ with tools and practices adapting to meet the growing demands of software develo
 Effective documentation remains a cornerstone of successful software projects,
 bridging the gap between code and comprehension, and ensuring that software remains usable,
 maintainable, and sustainable over time.
+
+
+### Publishing
+
+
+The popularity of Python has also led to the development of several package managers,
+such as [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/),
+and [poetry](https://python-poetry.org/), which have made it easier to install and manage Python packages.
+These package managers have also enabled the creation of package indexes,
+such as [PyPI](https://pypi.org/), [Anaconda Cloud](https://anaconda.org/), and [TestPyPI](https://test.pypi.org/),
+which provide a centralized location for publishing and sharing Python packages.
+
+
+
+### Maintenance
+
+
+### Evolving Standards
+
+
+## Summary
