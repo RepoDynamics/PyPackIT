@@ -3,7 +3,8 @@ tagline: >-
   for Python packages on GitHub
 
 description: >-
-  ${{ name }} is a fully automated, plug and play, professional software project management solution,
+  ${{ name }} (<i>IPA</i>: ˈpaɪˌpækɪt) is a fully automated, plug and play,
+  professional software project management solution,
   <b>empowering the development of Python packages on GitHub</b>.
   It is a free and open-source software built on top of GitHub Actions,
   and offered as a GitHub repository template that can be readily utilized
