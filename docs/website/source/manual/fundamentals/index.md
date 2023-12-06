@@ -3,7 +3,6 @@
 :::{toctree}
 :hidden:
 
-overview
 structure/index
 concepts/index
 workflows/index
@@ -25,15 +24,6 @@ so that you have a general idea of how it works and what to expect from it.
 
 ::::{grid} 1 1 2 2
 :gutter: 3
-
-:::{grid-item-card} Overview
-:link: overview
-:link-type: doc
-:class-title: sd-text-center
-
-An in-depth overview of {{pp_meta.name}}'s features and capabilities,
-and how they work under the hood.
-:::
 
 :::{grid-item-card} Repository Structure
 :link: structure/index
