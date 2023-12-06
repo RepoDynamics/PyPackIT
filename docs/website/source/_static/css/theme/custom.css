@@ -182,3 +182,8 @@ html[data-theme=dark] .fa-conda:hover {
 .inline_icon:hover {
     color: var(--pst-color-primary)
 }
+
+
+.primary-color {
+    color: var(--pst-color-primary)
+}
