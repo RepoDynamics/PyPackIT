@@ -1,7 +1,7 @@
 # Existing Repository
 
 :::{admonition} 🚧 Under Construction 🚧
-:class: seealso
+:class: danger
 
 This page is currently under construction.
 :::
