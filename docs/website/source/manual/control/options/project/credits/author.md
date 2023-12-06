@@ -14,15 +14,15 @@ of the `author` object. The value of the `role` key must be an object,
 where the keys are the IDs of the roles (to be assigned to authors),
 and the values are objects with the following keys:
 
-:title: ***string*** 
-  
+:title: ***string***
+
   The name of the role.
 
-:description: ***string*** 
+:description: ***string***
 
   A short description of the role.
 
-:abbreviation: ***string*** 
+:abbreviation: ***string***
 
   An abbreviation for the role.
 
@@ -55,11 +55,11 @@ To declare the authors of your project, add a key `entries` to the `author` obje
 where the value is an array of objects, each declaring a single author.
 Each object has the following keys:
 
-:username: ***string*** 
-  
+:username: ***string***
+
   The GitHub username of the author.
 
-:roles: ***array***, ***optional*** 
+:roles: ***array***, ***optional***
 
   IDs of the roles assigned to the author.
 
@@ -81,7 +81,7 @@ author:
 
 ## Usage
 The authors of your project are used in the following places:
-- The `authors` metadata of your package, 
+- The `authors` metadata of your package,
   which is also displayed on the PyPI page of your package.
 - The credits page of your project's website.
 - The front page of your project's PDF documentation.

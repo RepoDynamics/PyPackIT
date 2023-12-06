@@ -179,4 +179,3 @@ such as updating metadata, generating README files with custom badges, and deplo
 GitHub Pages. The website, built using Sphinx, MyST, and PyData Sphinx Theme, comes pre-populated with
 extensive documentation and collaboration guides, leaving users free to concentrate on enhancing their
 code's functionality.
-

@@ -50,7 +50,7 @@ as of November 2023 .[^github-stats]
 In addition to its user-friendly interface, GitHub offers an extensive set of features
 that have solidified its position in the software development landscape, including:
 - **Version Control**: At its core, GitHub provides git-based version control,
-  enabling developers to track changes, revert to previous states, 
+  enabling developers to track changes, revert to previous states,
   and manage different versions of their code efficiently.
 - **Issue Tracking**: GitHub includes an issue tracking system that allows developers
   to report bugs, request features, and discuss improvements within the platform.
@@ -235,7 +235,7 @@ when setting up a GitHub repository for a software project:
   Equally important is a comprehensive labeling system to categorize and organize issues and pull requests.
   This makes it easier for maintainers to prioritize and manage issues,
   helps collaborators to find issues that they can contribute to,
-  and facilitates efficient searching and tracking of the software's problems and progress by users. 
+  and facilitates efficient searching and tracking of the software's problems and progress by users.
   [GitHub Issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)
   is a built-in feature that is available for all GitHub repositories,
   and can be [configured](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
@@ -311,10 +311,8 @@ when setting up a GitHub repository for a software project:
   several pre-defined external platforms such as [Tidelift](https://tidelift.com/) and [Patreon](https://www.patreon.com/),
   and any other platform of choice.
 
-  
-  
 
 
-  
+
 
 

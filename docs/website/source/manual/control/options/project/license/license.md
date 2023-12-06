@@ -50,17 +50,17 @@ license:
 If you want to use any other license not mentioned above, you must instead set the following keys
 under the `license` key:
 
-:shortname: ***string*** 
-    
+:shortname: ***string***
+
     The short name of the license
 
-:fullname: ***string*** 
-    
+:fullname: ***string***
+
     The full name of the license
 
-:text: ***string*** 
-    
-    The full text of the license 
+:text: ***string***
+
+    The full text of the license
 
 :notice: ***string***
 

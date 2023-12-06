@@ -23,7 +23,7 @@ core authors and their roles, available funding options, etc.
 :link: author
 :link-type: doc
 
-Core authors of the project, and their roles. 
+Core authors of the project, and their roles.
 :::
 
 :::{grid-item-card} Funding Options

@@ -30,7 +30,7 @@ inadvertently hampering innovation and growth within the diverse Python communit
 
 While being crucial for the ultimate success of every software project,
 many of the development process are not directly related to the idea and vision behind the project itself,
-and are rather repetitive, time-consuming and tedious chores that can be automated and streamlined 
+and are rather repetitive, time-consuming and tedious chores that can be automated and streamlined
 to save time and effort for the development team,
 allowing them to solely focus on the creative aspects of their work.
 
