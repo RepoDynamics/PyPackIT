@@ -27,7 +27,9 @@ before proceeding to the [user manual](../manual/index.md).
 :link-type: doc
 :class-title: sd-text-center
 
-A list of keynotes highlighting {{pp_meta.name}}'s main features and capabilities.
+An abstract of the {{pp_meta.name}} project,
+outlining its motivations, purpose, and objectives,
+along with a short summary of its capabilities and functionalities.
 :::
 
 :::{grid-item-card} Background
@@ -35,8 +37,8 @@ A list of keynotes highlighting {{pp_meta.name}}'s main features and capabilitie
 :link-type: doc
 :class-title: sd-text-center
 
-A background overview of the state of the art in the software development process
-within the Python ecosystem.
+A background review of the state of the art in the software development process
+within the Python ecosystem, and its current challenges and problems.
 :::
 
 :::{grid-item-card} Overview
@@ -44,9 +46,8 @@ within the Python ecosystem.
 :link-type: doc
 :class-title: sd-text-center
 
-A high-level review of {{pp_meta.name}} and its functionalities,
-the problems they address,
-and the value they bring to your project.
+An in-depth high-level overview of {{pp_meta.name}} and all its functionalities,
+the problems they address, and the value they bring to your project.
 :::
 
 :::{grid-item-card} Basics
@@ -54,7 +55,7 @@ and the value they bring to your project.
 :link-type: doc
 :class-title: sd-text-center
 
-A summary of key concepts and related background information,
+A summary of basic concepts and related background information,
 essential to fully understanding and utilizing {{pp_meta.name}}.
 :::
 
