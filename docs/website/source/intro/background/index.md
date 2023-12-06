@@ -394,7 +394,7 @@ and contributing significantly to the usability, maintenance, and longevity of p
 Comprehensive documentation acts as a guide, explaining functionalities, providing examples,
 and clarifying complex concepts, to ensure that users, regardless of their experience level,
 can fully understand and effectively utilize the software.
-Moreover, in a collaborative environment, clear documentation aids new contributors in maintaining the code; 
+Moreover, in a collaborative environment, clear documentation aids new contributors in maintaining the code;
 it provides a reference to the current design and functionalities of the software,
 making it easier to identify and fix issues, thereby speeding up the development process.
 
@@ -421,7 +421,7 @@ Solutions like the Sphinx Quickstart tool and pre-built themes simplify this pro
 but the challenge remains in tailoring the documentation to the specific needs of the project.
 
 Deployment and hosting are other critical aspects. Integrating documentation with version control
-and setting up continuous integration and delivery pipelines ensure that the documentation is 
+and setting up continuous integration and delivery pipelines ensure that the documentation is
 consistently updated alongside code changes. Tools like Read the Docs automate much of this process
 for Sphinx and MkDocs, while CI/CD tools like Jenkins or GitHub Actions offer further automation possibilities.
 
