@@ -43,13 +43,13 @@ to know which tools to use and how to configure them correctly,
 and spend a significant amount of time and effort to find the right combination of tools and services,
 only to be able to cover a small subset of the requirements.
 
-To address these challenges, we introduce {{ name }},
+To address these challenges, we introduce {{ pp_meta.name }},
 a fully automated, plug and play, professional software project management solution
 for open-source Python packages on GitHub.
 It provides a comprehensive, professional, and robust infrastructure for all main components of a project,
 including GitHub/Git repository, Python package, test suite,
 and documentation website, according to the latest standards and best practices.
-{{ name }} is a free and open-source software built on top of GitHub Actions,
+{{ pp_meta.name }} is a free and open-source software built on top of GitHub Actions,
 and offered as a GitHub repository template that can be readily utilized
 by new and existing projects.
 It comes with an exhaustive set of fully-configured
@@ -58,7 +58,7 @@ that automate and streamline the entire journey of creating, documenting, testin
 and maintaining Python packages, and render the entire project fully dynamic.
 By eliminating all the tedious, repetitive, and time-consuming
 peripheral aspects of the software development process,
-{{ name }} enables aspiring and experienced developers alike to rapidly build professional software,
+{{ pp_meta.name }} enables aspiring and experienced developers alike to rapidly build professional software,
 readily share them with the world, and effortlessly maintain their projects,
 thereby empowering the development of open-source Python projects,
 and fueling innovation and growth in the ecosystem.
