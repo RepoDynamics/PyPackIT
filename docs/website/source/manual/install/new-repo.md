@@ -199,29 +199,28 @@ and configure your repository until you are satisfied with the results.
 The `.meta` directory is the default location of your repository's [control center](../control/index.md),
 where all configurations, metadata, and settings for your GitHub repository (and its corresponding git repository),
 package, website, development pipeline, and other tools are stored in one place.
-When you apply a change to the repository's `meta` content and push it to the remote repository,
+When you apply a change to the control center's content and push it to the remote repository,
 {{pp_meta.name}} will automatically apply the corresponding changes to entire repository and its content,
-so that the repository is always in a consistent state with its `meta` content.
+so that the repository is always in a consistent state with its control center.
 
-by modifying the contents of the 
 
-All available meta contents are already provided in the `.meta` directory,
+All available options are already provided in the `.meta` directory,
 where all general configurations and settings are set to sensible default values.
 Therefore, as the first step, you only need to add some basic information about your project,
 and provide some project-specific configurations:
 
 - Open the project introduction metadata file at
-  `./.meta/core/intro.yaml` and add a tagline, description, and some keywords and keynotes
+  `./.meta/project/intro.yaml` and add a tagline, description, and some keywords and keynotes
   for your project.
 - Open the project theme metadata file at `./.meta/ui/theme.yaml` and add the colors for your project.
 - Open the logo directory at `./.meta/ui/logo` and add your project's logos.
 - By default, the [GNU Affero General Public License v3 or later] is selected as the license for your project.
-  If you want to use a different license, modify the license metadata file at `./.meta/core/license.yaml`
+  If you want to use a different license, modify the license metadata file at `./.meta/project/license.yaml`
   to select a different pre-defined license or provide your own custom license.
 - If you want to add multiple authors
   (by default, the repository owner is added automatically as the only author),
   or want to add funding options to your project,
-  open the project credits metadata file at `./.meta/core/credits.yaml` and add the corresponding information.
+  open the project credits metadata file at `./.meta/project/credits.yaml` and add the corresponding information.
 - By default, the repository owner is set as the only maintainer for all issues, pull requests,
   and discussions, and their email address (read from their GitHub account) is set as
   the contact email address for the project.
@@ -229,7 +228,7 @@ and provide some project-specific configurations:
 
 After you have committed and pushed your changes, the CI/CD workflow will automatically run again.
 During the initialization phase, the workflow will perform the following tasks on each push:
-- Update all dynamics directories and files, according to the `meta` content.
+- Update all dynamics directories and files, according to the control center settings.
 - Update the repository's general info and settings, according to the `repo.config` specifications
   in the `./.meta/dev/repo.yaml` file.
   This includes the repository's description, website URL, and topics (keywords),
