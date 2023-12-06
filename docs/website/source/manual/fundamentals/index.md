@@ -4,7 +4,9 @@
 :hidden:
 
 structure/index
-concepts/index
+branches
+commits
+labels
 workflows/index
 :::
 
@@ -34,13 +36,28 @@ A detailed explanation of the directory structure of your repository,
 and how {{pp_meta.name}} uses it to manage your project.
 :::
 
-:::{grid-item-card} Concepts
+:::{grid-item-card} Branch Types
 :link: concepts/index
-:link-type: doc
+:link-type: branches
 :class-title: sd-text-center
 
-A comprehensive overview of the key concepts defined by {{pp_meta.name}},
-and how they fit in your software development process.
+A detailed overview of the different branch types created, managed, and used by {{pp_meta.name}}.
+:::
+
+:::{grid-item-card} Commit Types
+:link: concepts/index
+:link-type: commits
+:class-title: sd-text-center
+
+A detailed overview of the different commit types created, managed, and used by {{pp_meta.name}}.
+:::
+
+:::{grid-item-card} Label Types
+:link: concepts/index
+:link-type: labels
+:class-title: sd-text-center
+
+A detailed overview of the different label types created, managed, and used by {{pp_meta.name}}.
 :::
 
 :::{grid-item-card} Workflows
