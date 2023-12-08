@@ -345,7 +345,7 @@ to write all the contents of the documentation website from scratch,
 and carefully structure and organize them into a coherent and user-friendly format.
 Moreover, since all the contents are by default static,
 any changes to the project must be manually reflected in the documentation website.
-This requires developers to maintain a detailed overview of all the places 
+This requires developers to maintain a detailed overview of all the places
 where each piece of information is used,
 and update them accordingly whenever necessary,
 to ensure that the documentation stays up to date with the evolving project.
