@@ -373,6 +373,81 @@ that can generate, deploy, and maintain a fully developed professional documenta
 with little to no effort from the developers.
 
 
+### Code Quality and Testing
+
+Code quality assurance and testing are crucial aspects of every software development process,
+ensuring that the code is functional, secure, robust, reliable, maintainable, and sustainable.
+These encompass a wide range of activities and practices, from formatting and static code analysis routines,
+to various dynamic testing methods, such as unit testing, integration testing, and end-to-end testing:
+
+- [**Formatting**]{.primary-color}: The Python interpreter imposes little to no restrictions
+  on the formatting of the source code, such as naming conventions,
+  annotations, indentation, line length, whitespace, and other layout and styling aspects.
+  This can lead to vastly different formatting styles between developers,
+  preventing them from easily following, reviewing, and maintaining each other's code.
+  Therefore, it is important for developers to follow a consistent code style,
+  especially in open-source collaborative projects, where the code is publicly available
+  and the long-term sustainability of the project depends on the contributions from the community.
+  Code formatting in Python has been greatly simplified by the introduction of
+  a standardized style guide in the [Python Enhancement Proposal (PEP) 8](https://peps.python.org/pep-0008/),
+  and the availability of powerful automated code formatting tools, such as
+  [Black](https://github.com/psf/black) and [YAPF](https://github.com/google/yapf).
+- [**Linting**]{.primary-color}: Static code analysis, also known as linting,
+  is the process of analyzing the source code without actually executing it.
+  It is usually the first line of defense in ensuring code quality,
+  used to detect security vulnerabilities, syntax errors, suspicious constructs, and potential bugs;
+  enforce styling rules; identify unused variables and imports, and perform various other checks.
+  The Python ecosystem offers several powerful linting tools, such as
+  [Pylint](https://github.com/pylint-dev/pylint), [Flake8](https://github.com/PyCQA/flake8),
+  and [Bandit](https://github.com/PyCQA/bandit).
+  More recently, [Ruff](https://github.com/astral-sh/ruff) has emerged as a rapidly growing
+  and promising alternative, offering up to 100x performance improvement over existing tools.
+  Written in Rust, Ruff not only introduces its own set of unique features,
+  but also implements most functionalities of other linters and code formatters; as of version 0.1.7,
+  Ruff can be used as a drop-in replacement for Flake8, Isort, and Black,
+  while full parity with Pylint and Bandit is expected in the near future.
+  More importantly, Ruff is able to automatically fix a number of issues it detects,
+  in contrast to other linters that only report the issues and require manual intervention.
+- [**Type Checking**]{.primary-color}: While Python is a dynamically typed language,
+  it supports optional type annotations, as introduced in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
+  These can be extremely useful for documenting the code, and improving its readability and maintainability,
+  especially in larger projects.
+  More importantly, they can be used by type checking tools, such as [Mypy](https://github.com/python/mypy),
+  which perform static code analysis to detect type-related errors in the code that may otherwise go unnoticed.
+- [**Testing**]{.primary-color}: As one of the most important aspects of software development,
+  dynamic testing refers to the process of executing the code with a given set of test cases
+  to validate its functionality and correctness.
+  As the complexity of software projects increases,
+  it becomes increasingly difficult to ensure that the software behaves as expected in all possible scenarios,
+  and that changes do not introduce new bugs or break existing functionalities.
+  Therefore, it is crucial to have a comprehensive test suite in place,
+  to ensure that the code is thoroughly tested and validated before being released.
+  [Pytest](https://github.com/pytest-dev/pytest) is one of the most well-known testing frameworks
+  for Python projects, allowing developers to write various types of tests for their software,
+  including unit tests, integration tests, end-to-end tests, and functional tests.
+  These can then be incorporated in the development workflows of the project,
+  to ensure the integrity and functionality of the code at every stage of the development process.
+
+While the Python ecosystem offers a comprehensive set of powerful tools to help developers
+carry out these tasks, successfully integrating them into the development process
+can be challenging and time-consuming, especially in the current rapidly evolving landscape:
+Developers must maintain a broad and up-to-date overview
+of the various tools and best practices involved,
+to select the right set of tools for their project.
+These tools usually offer a wide range of configuration options, which must be carefully set
+to ensure that they are compatible with the project's workflow.
+Integrating multiple tools, each with its own configuration and usage nuances,
+into a single coherent workflow can be complex.
+Ensuring that these tools work seamlessly together,
+and with the project's existing infrastructure, requires significant setup and maintenance effort.
+Additionally, balancing the strictness of rules
+against the practicality of day-to-day development is a nuanced task.
+More importantly, enforcing coding standards and testing practices
+across all contributors can be challenging in collaborative projects.
+It requires clear guidelines and often the implementation of automated checks
+that are integrated into the development workflow,
+such as pre-commit hooks or continuous integration pipelines.
+
 
 :::{admonition} 🚧 Under Construction 🚧
 :class: danger
@@ -381,38 +456,8 @@ The rest of this page is currently under construction.
 :::
 
 
-
-### Package Infrastructure
-
-A Python package is a collection of Python modules, scripts, and other resources,
-which can be easily installed and imported into other Python projects.
-It provides a standardized format for sharing and distributing software,
-and is the building block of the Python ecosystem.
-Therefore, setting up a Python package is one of the first steps in developing a Python project,
-and is an essential part of the development process.
-
-
-Python packages are the building blocks of the Python ecosystem,
-providing a standardized format for sharing and distributing software.
-
-The first step in developing a Python package is setting up the project directory,
-which involves creating the necessary files and directories, and configuring the project structure.
-This process can be tedious and time-consuming, especially for new users,
-who may not be familiar with the required files and their contents.
-While there are several tools available to automate this process,
-they often require additional configuration and customization to suit the specific needs of the project.
-Moreover, the process of setting up a project directory is only the first step;
-it is often followed by a series of additional steps, such as installing dependencies,
-configuring the development environment, and setting up a CI/CD pipeline,
-which can be equally challenging and time-consuming.
-
-Setting up a new Python project involves numerous steps,
-including repository creation, dependency management, and environment setup.
-Smaller teams often find this initial phase daunting,
-as it requires a broad understanding of the tools and practices involved.
-
-
 ### Development Workflow
+
 In addition, a well-structured repository should also have a clear and consistent workflow,
   and a well-defined process for reviewing and merging contributions.
   This helps streamline the development process,
@@ -435,24 +480,33 @@ In addition, a well-structured repository should also have a clear and consisten
     and releases are tagged from the `master` branch.
 
 
-### Code Quality and Testing
+### Packaging and Distribution
 
-Code quality is a critical aspect of software development,
-  ensuring that the code is functional, robust, and reliable.
+A Python package is a collection of Python modules, scripts, and other resources,
+which can be easily installed and imported into other Python projects.
+It provides a standardized format for sharing and distributing software,
+and is the building block of the Python ecosystem.
+Therefore, setting up a Python package is one of the first steps in developing a Python project,
+and is an essential part of the development process.
 
-Testing is a critical part of software development,
-ensuring that the code is functional, robust, and reliable.
-It is especially crucial for open-source projects, where the code is publicly available,
-and users rely on it for their work.
-Testing also plays a vital role in maintaining the quality of the codebase,
-by identifying and fixing bugs, and preventing regressions.
+Python packages are the building blocks of the Python ecosystem,
+providing a standardized format for sharing and distributing software.
 
+The first step in developing a Python package is setting up the project directory,
+which involves creating the necessary files and directories, and configuring the project structure.
+This process can be tedious and time-consuming, especially for new users,
+who may not be familiar with the required files and their contents.
+While there are several tools available to automate this process,
+they often require additional configuration and customization to suit the specific needs of the project.
+Moreover, the process of setting up a project directory is only the first step;
+it is often followed by a series of additional steps, such as installing dependencies,
+configuring the development environment, and setting up a CI/CD pipeline,
+which can be equally challenging and time-consuming.
 
-
-
-
-
-### Distribution
+Setting up a new Python project involves numerous steps,
+including repository creation, dependency management, and environment setup.
+Smaller teams often find this initial phase daunting,
+as it requires a broad understanding of the tools and practices involved.
 
 The popularity of Python has also led to the development of several package managers,
 such as [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/),
