@@ -187,3 +187,15 @@ html[data-theme=dark] .fa-conda:hover {
 .primary-color {
     color: var(--pst-color-primary)
 }
+
+.centered {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.margin-sides {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
