@@ -449,6 +449,35 @@ that are integrated into the development workflow,
 such as pre-commit hooks or continuous integration pipelines.
 
 
+## Summary
+
+The rise of high-level, versatile programming languages, such as Python,
+and the emergence of comprehensive cloud-based VCS platforms, such as GitHub,
+have made software development more accessible and efficient than ever before.
+Nevertheless, developing and maintaining a high-quality, useful, and sustainable software project
+is still a non-trivial task, involving numerous steps
+and requiring a broad range of skills and expertise in various other fields and subjects,
+from graphic design and user experience, to project management and DevOps.
+These often act as significant barriers to smaller independent projects
+that lack dedicated teams for each aspect of the development process,
+inadvertently hampering innovation and growth within the Python community.
+While being crucial for the ultimate success of every project,
+many aspects of the development process are not directly related
+to the idea and vision behind the project itself,
+and are rather repetitive, time-consuming and tedious chores
+that can be automated and streamlined
+to save time and effort for the development team,
+allowing them to solely focus on the creative aspects of their work.
+Although several tools and resources are available
+to help developers with some of the involved tasks in isolation,
+to the best of our knowledge, there is currently no comprehensive solution
+that can seamlessly automate and streamline the entire software development process.
+This underscores the need for a fully automated, plug-and-play software project management tool,
+which enables aspiring and experienced developers alike to rapidly build professional software,
+readily share them with the world, and effortlessly maintain their projects,
+thereby empowering the development of open-source Python projects.
+
+
 :::{admonition} 🚧 Under Construction 🚧
 :class: danger
 
@@ -482,10 +511,13 @@ In addition, a well-structured repository should also have a clear and consisten
 
 ### Packaging and Distribution
 
+
+
 A Python package is a collection of Python modules, scripts, and other resources,
 which can be easily installed and imported into other Python projects.
 It provides a standardized format for sharing and distributing software,
 and is the building block of the Python ecosystem.
+
 Therefore, setting up a Python package is one of the first steps in developing a Python project,
 and is an essential part of the development process.
 
@@ -498,15 +530,7 @@ This process can be tedious and time-consuming, especially for new users,
 who may not be familiar with the required files and their contents.
 While there are several tools available to automate this process,
 they often require additional configuration and customization to suit the specific needs of the project.
-Moreover, the process of setting up a project directory is only the first step;
-it is often followed by a series of additional steps, such as installing dependencies,
-configuring the development environment, and setting up a CI/CD pipeline,
-which can be equally challenging and time-consuming.
 
-Setting up a new Python project involves numerous steps,
-including repository creation, dependency management, and environment setup.
-Smaller teams often find this initial phase daunting,
-as it requires a broad understanding of the tools and practices involved.
 
 The popularity of Python has also led to the development of several package managers,
 such as [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/),
@@ -520,12 +544,3 @@ which provide a centralized location for publishing and sharing Python packages.
 
 
 ### Evolving Standards
-
-
-## Summary
-
-Each aspect, from basic configurations to more complex community engagement tools,
-plays a vital role in establishing a solid foundation for the project's success.
-
-The challenges in this phase can be daunting, especially for smaller teams or individual developers,
-underscoring the need for tools that can simplify and streamline the repository setup process.
