@@ -37,7 +37,7 @@ and how {{pp_meta.name}} uses it to manage your project.
 :::
 
 :::{grid-item-card} Branch Types
-:link: concepts/index
+:link: branches
 :link-type: branches
 :class-title: sd-text-center
 
@@ -45,7 +45,7 @@ A detailed overview of the different branch types created, managed, and used by 
 :::
 
 :::{grid-item-card} Commit Types
-:link: concepts/index
+:link: commits
 :link-type: commits
 :class-title: sd-text-center
 
@@ -53,7 +53,7 @@ A detailed overview of the different commit types created, managed, and used by 
 :::
 
 :::{grid-item-card} Label Types
-:link: concepts/index
+:link: labels
 :link-type: labels
 :class-title: sd-text-center
 
