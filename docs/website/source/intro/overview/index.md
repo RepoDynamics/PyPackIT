@@ -141,6 +141,69 @@ For example:
 {% endfor %}
 
 
+### Documentation Website
+
+{{ pp_meta.name }} comes with a fully developed, ready to use,
+professional documentation website for your project,
+that is automatically generated, deployed, and maintained,
+with minimal effort required from your side.
+
+#### Main Features
+- The website is built with [Sphinx](https://github.com/sphinx-doc/sphinx),
+  a powerful and popular documentation generator.
+- It uses the [PyData Sphinx Theme](https://github.com/pydata/pydata-sphinx-theme)–the
+  official theme of the [PyData](https://pydata.org/) community,
+  used by many popular Python projects such as
+  [NumPy](https://numpy.org/doc/stable/),
+  [SciPy](https://docs.scipy.org/doc/scipy/),
+  [Pandas](https://pandas.pydata.org/docs/),
+  [Matplotlib](https://matplotlib.org/stable/),
+  and [Jupyter](https://docs.jupyter.org/en/latest/)–to
+  provide a professional and modern design.
+- Sphinx's powerful templating capabilities (using [Jinja](https://jinja.palletsprojects.com/))
+  are directly integrated into all source files,
+  rendering most of the website's content dynamic and self-updating.
+- The [MyST Parser](https://github.com/executablebooks/MyST-Parser) extension is used
+  to add support for the [MyST Markdown](https://mystmd.org/) syntax,
+  which provides a variety of rich features for writing technical and scientific documentation,
+  such as typography, code blocks, admonitions, figures, tables, cross-references, and mathematical notation.
+- The [Sphinx Design](https://github.com/executablebooks/sphinx-design) extension is used
+  to include beautiful and responsive web components in the website,
+  including grids, cards, dropdowns, tabs, buttons, and icons.
+- Using the [sphinx-autodoc2](https://github.com/sphinx-extensions2/sphinx-autodoc2) extension,
+  the website automatically generates API documentation for your Python package,
+  based on the docstrings in your source code.
+- With the help of the [ABlog](https://github.com/sunpy/ablog) extension,
+  the website includes a full-fledged blog,
+  with support for comments (using [Giscus](https://giscus.app/)),
+  web feeds, and various categorization, searching, and archiving options.
+- Using the [sphinxext-opengraph](https://github.com/wpilibsuite/sphinxext-opengraph) extension, 
+  [Open Graph](https://ogp.me/) metadata are automatically added to each page of the website,
+  allowing for search engine optimization (SEO) and rich previews when sharing the website on social media.
+- The [sphinxcontrib-bibtex](https://github.com/mcmtroffaes/sphinxcontrib-bibtex) extension
+  is integrated into the website, enabling you to manage your project's entire bibliography
+  and citations in a BibTeX file, automatically add citations to your documentation,
+  and generate bibliographies and citation lists in various formats.
+- The included [sphinxcontrib-mermaid](https://github.com/mgaitan/sphinxcontrib-mermaid) extension
+  allows for adding complex diagrams and charts to your documentation using the
+  [Mermaid](https://github.com/mermaid-js/mermaid) syntax.
+
+#### Content
+
+#### Customization
+
+#### Build and Deployment
+
+
+that is easily customizable, and automatically generated and deployed on your preferred platform.
+
+
+
+
+
+
+
+
 ## Summary
 
 ${{ name }} streamlines a remarkable portion of the process of creating,
