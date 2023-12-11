@@ -199,3 +199,8 @@ html[data-theme=dark] .fa-conda:hover {
     padding-left: 0.3em;
     padding-right: 0.3em;
 }
+
+.homepage-button-text {
+    font-size: var(--pst-font-size-h6);
+    font-weight: bold;
+}
