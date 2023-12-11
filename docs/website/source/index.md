@@ -30,6 +30,19 @@ help/index
 "[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
+[Key Features]{.centered-text-h2}
+::::{card-carousel} 2
+:class: element-in-page-without-sidebar
+{% for point in pp_meta.keynotes %}
+:::{card} {{point.title}}
+:class-title: sd-text-center
+{{point.description}}
+:::
+{% endfor %}
+::::
+
+
+[Learn More]{.centered-text-h2}
 ::::{card-carousel} 1
 :class: element-in-page-without-sidebar
 
