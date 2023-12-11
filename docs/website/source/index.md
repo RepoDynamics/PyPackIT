@@ -3,6 +3,7 @@ sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
 # {{pp_meta.name}}
+
 :::{toctree}
 :includehidden:
 :hidden:
@@ -14,6 +15,7 @@ contribute/index
 about/index
 help/index
 :::
+
 
 {% for theme in ["light", "dark"] %}
 :::{image} _static/logo_full_{{theme}}.svg
@@ -30,7 +32,20 @@ help/index
 "[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
-[Key Features]{.centered-text-h2}
+<div class="element-in-page-without-sidebar">
+
+:::{button-ref} intro/overview/index
+:ref-type: myst
+:color: primary
+:expand:
+:class: homepage-button
+
+[Key Features]{.homepage-button-text}
+:::
+
+</div>
+
+
 ::::{card-carousel} 2
 :class: element-in-page-without-sidebar
 {% for point in pp_meta.keynotes %}
@@ -42,7 +57,22 @@ help/index
 ::::
 
 
-[Learn More]{.centered-text-h2}
+<br>
+
+
+<div class="element-in-page-without-sidebar">
+
+:::{button-ref} intro/overview/index
+:ref-type: myst
+:color: primary
+:expand:
+
+[Learn More]{.homepage-button-text}
+:::
+
+</div>
+
+
 ::::{card-carousel} 1
 :class: element-in-page-without-sidebar
 
