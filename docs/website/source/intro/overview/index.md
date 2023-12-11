@@ -1,13 +1,5 @@
 # Overview
 
-
-:::{admonition} 🚧 Under Construction 🚧
-:class: danger
-
-This page is currently under construction.
-:::
-
-
 {{pp_meta.name}} is a fully configured, yet highly customizable automation system
 that integrates with your GitHub repository and takes responsibility for a large portion
 of common tasks in every step of the development and maintenance process of your software project.
@@ -21,7 +13,6 @@ These workflows, which are built on
 [GitHub Actions](https://github.com/features/actions)—GitHub's own powerful automation platform—contain
 detailed instructions and commands for automatically performing a variety of tasks every time an event
 (e.g., pushing to a branch, opening an issue or pull request, etc.) occurs in your repository.
-
 
 {{pp_meta.name}} is provided as a
 [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository),
@@ -99,23 +90,97 @@ These include:
   and [pytest](https://docs.pytest.org/) and [coverage.py](https://coverage.readthedocs.io/) (for testing and code coverage).
 - Updating all directory-specific README files throughout the repository.
 
-Another prominent feature of {{ pp_meta.name }} is the centralized control center it provides;
-all metadata, configurations, and settings required for the above tasks are thoughtfully structured
-and gathered in one place, under a single directory in your repository, called the `meta` directory.
+
+## Features
+
+
+### Control Center
+
+A prominent feature of {{ pp_meta.name }} is the centralized and dynamic
+control center it provides for your project.
+It contains all the available settings for {{ pp_meta.name }} itself,
+along with various information, configurations, and metadata for your entire project and all its components,
+gathered in one place and thoughtfully organized and presented in a clear, consistent, and concise format.
+
+When you commit changes to the project's control center, they are automatically
+applied to your entire repository, Python package,
+test suite, documentation website, and all other components, tools, and external services.
+Therefore, instead of having to deal with multiple interfaces and diverse configuration
+and metadata files for each aspect of your project,
+all scattered across your repository and each with its own format and syntax,
+you can simply manage your entire project from within the control center,
+using a single, unified, and consistent interface;
+
+
 When you apply a change to the repository's `meta` content, {{ pp_meta.name }} will automatically
 apply the corresponding changes to the entire repository and its contents, and update all relevant files,
-configurations, and settings accordingly. Therefore, besides your source code, unit tests, and documentation content,
+configurations, and settings accordingly.
+
+Therefore, besides your source code, unit tests, and documentation content,
 all other aspects of your project are automatically managed by {{ pp_meta.name }} according to your specifications
 in the `meta` directory.
+
+${{ name }} automatically translates your changes into the appropriate formats,
+generates all necessary files in the required locations, and updates them dynamically.
+
+
+#### Options
+
+The control center contains all key information and metadata of your project,
+such as its name, description, keywords, license and copyright information,
+authors/maintainers and their roles, contact information, citations,
+and branding and styling information, to name a few.
+
+
+Furthermore, the control center contains all configurations and metadata for your
+GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
+GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
+health files contents; README files contents; description and topics; gitignore and gitattributes files),
+Python package and test suite (e.g. build configurations; package metadata; dependencies
+and other requirements; entry points and scripts declarations; manifest file content;
+docstrings; PyPI and Conda settings),
+documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
+custom domain declaration; web analytics settings, announcement configurations),
+and all other tools and external services that are utilized by your project
+(e.g. settings for various linting, formatting, and testing tools such as
+Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
+pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
+
+
+#### Substitutions and Templating
+
 {{ pp_meta.name }} also allows for complex and recursive templating for all the `meta` content,
 meaning that you can reference and use any part of the `meta` content in all other parts, eliminating the need for
 redundant and repetitive configurations and data, which are hard to modify.
 This provides a high degree of customization and flexibility,
 as you can easily change a single variable, and have it automatically applied to the entire `meta` contents
 and consequently the entire project.
+
+In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
+and customization, ${{ name }} allows for complex and recursive templating within all contents of
+the control center, meaning that you can reference and reuse any piece of configuration or data
+in all other parts of the control center.
+
+
+#### Inheritance
+
 To further reduce unnecessary redundancies, {{ pp_meta.name }} also lets you dynamically inherit
 specific `meta` contents of other repositories, allowing you to easily create and maintain
 multiple repositories with centralized configurations and settings.
+
+You can also command ${{ name }} to dynamically inherit any piece of configuration or data
+from any other GitHub repository, allowing you to easily share and reuse specifications
+across multiple projects.
+
+
+#### Automatic Additions
+
+On top of these, ${{ name }} automatically augments your project's metadata
+with various dynamic information, so that you don't have to manually define and update them.
+For example, all information on your GitHub repository, along with full details of
+the project's owner, authors, maintainers, and contributors, are periodically retrieved
+from GitHub, and a full list of your package's active releases and their corresponding
+information are generated and maintained automatically.
 
 On top of this, {{ pp_meta.name }} also automatically extends your project's metadata
 by fetching additional information from external sources.
@@ -133,18 +198,41 @@ For example:
   and [DOI](https://www.doi.org/the-identifier/resources/factsheets/doi-resolution-documentation) APIs.
 
 
-## Features
+#### Custom Additions
 
-{% for point in pp_meta.keynotes %}
-### {{point.title}}
-{{point.description}}
-{% endfor %}
+${{ name }} also allows you to extend your project's configuration and metadata with
+your own custom specifications, which can then be referenced and utilized anywhere in
+your project, the same way as the built-in contents of the control center.
+For more complex custom specifications that cannot be defined in YAML files,
+or for data that must be generated/retrieved dynamically at runtime
+(e.g. data retrieved from a web API), ${{ name }} allows you to define custom Python scripts
+that are automatically executed during the workflow runs, and whose outputs are then made available
+to your entire project.
+
+
+### Repository Setup
+
+- [**General Settings**]{.primary-color}: General settings for the repository,
+  such as name, description, visibility, and default branch
+- [**About Section**]{.primary-color}: General information about the project,
+  such as description, keywords (aka topics), and website URL
+- [**Repository README**]{.primary-color}:
+- [**Social Media Preview**]{.primary-color}:
+- [**Directory Structure**]{.primary-color}:
+- [**Directory READMEs**]{.primary-color}:
+- [**Security Settings**]{.primary-color}:
+- [**License**]{.primary-color}:
+- [**Issues**]{.primary-color}:
+- [**Labels**]{.primary-color}:
+- [**Discussions**]{.primary-color}:
+- [**Health Files**]{.primary-color}:
+- [**Git Files**]{.primary-color}:
 
 
 ### Documentation Website
 
 {{ pp_meta.name }} comes with a fully developed, ready to use,
-professional documentation website for your project,
+yet highly customizable professional documentation website for your project,
 that is automatically generated, deployed, and maintained,
 with minimal effort required from your side.
 
