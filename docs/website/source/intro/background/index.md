@@ -449,6 +449,199 @@ that are integrated into the development workflow,
 such as pre-commit hooks or continuous integration pipelines.
 
 
+### Packaging and Distribution
+
+For software to be usable by others,
+it must first be [packaged](https://packaging.python.org/en/latest/overview/) in a standardized format
+and distributed on an online software repository (aka package index),
+which provides a centralized location for publishing and sharing packages,
+so that users can find, download, and install it on their systems.
+There are two major software repositories for Python packages:
+- [Python Package Index (PyPI)](https://pypi.org/): The official software repository for Python,
+  run by the [Python Software Foundation (PSF)](https://www.python.org/psf-landing/).
+- [Anaconda.org](https://anaconda.org/): A language-agnostic platform
+  with support for multiple programming languages, which makes it a popular choice
+  for publishing Python packages with non-Python dependencies,
+  as is often the case for scientific software.
+
+Each of these platforms has its own package management system,
+which is the software that users use to download and install packages from the repository:
+- [pip](https://pip.pypa.io/en/stable/): The official package manager for Python,
+  maintained by the [Python Packaging Authority (PyPA)](https://www.pypa.io/en/latest/),
+  and the recommended tool for downloading, installing, and managing packages from PyPI.
+- [conda](https://docs.conda.io/en/latest/)
+  (and its more performant twin, [mamba](https://mamba.readthedocs.io/en/latest/)):
+  Cross-platform package managers for Python and other programming languages,
+  used to download, install, and manage packages from Anaconda.org.
+
+The packaging and distribution process involves several steps:
+1. The source code must first be structured into one or several
+   [import packages](https://packaging.python.org/en/latest/glossary/#term-Import-Package),
+   to ensure that it can be seamlessly imported and used by other Python projects.
+   This requires developers to follow a specific directory structure and naming scheme,
+   so that the package and its components can be correctly recognized
+   by the package manager and the Python interpreter.
+
+   For example, a typical Python application containing a single top-level import package
+   has a hierarchical directory structure; the top-level directory must at least contain
+   a special file called `__init__.py`, which is used to mark the directory as a package,
+   and can be used to define a namespace and execute package initialization code.
+   The name of this directory defines the import name of the package,
+   and must adhere to the [naming conventions](https://www.python.org/dev/peps/pep-0008/#package-and-module-names)
+   defined in PEP 8. All the source code of the package must be placed inside this directory,
+   organized into subpackages and modules, which can be further nested to any depth.
+2. A variety of instructions, requirements, and metadata must be provided
+   in several configuration files, each with its own syntax and standardized format,
+   to ensure that the package can be correctly recognized and installed by the package manager.
+   These include:
+   - [**Build System Specifications**]{.primary-color}: Instructions for the package manager
+     on how to build and install the package from source, such as the build backend to use
+     (e.g., [setuptools](https://setuptools.pypa.io),
+     [hatch](https://hatch.pypa.io),
+     [flit](https://flit.pypa.io),
+     [poetry](https://python-poetry.org),
+     [pdm](https://pdm-project.org)),
+     additional build dependencies, and the commands to run.
+     These must adhere to a standardized format defined in
+     [PEP 517](https://www.python.org/dev/peps/pep-0517/) and
+     [PEP 518](https://www.python.org/dev/peps/pep-0518/).
+   - [**Build Backend Configurations**]{.primary-color}: Specific configurations
+     for the selected build backend, such as the location of the source code,
+     files to include/exclude, and how to handle different aspects of the build process.
+     The exact format and syntax of these configurations depend on the selected build backend.
+   - [**Name**]{.primary-color}: The name of the package on the online repository,
+     used by the package manager to uniquely identify and locate the package.
+     The package name must follow the [PyPA specifications](https://packaging.python.org/en/latest/specifications/name-normalization/)
+     introduced in [PEP 503](https://peps.python.org/pep-0503/#normalized-names)
+     and [PEP 508](https://peps.python.org/pep-0508/#names).
+   - [**Version**]{.primary-color}: The version identifier of the package, used by the package manager
+     to identify and install the correct version of the package.
+     It must be a valid public version identifier according to the
+     [PyPA specifications](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-specifiers)
+     first introduced in [PEP 440](https://www.python.org/dev/peps/pep-0440/),
+     and must be incremented for every new release of the package,
+     following [specific rules](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-ordering-across-different-metadata-versions).
+   - [**Python Version**]{.primary-color}: The minimum Python version required by the package,
+     used by the package manager to ensure that the package is compatible with the user's Python interpreter.
+     It must be a valid version specifier according to the
+     [PyPA specifications](https://packaging.python.org/en/latest/specifications/version-specifiers/#id4),
+     and must be incremented whenever the package drops support for older Python versions.
+   - [**Dependencies**]{.primary-color}: The required and optional dependencies of the package
+     (i.e., other software that the package depends on to function correctly),
+     which are automatically installed by the package manager along with the package.
+     These must be specified in a standardized format defined in
+     [PEP 508](https://www.python.org/dev/peps/pep-0508/),
+     and must be kept up to date and synchronized with the dependencies used in the source code.
+   - [**Entry Points**]{.primary-color}: The entry points of the package,
+     such as console scripts, GUI scripts, and other callable objects,
+     which are automatically registered by the package manager and made available to the user.
+     These must follow the [PyPA specifications](https://packaging.python.org/en/latest/specifications/entry-points/),
+     and must refer to actual objects (e.g., functions) defined in the source code.
+   
+   In addition, several other metadata must be provided so that the online package index
+   can correctly categorize and display the package, facilitating its discovery by users,
+   and providing them with a clear overview of the project.
+   These include:
+   - [**Description**]{.primary-color}: A short description of the package,
+     which is displayed on the package index and used by the package manager
+     to provide a brief overview of the project.
+   - [**Keywords**]{.primary-color}: A list of keywords describing the package,
+     which are used by the package index to categorize the package,
+     and help users find it through various search and filtering options.
+   - [**License**]{.primary-color}: The license of the package,
+     so that users can know under which terms they can use the project.
+   - [**Authors and Maintainers**]{.primary-color}: Names and emails of the
+     authors and maintainers of the package,
+     so that users can know who is responsible for the project and how to contact them.
+   - [**Project URLs**]{.primary-color}: A list of URLs related to the project,
+     such as the project's homepage, documentation, source code, issue tracker, and changelog,
+     which are displayed on the package index and used by the package manager
+     to provide users with additional information and resources for the project.
+   - [**Classifiers**]{.primary-color}: A list of [Trove classifiers](https://pypi.org/classifiers/)
+     as defined in [PEP 301](https://peps.python.org/pep-0301/#distutils-trove-classification),
+     to describe each release of the package (e.g., development status, supported Python versions and operating systems,
+     project topics, intended audience, natural language, license, etc.).
+     These standardized classifiers are used by the package index to categorize the package,
+     and help users find it through various search and filtering options.
+   - [**README**]{.primary-color}: A README file similar to the repository's README,
+     containing a detailed and up-to-date description of the package,
+     which is displayed on the package index to provide users with a clear overview of the project.
+     As the first thing that users notice when viewing the project on the package index,
+     it is crucial to have an informative, engaging, and visually appealing README
+     that captures the attention of visitors and provides them with all the necessary information
+     and resources for the project.
+     Both PyPI and Anaconda.org support markup languages such as Markdown and reStructuredText
+     for defining the contents of the README file.
+     However, like GitHub, they impose several restrictions on the supported features,
+     and perform additional post-processing and sanitization after rendering the contents to HTML.
+     For example, PyPI uses the [Readme Renderer](https://github.com/pypa/readme_renderer) library
+     to render the README file, which only supports a limited subset of HTML
+     [tags](https://github.com/pypa/readme_renderer/blob/9c2eb81301bc230f2795cf7e6dc2c23f5815ea41/readme_renderer/clean.py#L20-L31)
+     and [attributes](https://github.com/pypa/readme_renderer/blob/9c2eb81301bc230f2795cf7e6dc2c23f5815ea41/readme_renderer/clean.py#L33-L65).
+     Since these do not completely overlap with the features supported by GitHub,
+     a separate [PyPI-friendly README](https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/)
+     must be provided for PyPI, to ensure that the contents are correctly rendered on the package index.
+3. The import package(s) must be transformed into
+   [distribution packages](https://packaging.python.org/en/latest/glossary/#term-Distribution-Package),
+   which are versioned archives containing the import packages and other required files and resources.
+   Distribution packages are the files that are actually uploaded to the online package index,
+   to be downloaded and installed for the end-users via the package manager.
+   There are two major distribution formats for Python packages:
+   - [**Source Distributions**](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist):
+     Source distributions (aka sdist) are `tar.gz` archive files providing the source code of the package,
+     along with the required configuration files, metadata, and resources
+     that are needed for generating various built distributions.
+   - [**Built Distributions**](https://packaging.python.org/en/latest/glossary/#term-Built-Distribution):
+     Built distributions are [binary archives](https://packaging.python.org/en/latest/specifications/binary-distribution-format/)
+     containing files and metadata that only need to be moved to the correct location on the target system,
+     to be installed.
+     Currently, PyPI/pip uses the [Wheel](https://packaging.python.org/en/latest/glossary/#term-Wheel) format
+     (originally introduced in [PEP 427](https://www.python.org/dev/peps/pep-0427/),
+     replacing the older [Egg](https://packaging.python.org/en/latest/glossary/#term-Egg) format),
+     while Anaconda/conda uses the
+     [`.conda` format](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html#conda-file-format)
+     superseding the older `.tar.bz2` format.
+     These can be either platform-independent or platform-specific,
+     depending on whether the package is pure Python or contains compiled extensions
+     (cf. [pure-Python packages](https://packaging.python.org/en/latest/overview/#python-binary-distributions) for pip,
+     and [Noarch Packages](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html#noarch-packages) for conda).
+   
+   PyPA [recommends](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives)
+   always uploading a source distribution to PyPI,
+   along with one or more built distributions for each supported platform.
+   These can be generated using the [build](https://github.com/pypa/build)
+   (for source distributions and pure-Python wheels)
+   and [cibuildwheel](https://github.com/pypa/cibuildwheel) (for platform-specific wheels)
+   packages provided by PyPA. 
+   Similarly, conda built distributions can be generated using the
+   [conda-build](https://github.com/conda/conda-build) package provided by the [conda community](https://conda.org/).
+4. The distribution packages must be uploaded to the online package index,
+   so that users can find, download, and install them on their systems.
+   - For PyPI, this requires developers to create an account on the platform,
+     generate an API token for authentication,
+     and use the [twine](https://github.com/pypa/twine/) library to upload the packages.
+     Alternatively, [trusted publishing](https://docs.pypi.org/trusted-publishers/)
+     ([OpenID Connect](https://openid.net/developers/how-connect-works/) standard) can be used
+     in conjunction with the [PyPI publish GitHub Action](https://github.com/pypa/gh-action-pypi-publish)
+     to publish packages directly from GitHub Actions, without the need for an API token.
+   - Similarly, for Anaconda.org, developers must [create an account](https://docs.anaconda.com/free/anacondaorg/user-guide/work-with-accounts/)
+     on the platform and use the [anaconda-client](https://github.com/Anaconda-Platform/anaconda-client) library
+     to [upload the package](https://docs.anaconda.com/free/anacondaorg/user-guide/packages/conda-packages/#uploading-conda-packages)
+     to their Anaconda.org repository/channel.
+     However, distributing packages through personal repositories/channels is not recommended,
+     as it requires users to manually add the repository/channel to their conda configuration,
+     and does not provide any guarantees on the availability and reliability of the package.
+     Instead, developers are encouraged to use the [conda-forge](https://conda-forge.org/)
+     community repository, which provides a curated collection of high-quality packages
+     that are automatically built and tested on a variety of platforms.
+     Conda-forge has its own process for [contributing packages](https://conda-forge.org/docs/maintainer/adding_pkgs.html),
+     which involves submitting a [conda-build recipe](https://docs.conda.io/projects/conda-build/en/stable/concepts/recipe.html)
+     to the [staged-recipes repository](https://github.com/conda-forge/staged-recipes) on GitHub,
+     where it is reviewed and tested by the community before being merged into the repository.
+     Once merged, the package is automatically built and uploaded to the conda-forge channel,
+     and made available to the users.
+
+
 ## Summary
 
 The rise of high-level, versatile programming languages, such as Python,
@@ -509,38 +702,11 @@ In addition, a well-structured repository should also have a clear and consisten
     and releases are tagged from the `master` branch.
 
 
-### Packaging and Distribution
-
-
-
-A Python package is a collection of Python modules, scripts, and other resources,
-which can be easily installed and imported into other Python projects.
-It provides a standardized format for sharing and distributing software,
-and is the building block of the Python ecosystem.
-
-Therefore, setting up a Python package is one of the first steps in developing a Python project,
-and is an essential part of the development process.
-
-Python packages are the building blocks of the Python ecosystem,
-providing a standardized format for sharing and distributing software.
-
-The first step in developing a Python package is setting up the project directory,
-which involves creating the necessary files and directories, and configuring the project structure.
-This process can be tedious and time-consuming, especially for new users,
-who may not be familiar with the required files and their contents.
-While there are several tools available to automate this process,
-they often require additional configuration and customization to suit the specific needs of the project.
-
-
-The popularity of Python has also led to the development of several package managers,
-such as [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/),
-and [poetry](https://python-poetry.org/), which have made it easier to install and manage Python packages.
-These package managers have also enabled the creation of package indexes,
-such as [PyPI](https://pypi.org/), [Anaconda Cloud](https://anaconda.org/), and [TestPyPI](https://test.pypi.org/),
-which provide a centralized location for publishing and sharing Python packages.
 
 
 ### Maintenance
+
+applying changes requires modifying multiple files at multiple locations.
 
 
 ### Evolving Standards
