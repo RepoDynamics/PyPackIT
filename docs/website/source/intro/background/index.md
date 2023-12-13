@@ -567,7 +567,7 @@ The packaging and distribution process involves several steps:
      which are automatically registered by the package manager and made available to the user.
      These must follow the [PyPA specifications](https://packaging.python.org/en/latest/specifications/entry-points/),
      and must refer to actual objects (e.g., functions) defined in the source code.
-   
+
    In addition, several other metadata must be provided so that the online package index
    can correctly categorize and display the package, facilitating its discovery by users,
    and providing them with a clear overview of the project.
@@ -635,14 +635,14 @@ The packaging and distribution process involves several steps:
      depending on whether the package is pure Python or contains compiled extensions
      (cf. [pure-Python wheels](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#pure-python-wheels) for pip,
      and [Noarch Packages](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html#noarch-packages) for conda).
-   
+
    PyPA [recommends](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives)
    always uploading a source distribution to PyPI,
    along with one or more built distributions for each supported platform.
    These can be generated using the [build](https://github.com/pypa/build)
    (for source distributions and pure-Python wheels)
    and [cibuildwheel](https://github.com/pypa/cibuildwheel) (for platform-specific wheels)
-   packages provided by PyPA. 
+   packages provided by PyPA.
    Similarly, conda built distributions can be generated using the
    [conda-build](https://github.com/conda/conda-build) package provided by the [conda community](https://conda.org/).
 4. The distribution packages must be uploaded to the online package index,
@@ -679,7 +679,7 @@ developers must also be familiar with the specific requirements and nuances of e
 For example, most configurations and metadata for PyPI/pip must be provided
 in a declarative fashion using the [TOML](https://toml.io) format in a file named
 [`pyproject.toml`](https://packaging.python.org/en/latest/specifications/pyproject-toml/),
-while Anaconda/conda uses the [YAML](https://yaml.org/) format to define metadata in a file named 
+while Anaconda/conda uses the [YAML](https://yaml.org/) format to define metadata in a file named
 [`meta.yaml`](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html),
 and requires [build scripts](https://docs.conda.io/projects/conda-build/en/stable/resources/build-scripts.html)
 to be defined separately for Linux/macOS and Windows in `build.sh` and `bld.bat` files, respectively.

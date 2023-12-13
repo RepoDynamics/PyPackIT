@@ -265,7 +265,7 @@ with minimal effort required from your side.
   the website includes a full-fledged blog,
   with support for comments (using [Giscus](https://giscus.app/)),
   web feeds, and various categorization, searching, and archiving options.
-- Using the [sphinxext-opengraph](https://github.com/wpilibsuite/sphinxext-opengraph) extension, 
+- Using the [sphinxext-opengraph](https://github.com/wpilibsuite/sphinxext-opengraph) extension,
   [Open Graph](https://ogp.me/) metadata are automatically added to each page of the website,
   allowing for search engine optimization (SEO) and rich previews when sharing the website on social media.
 - The [sphinxcontrib-bibtex](https://github.com/mcmtroffaes/sphinxcontrib-bibtex) extension
@@ -383,7 +383,7 @@ which is `https://<username>.github.io/<repository-name>/`,
 where `<username>` is the GitHub username of the person or organization that owns the repository,
 and `<repository-name>` is the name of the repository.
 However, you can also configure a custom domain
-for your website in the repository's control center, 
+for your website in the repository's control center,
 and {{ pp_meta.name }} will automatically set it up for you.
 {{ pp_meta.name }} also automatically generates a full configuration file for the
 [Read The Docs](https://readthedocs.org/) platform,
