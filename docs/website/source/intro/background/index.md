@@ -311,36 +311,6 @@ when setting up a GitHub repository for a software project:
   and any other platform of choice.
 
 
-### Development Workflow
-
-:::{admonition} 🚧 Under Construction 🚧
-:class: danger
-
-This subsection is currently under construction.
-:::
-
-In addition, a well-structured repository should also have a clear and consistent workflow,
-  and a well-defined process for reviewing and merging contributions.
-  This helps streamline the development process,
-  and makes it easier for new contributors to get started with the project.
-
-- **Continuous Integration and Deployment**: Continuous integration and deployment (CI/CD) pipelines
-  automate the process of building, testing, and deploying software,
-  enabling developers to quickly and efficiently release new versions of their projects.
-- [**Workflow**]{.primary-color}: The development workflow defines the exact process
-  by which changes are made to the project, from the initial idea to the final implementation.
-  It is crucial for developers to have comprehensive and well-defined workflows in place,
-  to ensure that changes are made in a consistent and organized manner.
-- **Branching Model**: The branching model of the repository must be designed
-    to support the development workflow of the project.
-    For example, the repository may follow a [Gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
-    branching model, where the `master` branch is used for stable releases,
-    and the `develop` branch is used for development.
-    Alternatively, it may follow a [GitHub Flow](https://guides.github.com/introduction/flow/)
-    branching model, where the `master` branch is used for development,
-    and releases are tagged from the `master` branch.
-
-
 ### Code Quality and Testing
 
 Code quality assurance and testing are crucial aspects of every software development process,
@@ -477,6 +447,36 @@ While this process can be vastly standardized, automated and simplified,
 to the best of our knowledge, there is currently no comprehensive solution
 that can generate, deploy, and maintain a fully developed professional documentation website
 with little to no effort from the developers.
+
+
+### Development Workflow
+
+:::{admonition} 🚧 Under Construction 🚧
+:class: danger
+
+This subsection is currently under construction.
+:::
+
+In addition, a well-structured repository should also have a clear and consistent workflow,
+  and a well-defined process for reviewing and merging contributions.
+  This helps streamline the development process,
+  and makes it easier for new contributors to get started with the project.
+
+- **Continuous Integration and Deployment**: Continuous integration and deployment (CI/CD) pipelines
+  automate the process of building, testing, and deploying software,
+  enabling developers to quickly and efficiently release new versions of their projects.
+- [**Workflow**]{.primary-color}: The development workflow defines the exact process
+  by which changes are made to the project, from the initial idea to the final implementation.
+  It is crucial for developers to have comprehensive and well-defined workflows in place,
+  to ensure that changes are made in a consistent and organized manner.
+- **Branching Model**: The branching model of the repository must be designed
+    to support the development workflow of the project.
+    For example, the repository may follow a [Gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
+    branching model, where the `master` branch is used for stable releases,
+    and the `develop` branch is used for development.
+    Alternatively, it may follow a [GitHub Flow](https://guides.github.com/introduction/flow/)
+    branching model, where the `master` branch is used for development,
+    and releases are tagged from the `master` branch.
 
 
 ### Packaging and Distribution
