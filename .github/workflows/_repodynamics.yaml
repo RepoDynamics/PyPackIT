@@ -68,6 +68,7 @@ jobs:
       - id: init
         uses: repodynamics/init@v1
         with:
+          template: PyPackIT
           admin-token: ${{ secrets.repo-admin-token }}
           package-build: ${{ inputs.package-build }}
           package-lint: ${{ inputs.package-lint }}
