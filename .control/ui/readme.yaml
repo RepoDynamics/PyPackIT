@@ -111,7 +111,7 @@ dir:
     ## Useful Links
     - [Workflow security: `pull_request` vs `pull_request_target`](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
 
-  "${{ path.dir.meta }}": |
+  "${{ path.dir.control }}": |
     # Meta Directory
     This directory contains all the meta content of the repository.
 
