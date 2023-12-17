@@ -1586,3 +1586,19 @@ forms:
 #      description: >-
 #        Report a development problem in the repository, e.g. in CI/CD workflows, .
 #      body:
+
+dev_protocol:
+  template: |
+    # Development Process Protocol
+    ## Plan
+    {issue_body}
+    ## Software Requirements Specification
+    TBD
+    ## Design Specification
+    TBD
+    ## Implementation
+    TBD
+    {primary_commit_summary}
+    {secondary_commits_tasklist}
+    ## Timeline
+    {timeline}
