@@ -14,7 +14,7 @@
 #    ----------
 #    name : string, default: "main"
 #       Name of the default branch.
-#    protection_rules : object, optional
+#    ruleset : object, optional
 #       Branch protection rules for the default branch.
 #       ----------
 #       Properties
@@ -30,7 +30,7 @@
 #    ----------
 #    prefix : string, default: "release/v"
 #       Prefix for the branch names in the group.
-#    protection_rules : object, optional
+#    ruleset : object, optional
 #       Branch protection rules for branches in the group.
 #       The keys are the same as for the default branch.
 #       --------
@@ -45,7 +45,7 @@
 #    Defaults
 #    --------
 #    prefix: "pre-release/v"
-#    protection_rules:
+#    ruleset:
 #       allow_deletion : false
 #       allow_force_push : false
 # implementation : object, optional
@@ -55,7 +55,7 @@
 #    Defaults
 #    --------
 #    prefix: "impl/"
-#    protection_rules:
+#    ruleset:
 #       allow_deletion : true
 #       allow_force_push : true
 # development : object, optional
@@ -65,7 +65,7 @@
 #    Defaults
 #    --------
 #    prefix: "dev/"
-#    protection_rules:
+#    ruleset:
 #       allow_deletion : true
 #       allow_force_push : true
 # auto-update : object, optional
@@ -75,37 +75,79 @@
 #    Defaults
 #    --------
 #    prefix: "auto-update/"
-#    protection_rules:
+#    ruleset:
 #       allow_deletion : true
 #       allow_force_push : true
 
 main:
   name: main
-  protection_rules:
-    allow_deletion: false
-    allow_force_push: false
+  ruleset:
+    enforcement: enabled
+    rule:
+      protect_creation: false
+      protect_deletion: true
+      protect_force_push: true
+      require_linear_history: true
+      require_signatures: true
+      require_pull_request:
+        dismiss_stale_reviews_on_push: true
+        require_code_owner_review: true
+        require_last_push_approval: true
+        require_review_thread_resolution: true
+        required_approving_review_count: 1
 release:
   prefix: release/v
-  protection_rules:
-    allow_deletion: false
-    allow_force_push: false
+  ruleset:
+    enforcement: enabled
+    rule:
+      protect_creation: false
+      protect_deletion: true
+      protect_force_push: true
+      require_linear_history: true
+      require_signatures: true
+      require_pull_request:
+        dismiss_stale_reviews_on_push: true
+        require_code_owner_review: true
+        require_last_push_approval: true
+        require_review_thread_resolution: true
+        required_approving_review_count: 1
 pre-release:
   prefix: pre-release/v
-  protection_rules:
-    allow_deletion: false
-    allow_force_push: false
+  ruleset:
+    enforcement: enabled
+    rule:
+      protect_creation: false
+      protect_deletion: true
+      protect_force_push: true
+      require_linear_history: true
+      require_signatures: true
+      require_pull_request:
+        dismiss_stale_reviews_on_push: true
+        require_code_owner_review: true
+        require_last_push_approval: true
+        require_review_thread_resolution: true
+        required_approving_review_count: 1
 implementation:
   prefix: impl/
-  protection_rules:
-    allow_deletion: true
-    allow_force_push: true
+  ruleset:
+    enforcement: enabled
+    rule:
+      protect_creation: false
+      protect_deletion: false
+      protect_force_push: true
+      require_linear_history: true
+      require_signatures: true
 development:
   prefix: dev/
-  protection_rules:
-    allow_deletion: true
-    allow_force_push: true
+  ruleset:
+    enforcement: enabled
+    rule:
+      require_linear_history: true
+      require_signatures: true
 auto-update:
   prefix: auto-update/
-  protection_rules:
-    allow_deletion: true
-    allow_force_push: true
+  ruleset:
+    enforcement: enabled
+    rule:
+      require_linear_history: true
+      require_signatures: true
