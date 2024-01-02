@@ -113,14 +113,14 @@ jobs:
       repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
 
   test:
-    name: 'Package Test: Local'
+    name: 'Package Test'
     needs: init
-    if: fromJSON(needs.init.outputs.config).run.package_test_local
+    if: fromJSON(needs.init.outputs.package-test)  # fromJSON(needs.init.outputs.config).run.package_test_local
     uses: ./.github/workflows/_pkg_test.yaml
     with:
-      config: ${{ needs.init.outputs.config }}
-      metadata: ${{ needs.init.outputs.metadata }}
-      package-source: GitHub
+      config: ${{ needs.init.outputs.package-test }}
+#      metadata: ${{ needs.init.outputs.metadata }}
+#      package-source: GitHub
 
   lint:
     name: 'Package Lint'
