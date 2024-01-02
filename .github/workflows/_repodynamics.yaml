@@ -62,6 +62,7 @@ jobs:
       issues: write
       pull-requests: write
     outputs:
+      package-test: ${{ steps.init.outputs.package-test }}
       config: ${{ steps.init.outputs.config }}
       metadata: ${{ steps.init.outputs.metadata-ci }}
     steps:
