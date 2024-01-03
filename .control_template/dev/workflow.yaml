@@ -20,8 +20,8 @@ init:
     pull_other: fail
     schedule: pull
   schedule:
-    test: '0 0 * * 1'  # Every Monday at midnight UTC.
-    sync: '0 0 * * *'  # Every day at midnight UTC.
+    test: '43 23 * * *'  # Every day at 23:43 UTC.
+    sync: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
 
   get_owner_publications: false
 
