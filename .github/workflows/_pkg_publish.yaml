@@ -4,44 +4,48 @@ name: '[Callable]: Package - Publish'
 on:
   workflow_call:
     inputs:
-      download-url:
+      config:
         type: string
         required: true
-        description: |
-          Expected URL of the specific package version on the indexing platform.
-      upload-url:
-        type: string
-        required: true
-        description: |
-          URL of the package index to upload to.
-      platform:
-        type: string
-        default: 'TestPyPI'
-        required: false
-        description: |
-          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
+        description: Configuration as a JSON string.
+#      download-url:
+#        type: string
+#        required: true
+#        description: |
+#          Expected URL of the specific package version on the indexing platform.
+#      upload-url:
+#        type: string
+#        required: true
+#        description: |
+#          URL of the package index to upload to.
+#      platform:
+#        type: string
+#        default: 'TestPyPI'
+#        required: false
+#        description: |
+#          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
 
 jobs:
   package-release-pypi:
-    name: ${{ inputs.platform }}
+    name: ${{ fromJson(inputs.config).platform }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.platform }}
-      url: ${{ inputs.download-url }}
+      name: ${{ fromJson(inputs.config).platform }}
+      url: ${{ fromJson(inputs.config).download-url }}
     permissions:
       id-token: write
     steps:
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: Distribution Package
-          path: dist
+          name: ${{ fromJson(inputs.config).artifact-name }}
+          path: build
       - name: 'Upload package'
         uses: pypa/gh-action-pypi-publish@release/v1
         # https://github.com/marketplace/actions/pypi-publish
         with:
-          packages-dir: dist
-          repository-url: ${{ inputs.upload-url }}
+          packages-dir: build/dist
+          repository-url: ${{ fromJson(inputs.config).upload-url }}
           verify-metadata: true
           verbose: true
           print-hash: true
