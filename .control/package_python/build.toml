@@ -32,9 +32,9 @@ rmprefix = "${{tag.group.version.prefix}}"
 [tool.versioningit.format]
 # The format used by versioneer
 # Ref: https://versioningit.readthedocs.io/en/stable/index.html#example-configurations
-distance = "{base_version}+{distance}-{revision}"
-dirty = "{base_version}.dirty"
-distance-dirty = "{base_version}+{distance}-{revision}.dirty"
+distance = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{revision}"
+dirty = "{base_version}+0.{committer_date:%Y.%m.%d}.{revision}.dirty"
+distance-dirty = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{revision}.dirty"
 
 [tool.versioningit.onbuild]
 method = "replace-version"
