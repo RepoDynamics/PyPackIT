@@ -31,7 +31,7 @@ tool:
       - pylint[spelling] >= 3.0, < 4
   mypy:
     pip_spec:
-      - mypy[reports] >= 1.6, < 2
+      - mypy[reports] >= 1.8, < 2
   bandit:
     pip_spec:
       - bandit[toml]
