@@ -62,7 +62,16 @@ jobs:
       issues: write
       pull-requests: write
     outputs:
-      package-test: ${{ steps.init.outputs.package-test }}
+      website: ${{ steps.init.outputs.website }}
+      lint: ${{ steps.init.outputs.lint }}
+      test: ${{ steps.init.outputs.test }}
+      build: ${{ steps.init.outputs.build }}
+      publish-testpypi: ${{ steps.init.outputs.publish-testpypi }}
+      test-testpypi: ${{ steps.init.outputs.test-testpypi }}
+      publish-pypi: ${{ steps.init.outputs.publish-pypi }}
+      test-pypi: ${{ steps.init.outputs.test-pypi }}
+      finalize: ${{ steps.init.outputs.finalize }}
+
       config: ${{ steps.init.outputs.config }}
       metadata: ${{ steps.init.outputs.metadata-ci }}
     steps:
@@ -84,7 +93,7 @@ jobs:
     needs: init
     steps:
       - run: |
-          if [ "${{ fromJSON(needs.init.outputs.config).fail }}" = "true" ]; then
+          if [ "${{ fromJSON(needs.init.outputs.fail) }}" = "true" ]; then
             exit 1
           else
             exit 0
