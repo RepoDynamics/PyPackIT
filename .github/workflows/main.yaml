@@ -102,30 +102,31 @@ jobs:
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
 
-  build:
-    name: 'Package Build'
+  website:
+    name: 'Website'
     needs: init
-    if: fromJSON(needs.init.outputs.config).run.package_build
-    uses: ./.github/workflows/_pkg_build.yaml
-    with:
-      metadata: ${{ needs.init.outputs.metadata }}
-      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-
-  test:
-    name: 'Package Test'
-    needs: init
-    if: fromJSON(needs.init.outputs.package-test)  # fromJSON(needs.init.outputs.config).run.package_test_local
-    uses: ./.github/workflows/_pkg_test.yaml
-    with:
-      config: ${{ needs.init.outputs.package-test }}
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      package-source: GitHub
+    if: fromJSON(needs.init.outputs.website) # fromJSON(needs.init.outputs.config).run.website_build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: GitHub Pages
+      url: ${{ fromJSON(needs.init.outputs.website).url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: RepoDynamics/SphinxDocs@v1
+        with:
+          repository: ${{ fromJSON(needs.init.outputs.website).repository }}
+          ref: ${{ fromJSON(needs.init.outputs.website).ref }}
+          deploy: ${{ fromJSON(needs.init.outputs.website).deploy }}
+          path-website: ${{ fromJSON(needs.init.outputs.website).path-website }}
+          path-package-setup: ${{ fromJSON(needs.init.outputs.website).path-package }}
 
   lint:
     name: 'Package Lint'
     needs: init
-    if: fromJSON(needs.init.outputs.config).run.package_lint
+    if: fromJSON(needs.init.outputs.lint) # fromJSON(needs.init.outputs.config).run.package_lint
     permissions:
       pull-requests: write
       security-events: write
@@ -133,101 +134,91 @@ jobs:
       contents: read
     uses: ./.github/workflows/_pkg_lint.yaml
     with:
-      metadata: ${{ needs.init.outputs.metadata }}
-      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
+      config: ${{ needs.init.outputs.lint }}
+#      metadata: ${{ needs.init.outputs.metadata }}
+#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+#      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
 
-  website:
-    name: 'Website / Build'
+  test:
+    name: 'Package Test'
     needs: init
-    if: fromJSON(needs.init.outputs.config).run.website_build
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: GitHub Pages
-      url: ${{ fromJSON(needs.init.outputs.metadata).url.website.base }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: RepoDynamics/SphinxDocs@main
-        with:
-          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-          deploy: ${{ fromJSON(needs.init.outputs.config).run.website_deploy }}
-          path-website: ${{ fromJSON(needs.init.outputs.metadata).path.dir.website }}
-          path-package-setup: "."
+    if: fromJSON(needs.init.outputs.test)  # fromJSON(needs.init.outputs.config).run.package_test_local
+    uses: ./.github/workflows/_pkg_test.yaml
+    with:
+      config: ${{ needs.init.outputs.test }}
+  #      metadata: ${{ needs.init.outputs.metadata }}
+  #      package-source: GitHub
 
-  website-rtd-preview:
-    # Build the ReadTheDocs website for pull-requests and add a link to the pull request's description.
-    # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
-    name: 'Website / Preview'
+  build:
+    name: 'Package Build'
     needs: init
-    if: fromJSON(needs.init.outputs.config).run.website_rtd_preview
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - name: 'Build Preview'
-        # https://github.com/readthedocs/actions/tree/v1/preview
-        uses: readthedocs/actions/preview@v1
-        with:
-          project-slug: ${{ fromJSON(needs.init.outputs.metadata).web.readthedocs.name }}
+    if: fromJSON(needs.init.outputs.build)  # fromJSON(needs.init.outputs.config).run.package_build
+    uses: ./.github/workflows/_pkg_build.yaml
+    with:
+      config: ${{ needs.init.outputs.build }}
+#      metadata: ${{ needs.init.outputs.metadata }}
+#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
 
   publish-testpypi:
     name: 'Package Publish'
     needs: [init, build, test, lint]
-    if: fromJSON(needs.init.outputs.config).run.package_publish_testpypi
+    if: fromJSON(needs.init.outputs.publish-testpypi)  # fromJSON(needs.init.outputs.config).run.package_publish_testpypi
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_publish.yaml
     with:
-      platform: TestPyPI
-      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
-      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
+      config: ${{ needs.init.outputs.publish-testpypi }}
+#      platform: TestPyPI
+#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
+#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
 
   test-testpypi:
     name: 'Package Test: TestPyPI'
     needs: [init, publish-testpypi]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
+    if: fromJSON(needs.init.outputs.test-testpypi)  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
-      config: ${{ needs.init.outputs.config }}
-      metadata: ${{ needs.init.outputs.metadata }}
-      package-source: TestPyPI
+      config: ${{ needs.init.outputs.test-testpypi }}
+#      config: ${{ needs.init.outputs.config }}
+#      metadata: ${{ needs.init.outputs.metadata }}
+#      package-source: TestPyPI
 
   publish-pypi:
     name: 'Package Publish'
     needs: [init, test-testpypi]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
+    if: fromJSON(needs.init.outputs.publish-pypi)  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_publish.yaml
     with:
-      platform: PyPI
-      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
-      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
+      config: ${{ needs.init.outputs.publish-pypi }}
+#      platform: PyPI
+#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
+#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
 
   test-pypi:
     name: 'Package Test: PyPI'
     needs: [init, publish-pypi]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
+    if: fromJSON(needs.init.outputs.test-pypi)  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
-      config: ${{ needs.init.outputs.config }}
-      metadata: ${{ needs.init.outputs.metadata }}
-      package-source: PyPI
+      config: ${{ needs.init.outputs.test-pypi }}
+#      config: ${{ needs.init.outputs.config }}
+#      metadata: ${{ needs.init.outputs.metadata }}
+#      package-source: PyPI
 
-  release:
-    name: 'Release'
+  finalize:
+    name: 'Finalize'
     needs: [ init, build, website, test-pypi ]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.config).run.github_release }}
+    if: ${{ !failure() && fromJSON(needs.init.outputs.finalize) }}
     permissions:
       contents: write
       discussions: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 
