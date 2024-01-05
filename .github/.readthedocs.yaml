@@ -6,12 +6,14 @@ build:
   jobs:
     post_checkout:
     - git fetch --unshallow
+  apt_packages: []
 conda:
   environment: docs/website/requirements.yaml
 python:
   install:
   - method: pip
     path: .
+    extra_requirements: []
 sphinx:
   configuration: docs/website/source/conf.py
   builder: dirhtml
