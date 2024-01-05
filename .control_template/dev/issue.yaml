@@ -1600,5 +1600,7 @@ dev_protocol:
     TBD
     {primary_commit_summary}
     {secondary_commits_tasklist}
+    ## References
+    {references}
     ## Timeline
     {timeline}
