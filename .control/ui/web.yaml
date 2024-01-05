@@ -5,6 +5,7 @@ readthedocs:
   # ReadTheDocs uses this configuration to build the website on readthedocs.io.
   # Reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
   name: templaterepo  # Slug name (not in readthedocs config file)
+  platform: "community"
   # Required
   version: 2
   # Set the version of Python and other tools you might need
