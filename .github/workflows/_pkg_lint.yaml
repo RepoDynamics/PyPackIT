@@ -176,13 +176,13 @@ jobs:
           category: "bandit"
 
   mypy:
-    name: 'MyPy (${{ runner.os }}, Py ${{ matrix.python-version }})'
+    name: 'MyPy (${{ matrix.os.name }}, Py ${{ matrix.python-version }})'
     strategy:
       fail-fast: false
       matrix:
-        runner: ${{ fromJSON(inputs.config).runners }}
+        os: ${{ fromJSON(inputs.config).os }}
         python-version: ${{ fromJSON(inputs.config).python-versions }}
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.os.runner }}
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
@@ -260,12 +260,12 @@ jobs:
           path: ${{ github.workspace }}/reports/mypy/
 
   pylint:
-    name: 'PyLint (${{ runner.os }})'
+    name: 'PyLint (${{ matrix.os.name }})'
     strategy:
       fail-fast: false
       matrix:
-        runner: ${{ fromJSON(inputs.config).runners }}
-    runs-on: ${{ matrix.runner }}
+        os: ${{ fromJSON(inputs.config).os }}
+    runs-on: ${{ matrix.os.runner }}
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
