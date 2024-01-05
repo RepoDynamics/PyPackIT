@@ -83,8 +83,12 @@ main:
   name: main
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
-      protect_creation: false
+      protect_creation: true
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
@@ -99,8 +103,12 @@ release:
   prefix: release/v
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
-      protect_creation: false
+      protect_creation: true
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
@@ -115,8 +123,12 @@ pre-release:
   prefix: pre-release/v
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
-      protect_creation: false
+      protect_creation: true
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
@@ -131,9 +143,13 @@ implementation:
   prefix: impl/
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
-      protect_creation: false
-      protect_deletion: false
+      protect_creation: true
+      protect_deletion: true
       protect_force_push: true
       require_linear_history: true
       require_signatures: true
@@ -141,13 +157,27 @@ development:
   prefix: dev/
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
+      protect_creation: true
+      protect_deletion: true
+      protect_force_push: true
       require_linear_history: true
       require_signatures: true
 auto-update:
   prefix: auto-update/
   ruleset:
     enforcement: enabled
+    bypass_actors:
+      - id: 1
+        type: organization_admin
+        mode: always
     rule:
+      protect_creation: true
+      protect_deletion: true
+      protect_force_push: true
       require_linear_history: true
       require_signatures: true
