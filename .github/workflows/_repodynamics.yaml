@@ -1,5 +1,4 @@
 name: '[Callable]: RepoDynamics'
-
 on:
   workflow_call:
     inputs:
@@ -46,13 +45,36 @@ on:
         description: 'Token with admin permissions to the repository.'
         required: false
     outputs:
-      config:
-        value: ${{ jobs.init.outputs.config }}
-        description: 'Configurations for subsequent workflow jobs.'
-      metadata:
-        value: ${{ jobs.init.outputs.metadata }}
-        description: 'Repository ci-metadata.'
-
+      run:
+        value: ${{ jobs.init.outputs.run }}
+        description: Whether to run subsequent jobs.
+      website:
+        value: ${{ jobs.init.outputs.website }}
+        description: Configurations for website job.
+      lint:
+        value: ${{ jobs.init.outputs.lint }}
+        description: Configurations for lint job.
+      test:
+        value: ${{ jobs.init.outputs.test }}
+        description: Configurations for test job.
+      build:
+        value: ${{ jobs.init.outputs.build }}
+        description: Configurations for build job.
+      publish-testpypi:
+        value: ${{ jobs.init.outputs.publish-testpypi }}
+        description: Configurations for publish-testpypi job.
+      test-testpypi:
+        value: ${{ jobs.init.outputs.test-testpypi }}
+        description: Configurations for test-testpypi job.
+      publish-pypi:
+        value: ${{ jobs.init.outputs.publish-pypi }}
+        description: Configurations for publish-pypi job.
+      test-pypi:
+        value: ${{ jobs.init.outputs.test-pypi }}
+        description: Configurations for test-pypi job.
+      finalize:
+        value: ${{ jobs.init.outputs.finalize }}
+        description: Configurations for finalize job.
 jobs:
   init:
     name: 'Init'
@@ -73,9 +95,6 @@ jobs:
       publish-pypi: ${{ steps.init.outputs.publish-pypi }}
       test-pypi: ${{ steps.init.outputs.test-pypi }}
       finalize: ${{ steps.init.outputs.finalize }}
-
-      config: ${{ steps.init.outputs.config }}
-      metadata: ${{ steps.init.outputs.metadata-ci }}
     steps:
       - id: init
         uses: repodynamics/init@v1
@@ -88,7 +107,6 @@ jobs:
           website-build: ${{ inputs.website-build }}
           meta-sync: ${{ inputs.meta-sync }}
           hooks: ${{ inputs.hooks }}
-
   init-fail:
     name: 'Status'
     runs-on: ubuntu-latest
