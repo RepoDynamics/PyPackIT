@@ -62,6 +62,7 @@ jobs:
       issues: write
       pull-requests: write
     outputs:
+      fail: ${{ steps.init.outputs.fail }}
       website: ${{ steps.init.outputs.website }}
       lint: ${{ steps.init.outputs.lint }}
       test: ${{ steps.init.outputs.test }}
@@ -93,7 +94,7 @@ jobs:
     needs: init
     steps:
       - run: |
-          if [ "${{ fromJSON(needs.init.outputs.fail) }}" = "true" ]; then
+          if [ "${{ needs.init.outputs.fail }}" = "true" ]; then
             exit 1
           else
             exit 0
