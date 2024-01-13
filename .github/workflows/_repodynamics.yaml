@@ -113,6 +113,9 @@ jobs:
     needs: init
     steps:
       - run: |
+          echo "${{ needs.init.outputs.fail }}"
+          echo "${{ needs.init.outputs.run }}"
+      - run: |
           if [ "${{ needs.init.outputs.fail }}" = "true" ]; then
             exit 1
           else
