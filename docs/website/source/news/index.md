@@ -4,7 +4,7 @@
 :hidden:
 :glob:
 
-posts/**
+post/**
 :::
 
 
