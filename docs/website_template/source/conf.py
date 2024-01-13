@@ -364,7 +364,7 @@ html_permalinks_icon: str = "¶"
 
 html_sidebars: Dict[str, Union[List[str], str]] = {
     # "**": ["sidebar-nav-bs"],
-    "news/**": [
+    f'{meta["web"]["path"]["news"]}/**': [
         "ablog/postcard.html",
         "ablog/recentposts.html",
         "ablog/tagcloud.html",
@@ -626,8 +626,8 @@ blog_path: str = meta["web"]["path"]["news"]
 blog_baseurl: str = meta["url"]["website"]["base"]
 
 blog_post_pattern: list[str] = [
-    f"{blog_path}/posts/*.rst",
-    f"{blog_path}/posts/*.md",
+    f"{blog_path}/post/*.rst",
+    f"{blog_path}/post/*.md",
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
