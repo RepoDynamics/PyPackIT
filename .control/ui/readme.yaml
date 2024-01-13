@@ -1,14 +1,23 @@
 
-repo:
-  header:
-    style: "vertical"
+repo: &readme-config
+  config:
+    header:
+      menu_bottom:
+        buttons:
+          - title: Overview
+            description: ""
+            path: 'intro/overview'
+          - title: Install
+            description: ""
+            path: 'manual/install'
+          - title: Releases
+            description: ""
+            path: 'news/category/releases'
+          - title: Contact
+            description: ""
+            path: 'help/contact'
 
-  body:
-    style: "ver"
-    sections:
-      - id: "ci"
-
-package: {}
+package: *readme-config
 
 dir:
   .github: |
