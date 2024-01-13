@@ -77,37 +77,37 @@ navbar_icons:
 #      icon: fa-brands fa-orcid
 #      url: ${{ owner.url.orcid }}
 
-quicklinks:
-  - - title: Outline
-      path: 'intro/outline'
-      include_in_readme: true
-    - title: Background
-      path: 'intro/background'
-      include_in_readme: true
-    - title: Overview
-      path: 'intro/overview'
-      include_in_readme: true
-    - title: Basics
-      path: 'intro/basics'
-      include_in_readme: true
-  - - title: Fundamentals
-      path: 'manual/fundamentals'
-      include_in_readme: true
-    - title: Installation
-      path: 'manual/install'
-      include_in_readme: true
-    - title: Control Center
-      path: 'manual/control'
-      include_in_readme: true
-    - title: Usage
-      path: 'manual/usage'
-      include_in_readme: true
-  - - title: Release Notes
-      path: 'news/category/release'
-      include_in_readme: true
-  - - title: Q&A
-      path: 'help/ask'
-      include_in_readme: true
+quicklinks: subsections
+#  - - title: Outline
+#      path: 'intro/outline'
+#      include_in_readme: true
+#    - title: Background
+#      path: 'intro/background'
+#      include_in_readme: true
+#    - title: Overview
+#      path: 'intro/overview'
+#      include_in_readme: true
+#    - title: Basics
+#      path: 'intro/basics'
+#      include_in_readme: true
+#  - - title: Fundamentals
+#      path: 'manual/fundamentals'
+#      include_in_readme: true
+#    - title: Installation
+#      path: 'manual/install'
+#      include_in_readme: true
+#    - title: Control Center
+#      path: 'manual/control'
+#      include_in_readme: true
+#    - title: Usage
+#      path: 'manual/usage'
+#      include_in_readme: true
+#  - - title: Release Notes
+#      path: 'news/category/release'
+#      include_in_readme: true
+#  - - title: Q&A
+#      path: 'help/ask'
+#      include_in_readme: true
 
 analytics:
   plausible:
@@ -116,8 +116,8 @@ analytics:
   google_id: "G-0X66W6TGL2"
 
 path:
-  contact: 'help/contact'
   news: 'news'
+  contact: 'help/contact'
   contributors: 'about/#contributors'
   contributing: 'contribute'
   bug_report: 'contribute/feedback/report'
