@@ -1,12 +1,12 @@
 auto_group:
   version:
     prefix: "Version: "
+    description: Related to this specific version of the package.
     color: "0366d6"
-
   branch:
     prefix: "Target: "
+    description: Related to this specific branch of the repository.
     color: "0366d6"
-
 group:
   primary_type:
     prefix: 'Type: '
@@ -48,7 +48,6 @@ group:
         suffix: 'ci'
         description: |
           An issue/pull-request about the GitHub workflows of the repository.
-
   subtype:
     prefix: 'SubType: '
     color: '0366d6'
@@ -81,15 +80,13 @@ group:
         suffix: 'breaking'
         description: |
             A backward-incompatible change to the API.
-
   status:
     prefix: 'Status: '
     color: '0366d6'
     labels:
       triage:
         suffix: 'triage'
-        description: |
-          The issue/pull-request is being triaged.
+        description: The issue is being triaged.
       rejected:
         suffix: 'rejected'
         description: |
@@ -102,80 +99,43 @@ group:
         suffix: 'invalid'
         description: |
           The issue/pull-request is invalid.
-      queued:
-        suffix: 'queued'
-        description: |
-          The issue/pull-request is queued for processing.
-      discuss:
-        suffix: 'discuss'
-        description: |
-          The issue/pull-request requires more discussion.
-      need_volunteer:
-        suffix: 'need-volunteer'
-        description: |
-          The issue/pull-request requires a volunteer.
-      in_dev:
-        suffix: 'in-development'
-        description: |
-          The issue/pull-request is being developed.
-      in_review:
-        suffix: 'in-review'
-        description: |
-          The issue/pull-request is being reviewed.
-      alpha:
+      planning:
+        suffix: 'planning'
+        description: The issue is in the planning phase.
+      requirement_analysis:
+        suffix: 'req. analysis'
+        description: The issue is in the requirement analysis phase.
+      design:
+        suffix: 'design'
+        description: The issue is in the design phase.
+      implementation:
+        suffix: 'implementation'
+        description: The issue is in the implementation phase.
+      testing:
+        suffix: 'testing'
+        description: The issue is in the testing phase.
+      deploy_alpha:
         suffix: 'alpha'
-        description: |
-          The issue/pull-request is in alpha release.
-      beta:
+        description: The issue/pull-request is in alpha release.
+      deploy_beta:
         suffix: 'beta'
-        description: |
-          The issue/pull-request is in beta release.
-      rc:
+        description: The issue/pull-request is in beta release.
+      deploy_rc:
         suffix: 'rc'
-        description: |
-          The issue/pull-request is published as a release candidate.
-      final:
+        description: The issue/pull-request is published as a release candidate.
+      deploy_final:
         suffix: 'final'
-        description: |
-          The issue/pull-request has been merged into a release branch.
-
+        description: The issue/pull-request has been merged into a release branch.
   remark:
     prefix: 'Remark: '
     color: '0366d6'
     labels:
       queued:
-        type: object
-        default: { }
-        additionalProperties: false
-        properties:
-          suffix:
-            type: string
-            default: 'queued'
-          description:
-            type: string
-            maxLength: 100
-            default: The issue/pull-request is queued for processing.
+        suffix: 'queued'
+        description: The issue/pull-request is queued for processing.
       discuss:
-        type: object
-        default: { }
-        additionalProperties: false
-        properties:
-          suffix:
-            type: string
-            default: 'discuss'
-          description:
-            type: string
-            maxLength: 100
-            default: The issue/pull-request requires more discussion.
+        suffix: 'discuss'
+        description: The issue/pull-request requires more discussion.
       need_volunteer:
-        type: object
-        default: { }
-        additionalProperties: false
-        properties:
-          suffix:
-            type: string
-            default: 'need-volunteer'
-          description:
-            type: string
-            maxLength: 100
-            default: The issue/pull-request requires a volunteer.
+        suffix: 'need volunteer'
+        description: The issue/pull-request requires a volunteer.
