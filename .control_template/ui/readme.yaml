@@ -9,14 +9,24 @@
 #    For each readme file, add a key-value pair where the key is the path to the directory,
 #    and the value is the content of the README file (supports MarkDown).
 
-repo:
-  header:
-    style: "vertical"
-  body:
-    style: "ver"
-    sections:
-      - id: "ci"
-package: {}
+repo: &readme-config
+  config:
+    header:
+      menu_bottom:
+        buttons:
+          - title: Overview
+            description: ""
+            path: 'intro/overview'
+          - title: Install
+            description: ""
+            path: 'manual/install'
+          - title: Releases
+            description: ""
+            path: 'news/category/releases'
+          - title: Contact
+            description: ""
+            path: 'help/contact'
+package: *readme-config
 dir:
   .github: |
     # GitHub Directory
