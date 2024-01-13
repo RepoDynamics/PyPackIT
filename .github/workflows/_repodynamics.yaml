@@ -63,6 +63,7 @@ jobs:
       pull-requests: write
     outputs:
       fail: ${{ steps.init.outputs.fail }}
+      run: ${{ steps.init.outputs.run }}
       website: ${{ steps.init.outputs.website }}
       lint: ${{ steps.init.outputs.lint }}
       test: ${{ steps.init.outputs.test }}
