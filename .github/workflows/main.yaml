@@ -105,7 +105,7 @@ jobs:
   website:
     name: 'Website'
     needs: init
-    if: fromJSON(needs.init.outputs.website) != false # fromJSON(needs.init.outputs.config).run.website_build
+    if: fromJSON(needs.init.outputs.run).website  # fromJSON(needs.init.outputs.config).run.website_build
     permissions:
       contents: read
       pages: write
@@ -126,7 +126,7 @@ jobs:
   lint:
     name: 'Package Lint'
     needs: init
-    if: fromJSON(needs.init.outputs.lint) != false # fromJSON(needs.init.outputs.config).run.package_lint
+    if: fromJSON(needs.init.outputs.run).lint  # fromJSON(needs.init.outputs.config).run.package_lint
     permissions:
       pull-requests: write
       security-events: write
@@ -142,7 +142,7 @@ jobs:
   test:
     name: 'Package Test'
     needs: init
-    if: fromJSON(needs.init.outputs.test) != false  # fromJSON(needs.init.outputs.config).run.package_test_local
+    if: fromJSON(needs.init.outputs.run).test  # fromJSON(needs.init.outputs.config).run.package_test_local
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test }}
@@ -152,7 +152,7 @@ jobs:
   build:
     name: 'Package Build'
     needs: init
-    if: fromJSON(needs.init.outputs.build) != false  # fromJSON(needs.init.outputs.config).run.package_build
+    if: fromJSON(needs.init.outputs.run).build  # fromJSON(needs.init.outputs.config).run.package_build
     uses: ./.github/workflows/_pkg_build.yaml
     with:
       config: ${{ needs.init.outputs.build }}
@@ -163,7 +163,7 @@ jobs:
   publish-testpypi:
     name: 'Package Publish'
     needs: [init, build, test, lint]
-    if: fromJSON(needs.init.outputs.publish-testpypi) != false  # fromJSON(needs.init.outputs.config).run.package_publish_testpypi
+    if: fromJSON(needs.init.outputs.run).publish-testpypi  # fromJSON(needs.init.outputs.config).run.package_publish_testpypi
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_publish.yaml
@@ -176,7 +176,7 @@ jobs:
   test-testpypi:
     name: 'Package Test: TestPyPI'
     needs: [init, publish-testpypi]
-    if: fromJSON(needs.init.outputs.test-testpypi) != false  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
+    if: fromJSON(needs.init.outputs.run).test-testpypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-testpypi }}
@@ -187,7 +187,7 @@ jobs:
   publish-pypi:
     name: 'Package Publish'
     needs: [init, test-testpypi]
-    if: fromJSON(needs.init.outputs.publish-pypi) != false  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
+    if: fromJSON(needs.init.outputs.run).publish-pypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_publish.yaml
@@ -200,7 +200,7 @@ jobs:
   test-pypi:
     name: 'Package Test: PyPI'
     needs: [init, publish-pypi]
-    if: fromJSON(needs.init.outputs.test-pypi) != false  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
+    if: fromJSON(needs.init.outputs.run).test-pypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-pypi }}
@@ -211,7 +211,7 @@ jobs:
   finalize:
     name: 'Finalize'
     needs: [ init, build, website, test-pypi ]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.finalize) != false }}
+    if: ${{ !failure() && fromJSON(needs.init.outputs.run).finalize }}
     permissions:
       contents: write
       discussions: write
