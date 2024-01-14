@@ -14,16 +14,22 @@ from pathlib import Path
 from typing import Any, Dict, List, Literal, NoReturn, Tuple, Union
 
 
-def rstjinja(app, docname, source):
+def rstjinja(app, docname, source) -> None:
     """
-    Render our pages as a jinja template for fancy templating goodness.
+    Render pages as jinja template for templating inside source files.
+
+    References
+    ----------
+    - https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
     """
-    # Ref: https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
     # Make sure we're outputting HTML
     # if app.builder.format != 'html':
     #     return
     try:
-        source[0] = app.builder.templates.render_string(source[0], app.config.html_context)
+        source[0] = app.builder.templates.render_string(
+            source[0],
+            app.config.html_context | {"docname": app.env.docname},
+        )
     except Exception as e:
         print(e)
         print("*" * 50)
@@ -39,27 +45,24 @@ def setup(app):
     return
 
 
-with open(Path(__file__).parents[3] / ".github" / ".metadata.json") as f:
+def _get_path_repo_root() -> tuple[Path, int]:
+    """Get the path to the root of the repository."""
+    num_up = -1
+    for parent_dir in Path(__file__).parents:
+        num_up += 1
+        for path in parent_dir.iterdir():
+            if path.is_dir() and path.name == ".github" and (path / ".metadata.json").is_file():
+                return parent_dir, num_up
+    raise RuntimeError(
+        "Could not find the repository root. "
+        "The repository root must have a `.github` directory containing a `.metadata.json` file.",
+    )
+
+
+_path_root, _num_up = _get_path_repo_root()
+
+with open(_path_root / ".github" / ".metadata.json") as f:
     meta = json.load(f)
-
-
-def add_project_maintainers(self):
-    # Sort maintainers based on the number of assigned issue types, discussion categories,
-    # and pull request reviews, in that order.
-    for idx, role in enumerate(["issues", "discussions"]):
-        for people in self.metadata["maintainer"][role].values():
-            for person in people:
-                entry[idx] += 1
-    for codeowner_entry in self.metadata["maintainer"]["pulls"]:
-        for person in codeowner_entry["reviewers"]:
-            entry = maintainers.setdefault(person, [0, 0, 0])
-            entry[2] += 1
-    # Get maintainers' GitHub info sorted in a list based on ranking
-    self.metadata["project"]["maintainer"] = [
-        self._cache.user(maintainer)
-        for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
-    ]
-    return
 
 
 """
@@ -154,9 +157,9 @@ templates_path: List[str] = [
 # default_role: Union[str, None] = None
 # keep_warnings: bool = False
 # suppress_warnings: List[str] = []
-needs_sphinx: str = "6.2.1"
+needs_sphinx: str = "7.2.6"
 
-needs_extensions: Dict[str, str] = {"sphinx_design": "0.4.1", "myst_parser": "2.0.0"}
+needs_extensions: Dict[str, str] = {"sphinx_design": "0.5", "myst_parser": "2.0"}
 # manpages_url: str = ""
 nitpicky: bool = True
 """Warn about all references where the target cannot be found"""
@@ -280,7 +283,7 @@ html_theme_options: Dict[str, Any] = {
     "footer_start": ["version", "copyright", "pypackit_ver"],
     "footer_end": ["quicklinks"],  # "sphinx-version", "theme-version"
     "show_nav_level": 1,
-    "navigation_depth": 3,
+    "navigation_depth": 5,
     "show_toc_level": 2,
     "header_links_before_dropdown": 7,
     "icon_links": meta["web"]["navbar_icons"],
@@ -330,11 +333,11 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[str, None] = "../../../.meta/ui/logo/icon.png"
+html_favicon: str | None = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/favicon.png"
 
 html_static_path: List[str] = [
     "_static",
-    "../../../.meta/ui/logo",
+    f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
     # added to the root of static path, since PyData always looks there, regardless of the set path.
     # Ref:
@@ -344,7 +347,7 @@ html_static_path: List[str] = [
     # "../../../.meta/ui/logo/simple_dark.svg",
     # "../../../.meta/ui/logo/simple_light.svg",
 ]
-# html_extra_path: List[str] = []
+html_extra_path: list[str] = ["404.html"]
 html_css_files: List[Union[str, Tuple[str, Dict[str, str]]]] = [
     str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
     for glob in ["**/*.css", "**/*.css_t"]
@@ -377,7 +380,7 @@ html_sidebars: Dict[str, Union[List[str], str]] = {
 # html_use_index: bool = True
 # html_split_index: bool = False
 # html_copy_source: bool = True
-html_show_sourcelink: bool = True
+html_show_sourcelink: bool = False
 
 html_sourcelink_suffix: str = ".txt"
 
@@ -457,7 +460,7 @@ latex_documents: List[Tuple[str, str, str, str, str, bool]] = [
     ),
 ]
 
-latex_logo: str = "_static/logo/full_light.png"  # Doesn't work with SVG files
+latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
 
 latex_show_pagerefs: bool = True
 
@@ -574,6 +577,7 @@ myst_enable_extensions: List[str] = [
     "colon_fence",
     "deflist",
     "tasklist",
+    "fieldlist",
     "attrs_inline",
     "attrs_block",
     "html_image",
