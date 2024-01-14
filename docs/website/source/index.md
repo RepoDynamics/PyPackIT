@@ -2,6 +2,7 @@
 sd_hide_title: true
 html_theme.sidebar_secondary.remove:
 ---
+
 # {{pp_meta.name}}
 
 :::{toctree}
@@ -76,6 +77,7 @@ help/index
 ::::{card-carousel} 1
 :class: element-in-page-without-sidebar
 
+
 :::{card} Intro: Discover the Essence of {{pp_meta.name}}
 :link: intro/index.html
 :img-top: /_static/img/icon/background.svg
@@ -108,6 +110,7 @@ the user manual covers everything you need to know
 to fully leverage {{pp_meta.name}}'s capabilities.
 :::
 
+
 :::{card} News: Stay Informed with {{pp_meta.name}} Updates
 :link: news/index.html
 :img-top: /_static/img/icon/news.svg
@@ -123,6 +126,7 @@ Being the main source of information about {{pp_meta.name}}'s latest development
 the news section is a full-fledged blog with RSS feed support that you can subscribe to,
 so you never miss out on any important updates.
 :::
+
 
 :::{card} Contribute: Join the Community
 :link: contribute/index.html
@@ -140,6 +144,7 @@ or becoming a sponsor and supporting the project financially,
 we highly appreciate all your contributions!
 :::
 
+
 :::{card} About: Unveiling the {{ pp_meta.name }} Story
 :link: about/index.html
 :img-top: /_static/img/icon/about.svg
@@ -151,6 +156,7 @@ The About section offers insights into our mission, core values,
 and the dedication driving {{ pp_meta.name }}'s success.
 :::
 
+
 :::{card} Help: Find Support When You Need It
 :link: help/index.html
 :img-top: /_static/img/icon/faq.svg
@@ -160,5 +166,6 @@ and the dedication driving {{ pp_meta.name }}'s success.
 The Help section is your go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
 :::
+
 
 ::::
