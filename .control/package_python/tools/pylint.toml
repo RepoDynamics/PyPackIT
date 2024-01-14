@@ -70,13 +70,13 @@ confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFIN
 reports = true
 score = true
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
-output-format = [
-    "json:${{ path.dir.local.report.pylint }}/report_json.json",
-    "text:${{ path.dir.local.report.pylint }}/report_text.txt",
-    "parseable:${{ path.dir.local.report.pylint }}/report_parseable.txt",
-    "msvs:${{ path.dir.local.report.pylint }}/report_msvs.txt",
-    "colorized",
-]
+#output-format = [
+#    "json:${{ path.dir.local.report.pylint }}/report_json.json",
+#    "text:${{ path.dir.local.report.pylint }}/report_text.txt",
+#    "parseable:${{ path.dir.local.report.pylint }}/report_parseable.txt",
+#    "msvs:${{ path.dir.local.report.pylint }}/report_msvs.txt",
+#    "colorized",
+#]
 
 [tool.pylint.similarities]
 ignore-comments = true
