@@ -126,8 +126,10 @@ pre_commit:
             args: [ "--config", "pyproject.toml" ]
             verbose: true
   release: *pre-commit-config
-  pre_release: *pre-commit-config
-  dev: *pre-commit-config
+  pre-release: *pre-commit-config
+  implementation: *pre-commit-config
+  development: *pre-commit-config
+  auto-update: *pre-commit-config
   other: *pre-commit-config
 
 codecov:
