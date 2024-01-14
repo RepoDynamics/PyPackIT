@@ -75,7 +75,9 @@ References
 project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]])
+author: str = ", ".join(
+    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]]
+)
 """Authors' names"""
 
 project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
@@ -336,7 +338,9 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: str | None = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/favicon.png"
+html_favicon: str | None = (
+    f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/favicon.png"
+)
 
 html_static_path: list[str] = [
     "_static",
@@ -635,8 +639,8 @@ blog_path: str = meta["web"]["path"]["news"]
 blog_baseurl: str = meta["url"]["website"]["base"]
 
 blog_post_pattern: list[str] = [
-    f'{blog_path}/post/*.rst',
-    f'{blog_path}/post/*.md',
+    f"{blog_path}/post/*.rst",
+    f"{blog_path}/post/*.md",
 ]
 post_auto_image: int = 1
 blog_feed_archives: bool = True
