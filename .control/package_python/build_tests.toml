@@ -39,11 +39,11 @@ replacement = """dict(
     distance="{distance}",
     head_commit_hash="{revision}",
 )"""
-source-file = "${{path.dir.tests}}/src/${{package.name}}_tests/__init__.py"
-build-file = "${{package.name}}_tests/__init__.py"
+source-file = "${{path.dir.tests}}/src/${{package.testsuite_import_name}}/__init__.py"
+build-file = "${{package.testsuite_import_name}}/__init__.py"
 
 [project]
-name = "${{package.name}}_tests"
+name = "${{package.name}}-TestSuite"
 dynamic = ["version"]
 dependencies = [
     'pytest >= 7.4.2, < 8',
