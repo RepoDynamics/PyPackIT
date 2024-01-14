@@ -3,7 +3,7 @@
 
 [tool.mypy]
 # Import discovery
-packages = ["${{package.name}}"]
+packages = ["${{package.import_name}}"]
 
 # Configuring warnings
 warn_return_any = true
