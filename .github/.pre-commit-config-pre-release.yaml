@@ -1,0 +1,115 @@
+default_language_version:
+  python: python3
+minimum_pre_commit_version: 3.3.3
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-ast
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-case-conflict
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-executables-have-shebangs
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-json
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-shebang-scripts-are-executable
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-symlinks
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-toml
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-xml
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: check-yaml
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: end-of-file-fixer
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: mixed-line-ending
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+  - id: no-commit-to-branch
+    stages:
+    - pre-commit
+    args:
+    - --branch
+    - main
+    - --pattern
+    - release/.*
+    verbose: true
+  - id: trailing-whitespace
+    stages:
+    - pre-commit
+    - manual
+    verbose: true
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.5
+  hooks:
+  - id: ruff
+    stages:
+    - pre-commit
+    - manual
+    args:
+    - --fix
+    - --exit-non-zero-on-fix
+    - --config
+    - pyproject.toml
+    types_or:
+    - python
+    - pyi
+    - jupyter
+    verbose: true
+- repo: https://github.com/pycqa/isort
+  rev: 5.12.0
+  hooks:
+  - id: isort
+    stages:
+    - pre-commit
+    - manual
+    args:
+    - --settings-path
+    - pyproject.toml
+    verbose: true
+- repo: https://github.com/psf/black-pre-commit-mirror
+  rev: 23.9.1
+  hooks:
+  - id: black-jupyter
+    stages:
+    - pre-commit
+    - manual
+    args:
+    - --config
+    - pyproject.toml
+    verbose: true
