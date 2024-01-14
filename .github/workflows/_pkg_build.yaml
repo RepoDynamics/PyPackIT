@@ -58,7 +58,7 @@ jobs:
           python3 -m pip install --upgrade build
           echo "::endgroup::"
           echo "::group::Install readme-renderer"
-          python3 -m pip install --upgrade readme-renderer
+          python3 -m pip install --upgrade readme-renderer[md]
           echo "::endgroup::"
           echo "::group::Install twine"
           python3 -m pip install --upgrade twine
