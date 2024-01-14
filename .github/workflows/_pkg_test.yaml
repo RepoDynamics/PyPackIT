@@ -48,6 +48,7 @@ jobs:
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
           path-tests: ${{ matrix.config.path-tests }}
+          testsuite-import-name: ${{ matrix.config.testsuite-import-name }}
           package-source: ${{ matrix.config.package-source }}
           package-name: ${{ matrix.config.package-name }}
           package-version: ${{ matrix.config.package-version }}
