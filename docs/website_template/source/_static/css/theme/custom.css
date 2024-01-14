@@ -4,14 +4,22 @@
     text-align: justify;
 }
 
-.bd-content {
-  flex-grow: 1;
-  max-width: 100%;
+/*.bd-content {*/
+/*  flex-grow: 1;*/
+/*  max-width: 100%;*/
+/*}*/
+
+/*.bd-article-container {*/
+/*  max-width: 100em;*/
+/*}*/
+
+.bd-main .bd-content .bd-article-container {
+  max-width: 100%;  /* default is 60em */
+}
+.bd-page-width {
+  max-width: 93%;  /* default is 88rem */
 }
 
-.bd-article-container {
-  max-width: 100em;
-}
 
 /* Style class for the short description shown on homepage XXX */
 .one-liner {
@@ -47,8 +55,15 @@ html[data-theme=dark] .icon-image {
 
 
 .homepage-logo {
-    margin: 3% 0 2% 0;
-    max-height: 200px;
+    margin: 2% 0 2% 0;
+    max-height: 500px;
+    max-width: 800px;
+}
+
+.element-in-page-without-sidebar {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -67,12 +82,20 @@ html[data-theme=dark] .icon-image {
 !important
 }
 
+.quicklinks {
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
 .quicklinks ul {
     list-style: none;
     display: block;
-    float: left;
+    float: right;
     text-align: left;
-    font-size: var(--pst-font-size-h6);
+    font-size: var(--pst-font-size-base);
+    margin: 0;
+    padding: 0;
 }
 
 .quicklinks h6 {
@@ -129,4 +152,55 @@ html[data-theme=dark] .fa-conda:hover {
         flex: 1 0 100%; /* On small screens, each <ul> takes up the full width */
         margin: 10px 0;
     }
+}
+
+.h1_title {
+    font-size: var(--pst-font-size-h1);
+    font-weight: bold;
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.centered-text-h2 {
+    font-size: var(--pst-font-size-h2);
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+
+.inline_icon {
+    color: var(--pst-color-text-base)
+}
+
+.inline_icon:hover {
+    color: var(--pst-color-primary)
+}
+
+
+.primary-color {
+    color: var(--pst-color-primary)
+}
+
+.centered {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.margin-sides {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
+
+.homepage-button-text {
+    font-size: var(--pst-font-size-h6);
+    font-weight: bold;
 }
