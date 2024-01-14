@@ -84,7 +84,7 @@ author: str = ", ".join(
 project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
 """Copyright statement(s)"""
 
-release: str = importlib.import_module(meta["package"]["name"]).__version__
+release: str = importlib.import_module(meta["package"]["import_name"]).__version__
 """Full version, including alpha/beta/rc tags"""
 
 version: str = ".".join(release.split(".")[:3])
@@ -257,8 +257,8 @@ html_theme_options: dict[str, Any] = {
     "logo": {
         # "text": "This will appear just after the logo image",
         # "link": "URL or path that logo links to"
-        "image_light": "_static/simple_light.svg",
-        "image_dark": "_static/simple_dark.svg",
+        "image_light": "_static/logo_simple_light.svg",
+        "image_dark": "_static/logo_simple_dark.svg",
         "alt_text": meta["name"],
     },
     "announcement": meta["url"]["website"]["announcement"],
