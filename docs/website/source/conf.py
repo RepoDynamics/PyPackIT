@@ -13,11 +13,14 @@ from pathlib import Path
 from typing import Any, Literal, Union
 
 
-def rstjinja(app, docname, source):
+def rstjinja(app, docname, source) -> None:
     """
-    Render our pages as a jinja template for fancy templating goodness.
+    Render pages as jinja template for templating inside source files.
+
+    References
+    ----------
+    - https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
     """
-    # Ref: https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
     # Make sure we're outputting HTML
     # if app.builder.format != 'html':
     #     return
@@ -41,7 +44,7 @@ def setup(app):
     return
 
 
-def _get_path_repo_root() -> Path:
+def _get_path_repo_root() -> tuple[Path, int]:
     """Get the path to the root of the repository."""
     num_up = -1
     for parent_dir in Path(__file__).parents:
@@ -61,25 +64,6 @@ with open(_path_root / ".github" / ".metadata.json") as f:
     meta = json.load(f)
 
 
-def add_project_maintainers(self):
-    # Sort maintainers based on the number of assigned issue types, discussion categories,
-    # and pull request reviews, in that order.
-    for idx, role in enumerate(["issues", "discussions"]):
-        for people in self.metadata["maintainer"][role].values():
-            for person in people:
-                entry[idx] += 1
-    for codeowner_entry in self.metadata["maintainer"]["pulls"]:
-        for person in codeowner_entry["reviewers"]:
-            entry = maintainers.setdefault(person, [0, 0, 0])
-            entry[2] += 1
-    # Get maintainers' GitHub info sorted in a list based on ranking
-    self.metadata["project"]["maintainer"] = [
-        self._cache.user(maintainer)
-        for maintainer, _ in sorted(sorted(maintainers.items(), key=lambda i: i[1], reverse=True))
-    ]
-    return
-
-
 """
 Project information
 
@@ -91,9 +75,7 @@ References
 project: str = meta["name"]
 """Name of the project"""
 
-author: str = ", ".join(
-    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
-)
+author: str = ", ".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]])
 """Authors' names"""
 
 project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
@@ -174,7 +156,7 @@ templates_path: list[str] = [
 # default_role: Union[str, None] = None
 # keep_warnings: bool = False
 # suppress_warnings: List[str] = []
-needs_sphinx: str = "6.2.1"
+needs_sphinx: str = "7.2.6"
 
 needs_extensions: dict[str, str] = {"sphinx_design": "0.5", "myst_parser": "2.0"}
 # manpages_url: str = ""
@@ -354,13 +336,11 @@ html_context = {
     "pp_title_sep": html_secnumber_suffix,
 }
 # html_logo: Union[str, None] = ''
-html_favicon: Union[
-    str, None
-] = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/favicon.png"
+html_favicon: str | None = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/favicon.png"
 
 html_static_path: list[str] = [
     "_static",
-    f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding",
+    f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding",
     # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
     # added to the root of static path, since PyData always looks there, regardless of the set path.
     # Ref:
@@ -485,7 +465,7 @@ latex_documents: list[tuple[str, str, str, str, str, bool]] = [
     ),
 ]
 
-latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['meta']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
+latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
 
 latex_show_pagerefs: bool = True
 
