@@ -130,7 +130,9 @@ pre_commit:
             verbose: true
   release: *pre-commit-config
   pre-release: *pre-commit-config
-  dev: *pre-commit-config
+  implementation: *pre-commit-config
+  development: *pre-commit-config
+  auto-update: *pre-commit-config
   other: *pre-commit-config
 
 codecov:
