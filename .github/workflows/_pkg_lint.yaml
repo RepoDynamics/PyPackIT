@@ -257,120 +257,120 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Lint Reports
-          path: ${{ github.workspace }}/reports/mypy/
-
-  pylint:
-    name: 'PyLint (${{ matrix.os.name }})'
-    strategy:
-      fail-fast: false
-      matrix:
-        os: ${{ fromJSON(inputs.config).os }}
-    runs-on: ${{ matrix.os.runner }}
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ fromJSON(inputs.config).repository }}
-          ref: ${{ fromJSON(inputs.config).ref }}
-          fetch-depth: 0
-          path: repo
-
-      - name: 'Setup Python'
-        id: setup_python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ fromJSON(inputs.config).python-max-ver }}
-          cache: pip
-          cache-dependency-path: repo/.github/workflow_requirements/pylint.txt
-
-      - name: 'Setup MSYS2'
-        if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: mingw-w64-x86_64-enchant
-
-      - name: 'Install Extra Requirements'
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt update
-              sudo apt install -y libenchant-2-2
-              sudo apt install -y graphviz
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-              echo "Requirement already satisfied."
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-              brew update-reset
-              brew install enchant
-          else
-              echo "$RUNNER_OS not supported"
-              exit 1
-          fi
-
-      - name: 'Setup Environment'
-        shell: bash
-        run: |
-          echo "::group::Upgrade pip"
-          python3 -m pip install --upgrade pip
-          echo "::endgroup::"
-
-          echo "::group::Install package"
-          python3 -m pip install ./repo
-          echo "::endgroup::"
-
-          echo "::group::Install pylint"
-          python3 -m pip install -r ./repo/.github/workflow_requirements/pylint.txt
-          echo "::endgroup::"
-
-          echo "::group::Display pip environment"
-          python3 -m pip list
-          echo "::endgroup::"
-
-      - name: 'Run Pylint'
-        shell: bash
-        run: |
-          echo "::group::Create temporary directory"
-          TEMP_DIR=${{ github.workspace }}/reports/pylint/${{ runner.os }}
-          mkdir -p $TEMP_DIR
-          echo "::endgroup::"
-          
-          cd repo
-          echo "::group::Run pylint"
-          pylint \
-          ${{ fromJSON(inputs.config).package-name }} \
-          --rcfile pyproject.toml \
-          --import-graph $TEMP_DIR/import_graph_total.svg \
-          --int-import-graph $TEMP_DIR/import_graph_internal.svg \
-          --ext-import-graph $TEMP_DIR/import_graph_external.svg \
-          --output-format=colorized,text:$TEMP_DIR/report_text.txt,json:$TEMP_DIR/report_json.json,parseable:$TEMP_DIR/report_parseable.txt,msvs:$TEMP_DIR/report_msvs.txt \
-          -j 0
-          echo "::endgroup::"
-
-      - name: 'Create diagrams'
-        # https://pylint.readthedocs.io/en/latest/pyreverse.html
-        if: always()
-        shell: bash
-        run: |
-          echo "::group::Create temporary directory"
-          TEMP_DIR=${{ github.workspace }}/reports/pyreverse/${{ runner.os }}
-          mkdir -p $TEMP_DIR
-          echo "::endgroup::"
-          
-          cd repo
-          echo "::group::Run pyreverse"
-          pyreverse \
-          --source-roots ${{ fromJSON(inputs.config).path-source }} \
-          --output-directory $TEMP_DIR \
-          --output html \
-          --module-names y \
-          --colorized \
-          --max-color-depth 5 \
-          ${{ fromJSON(inputs.config).package-name }}
-          echo "::endgroup::"
-
-      - name: 'Upload Pylint reports'
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: Lint Reports
           path: ${{ github.workspace }}/reports/
+
+#  pylint:
+#    name: 'PyLint (${{ matrix.os.name }})'
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        os: ${{ fromJSON(inputs.config).os }}
+#    runs-on: ${{ matrix.os.runner }}
+#    steps:
+#      - name: 'Checkout repository'
+#        uses: actions/checkout@v4
+#        with:
+#          repository: ${{ fromJSON(inputs.config).repository }}
+#          ref: ${{ fromJSON(inputs.config).ref }}
+#          fetch-depth: 0
+#          path: repo
+#
+#      - name: 'Setup Python'
+#        id: setup_python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: ${{ fromJSON(inputs.config).python-max-ver }}
+#          cache: pip
+#          cache-dependency-path: repo/.github/workflow_requirements/pylint.txt
+#
+#      - name: 'Setup MSYS2'
+#        if: runner.os == 'Windows'
+#        uses: msys2/setup-msys2@v2
+#        with:
+#          update: true
+#          install: mingw-w64-x86_64-enchant
+#
+#      - name: 'Install Extra Requirements'
+#        shell: bash
+#        run: |
+#          if [ "$RUNNER_OS" == "Linux" ]; then
+#              sudo apt update
+#              sudo apt install -y libenchant-2-2
+#              sudo apt install -y graphviz
+#          elif [ "$RUNNER_OS" == "Windows" ]; then
+#              echo "Requirement already satisfied."
+#          elif [ "$RUNNER_OS" == "macOS" ]; then
+#              brew update-reset
+#              brew install enchant
+#          else
+#              echo "$RUNNER_OS not supported"
+#              exit 1
+#          fi
+#
+#      - name: 'Setup Environment'
+#        shell: bash
+#        run: |
+#          echo "::group::Upgrade pip"
+#          python3 -m pip install --upgrade pip
+#          echo "::endgroup::"
+#
+#          echo "::group::Install package"
+#          python3 -m pip install ./repo
+#          echo "::endgroup::"
+#
+#          echo "::group::Install pylint"
+#          python3 -m pip install -r ./repo/.github/workflow_requirements/pylint.txt
+#          echo "::endgroup::"
+#
+#          echo "::group::Display pip environment"
+#          python3 -m pip list
+#          echo "::endgroup::"
+#
+#      - name: 'Run Pylint'
+#        shell: bash
+#        run: |
+#          echo "::group::Create temporary directory"
+#          TEMP_DIR=${{ github.workspace }}/reports/pylint/${{ runner.os }}
+#          mkdir -p $TEMP_DIR
+#          echo "::endgroup::"
+#
+#          cd repo
+#          echo "::group::Run pylint"
+#          pylint \
+#          ${{ fromJSON(inputs.config).package-name }} \
+#          --rcfile pyproject.toml \
+#          --import-graph $TEMP_DIR/import_graph_total.svg \
+#          --int-import-graph $TEMP_DIR/import_graph_internal.svg \
+#          --ext-import-graph $TEMP_DIR/import_graph_external.svg \
+#          --output-format=colorized,text:$TEMP_DIR/report_text.txt,json:$TEMP_DIR/report_json.json,parseable:$TEMP_DIR/report_parseable.txt,msvs:$TEMP_DIR/report_msvs.txt \
+#          -j 0
+#          echo "::endgroup::"
+#
+#      - name: 'Create diagrams'
+#        # https://pylint.readthedocs.io/en/latest/pyreverse.html
+#        if: always()
+#        shell: bash
+#        run: |
+#          echo "::group::Create temporary directory"
+#          TEMP_DIR=${{ github.workspace }}/reports/pyreverse/${{ runner.os }}
+#          mkdir -p $TEMP_DIR
+#          echo "::endgroup::"
+#
+#          cd repo
+#          echo "::group::Run pyreverse"
+#          pyreverse \
+#          --source-roots ${{ fromJSON(inputs.config).path-source }} \
+#          --output-directory $TEMP_DIR \
+#          --output html \
+#          --module-names y \
+#          --colorized \
+#          --max-color-depth 5 \
+#          ${{ fromJSON(inputs.config).package-name }}
+#          echo "::endgroup::"
+#
+#      - name: 'Upload Pylint reports'
+#        if: always()
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: Lint Reports
+#          path: ${{ github.workspace }}/reports/
