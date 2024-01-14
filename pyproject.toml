@@ -51,7 +51,7 @@ maintainers = [
     {name = "RepoDynamics", email = "contact@repodynamics.com"},
 ]
 name = "pypackit"
-readme = "src/readme_pypi.md"
+readme = "src/README_pypi.md"
 requires-python = ">= 3.10"
 license = {file = "LICENSE"}
 
@@ -173,7 +173,6 @@ confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFIN
 
 [tool.pylint.reports]
 msg-template = "{path}\nL[{line}:{end_line}] - Col[{column}:{end_column}] - Obj: {obj}\n\t{msg_id}: {category} - {symbol}\n\t{msg}\n"
-output-format = ["json:.local/report/pylint/report_json.json", "text:.local/report/pylint/report_text.txt", "parseable:.local/report/pylint/report_parseable.txt", "msvs:.local/report/pylint/report_msvs.txt", "colorized"]
 reports = true
 score = true
 

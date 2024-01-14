@@ -77,7 +77,7 @@ project: str = meta["name"]
 """Name of the project"""
 
 author: str = ", ".join(
-    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]]
+    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
 )
 """Authors' names"""
 
@@ -463,7 +463,7 @@ latex_documents: list[tuple[str, str, str, str, str, bool]] = [
         f"{meta['package']['name']}_docs.tex",
         f"{meta['name']} Documentation",
         " \\and ".join(
-            [_author["name"] for _author in meta["author"]["entries"] if _author["name"]]
+            [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
         ),
         "manual",
         False,
