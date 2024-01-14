@@ -5,7 +5,7 @@
 [tool.coverage.run]
 branch = true
 data_file = "${{ path.dir.local.cache.coverage }}/.coverage"
-source_pkgs = ["${{package.name}}"]
+source_pkgs = ["${{package.import_name}}"]
 
 [tool.coverage.report]
 # Regexes for lines to exclude from consideration
