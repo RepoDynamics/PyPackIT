@@ -1,5 +1,5 @@
 manifest:
-  - graft ${{ path.dir.source }}/${{ package.name }}
+  - graft ${{ path.dir.source }}/${{ package.import_name }}
   - include CODE_OF_CONDUCT.md
   - global-exclude *.py[cod] __pycache__ *.so
 
