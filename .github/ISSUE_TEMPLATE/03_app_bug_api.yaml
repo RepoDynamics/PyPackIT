@@ -162,7 +162,7 @@ body:
     label: Unit-Test / Minimal Reproducible Example (MRE)
     description: Please provide a unit-test (preferred) or a minimal complete verifiable
       code example to test/reproduce the bug.
-    value: "import ${{package.name]}\n\ndef unit_test():\n    # write a unit-test
+    value: "import ${{package.import_name]}\n\ndef unit_test():\n    # write a unit-test
       here to reproduce the bug\n    ...\n    assert ...\n"
     render: python
   validations:

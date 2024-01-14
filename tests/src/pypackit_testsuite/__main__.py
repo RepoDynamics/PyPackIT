@@ -2,7 +2,7 @@
 
 
 # Non-standard libraries
-import pypackit_tests as testsuite
+import pypackit_testsuite as testsuite
 
 
 testsuite.run()
