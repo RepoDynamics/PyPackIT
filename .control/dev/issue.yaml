@@ -655,7 +655,7 @@ forms:
           label: Fully Qualified Name
           description: |
             Please provide the fully qualified name of the API endpoint that is causing the problem.
-          value: ${{package.name}}.
+          value: ${{package.import_name}}.
         validations:
           required: true
       - type: textarea
@@ -674,7 +674,7 @@ forms:
             Please provide a unit-test (preferred) or a
             minimal complete verifiable code example to test/reproduce the bug.
           value: |
-            import ${{package.name]}
+            import ${{package.import_name]}
 
             def unit_test():
                 # write a unit-test here to reproduce the bug
