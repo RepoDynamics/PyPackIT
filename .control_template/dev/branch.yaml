@@ -93,7 +93,6 @@ main:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
       require_pull_request:
         dismiss_stale_reviews_on_push: true
         require_code_owner_review: true
@@ -114,7 +113,6 @@ release:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
       require_pull_request:
         dismiss_stale_reviews_on_push: true
         require_code_owner_review: true
@@ -135,7 +133,6 @@ pre-release:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
       require_pull_request:
         dismiss_stale_reviews_on_push: true
         require_code_owner_review: true
@@ -156,7 +153,6 @@ implementation:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
 development:
   prefix: dev/
   ruleset:
@@ -171,7 +167,6 @@ development:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
 auto-update:
   prefix: auto-update/
   ruleset:
@@ -186,4 +181,3 @@ auto-update:
       protect_deletion: true
       protect_force_push: true
       require_linear_history: true
-      require_signatures: true
