@@ -122,6 +122,7 @@ jobs:
           deploy: ${{ fromJSON(needs.init.outputs.website).deploy }}
           path-website: ${{ fromJSON(needs.init.outputs.website).path-website }}
           path-package-setup: ${{ fromJSON(needs.init.outputs.website).path-package }}
+          artifact-name: ${{ fromJSON(needs.init.outputs.website).artifact-name }}
 
   lint:
     name: 'Package Lint'
@@ -217,21 +218,21 @@ jobs:
       discussions: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: Distribution Package
+          name: ${{ fromJSON(needs.init.outputs.finalize).release.package-artifact-name }}
           path: distribution
 
       - name: 'Download gh-pages artifact'
         uses: actions/download-artifact@v3
         with:
-          name: Documentation
+          name: ${{ fromJSON(needs.init.outputs.finalize).release.website-artifact-name }}
           path: documentation
 
       - name: 'Zip artifacts'
@@ -243,11 +244,11 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ fromJSON(needs.init.outputs.config).release.name }}
-          tag_name: ${{ fromJSON(needs.init.outputs.config).release.tag_name }}
-          body: ${{ fromJSON(needs.init.outputs.config).release.body }}
-          prerelease: ${{ fromJSON(needs.init.outputs.config).release.prerelease }}
-          discussion_category_name: ${{ fromJSON(needs.init.outputs.config).release.discussion_category_name }}
+          name: ${{ fromJSON(needs.init.outputs.finalize).release.name }}
+          tag_name: ${{ fromJSON(needs.init.outputs.finalize).release.tag-name }}
+          body: ${{ fromJSON(needs.init.outputs.finalize).release.body }}
+          prerelease: ${{ fromJSON(needs.init.outputs.finalize).release.prerelease }}
+#          discussion_category_name: ${{ fromJSON(needs.init.outputs.finalize).release.discussion_category_name }}
           files: |
             wheels.zip
             documentation.zip
