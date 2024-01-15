@@ -1314,15 +1314,14 @@ forms:
           number: 1
           is_checked: true
       body: |
-        <h2>Feature Location</h2>
-        <ul>
-        <li><b>Package Version</b>: {version}</li>
-        <li><b>Package Interface</b>: {package_interface}</li>
-        <li><b>Operating System</b>: {os}</li>
-        <li><b>Python Version</b>: {python_version}</li>
-        <li><b>Package Manager</b>: {package_manager}</li>
-        </ul>
-        <h2>Request Summary</h2>
+        ### Feature Location
+        - **Package Version**: {version}
+        - **Package Interface**: {package_interface}
+        - **Operating System**: {os}
+        - **Python Version**: {python_version}
+        - **Package Manager**: {package_manager}
+        
+        ### Request Summary
 
         {summary}
 
