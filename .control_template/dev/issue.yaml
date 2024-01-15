@@ -1320,7 +1320,7 @@ forms:
         - **Operating System**: {os}
         - **Python Version**: {python_version}
         - **Package Manager**: {package_manager}
-        
+
         ### Request Summary
 
         {summary}
