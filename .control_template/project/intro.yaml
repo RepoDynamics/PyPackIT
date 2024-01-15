@@ -24,53 +24,35 @@
 #          Description of the keynote.
 
 name: ""
-tagline: >-
-  Python Projects Perfected: Innovate, Develop, and Deploy Effortlessly!
+tagline: Replace This Text With Your Project's Tagline, Slogan, Or Short Description
 description: >-
-  ${{ name }} is a free and open-source toolkit
-  <b>empowering the development of open-source Python projects on GitHub</b>.
-  It is a <b>dynamic repository template</b> that provides a complete, professional, and
-  robust infrastructure for your project, where the only thing missing is your code.
-  With ${{ name }}, you can solely focus on what truly matters:
-  implementing your ideas and bringing your vision to life!
+  Replace this text with a short summary of ${{ name }}, describing its purpose and main features.
+  By default, this text is displayed on the repository's main README file,
+  on the homepage of the project's website, on the project's PyPI and TestPyPI pages,
+  and on the package's main docstring.
+  Like all other entries in your repository's control center, this text can also contain
+  dynamic references to other entries. By default, the first occurrence of the name of the project
+  in this text is styled as bold/italic and linked to the project's website.
+  The text can also contain (GitHub Flavored) Markdown and HTML syntax,
+  for example, to make text **bold**, *italic*, or to add [links](https://pypackit.repodynamics.com).
 keywords:
-  - python
-  - github
-  - packaging
-  - template
-  - dynamic repository
-  - repository template
-  - documentation
-  - testing
-  - deployment
-  - maintenance
-  - automation
-  - development
-  - infrastructure
-  - streamline
+  - First Keyword
+  - Second Keyword
+  - Third Keyword
 keynotes:
-  - title: Automation
+  - title: First Key Feature
     description: >-
-      ${{ name }} streamlines a remarkable portion of the process of creating,
-      documenting, testing, publishing, and maintaining Python packages,
-      making your project development a pleasant breeze!
-  - title: Synchronization
+      Description of the first key feature of ${{ name }}.
+      By default, these keynotes are displayed on the repository's main README file,
+      on the homepage of the project's website, and on the project's PyPI and TestPyPI pages.
+  - title: Second Key Feature
     description: >-
-      ${{ name }} gathers all your project's key information and configuration in one place,
-      and dynamically updates them throughout your repository, Python package, and documentation website.
-  - title: Configuration
+      Description of the second key feature of ${{ name }}.
+      For aesthetic reasons, it is recommended to keep the descriptions of all keynotes
+      approximately the same length.
+  - title: Third Key Feature
     description: >-
-      ${{ name }} elevates your project by providing full configuration for your repository,
-      Python package, and documentation website, according to the latest guidelines and best practices.
-  - title: Customization
-    description: >-
-      While carefully configured, ${{ name }} is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs
-  - title: Documentation
-    description: >-
-      ${{ name }} comes with a professional website for your project, that is easily
-      customizable, and automatically generated and deployed on your preferred platform.
-  - title: Production
-    description: >-
-      With ${{ name }}, the only remaining step to publishing a production-ready
-      Python project is adding your code, unit-tests and documentation content.
+      Description of the third key feature of ${{ name }}.
+      You can add as many keynotes as you want.
+      However, in order to keep the READMEs clean and tidy,
+      it is recommended to keep the number of keynotes between 3 and 7.
