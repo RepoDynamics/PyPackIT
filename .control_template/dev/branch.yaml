@@ -84,8 +84,9 @@ main:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
@@ -104,8 +105,9 @@ release:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
@@ -124,8 +126,9 @@ pre-release:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
@@ -144,8 +147,9 @@ implementation:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
@@ -158,8 +162,9 @@ development:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
@@ -172,8 +177,9 @@ auto-update:
   ruleset:
     enforcement: enabled
     bypass_actors:
-      - id: 1
-        type: organization_admin
+      - role: organization_admin
+        mode: always
+      - role: repository_admin
         mode: always
     rule:
       protect_creation: true
