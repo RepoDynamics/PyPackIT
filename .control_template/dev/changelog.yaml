@@ -41,12 +41,22 @@
 package_public:
   name: Public API
   path: CHANGELOG.md
-  title: ${{name}} Changelog (Public API)
+  title: ${{name}} Changelog - Public API
   intro: |
+    This document records all changes to the public API of ${{ name }} in each new final release.
+    The changes documented here are only those that affect the end-users of the software,
+    such as added, changed, or removed features, bug fixes, and performance improvements.
+    
     All notable changes to this project will be documented in this file.
 
     The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+  entry:
+    title: "[{ver_dist}] – {date}"
+    intro: |
+      - Commit Type: {commit_type}
+      - Commit Title: {commit_title}
+      - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
   sections:
     - id: removed
       title: ⛔ Removed Features
@@ -88,6 +98,25 @@ package_public:
       title: 📔️ Release-Notes Fixes
       description: |
           Release-Notes fixes that have been applied to the public API.
+package_public_prerelease:
+  name: Pre-release Public API
+  path: CHANGELOG_PRERELEASE.md
+  title: ${{name}} Changelog - Pre-release Public API
+  intro: |
+    This document records all changes to the public API of ${{ name }} during a pre-release period.
+    The changes documented here are only those that affect the end-users of the software,
+    such as added, changed, or removed features, bug fixes, and performance improvements.
+    
+    All notable changes to this project will be documented in this file.
+
+    The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+    and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+  entry:
+    title: "[{ver_dist}] – {date}"
+    intro: |
+      - Commit Type: {commit_type}
+      - Commit Title: {commit_title}
+      - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
 website:
   name: Website
   path: docs/website/CHANGELOG.md
