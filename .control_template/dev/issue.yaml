@@ -1587,19 +1587,31 @@ forms:
 #      body:
 
 dev_protocol:
-  template: |
-    # Development Process Protocol
-    ## Plan
-    {issue_body}
-    ## Software Requirements Specification
-    TBD
-    ## Design Specification
-    TBD
-    ## Implementation
-    TBD
-    {primary_commit_summary}
-    {secondary_commits_tasklist}
-    ## References
-    {references}
-    ## Timeline
-    {timeline}
+  prerelease_temp_path: docs/prerelease_dev_protocols.md
+  template:
+    title: Development Process Protocol
+    body: |
+      ## Plan
+      {issue_body}
+      
+      
+      ## Software Requirements Specification
+      TBD
+      
+      
+      ## Design Specification
+      TBD
+      
+      
+      ## Implementation
+      TBD
+      {primary_commit_summary}
+      {secondary_commits_tasklist}
+      
+      
+      ## References
+      {references}
+      
+      
+      ## Timeline
+      {timeline}
