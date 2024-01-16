@@ -82,6 +82,12 @@ on:
         default: false
         description: |
           Build the documentation with Sphinx and upload the builds as artifacts.
+      first-major-release:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Release the current 0.X.Y version as the first major release.
 
 jobs:
 
@@ -99,6 +105,7 @@ jobs:
       website-build: ${{ inputs.website-build || false }}
       meta-sync: ${{ inputs.meta-sync }}
       hooks: ${{ inputs.hooks }}
+      first-major-release: ${{ inputs.first-major-release || false }}
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
 
