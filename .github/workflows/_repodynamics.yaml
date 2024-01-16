@@ -40,6 +40,12 @@ on:
         default: false
         description: |
           Build the documentation with Sphinx and upload the builds as artifacts.
+      first-major-release:
+        type: boolean
+        required: false
+        default: false
+        description: |
+          Release the current 0.X.Y version as the first major release.
     secrets:
       repo-admin-token:
         description: 'Token with admin permissions to the repository.'
@@ -107,6 +113,7 @@ jobs:
           website-build: ${{ inputs.website-build }}
           meta-sync: ${{ inputs.meta-sync }}
           hooks: ${{ inputs.hooks }}
+          first-major-release: ${{ inputs.first-major-release }}
   init-fail:
     name: 'Status'
     runs-on: ubuntu-latest
