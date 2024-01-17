@@ -1472,7 +1472,7 @@ forms:
           multiple: false
           options: ${{ package.releases.package_managers }}
         validations:
-          required: true
+          required: false
       - type: markdown
         attributes:
           value: |
@@ -1510,6 +1510,23 @@ forms:
         #            placeholder: Tell us what you see!
         validations:
           required: true
+    post_process:
+      assign_creator:
+        if_checkbox:
+          id: collab
+          number: 1
+          is_checked: true
+      body: |
+        ### Change Location
+        - **Package Version**: {version}
+        - **Package Interface**: {package_interface}
+        - **Operating System**: {os}
+        - **Python Version**: {python_version}
+        - **Package Manager**: {package_manager}
+
+        ### Request Summary
+
+        {summary}
 
 #    - id: web_bug_frontend
 #      primary_type: web
