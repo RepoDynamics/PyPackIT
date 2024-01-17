@@ -1429,6 +1429,7 @@ forms:
         attributes:
           value: <h3>🧑‍💻 Collaborate</h3>
       - type: checkboxes
+        id: collab
         attributes:
           label: |
             Thank you again for filling this feature request.
