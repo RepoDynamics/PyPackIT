@@ -1591,7 +1591,7 @@ dev_protocol:
   template:
     title: Development Process Protocol
     body: |
-      - Issue Nr. #{issue_number}
+      - Issue {issue_number}
       ## Plan
       {issue_body}
       
