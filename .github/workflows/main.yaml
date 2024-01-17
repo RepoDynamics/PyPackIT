@@ -243,8 +243,8 @@ jobs:
 
       - name: 'Zip artifacts'
         run: |
-          mv distribution/*.tar.gz ./
-          zip -r wheels.zip distribution
+          mv distribution/dist/*.tar.gz ./
+          zip -r wheels.zip distribution/dist
           zip -r documentation.zip documentation
 
       - name: Release
