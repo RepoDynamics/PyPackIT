@@ -20,7 +20,6 @@ on:
       - synchronize
       - ready_for_review
       - labeled
-      - closed
   pull_request_target:
     types:
       - opened
