@@ -47,16 +47,18 @@ jobs:
 #          os: ${{ matrix.os }}
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
-          path-tests: ${{ matrix.config.path-tests }}
+          path-setup-testsuite: ${{ matrix.config.path-setup-testsuite }}
+          path-setup-package: ${{ matrix.config.path-package }}
           testsuite-import-name: ${{ matrix.config.testsuite-import-name }}
           package-source: ${{ matrix.config.package-source }}
           package-name: ${{ matrix.config.package-name }}
           package-version: ${{ matrix.config.package-version }}
           python-version: ${{ matrix.config.python-version }}
           os: ${{ matrix.config.os }}
+          path-requirements-package: ${{ matrix.config.path-requirements-package }}
           path-report-pytest: ${{ matrix.config.path-report-pytest }}
           path-report-coverage: ${{ matrix.config.path-report-coverage }}
           path-cache-pytest: ${{ matrix.config.path-cache-pytest }}
           path-cache-coverage: ${{ matrix.config.path-cache-coverage }}
-          max-retries: ${{ matrix.config.max-retries }}
-          retry-delay: ${{ matrix.config.retry-delay }}
+          retry-sleep-seconds: ${{ matrix.config.retry-sleep-seconds }}
+          retry-sleep-seconds-total: ${{ matrix.config.max-retries }}
