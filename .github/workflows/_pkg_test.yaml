@@ -48,7 +48,7 @@ jobs:
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
           path-setup-testsuite: ${{ matrix.config.path-setup-testsuite }}
-          path-setup-package: ${{ matrix.config.path-package }}
+          path-setup-package: ${{ matrix.config.path-setup-package }}
           testsuite-import-name: ${{ matrix.config.testsuite-import-name }}
           package-source: ${{ matrix.config.package-source }}
           package-name: ${{ matrix.config.package-name }}
@@ -61,4 +61,4 @@ jobs:
           path-cache-pytest: ${{ matrix.config.path-cache-pytest }}
           path-cache-coverage: ${{ matrix.config.path-cache-coverage }}
           retry-sleep-seconds: ${{ matrix.config.retry-sleep-seconds }}
-          retry-sleep-seconds-total: ${{ matrix.config.max-retries }}
+          retry-sleep-seconds-total: ${{ matrix.config.retry-sleep-seconds-total }}
