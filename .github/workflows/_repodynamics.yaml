@@ -1,51 +1,51 @@
 name: '[Callable]: RepoDynamics'
 on:
   workflow_call:
-    inputs:
-      meta-sync:
-        type: string
-        default: report
-        required: false
-        description: |
-          The action to take when the dynamic files are out of sync with the repository meta content.
-          Selecting 'none' will disable this action.
-      hooks:
-        type: string
-        default: report
-        required: false
-        description: |
-          The action to take when running the workflow hooks.
-          Selecting 'none' will disable this action.
-      package-build:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Build the package and upload the builds as artifacts.
-      package-lint:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Run the linting workflow.
-      package-test:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Run the test workflow on package.
-      website-build:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Build the documentation with Sphinx and upload the builds as artifacts.
-      first-major-release:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Release the current 0.X.Y version as the first major release.
+#    inputs:
+#      meta-sync:
+#        type: string
+#        default: report
+#        required: false
+#        description: |
+#          The action to take when the dynamic files are out of sync with the repository meta content.
+#          Selecting 'none' will disable this action.
+#      hooks:
+#        type: string
+#        default: report
+#        required: false
+#        description: |
+#          The action to take when running the workflow hooks.
+#          Selecting 'none' will disable this action.
+#      package-build:
+#        type: boolean
+#        required: false
+#        default: false
+#        description: |
+#          Build the package and upload the builds as artifacts.
+#      package-lint:
+#        type: boolean
+#        required: false
+#        default: false
+#        description: |
+#          Run the linting workflow.
+#      package-test:
+#        type: boolean
+#        required: false
+#        default: false
+#        description: |
+#          Run the test workflow on package.
+#      website-build:
+#        type: boolean
+#        required: false
+#        default: false
+#        description: |
+#          Build the documentation with Sphinx and upload the builds as artifacts.
+#      first-major-release:
+#        type: boolean
+#        required: false
+#        default: false
+#        description: |
+#          Release the current 0.X.Y version as the first major release.
     secrets:
       repo-admin-token:
         description: 'Token with admin permissions to the repository.'
@@ -107,13 +107,13 @@ jobs:
         with:
           template: PyPackIT
           admin-token: ${{ secrets.repo-admin-token }}
-          package-build: ${{ inputs.package-build }}
-          package-lint: ${{ inputs.package-lint }}
-          package-test: ${{ inputs.package-test }}
-          website-build: ${{ inputs.website-build }}
-          meta-sync: ${{ inputs.meta-sync }}
-          hooks: ${{ inputs.hooks }}
-          first-major-release: ${{ inputs.first-major-release }}
+#          package-build: ${{ inputs.package-build }}
+#          package-lint: ${{ inputs.package-lint }}
+#          package-test: ${{ inputs.package-test }}
+#          website-build: ${{ inputs.website-build }}
+#          meta-sync: ${{ inputs.meta-sync }}
+#          hooks: ${{ inputs.hooks }}
+#          first-major-release: ${{ inputs.first-major-release }}
   init-fail:
     name: 'Status'
     runs-on: ubuntu-latest
