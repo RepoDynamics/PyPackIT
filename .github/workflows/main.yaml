@@ -97,14 +97,14 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-    with:
-      package-build: ${{ inputs.package-build || false }}
-      package-lint: ${{ inputs.package-lint || false }}
-      package-test: ${{ inputs.package-test || false }}
-      website-build: ${{ inputs.website-build || false }}
-      meta-sync: ${{ inputs.meta-sync }}
-      hooks: ${{ inputs.hooks }}
-      first-major-release: ${{ inputs.first-major-release || false }}
+#    with:
+#      package-build: ${{ inputs.package-build || false }}
+#      package-lint: ${{ inputs.package-lint || false }}
+#      package-test: ${{ inputs.package-test || false }}
+#      website-build: ${{ inputs.website-build || false }}
+#      meta-sync: ${{ inputs.meta-sync }}
+#      hooks: ${{ inputs.hooks }}
+#      first-major-release: ${{ inputs.first-major-release || false }}
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
 
