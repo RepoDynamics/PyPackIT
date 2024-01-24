@@ -1,8 +1,7 @@
 # Continuous Integration/Deployment pipeline
 
-name: "CI/CD Workflow"
-run-name: |
-  CI/CD: ${{ github.ref }}
+name: "DevOps"
+run-name: "${{ github.event_name }}: ${{ github.ref }}"
 
 on:
   issues:
@@ -91,8 +90,8 @@ on:
 jobs:
 
   init:
-    name: 'RepoDynamics'
-    uses: ./.github/workflows/_repodynamics.yaml
+    name: 'Project'
+    uses: ./.github/workflows/_manager.yaml
     permissions:
       contents: write
       issues: write
