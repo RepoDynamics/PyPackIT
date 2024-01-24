@@ -1,4 +1,4 @@
-name: '[Callable]: RepoDynamics'
+name: '[Callable]: Project Manager'
 on:
   workflow_call:
 #    inputs:
@@ -52,58 +52,59 @@ on:
         required: false
     outputs:
       run:
-        value: ${{ jobs.init.outputs.run }}
+        value: ${{ jobs.manager.outputs.run }}
         description: Whether to run subsequent jobs.
       website:
-        value: ${{ jobs.init.outputs.website }}
+        value: ${{ jobs.manager.outputs.website }}
         description: Configurations for website job.
       lint:
-        value: ${{ jobs.init.outputs.lint }}
+        value: ${{ jobs.manager.outputs.lint }}
         description: Configurations for lint job.
       test:
-        value: ${{ jobs.init.outputs.test }}
+        value: ${{ jobs.manager.outputs.test }}
         description: Configurations for test job.
       build:
-        value: ${{ jobs.init.outputs.build }}
+        value: ${{ jobs.manager.outputs.build }}
         description: Configurations for build job.
       publish-testpypi:
-        value: ${{ jobs.init.outputs.publish-testpypi }}
+        value: ${{ jobs.manager.outputs.publish-testpypi }}
         description: Configurations for publish-testpypi job.
       test-testpypi:
-        value: ${{ jobs.init.outputs.test-testpypi }}
+        value: ${{ jobs.manager.outputs.test-testpypi }}
         description: Configurations for test-testpypi job.
       publish-pypi:
-        value: ${{ jobs.init.outputs.publish-pypi }}
+        value: ${{ jobs.manager.outputs.publish-pypi }}
         description: Configurations for publish-pypi job.
       test-pypi:
-        value: ${{ jobs.init.outputs.test-pypi }}
+        value: ${{ jobs.manager.outputs.test-pypi }}
         description: Configurations for test-pypi job.
       finalize:
-        value: ${{ jobs.init.outputs.finalize }}
+        value: ${{ jobs.manager.outputs.finalize }}
         description: Configurations for finalize job.
 jobs:
-  init:
-    name: 'Init'
+  manager:
+    name: 'Manager'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
       pull-requests: write
     outputs:
-      fail: ${{ steps.init.outputs.fail }}
-      run: ${{ steps.init.outputs.run }}
-      website: ${{ steps.init.outputs.website }}
-      lint: ${{ steps.init.outputs.lint }}
-      test: ${{ steps.init.outputs.test }}
-      build: ${{ steps.init.outputs.build }}
-      publish-testpypi: ${{ steps.init.outputs.publish-testpypi }}
-      test-testpypi: ${{ steps.init.outputs.test-testpypi }}
-      publish-pypi: ${{ steps.init.outputs.publish-pypi }}
-      test-pypi: ${{ steps.init.outputs.test-pypi }}
-      finalize: ${{ steps.init.outputs.finalize }}
+      fail: ${{ steps.proman.outputs.fail }}
+      run: ${{ steps.proman.outputs.run }}
+      website: ${{ steps.proman.outputs.website }}
+      lint: ${{ steps.proman.outputs.lint }}
+      test: ${{ steps.proman.outputs.test }}
+      build: ${{ steps.proman.outputs.build }}
+      publish-testpypi: ${{ steps.proman.outputs.publish-testpypi }}
+      test-testpypi: ${{ steps.proman.outputs.test-testpypi }}
+      publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
+      test-pypi: ${{ steps.proman.outputs.test-pypi }}
+      finalize: ${{ steps.proman.outputs.finalize }}
     steps:
-      - id: init
-        uses: repodynamics/init@v1
+      - name: 'Project Manager'
+        id: proman
+        uses: RepoDynamics/ProMan@v1
         with:
           template: PyPackIT
           admin-token: ${{ secrets.repo-admin-token }}
@@ -114,16 +115,14 @@ jobs:
 #          meta-sync: ${{ inputs.meta-sync }}
 #          hooks: ${{ inputs.hooks }}
 #          first-major-release: ${{ inputs.first-major-release }}
-  init-fail:
+  status:
     name: 'Status'
     runs-on: ubuntu-latest
-    needs: init
+    needs: manager
     steps:
-      - run: |
-          echo "${{ needs.init.outputs.fail }}"
-          echo "${{ needs.init.outputs.run }}"
-      - run: |
-          if [ "${{ needs.init.outputs.fail }}" = "true" ]; then
+      - name: 'Status Check'
+        run: |
+          if [ "${{ needs.manager.outputs.fail }}" = "true" ]; then
             exit 1
           else
             exit 0
