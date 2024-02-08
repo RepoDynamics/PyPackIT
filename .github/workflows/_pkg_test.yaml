@@ -38,7 +38,7 @@ jobs:
 #        python-version: ${{ fromJson(inputs.metadata).package.python_versions }}
     runs-on: ${{ matrix.config.runner }} # ${{ matrix.os }}
     steps:
-      - uses: repodynamics/pytests@v1
+      - uses: RepoDynamics/PyTester@v1
         with:
 #          config: ${{ inputs.config }}
 #          metadata: ${{ inputs.metadata }}
