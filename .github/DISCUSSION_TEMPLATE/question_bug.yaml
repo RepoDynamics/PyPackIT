@@ -5,4 +5,4 @@ body:
 - type: markdown
   id: bug
   attributes:
-    value: "**Describe the bug**\n"
+    value: '**Describe the bug**'

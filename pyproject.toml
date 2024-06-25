@@ -236,7 +236,6 @@ convention = "numpy"
 max-args = 10
 max-public-methods = 50
 max-returns = 10
-
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
