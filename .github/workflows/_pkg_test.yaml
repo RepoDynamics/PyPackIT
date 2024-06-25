@@ -10,41 +10,18 @@ on:
         type: string
         required: true
         description: Configuration as a JSON string.
-#      metadata:
-#        type: string
-#        required: true
-#        description: |
-#          CI metadata as a JSON string.
-#      config:
-#        type: string
-#        required: true
-#        description: |
-#          CI configuration as a JSON string.
-#      package-source:
-#        type: string
-#        default: GitHub
-#        required: false
-#        description: Installation source of the package; one of 'GitHub', 'TestPyPI', 'PyPI'.
 
 jobs:
-
   test:
     name: '${{ matrix.config.os }} - Py ${{ matrix.config.python-version }}'
     strategy:
       fail-fast: false
       matrix:
         config: ${{ fromJson(inputs.config) }}
-#        os: ${{ fromJson(inputs.metadata).package.github_runners }}
-#        python-version: ${{ fromJson(inputs.metadata).package.python_versions }}
-    runs-on: ${{ matrix.config.runner }} # ${{ matrix.os }}
+    runs-on: ${{ matrix.config.runner }}
     steps:
       - uses: RepoDynamics/PyTester@v1
         with:
-#          config: ${{ inputs.config }}
-#          metadata: ${{ inputs.metadata }}
-#          package-source: ${{ inputs.package-source }}
-#          python-version: ${{ matrix.python-version }}
-#          os: ${{ matrix.os }}
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
           path-setup-testsuite: ${{ matrix.config.path-setup-testsuite }}
