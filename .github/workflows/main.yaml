@@ -1,6 +1,6 @@
-# Continuous Integration/Deployment pipeline
+# Project's main software development workflow.
 
-name: "DevOps"
+name: "Workflow"
 run-name: "${{ github.event_name }}: ${{ github.ref }}"
 
 on:
