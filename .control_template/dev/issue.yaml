@@ -674,7 +674,7 @@ forms:
             Please provide a unit-test (preferred) or a
             minimal complete verifiable code example to test/reproduce the bug.
           value: |
-            import ${{package.import_name]}
+            import ${{package.import_name}}
 
             def unit_test():
                 # write a unit-test here to reproduce the bug
