@@ -79,7 +79,7 @@ jobs:
     steps:
       - name: 'Print'
         run: |
-          echo "${{ github }}"
+          echo "${{ toJson(github) }}"
 
   init:
     name: 'Project'
