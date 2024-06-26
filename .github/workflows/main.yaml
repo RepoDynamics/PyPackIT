@@ -30,64 +30,56 @@ on:
     - cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
   workflow_dispatch:
     inputs:
-      meta-sync:
+      config:
+        description: Configuration
         type: choice
         options:
+          - disable
           - report
-          - amend
-          - commit
           - pull
-          - none
+          - merge
         default: report
         required: true
-        description: |
-          The action to take when the dynamic files are out of sync with the repository meta content.
-          Selecting 'none' will disable this action.
-      hooks:
+      lint:
+        description: Lint
         type: choice
         options:
+          - disable
           - report
-          - amend
-          - commit
           - pull
-          - none
+          - merge
         default: report
         required: true
-        description: |
-          The action to take when running the workflow hooks.
-          Selecting 'none' will disable this action.
-      package-build:
+      build:
+        description: Build
         type: boolean
         required: false
         default: false
-        description: |
-          Build the package and upload the builds as artifacts.
-      package-lint:
+      test:
+        description: Test
         type: boolean
         required: false
         default: false
-        description: |
-          Run the linting workflow.
-      package-test:
+      website:
+        description: Website
         type: boolean
         required: false
         default: false
-        description: |
-          Run the test workflow on package.
-      website-build:
+      release:
+        description: Release v1
         type: boolean
         required: false
         default: false
-        description: |
-          Build the documentation with Sphinx and upload the builds as artifacts.
-      first-major-release:
-        type: boolean
-        required: false
-        default: false
-        description: |
-          Release the current 0.X.Y version as the first major release.
 
 jobs:
+
+  temp:
+    name: 'Temp'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Print'
+        run: |
+          echo "${{ github }}"
 
   init:
     name: 'Project'
