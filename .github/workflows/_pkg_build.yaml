@@ -102,8 +102,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJson(inputs.config).cibw-matrix-platform }}
-        py-ver: ${{ fromJson(inputs.config).cibw-matrix-python }}
+        platform: ${{ fromJSON(inputs.config).cibw-matrix-platform }}
+        py-ver: ${{ fromJSON(inputs.config).cibw-matrix-python }}
     steps:
       - name: 'Checkout Repository: ${{ fromJSON(inputs.config).repository }} @ ${{ fromJSON(inputs.config).ref }}'
         uses: actions/checkout@v4

@@ -37,7 +37,8 @@ on:
           - disable
           - report
           - pull
-          - merge
+          - pull & merge
+          - commit
         default: report
         required: true
       lint:
@@ -47,40 +48,32 @@ on:
           - disable
           - report
           - pull
-          - merge
+          - pull & merge
+          - commit
         default: report
         required: true
       build:
         description: Build
         type: boolean
-        required: false
         default: false
+        required: true
       test:
         description: Test
         type: boolean
-        required: false
         default: false
+        required: true
       website:
         description: Website
         type: boolean
-        required: false
         default: false
+        required: true
       release:
         description: Release v1
         type: boolean
-        required: false
         default: false
+        required: true
 
 jobs:
-
-  temp:
-    name: 'Temp'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Print'
-        run: |
-          echo "${{ toJson(github) }}"
-
   init:
     name: 'Project'
     uses: ./.github/workflows/_manager.yaml
@@ -110,16 +103,20 @@ jobs:
     environment:
       name: GitHub Pages
       url: ${{ fromJSON(needs.init.outputs.website).url }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.init.outputs.website) }}
     runs-on: ubuntu-latest
     steps:
       - uses: RepoDynamics/SphinxDocs@v1
         with:
-          repository: ${{ fromJSON(needs.init.outputs.website).repository }}
-          ref: ${{ fromJSON(needs.init.outputs.website).ref }}
-          deploy: ${{ fromJSON(needs.init.outputs.website).deploy }}
-          path-website: ${{ fromJSON(needs.init.outputs.website).path-website }}
-          path-package-setup: ${{ fromJSON(needs.init.outputs.website).path-package }}
-          artifact-name: ${{ fromJSON(needs.init.outputs.website).artifact-name }}
+          repository: ${{ matrix.config.repository }}
+          ref: ${{ matrix.config.ref }}
+          deploy: ${{ matrix.config.deploy }}
+          path-website: ${{ matrix.config.path-website }}
+          path-package-setup: ${{ matrix.config.path-package }}
+          artifact-name: ${{ matrix.config.artifact-name }}
 
   lint:
     name: 'Package Lint'
@@ -130,9 +127,13 @@ jobs:
       security-events: write
       actions: read
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.init.outputs.lint) }}
     uses: ./.github/workflows/_pkg_lint.yaml
     with:
-      config: ${{ needs.init.outputs.lint }}
+      config: ${{ matrix.config }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 #      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
@@ -151,9 +152,13 @@ jobs:
     name: 'Package Build'
     needs: init
     if: fromJSON(needs.init.outputs.run).build  # fromJSON(needs.init.outputs.config).run.package_build
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.init.outputs.build) }}
     uses: ./.github/workflows/_pkg_build.yaml
     with:
-      config: ${{ needs.init.outputs.build }}
+      config: ${{ matrix.config }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 #      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}

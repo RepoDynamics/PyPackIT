@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJson(inputs.config) }}
+        config: ${{ fromJSON(inputs.config) }}
     runs-on: ${{ matrix.config.runner }}
     steps:
       - uses: RepoDynamics/PyTester@v1

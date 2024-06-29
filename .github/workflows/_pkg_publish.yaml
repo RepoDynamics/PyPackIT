@@ -27,25 +27,25 @@ on:
 
 jobs:
   package-release-pypi:
-    name: ${{ fromJson(inputs.config).platform }}
+    name: ${{ fromJSON(inputs.config).platform }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ fromJson(inputs.config).platform }}
-      url: ${{ fromJson(inputs.config).download-url }}
+      name: ${{ fromJSON(inputs.config).platform }}
+      url: ${{ fromJSON(inputs.config).download-url }}
     permissions:
       id-token: write
     steps:
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ fromJson(inputs.config).artifact-name }}
+          name: ${{ fromJSON(inputs.config).artifact-name }}
           path: build
       - name: 'Upload package'
         uses: pypa/gh-action-pypi-publish@release/v1
         # https://github.com/marketplace/actions/pypi-publish
         with:
           packages-dir: build/dist
-          repository-url: ${{ fromJson(inputs.config).upload-url }}
+          repository-url: ${{ fromJSON(inputs.config).upload-url }}
           verify-metadata: true
           verbose: true
           print-hash: true
