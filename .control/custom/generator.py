@@ -2,7 +2,7 @@
 from importlib.resources import files
 
 # Non-standard libraries
-from repodynamics.path import RelativePath
+import controlman
 from ruamel.yaml import YAML
 
 
@@ -24,7 +24,7 @@ def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
 
     schema = YAML(typ="safe").load(schema)
     if "properties" not in schema:
-        out = schema["default"]
+        out = schema.get("default", {})
         all_have_defaults = False
     else:
         out, all_have_defaults = recursive_extract(schema["properties"], schema["default"])
@@ -32,7 +32,7 @@ def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
 
 
 def schemas():
-    path_data = files("repodynamics") / "_data"
+    path_data = files("controlman") / "_data"
     path_schema = path_data / "schema"
     path_examples = path_data / "example"
     filepaths = list(path_schema.glob("**/*.yaml"))
@@ -89,8 +89,8 @@ def schemas():
 def paths():
     return {
         "path": {
-            name: f"./{rel_path}"
-            for name, rel_path in RelativePath.__dict__.items()
+            name.lower(): f"./{getattr(controlman.path, name)}"
+            for name in controlman.path.__dir__()
             if not name.startswith("_")
         },
     }
