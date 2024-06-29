@@ -5,9 +5,6 @@ schedule:
       main: pull
       release: pull
       pre-release: pull
-      implementation: commit
-      development: commit
-      other: commit
   test:
     cron: '43 23 * * *'  # Every day at 23:43 UTC.
     branch:
