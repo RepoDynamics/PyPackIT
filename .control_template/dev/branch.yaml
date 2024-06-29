@@ -139,20 +139,6 @@ pre-release:
 #        require_last_push_approval: true
 #        require_review_thread_resolution: true
 #        required_approving_review_count: 1
-implementation:
-  prefix: impl/
-  ruleset:
-    enforcement: enabled
-    bypass_actors:
-      - role: organization_admin
-        mode: always
-      - role: repository_admin
-        mode: always
-    rule:
-      protect_creation: true
-      protect_deletion: true
-      protect_force_push: true
-      require_linear_history: true
 development:
   prefix: dev/
   ruleset:

@@ -22,8 +22,6 @@ on:
   pull_request_target:
     types:
       - opened
-      - reopened
-      - synchronize
   push:
   schedule:
     - cron: '43 23 * * *'  # Every day at 23:43 UTC.
@@ -76,6 +74,10 @@ on:
 jobs:
   init:
     name: 'Project'
+    # If the event is 'pull_request_target', only run if its from a fork.
+    if: >-
+      github.event_name != 'pull_request_target'
+      || github.event.pull_request.head.repo.full_name != github.repository
     uses: ./.github/workflows/_manager.yaml
     permissions:
       contents: write
