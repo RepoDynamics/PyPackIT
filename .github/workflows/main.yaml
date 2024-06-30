@@ -135,7 +135,7 @@ jobs:
         config: ${{ fromJSON(needs.init.outputs.lint) }}
     uses: ./.github/workflows/_pkg_lint.yaml
     with:
-      config: ${{ matrix.config }}
+      config: ${{ toJSON(matrix.config) }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 #      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
@@ -160,7 +160,7 @@ jobs:
         config: ${{ fromJSON(needs.init.outputs.build) }}
     uses: ./.github/workflows/_pkg_build.yaml
     with:
-      config: ${{ matrix.config }}
+      config: ${{ toJSON(matrix.config) }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 #      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
