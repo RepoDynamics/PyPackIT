@@ -75,6 +75,9 @@ official sources such as the Python Packaging Authority and GitHub itself,
 PyPackIT has no external dependencies, and does not rely on any third-party services.</p>
 <!-- ------------------------- END : Body section: keynotes ------------------------- --></div>
 
+## Acknowledgments
+
+This project is developed in the [Volkamer lab](https://volkamerlab.org/).
 
 <!-- ---------------------------------------- END : Body ---------------------------------------- -->
 
