@@ -22,7 +22,7 @@ on:
   pull_request_target:
     types:
       - opened
-  push:
+#  push:
   schedule:
     - cron: '43 23 * * *'  # Every day at 23:43 UTC.
     - cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
