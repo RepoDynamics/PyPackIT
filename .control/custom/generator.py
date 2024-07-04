@@ -1,3 +1,5 @@
+"""Custom metadata generator."""
+
 # Standard libraries
 from importlib.resources import files
 
@@ -7,6 +9,13 @@ from ruamel.yaml import YAML
 
 
 def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
+    """Extract default values from a schema file.
+
+    Parameters
+    ----------
+    schema : str
+        The schema file content.
+    """
     def recursive_extract(properties, defaults, all_have_defaults=True):
         for key, defs in properties.items():
             if "default" not in defs:
@@ -96,7 +105,7 @@ def paths():
     }
 
 
-def run(metadata) -> dict:
+def generate_config(metadata: dict) -> dict:
     out = {}
     out |= schemas()
     out |= paths()
