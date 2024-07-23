@@ -20,78 +20,33 @@ To do so, follow the steps below
 2. Click on the {bdg-success}`Use this template` button and select the
 {{ '[Create a new repository](https://github.com/new?template_name={}&template_owner={})'.format(pp_meta.repo.name, pp_meta.repo.owner) }}
 option from the dropdown menu.
-3. Enter a name for your repository in the `Repository name` field.
 
-:::{admonition} Naming convention
-:class: important
+:::{admonition} Repository Naming
+:class: dropdown tip
 
 A GitHub repository name can only contain alphanumeric characters,
-hyphens, underscores, and periods. That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
-By default, {{pp_meta.name}} also derives the name of your project, as well as the package name,
-from the repository name. The project name on itself has no restrictions, and is simply constructed
-by replacing each hyphen in the repository name with a space:
-```python
-def derive_project_name(repo_name: str) -> str:
-    project_name = repo_name.replace("-", " ")
-    return project_name
-```
-On the other hand, the [Python Packaging Authority (PyPA)](https://packaging.python.org/en/latest/specifications/name-normalization/)
-requires that the package name consists only of ASCII alphanumeric characters,
 hyphens, underscores, and periods.
-Additionally, it must start and end with an alphanumeric character,
-meaning that a valid non-normalized project name must match the following regex:
-`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$`.
-PyPA then normalizes the package name by lowercasing the non-normalized name,
-and replacing all runs of consecutive hyphens, underscores, and periods with a single hyphen:
-```python
-import re
+That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
+By default, the repository name is also used to derive
+the [project name](#cc.name), and by extension, the [package name](#cc.pkg.name),
+which has additional restrictions.
+While you can manually set these separately in the control center,
+for consistency, it is recommended to choose a repository name 
+that can be used to automatically derive the [package name](#cc.pkg.name).
+Considering the restrictions on the repository name,
+this simply means that the repository name should not start with a digit,
+and should end with an alphanumeric character.
 
-def normalize_package_name(non_normalized_package_name: str) -> str:
-    normalized_package_name = re.sub(
-       r'[._-]+', '-', non_normalized_package_name.lower()
-    )
-    return normalized_package_name
-```
-This means that, for example, all following package names are equivalent and can be used interchangeably:
-- `my-project` (normalized)
-- `my_project`
-- `my.project`
-- `My--Project`
-- `mY-._.-ProjEcT`
-
-By default, {{pp_meta.name}} derives the package name from the project name via a similar normalization,
-with the only difference being that the non-normalized package name is not lowercased:
-```python
-import re
-
-def derive_package_name(project_name: str) -> str:
-    package_name = re.sub(
-       r'[._-]+', '-', project_name
-    )
-    return package_name
-```
-Subsequently, the import name of the package is derived by lowercasing the package name and
-replacing all hyphens with underscores:
-```python
-import re
-
-def derive_import_name(package_name: str) -> str:
-    import_name = re.sub(
-       r'-', '_', package_name.lower()
-    )
-    return import_name
-```
-While you can manually set the project name, package name, and import name in the metadata,
-it is strongly recommended to use the automatic derivation by choosing a repository name that obeys
-the pattern for a valid non-normalized project name according to PyPA.
 For example, choosing `My-Project` as the repository name, the project name will be `My Project`,
-the package name will be `My-Project` (same as the repository name), and the import name will be `my_project`.
+the package name will be `My-Project` (same as the repository name), 
+and the import name will be `my_project`.
 That is, the package will be shown on PyPI as `My-Project`,
 while users can install it with `pip install my-project`{l=bash}
 (or any other equivalent name, due to PyPA normalization),
 and import it with `import my_project`{l=python}.
 :::
 
+3. Enter a name for your repository in the `Repository name` field.
 4. Optionally, if you are a member of an organization, you can choose to create the repository under
 one of your organizations (instead of your current account) by selecting it from the `Owner` dropdown menu.
 5. Click on the `Create repository` button.
@@ -260,3 +215,7 @@ This will signal the end of the initialization phase, and will trigger the follo
 After the workflow completes, your repository is now fully initialized and in its normal state.
 From this point on, you must follow the development cycle of {{pp_meta.name}}
 to make changes to your repository.
+
+(man.activate_zenodo)=
+## Activate Zenodo Account
+https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content
