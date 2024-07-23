@@ -1,10 +1,3 @@
-"""Configuration file for the Sphinx documentation builder.
-
-References
-----------
-* Full list of built-in configuration values:
-    https://www.sphinx-doc.org/en/master/usage/configuration.html
-"""
 
 
 # Standard libraries
@@ -14,55 +7,6 @@ from pathlib import Path
 from typing import Any, Literal, Union
 
 
-def rstjinja(app, docname, source) -> None:
-    """
-    Render pages as jinja template for templating inside source files.
-
-    References
-    ----------
-    - https://www.ericholscher.com/blog/2016/jul/25/integrating-jinja-rst-sphinx/
-    """
-    # Make sure we're outputting HTML
-    # if app.builder.format != 'html':
-    #     return
-    try:
-        source[0] = app.builder.templates.render_string(
-            source[0],
-            app.config.html_context | {"docname": app.env.docname},
-        )
-    except Exception as e:
-        print(e)
-        print("*" * 50)
-        print(docname)
-    return
-
-
-def setup(app):
-    # register custom config values
-    # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
-    app.connect("source-read", rstjinja)
-    # app.add_css_file("css/theme/custom.css")
-    return
-
-
-def _get_path_repo_root() -> tuple[Path, int]:
-    """Get the path to the root of the repository."""
-    num_up = -1
-    for parent_dir in Path(__file__).parents:
-        num_up += 1
-        for path in parent_dir.iterdir():
-            if path.is_dir() and path.name == ".github" and (path / ".metadata.json").is_file():
-                return parent_dir, num_up
-    raise RuntimeError(
-        "Could not find the repository root. "
-        "The repository root must have a `.github` directory containing a `.metadata.json` file.",
-    )
-
-
-_path_root, _num_up = _get_path_repo_root()
-
-with open(_path_root / ".github" / ".metadata.json") as f:
-    meta = json.load(f)
 
 
 """
@@ -73,16 +17,14 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
 
-project: str = meta["name"]
-"""Name of the project"""
+
 
 author: str = ", ".join(
     [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
 )
 """Authors' names"""
 
-project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
-"""Copyright statement(s)"""
+
 
 release: str = importlib.import_module(meta["package"]["import_name"]).__version__
 """Full version, including alpha/beta/rc tags"""
@@ -99,36 +41,7 @@ References
 * https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 """
 
-extensions: list[str] = [
-    "sphinx.ext.autosummary",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.extlinks",
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    # --- 3rd-party extensions ---
-    "myst_parser",
-    "sphinx_design",
-    # For adding blog to website;
-    #   Ref: https://ablog.readthedocs.io/en/stable/index.html
-    "ablog",
-    # For displaying a copy button next to code blocks;
-    #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
-    "sphinx_copybutton",
-    # 'sphinx_last_updated_by_git', TODO: reactivate
-    # For including SVG files in LaTeX
-    #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
-    #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
-    #   Note: Doesn't work on `latex_logo`.
-    "sphinxcontrib.rsvgconverter",
-    # For adding Open Graph meta tags to HTML output files:
-    "sphinxext.opengraph",
-    # For adding citations
-    "sphinxcontrib.bibtex",
-]
-"""List of required Sphinx extensions"""
+
 # source_suffix: Union[str, List[str], Dict[str, str]] = {
 #   '.rst': 'restructuredtext',
 #   '.txt': 'restructuredtext',
@@ -373,16 +286,7 @@ html_permalinks: bool = True
 
 html_permalinks_icon: str = "¶"
 
-html_sidebars: dict[str, Union[list[str], str]] = {
-    # "**": ["sidebar-nav-bs"],
-    f'{meta["web"]["path"]["news"]}/**': [
-        "ablog/postcard.html",
-        "ablog/recentposts.html",
-        "ablog/tagcloud.html",
-        "ablog/categories.html",
-        "ablog/archives.html",
-    ],
-}
+
 # html_additional_pages: Dict[str, str]
 # html_domain_indices: Union[bool, List[str]] = True
 # html_use_index: bool = True
@@ -408,54 +312,8 @@ html_search_language: str = "en"
 # html_scaled_image_link: bool = True
 # html_math_renderer: str = 'mathjax'
 # html4_writer: bool = False
-"""
-Options for single HTML output
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-single-html-output
-"""
-# singlehtml_sidebars: Dict[str, str]
-"""
-Options for HTML help output
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
-"""
-htmlhelp_basename: str = f"{meta['name']} Docs"
-# htmlhelp_file_suffix: str = '.html'
-# htmlhelp_link_suffix: str = '.html'
-"""
-Options for epub output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-epub-output
-"""
-epub_show_urls: Literal["inline", "footnote", "no"] = "footnote"
 
 
-"""
-Options for LaTeX output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
-* https://www.sphinx-doc.org/en/master/latex.html
-"""
-
-latex_engine: Literal["pdflatex", "xelatex", "lualatex", "platex", "uplatex"] = "lualatex"
 
 latex_documents: list[tuple[str, str, str, str, str, bool]] = [
     (
@@ -472,222 +330,4 @@ latex_documents: list[tuple[str, str, str, str, str, bool]] = [
 
 latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
 
-latex_show_pagerefs: bool = True
 
-latex_show_urls: Literal["inline", "footnote", "no"] = "footnote"
-
-latex_elements: dict[str, str] = {
-    "papersize": "a4paper",  # {'letterpaper', 'a4paper'}
-    "pointsize": "11pt",
-    "figure_align": "htbp",
-    "fontpkg": r"""
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{DejaVu Sans Mono}
-""",
-    "preamble": r"""
-\usepackage[titles]{tocloft}
-\usepackage{fontspec}
-\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
-\setlength{\cftchapnumwidth}{0.75cm}
-\setlength{\cftsecindent}{\cftchapnumwidth}
-\setlength{\cftsecnumwidth}{1.25cm}
-""",
-    "fncychap": r"\usepackage[Bjornstrup]{fncychap}",
-    "printindex": r"\footnotesize\raggedright\printindex",
-}
-# latex_additional_files: List[str] = []
-latex_theme: Literal["manual", "howto"] = "manual"
-# latex_theme_options: Dict[str, Any] = {}
-# latex_theme_path: List[str] = []
-"""
-Options for manual page output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-manual-page-output
-"""
-man_pages: list[tuple[str, str, str, Union[str, list[str]], str]] = [
-    (
-        root_doc,
-        meta["package"]["name"],
-        f"{meta['name']} Documentation",
-        [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
-        "1",
-    ),
-]
-
-
-"""
-Options for Texinfo output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-texinfo-output
-"""
-texinfo_documents: list[tuple[str, str, str, str, str, str, str, bool]] = [
-    (
-        root_doc,
-        f"{meta['package']['name']}_docs",
-        f"{meta['name']} Documentation",
-        "@*".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]]),
-        meta["package"]["name"],
-        meta["tagline"],
-        "Documentation",
-        False,
-    ),
-]
-
-
-"""
-Options for Python domain
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
-"""
-python_display_short_literal_types: bool = True
-
-python_use_unqualified_type_names: bool = False
-
-python_maximum_signature_line_length: int = 80
-# ----------------------------------- End of Sphinx Config ----------------------------------------
-# *************************************************************************************************
-# ----------------------------------- Start of Extensions Config ----------------------------------
-"""
-Options for `myst_parser`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://myst-parser.readthedocs.io/en/latest/configuration.html
-"""
-# --- Extensions ----
-#  Ref: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
-myst_enable_extensions: list[str] = [
-    # "substitution",
-    "smartquotes",
-    "replacements",
-    "dollarmath",
-    "amsmath",
-    "colon_fence",
-    "deflist",
-    "tasklist",
-    "fieldlist",
-    "attrs_inline",
-    "attrs_block",
-    "html_image",
-]
-
-myst_heading_anchors: int = 6
-# myst_html_meta: dict[str, str] = {}
-myst_sub_delimiters = ["|", "|"]
-# ------ MyST Extensions Settings ------
-# Ref: https://myst-parser.readthedocs.io/en/latest/configuration.html#extensions
-# myst_substitutions = {"meta": meta}
-"""
-Options for `sphinx_design`
-
-"""
-sd_fontawesome_latex = True
-
-
-"""
-Options for `sphinx.ext.autosummary`
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html#generating-stub-pages-automatically
-"""
-# autosummary_context: Dict
-autosummary_generate: bool = True
-
-autosummary_generate_overwrite: bool = True
-
-autosummary_imported_members: bool = False
-
-autosummary_ignore_module_all: bool = False
-
-
-"""
-Options for `ablog`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
-"""
-
-blog_path: str = meta["web"]["path"]["news"]
-blog_baseurl: str = meta["url"]["website"]["base"]
-
-blog_post_pattern: list[str] = [
-    f"{blog_path}/post/*.rst",
-    f"{blog_path}/post/*.md",
-]
-post_auto_image: int = 1
-blog_feed_archives: bool = True
-fontawesome_included: bool = True
-# if meta["website"]["disqus_shortname"]:
-#     disqus_shortname: str = meta["website"]["disqus_shortname"]
-"""
-Options for `sphinx.ext.intersphinx`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
-"""
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-    "numpy": ("https://numpy.org/doc/stable", None),
-    "matplotlib": ("https://matplotlib.org/stable", None),
-}
-
-
-"""
-sphinxext.opengraph
-
-Options for `sphinxext.opengraph` extension.
-
-References
-----------
-* https://sphinxext-opengraph.readthedocs.io/en/latest/
-* https://github.com/wpilibsuite/sphinxext-opengraph
-"""
-# TODO: Fill me
-"""
-sphinxcontrib-bibtex
-
-Options for `sphinxcontrib-bibtex` extension.
-
-References
-----------
-* https://sphinxcontrib-bibtex.readthedocs.io/en/2.5.0/
-"""
-
-bibtex_bibfiles = ["refs.bib"]
-bibtex_default_style = "plain"
-bibtex_reference_style = "super"

@@ -1,8 +1,8 @@
 <div class="quicklinks">
 {% for group in pp_meta.web.quicklinks %}
     <ul>
-        <li><b>{{ group.title }}</b></li>
-{% for entry in group.entries %}
+        <li><b>{{ group.section_title }}</b></li>
+{% for entry in group.subsections %}
         <li><a href="{{ pathto(entry.path) }}">{{ entry.title }}</a></li>
 {% endfor %}
     </ul>
