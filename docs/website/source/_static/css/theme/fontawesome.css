@@ -1,0 +1,18 @@
+/*https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/header-links.html#fontawesome-icons*/
+i.fa-twitter:hover {color: #1DA1F2}
+i.fa-linkedin:hover {color: #0A66C2}
+i.fa-researchgate:hover {color: #40BA9B}
+i.fa-orcid:hover {color: #A5CD39}
+i.fa-python:hover {color: #FFD43B}
+html[data-theme=light] .fa-conda {
+   filter: invert(40%) sepia(0%) saturate(2%) hue-rotate(322deg) brightness(95%) contrast(87%);
+}
+html[data-theme=light] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
+html[data-theme=dark] .fa-conda {
+   filter: invert(80%) sepia(1%) saturate(0%) hue-rotate(31deg) brightness(83%) contrast(89%);
+}
+html[data-theme=dark] .fa-conda:hover {
+   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
+}
