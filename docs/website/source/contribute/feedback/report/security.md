@@ -1,6 +1,3 @@
----
-sd_hide_title: true
----
 # Security Vulnerability
 {{pp_meta.name}} takes the security and privacy of all its users and members very seriously,
 and is committed to ensuring the safety of its products and services.
