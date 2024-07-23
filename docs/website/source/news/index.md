@@ -1,3 +1,7 @@
+---
+ccid: blog
+---
+
 # News
 
 :::{toctree}
