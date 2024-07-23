@@ -6,7 +6,7 @@
 /*!important*/
 /*}*/
 
-/* Stack footer items horizontally instead of vertically */
+/* Stack footer items horizontally instead of vertically: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#footer */
 .footer-items__start, .footer-items__end {
   flex-direction: row;
 }
