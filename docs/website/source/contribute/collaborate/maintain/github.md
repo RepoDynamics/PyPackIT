@@ -29,21 +29,3 @@ such as `name`, `description` and `labels`, and a
 to define the form fields.
 Any YAML file created in this directory using the specified syntax will be automatically added to the list of possible
 issue forms that users can select from when opening a new issue in the repository.
-
-
-## Labels
-Labels are managed automatically.
-To add/modify/remove a label, modify the file ./github/config/labels.yaml.
-Labels are then automatically synced by the workflow ./github/workflows/labels_sync.yaml,
-using the [label-syncer](https://github.com/micnncim/action-label-syncer) action.
-
-
-
-
-## Configurations you have to set manually after creating a repository
-
-
-
-## Codecov
-codecoverage : https://about.codecov.io/
-
