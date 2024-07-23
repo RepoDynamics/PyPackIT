@@ -1,5 +1,160 @@
 # Background
 
+Software production is a complex and resource-intensive process demanding an up-to-date knowledge
+of the latest software engineering best practices and methodologies,
+as well as a broad range of skills and expertise in communication, project management,
+documentation, graphic and web design, user experience, and marketing, to name a few.
+Software life-cycle involves multiple phases,
+including Planning, Development, Operations, and Improvement,
+requiring a well-coordinated workflow based on various tools and technologies.
+To deliver and maintain high-quality software, commercial software organizations
+commonly employ specialized teams for each aspect of the development process.
+In contrast, the entire responsibility of open-source software projects is typically
+borne by small groups of amateur developers, due to funding and staffing constraints.
+Consequently, the amount of time, effort, and skills required to produce high-quality open-source software
+often far exceeds the capabilities of their developers.
+This results in software lacking in terms of accessibility, ease of installation and use,
+documentation, interoperability, extensibility, maintainability, and correctness,
+which can significantly hinder the adoption and growth of open-source culture.
+A representative example is the so-called <i>research software crisis</i> in academia,
+especially in various fields of Computational Science and Engineering (CSE).
+In these fields, researchers develop and use software as the primary tool for scientific inquiry.
+Inevitably, the replicability, validity, and extensibility of computational studies
+strongly rely on the availability and quality of the underlying research software.
+Given the integral role of computational studies in solving critical real-life problems,
+ensuring the quality and sustainability of research software is thus of utmost importance.
+However, 
+
+
+
+employing engineering best practices often fails due to a lack of supporting tools, which places an additional implementation burden on scientists \cite{ConfigManageForLargescaleSciComp}. Therefore, an ideal solution must be readily accessible and adoptable by all scientists, enabling them to immediately employ research software engineering best practices with minimal overhead \cite{ManagingChaos, SoftEngForCompSci}.
+
+
+The most common problems faced by amateur software developers are technical issues
+regarding management, tooling, testing, documentation, deployment, and maintenance of software.
+
+
+
+While being crucial for the ultimate success of the software project,
+many aspects of the development process are not directly related
+to the idea and vision behind the project itself,
+and are rather repetitive, time-consuming and tedious chores
+that can be automated and streamlined
+to save time and effort for the development team,
+allowing them to solely focus on the creative aspects of their work.
+
+
+Thus, automation tools that streamline such repetitive engineering tasks according to research software needs 
+can significantly accelerate development, improve quality, and lower production costs at the same time.
+
+
+
+
+
+These often act as significant barriers to smaller independent projects
+that lack dedicated teams for each aspect of the development process,
+inadvertently hampering innovation and growth within the Python community.
+
+
+these challenges can act as significant barriers that render the goal of rapid development, publishing,
+and maintenance of professional and effective software a non-trivial task,
+inadvertently hampering innovation and growth within the diverse Python community.
+
+These challenges render the goal of rapid development, publishing,
+and maintenance of professional and effective Python software a non-trivial task,
+particularly for smaller teams or projects that lack dedicated developers for each step of the process.
+
+This can act as a significant barrier to producing sustainable software that can be 
+effortlessly and reliably used by other practicing researchers in the field, 
+resulting in a limited potential for building upon existing work, 
+and hampering the overall progress of scientific research across the diverse fields of computational sciences. 
+
+
+open-source projects, such as scientific software produced in academia,
+are often faced with challenges regarding funding and staffing.
+
+
+The Python programming language and its vibrant ecosystem have made software development
+more accessible and efficient than ever before, enabling a diverse community of users,
+from professional developers and researchers, to amateur programmers and enthusiasts,
+to promptly implement their novel ideas and share their valuable work with the world.
+In addition, the rise of comprehensive cloud-based services like GitHub has undeniably revolutionized
+the software development process, making it easier to collaborate on projects and share code,
+and streamlining the process of building, testing, documenting, deploying, and maintaining software.
+
+However, despite these significant advancements, the current landscape of Python software development
+is still not without its challenges; In addition to a unique and valuable idea and the ability to implement it into code,
+proper development, distribution, and maintenance of useful, credible and high-quality software packages
+is a complex and multi-faceted process,
+involving numerous steps and 
+
+
+
+
+
+
+
+Although several tools and resources are available
+to help developers with some of the involved tasks in isolation,
+to the best of our knowledge, there is currently no comprehensive solution
+that can seamlessly automate and streamline the entire software development process.
+Therefore, developers still need to have a broad understanding of the various aspects involved,
+to know which tools to use and how to configure them correctly,
+and spend a significant amount of time and effort to find the right combination of tools and services,
+only to be able to cover a small subset of the requirements.
+
+
+This underscores the need for a fully automated, plug-and-play software project management tool,
+which enables aspiring and experienced developers alike to rapidly build professional software,
+readily share them with the world, and effortlessly maintain their projects,
+thereby empowering the development of open-source Python projects.
+
+
+
+To address these challenges, we introduce {{ pp_meta.name }},
+a fully automated, plug and play, professional software project management solution
+for open-source Python packages on GitHub.
+It provides a comprehensive, professional, and robust infrastructure for all main components of a project,
+including GitHub/Git repository, Python package, test suite,
+and documentation website, according to the latest standards and best practices.
+{{ pp_meta.name }} is a free and open-source software built on top of GitHub Actions,
+and offered as a GitHub repository template that can be readily utilized
+by new and existing projects.
+It comes with an exhaustive set of fully-configured
+continuous integration, deployment, and testing (CI/CD/CT) workflows
+that automate and streamline the entire journey of creating, documenting, testing, publishing,
+and maintaining Python packages, and render the entire project fully dynamic.
+By eliminating all the tedious, repetitive, and time-consuming
+peripheral aspects of the software development process,
+{{ pp_meta.name }} enables aspiring and experienced developers alike to rapidly build professional software,
+readily share them with the world, and effortlessly maintain their projects,
+thereby empowering the development of open-source Python projects,
+and fueling innovation and growth in the ecosystem.
+
+The following sections discuss several challenges in the current landscape of software development,
+which often act as significant barriers to smaller development teams,
+inadvertently hampering innovation and growth within the Python community.
+The focus is on common tasks and chores that are an essential part of every software development process;
+these are often repetitive, time-consuming and tedious tasks
+that require a significant amount of effort and resources,
+and a broad range of skills and expertise to perform correctly.
+While being crucial for the successful development and maintenance of every software,
+these tasks are not directly related to the idea and vision behind the project itself,
+and are rather chores that can be automated and streamlined to save time and effort
+for the development team, allowing them to solely focus on the creative aspects of their work.
+
+
+
+
+
+The rise of high-level, versatile programming languages, such as Python,
+and the emergence of comprehensive cloud-based VCS platforms, such as GitHub,
+have made software development more accessible and efficient than ever before.
+
+
+
+
+
 
 ## Python
 
@@ -67,35 +222,10 @@ that have solidified its position in the software development landscape, includi
 [^github-stats]: [GitHub (2023). Octoverse: The state of open source and rise of AI in 2023.](https://github.blog/2023-11-08-the-state-of-open-source-and-ai/)
 
 
-## State of the Art
-
-The Python programming language and its vibrant ecosystem have made software development
-more accessible and efficient than ever before, enabling a diverse community of users,
-from professional developers and researchers, to amateur programmers and enthusiasts,
-to promptly implement their novel ideas and share their valuable work with the world.
-In addition, the rise of comprehensive cloud-based services like GitHub has undeniably revolutionized
-the software development process, making it easier to collaborate on projects and share code,
-and streamlining the process of building, testing, documenting, deploying, and maintaining software.
-
-However, despite these significant advancements, the current landscape of Python software development
-is still not without its challenges; these render the goal of rapid development, publishing,
-and maintenance of professional and effective Python software a non-trivial task,
-particularly for smaller teams or projects that lack dedicated developers for each step of the process.
-
-The following sections discuss several challenges in the current landscape of software development,
-which often act as significant barriers to smaller development teams,
-inadvertently hampering innovation and growth within the Python community.
-The focus is on common tasks and chores that are an essential part of every software development process;
-these are often repetitive, time-consuming and tedious tasks
-that require a significant amount of effort and resources,
-and a broad range of skills and expertise to perform correctly.
-While being crucial for the successful development and maintenance of every software,
-these tasks are not directly related to the idea and vision behind the project itself,
-and are rather chores that can be automated and streamlined to save time and effort
-for the development team, allowing them to solely focus on the creative aspects of their work.
 
 
-### Repository Setup
+
+## Repository Setup
 
 As one of the first steps in starting a new software project,
 setting up a GitHub repository is a crucial part of the development process;
@@ -311,145 +441,8 @@ when setting up a GitHub repository for a software project:
   and any other platform of choice.
 
 
-### Code Quality and Testing
 
-Code quality assurance and testing are crucial aspects of every software development process,
-ensuring that the code is functional, secure, robust, reliable, maintainable, and sustainable.
-These encompass a wide range of activities and practices, from formatting and static code analysis routines,
-to various dynamic testing methods, such as unit testing, integration testing, and end-to-end testing:
-
-- [**Formatting**]{.primary-color}: The Python interpreter imposes little to no restrictions
-  on the formatting of the source code, such as naming conventions,
-  annotations, indentation, line length, whitespace, and other layout and styling aspects.
-  This can lead to vastly different formatting styles between developers,
-  preventing them from easily following, reviewing, and maintaining each other's code.
-  Therefore, it is important for developers to follow a consistent code style,
-  especially in open-source collaborative projects, where the code is publicly available
-  and the long-term sustainability of the project depends on the contributions from the community.
-  Code formatting in Python has been greatly simplified by the introduction of
-  a standardized style guide in the [Python Enhancement Proposal (PEP) 8](https://peps.python.org/pep-0008/),
-  and the availability of powerful automated code formatting tools, such as
-  [Black](https://github.com/psf/black) and [YAPF](https://github.com/google/yapf).
-- [**Linting**]{.primary-color}: Static code analysis, also known as linting,
-  is the process of analyzing the source code without actually executing it.
-  It is usually the first line of defense in ensuring code quality,
-  used to detect security vulnerabilities, syntax errors, suspicious constructs, and potential bugs;
-  enforce styling rules; identify unused variables and imports, and perform various other checks.
-  The Python ecosystem offers several powerful linting tools, such as
-  [Pylint](https://github.com/pylint-dev/pylint), [Flake8](https://github.com/PyCQA/flake8),
-  and [Bandit](https://github.com/PyCQA/bandit).
-  More recently, [Ruff](https://github.com/astral-sh/ruff) has emerged as a rapidly growing
-  and promising alternative, offering up to 100x performance improvement over existing tools.
-  Written in Rust, Ruff not only introduces its own set of unique features,
-  but also implements most functionalities of other linters and code formatters; as of version 0.1.7,
-  Ruff can be used as a drop-in replacement for Flake8, Isort, and Black,
-  while full parity with Pylint and Bandit is expected in the near future.
-  More importantly, Ruff is able to automatically fix a number of issues it detects,
-  in contrast to other linters that only report the issues and require manual intervention.
-- [**Type Checking**]{.primary-color}: While Python is a dynamically typed language,
-  it supports optional type annotations, as introduced in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
-  These can be extremely useful for documenting the code, and improving its readability and maintainability,
-  especially in larger projects.
-  More importantly, they can be used by type checking tools, such as [Mypy](https://github.com/python/mypy),
-  which perform static code analysis to detect type-related errors in the code that may otherwise go unnoticed.
-- [**Testing**]{.primary-color}: As one of the most important aspects of software development,
-  dynamic testing refers to the process of executing the code with a given set of test cases
-  to validate its functionality and correctness.
-  As the complexity of software projects increases,
-  it becomes increasingly difficult to ensure that the software behaves as expected in all possible scenarios,
-  and that changes do not introduce new bugs or break existing functionalities.
-  Therefore, it is crucial to have a comprehensive test suite in place,
-  to ensure that the code is thoroughly tested and validated before being released.
-  [Pytest](https://github.com/pytest-dev/pytest) is one of the most well-known testing frameworks
-  for Python projects, allowing developers to write various types of tests for their software,
-  including unit tests, integration tests, end-to-end tests, and functional tests.
-  These can then be incorporated in the development workflows of the project,
-  to ensure the integrity and functionality of the code at every stage of the development process.
-
-While the Python ecosystem offers a comprehensive set of powerful tools to help developers
-carry out these tasks, successfully integrating them into the development process
-can be challenging and time-consuming, especially in the current rapidly evolving landscape:
-Developers must maintain a broad and up-to-date overview
-of the various tools and best practices involved,
-to select the right set of tools for their project.
-These tools usually offer a wide range of configuration options, which must be carefully set
-to ensure that they are compatible with the project's workflow.
-Integrating multiple tools, each with its own configuration and usage nuances,
-into a single coherent workflow can be complex.
-Ensuring that these tools work seamlessly together,
-and with the project's existing infrastructure, requires significant setup and maintenance effort.
-Additionally, balancing the strictness of rules
-against the practicality of day-to-day development is a nuanced task.
-More importantly, enforcing coding standards and testing practices
-across all contributors can be challenging in collaborative projects.
-It requires clear guidelines and often the implementation of automated checks
-that are integrated into the development workflow,
-such as pre-commit hooks or continuous integration pipelines.
-
-
-### Documentation
-
-Documentation is an essential aspect of software development,
-weaving together the intricacies of code with the clarity of language,
-and contributing significantly to the usability, maintenance, and longevity of projects.
-Comprehensive documentation acts as a guide, explaining functionalities, providing examples,
-and clarifying complex concepts, to ensure that users, regardless of their experience level,
-can fully understand and effectively utilize the software.
-Moreover, in a collaborative environment, clear documentation aids new contributors in maintaining the code;
-it provides a reference to the current design and functionalities of the software,
-making it easier to identify and fix issues, thereby speeding up the development process.
-
-[Sphinx](https://www.sphinx-doc.org/),
-a static site generator originally created for documenting the Python language itself,
-is one of the most popular documentation tools in the Python ecosystem.
-With features like automatic API documentation generation,
-support for various output formats, and extensive customization through themes and extensions,
-Sphinx is a powerful tool that can be used to create professional and user-friendly documentation websites.
-However, versatility and flexibility often come at the cost of complexity;
-the default website generated by Sphinx's quickstart tool is merely a bare-bones template
-that still requires a significant amount of time and effort to become a fully functional, professional,
-and user-friendly documentation site.
-This demands a comprehensive knowledge of Sphinx's vast functionalities and configuration options,
-along with a deeper understanding of web development tools and concepts, such as HTML, CSS, and JavaScript.
-While a large number of pre-built themes and extensions are available to simplify this process,
-utilizing them effectively still requires developers to be familiar with all the available options,
-and know which ones to use and how to configure them correctly.
-
-Even with a fully developed and well-designed layout at hand,
-developers still need to spend a significant amount of time and effort
-to write all the contents of the documentation website from scratch,
-and carefully structure and organize them into a coherent and user-friendly format.
-Moreover, since all the contents are by default static,
-any changes to the project must be manually reflected in the documentation website.
-This requires developers to maintain a detailed overview of all the places
-where each piece of information is used,
-and update them accordingly whenever necessary,
-to ensure that the documentation stays up to date with the evolving project.
-
-Deployment and web hosting are other critical aspects;
-since the website is static, it must be rebuilt and redeployed
-on the web hosting service after every change.
-Integrating the documentation website with the version control system
-and setting up continuous integration and deployment pipelines are thus crucial steps
-that ensure that the documentation is consistently updated alongside changes.
-While free web hosting services like [GitHub Pages](https://pages.github.com/)
-and [Read the Docs](https://about.readthedocs.com/) provide convenient solutions
-that can automate much of this process, they still require careful configuration
-that can be challenging and time-consuming for many developers.
-
-In summary, while a variety of powerful tools and services are available to help with creating
-and hosting documentation websites, setting up and maintaining a professional,
-comprehensive, and user-friendly website is still a non-trivial and time-consuming process.
-Developers must possess a broad understanding of the various tools and aspects involved,
-from choosing the right set of tools and configuring them correctly,
-to writing the contents and structuring them into a coherent and user-friendly format.
-While this process can be vastly standardized, automated and simplified,
-to the best of our knowledge, there is currently no comprehensive solution
-that can generate, deploy, and maintain a fully developed professional documentation website
-with little to no effort from the developers.
-
-
-### Development Workflow
+## Development Workflow
 
 :::{admonition} 🚧 Under Construction 🚧
 :class: danger
@@ -479,7 +472,7 @@ In addition, a well-structured repository should also have a clear and consisten
     and releases are tagged from the `master` branch.
 
 
-### Packaging and Distribution
+## Packaging and Distribution
 
 For software to be usable by others,
 it must first be [packaged](https://packaging.python.org/en/latest/overview/) in a standardized format
@@ -703,41 +696,225 @@ Therefore, there is a need for a comprehensive solution that can automate and st
 the entire packaging and distribution process, from start to finish,
 to save time and effort for the developers, and ensure that the process is carried out correctly.
 
-
-### Maintenance
-:::{admonition} 🚧 Under Construction 🚧
-:class: danger
-
-This subsection is currently under construction.
-:::
-
-applying changes requires modifying multiple files at multiple locations.
+## Quality Assurance and Testing
 
 
-## Summary
+Code quality assurance and testing are crucial aspects of every software development process,
+ensuring that the code is correct, functional, secure, robust, 
+reliable, maintainable, and sustainable {cite}`CompSciError`.
+It is highly recommended to use test-driven development methodologies and perform frequent testing 
+from the beginning of the development cycle, 
+thus preventing the accumulation of errors into complex problems {cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft`.
+Thus, unit tests must be written parallel to code implementation, 
+verifying the accuracy of individual code components in isolation. 
+They can also be used in regression testing, which is crucial for ensuring that features remain functional 
+after each modification. 
+To ensure testing effectiveness, test coverage metrics must be monitored to identify code components 
+and software functionalities that are not covered 
+by the available test cases. 
+To improve reproducibility and increase trust in the software, 
+users must also be able to run the tests on their machines to assess the functionality and performance 
+of their local installation {cite}`10MetricsForSciSoftware`. 
+To facilitate this, all tests and corresponding data should be 
+organized into a software package, called test suite, and distributed along instructions on how to run it 
+and information about the testing methodology.
 
-The rise of high-level, versatile programming languages, such as Python,
-and the emergence of comprehensive cloud-based VCS platforms, such as GitHub,
-have made software development more accessible and efficient than ever before.
-Nevertheless, developing and maintaining a high-quality, useful, and sustainable software project
-is still a non-trivial task, involving numerous steps
-and requiring a broad range of skills and expertise in various other fields and subjects,
-from graphic design and user experience, to project management and DevOps.
-These often act as significant barriers to smaller independent projects
-that lack dedicated teams for each aspect of the development process,
-inadvertently hampering innovation and growth within the Python community.
-While being crucial for the ultimate success of every project,
-many aspects of the development process are not directly related
-to the idea and vision behind the project itself,
-and are rather repetitive, time-consuming and tedious chores
-that can be automated and streamlined
-to save time and effort for the development team,
-allowing them to solely focus on the creative aspects of their work.
-Although several tools and resources are available
-to help developers with some of the involved tasks in isolation,
-to the best of our knowledge, there is currently no comprehensive solution
-that can seamlessly automate and streamline the entire software development process.
-This underscores the need for a fully automated, plug-and-play software project management tool,
-which enables aspiring and experienced developers alike to rapidly build professional software,
-readily share them with the world, and effortlessly maintain their projects,
-thereby empowering the development of open-source Python projects.
+In addition to testing, static code analysis tools such as linters and type checkers 
+must also be used to check for violations and potential issues in the code. 
+These tools help with refactoring as well, improving code quality, performance, 
+and maintainability. 
+Moreover, to facilitate readability, which is a key factor in collaboration 
+and peer review, code formatting tools must be used to 
+establish a consistent coding style according to best practices {cite}`BestPracticesForSciComp`. 
+Importantly, to ensure that these practices are consistently performed, 
+they must be automated in the project's development workflow. 
+This is a challenging task that often prevents adequate code quality assurance and testing {cite}`StairwayToHeaven`, 
+specially in open-source research software projects {cite}`TestingResearchSoftwareSurvey` 
+as they lack management support and skills in 
+modern software engineering and testing methodologies {cite}`HowScientistsDevAndUseSciSoft, ProblemsOfEndUserDevs`. 
+Consequently, while more than half of scientists' programming time is spent on debugging code, 
+only primitive methods are used that are slow, ineffective, and prone to errors {cite}`SurveySEPracticesInScience2, SurveySEPracticesInScience`. 
+As code quality assurance and testing practices are usually neglected, 
+open-source software may contain inapparent issues that do not interrupt the execution of the program, 
+but result in incorrect outputs that compromise scientific findings \cite{CompSciError, SoftwareChasm}. 
+Such errors have caused numerous 
+retractions {cite}`NightmareRetraction, RetractionChang, RetractionMa, RetractionChang2, RetractionJAmCollCardiol, RetractionMeasuresOfCladeConfidence, RetractionsEffectOfAProgram`, 
+corrections {cite}`CorrectionHypertension`, 
+and comments {cite}`CommentOnError, CommentOnError2, CommentOnError3, CommentOnError4, CommentOnError5, ClusterFailureFMRI`, 
+even in high-profile publications. 
+Therefore, there is a current need for promoting and facilitating standard code analysis, formatting, 
+and testing practices in research software engineering \cite{TestingResearchSoftwareSurvey, ApproxTowerInCompSci, SoftEngForCompSci}. 
+Accordingly, PyPackIT offers a fully automated quality assurance and testing infrastructure 
+for the entire development life-cycle, fulfilling all requirements, including coverage monitoring, 
+documentation, and test-suite distribution.
+
+
+
+These encompass a wide range of activities and practices, from formatting and static code analysis routines,
+to various dynamic testing methods, such as unit testing, integration testing, and end-to-end testing:
+
+- [**Formatting**]{.primary-color}: The Python interpreter imposes little to no restrictions
+  on the formatting of the source code, such as naming conventions,
+  annotations, indentation, line length, whitespace, and other layout and styling aspects.
+  This can lead to vastly different formatting styles between developers,
+  preventing them from easily following, reviewing, and maintaining each other's code.
+  Therefore, it is important for developers to follow a consistent code style,
+  especially in open-source collaborative projects, where the code is publicly available
+  and the long-term sustainability of the project depends on the contributions from the community.
+  Code formatting in Python has been greatly simplified by the introduction of
+  a standardized style guide in the [Python Enhancement Proposal (PEP) 8](https://peps.python.org/pep-0008/),
+  and the availability of powerful automated code formatting tools, such as
+  [Black](https://github.com/psf/black) and [YAPF](https://github.com/google/yapf).
+- [**Linting**]{.primary-color}: Static code analysis, also known as linting,
+  is the process of analyzing the source code without actually executing it.
+  It is usually the first line of defense in ensuring code quality,
+  used to detect security vulnerabilities, syntax errors, suspicious constructs, and potential bugs;
+  enforce styling rules; identify unused variables and imports, and perform various other checks.
+  The Python ecosystem offers several powerful linting tools, such as
+  [Pylint](https://github.com/pylint-dev/pylint), [Flake8](https://github.com/PyCQA/flake8),
+  and [Bandit](https://github.com/PyCQA/bandit).
+  More recently, [Ruff](https://github.com/astral-sh/ruff) has emerged as a rapidly growing
+  and promising alternative, offering up to 100x performance improvement over existing tools.
+  Written in Rust, Ruff not only introduces its own set of unique features,
+  but also implements most functionalities of other linters and code formatters; as of version 0.1.7,
+  Ruff can be used as a drop-in replacement for Flake8, Isort, and Black,
+  while full parity with Pylint and Bandit is expected in the near future.
+  More importantly, Ruff is able to automatically fix a number of issues it detects,
+  in contrast to other linters that only report the issues and require manual intervention.
+- [**Type Checking**]{.primary-color}: While Python is a dynamically typed language,
+  it supports optional type annotations, as introduced in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
+  These can be extremely useful for documenting the code, and improving its readability and maintainability,
+  especially in larger projects.
+  More importantly, they can be used by type checking tools, such as [Mypy](https://github.com/python/mypy),
+  which perform static code analysis to detect type-related errors in the code that may otherwise go unnoticed.
+- [**Testing**]{.primary-color}: As one of the most important aspects of software development,
+  dynamic testing refers to the process of executing the code with a given set of test cases
+  to validate its functionality and correctness.
+  As the complexity of software projects increases,
+  it becomes increasingly difficult to ensure that the software behaves as expected in all possible scenarios,
+  and that changes do not introduce new bugs or break existing functionalities.
+  Therefore, it is crucial to have a comprehensive test suite in place,
+  to ensure that the code is thoroughly tested and validated before being released.
+  [Pytest](https://github.com/pytest-dev/pytest) is one of the most well-known testing frameworks
+  for Python projects, allowing developers to write various types of tests for their software,
+  including unit tests, integration tests, end-to-end tests, and functional tests.
+  These can then be incorporated in the development workflows of the project,
+  to ensure the integrity and functionality of the code at every stage of the development process.
+
+While the Python ecosystem offers a comprehensive set of powerful tools to help developers
+carry out these tasks, successfully integrating them into the development process
+can be challenging and time-consuming, especially in the current rapidly evolving landscape:
+Developers must maintain a broad and up-to-date overview
+of the various tools and best practices involved,
+to select the right set of tools for their project.
+These tools usually offer a wide range of configuration options, which must be carefully set
+to ensure that they are compatible with the project's workflow.
+Integrating multiple tools, each with its own configuration and usage nuances,
+into a single coherent workflow can be complex.
+Ensuring that these tools work seamlessly together,
+and with the project's existing infrastructure, requires significant setup and maintenance effort.
+Additionally, balancing the strictness of rules
+against the practicality of day-to-day development is a nuanced task.
+More importantly, enforcing coding standards and testing practices
+across all contributors can be challenging in collaborative projects.
+It requires clear guidelines and often the implementation of automated checks
+that are integrated into the development workflow,
+such as pre-commit hooks or continuous integration pipelines.
+
+
+
+## Documentation
+
+One of the main determining factors of software quality and success is documentation {cite}`WhatMakesCompSoftSuccessful`. 
+It must provide clear information on how to install and execute the software, 
+how each part works, and how to use them correctly, 
+thus ensuring that the capabilities and limitations of the software are understood 
+and exploited in the intended way by its users. 
+This is especially important for open-source software, 
+where knowledge about the project is continuously lost
+due to high developer turnover rates {cite}`RecommendOnResearchSoftware`. 
+Moreover, as the software evolves, it is crucial to document 
+all important changes in each new release compared to its earlier version. 
+This information must be published along each release, 
+allowing users to evaluate the update impact on their projects. 
+Additionally, it must be recorded chronologically in a so-called [changelog](https://keepachangelog.com), 
+providing an overview of the software evolution to new users and contributors. 
+As building a community is crucial for research software success, 
+equally important as user documentation is providing new collaborators 
+with project information including contribution guidelines, governance model, 
+and code of conduct. 
+
+Producing and maintaining high-quality documentation requires significant time, effort, and skills. 
+In addition to writing large amounts of content, developers typically need to design, 
+develop, and deploy a website to present the documentation in an accessible, 
+coherent, and user-friendly format. 
+This is a non-trivial task, requiring a broad knowledge of web development concepts and tools, 
+including HTML, CSS, and JavaScript, as well as web hosting services and practices. 
+Moreover, the documentation website must always reflect the latest state of the project, 
+requiring developers to periodically update and maintain it after each change. 
+To facilitate software documentation, 
+several tools and practices have been developed {cite}`TenSimpleRulesForDocumentingSciSoft`. 
+For example, it is recommended to embed the documentation of code components next to their source code, 
+as specially annotated comments called docstrings. 
+The developers can then use a static site generator like \href{https://www.sphinx-doc.org}{Sphinx} 
+to generate a website that includes the library's API documentation, 
+automatically extracted from these comments. 
+While such tools can greatly simplify the process, 
+developers still need to invest a lot of time and effort to find, learn, set up, and configure them. 
+Consequently, open-source software is typically not well-documented {cite}`AnalyzingGitHubRepoOfPapers`. 
+This is one of the most common barriers to using available options {cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl`, 
+a typical cause of software misuse leading to faulty results {cite}`CompSciError`, 
+and one of the main reasons why developers refrain from publishing their software {cite}`BetterSoftwareBetterResearch`. 
+Therefore, PyPackIT puts great emphasis on documentation, 
+providing infrastructure and automated solutions that enable projects to maintain 
+high-quality documentation with minimal effort.
+
+## Maintenance
+
+Modern software can often remain useful and operational for decades {cite}`SoftEngForCompSci`. 
+Thus, considering the amounts of time and effort required to develop high-quality software, 
+it is important to sustain the available options. This requires active maintenance:
+The project must continuously receive feedback from its community 
+to fix existing issues, improve functionalities, and add missing features. 
+Maintaining software dependencies is another important aspect {cite}`FortyYearsOfSoftwareReuse`: 
+To facilitate usability, software libraries must be compatible with diverse computer environments, 
+requiring it to remain functional with future dependency versions {cite}`EmpComparisonOfDepNetEvolution`.
+However, most projects are unaware of their outdated dependencies 
+and do not update them regularly {cite}`DoDevsUpdateDeps`, leading to incompatibilities, bugs, 
+and other issues in the software {cite}`MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet`. 
+Another main barrier is technical debt {cite}`ManagingTechnicalDebt`: 
+Neglecting software engineering best practices during the development considerably increases the workload 
+of performing new tasks, causing each new modification 
+to further increase the software entropy and create new technical debt,
+making maintenance increasingly harder. 
+Consequently, the extra time and effort required for maintenance is one of the main reasons 
+for not publicly releasing software {cite}`BetterSoftwareBetterResearch, PublishYourCode`, 
+which is often abandoned as an unsustainable prototype, not usable in future projects {cite}`PublishYourCode`. 
+To prevent these issues, quality assurance and maintenance tasks should be automated 
+and enforced from the beginning of the project {cite}`SoftEngForCompSci`. 
+{{ name }} achieves this by several mechanisms, including its automated pull-based development model 
+that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices 
+throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`, 
+Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng` 
+pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks, 
+such as updating dependencies and development tools, 
+to maintain the health of the software and its development environment.
+
+## Configuration Management
+
+Software projects usually contain multiple data files 
+declaring metadata and settings for different project components. 
+The requirement for each tool to have its own configuration file 
+in a specific format and location complicates maintenance and organization. 
+Additionally, redundancy arises as some data is reused within and across projects, 
+hindering the rapid and reliable modification of configurations {cite}`BestPracticesForSciComp`. 
+Manual adjustments via interactive interfaces further complicate configuration tracking and replicability, 
+making consistent production and management of software projects a challenge {cite}`DevOpsInSciSysDev`. 
+To solve such issues, DevOps practices such as Infrastructure-as-Code (IaC) 
+and Continuous Configuration Automation (CCA) have been developed 
+to enable dynamic configuration management of software infrastructures 
+using machine-readable definition files {cite}`InfrastructureAsCode`. 
+{{ name }} implements a similar mechanism to facilitate the definition, customization, 
+synchronization, and maintenance of all project metadata and settings. 
+It provides a user-friendly control center that renders the entire project infrastructure 
+and development environment dynamic, enabling automatic project management and configuration.
