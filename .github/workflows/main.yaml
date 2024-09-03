@@ -228,13 +228,13 @@ jobs:
 #          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 
       - name: 'Download sdist and wheels artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ${{ fromJSON(needs.init.outputs.finalize).release.package-artifact-name }}
           path: distribution
 
       - name: 'Download gh-pages artifact'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ${{ fromJSON(needs.init.outputs.finalize).release.website-artifact-name }}
           path: documentation
