@@ -1,5 +1,5 @@
 ---
-sd_hide_title: true
+ccid: contrib
 ---
 # Contribute
 :::{toctree}
@@ -46,3 +46,12 @@ a free and open-source project.
 After reading this guide, if you're still unsure where to start or have questions,
 please don't hesitate to [contact us](../help/contact/index.md).
 :::
+
+
+<blockquote>
+    🙏 <b>We Appreciate All Your Work!</b><br>
+    We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a>
+    specifications; all types of contributions are encouraged and valued, and all contributors are
+    acknowledged on our <a href="${{url.website.contributors}}">public website</a>
+    and <a href="${{url.github.releases.home}}">repository</a>.
+</blockquote>

@@ -1,9 +1,11 @@
-
 .sd-card {
     border-radius:1rem;
     margin: 0 0 3% 3%;
-    color: var(--pst-color-primary)
 }
+.sd-card-title {
+    color: var(--pst-color-primary);
+}
+
 
 html[data-theme="light"] .sd-card {
     background: rgb(255, 255, 255);

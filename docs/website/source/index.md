@@ -1,81 +1,8 @@
----
-sd_hide_title: true
-html_theme.sidebar_secondary.remove:
----
-
-# {{pp_meta.name}}
-
-:::{toctree}
-:includehidden:
-:hidden:
-:numbered:
-intro/index
-manual/index
-news/index
-contribute/index
-about/index
-help/index
-:::
 
 
-{% for theme in ["light", "dark"] %}
-:::{image} _static/logo_full_{{theme}}.svg
-:alt: {{pp_meta.name}}
-:align: center
-:class: only-{{theme}} homepage-logo
-:::
-{% endfor %}
-
----
-
-{.element-in-page-without-sidebar}
-{{ pp_meta.description.replace(pp_meta.name,
-"[{}]{}".format(pp_meta.name, "{.project-name}"), 1) }}
 
 
-<div class="element-in-page-without-sidebar">
 
-:::{button-ref} intro/overview/index
-:ref-type: myst
-:color: primary
-:expand:
-:class: homepage-button
-
-[Key Features]{.homepage-button-text}
-:::
-
-</div>
-
-
-::::{card-carousel} 2
-:class: element-in-page-without-sidebar
-{% for point in pp_meta.keynotes %}
-:::{card} {{point.title}}
-:class-title: sd-text-center
-{{point.description}}
-:::
-{% endfor %}
-::::
-
-
-<br>
-
-
-<div class="element-in-page-without-sidebar">
-
-:::{button-ref} intro/overview/index
-:ref-type: myst
-:color: primary
-:expand:
-
-[Learn More]{.homepage-button-text}
-:::
-
-</div>
-
-
-::::{card-carousel} 1
-:class: element-in-page-without-sidebar
 
 
 :::{card} Intro: Discover the Essence of {{pp_meta.name}}
@@ -166,6 +93,3 @@ and the dedication driving {{ pp_meta.name }}'s success.
 The Help section is your go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
 :::
-
-
-::::

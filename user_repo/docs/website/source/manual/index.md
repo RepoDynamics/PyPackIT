@@ -1,6 +1,0 @@
-# Manual
-:::{toctree}
-:hidden:
-
-install
-:::

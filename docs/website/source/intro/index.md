@@ -1,3 +1,7 @@
+---
+ccid: intro
+---
+
 # Intro
 
 :::{toctree}
@@ -60,3 +64,6 @@ essential to fully understanding and utilizing {{pp_meta.name}}.
 :::
 
 ::::
+
+```{bibliography}
+```

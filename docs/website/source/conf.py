@@ -1,21 +1,27 @@
-"""Configuration file for the Sphinx documentation builder.
+"""Configuration file for the Sphinx website builder.
 
-References
-----------
-* Full list of built-in configuration values:
-    https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
 
+import json as _json
+from pathlib import Path as _Path
 
-# Standard libraries
-import json
-from pathlib import Path
-from typing import Any, Literal, Union
+import gittidy as _git
+from versionman import pep440_semver as _semver
 
 
-def rstjinja(app, docname, source) -> None:
-    """
-    Render pages as jinja template for templating inside source files.
+_METADATA_FILEPATH = ".github/.control/.metadata.json"
+
+
+def setup(app):
+    # register custom config values
+    # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
+    app.connect("source-read", _rstjinja)
+    # app.add_css_file("css/theme/custom.css")
+    return
+
+
+def _rstjinja(app, docname, source) -> None:
+    """Render pages as jinja template for templating inside source files.
 
     References
     ----------
@@ -30,663 +36,277 @@ def rstjinja(app, docname, source) -> None:
             app.config.html_context | {"docname": app.env.docname},
         )
     except Exception as e:
-        print(e)
-        print("*" * 50)
-        print(docname)
+        raise RuntimeError(
+            f"Could not render page '{docname}' as Jinja template. "
+            "Please ensure that the page content is valid.",
+        ) from e
     return
 
 
-def setup(app):
-    # register custom config values
-    # app.add_config_value(name='rd_meta', default=dict(), rebuild='html', types=[dict])
-    app.connect("source-read", rstjinja)
-    # app.add_css_file("css/theme/custom.css")
+def _add_version() -> None:
+    """Add the version to the Sphinx configuration."""
+    if all(key in global_vars for key in ("version", "release")):
+        return
+    ver_tag_prefix = meta["tag"]["version"]["prefix"]
+    tags = _git.Git(path=_path_root).get_tags()
+    ver = _semver.latest_version_from_tags(tags=tags, version_tag_prefix=ver_tag_prefix)
+    if ver:
+        global_vars["version"] = global_vars.get("version") or f"{ver.major}.{ver.minor}"
+        global_vars["release"] = global_vars.get("release") or str(ver)
     return
 
 
-def _get_path_repo_root() -> tuple[Path, int]:
+def _add_css_and_js_files() -> None:
+    """Add all CSS and JS files from the static directory to the
+    `html_css_files` and `html_js_files` configuration variables.
+
+    This function takes the first static path defined in `html_static_path`
+    (this should be the '_static' directory in the Sphinx project) and looks
+    for all CSS and JS files in the 'css' and 'js' subdirectories, respectively.
+    It then adds these files to the Sphinx configuration in the `html_css_files`
+    and `html_js_files` lists.
+    Therefore, you can add new CSS and JS files to the 'css' and 'js'
+    directories in the '_static' directory, and they will be automatically
+    added to the Sphinx configuration.
+    """
+    static_paths = global_vars.get(f"html_static_path", [])
+    if not static_paths:
+        return
+    static_path = _Path(static_paths[0])
+    for file_type in ("css", "js"):
+        _to_add = []
+        target_files = global_vars.setdefault(f"html_{file_type}_files", [])
+        for _glob in [f"**/*.{file_type}", f"**/*.{file_type}_t"]:
+            for _path in (static_path / file_type).glob(_glob):
+                _filename = str(_path).removeprefix(f"{static_path}/").removesuffix("_t")
+                for file in target_files:
+                    if isinstance(file, tuple):
+                        if file[0] == _filename:
+                            break
+                    elif file == _filename:
+                        break
+                else:
+                    _to_add.append(_filename)
+        target_files.extend(_to_add)
+    return
+
+
+def _get_path_repo_root() -> tuple[_Path, str]:
     """Get the path to the root of the repository."""
-    num_up = -1
-    for parent_dir in Path(__file__).parents:
+    num_up: int = -1
+    for parent_dir in _Path(__file__).parents:
         num_up += 1
         for path in parent_dir.iterdir():
-            if path.is_dir() and path.name == ".github" and (path / ".metadata.json").is_file():
-                return parent_dir, num_up
+            if path.is_dir() and path.name == ".github" and (parent_dir / _METADATA_FILEPATH).is_file():
+                return parent_dir, '../' * num_up
     raise RuntimeError(
         "Could not find the repository root. "
-        "The repository root must have a `.github` directory containing a `.metadata.json` file.",
+        "The repository root must have a `.github` directory, "
+        f"and must contain the control center metadata file at '{_METADATA_FILEPATH}'.",
     )
 
 
-_path_root, _num_up = _get_path_repo_root()
+def _add_sphinx():
+    # Set sphinx main configurations
+    for key, value in meta["web"]["sphinx"].items():
+        global_vars[key] = value
 
-with open(_path_root / ".github" / ".metadata.json") as f:
-    meta = json.load(f)
+    html_favicon = global_vars.get("html_favicon", "")
+    if html_favicon and "://" not in html_favicon:
+        global_vars["html_favicon"] = f"{_path_to_root}{html_favicon}"
 
-
-"""
-Project information
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-"""
-
-project: str = meta["name"]
-"""Name of the project"""
-
-author: str = ", ".join(
-    [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
-)
-"""Authors' names"""
-
-project_copyright: Union[str, list[str]] = meta["copyright"]["notice"]
-"""Copyright statement(s)"""
-
-release: str = "1.0.0.b1"  # TODO: Make dynamic
-"""Full version, including alpha/beta/rc tags"""
-
-version: str = ".".join(release.split(".")[:3])
-"""SemVer version in format X.Y.Z"""
+    global_vars["html_static_path"] = [
+        static_path if not static_path.startswith("/") else f"{_path_to_root}{static_path[1:]}"
+        for static_path in global_vars.get("html_static_path", [])
+    ]
 
 
-"""
-General configuration
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-"""
-
-extensions: list[str] = [
-    "sphinx.ext.autosummary",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.extlinks",
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    # --- 3rd-party extensions ---
-    "myst_parser",
-    "sphinx_design",
-    # For adding blog to website;
-    #   Ref: https://ablog.readthedocs.io/en/stable/index.html
-    "ablog",
-    # For displaying a copy button next to code blocks;
-    #   Ref: https://sphinx-copybutton.readthedocs.io/en/latest/
-    "sphinx_copybutton",
-    # 'sphinx_last_updated_by_git', TODO: reactivate
-    # For including SVG files in LaTeX
-    #   Ref: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
-    #        https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html
-    #   Note: Doesn't work on `latex_logo`.
-    "sphinxcontrib.rsvgconverter",
-    # For adding Open Graph meta tags to HTML output files:
-    "sphinxext.opengraph",
-    # For adding citations
-    "sphinxcontrib.bibtex",
-]
-"""List of required Sphinx extensions"""
-# source_suffix: Union[str, List[str], Dict[str, str]] = {
-#   '.rst': 'restructuredtext',
-#   '.txt': 'restructuredtext',
-#   '.md': 'markdown',
-# }
-# source_encoding: str = 'utf-8-sig'
-root_doc: str = "index"
-"""Name of the root (homepage) document"""
-
-exclude_patterns: list[str] = [
-    "**Thumbs.db",
-    "**.DS_Store",
-    "**.ipynb_checkpoints",
-    "**README.md",
-]
-"""A list of glob-style patterns to exclude from source files"""
-# include_patterns: List[str] = ['**']
-"""A list of glob-style patterns to include in source files"""
-
-templates_path: list[str] = [
-    "_templates",
-]  # Ref: https://www.sphinx-doc.org/en/master/development/templating.html
-"""A list of directories containing extra templates"""
-# template_bridge: str = ''
-# rst_epilog: str = ''
-# rst_prolog: str = ''
-# primary_domain: Union[str, None] = 'py'
-# default_role: Union[str, None] = None
-# keep_warnings: bool = False
-# suppress_warnings: List[str] = []
-needs_sphinx: str = "7.2.6"
-
-needs_extensions: dict[str, str] = {"sphinx_design": "0.5", "myst_parser": "2.0"}
-# manpages_url: str = ""
-nitpicky: bool = True
-"""Warn about all references where the target cannot be found"""
-# nitpick_ignore: List[Tuple[str, str]] = [('py:func', 'int'), ('envvar', 'LD_LIBRARY_PATH')]
-# nitpick_ignore_regex: List[Tuple[str, str]] =[(r'py:.*', r'foo.*bar\.B.*')]
-numfig: bool = True
-"""Automatically number figures, tables and code-blocks that have a caption"""
-
-numfig_format: dict[str, str] = {
-    "figure": "Fig. %s",
-    "table": "Table %s",
-    "code-block": "Snippet %s",
-    "section": "Section %s",
-}
-
-numfig_secnum_depth: int = 2
-
-smartquotes: bool = True
-# smartquotes_action: str = "qDe"
-# smartquotes_excludes: Dict[str, List[str]] = {'languages': ['ja'], 'builders': ['man', 'text']}
-# user_agent: str = "Sphinx/X.Y.Z requests/X.Y.Z python/X.Y.Z"
-tls_verify: bool = True
-# tls_cacerts: str = ''
-# today: str = ''
-# today_fmt: str = '%b %d, %Y'
-highlight_language: str = "python3"
-# highlight_options: Union[Dict[str, Any], Dict[str, Dict[str, Any]]]
-pygments_style: str = "default"
-
-maximum_signature_line_length: Union[int, None] = 80
-
-add_function_parentheses: bool = True
-
-add_module_names: bool = True
-
-toc_object_entries: bool = True
-
-toc_object_entries_show_parents: Literal["domain", "hide", "all"] = "all"  # New in version 5.2
-
-show_authors: bool = True
-# modindex_common_prefix: List[str] = []
-trim_footnote_reference_space: bool = True
-
-trim_doctest_flags: bool = True
-
-strip_signature_backslash: bool = False
-
-option_emphasise_placeholders: bool = True
+def _add_theme():
+    theme = meta["web"].get("theme")
+    if not theme:
+        print("No theme specified in control center metadata at `web.theme`.")
+        return
+    if "html_theme" in global_vars:
+        raise RuntimeError(
+            "The key `html_theme` is already defined in the Sphinx configuration at `web.sphinx`, "
+            "but a theme is specified in the control center metadata at `web.theme`. "
+            "Please remove one of the theme configurations.",
+        )
+    global_vars["html_theme"] = meta["web"]["theme"]["dependency"]["import_name"]
+    for _conf_key, _conf_value in meta["web"]["theme"].get("config", {}).items():
+        if _conf_key not in global_vars:
+            global_vars[_conf_key] = _conf_value
+            continue
+        _existing_val = global_vars[_conf_key]
+        if isinstance(_existing_val, list):
+            if isinstance(_conf_value, list):
+                _existing_val.extend(_conf_value)
+                continue
+            raise RuntimeError(
+                f"Sphinx configuration key '{_conf_key}' is already set to a list, "
+                f"but theme configuration key `web.theme.config.{_conf_key}` is a trying to add "
+                f"a value of type '{type(_conf_value)}': {_conf_value}."
+            )
+        if isinstance(_existing_val, dict):
+            if isinstance(_conf_value, dict):
+                for _sub_key, _sub_value in _conf_value.items():
+                    if _sub_key in _existing_val:
+                        raise RuntimeError(
+                            f"Duplicate configuration key '{_sub_key}' for theme "
+                            f"defined at `web.theme.config.{_conf_key}`. "
+                            "Please ensure that no configuration key is defined more than once.",
+                        )
+                    _existing_val[_sub_key] = _sub_value
+                continue
+            raise RuntimeError(
+                f"Sphinx configuration key '{_conf_key}' is already set to a dictionary, "
+                f"but theme configuration key `web.theme.config.{_conf_key}` is a trying to add "
+                f"a value of type '{type(_conf_value)}': {_conf_value}."
+            )
+        raise RuntimeError(
+            f"Duplicate configuration key '{_conf_key}' for theme "
+            f"defined at `web.theme.config`. "
+            "Please ensure that no configuration key is defined more than once.",
+        )
 
 
-"""
-Options for internationalization
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-internationalization
-"""
-language = "en"
-# locale_dirs: List[str] = ['locales']
-# gettext_allow_fuzzy_translations: bool = False
-# gettext_compact: Union[bool, str]
-# gettext_uuid: bool = False
-# gettext_location: bool = True
-# gettext_auto_build: bool = True
-# gettext_additional_targets: List[str] = []
-# figure_language_filename: str = '{root}.{language}{ext}'
-"""
-Options for math
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-math
-"""
-math_number_all: bool = True
-
-math_eqref_format: str = "Eq. {number}"
-
-math_numfig: bool = True
-
-
-"""
-Options for HTML output
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-"""
-html_theme: str = "pydata_sphinx_theme"
-
-html_theme_options: dict[str, Any] = {
-    # `logo` is added due to this issue:
-    #  https://github.com/pydata/pydata-sphinx-theme/issues/1094#issuecomment-1368264928
-    "logo": {
-        # "text": "This will appear just after the logo image",
-        # "link": "URL or path that logo links to"
-        "image_light": "_static/logo_simple_light.svg",
-        "image_dark": "_static/logo_simple_dark.svg",
-        "alt_text": meta["name"],
-    },
-    "announcement": meta["url"]["website"]["announcement"],
-    # --- Header / Navigation Bar ---
-    # Left section
-    "navbar_start": ["navbar-logo"],
-    # Middle menu
-    "navbar_center": ["navbar-nav"],
-    # Right section
-    "navbar_end": ["navbar-icon-links", "theme-switcher"],
-    # Persistent right section
-    "navbar_persistent": ["search-button"],
-    # Alignment of `navbar_center`
-    "navbar_align": "left",  # {"left", "right", "content"}
-    "search_bar_text": f"Search {meta['name']} ...",
-    # "primary_sidebar_end": ["indices"],
-    "secondary_sidebar_items": [
-        "page-toc",
-        "last-updated",
-        "edit-this-page",
-        "sourcelink",
-    ],
-    "show_prev_next": True,
-    "footer_start": ["version", "copyright", "pypackit_ver"],
-    "footer_end": ["quicklinks"],  # "sphinx-version", "theme-version"
-    "show_nav_level": 1,
-    "navigation_depth": 5,
-    "show_toc_level": 2,
-    "header_links_before_dropdown": 7,
-    "icon_links": meta["web"]["navbar_icons"],
-    "icon_links_label": "External links",
-    "use_edit_page_button": True,
-    # Code highlighting color themes
-    # Refs:
-    #  https://pygments.org/styles/
-    #  https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#configure-pygments-theme
-    "pygment_light_style": "default",
-    "pygment_dark_style": "monokai",
-}
-# ----------------------------- Dynamically fill html_theme_options ---------------------------------------
-# The following part dynamically reads analytics options from the metadata, and sets them up.
-# Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/analytics.html
-_analytics = meta["web"].get("analytics")
-if _analytics:
-    _plausible_analytics = _analytics.get("plausible")
-    if (
-        _plausible_analytics
-        and _plausible_analytics.get("domain")
-        and _plausible_analytics.get("url")
+def _add_extensions():
+    if "extensions" in global_vars:
+        raise RuntimeError(
+            "The key `extensions` is already defined in the Sphinx configuration at `web.sphinx`. "
+            "Please remove the key from the configuration.",
+        )
+    extensions = []
+    global_vars["extensions"] = extensions
+    for _ext_type, _ext_path, _exts in (
+        ("internal", "web.sphinx.extension", meta["web"]["sphinx"].get("extension", {})),
+        ("external", "web.extension", meta["web"].get("extension", {})),
     ):
-        html_theme_options["analytics"] = {
-            "plausible_analytics_domain": _plausible_analytics["domain"],
-            "plausible_analytics_url": _plausible_analytics["url"],
-        }
-    _google_analytics = _analytics.get("google")
-    if _google_analytics and _google_analytics.get("id"):
-        html_theme_options["analytics"] = {
-            "google_analytics_id": _google_analytics["id"],
-        }
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
-# html_theme_path: List[str] = []
-# html_style: str
-html_title: str = meta["name"]
+        for _ext_id, _ext in _exts.items():
+            # Add extension name to `extensions`
+            _ext_import_name = _ext["dependency"]["import_name"]
+            if _ext_import_name in extensions:
+                raise RuntimeError(
+                    f"Duplicate extension name '{_ext_import_name}' for Sphinx "
+                    f"{_ext_type} extension defined at "
+                    f"`{_ext_path}.{_ext_id}.dependency.import_name`. "
+                    "Please ensure that no two extensions have the same import name.",
+                )
+            # Add extension configurations to global variables
+            extensions.append(_ext_import_name)
+            for _conf_key, _conf_value in _ext.get("config", {}).items():
+                if _conf_key not in global_vars:
+                    global_vars[_conf_key] = _conf_value
+                    continue
+                _existing_val = global_vars[_conf_key]
+                if isinstance(_existing_val, list):
+                    if isinstance(_conf_value, list):
+                        _existing_val.extend(_conf_value)
+                        continue
+                    raise RuntimeError(
+                        f"Sphinx configuration key '{_conf_key}' is already set to a list, "
+                        f"but Sphinx {_ext_type} extension "
+                        f"defined at `{_ext_path}.{_ext_id}.config` is a trying to add "
+                        f"a value of type '{type(_conf_value)}': {_conf_value}."
+                    )
+                if isinstance(_existing_val, dict):
+                    if isinstance(_conf_value, dict):
+                        for _sub_key, _sub_value in _conf_value.items():
+                            if _sub_key in _existing_val:
+                                raise RuntimeError(
+                                    f"Duplicate configuration key '{_sub_key}' for Sphinx {_ext_type} "
+                                    f"extension defined at `{_ext_path}.{_ext_id}.config.{_conf_key}`. "
+                                    "Please ensure that no configuration key is defined more than once.",
+                                )
+                            _existing_val[_sub_key] = _sub_value
+                        continue
+                    raise RuntimeError(
+                        f"Sphinx configuration key '{_conf_key}' is already set to a dictionary, "
+                        f"but Sphinx {_ext_type} extension "
+                        f"defined at `{_ext_path}.{_ext_id}.config` is a trying to add "
+                        f"a value of type '{type(_conf_value)}': {_conf_value}."
+                    )
+                raise RuntimeError(
+                    f"Duplicate configuration key '{_conf_key}' for Sphinx {_ext_type} extension "
+                    f"defined at `{_ext_path}.{_ext_id}.config`. "
+                    "Please ensure that no configuration key is defined more than once.",
+                )
+    return
 
-html_short_title: str = meta["name"]
-# html_baseurl: str = ''
-html_secnumber_suffix: str = ". "
-html_context = {
-    # PyData variables
-    "github_user": meta["owner"]["username"],
-    "github_repo": meta["repo"]["name"],
-    "github_version": meta["repo"]["default_branch"],
-    "doc_path": f'{meta["path"]["dir"]["website"]}/source',
-    "default_mode": "auto",  # Default theme mode: {'light', 'dark', 'auto'}
-    # PyPackIT variables
+
+def _add_extension_ablog():
+    if "blog_authors" in global_vars:
+        return
+    blog_authors = {}
+    global_vars["blog_authors"] = blog_authors
+    for person_id, person in meta["team"].items():
+        for contact_type in ("website", "github", "twitter", "linkedin", "researchgate", "orcid", "email"):
+            if contact_type in person:
+                url = person[contact_type]["url"]
+                break
+        else:
+            url = meta["web"]["url"]["home"]
+        blog_authors[person_id] = (person["name"]["full"], url)
+    return
+
+
+
+
+_path_root, _path_to_root = _get_path_repo_root()
+
+# Read control center configurations
+try:
+    with open(_path_root / _METADATA_FILEPATH) as f:
+        meta = _json.load(f)
+except _json.JSONDecodeError as e:
+    raise RuntimeError(
+        f"Could not read control center metadata file at {_METADATA_FILEPATH}."
+        "Please ensure that the file is a valid JSON file.",
+    ) from e
+
+global_vars = globals()
+
+
+_add_sphinx()
+_add_version()
+_add_css_and_js_files()
+_add_theme()
+_add_extensions()
+_add_extension_ablog()
+
+html_context = global_vars.get("html_context", dict()) | {
     "pp_meta": meta,
-    "pp_title_sep": html_secnumber_suffix,
-}
-# html_logo: Union[str, None] = ''
-html_favicon: str | None = (
-    f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/favicon.png"
-)
-
-html_static_path: list[str] = [
-    "_static",
-    f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding",
-    # Due to an issue with the PyData Sphinx Theme, the logo files used in the navbar are explicitly
-    # added to the root of static path, since PyData always looks there, regardless of the set path.
-    # Ref:
-    #  https://github.com/pydata/pydata-sphinx-theme/issues/1325
-    #  https://github.com/pydata/pydata-sphinx-theme/issues/1328
-    #  https://github.com/pydata/pydata-sphinx-theme/issues/1385
-    # "../../../.meta/ui/logo/simple_dark.svg",
-    # "../../../.meta/ui/logo/simple_light.svg",
-]
-html_extra_path: list[str] = ["404.html"]
-html_css_files: list[Union[str, tuple[str, dict[str, str]]]] = [
-    str(path).removeprefix(f"{html_static_path[0]}/").removesuffix("_t")
-    for glob in ["**/*.css", "**/*.css_t"]
-    for path in (Path(html_static_path[0]) / "css").glob(glob)
-]
-"""A list of CSS files.
-
-Automatically include all CSS files in the `_static/css` directory.
-"""
-# html_js_files: List[Union[str, Tuple[str, Dict[str, str]]]]
-html_last_updated_fmt: Union[str, None] = "%b %d, %Y"
-"""Inserte a ‘Last updated on:’ timestamp at every page bottom, using the given strftime() format."""
-
-html_permalinks: bool = True
-
-html_permalinks_icon: str = "¶"
-
-html_sidebars: dict[str, Union[list[str], str]] = {
-    # "**": ["sidebar-nav-bs"],
-    f'{meta["web"]["path"]["news"]}/**': [
-        "ablog/postcard.html",
-        "ablog/recentposts.html",
-        "ablog/tagcloud.html",
-        "ablog/categories.html",
-        "ablog/archives.html",
-    ],
-}
-# html_additional_pages: Dict[str, str]
-# html_domain_indices: Union[bool, List[str]] = True
-# html_use_index: bool = True
-# html_split_index: bool = False
-# html_copy_source: bool = True
-html_show_sourcelink: bool = False
-
-html_sourcelink_suffix: str = ".txt"
-
-html_use_opensearch: str = meta["url"]["website"]["base"]
-# html_file_suffix: str = '.html'
-# html_link_suffix: str = '.html'
-html_show_copyright: bool = True
-
-html_show_search_summary: bool = True
-
-html_show_sphinx: bool = False
-# html_output_encoding: str = 'utf-8'
-# html_compact_lists: bool = True
-html_search_language: str = "en"
-# html_search_options: Dict[str, Any]
-# html_search_scorer: str
-# html_scaled_image_link: bool = True
-# html_math_renderer: str = 'mathjax'
-# html4_writer: bool = False
-"""
-Options for single HTML output
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-single-html-output
-"""
-# singlehtml_sidebars: Dict[str, str]
-"""
-Options for HTML help output
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-help-output
-"""
-htmlhelp_basename: str = f"{meta['name']} Docs"
-# htmlhelp_file_suffix: str = '.html'
-# htmlhelp_link_suffix: str = '.html'
-"""
-Options for epub output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-epub-output
-"""
-epub_show_urls: Literal["inline", "footnote", "no"] = "footnote"
-
-
-"""
-Options for LaTeX output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
-* https://www.sphinx-doc.org/en/master/latex.html
-"""
-
-latex_engine: Literal["pdflatex", "xelatex", "lualatex", "platex", "uplatex"] = "lualatex"
-
-latex_documents: list[tuple[str, str, str, str, str, bool]] = [
-    (
-        root_doc,
-        f"{meta['package']['name']}_docs.tex",
-        f"{meta['name']} Documentation",
-        " \\and ".join(
-            [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
-        ),
-        "manual",
-        False,
-    ),
-]
-
-latex_logo: str = f"{'../'*_num_up}{meta['path']['dir']['control']}/ui/branding/logo_full_light.png"  # Doesn't work with SVG files
-
-latex_show_pagerefs: bool = True
-
-latex_show_urls: Literal["inline", "footnote", "no"] = "footnote"
-
-latex_elements: dict[str, str] = {
-    "papersize": "a4paper",  # {'letterpaper', 'a4paper'}
-    "pointsize": "11pt",
-    "figure_align": "htbp",
-    "fontpkg": r"""
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{DejaVu Sans Mono}
-""",
-    "preamble": r"""
-\usepackage[titles]{tocloft}
-\usepackage{fontspec}
-\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
-\setlength{\cftchapnumwidth}{0.75cm}
-\setlength{\cftsecindent}{\cftchapnumwidth}
-\setlength{\cftsecnumwidth}{1.25cm}
-""",
-    "fncychap": r"\usepackage[Bjornstrup]{fncychap}",
-    "printindex": r"\footnotesize\raggedright\printindex",
-}
-# latex_additional_files: List[str] = []
-latex_theme: Literal["manual", "howto"] = "manual"
-# latex_theme_options: Dict[str, Any] = {}
-# latex_theme_path: List[str] = []
-"""
-Options for manual page output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-manual-page-output
-"""
-man_pages: list[tuple[str, str, str, Union[str, list[str]], str]] = [
-    (
-        root_doc,
-        meta["package"]["name"],
-        f"{meta['name']} Documentation",
-        [_author["name"] for _author in meta["author"]["entries"] if _author["name"]],
-        "1",
-    ),
-]
-
-
-"""
-Options for Texinfo output
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-texinfo-output
-"""
-texinfo_documents: list[tuple[str, str, str, str, str, str, str, bool]] = [
-    (
-        root_doc,
-        f"{meta['package']['name']}_docs",
-        f"{meta['name']} Documentation",
-        "@*".join([_author["name"] for _author in meta["author"]["entries"] if _author["name"]]),
-        meta["package"]["name"],
-        meta["tagline"],
-        "Documentation",
-        False,
-    ),
-]
-
-
-"""
-Options for Python domain
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
-"""
-python_display_short_literal_types: bool = True
-
-python_use_unqualified_type_names: bool = False
-
-python_maximum_signature_line_length: int = 80
-# ----------------------------------- End of Sphinx Config ----------------------------------------
-# *************************************************************************************************
-# ----------------------------------- Start of Extensions Config ----------------------------------
-"""
-Options for `myst_parser`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://myst-parser.readthedocs.io/en/latest/configuration.html
-"""
-# --- Extensions ----
-#  Ref: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
-myst_enable_extensions: list[str] = [
-    # "substitution",
-    "smartquotes",
-    "replacements",
-    "dollarmath",
-    "amsmath",
-    "colon_fence",
-    "deflist",
-    "tasklist",
-    "fieldlist",
-    "attrs_inline",
-    "attrs_block",
-    "html_image",
-]
-
-myst_heading_anchors: int = 6
-# myst_html_meta: dict[str, str] = {}
-myst_sub_delimiters = ["|", "|"]
-# ------ MyST Extensions Settings ------
-# Ref: https://myst-parser.readthedocs.io/en/latest/configuration.html#extensions
-# myst_substitutions = {"meta": meta}
-"""
-Options for `sphinx_design`
-
-"""
-sd_fontawesome_latex = True
-
-
-"""
-Options for `sphinx.ext.autosummary`
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html#generating-stub-pages-automatically
-"""
-# autosummary_context: Dict
-autosummary_generate: bool = True
-
-autosummary_generate_overwrite: bool = True
-
-autosummary_imported_members: bool = False
-
-autosummary_ignore_module_all: bool = False
-
-
-"""
-Options for `ablog`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
-"""
-
-blog_path: str = meta["web"]["path"]["news"]
-blog_baseurl: str = meta["url"]["website"]["base"]
-
-blog_post_pattern: list[str] = [
-    f"{blog_path}/post/*.rst",
-    f"{blog_path}/post/*.md",
-]
-post_auto_image: int = 1
-blog_feed_archives: bool = True
-fontawesome_included: bool = True
-# if meta["website"]["disqus_shortname"]:
-#     disqus_shortname: str = meta["website"]["disqus_shortname"]
-"""
-Options for `sphinx.ext.intersphinx`
-
-Notes
------
-Options are only partially implemented.
-See reference for a full list.
-
-References
-----------
-* https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
-"""
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-    "numpy": ("https://numpy.org/doc/stable", None),
-    "matplotlib": ("https://matplotlib.org/stable", None),
+    "pp_title_sep": global_vars.get("html_secnumber_suffix"),
 }
 
 
-"""
-sphinxext.opengraph
 
-Options for `sphinxext.opengraph` extension.
 
-References
-----------
-* https://sphinxext-opengraph.readthedocs.io/en/latest/
-* https://github.com/wpilibsuite/sphinxext-opengraph
-"""
-# TODO: Fill me
-"""
-sphinxcontrib-bibtex
 
-Options for `sphinxcontrib-bibtex` extension.
 
-References
-----------
-* https://sphinxcontrib-bibtex.readthedocs.io/en/2.5.0/
-"""
+# TODO: KEEP?
+def _maintainers(self) -> list[dict]:
+    def sort_key(val):
+        return val[1]["issue"] + val[1]["pull"] + val[1]["discussion"]
 
-bibtex_bibfiles = ["refs.bib"]
-bibtex_default_style = "plain"
-bibtex_reference_style = "super"
+    maintainers = dict()
+    for role in ["issue", "discussion"]:
+        if not self._data["maintainer"].get(role):
+            continue
+        for assignees in self._data["maintainer"][role].values():
+            for assignee in assignees:
+                entry = maintainers.setdefault(assignee, {"issue": 0, "pull": 0, "discussion": 0})
+                entry[role] += 1
+    codeowners_entries = self._data["maintainer"].get("pull", {}).get("reviewer", {}).get("by_path")
+    if codeowners_entries:
+        for codeowners_entry in codeowners_entries:
+            for reviewer in codeowners_entry[list(codeowners_entry.keys())[0]]:
+                entry = maintainers.setdefault(reviewer, {"issue": 0, "pull": 0, "discussion": 0})
+                entry["pull"] += 1
+    maintainers_list = [
+        {**self._get_github_user(username.lower()), "roles": roles}
+        for username, roles in sorted(maintainers.items(), key=sort_key, reverse=True)
+    ]
+    _logger.info("Successfully generated all maintainers data")
+    _logger.debug("Generated data:", code=str(maintainers_list))
+    return maintainers_list

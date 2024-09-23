@@ -1,3 +1,21 @@
+.homepage-logo {
+    margin: 2% 0 2% 0;
+    max-height: 500px;
+    max-width: 800px;
+}
+.element-in-page-without-sidebar {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.project-name {
+    color: var(--pst-color-primary);
+    font-weight: bold;
+}
+
+
+
+
 
 /*Justify text in paragraphs*/
 .bd-article p {
@@ -13,12 +31,6 @@
 /*  max-width: 100em;*/
 /*}*/
 
-.bd-main .bd-content .bd-article-container {
-  max-width: 100%;  /* default is 60em */
-}
-.bd-page-width {
-  max-width: 93%;  /* default is 88rem */
-}
 
 
 /* Style class for the short description shown on homepage XXX */
@@ -46,7 +58,7 @@ Example CSS filter generators:
 */
 html[data-theme=light] .icon-image {
     /*filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);*/
-    filter: invert(16%) sepia(100%) saturate(3912%) hue-rotate(266deg) brightness(80%) contrast(96%);
+    filter: invert(16%) sepia(10%) saturate(3912%) hue-rotate(266deg) brightness(80%) contrast(96%);
 }
 html[data-theme=dark] .icon-image {
     /*filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);*/
@@ -54,23 +66,12 @@ html[data-theme=dark] .icon-image {
 }
 
 
-.homepage-logo {
-    margin: 2% 0 2% 0;
-    max-height: 500px;
-    max-width: 800px;
-}
-
-.element-in-page-without-sidebar {
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 
-.project-name {
-    color: var(--pst-color-primary);
-    font-weight: bold;
-}
+
+
+
+
 
 
 .digit {
@@ -117,23 +118,6 @@ html[data-theme=dark] .icon-image {
 }
 
 
-i.fa-twitter:hover {color: #1DA1F2}
-i.fa-linkedin:hover {color: #0A66C2}
-i.fa-researchgate:hover {color: #40BA9B}
-i.fa-orcid:hover {color: #A5CD39}
-i.fa-python:hover {color: #FFD43B}
-html[data-theme=light] .fa-conda {
-   filter: invert(40%) sepia(0%) saturate(2%) hue-rotate(322deg) brightness(95%) contrast(87%);
-}
-html[data-theme=light] .fa-conda:hover {
-   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
-}
-html[data-theme=dark] .fa-conda {
-   filter: invert(80%) sepia(1%) saturate(0%) hue-rotate(31deg) brightness(83%) contrast(89%);
-}
-html[data-theme=dark] .fa-conda:hover {
-   filter: invert(57%) sepia(17%) saturate(1892%) hue-rotate(63deg) brightness(96%) contrast(89%);
-}
 
 
 .quicklinks {
