@@ -106,7 +106,6 @@ jobs:
         id: proman
         uses: RepoDynamics/ProMan@v1
         with:
-          template: PyPackIT
           admin-token: ${{ secrets.repo-admin-token }}
 #          package-build: ${{ inputs.package-build }}
 #          package-lint: ${{ inputs.package-lint }}

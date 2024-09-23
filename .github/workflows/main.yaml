@@ -1,7 +1,7 @@
 # Project's main software development workflow.
 
-name: "Workflow"
-run-name: "${{ github.event_name }}: ${{ github.ref }}"
+name: 'Workflow'
+run-name: '${{ github.event_name }}: ${{ github.ref }}'
 
 on:
   issues:
@@ -22,10 +22,10 @@ on:
   pull_request_target:
     types:
       - opened
-#  push:
+  push:
   schedule:
     - cron: '43 23 * * *'  # Every day at 23:43 UTC.
-    - cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
+    - cron: '43 6 * * 6'   # Every Saturday at 6:43 UTC.
   workflow_dispatch:
     inputs:
       config:
@@ -73,11 +73,15 @@ on:
 
 jobs:
   init:
-    name: 'Project'
+    name: Project
     # If the event is 'pull_request_target', only run if its from a fork.
+    # TODO: Remove the first line after PyPackIT finalization.
     if: >-
-      github.event_name != 'pull_request_target'
-      || github.event.pull_request.head.repo.full_name != github.repository
+      github.repository != 'RepoDynamics/PyPackIT'
+      && (
+        github.event_name != 'pull_request_target'
+        || github.event.pull_request.head.repo.full_name != github.repository
+      )
     uses: ./.github/workflows/_manager.yaml
     permissions:
       contents: write
@@ -93,11 +97,10 @@ jobs:
 #      first-major-release: ${{ inputs.first-major-release || false }}
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
-
   website:
-    name: 'Website'
+    name: Website
     needs: init
-    if: fromJSON(needs.init.outputs.run).website  # fromJSON(needs.init.outputs.config).run.website_build
+    if: fromJSON(needs.init.outputs.run).website
     permissions:
       contents: read
       pages: write
@@ -115,15 +118,16 @@ jobs:
         with:
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
-          deploy: ${{ matrix.config.deploy }}
-          path-website: ${{ matrix.config.path-website }}
-          path-package-setup: ${{ matrix.config.path-package }}
+          path-env: ${{ matrix.config.path-env }}
+          path-web: ${{ matrix.config.path-web }}
+          path-web-build: ${{ matrix.config.path-web-build }}
+          path-pkg: ${{ matrix.config.path-pkg }}
           artifact-name: ${{ matrix.config.artifact-name }}
-
+          deploy: ${{ matrix.config.deploy }}
   lint:
-    name: 'Package Lint'
+    name: Package Lint
     needs: init
-    if: fromJSON(needs.init.outputs.run).lint  # fromJSON(needs.init.outputs.config).run.package_lint
+    if: fromJSON(needs.init.outputs.run).lint
     permissions:
       pull-requests: write
       security-events: write
@@ -136,22 +140,15 @@ jobs:
     uses: ./.github/workflows/_pkg_lint.yaml
     with:
       config: ${{ toJSON(matrix.config) }}
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      ref-before: ${{ fromJSON(needs.init.outputs.config).checkout.ref_before }}
-
   test:
-    name: 'Package Test'
+    name: Package Test
     needs: init
-    if: fromJSON(needs.init.outputs.run).test  # fromJSON(needs.init.outputs.config).run.package_test_local
+    if: fromJSON(needs.init.outputs.run).test
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test }}
-  #      metadata: ${{ needs.init.outputs.metadata }}
-  #      package-source: GitHub
-
   build:
-    name: 'Package Build'
+    name: Package Build
     needs: init
     if: fromJSON(needs.init.outputs.run).build  # fromJSON(needs.init.outputs.config).run.package_build
     strategy:
@@ -164,7 +161,6 @@ jobs:
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
 #      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
-
   publish-testpypi:
     name: 'Package Publish'
     needs: [init, build, test, lint]
@@ -177,7 +173,6 @@ jobs:
 #      platform: TestPyPI
 #      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
 #      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
-
   test-testpypi:
     name: 'Package Test: TestPyPI'
     needs: [init, publish-testpypi]
@@ -188,7 +183,6 @@ jobs:
 #      config: ${{ needs.init.outputs.config }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      package-source: TestPyPI
-
   publish-pypi:
     name: 'Package Publish'
     needs: [init, test-testpypi]
@@ -201,7 +195,7 @@ jobs:
 #      platform: PyPI
 #      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
 #      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
-
+#
   test-pypi:
     name: 'Package Test: PyPI'
     needs: [init, publish-pypi]
@@ -212,11 +206,11 @@ jobs:
 #      config: ${{ needs.init.outputs.config }}
 #      metadata: ${{ needs.init.outputs.metadata }}
 #      package-source: PyPI
-
+#
   finalize:
     name: 'Finalize'
     needs: [ init, build, website, test-pypi ]
-    if: ${{ !failure() && fromJSON(needs.init.outputs.run).finalize }}
+    if: fromJSON(needs.init.outputs.run).finalize
     permissions:
       contents: write
       discussions: write

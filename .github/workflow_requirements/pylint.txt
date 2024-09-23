@@ -1,1 +1,0 @@
-pylint[spelling] >= 3.0, < 4

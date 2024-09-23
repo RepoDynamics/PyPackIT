@@ -1,4 +1,3 @@
-
 name: '[Callable]: Package - Lint'
 
 on:
@@ -8,21 +7,6 @@ on:
         description: Configuration as a JSON string.
         type: string
         required: true
-#      metadata:
-#        type: string
-#        required: true
-#        description: |
-#          CI metadata as a JSON string.
-#      ref:
-#        description: 'Reference to checkout, i.e. the `ref` input of `actions/checkout`.'
-#        type: string
-#        required: false
-#        default: ""
-#      ref-before:
-#        description: 'Base reference.'
-#        type: string
-#        required: false
-#        default: ""
 
 jobs:
 
@@ -145,7 +129,7 @@ jobs:
           TEMP_REPORT_DIR="${{ github.workspace }}/reports/bandit"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
-          
+
           cd repo
           echo "::group::Run bandit"
           bandit \
@@ -237,7 +221,7 @@ jobs:
           TEMP_REPORT_DIR="${{ github.workspace }}/reports/mypy/${{ runner.os }}/py_${{ matrix.python-version }}"
           mkdir -p $TEMP_REPORT_DIR
           echo "::endgroup::"
-          
+
           cd repo
           echo "::group::Run mypy"
           mypy \

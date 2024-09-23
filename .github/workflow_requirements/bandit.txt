@@ -1,2 +1,0 @@
-bandit[toml]
-bandit-sarif-formatter
