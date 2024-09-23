@@ -1,5 +1,36 @@
 # Outputs
 
+## Dynamic Files
+License: license.path
+Codeowners: maintainer.code_owners.path
+README: readme.*.path
+Health Files: health.*.path
+Website environment files: web.env
+Announcement file: announcement.path
+Package README: package.readme.path
+Package pyproject.toml: package.path
+Issue forms: issue.forms[*].path
+Pull request forms: pull.template
+Discussion forms: discussion.category
+Tool config and env files: tools.*
+
+Changelogs: changelog.*.path
+
+
+### Fixed Path
+Citation: CITATION.CFF
+Funding: .github/FUNDING.yml
+gitignore: .gitignore
+gitattributes: .gitattributes
+
+## Dynamic Directories
+Media: theme.path
+Website: web.path
+Package: package.path
+Tests: test.path
+Control center: control.path
+Local directory: local.path
+
 
 {{ pp_meta.name }} gathers all the contents of your repository's control center into a single JSON file,
 which is automatically updated whenever you apply changes to the control center.

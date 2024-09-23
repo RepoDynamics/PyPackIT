@@ -1,6 +1,11 @@
+---
+ccid: manual
+---
+
 # Manual
 
 :::{toctree}
+:includehidden:
 :hidden:
 
 fundamentals/index

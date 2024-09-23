@@ -1,0 +1,2379 @@
+changelog:
+  pkg_api:
+    name: Public API
+    path: CHANGELOG.md
+    title: ${{name}} Changelog - Public API
+    intro: |
+      This document records all changes to the public API of ${{ name }} in each new final release.
+      The changes documented here are only those that affect the end-users of the software,
+      such as added, changed, or removed features, bug fixes, and performance improvements.
+
+      The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+      and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+    entry:
+      title: "[{ver_dist}] – {date}"
+      intro: |
+        - Commit Type: {commit_type}
+        - Commit Title: {commit_title}
+        - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
+    sections: &changelog_pkg_api_sections
+      - id: removed
+        title: ⛔ Removed Features
+        description: |
+          Features that have been removed from the public API.
+      - id: changed
+        title: 🚫 Changed Features
+        description: |
+          Features that have been changed in the public API.
+      - id: deprecated
+        title: ⚠️ Deprecated Features
+        description: |
+          Features that have been deprecated in the public API.
+      - id: added
+        title: 🌱 New Features
+        description: |
+          Features that have been added to the public API.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: |
+          Features that have been enhanced in the public API.
+      - id: security
+        title: 🛡️ Security Fixes
+        description: |
+          Security fixes that have been applied to the public API.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: |
+          Bug fixes that have been applied to the public API.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: |
+          Performance improvements that have been applied to the public API.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: |
+          Docstring fixes that have been applied to the public API.
+      - id: notes
+        title: 📔️ Release-Notes Fixes
+        description: |
+          Release-Notes fixes that have been applied to the public API.
+  pkg_api_pre:
+    name: Pre-release Public API
+    path: CHANGELOG_PRERELEASE.md
+    title: ${{name}} Changelog - Pre-release Public API
+    intro: |
+      This document records all changes to the public API of ${{ name }} during a pre-release period.
+      The changes documented here are only those that affect the end-users of the software,
+      such as added, changed, or removed features, bug fixes, and performance improvements.
+
+      The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+      and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+    entry:
+      title: "[{ver_dist}] – {date}"
+      intro: |
+        - Commit Type: {commit_type}
+        - Commit Title: {commit_title}
+        - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
+    sections: *changelog_pkg_api_sections
+  website:
+    name: Website
+    path: docs/website/CHANGELOG.md
+    title: "${{name}} Changelog (Website)"
+    intro: |
+      This changelog documents the changes to the website.
+    entry:
+      title: "[{ver_dist}] – {date}"
+      intro: |
+        - Commit Type: {commit_type}
+        - Commit Title: {commit_title}
+        - Parent Commit: [{parent_commit_hash}]({parent_commit_url})
+    sections:
+      - id: content
+        title: Content
+        description: Changes to website content.
+      - id: design
+        title: Design
+        description: Changes to website design.
+      - id: backend
+        title: Backend
+        description: Changes to website backend.
+  package_private:
+    name: Private API
+    path: ".dev/CHANGELOG.md"
+    title: "${{name}} Changelog (Private API)"
+    intro: |
+      This file contains changes to the private API, as well as changes that
+      do not induce a version bump.
+    sections:
+      - id: removed
+        title: ⛔ Removed Features
+        description: Features that have been removed from the private API.
+      - id: changed
+        title: 🚫 Changed Features
+        description: Features that have been changed in the private API.
+      - id: added
+        title: 🌱 New Features
+        description: Features that have been added to the private API.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: Features that have been enhanced in the private API.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: Bug fixes that have been applied to the private API.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: Performance improvements that have been applied to the private API.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: Docstring fixes that have been applied to the private API.
+      - id: build
+        title: 🛠️ Build System Changes
+        description: Changes to the package build system.
+      - id: refactor
+        title: 🧹 Refactorings
+        description: Code refactorings.
+      - id: style
+        title: 🎨 Style Changes
+        description: Code style changes.
+  tests:
+    name: Test Suite
+    path: "tests/CHANGELOG.md"
+    title: "${{name}} Changelog (Test Suite)"
+    intro: |
+      This changelog documents the changes to the test suite.
+    sections:
+      - id: removed
+        title: ⛔ Removed Features
+        description: Features that have been removed from the test suite.
+      - id: changed
+        title: 🚫 Changed Features
+        description: Features that have been changed in the test suite.
+      - id: added
+        title: 🌱 New Features
+        description: Features that have been added to the test suite.
+      - id: enhanced
+        title: ✨ Enhanced Features
+        description: Features that have been enhanced in the test suite.
+      - id: fixed
+        title: 🐞 Bug Fixes
+        description: Bug fixes that have been applied to the test suite.
+      - id: improved
+        title: 🚀 Performance Improvements
+        description: Performance improvements that have been applied to the test suite.
+      - id: docs
+        title: 📝 Docstring Fixes
+        description: Docstring fixes that have been applied to the test suite.
+      - id: build
+        title: 🛠️ Build System Changes
+        description: Changes to the test-suite build system.
+      - id: refactor
+        title: 🧹 Refactorings
+        description: Code refactorings in the test-suite.
+      - id: style
+        title: 🎨 Style Changes
+        description: Code style changes in the test-suite.
+  meta:
+    name: Meta Content
+    path: .meta/CHANGELOG.md
+    title: ${{name}} Changelog (Meta)
+    intro: This changelog documents the changes to the meta content.
+    sections:
+      - id: credits
+        title: Credits
+        description: Changes to core/credits.yaml file.
+      - id: extensions
+        title: Extensions
+        description: Changes to core/extensions.yaml file.
+      - id: intro
+        title: Intro
+        description: Changes to core/intro.yaml file.
+      - id: license
+        title: License
+        description: Changes to core/license.yaml file.
+      - id: changelog
+        title: Changelogs
+        description: Changes to dev/changelogs.yaml file.
+      - id: commits
+        title: Commits
+        description: Changes to dev/commits.yaml file.
+      - id: issues
+        title: Issues
+        description: Changes to dev/issues.yaml file.
+      - id: labels
+        title: Labels
+        description: Changes to dev/labels.yaml file.
+      - id: maintainers
+        title: Maintainers
+        description: Changes to dev/maintainers.yaml file.
+      - id: repo
+        title: Repo
+        description: Changes to dev/repo.yaml file.
+      - id: workflows
+        title: Workflows
+        description: Changes to dev/workflows.yaml file.
+      - id: package_metadata
+        title: Package Metadata
+        description: Changes to package/metadata.yaml file.
+      - id: package_build
+        title: Package Build System.
+        description: Changes to package/config_build files.
+      - id: package_tools
+        title: Package Configurations.
+        description: Changes to package/config_tools files.
+  workflows:
+    name: Workflows
+    path: .github/CHANGELOG.md
+    title: ${{name}} Changelog (Workflows)
+    intro: This changelog documents the changes to the workflows.
+    sections:
+      - id: workflows
+        title: Workflows
+        description: Changes to workflows.
+commit:
+  auto:
+    sync:
+      type: auto-sync
+    maintain:
+      type: auto-maintain
+  primary:
+    major:
+      type: major
+      subtypes:
+        any: [ remove, change ]
+        exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
+      description: |
+        Remove features/components from - or introduce breaking changes to - the public API,
+        and publish a new major release of the package.
+    minor:
+      type: minor
+      subtypes:
+        any: [ deprecate, feat, enhance ]
+      description: |
+        Add features/components to, or enhance/deprecate existing features in, the public API,
+        and publish a new minor release of the package.
+    patch:
+      type: patch
+      subtypes:
+        any: [ secure, fix, perf ]
+      description: |
+        Fix bugs or security issues in the public API,
+        or improve the performance of existing functionalities,
+        and publish a new patch release of the package.
+    post:
+      type: post
+      subtypes:
+        any: [ docs, notes ]
+      description: |
+        Fix documentation or release notes in a previous package release,
+        and publish a new post release.
+    web:
+      type: web
+      subtypes:
+        any: [ web-content, web-design, web-backend ]
+      description: |
+        Change the website content, design or backend.
+    config:
+      type: config
+      subtypes:
+        any:
+          - meta-credits
+          - meta-extensions
+          - meta-intro
+          - meta-license
+          - meta-changelog
+          - meta-commits
+          - meta-issues
+          - meta-labels
+          - meta-maintainers
+          - meta-repo
+          - meta-workflows
+      description: Change project configuration files in control center.
+    package_private:
+      type: pkg
+      subtypes:
+        any:
+          - priv-remove
+          - priv-change
+          - priv-feat
+          - priv-enhance
+          - priv-fix
+          - priv-perf
+          - priv-docs
+          - build
+          - refactor
+          - style
+      description: |
+        Change the private API, the build system, or refactor code,
+        without affecting the public API,
+        and without publishing a new package release.
+    tests:
+      type: test
+      subtypes:
+        any:
+          - test-remove
+          - test-change
+          - test-feat
+          - test-enhance
+          - test-fix
+          - test-perf
+          - test-docs
+          - test-build
+          - test-refactor
+          - test-style
+      description: |
+        Change the test-suite, without affecting the public API,
+        and without publishing a new package release.
+    workflows:
+      type: ci
+      subtypes:
+        any: [ ci ]
+      description: |
+        Change the GitHub workflows of the repository.
+  secondary:
+    remove:
+      description: 'Remove a feature/component from the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'removed'
+    change:
+      description: 'Change a feature/component in the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'changed'
+    deprecate:
+      description: 'Deprecate a feature/component from the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'deprecated'
+    feat:
+      description: 'Add a feature/component to the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'added'
+    enhance:
+      description: 'Enhance a feature/component in the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'enhanced'
+    secure:
+      description: 'Fix a security issue in the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'security'
+    fix:
+      description: 'Fix a bug in the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'fixed'
+    perf:
+      description: 'Improve performance in the public API.'
+      changelog_id: pkg_api
+      changelog_section_id: 'improved'
+    docs:
+      description: 'Fix documentation.'
+      changelog_id: pkg_api
+      changelog_section_id: 'docs'
+    notes:
+      description: 'Fix release notes.'
+      changelog_id: pkg_api
+      changelog_section_id: 'notes'
+    web-content:
+      description: 'Change the website content.'
+      changelog_id: 'website'
+      changelog_section_id: 'content'
+    web-design:
+      description: 'Change the website design.'
+      changelog_id: 'website'
+      changelog_section_id: 'design'
+    web-backend:
+      description: 'Change the website backend.'
+      changelog_id: 'website'
+      changelog_section_id: 'backend'
+    priv-remove:
+      description: 'Remove a feature/component from the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'removed'
+    priv-change:
+      description: 'Change a feature/component in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'changed'
+    priv-feat:
+      description: 'Add a feature/component to the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'added'
+    priv-enhance:
+      description: 'Enhance a feature/component in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'enhanced'
+    priv-fix:
+      description: 'Fix a bug in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'fixed'
+    priv-perf:
+      description: 'Improve performance in the private API.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'improved'
+    priv-docs:
+      description: 'Fix documentation.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'docs'
+    build:
+      description: 'Change the build system.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'build'
+    refactor:
+      description: 'Refactor code.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'refactor'
+    style:
+      description: 'Change text style and formatting without affecting the meaning.'
+      changelog_id: 'package_private'
+      changelog_section_id: 'style'
+    test-remove:
+      description: 'Remove a feature/component from the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'removed'
+    test-change:
+      description: 'Change a feature/component in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'changed'
+    test-feat:
+      description: 'Add a feature/component to the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'added'
+    test-enhance:
+      description: 'Enhance a feature/component in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'enhanced'
+    test-fix:
+      description: 'Fix a bug in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'fixed'
+    test-perf:
+      description: 'Improve performance in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'improved'
+    test-docs:
+      description: 'Fix documentation in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'docs'
+    test-build:
+      description: 'Change the test-suite build system.'
+      changelog_id: 'tests'
+      changelog_section_id: 'build'
+    test-refactor:
+      description: 'Refactor code in the test-suite.'
+      changelog_id: 'tests'
+      changelog_section_id: 'refactor'
+    test-style:
+      description: 'Change text style and formatting in the test-suite without affecting the meaning.'
+      changelog_id: 'tests'
+      changelog_section_id: 'style'
+    ci:
+      description: 'Change the CI configuration files and scripts.'
+      changelog_id: 'workflows'
+      changelog_section_id: 'workflows'
+    meta-credits:
+      description: 'Change credits meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'credits'
+    meta-extensions:
+      description: 'Change extensions meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'extensions'
+    meta-intro:
+      description: 'Change intro meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'intro'
+    meta-license:
+      description: 'Change license meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'license'
+    meta-changelog:
+      description: 'Change changelog meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'changelog'
+    meta-commits:
+      description: 'Change commits meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'commits'
+    meta-issues:
+      description: 'Change issues meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'issues'
+    meta-labels:
+      description: 'Change labels meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'labels'
+    meta-maintainers:
+      description: 'Change maintainers meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'maintainers'
+    meta-repo:
+      description: 'Change repo meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'repo'
+    meta-workflows:
+      description: 'Change workflows meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'workflows'
+    meta-package:
+      description: 'Change package meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package'
+    meta-package-build:
+      description: 'Change package build meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package_build'
+    meta-package-tools:
+      description: 'Change package tools meta content.'
+      changelog_id: 'meta'
+      changelog_section_id: 'package_tools'
+label:
+  type:
+    prefix: 'Type: '
+    color: '#A00000'
+    label:
+      major:
+        suffix: 'major-release'
+        description: |
+          Resolving/merging the labeled issue/pull-request will result in a major release of the package.
+      minor:
+        suffix: 'minor-release'
+        description: |
+          Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
+      patch:
+        suffix: 'patch-release'
+        description: |
+          Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
+      post:
+        suffix: 'post-release'
+        description: |
+          Resolving/merging the labeled issue/pull-request will result in a post release of the package.
+      web:
+        suffix: 'website'
+        description: |
+          Resolving/merging the labeled issue/pull-request will result in deployment of the website.
+      config:
+        suffix: 'config'
+        description: |
+          An issue/pull-request about the meta content of the repository.
+      package_private:
+        suffix: 'package'
+        description: |
+          An issue/pull-request about the package that does not result in a new release.
+      tests:
+        suffix: 'test'
+        description: |
+          An issue/pull-request about the test suite.
+      workflows:
+        suffix: 'ci'
+        description: |
+          An issue/pull-request about the GitHub workflows of the repository.
+  subtype:
+    prefix: 'SubType: '
+    color: '#0366d6'
+    label:
+      api:
+        suffix: 'api'
+        description: |
+          Related to the public API.
+      gui:
+        suffix: 'gui'
+        description: |
+          Related to the graphical user interface.
+      cli:
+        suffix: 'cli'
+        description: |
+          Related to the command-line interface.
+      setup:
+        suffix: 'setup'
+        description: |
+          Related to package installation.
+      enhancement:
+        suffix: 'enhancement'
+        description: |
+          An enhancement to an existing feature or functionality.
+      feat:
+        suffix: 'feat'
+        description: |
+          A new feature or functionality.
+      breaking:
+        suffix: 'breaking'
+        description: |
+          A backward-incompatible change to the API.
+  status:
+    prefix: 'Status: '
+    color: '#0366d6'
+    label:
+      triage:
+        suffix: 'triage'
+        description: The issue is being triaged.
+      rejected:
+        suffix: 'rejected'
+        description: |
+          The issue/pull-request has been rejected.
+      duplicate:
+        suffix: 'duplicate'
+        description: |
+          The issue/pull-request is a duplicate.
+      invalid:
+        suffix: 'invalid'
+        description: |
+          The issue/pull-request is invalid.
+      planning:
+        suffix: 'planning'
+        description: The issue is in the planning phase.
+      requirement_analysis:
+        suffix: 'req. analysis'
+        description: The issue is in the requirement analysis phase.
+      design:
+        suffix: 'design'
+        description: The issue is in the design phase.
+      implementation:
+        suffix: 'implementation'
+        description: The issue is in the implementation phase.
+      testing:
+        suffix: 'testing'
+        description: The issue is in the testing phase.
+      deploy_alpha:
+        suffix: 'alpha'
+        description: The issue/pull-request is in alpha release.
+      deploy_beta:
+        suffix: 'beta'
+        description: The issue/pull-request is in beta release.
+      deploy_rc:
+        suffix: 'rc'
+        description: The issue/pull-request is published as a release candidate.
+      deploy_final:
+        suffix: 'final'
+        description: The issue/pull-request has been merged into a release branch.
+  branch:
+    prefix: "Target: "
+    description: Related to this specific branch of the repository.
+    color: "#0366d6"
+  version:
+    prefix: "Version: "
+    description: Related to this specific version of the package.
+    color: "#0366d6"
+  custom:
+    group:
+      remark:
+        prefix: 'Remark: '
+        color: '#0366d6'
+        label:
+          queued:
+            suffix: 'queued'
+            description: The issue/pull-request is queued for processing.
+          discuss:
+            suffix: 'discuss'
+            description: The issue/pull-request requires more discussion.
+          need_volunteer:
+            suffix: 'need volunteer'
+            description: The issue/pull-request requires a volunteer.
+issue:
+  blank_enabled: false
+  contact_links:
+    - name: '🎓️  Learn More'
+      about: Not sure where to start? Read our contribution guide to learn more.
+      url: ${{ web.page.contribute.url }}
+    - name: '💬  Contact Us'
+      about: Have another inquiry or need help? Contact us directly!
+      url: ${{ web.page.contact.url }}
+  form_element:
+    welcome: >-
+      <p align="justify">
+        Thank you for providing feedback on ${{ name }}; we greatly appreciate your contribution!
+        Before submitting a ticket, please take a moment to review and accept our terms and conditions.
+      </p>
+  forms:
+    - id: app_bug_api
+      type: patch
+      subtype: api
+      name: ' 🖥 App 🐞 Bug Report 📱 API'
+      description: >-
+        Report a problem (e.g., errors and unexpected results) encountered
+        while using ${{ name }}'s Python API.
+      body:
+        - type: markdown
+          attributes:
+            value: >-
+              ${{ issue.form_element.welcome }}
+              <h2>Terms and Conditions</h2>
+              <h3>⛔ Choosing the Right Form</h3>
+              <p align="justify">
+                Please note that this form is specifically for reporting a
+                <b>non-security-related bug in ${{name}}'s Python API</b>,
+                i.e. an unexpected behavior that occurs while using the application as an import package.
+                To report a security vulnerability please first read our
+                <a href="${{ health.security.url }}">security policy</a>, and fill a
+                <a href="${{ repo.url.security.new_advisory }}">private security advisory form</a> instead.
+                For other types of issues, such as problems in the
+                <a href="{{ repo.url.issues.new.app_bug_setup }}">installation process</a>,
+                <a href="{{ repo.url.issues.new.docs_bug_site }}">website</a>, or
+                <a href="{{ repo.url.issues.new.docs_bug_content }}">documentation</a>,
+                or for requesting new features and enhancements, please select the appropriate form
+                from the <a href="{{ repo.url.issues.template_chooser }}">issue template chooser</a>.
+              </p>
+              <blockquote>
+                💡 <a href="${{ web.page.contact.url }}"><b>Contact us</b></a>
+                <br>
+                <p align="justify">
+                  Can't find the right form or unsure about which one to choose?
+                  Ask a question and get help in the
+                  <a href="${{ repo.url.discussions.new.question_issues }}">discussion forum</a>.
+                </p>
+              </blockquote>
+              <h3>⚠️ Verifying the Bug</h3>
+              Before submitting a report, please make sure that you are following our
+              <a href="${{ web.page.contribute.url }}">Bug Report Guidelines</a> to verify that:
+              <ol>
+                <li>
+                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+                </li>
+                <li>
+                  The bug is reproducible in the latest version of the release, and has not yet been reported.
+                </li>
+              </ol>
+              <blockquote>
+                  💡 <a href="${{ repo.url.discussions.new.question_issues }}"><b>Open a discussion instead!</b></a>
+                  <br>
+                  This verification process is non-trivial, and can be time-consuming.
+                  If you are not a collaborator and don't have the time to go through the process,
+                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+                  and convert the discussion into an issue if the bug is verified.
+              </blockquote>
+              <h3>✅ Agreements</h3>
+        - type: checkboxes
+          id: terms
+          attributes:
+            label: >-
+              To submit an issue, please agree to the following terms and conditions:
+            options:
+              - label: >-
+                  I have read the [Contributing Guidelines]({{repo.url.health_file.contributing}})
+                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+                required: true
+              - label: >-
+                  I have read, understood, and agree to follow the
+                  [Code of Conduct]({{repo.url.health_file.code_of_conduct}}).
+                required: true
+        - type: markdown
+          attributes:
+            value: <h3>🧑‍💻 Collaborate</h3>
+        - type: checkboxes
+          id: collab
+          attributes:
+            label: |
+              Thank you again for filling this bug report.
+              If you are willing to collaborate on fixing the issue, please select the option below.
+            options:
+              - label: >-
+                  I am willing to work on the issue and submit a pull request.
+                required: false
+        - type: markdown
+          attributes:
+            value: <br><h2>System and Version Specifications</h2>
+        - type: dropdown
+          id: os
+          attributes:
+            label: Operating System
+            description: |
+              Please select all operating systems on which you have encountered the bug.
+            multiple: true
+            options: ${{ project.os_names }}
+          validations:
+            required: true
+        - type: dropdown
+          id: python_version
+          attributes:
+            label: Python Version
+            description: |
+              Please select all Python versions in which you have encountered the bug.
+            multiple: true
+            options: ${{ project.python_versions }}
+          validations:
+            required: true
+        - type: dropdown
+          id: package_manager
+          attributes:
+            label: Package Manager
+            description: |
+              Please select the package manager used to download and install ${{ name }}.
+            multiple: false
+            options: ${{ project.package_managers }}
+          validations:
+            required: true
+        - type: dropdown
+          id: version
+          attributes:
+            label: Package Version
+            description: |
+              Please select all ${{ name }} versions in which you have encountered the bug.
+            multiple: true
+            options: ${{ project.versions }}
+          validations:
+            required: true
+        - type: textarea
+          id: environment
+          attributes:
+            label: Environment
+            description: >-
+              Please provide the details of all installed packages and their exact versions
+              in the environment where you have encountered the bug. Follow the instructions below
+              based on the package manager you have selected:
+
+              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+              and copy the contents of the generated `requirements.txt` file here.
+
+              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
+              and copy the contents of the generated `environment.yml` file here.
+          validations:
+            required: true
+        - type: markdown
+          attributes:
+            value: |
+              <br>
+              <h2>Bug Report</h2>
+        - type: input
+          id: api_entry
+          attributes:
+            label: Fully Qualified Name
+            description: >-
+              Please provide the fully qualified name (e.g., `package_name.module_name.ClassName.method_name`)
+              of the API endpoint that is causing the problem.
+            value: ${{pkg.import_name}}.
+          validations:
+            required: true
+        - type: textarea
+          id: summary
+          attributes:
+            label: Summary
+            description: Please provide a brief summary of the bug.
+          #            placeholder: Tell us what you see!
+          validations:
+            required: true
+        - type: textarea
+          id: code
+          attributes:
+            label: Test Case or Minimal Reproducible Example (MRE)
+            description: >-
+              Please provide a test case (preferred), or a
+              minimal complete verifiable code example to reproduce the bug.
+            value: |
+              import ${{pkg.import_name}}
+
+              def test():
+                  ...
+                  assert ...
+            render: python
+          validations:
+            required: true
+        - type: textarea
+          id: log
+          attributes:
+            label: Error Message / Output
+            description: >-
+              If you have provided an MRE instead of a test case, please copy the output of the MRE here.
+              This may be the full traceback of an error, or some other output that demonstrates the bug.
+            render: shell
+          validations:
+            required: false
+      post_process:
+        assign_creator:
+          if_checkbox:
+            id: collab
+            number: 1
+            is_checked: true
+        body: |
+          <h2>Bug Location</h2>
+          <ul>
+          <li><b>Package Version</b>: {version}</li>
+          <li><b>Fully Qualified Name</b>: {api_entry}</li>
+          </ul>
+          <h2>System and Version Specifications</h2>
+          <li><b>Operating System</b>: {os}</li>
+          <li><b>Python Version</b>: {python_version}</li>
+          <li><b>Package Manager</b>: {package_manager}</li>
+          <li>
+          <details>
+          <summary><b>Environment</b></summary>
+
+          ```
+          {environment}
+          ```
+
+          </details></li>
+          </ul>
+          <h2>Bug Summary</h2>
+
+          {summary}
+
+          <h2>Test Case / Minimal Reproducible Example (MRE)</h2>
+
+          {code}
+
+          <h2>Error Message</h2>
+
+          {log}
+#    - id: app_bug_cli
+#      type: patch
+#      subtype: cli
+#      pre_process:
+#        if_any: [ "${{ project.cli_scripts }}" ]
+#      name: ' 🖥 App 🐞 Bug Report ⌨️ CLI'
+#      description: >-
+#        Report a problem (e.g. errors and unexpected results) encountered
+#        while using the application's command-line interface (CLI).
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for providing feedback on ${{ name }}; we greatly appreciate your contribution!
+#                Before submitting a ticket, please take a moment to review and accept our terms and conditions.
+#              </p>
+#              <h2>Terms and Conditions</h2>
+#              <h3>⛔ Choosing the Right Form</h3>
+#              <p align="justify">
+#                Please note that this form is specifically for reporting a
+#                <b>non-security-related bug in ${{name}}'s CLI</b>,
+#                i.e. an unexpected behavior that occurs while using the
+#                application via its command-line interface (i.e. console script).
+#                To report a security vulnerability, please first read our
+#                <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
+#                <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
+#                For other types of issues, such as problems in the
+#                <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
+#                <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
+#                <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
+#                <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
+#                or for requesting new features and enhancements, please select the appropriate form
+#                from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#
+#                For other types of issues, such as problems in the
+#                <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
+#                <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
+#                <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
+#                or for requesting new features and enhancements, please select the appropriate form
+#                from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#              </p>
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#              <h3>⚠️ Verifying the Bug</h3>
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+#                </li>
+#                <li>
+#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
+#                </li>
+#              </ol>
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the bug is verified.
+#              </blockquote>
+#              <h3>✅ Agreements</h3>
+#
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
+#                    🚨 please first read our
+#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
+#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the bug</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+#                </li>
+#                <li>
+#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the bug is verified.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          attributes:
+#            label: |
+#              Thank you again for filling this bug report.
+#              If you are willing to collaborate on fixing the issue, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Which operating systems have you tested?
+#              Please select all options where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Which Python versions have you tested?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Which package manager have you used to download and install the package?
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which versions of our software are affected?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: environment
+#          attributes:
+#            label: Environment
+#            description: >-
+#              Please provide the details of all installed packages and their exact versions
+#              in the environment where you have encountered the bug. Follow the instructions below
+#              based on the package manager you have selected:
+#
+#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+#              and copy the contents of the generated `requirements.txt` file here.
+#
+#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
+#              and copy the contents of the generated `environment.yml` file here.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Bug Report</h2>
+#        - type: dropdown
+#          id: cli_entry
+#          attributes:
+#            label: CLI Entry Point
+#            description: |
+#              Which CLI entry point is causing the problem?
+#            multiple: false
+#            options: ${{ package.releases.cli_scripts }}
+#          validations:
+#            required: true
+#        - type: input
+#          attributes:
+#            label: Console Command
+#            description: |
+#              Please provide the exact command (with all arguments) you are using.
+#            placeholder: ${{ package.releases.cli_scripts }} --help
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: Please provide a brief summary of the bug.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: log
+#          attributes:
+#            label: Console Output
+#            description: |
+#              Please provide the output of the command-line script.
+#            render: shell
+#          validations:
+#            required: true
+#    - id: app_bug_gui
+#      pre_process:
+#        if_any: [ "${{ project.gui_scripts }}" ]
+#      type: patch
+#      subtype: gui
+#      name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
+#      description: >-
+#        Report a problem (e.g. errors and unexpected results) encountered
+#        while using the application's graphical user interface (GUI).
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for taking the time to report a problem in ${{ name }};
+#                we greatly appreciate your contribution! ❤️🙏
+#              </p>
+#
+#              <h2>Terms and Conditions</h2>
+#              <p align="justify">
+#                Before submitting a report, please take a moment to review and accept our terms and conditions;
+#                they will help us process the issue as fast as possible,
+#                and not bother you with additional questions.
+#              </p>
+#
+#              <h3>⛔ Choosing the right form</h3>
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#                    Please note that this form is specifically for reporting a <b>non-security-related bug</b>
+#                    in the ${{name}} GUI, i.e. an unexpected behavior that occurs while using the
+#                    application via a graphical user interface it provides.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
+#                    🚨 please first read our
+#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
+#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    For other types of issues, such as problems in the
+#                    <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
+#                    <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
+#                    <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
+#                    <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
+#                    or for requesting new features and enhancements, please select the appropriate form
+#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the bug</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+#                </li>
+#                <li>
+#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the bug is verified.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          attributes:
+#            label: |
+#              Thank you again for filling this bug report.
+#              If you are willing to collaborate on fixing the issue, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Which operating systems have you tested?
+#              Please select all options where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Which Python versions have you tested?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Which package manager have you used to download and install the package?
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which versions of our software are affected?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: environment
+#          attributes:
+#            label: Environment
+#            description: >-
+#              Please provide the details of all installed packages and their exact versions
+#              in the environment where you have encountered the bug. Follow the instructions below
+#              based on the package manager you have selected:
+#
+#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+#              and copy the contents of the generated `requirements.txt` file here.
+#
+#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
+#              and copy the contents of the generated `environment.yml` file here.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Bug Report</h2>
+#        - type: dropdown
+#          id: gui_entry
+#          attributes:
+#            label: GUI Entry Point
+#            description: |
+#              Which GUI entry point is causing the problem?
+#            multiple: false
+#            options: ${{ package.releases.gui_scripts }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: Please provide a brief summary of the bug.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: reproduce
+#          attributes:
+#            label: Minimal Reproducible Example (MRE)
+#            description: >-
+#              Please provide an exact step-by-step instruction to reproduce the bug.
+#              You can also include screenshots/recordings by dragging and dropping them here.
+#            value: |
+#              1.
+#              2.
+#              3.
+#          validations:
+#            required: true
+#    - id: app_bug_setup
+#      type: patch
+#      subtype: setup
+#      name: ' 🖥 App 🐞 Bug Report ⚙️ Setup'
+#      description: >-
+#        Report a problem in downloading, installation, or initialization of the application.
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for taking the time to report a problem in ${{ name }};
+#                we greatly appreciate your contribution! ❤️🙏
+#              </p>
+#
+#              <h2>Terms and Conditions</h2>
+#
+#              <p align="justify">
+#                Before submitting a report, please take a moment to review and accept our terms and conditions;
+#                they will help us process the issue as fast as possible,
+#                and not bother you with additional questions.
+#              </p>
+#
+#              <h3>⛔ Choosing the right form</h3>
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#                    Please note that this form is specifically for reporting a <b>non-security-related bug</b>
+#                    in the ${{name}} setup process, i.e. an unexpected behavior that occurs during the
+#                    download, installation, or initialization of the application.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
+#                    🚨 please first read our
+#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
+#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    For other types of issues, such as problems in the
+#                    <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
+#                    <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
+#                    <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
+#                    or for requesting new features and enhancements, please select the appropriate form
+#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the bug</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
+#                </li>
+#                <li>
+#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the bug is verified.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          attributes:
+#            label: |
+#              Thank you again for filling this bug report.
+#              If you are willing to collaborate on fixing the issue, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Which operating systems have you tested?
+#              Please select all options where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Which Python versions have you tested?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Which package manager have you used to download and install the package?
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which versions of our software are affected?
+#              Please select all versions where you have encountered the bug.
+#            multiple: true
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: environment
+#          attributes:
+#            label: Environment
+#            description: >-
+#              Please provide the details of all installed packages and their exact versions
+#              in the environment where you have encountered the bug. Follow the instructions below
+#              based on the package manager you have selected:
+#
+#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+#              and copy the contents of the generated `requirements.txt` file here.
+#
+#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
+#              and copy the contents of the generated `environment.yml` file here.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Bug Report</h2>
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: Please provide a brief summary of the bug, and the steps necessary to reproduce it.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: log
+#          attributes:
+#            label: Error Message
+#            description: |
+#              If applicable, provide the full traceback of the error message.
+#            render: shell
+#          validations:
+#            required: false
+#    - id: app_request_enhancement
+#      type: minor
+#      subtype: enhancement
+#      name: ' 🖥 App 🔔 Request 🚀 Enhancement'
+#      description: >-
+#        Request an improvement to an existing feature in the application,
+#        for example in terms of performance, functionality, or ease of use.
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for taking the time to report a problem in ${{ name }};
+#                we greatly appreciate your contribution! ❤️🙏
+#              </p>
+#
+#              <h2>Terms and Conditions</h2>
+#
+#              <p align="justify">
+#                Before submitting a report, please take a moment to review and accept our terms and conditions;
+#                they will help us process the issue as fast as possible,
+#                and not bother you with additional questions.
+#              </p>
+#
+#              <h3>⛔ Choosing the right form</h3>
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#                    Please note that this form is specifically for requesting a <b>non-breaking enhancement</b>
+#                    in one of ${{name}}'s existing features and functionalities.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    For other types of issues, such as requesting
+#                    <a href="${{repo.url.issues.new.app_request_feature]}">new features</a>,
+#                    <a href="${{repo.url.issues.new.app_request_breaking]}">breaking changes</a>, and
+#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
+#                    or for reporting bugs, please select the appropriate form
+#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the request</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  Your request is in fact for a non-breaking enhancement, and not a breaking change or new feature.
+#                </li>
+#                <li>
+#                  The request is not implemented in the latest version of the release,
+#                  and has not yet been filed by another person.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the request is valid.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          attributes:
+#            label: |
+#              Thank you again for filling this bug report.
+#              If you are willing to collaborate on fixing the issue, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Does this enhancement request apply to a specific operating system?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Does this enhancement request apply to a specific Python version?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Does this enhancement request apply to a specific package manager?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: true
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Enhancement Request</h2>
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which version of our software is this request for?
+#            multiple: false
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_interface
+#          pre_process:
+#            if_any: [ "${{ package.releases.has_scripts }}" ]
+#          attributes:
+#            label: Package Interface
+#            description: |
+#              Which interface of our software is this request for?
+#            multiple: true
+#            options: ${{ package.releases.interfaces }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: |
+#              Please provide a brief summary of your enhancement request,
+#              including the motivation, use case, or problem it solves.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#    - id: app_request_feature
+#      type: minor
+#      subtype: feat
+#      name: ' 🖥 App 🔔 Request ✨ New Feature'
+#      description: >-
+#        Request a brand new feature that is not yet available in the application.
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for taking the time to report a problem in ${{ name }};
+#                we greatly appreciate your contribution! ❤️🙏
+#              </p>
+#
+#              <h2>Terms and Conditions</h2>
+#
+#              <p align="justify">
+#                Before submitting a report, please take a moment to review and accept our terms and conditions;
+#                they will help us process the issue as fast as possible,
+#                and not bother you with additional questions.
+#              </p>
+#
+#              <h3>⛔ Choosing the right form</h3>
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#                    Please note that this form is specifically for requesting a
+#                    <b>non-breaking new feature</b> in ${{name}}.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    For other types of issues, such as requesting
+#                    <a href="${{repo.url.issues.new.app_request_enhancement]}">enhancements</a>,
+#                    <a href="${{repo.url.issues.new.app_request_breaking]}">breaking changes</a>, and
+#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
+#                    or for reporting bugs, please select the appropriate form
+#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the request</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  Your request is in fact for a non-breaking new feature, and not a breaking change or an enhancement.
+#                </li>
+#                <li>
+#                  The feature is not implemented in the latest version of the release,
+#                  and has not yet been requested by another person.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the request is valid.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          id: collab
+#          attributes:
+#            label: |
+#              Thank you again for filling this feature request.
+#              If you are willing to collaborate on implementing the new feature, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Does this feature request apply to a specific operating system?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Does this feature request apply to a specific Python version?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Does this feature request apply to a specific package manager?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: false
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Feature Request</h2>
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which version of our software is this request for?
+#            multiple: false
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_interface
+#          pre_process:
+#            if_any: [ "${{ package.releases.has_scripts }}" ]
+#          attributes:
+#            label: Package Interface
+#            description: |
+#              Which interface of our software is this request for?
+#            multiple: true
+#            options: ${{ package.releases.interfaces }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: |
+#              Please provide a brief summary of your request,
+#              including the motivation, use case, or problem it solves.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#      post_process:
+#        assign_creator:
+#          if_checkbox:
+#            id: collab
+#            number: 1
+#            is_checked: true
+#        body: |
+#          ### Feature Location
+#          - **Package Version**: {version}
+#          - **Package Interface**: {package_interface}
+#          - **Operating System**: {os}
+#          - **Python Version**: {python_version}
+#          - **Package Manager**: {package_manager}
+#
+#          ### Request Summary
+#
+#          {summary}
+#
+#    - id: app_request_breaking
+#      type: major
+#      subtype: breaking
+#      name: ' 🖥 App 🔔 Request 💥 Breaking Change'
+#      description: >-
+#        Request a backward-incompatible change to the API,
+#        such as a change in the behavior of an existing functionality.
+#      body:
+#        - type: markdown
+#          attributes:
+#            value: >-
+#              <p align="justify">
+#                Thank you for taking the time to report a problem in ${{ name }};
+#                we greatly appreciate your contribution! ❤️🙏
+#              </p>
+#
+#              <h2>Terms and Conditions</h2>
+#
+#              <p align="justify">
+#                Before submitting a report, please take a moment to review and accept our terms and conditions;
+#                they will help us process the issue as fast as possible,
+#                and not bother you with additional questions.
+#              </p>
+#
+#              <h3>⛔ Choosing the right form</h3>
+#
+#              <ul>
+#                <li>
+#                  <p align="justify">
+#                    Please note that this form is specifically for requesting a
+#                    <b>breaking change</b> in ${{name}}.
+#                  </p>
+#                </li>
+#                <li>
+#                  <p align="justify">
+#                    For other types of issues, such as requesting
+#                    <a href="${{repo.url.issues.new.app_request_enhancement]}">enhancements</a>,
+#                    <a href="${{repo.url.issues.new.app_request_feature]}">new features</a>, and
+#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
+#                    or for reporting bugs, please select the appropriate form
+#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
+#                  </p>
+#                </li>
+#              </ul>
+#
+#              <blockquote>
+#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
+#                <br>
+#                <p align="justify">
+#                  Can't find the right form or unsure about which one to choose?
+#                  Ask a question and get help in the
+#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
+#                </p>
+#              </blockquote>
+#
+#              <h3>⚠️ Verifying the request</h3>
+#
+#              Before submitting a report, please make sure that you are following our
+#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
+#              <ol>
+#                <li>
+#                  Your request is in fact for a breaking change, and not a new feature or an enhancement.
+#                </li>
+#                <li>
+#                  The request has not yet been filed by another person.
+#                </li>
+#              </ol>
+#
+#              <blockquote>
+#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
+#                  <br>
+#                  This verification process is non-trivial, and can be time-consuming.
+#                  If you are not a collaborator and don't have the time to go through the process,
+#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
+#                  and convert the discussion into an issue if the request is valid.
+#              </blockquote>
+#
+#              <h3>🤝 Code of conduct</h3>
+#
+#              <p align="justify">
+#                Please make sure that you are following our
+#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
+#                so that we can process the issue as soon as possible.
+#              </p>
+#
+#              <h3>✅ Agreements</h3>
+#        - type: checkboxes
+#          id: terms
+#          attributes:
+#            label: >-
+#              To submit an issue, please agree to the following terms and conditions:
+#            options:
+#              - label: >-
+#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
+#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
+#                required: true
+#              - label: >-
+#                  I have read, understood, and agree to follow the
+#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
+#                required: true
+#        - type: markdown
+#          attributes:
+#            value: <h3>🧑‍💻 Collaborate</h3>
+#        - type: checkboxes
+#          id: collab
+#          attributes:
+#            label: |
+#              Thank you again for filling this feature request.
+#              If you are willing to collaborate on implementing the new feature, please select the option below.
+#            options:
+#              - label: >-
+#                  I am willing to work on the issue and submit a pull request.
+#                required: false
+#        - type: markdown
+#          attributes:
+#            value: <br><h2>System and Version Specifications</h2>
+#        - type: dropdown
+#          id: os
+#          attributes:
+#            label: Operating System
+#            description: |
+#              Does this request apply to a specific operating system?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.os_titles }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: python_version
+#          attributes:
+#            label: Python Version
+#            description: |
+#              Does this request apply to a specific Python version?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.python_versions }}
+#          validations:
+#            required: false
+#        - type: dropdown
+#          id: package_manager
+#          attributes:
+#            label: Package Manager
+#            description: |
+#              Does this request apply to a specific package manager?
+#              If so, please select the appropriate option.
+#            multiple: false
+#            options: ${{ package.releases.package_managers }}
+#          validations:
+#            required: false
+#        - type: markdown
+#          attributes:
+#            value: |
+#              <br>
+#              <h2>Modification Request</h2>
+#        - type: dropdown
+#          id: version
+#          attributes:
+#            label: Package Version
+#            description: |
+#              Which version of our software is this request for?
+#            multiple: false
+#            options: ${{ package.releases.package_versions }}
+#          validations:
+#            required: true
+#        - type: dropdown
+#          id: package_interface
+#          pre_process:
+#            if_any: [ "${{ package.releases.has_scripts }}" ]
+#          attributes:
+#            label: Package Interface
+#            description: |
+#              Which interface of our software is this request for?
+#            multiple: true
+#            options: ${{ package.releases.interfaces }}
+#          validations:
+#            required: true
+#        - type: textarea
+#          id: summary
+#          attributes:
+#            label: Summary
+#            description: |
+#              Please provide a brief summary of your request,
+#              including the motivation, use case, or problem it solves.
+#          #            placeholder: Tell us what you see!
+#          validations:
+#            required: true
+#      post_process:
+#        assign_creator:
+#          if_checkbox:
+#            id: collab
+#            number: 1
+#            is_checked: true
+#        body: |
+#          ### Change Location
+#          - **Package Version**: {version}
+#          - **Package Interface**: {package_interface}
+#          - **Operating System**: {os}
+#          - **Python Version**: {python_version}
+#          - **Package Manager**: {package_manager}
+#
+#          ### Request Summary
+#
+#          {summary}
+#
+#
+
+#    - id: web_bug_frontend
+#      type: web
+#      name: '📚 Docs  🪲 Bug Report  📄 Content'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report a problem in the contents of the documentation,
+#        e.g. missing details, ambiguous explanations, mechanical errors, broken links etc.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '📚 Docs  🪲 Bug Report  🌐 Website'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report a technical problem in the documentation website,
+#        including broken page formatting, loading issues, and unexpected behavior.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '📚 Docs  🔔 Request  💫 New Content'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Request a brand new feature that is not yet available in the application.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '📚 Docs  🔔 Request  ✨ New Feature'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Request a brand new feature that is not yet available in the application.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '🧪 Tests  🪲 Bug Report'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report problems in the test suite, such as  etc.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '🧪 Tests  🔔 Request'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report problems in the test suite, such as  etc.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '🏗 DevOps  🪲 Bug Report'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report a development problem in the repository, e.g. in CI/CD workflows, .
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '🏗 DevOps  🔔 Request'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Request an improvement in an existing feature, e.g. in terms of functionality,
+#        performance, or ease of use.
+#      body:
+#    - id: web_bug_frontend
+#      type: web
+#      name: '🧹  Maintenance  🔔 Request'
+#      labels: [ "SubType: breaking" ]
+#      description: >-
+#        Report a development problem in the repository, e.g. in CI/CD workflows, .
+#      body:
+document:
+  prerelease_temp_path: docs/prerelease_dev_protocols.md
+  template:
+    title: Development Process Protocol
+    body: |
+      - Issue {issue_number}
+      ## Plan
+      {issue_body}
+
+
+      ## Software Requirements Specification
+      TBD
+
+
+      ## Design Specification
+      TBD
+
+
+      ## Implementation
+      TBD
+      {primary_commit_summary}
+      {secondary_commits_tasklist}
+
+
+      ## References
+      {references}
+
+
+      ## Timeline
+      {timeline}
+
+
+pull:
+  template:
+    default: |
+      ## Description
+      Provide a brief description of the PR's purpose here.
+
+      ## Content
+      Notable points that this PR has either accomplished or will accomplish.
+      - [ ] TODO 1
+
+      ## Questions
+      - [ ] Question1
+
+      ## Status
+       - [ ] Tests
+       - [ ] Docs
+       - [ ] CHANGELOG updated
+       - [ ] Issue raised/referenced
+       - [ ] Ready to merge
+
+discussion:
+  category:
+    question_issues:
+      form:
+        title: "[General] "
+        labels: [ "General Introduction" ]
+        body:
+          - type: markdown
+            attributes:
+              value: |
+                This is text that will show up in the template!
+          - type: textarea
+            id: improvements
+            attributes:
+              label: Top 3 improvements
+              description: "What are the top 3 improvements we could make to this project?"
+              value: |
+                1.
+                2.
+                3.
+                ...
+              render: bash
+            validations:
+              required: true
+          - type: markdown
+            attributes:
+              value: |
+                ## Markdown header
+                And some more markdown
+          - type: input
+            id: has-id
+            attributes:
+              label: Suggestions
+              description: A description about suggestions to help you
+            validations:
+              required: true
+          - type: dropdown
+            id: download
+            attributes:
+              label: Which area of this project could be most improved?
+              options:
+                - Documentation
+                - Pull request review time
+                - Bug fix time
+                - Release cadence
+            validations:
+              required: true
+          - type: checkboxes
+            attributes:
+              label: Check that box!
+              options:
+                - label: This one!
+                  required: true
+                - label: I won't stop you if you check this one, too
+          - type: markdown
+            attributes:
+              value: |
+                ### The thrilling conclusion
+                _to our template_

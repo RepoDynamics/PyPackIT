@@ -1,0 +1,134 @@
+pkg:
+  path:
+    root: pkg
+  name: ${{ name }}
+  import_name: ${{ pkg.name }}
+  readme:
+    path: ${{ pkg.path.root }}/README.md
+    content: ${{ readme.main.content }}
+  urls:
+    Homepage: ${{ web.url.home }}
+    Documentation: ${{ web.page.manual.url }}
+    Source: ${{ repo.url.home }}
+    Download: ${{ repo.url.releases.home }}
+    News: ${{ web.page.blog.url }}
+    Issue-Tracker: ${{ repo.url.issues.home }}
+  entry:
+    cli:
+      main:
+        name: ${{ pkg.import_name }}
+        description: Main CLI entry of the package.
+        ref: ${{ pkg.import_name }}:__main__
+  dependency:
+    core:
+      pkg_resources:
+        name: PkgData
+        import_name: pkgdata
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
+        pip:
+          spec: pkgdata
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
+  file:
+    __init__.py:
+      docstring: |
+        ${{name}}: ${{title}}.
+
+        ${{abstract}}
+
+        ${{license.notice}}
+  manifest:
+    - graft ${{ pkg.path.source }}/${{ pkg.import_name }}/data
+    - global-exclude *.py[cod] __pycache__ *.so
+  build: &pkg-build
+    tool:
+      setuptools: {}
+      versioningit: {}
+test:
+  path:
+    root: tests
+  name: ${{ name }}-TestSuite
+  import_name: ${{ test.name }}
+  dependency:
+    core:
+      testing:
+        name: Pytest
+        import_name: pytest
+        description: Testing framework for Python.
+        pip:
+          spec: pytest == 8.3.3
+        conda:
+          spec: pytest = 8.3.3
+          channel: conda-forge
+        url:
+          docs: https://docs.pytest.org/en/stable/
+          source: https://github.com/pytest-dev/pytest
+          pip: https://pypi.org/project/pytest/
+          conda: https://anaconda.org/conda-forge/pytest
+      coverage:
+        name: Coverage.py
+        import_name: coverage
+        description: Code coverage measurement for Python.
+        notes: |
+          This is indirectly used by the `pytest-cov` plugin.
+          However, we include it explicitly here to pin the version for reproducibility.
+        pip:
+          spec: coverage == 7.6.1
+        conda:
+          spec: coverage = 7.6.1
+          channel: conda-forge
+        url:
+          docs: https://coverage.readthedocs.io/
+          source: https://github.com/nedbat/coveragepy
+          pip: https://pypi.org/project/coverage/
+          conda: https://anaconda.org/conda-forge/coverage
+      plugin_cov:
+        name: Pytest-Cov
+        import_name: pytest_cov
+        description: Pytest plugin for measuring test coverage.
+        notes: |
+          This plugin uses the [coverage.py](https://github.com/nedbat/coveragepy) package
+          to measure code coverage.
+        pip:
+          spec: pytest-cov == 5.0.0
+        conda:
+          spec: pytest-cov = 5.0.0
+          channel: conda-forge
+        url:
+          docs: https://pytest-cov.readthedocs.io/
+          source: https://github.com/pytest-dev/pytest-cov
+          pip: https://pypi.org/project/pytest-cov/
+          conda: https://anaconda.org/conda-forge/pytest-cov
+      plugin_html:
+        name: Pytest-HTML
+        import_name: pytest_html
+        description: Pytest plugin for generating HTML reports.
+        pip:
+          spec: pytest-html == 4.1.1
+        conda:
+          spec: pytest-html = 4.1.1
+          channel: conda-forge
+        url:
+          docs: https://pytest-html.readthedocs.io/
+          source: https://github.com/pytest-dev/pytest-html
+          pip: https://pypi.org/project/pytest-html/
+          conda: https://anaconda.org/conda-forge/pytest-html
+      pkgdata:
+        name: PkgData
+        import_name: pkgdata
+        description: Handling package resources, such as accessing data files that are distributed with the package.
+        pip:
+          spec: pkgdata
+  file:
+    __init__.py:
+      docstring: |
+        ${{ name }} Test-Suite.
+
+        ${{license.notice}}
+  manifest:
+    - graft ${{ test.path.source }}/${{ test.import_name }}/data
+    - global-exclude *.py[cod] __pycache__ *.so
+  build: *pkg-build
