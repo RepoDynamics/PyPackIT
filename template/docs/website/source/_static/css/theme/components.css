@@ -1,0 +1,28 @@
+
+/* Logo in the header */
+/* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/components/header/_header-logo.scss */
+/* Logo container */
+.navbar-brand {
+  display: flex;
+  position: relative;
+  margin: 0;
+  padding: 0.5rem 0;
+  height: var(--pst-header-height);
+  max-height: var(--pst-header-height);
+  width: auto;
+  max-width: 150px;
+  /* Ensure that the logo stays the same length while other content shrinks */
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Logo image */
+.navbar-brand img {
+  width: auto;
+  height: 100%;
+  max-height: 80%;
+}
+/* If there's no logo image, use a p element with the site title */
+.navbar-brand p {
+  margin-bottom: 0;
+}

@@ -1,0 +1,10 @@
+/* Custom FontAwesome hover colors for the navigation bar */
+/* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/header-links.html#fontawesome-icons */
+/* Color Ref: https://simpleicons.org */
+i.fa-twitter:hover {color: #1DA1F2}
+i.fa-linkedin:hover {color: #0A66C2}
+i.fa-researchgate:hover {color: #40BA9B}
+i.fa-orcid:hover {color: #A5CD39}
+i.fa-python:hover {color: #FFD43B}
+i.fa-conda:hover {color: #44A833}
+i.fa-github:hover {color: #181717}

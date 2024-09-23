@@ -1,0 +1,71 @@
+.sd-card {
+    border-radius:1rem;
+    margin: 0 0 3% 3%;
+}
+.sd-card-title {
+    color: var(--pst-color-primary);
+}
+
+
+html[data-theme="light"] .sd-card {
+    background: rgb(255, 255, 255);
+}
+
+html[data-theme="dark"] .sd-card {
+    background: rgb(25, 25, 27);
+    /*border-color: red;*/
+}
+
+.sd-card-hover:hover {
+  border-color: #119100;
+  transform: scale(1.01)
+}
+
+.sd-card-img-top {
+    width: auto;
+    max-height: 70px;
+    align-self: center;
+    margin: 5% 0 0 0;
+}
+
+.sd-cards-carousel .sd-card-hover:hover {
+    transform: none;
+}
+
+
+
+html[data-theme="dark"] {
+    --sd-color-card-border-hover: yellow;
+    /*--sd-color-card-text: orange;*/
+    --sd-color-card-header: green;
+    --sd-color-card-footer: pink;
+}
+
+/*html[data-theme="light"] {*/
+/*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
+/*  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);*/
+/*  --sd-color-card-background: blue;*/
+/*  --sd-color-card-text: blue;*/
+/*  --sd-color-card-header: transparent;*/
+/*  --sd-color-card-footer: transparent;*/
+/*  --sd-color-card-border-hover: rgb(33, 197, 0);*/
+/*}*/
+
+/*html[data-theme="dark"] {*/
+/*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
+/*  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);*/
+/*  --sd-color-card-background: transparent;*/
+/*  --sd-color-card-text: red;*/
+/*  --sd-color-card-header: transparent;*/
+/*  --sd-color-card-footer: transparent;*/
+/*  --sd-color-card-border-hover: rgb(33, 197, 0);*/
+/*  --sd-color-primary-text: red;*/
+/*  --sd-color-secondary-text: red;*/
+/*  --sd-color-success-text: red;*/
+/*  --sd-color-info-text: red;*/
+/*  --sd-color-warning-text: red;*/
+/*  --sd-color-danger-text: red;*/
+/*  --sd-color-light-text: red;*/
+/*  --sd-color-muted-text: red;*/
+/*  --sd-color-dark-text: red;*/
+/*}*/

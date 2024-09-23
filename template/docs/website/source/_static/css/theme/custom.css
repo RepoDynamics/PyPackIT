@@ -1,0 +1,190 @@
+.homepage-logo {
+    margin: 2% 0 2% 0;
+    max-height: 500px;
+    max-width: 800px;
+}
+.element-in-page-without-sidebar {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.project-name {
+    color: var(--pst-color-primary);
+    font-weight: bold;
+}
+
+
+
+
+
+/*Justify text in paragraphs*/
+.bd-article p {
+    text-align: justify;
+}
+
+/*.bd-content {*/
+/*  flex-grow: 1;*/
+/*  max-width: 100%;*/
+/*}*/
+
+/*.bd-article-container {*/
+/*  max-width: 100em;*/
+/*}*/
+
+
+
+/* Style class for the short description shown on homepage XXX */
+.one-liner {
+    margin: 3%;
+    display: grid;
+    font-family: "Times New Roman", var(--pst-font-family-base-system);
+    font-stretch: expanded;
+    font-style: italic;
+    font-size: var(--pst-font-size-h4);
+    text-align: center;
+}
+
+
+/*
+Change the color of custom SVG icons to the primary color of the theme.
+To do so, icons are stored in black color, and a filter generator is used
+to get the filter that gives the primary color starting from black.
+Notice that the filter must be manually changed when the primary color is changed.
+To get new filters, find an online CSS filter generator, enter the primary colors for the
+light and dark themes, and substitute the filters below.
+Example CSS filter generators:
+* https://isotropic.co/tool/hex-color-to-css-filter/)
+* https://codepen.io/sosuke/pen/Pjoqqp
+*/
+html[data-theme=light] .icon-image {
+    /*filter: invert(25%) sepia(11%) saturate(5774%) hue-rotate(67deg) brightness(95%) contrast(107%);*/
+    filter: invert(16%) sepia(10%) saturate(3912%) hue-rotate(266deg) brightness(80%) contrast(96%);
+}
+html[data-theme=dark] .icon-image {
+    /*filter: invert(45%) sepia(95%) saturate(421%) hue-rotate(59deg) brightness(93%) contrast(83%);*/
+    filter: invert(55%) sepia(21%) saturate(2879%) hue-rotate(86deg) brightness(98%) contrast(97%);
+}
+
+
+
+
+
+
+
+
+
+
+.digit {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+!important
+}
+
+.quicklinks {
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+.quicklinks ul {
+    list-style: none;
+    display: block;
+    float: right;
+    text-align: left;
+    font-size: var(--pst-font-size-base);
+    margin: 0;
+    padding: 0;
+}
+
+.quicklinks h6 {
+    margin: 0;
+}
+
+/*.quicklinks a {*/
+/*    color: var(--pst-color-text-base);*/
+/*    height: 1rem;*/
+/*}*/
+
+
+
+.inline-img {
+    color: var(--pst-color-text-base);
+    height: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+.quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.quicklinks ul {
+    flex: 1 0 auto; /* Here flex-basis is set to auto */
+    margin: 0 10px;
+}
+
+@media (max-width: 600px) {
+    .quicklinks ul {
+        flex: 1 0 100%; /* On small screens, each <ul> takes up the full width */
+        margin: 10px 0;
+    }
+}
+
+.h1_title {
+    font-size: var(--pst-font-size-h1);
+    font-weight: bold;
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.centered-text-h2 {
+    font-size: var(--pst-font-size-h2);
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+
+.inline_icon {
+    color: var(--pst-color-text-base)
+}
+
+.inline_icon:hover {
+    color: var(--pst-color-primary)
+}
+
+
+.primary-color {
+    color: var(--pst-color-primary)
+}
+
+.centered {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.margin-sides {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
+
+.homepage-button-text {
+    font-size: var(--pst-font-size-h6);
+    font-weight: bold;
+}

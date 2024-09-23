@@ -1,0 +1,36 @@
+{%- extends "pydata_sphinx_theme/layout.html" %}
+
+{% block docs_body %}
+
+{{ super() }}
+
+{%- if meta is mapping -%}
+    {%- set category = meta.get('category') -%}
+    {%- if category is not none -%}
+        {%- for discussion_category_slug, discussion_category in pp_meta.discussion.items() -%}
+            {%- if discussion_category_slug == category -%}
+<script src="https://giscus.app/client.js"
+        data-repo="{{pp_meta.repo.full_name}}"
+        data-repo-id="{{pp_meta.repo.node_id}}"
+        data-category="{{category}}"
+        data-category-id="{{discussion_category.id}}"
+        data-mapping="specific"
+        data-term="{{title.split(pp_title_sep)[-1]}}"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+{%- endif -%}
+
+{% endblock %}
+
+<!-- data-theme="https://raw.githubusercontent.com/AAriam/TemplateRepo/main/docs/website/source/_static/css/extensions/custom_example.css" -->

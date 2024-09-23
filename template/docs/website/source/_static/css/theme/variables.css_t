@@ -1,0 +1,186 @@
+/*
+Base HTML variables for the theme
+*/
+html {
+    /***** Overall Layout Variables *****/
+    /* Header height will impact the top offset for many sections
+     Article header is 66% of Header */
+    --pst-header-height: 4rem;  /* 4rem */
+    --pst-header-article-height: calc(var(--pst-header-height) * 2 / 3);  /* calc(var(--pst-header-height) * 2 / 3) */
+    --pst-sidebar-secondary: 17rem;  /* 17rem */
+}
+
+
+/* Font Settings */
+/* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss */
+html {
+    /* Font type */
+    /* The last element (i.e. `var(...)` is the system font to use as fallback */
+    --pst-font-family-base: Calibri, var(--pst-font-family-base-system);
+    --pst-font-family-heading: Calibri, var(--pst-font-family-base-system);
+    --pst-font-family-monospace: var(--pst-font-family-monospace-system);
+    /* base font size - applied at body/html level */
+    --pst-font-size-base: 1rem;  /* 1rem */
+    /* heading font sizes based on bootstrap sizing */
+    --pst-font-size-h1: 1.8rem;  /* 2.5rem */
+    --pst-font-size-h2: 1.65rem;  /* 2rem */
+    --pst-font-size-h3: 1.5rem;  /* 1.75rem */
+    --pst-font-size-h4: 1.35rem;  /* 1.5rem */
+    --pst-font-size-h5: 1.2rem;  /* 1.25rem */
+    --pst-font-size-h6: 1.1rem;  /* 1.1rem */
+    /* smaller than heading font sizes */
+    --pst-font-size-milli: 0.9rem;  /* 0.9rem */
+    /* Sidebar font sizes */
+    --pst-sidebar-font-size: 0.9rem;  /* 0.9rem */
+    --pst-sidebar-font-size-mobile: 1.1rem;  /* 1.1rem */
+    --pst-sidebar-header-font-size: 1.2rem;  /* 1.2rem */
+    --pst-sidebar-header-font-weight: 600;  /* 600 */
+    /* Font weights */
+    --pst-font-weight-caption: 300;  /* 300 */
+    --pst-font-weight-heading: 400;  /* 400 */
+    /* for admonition heading */
+    --pst-admonition-font-weight-heading: 600;  /* 600 */
+    --pst-color-h1: rgb(0,0,0);
+}
+
+
+/* Icons Settings */
+html {
+    /*** Main icons ***/
+    /* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_icons.scss */
+    /* icon font size */
+    --pst-font-size-icon: 1.5rem;  /* 1.5rem */
+    /* FontAwesome default icons */
+    --pst-icon-check-circle: "\f058"; // fa-solid fa-circle-check
+    --pst-icon-info-circle: "\f05a"; // fa-solid fa-circle-info
+    --pst-icon-exclamation-triangle: "\f071"; // fa-solid fa-triangle-exclamation
+    --pst-icon-exclamation-circle: "\f06a"; // fa-solid fa-circle-exclamation
+    --pst-icon-times-circle: "\f057"; // fa-solid fa-circle-xmark
+    --pst-icon-lightbulb: "\f0eb"; // fa-solid fa-lightbulb
+    --pst-icon-download: "\f019"; // fa-solid fa-download
+    --pst-icon-angle-left: "\f104"; // fa-solid fa-angle-left
+    --pst-icon-angle-right: "\f105"; // fa-solid fa-angle-right
+    --pst-icon-external-link: "\f35d"; // fa-solid fa-up-right-from-square
+    --pst-icon-search-minus: "\f010"; // fa-solid fa-magnifying-glass-minus
+    --pst-icon-github: "\f09b"; // fa-brands fa-github
+    --pst-icon-gitlab: "\f296"; // fa-brands fa-gitlab
+    --pst-icon-share: "\f064"; // fa-solid fa-share
+    --pst-icon-bell: "\f0f3"; // fa-solid fa-bell
+    --pst-icon-pencil: "\f303"; // fa-solid fa-pencil
+    /* This is the ">" icon used to separate addresses, e.g. 'User Guide > Installation' */
+    --pst-breadcrumb-divider: "\f105";
+    /*** Admonition icons ***/
+    /* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_admonitions.scss */
+    --pst-icon-admonition-default: var(--pst-icon-bell);
+    --pst-icon-admonition-note: var(--pst-icon-info-circle);
+    --pst-icon-admonition-attention: var(--pst-icon-exclamation-circle);
+    --pst-icon-admonition-caution: var(--pst-icon-exclamation-triangle);
+    --pst-icon-admonition-warning: var(--pst-icon-exclamation-triangle);
+    --pst-icon-admonition-danger: var(--pst-icon-exclamation-triangle);
+    --pst-icon-admonition-error: var(--pst-icon-times-circle);
+    --pst-icon-admonition-hint: var(--pst-icon-lightbulb);
+    --pst-icon-admonition-tip: var(--pst-icon-lightbulb);
+    --pst-icon-admonition-important: var(--pst-icon-exclamation-circle);
+    --pst-icon-admonition-seealso: var(--pst-icon-share);
+    --pst-icon-admonition-todo: var(--pst-icon-pencil);
+    /*** versionmodified icons ***/
+    /* Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_versionmodified.scss */
+    --pst-icon-versionmodified-default: var(--pst-icon-exclamation-circle);
+    --pst-icon-versionmodified-added: var(--pst-icon-exclamation-circle);
+    --pst-icon-versionmodified-changed: var(--pst-icon-exclamation-circle);
+    --pst-icon-versionmodified-deprecated: var(--pst-icon-exclamation-circle);
+}
+
+
+
+
+/*
+CSS colors for the pydata-sphinx HTML theme
+Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+*/
+
+
+{% for theme in ["light", "dark"] %}
+{% set outer_loop = loop %}
+{% for name, color in pp_meta.theme.color.items() %}
+html[data-theme="{{theme}}"] {
+    --pst-color-{{name}}: #{{color[theme]}};
+}
+{% endfor %}
+{% endfor %}
+
+
+html[data-theme="light"] {
+    --pst-color-primary: rgb(19, 84, 0);  /* (69, 157, 185) */
+    --pst-color-secondary: rgb(5, 80, 5);  /* (238, 144, 64) */
+    --pst-color-info: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-warning: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-success: rgb(40, 167, 69);  /* (40, 167, 69) */
+    --pst-color-attention: rgb(255, 193, 7);  /* (255, 193, 7) */
+    --pst-color-danger: rgb(220, 53, 69);  /* (220, 53, 69) */
+    --pst-color-text-base: rgb(50, 50, 50);  /* (50, 50, 50) */
+    --pst-color-text-muted: rgb(100, 100, 100);  /* (100, 100, 100) */
+    --pst-color-shadow: rgb(216, 216, 216);  /* (216, 216, 216) */
+    --pst-color-border: rgb(201, 201, 201);  /* (201, 201, 201) */
+    --pst-color-inline-code: rgb(194, 36, 109);  /* (232, 62, 140) */
+    --pst-color-target: rgb(251, 229, 78);  /* (251, 229, 78) */
+    --pst-color-link: var(--pst-color-primary);  /* (69, 157, 185) == --pst-color-primary */
+    --pst-color-link-hover: var(--pst-color-secondary);  /* (238, 144, 64) == --pst-color-warning */
+
+    /***** Depth Colors *****/
+    --pst-color-background: rgb(250, 250, 250);  /* (255, 255, 255) */
+    --pst-color-on-background: rgb(255, 255, 255);  /* (255, 255, 255) */
+    --pst-color-surface: rgb(240, 240, 240);  /* (245, 245, 245) */
+    --pst-color-on-surface: rgb(188, 188, 188);  /* (225, 225, 225) */
+}
+
+html[data-theme="dark"] {
+    --pst-color-primary: rgb(69, 155, 36);  /* (69, 157, 185) */
+    --pst-color-secondary: rgb(156, 204, 0);  /* (238, 144, 64) */
+    --pst-color-info: rgb(69, 157, 185);  /* (69, 157, 185) */
+    --pst-color-warning: rgb(238, 144, 64);  /* (238, 144, 64) */
+    --pst-color-success: rgb(72, 135, 87);  /* (72, 135, 87) */
+    --pst-color-attention: rgb(220, 169, 15);  /* (220, 169, 15) */
+    --pst-color-danger: rgb(220, 7, 7);  /* (203, 70, 83) */
+    --pst-color-text-base: rgb(206, 206, 206);  /* (206, 206, 206) */
+    --pst-color-text-muted: rgb(166, 166, 166);  /* (166, 166, 166) */
+    --pst-color-shadow: rgb(50, 50, 50);  /* (33, 33, 33) */
+    --pst-color-border: rgb(60, 60, 60);  /* (192, 192, 192) */
+    --pst-color-inline-code: rgb(197, 133, 168);  /* (221, 158, 194) */
+    --pst-color-target: rgb(24, 24, 24);  /* (71, 39, 0) */
+    --pst-color-link: var(--pst-color-primary);  /* (69, 157, 185) == --pst-color-primary */
+    --pst-color-link-hover: var(--pst-color-secondary);  /* (238, 144, 64) == --pst-color-warning */
+
+    /***** Depth Colors *****/
+    --pst-color-background: rgb(18, 17, 18);  /* (18, 18, 18) */
+    --pst-color-on-background: rgb(27, 27, 27);  /* (30, 30, 30) */
+    --pst-color-surface: rgb(11, 11, 11);  /* (33, 33, 33) */
+    --pst-color-on-surface: rgb(55, 55, 55);  /* (55, 55, 55) */
+}
+
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6 {
+    color: var(--pst-color-primary);
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+    color: var(--pst-color-primary);
+}
+
+html[data-theme="light"] .bd-header {
+    background: white !important;
+}
+
+html[data-theme="dark"] .bd-header {
+    background: black !important;
+}
