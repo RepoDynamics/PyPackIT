@@ -1,3 +1,3 @@
 # CSS Stylesheets for Sphinx Extensions
 
-This folder contains CSS stylesheets of the extensions used in the documentation.
+This directory contains CSS stylesheets for the extensions used in the documentation website.
