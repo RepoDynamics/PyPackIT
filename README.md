@@ -4,7 +4,7 @@
 
 <!-- ---------------------------------------- START : Header ---------------------------------------- -->
 <div align="center"><!-- ------------------------- START : Logo ------------------------- -->
-<a href="https://pypackit.repodynamics.com"><picture><source media="(prefers-color-scheme: light)" srcset=".control/ui/branding/logo_full_light.svg"><source media="(prefers-color-scheme: dark)" srcset=".control/ui/branding/logo_full_dark.svg"><img alt="PyPackIT: A fully automated, plug and play, professional software project management solution for Python packages on GitHub" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src=".control/ui/branding/logo_full_light.svg"></picture></a>
+<a href="https://pypackit.repodynamics.com"><picture><source media="(prefers-color-scheme: light)" srcset="docs/media/logo_full_light.svg"><source media="(prefers-color-scheme: dark)" srcset="docs/media/logo_full_dark.svg"><img alt="PyPackIT: A fully automated, plug and play, professional software project management solution for Python packages on GitHub" title="Welcome to PyPackIT! Click to visit our website and learn more." width="80%" height="auto" align="center" src="docs/media/logo_full_light.svg"></picture></a>
 <!-- ------------------------- END : Logo ------------------------- -->
 <!-- ------------------------- START : Top Panel ------------------------- -->
 <div align="center"><hr width="80%">
