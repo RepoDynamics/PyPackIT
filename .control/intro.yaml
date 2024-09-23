@@ -1,0 +1,246 @@
+tagline: >-
+  A fully automated, plug and play, professional software project management solution
+  for Python packages on GitHub
+
+description: >-
+  ${{ name }} (<i>IPA</i>: ˈpaɪˌpækɪt) is a fully automated, plug and play,
+  professional software project management solution,
+  <b>empowering the development of Python packages on GitHub</b>.
+  It is a free and open-source software built on top of GitHub Actions,
+  and offered as a GitHub repository template that can be readily utilized
+  by new and existing projects.
+  ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
+  Python package, test suite, and documentation website, according to the latest standards and best practices.
+  It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT)
+  workflows that render your GitHub repository and all its contents entirely dynamic.
+  Managing your repository's settings, branches, labels, issues, and pull requests;
+  dynamically generating and updating all necessary configuration files;
+  linting, formatting, and testing your code on the cloud;
+  versioning, building, and publishing your package on PyPI;
+  creating GitHub releases with detailed release notes and changelogs;
+  and generating and deploying a complete documentation website on GitHub Pages,
+  are just a few examples of how ${{ name }} automates your entire software development process.
+  By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline,
+  ${{ name }} fuels innovation and growth in the Python ecosystem,
+  by enabling aspiring and experienced developers alike to rapidly build professional software,
+  readily share them with the world, and effortlessly maintain their projects.
+  With ${{ name }}, you are free to solely focus on what truly matters:
+  implementing your ideas and bringing your vision to life!
+
+keywords:
+  - Project Management
+  - Software Development
+  - DevOps
+  - Continuous Integration
+  - Continuous Deployment
+  - Continuous Testing
+  - Automation
+  - Maintenance
+  - GitHub Actions
+  - Developer Experience
+  - Deployment Manager
+  - Release Automation
+  - Repository Template
+  - Dynamic Repository
+  - Infrastructure as Code
+  - Python
+  - Packaging
+  - Website
+  - Bot
+  - Config
+
+keynotes:
+  - title: Automated Workflows
+    description: |
+      ${{ name }} fully automates your entire software development process from start to finish,
+      using a complete set of fully-configured GitHub Actions workflows,
+      professionally designed and implemented according to the latest standards and best practices.
+
+      The following is a simplified example of one of ${{ name }}'s main workflows:
+
+      Every time a new issue is opened in your repository, ${{ name }} automatically
+      processes the issue and reformats the text into a pre-defined style,
+      to ensure consistency and readability across all issues in your repository.
+      It also adds a comment to the issue, which tracks its status,
+      and is automatically updated whenever there is a progress.
+      Moreover, based on the contents of the issue, it is automatically assigned to a defined maintainer,
+      and tagged with various labels that indicate the type and status of the issue,
+      along with its target branches and package versions.
+      The assigned maintainer can then triage the issue and change its status label accordingly.
+
+      For example, if the issue is labeled as accepted,
+      ${{ name }} automatically creates a new development branch from each of the issue's target branches,
+      and transforms the issue into draft pull requests for each of the development branches.
+      Subsequently, every time changes are applied to one of the development branches,
+      ${{ name }} automatically detects the type of changes, and runs the appropriate linting,
+      formatting, and testing workflows, applying the necessary fixes and updates to the branch,
+      while generating comprehensive reports that can be easily tracked through the draft pull request.
+      Furthermore, depending on the type of changes,
+      ${{ name }} automatically publishes developmental versions of your package on TestPyPI,
+      and generates previews of your documentation website throughout the development process.
+
+      Finally, when a development branch is marked as complete, ${{ name }} automatically
+      removes the draft status from the corresponding pull request,
+      adds a summary of all applied changes, and requests reviews from the assigned maintainers.
+      Once the pull request is approved, the reviewers can label the pull request as final,
+      or as a pre-release (alpha, beta, or release candidate)
+      in case of pull requests that correspond to a new package version.
+      For example, if the pull request is for a new package version and is labeled as final,
+      ${{ name }} automatically merges the pull request into the corresponding release branch,
+      updates all relevant changelogs, calculates the new version and adds a version tag to the release branch,
+      builds the package and publishes it on PyPI, creates a new release on GitHub,
+      and generates a new version of the documentation website and deploys it on GitHub Pages,
+      with added release notes and an announcement of the new release.
+
+  - title: Centralized Control Center
+    description: |
+      ${{ name }} provides a centralized control center for your repository,
+      where all available settings for ${{ name }} are gathered in one place
+      along with all information, configurations, and metadata of your project,
+      and thoughtfully organized and presented in a clear, consistent, and concise format,
+      mainly through the use of YAML files.
+      Whenever you commit changes to the control center files, they are automatically
+      applied to your repository, Python package,
+      test suite, documentation website, and all other tools and external services.
+      Therefore, instead of having to deal with multiple interfaces and diverse configuration
+      and metadata files scattered across your repository and each with its own format and syntax,
+      you can simply manage your entire project from within the control center,
+      using a single, unified, and consistent interface;
+      ${{ name }} automatically translates your changes into the appropriate formats,
+      generates all necessary files in the required locations, and updates them dynamically.
+
+      The control center contains all key information and metadata of your project,
+      such as its name, description, keywords, license and copyright information,
+      authors/maintainers and their roles, contact information, citations,
+      and branding and styling information, to name a few.
+      On top of these, ${{ name }} automatically augments your project's metadata
+      with various dynamic information, so that you don't have to manually define and update them.
+      For example, all information on your GitHub repository, along with full details of
+      the project's owner, authors, maintainers, and contributors, are periodically retrieved
+      from GitHub, and a full list of your package's active releases and their corresponding
+      information are generated and maintained automatically.
+
+      Furthermore, the control center contains all configurations and metadata for your
+      GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
+      GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
+      health files contents; README files contents; description and topics; gitignore and gitattributes files),
+      Python package and test suite (e.g. build configurations; package metadata; dependencies
+      and other requirements; entry points and scripts declarations; manifest file content;
+      docstrings; PyPI and Conda settings),
+      documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
+      custom domain declaration; web analytics settings, announcement configurations),
+      and all other tools and external services that are utilized by your project
+      (e.g. settings for various linting, formatting, and testing tools such as
+      Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
+      pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
+
+      In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
+      and customization, ${{ name }} allows for complex and recursive templating within all contents of
+      the control center, meaning that you can reference and reuse any piece of configuration or data
+      in all other parts of the control center.
+      You can also command ${{ name }} to dynamically inherit any piece of configuration or data
+      from any other GitHub repository, allowing you to easily share and reuse specifications
+      across multiple projects.
+
+  - title: Dynamic Content
+    description: |
+      With the help of the provided control center and its templating capabilities,
+      ${{ name }} allows you to make most parts of your repository's contents and interfaces dynamic.
+      In addition to all the configuration and metadata files described above,
+      the following are a few examples of how this feature is further utilized:
+
+      Issue and discussion forms of your repository (defined in the control center) are completely dynamic.
+      For example, they contain dropdown menus for the user to select the package version, Python version,
+      operating system, and other specifications relevant to the issue.
+      Instead of hard coding these specifications in the forms, which would require you to manually
+      update them every time there is a change (e.g. when a new package version is released, or when support
+      for a specific Python version or operating system is added or removed),
+      ${{ name }} uses its templating mechanism to dynamically reference the corresponding specifications.
+      Since these are automatically updated whenever there is a change, this ensures that the forms
+      are always up to date, without the need for any manual intervention on your part.
+
+      Similarly, changelogs and release notes, which are automatically generated and updated according
+      to the templates defined in the control center, also use a variety of dynamic references,
+      such as package version, release date, commit hash, link to the corresponding pull request,
+      dependency and requirement changes, list of contributors, and of course, the details of applied changes.
+      These are all dynamically obtained from various contexts, so that complete changelog entries and
+      release notes can be automatically generated and added to your repository and website
+      upon merging a pull request into a release branch.
+
+      Furthermore, all community health files (e.g. contribution guidelines, code of conduct,
+      support guidelines, security policy, etc.), license files, and directory README files are also
+      dynamically generated and updated according to the templates defined in the control center.
+      They include dynamic references to various information defined in your control center,
+      such as the name of the project, owner and copyright information, contact information,
+      list of maintainers, links to additional information on your website, and so on.
+      Therefore, instead of requiring you to manually scan multiple files and update
+      the corresponding information whenever there is a change,
+      ${{ name }} automatically updates all relevant files whenever any of the referenced information changes.
+
+      In addition, the entire content defined in your control center is also made available
+      to your documentation website, allowing you to dynamically reference any piece of information,
+      configuration, or metadata of your project in your website's content.
+      This allows you to easily maintain a consistent and unified presentation of your project
+      across all interfaces and platforms, while eliminating any redundancy and manual intervention.
+
+  - title: Fully Configured
+    description: |
+      Not only does ${{ name }} come with well-thought-out default configurations for all
+      its own options and settings, it also elevates your project by providing a complete set of
+      configurations for your repository, Python package, test suite, documentation website,
+      and all other tools and external services, according to the latest guidelines and best practices.
+      These are automatically applied to your new or existing project when you first start using ${{ name }},
+      and are updated dynamically whenever you make changes to the corresponding settings in the control center.
+
+  - title: Highly Customizable
+    description: |
+      While carefully configured, ${{ name }} is also fully customizable,
+      allowing you to tailor every aspect of your development pipeline to your specific needs.
+
+      ${{ name }} also allows you to extend your project's configuration and metadata with
+      your own custom specifications, which can then be referenced and utilized anywhere in
+      your project, the same way as the built-in contents of the control center.
+      For more complex custom specifications that cannot be defined in YAML files,
+      or for data that must be generated/retrieved dynamically at runtime
+      (e.g. data retrieved from a web API), ${{ name }} allows you to define custom Python scripts
+      that are automatically executed during the workflow runs, and whose outputs are then made available
+      to your entire project.
+
+  - title: Website Included
+    description: |
+      ${{ name }} comes with a professional website for your project, that is easily
+      customizable, and automatically generated and deployed on your preferred platform.
+
+  - title: Cloud Development
+    description: |
+      ${{ name }} is a cloud-based solution, that is fully integrated with GitHub,
+      and utilizes GitHub Actions to automate your entire software development process.
+      This means that you can fully manage your project from within GitHub,
+      and that all your project's key information and configuration are stored in your repository,
+      and are fully accessible and editable from within GitHub.
+      This also means that you can fully manage your project from any device,
+      and that you can easily collaborate with other developers on your project,
+      without having to install any software or configure any tools on your local machine.
+
+  - title: Plug & Play
+    description: |
+      With ${{ name }} you are only a few clicks away from releasing your Python package
+      on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
+      professional, and dynamic repository up and running, where the only remaining steps in your
+      software development process are adding your code, unit-tests and documentation content.
+
+  - title: Self-Contained & Secure
+    description: |
+      ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
+      with the exception of a handful of fundamental GitHub Actions and Python libraries from
+      official sources such as the Python Packaging Authority and GitHub itself,
+      ${{ name }} has no external dependencies, and does not rely on any third-party services.
+      Instead, all key features and functionalities of ${{ name }} are implemented natively,
+      in a series of open-source GitHub Actions and Python libraries developed and maintained
+      by the ${{ name }} team.
+      This makes ${{ name }} highly secure, robust, error-proof, and reliable,
+      and gives the ${{ name }} team full control over the entire software stack,
+      allowing us to rapidly respond to any issues or bugs that may arise,
+      and to continuously improve and enhance the platform.
+      It also ensures that the entire infrastructure of ${{ name }} is fully transparent,
+      and easily auditable by the community.

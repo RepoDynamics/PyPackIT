@@ -1,9 +1,26 @@
-announcement:
-  path: ${{ dir.web }}/announcement.html
-  retention_days: 30
+theme:
+  color:
+    primary:
+      light: '005500' # 135400
+      dark: '1CAA00'  # 459B24
+    secondary:
+      light: '3C5500' # 055005
+      dark: 'AF8A00'  # 9CCC00
+  logo:
+    icon: favicon.svg
+    simple:
+      light: logo_simple_light.svg
+      dark: logo_simple_dark.svg
+      raster: logo_simple_light.png
+    full:
+      light: logo_full_light.svg
+      dark: logo_full_dark.svg
+      raster: logo_full_light.png
+  footer:
+    type: pypackit
 readme:
-  github: &readme-config
-    config:
+  github:
+    content: &readme-content
       header:
         menu_bottom:
           buttons:
@@ -22,7 +39,29 @@ readme:
   dir:
     .github: |
       # GitHub Directory
+    .github/workflows:
+      content: |
+        # GitHub Actions Workflows
+        This directory contains [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
+        used in the CI/CD operations of the repository.
 
+        ## [docs_rtd_pr_preview](_docs_rtd-pr-preview.yaml)
+        https://docs.readthedocs.io/en/latest/pull-requests.html
+        https://docs.readthedocs.io/en/latest/guides/pull-requests.html
+
+        ## Releases
+        GitHub has [built-in functionality](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)
+        to automatically generate release notes.
+
+
+        ## Syntax
+
+        ## References
+        - [GitHub Actions Documentation](https://docs.github.com/en/actions)
+        - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
+
+        ## Useful Links
+        - [Workflow security: `pull_request` vs `pull_request_target`](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
     .github/DISCUSSION_TEMPLATE: |
       # Discussion Category Forms
       [Discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms)
@@ -150,16 +189,6 @@ readme:
       from 'apt': "librsvg2-bin"
 
 
-theme:
-  color:
-    primary:
-      light: '005500' # 135400
-      dark: '1CAA00'  # 459B24
-    secondary:
-      light: '3C5500' # 055005
-      dark: 'AF8A00'  # 9CCC00
-  footer:
-    type: pypackit
 web:
   analytics:
     plausible:
@@ -167,40 +196,6 @@ web:
       url: ""
     google_id: "G-0X66W6TGL2"
   base_url: https://pypackit.repodynamics.com
-  readthedocs:
-    # ReadTheDocs configuration file
-    # ReadTheDocs uses this configuration to build the website on readthedocs.io.
-    # Reference: https://docs.readthedocs.io/en/stable/config-file/v2.html
-    name: templaterepo  # Slug name (not in readthedocs config file)
-    platform: "community"
-    # Required
-    version: 2
-    # Set the version of Python and other tools you might need
-    build:
-      os: ubuntu-22.04
-      tools:
-        python: "mambaforge-4.10"
-      jobs:
-        post_checkout:
-          # versioningit needs the full git history to determine the package's version at build time.
-          # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
-          - git fetch --unshallow
-    # Install dependencies
-    conda:
-      environment: docs/website/requirements.yaml
-    # Install the package
-    python:
-      install:
-        - method: pip
-          path: .
-    # Build documentation with Sphinx
-    sphinx:
-      configuration: docs/website/source/conf.py
-      builder: dirhtml
-      fail_on_warning: false
-    # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
-    formats: all
-  announcement_retention_days: 30
   navbar_icons:
     - name: PyPI Distribution
       icon: fa-brands fa-python
@@ -229,55 +224,48 @@ web:
     - name: License
       icon: fa-solid fa-copyright
       url: ${{ url.website.license }}
-  #    - name: Twitter
-  #      icon: fa-brands fa-twitter
-  #      url: ${{ owner.url.twitter }}
-  #    - name: LinkedIn
-  #      icon: fa-brands fa-linkedin
-  #      url: ${{ owner.url.linkedin }}
-  #    - name: ResearchGate
-  #      icon: fa-brands fa-researchgate
-  #      url: ${{ owner.url.researchgate }}
-  #    - name: ORCiD
-  #      icon: fa-brands fa-orcid
-  #      url: ${{ owner.url.orcid }}
-  quicklinks: subsections
-  #  - - title: Outline
-  #      path: 'intro/outline'
-  #      include_in_readme: true
-  #    - title: Background
-  #      path: 'intro/background'
-  #      include_in_readme: true
-  #    - title: Overview
-  #      path: 'intro/overview'
-  #      include_in_readme: true
-  #    - title: Basics
-  #      path: 'intro/basics'
-  #      include_in_readme: true
-  #  - - title: Fundamentals
-  #      path: 'manual/fundamentals'
-  #      include_in_readme: true
-  #    - title: Installation
-  #      path: 'manual/install'
-  #      include_in_readme: true
-  #    - title: Control Center
-  #      path: 'manual/control'
-  #      include_in_readme: true
-  #    - title: Usage
-  #      path: 'manual/usage'
-  #      include_in_readme: true
-  #  - - title: Release Notes
-  #      path: 'news/category/release'
-  #      include_in_readme: true
-  #  - - title: Q&A
-  #      path: 'help/ask'
-  #      include_in_readme: true
-  path:
-    news: 'news'
-    contact: 'help/contact'
-    contributors: 'about/#contributors'
-    contributing: 'contribute'
-    bug_report: 'contribute/feedback/report'
-    license: 'license'
-    security_measures: 'contribute/collaborate/maintain/security'
-    sponsor: 'contribute/collaborate/maintain/sponsor'
+    - name: Twitter
+      icon: fa-brands fa-twitter
+      url: ${{ owner.url.twitter }}
+    - name: LinkedIn
+      icon: fa-brands fa-linkedin
+      url: ${{ owner.url.linkedin }}
+    - name: ResearchGate
+      icon: fa-brands fa-researchgate
+      url: ${{ owner.url.researchgate }}
+    - name: ORCiD
+      icon: fa-brands fa-orcid
+      url: ${{ owner.url.orcid }}
+  quicklinks:
+    - - title: Outline
+        path: 'intro/outline'
+        include_in_readme: true
+      - title: Background
+        path: 'intro/background'
+        include_in_readme: true
+      - title: Overview
+        path: 'intro/overview'
+        include_in_readme: true
+      - title: Basics
+        path: 'intro/basics'
+        include_in_readme: true
+    - - title: Fundamentals
+        path: 'manual/fundamentals'
+        include_in_readme: true
+      - title: Installation
+        path: 'manual/install'
+        include_in_readme: true
+      - title: Control Center
+        path: 'manual/control'
+        include_in_readme: true
+      - title: Usage
+        path: 'manual/usage'
+        include_in_readme: true
+    - - title: Release Notes
+        path: 'news/category/release'
+        include_in_readme: true
+    - - title: Q&A
+        path: 'help/ask'
+        include_in_readme: true
+announcement:
+  path: ${{ dir.web }}/announcement.html
