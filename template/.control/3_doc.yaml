@@ -125,7 +125,7 @@ readme:
             align: center
       section:
       - heading: Highlights
-        content:
+        body:
           - class: highlights
             items: ${{ highlights }}
             button:
