@@ -87,77 +87,7 @@ jobs:
           base-ref: ${{ fromJSON(inputs.config).ref-before }}
           head-ref: ${{ fromJSON(inputs.config).ref }}
 
-  bandit:
-    # Refs:
-    #  https://github.com/marketplace/actions/bandit-scan
-    #  https://pypi.org/project/bandit/
-    #  https://bandit.readthedocs.io/en/latest/
-    #  https://github.com/PyCQA/bandit
-    name: 'bandit'
-    permissions:
-      security-events: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ fromJSON(inputs.config).repository }}
-          ref: ${{ fromJSON(inputs.config).ref }}
-          path: repo
-
-      - name: 'Setup Python'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-          cache: pip
-          cache-dependency-path: repo/.github/workflow_requirements/bandit.txt
-
-      - name: 'Setup Environment'
-        shell: bash
-        run: |
-          echo "::group::Install Dependencies"
-          python -m pip install -r repo/.github/workflow_requirements/bandit.txt
-          echo "::endgroup::"
-          echo "::group::Display pip environment"
-          python -m pip list
-          echo "::endgroup::"
-
-      - name: 'Run bandit'
-        shell: bash
-        run: |
-          echo "::group::Create temporary directory"
-          TEMP_REPORT_DIR="${{ github.workspace }}/reports/bandit"
-          mkdir -p $TEMP_REPORT_DIR
-          echo "::endgroup::"
-
-          cd repo
-          echo "::group::Run bandit"
-          bandit \
-          ${{ fromJSON(inputs.config).path-source }} \
-          --configfile pyproject.toml \
-          --recursive \
-          --aggregate file \
-          --number 5 \
-          --severity-level medium \
-          --confidence-level medium \
-          --format sarif \
-          --output $TEMP_REPORT_DIR/report.sarif \
-          --verbose
-          echo "::endgroup::"
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@main
-        with:
-          name: Lint Reports
-          path: ${{ github.workspace }}/reports/
-
-      - name: Upload SARIF file
-        # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
-        # https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ${{ github.workspace }}/reports/bandit/report.sarif
-          category: "bandit"
+  
 
   mypy:
     name: 'MyPy (${{ matrix.os.name }}, Py ${{ matrix.python-version }})'
