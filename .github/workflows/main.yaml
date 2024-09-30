@@ -107,7 +107,7 @@ jobs:
       id-token: write
     environment:
       name: GitHub Pages
-      url: ${{ fromJSON(needs.init.outputs.website).url }}
+      url: ${{ matrix.config.url }}
     strategy:
       fail-fast: false
       matrix:
@@ -120,7 +120,6 @@ jobs:
           ref: ${{ matrix.config.ref }}
           path-env: ${{ matrix.config.path-env }}
           path-web: ${{ matrix.config.path-web }}
-          path-web-build: ${{ matrix.config.path-web-build }}
           path-pkg: ${{ matrix.config.path-pkg }}
           artifact-name: ${{ matrix.config.artifact-name }}
           deploy: ${{ matrix.config.deploy }}
