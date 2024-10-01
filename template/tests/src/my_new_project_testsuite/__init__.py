@@ -90,7 +90,7 @@ def run(
                     ("path_cache", path_cache),
                 )
             ):
-                config = config.replace(template, str(value))
+                config = config.replace(template, value.as_posix())
             file_temp_path = path_config_temp / path.name
             file_temp_path.write_text(config)
             if path.stem == "pytest":
