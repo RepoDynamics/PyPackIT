@@ -1,4 +1,3 @@
-
 name: '[Callable]: Package - Publish'
 
 on:
@@ -35,12 +34,12 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: 'Download sdist and wheels artifacts'
-        uses: actions/download-artifact@v3
+      - name: Build Download
+        uses: actions/download-artifact@v4
         with:
           name: ${{ fromJSON(inputs.config).artifact-name }}
           path: build
-      - name: 'Upload package'
+      - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
         # https://github.com/marketplace/actions/pypi-publish
         with:

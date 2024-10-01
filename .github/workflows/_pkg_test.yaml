@@ -13,7 +13,7 @@ on:
 
 jobs:
   test:
-    name: '${{ matrix.config.os }} - Py ${{ matrix.config.python-version }}'
+    name: '${{ matrix.config.os-name }} - Py ${{ matrix.config.python-version }}'
     strategy:
       fail-fast: false
       matrix:
@@ -24,18 +24,17 @@ jobs:
         with:
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
-          path-setup-testsuite: ${{ matrix.config.path-setup-testsuite }}
-          path-setup-package: ${{ matrix.config.path-setup-package }}
-          testsuite-import-name: ${{ matrix.config.testsuite-import-name }}
-          package-source: ${{ matrix.config.package-source }}
-          package-name: ${{ matrix.config.package-name }}
-          package-version: ${{ matrix.config.package-version }}
           python-version: ${{ matrix.config.python-version }}
-          os: ${{ matrix.config.os }}
-          path-requirements-package: ${{ matrix.config.path-requirements-package }}
-          path-report-pytest: ${{ matrix.config.path-report-pytest }}
-          path-report-coverage: ${{ matrix.config.path-report-coverage }}
-          path-cache-pytest: ${{ matrix.config.path-cache-pytest }}
-          path-cache-coverage: ${{ matrix.config.path-cache-coverage }}
+          tests-path: ${{ matrix.config.tests-path }}
+          tests-name: ${{ matrix.config.tests-name }}
+          pkg-src: ${{ matrix.config.pkg-src }}
+          pkg-path: ${{ matrix.config.pkg-path }}
+          pkg-name: ${{ matrix.config.pkg-name }}
+          pkg-version: ${{ matrix.config.pkg-version }}
+          pkg-req-path: ${{ matrix.config.pkg-req-path }}
+          retries: ${{ matrix.config.retries }}
           retry-sleep-seconds: ${{ matrix.config.retry-sleep-seconds }}
-          retry-sleep-seconds-total: ${{ matrix.config.retry-sleep-seconds-total }}
+          pyargs: ${{ matrix.config.pyargs }}
+          args: ${{ matrix.config.args }}
+          overrides: ${{ matrix.config.overrides }}
+          report-artifact-name: ${{ matrix.config.report-artifact-name }}
