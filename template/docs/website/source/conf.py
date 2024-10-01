@@ -2,6 +2,7 @@
 
 from __future__ import annotations as _annotations
 
+import copy as _copy
 import json as _json
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
@@ -271,7 +272,7 @@ def _read_metadata() -> dict[str, Any]:
 
 def _add_html_context():
     """Add the HTML context to the Sphinx configuration."""
-    _globals.setdefault("html_context", {}).update({"pp_meta": _meta})
+    _globals.setdefault("html_context", {}).update({"pp_meta": _copy.deepcopy(_meta)})
     return
 
 
@@ -297,6 +298,7 @@ def _add_intersphinx_mapping():
     return
 
 
+_logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _meta = _read_metadata()
 _add_sphinx()
