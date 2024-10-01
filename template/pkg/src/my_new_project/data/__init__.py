@@ -6,7 +6,6 @@ from pathlib import Path as _Path
 
 import pkgdata as _pkgdata
 
-
 __all__ = ["get"]
 
 
