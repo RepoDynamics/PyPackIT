@@ -23,7 +23,7 @@ class DataFileNotFoundError(_PackageException):
 
     def __init__(
         self,
-        path_relative: Path,
+        path_relative: str,
         path_absolute: Path,
     ):
         self.path_relative = path_relative
