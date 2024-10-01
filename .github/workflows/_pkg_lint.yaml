@@ -38,7 +38,7 @@ jobs:
 
       - name: CodeQL Initialization
         # Initializes the CodeQL tools for scanning.
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           # queries: security-extended,security-and-quality
@@ -51,10 +51,10 @@ jobs:
       - name: CodeQL Autobuild
         # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
         # If this step fails, then you should remove it and run the build manually instead.
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@v3
 
       - name: CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
 
@@ -78,7 +78,7 @@ jobs:
         # Source repository: https://github.com/actions/dependency-review-action
         # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
         # https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-dependency-review
-        uses: actions/dependency-review-action@v3
+        uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: low
           fail-on-scopes: development, runtime, unknown
@@ -106,6 +106,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ fromJSON(inputs.config).python-ver-max }}
+          check-latest: 'true'
           cache: pip
           cache-dependency-path: ${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}
 
