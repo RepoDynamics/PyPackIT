@@ -130,5 +130,6 @@ test:
         ${{license.notice}}
   manifest:
     - graft ${{ test.path.source }}/${{ test.import_name }}/data
+    - include ${{ test.path.source }}/${{ test.import_name }}/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
   build: *pkg-build

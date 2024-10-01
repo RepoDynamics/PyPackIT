@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 
 import my_new_project_testsuite as testsuite
 
@@ -85,7 +86,7 @@ def main():
             )
         parsed_args[arg_name] = parsed_arg
 
-    testsuite.run(
+    return testsuite.run(
         **parsed_args,
         path_cache=args.cache,
         path_report=args.report,
@@ -93,4 +94,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
