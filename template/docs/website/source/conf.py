@@ -292,7 +292,7 @@ def _add_intersphinx_mapping():
             to_get.append(key)
     if not to_get:
         return
-    mapping_addon = _get_intersphinx_mapping(packages=set(error_msg))
+    mapping_addon = _get_intersphinx_mapping(packages=set(to_get))
     mapping.update(mapping_addon)
     return
 
