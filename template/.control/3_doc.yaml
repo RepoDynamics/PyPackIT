@@ -746,6 +746,7 @@ web:
         url:
           docs: https://sphinx-notfound-page.readthedocs.io/
           source: https://github.com/readthedocs/sphinx-notfound-page
+          pip: https://pypi.org/project/sphinx-notfound-page/
         pip:
           spec: sphinx-notfound-page == 1.0.4
       config:
