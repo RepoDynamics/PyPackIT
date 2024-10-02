@@ -140,12 +140,16 @@ jobs:
     with:
       config: ${{ toJSON(matrix.config) }}
   test:
-    name: Package Test
+    name: Package Test${{ matrix.config.job-suffix }}
     needs: init
     if: fromJSON(needs.init.outputs.run).test
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.init.outputs.test) }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
-      config: ${{ needs.init.outputs.test }}
+      config: ${{ toJSON(matrix.config.config) }}
   build:
     name: Package Build${{ matrix.config.job-suffix }}
     needs: init
