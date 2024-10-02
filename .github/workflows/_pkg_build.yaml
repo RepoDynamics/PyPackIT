@@ -58,6 +58,10 @@ jobs:
           python3 -c "import sys; print(sys.version)"
           python3 -m pip list
           echo "::endgroup::"
+          echo "::group::Latest Git Tag"
+          git describe
+          echo "::endgroup::"
+
       - name: Build
         shell: bash
         env:
