@@ -14,6 +14,8 @@ on:
 jobs:
   test:
     name: '${{ matrix.config.os-name }} - Py ${{ matrix.config.python-version }}'
+    permissions:
+      id-token: write  # For token-less upload of coverage reports to Codecov.
     strategy:
       fail-fast: false
       matrix:

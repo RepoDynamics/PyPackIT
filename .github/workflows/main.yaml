@@ -143,6 +143,8 @@ jobs:
     name: Package Test${{ matrix.config.job-suffix }}
     needs: init
     if: fromJSON(needs.init.outputs.run).test
+    permissions:
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
