@@ -739,6 +739,17 @@ web:
           interactive: true  # https://atomiks.github.io/tippyjs/v6/all-props/#interactive
           delay: [200, 500]  # https://atomiks.github.io/tippyjs/v6/all-props/#delay
           duration: [200, 100]  # https://atomiks.github.io/tippyjs/v6/all-props/#duration
+    not_found_page:
+      dependency:
+        import_name: notfound.extension
+        description: Handling relative links in the custom 404 page.
+        url:
+          docs: https://sphinx-notfound-page.readthedocs.io/
+          source: https://github.com/readthedocs/sphinx-notfound-page
+        pip:
+          spec: sphinx-notfound-page == 1.0.4
+      config:
+        notfound_urls_prefix: null
   env:
     file:
       conda:
