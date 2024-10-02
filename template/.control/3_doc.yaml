@@ -749,7 +749,7 @@ web:
         pip:
           spec: sphinx-notfound-page == 1.0.4
       config:
-        notfound_urls_prefix: null
+        notfound_urls_prefix: /${{ repo.name }}/  # dynamically set in conf.py if not set here
   env:
     file:
       conda:
