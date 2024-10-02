@@ -273,7 +273,7 @@ web:
       - file: api/index
         title: API
         entries:
-          - file: api/my_new_project/my_new_project
+          - file: api/${{ pkg.import_name }}/${{ pkg.import_name }}
       - file: news/index
         title: News
         entries:

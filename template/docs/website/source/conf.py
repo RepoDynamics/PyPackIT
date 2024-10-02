@@ -6,9 +6,11 @@ import copy as _copy
 import json as _json
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
+import os as _os
 
 import gittidy as _git
 from loggerman import logger as _logger
+from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
 
 try:
@@ -26,8 +28,25 @@ _METADATA_FILEPATH = ".github/.control/.metadata.json"
 _globals = {}
 
 
+class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
+    """Customized DirectoryHTMLBuilder to exclude the 404 file."""
+
+    name = 'dirhtml'
+
+    def get_target_uri(self, docname: str, typ: str | None = None) -> str:
+        if docname == "404":
+            return ""
+        return super().get_target_uri(docname=docname, typ=typ)
+
+    def get_outfilename(self, pagename: str) -> str:
+        if pagename == "404":
+            return _os.path.join(self.outdir, '404.html')
+        return super().get_outfilename(pagename=pagename)
+
+
 def setup(app: Sphinx):
     """Add custom configurations to the Sphinx application."""
+    app.add_builder(_CustomDirectoryHTMLBuilder, override=True)
     app.connect("source-read", _source_jinja_template)
     return
 
