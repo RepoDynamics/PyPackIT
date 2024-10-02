@@ -98,7 +98,7 @@ jobs:
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
   website:
-    name: Website
+    name: Website${{ matrix.config.job-suffix }}
     needs: init
     if: fromJSON(needs.init.outputs.run).website
     permissions:
@@ -124,7 +124,7 @@ jobs:
           artifact-name: ${{ matrix.config.artifact-name }}
           deploy: ${{ matrix.config.deploy }}
   lint:
-    name: Package Lint
+    name: Package Lint${{ matrix.config.job-suffix }}
     needs: init
     if: fromJSON(needs.init.outputs.run).lint
     permissions:
@@ -147,7 +147,7 @@ jobs:
     with:
       config: ${{ needs.init.outputs.test }}
   build:
-    name: Package Build
+    name: Package Build${{ matrix.config.job-suffix }}
     needs: init
     if: fromJSON(needs.init.outputs.run).build  # fromJSON(needs.init.outputs.config).run.package_build
     strategy:
