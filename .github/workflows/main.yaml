@@ -182,6 +182,8 @@ jobs:
     name: 'Package Test: TestPyPI'
     needs: [init, publish-testpypi]
     if: fromJSON(needs.init.outputs.run).test-testpypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
+    permissions:
+      id-token: write
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-testpypi }}
@@ -205,6 +207,8 @@ jobs:
     name: 'Package Test: PyPI'
     needs: [init, publish-pypi]
     if: fromJSON(needs.init.outputs.run).test-pypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
+    permissions:
+      id-token: write
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-pypi }}
