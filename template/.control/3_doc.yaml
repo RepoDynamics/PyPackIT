@@ -250,6 +250,50 @@ health:
     content:
       heading: Security Policy
 web:
+  toc:
+    path: .toc.yaml
+    root: index
+    defaults:
+      hidden: true
+    entries:
+      - file: intro/index
+        title: Intro
+        options:
+          numbered: true
+        entries:
+          - file: intro/overview/index
+          - file: intro/background/index
+      - file: manual/index
+        title: Manual
+        options:
+          numbered: true
+        entries:
+          - file: manual/quickstart/index
+          - file: manual/install/index
+      - file: api/index
+        title: API
+        entries:
+          - file: api/my_new_project/my_new_project
+      - file: news/index
+        title: News
+        entries:
+          - glob: news/post/**
+      - file: contribute/index
+        title: Contribute
+        options:
+          numbered: true
+      - file: about/index
+        title: About
+        options:
+          numbered: true
+        entries:
+          - file: about/contact/index
+      - file: help/index
+        title: Help
+        options:
+          numbered: true
+        entries:
+          - file: help/sitemap/index
   sphinx:
     config:
       trim_footnote_reference_space: true
@@ -531,7 +575,7 @@ web:
           spec: sphinx-external-toc = 1.0.1
           channel: conda-forge
       config:
-        external_toc_path: _toc.yaml
+        external_toc_path: ${{ web.toc.path }}
         external_toc_exclude_missing: false
     autodoc2:
       dependency:
