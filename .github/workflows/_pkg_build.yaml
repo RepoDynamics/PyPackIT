@@ -59,7 +59,7 @@ jobs:
           python3 -m pip list
           echo "::endgroup::"
           echo "::group::Latest Git Tag"
-          git describe
+          git -C repo describe
           echo "::endgroup::"
 
       - name: Build
