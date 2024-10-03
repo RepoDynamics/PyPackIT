@@ -72,7 +72,7 @@ jobs:
           VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
           echo "::group::Latest Git Tag"
-          git -C repo describe
+          git -C repo describe || true
           echo "::endgroup::"
           
           echo "::group::Versioning"
