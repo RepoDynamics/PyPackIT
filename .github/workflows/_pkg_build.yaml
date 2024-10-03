@@ -32,7 +32,6 @@ on:
 #          CI metadata as a JSON string.
 
 jobs:
-
   build-pure:
     name: Pure Python Distribution
     runs-on: ubuntu-latest
@@ -44,55 +43,104 @@ jobs:
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
           path: repo
+
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
+
       - name: Environment Setup
         shell: bash
         run: |
           echo "::group::Requirements Installation"
-          python -m pip install --upgrade pip build twine readme-renderer[md]
+          python -m pip install --upgrade pip build twine versioningit readme-renderer[md]
           echo "::endgroup::"
+          
           echo "::group::Environment Overview"
           python3 -c "import sys; print(sys.version)"
           python3 -m pip list
           echo "::endgroup::"
-          echo "::group::Latest Git Tag"
-          git -C repo describe
-          echo "::endgroup::"
 
       - name: Build
         shell: bash
+        id: build
         env:
           PURE_PYTHON: ${{ fromJSON(inputs.config).pure-python }}
-          PKG_PATH: ${{ fromJSON(inputs.config).path-pkg }}
+          PKG_PATH: repo/${{ fromJSON(inputs.config).path-pkg }}
+          README_PATH: repo/${{ fromJSON(inputs.config).path-readme }}
+          LICENSE_PATH: repo/${{ fromJSON(inputs.config).path-license }}
+          VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
+          echo "::group::Latest Git Tag"
+          git -C repo describe
+          echo "::endgroup::"
+          
+          echo "::group::Versioning"
+          VERSION=$(versioningit $PKG_PATH --verbose)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "::endgroup::"
+          
+          echo "::group::License Copy"
+          if [ "$(realpath "$(dirname "$LICENSE_PATH")")" != "$(realpath "$PKG_PATH")" ]; then
+            cp -f "$LICENSE_PATH" "$PKG_PATH"
+            echo "License file copied from $LICENSE_PATH to package directory at $PKG_PATH."
+          else
+            echo "License file at $LICENSE_PATH is already in package directory."
+          fi
+          echo "::endgroup::"
+          
+          echo "::group::Readme Copy"
+          if [ "$(realpath "$(dirname "$README_PATH")")" != "$(realpath "$PKG_PATH")" ]; then
+              cp -f "$README_PATH" "$PKG_PATH"
+              echo "Readme file copied from $README_PATH to package directory at $PKG_PATH."
+          else
+              echo "Readme file at $README_PATH is already in package directory."
+          fi
+          echo "::endgroup::"
+          
+          echo "::group::Package Directory Overview"
+          ls -la "$PKG_PATH"
+          echo "::endgroup::"
+          
+          echo "::group::Package Files Overview"
+          find "$PKG_PATH" -ls
+          echo "::endgroup::"
+          
           if $PURE_PYTHON; then
-            echo "::group::Build & Source Distribution"
-            python -m build ./repo/$PKG_PATH --outdir ./build/dist
+            echo "::group::Source & Build Distribution"
+            python -m build ./repo/$PKG_PATH --outdir ./build/dist --verbose
             echo "::endgroup::"
           else
             echo "::group::Source Distribution"
-            python -m build ./repo/$PKG_PATH --outdir ./build/dist --sdist
+            python -m build ./repo/$PKG_PATH --outdir ./build/dist --sdist --verbose
             echo "::endgroup::"
           fi
+
       - name: PyPI README Render
         shell: bash
         run: >-
           python -m readme_renderer
           './repo/${{ fromJSON(inputs.config).path-readme }}'
           --output ./build/README.html
+
       - name: PyPI README Check
-        # https://twine.readthedocs.io/en/stable/#twine-check
-        # https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
+        # Note:
+        #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
+        #    reStructuredText (reST) READMEs; it always passes for Markdown content
+        #    (cf. `twine.commands.check._RENDERERS` (https://github.com/pypa/twine/blob/4f7cd66fa1ceba7f8de5230d3d4ebea0787f17e5/twine/commands/check.py#L32-L37))
+        #    and thus cannot be used to validate Markdown.
+        #    It is used here only to check the existence of the README file in the built distributions.
+        # Refs:
+        #    https://twine.readthedocs.io/en/stable/#twine-check
+        #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
         run: twine check ./build/dist/*
+
       - name: Build Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           path: ./build
-          name: ${{ fromJSON(inputs.config).artifact-name }}
+          name: ${{ fromJSON(inputs.config).artifact-name }} ${{ fromJSON(steps.build.outputs.version) }}
 
   build-native:
     name: Native Binary Distribution - ${{ matrix.os }}
@@ -111,6 +159,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ fromJSON(inputs.config).ref }}
           path: repo
+
       - name: Build
         # https://cibuildwheel.readthedocs.io/en/stable/
         # https://github.com/pypa/cibuildwheel
@@ -121,6 +170,7 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.py-ver }}-${{ matrix.platform.cibw_platform }}
           CIBW_BUILD_VERBOSITY: 2
+
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
