@@ -81,7 +81,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::License Copy"
-          if [ -z "${{ fromJSON(inputs.config).license-path }}" ]; then
+          if [ -z "${{ fromJSON(inputs.config).path-license }}" ]; then
             echo "No license file specified."
           elif [ "$(realpath "$(dirname "$LICENSE_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
             echo "License file at $LICENSE_PATH is already in package directory."
@@ -92,7 +92,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Readme Copy"
-          if [ -z "${{ fromJSON(inputs.config).readme-path }}" ]; then
+          if [ -z "${{ fromJSON(inputs.config).path-readme }}" ]; then
             echo "No ReadMe file specified."
           elif [ "$(realpath "$(dirname "$README_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
               echo "ReadMe file at $README_PATH is already in package directory."
