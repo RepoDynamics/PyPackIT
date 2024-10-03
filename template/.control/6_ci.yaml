@@ -231,7 +231,7 @@ tool:
     config:
       file:
         type: toml
-        path: ${{ pkg.path.root }}/pyproject.toml
+        path: .github/.mypy.toml
         content:
           # Ref: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
           tool:

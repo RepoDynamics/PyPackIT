@@ -81,7 +81,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::License Copy"
-          if [ -z "${{ inputs.license-path }}" ]; then
+          if [ -z "${{ fromJSON(inputs.config).license-path }}" ]; then
             echo "No license file specified."
           elif [ "$(realpath "$(dirname "$LICENSE_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
             echo "License file at $LICENSE_PATH is already in package directory."
@@ -92,7 +92,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Readme Copy"
-          if [ -z "${{ inputs.readme-path }}" ]; then
+          if [ -z "${{ fromJSON(inputs.config).readme-path }}" ]; then
             echo "No ReadMe file specified."
           elif [ "$(realpath "$(dirname "$README_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
               echo "ReadMe file at $README_PATH is already in package directory."
@@ -112,11 +112,11 @@ jobs:
           
           if $PURE_PYTHON; then
             echo "::group::Source & Build Distribution"
-            python -m build ./repo/$PKG_PATH --outdir ./build/dist --verbose
+            python -m build $PKG_PATH --outdir ./build/dist --verbose
             echo "::endgroup::"
           else
             echo "::group::Source Distribution"
-            python -m build ./repo/$PKG_PATH --outdir ./build/dist --sdist --verbose
+            python -m build $PKG_PATH --outdir ./build/dist --sdist --verbose
             echo "::endgroup::"
           fi
 
@@ -124,7 +124,7 @@ jobs:
         shell: bash
         run: >-
           python -m readme_renderer
-          './repo/${{ fromJSON(inputs.config).path-readme }}'
+          'repo/${{ fromJSON(inputs.config).path-readme }}'
           --output ./build/README.html
 
       - name: PyPI README Check
