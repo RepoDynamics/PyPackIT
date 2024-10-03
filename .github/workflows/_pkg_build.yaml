@@ -81,20 +81,24 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::License Copy"
-          if [ "$(realpath "$(dirname "$LICENSE_PATH")")" != "$(realpath "$PKG_PATH")" ]; then
+          if [ -z "${{ inputs.license-path }}" ]; then
+            echo "No license file specified."
+          elif [ "$(realpath "$(dirname "$LICENSE_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
+            echo "License file at $LICENSE_PATH is already in package directory."
+          else
             cp -f "$LICENSE_PATH" "$PKG_PATH"
             echo "License file copied from $LICENSE_PATH to package directory at $PKG_PATH."
-          else
-            echo "License file at $LICENSE_PATH is already in package directory."
           fi
           echo "::endgroup::"
           
           echo "::group::Readme Copy"
-          if [ "$(realpath "$(dirname "$README_PATH")")" != "$(realpath "$PKG_PATH")" ]; then
-              cp -f "$README_PATH" "$PKG_PATH"
-              echo "Readme file copied from $README_PATH to package directory at $PKG_PATH."
+          if [ -z "${{ inputs.readme-path }}" ]; then
+            echo "No ReadMe file specified."
+          elif [ "$(realpath "$(dirname "$README_PATH")")" = "$(realpath "$PKG_PATH")" ]; then
+              echo "ReadMe file at $README_PATH is already in package directory."
           else
-              echo "Readme file at $README_PATH is already in package directory."
+              cp -f "$README_PATH" "$PKG_PATH"
+              echo "ReadMe file copied from $README_PATH to package directory at $PKG_PATH."
           fi
           echo "::endgroup::"
           
@@ -140,7 +144,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./build
-          name: ${{ fromJSON(inputs.config).artifact-name }} ${{ fromJSON(steps.build.outputs.version) }}
+          name: ${{ fromJSON(inputs.config).artifact-name }} ${{ steps.build.outputs.version }}
 
   build-native:
     name: Native Binary Distribution - ${{ matrix.os }}
