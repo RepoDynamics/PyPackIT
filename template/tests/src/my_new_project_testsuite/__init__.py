@@ -5,6 +5,14 @@ import pkgdata
 import pytest
 
 
+__version_details__: dict[str, str] = {"version": "0.0.0"}
+"""Details of the currently installed version of the package,
+including version number, date, branch, and commit hash."""
+
+__version__: str = __version_details__["version"]
+"""Version number of the currently installed package."""
+
+
 def run(
     pyargs: list[str] | None = None,
     args: list[str] | None = None,
