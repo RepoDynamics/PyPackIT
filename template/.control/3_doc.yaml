@@ -268,8 +268,9 @@ web:
         options:
           numbered: true
         entries:
-          - file: manual/quickstart/index
           - file: manual/install/index
+          - file: manual/quickstart/index
+          - file: manual/testing/index
       - file: api/index
         title: API
         entries:
