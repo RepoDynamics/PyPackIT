@@ -326,7 +326,7 @@ web:
         - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.light }}'
         - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.dark }}'
       html_secnumber_suffix: ". "
-      html_extra_path: [ 404.html ]
+      html_extra_path: [ ]
       html_use_opensearch: ${{ web.url.base }}
       html_show_sphinx: false
       html_math_renderer: mathjax
@@ -385,9 +385,9 @@ web:
       mathjax:
         dependency:
           import_name: sphinx.ext.mathjax
-      viewcode:
+      linkcode:
         dependency:
-          import_name: sphinx.ext.viewcode
+          import_name: sphinx.ext.linkcode
       intersphinx:
         dependency:
           import_name: sphinx.ext.intersphinx

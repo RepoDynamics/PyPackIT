@@ -2,6 +2,7 @@
 
 from __future__ import annotations as _annotations
 
+import ast as _ast
 import copy as _copy
 import json as _json
 from pathlib import Path as _Path
@@ -24,8 +25,8 @@ if _TYPE_CHECKING:
     from sphinx.application import Sphinx
 
 
-_METADATA_FILEPATH = ".github/.control/.metadata.json"
-_globals = {}
+_METADATA_FILEPATH: str = ".github/.control/.metadata.json"
+_globals: dict = {}
 
 
 class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
@@ -49,6 +50,120 @@ def setup(app: Sphinx):
     app.add_builder(_CustomDirectoryHTMLBuilder, override=True)
     app.connect("source-read", _source_jinja_template)
     return
+
+
+def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
+    """Resolve the source code links for the `sphinx.ext.linkcode` extension.
+
+    References
+    ----------
+    - https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
+    """
+
+    def get_obj_def_lines(filepath: _Path, object_name: str) -> tuple[int, int | None] | None:
+        """Get the line numbers of an object definition in the source file.
+
+        Parameters
+        ----------
+        filepath
+            Path to the source file.
+        object_name
+            Name of the object to find in the source file.
+
+        Returns
+        -------
+        Start and end line numbers of the object definition.
+        End line number is `None` if the object definition is a single line.
+        If the object is not found, `None` is returned.
+        """
+        source = filepath.read_text()
+        tree = _ast.parse(source, filename=filepath)
+        for node in _ast.walk(tree):
+            # Check for class or function definitions
+            if isinstance(
+                node,
+                (_ast.ClassDef, _ast.FunctionDef, _ast.AsyncFunctionDef)
+            ) and node.name == object_name:
+                return node.lineno, getattr(node, 'end_lineno', None)
+            # Check for variable assignments (without type annotations)
+            if isinstance(node, _ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, _ast.Name) and target.id == object_name:
+                        return node.lineno, getattr(node, 'end_lineno', None)
+            # Check for variable assignments (with type annotations)
+            if isinstance(node, _ast.AnnAssign):
+                target = node.target
+                if isinstance(target, _ast.Name) and target.id == object_name:
+                    return node.lineno, getattr(node, 'end_lineno', None)
+        return
+
+    def add_obj_line_number_to_url(
+        url: str,
+        filepath: _Path,
+        object_name: str,
+    ) -> str:
+        """Add line numbers of the object definition to the URL.
+
+        Parameters
+        ----------
+        url
+            URL to the source file.
+        filepath
+            Local path to the source file.
+        object_name
+            Name of the object to find in the source file.
+
+        Returns
+        -------
+        URL to the source file with added line numbers of the object definition, if found.
+        """
+        log_intro = f"Resolved source-code filepath of module `{info["module"]}` to `{module_path_abs}`"
+        lines = get_obj_def_lines(filepath=filepath, object_name=object_name)
+        if not lines:
+            _logger.warning(
+                logger_title,
+                f"{log_intro}, but could not find object `{object_name}` in the file.",
+                f"Generated URL (without line numbers): {url}"
+            )
+            return url
+        start_line, end_line = lines
+        if end_line and end_line != start_line:
+            url_fragment = f"L{start_line}-L{end_line}"
+            log_segment = f"lines {start_line}-{end_line}"
+        else:
+            url_fragment = f"L{start_line}"
+            log_segment = f"line {start_line}"
+        final_url = f"{url}#{url_fragment}"
+        _logger.success(
+            logger_title,
+            f"{log_intro} and found object `{object_name}` at {log_segment}.",
+            f"Generated URL: {final_url}"
+        )
+        return final_url
+
+    logger_title = "LinkCode Resolve"
+    if domain != 'py' or not info['module']:
+        _logger.warning(
+            logger_title,
+            "Invalid domain or module information:",
+            _logger.pretty({"domain": domain, "info": info}),
+        )
+        return
+    source_path = _Path(f"{_meta["pkg"]["path"]["root"]}/{_meta["pkg"]["path"]["source"]}")
+    module_path = source_path / info['module'].replace('.', '/')
+    module_path_abs = _path_root / module_path
+    if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
+        filepath = module_path.joinpath("__init__.py")
+    elif module_path_abs.with_suffix(".py").is_file():
+        filepath = module_path.with_suffix(".py")
+    else:
+        _logger.warning(
+            logger_title,
+            f"Python module {info["module"]} not found at {module_path_abs}.",
+        )
+        return
+    url = f"https://github.dev/{_meta["repo"]["full_name"]}/blob/{_current_hash}/{filepath}"
+    return add_obj_line_number_to_url(url=url, filepath=_path_root/filepath, object_name=info["fullname"])
 
 
 def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> None:
@@ -78,7 +193,7 @@ def _add_version() -> None:
     if all(key in _globals for key in ("version", "release")):
         return
     ver_tag_prefix = _meta["tag"]["version"]["prefix"]
-    tags = _git.Git(path=_path_root).get_tags()
+    tags = _git_api.get_tags()
     ver = _semver.latest_version_from_tags(tags=tags, version_tag_prefix=ver_tag_prefix)
     if ver:
         _globals["version"] = _globals.get("version") or f"{ver.major}.{ver.minor}"
@@ -319,6 +434,8 @@ def _add_intersphinx_mapping():
 
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
+_git_api = _git.Git(path=_path_root)
+_current_hash = _git_api.commit_hash_normal()
 _meta = _read_metadata()
 _add_sphinx()
 _add_version()
