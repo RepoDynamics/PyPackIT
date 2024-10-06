@@ -406,7 +406,7 @@ def _read_metadata() -> dict[str, Any]:
 
 def _add_html_context():
     """Add the HTML context to the Sphinx configuration."""
-    _globals.setdefault("html_context", {}).update({"pp_meta": _copy.deepcopy(_meta)})
+    _globals.setdefault("html_context", {}).update({"ccc": _copy.deepcopy(_meta)})
     return
 
 
