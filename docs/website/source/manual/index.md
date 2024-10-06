@@ -2,7 +2,7 @@
 ccid: manual
 ---
 
-# Manual
+# User Manual
 
 :::{toctree}
 :includehidden:
