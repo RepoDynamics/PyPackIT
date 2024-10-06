@@ -1,8 +1,5 @@
 (install-existing)=
 # Existing Repository
 
-:::{admonition} 🚧 Under Construction 🚧
-:class: danger
-
-This page is currently under construction.
+:::{include} /_snippets/under_construction.md
 :::
