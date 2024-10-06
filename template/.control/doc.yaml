@@ -323,6 +323,14 @@ web:
       html_static_path:
         - _static
         - '${{ web.path.to_root }}/${{ theme.path }}'
+        # Due to an issue with the PyData Sphinx Theme,
+        #    the logo files used in the navbar must be explicitly
+        #    added to the root of static path, since PyData always looks there,
+        #    regardless of the set path.
+        #    Refs:
+        #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
+        #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
+        #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
         - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.light }}'
         - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.dark }}'
       html_secnumber_suffix: ". "
