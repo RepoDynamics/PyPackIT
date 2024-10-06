@@ -103,7 +103,7 @@ Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_t
 
 {% for theme in ["light", "dark"] %}
 {% set outer_loop = loop %}
-{% for name, color in pp_meta.theme.color.items() %}
+{% for name, color in ccc.theme.color.items() %}
 html[data-theme="{{theme}}"] {
     --pst-color-{{name}}: #{{color[theme]}};
 }

@@ -1,0 +1,23 @@
+<!-- Popup Structure for the user login popup -->
+<dialog id="user-login-dialog" class="user-login-dialog">
+  <form id="user-login-form" class="user-login-form">
+    <h3><i class="fa-brands fa-github"></i>&ensp;Login</h3>
+    <p>
+      By entering your GitHub repository's address, all links in the website will
+      redirect you to the exact location in your repository.
+    </p>
+    <div>
+      <label for="user-repo-owner">Repository Owner</label>
+      <input type="text" id="user-repo-owner" name="user-repo-owner" required>
+    </div>
+    <div>
+      <label for="user-repo-name">Repository Name</label>
+      <input type="text" id="user-repo-name" name="user-repo-name" required>
+    </div>
+    <div>
+      <label for="user-repo-branch">Repository Default Branch</label>
+      <input type="text" id="user-repo-branch" name="user-repo-branch" required>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</dialog>

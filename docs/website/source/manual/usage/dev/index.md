@@ -5,7 +5,7 @@ Each issue form is linked to a specific primary commit type.
 In addition, each issue form has a field where the person submitting the issue can specify
 the package versions (for package-related issues) or the branches (for non-package-related issues)
 the issue is related to.
-When an issue is submitted, {{ pp_meta.name }} will carry out the following tasks:
+When an issue is submitted, {{ ccc.name }} will carry out the following tasks:
 1. Add a type label to the issue, specifying the primary commit type.
 2. Add a subtype label to the issue, if specified in the issue form.
 3. Add branch labels to the issue, specifying the target branches according to the user specification

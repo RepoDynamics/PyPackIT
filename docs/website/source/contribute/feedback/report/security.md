@@ -1,5 +1,5 @@
 # Security Vulnerability
-{{pp_meta.name}} takes the security and privacy of all its users and members very seriously,
+{{ccc.name}} takes the security and privacy of all its users and members very seriously,
 and is committed to ensuring the safety of its products and services.
 In case a security vulnerability is detected that may affect users, we take immediate action to:
 1. fix the issue as soon as possible,
@@ -8,7 +8,7 @@ In case a security vulnerability is detected that may affect users, we take imme
 as well as guidelines for end-users to protect themselves.
 Security advisories are accessible on our website and repository, as well as via a feed.
 
-:::{admonition} {{pp_meta.name}} Security Measures 🛡
+:::{admonition} {{ccc.name}} Security Measures 🛡
 :class: seealso
 Learn more about our security measures and procedures to handle vulnerability issues on our
 maintenance guide(../collaborate/maintenance/index).
@@ -39,19 +39,19 @@ Please DO NOT
 #### Where to Report
 We use [GitHub's security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
 of our repository to securely discuss, fix and publish information about security vulnerabilities
-in {{pp_meta.name}}.
+in {{ccc.name}}.
 To privately report a security vulnerability,
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
-or {{ '[**click here to directly open a private report form**]({})'.format(pp_meta.url.github.security.new_advisory) }}.
+or {{ '[**click here to directly open a private report form**]({})'.format(ccc.url.github.security.new_advisory) }}.
 
 Other ways to open a security advisory:
 
-On the {{ '[Issues]({})'.format(pp_meta.url.github.issues.home) }} tab
+On the {{ '[Issues]({})'.format(ccc.url.github.issues.home) }} tab
 
-On the {{ '[Security]({})'.format(pp_meta.url.github.security.home) }} tab
+On the {{ '[Security]({})'.format(ccc.url.github.security.home) }} tab
 
 
-:::::{admonition} {{pp_meta.name}} Security Measures 🛡
+:::::{admonition} {{ccc.name}} Security Measures 🛡
 :class: seealso
 ergergg
 ::::{dropdown} Email Body
@@ -168,7 +168,7 @@ and provides our users a chance to update their applications and protect themsel
 
 
 ### Testing for Vulnerabilities
-{{pp_meta.name}} is a free and open-source project.
+{{ccc.name}} is a free and open-source project.
 We encourage security researchers to help us improve our security measures
 by conducting vulnerability discovery activities on our application, website, and repository.
 Before starting, please read the [guidelines](#testing-for-vulnerabilities) below,
@@ -207,7 +207,7 @@ impair access to or damage a system or data.
 
 #### Scope
 This policy applies to any source code, data, or configuration directly stored in our GitHub repository
-at {{pp_meta.url.github.home}}, and any software, package, website, or other digital products and services that are
+at {{ccc.url.github.home}}, and any software, package, website, or other digital products and services that are
 directly published/deployed from this repository.
 
 **Any service not expressly listed above**, such as any connected services, are **excluded from scope**
@@ -215,4 +215,4 @@ and are **not authorized** for testing. Additionally, vulnerabilities found in s
 fall outside of this policy's scope and should be reported directly to the vendor according to their
 disclosure policy (if any). If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at {{pp_meta.maintainer.email.security}} to discuss it first, before starting your research.
+please contact us at {{ccc.maintainer.email.security}} to discuss it first, before starting your research.

@@ -1,6 +1,6 @@
 # Publications
 
-{% for publication in pp_meta.owner.publications %}
+{% for publication in ccc.owner.publications %}
 {% if publication.type == "journal-article" %}
 * {{ publication.title }} {{ publication.year }}
 {% else %}

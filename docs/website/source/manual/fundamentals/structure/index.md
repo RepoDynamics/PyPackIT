@@ -15,7 +15,7 @@ root
 
 
 In addition to several files in the root directory,
-{{ pp_meta.name }} recognizes and works with seven main directories
+{{ ccc.name }} recognizes and works with seven main directories
 and their contents in your repository:
 
 
@@ -37,7 +37,7 @@ containing all information, configurations and metadata for the entire project.
 :class-title: sd-text-center
 
 The directory where GitHub looks for GitHub Actions workflow files and other configuration files.
-{{pp_meta.name}} also uses this directory to store some of its own data and settings,
+{{ccc.name}} also uses this directory to store some of its own data and settings,
 as well as configuration files for other external tools.
 :::
 
@@ -73,7 +73,7 @@ All contents and configuration files required to build your website are stored i
 One of the directories where GitHub looks for
 the community health files of your repository,
 along with some other configuration files.
-By default, {{pp_meta.name}} also places the website directory inside this directory.
+By default, {{ccc.name}} also places the website directory inside this directory.
 :::
 
 :::{grid-item-card} Local Directory
@@ -90,7 +90,7 @@ this directory is used to store cached data, reports, and logs.
 :link-type: doc
 :class-title: sd-text-center
 
-{{pp_meta.name}} also recognizes and works with several files in the root directory of your repository.
+{{ccc.name}} also recognizes and works with several files in the root directory of your repository.
 :::
 
 ::::
@@ -98,7 +98,7 @@ this directory is used to store cached data, reports, and logs.
 
 These directories all have their default names and locations,
 and are created automatically when you initialize a new repository
-from the {{pp_meta.name}} repository template.
+from the {{ccc.name}} repository template.
 Therefore, your repository will have the following
 main directory structure (files and subdirectories omitted) by default:
 
@@ -124,7 +124,7 @@ Apart from the GitHub and Docs directories, whose names and locations are fixed 
 you can [customize the paths](../../control/options/path/index.md) to all other directories,
 including the [control center directory](../../control/structure/index.md#location).
 However, **each directory must conform to a specific substructure**,
-meaning that {{pp_meta.name}} will look for specific files and subdirectories
+meaning that {{ccc.name}} will look for specific files and subdirectories
 in specific locations inside each directory, as described in the corresponding sections.
 Also, **all directories must be orthogonal to each other**,
 meaning that none of them can be a subdirectory of another.

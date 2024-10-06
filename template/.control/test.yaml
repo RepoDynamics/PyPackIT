@@ -1,52 +1,3 @@
-pkg:
-  path:
-    root: pkg
-  name: ${{ name }}
-  import_name: ${{ pkg.name }}
-  readme:
-    path: ${{ pkg.path.root }}/README.md
-    content: ${{ readme.main.content }}
-  urls:
-    Homepage: ${{ web.url.home }}
-    Documentation: ${{ web.page.manual.url }}
-    Source: ${{ repo.url.home }}
-    Download: ${{ repo.url.releases.home }}
-    News: ${{ web.page.blog.url }}
-    Issue-Tracker: ${{ repo.url.issues.home }}
-  entry:
-    cli:
-      main:
-        name: ${{ pkg.import_name }}
-        description: Main CLI entry of the package.
-        ref: ${{ pkg.import_name }}:__main__
-  dependency:
-    core:
-      pkg_resources:
-        name: PkgData
-        import_name: pkgdata
-        description: |
-          Handling package resources, such as accessing data files that are
-          distributed with the package.
-        pip:
-          spec: pkgdata
-        url:
-          docs: https://pkgdata.repodynamics.com/
-          source: https://github.com/repodynamics/pkgdata
-  file:
-    __init__.py:
-      docstring: |
-        ${{name}}: ${{title}}.
-
-        ${{abstract}}
-
-        ${{license.notice}}
-  manifest:
-    - graft ${{ pkg.path.source }}/${{ pkg.import_name }}/data
-    - global-exclude *.py[cod] __pycache__ *.so
-  build: &pkg-build
-    tool:
-      setuptools: {}
-      versioningit: {}
 test:
   path:
     root: tests
@@ -132,4 +83,4 @@ test:
     - graft ${{ test.path.source }}/${{ test.import_name }}/data
     - include ${{ test.path.source }}/${{ test.import_name }}/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build: *pkg-build
+  build: ${{ pkg.build }}

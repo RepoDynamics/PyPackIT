@@ -10,18 +10,18 @@ labels
 workflows/index
 :::
 
-This section provides a comprehensive overview of all fundamental aspects of {{ pp_meta.name }},
+This section provides a comprehensive overview of all fundamental aspects of {{ ccc.name }},
 its features and capabilities, and how they work under the hood.
-You do not need to know all the information in this section to use {{ pp_meta.name }},
+You do not need to know all the information in this section to use {{ ccc.name }},
 especially if you are just getting started with a new project,
 and do not have specific needs that require a high degree of customization,
-so that you are content with {{ pp_meta.name }}'s default settings and behavior.
+so that you are content with {{ ccc.name }}'s default settings and behavior.
 However, as your project grows, or if you already have an existing project that you want to integrate
-{{ pp_meta.name }} into, reading this guide will give you a much deeper understanding of
-{{ pp_meta.name }}'s capabilities and inner workings,
+{{ ccc.name }} into, reading this guide will give you a much deeper understanding of
+{{ ccc.name }}'s capabilities and inner workings,
 allowing you to fully leverage its features and functionalities for your specific needs.
 In any case, we recommend that you at least skim through this section
-before starting to use {{ pp_meta.name }} in your new or existing project,
+before starting to use {{ ccc.name }} in your new or existing project,
 so that you have a general idea of how it works and what to expect from it.
 
 ::::{grid} 1 1 2 2
@@ -33,7 +33,7 @@ so that you have a general idea of how it works and what to expect from it.
 :class-title: sd-text-center
 
 A detailed explanation of the directory structure of your repository,
-and how {{pp_meta.name}} uses it to manage your project.
+and how {{ccc.name}} uses it to manage your project.
 :::
 
 :::{grid-item-card} Branch Types
@@ -41,7 +41,7 @@ and how {{pp_meta.name}} uses it to manage your project.
 :link-type: branches
 :class-title: sd-text-center
 
-A detailed overview of the different branch types created, managed, and used by {{pp_meta.name}}.
+A detailed overview of the different branch types created, managed, and used by {{ccc.name}}.
 :::
 
 :::{grid-item-card} Commit Types
@@ -49,7 +49,7 @@ A detailed overview of the different branch types created, managed, and used by 
 :link-type: commits
 :class-title: sd-text-center
 
-A detailed overview of the different commit types created, managed, and used by {{pp_meta.name}}.
+A detailed overview of the different commit types created, managed, and used by {{ccc.name}}.
 :::
 
 :::{grid-item-card} Label Types
@@ -57,7 +57,7 @@ A detailed overview of the different commit types created, managed, and used by 
 :link-type: labels
 :class-title: sd-text-center
 
-A detailed overview of the different label types created, managed, and used by {{pp_meta.name}}.
+A detailed overview of the different label types created, managed, and used by {{ccc.name}}.
 :::
 
 :::{grid-item-card} Workflows
@@ -66,7 +66,7 @@ A detailed overview of the different label types created, managed, and used by {
 :class-title: sd-text-center
 
 An extensive summary of the continuous integration, deployment, and testing (CI/CD/CT) workflows
-implemented by {{pp_meta.name}}, and how they are used to fully automate
+implemented by {{ccc.name}}, and how they are used to fully automate
 the entire software development process of your project.
 :::
 

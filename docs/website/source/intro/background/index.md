@@ -111,13 +111,13 @@ thereby empowering the development of open-source Python projects.
 
 
 
-To address these challenges, we introduce {{ pp_meta.name }},
+To address these challenges, we introduce {{ ccc.name }},
 a fully automated, plug and play, professional software project management solution
 for open-source Python packages on GitHub.
 It provides a comprehensive, professional, and robust infrastructure for all main components of a project,
 including GitHub/Git repository, Python package, test suite,
 and documentation website, according to the latest standards and best practices.
-{{ pp_meta.name }} is a free and open-source software built on top of GitHub Actions,
+{{ ccc.name }} is a free and open-source software built on top of GitHub Actions,
 and offered as a GitHub repository template that can be readily utilized
 by new and existing projects.
 It comes with an exhaustive set of fully-configured
@@ -126,7 +126,7 @@ that automate and streamline the entire journey of creating, documenting, testin
 and maintaining Python packages, and render the entire project fully dynamic.
 By eliminating all the tedious, repetitive, and time-consuming
 peripheral aspects of the software development process,
-{{ pp_meta.name }} enables aspiring and experienced developers alike to rapidly build professional software,
+{{ ccc.name }} enables aspiring and experienced developers alike to rapidly build professional software,
 readily share them with the world, and effortlessly maintain their projects,
 thereby empowering the development of open-source Python projects,
 and fueling innovation and growth in the ecosystem.
@@ -153,36 +153,6 @@ have made software development more accessible and efficient than ever before.
 
 
 
-
-
-
-## Python
-
-[Python](https://www.python.org/) is a general-purpose, multi-paradigm programming language,
-created by Guido van Rossum and first released in 1991.[^python-timeline]
-It has since evolved into one of the most popular programming languages in the world,
-consistently ranking among the top five throughout the last decade, and topping the list since 2021,
-according to the [TIOBE Index](https://www.tiobe.com/tiobe-index/).
-
-[^python-timeline]: [G. van Rossum (2009). A Brief Timeline of Python. The History of Python](https://python-history.blogspot.com/2009/01/brief-timeline-of-python.html)
-
-Python was designed with an emphasis on code readability and simplicity;
-its high-level abstractions and straightforward syntax
-have made software development accessible to a wider range of users,
-while still being powerful and robust enough to support advanced applications.
-Python is a dynamically typed, interpreted language, with automatic memory management,
-which allows for rapid prototyping and implementation of complex concepts,
-enabling users to readily develop their ideas and share them with others.
-
-Owing to an active community of open-source developers, Python's rich ecosystem of libraries
-and frameworks has grown exponentially over the years,
-making it a powerful and versatile tool for a wide range of applications,
-from web development, to data science, artificial intelligence, and machine learning.
-Not only do large organizations like Google, NASA, and CERN use Python in many of their projects,
-but it has also become the language of choice for many startups,
-small businesses, and academic research groups.
-For example, the majority of scientific software across various disciplines of computational sciences
-are now being published as Python packages.
 
 
 ## GitHub

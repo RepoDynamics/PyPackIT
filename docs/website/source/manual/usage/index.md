@@ -10,11 +10,11 @@ website/index
 :::
 
 
-The usage manual guides you through your software development process with {{ pp_meta.name }}.
+The usage manual guides you through your software development process with {{ ccc.name }}.
 From explanation of various development cycles of your project,
 to detailed instructions on developing your Python package,
 its test suite, and your documentation website,
-this section provides a comprehensive guide to using {{ pp_meta.name }}
+this section provides a comprehensive guide to using {{ ccc.name }}
 to build and maintain your project.
 
 
@@ -26,7 +26,7 @@ to build and maintain your project.
 :link: dev/index
 :link-type: doc
 
-A step-by-step guide to various cycles of your software development process with {{ pp_meta.name }}.
+A step-by-step guide to various cycles of your software development process with {{ ccc.name }}.
 :::
 
 :::{grid-item-card} Package
@@ -34,7 +34,7 @@ A step-by-step guide to various cycles of your software development process with
 :link: package/index
 :link-type: doc
 
-Instructions on developing your Python package with {{ pp_meta.name }}.
+Instructions on developing your Python package with {{ ccc.name }}.
 :::
 
 :::{grid-item-card} Test Suite
@@ -42,7 +42,7 @@ Instructions on developing your Python package with {{ pp_meta.name }}.
 :link: tests/index
 :link-type: doc
 
-Instructions on developing the test suite of your package with {{ pp_meta.name }}.
+Instructions on developing the test suite of your package with {{ ccc.name }}.
 :::
 
 :::{grid-item-card} Website
@@ -50,7 +50,7 @@ Instructions on developing the test suite of your package with {{ pp_meta.name }
 :link: website/index
 :link-type: doc
 
-Instructions on developing the documentation website of your project with {{ pp_meta.name }}.
+Instructions on developing the documentation website of your project with {{ ccc.name }}.
 :::
 
 ::::

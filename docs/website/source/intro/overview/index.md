@@ -3,13 +3,13 @@ ccid: overview
 ---
 # Overview
 
-{{pp_meta.name}} is a fully configured, yet highly customizable automation system
+{{ccc.name}} is a fully configured, yet highly customizable automation system
 that integrates with your GitHub repository and takes responsibility for a large portion
 of common tasks in every step of the development and maintenance process of your software project.
 From configuring your repository, Python package, test-suite, documentation website,
 and all other related tools and services according to the latest standards and best practices,
 to managing your project's branches, issues, pull requests, and releases,
-{{pp_meta.name}} provides an exhaustive set of fully-configured
+{{ccc.name}} provides an exhaustive set of fully-configured
 continuous integration, deployment, and testing (CI/CD/CT) workflows
 that render your entire development and maintenance pipelines automated and dynamic.
 These workflows, which are built on
@@ -17,20 +17,20 @@ These workflows, which are built on
 detailed instructions and commands for automatically performing a variety of tasks every time an event
 (e.g., pushing to a branch, opening an issue or pull request, etc.) occurs in your repository.
 
-{{pp_meta.name}} is provided as a
+{{ccc.name}} is provided as a
 [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository),
 and uses [GitHub Actions](https://github.com/features/actions)
 to automate the entire development and maintenance process of your project.
-When you [create a new repository from the {{ pp_meta.name }} template](../../manual/install/new-repo.md),
-or [integrate {{ pp_meta.name }} into your existing repository](../../manual/install/existing-repo.md),
+When you [create a new repository from the {{ ccc.name }} template](../../manual/install/new-repo.md),
+or [integrate {{ ccc.name }} into your existing repository](../../manual/install/existing-repo.md),
 fully configured [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
 are added to your repository,
 which will automatically run GitHub Actions every time a supported event occurs in your repository.
-These workflows use {{ pp_meta.name }}'s own
+These workflows use {{ ccc.name }}'s own
 [custom actions](https://docs.github.com/en/actions/creating-actions/about-custom-actions),
 most notably the [RepoDynamics Action](https://github.com/RepoDynamics/init),
 which is entirely powered by our [RepoDynamics Python package](https://github.com/RepoDynamics/RepoDynamics).
-This package, being the brain of the {{ pp_meta.name }} software suite,
+This package, being the brain of the {{ ccc.name }} software suite,
 is responsible for analyzing the event that triggered the workflow,
 along with the current state of the repository, and automatically performing a variety of tasks accordingly.
 These include:
@@ -72,7 +72,7 @@ These include:
   [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project),
   and governance policy.
 - Adding and dynamically updating configuration files for other external tools that are used/supported
-  by {{ pp_meta.name }}, such as
+  by {{ ccc.name }}, such as
   [Read The Docs](https://readthedocs.org/) website,
   [Codecov](https://codecov.io/) test coverage reports,
   branch-specific [pre-commit](https://pre-commit.com/) configuration files,
@@ -99,9 +99,9 @@ These include:
 
 ### Control Center
 
-A prominent feature of {{ pp_meta.name }} is the centralized and dynamic
+A prominent feature of {{ ccc.name }} is the centralized and dynamic
 control center it provides for your project.
-It contains all the available settings for {{ pp_meta.name }} itself,
+It contains all the available settings for {{ ccc.name }} itself,
 along with various information, configurations, and metadata for your entire project and all its components,
 gathered in one place and thoughtfully organized and presented in a clear, consistent, and concise format.
 
@@ -115,12 +115,12 @@ you can simply manage your entire project from within the control center,
 using a single, unified, and consistent interface;
 
 
-When you apply a change to the repository's `meta` content, {{ pp_meta.name }} will automatically
+When you apply a change to the repository's `meta` content, {{ ccc.name }} will automatically
 apply the corresponding changes to the entire repository and its contents, and update all relevant files,
 configurations, and settings accordingly.
 
 Therefore, besides your source code, unit tests, and documentation content,
-all other aspects of your project are automatically managed by {{ pp_meta.name }} according to your specifications
+all other aspects of your project are automatically managed by {{ ccc.name }} according to your specifications
 in the `meta` directory.
 
 ${{ name }} automatically translates your changes into the appropriate formats,
@@ -152,7 +152,7 @@ pre-commit hooks configurations; settings for external platforms such as Codecov
 
 #### Substitutions and Templating
 
-{{ pp_meta.name }} also allows for complex and recursive templating for all the `meta` content,
+{{ ccc.name }} also allows for complex and recursive templating for all the `meta` content,
 meaning that you can reference and use any part of the `meta` content in all other parts, eliminating the need for
 redundant and repetitive configurations and data, which are hard to modify.
 This provides a high degree of customization and flexibility,
@@ -167,7 +167,7 @@ in all other parts of the control center.
 
 #### Inheritance
 
-To further reduce unnecessary redundancies, {{ pp_meta.name }} also lets you dynamically inherit
+To further reduce unnecessary redundancies, {{ ccc.name }} also lets you dynamically inherit
 specific `meta` contents of other repositories, allowing you to easily create and maintain
 multiple repositories with centralized configurations and settings.
 
@@ -185,7 +185,7 @@ the project's owner, authors, maintainers, and contributors, are periodically re
 from GitHub, and a full list of your package's active releases and their corresponding
 information are generated and maintained automatically.
 
-On top of this, {{ pp_meta.name }} also automatically extends your project's metadata
+On top of this, {{ ccc.name }} also automatically extends your project's metadata
 by fetching additional information from external sources.
 For example:
 - Name and the owner of the repository are automatically detected, and their full information
@@ -234,7 +234,7 @@ to your entire project.
 
 ### Documentation Website
 
-{{ pp_meta.name }} comes with a fully developed, ready to use,
+{{ ccc.name }} comes with a fully developed, ready to use,
 yet highly customizable professional documentation website for your project,
 that is automatically generated, deployed, and maintained,
 with minimal effort required from your side.
@@ -370,7 +370,7 @@ allowing for further advanced customizations, if needed.
 
 The build and deployment process of the website is automatically carried out on the cloud,
 as part of the provided GitHub Actions workflows for the repository.
-After {{ pp_meta.name }} is installed in your repository,
+After {{ ccc.name }} is installed in your repository,
 it automatically activates and configures the [GitHub Pages](https://pages.github.com/) service
 for your repository, and deploys the website.
 Subsequently, every time a change that affects the website
@@ -387,8 +387,8 @@ where `<username>` is the GitHub username of the person or organization that own
 and `<repository-name>` is the name of the repository.
 However, you can also configure a custom domain
 for your website in the repository's control center,
-and {{ pp_meta.name }} will automatically set it up for you.
-{{ pp_meta.name }} also automatically generates a full configuration file for the
+and {{ ccc.name }} will automatically set it up for you.
+{{ ccc.name }} also automatically generates a full configuration file for the
 [Read The Docs](https://readthedocs.org/) platform,
 so that you can easily build and deploy your website there as well.
 

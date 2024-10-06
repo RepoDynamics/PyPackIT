@@ -3,7 +3,7 @@
 Both GitHub Pages and ReadTheDocs allow you to customize your website's 404 error page,
 i.e., the page that is displayed when a user tries to access a page that does not exist.
 This is already implemented in the documentation website
-provided to you by the {{ pp_meta.name }} template repository.
+provided to you by the {{ ccc.name }} template repository.
 
 
 ## Customization

@@ -1,0 +1,76 @@
+/* Repository popup dialog */
+.user-login-dialog {
+  display: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+
+  &[open] {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 40%; /* Adjust this value to control the vertical positioning */
+    transform: translate(-50%, -50%);
+    width: 65%;
+    max-width: 400px;
+    background-color: var(--pst-color-background);
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--pst-color-primary);
+  }
+
+  &::backdrop {
+    background-color: black;
+    opacity: 0.5;
+  }
+}
+
+/* Styling for the form inside the popup */
+.user-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0;
+}
+
+.user-login-form h3 {
+  margin-top: 0;
+  margin-bottom: 1px;
+  color: var(--pst-color-primary);
+}
+.user-login-form p {
+  text-align: justify;
+  font-size: var(--pst-font-size-milli);
+}
+.user-login-form label {
+  color: var(--pst-color-primary);
+  margin-bottom: 2px;
+}
+
+
+/* Inputs */
+.user-login-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--pst-color-border);
+  border-radius: 4px;
+  background-color: var(--pst-color-background);
+  color: var(--pst-color-text-base);
+}
+
+/* Submit Button */
+.user-login-form button[type="submit"] {
+  background-color: var(--pst-color-primary);
+  color: var(--pst-color-surface);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-login-form button[type="submit"]:hover {
+  background-color: var(--pst-color-primary);
+}

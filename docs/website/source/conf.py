@@ -275,7 +275,7 @@ _add_extensions()
 _add_extension_ablog()
 
 html_context = global_vars.get("html_context", dict()) | {
-    "pp_meta": meta,
+    "ccc": meta,
     "pp_title_sep": global_vars.get("html_secnumber_suffix"),
 }
 

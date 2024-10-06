@@ -1,4 +1,4 @@
-# Structure and Location
+# Location and Structure
 Your repository's control center is a directory in your repository,
 where all contents are organized in a specific directory structure,
 and categorized and stored in various files; these are mostly in YAML format, except
@@ -19,20 +19,20 @@ full specification at [toml.io](https://toml.io/en/v1.0.0).
 
 
 ## Location
-By default, the control center is located at `{{ pp_meta.custom.path.dir_default_cc }}`.
+By default, the control center is located at `{{ ccc.custom.path.dir_default_cc }}`.
 You can customize the location of this directory
-by creating a file at `{{ pp_meta.custom.path.file_cc_path_def }}`
+by creating a file at `{{ ccc.custom.path.file_cc_path_def }}`
 containing the new path, relative to the root of your repository.
 
 ::::{dropdown} Example
 
 To change the location of the control center directory to `./some_directory/my_custom_meta_directory`,
 move the control center directory to this new location,
-and create a file at `{{ pp_meta.custom.path.file_cc_path_def }}` containing only a single line
+and create a file at `{{ ccc.custom.path.file_cc_path_def }}` containing only a single line
 as shown below:
 
 :::{code-block} text
-:caption: 🗂 `{{ pp_meta.custom.path.file_cc_path_def }}`
+:caption: 🗂 `{{ ccc.custom.path.file_cc_path_def }}`
 
 some_directory/my_custom_meta_directory
 :::
@@ -40,7 +40,7 @@ some_directory/my_custom_meta_directory
 ::::
 
 
-If this file exists, {{ pp_meta.name }} will look for the control center directory
+If this file exists, {{ ccc.name }} will look for the control center directory
 at the path specified in the file,
 otherwise, it will look for it at the default location, i.e., at `./.meta`.
 
@@ -60,12 +60,12 @@ otherwise, it will look for it at the default location, i.e., at `./.meta`.
 
 The control center directory has a fixed pre-defined structure, shown below.
 Note that your repository's control center does not need to contain all these files and directories;
-almost all configuration files have default values that are automatically used by {{ pp_meta.name }}
+almost all configuration files have default values that are automatically used by {{ ccc.name }}
 when the corresponding file is not present.
 On the other hand, except additional
 TOML files that can be placed under the `package_python/tools` subdirectory,
 you cannot add any additional files or directories to the control center;
-{{ pp_meta.name }} will ignore any files or directories
+{{ ccc.name }} will ignore any files or directories
 that are not part of the control center structure below.
 
 

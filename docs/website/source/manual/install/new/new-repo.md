@@ -61,14 +61,13 @@ and import it with `import my_project`{l=python}.
    by selecting it from the ***Owner*** dropdown menu.
 5. Click on the {bdg-success}`Create repository` button.
 
-
-
-
+:::{include} /_snippets/admo_login.md
+:::
 
 You will be redirected to the newly created repository in your selected account.
-Navigating to the repository's `Actions` tab, you will see that a workflow is running.
+Navigating to the repository's [Actions](){.user-link-repo-actions} tab, you will see that a workflow is running.
 It will automatically initialize the new repository by generating all necessary files 
-and removing extra files that belong to the {{pp_meta.name}} repository but are not part of the template.
+and removing extra files that belong to the {{ccc.name}} repository but are not part of the template.
 While waiting for the workflow to complete and **before making any other changes**,
 follow step 2 to [add a Personal Access Token (PAT) and activate external services](#install-common).
 
@@ -86,91 +85,101 @@ which contains all the generated files for your repository.
 
 Rarely, workflows may fail due to internal GitHub errors.
 When a workflow fails, you will see a red cross mark next to the workflow name.
-In this case, you can re-run the workflow by clicking on the `Re-run all jobs` button.
+In this case, you can re-run the workflow by clicking on the ***Re-run all jobs*** button.
 {{ ccc.name }} always generates comprehensive job reports and logs for each workflow run,
 which can also be investigated in case of a failure or unexpected behavior.
 :::
 
 Start customizing your new project:
 
-1. Navigate to the `.control/1_proj.yaml` file in the repository.
-2. 
+1. Navigate to the [`.control/proj.yaml`](){.user-link-repo-cc-proj} file in the repository.
+2. Replace the placeholder values for `$.title`, `$.abstract`, `$.keywords`, and `$.highlights` keys
+   with your project's information.
+3. Commit and push your changes. If you have followed the link above,
+   you should be on the [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
+   web-based editor, where you can commit and push your changes by clicking the
+   <i class="fa-solid fa-code-branch"></i> icon in the left sidebar,
+   typing a commit message, and clicking the {bdg-success}`Commit & Push` button.
 
+After pushing your changes, the workflow will run again
+and update all dynamic files with the new project information.
+Looking at the changed files in the newly created [commits](){.user-link-repo-commits},
+you can find all the files that have been updated with your new project's information,
+such as the [repository README file](){.user-link-repo-readme}.
+Furthermore, since now you have provided your PAT,
+the workflow will also activate [GitHub Pages](https://pages.github.com/) for your repository,
+build your website, and deploy it online.
+A link to your website will be added to the
+the [About](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#about-topics)
+section of your repository's [homepage](){.user-link-repo-home},
+along with your project's title and keywords.
 
+Your repository is now in the initialization phase.
+During this phase, every time you push a commit to the repository, {{ccc.name}} will:
 
-a second commit has been added to your repository's default branch,
-and that it now contains only three directories: `.github`, `.meta`, and `docs`.
-The repository is now in the initialization phase.
-In this phase, the branch protection rules have not been applied yet,
-so you can directly make changes to the default branch and push them to the remote repository.
-You also don't have to worry about the commit messages in this phase,
-as all commits will be squashed into a single commit at the [end of the initialization phase](#initialize-project).
-The goal is to add your project's basic information and metadata,
-and configure your repository until you are satisfied with the results.
+- Update all dynamic files and directories according to the control center configurations.
+- Update repository configurations, including general settings, branch names,
+  labels, issues forms, discussions, security settings, etc.
+- Build and deploy your website to GitHub Pages.
+- Build, lint, and test your package.
+- Upload build artifacts, reports, and logs for each workflow run.
 
-The `.meta` directory is the default location of your repository's [control center](../control/index.md),
-where all configurations, metadata, and settings for your GitHub repository (and its corresponding git repository),
-package, website, development pipeline, and other tools are stored in one place.
-When you apply a change to the control center's content and push it to the remote repository,
-{{pp_meta.name}} will automatically apply the corresponding changes to entire repository and its content,
-so that the repository is always in a consistent state with its control center.
+Continue customizing your project by modifying the [control center files](){.user-link-repo-cc}
+and pushing your changes to the repository.
+For example, open the [`.control/doc.yaml`](){.user-link-repo-cc-doc} file
+and change your project theme's colors under [`$.theme.color`](#ccc-theme-color);
+this will update the color of multiple components in your website, README files, and other documents.
+You can also add your project's logo by replacing the default logo files
+in [`docs/media/logo`](){.user-link-repo-logo} directory.
 
+:::{admonition} Control Center Configurations
+:class: seealso
 
-All available options are already provided in the `.meta` directory,
-where all general configurations and settings are set to sensible default values.
-Therefore, as the first step, you only need to add some basic information about your project,
-and provide some project-specific configurations:
-
-- Open the project introduction metadata file at
-  `./.meta/project/intro.yaml` and add a tagline, description, and some keywords and keynotes
-  for your project.
-- Open the project theme metadata file at `./.meta/ui/theme.yaml` and add the colors for your project.
-- Open the logo directory at `./.meta/ui/logo` and add your project's logos.
-- By default, the [GNU Affero General Public License v3 or later] is selected as the license for your project.
-  If you want to use a different license, modify the license metadata file at `./.meta/project/license.yaml`
-  to select a different pre-defined license or provide your own custom license.
-- If you want to add multiple authors
-  (by default, the repository owner is added automatically as the only author),
-  or want to add funding options to your project,
-  open the project credits metadata file at `./.meta/project/credits.yaml` and add the corresponding information.
-- By default, the repository owner is set as the only maintainer for all issues, pull requests,
-  and discussions, and their email address (read from their GitHub account) is set as
-  the contact email address for the project.
-  You can change these in the project maintainers metadata file at `./.meta/dev/maintainers.yaml`.
-
-After you have committed and pushed your changes, the CI/CD workflow will automatically run again.
-During the initialization phase, the workflow will perform the following tasks on each push:
-- Update all dynamics directories and files, according to the control center settings.
-- Update the repository's general info and settings, according to the `repo.config` specifications
-  in the `./.meta/dev/repo.yaml` file.
-  This includes the repository's description, website URL, and topics (keywords),
-  which are displayed under the `About` section of the repository's homepage on GitHub, along with
-  security settings such as secret scanning, vulnerability alerts, automated security fixes,
-  and private security advisories, as well as enabling/disabling different GitHub features
-  such as issues, discussions, projects, and wiki.
-  Note that issues, squash merges, and the ability of GitHub Actions to create and approve pull requests
-  are always automatically enabled by {{pp_meta.name}}, since they are required for its functionalities.
-- Update the repository's labels, according to the specifications in the `./.meta/dev/labels.yaml` file.
-- Activate the repository's GitHub Pages if necessary, update its custom URL
-  if specified in the `web.base_url` specification of the `./.meta/ui/web.yaml` file,
-  and deploy the website to GitHub Pages.
-- Update the name of the repository's default branch, according to the `branch.default.name` specification
-  in the `./.meta/dev/branches.yaml` file.
+For a full reference of all available options in your repository's control center,
+see the [Options](../control/options/index.md) section.
+:::
 
 
 (install-new-project-init)=
 ## Project Initialization
 
-After you feel satisfied with the results, you can initialize your project by pushing a commit
-with the message "init" to the default branch of your repository.
-This will signal the end of the initialization phase, and will trigger the following tasks
-(after running the tasks in the initialization phase for one last time):
-- Squash all commits in the default branch into a single commit.
+After you feel satisfied with the results,
+signal {{ccc.name}} to initialize your project,
+by pushing a commit of [type](#feature-commits-structure) `init`
+(i.e., a commit whose message starts with ***init:***).
+After performing the same tasks as in the initialization phase,
+{{ccc.name}} will:
+
+- Replace all previous commits in the repository with a single `init` commit.
 - Tag the commit with the version number `0.0.0`.
 - Publish your package to PyPI and TestPyPI.
-- Apply the branch protection rules to all branches.
+- Apply branch protection rules to all branches.
 
-After the workflow completes, your repository is now fully initialized and in its normal state.
-From this point on, you must follow the development cycle of {{pp_meta.name}}
-to make changes to your repository.
+You can also customize the initialization process by providing additional configurations
+in the commit message:
 
+- To disable commit squashing and keep the previous commits in the repository,
+  set the `squash` key to `false` in the [commit message footer](#feature-commits-structure).
+- To use a different version number for the initial release,
+  set the `version` key to the desired version number in the commit message footer
+  (e.g., `version: 1.0.0`).
+- Provide a custom description in the commit message summary to overwrite the default message
+  (e.g., `init: Start my project.`).
+
+:::{code-block}
+:caption: Example `init` commit message
+
+init: Initialize my project.
+
+Here is an optional body for my commit message.
+
+-----------------------------------------------
+squash: false
+version: 1.0.0
+:::
+
+Your repository is now fully configured,
+your package is published, your website is live,
+and all your workflows are set up and running. 
+Continue to the [Quickstart](#quickstart) section
+to learn how to further develop your project with {{ccc.name}}.

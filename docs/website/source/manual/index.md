@@ -16,16 +16,16 @@ technical/index
 :::
 
 
-The user manual provides in-depth information on the key concepts of {{pp_meta.name}},
+The user manual provides in-depth information on the key concepts of {{ccc.name}},
 along with detailed explanations of all its features and functionalities.
-From step-by-step instructions on setting up {{pp_meta.name}} for the first time
+From step-by-step instructions on setting up {{ccc.name}} for the first time
 and integrating it into your new or existing project,
 to comprehensive guides on how to use its various features and functionalities
 in your software development process,
 this section covers everything you need to know
-to fully leverage {{pp_meta.name}}'s capabilities.
+to fully leverage {{ccc.name}}'s capabilities.
 Acting as the main source of information for new and experienced users alike,
-it also provides a full reference of all {{pp_meta.name}}'s available configurations
+it also provides a full reference of all {{ccc.name}}'s available configurations
 and options that can be set to fully customize it according to your project's specific needs.
 
 ::::{grid} 1 2 2 2
@@ -36,7 +36,7 @@ and options that can be set to fully customize it according to your project's sp
 :link: fundamentals/index
 :link-type: doc
 
-A comprehensive overview of all fundamental aspects of {{ pp_meta.name }},
+A comprehensive overview of all fundamental aspects of {{ ccc.name }},
 its features and capabilities, and how they work under the hood.
 :::
 
@@ -45,7 +45,7 @@ its features and capabilities, and how they work under the hood.
 :link: install/index
 :link-type: doc
 
-Step-by-step instructions to getting started with {{ pp_meta.name }}
+Step-by-step instructions to getting started with {{ ccc.name }}
 and start using it in your new or existing project.
 :::
 
@@ -63,7 +63,7 @@ along with a full reference of all its available options.
 :link: usage/index
 :link-type: doc
 
-An in-depth guide on how to use {{ pp_meta.name}}'s various features and functionalities
+An in-depth guide on how to use {{ ccc.name}}'s various features and functionalities
 in your software development process.
 :::
 
@@ -73,7 +73,7 @@ in your software development process.
 :link-type: doc
 :margin: 3 3 auto auto
 
-Technical details on {{ pp_meta.name }}'s architecture, implementation, and infrastructure,
+Technical details on {{ ccc.name }}'s architecture, implementation, and infrastructure,
 along with instructions on how to update, extend, and customize it.
 :::
 

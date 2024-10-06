@@ -4,7 +4,7 @@
 ## Authors
 ::::{grid} 2 3 3 4
 :gutter: 3
-{% for author in pp_meta.author.entries %}
+{% for author in ccc.author.entries %}
 :::{grid-item-card} {{author.name}}
 :class-title: sd-text-center
 :class-footer: centered
@@ -25,7 +25,7 @@
 ## Maintainers
 ::::{grid} 2 3 3 4
 :gutter: 3
-{% for maintainer in pp_meta.maintainer.list %}
+{% for maintainer in ccc.maintainer.list %}
 :::{grid-item-card} {{maintainer.name}}
 :class-title: sd-text-center
 :class-footer: centered
