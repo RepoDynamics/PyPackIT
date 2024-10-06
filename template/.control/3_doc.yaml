@@ -360,6 +360,7 @@ web:
       python_display_short_literal_types: true
       python_maximum_signature_line_length: 80
     extension:
+      # Sphinx's built-in extensions: https://www.sphinx-doc.org/en/master/usage/extensions/index.html#built-in-extensions
       autosummary:
         dependency:
           import_name: sphinx.ext.autosummary
@@ -386,8 +387,12 @@ web:
         dependency:
           import_name: sphinx.ext.mathjax
       linkcode:
+        # For configuration see `linkcode_resolve` function in `conf.py`.
         dependency:
           import_name: sphinx.ext.linkcode
+          description: Linking source code to documentation.
+          url:
+            docs: https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
       intersphinx:
         dependency:
           import_name: sphinx.ext.intersphinx
@@ -406,6 +411,12 @@ web:
             numpy: null
             scipy: null
             matplotlib: null
+      ifconfig:
+        dependency:
+          import_name: sphinx.ext.ifconfig
+          description: Conditional content in Sphinx.
+          url:
+            docs: https://www.sphinx-doc.org/en/master/usage/extensions/ifconfig.html
   theme:
     dependency:
       import_name: pydata_sphinx_theme
@@ -491,6 +502,8 @@ web:
         doc_path: ${{ web.path.root }}/${{ web.path.source }}
         default_mode: auto  # Default theme mode: {'light', 'dark', 'auto'}
   extension:
+    # Resources:
+    # - https://www.sphinx-doc.org/en/master/usage/extensions/index.html#third-party-extensions
     myst-nb:
       dependency:
         import_name: myst_nb
