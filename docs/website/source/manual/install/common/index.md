@@ -116,9 +116,5 @@ your respective accounts:
 
 <!-- (https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content) -->
 
-:::{dropdown} 🚧 Under Construction 🚧
-:color: danger
-
-This section is currently under construction.
+:::{include} /_snippets/under_construction.md
 :::
-
