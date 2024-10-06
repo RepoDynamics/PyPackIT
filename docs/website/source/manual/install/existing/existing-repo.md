@@ -1,3 +1,4 @@
+(install-existing)=
 # Existing Repository
 
 :::{admonition} 🚧 Under Construction 🚧
