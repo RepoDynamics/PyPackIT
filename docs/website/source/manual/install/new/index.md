@@ -2,7 +2,7 @@
 # New Repository
 
 To install {{ccc.name}} in a new GitHub repository:
-1. [Create a repository from {{ cc.name }}'s template repository](#install-repo-creation).
+1. [Create a repository from {{ ccc.name }}'s template repository](#install-repo-creation).
 2. [Add a Personal Access Token (PAT) and activate external services](#install-common).
 3. [Customize project configurations and metadata](#install-new-project-config).
 4. [Initialize project with a commit](#install-new-project-init).
