@@ -25,12 +25,12 @@ using {{ ccc.name }}'s GitHub template repository:
 
 1. [Sign in](https://github.com/login) to your GitHub account.
 2. {{ '[Click here](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
-   or alternatively navigate to the {{ '[{} template repository]({})'.format(ccc.name, ccc.github.url.home) }},
+   or alternatively navigate to the {{ '[{} template repository]({})'.format(ccc.name, ccc.repo.url.home) }},
    Click on the {bdg-success}`Use this template` button on the top-right corner
    and select ***Create a new repository*** from the dropdown menu.
 3. Enter a name for your repository in the ***Repository name*** field.
 
-{#install-repo-naming}
+{ #install-repo-naming}
 :::{admonition} Repository Naming
 :class: dropdown tip
 
