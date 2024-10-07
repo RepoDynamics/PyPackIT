@@ -13,7 +13,7 @@ title: Cloud-Based Continuous Software Engineering Automation for Python Package
   # - Better Research Software in Python with Automation on GitHub
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
-  ${{ name }} (*IPA*: ${{ custom.project_name_ipa }})
+  ${{ name }} (*IPA*: ${{ custom.name_ipa }})
   is a comprehensive **cloud-based automation tool** 
   for production of professional and scientific software on **GitHub**,
   in accordance with the latest standards and engineering best practices. 

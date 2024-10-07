@@ -1,5 +1,5 @@
 ---
-ccid: contrib
+ccid: contribute
 ---
 # Contribute
 :::{toctree}

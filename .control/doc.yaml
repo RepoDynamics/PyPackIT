@@ -157,10 +157,6 @@ web:
           - file: manual/install/index
           - file: manual/quickstart/index
           - file: manual/testing/index
-      - file: api/index
-        title: API
-        entries:
-          - file: api/${{ pkg.import_name }}/${{ pkg.import_name }}
       - file: news/index
         title: News
         entries:
@@ -484,23 +480,6 @@ web:
       config:
         external_toc_path: ${{ web.toc.path }}
         external_toc_exclude_missing: false
-    autodoc2:
-      dependency:
-        import_name: autodoc2
-        description: Automatically generating Python API documentation from docstrings.
-        url:
-          docs: https://sphinx-autodoc2.readthedocs.io/
-          source: https://github.com/sphinx-extensions2/sphinx-autodoc2
-          pip: https://pypi.org/project/sphinx-autodoc2/
-        pip:
-          spec: sphinx-autodoc2 == 0.5.0
-      config:
-        autodoc2_index_template: null
-        autodoc2_packages: [ '${{ web.path.to_root }}/${{ pkg.path.import }}' ]
-        autodoc2_output_dir: api
-        autodoc2_render_plugin: myst
-        autodoc2_hidden_objects: [ private, inherited ]
-        autodoc2_sort_names: true
     ablog:
       dependency:
         import_name: ablog
