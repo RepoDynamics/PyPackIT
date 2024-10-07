@@ -2199,7 +2199,6 @@ issue:
 #          {summary}
 #
 #
-
 #    - id: web_bug_frontend
 #      type: web
 #      name: '📚 Docs  🪲 Bug Report  📄 Content'

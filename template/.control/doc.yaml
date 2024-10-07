@@ -37,26 +37,25 @@ theme:
           link: ${{ license.url }}
           title: ${{ name }} is licensed under the ${{ license.name }}
           alt: ${{ license.name }}
-          align: left
+          align: right
+    - class: badges
+      style: for-the-badge
+      items:
         - service: repodynamics
           endpoint: pypackit
-          align: right
 readme:
   main:
     path: README.md
     content:
-      heading:
-        content:
-          - class: block_image
-            src: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.light }}
-            src_dark: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.dark }}
-            title: Welcome to ${{ name }}! Click to visit our website and learn more.
-            alt: '${{ name }}: ${{ title }}'
-            width: 80%
-            link: ${{ web.url.home }}
-        attrs:
+      body:
+        - class: block_image
+          src: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.light }}
+          src_dark: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.dark }}
+          title: Welcome to ${{ name }}! Click to visit our website and learn more.
+          alt: '${{ name }}: ${{ title }}'
           align: center
-      body: &readme_content
+          width: 80%
+          link: ${{ web.url.home }}
         - class: menu
           items:
             - text: Intro
@@ -123,98 +122,20 @@ readme:
           height: 33px
           attrs_container:
             align: center
+        - <br>
       section:
-      - heading: Highlights
-        body:
-          - class: highlights
-            items: ${{ highlights }}
-            button:
-              style: for-the-badge
-              color: [ '${{ theme.color.primary.light }}', '${{ theme.color.secondary.light }}' ]
-              color_dark: [ '${{ theme.color.primary.dark }}', '${{ theme.color.secondary.dark }}' ]
-              height: 30px
-              align: left
-            attrs_p:
-              align: justify
-#  dir:
-#    .github:
-#      content: |
-#        # GitHub Directory
-#
-#        ## Workflows
-#        The `.github/workflows` directory contains GitHub Actions
-#        [workflow definition files](https://docs.github.com/en/actions/using-workflows/about-workflows).
-#    .github/DISCUSSION_TEMPLATE:
-#      content: |
-#        # GitHub Discussion Category Forms
-#
-#        > [!IMPORTANT]
-#        > Do not manually modify the contents of this directory.
-#          All files in this directory are automatically maintained; do not modify them manually.
-#          They can be managed through the [`user/discussion.yaml`](${{ dir.control }}/user/discussion.yaml)
-#          configuration file of the repository's [control center](${{ dir.control }}).
-#
-#        This directory contains templates for GitHub discussion category forms,
-#        which are used to customize the templates
-#
-#        It encourages community members to include specific, structured information
-#        in their discussions by using customizable web form fields.
-#
-#        To be recognized by GitHub, discussion category forms must be stored in the directory `/.github/DISCUSSION_TEMPLATE/`
-#        (i.e. this directory).
-#
-#        Each YAML file defines a form for a specific discussion category, indicated by the
-#        filename, which must correspond with the slug for one of the discussion categories.
-#        For example, the template for the "New Announcements" category should be stored in
-#        `.github/DISCUSSION_TEMPLATE/new-announcements.yml`.
-#
-#    .github/ISSUE_TEMPLATE:
-#      content: |
-#        # GitHub Issues Settings
-#        This directory contains templates and configurations used when an issue is opened in the repository.
-#
-#        ## Templates
-#        The issues templates use the GitHub's [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms)
-#        to create customizable web form fields. Each `.yml` file (other than `config.yml`) provides a template for
-#        a specific issue type. The issue forms use the YAML format, with a series of defined [top-level keys](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax)
-#        such as `name`, `description` and `labels`, and a [body syntax](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema)
-#        to define the form fields.
-#
-#        Any YAML file created in this directory using the specified syntax will be automatically added to the list of possible
-#        issue forms that users can select from when opening a new issue in the repository.
-#
-#
-#        ## Configurations
-#        The [config.yml](../../.meta/config/issues_template_chooser.yaml) file contains the configurations for the
-#        [template chooser](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser),
-#        i.e. the landing page of the repository's 'Issues' section.
-#
-#        ### Options
-#        - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.
-#        - `contact_links`: An array of dictionaries, defining additional external links for opening issues.
-#        These options will be displayed alongside the available templates in the 'Issues' section of the repository.
-#
-#        ## References
-#        - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
-#    .github/PULL_REQUEST_TEMPLATE:
-#      content: |
-#        # GitHub Pull Requests Templates
-#        This directory contains additional templates for pull requests.
-#
-#        By default, the template defined at [./github/pull_request_template.md](./github/pull_request_template.md)
-#        is used when opening a pull request. To use the extra templates in this directory,
-#        the `template` [query parameter](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
-#        must be added to the URL of the pull request form, defining the name of the template to use.
-#        For example, to use a template file named `my_custom_template.md`, add the following query string at the end of the
-#        URL: `?template=my_custom_template.md`. A full URL may e.g. look like this:
-#        https://github.com/my-username/my-repo/compare/main...my-branch?template=my_custom_template.md
-#
-#        ## Notes
-#        - Pull request template filenames are not case-sensitive, and can have an extension such as `.md` or `.txt`.
-#        - The YAML syntax used for issue forms is not supported for pull requests templates.
-#
-#        ## References
-#        - [GitHub Documentation](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
+        - heading: Highlights
+          body:
+            - class: highlights
+              items: ${{ highlights }}
+              button:
+                style: for-the-badge
+                color: [ '${{ theme.color.primary.light }}', '${{ theme.color.secondary.light }}' ]
+                color_dark: [ '${{ theme.color.primary.dark }}', '${{ theme.color.secondary.dark }}' ]
+                height: 30px
+                align: left
+              attrs_p:
+                align: justify
 health:
   code_of_conduct:
     path: CODE_OF_CONDUCT.md
@@ -862,3 +783,10 @@ web:
           channel: conda-forge
 announcement:
   path: ${{ web.path.root }}/announcement.html
+custom:
+  readme_caution_msg_dynamic_dir: |
+    > [!CAUTION]
+    > **Do not manually modify the contents of this directory**.
+    > All files in this directory are automatically maintained; do not modify them manually.
+    > They can be managed through the [`user/discussion.yaml`](${{ dir.control }}/user/discussion.yaml)
+    > configuration file of the repository's [control center](${{ dir.control }}).
