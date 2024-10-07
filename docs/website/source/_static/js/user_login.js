@@ -28,10 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to update all repository-related links
     const updateUserRepoLinks = (repoOwner, repoName, repoBranch) => {
-        // add icon to all link content
-        document.querySelectorAll('[class^="user-link-repo"]').forEach(link => {
-            link.textContent = `<i class="fa-brands fa-square-github"></i> ` + link.textContent;
-        }
         // update links
         document.querySelectorAll(".user-link-repo-home").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}`;
@@ -51,6 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-cc-proj").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/proj.yaml`;
         });
+        document.querySelectorAll(".user-link-repo-cc-doc").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/doc.yaml`;
+        });
         document.querySelectorAll(".user-link-repo-logo").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/docs/media/logo`;
         });
@@ -59,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         document.querySelectorAll(".user-link-repo-org-settings-actions").forEach(link => {
             link.href = `https://github.com/organizations/${repoOwner}/settings/actions`;
+        });
     };
 
     // Attach click handler to all instances of the login button
@@ -68,6 +68,11 @@ document.addEventListener("DOMContentLoaded", function() {
         Dialog.addEventListener('close', function() {
             btn.blur();
         });
+    });
+
+    // add icon to all link content
+    document.querySelectorAll('[class^="user-link-repo"]').forEach(link => {
+        link.innerHTML = `<i class="fa-brands fa-square-github"></i> ` + link.innerHTML;
     });
 
     // Close the popup if the user clicks outside the dialog
