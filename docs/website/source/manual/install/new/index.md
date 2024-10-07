@@ -30,9 +30,9 @@ using {{ ccc.name }}'s GitHub template repository:
    and select ***Create a new repository*** from the dropdown menu.
 3. Enter a name for your repository in the ***Repository name*** field.
 
-{ #install-repo-naming}
 :::{admonition} Repository Naming
 :class: dropdown tip
+:name: install-repo-naming
 
 A GitHub repository name can only contain alphanumeric characters,
 hyphens, underscores, and periods.
