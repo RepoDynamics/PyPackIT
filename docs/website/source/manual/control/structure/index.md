@@ -19,20 +19,20 @@ full specification at [toml.io](https://toml.io/en/v1.0.0).
 
 
 ## Location
-By default, the control center is located at `{{ ccc.custom.path.dir_default_cc }}`.
+By default, the control center is located at `.control`.
 You can customize the location of this directory
-by creating a file at `{{ ccc.custom.path.file_cc_path_def }}`
+by creating a file at ``
 containing the new path, relative to the root of your repository.
 
 ::::{dropdown} Example
 
 To change the location of the control center directory to `./some_directory/my_custom_meta_directory`,
 move the control center directory to this new location,
-and create a file at `{{ ccc.custom.path.file_cc_path_def }}` containing only a single line
+and create a file at `` containing only a single line
 as shown below:
 
 :::{code-block} text
-:caption: 🗂 `{{ ccc.custom.path.file_cc_path_def }}`
+:caption: 🗂 ``
 
 some_directory/my_custom_meta_directory
 :::
