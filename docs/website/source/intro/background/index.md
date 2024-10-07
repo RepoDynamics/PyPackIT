@@ -27,7 +27,10 @@ However,
 
 
 
-employing engineering best practices often fails due to a lack of supporting tools, which places an additional implementation burden on scientists \cite{ConfigManageForLargescaleSciComp}. Therefore, an ideal solution must be readily accessible and adoptable by all scientists, enabling them to immediately employ research software engineering best practices with minimal overhead \cite{ManagingChaos, SoftEngForCompSci}.
+employing engineering best practices often fails due to a lack of supporting tools, 
+which places an additional implementation burden on scientists \cite{ConfigManageForLargescaleSciComp}. 
+Therefore, an ideal solution must be readily accessible and adoptable by all scientists, 
+enabling them to immediately employ research software engineering best practices with minimal overhead \cite{ManagingChaos, SoftEngForCompSci}.
 
 
 The most common problems faced by amateur software developers are technical issues

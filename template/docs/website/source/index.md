@@ -43,9 +43,7 @@ html_theme.sidebar_secondary.remove:
 {% endfor %}
 ::::
 
-
 <br>
-
 
 <div class="element-in-page-without-sidebar">
 
@@ -58,7 +56,6 @@ html_theme.sidebar_secondary.remove:
 :::
 
 </div>
-
 
 
 ::::{card-carousel} 1

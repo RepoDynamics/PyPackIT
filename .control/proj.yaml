@@ -13,137 +13,31 @@ title: Cloud-Based Continuous Software Engineering Automation for Python Package
   # - Better Research Software in Python with Automation on GitHub
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
-  
-  As Computational Science and Engineering gains momentum, 
-  research quality increasingly depends on scientific software. 
-  Often faced with funding, time, staffing, and technical constraints, 
-  research software development can greatly benefit from automation solutions 
-  that improve quality and lower production costs. 
-  The recent integration of cloud computing frameworks into social coding platforms 
-  offers new opportunities to streamline research software engineering 
-  well beyond the capabilities of existing options. 
-  In response, we present PyPackIT—a comprehensive cloud-based automation tool 
-  for the production of Findable, Accessible, Interoperable, and Reusable research software, 
-  in accordance with Open Science and FAIR Principles. 
-  PyPackIT is a ready-to-use software enabling scientists 
-  to effortlessly create, develop, publish, and maintain high-quality software libraries in Python, 
-  the leading programming language for scientific applications. 
-  It allows users to solely focus on the scientific aspects of their projects 
-  by taking charge of repetitive management tasks and enforcing engineering best practices 
-  throughout the software development life-cycle. 
-  Using latest tools and standards, PyPackIT offers a robust project infrastructure, 
-  including a build-ready Python package skeleton, 
-  a fully operational test suite, a complete documentation website, 
-  and a user-friendly control center inspired by Infrastructure-as-Code 
-  and Continuous Configuration Automation practices 
-  to enable dynamic project management and customization. 
-  PyPackIT establishes a complete cloud development environment on GitHub, 
-  integrating with its version control system, issue tracker, 
-  and pull-based model to provide a fully automated software development workflow 
-  with issue management, branching model, and version scheme. 
-  Exploiting GitHub Actions, PyPackIT implements a cloud-native development process 
-  using Agile, Continuous software engineering, and DevOps methodologies, 
-  streamlined for scientific Python libraries with extensive 
-  Continuous Integration, Deployment, Testing, Refactoring, and Maintenance pipelines. 
-  PyPackIT is an open-source software suite that seamlessly integrates with 
-  both new and existing projects via a GitHub repository template at 
-  \url{https://github.com/repodynamics/pypackit}.
-  
-  
-  ${{ name }} (<i>IPA</i>: ${{ custom.project_name_ipa }})
-  is a comprehensive <b>cloud-based automation tool</b> 
-  facilitating the production of high-quality <b>Python packages</b> on <b>GitHub</b>.
+  ${{ name }} (*IPA*: ${{ custom.project_name_ipa }})
+  is a comprehensive **cloud-based automation tool** 
+  for production of professional and scientific software on **GitHub**,
+  in accordance with the latest standards and engineering best practices. 
   It is a ready-to-use software suite streamlining the initiation, configuration,
-  management, development, publication, and maintenance of professional and scientific software projects
-  in accordance with the latest software engineering best practices and methodologies,
-  such as <b>Agile</b>, </b>Continuous software engineering</b>, and <b>DevOps</b>.
-  PyPackIT is easily installable in both new and existing GitHub repositories,
-  providing a dynamic and robust project infrastructure including
-  a <b>build-ready Python package skeleton,/b>, 
-  a <b>fully operational test suite</b>,
-  a <b>complete documentation website</b>,
-  and a <b>user-friendly control center</b> to manage the entire project. 
-  Leveraging <b>GitHub Actions</b>, PyPackIT
-  
-  
-  ${{ name }} (<i>IPA</i>: ˈpaɪˌpækɪt) is a fully automated, plug and play,
-  professional software project management solution,
-  <b>empowering the development of Python packages on GitHub</b>.
-  It is a free and open-source software built on top of GitHub Actions,
-  and offered as a GitHub repository template that can be readily utilized
-  by new and existing projects.
-  ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
-  Python package, test suite, and documentation website, according to the latest standards and best practices.
-  It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT)
-  workflows that render your GitHub repository and all its contents entirely dynamic.
-  Managing your repository's settings, branches, labels, issues, and pull requests;
-  dynamically generating and updating all necessary configuration files;
-  linting, formatting, and testing your code on the cloud;
-  versioning, building, and publishing your package on PyPI;
-  creating GitHub releases with detailed release notes and changelogs;
-  and generating and deploying a complete documentation website on GitHub Pages,
-  are just a few examples of how ${{ name }} automates your entire software development process.
-  By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline,
-  ${{ name }} fuels innovation and growth in the Python ecosystem,
-  by enabling aspiring and experienced developers alike to rapidly build professional software,
-  readily share them with the world, and effortlessly maintain their projects.
-  With ${{ name }}, you are free to solely focus on what truly matters:
-  implementing your ideas and bringing your vision to life!
-  
-  
-  After installation, PyPackIT automatically activates in response to various repository events,
-  executing appropriate tasks on the GitHub Actions cloud computing platform.
-  It thus establishes an automated software development workflow tailored to research software needs,
-  based on a well-tested pull-based model for collaborative research software engineering.
-  It includes comprehensive Continuous software engineering pipelines that use the latest tools and technologies
-  to provide an automated Agile software development process,
-  enabling the experimental and highly iterative development of research software,
-  while reducing variance, complexity, cost, and risk.
-  PyPackIT's workflow automates the bulk of repetitive engineering and management activities
-  throughout the software life-cycle, including:
-  
-  
-  It allows users to solely focus on the scientific aspects of their projects by 
-  taking charge of repetitive management tasks and enforcing engineering best practices 
-  throughout the software development life-cycle.
-  
-  Using state-of-the-art tools and standards, 
-  
-  PyPackIT establishes a complete cloud development environment on GitHub, 
-  integrating with its version control system, issue tracker, and pull-based model 
-  to provide a fully automated software development workflow with issue management, branching model, 
-  and version scheme. 
-  
-  Exploiting GitHub Actions, PyPackIT implements a cloud-native development process 
-  using Agile, Continuous software engineering, and DevOps methodologies, streamlined for scientific 
-  Python libraries with extensive Continuous Integration, Deployment, Testing, Refactoring, and 
-  Maintenance pipelines. PyPackIT is an open-source software suite that seamlessly integrates with 
-  both new and existing projects via a GitHub repository template at \url{https://github.com/repodynamics/pypackit}.
-  
-  
-  It is a free and open-source software built on top of GitHub Actions,
-  and offered as a GitHub repository template that can be readily utilized
-  by new and existing projects.
-  
-  ${{ name }} provides a complete, professional, and robust infrastructure for your repository,
-  Python package, test suite, and documentation website, according to the latest standards and best practices.
-  It comes with an exhaustive set of fully-configured continuous integration, deployment, and testing (CI/CD/CT)
-  workflows that render your GitHub repository and all its contents entirely dynamic.
-  Managing your repository's settings, branches, labels, issues, and pull requests;
-  dynamically generating and updating all necessary configuration files;
-  linting, formatting, and testing your code on the cloud;
-  versioning, building, and publishing your package on PyPI;
-  creating GitHub releases with detailed release notes and changelogs;
-  and generating and deploying a complete documentation website on GitHub Pages,
-  are just a few examples of how ${{ name }} automates your entire software development process.
-  
-  By eliminating all the tedious, repetitive, and time-consuming steps of the development pipeline,
-  ${{ name }} fuels innovation and growth in the Python ecosystem,
-  by enabling aspiring and experienced developers alike to rapidly build professional software,
-  readily share them with the world, and effortlessly maintain their projects.
-  With ${{ name }}, you are free to solely focus on what truly matters:
-  implementing your ideas and bringing your vision to life!
-
+  development, publishing, management, and maintenance of high-quality software libraries in **Python**.
+  By taking charge of repetitive tasks and automatically enforcing best practices
+  throughout the software development life-cycle, 
+  ${{ name }} enables its users to solely focus on the creative aspects of their projects.
+  Using state-of-the-art tools and methodologies, it offers a robust project infrastructure, 
+  including a build-ready Python **package skeleton**, 
+  a fully operational **test suite**, a complete **documentation website**, 
+  and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
+  and dynamic project management. 
+  ${{ name }} establishes a complete **cloud development** environment on GitHub, 
+  integrating with its version control system, issue tracker, 
+  and pull-based model to provide a fully automated software development workflow, 
+  complete with **issue management**, **branching model**, and **version scheme**, among others. 
+  Leveraging **GitHub Actions**, PyPackIT implements a **cloud-native development** process 
+  using **Agile**, **Continuous** software engineering, and **DevOps** methodologies, 
+  streamlined for Python libraries with specialized Continuous Integration (CI),
+  Deployment (CD), Testing (CT), Refactoring (CR), and Maintenance (CM) pipelines. 
+  ${{ name }} is a free and open-source software suite that readily integrates with 
+  both new and existing projects, enabling developers to rapidly implement their ideas
+  and bring their vision to life, while ensuring the long-term sustainability and quality.
 keywords:
   - Project Management
   - Software Development
@@ -167,68 +61,34 @@ keywords:
   - Config
   # Automatic software project management; Cloud-native software development workflow; Continuous software engineering pipeline; GitHub Actions automation tool; Research software project template; FAIR scientific Python library
 highlights:
-  - title: Control Center
+  - title: Ready to Use
     description: |
-      A centralized user-interface to automatically control all project metadata and settings
-      according to DevOps practices like Infrastructure-as-Code and Continuous Configuration Automation.
-      It enables dynamic configuration management
+      With ${{ name }} you are only a few clicks away from releasing your Python package
+      on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
+      professional, and dynamic repository up and running, where the only remaining steps in your
+      software development process are adding your code, unit-tests and documentation content.
+      
+      Not only does ${{ name }} come with well-thought-out default configurations for all
+      its own options and settings, it also elevates your project by providing a complete set of
+      configurations for your repository, Python package, test suite, documentation website,
+      and all other tools and external services, according to the latest guidelines and best practices.
+      These are automatically applied to your new or existing project when you first start using ${{ name }},
+      and are updated dynamically whenever you make changes to the corresponding settings in the control center.
+
+  - title: Configuration Automation
+    description: |
+      ${{ name }} provides a centralized user-interface
+      based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
+      and **Continuous Configuration Automation** (CCA)
+      to automatically control all project metadata and settings. 
+      This **control center** enables dynamic configuration management
       for the entire project infrastructure and development workflow,
-      simplifying project setup, customization, and maintenance via
-      automatic data templating, inheritance, and synchronization features
-      that instantly apply modifications to all project components.
+      simplifying project setup, customization, and maintenance
+      via automatic data **templating** and **augmentation**, cross-repository **inheritance**,
+      and **synchronization** features that instantly apply modifications to all project components.
       Fully pre-configured according to latest guidelines and best practices,
-      it requires most users to only fill project-specific metadata.
-      
-      ${{ name }} provides a centralized control center for your repository,
-      where all available settings for ${{ name }} are gathered in one place
-      along with all information, configurations, and metadata of your project,
-      and thoughtfully organized and presented in a clear, consistent, and concise format,
-      mainly through the use of YAML files.
-      Whenever you commit changes to the control center files, they are automatically
-      applied to your repository, Python package,
-      test suite, documentation website, and all other tools and external services.
-      Therefore, instead of having to deal with multiple interfaces and diverse configuration
-      and metadata files scattered across your repository and each with its own format and syntax,
-      you can simply manage your entire project from within the control center,
-      using a single, unified, and consistent interface;
-      ${{ name }} automatically translates your changes into the appropriate formats,
-      generates all necessary files in the required locations, and updates them dynamically.
-
-      The control center contains all key information and metadata of your project,
-      such as its name, description, keywords, license and copyright information,
-      authors/maintainers and their roles, contact information, citations,
-      and branding and styling information, to name a few.
-      On top of these, ${{ name }} automatically augments your project's metadata
-      with various dynamic information, so that you don't have to manually define and update them.
-      For example, all information on your GitHub repository, along with full details of
-      the project's owner, authors, maintainers, and contributors, are periodically retrieved
-      from GitHub, and a full list of your package's active releases and their corresponding
-      information are generated and maintained automatically.
-
-      Furthermore, the control center contains all configurations and metadata for your
-      GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
-      GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
-      health files contents; README files contents; description and topics; gitignore and gitattributes files),
-      Python package and test suite (e.g. build configurations; package metadata; dependencies
-      and other requirements; entry points and scripts declarations; manifest file content;
-      docstrings; PyPI and Conda settings),
-      documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
-      custom domain declaration; web analytics settings, announcement configurations),
-      and all other tools and external services that are utilized by your project
-      (e.g. settings for various linting, formatting, and testing tools such as
-      Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
-      pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
-
-      In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
-      and customization, ${{ name }} allows for complex and recursive templating within all contents of
-      the control center, meaning that you can reference and reuse any piece of configuration or data
-      in all other parts of the control center.
-      You can also command ${{ name }} to dynamically inherit any piece of configuration or data
-      from any other GitHub repository, allowing you to easily share and reuse specifications
-      across multiple projects.
-
-      
-      
+      it requires most users to only fill project-specific metadata,
+      while extensive **customization** options are available for specialized requirements.
 
   - title: Python Package
     description: |
@@ -238,6 +98,16 @@ highlights:
       while PyPackIT automates all packaging, versioning, licensing, distribution, and indexing tasks.
       To facilitate software findability and usage, each new release is published to PyPI, Zenodo, and GitHub,
       with a persistent DOI ensuring reliable citation.
+      
+      A build-ready package skeleton with pre-configured source files and configuration files,
+      automatically customized according to project metadata and settings. 
+      Users only need to add scientific code to the provided source files, 
+      while PyPackIT automates all packaging, versioning, licensing, distribution, and indexing tasks. 
+      To facilitate research software findability and usage, each new release is published 
+      to PyPI, Zenodo, and GitHub, with a persistent DOI 
+      ensuring reliable citation and reproducibility of computational studies.
+      
+
   - title: Test Suite
     description: |
       A fully operational testing infrastructure enabling the immediate adoption of test-driven methodologies.
@@ -248,6 +118,17 @@ highlights:
       The test suite is automatically packaged and distributed along each release,
       facilitating the reproducibility of test results
       for verification of software functionality and performance.
+      
+      A fully operational testing infrastructure enabling the 
+      immediate adoption of test-driven methodologies. 
+      Requiring users to only write test cases in the provided package, 
+      PyPackIT automatically performs unit, regression, end-to-end, and functional testing 
+      throughout the development life-cycle, ensuring research software quality and correctness, 
+      while improving awareness of software health status via notifications and reports. 
+      The test suite is automatically packaged and distributed along each release, 
+      facilitating the reproducibility of test results for verification of software functionality and performance.
+      
+
   - title: Documentation Website
     description: |
       An automated documentation website deployed online to GitHub Pages and Read The Docs platforms,
@@ -260,16 +141,27 @@ highlights:
       
       ${{ name }} comes with a professional website for your project, that is easily
       customizable, and automatically generated and deployed on your preferred platform.
+      
+      
+      An automated documentation website deployed online to GitHub Pages 
+      and Read The Docs platforms, leaving users with no documentation tasks 
+      other than writing issue tickets and docstrings. 
+      Fully designed and pre-filled with detailed developer and user manuals, 
+      the website is also automatically updated with project information, 
+      software API documentation, and comprehensive release notes and changelogs. 
+      Most website elements are dynamic and easily customizable via PyPackIT's control center,
+      requiring no knowledge in web design.
   
 
   - title: Issue Management
     description: |
-      The project's issue-tracking system is dynamically maintained,
+      The project's issue-tracking system (ITS) is dynamically maintained,
       supplied with specialized issue submission forms to collect type-specific user inputs
       in a structured and machine-readable format.
       This allows PyPackIT to automate issue management activities
       such as ticket labeling and organization, bug triage, task assignment, 
       design documentation, and progress monitoring.
+
   - title: Version Control
     description: |
       To enable rapid project evolution while ensuring the reproducibility of earlier computational results,
@@ -277,12 +169,14 @@ highlights:
       and support of multiple releases.
       Fully integrating with Git, PyPackIT's workflow automates version control tasks
       such as branching, tagging, merging, and commit management.
+
   - title: Continuous Integration & Deployment
     description: |
       PyPackIT's CI/CD pipelines automate tasks such as code style formatting, static code analysis,
       type checking, testing, build, and release, thus eliminating the need for dedicated integration
       and deployment teams, while increasing control, integrity, scalability, security,
       and transparency of the Agile development process.
+
   - title: Continuous Maintenance & Testing
     description: |
       To ensure the long-term sustainability of projects and maintain the health of research software
@@ -300,7 +194,7 @@ highlights:
       to prevent unauthorized access, data breaches, and code injection attacks.
       Moreover, to ensure that PyPackIT itself is highly secure,
       its entire infrastructure is natively implemented and self-contained.
-      
+    
       ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
       with the exception of a handful of fundamental GitHub Actions and Python libraries from
       official sources such as the Python Packaging Authority and GitHub itself,
@@ -361,13 +255,8 @@ highlights:
       and generates a new version of the documentation website and deploys it on GitHub Pages,
       with added release notes and an announcement of the new release.
 
-      
-
   - title: Dynamic Content
     description: |
-      With the help of the provided control center and its templating capabilities,
-      ${{ name }} allows you to make most parts of your repository's contents and interfaces dynamic.
-      
       With the help of the provided control center and its templating capabilities,
       ${{ name }} allows you to make most parts of your repository's contents and interfaces dynamic.
       In addition to all the configuration and metadata files described above,
@@ -407,26 +296,8 @@ highlights:
       This allows you to easily maintain a consistent and unified presentation of your project
       across all interfaces and platforms, while eliminating any redundancy and manual intervention.
 
-
-  - title: Fully Configured
-    description: |
-      Not only does ${{ name }} come with well-thought-out default configurations for all
-      its own options and settings, it also elevates your project by providing a complete set of
-      configurations for your repository, Python package, test suite, documentation website,
-      and all other tools and external services, according to the latest guidelines and best practices.
-      
-      Not only does ${{ name }} come with well-thought-out default configurations for all
-      its own options and settings, it also elevates your project by providing a complete set of
-      configurations for your repository, Python package, test suite, documentation website,
-      and all other tools and external services, according to the latest guidelines and best practices.
-      These are automatically applied to your new or existing project when you first start using ${{ name }},
-      and are updated dynamically whenever you make changes to the corresponding settings in the control center.
-
   - title: Highly Customizable
     description: |
-      While carefully configured, ${{ name }} is also fully customizable,
-      allowing you to tailor every aspect of your development pipeline to your specific needs.
-      
       While carefully configured, ${{ name }} is also fully customizable,
       allowing you to tailor every aspect of your development pipeline to your specific needs.
 
@@ -438,7 +309,6 @@ highlights:
       (e.g. data retrieved from a web API), ${{ name }} allows you to define custom Python scripts
       that are automatically executed during the workflow runs, and whose outputs are then made available
       to your entire project.
-  
 
   - title: Cloud Development
     description: |
@@ -454,18 +324,6 @@ highlights:
       and that you can easily collaborate with other developers on your project,
       without having to install any software or configure any tools on your local machine.
   
-
-  - title: Plug & Play
-    description: |
-      With ${{ name }} you are only a few clicks away from releasing your Python package
-      on PyPI and GitHub, deploying a complete documentation website, and having a fully configured,
-      professional, and dynamic repository up and running, where the only remaining steps in your
-      software development process are adding your code, unit-tests and documentation content.
-
-      ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
-      with the exception of a handful of fundamental GitHub Actions and Python libraries from
-      official sources such as the Python Packaging Authority and GitHub itself,
-      ${{ name }} has no external dependencies, and does not rely on any third-party services.
 
 license:
   id: AGPL-3.0-or-later

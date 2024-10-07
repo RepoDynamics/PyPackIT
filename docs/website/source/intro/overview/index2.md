@@ -4,7 +4,28 @@ PyPackIT is an open-source, cloud-based software suite, hosted on GitHub at \url
 
 PyPackIT is a ready-to-use software, fully configured in accordance with research software requirements. Upon installation, users only need to invest a few minutes in basic tasks, such as filling project-specific information in the provided configuration files. PyPackIT then takes over, automatically setting up the repository and generating a complete infrastructure for the project, including a python package, test suite, documentation website, license, configuration files for various development tools and services, and community files such as a dynamic repository README. For new projects, the documentation website along with an initial release of the library is immediately deployed online, registering the project in indexing repositories and facilitating its discovery according to best practices \cite{4SimpleRecs, CICDSystematicReview}. All metadata and settings are readily customizable via PyPackIT's configuration files, which form a unified control center enabling dynamic configuration management for the entire project infrastructure and development environment throughout the software life-cycle.
 
-After installation, PyPackIT activates automatically in response to a range of GitHub repository events, such as issue ticket submissions, pushing commits, and PR reviews. It then analyzes the triggering event and the current state of the repository to determine the appropriate response, establishing an automated pull-based workflow that streamlines an Agile software development process (Figure \ref{fig:workflow}). This leaves users with only four manual tasks throughout the software life-cycle:
+After installation, PyPackIT activates automatically
+in response to various GitHub repository events, 
+such as issue ticket submissions, pushing commits, and PR reviews.
+
+It then analyzes the triggering event and the current state of the repository
+to determine the appropriate response, 
+establishing an automated pull-based workflow 
+that streamlines an Agile software development process (Figure \ref{fig:workflow}).
+This leaves users with only four manual tasks throughout the software life-cycle:
+
+
+
+executing appropriate tasks on the GitHub Actions cloud computing platform.
+It thus establishes an automated software development workflow tailored to research software needs,
+based on a well-tested pull-based model for collaborative research software engineering.
+It includes comprehensive Continuous software engineering pipelines that use the latest tools and technologies
+to provide an automated Agile software development process,
+enabling the experimental and highly iterative development of research software,
+while reducing variance, complexity, cost, and risk.
+PyPackIT's workflow automates the bulk of repetitive engineering and management activities
+throughout the software life-cycle, including:
+
 
 **Report**: Each task in the project starts by submitting a ticket to its ITS. PyPackIT facilitates reports by automatically configuring and maintaining GHI to provide users with specialized submission forms for various issue types. Following a ticket submission, PyPackIT automatically performs issue management tasks, reducing the triage process to a simple decision on whether to implement the task.
 **Design**: After an issue ticket is approved, users only need to write a short design document by filling a form attached to the ticket. PyPackIT's automated version control then activates, creating a ready-to-use branch for implementation, along with a dynamically maintained PR for progress tracking. 
@@ -73,6 +94,59 @@ Control center options include:
   facilitating centralized configuration. 
   For example, project descriptors and metadata are used in package and test-suite metadata, 
   documentation website, GitHub repository's settings, license files, and community health files.
+
+
+
+${{ name }} provides a centralized control center for your repository,
+where all available settings for ${{ name }} are gathered in one place
+along with all information, configurations, and metadata of your project,
+and thoughtfully organized and presented in a clear, consistent, and concise format,
+mainly through the use of YAML files.
+Whenever you commit changes to the control center files, they are automatically
+applied to your repository, Python package,
+test suite, documentation website, and all other tools and external services.
+Therefore, instead of having to deal with multiple interfaces and diverse configuration
+and metadata files scattered across your repository and each with its own format and syntax,
+you can simply manage your entire project from within the control center,
+using a single, unified, and consistent interface;
+${{ name }} automatically translates your changes into the appropriate formats,
+generates all necessary files in the required locations, and updates them dynamically.
+
+The control center contains all key information and metadata of your project,
+such as its name, description, keywords, license and copyright information,
+authors/maintainers and their roles, contact information, citations,
+and branding and styling information, to name a few.
+On top of these, ${{ name }} automatically augments your project's metadata
+with various dynamic information, so that you don't have to manually define and update them.
+For example, all information on your GitHub repository, along with full details of
+the project's owner, authors, maintainers, and contributors, are periodically retrieved
+from GitHub, and a full list of your package's active releases and their corresponding
+information are generated and maintained automatically.
+
+Furthermore, the control center contains all configurations and metadata for your
+GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
+GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
+health files contents; README files contents; description and topics; gitignore and gitattributes files),
+Python package and test suite (e.g. build configurations; package metadata; dependencies
+and other requirements; entry points and scripts declarations; manifest file content;
+docstrings; PyPI and Conda settings),
+documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
+custom domain declaration; web analytics settings, announcement configurations),
+and all other tools and external services that are utilized by your project
+(e.g. settings for various linting, formatting, and testing tools such as
+Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
+pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
+
+In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
+and customization, ${{ name }} allows for complex and recursive templating within all contents of
+the control center, meaning that you can reference and reuse any piece of configuration or data
+in all other parts of the control center.
+You can also command ${{ name }} to dynamically inherit any piece of configuration or data
+from any other GitHub repository, allowing you to easily share and reuse specifications
+across multiple projects.
+
+      
+
 
 
 ## Python Package

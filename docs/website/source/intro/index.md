@@ -4,6 +4,118 @@ ccid: intro
 
 # Introduction
 
+
+
+
+
+Computational Science and Engineering (CSE) \cite{CSE, CSE2} is a rapidly growing discipline 
+that uses numerical algorithms and simulations for scientific inquiry, 
+offering insights unattainable through theory and physical experimentation \cite{Bramley2000, EssenceOfCompSci, PillarsOfScience}. 
+Software plays a critical role in CSE \cite{RolesOfCodeInCSE}, 
+serving as the primary tool for performing simulations, data analysis, 
+and other scientific computing tasks \cite{DevelopingSciSoft}. 
+Thus, as CSE becomes an integral part of diverse scientific fields \cite{ResearchAndEdInCSE}, 
+publications increasingly involve the development and use of 
+research software—scientific software produced as research outputs \cite{NamingThePainInDevSciSoft, UKResearchSoftwareSurvey2014, HowScientistsDevAndUseSciSoft, HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl}. 
+Inevitably, the replicability, validity, and extensibility of these computational studies 
+strongly rely on the availability and quality of the underlying research software \cite{CompSciDemandsNewParagdim}. 
+
+
+Research software development is a complex and resource-intensive task, 
+often faced with challenges regarding funding, time, staffing, and technical expertise \cite{SurveySEPracticesInScience2, HowToSupportOpenSource, ManagingChaos, BetterSoftwareBetterResearch, SoftDevEnvForSciSoft}. 
+Requiring extensive domain knowledge, delegating it to software engineers is a challenging task \cite{SomeChallengesFacingSoftEngsDevSoftForSci, DevelopingSciSoft, ChallengesFacingSoftEngInSci, WhenEngineersMetScientists}. 
+Research software is thus commonly produced by scientists \cite{NamingThePainInDevSciSoft, BetterSoftwareBetterResearch, SoftEngForCompSci, HowScientistsDevAndUseSciSoft} 
+who are self-taught developers \cite{HowScientistsDevAndUseSciSoft, SurveySEPracticesInScience2, HowScientistsReallyUseComputers}. 
+However, the growing intricacy of scientific computing and software engineering 
+has created a chasm between the two practices \cite{SoftwareChasm, HowScientistsDevAndUseSciSoft, SciCompGridlock, SoftEngForCompSci}, 
+leaving scientists with little exposure to modern software engineering methodologies 
+that can greatly simplify and improve the development process \cite{BestPracticesForSciComp, CompSciError, WheresTheRealBottleneck, SelfPerceptions}. 
+Additionally, in contrast to the software industry where each task is carried out by specialized teams, 
+the entire responsibility of research software development is typically borne 
+by a small group of novice developers \cite{SoftEngForCompSci, AnalyzingGitHubRepoOfPapers, 10RuleForSoftwareInCompBio, HowScientistsReallyUseComputers} 
+who have to spend the majority of their time on the scientific aspects of their projects \cite{SurveySEPracticesInScience2, HowScientistsDevSciSoftExternalRepl}. 
+Therefore, the amount of effort and skills required to produce high-quality research software 
+in accordance with engineering best practices often far exceeds the capabilities of their developers \cite{SoftEngForCompSci, CompSciError, AdoptingSoftEngConceptsInSciResearch, BridgingTheChasm, SurveySEPracticesInScience, SurveySEPracticesInScience2, HowScientistsDevAndUseSciSoft, UnderstandingHPCCommunity, ProblemsOfEndUserDevs, ManagingChaos}. 
+This results in research software lacking in terms of accessibility, ease of installation and use, 
+documentation, interoperability, extensibility, maintainability, and correctness, among others \cite{BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci, SciSoftwareAccuracy}. 
+Enabled by unrewarding cultural values \cite{SurveySEPracticesInScience2, BetterSoftwareBetterResearch, RecommendOnResearchSoftware, SoftEngForCompSci, DealingWithRiskInSciSoft, ManagingChaos, ProblemsOfEndUserDevs} 
+and a lack of publication standards \cite{TowardReproducibleCompResearch, ReprodResearchInCompSci, RecommendOnResearchSoftware, CaseForOpenCompProg}, 
+such issues led to the so-called research software crisis, 
+negatively impacting the scientific progress in CSE \cite{TroublingTrendsInSciSoftware, SoftEngForCompSci, BridgingTheChasm, ReprodResearchInCompSci, ReproducibleResearchForSciComp, AccessibleReproducibleResearch, SciSoftwareAccuracy, SciSoftwareExtensibility, CompSciError, ExtensibilityAndLibrarization, HowToSupportOpenSource, ShiningLight, TExperiments, WhyJohnnyCantBuild, ImprovingScienceThatUsesCode}. 
+Acknowledging the importance and challenges of research software development, 
+efforts have been made to improve the status quo. 
+These include the introduction of research software engineering as a new academic role \cite{RSEIntro, RSEReportUK, RSEHistory, WhyScienceNeedsMoreRSE, SoftwareSustainabilityInstitute}, 
+and the establishment of various guidelines \cite{FAIR4RS, 4SimpleRecs, 10MetricsForSciSoftware, BestPracticesForSciComp, RecommendOnResearchSoftware, ELIXIRSoftwareManagementPlan, NLeScienceSoftDevGuide, BestPracticesInBioinfSoftware, 10RuleForSoftwareInCompBio, SustainableResearchSoftwareHandOver, QuickGuideToOrgCompBioProjects, EnhancingReproducibility, SciSoftDevIsNotOxymoron, 5RecommendedPracticesForCompSci, 10SimpleRulesOnWritingCleanAndReliableSciSoft, BarelySufficientPracticesInSciComp} 
+and workshops \cite{SoftwareCarpentryOriginal, SoftwareCarpentry, SoftEngForSci} 
+to promote software engineering best practices among scientists. 
+However, widespread adoption of such initiatives is often hindered by increased production costs \cite{RSEPillars, RSEinUnis, HowToSupportOpenSource, SoftDevEnvForSciSoft, NamingThePainInDevSciSoft}. 
+For example, employing engineering best practices often fails due to a lack of supporting tools, 
+which places an additional implementation burden on scientists \cite{ConfigManageForLargescaleSciComp}. 
+Therefore, an ideal solution must be readily accessible and adoptable by all scientists, 
+enabling them to immediately employ research software engineering best practices with minimal overhead \cite{ManagingChaos, SoftEngForCompSci}.
+
+
+Software engineering involves multiple phases 
+including planning, development, and operations, 
+requiring a well-coordinated workflow that depends on 
+various tools and technologies \cite{CollabSoftEngBookConcepts, StateOfArtInEndUserSoftEng}. 
+By far, the most common problems faced by research software developers are technical issues 
+regarding management, tooling, testing, documentation, deployment, and maintenance of software \cite{NamingThePainInDevSciSoft}. 
+Thus, automation tools that streamline such repetitive engineering tasks 
+according to research software needs can significantly accelerate development, 
+improve quality, and lower production costs at the same time \cite{SoftEngForCompSci, BestPracticesForSciComp, AdoptingSoftEngConceptsInSciResearch}. 
+An example proven successful in large-scale scientific initiatives \cite{TrilinosProject} 
+are project skeletons \cite{Bertha, MolSSITemplate, SSCTemplate} 
+that provide basic infrastructure for research software development \cite{ProjectSkeletonsReview}. 
+While these are great automation tools for project initiation, 
+the bulk of repetitive engineering activities is carried out 
+throughout the development process \cite{CollabSoftEngBookConcepts, StateOfArtInEndUserSoftEng} 
+with increasing complexity and frequency \cite{ConfigManageForLargescaleSciComp}. 
+Although other general-purpose tools exist that can help with streamlining such individual tasks in isolation, 
+to the best of our knowledge, there is currently no freely available comprehensive solution, 
+particularly for research software. 
+
+To fill the current gap, in this work we leveraged our prior experience in research software \cite{TeachOpenCADD} 
+to develop PyPackIT, an open-source, ready-to-use, cloud-based automation tool to streamline 
+the entire research software development process, from initiation to publication and support, 
+according to the latest guidelines and engineering best practices. 
+The rest of this section outlines PyPackIT's main motivations and aims, 
+highlighting the most challenging aspects of research software engineering that are addressed by our solution. 
+
+\hyperref[section-overview]{Section 2} provides a high-level overview of PyPackIT's key features 
+and capabilities, while \hyperref[section-summary]{Section 3} summarizes our work. 
+Additionally, detailed user manuals and technical information are available on PyPackIT's online documentation website at \url{https://repodynamics.github.io/PyPackIT}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Managing your repository's settings, branches, labels, issues, and pull requests;
+  dynamically generating and updating all necessary configuration files;
+  linting, formatting, and testing your code on the cloud;
+  versioning, building, and publishing your package on PyPI;
+  creating GitHub releases with detailed release notes and changelogs;
+  and generating and deploying a complete documentation website on GitHub Pages,
+  are just a few examples of how ${{ name }} automates your entire software development process.
+
+
+
+
+
+
+
+
 PyPackIT is an open-source, ready-to-use, cloud-based automation tool
 that streamlines the initiation, configuration, development, publication,
 maintenance, management, and support of FAIR scientific software projects
@@ -16,36 +128,6 @@ one of the most popular and suitable social coding platforms for research softwa
 PyPackIT is readily installable in both new and existing GitHub repositories, 
 providing them with a comprehensive and robust project infrastructure, including:
 
-- **Control Center**: A centralized user-interface to automatically control all project metadata and settings 
-  according to DevOps practices like IaC and CCA. 
-  It enables dynamic configuration management for the entire project infrastructure,
-  simplifying project setup, customization, and maintenance via automatic data templating,
-  inheritance, and synchronization features that instantly apply modifications to all project components.
-  Pre-configured according to research software requirements,
-  it requires most users to only fill project-specific metadata.
-- **Python Package**: A build-ready package skeleton with pre-configured source files and configuration files,
-  automatically customized according to project metadata and settings. 
-  Users only need to add scientific code to the provided source files, 
-  while PyPackIT automates all packaging, versioning, licensing, distribution, and indexing tasks. 
-  To facilitate research software findability and usage, each new release is published 
-  to PyPI, Zenodo, and GitHub, with a persistent DOI 
-  ensuring reliable citation and reproducibility of computational studies.
-- **Test Suite**: A fully operational testing infrastructure enabling the 
-  immediate adoption of test-driven methodologies. 
-  Requiring users to only write test cases in the provided package, 
-  PyPackIT automatically performs unit, regression, end-to-end, and functional testing 
-  throughout the development life-cycle, ensuring research software quality and correctness, 
-  while improving awareness of software health status via notifications and reports. 
-  The test suite is automatically packaged and distributed along each release, 
-  facilitating the reproducibility of test results for verification of software functionality and performance.
-- **Documentation**: An automated documentation website deployed online to GitHub Pages 
-  and Read The Docs platforms, leaving users with no documentation tasks 
-  other than writing issue tickets and docstrings. 
-  Fully designed and pre-filled with detailed developer and user manuals, 
-  the website is also automatically updated with project information, 
-  software API documentation, and comprehensive release notes and changelogs. 
-  Most website elements are dynamic and easily customizable via PyPackIT's control center,
-  requiring no knowledge in web design.
 
 After installation, PyPackIT automatically activates in response to various repository events, 
 executing appropriate tasks on the GitHub Actions cloud computing platform. 
@@ -61,27 +143,6 @@ while reducing variance, complexity, cost, and risk.
 PyPackIT's workflow automates the bulk of repetitive engineering and management activities 
 throughout the software life-cycle, including:
 
-- **Issue Management**: The project's ITS is dynamically maintained, 
-  supplied with specialized issue submission forms to collect type-specific user inputs 
-  in a structured and machine-readable format. 
-  This allows PyPackIT to automate issue management activities, 
-  such as ticket labeling and organization, bug triage, 
-  task assignment, design documentation, and progress monitoring.
-- **Version Control**: To enable rapid project evolution 
-  while ensuring the reproducibility of earlier computational results, 
-  PyPackIT implements a specialized branching model and version scheme for 
-  simultaneous publication and support of multiple releases. 
-  Fully integrating with Git, PyPackIT's workflow automates version control tasks, 
-  such as branching, tagging, merging, and commit management.
-- **Continuous Integration and Deployment**: PyPackIT's CI/CD pipelines automate tasks 
-  such as code style formatting, static code analysis, type checking, testing, build, and release, 
-  thus eliminating the need for dedicated integration and deployment teams, 
-  while increasing control, integrity, scalability, security, and transparency of the Agile development process.
-- **Continuous Maintenance, Refactoring, and Testing**: To ensure the long-term sustainability of projects 
-  and maintain the health of research software and its development environment, 
-  PyPackIT periodically performs automated maintenance tasks, 
-  such as testing and refactoring code, updating dependencies and development tools, 
-  cleaning up the repository, and removing outdated development artifacts such as builds, logs, and reports.
 
 Therefore, PyPackIT's comprehensive, dynamic, and highly customizable project skeleton 
 and cloud-native development environment eliminate the need for project setup and configuration, 

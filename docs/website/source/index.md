@@ -1,11 +1,68 @@
+---
+sd_hide_title: true
+html_theme.sidebar_secondary.remove:
+---
+
+# {{ccc.name}}
+
+{% for theme in ["light", "dark"] %}
+:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full[theme]}}
+:alt: {{ccc.name}}
+:align: center
+:class: only-{{theme}} homepage-logo
+:::
+{% endfor %}
+
+---
+
+{.element-in-page-without-sidebar}
+{{ ccc.abstract.replace(ccc.name, "[{}]{}".format(ccc.name, "{.project-name}"), 1) }}
 
 
+<div class="element-in-page-without-sidebar">
+
+:::{button-ref} intro/overview/index
+:ref-type: myst
+:color: primary
+:expand:
+:class: homepage-button
+
+[Key Features]{.homepage-button-text}
+:::
+
+</div>
 
 
+::::{card-carousel} 2
+:class: element-in-page-without-sidebar
+{% for point in ccc.highlights %}
+:::{card} {{point.title}}
+:class-title: sd-text-center
+{{point.description}}
+:::
+{% endfor %}
+::::
+
+<br>
+
+<div class="element-in-page-without-sidebar">
+
+:::{button-ref} intro/index
+:ref-type: myst
+:color: primary
+:expand:
+
+[Learn More]{.homepage-button-text}
+:::
+
+</div>
 
 
+::::{card-carousel} 1
+:class: element-in-page-without-sidebar
 
-:::{card} Intro: Discover the Essence of {{ccc.name}}
+
+:::{card} Introduction
 :link: intro/index.html
 :img-top: /_static/img/icon/background.svg
 :class-title: sd-text-center
@@ -21,7 +78,7 @@ that are essential to fully understanding and utilizing {{ccc.name}}.
 :::
 
 
-:::{card} Manual: Your Comprehensive Guide
+:::{card} User Manual
 :link: manual/index.html
 :img-top: /_static/img/icon/user_guide.svg
 :text-align: center
@@ -38,7 +95,7 @@ to fully leverage {{ccc.name}}'s capabilities.
 :::
 
 
-:::{card} News: Stay Informed with {{ccc.name}} Updates
+:::{card} News and Updates
 :link: news/index.html
 :img-top: /_static/img/icon/news.svg
 :text-align: center
@@ -55,7 +112,7 @@ so you never miss out on any important updates.
 :::
 
 
-:::{card} Contribute: Join the Community
+:::{card} Contribution Guide
 :link: contribute/index.html
 :img-top: /_static/img/icon/dev_guide.svg
 :text-align: center
@@ -65,14 +122,14 @@ so you never miss out on any important updates.
 and grow through the help and support of great members like you.
 If you are interested in joining the {{ ccc.name }} community,
 head over to our contribution guide to learn more about how you can help.
-From sharing your feedback and ideas or becoming a collaborator and helping us develop the project,
+From sharing feedback and ideas or becoming a collaborator and helping us develop the project,
 to spreading the word and helping us reach more people
 or becoming a sponsor and supporting the project financially,
 we highly appreciate all your contributions!
 :::
 
 
-:::{card} About: Unveiling the {{ ccc.name }} Story
+:::{card} About
 :link: about/index.html
 :img-top: /_static/img/icon/about.svg
 :text-align: center
@@ -84,7 +141,7 @@ and the dedication driving {{ ccc.name }}'s success.
 :::
 
 
-:::{card} Help: Find Support When You Need It
+:::{card} Help and Support
 :link: help/index.html
 :img-top: /_static/img/icon/faq.svg
 :text-align: center
@@ -93,3 +150,5 @@ and the dedication driving {{ ccc.name }}'s success.
 The Help section is your go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
 :::
+
+::::
