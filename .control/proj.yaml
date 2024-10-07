@@ -482,8 +482,8 @@ team:
     github:
       user: andreavolkamer
 maintainer:
-  pull:
-    code_owners:
+  code_owners:
+    owners:
       # Default owners for everything, unless a later match takes precedence.
       - "*": [ '${{ team.aariam }}' ]
   issue:
