@@ -1,8 +1,10 @@
 <div class="quicklinks">
 {% for group in ccc.web.quicklinks %}
     <ul>
-        <li><b>{{ group.section_title }}</b></li>
-{% for entry in group.subsections %}
+    {% if 'heading' in group %}
+        <li>{{ group.heading }}</li>
+    {% endif %}
+{% for entry in group.links %}
         <li><a href="{{ pathto(entry.path) }}">{{ entry.title }}</a></li>
 {% endfor %}
     </ul>
