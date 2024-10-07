@@ -1,0 +1,7 @@
+/* Remove underline from user-link-repo */
+a[class^="user-link-repo"]:link,
+a[class^="user-link-repo"]:visited,
+a[class^="user-link-repo"]:hover,
+a[class^="user-link-repo"]:active {
+    text-decoration: none;
+}
