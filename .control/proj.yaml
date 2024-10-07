@@ -332,13 +332,13 @@ copyright:
 team:
   aariam:
     github:
-      user: aariam
+      id: aariam
   rlrios:
     github:
-      user: raquellrios
+      id: raquellrios
   avolkamer:
     github:
-      user: andreavolkamer
+      id: andreavolkamer
 maintainer:
   code_owners:
     owners:
