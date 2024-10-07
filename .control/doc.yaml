@@ -342,7 +342,7 @@ web:
           - edit-this-page
           - indices
         # -- Content Footer --
-        content_footer_items: [ ]
+        content_footer_items: [ user_login_dialog ]
         # -- Footer --
         footer_start: [ version, copyright, pypackit_ver ]  # footer left
         footer_center: [ ]  # footer center
