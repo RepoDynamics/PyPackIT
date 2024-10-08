@@ -5,13 +5,14 @@ html_theme.sidebar_secondary.remove:
 
 # {{ccc.name}}
 
-{% for theme in ["light", "dark"] %}
-:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full[theme]}}
+:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full.dark}}
 :alt: {{ccc.name}}
 :align: center
-:class: only-{{theme}} homepage-logo
+:class: dark-light themed homepage-logo
 :::
-{% endfor %}
+:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full.light}}
+:class: hidden
+:::
 
 ---
 
@@ -64,7 +65,7 @@ html_theme.sidebar_secondary.remove:
 
 :::{card} Introduction
 :link: intro/index.html
-:img-top: /_static/img/icon/background.svg
+:img-top: /_media/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light icon-image
 
@@ -80,7 +81,7 @@ that are essential to fully understanding and utilizing {{ccc.name}}.
 
 :::{card} User Manual
 :link: manual/index.html
-:img-top: /_static/img/icon/user_guide.svg
+:img-top: /_media/icon/user_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
@@ -97,7 +98,7 @@ to fully leverage {{ccc.name}}'s capabilities.
 
 :::{card} News and Updates
 :link: news/index.html
-:img-top: /_static/img/icon/news.svg
+:img-top: /_media/icon/news.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
@@ -114,7 +115,7 @@ so you never miss out on any important updates.
 
 :::{card} Contribution Guide
 :link: contribute/index.html
-:img-top: /_static/img/icon/dev_guide.svg
+:img-top: /_media/icon/dev_guide.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
@@ -131,7 +132,7 @@ we highly appreciate all your contributions!
 
 :::{card} About
 :link: about/index.html
-:img-top: /_static/img/icon/about.svg
+:img-top: /_media/icon/about.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
@@ -143,7 +144,7 @@ and the dedication driving {{ ccc.name }}'s success.
 
 :::{card} Help and Support
 :link: help/index.html
-:img-top: /_static/img/icon/faq.svg
+:img-top: /_media/icon/faq.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
