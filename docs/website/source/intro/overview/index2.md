@@ -1,45 +1,10 @@
 # Overview
 
-PyPackIT is an open-source, cloud-based software suite, hosted on GitHub at \url{https://github.com/repodynamics}. It comprises several Actions and Python applications, which can be installed in GitHub repositories to perform automated tasks on the GHA cloud framework. To facilitate installation, PyPackIT includes a \href{https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template}{repository template} at \url{https://github.com/repodynamics/pypackit}. There, by clicking a button, users can create a new GitHub repository that automatically contains all the necessary files to run PyPackIT, such as GHA workflow definition files. Installation in existing repositories is supported as well, simply requiring users to add these files. Detailed installation guides are provided on PyPackIT's documentation website at \url{https://repodynamics.github.io/PyPackIT}, along with comprehensive user manuals, tutorials, and technical information.
-
-PyPackIT is a ready-to-use software, fully configured in accordance with research software requirements. Upon installation, users only need to invest a few minutes in basic tasks, such as filling project-specific information in the provided configuration files. PyPackIT then takes over, automatically setting up the repository and generating a complete infrastructure for the project, including a python package, test suite, documentation website, license, configuration files for various development tools and services, and community files such as a dynamic repository README. For new projects, the documentation website along with an initial release of the library is immediately deployed online, registering the project in indexing repositories and facilitating its discovery according to best practices \cite{4SimpleRecs, CICDSystematicReview}. All metadata and settings are readily customizable via PyPackIT's configuration files, which form a unified control center enabling dynamic configuration management for the entire project infrastructure and development environment throughout the software life-cycle.
-
-After installation, PyPackIT activates automatically
-in response to various GitHub repository events, 
-such as issue ticket submissions, pushing commits, and PR reviews.
-
-It then analyzes the triggering event and the current state of the repository
-to determine the appropriate response, 
-establishing an automated pull-based workflow 
-that streamlines an Agile software development process (Figure \ref{fig:workflow}).
-This leaves users with only four manual tasks throughout the software life-cycle:
 
 
 
-executing appropriate tasks on the GitHub Actions cloud computing platform.
-It thus establishes an automated software development workflow tailored to research software needs,
-based on a well-tested pull-based model for collaborative research software engineering.
-It includes comprehensive Continuous software engineering pipelines that use the latest tools and technologies
-to provide an automated Agile software development process,
-enabling the experimental and highly iterative development of research software,
-while reducing variance, complexity, cost, and risk.
-PyPackIT's workflow automates the bulk of repetitive engineering and management activities
-throughout the software life-cycle, including:
 
 
-**Report**: Each task in the project starts by submitting a ticket to its ITS. PyPackIT facilitates reports by automatically configuring and maintaining GHI to provide users with specialized submission forms for various issue types. Following a ticket submission, PyPackIT automatically performs issue management tasks, reducing the triage process to a simple decision on whether to implement the task.
-**Design**: After an issue ticket is approved, users only need to write a short design document by filling a form attached to the ticket. PyPackIT's automated version control then activates, creating a ready-to-use branch for implementation, along with a dynamically maintained PR for progress tracking. 
-**Commit**: With PyPackIT's comprehensive infrastructure, implementation is simplified to writing scientific code, docstrings, and test cases in the provided skeleton files or modifying project configurations in the control center files, depending on the task. With each commit, PyPackIT's CI/CD pipelines automatically integrate the new changes into the repository, performing various quality assurance and testing tasks, while producing reports and artifacts for review.
-**Review**: When the implementation is finished, PyPackIT automatically sends review requests to designated maintainers. After review, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, updating all affected project components and documenting the entire development process. If changes correspond to the library's public API, a new release version is published along with automatically generated release notes and changelogs, distributed to several online indexing repositories. 
-
-Moreover, PyPackIT also activates periodically on a scheduled basis, executing CM/CR/CT pipelines that perform various maintenance and monitoring tasks on the repository and each released library version, sustaining the health of the software and its development environment. If an action is required, these pipelines automatically submit issue tickets (when manual implementation is needed) and PRs (when an automatic fix is available but needs review), or directly apply updates to the project. 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1\linewidth]{Fig1.pdf}
-    \caption{PyPackIT's software development workflow. Labeled arrows represent manual tasks performed by users. All other activities are automated, which fall into four main categories spanning different stages of the software development life-cycle.}
-    \label{fig:workflow}
-\end{figure}
 
 The rest of this section offers a more detailed overview of some of PyPackIT's key components, features and capabilities.
 
@@ -144,10 +109,6 @@ in all other parts of the control center.
 You can also command ${{ name }} to dynamically inherit any piece of configuration or data
 from any other GitHub repository, allowing you to easily share and reuse specifications
 across multiple projects.
-
-      
-
-
 
 ## Python Package
 
