@@ -1,4 +1,4 @@
-title: Cloud-Based Continuous Software Engineering Automation for Python Packages on GitHub
+title: Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub
   # Alternative Titles
   # - A fully automated, plug and play, professional software project management solution for Python packages on GitHub
   # - GitHub-Based Automation Tool For Research Software Engineering in Python
@@ -15,10 +15,11 @@ title: Cloud-Based Continuous Software Engineering Automation for Python Package
 abstract: >-
   ${{ name }} (*IPA*: ${{ custom.name_ipa }})
   is a comprehensive **cloud-based automation tool** 
-  for production of professional and scientific software on **GitHub**,
-  in accordance with the latest standards and engineering best practices. 
+  for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
+  and professional software on **GitHub**,
+  in accordance with the latest engineering best practices and standards. 
   It is a ready-to-use software suite streamlining the initiation, configuration,
-  development, publishing, management, and maintenance of high-quality software libraries in **Python**.
+  development, publication, management, and maintenance of high-quality software libraries in **Python**.
   By taking charge of repetitive tasks and automatically enforcing best practices
   throughout the software development life-cycle, 
   ${{ name }} enables its users to solely focus on the creative aspects of their projects.
@@ -30,14 +31,14 @@ abstract: >-
   ${{ name }} establishes a complete **cloud development** environment on GitHub, 
   integrating with its version control system, issue tracker, 
   and pull-based model to provide a fully automated software development workflow, 
-  complete with **issue management**, **branching model**, and **version scheme**, among others. 
-  Leveraging **GitHub Actions**, PyPackIT implements a **cloud-native development** process 
-  using **Agile**, **Continuous** software engineering, and **DevOps** methodologies, 
+  complete with features like **issue management**, **branching model**, and **version scheme**. 
+  Leveraging **GitHub Actions** (GHA), PyPackIT implements a **cloud-native development** process 
+  using **Agile**, **Continuous** software engineering, and **DevOps** methodologies,
   streamlined for Python libraries with specialized Continuous Integration (CI),
   Deployment (CD), Testing (CT), Refactoring (CR), and Maintenance (CM) pipelines. 
   ${{ name }} is a free and open-source software suite that readily integrates with 
-  both new and existing projects, enabling developers to rapidly implement their ideas
-  and bring their vision to life, while ensuring the long-term sustainability and quality.
+  both new and existing projects, ensuring their long-term sustainability and high quality,
+  thus enabling developers to rapidly implement their ideas and easily maintain their software.
 keywords:
   - Project Management
   - Software Development
