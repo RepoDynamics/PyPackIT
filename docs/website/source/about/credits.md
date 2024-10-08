@@ -4,25 +4,26 @@
 ## Authors
 ::::{grid} 2 3 3 4
 :gutter: 3
-{% for author in ccc.author.entries %}
-:::{grid-item-card} {{author.name}}
+{% for author in ccc.citation.authors %}
+:::{grid-item-card} {{author.name.full}}
 :class-title: sd-text-center
 :class-footer: centered
-:img-top: {{author.avatar_url}}
+:img-top: {{author.avatar}}
 +++
-{% if author.url.website -%}[{fas}`globe;margin-sides`]({{author.url.website}}){% endif %}
-{%- if author.email -%}[{fas}`envelope;margin-sides`](mailto:{{author.email}}){% endif %}
-{%- if author.url.github -%}[{fab}`github;margin-sides`]({{author.url.github}}){% endif %}
-{%- if author.url.linkedin -%}[{fab}`linkedin;margin-sides`]({{author.url.linkedin}}){% endif %}
-{%- if author.url.orcid -%}[{fab}`orcid;margin-sides`]({{author.url.orcid}}){% endif %}
-{%- if author.url.researchgate -%}[{fab}`researchgate;margin-sides`]({{author.url.researchgate}}){% endif %}
-{%- if author.url.twitter %}[{fab}`twitter;margin-sides`]({{author.url.twitter}}){% endif %}
+{% if author.website -%}[{fas}`globe;margin-sides`]({{author.website.url}}){% endif %}
+{%- if author.email -%}[{fas}`envelope;margin-sides`](author.email.url){% endif %}
+{%- if author.github -%}[{fab}`github;margin-sides`]({{author.github.url}}){% endif %}
+{%- if author.linkedin -%}[{fab}`linkedin;margin-sides`]({{author.linkedin.url}}){% endif %}
+{%- if author.orcid -%}[{fab}`orcid;margin-sides`]({{author.orcid.url}}){% endif %}
+{%- if author.researchgate -%}[{fab}`researchgate;margin-sides`]({{author.researchgate.url}}){% endif %}
+{%- if author.twitter %}[{fab}`twitter;margin-sides`]({{author.twitter.url}}){% endif %}
 :::
 {% endfor %}
 ::::
 
 
 ## Maintainers
+<!--
 ::::{grid} 2 3 3 4
 :gutter: 3
 {% for maintainer in ccc.maintainer.list %}
@@ -41,6 +42,6 @@
 :::
 {% endfor %}
 ::::
-
+-->
 
 ## Collaborators
