@@ -7,13 +7,13 @@ https://docs.github.com/en/github-ae@latest/actions/security-guides/security-har
 
 
 ### Templates and Configuration
-The contents of the repository's {{ '[Issues]({})'.format(ccc.url.github.issues.home) }} tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+The contents of the repository's {{ '[Issues]({})'.format(ccc.repo.url.issues.home) }} tab is controlled by [templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
 and a [configuration file](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser)
-under the {{ '[.github/ISSUE_TEMPLATE]({}/.github)'.format(ccc.url.github.tree) }} directory.
+under the {{ '[.github/ISSUE_TEMPLATE]({}/.github)'.format(ccc.repo.url.tree) }} directory.
 
 #### Configuration File
 The configuration file at
-{{ '[./github/ISSUE_TEMPLATE/config.yml]({}/.github/ISSUE_TEMPLATE/config.yml)'.format(ccc.url.github.tree) }}
+{{ '[./github/ISSUE_TEMPLATE/config.yml]({}/.github/ISSUE_TEMPLATE/config.yml)'.format(ccc.repo.url.tree) }}
 controls some aspects of the template chooser (i.e. the landing page of the repository's 'Issues' section),
 with following options:
 - `blank_issues_enabled`: A boolean value defining whether free-form issues can be opened by users.
