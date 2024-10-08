@@ -42,13 +42,13 @@ of our repository to securely discuss, fix and publish information about securit
 in {{ccc.name}}.
 To privately report a security vulnerability,
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
-or {{ '[**click here to directly open a private report form**]({})'.format(ccc.url.github.security.new_advisory) }}.
+or {{ '[**click here to directly open a private report form**]({})'.format(ccc.repo.url.security.new_advisory) }}.
 
 Other ways to open a security advisory:
 
-On the {{ '[Issues]({})'.format(ccc.url.github.issues.home) }} tab
+On the {{ '[Issues]({})'.format(ccc.repo.url.issues.home) }} tab
 
-On the {{ '[Security]({})'.format(ccc.url.github.security.home) }} tab
+On the {{ '[Security]({})'.format(ccc.repo.url.security.home) }} tab
 
 
 :::::{admonition} {{ccc.name}} Security Measures 🛡
@@ -207,7 +207,7 @@ impair access to or damage a system or data.
 
 #### Scope
 This policy applies to any source code, data, or configuration directly stored in our GitHub repository
-at {{ccc.url.github.home}}, and any software, package, website, or other digital products and services that are
+at {{ccc.repo.url.home}}, and any software, package, website, or other digital products and services that are
 directly published/deployed from this repository.
 
 **Any service not expressly listed above**, such as any connected services, are **excluded from scope**
@@ -215,4 +215,4 @@ and are **not authorized** for testing. Additionally, vulnerabilities found in s
 fall outside of this policy's scope and should be reported directly to the vendor according to their
 disclosure policy (if any). If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at {{ccc.maintainer.email.security}} to discuss it first, before starting your research.
+please contact us at {{ccc.maintainer.security.email.url}} to discuss it first, before starting your research.
