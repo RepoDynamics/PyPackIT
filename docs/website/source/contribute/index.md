@@ -21,7 +21,7 @@ through the help of great members like you.
 We follow the [*All Contributors*](https://allcontributors.org/docs/en/specification) specifications;
 all types of contributions are encouraged and valued, and
 all contributors are acknowledged on our [public website](/about/credits.md#contributors)
-and {{ '[repository]({})'.format(ccc.url.github.releases.home) }}.
+and {{ '[repository]({})'.format(ccc.repo.url.releases.home) }}.
 :::
 
 There are many different ways {{ccc.name}} can benefit from your experience,
@@ -52,6 +52,6 @@ please don't hesitate to [contact us](../help/contact/index.md).
     🙏 <b>We Appreciate All Your Work!</b><br>
     We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a>
     specifications; all types of contributions are encouraged and valued, and all contributors are
-    acknowledged on our <a href="${{url.website.contributors}}">public website</a>
-    and <a href="${{url.github.releases.home}}">repository</a>.
+    acknowledged on our <a href="${{ccc.web.page.contribute.url}}">public website</a>
+    and <a href="${{ccc.repo.url.releases.home}}">repository</a>.
 </blockquote>
