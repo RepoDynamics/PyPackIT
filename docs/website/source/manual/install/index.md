@@ -2,6 +2,7 @@
 ccid: install
 ---
 
+(install)=
 # Installation
 
 {{ccc.name}} can be used for both new and existing projects.
