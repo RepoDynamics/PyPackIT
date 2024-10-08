@@ -18,10 +18,10 @@ theme:
             prefix: '©'
           label: ${{ name }}
           color: ${{ theme.color.primary.light }}
-          logo: ${{ theme.path }}/${{ theme.logo.icon }}
+          logo: ${{ theme.logo.icon }}
           logo_type: file
           color_dark: ${{ theme.color.primary.dark }}
-          logo_dark: ${{ theme.path }}/${{ theme.logo.icon }}
+          logo_dark: ${{ theme.logo.icon }}
           logo_type_dark: file
           link: ${{ web.url.home }}
           title: '${{ name }}: ${{ copyright.notice }}'
@@ -49,8 +49,8 @@ readme:
     content:
       body:
         - class: block_image
-          src: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.light }}
-          src_dark: ${{ repo.url.raw }}/${{ theme.path }}/${{ theme.logo.full.dark }}
+          src: ${{ repo.url.raw }}/${{ theme.logo.full.light }}
+          src_dark: ${{ repo.url.raw }}/${{ theme.logo.full.dark }}
           title: Welcome to ${{ name }}! Click to visit our website and learn more.
           alt: '${{ name }}: ${{ title }}'
           align: center
@@ -232,7 +232,7 @@ web:
       html_title: ${{ name }}
       html_short_title: ${{ name }}
       html_baseurl: ${{ web.url.base }}
-      html_favicon: ${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.icon }}
+      html_favicon: ${{ web.path.to_root }}/${{ theme.logo.icon }}
       html_sidebars:
         "${{ web.page.blog.path }}/**":
           - ablog/postcard.html
@@ -243,7 +243,6 @@ web:
           - ablog/authors.html
       html_static_path:
         - _static
-        - '${{ web.path.to_root }}/${{ theme.path }}'
         # Due to an issue with the PyData Sphinx Theme,
         #    the logo files used in the navbar must be explicitly
         #    added to the root of static path, since PyData always looks there,
@@ -252,8 +251,8 @@ web:
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
-        - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.light }}'
-        - '${{ web.path.to_root }}/${{ theme.path }}/${{ theme.logo.simple.dark }}'
+        - '${{ web.path.to_root }}/${{ theme.logo.simple.light }}'
+        - '${{ web.path.to_root }}/${{ theme.logo.simple.dark }}'
       html_secnumber_suffix: ". "
       html_extra_path: [ ]
       html_use_opensearch: ${{ web.url.base }}
