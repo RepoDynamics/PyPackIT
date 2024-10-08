@@ -34,7 +34,7 @@ Local directory: local.path
 
 {{ ccc.name }} gathers all the contents of your repository's control center into a single JSON file,
 which is automatically updated whenever you apply changes to the control center.
-This file, which is located at `{{ ccc.custom.path.file_metadata }}`, serves two main purposes:
+This file, which is located at `.github/control/.metadata.json`, serves two main purposes:
 - During workflow runs triggered by events that do not modify the contents of the control center,
   {{ ccc.name }} uses this file to read all the necessary data and configurations,
   instead of unnecessarily parsing and processing the control center's contents from scratch.
