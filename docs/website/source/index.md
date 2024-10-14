@@ -5,12 +5,12 @@ html_theme.sidebar_secondary.remove:
 
 # {{ccc.name}}
 
-:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full.dark}}
+:::{image} /_media/logo/full_light.svg
 :alt: {{ccc.name}}
 :align: center
 :class: dark-light themed homepage-logo
 :::
-:::{image} {{ccc.web.path.to_root}}/{{ccc.theme.path}}/{{ccc.theme.logo.full.light}}
+:::{image} /_media/logo/full_dark.svg
 :class: hidden
 :::
 
