@@ -1,192 +1,268 @@
-# Location and Structure
-Your repository's control center is a directory in your repository,
-where all contents are organized in a specific directory structure,
-and categorized and stored in various files; these are mostly in YAML format, except
-a few `pyproject.toml`-related options that are stored in TOML format,
-and some media files in SVG and PNG formats.
-Applying changes in the control center is thus as simple as editing the corresponding files
-and pushing the changes to your repository.
+# Structure
 
-:::{admonition} Learn YAML & TOML
-:class: seealso
-To learn more about the YAML file format,
-see [Learn YAML in Y Minutes](https://learnxinyminutes.com/docs/yaml/), or check out the
-full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
-Similarly, for the TOML file format,
-see [Learn TOML in Y Minutes](https://learnxinyminutes.com/docs/toml/), or check out the
-full specification at [toml.io](https://toml.io/en/v1.0.0).
-:::
+The control center is a directory in your repository
+containing declarative configurations in data files, along with optional
+Python scripts to dynamically generate custom metadata and configurations during runtime.
 
 
 ## Location
-By default, the control center is located at `.control`.
-You can customize the location of this directory
-by creating a file at ``
-containing the new path, relative to the root of your repository.
 
-::::{dropdown} Example
+By default, the control center is located at a directory named [`.control`](){.user-link-repo-cc}
+in the root of your repository.
+You can customize its location by setting the [`$.control.path`](#ccc-control-path) key
+in your configuration files to the desired path relative to the root of your repository.
 
-To change the location of the control center directory to `./some_directory/my_custom_meta_directory`,
-move the control center directory to this new location,
-and create a file at `` containing only a single line
-as shown below:
-
-:::{code-block} text
-:caption: 🗂 ``
-
-some_directory/my_custom_meta_directory
-:::
-
-::::
-
-
-If this file exists, {{ ccc.name }} will look for the control center directory
-at the path specified in the file,
-otherwise, it will look for it at the default location, i.e., at `./.meta`.
-
-
-:::{admonition} Important Considerations
+:::{admonition} Dynamic Directory
 :class: important
 
-- You must also manually rename/move the control center directory to match the new path
-  in the same commit where you create/modify/delete the path declaration file.
-- The control center directory must be orthogonal to all other
-  [main directories](/manual/fundamentals/structure/index.md) in your repository,
-  meaning that it cannot be a subdirectory of any other main directory.
+Like other [dynamic directories](#repo-structure) in your repository,
+you should not manually move or rename the control center directory.
+After setting the new path in the configuration files,
+simply push the changes to your Github repository, or run `controlman-sync` locally.
+{{ ccc.name }} will automatically move the control center directory to the new location.
+:::
+
+For example, to change the control center location 
+to a directory at `dev/control-center`, you should have the following
+configuration in one of your YAML files (more details below):
+
+:::{code-block} yaml
+:caption: Setting the control center path to `dev/control-center`
+
+control:
+  path: dev/control-center
 :::
 
 
-## Structure
+## Data Files
 
-The control center directory has a fixed pre-defined structure, shown below.
-Note that your repository's control center does not need to contain all these files and directories;
-almost all configuration files have default values that are automatically used by {{ ccc.name }}
-when the corresponding file is not present.
-On the other hand, except additional
-TOML files that can be placed under the `package_python/tools` subdirectory,
-you cannot add any additional files or directories to the control center;
-{{ ccc.name }} will ignore any files or directories
-that are not part of the control center structure below.
+Declarative (i.e., almost all) project configurations are stored in YAML files
+within the control center directory.
 
+::::{admonition} YAML Data File Format
+:class: note dropdown
 
-:::{card}
-Directory structure of your repository's control center.
-Click on any file or directory name to learn more about it
-in the corresponding section under [Options](../options/index.md).
-^^^
+YAML (YAML Ain't Markup Language) is a concise and human-readable data serialization language
+commonly used for configuration files,
+similar to JSON and TOML formats.
+YAML provides 3 main data types: mappings, sequences, and scalars.
+Scalars represent single values and include strings, numbers, booleans, and null values.
+Sequences and mappings on the other hand are complex data types that can contain other data types.
+Sequences (aka lists, arrays) are ordered lists of items, while mappings (aka dictionaries, hash tables)
+represent key-value pairs. Each YAML file contains a single top-level data structure,
+which can be any of the mentioned data types. For example, a YAML file can contain a single string,
+and thus act as a plain text file:
+
+:::{code-block} yaml
+:caption: YAML file with a single-line string
+
+'Greetings from within a YAML file!'
+:::
+
+:::{code-block} yaml
+:caption: YAML file with a multi-line string
+
+|
+  Greetings from within a YAML file!
+  YAML uses syntactically significant newlines and indentation like Python
+  to represent complex data structures in a human-readable format.
+  The pipe character (|) is used to denote the start of a multi-line string,
+  which can span multiple lines without the need for explicit line breaks
+  or quotation marks.
+:::
+
+It becomes more interesting when the top-level data type is a mapping or a sequence,
+allowing for complex and nested data structures.
+Sequences can be created either using dashes (`-`) or square brackets (`[]`).
+For example, the following YAML file defines a sequence of mixed data types
+using the dash notation (notice the use of `#` for comments):
+
+:::{code-block} yaml
+:caption: YAML file with a sequence of mixed data types
+
+- This is the first item in the sequence. It is a string.  # and this is a comment!
+- 42             # The second item in the sequence, which is an integer.
+- 3.14159265359  # Look, it's π in the third place!
+- true           # A boolean value as the fourth item.
+- null           # This item is a null (aka None).
+- [1, 2, 3]      # A nested sequence using square brackets.
+- - One          # A nested sequence using dashes.
+  - Two
+  - Three
+:::
+
+Finally, mappings are created using colon (`:`) or curly braces (`{}`):
+
+:::{code-block} yaml
+:caption: YAML file with a mapping as the top-level data structure
+
+key1: value1     # A simple key-value pair; both key and value are strings.
+key2: true       # he key is a string and its value is a boolean.
+true: 1          # The key is a boolean and the value is an integer.
+my-dashed-list:  # A key with a nested sequence as its value.
+  - One
+  - Two
+  - Three
+my-inline-list: [1, 2, 3]
+my-inline-map: {key1: value1, key2: value2} 
+my_nested_map:
+  key1: value1
+  key2: value2
+  key3: value3
+:::
+
+YAML also provides several advanced features such as anchors and tags
+to enhance its flexibility and reusability.
+[Anchors](https://yaml.org/spec/1.2.2/#3222-anchors-and-aliases)
+allow you to define a value once and reference it later using aliases,
+which can significantly reduce duplication and improve maintainability of large configurations. 
+For example, the following YAML file defines a mapping
+named `my-default-settings`, anchors it to the alias `default`,
+and uses that alias to reuse the mapping in two different places:
+
+:::{code-block} yaml
+:caption: YAML file with anchors and aliases
+
+my-default-settings: &default  # The '&' character is used 
+  key1: value1                 # to define an anchor named 'default'
+  key2: value2                 # for the `my-default-settings` mapping.
+
+my-cases:
+  - name: case1
+    settings: *default         # The '*' character is used to reference the anchor.
+  - name: case2
+    settings: *default         # Both cases reference the same settings.
+:::
+
+[Tags](https://yaml.org/spec/1.2.2/#tags) allow you to explicitly define the data type of a node
+or apply custom semantics to the content.
+For instance, a tag like `!str` can be used to specify that a value should be treated as a string.
+{{ ccc.name }} uses this feature to allow for
+[referencing values from external sources](#cc-inheritance).
+
+To learn more about the YAML file format,
+see [Learn YAML in Y Minutes](https://learnxinyminutes.com/docs/yaml/), or check out the
+full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
+::::
+
+The entire project configuration is essentially a large mapping (aka `dict`),
+where some keys have simple scalar values,
+while others have complex nested structures.
+By default, this mapping is broken down to multiple YAML files,
+each containing a thematically related subset of the project configurations:
+
+:::{admonition} Control Center's Default Directory Structure
+:class: note dropdown toggle-shown
+
+You can hover over the file names to see their descriptions,
+and click on them to open the corresponding file
+in your repository (needs [logging in](#help-website-login) to our website).
+Note that only the most essential configurations are provided in the default configuration files.
+For a full reference of all available options you can set,
+see the [Options](#cc-options) section.
 
 <pre>
-📦 &lt;CONTROL-CENTER-DIRECTORY&gt;
+🏠 <a class=".user-link-repo-tree" title="Repository Root Directory">&lt;REPOSITORY ROOT&gt;</a>
  ┃
- ┣ 🗂 <a href="/manual/control/options/project" title="Project Information">project</a>
+ ┣ 🗂 <a class="user-link-repo-cc" title="Control Center Directory">.control</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/project/credits" title="Project Credits">credits.yaml</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-proj" title="Main Project Configurations">proj.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/project/intro" title="Project Introduction">intro.yaml</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-pkg" title="Package Configurations">pkg.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/project/license" title="License and Copyright">license.yaml</a>
- ┃
- ┣ 🗂 <a href="/manual/control/options/custom" title="Custom Metadata">custom</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-doc" title="Documentation Configurations">doc.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/custom/#static-variables" title="Static Custom Variables">custom.yaml</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-test" title="Test Suite Configurations">test.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/custom/#dynamic-variables" title="Dynamic Custom Variables">generator.py</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-vcs" title="Version Control System Configurations">vcs.yaml</a>
  ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/custom/#requirements" title="Requirements">requirements.txt</a>
- ┃
- ┣ 🗂 <a href="/manual/control/options/dev" title="Development Configurations">dev</a>
+ ┃ ┣ 📄 <a class="user-link-repo-cc-its" title="Issue Tracking System Configurations">its.yaml</a>
  ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/branch" title="Branches">branch.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/changelog" title="Changelogs">changelog.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/commit" title="Commits">commit.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/discussion" title="Discussions">discussion.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/issue" title="Issues">issue.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/label" title="Labels">label.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/maintainer" title="Maintainers">maintainer.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/pull" title="Pull Requests">pull.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/repo" title="Repository">repo.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/dev/tag" title="Tags">tag.yaml</a>
- ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/dev/workflow" title="Workflows">workflow.yaml</a>
- ┃
- ┣ 🗂 <a href="/manual/control/options/package" title="Package">package_python</a>
- ┃ ┃
- ┃ ┣ 🗂 <a href="/manual/control/options/package/tools" title="">tools</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#bandit" title="">bandit.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#black" title="">black.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#isort" title="">isort.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#mypy" title="">mypy.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#pylint" title="">pylint.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#pytest" title="">pytest.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/package/tools/#ruff" title="">ruff.toml</a>
- ┃ ┃ ┃
- ┃ ┃ ┗ 📄 <a href="/manual/control/options/package/tools/#additional-files" title="">*.toml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/build" title="">build.toml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/build_tests" title="">build_tests.toml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/conda" title="">conda.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/dev_config" title="">dev_config.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/docs" title="">docs.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/entry_points" title="">entry_points.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/package/metadata" title="">metadata.yaml</a>
- ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/package/requirements" title="">requirements.yaml</a>
- ┃
- ┣ 🗂 <a href="/manual/control/options/ui" title="User Interfaces">ui</a>
- ┃ ┃
- ┃ ┣ 🗂 <a href="/manual/control/options/ui/branding" title="Branding">branding</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding#favicon" title="">favicon.png</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#icon" title="">icon.png</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#" title="">logo_full_dark.svg</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#" title="">logo_full_light.svg</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#" title="">logo_full_light.png</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#" title="">logo_simple_dark.svg</a>
- ┃ ┃ ┃
- ┃ ┃ ┣ 📄 <a href="/manual/control/options/ui/branding/#" title="">logo_simple_light.svg</a>
- ┃ ┃ ┃
- ┃ ┃ ┗ 📄 <a href="/manual/control/options/ui/branding/#social-preview" title="">social_preview.png</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/ui/health_file" title="Health Files">health_file.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/ui/readme" title="Readme Files">readme.yaml</a>
- ┃ ┃
- ┃ ┣ 📄 <a href="/manual/control/options/ui/theme" title="Theme">theme.yaml</a>
- ┃ ┃
- ┃ ┗ 📄 <a href="/manual/control/options/ui/web" title="Website">web.yaml</a>
- ┃
- ┣ 📄 <a href="/manual/control/options/config" title="Base Configurations">config.yaml</a>
- ┃
- ┣ 📄 <a href="/manual/control/options/extensions" title="Meta Extensions">extensions.yaml</a>
- ┃
- ┗ 📄 <a href="/manual/control/options/path" title="Repository Paths">path.yaml</a>
+ ┃ ┗ 📄 <a class="user-link-repo-cc-ci" title="Workflow Configurations">ci.yaml</a>
+ ┗ ...
 </pre>
 
 :::
+
+{#cc-file-structure}
+You are completely free to restructure your configurations in any way you like.
+For example, you can have a single large YAML file with all configurations,
+or you can further break down the configurations into more files and subdirectories.
+You can even break down a single complex value (i.e., a mapping or a sequence)
+into multiple files, each containing a subset of the value's data.
+When processing the control center, {{ ccc.name }} will automatically merge all configurations
+into a single mapping using the following logic:
+
+1. The control center directory is recursively scanned
+   (excluding the [`hook`](#cc-dir-hook) subdirectory),
+   and all files with a `.yaml` or `.yml` extension (case-insensitive)
+   are gathered as configuration files. Each file must represent a mapping.
+2. All key-value pairs from the collected files are recursively merged
+   into a single mapping, where the values for the same path from different files
+   are combined according to the following rules:
+
+   - Mapping key-value pairs are combined. If two mappings share some keys,
+     the values are recursively merged according to the same rules.
+   - Sequences are concatenated.
+     Note that files are always read in a shallow-first alphabetical order (i.e., using 
+     `sorted(pathlib.Path(CONTROL_CENTER_DIRPATH).rglob('*'), key=lambda p: (p.parts, p))`{l=python}),
+     so the order of sequences in the final mapping is determined by the order of the files. 
+   - Scalar values cannot be merged;
+     if a scalar value is defined in multiple files,
+     an error is raised and the conflicting paths are reported.
+   - Mixed types (e.g., a sequence and a mapping) are not allowed at the same path;
+     if such a conflict is detected, an error is raised and the conflicting paths are reported.
+
+
+### Configuration Paths
+
+We use [JSONPath](https://datatracker.ietf.org/doc/html/rfc9535) path expressions
+to refer to a specific configuration value's location in the control center.
+
+:::{admonition} JSONPath Syntax
+:class: note dropdown
+
+JSONPath is a query language that defines a string syntax for selecting a subset of a data structure.
+It was originally designed for JSON data,
+but can also used with other data serialization formats like YAML.
+The root of the data structure (in our case, the control center's top-level mapping)
+is represented by the `$` symbol,
+mapping keys are accessed using the dot (`.`) notation,
+and sequences are accessed using square brackets (`[]`) with an index.
+
+For example, the path expression `$.l1-key.l2-key[0]`
+means that the top-level data structure is a mapping,
+it has a key named `l1-key` whose value is also a mapping,
+with a key named `l2-key` whose value is a sequence,
+and we are referring to the first element (index 0) of that sequence.
+
+Wildcards can also be used in path expressions using the `*` symbol,
+to match any key or index at a specific level.
+For example, `$[*].l2-key` means that the root data structure is a sequence
+of mappings, and we are referring to the value of the key `l2-key` in each mapping.
+:::
+
+For example, you can set the name of your project at [`$.name`](#ccc-name),
+i.e., as the value of the `name` key in the top-level mapping of the control center.
+In which control center YAML file this key is defined (if at all) is completely up to you,
+as explained [above](#cc-file-structure).
+
+
+## Python Scripts
+
+In addition to declarative configurations in YAML files,
+you can also include Python scripts in the control center directory.
+These can act as hooks to [dynamically generate custom metadata and configurations](#cc-hooks)
+during control center synchronization events.
+To do so, you must create a subdirectory named `hook` at the root of the control center directory,
+containing a file named `main.py`.
+Before running your script, {{ ccc.name }} will also look for a `requirements.txt` file
+in the `hook` directory, and install the specified packages using `pip` if found.
+Note that in contrast to the YAML files,
+the `hook` directory and and its constituent `main.py` and `requirements.txt` files
+must be exactly named and located as described above.
+However, beside these two files,
+you are free to add any other additional files or subdirectories in the `hook` directory.
+For example, if you want to implement multiple complex hooks,
+you can modularize your code by creating a Python package in the `hook` directory,
+adding it to your `hook/requirements.txt` file, and importing it in your `hook/main.py` script.
