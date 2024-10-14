@@ -1,7 +1,7 @@
 (install-new)=
 # New Repository
 
-To install {{ccc.name}} in a new GitHub repository:
+To create a new GitHub repository with {{ccc.name}} pre-installed:
 1. [Create a repository from {{ ccc.name }}'s template repository](#install-repo-creation).
 2. [Add a Personal Access Token (PAT) and activate external services](#install-common).
 3. [Customize project configurations and metadata](#install-new-project-config).
@@ -44,12 +44,14 @@ While you can manually set these separately in the control center,
 for consistency, it is recommended to choose a repository name 
 that can be used to automatically derive the package name.
 Considering the restrictions on the repository name,
-this simply means that the repository name should not start with a digit,
-and should end with an alphanumeric character.
+this simply means that the **repository name should not start with a digit,
+and should end with an alphanumeric character**.
 
-For example, choosing `My-Project` as the repository name, the project name will be `My Project`,
-the distribution package name will be `My-Project` (same as the repository name), 
-and the import package name will be `my_project`.
+For example, choosing `My-Project` as the repository name
+and leaving the project and package names undefined,
+the project name will be automatically set to `My Project`,
+the distribution package name to `My-Project` (same as the repository name), 
+and the import package name to `my_project`.
 That is, the package will be shown on PyPI as `My-Project`,
 while users can install it with `pip install my-project`{l=bash}
 (or any other equivalent name, due to PyPA's name normalization),
@@ -93,20 +95,21 @@ which can also be investigated in case of a failure or unexpected behavior.
 Start customizing your new project:
 
 1. Navigate to the [`.control/proj.yaml`](){.user-link-repo-cc-proj} file in the repository.
-2. Replace the placeholder values for `$.title`, `$.abstract`, `$.keywords`, and `$.highlights` keys
+2. Replace the placeholder values for [`$.title`](#ccc-title), [`$.abstract`](#ccc-abstract),
+   [`$.keywords`](#ccc-keywords), and [`$.highlights`](#ccc-highlights) keys
    with your project's information.
-3. Commit and push your changes. If you have followed the link above,
+3. Commit and push your changes. If you have followed the link in step 1 above,
    you should be on the [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
    web-based editor, where you can commit and push your changes by clicking the
    <i class="fa-solid fa-code-branch"></i> icon in the left sidebar,
    typing a commit message, and clicking the {bdg-success}`Commit & Push` button.
 
 After pushing your changes, the workflow will run again
-and update all dynamic files with the new project information.
+and update all dynamic files with your new project information.
 Looking at the changed files in the newly created [commits](){.user-link-repo-commits},
-you can find all the files that have been updated with your new project's information,
+you can find all the files that have been updated,
 such as the [repository README file](){.user-link-repo-readme}.
-Furthermore, since now you have provided your PAT,
+Furthermore, since now you have provided your {term}`PAT`,
 the workflow will also activate [GitHub Pages](https://pages.github.com/) for your repository,
 build your website, and deploy it online.
 A link to your website will be added to the
@@ -117,7 +120,7 @@ along with your project's title and keywords.
 Your repository is now in the initialization phase.
 During this phase, every time you push a commit to the repository, {{ccc.name}} will:
 
-- Update all dynamic files and directories according to the control center configurations.
+- Update all dynamic files and directories according to the new control center configurations.
 - Update repository configurations, including general settings, branch names,
   labels, issues forms, discussions, security settings, etc.
 - Build and deploy your website to GitHub Pages.
@@ -129,14 +132,21 @@ and pushing your changes to the repository.
 For example, open the [`.control/doc.yaml`](){.user-link-repo-cc-doc} file
 and change your project theme's colors under [`$.theme.color`](#ccc-theme-color);
 this will update the color of multiple components in your website, README files, and other documents.
-You can also add your project's logo by replacing the default logo files
-in [`docs/media/logo`](){.user-link-repo-logo} directory.
+You can also add your project's logo by replacing the sample logo files
+in [`docs/website/source/_media/logo`](){.user-link-repo-logo}.
+If you already have some initial source code, documentation, or other resources
+that you want to add to your repository, you can do so now.
+
 
 :::{admonition} Control Center Configurations
 :class: seealso
 
-For a full reference of all available options in your repository's control center,
-see the [Options](../control/options/index.md) section.
+{{ ccc.name }} is highly customizable with a wide range of options available in the control center,
+most of which are provided with standard default values based on best practices.
+To avoid overwhelming you with all the available options at once,
+only the most essential configurations are provided in the configuration files.
+For a full reference of all available options you can set in your repository's control center,
+see the [Options](#cc-options) section.
 :::
 
 
@@ -153,27 +163,27 @@ After performing the same tasks as in the initialization phase,
 - Replace all previous commits in the repository with a single `init` commit.
 - Tag the commit with the version number `0.0.0`.
 - Publish your package to PyPI and TestPyPI.
-- Apply branch protection rules to all branches.
+- Apply the specified branch protection rules to all branches.
 
 You can also customize the initialization process by providing additional configurations
 in the commit message:
 
-- To disable commit squashing and keep the previous commits in the repository,
+- To **disable commit squashing** and keep the previous commits in the repository,
   set the `squash` key to `false` in the [commit message footer](#feature-commits-structure).
-- To use a different version number for the initial release,
+- To **use a different version number** for the initial release,
   set the `version` key to the desired version number in the commit message footer
   (e.g., `version: 1.0.0`).
-- Provide a custom description in the commit message summary to overwrite the default message
+- Provide a **custom description** in the commit message summary to overwrite the default message
   (e.g., `init: Start my project.`).
 
-:::{code-block}
+:::{code-block} git-commit-edit-msg
 :caption: Example `init` commit message
 
 init: Initialize my project.
 
 Here is an optional body for my commit message.
 
------------------------------------------------
+---
 squash: false
 version: 1.0.0
 :::
