@@ -15,11 +15,11 @@ def test_file():
         "This is a test file used by our test suite "
         "to verify that package data is being included correctly."
     )
-    filepath = pkg.data.get("__test_file__")
+    filepath = pkg.data.filepath("__test_file__")
     assert filepath.read_text().rstrip() == marker
 
 
 def test_no_file():
     """Test that an error is raised when the input data file is missing."""
     with pytest.raises(DataFileNotFoundError):
-        pkg.data.get("path/to/nonexistent/file")
+        pkg.data.filepath("path/to/nonexistent/file")
