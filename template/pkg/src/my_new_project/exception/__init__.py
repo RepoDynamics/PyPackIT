@@ -1,5 +1,5 @@
 """Exceptions raised by the package."""
 
 
-class PackageException(Exception):  # noqa: N818
+class PackageError(Exception):
     """Base class for all exceptions raised by this package."""
