@@ -37,7 +37,7 @@ highlights:
       However, in order to keep the READMEs clean and tidy,
       it is recommended to keep the number of keynotes between 3 and 7.
 license:
-  id: AGPL-3.0-or-later
+  expression: AGPL-3.0-or-later
 copyright:
   notice: ${{ copyright.period }} ${{ team.owner.name.full }}
 maintainer:
