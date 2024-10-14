@@ -18,12 +18,13 @@ abstract: >-
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional software on **GitHub**,
   in accordance with the latest engineering best practices and standards. 
-  It is a ready-to-use software suite streamlining the initiation, configuration,
+  It is a ready-to-use software suite that streamlines the initiation, configuration,
   development, publication, management, and maintenance of high-quality software libraries in **Python**.
   By taking charge of repetitive tasks and automatically enforcing best practices
   throughout the software development life-cycle, 
-  ${{ name }} enables its users to solely focus on the creative aspects of their projects.
-  Using state-of-the-art tools and methodologies, it offers a robust project infrastructure, 
+  ${{ name }} enables its users to solely focus on the creative aspects of their projects,
+  while improving quality and lowering production costs.
+  Using state-of-the-art tools and methodologies, ${{ name }} offers a robust project infrastructure, 
   including a build-ready Python **package skeleton**, 
   a fully operational **test suite**, a complete **documentation website**, 
   and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
@@ -32,12 +33,12 @@ abstract: >-
   integrating with its version control system, issue tracker, 
   and pull-based model to provide a fully automated software development workflow, 
   complete with features like **issue management**, **branching model**, and **version scheme**. 
-  Leveraging **GitHub Actions** (GHA), PyPackIT implements a **cloud-native development** process 
-  using **Agile**, **Continuous** software engineering, and **DevOps** methodologies,
-  streamlined for Python libraries with specialized Continuous Integration (CI),
-  Deployment (CD), Testing (CT), Refactoring (CR), and Maintenance (CM) pipelines. 
+  Leveraging **GitHub Actions** (GHA), ${{ name }} implements a **cloud-native development** process 
+  with specialized Continuous Integration (CI), Deployment (CD), Testing (CT), Refactoring (CR),
+  and Maintenance (CM) pipelines, using **Agile**, **Continuous** software engineering,
+  and **DevOps** methodologies.
   ${{ name }} is a free and open-source software suite that readily integrates with 
-  both new and existing projects, ensuring their long-term sustainability and high quality,
+  both new and existing projects to ensure their long-term sustainability and high quality,
   thus enabling developers to rapidly implement their ideas and easily maintain their software.
 keywords:
   - Project Management
@@ -75,21 +76,12 @@ highlights:
       and all other tools and external services, according to the latest guidelines and best practices.
       These are automatically applied to your new or existing project when you first start using ${{ name }},
       and are updated dynamically whenever you make changes to the corresponding settings in the control center.
-
-  - title: Configuration Automation
-    description: |
-      ${{ name }} provides a centralized user-interface
-      based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
-      and **Continuous Configuration Automation** (CCA)
-      to automatically control all project metadata and settings. 
-      This **control center** enables dynamic configuration management
-      for the entire project infrastructure and development workflow,
-      simplifying project setup, customization, and maintenance
-      via automatic data **templating** and **augmentation**, cross-repository **inheritance**,
-      and **synchronization** features that instantly apply modifications to all project components.
+      
       Fully pre-configured according to latest guidelines and best practices,
       it requires most users to only fill project-specific metadata,
       while extensive **customization** options are available for specialized requirements.
+
+  
 
   - title: Python Package
     description: |
@@ -177,38 +169,6 @@ highlights:
       type checking, testing, build, and release, thus eliminating the need for dedicated integration
       and deployment teams, while increasing control, integrity, scalability, security,
       and transparency of the Agile development process.
-
-  - title: Continuous Maintenance & Testing
-    description: |
-      To ensure the long-term sustainability of projects and maintain the health of research software
-      and its development environment, PyPackIT periodically performs automated maintenance tasks,
-      such as testing and refactoring code, updating dependencies and development tools,
-      cleaning up the repository, and removing outdated development artifacts
-      such as builds, logs, and reports.
-
-  - title: Security  # Self-Contained & Secure
-    description: |
-      To enhance project security while supporting community collaboration,
-      PyPackIT incorporates several security measures, such as branch/tag protection,
-      security vulnerability scanning, dependency monitoring, and private security advisories.
-      PyPackIT's GitHub Actions workflows and Actions are developed according to the latest security standards
-      to prevent unauthorized access, data breaches, and code injection attacks.
-      Moreover, to ensure that PyPackIT itself is highly secure,
-      its entire infrastructure is natively implemented and self-contained.
-    
-      ${{ name }}'s entire infrastructure is natively implemented, self-contained, and highly secure;
-      with the exception of a handful of fundamental GitHub Actions and Python libraries from
-      official sources such as the Python Packaging Authority and GitHub itself,
-      ${{ name }} has no external dependencies, and does not rely on any third-party services.
-      Instead, all key features and functionalities of ${{ name }} are implemented natively,
-      in a series of open-source GitHub Actions and Python libraries developed and maintained
-      by the ${{ name }} team.
-      This makes ${{ name }} highly secure, robust, error-proof, and reliable,
-      and gives the ${{ name }} team full control over the entire software stack,
-      allowing us to rapidly respond to any issues or bugs that may arise,
-      and to continuously improve and enhance the platform.
-      It also ensures that the entire infrastructure of ${{ name }} is fully transparent,
-      and easily auditable by the community.
 
   - title: Automated Workflows
     description: |
@@ -326,8 +286,44 @@ highlights:
       without having to install any software or configure any tools on your local machine.
   
 
+  - title: Continuous Configuration Automation
+    description: |
+      ${{ name }} provides a centralized user interface
+      based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
+      to enable **Continuous Configuration Automation** (CCA)
+      for the entire project. ${{ name }}'s control center thus
+      simplifies project setup, customization, and maintenance
+      via automatic data **templating** and **augmentation**, cross-repository **inheritance**,
+      and **synchronization** features that instantly apply modifications to all project components.
+  - title: Continuous Refactoring & Testing
+    description: |
+      ${{ name }} ensures long-term project sustainability by
+      periodically performs automated testing, refactoring, and maintenance tasks
+      such as testing previous releases with updated dependencies,
+      analyzing and formatting code according to the latest standards,
+      upgrading development tools and project infrastructure,
+      and maintaining the health of the project and its development environment
+      by automatically creating issues and pull requests for applying updates and fixes.
+  - title: Copyright & Licensing
+    description: |
+      ${{ name }} is fully integrated with the SPDX license standard and
+      supports all SPDX License List entries as well as user-defined licenses.
+      Projects can define complex licenses simply by providing an SPDX expression.
+      ${{ name }} will then automatically retrieve the required license data,
+      customize it with project-specific information, 
+      produce visually appealing and valid license files,
+      and integrate license information into all project components and releases.
+  - title: Security & Transparency
+    description: |
+      ${{ name }} improves project security while supporting community collaboration
+      by incorporating security measures like branch/tag protection,
+      vulnerability scanning, dependency monitoring, and private security advisories.
+      All workflows and Actions are developed according to the latest security standards
+      to prevent unauthorized access, data breaches, and code injection attacks.
+      To ensure that ${{ name }} itself is highly secure,
+      its entire infrastructure is natively implemented and self-contained.
 license:
-  id: AGPL-3.0-or-later
+  expression: AGPL-3.0-or-later
 copyright:
   notice: ${{ copyright.period }} ${{ team.owner.name.full }}
 team:
