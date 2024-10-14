@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-home").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}`;
         });
+        document.querySelectorAll(".user-link-repo-tree").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/tree/${repoBranch}`;
+        });
         document.querySelectorAll(".user-link-repo-actions").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/actions`;
         });
@@ -41,15 +44,33 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-readme").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/README.md`;
         });
+
+        // Control Center links
         document.querySelectorAll(".user-link-repo-cc").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control`;
         });
         document.querySelectorAll(".user-link-repo-cc-proj").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/proj.yaml`;
         });
+        document.querySelectorAll(".user-link-repo-cc-pkg").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/pkg.yaml`;
+        });
         document.querySelectorAll(".user-link-repo-cc-doc").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/doc.yaml`;
         });
+        document.querySelectorAll(".user-link-repo-cc-test").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/test.yaml`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-vcs").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/vcs.yaml`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-its").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/its.yaml`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-ci").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/ci.yaml`;
+        });
+
         document.querySelectorAll(".user-link-repo-logo").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/docs/media/logo`;
         });
@@ -72,7 +93,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // add icon to all link content
     document.querySelectorAll('[class^="user-link-repo"]').forEach(link => {
-        link.innerHTML = `<i class="fa-brands fa-square-github"></i> ` + link.innerHTML;
+        link.innerHTML = `<span style="white-space: nowrap;">
+                            <i class="fa-brands fa-square-github" style="margin-right: 1px;"></i>
+                            ${link.innerHTML}
+                          </span>`;
     });
 
     // Close the popup if the user clicks outside the dialog
