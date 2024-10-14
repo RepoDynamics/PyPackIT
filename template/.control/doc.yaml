@@ -30,13 +30,13 @@ theme:
         - service: dynamic
           args:
             url: ${{ control.url }}
-            query: '$.license.id'
+            query: '$.license.expression'
           label: License
           color: ${{ theme.color.secondary.light }}
           color_dark: ${{ theme.color.secondary.dark }}
-          link: ${{ license.url }}
-          title: ${{ name }} is licensed under the ${{ license.name }}
-          alt: ${{ license.name }}
+          link: ${{ web.page.license.url }}
+          title: 'SPDX-License-Identifier: ${{ license.expression }}'
+          alt: 'SPDX-License-Identifier: ${{ license.expression }}'
           align: right
     - class: badges
       style: for-the-badge
@@ -409,7 +409,7 @@ web:
             url: ${{ repo.url.discussions.home }}
           - name: License
             icon: fa-solid fa-copyright
-            url: ${{ license.url }}
+            url: ${{ web.page.license.url }}
         icon_links_label: External links
         use_edit_page_button: true
         announcement: ${{ announcement.url }}
@@ -787,5 +787,5 @@ custom:
     > [!CAUTION]
     > **Do not manually modify the contents of this directory**.
     > All files in this directory are automatically maintained; do not modify them manually.
-    > They can be managed through the [`user/discussion.yaml`](${{ dir.control }}/user/discussion.yaml)
-    > configuration file of the repository's [control center](${{ dir.control }}).
+    > They can be managed through the [`user/discussion.yaml`](${{ control.path }}/user/discussion.yaml)
+    > configuration file of the repository's [control center](${{ control.path }}).
