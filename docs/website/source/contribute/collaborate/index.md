@@ -57,7 +57,7 @@ head down to the section addressing the type of contribution you want to make
 
 
 ## License and Copyright
-{{ccc.name}} is licensed under the {{ccc.license.fullname}}.
+{{ccc.name}} is licensed under {{ccc.license.expression}}.
 In essence, this means that any contribution you make, such as code, media, and documents,
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution,
