@@ -9,7 +9,7 @@ PyPackIT is an open-source, cloud-based software suite
 hosted on GitHub at https://github.com/RepoDynamics. 
 It comprises several {term}`Actions` and Python applications, 
 which can be installed in GitHub repositories to perform automated tasks on {term}`GHA`. 
-To facilitate installation, PyPackIT includes a repository template at
+To facilitate installation, PyPackIT includes a template repository at
 https://github.com/RepoDynamics/PyPackIT.
 There, by clicking the
 {{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
@@ -19,24 +19,27 @@ such as GHA workflows and configuration files.
 Installation in existing repositories is supported as well, 
 simply requiring users to add these files (cf. [Installation Guide](#install)).
 
-<link rel="preload" href="../{{ccc.web.path.to_root}}/{{ccc.theme.path}}/figure/key_features_dark.svg" as="image">
 
-:::{figure} ../{{ccc.web.path.to_root}}/{{ccc.theme.path}}/figure/key_features_dark.svg
+:::{figure} /_media/figure/key_features_dark.svg
 :alt: PyPackIT Key Features
 :class: dark-light themed
 :width: 600px
 :align: center
 :name: fig-features
 
-{{ccc.name}}'s key infrastructure and workflow elements.
+{{ccc.name}}'s key infrastructure elements (left) and workflows (right).
 :::
+:::{image} /_media/figure/key_features_light.svg
+:class: hidden
+:::
+
 
 PyPackIT is a ready-to-use automation tool,
 fully configured in accordance with the latest software engineering guidelines and best practices. 
 Upon installation, users only need to invest a few minutes in basic tasks
 such as filling project-specific information in the provided configuration files. 
 PyPackIT then takes over, automatically setting up the repository 
-and generating a complete infrastructure for the project, 
+and generating a complete infrastructure for the project ({numref}`fig-features`), 
 including a python package, test suite, documentation website, license, 
 configuration files for various development tools and services, 
 and community files such as a dynamic repository README. 
@@ -44,8 +47,9 @@ The documentation website along with an initial release of the library
 can be immediately deployed online, registering the project in indexing repositories 
 and facilitating its discovery from the beginning of the project {cite}`4SimpleRecs, CICDSystematicReview`. 
 All metadata and settings are readily customizable via PyPackIT's configuration files, 
-which form a unified control center enabling dynamic configuration management 
-for the entire project infrastructure and development environment throughout the software life-cycle.
+which form a unified control center enabling {term}`CCA` 
+for the entire project infrastructure and development environment
+throughout the software life-cycle.
 
 After installation, PyPackIT establishes an automated software development workflow ({numref}`fig-workflow`)
 tailored to user needs, 
@@ -61,27 +65,11 @@ It then analyzes the triggering event and the current state of the repository
 to execute appropriate tasks on {term}`GHA`.
 This automates the bulk of repetitive engineering and management activities 
 throughout the software life-cycle,
-leaving users with only four manual tasks throughout the software life-cycle:
-
-<link rel="preload" href="../{{ccc.web.path.to_root}}/{{ccc.theme.path}}/figure/workflow_light.svg" as="image">
-
-:::{figure} ../{{ccc.web.path.to_root}}/{{ccc.theme.path}}/figure/workflow_dark.svg
-:alt: PyPackIT Workflow
-:class: dark-light themed
-:align: center
-:name: fig-workflow
-
-PyPackIT's software development workflow.
-Labeled arrows represent manual tasks performed by users.
-All other activities are automated,
-which fall into four main categories
-spanning different stages of the software development life-cycle.
-:::
-
+leaving users with only four manual tasks:
 
 1. **Report**: Each task in the project starts by submitting a ticket to its {term}`ITS`. 
    PyPackIT facilitates reports by automatically configuring and maintaining {term}`GHI`
-   to provide users with specialized submission forms for various issue types.
+   to provide users with dynamic submission forms specialized for various issue types.
    Following a ticket submission, PyPackIT automatically performs issue management tasks,
    reducing the triage process to a simple decision on whether to implement the task.
 2. **Design**: After an issue ticket is approved,
@@ -105,7 +93,25 @@ spanning different stages of the software development life-cycle.
    If changes correspond to the library's public API, 
    a new release version is published along with
    automatically generated release notes and changelogs, 
-   distributed to several online indexing repositories. 
+   distributed to several online indexing repositories.
+
+
+:::{figure} /_media/figure/workflow_dark.svg
+:alt: PyPackIT Workflow
+:class: dark-light themed
+:align: center
+:name: fig-workflow
+
+PyPackIT's software development workflow.
+Labeled arrows represent manual tasks performed by users: Report, Design, Commit, and Review.
+All other activities are automated,
+which fall into four main categories (issue management, version control, CI/CD, and CM/CR/CT),
+spanning different stages of the software development life-cycle.
+:::
+:::{image} /_media/figure/workflow_light.svg
+:class: hidden
+:::
+
 
 Moreover, PyPackIT also activates periodically on a scheduled basis,
 executing CM/CR/CT pipelines that perform various maintenance and monitoring tasks 
@@ -134,63 +140,13 @@ by accelerating development and
 enabling the consistent and reliable production of high-quality software 
 with minimal cost and effort. 
 
+:::{admonition} Getting Started
+:class: seealso
 
-
-
-
-
-
-
-
-
-
-Serving as a starting point for new users,
-this section provides an introduction to
-{{ccc.name}}, its motivations, objectives, and capabilities,
-along with a summary of related fundamental concepts and useful background information.
-If this is your first time using {{ccc.name}},
-we highly recommend that you at least read through the [overview](overview/index.md) page,
-before proceeding to the [user manual](../manual/index.md).
-
-
-::::{grid} 1 1 2 2
-:gutter: 3
-
-:::{grid-item-card} Outline
-:link: outline/index
-:link-type: doc
-:class-title: sd-text-center
-
-An abstract of the {{ccc.name}} project,
-outlining its motivations, purpose, and objectives,
-along with a short summary of its capabilities and functionalities.
+If you can't wait to get started with PyPackIT,
+skip to the [User Manual](#manual) for detailed instructions
+on how to install and use PyPackIT in your project.
+Otherwise, continue for a background review of the state of the art
+and current challenges in open-source software development,
+and how PyPackIT addresses them to elevate your project.
 :::
-
-:::{grid-item-card} Background
-:link: background/index
-:link-type: doc
-:class-title: sd-text-center
-
-A background review of the state of the art in the software development process
-within the Python ecosystem, and its current challenges and problems.
-:::
-
-:::{grid-item-card} Overview
-:link: overview/index
-:link-type: doc
-:class-title: sd-text-center
-
-An in-depth high-level overview of {{ccc.name}} and all its functionalities,
-the problems they address, and the value they bring to your project.
-:::
-
-:::{grid-item-card} Basics
-:link: basics/index
-:link-type: doc
-:class-title: sd-text-center
-
-A summary of basic concepts and related background information,
-essential to fully understanding and utilizing {{ccc.name}}.
-:::
-
-::::
