@@ -30,13 +30,13 @@ theme:
         - service: dynamic
           args:
             url: ${{ control.url }}
-            query: '$.license.id'
+            query: '$.license.expression'
           label: License
           color: ${{ theme.color.secondary.light }}
           color_dark: ${{ theme.color.secondary.dark }}
-          link: ${{ license.url }}
-          title: ${{ name }} is licensed under the ${{ license.name }}
-          alt: ${{ license.name }}
+          link: ${{ web.page.license.url }}
+          title: 'SPDX-License-Identifier: ${{ license.expression }}'
+          alt: 'SPDX-License-Identifier: ${{ license.expression }}'
           align: right
 readme:
   main:
@@ -223,6 +223,11 @@ web:
         # Used by the Giscus template to extract page title
         pp_title_sep: ${{ web.sphinx.config.html_secnumber_suffix }}
       html_last_updated_fmt: '%b %d, %Y'
+      numfig_format:
+        code-block: Code %s
+        figure: Figure %s
+        section: Section
+        table: Table %s
       language: en
       latex_engine: lualatex
       latex_elements:
@@ -339,7 +344,6 @@ web:
           - page-toc
           - last-updated
           - edit-this-page
-          - indices
         # -- Content Footer --
         content_footer_items: [ user_login_dialog ]
         # -- Footer --
@@ -348,7 +352,7 @@ web:
         footer_end: [ quicklinks ]  # footer right
         # ---- General ----
         show_prev_next: True
-        show_nav_level: 2
+        show_nav_level: 1
         navigation_depth: 5
         show_toc_level: 3
         header_links_before_dropdown: 7
@@ -367,7 +371,7 @@ web:
             url: ${{ repo.url.discussions.home }}
           - name: License
             icon: fa-solid fa-copyright
-            url: ${{ license.url }}
+            url: ${{ web.page.license.url }}
         icon_links_label: External links
         use_edit_page_button: true
         announcement: ${{ announcement.url }}
@@ -723,6 +727,14 @@ web:
         conda:
           spec: intersphinx-registry
           channel: conda-forge
+      pygments_git_lexer:
+        import_name: pygments_git
+        description: |
+          Pygments lexer for Git files and outputs.
+        url:
+          source: https://github.com/adamchainz/pygments-git
+        pip:
+          spec: pygments-git == 1.7.0
   url:
     custom:
       name: pypackit.repodynamics.com
