@@ -1002,7 +1002,7 @@ for not publicly releasing software {cite}`BetterSoftwareBetterResearch, Publish
 which is often abandoned as an unsustainable prototype, not usable in future projects {cite}`PublishYourCode`. 
 To prevent these issues, quality assurance and maintenance tasks should be automated 
 and enforced from the beginning of the project {cite}`SoftEngForCompSci`. 
-{{ name }} achieves this by several mechanisms, including its automated pull-based development model 
+{{ ccc.name }} achieves this by several mechanisms, including its automated pull-based development model 
 that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices 
 throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`, 
 Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng` 
@@ -1024,7 +1024,7 @@ To solve such issues, DevOps practices such as Infrastructure-as-Code (IaC)
 and Continuous Configuration Automation (CCA) have been developed 
 to enable dynamic configuration management of software infrastructures 
 using machine-readable definition files {cite}`InfrastructureAsCode`. 
-{{ name }} implements a similar mechanism to facilitate the definition, customization, 
+{{ ccc.name }} implements a similar mechanism to facilitate the definition, customization, 
 synchronization, and maintenance of all project metadata and settings. 
 It provides a user-friendly control center that renders the entire project infrastructure 
 and development environment dynamic, enabling automatic project management and configuration.
