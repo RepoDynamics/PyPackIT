@@ -89,7 +89,7 @@ but it has several key advantages over them:
   but then you would need to update all references every time you add or remove a mapping,
   since indices would change.
   
-  To simplify such cases, {{ name }} extends the JSONPath syntax
+  To simplify such cases, {{ ccc.name }} extends the JSONPath syntax
   to enable using relative paths, as follows:
   - When a path starts with one or more periods (`.`),
     it is considered a relative path.
