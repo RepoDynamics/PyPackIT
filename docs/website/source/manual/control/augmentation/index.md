@@ -1,6 +1,6 @@
 # Augmentation
 
-{{ name }} automatically augments your project's metadata
+{{ ccc.name }} automatically augments your project's metadata
 with various additional data,
 so that you don't have to manually define and update them.
 These are dynamically generated at runtime each time the control center is being processed
@@ -28,7 +28,7 @@ is the name of the main branch, which is configurable in the control center.
 
 ## Calculation
 
-{{ name }} processes your entire Git repository each time the control center is being processed,
+{{ ccc.name }} processes your entire Git repository each time the control center is being processed,
 and generates various data that are then added to the control center
 and used in other parts of the project.
 For example, it analyzes each (pre)release branch of the repository and its control center configurations,
@@ -72,7 +72,7 @@ is used to retrieve information on your GitHub repository and team members:
 
 For any team member defined under [`$.team`](#ccc-team)
 who has an [`orcid.id`](#cccdef-entity-orcid-id) and has set [`orcid.get_pubs`](#cccdef-entity-orcid-get-pubs),
-{{ name }} uses the [ORCiD API](https://info.orcid.org/documentation/features/public-api/)
+{{ ccc.name }} uses the [ORCiD API](https://info.orcid.org/documentation/features/public-api/)
 to retrieve a list of their publications, and for each publication,
 it fetches full metadata and citation information from the
 [Crossref](https://www.crossref.org/documentation/retrieve-metadata/rest-api/)
