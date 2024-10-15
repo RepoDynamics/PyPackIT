@@ -15,13 +15,7 @@ you can create a repository that contains all the shared configurations and meta
 and have all other repositories inherit them.
 
 
-:::{admonition} Caching
-:class: seealso
-
-To speed up the processing of your repository's control center,
-{{ccc.name}} can cache these extension files on local devices and on the GitHub servers,
-so that they don't need to be fetched every time. See [Caching](#manual-control-caching)
-for more information.
+:::{include} /_snippets/admo_caching.md
 :::
 
 
