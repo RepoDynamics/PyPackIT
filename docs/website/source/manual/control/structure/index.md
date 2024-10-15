@@ -249,6 +249,7 @@ In which control center YAML file this key is defined (if at all) is completely 
 as explained [above](#cc-file-structure).
 
 
+(manual-control-structure-hooks)=
 ## Python Scripts
 
 In addition to declarative configurations in YAML files,
