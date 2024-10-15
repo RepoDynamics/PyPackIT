@@ -41,6 +41,7 @@ within the control center directory.
 
 ::::{admonition} YAML Data File Format
 :class: note dropdown
+:name: yaml-intro
 
 YAML (YAML Ain't Markup Language) is a concise and human-readable data serialization language
 commonly used for configuration files,
@@ -162,7 +163,7 @@ For a full reference of all available options you can set,
 see the [Options](#cc-options) section.
 
 <pre>
-🏠 <a class=".user-link-repo-tree" title="Repository Root Directory">&lt;REPOSITORY ROOT&gt;</a>
+🏠 <a class="user-link-repo-tree" title="Repository Root Directory">&lt;REPOSITORY ROOT&gt;</a>
  ┃
  ┣ 🗂 <a class="user-link-repo-cc" title="Control Center Directory">.control</a>
  ┃ ┃
@@ -184,7 +185,7 @@ see the [Options](#cc-options) section.
 
 :::
 
-{#cc-file-structure}
+{.dummy #cc-file-structure}
 You are completely free to restructure your configurations in any way you like.
 For example, you can have a single large YAML file with all configurations,
 or you can further break down the configurations into more files and subdirectories.
@@ -213,7 +214,7 @@ into a single mapping using the following logic:
    - Mixed types (e.g., a sequence and a mapping) are not allowed at the same path;
      if such a conflict is detected, an error is raised and the conflicting paths are reported.
 
-
+(manual-control-configpaths)=
 ### Configuration Paths
 
 We use [JSONPath](https://datatracker.ietf.org/doc/html/rfc9535) path expressions
