@@ -1,3 +1,4 @@
+(manual-control-templating)=
 # Templating
 
 {{ ccc.name }}'s templating mechanism enables the use of
