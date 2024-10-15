@@ -1,46 +1,150 @@
-# Inheritance and Templating
+# Templating
+
+{{ ccc.name }}'s templating mechanism enables the use of
+all control center contents throughout the project.
+Within the control center configuration files
+you can use any control center content by referencing its path,
+which allows you to reuse values for different configurations,
+or to dynamically construct more complex values.
+Since you can use the control center to generate any file in your repository,
+this effectively renders your entire project highly dynamic, flexible, and customizable,
+while eliminating data redundancy and ensuring consistency across all project resources.
+Similarly, for website files, Jinja templating is enabled
+and the entire control center content is passed to the Sphinx environment during builds.
+This also enables you to create sophisticated webpages that are automatically updated
+with any changes to the control center.
 
 
-{{ ccc.name }} also allows for complex and recursive templating for all the `meta` content,
-meaning that you can reference and use any part of the `meta` content in all other parts, eliminating the need for
-redundant and repetitive configurations and data, which are hard to modify.
-This provides a high degree of customization and flexibility,
-as you can easily change a single variable, and have it automatically applied to the entire `meta` contents
-and consequently the entire project.
+## Configuration Files
 
-In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
-and customization, ${{ name }} allows for complex and recursive templating within all contents of
-the control center, meaning that you can reference and reuse any piece of configuration or data
-in all other parts of the control center.
-
+Within the control center YAML files,
+you can reuse any value by referencing its path using the `${‎{ PATH }}` substitution syntax:
+- `${‎{` denotes the start of the substitution.
+- `PATH` is a [JSONPath expression](manual-control-configpaths)
+  pointing to the value you want to substitute,
+  only without the leading `$.`.
+- `}}` denotes the end of the substitution.
+- Any whitespaces between `PATH` and the curly braces are optional and ignored.
 
 
-## Templating
-To eliminate any redundancy and provide your project with a high degree of flexibility
-and customization, {{ ccc.name }} allows for complex and recursive templating
-within the entire control center, meaning that you can reference and reuse
-any part of the control center's contents in all other places within the control center.
+::::{admonition} Example
+:class: tip dropdown
 
-:::{admonition} Substitutions in Website Content
-:class: seealso
-The entire content of the control center is also made available to your documentation website,
-and can be used for substitutions in your website's content.
-See [Manual > Usage > Website > Substitutions](../../usage/website/substitutions.md) for more information.
+In the control center, you can set a title for your project at [`$.title`](#ccc-title).
+By default, this is reused in several other places,
+such as the description of your GitHub repository,
+which can be set at [`$.repo.description`](#ccc-repo-description).
+Looking at the default configuration file [`.control/vcs.yaml`](){.user-link-repo-cc-vcs},
+you can see the following segment,
+which sets the value of `$.repo.description` to the value of `$.title`:
+
+:::{code-block} yaml
+:caption: `.control/vcs.yaml`
+
+repo:
+  description: ${‎{ title }}
 :::
 
+::::
 
-### Syntax
+This sounds similar to [YAML anchors and references](#yaml-intro),
+but it has several key advantages over them:
 
-Substitutions are defined using the syntax `${‎{ PATH }}`
-(the whitespace between `PATH` and the curly braces is optional and ignored),
-where `PATH` is the full address to the control center's content you want to substitute,
-as described in [Manual > Control Center > Outputs > Metadata File](../outputs/metadata.md).
-You can use this syntax to substitute any key or value, or any part of a key or value
-in any YAML or TOML file within the control center.
-If you use this to substitute an entire value or array element, that value or element
-will have the same type as the substituted value or element.
-On the other hand, if you use this to substitute a part of a string,
-the substituted part will also be converted to a string.
-Substitutions are evaluated recursively, meaning that you can use substitutions
-to reference a content that itself contains substitutions; you only need to make sure
-not to create any circular references.
+- **Multi File Support**:
+  Anchors and references are limited to the same file,
+  while substitutions can reference any part of the control center.
+- **Complex Expressions**:
+  Substitutions allow the use of JSONPath expressions,
+  which can be used for complex queries,
+  e.g., to dynamically build an array of values from different parts of the control center.
+  For example, if you need a list of all team members' full names,
+  you can use the following JSONPath expression: `${‎{ team[*].name.full }}`.
+- **Recursive Substitutions**:
+  Substitutions are evaluated recursively,
+  meaning that you can use substitutions to reference a content that itself contains substitutions.
+  You only need to make sure not to create any circular references,
+  otherwise you will get an error.
+- **String Substitution**:
+  Substitutions can be used within strings,
+  enabling the dynamic construction of complex values from multiple parts of the control center.
+  For example, the title used in your project's citation,
+  configurable at [`$.citation.title`](#ccc-citation-title),
+  is set to `${‎{ name }}: ${‎{ title }}`,
+  so, assuming your project's [`$.name`](#ccc-name) and [`$.title`](#ccc-title)
+  are `MyProject` and `A Great Project`, respectively,
+  the citation title will be `MyProject: A Great Project`.
+  Note that if you reference a value that is not a string,
+  it will be converted to a string before being substituted.
+  In contrast, when the entire value is being substituted
+  (i.e., the entire string is only the substitution syntax),
+  the substituted value will have the same type as the referenced value.
+- **Relative Paths**:
+  Substitutions can use relative paths,
+  which are resolved relative to the path of the value using the substitution.
+  This is particularly useful when using substitutions at locations
+  that do not have a fixed path. For example, assume you have a sequence of mappings
+  where some value in each mapping depends on other values in the same mapping.
+  You can of course use absolute paths and reference each mapping by its sequence index,
+  but then you would need to update all references every time you add or remove a mapping,
+  since indices would change.
+  
+  To simplify such cases, {{ name }} extends the JSONPath syntax
+  to enable using relative paths, as follows:
+  - When a path starts with one or more periods (`.`),
+    it is considered a relative path.
+  - One period refers to the path of the **complex data structure** (i.e., mapping or sequence)
+    containing the value using the substitution.
+    That is, if the substitution syntax is used in the value of a key in a mapping,
+    `.` refers to the path of that mapping.
+    Similarly, if the substitution syntax is used in the value of an element in a sequence,
+    `.` refers to the path of that sequence.
+  - Each additional period refers to the path of the parent complex data structure
+    of the previous path, following the same logic.
+  
+  :::{admonition} Example
+  :class: tip dropdown
+  This feature is used to dynamically set default values for new pieces of data
+  that are added to the control center. For example, the control center has configurations
+  for entering the [`email`](#cccdef-email) and other social accounts of each team member.
+  Each of these are a mapping including the keys `id` and `url`.
+  By default, the `url` key of each mapping is built using string substitution with relative paths.
+  For example, `email.url` is set to `mailto:${‎{ .id }}`,
+  and `linkedin.url` is set to `https://linkedin.com/in/${‎{ .id }}`.
+  :::
+
+
+## Website Files
+
+During website builds, the top-level configuration mapping is passed
+to the Sphinx environment as an object named `ccc` (short for Control Center Configurations),
+which is then made available to all website template and source files.
+You can thus dynamically use all control center contents in your website
+using [Jinja](https://jinja.palletsprojects.com/) syntax,
+which is the default templating engine for Sphinx.
+For example, to mention your package's name and Python version specification,
+which can be respectively found at `$.pkg.name` and `$.pkg.python.version.spec` in the control center,
+you can use the following Jinja syntax in your website content:
+
+```md
+{‎{ ccc.pkg.name }} requires Python {‎{ ccc.pkg.python.version.spec }}.
+```
+
+Assuming that the package name is `MyPackage` and its Python version specification is `>=3.10`,
+the above Jinja syntax will be rendered in the built website as:
+
+```md
+MyPackage requires Python >=3.10.
+```
+
+{{ ccc.name }} also configures Sphinx to enable full Jinja templating 
+not only in template files but also in all other source files.
+Together with the availability of the entire project configuration in the `ccc` object,
+this allows you to dynamically create sophisticated contents
+that are automatically updated with any changes to the control center.
+
+:::{admonition} Learn More
+:class: seealso
+
+To learn more about templating and dynamic content generation in your website,
+see the [Documentation Guide](#website).
+:::
