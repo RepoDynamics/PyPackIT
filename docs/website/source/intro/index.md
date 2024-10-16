@@ -9,15 +9,15 @@ PyPackIT is an open-source, cloud-based software suite
 hosted on GitHub at https://github.com/RepoDynamics. 
 It comprises several {term}`Actions` and Python applications, 
 which can be installed in GitHub repositories to perform automated tasks on {term}`GHA`. 
-To facilitate installation, PyPackIT includes a template repository at
+To facilitate [installation](#install), PyPackIT includes a template repository at
 https://github.com/RepoDynamics/PyPackIT.
 There, by clicking the
 {{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
-button, users can create a new GitHub repository 
+button, users can create a [new GitHub repository](#install-new) 
 that automatically contains all the necessary files to run PyPackIT,
 such as GHA workflows and configuration files. 
-Installation in existing repositories is supported as well, 
-simply requiring users to add these files (cf. [Installation Guide](#install)).
+Installation in [existing repositories](#install-existing) is supported as well, 
+simply requiring users to add these files.
 
 
 :::{figure} /_media/figure/key_features_dark.svg
@@ -88,14 +88,17 @@ leaving users with only four manual tasks:
    while producing reports and artifacts for review.
 4. **Review**: When the implementation is finished,
    PyPackIT automatically sends review requests to designated maintainers. 
-   After review, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, 
+   After approval, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, 
    updating all affected project components and documenting the entire development process. 
    If changes correspond to the library's public API, 
-   a new release version is published along with
+   a new release version is published on GitHub along with
    automatically generated release notes and changelogs, 
-   distributed to several online indexing repositories.
+   and distributed to several online indexing repositories such as PyPI, TestPyPI, and Zenodo.
 
 
+:::{image} /_media/figure/workflow_light.svg
+:class: hidden
+:::
 :::{figure} /_media/figure/workflow_dark.svg
 :alt: PyPackIT Workflow
 :class: dark-light themed
@@ -105,11 +108,10 @@ leaving users with only four manual tasks:
 PyPackIT's software development workflow.
 Labeled arrows represent manual tasks performed by users: Report, Design, Commit, and Review.
 All other activities are automated,
-which fall into four main categories (issue management, version control, CI/CD, and CM/CR/CT),
-spanning different stages of the software development life-cycle.
-:::
-:::{image} /_media/figure/workflow_light.svg
-:class: hidden
+which fall into four main categories
+spanning different stages of the software development life-cycle:
+Issue Management, Version Control, Continuous Integration and Deployment,
+and Continuous Maintenance, Refactoring, and Testing.
 :::
 
 
