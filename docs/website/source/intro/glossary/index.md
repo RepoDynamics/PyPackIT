@@ -25,4 +25,7 @@ PAT
 
 OIDC
   [OpenID Connect](https://openid.net/connect/)
+
+PyPA
+  [Python Packaging Authority](https://www.pypa.io/)
 :::
