@@ -233,51 +233,283 @@ requiring only an account configuration.
 PyPackIT also generates several GitHub-specific documentation files for the repository. 
 These are automatically generated according to highly customizable
 templates provided in PyPackIT's control center, 
-and include \href{https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file#supported-file-types}{community health files} 
-for \href{https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files}{citation}, 
+and include [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file#supported-file-types), 
+for [citation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files), 
 funding, support, security, contributing, governance, and code of conduct, 
-as well as a dynamic \href{https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes}{README file} 
+as well as a dynamic [README file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) 
 that presents a concise project overview on GitHub. 
 Acting as the front page of the repository, the README file 
 has a visually appealing graphic design, 
 and contains key project information with links to main sections of the documentation website. 
 Moreover, it includes a comprehensive collection of dynamic badges 
-according to best practices \cite{RepositoryBadges}, 
+according to best practices {cite}`RepositoryBadges`, 
 providing users and contributors with an up-to-date overview of project specifications, 
 status, health, progress, and other statistics.
 
 
+## Version Control
+
+PyPackIT fully integrates with Git to automate tasks 
+like branch and commit management, tagging, and merging. 
+Motivated by well-established models such as
+[Git Flow](https://nvie.com/posts/a-successful-git-branching-model/)
+and [GitLab Flow](https://about.gitlab.com/topics/version-control/what-is-gitlab-flow/), 
+PyPackIT implements a branching strategy that enables the rapid evolution of software 
+according to Continuous software engineering best practices {cite}`CICDSystematicReview`, 
+while ensuring the availability and sustainability of earlier releases. 
+The branching model includes persistent release branches and transient development 
+and prerelease branches:
+
+- **Main Branch**:
+  A special release branch that always contains the latest final release of the library,
+  while its control center settings are used as the source of truth
+  for all non-version-specific project configurations.
+- **Development Branches**:
+  Automatically created from target release branches,
+  providing an isolated environment to integrate new changes
+  before merging back into target branches and deploying to production.
+  Each change can be implemented in a separate development branch,
+  enabling the simultaneous development of multiple orthogonal features and release candidates.
+- **Prerelease Branches**:
+  Automatically created from development branches for publishing
+  new package versions as a prereleases.
+  They facilitate the implementation and documentation of modifications
+  during the prerelease period, before the final product is merged into a release branch.
+- **Release Branches**:
+  Each contain the latest release of an earlier major version of the library.
+  They are automatically created from the main branch
+  each time a backward-incompatible change is about to be merged.
+  This enables proof-of-concept software libraries to rapidly evolve into mature products,
+  while all major versions are automatically preserved for long-term maintenance and support.
+
+Moreover, to provide libraries with a clear and transparent development history 
+and ensure their long-term findability and accessibility, 
+all releases are automatically versioned and tagged. 
+For this, PyPackIT implements a version scheme based on 
+[Semantic Versioning](https://semver.org/) (SemVer), 
+which clearly communicates changes to the library's
+public API {cite}`EmpComparisonOfDepIssues, WhatDoPackageDepsTellUsAboutSemVer`:
+
+- Releases are denoted with a version number `X.Y.Z`, where `X`, `Y`, and `Z`
+  are non-negative integers named major, minor, and patch versions, respectively.
+- Release version `1.0.0` defines the library's public API.
+- In each subsequent release, one of major, minor, or patch versions are incremented by 1
+  while the lesser ones are reset to 0,
+  depending on the type of most important change in the new public API:
+  - **Major**: when backward-incompatible changes are made.
+  - **Minor**: when new features are added while no backward-incompatible change is made.
+  - **Patch**: when all changes are backward-compatible bug fixes or improvements.
+
+PyPackIT uses correlated issue ticket data to determine whether each release 
+corresponds to a new major, minor, or patch version. 
+It then automatically calculates the full version number, 
+by comparing the latest version tags in the development branch and its target release branch. 
+Subsequently, for automatic deployment on indexing repositories such as PyPI and TestPyPI, 
+PyPackIT generates a canonical public version identifier 
+in accordance with [PyPA specifications](https://packaging.python.org/en/latest/specifications/version-specifiers/):
+
+- Final releases are only denoted with a version number.
+- Prerelease versions contain an additional segment,
+  denoting the prerelease phase (alpha, beta, or release candidate)
+  and the corresponding issue ticket number.
+- Developmental releases are versioned by adding an extra segment to the corresponding prerelease version,
+  which chronologically numbers each change during the implementation of upcoming package features.
+
+In line with Continuous software engineering best practices {cite}`CICDSystematicReview`, 
+publishing developmental and prereleases allows the community to thoroughly investigate 
+upcoming changes and provide feedback, improving the quality of libraries 
+and reducing the risk of using buggy software in production. 
+By incorporating the issue ticket number as a unique identifier for these releases, 
+PyPackIT enables libraries to simultaneously develop 
+and publish multiple release candidates. 
+This facilitates frequent experimentation and modifications even within each iteration, 
+which are crucial for open-source software development 
+due to its uncertain and evolving nature {cite}`SurveySEPracticesInScience`. 
+
+
+## Issue Management
+
+PyPackIT establishes a cloud-based development workflow, 
+in which new tasks in the project start by submitting an issue ticket to its ITS, 
+enabling the community to readily propose changes and ensuring that the entire evolution 
+of the software library is properly documented 
+in a traceable and transparent way. 
+To facilitate this, PyPackIT automatically configures and maintains the repository's GHI, 
+according to customizable configurations in the control center. 
+For example:
+
+- Submission options are provided for different issue types,
+  such as requesting bug fixes, new features, and other changes in various project components,
+  including the library, test suite, documentation website, and control center settings.
+- Specialized submission forms are supplied for each issue type
+  according to best practices \cite{WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse},
+  offering relevant instructions to users and
+  collecting type-specific information via machine-readable input types.
+- Dynamic input options in submission forms are automatically updated,
+  eliminating the need for frequent manual maintenance.
+  These include lists of supported releases, operating systems, and Python versions,
+  which let users easily specify issue details from dropdown menus.
+- Labels are automatically created and updated,
+  providing useful categorization options for issues and PRs.
+
+
+Furthermore, PyPackIT automates the bulk of management activities throughout the workflow. 
+After an issue is submitted, it processes ticket inputs 
+to perform several tasks, including:
+
+- **Formatting**:
+  User inputs are formatted to provide a consistent and concise overview for each ticket.
+- **Labeling**:
+  Tickets are labeled based on issue type, user inputs, and current stage
+  to facilitate the organization and findability of the project's ongoing and finished tasks.
+- **Assignment**:
+  Tasks are assigned to maintainers according to a declarative project governance model
+  in the control center, which defines member roles and privileges.
+- **Documentation**:
+  A standardized form is attached to tickets to facilitate the documentation
+  and tracking of the development process.
+  The form contains a structured template for documenting software requirements specification,
+  design description, implementation plans, and other development details,
+  with a timeline that is automatically updated by PyPackIT with important milestones
+  to reflect the progress.
+
+Therefore, after ticket submission, notified maintainers only need to triage the issue, 
+which is also facilitated by PyPackIT. 
+For example, by posting a comment under an issue, 
+project maintainers can command PyPackIT to automatically test 
+a specific version of the library in a specific environment with given test cases. 
+This greatly accelerates bug report triage, 
+eliminating the need for manual branch creation and test suite modification and execution. 
+If the new test cases fail, PyPackIT automatically adds them to the project's test suite 
+and initiates a bug fix task, thus providing a streamlined solution 
+for continuously turning bugs into new test cases, 
+to validate the fix and prevent future recurrences 
+according to best practices {cite}`BestPracticesForSciComp, 10SimpleRulesOnWritingCleanAndReliableSciSoft`. 
+
+After triage, maintainers can command PyPackIT to perform various tasks 
+by changing the ticket's status label. 
+For example, rejected tickets are automatically closed 
+and the documentation is updated to specify the reason and details. 
+On the other hand, when a ticket is labeled ready for implementation, 
+PyPackIT creates a new development branch from each affected release branch, 
+as specified in ticket data. 
+These development branches are then automatically linked to the issue ticket on GitHub. 
+Additionally, an empty commit is added to them containing issue data in the commit message, 
+maintaining a clear and information-rich history on Git. 
+
+
+## Continuous Integration
+
+When an issue is ready for implementation, PyPackIT automatically opens a draft PR 
+for each created development branch, 
+filled with information from the corresponding issue data, 
+and labeled accordingly. 
+Developers can thus immediately start implementing the specified changes. 
+With each commit on a development branch, 
+PyPackIT runs a CI pipeline to integrate the new changes into the code base 
+according to best practices {cite}`CICDSystematicReview, ModelingCI, ContinuousSoftEng`:
+
+- **Configuration Synchronization**:
+  Modifications in control center settings are applied to dynamic files in the branch.
+- **Code Formatting**:
+  [Black](https://black.readthedocs.io/) code style is applied to changed source files.
+- **Code Analysis**:
+  Static code analysis and type checking is performed
+  using well-established linters such as [Ruff](https://docs.astral.sh/ruff/}{Ruff),
+  [Mypy](https://mypy.readthedocs.io/), and [CodeQL](https://codeql.github.com/)
+  to detect potential errors, code violations, security issues, and other code smells
+  in both Python and supported data file.
+- **Data File Analysis**:
+  Data files in JSON, YAML, and TOML formats
+  are checked for syntax errors.
+- **Refactoring**:
+  Available fixes such as end-of-file and end-of-line standardization
+  and safe refactoring suggestions by Ruff are automatically applied.
+- **Dependency Review**:
+  Changed dependencies are analyzed for security and license issues,
+  using GitHub's [Dependency-Review Action](https://github.com/actions/dependency-review-action).
+- **Build**: Source and binary distributions are built and attached when package files are modified.
+- **Testing**: Test suite is executed on a matrix of supported operating systems and Python versions
+  to verify the correctness and compatibility of changes applied to source files.
+- **Website Build**: Documentation website is built and attached to the CI
+  to reflect the latest changes in package and website source files and configurations.
+- **Report**:
+  Comprehensive reports are generated for each step to
+  improve the visibility of integration status and facilitate reviews. 
+- **Progress Tracking**
+  The draft PR is updated to reflect the progress,
+  automatically marking tasks as complete based on commit messages and CI outputs.
+
+When package-related changes are successfully integrated, 
+a new developmental release is automatically versioned, tagged, and published to TestPyPI. 
+This serves several purposes {cite}`CICDSystematicReview`:
+
+- The library is automatically tested in a production-like environment,
+  ensuring that it works as intended after download and installation on user machines.
+- New features and developments can be easily shared with other collaborators,
+  enabling early feedback and reviews during the implementation phase.
+- The entire development progress leading to each final release
+  is permanently documented in a clear and transparent manner.
+
+When all implementation tasks specified in a PR are marked as complete, 
+PyPackIT automatically initiates the process to merge the changes into production:
+
+- Reviewers are automatically designated to the PR
+  according to rules defined in the control center
+  based on several different factors, such as changed files or issue type.
+- The status and outputs of CI pipelines are displayed in the PR,
+  and automatically updated after each revision during the review process. 
+
+When the PR is approved by reviewers, PyPackIT automatically performs the merging:
+
+- Changelogs are updated using
+  issue ticket and PR data, maintaining chronological records
+  of all key aspects of the development process for both users and developers of the library.
+  PyPackIT automatically correlates each implementation task with a specific changelog section
+  based on [Conventional Commits](https://www.conventionalcommits.org) types defined in the control center.
+  For example, tasks marked as `fix` are added to `Bug Fixes` section of the user changelog for library's public API.
+- A consistent and clear Git history is maintained by squash merging the development branch
+  into the corresponding release branch.
+  To establish issue–commit links and reflect the development documentation in the project's VCS,
+  the commit message contains the issue ticket number and other details such as type, scope, and description.
+- When changes are merged into the repository's main branch,
+  all project-wide configurations such as repository and workflow settings
+  are updated according to control center content.
+
+
 ## Continuous Deployment
 
+If the merged changes correspond to a new release or pre-release of the library, 
+the CD pipeline carries out additional deployment tasks:
 
-- \href{https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist}{Source distributions}
-  (sdists) are generated for each release, 
-  allowing for customized installations and reproducible builds according to 
-  \href{https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives}{PyPA guidelines}.
-- \href{https://packaging.python.org/en/latest/glossary/#term-Built-Distribution}{Built distributions}
-  (\href{https://packaging.python.org/en/latest/glossary/#term-Wheel}{wheels}) are included as well, 
+- [Source distributions](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)
+  (sdists) is generated, allowing for customized installations and reproducible builds according to
+  [PyPA guidelines](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives).
+- [Built distributions](https://packaging.python.org/en/latest/glossary/#term-Built-Distribution)
+  ([wheels](https://packaging.python.org/en/latest/glossary/#term-Wheel) are included as well, 
   facilitating installation on different platforms. 
-  PyPackIT uses PyPA's \href{https://build.pypa.io/}{Build} and \href{https://cibuildwheel.pypa.io/}{Cibuildwheel} 
+  PyPackIT uses PyPA's [Build](https://build.pypa.io/) and [Cibuildwheel](https://cibuildwheel.pypa.io/) 
   tools to automatically create platform-independent wheels for pure-Python packages, 
-  and platform-dependent binaries for packages with extension modules written in compiled languages like C and C++. 
-  This is crucial for many scientific libraries that rely on extension modules 
-  for compute-heavy calculations.
-- Distribution packages are deployed to \href{https://pypi.org/}{Python Package Index} (PyPI), 
-  Pythons's official software repository. 
-  This makes the scientific library easily installable with \href{https://pip.pypa.io/}{Pip}, 
-  Python's official package manager. 
+  and platform-dependent binaries for packages with extension modules
+  written in compiled languages like C and C++. 
+  This is crucial for many libraries that rely on extension modules for compute-heavy calculations.
+- Documentation website is updated and deployed online.
+  A banner is added to announce the new release, and a blog post is created with release notes.
+- Distribution packages are versioned, tagged, and published on GitHub,
+  along with the test suite, documentation website, and detailed release notes.
+- Package is also deployed to [Python Package Index](https://pypi.org/) (PyPI), 
+  Pythons's official software repository.
+  This makes the library easily installable with [Pip](https://pip.pypa.io/), 
+  Python's official package manager.
   Moreover, it enables the community to discover the library based on its keywords, classifiers, 
-  and other attributes, while an automatically generated \href{https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/}{PyPI-friendly README file} 
+  and other attributes, while an automatically generated [PyPI-friendly README file](ttps://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/) 
   provides a complete project overview. 
-  The deployment is automated using \href{https://docs.pypi.org/trusted-publishers/}{trusted publishing} with 
-  \href{https://github.com/pypa/gh-action-pypi-publish}{PyPA's official GHA application}, 
+  The deployment is automated using [trusted publishing](https://docs.pypi.org/trusted-publishers/) with
+  [PyPA's official GHA application](https://github.com/pypa/gh-action-pypi-publish), 
   which only requires a one-time account configuration on PyPI.
-- Each release is published on GitHub, containing distribution packages, full source code, 
-  test suite, and documentation. 
-  Following a one-time account configuration on \href{https://zenodo.org/}{Zenodo}—an open-access 
-  repository for research outputs, these releases will be permanently available and uniquely indexed 
+- Following a one-time account configuration on [Zenodo](https://zenodo.org/)—an open-access 
+  repository for research outputs, the release will also be permanently available and uniquely indexed 
   with a DOI, facilitating reproducibility and citations.
-
 
 
 ## Continuous Maintenance, Refactoring, and Testing
