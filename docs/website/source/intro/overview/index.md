@@ -1,411 +1,403 @@
 ---
 ccid: overview
 ---
+
 # Overview
 
-{{ccc.name}} is a fully configured, yet highly customizable automation system
-that integrates with your GitHub repository and takes responsibility for a large portion
-of common tasks in every step of the development and maintenance process of your software project.
-From configuring your repository, Python package, test-suite, documentation website,
-and all other related tools and services according to the latest standards and best practices,
-to managing your project's branches, issues, pull requests, and releases,
-{{ccc.name}} provides an exhaustive set of fully-configured
-continuous integration, deployment, and testing (CI/CD/CT) workflows
-that render your entire development and maintenance pipelines automated and dynamic.
-These workflows, which are built on
-[GitHub Actions](https://github.com/features/actions)—GitHub's own powerful automation platform—contain
-detailed instructions and commands for automatically performing a variety of tasks every time an event
-(e.g., pushing to a branch, opening an issue or pull request, etc.) occurs in your repository.
-
-{{ccc.name}} is provided as a
-[GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository),
-and uses [GitHub Actions](https://github.com/features/actions)
-to automate the entire development and maintenance process of your project.
-When you [create a new repository from the {{ ccc.name }} template](../../manual/install/new-repo.md),
-or [integrate {{ ccc.name }} into your existing repository](../../manual/install/existing-repo.md),
-fully configured [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
-are added to your repository,
-which will automatically run GitHub Actions every time a supported event occurs in your repository.
-These workflows use {{ ccc.name }}'s own
-[custom actions](https://docs.github.com/en/actions/creating-actions/about-custom-actions),
-most notably the [RepoDynamics Action](https://github.com/RepoDynamics/init),
-which is entirely powered by our [RepoDynamics Python package](https://github.com/RepoDynamics/RepoDynamics).
-This package, being the brain of the {{ ccc.name }} software suite,
-is responsible for analyzing the event that triggered the workflow,
-along with the current state of the repository, and automatically performing a variety of tasks accordingly.
-These include:
-- Versioning, tagging, building and publishing new releases of your package to
-  [PyPI](https://pypi.org/) and [TestPyPI](https://test.pypi.org/) platforms.
-- Generating release notes, updating changelogs, and creating
-  [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases),
-  blog posts and website announcements for each package release.
-- Updating, building and deploying your website to [GitHub Pages](https://pages.github.com/).
-- Processing and managing your project's
-  [issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues),
-  [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests),
-  [branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches),
-  [tags and releases](https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags),
-  and [discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions),
-  including assigning issues to maintainers, dynamically labeling issues and pull requests,
-  creating development branches for issues, opening pull requests and requesting reviews,
-  merging pull requests, and creating and updating tags, releases, and branches.
-- Managing and updating your [GitHub repository's settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features)
-  and various features, such as
-  [security analysis](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository),
-  [branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches),
-  [labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels),
-  [topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics),
-  [funding options](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository),
-  [social media preview](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview) etc.
-- Adding and dynamically updating various GitHub configuration files, such as
-  [README files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes),
-  [license files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository),
-  [issue templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates#issue-templates),
-  [discussion templates](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms),
-  [pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates#pull-request-templates),
-  [code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners),
-  [citation files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files),
-  and other [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
-  such as [code of conduct](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project),
-  [contributing guidelines](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors),
-  [security policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository),
-  [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project),
-  and governance policy.
-- Adding and dynamically updating configuration files for other external tools that are used/supported
-  by {{ ccc.name }}, such as
-  [Read The Docs](https://readthedocs.org/) website,
-  [Codecov](https://codecov.io/) test coverage reports,
-  branch-specific [pre-commit](https://pre-commit.com/) configuration files,
-- Adding and dynamically updating git-specific files, such as [gitignore](https://git-scm.com/docs/gitignore)
-  and [gitattributes](https://git-scm.com/docs/gitattributes).
-- Providing and dynamically updating Python-specific files for your package and test-suite,
-  including [`requirements.txt` files](https://pip.pypa.io/en/stable/reference/requirements-file-format/),
-  [`MANIFEST.in` files](https://packaging.python.org/en/latest/guides/using-manifest-in/), and
-  fully configured `pyproject.toml` files with specifications for the [build process](https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/)
-  and [packaging with Setuptools](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html),
-  [PEP 621 metadata](https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata),
-  and settings for various tools such as
-  [versioningit](https://versioningit.readthedocs.io/en/stable/)
-  (for automatic version determination based on repository tags),
-  [Ruff](https://docs.astral.sh/ruff/), [Mypy](https://mypy.readthedocs.io),
-  [Pylint](https://pylint.readthedocs.io/), [black](https://black.readthedocs.io)
-  and [isort](https://pycqa.github.io/isort/) (for code linting and formatting),
-  and [pytest](https://docs.pytest.org/) and [coverage.py](https://coverage.readthedocs.io/) (for testing and code coverage).
-- Updating all directory-specific README files throughout the repository.
+This section offers a more detailed overview of 
+some of PyPackIT's key components, features and capabilities.
 
 
-## Features
+## Continuous Configuration Automation
+
+{{ ccc.name }} facilitates project configuration, customization, and management
+by introducing a centralized control mechanism
+based on DevOps practices like IaC.
+It provides a control center as the singular user interface
+to manage the entire project, and even multiple projects at once.
+The control center consolidates all project configurations, metadata,
+and variable content into one repository location under version control,
+allowing for easy tracking of all settings throughout the project lifespan.
+To improve transparency and replicability of configurations
+and eliminate the need to manage multiple file formats and locations,
+manual settings are replaced by declarative configuration definitions,
+all unified and structured in [YAML](https://yaml.org/) format—a standard, 
+concise, human-readable data serialization language.
+PyPackIT automatically applies all settings to corresponding project components 
+via APIs and dynamically generated files, 
+effectively rendering the entire project configuration and content dynamic.
+To further simplify dynamic project configuration and content management,
+the control center is equipped with several features:
+
+- **Preconfiguration**:
+  For all generic configurations, 
+  default settings are provided based on the latest standards and best practices,
+  requiring only project-specific metadata to be declared.
+- **Templating**:
+  Data reuse is facilitated by templating features that enable
+  dynamic referencing of all control center contents throughout project files,
+  removing redundancy and allowing for centralized and automatic updates.
+- **Inheritance**:
+  Data can be dynamically inherited from external sources, 
+  allowing for consistent creation and centralized maintenance
+  of multiple projects with shared settings.
+- **Augmentation**:
+  Additional dynamic data are generated during each run
+  by analyzing the repository and retrieving information from web APIs
+  to minimize manual inputs and updates.
+- **Synchronization**:
+  Changes to control center contents are automatically propagated 
+  throughout the project, ensuring consistency across all components
+  without the need for manual intervention.
+- **Validation**:
+  All inputs are validated against detailed predefined schemas 
+  to ensure correctness and notify users of any errors or inconsistencies
+  with comprehensive reports.
+- **Customization**:
+  Additional configurations can be added either declaratively in YAML files 
+  or dynamically via Python scripts executed at runtime,
+  further facilitating user customization.
+- **Caching**:
+  To speed up processing and reduce web API usage, 
+  all retrieved data can be cached both locally and on GHA, 
+  with user-defined retention times.
+
+Examples of dynamically maintained project components and settings include:
+
+- **Project Descriptors**:
+  Name, Title, Abstract, Keywords, Highlights
+- **Project Metadata**:
+  License, Citation, Funding, Team, Roles, Contacts
+- **Package and Test Suite**:
+  Build Configurations, Requirements, Dependencies, 
+  Metadata, Version, Entry Points, Docstrings
+- **Documentation**:
+  API Reference, Installation Guide, Contribution Guide, Governance Model,
+  Security Policy, README Files, Badges, Website and Theme Configurations
+- **Issue Tracking**:
+  GHI Settings, Issue Submission Forms, Labels, Pull Request Templates,
+  Design Documents, Discussion Forms
+- **Version Control**:
+  Git/GitHub Repository Settings, Branch and Tag Configurations,
+  Protection Rules, Commit Types, Changelogs, Release Notes
+- **Workflows**:
+  Continuous Pipeline Configurations, Tool Settings, Development Environment Specifications
 
 
-### Control Center
+## Python Package
 
-A prominent feature of {{ ccc.name }} is the centralized and dynamic
-control center it provides for your project.
-It contains all the available settings for {{ ccc.name }} itself,
-along with various information, configurations, and metadata for your entire project and all its components,
-gathered in one place and thoughtfully organized and presented in a clear, consistent, and concise format.
+PyPackIT provides a comprehensive infrastructure for Python packages,
+in line with the latest {term}`PyPA` standards {cite}`PythonPackagingUserGuide`. 
+For new projects, it provides a build-ready distribution package,
+pre-configured according to the latest best practices for scientific Python libraries.
+The package skeleton includes all necessary configuration files
+like `pyproject.toml`, `MANIFEST.in`, and `requirements.txt`,
+along with a top-level \href{https://packaging.python.org/en/latest/glossary/#term-Import-Package}{import package}
+filled with essential source files and added functionalities,
+e.g., for data file support and command-line interface development.
 
-When you commit changes to the project's control center, they are automatically
-applied to your entire repository, Python package,
-test suite, documentation website, and all other components, tools, and external services.
-Therefore, instead of having to deal with multiple interfaces and diverse configuration
-and metadata files for each aspect of your project,
-all scattered across your repository and each with its own format and syntax,
-you can simply manage your entire project from within the control center,
-using a single, unified, and consistent interface;
+The package is dynamically maintained via PyPackIT's control center, 
+enabling facile management and tracking of all settings
+throughout the software development process.
+Automatically maintained components include: 
 
+- **Metadata**:
+  Distribution and import names, tagline, description, keywords,
+  classifiers, URLs, license, authors, maintainers, and typing information
+  are automatically derived from project information and highly customizable.
+- **Version**:
+  Version information such as version number, commit hash, and release date
+  are automatically calculated during each build and injected into package metadata and select source files.
+- **Configurations**:
+  Build system specifications, Python and OS requirements, dependencies,
+  entry points, included data files, and build tool settings
+  are specified in the control center and used to dynamically generate configuration files.
+- **Source Files**:
+  Users can define dynamic docstrings, comments, and code snippets to be automatically inserted
+  at certain locations in selected source files.
 
-When you apply a change to the repository's `meta` content, {{ ccc.name }} will automatically
-apply the corresponding changes to the entire repository and its contents, and update all relevant files,
-configurations, and settings accordingly.
-
-Therefore, besides your source code, unit tests, and documentation content,
-all other aspects of your project are automatically managed by {{ ccc.name }} according to your specifications
-in the `meta` directory.
-
-${{ name }} automatically translates your changes into the appropriate formats,
-generates all necessary files in the required locations, and updates them dynamically.
-
-
-#### Options
-
-The control center contains all key information and metadata of your project,
-such as its name, description, keywords, license and copyright information,
-authors/maintainers and their roles, contact information, citations,
-and branding and styling information, to name a few.
-
-
-Furthermore, the control center contains all configurations and metadata for your
-GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
-GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
-health files contents; README files contents; description and topics; gitignore and gitattributes files),
-Python package and test suite (e.g. build configurations; package metadata; dependencies
-and other requirements; entry points and scripts declarations; manifest file content;
-docstrings; PyPI and Conda settings),
-documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
-custom domain declaration; web analytics settings, announcement configurations),
-and all other tools and external services that are utilized by your project
-(e.g. settings for various linting, formatting, and testing tools such as
-Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
-pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
+Therefore, the only task remaining for users is writing application code 
+in the provided skeleton files, while all integration and deployment tasks
+including refactoring, formatting, testing, versioning, packaging, distribution, and indexing
+are automatically carried out by PyPackIT's CI/CD pipelines on the cloud.
 
 
-#### Substitutions and Templating
+## Test Suite
 
-{{ ccc.name }} also allows for complex and recursive templating for all the `meta` content,
-meaning that you can reference and use any part of the `meta` content in all other parts, eliminating the need for
-redundant and repetitive configurations and data, which are hard to modify.
-This provides a high degree of customization and flexibility,
-as you can easily change a single variable, and have it automatically applied to the entire `meta` contents
-and consequently the entire project.
+PyPackIT simplifies software testing with a fully automated testing infrastructure 
+using [PyTest](https://pytest.org/), one of the most popular testing frameworks for Python. 
+This enables projects to easily perform unit, regression, end-to-end, and functional testing,
+which are integrated into PyPackIT's Continuous pipelines and automatically executed 
+during software integration, deployment, and maintenance. 
+For each test run, PyPackIT generates comprehensive test results and coverage reports 
+using plugins such as [PyTest-Cov](https://github.com/pytest-dev/pytest-cov), 
+and provides them in various machine and human-readable output formats on the repository's GHA dashboard.
+After a one-time configuration on [Codecov](https://codecov.io/), 
+reports are also automatically uploaded to this code coverage analysis platform as well, 
+which offers features to assess testing effectiveness. 
+The entire testing infrastructure is preconfigured, 
+requiring users to only write test cases in a ready-to-use test suite skeleton.
+The test suite is included in the project's repository as an individual Python package, 
+with same features as the project's main package, offering several benefits:
 
-In addition, to eliminate any redundancy and provide your project with a high degree of flexibility
-and customization, ${{ name }} allows for complex and recursive templating within all contents of
-the control center, meaning that you can reference and reuse any piece of configuration or data
-in all other parts of the control center.
-
-
-#### Inheritance
-
-To further reduce unnecessary redundancies, {{ ccc.name }} also lets you dynamically inherit
-specific `meta` contents of other repositories, allowing you to easily create and maintain
-multiple repositories with centralized configurations and settings.
-
-You can also command ${{ name }} to dynamically inherit any piece of configuration or data
-from any other GitHub repository, allowing you to easily share and reuse specifications
-across multiple projects.
-
-
-#### Automatic Additions
-
-On top of these, ${{ name }} automatically augments your project's metadata
-with various dynamic information, so that you don't have to manually define and update them.
-For example, all information on your GitHub repository, along with full details of
-the project's owner, authors, maintainers, and contributors, are periodically retrieved
-from GitHub, and a full list of your package's active releases and their corresponding
-information are generated and maintained automatically.
-
-On top of this, {{ ccc.name }} also automatically extends your project's metadata
-by fetching additional information from external sources.
-For example:
-- Name and the owner of the repository are automatically detected, and their full information
-  is retrieved from the [GitHub API](https://docs.github.com/en/rest?apiVersion=2022-11-28).
-- Information on the repository owner and all specified authors and maintainers,
-  such as full name, email, bio, profile picture, affiliation, and linked social accounts,
-  is fetched from the GitHub API.
-- If the owner specifies their [ORCiD](https://orcid.org/) ID in their GitHub profile,
-  their ORCiD profile information is automatically fetched from the [ORCiD API](https://info.orcid.org/documentation/features/public-api/),
-  a list of their publications is extracted, and full metadata and citation information
-  for each publication is retrieved from the
-  [Crossref](https://www.crossref.org/documentation/retrieve-metadata/rest-api/)
-  and [DOI](https://www.doi.org/the-identifier/resources/factsheets/doi-resolution-documentation) APIs.
+- Dynamic maintenance of configurations and source files are enabled via PyPackIT's control center.
+- Test suite is easily installable via Pip, 
+  eliminating the complexities of setting up a testing environment.
+- A built-in command-line interface is included by PyPackIT, 
+  enabling straightforward execution of the test suite by abstracting the details of running PyTest.
+- The test suite is automatically packaged and distributed with each release, 
+  allowing users to readily test and benchmark the software library on their machine with detailed reports.
+- Modularization and reusability of code components are enabled by the package structure, 
+  simplifying the development of new test cases and improving testing quality.
+- Compatibility and size of the software library are improved, as the test suite 
+  and its dependencies are isolated from the main package.
 
 
-#### Custom Additions
+## Documentation
 
-${{ name }} also allows you to extend your project's configuration and metadata with
-your own custom specifications, which can then be referenced and utilized anywhere in
-your project, the same way as the built-in contents of the control center.
-For more complex custom specifications that cannot be defined in YAML files,
-or for data that must be generated/retrieved dynamically at runtime
-(e.g. data retrieved from a web API), ${{ name }} allows you to define custom Python scripts
-that are automatically executed during the workflow runs, and whose outputs are then made available
-to your entire project.
+PyPackIT offers an automated solution for generating,
+deploying, and maintaining a comprehensive documentation website
+according to best practices {cite}`TenSimpleRulesForDocumentingSciSoft, WhatMakesCompSoftSuccessful`,
+leaving users with no documentation tasks other than writing docstrings and short software descriptions.
+It includes a fully configured [Sphinx](https://www.sphinx-doc.org) website template, 
+designed using a standardized layout 
+based on the popular [PyData](https://pydata-sphinx-theme.readthedocs.io/) theme.
+All configurations and design elements, including logo, color scheme, font, and icons
+are dynamically managed by PyPackIT's control center,
+enabling rapid customization and consistent maintenance.
+Moreover, [Jinja](https://jinja.palletsprojects.com/) templating is enabled
+for all website files and the entire control center content is made available during builds.
+This enables the creation of sophisticated content that are dynamically updated 
+according to control center content.
+It also allows PyPackIT to prefill the website with content
+that are automatically customized with project-specific information 
+and complemented with additional data throughout the development process 
+to reflect the project's progress. These include:
 
+- **Homepage**: Logo, abstract, keywords, and highlights,
+  with descriptions of main documentation sections and links to key resources.
+- **Project Information**: License, copyright, team members, governance model, and contact information.
+- **Package Information**: Python and OS requirements, dependencies, entry points, and version scheme.
+- **Installation Guide**: Detailed instructions on how to install the package from various sources.
+- **API Reference**: Documentation of all package modules, classes, methods, functions, and attributes,
+  automatically generated and continuously updated using docstrings in source code.
+- **Changelogs**: Chronological documentation of the development process,
+  including important changes such as bug fixes, improvements,
+  and modified features, requirements, and dependencies, 
+  automatically generated by processing issue tickets, PR data, and control center configuration changes.
+- **Release Notes**:
+  Summaries of each release version, including design documents, implementation details,
+  and changelogs, posted on the website's news blog
+  along with temporary announcement banners to notify users.
+- **Contribution Guide**: Manuals on how to report issues and security vulnerabilities,
+  request changes, contribute artifacts, and maintain the software library.
+- **Navigation Guide**: Instructions for library users to navigate the website,
+  find information, and get support.
+- **External Resources**: Links to project codebase, issue tracker, discussion forums,
+  and indexing repositories such as PyPI, Zenodo, and conda-forge.
 
-### Repository Setup
+To add further documentation content such as detailed overviews and tutorials,
+both plain text and markup languages like
+reStructuredText (reST) and [MyST Markdown](https://mystmd.org/)
+are supported, providing flexibility in typography. 
+Moreover, rich features are made available via simple configurations and directives,
+using powerful extensions such as:
 
-- [**General Settings**]{.primary-color}: General settings for the repository,
-  such as name, description, visibility, and default branch
-- [**About Section**]{.primary-color}: General information about the project,
-  such as description, keywords (aka topics), and website URL
-- [**Repository README**]{.primary-color}:
-- [**Social Media Preview**]{.primary-color}:
-- [**Directory Structure**]{.primary-color}:
-- [**Directory READMEs**]{.primary-color}:
-- [**Security Settings**]{.primary-color}:
-- [**License**]{.primary-color}:
-- [**Issues**]{.primary-color}:
-- [**Labels**]{.primary-color}:
-- [**Discussions**]{.primary-color}:
-- [**Health Files**]{.primary-color}:
-- [**Git Files**]{.primary-color}:
+- [MyST-NB](https://myst-nb.readthedocs.io/en/latest/):
+  Elements for writing technical documentation,
+  such as executable code blocks, diagrams, charts, figures, tables, and mathematical notation.
+- [Sphinx-Design](https://sphinx-design.readthedocs.io/):
+  Web components like grids, cards, dropdowns, tabs, admonitions, buttons, and icons,
+  for a beautiful and responsive design.
+- [ABlog](https://ablog.readthedocs.io/):
+  A news blog, with support for RSS web feeds, searching, and categorization.
+- [SphinxContrib-BibTeX](https://sphinxcontrib-bibtex.readthedocs.io/):
+  Referencing and citation options with support for BibTeX bibliographies.
+- [Giscus](https://giscus.app/):
+  Comment section for blog entries and other webpages, using GiHub Discussions.
+- [SphinxExt-OpenGraph](https://github.com/wpilibsuite/sphinxext-opengraph)
+  Adding [Open Graph](https://ogp.me/) metadata in webpages
+  for search engine optimization (SEO), rich previews on social media,
+  and enhanced project findability and visibility.
 
+Build and deployment of the website are also automated by PyPackIT's CI/CD pipelines. 
+Changes affecting the website trigger the build process, 
+providing a preview for review. 
+Once approved, the updated website is deployed on
+[GitHub Pages](https://pages.github.com/), a free static web hosting service, 
+publicly accessible via a default URL. 
+To use a custom domain, users only need to provide it in the control center. 
+Additionally, hosting on the [Read The Docs](https://readthedocs.org/) platform is supported, 
+requiring only an account configuration.
 
-### Documentation Website
-
-{{ ccc.name }} comes with a fully developed, ready to use,
-yet highly customizable professional documentation website for your project,
-that is automatically generated, deployed, and maintained,
-with minimal effort required from your side.
-
-#### Main Features
-- The website is built with [Sphinx](https://github.com/sphinx-doc/sphinx),
-  a powerful and popular documentation generator.
-- It uses the [PyData Sphinx Theme](https://github.com/pydata/pydata-sphinx-theme)–the
-  official theme of the [PyData](https://pydata.org/) community,
-  used by many popular Python projects such as
-  [NumPy](https://numpy.org/doc/stable/),
-  [SciPy](https://docs.scipy.org/doc/scipy/),
-  [Pandas](https://pandas.pydata.org/docs/),
-  [Matplotlib](https://matplotlib.org/stable/),
-  and [Jupyter](https://docs.jupyter.org/en/latest/)–to
-  provide a professional and modern design.
-- Sphinx's powerful templating capabilities (using [Jinja](https://jinja.palletsprojects.com/))
-  are directly integrated into all source files,
-  rendering most of the website's content dynamic and self-updating.
-- The [MyST Parser](https://github.com/executablebooks/MyST-Parser) extension is used
-  to add support for the [MyST Markdown](https://mystmd.org/) syntax,
-  which provides a variety of rich features for writing technical and scientific documentation,
-  such as typography, code blocks, admonitions, figures, tables, cross-references, and mathematical notation.
-- The [Sphinx Design](https://github.com/executablebooks/sphinx-design) extension is used
-  to include beautiful and responsive web components in the website,
-  including grids, cards, dropdowns, tabs, buttons, and icons.
-- Using the [sphinx-autodoc2](https://github.com/sphinx-extensions2/sphinx-autodoc2) extension,
-  the website automatically generates API documentation for your Python package,
-  based on the docstrings in your source code.
-- With the help of the [ABlog](https://github.com/sunpy/ablog) extension,
-  the website includes a full-fledged blog,
-  with support for comments (using [Giscus](https://giscus.app/)),
-  web feeds, and various categorization, searching, and archiving options.
-- Using the [sphinxext-opengraph](https://github.com/wpilibsuite/sphinxext-opengraph) extension,
-  [Open Graph](https://ogp.me/) metadata are automatically added to each page of the website,
-  allowing for search engine optimization (SEO) and rich previews when sharing the website on social media.
-- The [sphinxcontrib-bibtex](https://github.com/mcmtroffaes/sphinxcontrib-bibtex) extension
-  is integrated into the website, enabling you to manage your project's entire bibliography
-  and citations in a BibTeX file, automatically add citations to your documentation,
-  and generate bibliographies and citation lists in various formats.
-- The included [sphinxcontrib-mermaid](https://github.com/mgaitan/sphinxcontrib-mermaid) extension
-  allows for adding complex diagrams and charts to your documentation using the
-  [Mermaid](https://github.com/mermaid-js/mermaid) syntax.
-
-
-#### Structure and Content
-
-The website is fully structured according to a standardized and well-organized layout,
-with seven main sections:
-- [**Introduction**]{.primary-color}: A comprehensive introduction to your project,
-  serving as a starting point for new users.
-  It is further divided into four subsections:
-  - [**Outline**]{.primary-color}: An abstract of the project, outlining its motivations, purpose, and objectives,
-    along with a brief description of its main features and capabilities.
-  - [**Background**]{.primary-color}: A detailed overview of the background and context of the project,
-    including a brief history of the field, and a summary of the current state of the art.
-  - [**Overview**]{.primary-color}: An extensive high-level overview of the project and all its functionalites,
-    the problems they solve, and the benefits they provide.
-  - [**Basics**]{.primary-color}: A summary of the fundamental concepts and principles
-    underlying the project, and related background information.
-- [**User Manual**]{.primary-color}: An in-depth user guide, providing detailed information
-  on how to install, configure, and use your software,
-  and explaining all its features and functionalities with examples and use cases.
-- [**API Reference**]{.primary-color}: A full API reference for your Python package,
-  documenting all its subpackages, modules, classes, methods, and attributes.
-- [**News**]{.primary-color}: A blog for your project, where you can post release notes,
-  announcements, updates, and other news,
-  and share your plans and progress with the community.
-- [**Contribute**]{.primary-color}: A guide for contributors, explaining how to get involved and support the project,
-  share feedback, report issues, suggest new features,
-  and contribute to the development and maintenance of the software.
-- [**About**]{.primary-color}: General metadata about the project,
-  such as credits (authors, maintainers, sponsors, acknowledgements, etc.),
-  roadmap, license information, citation details, and contact information.
-- [**Help**]{.primary-color}: A help section with various resources for users and contributors,
-  including a FAQ page with comments, a site map with instructions on how to navigate the website,
-  and a contact page with information on how to get in touch with the project's maintainers
-  for further support and assistance.
-
-Several parts of the website are either pre-filled with content, or automatically populated
-using information from your project's metadata and configurations; for example:
-- The website's homepage is automatically generated to include the project's logo and description,
-  as defined in project's control center.
-  It also includes links to the website's main sections,
-  along with a brief description of each section.
-- The installation guide in the user manual is automatically generated to include
-  instructions for installing your package from various sources,
-  including GitHub, PyPI, and if applicable, conda.
-- The API reference is automatically generated to include documentation for all subpackages,
-  modules, classes, methods, and attributes in your package,
-  based on the docstrings in your source code.
-- The blog is automatically updated with new posts for each release of your package,
-  including release notes, changelogs, and links to the corresponding resources.
-- The Contribute section is fully populated with information on how to contribute to the project,
-  from sharing feedback and reporting issues,
-  to contributing to the development and maintenance of the software.
-- The About section is automatically populated with general information about the project,
-  including a full list of all authors, maintainers, sponsors, and collaborators,
-  license information, citation details, and contact information,
-  all of which are automatically fetched from the project's metadata and configurations.
-- For each new release of your package, an announcement is automatically added to the website,
-  and subsequently removed after a specified period of time.
-
-Therefore, the only remaining contents to be added to the website are practically
-the introduction of the project,
-and a user guide describing the functionalities of your package and how to use them.
+PyPackIT also generates several GitHub-specific documentation files for the repository. 
+These are automatically generated according to highly customizable
+templates provided in PyPackIT's control center, 
+and include \href{https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file#supported-file-types}{community health files} 
+for \href{https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files}{citation}, 
+funding, support, security, contributing, governance, and code of conduct, 
+as well as a dynamic \href{https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes}{README file} 
+that presents a concise project overview on GitHub. 
+Acting as the front page of the repository, the README file 
+has a visually appealing graphic design, 
+and contains key project information with links to main sections of the documentation website. 
+Moreover, it includes a comprehensive collection of dynamic badges 
+according to best practices \cite{RepositoryBadges}, 
+providing users and contributors with an up-to-date overview of project specifications, 
+status, health, progress, and other statistics.
 
 
-#### Configuration and Customization
-
-The website is fully configured and ready to use out of the box,
-with all configurations and metadata for Sphinx and its theme and extensions
-provided in the Sphinx configuration file, `conf.py`.
-Moreover, most of these are set dynamically;
-all metadata, such as project's name, authors, version, and copyright, are automatically fetched,
-and many important settings can be directly configured in the project's control center, including:
-- color schemes and fonts,
-- logo and favicon,
-- navigation bar icons and links,
-- quicklinks,
-- web analytics
-  (using [Google Analytics](https://analytics.google.com/) and/or [Plausible](https://plausible.io/)), and
-- announcement retention period.
-
-This allows for a high degree of customization,
-without needing to be familiar with all the complex configurations and settings of Sphinx and its extensions,
-and without having to manually edit the Sphinx configuration file.
-Nevertheless, the Sphinx configuration file is also annotated with detailed comments and references,
-allowing for further advanced customizations, if needed.
+## Continuous Deployment
 
 
-#### Build and Deployment
+- \href{https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist}{Source distributions}
+  (sdists) are generated for each release, 
+  allowing for customized installations and reproducible builds according to 
+  \href{https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives}{PyPA guidelines}.
+- \href{https://packaging.python.org/en/latest/glossary/#term-Built-Distribution}{Built distributions}
+  (\href{https://packaging.python.org/en/latest/glossary/#term-Wheel}{wheels}) are included as well, 
+  facilitating installation on different platforms. 
+  PyPackIT uses PyPA's \href{https://build.pypa.io/}{Build} and \href{https://cibuildwheel.pypa.io/}{Cibuildwheel} 
+  tools to automatically create platform-independent wheels for pure-Python packages, 
+  and platform-dependent binaries for packages with extension modules written in compiled languages like C and C++. 
+  This is crucial for many scientific libraries that rely on extension modules 
+  for compute-heavy calculations.
+- Distribution packages are deployed to \href{https://pypi.org/}{Python Package Index} (PyPI), 
+  Pythons's official software repository. 
+  This makes the scientific library easily installable with \href{https://pip.pypa.io/}{Pip}, 
+  Python's official package manager. 
+  Moreover, it enables the community to discover the library based on its keywords, classifiers, 
+  and other attributes, while an automatically generated \href{https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/}{PyPI-friendly README file} 
+  provides a complete project overview. 
+  The deployment is automated using \href{https://docs.pypi.org/trusted-publishers/}{trusted publishing} with 
+  \href{https://github.com/pypa/gh-action-pypi-publish}{PyPA's official GHA application}, 
+  which only requires a one-time account configuration on PyPI.
+- Each release is published on GitHub, containing distribution packages, full source code, 
+  test suite, and documentation. 
+  Following a one-time account configuration on \href{https://zenodo.org/}{Zenodo}—an open-access 
+  repository for research outputs, these releases will be permanently available and uniquely indexed 
+  with a DOI, facilitating reproducibility and citations.
 
-The build and deployment process of the website is automatically carried out on the cloud,
-as part of the provided GitHub Actions workflows for the repository.
-After {{ ccc.name }} is installed in your repository,
-it automatically activates and configures the [GitHub Pages](https://pages.github.com/) service
-for your repository, and deploys the website.
-Subsequently, every time a change that affects the website
-(i.e., a change to the website's source files, the package's source code,
-or the corresponding settings in the control center)
-is made to one of the repository's release branches,
-the website is automatically rebuilt and redeployed.
-Similarly, when such changes are made to one of the development branches,
-a built version of the website is automatically attached to the corresponding workflow run,
-and can be downloaded as an artifact from the workflow's page on GitHub, to be viewed locally.
-The website is accessible at the default GitHub Pages URL for your repository,
-which is `https://<username>.github.io/<repository-name>/`,
-where `<username>` is the GitHub username of the person or organization that owns the repository,
-and `<repository-name>` is the name of the repository.
-However, you can also configure a custom domain
-for your website in the repository's control center,
-and {{ ccc.name }} will automatically set it up for you.
-{{ ccc.name }} also automatically generates a full configuration file for the
-[Read The Docs](https://readthedocs.org/) platform,
-so that you can easily build and deploy your website there as well.
 
 
-## Summary
+## Continuous Maintenance, Refactoring, and Testing
 
-Simply create a new repository from the PyPackIT template, add your project's information, and start coding;
-PyPackIT will automatically create and deploy a professional documentation website for your project,
-run various tests on your code, build your Python package, publish it on PyPI and GitHub,
-create detailed release notes and changelogs, manage your repository's issues and pull requests.
+To ensure long-term software sustainability, 
+{{ ccc.name }} periodically runs Continuous pipelines on a scheduled basis 
+to check for problems and perform automatic fixes and updates. 
+In addition to CCA mentioned above, tasks include:
 
-The project addresses a common challenge faced by developers when initiating a new app or Python package:
-starting from scratch and configuring every element manually. Creating an ideal repository structure,
-setting up testing tools, configuring documentation websites, publishing to PyPI, and managing issues
-and releases can be overwhelming and lead to suboptimal outcomes. This discourages many amateur developers
-from sharing their creations, which negatively impacts the field's growth and hampers potential innovations.
+- **CT**: To ensure compatibility with up-to-date environments, 
+  previous releases are periodically tested with the latest available dependencies, 
+  including new Python versions, according to the project's version specifiers.
+- **CR**: Code analysis and formatting tasks are performed using updated tools 
+  and standards to curb the ever-increasing code complexity 
+  and maintain quality and consistency during both development and support phases. 
+- **CM**: To maintain the health of the development environment, 
+  the repository and its components are frequently cleaned up, 
+  removing outdated development artifacts, such as builds, logs, and reports.
 
-PyPackIT comprehensively tackles these challenges with a pre-configured GitHub repository template that
-provides all necessary files and directories. The user only needs to add their code and specific documentation,
-significantly reducing the initial setup time and complexity. 
+During each run, PyPackIT automatically applies updates and fixes to a new branch, 
+and creates a PR for review by maintainers. 
+After approval, changes are automatically merged into the project 
+and applied to all components. Similarly, if a problem is found, 
+a new issue ticket is automatically submitted to the issue tracking system, 
+notifying project maintainers to take action. 
+These automated processes significantly simplify 
+and encourage maintenance activities {cite}`CanAutoPRsEncourageDepUpgrade`, 
+facilitating the prolonged development and support of software.
+
+
+## Licensing
+
+{{ ccc.name }} greatly facilitates project licensing and copyright management,
+in accordance with best practices for {term}`FOSS`
+{cite}`QuickGuideToLicensing, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio`
+and the upcoming [PEP 639](https://peps.python.org/pep-0639/),
+by integrating with the System Package Data Exchange ([SPDX](https://spdx.org/)) license standard.
+This allows users to define complex licenses for their projects
+using a simple [SPDX license expression](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/).
+{{ ccc.name }} supports all [SPDX License List](https://spdx.org/licenses/) entries
+as well as user-defined licenses.
+It can automatically customize licenses with project-specific information and 
+produce visually appealing Markdown and plain-text outputs 
+that are valid according to the SPDX License List
+[matching guidelines](https://spdx.github.io/spdx-spec/v3.0.1/annexes/license-matching-guidelines-and-templates/).
+
+By default, new projects are licensed under the [`MIT` License](https://spdx.org/licenses/MIT.html),
+which is a permissive [OSI-approved](https://opensource.org/licenses) and
+[FSF Free](https://www.gnu.org/licenses/license-list.en.html) license
+that supports {term}`FOSS` commercialization {cite}`SettingUpShop` 
+and fulfils the Bayh–Dole requirements for patenting publicly funded products {cite}`BayhDole`. 
+Another recommended option is the GNU Affero General Public License
+([`AGPL-3.0-or-later`](https://www.gnu.org/licenses/agpl-3.0)),
+which is a strong copyleft license promoting FOSS by enforcing downstream source disclosure.
+To change the project license, users only need to provide the corresponding expression 
+in the control center (e.g., `MIT OR (AGPL-3.0-or-later WITH GPL-3.0-linking-exception)`);
+{{ ccc.name }} will then automatically download the required license data and integrate it into the project:
+
+- **Validation**:
+  User is notified if the provided license expression is invalid,
+  uses deprecated or obsoleted components,
+  or has conflicts with project dependencies.
+- **Customization**:
+  Placeholder values in license contents such as project name, copyright notice,
+  and contact information are automatically replaced with project information
+  according to control center configurations.
+- **Documentation**:
+  For each license component, syntactically valid and nicely formatted documents are generated
+  and added to the repository according to
+  [GitHub specifications](https://github.blog/changelog/2022-05-26-easily-discover-and-navigate-to-multiple-licenses-in-repositories/),
+  so that they are correctly recognized and displayed.
+  These are also included in the project's website, along with other license details.
+- **Annotation**:
+  An SPDX [short-form identifier](https://spdx.dev/learn/handling-license-info/)
+  is added as a comment in all source files and as a footer badge in all documentation files, 
+  clearly communicating license information in a standardized human and machine-readable manner.
+  A short copyright notice can also be automatically added to all or certain module docstrings.
+- **Distribution**:
+  License files are automatically included in all future releases
+  and distributed with the package and test suite.
+  Platform-specific license metadata and identifiers are also added
+  to facilitate license identification by indexing services and package managers.
+
+
+## Security
+
+To enhance project security while supporting community collaboration, 
+PyPackIT incorporates several security measures:
+
+- **Protection Rules**:
+  By default, protection rules are applied to repository branches and tags,
+  requiring passing status checks and admin approvals before changes can be made
+  to important repository references (cf. [Manual](#branch-protection-rules)).
+  This prevents accidental or unauthorized changes to resources
+  that may compromise the integrity of the development environment
+  or the software itself. 
+- **Security Vulnerability Scanning**:
+  Several code analysis tools are integrated into CI/CD pipelines 
+  to ensure that changes do not introduce
+  security vulnerabilities into the codebase.
+- **Dependency Monitoring**:
+  GitHub's Dependabot and Dependency-Review Action are used to continuously monitor
+  project dependencies, to alert maintainers of any issues 
+  and propose updates when possible. 
+- **PR Approval**: 
+  External PRs require project maintainers' approval before CI/CD pipelines can run,
+  to prevent malicious code from being executed.
+- **Workflow Security**:
+  GHA workflows are developed according to best practices 
+  {cite}`AutoSecurityAssessOfGHAWorkflows, GHADocsSecurity` 
+  to prevent security issues that may arise through command injection, 
+  use of untrusted applications, exposure of tokens and secrets, 
+  and loose workflow permissions, among others.
+
+Moreover, to ensure that {{ ccc.name }} itself is highly secure, 
+its entire infrastructure is natively implemented and self-contained. 
+With the exception of a handful of fundamental {term}`Actions` and Python libraries 
+from trusted vendors like GitHub and PyPA, 
+PyPackIT does not rely on other third-party dependencies.
+This gives the {{ ccc.name }} team full control over the software stack,
+allowing us to rapidly respond to issues
+and continuously improve the product,
+while making {{ ccc.name }} fully transparent and easily auditable by the community.
