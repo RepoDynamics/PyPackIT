@@ -72,23 +72,23 @@ leaving users with only four manual tasks:
    to provide users with dynamic submission forms specialized for various issue types.
    Following a ticket submission, PyPackIT automatically performs issue management tasks,
    reducing the triage process to a simple decision on whether to implement the task.
-2. **Design**: After an issue ticket is approved,
-   developers only need to write a short design document 
-   by filling a form attached to the ticket. 
+2. **Design**: Once an issue ticket is approved,
+   users only need to write a short design document 
+   by filling out a form attached to the ticket. 
    PyPackIT's automated version control then activates, 
    creating a ready-to-use branch for implementation, 
-   along with a dynamically maintained {term}`PR` for progress tracking. 
+   and a dynamically maintained {term}`PR` for tracking progress. 
 3. **Commit**: With PyPackIT's comprehensive infrastructure, 
    implementation is simplified to writing essential code, docstrings,
    and test cases in the provided skeleton files 
-   or modifying project configurations in the control center files, depending on the task. 
+   or modifying project configurations in the control center, depending on the task. 
    With each commit, PyPackIT's CI/CD pipelines
    automatically integrate the new changes into the repository, 
    performing various quality assurance and testing tasks, 
    while producing reports and artifacts for review.
 4. **Review**: When the implementation is finished,
    PyPackIT automatically sends review requests to designated maintainers. 
-   After approval, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, 
+   Once approved, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, 
    updating all affected project components and documenting the entire development process. 
    If changes correspond to the library's public API, 
    a new release version is published on GitHub along with
@@ -115,14 +115,14 @@ and Continuous Maintenance, Refactoring, and Testing.
 :::
 
 
-Moreover, PyPackIT also activates periodically on a scheduled basis,
+Moreover, PyPackIT also activates on a scheduled basis,
 executing CM/CR/CT pipelines that perform various maintenance and monitoring tasks 
 on the repository and each released library version, 
 sustaining the health of the software and its development environment. 
-If an action is required, these pipelines automatically submit 
-issue tickets (when manual implementation is needed)
-and PRs (when an automatic fix is available but needs review), 
-or directly apply updates to the project. 
+When actions are required, these pipelines automatically submit 
+issue tickets for manual implementation,
+PRs for automatic fixes that require review, 
+or they directly apply updates to the project. 
 
 Therefore, PyPackIT's comprehensive, dynamic, and highly customizable project skeleton 
 and cloud-native development environment eliminate the need for project setup and configuration, 
