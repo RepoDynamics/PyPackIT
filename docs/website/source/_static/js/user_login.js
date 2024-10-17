@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Control Center links
         document.querySelectorAll(".user-link-repo-cc").forEach(link => {
-            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control`;
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control`;
         });
         document.querySelectorAll(".user-link-repo-cc-proj").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/proj.yaml`;
