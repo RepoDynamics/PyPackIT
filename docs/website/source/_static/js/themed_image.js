@@ -10,12 +10,18 @@ function updateImagesBasedOnTheme() {
     const regex = /_(light|dark)(\.[a-zA-Z]+)$/;
     // Loop through each image element
     elements.forEach(function(element) {
-        let src = element.src;
         // Check if the src matches the regular expression
-        let match = src.match(regex);
-        if (match) {
-            // Replace "_light" with "_dark" if the theme is dark, and vice versa
-            element.src = src.replace(match[1], dark ? 'dark' : 'light');
+        if (element.src) {
+            let src = element.src;
+            // Check if the src matches the regular expression
+            let match = src.match(regex);
+            if (match) {
+                // Replace "_light" with "_dark" if the theme is dark, and vice versa
+                element.src = src.replace(match[1], dark ? 'dark' : 'light');
+            }
+        } else {
+            // Log element details if it doesn't have a src
+            console.log("Element without src detected:", element);
         }
     });
 }
