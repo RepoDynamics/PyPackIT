@@ -3,7 +3,8 @@
 :::{glossary}
 
 GHA
-  GitHub Actions; cloud computing platform
+  [GitHub Actions](https://github.com/features/actions);
+  GitHub's cloud computing platform
 
 Actions
   GitHub Actions applications
