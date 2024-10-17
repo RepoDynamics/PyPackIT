@@ -329,7 +329,7 @@ due to its uncertain and evolving nature {cite}`SurveySEPracticesInScience`.
 
 ## Issue Management
 
-PyPackIT establishes a cloud-based development workflow, 
+PyPackIT establishes a pull-based development workflow, 
 in which new tasks in the project start by submitting an issue ticket to its ITS, 
 enabling the community to readily propose changes and ensuring that the entire evolution 
 of the software library is properly documented 
@@ -342,7 +342,7 @@ For example:
   such as requesting bug fixes, new features, and other changes in various project components,
   including the library, test suite, documentation website, and control center settings.
 - Specialized submission forms are supplied for each issue type
-  according to best practices \cite{WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse},
+  according to best practices {cite}`WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse`,
   offering relevant instructions to users and
   collecting type-specific information via machine-readable input types.
 - Dynamic input options in submission forms are automatically updated,
