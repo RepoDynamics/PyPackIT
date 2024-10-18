@@ -202,9 +202,9 @@ maintainer:
       - "*": [ '${{ team.aariam }}' ]
   issue:
     app_bug: [ '${{ team.aariam }}' ]
-    app_request_enhancement: [ '${{ team.aariam }}' ]
-    app_request_feature: [ '${{ team.aariam }}' ]
-    app_request_breaking: [ '${{ team.aariam }}' ]
+    pkg_api_enhancement: [ '${{ team.aariam }}' ]
+    pkg_api_feature: [ '${{ team.aariam }}' ]
+    pkg_api_breaking: [ '${{ team.aariam }}' ]
   discussion:
     announcements: [ '${{ team.aariam }}' ]
   security: '${{ team.aariam }}'
