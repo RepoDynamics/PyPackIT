@@ -529,36 +529,26 @@ label:
     label:
       major:
         suffix: 'major-release'
-        description: |
-          Resolving/merging the labeled issue/pull-request will result in a major release of the package.
+        description: New major release.
       minor:
         suffix: 'minor-release'
-        description: |
-          Resolving/merging the labeled issue/pull-request will result in a minor release of the package.
+        description: New minor release.
       patch:
         suffix: 'patch-release'
-        description: |
-          Resolving/merging the labeled issue/pull-request will result in a patch release of the package.
+        description: New patch release.
       post:
         suffix: 'post-release'
-        description: |
-          Resolving/merging the labeled issue/pull-request will result in a post release of the package.
+        description: New post release.
       web:
         suffix: 'website'
-        description: |
-          Resolving/merging the labeled issue/pull-request will result in deployment of the website.
+        description: New website release.
       config:
         suffix: 'config'
-        description: |
-          An issue/pull-request about the meta content of the repository.
+        description: Project configuration.
       package_private:
         suffix: 'package'
         description: |
           An issue/pull-request about the package that does not result in a new release.
-      tests:
-        suffix: 'test'
-        description: |
-          An issue/pull-request about the test suite.
       workflows:
         suffix: 'ci'
         description: |
@@ -569,20 +559,16 @@ label:
     label:
       api:
         suffix: 'api'
-        description: |
-          Related to the public API.
+        description: Related to the Python application programming interface.
       gui:
         suffix: 'gui'
-        description: |
-          Related to the graphical user interface.
+        description: Related to the graphical user interface.
       cli:
         suffix: 'cli'
-        description: |
-          Related to the command-line interface.
+        description: Related to the command-line interface.
       setup:
         suffix: 'setup'
-        description: |
-          Related to package installation.
+        description: Related to installation.
       enhancement:
         suffix: 'enhancement'
         description: |
@@ -673,1530 +659,715 @@ issue:
     - name: '💬  Contact Us'
       about: Have another inquiry or need help? Contact us directly!
       url: ${{ web.page.contact.url }}
-  form_element:
-    welcome: >-
-      <p align="justify">
-        Thank you for providing feedback on ${{ name }}; we greatly appreciate your contribution!
-        Before submitting a ticket, please take a moment to review and accept our terms and conditions.
-      </p>
-  forms:
-    - id: app_bug_api
-      type: patch
-      subtype: api
-      name: ' 🖥 App 🐞 Bug Report 📱 API'
-      description: >-
-        Report a problem (e.g., errors and unexpected results) encountered
-        while using ${{ name }}'s Python API.
-      body:
-        - type: markdown
-          attributes:
-            value: >-
-              ${{ issue.form_element.welcome }}
-              <h2>Terms and Conditions</h2>
-              <h3>⛔ Choosing the Right Form</h3>
-              <p align="justify">
-                Please note that this form is specifically for reporting a
-                <b>non-security-related bug in ${{name}}'s Python API</b>,
-                i.e. an unexpected behavior that occurs while using the application as an import package.
-                To report a security vulnerability please first read our
-                <a href="${{ health.security.url }}">security policy</a>, and fill a
-                <a href="${{ repo.url.security.new_advisory }}">private security advisory form</a> instead.
-                For other types of issues, such as problems in the
-                <a href="{{ repo.url.issues.new.app_bug_setup }}">installation process</a>,
-                <a href="{{ repo.url.issues.new.docs_bug_site }}">website</a>, or
-                <a href="{{ repo.url.issues.new.docs_bug_content }}">documentation</a>,
-                or for requesting new features and enhancements, please select the appropriate form
-                from the <a href="{{ repo.url.issues.template_chooser }}">issue template chooser</a>.
-              </p>
-              <blockquote>
-                💡 <a href="${{ web.page.contact.url }}"><b>Contact us</b></a>
-                <br>
-                <p align="justify">
-                  Can't find the right form or unsure about which one to choose?
-                  Ask a question and get help in the
-                  <a href="${{ repo.url.discussions.new.question_issues }}">discussion forum</a>.
-                </p>
-              </blockquote>
-              <h3>⚠️ Verifying the Bug</h3>
+  __custom_template__:
+    # Body Templates
+    body_bug_api:
+      - '*{{ issue.__custom_template__.header_bug }}'
+      - '*{{ issue.__custom_template__.address_api }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - type: textarea
+        id: test_case
+        attributes:
+          label: Test Case
+          description: |
+            Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
+            that demonstrates the bug:
+            - At the top of the code block below,
+              add the minimum number of imports required to reproduce the bug.
+            - Replace the ellipsis (`...`) in the `test` function with a
+              [Minimal Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) (MRE).
+              Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+              to specify the expected results.
+          value: |
+            import ${{ .__custom__.python_api_names[0] }}
+
+
+            def test():
+                ...
+          render: python
+        validations:
+          required: true
+    body_bug_cli:
+      - '*{{ issue.__custom_template__.header_bug }}'
+      - '*{{ issue.__custom_template__.address_cli }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - type: textarea
+        id: code
+        attributes:
+          label: Test Case
+          description: |
+            Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
+            that demonstrates the bug:
+            - In the `test` function below,
+              replace the value of `command` with the exact command that is causing the problem.
+            - Replace the value of `expected_return_code` with the expected return code of the command.
+            - Replace the value of `expected_output` with the expected output of the command.
+              Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+              to specify the expected results.
+            - If the command has side effects,
+              add further [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+              to specify the expected results.
+          value: |
+            import subprocess 
+
+
+            def test():
+                command = "${{ .__custom__.cli_names[0] }}"
+                expected_return_code = 0
+                expected_output = b""
+
+                result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+                assert result.returncode == expected_return_code
+                assert result.stdout == expected_output
+          render: python
+        validations:
+          required: true
+    body_bug_gui:
+      - '*{{ issue.__custom_template__.header_bug }}'
+      - '*{{ issue.__custom_template__.address_gui }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.mre_generic }}
+      - ${{ issue.__custom__.stderr_optional }}
+    body_bug_setup:
+      - '*{{ issue.__custom_template__.header_bug }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.mre_generic }}
+      - ${{ issue.__custom__.stderr_optional }}
+    body_feat_api:
+      - '*{{ issue.__custom_template__.header_feature }}'
+      - '*{{ issue.__custom_template__.address_api }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_feat_cli:
+      - '*{{ issue.__custom_template__.header_feature }}'
+      - '*{{ issue.__custom_template__.address_cli }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_feat_gui:
+      - '*{{ issue.__custom_template__.header_feature }}'
+      - '*{{ issue.__custom_template__.address_gui }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_break_api:
+      - '*{{ issue.__custom_template__.header_breaking }}'
+      - '*{{ issue.__custom_template__.address_api }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_break_cli:
+      - '*{{ issue.__custom_template__.header_breaking }}'
+      - '*{{ issue.__custom_template__.address_cli }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_break_gui:
+      - '*{{ issue.__custom_template__.header_breaking }}'
+      - '*{{ issue.__custom_template__.address_gui }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    # Body Header Templates
+    header_bug:
+      - '*{{ issue.__custom_template__.header }}'
+      - type: markdown
+        attributes:
+          value: |
+            ### ⚠️ Verifying the Bug
+
+            <p align="justify">
               Before submitting a report, please make sure that you are following our
               <a href="${{ web.page.contribute.url }}">Bug Report Guidelines</a> to verify that:
-              <ol>
-                <li>
-                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
-                </li>
-                <li>
-                  The bug is reproducible in the latest version of the release, and has not yet been reported.
-                </li>
-              </ol>
-              <blockquote>
-                  💡 <a href="${{ repo.url.discussions.new.question_issues }}"><b>Open a discussion instead!</b></a>
-                  <br>
-                  This verification process is non-trivial, and can be time-consuming.
-                  If you are not a collaborator and don't have the time to go through the process,
-                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-                  and convert the discussion into an issue if the bug is verified.
-              </blockquote>
-              <h3>✅ Agreements</h3>
-        - type: checkboxes
-          id: terms
-          attributes:
-            label: >-
-              To submit an issue, please agree to the following terms and conditions:
-            options:
-              - label: >-
-                  I have read the [Contributing Guidelines]({{repo.url.health_file.contributing}})
-                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-                required: true
-              - label: >-
-                  I have read, understood, and agree to follow the
-                  [Code of Conduct]({{repo.url.health_file.code_of_conduct}}).
-                required: true
-        - type: markdown
-          attributes:
-            value: <h3>🧑‍💻 Collaborate</h3>
-        - type: checkboxes
-          id: collab
-          attributes:
-            label: |
-              Thank you again for filling this bug report.
-              If you are willing to collaborate on fixing the issue, please select the option below.
-            options:
-              - label: >-
-                  I am willing to work on the issue and submit a pull request.
-                required: false
-        - type: markdown
-          attributes:
-            value: <br><h2>System and Version Specifications</h2>
-        - type: dropdown
-          id: os
-          attributes:
-            label: Operating System
-            description: |
-              Please select all operating systems on which you have encountered the bug.
-            multiple: true
-            options: ${{ project.os_names }}
-          validations:
-            required: true
-        - type: dropdown
-          id: python_version
-          attributes:
-            label: Python Version
-            description: |
-              Please select all Python versions in which you have encountered the bug.
-            multiple: true
-            options: ${{ project.python_versions }}
-          validations:
-            required: true
-        - type: dropdown
-          id: package_manager
-          attributes:
-            label: Package Manager
-            description: |
-              Please select the package manager used to download and install ${{ name }}.
-            multiple: false
-            options: ${{ project.package_managers }}
-          validations:
-            required: true
-        - type: dropdown
-          id: version
-          attributes:
-            label: Package Version
-            description: |
-              Please select all ${{ name }} versions in which you have encountered the bug.
-            multiple: true
-            options: ${{ project.versions }}
-          validations:
-            required: true
-        - type: textarea
-          id: environment
-          attributes:
-            label: Environment
-            description: >-
-              Please provide the details of all installed packages and their exact versions
-              in the environment where you have encountered the bug. Follow the instructions below
-              based on the package manager you have selected:
+            </p>
 
-              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
-              and copy the contents of the generated `requirements.txt` file here.
+            - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
+            - <p align="justify">The bug is reproducible in the latest version of the release, and has not yet been reported.</p>
+      - '*{{ issue.__custom__.agreements }}'
+      - '*{{ issue.__custom__.environment }}'
+      - type: markdown
+        attributes:
+          value: |
+            <br>
+            ## 🐞 Bug Report
+      - ${{ issue.__custom__.package_version }}
+    header_feature:
+      - '*{{ issue.__custom_template__.header }}'
+      - type: markdown
+        attributes:
+          value: |
+            ### ⚠️ Verifying the Request
 
-              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
-              and copy the contents of the generated `environment.yml` file here.
-          validations:
-            required: true
-        - type: markdown
-          attributes:
-            value: |
-              <br>
-              <h2>Bug Report</h2>
-        - type: input
-          id: api_entry
-          attributes:
-            label: Fully Qualified Name
-            description: >-
-              Please provide the fully qualified name (e.g., `package_name.module_name.ClassName.method_name`)
-              of the API endpoint that is causing the problem.
-            value: ${{pkg.import_name}}.
-          validations:
-            required: true
-        - type: textarea
-          id: summary
-          attributes:
-            label: Summary
-            description: Please provide a brief summary of the bug.
-          #            placeholder: Tell us what you see!
-          validations:
-            required: true
-        - type: textarea
-          id: code
-          attributes:
-            label: Test Case or Minimal Reproducible Example (MRE)
-            description: >-
-              Please provide a test case (preferred), or a
-              minimal complete verifiable code example to reproduce the bug.
-            value: |
-              import ${{pkg.import_name}}
+            <p align="justify">
+              Before submitting a report, please make sure that you are following our
+              <a href="${{ web.page.contribute.url }}">Feature Request Guidelines</a> to verify that:
+            </p>
 
-              def test():
-                  ...
-                  assert ...
-            render: python
-          validations:
-            required: true
-        - type: textarea
-          id: log
-          attributes:
-            label: Error Message / Output
-            description: >-
-              If you have provided an MRE instead of a test case, please copy the output of the MRE here.
-              This may be the full traceback of an error, or some other output that demonstrates the bug.
-            render: shell
-          validations:
-            required: false
+            - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
+            - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+      - '*{{ issue.__custom__.agreements }}'
+      - type: markdown
+        attributes:
+          value: |
+            <br>
+            ## ✨ Feature Request
+      - ${{ issue.__custom__.package_version }}
+    header_breaking:
+      - '*{{ issue.__custom_template__.header }}'
+      - type: markdown
+        attributes:
+          value: |
+            ### ⚠️ Verifying the Request
+
+            <p align="justify">
+              Before submitting a report, please make sure that you are following our
+              <a href="${{ web.page.contribute.url }}">Change Request Guidelines</a> to verify that:
+            </p>
+
+            - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
+            - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+      - '*{{ issue.__custom__.agreements }}'
+      - type: markdown
+        attributes:
+          value: |
+            <br>
+            ## 💥 Change Request
+      - ${{ issue.__custom__.package_version }}
+    header:
+      - type: markdown
+        attributes:
+          value: >-
+            <p align="justify">
+              Thank you for providing feedback on ${{ name }};
+              we greatly appreciate your contribution!
+            </p>
+            <p align="justify">
+              Before submitting a ticket,
+              please take a moment to review and accept our terms and conditions.
+            </p>
+      - type: markdown
+        attributes:
+          value: |
+            ## 🤝 Terms and Conditions
+      - type: markdown
+        attributes:
+          value: |
+            ### ⛔ Choosing the Right Form
+
+            <p align="justify">
+              Please note that this form is specifically for ${{ .__custom_template__.purpose }},
+              For other types of issues and requests, select the appropriate form
+              from the <a href="${{ repo.url.issues.template_chooser }}">issue template chooser</a>.
+              If you are unsure about which form to choose or have another inquiry,
+              please open a discussion in our <a href="${{ repo.url.discussions.home }}">discussion forum</a>.
+            </p>
+    # Template Chooser Descriptions
+    description_bug: >-
+      Report problems such as errors and unexpected results
+      encountered while using ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+    description_feat: >-
+      Request backward-compatible improvements or new functionalities
+      in ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+    description_break: >-
+      Request backward-incompatible changes to
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
+      such as changes in the behavior of an existing functionality.
+    # Form Purpose
+    purpose_bug: >-
+      reporting a <b>non-security-related bug in
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}</b>,
+      i.e. an unexpected behavior that occurs
+      while using ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+    purpose_feat: >-
+      requesting a <b>backward-compatible improvement</b> or <b>new functionality</b> in
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
+      i.e. a non-breaking change (that is not a bug fix) in
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+    purpose_break: >-
+      requesting a <b>backward-incompatible change</b> in
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
+      i.e. a breaking change to ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+    # Address
+    address_api:
+      - type: dropdown
+        id: api_entry
+        attributes:
+          label: API Entry Point
+          description: Please select the relevant API entry point.
+          multiple: false
+          options: ${{ .__custom__.python_api_names }}
+          default: 0
+        validations:
+          required: true
+      - type: input
+        id: api_endpoint
+        attributes:
+          label: Fully Qualified Name
+          description: >-
+            Please provide the fully qualified name (minus the entry point)
+            of the relevant API endpoint.
+            For example, for a method at
+            `${{ .__custom__.python_api_names[0] }}.module_name.ClassName.method_name`
+            in the entry point `${{ .__custom__.python_api_names[0] }}`,
+            you should write `module_name.ClassName.method_name`.
+          placeholder: module_name.ClassName.method_name
+        validations:
+          required: true
+    address_cli:
+      - type: dropdown
+        id: cli_entry
+        attributes:
+          label: CLI Entry Point
+          description: Please select the relevant CLI entry point.
+          multiple: false
+          options: ${{ .__custom__.cli_names }}
+          default: 0
+        validations:
+          required: true
+    address_gui:
+      - type: dropdown
+        id: gui_entry
+        attributes:
+          label: GUI Entry Point
+          description: Please select the affected GUI entry point.
+          multiple: false
+          options: ${{ .__custom__.gui_names }}
+          default: 0
+        validations:
+          required: true
+    # Post-Process Body Templates
+    post_body_bug_api: |
+      ## Bug Location
+      <ul>
+      <li><b>Package Version</b>: {version}</li>
+      <li><b>Fully Qualified Name</b>: {api_entry}</li>
+      </ul>
+      <h2>System and Version Specifications</h2>
+      <li><b>Operating System</b>: {os}</li>
+      <li><b>Python Version</b>: {python_version}</li>
+      <li><b>Package Manager</b>: {package_manager}</li>
+      <li>
+      <details>
+      <summary><b>Environment</b></summary>
+      
+      ```
+      {environment}
+      ```
+      
+      </details></li>
+      </ul>
+      
+      ## Bug Summary
+      
+      {summary}
+      
+      ## Test Case / Minimal Reproducible Example (MRE)
+      
+      {code}
+      
+      ## Error Message
+      
+      {log}
+    post_body_bug_cli: |
+      #TODO
+    post_body_bug_gui: |
+      #TODO
+    post_body_bug_setup: |
+      #TODO
+    post_body_feat_api: |
+      ### Feature Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+  
+      ### Request Summary
+  
+      {summary}
+    post_body_feat_cli: |
+      ### Feature Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+
+      ### Request Summary
+
+      {summary}
+    post_body_feat_gui: |
+      ### Feature Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+
+      ### Request Summary
+
+      {summary}
+    post_body_break_api: |
+      ### Change Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+
+      ### Request Summary
+
+      {summary}
+    post_body_break_cli: |
+      ### Change Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+
+      ### Request Summary
+
+      {summary}
+    post_body_break_gui: |
+      ### Change Location
+      - **Package Version**: {version}
+      - **Package Interface**: {package_interface}
+      - **Operating System**: {os}
+      - **Python Version**: {python_version}
+      - **Package Manager**: {package_manager}
+
+      ### Request Summary
+
+      {summary}
+  __custom__:
+    title_api: ' 🖥 API'
+    title_cli: ' ⌨️ CLI'
+    title_gui: ' 🖱 GUI'
+    title_setup: ' ⚙️ Setup'
+    title_bug: ' 🐞 Bug Report'
+    title_feat: ' ✨ Feature Request'
+    title_breaking: ' 💥 Change Request'
+    title_test: ' 🧪 Test Suite'
+    agreements:
+      - type: markdown
+        attributes:
+          value: '###✅ Agreements'
+      - type: checkboxes
+        id: terms
+        attributes:
+          label: >-
+            To submit an issue, please agree to the following terms and conditions:
+          options:
+            - label: >-
+                I confirm that I am following ${{ name }}'s
+                [Contribution Guidelines](${{ web.page.contribute.url }}).
+              required: true
+            - label: >-
+                I agree to follow ${{ name }}'s
+                [Code of Conduct](${{ health.code_of_conduct.url }}).
+              required: true
+      - type: markdown
+        attributes:
+          value: '### 🧑‍💻️ Collaboration'
+      - type: checkboxes
+        id: collab
+        attributes:
+          label: |
+            Thank you again for filling out this ticket.
+            If you are willing to collaborate on its implementation,
+            please select the option below.
+          options:
+            - label: >-
+                I am willing to collaborate on this issue and submit a pull request.
+              required: false
+    environment:
+      - type: markdown
+        attributes:
+          value: |
+            <br>
+            ## 🎛 Environment Specifications
+      - type: dropdown
+        id: os
+        attributes:
+          label: Operating System
+          description: |
+            Please select all operating systems on which you have encountered the bug.
+          multiple: true
+          options: ${{ project.os_names }}
+        validations:
+          required: true
+      - type: dropdown
+        id: python_version
+        attributes:
+          label: Python Version
+          description: |
+            Please select all Python versions in which you have encountered the bug.
+          multiple: true
+          options: ${{ project.python_versions }}
+        validations:
+          required: true
+      - type: dropdown
+        id: package_manager
+        attributes:
+          label: Package Manager
+          description: |
+            Please select the package manager used to download and install ${{ name }}.
+          multiple: false
+          options: ${{ project.package_managers }}
+        validations:
+          required: true
+      - type: textarea
+        id: environment
+        attributes:
+          label: Environment
+          description: >-
+            Please provide the details of all installed packages and their exact versions
+            in the environment where you have encountered the bug. Follow the instructions below
+            based on the package manager you have selected:
+
+            1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
+            and copy the contents of the generated `requirements.txt` file here.
+
+            2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
+            (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
+            and copy the contents of the generated `environment.yml` file here.
+        validations:
+          required: true
+    package_version:
+      type: dropdown
+      id: version
+      attributes:
+        label: Package Version
+        description: |
+          Please select all relevant ${{ name }} versions.
+        multiple: true
+        options: ${{ project.versions }}
+        default: 0
+      validations:
+        required: true
+    issue_summary:
+      type: textarea
+      id: summary
+      attributes:
+        label: Summary
+        description: Please provide a summary of the issue.
+      validations:
+        required: true
+    mre_generic:
+      type: textarea
+      id: mre
+      attributes:
+        label: Minimal Reproducible Example (MRE)
+        description: >-
+          Please provide an exact step-by-step instruction to reproduce the problem.
+          You can also include screenshots/recordings by dragging and dropping them here.
+        value: |
+          1.
+          2.
+          3.
+      validations:
+        required: true
+    stderr_optional:
+      type: textarea
+      id: stderr
+      attributes:
+        label: Error Message
+        description: If applicable, provide the full traceback of the error message.
+        render: shell
+      validations:
+        required: false
+    proposal:
+      type: textarea
+      id: proposal
+      attributes:
+        label: Proposal
+        description: Please describe your proposal in detail.
+      validations:
+        required: true
+    post_process_assign_creator:
+      if_checkbox:
+        id: collab
+        number: 1
+        is_checked: true
+  forms:
+    - id: pkg_api_bug
+      type: patch
+      subtype: api
+      pre_process:
+        if_any: [ "${{ project.python_api_names }}" ]
+      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'API'
+        pkg_entry_description: 'Python application programming interface'
+        python_api_names: ${{ project.python_api_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_bug_api }}
       post_process:
-        assign_creator:
-          if_checkbox:
-            id: collab
-            number: 1
-            is_checked: true
-        body: |
-          <h2>Bug Location</h2>
-          <ul>
-          <li><b>Package Version</b>: {version}</li>
-          <li><b>Fully Qualified Name</b>: {api_entry}</li>
-          </ul>
-          <h2>System and Version Specifications</h2>
-          <li><b>Operating System</b>: {os}</li>
-          <li><b>Python Version</b>: {python_version}</li>
-          <li><b>Package Manager</b>: {package_manager}</li>
-          <li>
-          <details>
-          <summary><b>Environment</b></summary>
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_bug_api }}
+    - id: pkg_cli_bug
+      type: patch
+      subtype: cli
+      pre_process:
+        if_any: [ "${{ project.cli_names }}" ]
+      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'CLI'
+        pkg_entry_description: 'command-line interface'
+        cli_names: ${{ project.cli_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_bug_cli }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_bug_cli }}
+    - id: pkg_gui_bug
+      pre_process:
+        if_any: [ "${{ project.gui_names }}" ]
+      type: patch
+      subtype: gui
+      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__:
+        pkg_name : ${{ pkg.name }}
+        pkg_entry_name: 'GUI'
+        pkg_entry_description: 'graphical user interface'
+        gui_names: ${{ project.gui_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_bug_gui }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_bug_gui }}
+    - id: pkg_setup_bug
+      type: patch
+      subtype: setup
+      name: ${{ issue.__custom__.title_setup }}${{ issue.__custom__.title_bug }}
+      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}.
+      __custom_template__:
+        purpose: >-
+          reporting a <b>non-security-related bug in ${{name}}'s setup process</b>,
+          i.e. an unexpected behavior that occurs during
+          the download, installation, or initialization of the application.
+      body: ${{ issue.__custom_template__.body_bug_setup }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_bug_setup }}
+    - id: pkg_api_feature
+      type: minor
+      subtype: api
+      pre_process:
+        if_any: [ "${{ project.python_api_names }}" ]
+      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'API'
+        pkg_entry_description: 'Python application programming interface'
+        python_api_names: ${{ project.python_api_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_api }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_feat_api }}
+    - id: pkg_cli_feature
+      type: minor
+      subtype: cli
+      pre_process:
+        if_any: [ "${{ project.cli_names }}" ]
+      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'CLI'
+        pkg_entry_description: 'command-line interface'
+        cli_names: ${{ project.cli_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_cli }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_feat_cli }}
+    - id: pkg_gui_feature
+      type: minor
+      subtype: gui
+      pre_process:
+        if_any: [ "${{ project.gui_names }}" ]
+      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'GUI'
+        pkg_entry_description: 'graphical user interface'
+        gui_names: ${{ project.gui_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_gui }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_feat_gui }}
+    - id: pkg_api_breaking
+      type: major
+      subtype: api
+      pre_process:
+        if_any: [ "${{ project.python_api_names }}" ]
+      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'API'
+        pkg_entry_description: 'Python application programming interface'
+        python_api_names: ${{ project.python_api_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_break_api }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_break_api }}
+    - id: pkg_cli_breaking
+      type: major
+      subtype: cli
+      pre_process:
+        if_any: [ "${{ project.cli_names }}" ]
+      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'CLI'
+        pkg_entry_description: 'command-line interface'
+        cli_names: ${{ project.cli_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_break_cli }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_break_cli }}
+    - id: pkg_gui_breaking
+      type: major
+      subtype: gui
+      pre_process:
+        if_any: [ "${{ project.gui_names }}" ]
+      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__:
+        pkg_name: ${{ pkg.name }}
+        pkg_entry_name: 'GUI'
+        pkg_entry_description: 'graphical user interface'
+        gui_names: ${{ project.gui_names }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_break_gui }}
+      post_process:
+        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
+        body: ${{ issue.__custom_template__.post_body_break_gui }}
 
-          ```
-          {environment}
-          ```
 
-          </details></li>
-          </ul>
-          <h2>Bug Summary</h2>
 
-          {summary}
 
-          <h2>Test Case / Minimal Reproducible Example (MRE)</h2>
-
-          {code}
-
-          <h2>Error Message</h2>
-
-          {log}
-#    - id: app_bug_cli
-#      type: patch
-#      subtype: cli
-#      pre_process:
-#        if_any: [ "${{ project.cli_scripts }}" ]
-#      name: ' 🖥 App 🐞 Bug Report ⌨️ CLI'
-#      description: >-
-#        Report a problem (e.g. errors and unexpected results) encountered
-#        while using the application's command-line interface (CLI).
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for providing feedback on ${{ name }}; we greatly appreciate your contribution!
-#                Before submitting a ticket, please take a moment to review and accept our terms and conditions.
-#              </p>
-#              <h2>Terms and Conditions</h2>
-#              <h3>⛔ Choosing the Right Form</h3>
-#              <p align="justify">
-#                Please note that this form is specifically for reporting a
-#                <b>non-security-related bug in ${{name}}'s CLI</b>,
-#                i.e. an unexpected behavior that occurs while using the
-#                application via its command-line interface (i.e. console script).
-#                To report a security vulnerability, please first read our
-#                <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
-#                <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
-#                For other types of issues, such as problems in the
-#                <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
-#                <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
-#                <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
-#                <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
-#                or for requesting new features and enhancements, please select the appropriate form
-#                from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
 #
-#                For other types of issues, such as problems in the
-#                <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
-#                <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
-#                <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
-#                or for requesting new features and enhancements, please select the appropriate form
-#                from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#              </p>
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#              <h3>⚠️ Verifying the Bug</h3>
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
-#                </li>
-#                <li>
-#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
-#                </li>
-#              </ol>
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the bug is verified.
-#              </blockquote>
-#              <h3>✅ Agreements</h3>
 #
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
-#                    🚨 please first read our
-#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
-#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the bug</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
-#                </li>
-#                <li>
-#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the bug is verified.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          attributes:
-#            label: |
-#              Thank you again for filling this bug report.
-#              If you are willing to collaborate on fixing the issue, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Which operating systems have you tested?
-#              Please select all options where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Which Python versions have you tested?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Which package manager have you used to download and install the package?
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which versions of our software are affected?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: environment
-#          attributes:
-#            label: Environment
-#            description: >-
-#              Please provide the details of all installed packages and their exact versions
-#              in the environment where you have encountered the bug. Follow the instructions below
-#              based on the package manager you have selected:
-#
-#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
-#              and copy the contents of the generated `requirements.txt` file here.
-#
-#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
-#              and copy the contents of the generated `environment.yml` file here.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Bug Report</h2>
-#        - type: dropdown
-#          id: cli_entry
-#          attributes:
-#            label: CLI Entry Point
-#            description: |
-#              Which CLI entry point is causing the problem?
-#            multiple: false
-#            options: ${{ package.releases.cli_scripts }}
-#          validations:
-#            required: true
-#        - type: input
-#          attributes:
-#            label: Console Command
-#            description: |
-#              Please provide the exact command (with all arguments) you are using.
-#            placeholder: ${{ package.releases.cli_scripts }} --help
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: Please provide a brief summary of the bug.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: log
-#          attributes:
-#            label: Console Output
-#            description: |
-#              Please provide the output of the command-line script.
-#            render: shell
-#          validations:
-#            required: true
-#    - id: app_bug_gui
-#      pre_process:
-#        if_any: [ "${{ project.gui_scripts }}" ]
-#      type: patch
-#      subtype: gui
-#      name: ' 🖥 App 🐞 Bug Report 🖱 GUI'
-#      description: >-
-#        Report a problem (e.g. errors and unexpected results) encountered
-#        while using the application's graphical user interface (GUI).
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for taking the time to report a problem in ${{ name }};
-#                we greatly appreciate your contribution! ❤️🙏
-#              </p>
-#
-#              <h2>Terms and Conditions</h2>
-#              <p align="justify">
-#                Before submitting a report, please take a moment to review and accept our terms and conditions;
-#                they will help us process the issue as fast as possible,
-#                and not bother you with additional questions.
-#              </p>
-#
-#              <h3>⛔ Choosing the right form</h3>
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#                    Please note that this form is specifically for reporting a <b>non-security-related bug</b>
-#                    in the ${{name}} GUI, i.e. an unexpected behavior that occurs while using the
-#                    application via a graphical user interface it provides.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
-#                    🚨 please first read our
-#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
-#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    For other types of issues, such as problems in the
-#                    <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
-#                    <a href="${{repo.url.issues.new.app_bug_setup]}">installation process</a>,
-#                    <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
-#                    <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
-#                    or for requesting new features and enhancements, please select the appropriate form
-#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the bug</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
-#                </li>
-#                <li>
-#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_bug}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the bug is verified.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          attributes:
-#            label: |
-#              Thank you again for filling this bug report.
-#              If you are willing to collaborate on fixing the issue, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Which operating systems have you tested?
-#              Please select all options where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Which Python versions have you tested?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Which package manager have you used to download and install the package?
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which versions of our software are affected?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: environment
-#          attributes:
-#            label: Environment
-#            description: >-
-#              Please provide the details of all installed packages and their exact versions
-#              in the environment where you have encountered the bug. Follow the instructions below
-#              based on the package manager you have selected:
-#
-#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
-#              and copy the contents of the generated `requirements.txt` file here.
-#
-#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
-#              and copy the contents of the generated `environment.yml` file here.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Bug Report</h2>
-#        - type: dropdown
-#          id: gui_entry
-#          attributes:
-#            label: GUI Entry Point
-#            description: |
-#              Which GUI entry point is causing the problem?
-#            multiple: false
-#            options: ${{ package.releases.gui_scripts }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: Please provide a brief summary of the bug.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: reproduce
-#          attributes:
-#            label: Minimal Reproducible Example (MRE)
-#            description: >-
-#              Please provide an exact step-by-step instruction to reproduce the bug.
-#              You can also include screenshots/recordings by dragging and dropping them here.
-#            value: |
-#              1.
-#              2.
-#              3.
-#          validations:
-#            required: true
-#    - id: app_bug_setup
-#      type: patch
-#      subtype: setup
-#      name: ' 🖥 App 🐞 Bug Report ⚙️ Setup'
-#      description: >-
-#        Report a problem in downloading, installation, or initialization of the application.
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for taking the time to report a problem in ${{ name }};
-#                we greatly appreciate your contribution! ❤️🙏
-#              </p>
-#
-#              <h2>Terms and Conditions</h2>
-#
-#              <p align="justify">
-#                Before submitting a report, please take a moment to review and accept our terms and conditions;
-#                they will help us process the issue as fast as possible,
-#                and not bother you with additional questions.
-#              </p>
-#
-#              <h3>⛔ Choosing the right form</h3>
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#                    Please note that this form is specifically for reporting a <b>non-security-related bug</b>
-#                    in the ${{name}} setup process, i.e. an unexpected behavior that occurs during the
-#                    download, installation, or initialization of the application.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    To 🚨 <a href="${{repo.url.security.home}}"><b>report a security vulnerability</b></a>
-#                    🚨 please first read our
-#                    <a href="${{repo.url.security.policy}}">security policy</a>, and fill a
-#                    <a href="${{repo.url.security.new_advisory}}">private security advisory form</a> instead.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    For other types of issues, such as problems in the
-#                    <a href="${{repo.url.issues.new.app_bug_api]}">Python API</a>,
-#                    <a href="${{repo.url.issues.new.docs_bug_site]}">website</a>, or
-#                    <a href="${{repo.url.issues.new.docs_bug_content]}">documentation</a>,
-#                    or for requesting new features and enhancements, please select the appropriate form
-#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the bug</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Bug Report Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  The issue you are experiencing is in fact a bug, and not a documented expected behavior.
-#                </li>
-#                <li>
-#                  The bug is reproducible in the latest version of the release, and has not yet been reported.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the bug is verified.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          attributes:
-#            label: |
-#              Thank you again for filling this bug report.
-#              If you are willing to collaborate on fixing the issue, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Which operating systems have you tested?
-#              Please select all options where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Which Python versions have you tested?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Which package manager have you used to download and install the package?
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which versions of our software are affected?
-#              Please select all versions where you have encountered the bug.
-#            multiple: true
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: environment
-#          attributes:
-#            label: Environment
-#            description: >-
-#              Please provide the details of all installed packages and their exact versions
-#              in the environment where you have encountered the bug. Follow the instructions below
-#              based on the package manager you have selected:
-#
-#              1. **`pip`**: Run `pip freeze > requirements.txt` in your terminal within the environment,
-#              and copy the contents of the generated `requirements.txt` file here.
-#
-#              2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
-#              (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
-#              and copy the contents of the generated `environment.yml` file here.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Bug Report</h2>
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: Please provide a brief summary of the bug, and the steps necessary to reproduce it.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: log
-#          attributes:
-#            label: Error Message
-#            description: |
-#              If applicable, provide the full traceback of the error message.
-#            render: shell
-#          validations:
-#            required: false
-#    - id: app_request_enhancement
-#      type: minor
-#      subtype: enhancement
-#      name: ' 🖥 App 🔔 Request 🚀 Enhancement'
-#      description: >-
-#        Request an improvement to an existing feature in the application,
-#        for example in terms of performance, functionality, or ease of use.
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for taking the time to report a problem in ${{ name }};
-#                we greatly appreciate your contribution! ❤️🙏
-#              </p>
-#
-#              <h2>Terms and Conditions</h2>
-#
-#              <p align="justify">
-#                Before submitting a report, please take a moment to review and accept our terms and conditions;
-#                they will help us process the issue as fast as possible,
-#                and not bother you with additional questions.
-#              </p>
-#
-#              <h3>⛔ Choosing the right form</h3>
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#                    Please note that this form is specifically for requesting a <b>non-breaking enhancement</b>
-#                    in one of ${{name}}'s existing features and functionalities.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    For other types of issues, such as requesting
-#                    <a href="${{repo.url.issues.new.app_request_feature]}">new features</a>,
-#                    <a href="${{repo.url.issues.new.app_request_breaking]}">breaking changes</a>, and
-#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
-#                    or for reporting bugs, please select the appropriate form
-#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the request</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  Your request is in fact for a non-breaking enhancement, and not a breaking change or new feature.
-#                </li>
-#                <li>
-#                  The request is not implemented in the latest version of the release,
-#                  and has not yet been filed by another person.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the request is valid.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          attributes:
-#            label: |
-#              Thank you again for filling this bug report.
-#              If you are willing to collaborate on fixing the issue, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Does this enhancement request apply to a specific operating system?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Does this enhancement request apply to a specific Python version?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Does this enhancement request apply to a specific package manager?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: true
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Enhancement Request</h2>
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which version of our software is this request for?
-#            multiple: false
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_interface
-#          pre_process:
-#            if_any: [ "${{ package.releases.has_scripts }}" ]
-#          attributes:
-#            label: Package Interface
-#            description: |
-#              Which interface of our software is this request for?
-#            multiple: true
-#            options: ${{ package.releases.interfaces }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: |
-#              Please provide a brief summary of your enhancement request,
-#              including the motivation, use case, or problem it solves.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#    - id: app_request_feature
-#      type: minor
-#      subtype: feat
-#      name: ' 🖥 App 🔔 Request ✨ New Feature'
-#      description: >-
-#        Request a brand new feature that is not yet available in the application.
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for taking the time to report a problem in ${{ name }};
-#                we greatly appreciate your contribution! ❤️🙏
-#              </p>
-#
-#              <h2>Terms and Conditions</h2>
-#
-#              <p align="justify">
-#                Before submitting a report, please take a moment to review and accept our terms and conditions;
-#                they will help us process the issue as fast as possible,
-#                and not bother you with additional questions.
-#              </p>
-#
-#              <h3>⛔ Choosing the right form</h3>
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#                    Please note that this form is specifically for requesting a
-#                    <b>non-breaking new feature</b> in ${{name}}.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    For other types of issues, such as requesting
-#                    <a href="${{repo.url.issues.new.app_request_enhancement]}">enhancements</a>,
-#                    <a href="${{repo.url.issues.new.app_request_breaking]}">breaking changes</a>, and
-#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
-#                    or for reporting bugs, please select the appropriate form
-#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the request</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  Your request is in fact for a non-breaking new feature, and not a breaking change or an enhancement.
-#                </li>
-#                <li>
-#                  The feature is not implemented in the latest version of the release,
-#                  and has not yet been requested by another person.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the request is valid.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          id: collab
-#          attributes:
-#            label: |
-#              Thank you again for filling this feature request.
-#              If you are willing to collaborate on implementing the new feature, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Does this feature request apply to a specific operating system?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Does this feature request apply to a specific Python version?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Does this feature request apply to a specific package manager?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: false
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Feature Request</h2>
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which version of our software is this request for?
-#            multiple: false
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_interface
-#          pre_process:
-#            if_any: [ "${{ package.releases.has_scripts }}" ]
-#          attributes:
-#            label: Package Interface
-#            description: |
-#              Which interface of our software is this request for?
-#            multiple: true
-#            options: ${{ package.releases.interfaces }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: |
-#              Please provide a brief summary of your request,
-#              including the motivation, use case, or problem it solves.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#      post_process:
-#        assign_creator:
-#          if_checkbox:
-#            id: collab
-#            number: 1
-#            is_checked: true
-#        body: |
-#          ### Feature Location
-#          - **Package Version**: {version}
-#          - **Package Interface**: {package_interface}
-#          - **Operating System**: {os}
-#          - **Python Version**: {python_version}
-#          - **Package Manager**: {package_manager}
-#
-#          ### Request Summary
-#
-#          {summary}
-#
-#    - id: app_request_breaking
-#      type: major
-#      subtype: breaking
-#      name: ' 🖥 App 🔔 Request 💥 Breaking Change'
-#      description: >-
-#        Request a backward-incompatible change to the API,
-#        such as a change in the behavior of an existing functionality.
-#      body:
-#        - type: markdown
-#          attributes:
-#            value: >-
-#              <p align="justify">
-#                Thank you for taking the time to report a problem in ${{ name }};
-#                we greatly appreciate your contribution! ❤️🙏
-#              </p>
-#
-#              <h2>Terms and Conditions</h2>
-#
-#              <p align="justify">
-#                Before submitting a report, please take a moment to review and accept our terms and conditions;
-#                they will help us process the issue as fast as possible,
-#                and not bother you with additional questions.
-#              </p>
-#
-#              <h3>⛔ Choosing the right form</h3>
-#
-#              <ul>
-#                <li>
-#                  <p align="justify">
-#                    Please note that this form is specifically for requesting a
-#                    <b>breaking change</b> in ${{name}}.
-#                  </p>
-#                </li>
-#                <li>
-#                  <p align="justify">
-#                    For other types of issues, such as requesting
-#                    <a href="${{repo.url.issues.new.app_request_enhancement]}">enhancements</a>,
-#                    <a href="${{repo.url.issues.new.app_request_feature]}">new features</a>, and
-#                    <a href="${{repo.url.issues.new.web_request_frontend]}">changes in the website content</a>,
-#                    or for reporting bugs, please select the appropriate form
-#                    from the <a href="${{repo.url.issues.template_chooser]}">issue template chooser</a>.
-#                  </p>
-#                </li>
-#              </ul>
-#
-#              <blockquote>
-#                💡 <a href="${{web.page.contact.url}}"><b>Contact us</b></a>
-#                <br>
-#                <p align="justify">
-#                  Can't find the right form or unsure about which one to choose?
-#                  Ask a question and get help in the
-#                  <a href="${{repo.url.discussions.new.question_issues}}">discussion forum</a>.
-#                </p>
-#              </blockquote>
-#
-#              <h3>⚠️ Verifying the request</h3>
-#
-#              Before submitting a report, please make sure that you are following our
-#              <a href="${{web.page.contribute.url}}">Contributing Guidelines</a> to verify that:
-#              <ol>
-#                <li>
-#                  Your request is in fact for a breaking change, and not a new feature or an enhancement.
-#                </li>
-#                <li>
-#                  The request has not yet been filed by another person.
-#                </li>
-#              </ol>
-#
-#              <blockquote>
-#                  💡 <a href="${{repo.url.discussions.new.question_issues}}"><b>Open a discussion instead!</b></a>
-#                  <br>
-#                  This verification process is non-trivial, and can be time-consuming.
-#                  If you are not a collaborator and don't have the time to go through the process,
-#                  you can always open a discussion instead; we will investigate the problem as soon as possible,
-#                  and convert the discussion into an issue if the request is valid.
-#              </blockquote>
-#
-#              <h3>🤝 Code of conduct</h3>
-#
-#              <p align="justify">
-#                Please make sure that you are following our
-#                <a href="${{repo.url.health_file.code_of_conduct}}">Code of Conduct</a>,
-#                so that we can process the issue as soon as possible.
-#              </p>
-#
-#              <h3>✅ Agreements</h3>
-#        - type: checkboxes
-#          id: terms
-#          attributes:
-#            label: >-
-#              To submit an issue, please agree to the following terms and conditions:
-#            options:
-#              - label: >-
-#                  I have read the [Contributing Guidelines](${{repo.url.health_file.contributing}})
-#                  and am following the [Bug Report Guidelines](${{web.page.contribute.url}}).
-#                required: true
-#              - label: >-
-#                  I have read, understood, and agree to follow the
-#                  [Code of Conduct](${{repo.url.health_file.code_of_conduct}}).
-#                required: true
-#        - type: markdown
-#          attributes:
-#            value: <h3>🧑‍💻 Collaborate</h3>
-#        - type: checkboxes
-#          id: collab
-#          attributes:
-#            label: |
-#              Thank you again for filling this feature request.
-#              If you are willing to collaborate on implementing the new feature, please select the option below.
-#            options:
-#              - label: >-
-#                  I am willing to work on the issue and submit a pull request.
-#                required: false
-#        - type: markdown
-#          attributes:
-#            value: <br><h2>System and Version Specifications</h2>
-#        - type: dropdown
-#          id: os
-#          attributes:
-#            label: Operating System
-#            description: |
-#              Does this request apply to a specific operating system?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.os_titles }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: python_version
-#          attributes:
-#            label: Python Version
-#            description: |
-#              Does this request apply to a specific Python version?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.python_versions }}
-#          validations:
-#            required: false
-#        - type: dropdown
-#          id: package_manager
-#          attributes:
-#            label: Package Manager
-#            description: |
-#              Does this request apply to a specific package manager?
-#              If so, please select the appropriate option.
-#            multiple: false
-#            options: ${{ package.releases.package_managers }}
-#          validations:
-#            required: false
-#        - type: markdown
-#          attributes:
-#            value: |
-#              <br>
-#              <h2>Modification Request</h2>
-#        - type: dropdown
-#          id: version
-#          attributes:
-#            label: Package Version
-#            description: |
-#              Which version of our software is this request for?
-#            multiple: false
-#            options: ${{ package.releases.package_versions }}
-#          validations:
-#            required: true
-#        - type: dropdown
-#          id: package_interface
-#          pre_process:
-#            if_any: [ "${{ package.releases.has_scripts }}" ]
-#          attributes:
-#            label: Package Interface
-#            description: |
-#              Which interface of our software is this request for?
-#            multiple: true
-#            options: ${{ package.releases.interfaces }}
-#          validations:
-#            required: true
-#        - type: textarea
-#          id: summary
-#          attributes:
-#            label: Summary
-#            description: |
-#              Please provide a brief summary of your request,
-#              including the motivation, use case, or problem it solves.
-#          #            placeholder: Tell us what you see!
-#          validations:
-#            required: true
-#      post_process:
-#        assign_creator:
-#          if_checkbox:
-#            id: collab
-#            number: 1
-#            is_checked: true
-#        body: |
-#          ### Change Location
-#          - **Package Version**: {version}
-#          - **Package Interface**: {package_interface}
-#          - **Operating System**: {os}
-#          - **Python Version**: {python_version}
-#          - **Package Manager**: {package_manager}
-#
-#          ### Request Summary
-#
-#          {summary}
 #
 #
 #    - id: web_bug_frontend
@@ -2229,20 +1400,15 @@ issue:
 #      description: >-
 #        Request a brand new feature that is not yet available in the application.
 #      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '🧪 Tests  🪲 Bug Report'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report problems in the test suite, such as  etc.
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '🧪 Tests  🔔 Request'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report problems in the test suite, such as  etc.
-#      body:
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #    - id: web_bug_frontend
 #      type: web
 #      name: '🏗 DevOps  🪲 Bug Report'
@@ -2270,33 +1436,30 @@ document:
   template:
     title: Development Process Protocol
     body: |
-      - Issue {issue_number}
-      ## Plan
+      ## User Requirements Document (URD)
+      - Issue Ticket {issue_number}
+      
       {issue_body}
+      
+      ## Plan
+      TBC      
 
-
-      ## Software Requirements Specification
+      ## Software Requirements Specification (SRS)
       TBD
 
-
-      ## Design Specification
+      ## Software Design Document (SDD)
       TBD
-
 
       ## Implementation
       TBD
       {primary_commit_summary}
       {secondary_commits_tasklist}
 
-
       ## References
       {references}
 
-
       ## Timeline
       {timeline}
-
-
 pull:
   template:
     default: |
