@@ -16,7 +16,7 @@ pkg:
   entry:
     cli:
       main:
-        name: ${{ pkg.import_name }}
+        name: ${{ pkg.name }}
         description: Main CLI entry of the package.
         ref: ${{ pkg.import_name }}:__main__
   dependency:
