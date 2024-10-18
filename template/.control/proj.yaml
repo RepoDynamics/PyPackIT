@@ -45,13 +45,13 @@ maintainer:
     owners:
       - "*": [ '${{ team.owner }}' ]
   issue:
-    app_bug_api: [ '${{ team.owner }}' ]
-    app_bug_cli: [ '${{ team.owner }}' ]
-    app_bug_gui: [ '${{ team.owner }}' ]
-    app_bug_setup: [ '${{ team.owner }}' ]
-    app_request_enhancement: [ '${{ team.owner }}' ]
-    app_request_feature: [ '${{ team.owner }}' ]
-    app_request_breaking: [ '${{ team.owner }}' ]
+    pkg_api_bug: [ '${{ team.owner }}' ]
+    pkg_cli_bug: [ '${{ team.owner }}' ]
+    pkg_gui_bug: [ '${{ team.owner }}' ]
+    pkg_setup_bug: [ '${{ team.owner }}' ]
+    pkg_api_enhancement: [ '${{ team.owner }}' ]
+    pkg_api_feature: [ '${{ team.owner }}' ]
+    pkg_api_breaking: [ '${{ team.owner }}' ]
   discussion:
     announcements: [ '${{ team.owner }}' ]
   security: '${{ team.owner }}'
