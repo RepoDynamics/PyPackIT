@@ -203,8 +203,8 @@ maintainer:
   issue:
     app_bug: [ '${{ team.aariam }}' ]
     pkg_api_enhancement: [ '${{ team.aariam }}' ]
-    pkg_api_feature: [ '${{ team.aariam }}' ]
-    pkg_api_breaking: [ '${{ team.aariam }}' ]
+    pkg_api_feat: [ '${{ team.aariam }}' ]
+    pkg_api_change: [ '${{ team.aariam }}' ]
   discussion:
     announcements: [ '${{ team.aariam }}' ]
   security: '${{ team.aariam }}'
