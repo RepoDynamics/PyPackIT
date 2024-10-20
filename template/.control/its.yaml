@@ -1593,6 +1593,7 @@ doc:
       opened: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
         ${{ doc.dev_protocol.__custom__.macro_user }}
+        
         {{ make_entry(make_user(actor), "Ticket submitted.") }}
       labeled: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
@@ -1642,6 +1643,7 @@ doc:
       assigned: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
         ${{ doc.dev_protocol.__custom__.macro_user }}
+        
         {{ make_entry(make_user(actor), "Assigned to " + make_user(assignee) + ".") }}
 pull:
   template:
