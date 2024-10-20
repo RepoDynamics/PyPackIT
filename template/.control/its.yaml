@@ -236,9 +236,9 @@ commit:
     maintain:
       type: auto-maintain
   primary:
-    config:
-      type: config
-      description: Changes to project metadata and settings.
+    internal:
+      type: internal
+      description: Internal project changes.
     package_private:
       type: pkg
       subtypes:
@@ -475,14 +475,12 @@ commit:
 #      changelog_section_id: 'package_tools
 label:
   type:
-    prefix: 'Type: '
-    color: '#A00000'
     label:
       internal:
         suffix: 'Internal'
         description: Internal project changes.
   subtype:
-    prefix: 'SubType: '
+    prefix: 'subtype: '
     color: '#0366d6'
     label:
       api:
@@ -931,8 +929,8 @@ issue:
           value: |
             ### ℹ️ Choosing the Right Title
             
-            Please write a concise and descriptive title and
-            use relevant keywords to help others find the issue.
+            <p align="justify">Please write a concise and descriptive title and
+            use relevant keywords to help others find the issue.</p>
       - type: markdown
         attributes:
           value: '### ✅ Agreements'
@@ -1083,16 +1081,16 @@ issue:
         
         - **Version(s)**: {{ input.version }}
         {%- if input.entrypoint %}
-        - Entry Point: {{ input.entrypoint }}
+        - Entry Point: `{{ input.entrypoint }}`
         {%- endif %}
         {%- if input.endpoint %}
-        - End Point: {{ input.endpoint }}
+        - End Point: `{{ input.endpoint }}`
         {%- endif %}
         {%- if input.url %}
         - URL: {{ input.url }}
         {%- endif %}
         {%- if input.jsonpath %}
-        - JSON Path: {{ input.jsonpath }}
+        - JSON Path: `{{ input.jsonpath }}`
         {%- endif %}
         
         ### Summary
@@ -1129,11 +1127,11 @@ issue:
         - **OS**: {{ input.os }}
         - **Python Version**: {{ input.python_version }}
         - **Package Manager**: {{ input.package_manager }}
-        - <details><summary><b>Environment</b></summary>
+        <details><summary><b>Environment</b></summary>
         
-          {{ input.environment }}
+        {{ input.environment }}
         
-          </details>
+        </details>
         {%- endif %}
     verify_bug:
       type: markdown
@@ -1561,7 +1559,7 @@ doc:
         {%- endmacro -%}
     template: |
       ${{ doc.dev_protocol.__custom__.macro_actor }}
-      # Development Protocol {issue_number}
+      # Development Protocol {{ data.issue_number }}
       
       - **Type**: {{ form.description }}
       - **Client**: {{ make_actor(issue.user) }}
@@ -1580,15 +1578,15 @@ doc:
 
       ## Implementation
       
-      {{ commit_summary }}
+      {{ data.commit_summary }}
       
-      {{ commit_description }}
+      {{ data.commit_description }}
       
-      {{ tasklist }}
+      {{ data.tasklist }}
 
       ## References
       
-      {{ references }}
+      {{ data.references }}
 
       ## Timeline
       
