@@ -236,58 +236,9 @@ commit:
     maintain:
       type: auto-maintain
   primary:
-    major:
-      type: major
-      subtypes:
-        any: [ remove, change ]
-        exclude: [ ci, meta-extensions, meta-changelog, meta-commits, meta-issues, meta-labels ]
-      description: |
-        Remove features/components from - or introduce breaking changes to - the public API,
-        and publish a new major release of the package.
-    minor:
-      type: minor
-      subtypes:
-        any: [ deprecate, feat, enhance ]
-      description: |
-        Add features/components to, or enhance/deprecate existing features in, the public API,
-        and publish a new minor release of the package.
-    patch:
-      type: patch
-      subtypes:
-        any: [ secure, fix, perf ]
-      description: |
-        Fix bugs or security issues in the public API,
-        or improve the performance of existing functionalities,
-        and publish a new patch release of the package.
-    post:
-      type: post
-      subtypes:
-        any: [ docs, notes ]
-      description: |
-        Fix documentation or release notes in a previous package release,
-        and publish a new post release.
-    web:
-      type: web
-      subtypes:
-        any: [ web-content, web-design, web-backend ]
-      description: |
-        Change the website content, design or backend.
     config:
       type: config
-      subtypes:
-        any:
-          - meta-credits
-          - meta-extensions
-          - meta-intro
-          - meta-license
-          - meta-changelog
-          - meta-commits
-          - meta-issues
-          - meta-labels
-          - meta-maintainers
-          - meta-repo
-          - meta-workflows
-      description: Change project configuration files in control center.
+      description: Changes to project metadata and settings.
     package_private:
       type: pkg
       subtypes:
@@ -331,324 +282,286 @@ commit:
         Change the GitHub workflows of the repository.
   secondary:
     remove:
-      description: 'Remove a feature/component from the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'removed'
+      description: Remove a feature/component from the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: removed
     change:
-      description: 'Change a feature/component in the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'changed'
+      description: Change a feature/component in the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: changed
     deprecate:
-      description: 'Deprecate a feature/component from the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'deprecated'
+      description: Deprecate a feature/component from the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: deprecated
     feat:
-      description: 'Add a feature/component to the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'added'
+      description: Add a feature/component to the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: added
     enhance:
-      description: 'Enhance a feature/component in the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'enhanced'
+      description: Enhance a feature/component in the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: enhanced
     secure:
-      description: 'Fix a security issue in the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'security'
+      description: Fix a security issue in the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: security
     fix:
-      description: 'Fix a bug in the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'fixed'
+      description: Fix a bug in the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: fixed
     perf:
-      description: 'Improve performance in the public API.'
-      changelog_id: pkg_api
-      changelog_section_id: 'improved'
+      description: Improve performance in the public API.
+      changelog_id: pkg_ap
+      changelog_section_id: improved
     docs:
-      description: 'Fix documentation.'
-      changelog_id: pkg_api
-      changelog_section_id: 'docs'
+      description: Fix documentation.
+      changelog_id: pkg_ap
+      changelog_section_id: docs
     notes:
-      description: 'Fix release notes.'
-      changelog_id: pkg_api
-      changelog_section_id: 'notes'
+      description: Fix release notes.
+      changelog_id: pkg_ap
+      changelog_section_id: notes
     web-content:
-      description: 'Change the website content.'
-      changelog_id: 'website'
-      changelog_section_id: 'content'
+      description: Change the website content.
+      changelog_id: website
+      changelog_section_id: content
     web-design:
-      description: 'Change the website design.'
-      changelog_id: 'website'
-      changelog_section_id: 'design'
+      description: Change the website design.
+      changelog_id: website
+      changelog_section_id: design
     web-backend:
-      description: 'Change the website backend.'
-      changelog_id: 'website'
-      changelog_section_id: 'backend'
+      description: Change the website backend.
+      changelog_id: website
+      changelog_section_id: backend
     priv-remove:
-      description: 'Remove a feature/component from the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'removed'
+      description: Remove a feature/component from the private API.
+      changelog_id: package_private
+      changelog_section_id: removed
     priv-change:
-      description: 'Change a feature/component in the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'changed'
+      description: Change a feature/component in the private API.
+      changelog_id: package_private
+      changelog_section_id: changed
     priv-feat:
-      description: 'Add a feature/component to the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'added'
+      description: Add a feature/component to the private API.
+      changelog_id: package_private
+      changelog_section_id: added
     priv-enhance:
-      description: 'Enhance a feature/component in the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'enhanced'
+      description: Enhance a feature/component in the private API.
+      changelog_id: package_private
+      changelog_section_id: enhanced
     priv-fix:
-      description: 'Fix a bug in the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'fixed'
+      description: Fix a bug in the private API.
+      changelog_id: package_private
+      changelog_section_id: fixed
     priv-perf:
-      description: 'Improve performance in the private API.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'improved'
+      description: Improve performance in the private API.
+      changelog_id: package_private
+      changelog_section_id: improved
     priv-docs:
-      description: 'Fix documentation.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'docs'
+      description: Fix documentation.
+      changelog_id: package_private
+      changelog_section_id: docs
     build:
-      description: 'Change the build system.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'build'
+      description: Change the build system.
+      changelog_id: package_private
+      changelog_section_id: build
     refactor:
-      description: 'Refactor code.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'refactor'
+      description: Refactor code.
+      changelog_id: package_private
+      changelog_section_id: refactor
     style:
-      description: 'Change text style and formatting without affecting the meaning.'
-      changelog_id: 'package_private'
-      changelog_section_id: 'style'
+      description: Change text style and formatting without affecting the meaning.
+      changelog_id: package_private
+      changelog_section_id: style
     test-remove:
-      description: 'Remove a feature/component from the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'removed'
+      description: Remove a feature/component from the test-suite.
+      changelog_id: tests
+      changelog_section_id: removed
     test-change:
-      description: 'Change a feature/component in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'changed'
+      description: Change a feature/component in the test-suite.
+      changelog_id: tests
+      changelog_section_id: changed
     test-feat:
-      description: 'Add a feature/component to the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'added'
+      description: Add a feature/component to the test-suite.
+      changelog_id: tests
+      changelog_section_id: added
     test-enhance:
-      description: 'Enhance a feature/component in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'enhanced'
+      description: Enhance a feature/component in the test-suite.
+      changelog_id: tests
+      changelog_section_id: enhanced
     test-fix:
-      description: 'Fix a bug in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'fixed'
+      description: Fix a bug in the test-suite.
+      changelog_id: tests
+      changelog_section_id: fixed
     test-perf:
-      description: 'Improve performance in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'improved'
+      description: Improve performance in the test-suite.
+      changelog_id: tests
+      changelog_section_id: improved
     test-docs:
-      description: 'Fix documentation in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'docs'
+      description: Fix documentation in the test-suite.
+      changelog_id: tests
+      changelog_section_id: docs
     test-build:
-      description: 'Change the test-suite build system.'
-      changelog_id: 'tests'
-      changelog_section_id: 'build'
+      description: Change the test-suite build system.
+      changelog_id: tests
+      changelog_section_id: build
     test-refactor:
-      description: 'Refactor code in the test-suite.'
-      changelog_id: 'tests'
-      changelog_section_id: 'refactor'
+      description: Refactor code in the test-suite.
+      changelog_id: tests
+      changelog_section_id: refactor
     test-style:
-      description: 'Change text style and formatting in the test-suite without affecting the meaning.'
-      changelog_id: 'tests'
-      changelog_section_id: 'style'
+      description: Change text style and formatting in the test-suite without affecting the meaning.
+      changelog_id: tests
+      changelog_section_id: style
     ci:
-      description: 'Change the CI configuration files and scripts.'
-      changelog_id: 'workflows'
-      changelog_section_id: 'workflows'
+      description: Change the CI configuration files and scripts.
+      changelog_id: workflows
+      changelog_section_id: workflows
     meta-credits:
-      description: 'Change credits meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'credits'
+      description: Change credits meta content.
+      changelog_id: meta
+      changelog_section_id: credits
     meta-extensions:
-      description: 'Change extensions meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'extensions'
-    meta-intro:
-      description: 'Change intro meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'intro'
-    meta-license:
-      description: 'Change license meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'license'
-    meta-changelog:
-      description: 'Change changelog meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'changelog'
-    meta-commits:
-      description: 'Change commits meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'commits'
-    meta-issues:
-      description: 'Change issues meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'issues'
-    meta-labels:
-      description: 'Change labels meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'labels'
-    meta-maintainers:
-      description: 'Change maintainers meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'maintainers'
-    meta-repo:
-      description: 'Change repo meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'repo'
-    meta-workflows:
-      description: 'Change workflows meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'workflows'
-    meta-package:
-      description: 'Change package meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'package'
-    meta-package-build:
-      description: 'Change package build meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'package_build'
-    meta-package-tools:
-      description: 'Change package tools meta content.'
-      changelog_id: 'meta'
-      changelog_section_id: 'package_tools'
+      description: Change extensions meta content.
+      changelog_id: meta
+      changelog_section_id: extensions
+#    meta-intro:
+#      description: Change intro meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'intro
+#    meta-license:
+#      description: Change license meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'license
+#    meta-changelog:
+#      description: Change changelog meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'changelog
+#    meta-commits:
+#      description: Change commits meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'commits
+#    meta-issues:
+#      description: Change issues meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'issues
+#    meta-labels:
+#      description: Change labels meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'labels
+#    meta-maintainers:
+#      description: Change maintainers meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'maintainers
+#    meta-repo:
+#      description: Change repo meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'repo
+#    meta-workflows:
+#      description: Change workflows meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'workflows
+#    meta-package:
+#      description: Change package meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'package
+#    meta-package-build:
+#      description: Change package build meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'package_build
+#    meta-package-tools:
+#      description: Change package tools meta content.
+#      changelog_id: 'meta
+#      changelog_section_id: 'package_tools
 label:
   type:
     prefix: 'Type: '
     color: '#A00000'
     label:
-      major:
-        suffix: 'major-release'
-        description: New major release.
-      minor:
-        suffix: 'minor-release'
-        description: New minor release.
-      patch:
-        suffix: 'patch-release'
-        description: New patch release.
-      post:
-        suffix: 'post-release'
-        description: New post release.
-      web:
-        suffix: 'website'
-        description: New website release.
-      config:
-        suffix: 'config'
-        description: Project configuration.
-      package_private:
-        suffix: 'package'
-        description: |
-          An issue/pull-request about the package that does not result in a new release.
-      workflows:
-        suffix: 'ci'
-        description: |
-          An issue/pull-request about the GitHub workflows of the repository.
+      internal:
+        suffix: 'Internal'
+        description: Internal project changes.
   subtype:
     prefix: 'SubType: '
     color: '#0366d6'
     label:
       api:
-        suffix: 'api'
-        description: Related to the Python application programming interface.
-      gui:
-        suffix: 'gui'
-        description: Related to the graphical user interface.
+        suffix: API
+        description: Related to ${{ pkg.name }}'s Python API.
       cli:
-        suffix: 'cli'
-        description: Related to the command-line interface.
+        suffix: CLI
+        description: Related to ${{ pkg.name }}'s command-line interface.
+      gui:
+        suffix: GUI
+        description: Related to ${{ pkg.name }}'s graphical user interface.
       setup:
-        suffix: 'setup'
-        description: Related to installation.
-      enhancement:
-        suffix: 'enhancement'
-        description: |
-          An enhancement to an existing feature or functionality.
-      feat:
-        suffix: 'feat'
-        description: |
-          A new feature or functionality.
-      breaking:
-        suffix: 'breaking'
-        description: |
-          A backward-incompatible change to the API.
-  status:
-    prefix: 'Status: '
-    color: '#0366d6'
-    label:
-      triage:
-        suffix: 'triage'
-        description: The issue is being triaged.
-      rejected:
-        suffix: 'rejected'
-        description: |
-          The issue/pull-request has been rejected.
-      duplicate:
-        suffix: 'duplicate'
-        description: |
-          The issue/pull-request is a duplicate.
-      invalid:
-        suffix: 'invalid'
-        description: |
-          The issue/pull-request is invalid.
-      planning:
-        suffix: 'planning'
-        description: The issue is in the planning phase.
-      requirement_analysis:
-        suffix: 'req. analysis'
-        description: The issue is in the requirement analysis phase.
-      design:
-        suffix: 'design'
-        description: The issue is in the design phase.
-      implementation:
-        suffix: 'implementation'
-        description: The issue is in the implementation phase.
-      testing:
-        suffix: 'testing'
-        description: The issue is in the testing phase.
-      deploy_alpha:
-        suffix: 'alpha'
-        description: The issue/pull-request is in alpha release.
-      deploy_beta:
-        suffix: 'beta'
-        description: The issue/pull-request is in beta release.
-      deploy_rc:
-        suffix: 'rc'
-        description: The issue/pull-request is published as a release candidate.
-      deploy_final:
-        suffix: 'final'
-        description: The issue/pull-request has been merged into a release branch.
-  branch:
-    prefix: "Target: "
-    description: Related to this specific branch of the repository.
-    color: "#0366d6"
-  version:
-    prefix: "Version: "
-    description: Related to this specific version of the package.
-    color: "#0366d6"
+        suffix: Setup
+        description: Related to ${{ pkg.name }}'s installation.
+      doc_fix:
+        suffix: Doc Fix
+        description: Related to documentation fixes.
+      doc_feat:
+        suffix: Doc Feat
+        description: Related to documentation features.
+      doc_change:
+        suffix: Doc Change
+        description: Related to documentation changes.
+      test_api_fix:
+        suffix: Test API Fix
+        description: Related to fixes in ${{ test.name }}'s Python API.
+      test_cli_fix:
+        suffix: Test CLI Fix
+        description: Related to fixes in ${{ test.name }}'s command-line interface.
+      test_gui_fix:
+        suffix: Test GUI Fix
+        description: Related to fixes in ${{ test.name }}'s graphical user interface.
+      test_setup_fix:
+        suffix: Test Setup Fix
+        description: Related to fixes in ${{ test.name }}'s installation.
+      test_api_feat:
+        suffix: Test API Feat
+        description: Related to features in ${{ test.name }}'s Python API.
+      test_cli_feat:
+        suffix: Test CLI Feat
+        description: Related to features in ${{ test.name }}'s command-line interface.
+      test_gui_feat:
+        suffix: Test GUI Feat
+        description: Related to features in ${{ test.name }}'s graphical user interface.
+      test_api_change:
+        suffix: Test API Change
+        description: Related to changes in ${{ test.name }}'s Python API.
+      test_cli_change:
+        suffix: Test CLI Change
+        description: Related to changes in ${{ test.name }}'s command-line interface.
+      test_gui_change:
+        suffix: Test GUI Change
+        description: Related to changes in ${{ test.name }}'s graphical user interface.
+      refactor:
+        suffix: Refactor
+        description: Related to refactoring changes without affecting the API.
+      config:
+        suffix: Config
+        description: Related to ${{ name }} metadata and settings.
+      devops:
+        suffix: DevOps
+        description: Related to DevOps and CI/CD changes.
+      maintenance:
+        suffix: Maintenance
+        description: Related to project maintenance tasks.
   custom:
     group:
       remark:
-        prefix: 'Remark: '
+        prefix: 'remark: '
         color: '#0366d6'
         label:
           queued:
-            suffix: 'queued'
+            suffix: 'Queued'
             description: The issue/pull-request is queued for processing.
           discuss:
-            suffix: 'discuss'
+            suffix: 'Discuss'
             description: The issue/pull-request requires more discussion.
           need_volunteer:
-            suffix: 'need volunteer'
+            suffix: 'Need Volunteer'
             description: The issue/pull-request requires a volunteer.
 issue:
   blank_enabled: false
@@ -661,7 +574,7 @@ issue:
       url: ${{ web.page.contact.url }}
   __custom_template__:
     # Body Templates
-    body_bug_api:
+    body_fix_api:
       - '*{{ issue.__custom_template__.header_bug }}'
       - '*{{ issue.__custom_template__.address_api }}'
       - ${{ issue.__custom__.issue_summary }}
@@ -669,11 +582,13 @@ issue:
         id: test_case
         attributes:
           label: Test Case
-          description: |
+          description: >-
             Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
             that demonstrates the bug:
+            
             - At the top of the code block below,
               add the minimum number of imports required to reproduce the bug.
+            
             - Replace the ellipsis (`...`) in the `test` function with a
               [Minimal Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) (MRE).
               Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
@@ -687,26 +602,32 @@ issue:
           render: python
         validations:
           required: true
-    body_bug_cli:
+    body_fix_cli:
       - '*{{ issue.__custom_template__.header_bug }}'
       - '*{{ issue.__custom_template__.address_cli }}'
       - ${{ issue.__custom__.issue_summary }}
       - type: textarea
-        id: code
+        id: test_case
         attributes:
           label: Test Case
-          description: |
+          description: >-
             Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
             that demonstrates the bug:
+            
             - In the `test` function below,
-              replace the value of `command` with the exact command that is causing the problem.
-            - Replace the value of `expected_return_code` with the expected return code of the command.
+            replace the value of `command` with the
+            exact command that is causing the problem.
+            
+            - Replace the value of `expected_return_code`
+            with the expected return code of the command.
+            
             - Replace the value of `expected_output` with the expected output of the command.
-              Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
-              to specify the expected results.
+            Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+            to specify the expected results.
+            
             - If the command has side effects,
-              add further [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
-              to specify the expected results.
+            add further [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+            to specify the expected results.
           value: |
             import subprocess 
 
@@ -722,13 +643,13 @@ issue:
           render: python
         validations:
           required: true
-    body_bug_gui:
+    body_fix_gui:
       - '*{{ issue.__custom_template__.header_bug }}'
       - '*{{ issue.__custom_template__.address_gui }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.mre_generic }}
       - ${{ issue.__custom__.stderr_optional }}
-    body_bug_setup:
+    body_fix_setup:
       - '*{{ issue.__custom_template__.header_bug }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.mre_generic }}
@@ -748,86 +669,91 @@ issue:
       - '*{{ issue.__custom_template__.address_gui }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
-    body_break_api:
+    body_change_api:
       - '*{{ issue.__custom_template__.header_breaking }}'
       - '*{{ issue.__custom_template__.address_api }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
-    body_break_cli:
+    body_change_cli:
       - '*{{ issue.__custom_template__.header_breaking }}'
       - '*{{ issue.__custom_template__.address_cli }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
-    body_break_gui:
+    body_change_gui:
       - '*{{ issue.__custom_template__.header_breaking }}'
       - '*{{ issue.__custom_template__.address_gui }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_fix_doc:
+      - '*{{ issue.__custom_template__.header }}'
+      - ${{ issue.__custom__.verify_bug }}
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_bug_report }}
+      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom__.address_doc }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.mre_generic }}
+    body_feat_doc:
+      - '*{{ issue.__custom_template__.header }}'
+      - ${{ issue.__custom__.verify_feat }}
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_feature_request }}
+      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom__.address_doc }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_change_doc:
+      - '*{{ issue.__custom_template__.header }}'
+      - ${{ issue.__custom__.verify_change }}
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom__.address_doc }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_refactor:
+      - '*{{ issue.__custom_template__.header }}'
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_config:
+      - '*{{ issue.__custom_template__.header }}'
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom__.address_config }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_devops:
+      - '*{{ issue.__custom_template__.header }}'
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom__.address_config }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
     # Body Header Templates
     header_bug:
       - '*{{ issue.__custom_template__.header }}'
-      - type: markdown
-        attributes:
-          value: |
-            ### ⚠️ Verifying the Bug
-
-            <p align="justify">
-              Before submitting a report, please make sure that you are following our
-              <a href="${{ web.page.contribute.url }}">Bug Report Guidelines</a> to verify that:
-            </p>
-
-            - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
-            - <p align="justify">The bug is reproducible in the latest version of the release, and has not yet been reported.</p>
+      - ${{ issue.__custom__.verify_bug }}
       - '*{{ issue.__custom__.agreements }}'
       - '*{{ issue.__custom__.environment }}'
-      - type: markdown
-        attributes:
-          value: |
-            <br>
-            ## 🐞 Bug Report
-      - ${{ issue.__custom__.package_version }}
+      - ${{ issue.__custom__.heading_bug_report }}
+      - ${{ issue.__custom__.version }}
     header_feature:
       - '*{{ issue.__custom_template__.header }}'
-      - type: markdown
-        attributes:
-          value: |
-            ### ⚠️ Verifying the Request
-
-            <p align="justify">
-              Before submitting a report, please make sure that you are following our
-              <a href="${{ web.page.contribute.url }}">Feature Request Guidelines</a> to verify that:
-            </p>
-
-            - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
-            - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+      - ${{ issue.__custom__.verify_feat }}
       - '*{{ issue.__custom__.agreements }}'
-      - type: markdown
-        attributes:
-          value: |
-            <br>
-            ## ✨ Feature Request
-      - ${{ issue.__custom__.package_version }}
+      - ${{ issue.__custom__.heading_feature_request }}
+      - ${{ issue.__custom__.version }}
     header_breaking:
       - '*{{ issue.__custom_template__.header }}'
-      - type: markdown
-        attributes:
-          value: |
-            ### ⚠️ Verifying the Request
-
-            <p align="justify">
-              Before submitting a report, please make sure that you are following our
-              <a href="${{ web.page.contribute.url }}">Change Request Guidelines</a> to verify that:
-            </p>
-
-            - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
-            - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+      - ${{ issue.__custom__.verify_change }}
       - '*{{ issue.__custom__.agreements }}'
-      - type: markdown
-        attributes:
-          value: |
-            <br>
-            ## 💥 Change Request
-      - ${{ issue.__custom__.package_version }}
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
     header:
       - type: markdown
         attributes:
@@ -843,6 +769,8 @@ issue:
       - type: markdown
         attributes:
           value: |
+            <br>
+            
             ## 🤝 Terms and Conditions
       - type: markdown
         attributes:
@@ -858,21 +786,20 @@ issue:
             </p>
     # Template Chooser Descriptions
     description_bug: >-
-      Report problems such as errors and unexpected results
-      encountered while using ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+      Report problems and errors in
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
     description_feat: >-
-      Request backward-compatible improvements or new functionalities
+      Request backward-compatible improvements and new functionalities
       in ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
     description_break: >-
       Request backward-incompatible changes to
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
-      such as changes in the behavior of an existing functionality.
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
     # Form Purpose
     purpose_bug: >-
       reporting a <b>non-security-related bug in
       ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}</b>,
-      i.e. an unexpected behavior that occurs
-      while using ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+      i.e. an unexpected behavior or result
+      in ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
     purpose_feat: >-
       requesting a <b>backward-compatible improvement</b> or <b>new functionality</b> in
       ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
@@ -881,11 +808,12 @@ issue:
     purpose_break: >-
       requesting a <b>backward-incompatible change</b> in
       ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
-      i.e. a breaking change to ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+      i.e. a breaking change in behaviour or functionalities of
+      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
     # Address
     address_api:
       - type: dropdown
-        id: api_entry
+        id: entrypoint
         attributes:
           label: API Entry Point
           description: Please select the relevant API entry point.
@@ -895,7 +823,7 @@ issue:
         validations:
           required: true
       - type: input
-        id: api_endpoint
+        id: endpoint
         attributes:
           label: Fully Qualified Name
           description: >-
@@ -910,7 +838,7 @@ issue:
           required: true
     address_cli:
       - type: dropdown
-        id: cli_entry
+        id: entrypoint
         attributes:
           label: CLI Entry Point
           description: Please select the relevant CLI entry point.
@@ -921,7 +849,7 @@ issue:
           required: true
     address_gui:
       - type: dropdown
-        id: gui_entry
+        id: entrypoint
         attributes:
           label: GUI Entry Point
           description: Please select the affected GUI entry point.
@@ -930,111 +858,35 @@ issue:
           default: 0
         validations:
           required: true
-    # Post-Process Body Templates
-    post_body_bug_api: |
-      ## Bug Location
-      <ul>
-      <li><b>Package Version</b>: {version}</li>
-      <li><b>Fully Qualified Name</b>: {api_entry}</li>
-      </ul>
-      <h2>System and Version Specifications</h2>
-      <li><b>Operating System</b>: {os}</li>
-      <li><b>Python Version</b>: {python_version}</li>
-      <li><b>Package Manager</b>: {package_manager}</li>
-      <li>
-      <details>
-      <summary><b>Environment</b></summary>
-      
-      ```
-      {environment}
-      ```
-      
-      </details></li>
-      </ul>
-      
-      ## Bug Summary
-      
-      {summary}
-      
-      ## Test Case / Minimal Reproducible Example (MRE)
-      
-      {code}
-      
-      ## Error Message
-      
-      {log}
-    post_body_bug_cli: |
-      #TODO
-    post_body_bug_gui: |
-      #TODO
-    post_body_bug_setup: |
-      #TODO
-    post_body_feat_api: |
-      ### Feature Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-  
-      ### Request Summary
-  
-      {summary}
-    post_body_feat_cli: |
-      ### Feature Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-
-      ### Request Summary
-
-      {summary}
-    post_body_feat_gui: |
-      ### Feature Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-
-      ### Request Summary
-
-      {summary}
-    post_body_break_api: |
-      ### Change Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-
-      ### Request Summary
-
-      {summary}
-    post_body_break_cli: |
-      ### Change Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-
-      ### Request Summary
-
-      {summary}
-    post_body_break_gui: |
-      ### Change Location
-      - **Package Version**: {version}
-      - **Package Interface**: {package_interface}
-      - **Operating System**: {os}
-      - **Python Version**: {python_version}
-      - **Package Manager**: {package_manager}
-
-      ### Request Summary
-
-      {summary}
+    address_doc:
+      - type: input
+        id: url
+        attributes:
+          label: URL
+          description: >-
+            Please provide the URL of the relevant web page or repository file.
+          placeholder: ${{ web.url.home }}
+        validations:
+          required: true
+    address_config:
+      - type: input
+        id: url
+        attributes:
+          label: URL
+          description: >-
+            Please provide the URL of the relevant configuration file in the repository.
+          placeholder: ${{ repo.url.blob }}/${{ repo.control.path }}/proj.yaml
+        validations:
+          required: true
+      - type: input
+        id: jsonpath
+        attributes:
+          label: Path
+          description: >-
+            Please provide the JSONPath expression to the relevant configuration field.
+          placeholder: $.license.expression
+        validations:
+          required: true
   __custom__:
     title_api: ' 🖥 API'
     title_cli: ' ⌨️ CLI'
@@ -1043,11 +895,40 @@ issue:
     title_bug: ' 🐞 Bug Report'
     title_feat: ' ✨ Feature Request'
     title_breaking: ' 💥 Change Request'
-    title_test: ' 🧪 Test Suite'
+    title_doc: ' 📚 Docs'
+    title_test: ' 🧪 Test'
+    heading_bug_report:
+      type: markdown
+      attributes:
+        value: |
+          <br>
+
+          ## 🐞 Bug Report
+    heading_feature_request:
+      type: markdown
+      attributes:
+        value: |
+          <br>
+
+          ## ✨ Feature Request
+    heading_change_request:
+      type: markdown
+      attributes:
+        value: |
+          <br>
+
+          ## 💥 Change Request
     agreements:
       - type: markdown
         attributes:
-          value: '###✅ Agreements'
+          value: |
+            ### ℹ️ Choosing the Right Title
+            
+            Please write a concise and descriptive title and
+            use relevant keywords to help others find the issue.
+      - type: markdown
+        attributes:
+          value: '### ✅ Agreements'
       - type: checkboxes
         id: terms
         attributes:
@@ -1081,6 +962,7 @@ issue:
         attributes:
           value: |
             <br>
+            
             ## 🎛 Environment Specifications
       - type: dropdown
         id: os
@@ -1100,6 +982,7 @@ issue:
             Please select all Python versions in which you have encountered the bug.
           multiple: true
           options: ${{ project.python_versions }}
+          default: 0
         validations:
           required: true
       - type: dropdown
@@ -1110,6 +993,7 @@ issue:
             Please select the package manager used to download and install ${{ name }}.
           multiple: false
           options: ${{ project.package_managers }}
+          default: 0
         validations:
           required: true
       - type: textarea
@@ -1127,13 +1011,14 @@ issue:
             2. **`conda`**: Run `conda env export > environment.yml` in your terminal within the environment
             (or alternatively `conda env export -n {YOUR_ENVIRONMENT_NAME} > environment.yml`),
             and copy the contents of the generated `environment.yml` file here.
+          render: yaml
         validations:
           required: true
-    package_version:
+    version:
       type: dropdown
       id: version
       attributes:
-        label: Package Version
+        label: Version
         description: |
           Please select all relevant ${{ name }} versions.
         multiple: true
@@ -1157,10 +1042,10 @@ issue:
         description: >-
           Please provide an exact step-by-step instruction to reproduce the problem.
           You can also include screenshots/recordings by dragging and dropping them here.
-        value: |
-          1.
-          2.
-          3.
+        placeholder: |
+          1. ...
+          2. ...
+          3. ...
       validations:
         required: true
     stderr_optional:
@@ -1180,67 +1065,177 @@ issue:
         description: Please describe your proposal in detail.
       validations:
         required: true
-    post_process_assign_creator:
-      if_checkbox:
-        id: collab
-        number: 1
-        is_checked: true
+    post_process:
+      assign_creator:
+        if_checkbox:
+          id: collab
+          number: 1
+          is_checked: true
+      body: |
+        ### Target
+        
+        - **Version(s)**: {{ input.version }}
+        {%- if input.entrypoint %}
+        - Entry Point: {{ input.entrypoint }}
+        {%- endif %}
+        {%- if input.endpoint %}
+        - End Point: {{ input.endpoint }}
+        {%- endif %}
+        {%- if input.url %}
+        - URL: {{ input.url }}
+        {%- endif %}
+        {%- if input.jsonpath %}
+        - JSON Path: {{ input.jsonpath }}
+        {%- endif %}
+        
+        ### Summary
+        
+        {{ input.summary }}
+        
+        {%- if input.proposal %}
+        ### Proposal
+        
+        {{ input.proposal }}
+        {%- endif %}
+        
+        {%- if input.test_case %}
+        ### Test Case
+        
+        {{ input.test_case }}
+        {%- endif %}
+        
+        {%- if input.mre %}
+        ### Minimal Reproducible Example
+        
+        {{ input.mre }}
+        {%- endif %}
+        
+        {%- if input.stderr %}
+        ### Output Log
+        
+        {{ input.stderr }}
+        {%- endif %}
+        
+        {%- if input.environment %}
+        ### Test Environment
+        
+        - **OS**: {{ input.os }}
+        - **Python Version**: {{ input.python_version }}
+        - **Package Manager**: {{ input.package_manager }}
+        - <details><summary><b>Environment</b></summary>
+        
+          {{ input.environment }}
+        
+          </details>
+        {%- endif %}
+    verify_bug:
+      type: markdown
+      attributes:
+        value: |
+          ### ⚠️ Verifying the Bug
+
+          <p align="justify">
+            Before submitting a report, please make sure that you are following our
+            <a href="${{ web.page.contribute.url }}">Bug Report Guidelines</a> to verify that:
+          </p>
+
+          - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
+          - <p align="justify">The bug is reproducible in the latest version of the release, and has not yet been reported.</p>
+    verify_feat:
+      type: markdown
+      attributes:
+        value: |
+          ### ⚠️ Verifying the Request
+
+          <p align="justify">
+            Before submitting a report, please make sure that you are following our
+            <a href="${{ web.page.contribute.url }}">Feature Request Guidelines</a> to verify that:
+          </p>
+
+          - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
+          - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+    verify_change:
+      type: markdown
+      attributes:
+        value: |
+          ### ⚠️ Verifying the Request
+
+          <p align="justify">
+            Before submitting a report, please make sure that you are following our
+            <a href="${{ web.page.contribute.url }}">Change Request Guidelines</a> to verify that:
+          </p>
+
+          - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
+          - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
+    custom_pkg_api:
+      pkg_name: ${{ pkg.name }}
+      pkg_entry_name: 'API'
+      pkg_entry_description: 'Python application programming interface'
+      python_api_names: ${{ project.python_api_names }}
+    custom_pkg_cli:
+      pkg_name: ${{ pkg.name }}
+      pkg_entry_name: 'CLI'
+      pkg_entry_description: 'command-line interface'
+      cli_names: ${{ project.cli_names }}
+    custom_pkg_gui:
+      pkg_name: ${{ pkg.name }}
+      pkg_entry_name: 'GUI'
+      pkg_entry_description: 'graphical user interface'
+      gui_names: ${{ project.gui_names }}
+    custom_test_api:
+      pkg_name: ${{ test.name }}
+      pkg_entry_name: 'API'
+      pkg_entry_description: 'Python application programming interface'
+      python_api_names: ${{ project.test_python_api_names }}
+    custom_test_cli:
+      pkg_name: ${{ test.name }}
+      pkg_entry_name: 'CLI'
+      pkg_entry_description: 'command-line interface'
+      cli_names: ${{ project.test_cli_names }}
+    custom_test_gui:
+      pkg_name: ${{ test.name }}
+      pkg_entry_name: 'GUI'
+      pkg_entry_description: 'graphical user interface'
+      gui_names: ${{ project.test_gui_names }}
   forms:
-    - id: pkg_api_bug
+    # Package
+    - id: pkg_api_fix
       type: patch
       subtype: api
       pre_process:
         if_any: [ "${{ project.python_api_names }}" ]
       name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_bug }}
       description: ${{ issue.__custom_template__.description_bug }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'API'
-        pkg_entry_description: 'Python application programming interface'
-        python_api_names: ${{ project.python_api_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_bug_api }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_bug_api }}
-    - id: pkg_cli_bug
+      body: ${{ issue.__custom_template__.body_fix_api }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_cli_fix
       type: patch
       subtype: cli
       pre_process:
         if_any: [ "${{ project.cli_names }}" ]
       name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_bug }}
       description: ${{ issue.__custom_template__.description_bug }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'CLI'
-        pkg_entry_description: 'command-line interface'
-        cli_names: ${{ project.cli_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_bug_cli }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_bug_cli }}
-    - id: pkg_gui_bug
+      body: ${{ issue.__custom_template__.body_fix_cli }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_gui_fix
       pre_process:
         if_any: [ "${{ project.gui_names }}" ]
       type: patch
       subtype: gui
       name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_bug }}
       description: ${{ issue.__custom_template__.description_bug }}
-      __custom__:
-        pkg_name : ${{ pkg.name }}
-        pkg_entry_name: 'GUI'
-        pkg_entry_description: 'graphical user interface'
-        gui_names: ${{ project.gui_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_bug_gui }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_bug_gui }}
-    - id: pkg_setup_bug
+      body: ${{ issue.__custom_template__.body_fix_gui }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_setup_fix
       type: patch
       subtype: setup
       name: ${{ issue.__custom__.title_setup }}${{ issue.__custom__.title_bug }}
@@ -1250,216 +1245,385 @@ issue:
           reporting a <b>non-security-related bug in ${{name}}'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
-      body: ${{ issue.__custom_template__.body_bug_setup }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_bug_setup }}
-    - id: pkg_api_feature
+      body: ${{ issue.__custom_template__.body_fix_setup }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_api_feat
       type: minor
       subtype: api
       pre_process:
         if_any: [ "${{ project.python_api_names }}" ]
       name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_feat }}
       description: ${{ issue.__custom_template__.description_feat }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'API'
-        pkg_entry_description: 'Python application programming interface'
-        python_api_names: ${{ project.python_api_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}
       body: ${{ issue.__custom_template__.body_feat_api }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_feat_api }}
-    - id: pkg_cli_feature
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_cli_feat
       type: minor
       subtype: cli
       pre_process:
         if_any: [ "${{ project.cli_names }}" ]
       name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_feat }}
       description: ${{ issue.__custom_template__.description_feat }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'CLI'
-        pkg_entry_description: 'command-line interface'
-        cli_names: ${{ project.cli_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}
       body: ${{ issue.__custom_template__.body_feat_cli }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_feat_cli }}
-    - id: pkg_gui_feature
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_gui_feat
       type: minor
       subtype: gui
       pre_process:
         if_any: [ "${{ project.gui_names }}" ]
       name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_feat }}
       description: ${{ issue.__custom_template__.description_feat }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'GUI'
-        pkg_entry_description: 'graphical user interface'
-        gui_names: ${{ project.gui_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}
       body: ${{ issue.__custom_template__.body_feat_gui }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_feat_gui }}
-    - id: pkg_api_breaking
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_api_change
       type: major
       subtype: api
       pre_process:
         if_any: [ "${{ project.python_api_names }}" ]
       name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_breaking }}
       description: ${{ issue.__custom_template__.description_break }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'API'
-        pkg_entry_description: 'Python application programming interface'
-        python_api_names: ${{ project.python_api_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_break_api }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_break_api }}
-    - id: pkg_cli_breaking
+      body: ${{ issue.__custom_template__.body_change_api }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_cli_change
       type: major
       subtype: cli
       pre_process:
         if_any: [ "${{ project.cli_names }}" ]
       name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_breaking }}
       description: ${{ issue.__custom_template__.description_break }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'CLI'
-        pkg_entry_description: 'command-line interface'
-        cli_names: ${{ project.cli_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_break_cli }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_break_cli }}
-    - id: pkg_gui_breaking
+      body: ${{ issue.__custom_template__.body_change_cli }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: pkg_gui_change
       type: major
       subtype: gui
       pre_process:
         if_any: [ "${{ project.gui_names }}" ]
       name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_breaking }}
       description: ${{ issue.__custom_template__.description_break }}
-      __custom__:
-        pkg_name: ${{ pkg.name }}
-        pkg_entry_name: 'GUI'
-        pkg_entry_description: 'graphical user interface'
-        gui_names: ${{ project.gui_names }}
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_break_gui }}
-      post_process:
-        assign_creator: ${{ issue.__custom__.post_process_assign_creator }}
-        body: ${{ issue.__custom_template__.post_body_break_gui }}
-
-
-
-
-#
-#
-#
-#
-#    - id: web_bug_frontend
-#      type: web
-#      name: '📚 Docs  🪲 Bug Report  📄 Content'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report a problem in the contents of the documentation,
-#        e.g. missing details, ambiguous explanations, mechanical errors, broken links etc.
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '📚 Docs  🪲 Bug Report  🌐 Website'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report a technical problem in the documentation website,
-#        including broken page formatting, loading issues, and unexpected behavior.
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '📚 Docs  🔔 Request  💫 New Content'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Request a brand new feature that is not yet available in the application.
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '📚 Docs  🔔 Request  ✨ New Feature'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Request a brand new feature that is not yet available in the application.
-#      body:
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#    - id: web_bug_frontend
-#      type: web
-#      name: '🏗 DevOps  🪲 Bug Report'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report a development problem in the repository, e.g. in CI/CD workflows, .
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '🏗 DevOps  🔔 Request'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Request an improvement in an existing feature, e.g. in terms of functionality,
-#        performance, or ease of use.
-#      body:
-#    - id: web_bug_frontend
-#      type: web
-#      name: '🧹  Maintenance  🔔 Request'
-#      labels: [ "SubType: breaking" ]
-#      description: >-
-#        Report a development problem in the repository, e.g. in CI/CD workflows, .
-#      body:
-document:
-  prerelease_temp_path: docs/prerelease_dev_protocols.md
-  template:
-    title: Development Process Protocol
-    body: |
-      ## User Requirements Document (URD)
-      - Issue Ticket {issue_number}
+      body: ${{ issue.__custom_template__.body_change_gui }}
+      post_process: ${{ issue.__custom__.post_process }}
+    # Documentation
+    - id: doc_fix
+      type: post
+      subtype: doc_fix
+      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_bug }}
+      description: >-
+        Report problems and errors 
+        in ${{ name }}'s website and documentation materials.
+      __custom_template__:
+        purpose: >-
+          reporting a <b>non-security-related bug in
+          ${{ name }}'s website and documentation materials</b>,
+          e.g. misspellings and other mechanical errors,
+          broken links and images, layout issues, etc.
+      body: ${{ issue.__custom_template__.body_fix_doc }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: doc_feat
+      type: post
+      subtype: doc_feat
+      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_feat }}
+      description: >-
+        Request backward-compatible improvements and new content
+        in ${{ name }}'s website and documentation materials.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>backward-compatible improvement</b> or <b>new content</b> in
+          ${{ name }}'s website and documentation materials</b>,
+          i.e. a change that is not a bug fix
+          and does not break existing references or functionalities.
+      body: ${{ issue.__custom_template__.body_feat_doc }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: doc_change
+      type: post
+      subtype: doc_change
+      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_breaking }}
+      description: >-
+        Request backward-incompatible changes
+        to ${{ name }}'s website and documentation materials.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>backward-incompatible change</b> in
+          ${{ name }}'s website and documentation materials</b>,
+          i.e. a change that breaks existing references or functionalities.
+      body: ${{ issue.__custom_template__.body_change_doc }}
+      post_process: ${{ issue.__custom__.post_process }}
+    # Test Suite
+    - id: test_api_fix
+      type: post
+      subtype: test_api_fix
+      pre_process:
+        if_any: [ "${{ project.test_python_api_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__: ${{ issue.__custom__.custom_test_api }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_fix_api }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_cli_fix
+      type: post
+      subtype: test_cli_fix
+      pre_process:
+        if_any: [ "${{ project.test_cli_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__: ${{ issue.__custom__.custom_test_cli }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_fix_cli }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_gui_fix
+      type: post
+      subtype: test_gui_fix
+      pre_process:
+        if_any: [ "${{ project.test_gui_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_bug }}
+      description: ${{ issue.__custom_template__.description_bug }}
+      __custom__: ${{ issue.__custom__.custom_test_gui }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_bug }}
+      body: ${{ issue.__custom_template__.body_fix_gui }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_setup_fix
+      type: post
+      subtype: test_setup_fix
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_setup }}${{ issue.__custom__.title_bug }}
+      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}.
+      __custom_template__:
+        purpose: >-
+          reporting a <b>non-security-related bug in ${{name}}'s setup process</b>,
+          i.e. an unexpected behavior that occurs during
+          the download, installation, or initialization of the application.
+      body: ${{ issue.__custom_template__.body_fix_setup }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_api_feat
+      type: post
+      subtype: test_api_feat
+      pre_process:
+        if_any: [ "${{ project.test_python_api_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__: ${{ issue.__custom__.custom_test_api }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_api }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_cli_feat
+      type: post
+      subtype: test_cli_feat
+      pre_process:
+        if_any: [ "${{ project.test_cli_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__: ${{ issue.__custom__.custom_test_cli }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_cli }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_gui_feat
+      type: post
+      subtype: test_gui_feat
+      pre_process:
+        if_any: [ "${{ project.test_gui_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_feat }}
+      description: ${{ issue.__custom_template__.description_feat }}
+      __custom__: ${{ issue.__custom__.custom_test_gui }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_feat }}
+      body: ${{ issue.__custom_template__.body_feat_gui }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_api_change
+      type: post
+      subtype: test_api_change
+      pre_process:
+        if_any: [ "${{ project.test_python_api_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__: ${{ issue.__custom__.custom_test_api }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_change_api }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_cli_change
+      type: post
+      subtype: test_cli_change
+      pre_process:
+        if_any: [ "${{ project.test_cli_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__: ${{ issue.__custom__.custom_test_cli }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_change_cli }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: test_gui_change
+      type: post
+      subtype: test_gui_change
+      pre_process:
+        if_any: [ "${{ project.test_gui_names }}" ]
+      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_breaking }}
+      description: ${{ issue.__custom_template__.description_break }}
+      __custom__: ${{ issue.__custom__.custom_test_gui }}
+      __custom_template__:
+        purpose: ${{ issue.__custom_template__.purpose_break }}
+      body: ${{ issue.__custom_template__.body_change_gui }}
+      post_process: ${{ issue.__custom__.post_process }}
+    # Refactoring
+    - id: refactor
+      type: post
+      subtype: refactor
+      name: ' 🧹️ Refactoring Request'
+      description: >-
+        Request code formatting and refactoring in ${{ name }}'s source files.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>code formatting and refactoring</b> in ${{ name }}'s source files,
+          i.e. a change that improves the code quality, readability, and maintainability,
+          without affecting the code's runtime behavior.
+      body: ${{ issue.__custom_template__.body_refactor }}
+      post_process: ${{ issue.__custom__.post_process }}
+    # Internal
+    - id: config
+      type: internal
+      subtype: config
+      name: ' 🛠️ Configuration Request'
+      description: >-
+        Request a change in ${{ name }}'s metadata and settings.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>reconfiguration</b> in ${{ name }}'s metadata and settings,
+          such as project information and other options that do not fall under
+          other issue categories.
+      body: ${{ issue.__custom_template__.body_config }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: devops
+      type: internal
+      subtype: devops
+      name: ' 🤖️ DevOps Request'
+      description: >-
+        Request a change in ${{ name }}'s automated workflows and development environment.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>change in ${{ name }}'s automated workflows and development environment</b>,
+          such as CI/CD pipelines, testing, and deployment configurations.
+      body: ${{ issue.__custom_template__.body_config }}
+      post_process: ${{ issue.__custom__.post_process }}
+    - id: maintenance
+      type: internal
+      subtype: maintenance
+      name: ' 🧹️ Maintenance Request'
+      description: Request a maintenance job in ${{ name }}.
+      __custom_template__:
+        purpose: >-
+          requesting a <b>maintenance job</b> in ${{ name }},
+          such as file cleanup and other tasks that
+          do not fall under other issue categories.
+      body: ${{ issue.__custom_template__.body_maintenance }}
+      post_process: ${{ issue.__custom__.post_process }}
+doc:
+  dev_protocol:
+    __custom__:
+      macro_entry: |
+        {%- macro make_entry(actor, description) -%}
+        | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ actor }} | {{ description }} |
+        {%- endmacro -%}
+      macro_actor: |
+        {%- macro make_actor(user) -%}
+          {%- if user.name -%}
+            {{ user.name }} (@{{ user.login }})
+          {%- else -%}
+            @{{ user.login }}
+          {%- endif -%}
+        {%- endmacro -%}
+    template: |
+      ${{ doc.dev_protocol.__custom__.macro_actor }}
+      # Development Protocol {issue_number}
       
-      {issue_body}
+      - **Type**: {{ form.description }}
+      - **Client**: {{ make_actor(issue.user) }}
+      
+      ## User Requirements Document (URD)
+      
+      {{ issue_body }}
+      
+      ## Triage
       
       ## Plan
-      TBC      
 
       ## Software Requirements Specification (SRS)
-      TBD
 
       ## Software Design Document (SDD)
-      TBD
 
       ## Implementation
-      TBD
-      {primary_commit_summary}
-      {secondary_commits_tasklist}
+      
+      {{ commit_summary }}
+      
+      {{ commit_description }}
+      
+      {{ tasklist }}
 
       ## References
-      {references}
+      
+      {{ references }}
 
       ## Timeline
-      {timeline}
+      
+      {{ timeline }}
+    timeline_template:
+      labeled: |
+        ${{ doc.dev_protocol.timeline_template.__custom__.macro_entry }}
+        ${{ doc.dev_protocol.timeline_template.__custom__.macro_actor }}
+        {%- macro describe() -%}
+          {%- set category = label.category -%}
+          {%- if category == "status" -%}
+            {%- set status = label.id -%}
+            {%- if status == "rejected" -%}
+              Rejected and closed.
+            {%- elif status == "duplicate" -%}
+              Marked as duplicate and closed.
+            {%- elif status == "invalid" -%}
+              Marked as invalid and closed.
+            {%- elif status == "planning" -%}
+              Entered the planning phase.
+            {%- elif status == "requirement_analysis" -%}
+              Entered the requirement analysis phase.
+            {%- elif status == "design" -%}
+              Entered the design phase.
+            {%- elif status == "implementation" -%}
+              Entered the implementation phase.
+            {%- elif status == "testing" -%}
+              Entered the testing phase.
+            {%- elif status == "deploy_alpha" -%}
+              Deployed as alpha release.
+            {%- elif status == "deploy_beta" -%}
+              Deployed as beta release.
+            {%- elif status == "deploy_rc" -%}
+              Deployed as release candidate.
+            {%- elif status == "deploy_final" -%}
+              Deployed as final release.
+            {%- else -%}
+              Status changed to {{ status }}.
+            {%- endif -%}
+          {%- endif -%}
+        {%- endmacro %}
+        {{ make_entry(make_actor(actor), describe()) }}
 pull:
   template:
     default: |
