@@ -1610,7 +1610,9 @@ doc:
                 Target branch set to `{{ label.suffix }}`.
           {%- elif category == "status" -%}
             {%- set status = label.id -%}
-            {%- if status == "rejected" -%}
+            {%- if status == "triage" -%}
+              Entered the triage phase.
+            {%- elif status == "rejected" -%}
               Rejected and closed.
             {%- elif status == "duplicate" -%}
               Marked as duplicate and closed.
