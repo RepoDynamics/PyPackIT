@@ -766,8 +766,6 @@ issue:
             <p align="justify">
               Thank you for providing feedback on ${{ name }};
               we greatly appreciate your contribution!
-            </p>
-            <p align="justify">
               Before submitting a ticket,
               please take a moment to review and accept our terms and conditions.
             </p>
@@ -1545,12 +1543,12 @@ issue:
 doc:
   dev_protocol:
     __custom__:
-      macro_entry: |
+      macro_timeline_entry: |
         {%- macro make_entry(actor, description) -%}
         | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ actor }} | {{ description }} |
         {%- endmacro -%}
-      macro_actor: |
-        {%- macro make_actor(user) -%}
+      macro_user: |
+        {%- macro make_user(user) -%}
           {%- if user.name -%}
             {{ user.name }} (@{{ user.login }})
           {%- else -%}
@@ -1558,11 +1556,11 @@ doc:
           {%- endif -%}
         {%- endmacro -%}
     template: |
-      ${{ doc.dev_protocol.__custom__.macro_actor }}
+      ${{ doc.dev_protocol.__custom__.macro_user }}
       # Development Protocol {{ data.issue_number }}
       
       - **Type**: {{ form.description }}
-      - **Client**: {{ make_actor(issue.user) }}
+      - **Client**: {{ make_user(issue.user) }}
       
       ## User Requirements Document (URD)
       
@@ -1590,14 +1588,26 @@ doc:
 
       ## Timeline
       
-      {{ timeline }}
+      {{ data.timeline }}
     timeline_template:
+      opened: |
+        ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_user }}
+        {{ make_entry(make_user(actor), "Ticket submitted.") }}
       labeled: |
-        ${{ doc.dev_protocol.__custom__.macro_entry }}
-        ${{ doc.dev_protocol.__custom__.macro_actor }}
+        ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_user }}
         {%- macro describe() -%}
           {%- set category = label.category -%}
-          {%- if category == "status" -%}
+          {%- if category == "type" -%}
+              Type set to `{{ label.suffix }}`.
+          {%- elif category == "subtype" -%}
+              Subtype set to `{{ label.suffix }}`.
+          {%- elif category == "version" -%}
+                Target version set to `{{ label.suffix }}`.
+          {%- elif category == "branch" -%}
+                Target branch set to `{{ label.suffix }}`.
+          {%- elif category == "status" -%}
             {%- set status = label.id -%}
             {%- if status == "rejected" -%}
               Rejected and closed.
@@ -1628,7 +1638,11 @@ doc:
             {%- endif -%}
           {%- endif -%}
         {%- endmacro %}
-        {{ make_entry(make_actor(actor), describe()) }}
+        {{ make_entry(make_user(actor), describe()) }}
+      assigned: |
+        ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_user }}
+        {{ make_entry(make_user(actor), "Assigned to " + make_user(assignee) + ".") }}
 pull:
   template:
     default: |
