@@ -585,12 +585,12 @@ issue:
             that demonstrates the bug:
             
             - At the top of the code block below,
-              add the minimum number of imports required to reproduce the bug.
+            add the minimum number of imports required to reproduce the bug.
             
             - Replace the ellipsis (`...`) in the `test` function with a
-              [Minimal Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) (MRE).
-              Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
-              to specify the expected results.
+            [Minimal Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) (MRE).
+            Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
+            to specify the expected results.
           value: |
             import ${{ .__custom__.python_api_names[0] }}
 
@@ -1543,18 +1543,22 @@ issue:
 doc:
   dev_protocol:
     __custom__:
-      macro_timeline_entry: |
+      macro_timeline_entry: >-
         {%- macro make_entry(actor, description) -%}
-        | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ actor }} | {{ description }} |
-        {%- endmacro -%}
-      macro_user: |
+          | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ actor }} | {{ description }} |
+        {%- endmacro %}
+      macro_user: >-
         {%- macro make_user(user) -%}
           {%- if user.name -%}
             {{ user.name }} (@{{ user.login }})
           {%- else -%}
             @{{ user.login }}
           {%- endif -%}
-        {%- endmacro -%}
+        {%- endmacro %}
+      macro_pull: >-
+        {%- macro make_pull(pull) -%}
+            #{{ pull.number }} (branch [{{ pull.head.name }}]({{ pull.head.url }}))
+        {%- endmacro %}
     template: |
       ${{ doc.dev_protocol.__custom__.macro_user }}
       # Development Protocol {{ data.issue_number }}
@@ -1565,6 +1569,8 @@ doc:
       ## User Requirements Document (URD)
       
       {{ issue_body }}
+      
+      <!--
       
       ## Triage
       
@@ -1585,7 +1591,9 @@ doc:
       ## References
       
       {{ data.references }}
-
+      
+      -->
+      
       ## Timeline
       
       {{ data.timeline }}
@@ -1593,8 +1601,7 @@ doc:
       opened: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
         ${{ doc.dev_protocol.__custom__.macro_user }}
-        
-        {{ make_entry(make_user(actor), "Ticket submitted.") }}
+        {{ make_entry(make_user(actor), "Ticket submitted.") -}}
       labeled: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
         ${{ doc.dev_protocol.__custom__.macro_user }}
@@ -1641,12 +1648,34 @@ doc:
             {%- endif -%}
           {%- endif -%}
         {%- endmacro %}
-        {{ make_entry(make_user(actor), describe()) }}
+        {{ make_entry(make_user(actor), describe()) -}}
       assigned: |
         ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
         ${{ doc.dev_protocol.__custom__.macro_user }}
-        
-        {{ make_entry(make_user(actor), "Assigned to " + make_user(assignee) + ".") }}
+        {{ make_entry(make_user(actor), "Assigned to " + make_user(assignee) + ".") -}}
+      pull_opened: |
+        ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_user }}
+        ${{ doc.dev_protocol.__custom__.macro_pull }}
+        {%- macro describe(pulls) -%}
+          {%- if pulls|length == 1 -%}
+            Created pull request {{ make_pull(pulls[0]) }} to track implementation.
+          {%- elif pulls|length == 2 -%}
+            Created pull requests {{ make_pull(pulls[0]) }} and {{ make_pull(pulls[1]) }} to track implementation.
+          {%- elif pulls|length > 2 -%}
+            Created pull requests {% for pull in pulls[:-1] -%}
+              {{ format_entry(pull) }},
+            {%- endfor %} and {{ format_entry(pulls[-1]) }} to track implementation.
+          {%- endif -%}
+        {%- endmacro %}
+        {{ make_entry(make_user(actor), describe(pulls)) -}}
+      push: |
+        ${{ doc.dev_protocol.__custom__.macro_timeline_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_user }}
+        {%- macro describe() -%}
+          New commits pushed to [{{ head.name }}]({{ head.url }}) (CI [{{ context.run_id }}]({{ workflow_url }})).
+        {%- endmacro %}
+        {{ make_entry(make_user(actor), describe()) -}}
 pull:
   template:
     default: |
