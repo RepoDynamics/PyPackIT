@@ -633,7 +633,7 @@ issue:
 
 
             def test():
-                command = "${{ .__custom__.cli_names[0] }}"
+                command = ""
                 expected_return_code = 0
                 expected_output = b""
 
@@ -690,7 +690,7 @@ issue:
       - '*{{ issue.__custom__.agreements }}'
       - ${{ issue.__custom__.heading_bug_report }}
       - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom__.address_doc }}'
+      - '*{{ issue.__custom_template__.address_doc }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.mre_generic }}
     body_feat_doc:
@@ -699,7 +699,7 @@ issue:
       - '*{{ issue.__custom__.agreements }}'
       - ${{ issue.__custom__.heading_feature_request }}
       - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom__.address_doc }}'
+      - '*{{ issue.__custom_template__.address_doc }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
     body_change_doc:
@@ -708,7 +708,7 @@ issue:
       - '*{{ issue.__custom__.agreements }}'
       - ${{ issue.__custom__.heading_change_request }}
       - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom__.address_doc }}'
+      - '*{{ issue.__custom_template__.address_doc }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
     body_refactor:
@@ -723,7 +723,7 @@ issue:
       - '*{{ issue.__custom__.agreements }}'
       - ${{ issue.__custom__.heading_change_request }}
       - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom__.address_config }}'
+      - '*{{ issue.__custom_template__.address_config }}'
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
     body_devops:
@@ -731,7 +731,14 @@ issue:
       - '*{{ issue.__custom__.agreements }}'
       - ${{ issue.__custom__.heading_change_request }}
       - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom__.address_config }}'
+      - '*{{ issue.__custom_template__.address_config }}'
+      - ${{ issue.__custom__.issue_summary }}
+      - ${{ issue.__custom__.proposal }}
+    body_maintenance:
+      - '*{{ issue.__custom_template__.header }}'
+      - '*{{ issue.__custom__.agreements }}'
+      - ${{ issue.__custom__.heading_change_request }}
+      - ${{ issue.__custom__.version }}
       - ${{ issue.__custom__.issue_summary }}
       - ${{ issue.__custom__.proposal }}
     # Body Header Templates
@@ -780,7 +787,7 @@ issue:
             <p align="justify">
               Please note that this form is specifically for ${{ .__custom_template__.purpose }},
               For other types of issues and requests, select the appropriate form
-              from the <a href="${{ repo.url.issues.template_chooser }}">issue template chooser</a>.
+              from the <a href="${{ repo.url.issues.chooser }}">issue template chooser</a>.
               If you are unsure about which form to choose or have another inquiry,
               please open a discussion in our <a href="${{ repo.url.discussions.home }}">discussion forum</a>.
             </p>
@@ -875,7 +882,7 @@ issue:
           label: URL
           description: >-
             Please provide the URL of the relevant configuration file in the repository.
-          placeholder: ${{ repo.url.blob }}/${{ repo.control.path }}/proj.yaml
+          placeholder: ${{ repo.url.blob }}/${{ control.path }}/proj.yaml
         validations:
           required: true
       - type: input
@@ -1588,8 +1595,8 @@ doc:
       {{ timeline }}
     timeline_template:
       labeled: |
-        ${{ doc.dev_protocol.timeline_template.__custom__.macro_entry }}
-        ${{ doc.dev_protocol.timeline_template.__custom__.macro_actor }}
+        ${{ doc.dev_protocol.__custom__.macro_entry }}
+        ${{ doc.dev_protocol.__custom__.macro_actor }}
         {%- macro describe() -%}
           {%- set category = label.category -%}
           {%- if category == "status" -%}
