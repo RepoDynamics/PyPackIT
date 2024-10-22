@@ -73,6 +73,12 @@ test:
         description: Handling package resources, such as accessing data files that are distributed with the package.
         pip:
           spec: pkgdata
+  entry:
+    cli:
+      main:
+        name: ${{ test.name }}
+        description: Main CLI entry of the test-suite.
+        ref: ${{ test.import_name }}:__main__
   file:
     __init__.py:
       docstring: |
@@ -80,10 +86,7 @@ test:
 
         ${{license.notice}}
   manifest:
-    - graft ${{ test.path.source }}/${{ test.import_name }}/data
-    - include ${{ test.path.source }}/${{ test.import_name }}/py.typed
+    - graft ${{ test.path.source_rel }}/${{ test.import_name }}/data
+    - include ${{ test.path.source_rel }}/${{ test.import_name }}/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build:
-    tool:
-      setuptools: { }
-      versioningit: { }
+  build: ${{ __custom_template__.pyproject-build }}
