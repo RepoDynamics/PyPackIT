@@ -49,4 +49,4 @@ jobs:
           verbose: true
           print-hash: true
           skip-existing: false
-          attestations: true
+          attestations: false  # Unstable at the moment.
