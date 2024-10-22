@@ -184,7 +184,7 @@ tool:
               - method: pip
                 path: ${{ pkg.path.root }}
           sphinx:  # Build with Sphinx
-            configuration: ${{ web.path.root }}/${{ web.path.source }}/conf.py
+            configuration: ${{ web.path.source }}/conf.py
             builder: dirhtml
             fail_on_warning: false
           formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
@@ -372,8 +372,8 @@ tool:
           required-version: == 0.6.6
           show-fixes: true
           src:
-            - '${{ pkg.path.root }}/${{ pkg.path.source }}'
-            - '${{ test.path.root }}/${{ test.path.source }}'
+            - '${{ pkg.path.source }}'
+            - '${{ test.path.source }}'
           target-version: ${{ pkg.python.version.pyxy[0] }}
           format:
             docstring-code-format: true
@@ -400,9 +400,9 @@ tool:
               - ANN101
               - ANN102
             per-file-ignores:
-              '${{ test.path.root }}/${{ test.path.source }}/**':
+              '${{ test.path.source }}/**':
                 - S101
-              '${{ web.path.root }}/${{ web.path.source }}/conf.py':
+              '${{ web.path.source }}/conf.py':
                 - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
               # https://docs.astral.sh/ruff/rules/#flake8-print-t20
               '${{ pkg.path.import }}/__main__.py':
