@@ -149,7 +149,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
             _logger.pretty({"domain": domain, "info": info}),
         )
         return
-    source_path = _Path(f"{_meta["pkg"]["path"]["root"]}/{_meta["pkg"]["path"]["source"]}")
+    source_path = _Path(_meta["pkg"]["path"]["source"])
     module_path = source_path / info['module'].replace('.', '/')
     module_path_abs = _path_root / module_path
     if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
