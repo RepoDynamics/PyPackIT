@@ -2,9 +2,9 @@ changelog:
   pkg_api:
     name: Public API
     path: CHANGELOG.md
-    title: ${{name}} Changelog - Public API
+    title: ${{ name }}$ Changelog - Public API
     intro: |
-      This document records all changes to the public API of ${{ name }} in each new final release.
+      This document records all changes to the public API of ${{ name }}$ in each new final release.
       The changes documented here are only those that affect the end-users of the software,
       such as added, changed, or removed features, bug fixes, and performance improvements.
 
@@ -60,9 +60,9 @@ changelog:
   pkg_api_pre:
     name: Pre-release Public API
     path: CHANGELOG_PRERELEASE.md
-    title: ${{name}} Changelog - Pre-release Public API
+    title: ${{ name }}$ Changelog - Pre-release Public API
     intro: |
-      This document records all changes to the public API of ${{ name }} during a pre-release period.
+      This document records all changes to the public API of ${{ name }}$ during a pre-release period.
       The changes documented here are only those that affect the end-users of the software,
       such as added, changed, or removed features, bug fixes, and performance improvements.
 
@@ -78,7 +78,7 @@ changelog:
   website:
     name: Website
     path: docs/website/CHANGELOG.md
-    title: "${{name}} Changelog (Website)"
+    title: "${{ name }}$ Changelog (Website)"
     intro: |
       This changelog documents the changes to the website.
     entry:
@@ -100,7 +100,7 @@ changelog:
   package_private:
     name: Private API
     path: ".dev/CHANGELOG.md"
-    title: "${{name}} Changelog (Private API)"
+    title: "${{ name }}$ Changelog (Private API)"
     intro: |
       This file contains changes to the private API, as well as changes that
       do not induce a version bump.
@@ -138,7 +138,7 @@ changelog:
   tests:
     name: Test Suite
     path: "tests/CHANGELOG.md"
-    title: "${{name}} Changelog (Test Suite)"
+    title: "${{ name }}$ Changelog (Test Suite)"
     intro: |
       This changelog documents the changes to the test suite.
     sections:
@@ -175,7 +175,7 @@ changelog:
   meta:
     name: Meta Content
     path: .meta/CHANGELOG.md
-    title: ${{name}} Changelog (Meta)
+    title: ${{ name }}$ Changelog (Meta)
     intro: This changelog documents the changes to the meta content.
     sections:
       - id: credits
@@ -223,7 +223,7 @@ changelog:
   workflows:
     name: Workflows
     path: .github/CHANGELOG.md
-    title: ${{name}} Changelog (Workflows)
+    title: ${{ name }}$ Changelog (Workflows)
     intro: This changelog documents the changes to the workflows.
     sections:
       - id: workflows
@@ -485,16 +485,16 @@ label:
     label:
       api:
         suffix: API
-        description: Related to ${{ pkg.name }}'s Python API.
+        description: Related to ${{ pkg.name }}$'s Python API.
       cli:
         suffix: CLI
-        description: Related to ${{ pkg.name }}'s command-line interface.
+        description: Related to ${{ pkg.name }}$'s command-line interface.
       gui:
         suffix: GUI
-        description: Related to ${{ pkg.name }}'s graphical user interface.
+        description: Related to ${{ pkg.name }}$'s graphical user interface.
       setup:
         suffix: Setup
-        description: Related to ${{ pkg.name }}'s installation.
+        description: Related to ${{ pkg.name }}$'s installation.
       doc_fix:
         suffix: Doc Fix
         description: Related to documentation fixes.
@@ -506,40 +506,40 @@ label:
         description: Related to documentation changes.
       test_api_fix:
         suffix: Test API Fix
-        description: Related to fixes in ${{ test.name }}'s Python API.
+        description: Related to fixes in ${{ test.name }}$'s Python API.
       test_cli_fix:
         suffix: Test CLI Fix
-        description: Related to fixes in ${{ test.name }}'s command-line interface.
+        description: Related to fixes in ${{ test.name }}$'s command-line interface.
       test_gui_fix:
         suffix: Test GUI Fix
-        description: Related to fixes in ${{ test.name }}'s graphical user interface.
+        description: Related to fixes in ${{ test.name }}$'s graphical user interface.
       test_setup_fix:
         suffix: Test Setup Fix
-        description: Related to fixes in ${{ test.name }}'s installation.
+        description: Related to fixes in ${{ test.name }}$'s installation.
       test_api_feat:
         suffix: Test API Feat
-        description: Related to features in ${{ test.name }}'s Python API.
+        description: Related to features in ${{ test.name }}$'s Python API.
       test_cli_feat:
         suffix: Test CLI Feat
-        description: Related to features in ${{ test.name }}'s command-line interface.
+        description: Related to features in ${{ test.name }}$'s command-line interface.
       test_gui_feat:
         suffix: Test GUI Feat
-        description: Related to features in ${{ test.name }}'s graphical user interface.
+        description: Related to features in ${{ test.name }}$'s graphical user interface.
       test_api_change:
         suffix: Test API Change
-        description: Related to changes in ${{ test.name }}'s Python API.
+        description: Related to changes in ${{ test.name }}$'s Python API.
       test_cli_change:
         suffix: Test CLI Change
-        description: Related to changes in ${{ test.name }}'s command-line interface.
+        description: Related to changes in ${{ test.name }}$'s command-line interface.
       test_gui_change:
         suffix: Test GUI Change
-        description: Related to changes in ${{ test.name }}'s graphical user interface.
+        description: Related to changes in ${{ test.name }}$'s graphical user interface.
       refactor:
         suffix: Refactor
         description: Related to refactoring changes without affecting the API.
       config:
         suffix: Config
-        description: Related to ${{ name }} metadata and settings.
+        description: Related to ${{ name }}$ metadata and settings.
       devops:
         suffix: DevOps
         description: Related to DevOps and CI/CD changes.
@@ -566,16 +566,16 @@ issue:
   contact_links:
     - name: '🎓️  Learn More'
       about: Not sure where to start? Read our contribution guide to learn more.
-      url: ${{ web.page.contribute.url }}
+      url: ${{ web.page.contribute.url }}$
     - name: '💬  Contact Us'
       about: Have another inquiry or need help? Contact us directly!
-      url: ${{ web.page.contact.url }}
+      url: ${{ web.page.contact.url }}$
   __custom_template__:
     # Body Templates
     body_fix_api:
-      - '*{{ issue.__custom_template__.header_bug }}'
-      - '*{{ issue.__custom_template__.address_api }}'
-      - ${{ issue.__custom__.issue_summary }}
+      - '*{{ issue.__custom_template__.header_bug }}*'
+      - '*{{ issue.__custom_template__.address_api }}*'
+      - ${{ issue.__custom__.issue_summary }}$
       - type: textarea
         id: test_case
         attributes:
@@ -592,7 +592,7 @@ issue:
             Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
             to specify the expected results.
           value: |
-            import ${{ .__custom__.python_api_names[0] }}
+            import ${{ .__custom__.python_api_names[0] }}$
 
 
             def test():
@@ -601,9 +601,9 @@ issue:
         validations:
           required: true
     body_fix_cli:
-      - '*{{ issue.__custom_template__.header_bug }}'
-      - '*{{ issue.__custom_template__.address_cli }}'
-      - ${{ issue.__custom__.issue_summary }}
+      - '*{{ issue.__custom_template__.header_bug }}*'
+      - '*{{ issue.__custom_template__.address_cli }}*'
+      - ${{ issue.__custom__.issue_summary }}$
       - type: textarea
         id: test_case
         attributes:
@@ -642,129 +642,129 @@ issue:
         validations:
           required: true
     body_fix_gui:
-      - '*{{ issue.__custom_template__.header_bug }}'
-      - '*{{ issue.__custom_template__.address_gui }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.mre_generic }}
-      - ${{ issue.__custom__.stderr_optional }}
+      - '*{{ issue.__custom_template__.header_bug }}*'
+      - '*{{ issue.__custom_template__.address_gui }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.mre_generic }}$
+      - ${{ issue.__custom__.stderr_optional }}$
     body_fix_setup:
-      - '*{{ issue.__custom_template__.header_bug }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.mre_generic }}
-      - ${{ issue.__custom__.stderr_optional }}
+      - '*{{ issue.__custom_template__.header_bug }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.mre_generic }}$
+      - ${{ issue.__custom__.stderr_optional }}$
     body_feat_api:
-      - '*{{ issue.__custom_template__.header_feature }}'
-      - '*{{ issue.__custom_template__.address_api }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_feature }}*'
+      - '*{{ issue.__custom_template__.address_api }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_feat_cli:
-      - '*{{ issue.__custom_template__.header_feature }}'
-      - '*{{ issue.__custom_template__.address_cli }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_feature }}*'
+      - '*{{ issue.__custom_template__.address_cli }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_feat_gui:
-      - '*{{ issue.__custom_template__.header_feature }}'
-      - '*{{ issue.__custom_template__.address_gui }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_feature }}*'
+      - '*{{ issue.__custom_template__.address_gui }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_change_api:
-      - '*{{ issue.__custom_template__.header_breaking }}'
-      - '*{{ issue.__custom_template__.address_api }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_breaking }}*'
+      - '*{{ issue.__custom_template__.address_api }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_change_cli:
-      - '*{{ issue.__custom_template__.header_breaking }}'
-      - '*{{ issue.__custom_template__.address_cli }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_breaking }}*'
+      - '*{{ issue.__custom_template__.address_cli }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_change_gui:
-      - '*{{ issue.__custom_template__.header_breaking }}'
-      - '*{{ issue.__custom_template__.address_gui }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header_breaking }}*'
+      - '*{{ issue.__custom_template__.address_gui }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_fix_doc:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_bug }}
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_bug_report }}
-      - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom_template__.address_doc }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.mre_generic }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_bug }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_bug_report }}$
+      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__custom_template__.address_doc }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.mre_generic }}$
     body_feat_doc:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_feat }}
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_feature_request }}
-      - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom_template__.address_doc }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_feat }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_feature_request }}$
+      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__custom_template__.address_doc }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_change_doc:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_change }}
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom_template__.address_doc }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_change }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__custom_template__.address_doc }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_refactor:
-      - '*{{ issue.__custom_template__.header }}'
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_config:
-      - '*{{ issue.__custom_template__.header }}'
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom_template__.address_config }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__custom_template__.address_config }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_devops:
-      - '*{{ issue.__custom_template__.header }}'
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
-      - '*{{ issue.__custom_template__.address_config }}'
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__custom_template__.address_config }}*'
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     body_maintenance:
-      - '*{{ issue.__custom_template__.header }}'
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
-      - ${{ issue.__custom__.issue_summary }}
-      - ${{ issue.__custom__.proposal }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
+      - ${{ issue.__custom__.issue_summary }}$
+      - ${{ issue.__custom__.proposal }}$
     # Body Header Templates
     header_bug:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_bug }}
-      - '*{{ issue.__custom__.agreements }}'
-      - '*{{ issue.__custom__.environment }}'
-      - ${{ issue.__custom__.heading_bug_report }}
-      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_bug }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - '*{{ issue.__custom__.environment }}*'
+      - ${{ issue.__custom__.heading_bug_report }}$
+      - ${{ issue.__custom__.version }}$
     header_feature:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_feat }}
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_feature_request }}
-      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_feat }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_feature_request }}$
+      - ${{ issue.__custom__.version }}$
     header_breaking:
-      - '*{{ issue.__custom_template__.header }}'
-      - ${{ issue.__custom__.verify_change }}
-      - '*{{ issue.__custom__.agreements }}'
-      - ${{ issue.__custom__.heading_change_request }}
-      - ${{ issue.__custom__.version }}
+      - '*{{ issue.__custom_template__.header }}*'
+      - ${{ issue.__custom__.verify_change }}$
+      - '*{{ issue.__custom__.agreements }}*'
+      - ${{ issue.__custom__.heading_change_request }}$
+      - ${{ issue.__custom__.version }}$
     header:
       - type: markdown
         attributes:
           value: >-
             <p align="justify">
-              Thank you for providing feedback on ${{ name }};
+              Thank you for providing feedback on ${{ name }}$;
               we greatly appreciate your contribution!
               Before submitting a ticket,
               please take a moment to review and accept our terms and conditions.
@@ -781,38 +781,38 @@ issue:
             ### ⛔ Choosing the Right Form
 
             <p align="justify">
-              Please note that this form is specifically for ${{ .__custom_template__.purpose }},
+              Please note that this form is specifically for ${{ .__custom_template__.purpose }}$,
               For other types of issues and requests, select the appropriate form
-              from the <a href="${{ repo.url.issues.chooser }}">issue template chooser</a>.
+              from the <a href="${{ repo.url.issues.chooser }}$">issue template chooser</a>.
               If you are unsure about which form to choose or have another inquiry,
-              please open a discussion in our <a href="${{ repo.url.discussions.home }}">discussion forum</a>.
+              please open a discussion in our <a href="${{ repo.url.discussions.home }}$">discussion forum</a>.
             </p>
     # Template Chooser Descriptions
     description_bug: >-
       Report problems and errors in
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
     description_feat: >-
       Request backward-compatible improvements and new functionalities
-      in ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+      in ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
     description_break: >-
       Request backward-incompatible changes to
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}.
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
     # Form Purpose
     purpose_bug: >-
       reporting a <b>non-security-related bug in
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }}</b>,
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$</b>,
       i.e. an unexpected behavior or result
-      in ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+      in ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
     purpose_feat: >-
       requesting a <b>backward-compatible improvement</b> or <b>new functionality</b> in
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$,
       i.e. a non-breaking change (that is not a bug fix) in
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
     purpose_break: >-
       requesting a <b>backward-incompatible change</b> in
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_name }},
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$,
       i.e. a breaking change in behaviour or functionalities of
-      ${{ .__custom__.pkg_name }}'s ${{ .__custom__.pkg_entry_description }}.
+      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
     # Address
     address_api:
       - type: dropdown
@@ -821,7 +821,7 @@ issue:
           label: API Entry Point
           description: Please select the relevant API entry point.
           multiple: false
-          options: ${{ .__custom__.python_api_names }}
+          options: ${{ .__custom__.python_api_names }}$
           default: 0
         validations:
           required: true
@@ -833,8 +833,8 @@ issue:
             Please provide the fully qualified name (minus the entry point)
             of the relevant API endpoint.
             For example, for a method at
-            `${{ .__custom__.python_api_names[0] }}.module_name.ClassName.method_name`
-            in the entry point `${{ .__custom__.python_api_names[0] }}`,
+            `${{ .__custom__.python_api_names[0] }}$.module_name.ClassName.method_name`
+            in the entry point `${{ .__custom__.python_api_names[0] }}$`,
             you should write `module_name.ClassName.method_name`.
           placeholder: module_name.ClassName.method_name
         validations:
@@ -846,7 +846,7 @@ issue:
           label: CLI Entry Point
           description: Please select the relevant CLI entry point.
           multiple: false
-          options: ${{ .__custom__.cli_names }}
+          options: ${{ .__custom__.cli_names }}$
           default: 0
         validations:
           required: true
@@ -857,7 +857,7 @@ issue:
           label: GUI Entry Point
           description: Please select the affected GUI entry point.
           multiple: false
-          options: ${{ .__custom__.gui_names }}
+          options: ${{ .__custom__.gui_names }}$
           default: 0
         validations:
           required: true
@@ -868,7 +868,7 @@ issue:
           label: URL
           description: >-
             Please provide the URL of the relevant web page or repository file.
-          placeholder: ${{ web.url.home }}
+          placeholder: ${{ web.url.home }}$
         validations:
           required: true
     address_config:
@@ -878,7 +878,7 @@ issue:
           label: URL
           description: >-
             Please provide the URL of the relevant configuration file in the repository.
-          placeholder: ${{ repo.url.blob }}/${{ control.path }}/proj.yaml
+          placeholder: ${{ repo.url.blob }}$/${{ control.path }}$/proj.yaml
         validations:
           required: true
       - type: input
@@ -939,12 +939,12 @@ issue:
             To submit an issue, please agree to the following terms and conditions:
           options:
             - label: >-
-                I confirm that I am following ${{ name }}'s
-                [Contribution Guidelines](${{ web.page.contribute.url }}).
+                I confirm that I am following ${{ name }}$'s
+                [Contribution Guidelines](${{ web.page.contribute.url }}$).
               required: true
             - label: >-
-                I agree to follow ${{ name }}'s
-                [Code of Conduct](${{ health.code_of_conduct.url }}).
+                I agree to follow ${{ name }}$'s
+                [Code of Conduct](${{ health.code_of_conduct.url }}$).
               required: true
       - type: markdown
         attributes:
@@ -974,7 +974,7 @@ issue:
           description: |
             Please select all operating systems on which you have encountered the bug.
           multiple: true
-          options: ${{ project.os_names }}
+          options: ${{ project.os_names }}$
         validations:
           required: true
       - type: dropdown
@@ -984,7 +984,7 @@ issue:
           description: |
             Please select all Python versions in which you have encountered the bug.
           multiple: true
-          options: ${{ project.python_versions }}
+          options: ${{ project.python_versions }}$
           default: 0
         validations:
           required: true
@@ -993,9 +993,9 @@ issue:
         attributes:
           label: Package Manager
           description: |
-            Please select the package manager used to download and install ${{ name }}.
+            Please select the package manager used to download and install ${{ name }}$.
           multiple: false
-          options: ${{ project.package_managers }}
+          options: ${{ project.package_managers }}$
           default: 0
         validations:
           required: true
@@ -1023,9 +1023,9 @@ issue:
       attributes:
         label: Version
         description: |
-          Please select all relevant ${{ name }} versions.
+          Please select all relevant ${{ name }}$ versions.
         multiple: true
-        options: ${{ project.versions }}
+        options: ${{ project.versions }}$
         default: 0
       validations:
         required: true
@@ -1139,7 +1139,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}">Bug Report Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Bug Report Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
@@ -1152,7 +1152,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}">Feature Request Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Feature Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
@@ -1165,381 +1165,381 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}">Change Request Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Change Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
           - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
     custom_pkg_api:
-      pkg_name: ${{ pkg.name }}
+      pkg_name: ${{ pkg.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
-      python_api_names: ${{ project.python_api_names }}
+      python_api_names: ${{ project.python_api_names }}$
     custom_pkg_cli:
-      pkg_name: ${{ pkg.name }}
+      pkg_name: ${{ pkg.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
-      cli_names: ${{ project.cli_names }}
+      cli_names: ${{ project.cli_names }}$
     custom_pkg_gui:
-      pkg_name: ${{ pkg.name }}
+      pkg_name: ${{ pkg.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
-      gui_names: ${{ project.gui_names }}
+      gui_names: ${{ project.gui_names }}$
     custom_test_api:
-      pkg_name: ${{ test.name }}
+      pkg_name: ${{ test.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
-      python_api_names: ${{ project.test_python_api_names }}
+      python_api_names: ${{ project.test_python_api_names }}$
     custom_test_cli:
-      pkg_name: ${{ test.name }}
+      pkg_name: ${{ test.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
-      cli_names: ${{ project.test_cli_names }}
+      cli_names: ${{ project.test_cli_names }}$
     custom_test_gui:
-      pkg_name: ${{ test.name }}
+      pkg_name: ${{ test.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
-      gui_names: ${{ project.test_gui_names }}
+      gui_names: ${{ project.test_gui_names }}$
   forms:
     # Package
     - id: pkg_api_fix
       type: patch
       subtype: api
       pre_process:
-        if_any: [ "${{ project.python_api_names }}" ]
-      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}
+        if_any: [ "${{ project.python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_fix
       type: patch
       subtype: cli
       pre_process:
-        if_any: [ "${{ project.cli_names }}" ]
-      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
+        if_any: [ "${{ project.cli_names }}$" ]
+      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_fix
       pre_process:
-        if_any: [ "${{ project.gui_names }}" ]
+        if_any: [ "${{ project.gui_names }}$" ]
       type: patch
       subtype: gui
-      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
+      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_setup_fix
       type: patch
       subtype: setup
-      name: ${{ issue.__custom__.title_setup }}${{ issue.__custom__.title_bug }}
-      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}.
+      name: ${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
+      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
         purpose: >-
-          reporting a <b>non-security-related bug in ${{name}}'s setup process</b>,
+          reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
-      body: ${{ issue.__custom_template__.body_fix_setup }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_fix_setup }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_feat
       type: minor
       subtype: api
       pre_process:
-        if_any: [ "${{ project.python_api_names }}" ]
-      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}
+        if_any: [ "${{ project.python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_feat
       type: minor
       subtype: cli
       pre_process:
-        if_any: [ "${{ project.cli_names }}" ]
-      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
+        if_any: [ "${{ project.cli_names }}$" ]
+      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_feat
       type: minor
       subtype: gui
       pre_process:
-        if_any: [ "${{ project.gui_names }}" ]
-      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
+        if_any: [ "${{ project.gui_names }}$" ]
+      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_change
       type: major
       subtype: api
       pre_process:
-        if_any: [ "${{ project.python_api_names }}" ]
-      name: ${{ issue.__custom__.title_api }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}
+        if_any: [ "${{ project.python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_change
       type: major
       subtype: cli
       pre_process:
-        if_any: [ "${{ project.cli_names }}" ]
-      name: ${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}
+        if_any: [ "${{ project.cli_names }}$" ]
+      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_change
       type: major
       subtype: gui
       pre_process:
-        if_any: [ "${{ project.gui_names }}" ]
-      name: ${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}
+        if_any: [ "${{ project.gui_names }}$" ]
+      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     # Documentation
     - id: doc_fix
       type: post
       subtype: doc_fix
-      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_bug }}
+      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
       description: >-
         Report problems and errors 
-        in ${{ name }}'s website and documentation materials.
+        in ${{ name }}$'s website and documentation materials.
       __custom_template__:
         purpose: >-
           reporting a <b>non-security-related bug in
-          ${{ name }}'s website and documentation materials</b>,
+          ${{ name }}$'s website and documentation materials</b>,
           e.g. misspellings and other mechanical errors,
           broken links and images, layout issues, etc.
-      body: ${{ issue.__custom_template__.body_fix_doc }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_fix_doc }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: doc_feat
       type: post
       subtype: doc_feat
-      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_feat }}
+      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_feat }}$
       description: >-
         Request backward-compatible improvements and new content
-        in ${{ name }}'s website and documentation materials.
+        in ${{ name }}$'s website and documentation materials.
       __custom_template__:
         purpose: >-
           requesting a <b>backward-compatible improvement</b> or <b>new content</b> in
-          ${{ name }}'s website and documentation materials</b>,
+          ${{ name }}$'s website and documentation materials</b>,
           i.e. a change that is not a bug fix
           and does not break existing references or functionalities.
-      body: ${{ issue.__custom_template__.body_feat_doc }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_feat_doc }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: doc_change
       type: post
       subtype: doc_change
-      name: ${{ issue.__custom__.title_doc }}${{ issue.__custom__.title_breaking }}
+      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_breaking }}$
       description: >-
         Request backward-incompatible changes
-        to ${{ name }}'s website and documentation materials.
+        to ${{ name }}$'s website and documentation materials.
       __custom_template__:
         purpose: >-
           requesting a <b>backward-incompatible change</b> in
-          ${{ name }}'s website and documentation materials</b>,
+          ${{ name }}$'s website and documentation materials</b>,
           i.e. a change that breaks existing references or functionalities.
-      body: ${{ issue.__custom_template__.body_change_doc }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_change_doc }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     # Test Suite
     - id: test_api_fix
       type: post
       subtype: test_api_fix
       pre_process:
-        if_any: [ "${{ project.test_python_api_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_test_api }}
+        if_any: [ "${{ project.test_python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_fix
       type: post
       subtype: test_cli_fix
       pre_process:
-        if_any: [ "${{ project.test_cli_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_test_cli }}
+        if_any: [ "${{ project.test_cli_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_fix
       type: post
       subtype: test_gui_fix
       pre_process:
-        if_any: [ "${{ project.test_gui_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_bug }}
-      description: ${{ issue.__custom_template__.description_bug }}
-      __custom__: ${{ issue.__custom__.custom_test_gui }}
+        if_any: [ "${{ project.test_gui_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
+      description: ${{ issue.__custom_template__.description_bug }}$
+      __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}
-      body: ${{ issue.__custom_template__.body_fix_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_bug }}$
+      body: ${{ issue.__custom_template__.body_fix_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_setup_fix
       type: post
       subtype: test_setup_fix
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_setup }}${{ issue.__custom__.title_bug }}
-      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}.
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
+      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
         purpose: >-
-          reporting a <b>non-security-related bug in ${{name}}'s setup process</b>,
+          reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
-      body: ${{ issue.__custom_template__.body_fix_setup }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_fix_setup }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_feat
       type: post
       subtype: test_api_feat
       pre_process:
-        if_any: [ "${{ project.test_python_api_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_test_api }}
+        if_any: [ "${{ project.test_python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_feat
       type: post
       subtype: test_cli_feat
       pre_process:
-        if_any: [ "${{ project.test_cli_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_test_cli }}
+        if_any: [ "${{ project.test_cli_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_feat
       type: post
       subtype: test_gui_feat
       pre_process:
-        if_any: [ "${{ project.test_gui_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_feat }}
-      description: ${{ issue.__custom_template__.description_feat }}
-      __custom__: ${{ issue.__custom__.custom_test_gui }}
+        if_any: [ "${{ project.test_gui_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
+      description: ${{ issue.__custom_template__.description_feat }}$
+      __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}
-      body: ${{ issue.__custom_template__.body_feat_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_feat }}$
+      body: ${{ issue.__custom_template__.body_feat_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_change
       type: post
       subtype: test_api_change
       pre_process:
-        if_any: [ "${{ project.test_python_api_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_api }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_test_api }}
+        if_any: [ "${{ project.test_python_api_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_api }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_api }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_change
       type: post
       subtype: test_cli_change
       pre_process:
-        if_any: [ "${{ project.test_cli_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_cli }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_test_cli }}
+        if_any: [ "${{ project.test_cli_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_cli }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_cli }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_change
       type: post
       subtype: test_gui_change
       pre_process:
-        if_any: [ "${{ project.test_gui_names }}" ]
-      name: ${{ issue.__custom__.title_test }}${{ issue.__custom__.title_gui }}${{ issue.__custom__.title_breaking }}
-      description: ${{ issue.__custom_template__.description_break }}
-      __custom__: ${{ issue.__custom__.custom_test_gui }}
+        if_any: [ "${{ project.test_gui_names }}$" ]
+      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
+      description: ${{ issue.__custom_template__.description_break }}$
+      __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}
-      body: ${{ issue.__custom_template__.body_change_gui }}
-      post_process: ${{ issue.__custom__.post_process }}
+        purpose: ${{ issue.__custom_template__.purpose_break }}$
+      body: ${{ issue.__custom_template__.body_change_gui }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     # Refactoring
     - id: refactor
       type: post
       subtype: refactor
       name: ' 🧹️ Refactoring Request'
       description: >-
-        Request code formatting and refactoring in ${{ name }}'s source files.
+        Request code formatting and refactoring in ${{ name }}$'s source files.
       __custom_template__:
         purpose: >-
-          requesting a <b>code formatting and refactoring</b> in ${{ name }}'s source files,
+          requesting a <b>code formatting and refactoring</b> in ${{ name }}$'s source files,
           i.e. a change that improves the code quality, readability, and maintainability,
           without affecting the code's runtime behavior.
-      body: ${{ issue.__custom_template__.body_refactor }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_refactor }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     # Internal
     - id: config
       type: internal
       subtype: config
       name: ' 🛠️ Configuration Request'
       description: >-
-        Request a change in ${{ name }}'s metadata and settings.
+        Request a change in ${{ name }}$'s metadata and settings.
       __custom_template__:
         purpose: >-
-          requesting a <b>reconfiguration</b> in ${{ name }}'s metadata and settings,
+          requesting a <b>reconfiguration</b> in ${{ name }}$'s metadata and settings,
           such as project information and other options that do not fall under
           other issue categories.
-      body: ${{ issue.__custom_template__.body_config }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_config }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: devops
       type: internal
       subtype: devops
       name: ' 🤖️ DevOps Request'
       description: >-
-        Request a change in ${{ name }}'s automated workflows and development environment.
+        Request a change in ${{ name }}$'s automated workflows and development environment.
       __custom_template__:
         purpose: >-
-          requesting a <b>change in ${{ name }}'s automated workflows and development environment</b>,
+          requesting a <b>change in ${{ name }}$'s automated workflows and development environment</b>,
           such as CI/CD pipelines, testing, and deployment configurations.
-      body: ${{ issue.__custom_template__.body_config }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_config }}$
+      post_process: ${{ issue.__custom__.post_process }}$
     - id: maintenance
       type: internal
       subtype: maintenance
       name: ' 🧹️ Maintenance Request'
-      description: Request a maintenance job in ${{ name }}.
+      description: Request a maintenance job in ${{ name }}$.
       __custom_template__:
         purpose: >-
-          requesting a <b>maintenance job</b> in ${{ name }},
+          requesting a <b>maintenance job</b> in ${{ name }}$,
           such as file cleanup and other tasks that
           do not fall under other issue categories.
-      body: ${{ issue.__custom_template__.body_maintenance }}
-      post_process: ${{ issue.__custom__.post_process }}
+      body: ${{ issue.__custom_template__.body_maintenance }}$
+      post_process: ${{ issue.__custom__.post_process }}$
 pull:
   template:
     default: |

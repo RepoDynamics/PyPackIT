@@ -1,7 +1,7 @@
 name: My New Project
 title: A Placeholder Project Title
 abstract: >-
-  Replace this text with a short abstract of ${{ name }},
+  Replace this text with a short abstract of ${{ name }}$,
   describing its purpose and main features.
   By default, this text is displayed on the repository's main README file,
   on the homepage of the project's website,
@@ -9,7 +9,7 @@ abstract: >-
   and on the package's main docstring.
   Like all other entries in the repository's control center,
   this text can also contain dynamic references to other entries,
-  using the <code>${‎{ json-path.to.value }}</code> syntax.
+  using the <code>${‎{ json-path.to.value }}$</code> syntax.
   By default, the first occurrence of the name of the project
   in this text is styled as strong and linked to the project's website.
 keywords:
@@ -22,95 +22,29 @@ keywords:
 highlights:
   - title: First Key Feature
     description: >-
-      Description of the first key feature of ${{ name }}.
+      Description of the first key feature of ${{ name }}$.
       By default, these highlights are displayed on the repository's main README file,
       on the homepage of the project's website, and on the project's PyPI and TestPyPI pages.
   - title: Second Key Feature
     description: >-
-      Description of the second key feature of ${{ name }}.
+      Description of the second key feature of ${{ name }}$.
       For aesthetic reasons, it is recommended to keep the descriptions of all items
       in this list approximately the same length.
   - title: Third Key Feature
     description: >-
-      Description of the third key feature of ${{ name }}.
+      Description of the third key feature of ${{ name }}$.
       You can add as many keynotes as you want.
       However, in order to keep the READMEs clean and tidy,
       it is recommended to keep the number of keynotes between 3 and 7.
 license:
   expression: MIT
-  notice: |
-    ${{ copyright.notice }}
-    SPDX-License-Identifier: ${{ license.expression }}
-  config:
-    text:
-      plain:
-        alts:
-          copyright: ${{ copyright.notice }}
-          author: ${{ team.owner.name.full }}
-          softwareName: ${{ name }}
-          description: ${{ title }}
-          contributor: ${{ team.owner.name.full }}
-          copyrightHolderAsIs: ${{ team.owner.name.full }}
-          initialDeveloper: ${{ team.owner.name.full }}
-          copyrightHolderLiability: ${{ team.owner.name.full }}
-          version: ${{ version }}
-          copyrightHolder0: ${{ team.owner.name.full }}
-          copyrightHolder1: ${{ team.owner.name.full }}
-          copyrightHolder2: ${{ team.owner.name.full }}
-          copyrightHolder3: ${{ team.owner.name.full }}
-          creator: ${{ team.owner.name.full }}
-          owner: ${{ team.owner.name.full }}
-          maintainer: ${{ team.owner.name.full }}
-          organization: ${{ team.owner.name.full }}
-          email: ${{ team.owner.email.url }}
-          softwareVersion: ${{ version }}
-
-    header: ${{ license.config.text }}
-copyright:
-  notice: ${{ copyright.period }} ${{ team.owner.name.full }}
+  header: |
+    ${{ copyright }}$
+    SPDX-License-Identifier: ${{ license.expression }}$
 maintainer:
   code_owners:
-    owners:
-      - "*": [ '${{ team.owner }}' ]
-  issue:
-    pkg_api_fix: [ '${{ team.owner }}' ]
-    pkg_cli_fix: [ '${{ team.owner }}' ]
-    pkg_gui_fix: [ '${{ team.owner }}' ]
-    pkg_setup_fix: [ '${{ team.owner }}' ]
-    pkg_api_feat: [ '${{ team.owner }}' ]
-    pkg_cli_feat: [ '${{ team.owner }}' ]
-    pkg_gui_feat: [ '${{ team.owner }}' ]
-    pkg_api_change: [ '${{ team.owner }}' ]
-    pkg_cli_change: [ '${{ team.owner }}' ]
-    pkg_gui_change: [ '${{ team.owner }}' ]
-    doc_fix: [ '${{ team.owner }}' ]
-    doc_feat: [ '${{ team.owner }}' ]
-    doc_change: [ '${{ team.owner }}' ]
-    test_api_fix: [ '${{ team.owner }}' ]
-    test_cli_fix: [ '${{ team.owner }}' ]
-    test_gui_fix: [ '${{ team.owner }}' ]
-    test_setup_fix: [ '${{ team.owner }}' ]
-    test_api_feat: [ '${{ team.owner }}' ]
-    test_cli_feat: [ '${{ team.owner }}' ]
-    test_gui_feat: [ '${{ team.owner }}' ]
-    test_api_change: [ '${{ team.owner }}' ]
-    test_cli_change: [ '${{ team.owner }}' ]
-    test_gui_change: [ '${{ team.owner }}' ]
-    refactor: [ '${{ team.owner }}' ]
-    config: [ '${{ team.owner }}' ]
-    devops: [ '${{ team.owner }}' ]
-    maintenance: [ '${{ team.owner }}' ]
-  discussion:
-    announcements: [ '${{ team.owner }}' ]
-  security: '${{ team.owner }}'
-  code_of_conduct: '${{ team.owner }}'
-  support: '${{ team.owner }}'
+    entries:
+      - glob: "*"
+        owners: [ owner ]
 citation:
-  title: '${{ name }}: ${{ title }}'
-  authors:
-    - '${{ team.owner }}'
-  contacts:
-    - '${{ team.owner }}'
-  message: If you use ${{ name }}, please cite it using this reference.
-  repository:
-    build: ${{ pkg.pypi.url.home }}
+  title: '${{ name }}$: ${{ title }}$'

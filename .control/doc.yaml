@@ -13,30 +13,30 @@ theme:
       items:
         - service: dynamic
           args:
-            url: ${{ control.url }}
-            query: '$.copyright.notice'
+            url: ${{ control.url }}$
+            query: '$.copyright'
             prefix: '©'
-          label: ${{ name }}
-          color: ${{ theme.color.primary.light }}
-          logo: ${{ theme.logo.icon.path }}
+          label: ${{ name }}$
+          color: ${{ theme.color.primary.light }}$
+          logo: ${{ theme.logo.icon.path }}$
           logo_type: file
-          color_dark: ${{ theme.color.primary.dark }}
-          logo_dark: ${{ theme.logo.icon.path }}
+          color_dark: ${{ theme.color.primary.dark }}$
+          logo_dark: ${{ theme.logo.icon.path }}$
           logo_type_dark: file
-          link: ${{ web.url.home }}
-          title: '${{ name }}: ${{ copyright.notice }}'
-          alt: ${{ name }}
+          link: ${{ web.url.home }}$
+          title: '${{ name }}$: ${{ copyright }}$'
+          alt: ${{ name }}$
           align: left
         - service: dynamic
           args:
-            url: ${{ control.url }}
+            url: ${{ control.url }}$
             query: '$.license.expression'
           label: License
-          color: ${{ theme.color.secondary.light }}
-          color_dark: ${{ theme.color.secondary.dark }}
-          link: ${{ web.page.license.url }}
-          title: 'SPDX-License-Identifier: ${{ license.expression }}'
-          alt: 'SPDX-License-Identifier: ${{ license.expression }}'
+          color: ${{ theme.color.secondary.light }}$
+          color_dark: ${{ theme.color.secondary.dark }}$
+          link: ${{ web.page.license.url }}$
+          title: 'SPDX-License-Identifier: ${{ license.expression }}$'
+          alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
           align: right
 readme:
   main:
@@ -44,43 +44,43 @@ readme:
     content:
       body:
         - class: block_image
-          src: ${{ theme.logo.full.light.url }}
-          src_dark: ${{ theme.logo.full.dark.url }}
-          title: Welcome to ${{ name }}! Click to visit our website and learn more.
-          alt: '${{ name }}: ${{ title }}'
+          src: ${{ theme.logo.full.light.url }}$
+          src_dark: ${{ theme.logo.full.dark.url }}$
+          title: Welcome to ${{ name }}$! Click to visit our website and learn more.
+          alt: '${{ name }}$: ${{ title }}$'
           align: center
           width: 80%
-          link: ${{ web.url.home }}
+          link: ${{ web.url.home }}$
         - class: menu
           items:
             - text: Intro
-              link: ${{ web.page.intro.url }}
+              link: ${{ web.page.intro.url }}$
               title: Introduction and Background
             - text: Manual
-              link: ${{ web.page.manual.url }}
+              link: ${{ web.page.manual.url }}$
               title: User Manual
             - text: News
-              link: ${{ web.page.blog.url }}
+              link: ${{ web.page.blog.url }}$
               title: Latest News and Releases
             - text: Contribute
-              link: ${{ web.page.contribute.url }}
+              link: ${{ web.page.contribute.url }}$
               title: How to Contribute
             - text: About
-              link: ${{ web.page.about.url }}
+              link: ${{ web.page.about.url }}$
               title: About the Project
             - text: Help
-              link: ${{ web.page.help.url }}
+              link: ${{ web.page.help.url }}$
               title: Get Help and Support
           line_top_width: 80%
           line_bottom_width: 100%
           style: for-the-badge
-          color: ${{ theme.color.primary.light }}
-          color_dark: ${{ theme.color.primary.dark }}
+          color: ${{ theme.color.primary.light }}$
+          color_dark: ${{ theme.color.primary.dark }}$
           height: 33px
           attrs_container:
             align: center
         - class: paragraph
-          content: ${{ abstract }}
+          content: ${{ abstract }}$
           attrs:
             align: justify
         - - class: button
@@ -91,29 +91,29 @@ readme:
             height: 23px
           - '&nbsp;&nbsp;'
           - class: buttons
-            items: ${{ keywords }}
+            items: ${{ keywords }}$
             height: 23px
-            color: [ '${{ theme.color.primary.light }}', '${{ theme.color.secondary.light }}' ]
-            color_dark: [ '${{ theme.color.primary.dark }}', '${{ theme.color.secondary.dark }}' ]
+            color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
+            color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
         - class: menu
           items:
             - text: Overview
-              link: ${{ web.page.overview.url }}
+              link: ${{ web.page.overview.url }}$
               title: Project Overview
             - text: Install
-              link: ${{ web.page.install.url }}
+              link: ${{ web.page.install.url }}$
               title: Installation Instructions
             - text: Releases
-              link: ${{ web.page.blog_category_release.url }}
+              link: ${{ web.page.blog_category_release.url }}$
               title: Release Notes and Changelogs
             - text: Contact
-              link: ${{ web.page.contact.url }}
+              link: ${{ web.page.contact.url }}$
               title: Contact Information
           line_top_width: 100%
           line_bottom_width: 80%
           style: for-the-badge
-          color: ${{ theme.color.secondary.light }}
-          color_dark: ${{ theme.color.secondary.dark }}
+          color: ${{ theme.color.secondary.light }}$
+          color_dark: ${{ theme.color.secondary.dark }}$
           height: 33px
           attrs_container:
             align: center
@@ -122,11 +122,11 @@ readme:
         - heading: Highlights
           body:
             - class: highlights
-              items: ${{ highlights }}
+              items: ${{ highlights }}$
               button:
                 style: for-the-badge
-                color: [ '${{ theme.color.primary.light }}', '${{ theme.color.secondary.light }}' ]
-                color_dark: [ '${{ theme.color.primary.dark }}', '${{ theme.color.secondary.dark }}' ]
+                color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
+                color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
                 height: 30px
                 align: left
               attrs_p:
@@ -190,12 +190,12 @@ web:
       templates_path:
         - _templates  # Ref: https://www.sphinx-doc.org/en/master/development/templating.html
       show_warning_types: true
-      html_title: ${{ name }}
-      html_short_title: ${{ name }}
-      html_baseurl: ${{ web.url.base }}
-      html_favicon: ${{ theme.logo.icon.path_web }}
+      html_title: ${{ name }}$
+      html_short_title: ${{ name }}$
+      html_baseurl: ${{ web.url.base }}$
+      html_favicon: ${{ theme.logo.icon.path_web }}$
       html_sidebars:
-        "${{ web.page.blog.path }}/**":
+        "${{ web.page.blog.path }}$/**":
           - ablog/postcard.html
           - ablog/recentposts.html
           - ablog/tagcloud.html
@@ -212,16 +212,16 @@ web:
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
-        - '${{ theme.logo.simple.light.path_web }}'
-        - '${{ theme.logo.simple.dark.path_web }}'
+        - '${{ theme.logo.simple.light.path_web }}$'
+        - '${{ theme.logo.simple.dark.path_web }}$'
       html_secnumber_suffix: ". "
       html_extra_path: [ ]
-      html_use_opensearch: ${{ web.url.base }}
+      html_use_opensearch: ${{ web.url.base }}$
       html_show_sphinx: false
       html_math_renderer: mathjax
       html_context:
         # Used by the Giscus template to extract page title
-        pp_title_sep: ${{ web.sphinx.config.html_secnumber_suffix }}
+        pp_title_sep: ${{ web.sphinx.config.html_secnumber_suffix }}$
       html_last_updated_fmt: '%b %d, %Y'
       numfig_format:
         code-block: Code %s
@@ -250,7 +250,7 @@ web:
       latex_theme: manual
       latex_show_urls: footnote
       latex_show_pagerefs: true
-      latex_logo: ${{ theme.logo.full.raster.path_web }}
+      latex_logo: ${{ theme.logo.full.raster.path_web }}$
       python_display_short_literal_types: true
       python_maximum_signature_line_length: 80
     extension:
@@ -359,28 +359,28 @@ web:
         icon_links:
           - name: Source Repository
             icon: fa-brands fa-github
-            url: ${{ repo.url.home }}
+            url: ${{ repo.url.home }}$
           - name: Issues
             icon: fa-regular fa-circle-dot
-            url: ${{ repo.url.issues.home }}
+            url: ${{ repo.url.issues.home }}$
           - name: Pull Requests
             icon: fa-solid fa-code-pull-request
-            url: ${{ repo.url.pulls.home }}
+            url: ${{ repo.url.pulls.home }}$
           - name: Discussions
             icon: fa-solid fa-comments
-            url: ${{ repo.url.discussions.home }}
+            url: ${{ repo.url.discussions.home }}$
           - name: License
             icon: fa-solid fa-copyright
-            url: ${{ web.page.license.url }}
+            url: ${{ web.page.license.url }}$
         icon_links_label: External links
         use_edit_page_button: true
-        announcement: ${{ announcement.url }}
-        search_bar_text: Search ${{ name }}
+        announcement: ${{ announcement.url }}$
+        search_bar_text: Search ${{ name }}$
         back_to_top_button: true
         logo:
           image_light: _static/simple_light.svg
           image_dark: _static/simple_dark.svg
-          alt_text: ${{ name }}
+          alt_text: ${{ name }}$
         pygments_light_style: default  # Code highlighting color themes. See: https://pygments.org/styles/
         pygments_dark_style: monokai   # https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#configure-pygments-theme
         sidebarwidth: 270
@@ -388,10 +388,10 @@ web:
         # ---- Analytics ----
         google_analytics_id: G-0X66W6TGL2
       html_context:
-        github_user: ${{ team.owner.github.id }}
-        github_repo: ${{ repo.name }}
-        github_version: ${{ repo.default_branch }}
-        doc_path: ${{ web.path.source }}
+        github_user: ${{ team.owner.github.id }}$
+        github_repo: ${{ repo.name }}$
+        github_version: ${{ repo.default_branch }}$
+        doc_path: ${{ web.path.source }}$
         default_mode: auto  # Default theme mode: {'light', 'dark', 'auto'}
   extension:
     # Resources:
@@ -481,7 +481,7 @@ web:
           spec: sphinx-external-toc = 1.0.1
           channel: conda-forge
       config:
-        external_toc_path: ${{ web.toc.path }}
+        external_toc_path: ${{ web.toc.path }}$
         external_toc_exclude_missing: false
     ablog:
       dependency:
@@ -499,14 +499,14 @@ web:
           channel: conda-forge
       config:
         # blog_authors (if not explicitly set here) is dynamically generated in conf.py from `team` data.
-        blog_baseurl: ${{ web.url.base }}
+        blog_baseurl: ${{ web.url.base }}$
         blog_default_author: owner
         blog_feed_archives: true
-        blog_path: ${{ web.page.blog.path }}/list
+        blog_path: ${{ web.page.blog.path }}$/list
         blog_post_pattern:
-          - ${{ web.page.blog.path }}/post/*.md
+          - ${{ web.page.blog.path }}$/post/*.md
         post_show_prev_next: false
-        blog_title: ${{ name }} News
+        blog_title: ${{ name }}$ News
         fontawesome_included: true
         post_always_section: true
         post_auto_image: 1
@@ -547,12 +547,12 @@ web:
           spec: sphinxext-opengraph = 0.9.1
           channel: conda-forge
       config:
-        ogp_site_url: ${{ web.url.base }}
+        ogp_site_url: ${{ web.url.base }}$
         ogp_use_first_image: true
         ogp_enable_meta_description: true
         ogp_social_cards:
           image: _static/simple_light.svg
-          line_color: ${{ theme.color.primary.light }}
+          line_color: ${{ theme.color.primary.light }}$
     bibtex:
       dependency:
         import_name: sphinxcontrib.bibtex
@@ -639,14 +639,14 @@ web:
         pip:
           spec: sphinx-notfound-page == 1.0.4
       config:
-        notfound_urls_prefix: /${{ repo.name }}/  # dynamically set in conf.py if not set here
+        notfound_urls_prefix: /${{ repo.name }}$/  # dynamically set in conf.py if not set here
   env:
     file:
       conda:
-        name: ${{ repo.name }}-docs
-        path: ${{ web.path.root }}/environment.yaml
+        name: ${{ repo.name }}$-docs
+        path: ${{ web.path.root }}$/environment.yaml
       pip:
-        path: ${{ web.path.root }}/requirements.txt
+        path: ${{ web.path.root }}$/requirements.txt
     dependency:
       myst:
         import_name: myst_parser
@@ -764,4 +764,4 @@ web:
         - title: Q&A
           path: 'help/ask'
 announcement:
-  path: ${{ web.path.root }}/announcement.html
+  path: ${{ web.path.root }}$/announcement.html

@@ -41,7 +41,8 @@ tool:
             conda: https://anaconda.org/conda-forge/pre_commit
       file:
         conda: &conda_dev_env
-          name: ${{ slug.name }}-dev
+          name: |
+            #{{ import pylinks; return pylinks.string.to_slug("${{ name }}") }}#-dev
           path: .github/dev_environment.yaml
     config:
       file:
@@ -110,7 +111,7 @@ tool:
                 - id: no-commit-to-branch
                   # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
                   stages: [ pre-commit ]
-                  args: [ --branch, '${{ branch.main.name }}', --pattern, '${{ branch.release.name }}.*' ]
+                  args: [ --branch, '${{ branch.main.name }}$', --pattern, '${{ branch.release.name }}$.*' ]
                   verbose: true
                 - id: pretty-format-json
                   # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#pretty-format-json
@@ -130,13 +131,13 @@ tool:
                   args:
                     - --verbose
                     - --config
-                    - '${{ tool.ruff.config.file.path }}'
+                    - '${{ tool.ruff.config.file.path }}$'
                     - --exit-non-zero-on-fix  # DO NOT CHANGE - Required for RepoDynamics CI
                   types_or: [ python, pyi, jupyter ]
                   verbose: true
                 - id: ruff-format
                   stages: [ pre-commit, manual ]
-                  args: [ --config, '${{ tool.ruff.config.file.path }}' ]
+                  args: [ --config, '${{ tool.ruff.config.file.path }}$' ]
                   types_or: [ python, pyi, jupyter ]
                   verbose: true
   codecov:
@@ -161,7 +162,7 @@ tool:
   readthedocs:
     config:
       workflow:
-        name: ${{ repo.name }}
+        name: ${{ repo.name }}$
         platform: "community"
       file:
         type: yaml
@@ -178,13 +179,13 @@ tool:
                 # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
                 - git fetch --unshallow
           conda:  # Website dependencies
-            environment: ${{ web.env.file.conda.path }}
+            environment: ${{ web.env.file.conda.path }}$
           python:
             install:  # Install the package
               - method: pip
-                path: ${{ pkg.path.root }}
+                path: ${{ pkg.path.root }}$
           sphinx:  # Build with Sphinx
-            configuration: ${{ web.path.source }}/conf.py
+            configuration: ${{ web.path.source }}$/conf.py
             builder: dirhtml
             fail_on_warning: false
           formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
@@ -237,7 +238,7 @@ tool:
           tool:
             mypy:
               # Import discovery
-              packages: [ '${{ pkg.import_name }}' ]
+              packages: [ '${{ pkg.import_name }}$' ]
               # Configuring warnings
               warn_return_any: true
               # Miscellaneous strictness flags
@@ -249,30 +250,30 @@ tool:
               pretty: true
               color_output: true
               # Incremental mode
-              cache_dir: ${{ tool.mypy.config.workflow.cache_path }}
+              cache_dir: ${{ tool.mypy.config.workflow.cache_path }}$
               # Advanced options
               show_traceback: true
               raise_exceptions: true
               # Report generation
-              any_exprs_report: ${{ tool.mypy.config.workflow.report_path }}
-              html_report: ${{ tool.mypy.config.workflow.report_path }}
-              linecount_report: ${{ tool.mypy.config.workflow.report_path }}
-              linecoverage_report: ${{ tool.mypy.config.workflow.report_path }}
-              lineprecision_report: ${{ tool.mypy.config.workflow.report_path }}
-              txt_report: ${{ tool.mypy.config.workflow.report_path }}
-              xml_report: ${{ tool.mypy.config.workflow.report_path }}
+              any_exprs_report: ${{ tool.mypy.config.workflow.report_path }}$
+              html_report: ${{ tool.mypy.config.workflow.report_path }}$
+              linecount_report: ${{ tool.mypy.config.workflow.report_path }}$
+              linecoverage_report: ${{ tool.mypy.config.workflow.report_path }}$
+              lineprecision_report: ${{ tool.mypy.config.workflow.report_path }}$
+              txt_report: ${{ tool.mypy.config.workflow.report_path }}$
+              xml_report: ${{ tool.mypy.config.workflow.report_path }}$
               # Miscellaneous
               verbosity: 2
       workflow:
-        cache_path: ${{ local.cache.path }}/mypy
-        report_path: ${{ local.report.path }}/mypy
+        cache_path: ${{ local.cache.path }}$/mypy
+        report_path: ${{ local.report.path }}$/mypy
   pytest:
     # Ref: https://docs.pytest.org/en/stable/reference/reference.html#ini-options-ref
     # Ref: https://docs.pytest.org/en/stable/reference/customize.html
     config:
       file:
         type: toml
-        path: ${{ test.path.import }}/data/config/pytest.toml
+        path: ${{ test.path.import }}$/data/config/pytest.toml
         content:
           tool:
             pytest:
@@ -297,7 +298,7 @@ tool:
                 cache_dir: $|| path_cache ||/pytest
                 console_output_style: count
                 junit_logging: all
-                junit_suite_name: ${{ test.import_name }}
+                junit_suite_name: ${{ test.import_name }}$
                 log_auto_indent: true
                 log_cli: true
                 log_cli_date_format: '%Y-%m-%d %H:%M:%S'
@@ -324,7 +325,7 @@ tool:
     config:
       file:
         type: toml
-        path: ${{ test.path.import }}/data/config/coverage.toml
+        path: ${{ test.path.import }}$/data/config/coverage.toml
         content:
           tool:
             coverage:
@@ -332,7 +333,7 @@ tool:
                 branch: true
                 data_file: $|| path_cache ||/coverage/coverage
                 debug_file: $|| path_report ||/coverage/debug.log
-                source_pkgs: [ "${{ pkg.import_name }}" ]
+                source_pkgs: [ "${{ pkg.import_name }}$" ]
               report:
                 # Regexes for lines to exclude from consideration
                 exclude_also:
@@ -352,7 +353,7 @@ tool:
                 show_missing: true
               html:
                 directory: $|| path_report ||/coverage/html
-                title: "${{ pkg.name }} Test Coverage"
+                title: "${{ pkg.name }}$ Test Coverage"
               xml:
                 output: $|| path_report ||/coverage/coverage.xml
               json:
@@ -365,16 +366,16 @@ tool:
         path: .github/.ruff.toml
         content:
           # https://docs.astral.sh/ruff/settings/
-          cache-dir: ${{ local.cache.path }}/ruff
+          cache-dir: ${{ local.cache.path }}$/ruff
           fix: true
           line-length: 100
           output-format: grouped
           required-version: == 0.6.6
           show-fixes: true
           src:
-            - '${{ pkg.path.source }}'
-            - '${{ test.path.source }}'
-          target-version: ${{ pkg.python.version.pyxy[0] }}
+            - '${{ pkg.path.source }}$'
+            - '${{ test.path.source }}$'
+          target-version: ${{ pkg.python.version.pyxy[0] }}$
           format:
             docstring-code-format: true
           lint:
@@ -400,16 +401,16 @@ tool:
               - ANN101
               - ANN102
             per-file-ignores:
-              '${{ test.path.source }}/**':
+              '${{ test.path.source }}$/**':
                 - S101
-              '${{ web.path.source }}/conf.py':
+              '${{ web.path.source }}$/conf.py':
                 - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
               # https://docs.astral.sh/ruff/rules/#flake8-print-t20
-              '${{ pkg.path.import }}/__main__.py':
+              '${{ pkg.path.import }}$/__main__.py':
                 - T20
-              '${{ test.path.import }}/__main__.py':
+              '${{ test.path.import }}$/__main__.py':
                 - T20
-              '${{ test.path.import }}/__init__.py':
+              '${{ test.path.import }}$/__init__.py':
                 - T20
             select:
               # https://docs.astral.sh/ruff/rules

@@ -1,8 +1,8 @@
 test:
   path:
     root: tests
-  name: ${{ name }}-TestSuite
-  import_name: ${{ test.name }}
+  name: ${{ name }}$-TestSuite
+  import_name: ${{ test.name }}$
   dependency:
     core:
       testing:
@@ -76,17 +76,17 @@ test:
   entry:
     cli:
       main:
-        name: ${{ test.name }}
+        name: ${{ test.name }}$
         description: Main CLI entry of the test-suite.
-        ref: ${{ test.import_name }}:__main__
+        ref: ${{ test.import_name }}$:__main__
   file:
     __init__.py:
       docstring: |
-        ${{ name }} Test-Suite.
+        ${{ name }}$ Test-Suite.
 
-        ${{license.notice}}
+        ${{ license.notice }}$
   manifest:
-    - graft ${{ test.path.source_rel }}/${{ test.import_name }}/data
-    - include ${{ test.path.source_rel }}/${{ test.import_name }}/py.typed
+    - graft ${{ test.path.source_rel }}$/${{ test.import_name }}$/data
+    - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build: ${{ __custom_template__.pyproject-build }}
+  build: ${{ __custom_template__.pyproject-build }}$

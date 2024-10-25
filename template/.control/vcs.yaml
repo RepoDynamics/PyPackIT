@@ -1,7 +1,4 @@
 repo:
-  description: ${{ title }}
-  topics: ${{ slug.keywords }}
-  homepage: "${{ web.url.base }}"
   secret_scanning: true
   secret_scanning_push_protection: true
   vulnerability_alerts: true
@@ -129,14 +126,14 @@ repo:
     - "*.ipynb": [ text, eol=lf ]
   gitignore:
     # Project-specific files
-    - ${{ web.path.root }}/.build/
-    - ${{ web.path.source }}/${{ web.page.api.path }}/**/*
-    - ${{ local.cache.path }}/**
-    - '!${{ local.cache.path }}/**/'
-    - '!${{ local.cache.path }}/**/README.md'
-    - ${{ local.report.path }}/**
-    - '!${{ local.report.path }}/**/'
-    - '!${{ local.report.path }}/**/README.md'
+    - ${{ web.path.root }}$/.build/
+    - ${{ web.path.source }}$/${{ web.page.api.path }}$/**/*
+    - ${{ local.cache.path }}$/**
+    - '!${{ local.cache.path }}$/**/'
+    - '!${{ local.cache.path }}$/**/README.md'
+    - ${{ local.report.path }}$/**
+    - '!${{ local.report.path }}$/**/'
+    - '!${{ local.report.path }}$/**/README.md'
     # Byte-compiled / optimized / DLL files
     - __pycache__/
     - "*.py[cod]"
@@ -342,14 +339,14 @@ tag:
 file:
   duplicate:
     pkg_license_texts:
-      sources: ${{ license.path.texts_plain }}
-      destination: ${{ pkg.path.root }}/LICENSES
+      sources: ${{ license.path.texts_plain }}$
+      destination: ${{ pkg.path.root }}$/LICENSES
     pkg_copyright_texts:
-      sources: ${{ license.path.headers_plain }}
-      destination: ${{ pkg.path.root }}/COPYRIGHTS
+      sources: ${{ license.path.headers_plain }}$
+      destination: ${{ pkg.path.root }}$/COPYRIGHTS
     test_license_texts:
-      sources: ${{ license.path.texts_plain }}
-      destination: ${{ test.path.root }}/LICENSES
+      sources: ${{ license.path.texts_plain }}$
+      destination: ${{ test.path.root }}$/LICENSES
     test_copyright_texts:
-      sources: ${{ license.path.headers_plain }}
-      destination: ${{ test.path.root }}/COPYRIGHTS
+      sources: ${{ license.path.headers_plain }}$
+      destination: ${{ test.path.root }}$/COPYRIGHTS

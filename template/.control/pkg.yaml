@@ -1,24 +1,24 @@
 pkg:
   path:
     root: pkg
-  name: ${{ name }}
-  import_name: ${{ pkg.name }}
+  name: ${{ name }}$
+  import_name: ${{ pkg.name }}$
   readme:
-    path: ${{ pkg.path.root }}/README.md
-    content: ${{ readme.main.content }}
+    path: ${{ pkg.path.root }}$/README.md
+    content: ${{ readme.main.content }}$
   urls:
-    Homepage: ${{ web.url.home }}
-    Documentation: ${{ web.page.manual.url }}
-    Source: ${{ repo.url.home }}
-    Download: ${{ repo.url.releases.home }}
-    News: ${{ web.page.blog.url }}
-    Issue-Tracker: ${{ repo.url.issues.home }}
+    Homepage: ${{ web.url.home }}$
+    Documentation: ${{ web.page.manual.url }}$
+    Source: ${{ repo.url.home }}$
+    Download: ${{ repo.url.releases.home }}$
+    News: ${{ web.page.blog.url }}$
+    Issue-Tracker: ${{ repo.url.issues.home }}$
   entry:
     cli:
       main:
-        name: ${{ pkg.name }}
+        name: ${{ pkg.name }}$
         description: Main CLI entry of the package.
-        ref: ${{ pkg.import_name }}:__main__
+        ref: ${{ pkg.import_name }}$:__main__
   dependency:
     core:
       pkg_resources:
@@ -35,16 +35,17 @@ pkg:
   file:
     __init__.py:
       docstring: |
-        ${{name}}: ${{title}}.
+        ${{ name }}$: ${{ title }}$.
 
-        ${{abstract}}
+        ${{ abstract }}$
 
-        ${{license.notice}}
+        ${{ license.notice }}$
   manifest:
-    - graft ${{ pkg.path.source_rel }}/${{ pkg.import_name }}/data
-    - include ${{ pkg.path.source_rel }}/${{ pkg.import_name }}/py.typed
+    - graft ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/data
+    - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build: ${{ __custom_template__.pyproject-build }}
+  build: ${{ __custom_template__.pyproject-build }}$
+  authors: ${{ citation.authors }}$
 
 __custom_template__:
   pyproject-build:
@@ -54,7 +55,7 @@ __custom_template__:
       setuptools:
         packages:
           find:
-            where: [ '${{ .path.source_rel }}' ]
+            where: [ '${{ .path.source_rel }}$' ]
             namespaces: true
         include-package-data: true
         license-files: [ LICENSES/*, COPYRIGHTS/* ]
@@ -64,10 +65,10 @@ __custom_template__:
       versioningit:
         vcs:
           method: git
-          match: [ '${{tag.version.prefix}}[0-9]*.[0-9]*.[0-9]*' ]
-          default-tag: ${{ tag.version.prefix }}0.0.0
+          match: [ '${{ tag.version.prefix }}$[0-9]*.[0-9]*.[0-9]*' ]
+          default-tag: ${{ tag.version.prefix }}$0.0.0
         tag2version:
-          rmprefix: ${{ tag.version.prefix }}
+          rmprefix: ${{ tag.version.prefix }}$
         format:
           distance: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}'
           dirty: '{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty'
@@ -76,8 +77,8 @@ __custom_template__:
           method: replace-version
           regex: '^__version_details__: dict\[str, str\] = (?P<version>.*)'
           require-match: true
-          source-file: '${{ .path.source_rel }}/${{ .import_name }}/__init__.py'
-          build-file: '${{ .import_name }}/__init__.py'
+          source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
+          build-file: '${{ .import_name }}$/__init__.py'
           replacement: |
             {{
                 "version": "{version}",

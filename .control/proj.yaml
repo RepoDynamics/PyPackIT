@@ -13,7 +13,7 @@ title: Cloud-Native Continuous Software Engineering Automation for Python Packag
   # - Better Research Software in Python with Automation on GitHub
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
-  ${{ name }} (pronounced ${{ custom.name_ipa }})
+  ${{ name }}$ (pronounced ${{ custom.name_ipa }}$)
   is a comprehensive **cloud-based automation tool** 
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional software on **GitHub**,
@@ -22,22 +22,22 @@ abstract: >-
   development, publication, management, and maintenance of high-quality software libraries in **Python**.
   By taking charge of repetitive tasks and automatically enforcing best practices
   throughout the software development life-cycle, 
-  ${{ name }} enables its users to solely focus on the creative aspects of their projects,
+  ${{ name }}$ enables its users to solely focus on the creative aspects of their projects,
   while improving quality and lowering production costs.
-  Using state-of-the-art tools and methodologies, ${{ name }} offers a robust project infrastructure, 
+  Using state-of-the-art tools and methodologies, ${{ name }}$ offers a robust project infrastructure, 
   including a build-ready Python **package skeleton**, 
   a fully operational **test suite**, a complete **documentation website**, 
   and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
   and dynamic project management. 
-  ${{ name }} establishes a complete **cloud development** environment on GitHub, 
+  ${{ name }}$ establishes a complete **cloud development** environment on GitHub, 
   integrating with its version control system, issue tracker, 
   and pull-based model to provide a fully automated software development workflow, 
   complete with features like **issue management**, **branching model**, and **version scheme**. 
-  Leveraging **GitHub Actions** (GHA), ${{ name }} implements a **cloud-native development** process 
+  Leveraging **GitHub Actions** (GHA), ${{ name }}$ implements a **cloud-native development** process 
   with specialized Continuous Integration (CI), Deployment (CD), Testing (CT), Refactoring (CR),
   and Maintenance (CM) pipelines, using **Agile**, **Continuous** software engineering,
   and **DevOps** methodologies.
-  ${{ name }} is a free and open-source software suite that readily integrates with 
+  ${{ name }}$ is a free and open-source software suite that readily integrates with 
   both new and existing projects to ensure their long-term sustainability and high quality,
   thus enabling developers to rapidly implement their ideas and easily maintain their software.
 keywords:
@@ -65,7 +65,7 @@ keywords:
 highlights:
   - title: Ready to Use
     description: |
-      ${{ name }} is fully preconfigured and readily installed
+      ${{ name }}$ is fully preconfigured and readily installed
       in both new and existing repositories,
       requiring most users to only fill project-specific metadata.
       PyPackIT then takes over, automatically setting up the repository 
@@ -74,16 +74,16 @@ highlights:
       software development process are adding your code, unit-tests and documentation content.
   - title: Customizability and Dynamism
     description: |
-      While fully configured out of the box, ${{ name }} is highly customizable,
+      While fully configured out of the box, ${{ name }}$ is highly customizable,
       allowing users to tailor every aspect of their project
       and development pipeline to their specific needs.
-      ${{ name }}'s control center provides detailed configuration options
+      ${{ name }}$'s control center provides detailed configuration options
       in a declarative format, while enabling the dynamic generation of custom specifications
       and metadata during runtime. All these can be used to generate and augment
       other files, rendering the entire project dynamic and eliminating redundancy.
   - title: Cloud Development
     description: |
-      ${{ name }} is a cloud-based solution that integrates with GitHub
+      ${{ name }}$ is a cloud-based solution that integrates with GitHub
       and uses GitHub Actions to automate the software development process.
       It provides a cloud-native development environment that
       eliminates the need for initial setup and configuration, 
@@ -92,16 +92,16 @@ highlights:
       This promotes collaboration, which is essential for project sustainability.
   - title: Continuous Configuration Automation
     description: |
-      ${{ name }} provides a centralized user interface
+      ${{ name }}$ provides a centralized user interface
       based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
       to enable **Continuous Configuration Automation** (CCA)
-      for the entire project. ${{ name }}'s control center
+      for the entire project. ${{ name }}$'s control center
       simplifies project configuration, customization, and management
       via automatic data **templating** and **augmentation**, cross-repository **inheritance**,
       and **synchronization** features that instantly apply modifications to all project components.
   - title: Python Package
     description: |
-      ${{ name }} includes a fully-configured and build-ready
+      ${{ name }}$ includes a fully-configured and build-ready
       package skeleton automatically maintained via the control center. 
       Users only need to add application code in the provided source files,
       while PyPackIT automates all integration, packaging, and deployment tasks.
@@ -110,7 +110,7 @@ highlights:
       with a persistent DOI ensuring reproducibility and reliable citations.
   - title: Test Suite
     description: |
-      ${{ name }}'s fully operational testing infrastructure enables the 
+      ${{ name }}$'s fully operational testing infrastructure enables the 
       immediate adoption of test-driven methodologies,
       requiring users to only provide test cases in the provided skeleton. 
       Testing is then automatically performed throughout the development life-cycle,
@@ -119,7 +119,7 @@ highlights:
       allowing for verification of software functionality and performance by its users.
   - title: Documentation Website
     description: |
-      ${{ name }} offers an automated solution for maintaining
+      ${{ name }}$ offers an automated solution for maintaining
       a comprehensive documentation website, requiring users to
       simply provide docstrings. A fully designed website
       is included, prefilled with content that is automatically customized
@@ -129,7 +129,7 @@ highlights:
       requiring no web development knowledge.
   - title: Version Control
     description: |
-      ${{ name }} fully integrates with Git to automate tasks 
+      ${{ name }}$ fully integrates with Git to automate tasks 
       like branch and commit management, versioning, tagging, and merging.
       It implements a specialized branching model and version scheme
       for simultaneous publication and support of multiple releases,
@@ -138,13 +138,13 @@ highlights:
       while ensuring the availability and sustainability of earlier releases.
   - title: Issue Management
     description: |
-      ${{ name }} dynamically maintains the project's issue tracking system,
+      ${{ name }}$ dynamically maintains the project's issue tracking system,
       providing type-specific submission forms designed according to best practices.
       These collect user inputs in a structured and machine-readable format,
-      allowing ${{ name }} to automate issue management activities
+      allowing ${{ name }}$ to automate issue management activities
       such as ticket formatting, labeling and organization, task assignment,
       design documentation, issue–commit linkage, and progress monitoring.
-      ${{ name }} can also execute tests from issue comments, greatly simplifying bug triage.
+      ${{ name }}$ can also execute tests from issue comments, greatly simplifying bug triage.
   - title: Continuous Integration & Deployment
     description: |
       PyPackIT's CI/CD pipelines automate tasks such as code style formatting,
@@ -156,7 +156,7 @@ highlights:
 
   - title: Continuous Refactoring & Testing
     description: |
-      ${{ name }} ensures long-term project sustainability by
+      ${{ name }}$ ensures long-term project sustainability by
       periodically performs automated testing, refactoring, and maintenance tasks
       such as testing previous releases with updated dependencies,
       analyzing and formatting code according to the latest standards,
@@ -165,26 +165,24 @@ highlights:
       by automatically creating issues and pull requests for applying updates and fixes.
   - title: Copyright & Licensing
     description: |
-      ${{ name }} is fully integrated with the SPDX license standard and
+      ${{ name }}$ is fully integrated with the SPDX license standard and
       supports all SPDX License List entries as well as user-defined licenses.
       Projects can define complex licenses simply by providing an SPDX expression.
-      ${{ name }} will then automatically retrieve the required license data,
+      ${{ name }}$ will then automatically retrieve the required license data,
       customize it with project-specific information, 
       produce visually appealing and valid license files,
       and integrate license information into all project components and releases.
   - title: Security & Transparency
     description: |
-      ${{ name }} improves project security while supporting community collaboration
+      ${{ name }}$ improves project security while supporting community collaboration
       by incorporating security measures like branch/tag protection,
       vulnerability scanning, dependency monitoring, and private security advisories.
       All workflows and Actions are developed according to the latest security standards
       to prevent unauthorized access, data breaches, and code injection attacks.
-      To ensure that ${{ name }} itself is highly secure,
+      To ensure that ${{ name }}$ itself is highly secure,
       its entire infrastructure is natively implemented and self-contained.
 license:
   expression: AGPL-3.0-or-later
-copyright:
-  notice: ${{ copyright.period }} ${{ team.owner.name.full }}
 team:
   aariam:
     github:
@@ -199,27 +197,27 @@ maintainer:
   code_owners:
     owners:
       # Default owners for everything, unless a later match takes precedence.
-      - "*": [ '${{ team.aariam }}' ]
+      - "*": [ '${{ team.aariam }}$' ]
   issue:
-    app_bug: [ '${{ team.aariam }}' ]
-    pkg_api_enhancement: [ '${{ team.aariam }}' ]
-    pkg_api_feat: [ '${{ team.aariam }}' ]
-    pkg_api_change: [ '${{ team.aariam }}' ]
+    app_bug: [ '${{ team.aariam }}$' ]
+    pkg_api_enhancement: [ '${{ team.aariam }}$' ]
+    pkg_api_feat: [ '${{ team.aariam }}$' ]
+    pkg_api_change: [ '${{ team.aariam }}$' ]
   discussion:
-    announcements: [ '${{ team.aariam }}' ]
-  security: '${{ team.aariam }}'
-  code_of_conduct: '${{ team.aariam }}'
-  support: '${{ team.aariam }}'
+    announcements: [ '${{ team.aariam }}$' ]
+  security: '${{ team.aariam }}$'
+  code_of_conduct: '${{ team.aariam }}$'
+  support: '${{ team.aariam }}$'
 citation:
-  title: "${{ name }}: ${{ title }}"
+  title: "${{ name }}$: ${{ title }}$"
   authors:
-    - '${{ team.aariam }}'
-    - '${{ team.rlrios }}'
-    - '${{ team.avolkamer }}'
+    - '${{ team.aariam }}$'
+    - '${{ team.rlrios }}$'
+    - '${{ team.avolkamer }}$'
   contacts:
-    - '${{ team.avolkamer }}'
-    - '${{ team.aariam }}'
-  message: If you use ${{ name }}, please cite it using this reference.
+    - '${{ team.avolkamer }}$'
+    - '${{ team.aariam }}$'
+  message: If you use ${{ name }}$, please cite it using this reference.
 custom:
   name_ipa: "[ˈpaɪˌpækɪt]"
 
