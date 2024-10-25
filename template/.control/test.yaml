@@ -1,8 +1,7 @@
 test:
   path:
     root: tests
-  name: ${{ name }}$-TestSuite
-  import_name: ${{ test.name }}$
+  name: ${{ pkg.name }}$-TestSuite
   dependency:
     core:
       testing:
@@ -84,7 +83,7 @@ test:
       docstring: |
         ${{ name }}$ Test-Suite.
 
-        ${{ license.notice }}$
+        ${{ license.header }}$
   manifest:
     - graft ${{ test.path.source_rel }}$/${{ test.import_name }}$/data
     - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed

@@ -161,8 +161,8 @@ health:
     path: CODE_OF_CONDUCT.md
     content:
       class: covenant_code_of_conduct
-      contact_name: ${{ maintainer.code_of_conduct.name.full }}$
-      contact_url: ${{ maintainer.code_of_conduct.email.url }}$
+      contact_name: ${{ team.${{{ maintainer.code_of_conduct }}}$.name.full }}$
+      contact_url: ${{ team.${{{ maintainer.code_of_conduct }}}$.email.url }}$
   contributing:
     path: CONTRIBUTING.md
     content:
