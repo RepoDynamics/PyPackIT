@@ -64,9 +64,19 @@ theme:
           endpoint: pypackit
           align: right
 readme:
+  __custom__:
+    caution_dynamic_dir: |
+      > [!CAUTION]
+      > **Do not manually modify the contents of this directory**.
+      > All files in this directory are automatically maintained; do not modify them manually.
+      > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
+      > configuration file of the repository's [control center](${{ control.path }}$).
   main:
     path: README.md
     content:
+      #TODO: add badges
+      # refs:
+      # - https://github.com/alexandresanlim/Badges4-README.md-Profile
       body:
         - class: block_image
           src: ${{ theme.logo.full.light.url }}$
@@ -157,12 +167,27 @@ readme:
               attrs_p:
                 align: justify
 health:
+  code_owners: { }
   code_of_conduct:
     path: CODE_OF_CONDUCT.md
     content:
       class: covenant_code_of_conduct
-      contact_name: ${{ team.${{{ maintainer.code_of_conduct }}}$.name.full }}$
-      contact_url: ${{ team.${{{ maintainer.code_of_conduct }}}$.email.url }}$
+      contact_name: |
+        #{{
+          return team_members_with_role_ids(
+            "coc",
+            team_data=${{ team }}$,
+            active_only=True,
+          )[0].email.id
+        }}#
+      contact_url: |
+        #{{
+          return team_members_with_role_ids(
+            "coc",
+            team_data=${{ team }}$,
+            active_only=True,
+          )[0].email.url
+        }}#
   contributing:
     path: CONTRIBUTING.md
     content:
@@ -190,6 +215,9 @@ health:
     path: SECURITY.md
     content:
       heading: Security Policy
+doc:
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
 web:
   toc:
     path: .toc.yaml
@@ -432,7 +460,7 @@ web:
             url: ${{ web.page.license.url }}$
         icon_links_label: External links
         use_edit_page_button: true
-        announcement: ${{ announcement.url }}$
+        announcement: ${{ doc.announcement.url }}$
         search_bar_text: Search ${{ name }}$
         back_to_top_button: true
         logo:
@@ -748,7 +776,7 @@ web:
         conda:
           spec: linkify-it-py == 2.0.3
           channel: conda-forge
-      gittidy:
+      git:
         import_name: gittidy
         description: |
           Git API to automatically retrieve project version from tags during builds.
@@ -756,7 +784,7 @@ web:
           docs: https://gittidy.repodynamics.com
         pip:
           spec: gittidy
-      versionman:
+      version:
         import_name: versionman
         description: |
           Version management utilities to automatically find the latest version
@@ -765,6 +793,14 @@ web:
           docs: https://versionman.repodynamics.com
         pip:
           spec: versionman
+      pysyntax:
+        import_name: pysyntax
+        description: |
+          Parse Python syntax to extract data for API documentation.
+        url:
+          docs: https://pysyntax.repodynamics.com
+        pip:
+          spec: pysyntax
       autobuild:
         import_name: sphinx-autobuild
         description: Automatically rebuilding the documentation when changes are made.
@@ -800,12 +836,3 @@ web:
         conda:
           spec: intersphinx-registry
           channel: conda-forge
-announcement:
-  path: ${{ web.path.root }}$/announcement.html
-custom:
-  readme_caution_msg_dynamic_dir: |
-    > [!CAUTION]
-    > **Do not manually modify the contents of this directory**.
-    > All files in this directory are automatically maintained; do not modify them manually.
-    > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
-    > configuration file of the repository's [control center](${{ control.path }}$).
