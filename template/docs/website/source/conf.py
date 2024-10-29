@@ -1,4 +1,9 @@
-"""Configuration file for the Sphinx website builder."""
+"""Configuration file for the Sphinx website builder.
+
+References
+----------
+- [ReadTheDocs environment variables](https://docs.readthedocs.io/en/stable/reference/environment-variables.html)
+"""
 
 from __future__ import annotations as _annotations
 
@@ -13,6 +18,7 @@ import gittidy as _git
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
+import pysyntax as _pysyntax
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -60,43 +66,6 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
     - https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
     """
 
-    def get_obj_def_lines(filepath: _Path, object_name: str) -> tuple[int, int | None] | None:
-        """Get the line numbers of an object definition in the source file.
-
-        Parameters
-        ----------
-        filepath
-            Path to the source file.
-        object_name
-            Name of the object to find in the source file.
-
-        Returns
-        -------
-        Start and end line numbers of the object definition.
-        End line number is `None` if the object definition is a single line.
-        If the object is not found, `None` is returned.
-        """
-        source = filepath.read_text()
-        tree = _ast.parse(source, filename=filepath)
-        for node in _ast.walk(tree):
-            # Check for class or function definitions
-            if isinstance(
-                node,
-                (_ast.ClassDef, _ast.FunctionDef, _ast.AsyncFunctionDef)
-            ) and node.name == object_name:
-                return node.lineno, getattr(node, 'end_lineno', None)
-            # Check for variable assignments (without type annotations)
-            if isinstance(node, _ast.Assign):
-                for target in node.targets:
-                    if isinstance(target, _ast.Name) and target.id == object_name:
-                        return node.lineno, getattr(node, 'end_lineno', None)
-            # Check for variable assignments (with type annotations)
-            if isinstance(node, _ast.AnnAssign):
-                target = node.target
-                if isinstance(target, _ast.Name) and target.id == object_name:
-                    return node.lineno, getattr(node, 'end_lineno', None)
-        return
-
     def add_obj_line_number_to_url(
         url: str,
         filepath: _Path,
@@ -118,7 +87,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         URL to the source file with added line numbers of the object definition, if found.
         """
         log_intro = f"Resolved source-code filepath of module `{info["module"]}` to `{module_path_abs}`"
-        lines = get_obj_def_lines(filepath=filepath, object_name=object_name)
+        lines = _pysyntax.parse.object_definition_lines(code=filepath.read_text(), object_name=object_name)
         if not lines:
             _logger.warning(
                 logger_title,
