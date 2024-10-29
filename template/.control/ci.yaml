@@ -8,19 +8,6 @@ control:
       orcid: 240
       doi: 1000
       python: 500
-schedule:
-  update:
-    cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
-    branch:
-      main: pull
-      release: pull
-      pre: pull
-  test:
-    cron: '43 23 * * *'  # Every day at 23:43 UTC.
-    branch:
-      main: pull
-      release: pull
-      pre: pull
 tool:
   pre-commit:
     env:
@@ -488,3 +475,17 @@ tool:
               max-returns: 10
             mccabe:
               max-complexity: 15
+workflow:
+  schedule:
+    update:
+      cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
+      branch:
+        main: pull
+        release: pull
+        pre: pull
+    test:
+      cron: '43 23 * * *'  # Every day at 23:43 UTC.
+      branch:
+        main: pull
+        release: pull
+        pre: pull
