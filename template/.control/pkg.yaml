@@ -44,7 +44,6 @@ pkg:
     - global-exclude *.py[cod] __pycache__ *.so
   build: ${{ __custom_template__.pyproject-build }}$
   authors: ${{ citation.authors }}$
-
 __custom_template__:
   pyproject-build:
     requires: [ setuptools >= 72.1.0, versioningit >= 3.1.2 ]
