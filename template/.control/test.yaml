@@ -1,8 +1,11 @@
 test:
   path:
-    root: tests
+    root: test
   name: ${{ pkg.name }}$-TestSuite
   dependency:
+    # For other PyTest plugins, see:
+    # - https://github.com/augustogoulart/awesome-pytest
+    # - https://pytest-with-eric.com/pytest-best-practices/pytest-plugins/
     core:
       testing:
         name: Pytest
