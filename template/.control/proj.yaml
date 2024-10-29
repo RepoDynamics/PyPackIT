@@ -41,10 +41,69 @@ license:
   header: |
     ${{ copyright }}$
     SPDX-License-Identifier: ${{ license.expression }}$
-maintainer:
-  code_owners:
-    entries:
+role:
+  supervisor:
+    title: Supervisor
+    description: |
+      Responsible for overseeing the project and guiding its development.
+    abbreviation: SUP
+    type: Supervisor
+  lead:
+    title: Project Leader
+    description: |
+      Responsible for leading the project and making key decisions.
+    abbreviation: LEAD
+    type: ProjectLeader
+    ownership:
       - glob: "*"
-        owners: [ owner ]
-citation:
-  title: '${{ name }}$: ${{ title }}$'
+        priority: 1
+        description: Default owner of all unassigned files.
+  manager:
+    title: Project Manager
+    description: |
+      Responsible for maintaining the project and its resources.
+    abbreviation: MGR
+    type: ProjectManager
+    assignment:
+      issue: ".*"
+      review: ".*"
+  author:
+    title: Author
+    description: |
+      Responsible for creating the project and its content.
+    abbreviation: AUT
+    type: Author
+    assignment:
+      pull: ".*"
+  contact:
+    title: Contact Person
+    description: |
+      Responsible for communication with project users and contributors.
+    abbreviation: CNT
+    type: ContactPerson
+    assignment:
+      discussion: ".*"
+  security:
+    title: Security Adviser
+    description: |
+      Responsible for ensuring the security of the project and
+      handling security-related issues.
+    abbreviation: SEC
+    type: ProjectMember
+  coc:
+    title: Code of Conduct Supervisor
+    description: |
+      Responsible for ensuring that the project's code of conduct is enforced.
+    abbreviation: COC
+    type: ProjectMember
+team:
+  owner:
+    role:
+      supervisor: 1
+      lead: 1
+      manager: 1
+      author: 1
+      contact: 1
+      security: 1
+      coc: 1
+citation: { }
