@@ -28,8 +28,8 @@ tool:
             conda: https://anaconda.org/conda-forge/pre_commit
       file:
         conda: &conda_dev_env
-          name: |
-            #{{ import pylinks; return pylinks.string.to_slug("${{ name }}") }}#-dev
+          name: >-
+            #{{ import pylinks; return pylinks.string.to_slug("${{ name }}$") }}#-dev
           path: .github/dev_environment.yaml
     config:
       file:
