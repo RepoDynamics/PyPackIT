@@ -68,7 +68,7 @@ readme:
     caution_dynamic_dir: |
       > [!CAUTION]
       > **Do not manually modify the contents of this directory**.
-      > All files in this directory are automatically maintained; do not modify them manually.
+      > All files in this directory are automatically maintained.
       > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
       > configuration file of the repository's [control center](${{ control.path }}$).
   main:
@@ -178,7 +178,7 @@ health:
             "coc",
             team_data=${{ team }}$,
             active_only=True,
-          )[0].email.id
+          )[0]["email"]["id"]
         }}#
       contact_url: |
         #{{
@@ -186,7 +186,7 @@ health:
             "coc",
             team_data=${{ team }}$,
             active_only=True,
-          )[0].email.url
+          )[0]["email"]["url"]
         }}#
   contributing:
     path: CONTRIBUTING.md
