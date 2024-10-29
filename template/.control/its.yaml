@@ -9,6 +9,18 @@ commit:
     h1_docs:
       title: Documentation
       description: Changes in the project documentation materials and website.
+    h1_ci:
+      title: CI
+      description: Changes in the Continuous Integration pipelines of the project.
+    h1_cd:
+      title: CD
+      description: Changes in the Continuous Deployment pipelines of he project.
+    h1_config:
+      title: Configuration
+      description: Changes in the project configurations and metadata.
+    h1_maintain:
+      title: Maintenance
+      description: General maintenance and housekeeping tasks.
     h2_api:
       title: API
       description: Changes in the application programming interface (API) of the package.
