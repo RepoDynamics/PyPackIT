@@ -7,7 +7,6 @@ References
 
 from __future__ import annotations as _annotations
 
-import ast as _ast
 import copy as _copy
 import json as _json
 from pathlib import Path as _Path
@@ -31,7 +30,7 @@ if _TYPE_CHECKING:
     from sphinx.application import Sphinx
 
 
-_METADATA_FILEPATH: str = ".github/.control/.metadata.json"
+_METADATA_FILEPATH: str = ".github/.repodynamics/metadata.json"
 _globals: dict = {}
 
 
