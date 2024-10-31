@@ -247,8 +247,6 @@ repo:
     - .idea/
     # MacOS system files
     - .DS_Store
-    # RepoDynamics local configuration file
-    - .github/.control/local_config.yaml
 branch:
   main:
     name: main
