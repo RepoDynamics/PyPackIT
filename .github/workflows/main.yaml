@@ -103,6 +103,7 @@ jobs:
 #      first-major-release: ${{ inputs.first-major-release || false }}
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+      zenodo-token: ${{ secrets.ZENODO_TOKEN }}
   website:
     name: Website${{ matrix.config.job-suffix }}
     needs: init
