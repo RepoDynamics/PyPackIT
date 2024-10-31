@@ -16,7 +16,7 @@ pkg:
       main:
         name: ${{ pkg.name }}$
         description: Main CLI entry of the package.
-        ref: ${{ pkg.import_name }}$:__main__
+        ref: ${{ pkg.import_name }}$.__main__:main
   dependency:
     core:
       pkg_resources:
