@@ -80,7 +80,7 @@ test:
       main:
         name: ${{ test.name }}$
         description: Main CLI entry of the test-suite.
-        ref: ${{ test.import_name }}$:__main__
+        ref: ${{ test.import_name }}$.__main__:main
   file:
     __init__.py:
       docstring: |
