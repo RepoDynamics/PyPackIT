@@ -9,13 +9,14 @@ on:
         required: true
 
 jobs:
-
+  #TODO: add Tokei   https://github.com/XAMPPRocky/tokei
   CodeQL:
     # Run code scanning with GitHub CodeQL.
     # Adapted from GitHub starter workflow, e.g.:
     #  https://github.com/Armin-Ariamajd/PyPACKIT/new/main?filename=.github%2Fworkflows%2Fcodeql.yml&workflow_template=code-scanning%2Fcodeql
     # Refs:
     #  https://github.com/github/codeql-action
+    # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
     #  https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning-for-a-repository
     name: CodeQL Security Scan
     runs-on: ubuntu-latest
