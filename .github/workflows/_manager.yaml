@@ -48,7 +48,10 @@ on:
 #          Release the current 0.X.Y version as the first major release.
     secrets:
       repo-admin-token:
-        description: 'Token with admin permissions to the repository.'
+        description: Token with admin permissions to the repository.
+        required: false
+      zenodo-token:
+        description: Token for Zenodo API.
         required: false
     outputs:
       run:
@@ -107,6 +110,7 @@ jobs:
         uses: RepoDynamics/ProMan@v1
         with:
           admin-token: ${{ secrets.repo-admin-token }}
+          zenodo-token: ${{ secrets.zenodo-token }}
 #          package-build: ${{ inputs.package-build }}
 #          package-lint: ${{ inputs.package-lint }}
 #          package-test: ${{ inputs.package-test }}
