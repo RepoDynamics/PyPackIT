@@ -29,7 +29,7 @@ tool:
       file:
         conda: &conda_dev_env
           name: >-
-            #{{ import pylinks; return pylinks.string.to_slug("${{ name }}$") }}#-dev
+            #{{ import pylinks; return pylinks.string.to_slug(get("name")) }}#-dev
           path: .github/dev_environment.yaml
     config:
       file:
