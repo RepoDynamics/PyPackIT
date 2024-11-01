@@ -47,7 +47,7 @@ class TestSuiteCLIInputTypeError(TestSuiteCLIInputError):
         return
 
 
-def main():
+def main() -> int:
     """Run the command-line interface of the test suite."""
     # AUTOCODE START: cli
     cli_description: str = "Command-line interface for the test-suite."
