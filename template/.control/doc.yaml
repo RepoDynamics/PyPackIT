@@ -34,7 +34,6 @@ theme:
           args:
             url: ${{ control.url }}$
             query: '$.copyright'
-            prefix: '©'
           label: ${{ name }}$
           color: ${{ theme.color.primary.light }}$
           logo: ${{ theme.logo.icon.path }}$
@@ -46,10 +45,9 @@ theme:
           title: '${{ name }}$: ${{ copyright }}$'
           alt: ${{ name }}$
           align: left
-        - service: dynamic
+        - service: static
           args:
-            url: ${{ control.url }}$
-            query: '$.license.expression'
+            message: ${{ license.expression }}$
           label: License
           color: ${{ theme.color.secondary.light }}$
           color_dark: ${{ theme.color.secondary.dark }}$
@@ -64,13 +62,6 @@ theme:
           endpoint: pypackit
           align: right
 readme:
-  __custom__:
-    caution_dynamic_dir: |
-      > [!CAUTION]
-      > **Do not manually modify the contents of this directory**.
-      > All files in this directory are automatically maintained.
-      > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
-      > configuration file of the repository's [control center](${{ control.path }}$).
   main:
     path: README.md
     content:
@@ -176,7 +167,6 @@ health:
         #{{
           return team_members_with_role_ids(
             "coc",
-            team_data=${{ team }}$,
             active_only=True,
           )[0]["email"]["id"]
         }}#
@@ -184,7 +174,6 @@ health:
         #{{
           return team_members_with_role_ids(
             "coc",
-            team_data=${{ team }}$,
             active_only=True,
           )[0]["email"]["url"]
         }}#
@@ -836,3 +825,10 @@ web:
         conda:
           spec: intersphinx-registry
           channel: conda-forge
+__custom__:
+  md_alert_dynamic_dir: |
+    > [!CAUTION]
+    > **Do not manually modify the contents of this directory**.
+    > All files in this directory are automatically maintained.
+    > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
+    > configuration file of the repository's [control center](${{ control.path }}$).
