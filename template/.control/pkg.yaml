@@ -1,6 +1,4 @@
 pkg:
-  path:
-    root: pkg
   readme:
     path: ${{ pkg.path.root }}$/README.md
     content: ${{ readme.main.content }}$
@@ -31,13 +29,21 @@ pkg:
           docs: https://pkgdata.repodynamics.com/
           source: https://github.com/repodynamics/pkgdata
   file:
-    __init__.py:
-      docstring: |
-        ${{ name }}$: ${{ title }}$.
-
-        ${{ abstract }}$
-
-        ${{ license.header }}$
+    all:
+      glob: '**/*.py'
+      header_comments:
+        content: |
+          ${{ pkg.name }}$ ${{ copyright }}$
+          SPDX-License-Identifier: ${{ license.expression }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+    top_import:
+      glob: __init__.py
+      docstring:
+        content: |
+          ${{ name }}$: ${{ title }}$
+  
+          ${{ abstract }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
   manifest:
     - graft ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/data
     - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
