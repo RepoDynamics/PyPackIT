@@ -1,6 +1,7 @@
-name: My New Project
-title: A Placeholder Project Title
+name: your new Python project
+title: A New Python Project
 abstract: >-
+  Welcome to ${{ name }}$ powered by [PyPackIT](https://pypackit.repodynamics.com/).
   Replace this text with a short abstract of ${{ name }}$,
   describing its purpose and main features.
   By default, this text is displayed on the repository's main README file,
@@ -38,9 +39,6 @@ highlights:
       it is recommended to keep the number of keynotes between 3 and 7.
 license:
   expression: MIT
-  header: |
-    ${{ copyright }}$
-    SPDX-License-Identifier: ${{ license.expression }}$
 role:
   supervisor:
     title: Supervisor
@@ -106,4 +104,6 @@ team:
       contact: 1
       security: 1
       coc: 1
-citation: { }
+citation:
+  repository:
+    build: ${{ pkg.pypi.url.home }}$
