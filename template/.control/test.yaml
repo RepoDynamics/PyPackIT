@@ -82,11 +82,20 @@ test:
         description: Main CLI entry of the test-suite.
         ref: ${{ test.import_name }}$.__main__:main
   file:
-    __init__.py:
-      docstring: |
-        ${{ name }}$ Test-Suite.
-
-        ${{ license.header }}$
+    all:
+      glob: '**/*.py'
+      header_comments:
+        content: |
+          ${{ test.name }}$ ${{ copyright }}$
+          SPDX-License-Identifier: ${{ license.expression }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+    top_import:
+      glob: __init__.py
+      docstring:
+        content: |
+          ${{ test.name }}$: Test Suite for ${{ name }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        mode: prepend
   manifest:
     - graft ${{ test.path.source_rel }}$/${{ test.import_name }}$/data
     - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed
