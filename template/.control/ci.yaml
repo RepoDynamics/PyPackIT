@@ -362,7 +362,11 @@ tool:
           src:
             - '${{ pkg.path.source }}$'
             - '${{ test.path.source }}$'
-          target-version: ${{ pkg.python.version.pyxy[0] }}$
+          target-version: >-
+            #{{
+              major, minor = get("pkg.python.version.minors")[0].split(".")
+              return f"py{major}{minor}"
+            }}#
           format:
             docstring-code-format: true
           lint:
