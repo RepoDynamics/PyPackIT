@@ -130,61 +130,259 @@ commit:
       description: |
         Changes in code style and formatting without affecting the meaning.
         These are backward-compatible changes that only concern contributors.
-  secondary:
+  release:
+    pkg_api_fix:
+      type: fix
+      scope: pkg-api
+      action: patch
+      commit_description: >-
+        Fix bugs in ${{ pkg.name }}$'s API and publish a new patch release.
+    pkg_cli_fix:
+      type: fix
+      scope: pkg-cli
+      action: patch
+      commit_description: >-
+        Fix bugs in ${{ pkg.name }}$'s CLI and publish a new patch release.
+    pkg_gui_fix:
+      type: fix
+      scope: pkg-gui
+      action: patch
+      commit_description: >-
+        Fix bugs in ${{ pkg.name }}$'s GUI and publish a new patch release.
+    pkg_build_fix:
+      type: fix
+      scope: pkg-build
+      action: patch
+      commit_description: >-
+        Fix bugs in ${{ pkg.name }}$'s build system and publish a new patch release.
+    pkg_api_feat:
+      type: feat
+      scope: pkg-api
+      action: minor
+      commit_description: >-
+        Add backward-compatible features to ${{ pkg.name }}$'s API
+        and publish a new minor release.
+    pkg_cli_feat:
+      type: feat
+      scope: pkg-cli
+      action: minor
+      commit_description: >-
+        Add backward-compatible features to ${{ pkg.name }}$'s CLI
+        and publish a new minor release.
+    pkg_gui_feat:
+      type: feat
+      scope: pkg-gui
+      action: minor
+      commit_description: >-
+        Add backward-compatible features to ${{ pkg.name }}$'s GUI
+        and publish a new minor release.
+    pkg_build_feat:
+      type: feat
+      scope: pkg-build
+      action: minor
+      commit_description: >-
+        Add backward-compatible features to ${{ pkg.name }}$'s build system
+        and publish a new minor release.
+    pkg_api_change:
+      type: change
+      scope: pkg-api
+      action: major
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s API
+        and publish a new major release.
+    pkg_cli_change:
+      type: change
+      scope: pkg-cli
+      action: major
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s CLI
+        and publish a new major release.
+    pkg_gui_change:
+      type: change
+      scope: pkg-gui
+      action: major
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s GUI
+        and publish a new major release.
+    pkg_build_change:
+      type: change
+      scope: pkg-build
+      action: major
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s build system
+        and publish a new major release.
+    test_api_fix:
+      type: fix
+      scope: test-api
+      action: post
+      commit_description: >-
+        Fix bugs in ${{ test.name }}$'s API and publish a new post-release.
+    test_cli_fix:
+      type: fix
+      scope: test-cli
+      action: post
+      commit_description: >-
+        Fix bugs in ${{ test.name }}$'s CLI and publish a new post-release.
+    test_gui_fix:
+      type: fix
+      scope: test-gui
+      action: post
+      commit_description: >-
+        Fix bugs in ${{ test.name }}$'s GUI and publish a new post-release.
+    test_build_fix:
+      type: fix
+      scope: test-build
+      action: post
+      commit_description: >-
+        Fix bugs in ${{ test.name }}$'s build system and publish a new post-release.
+    test_api_feat:
+      type: feat
+      scope: test-api
+      action: post
+      commit_description: >-
+        Add backward-compatible features to ${{ test.name }}$'s API
+        and publish a new post-release.
+    test_cli_feat:
+      type: feat
+      scope: test-cli
+      action: post
+      commit_description: >-
+        Add backward-compatible features to ${{ test.name }}$'s CLI
+        and publish a new post-release.
+    test_gui_feat:
+      type: feat
+      scope: test-gui
+      action: post
+      commit_description: >-
+        Add backward-compatible features to ${{ test.name }}$'s GUI
+        and publish a new post-release.
+    test_build_feat:
+      type: feat
+      scope: test-build
+      action: post
+      commit_description: >-
+        Add backward-compatible features to ${{ test.name }}$'s build system
+        and publish a new post-release.
+    test_api_change:
+      type: change
+      scope: test-api
+      action: post
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s API
+        and publish a new post-release.
+    test_cli_change:
+      type: change
+      scope: test-cli
+      action: post
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s CLI
+        and publish a new post-release.
+    test_gui_change:
+      type: change
+      scope: test-gui
+      action: post
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s GUI
+        and publish a new post-release.
+    test_build_change:
+      type: change
+      scope: test-build
+      action: post
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s build system
+        and publish a new post-release.
+    docs_fix:
+      type: fix
+      scope: docs
+      action: post
+      commit_description: >-
+        Fix bugs in ${{ name }} documentation and publish a new post-release.
+    docs_feat:
+      type: feat
+      scope: docs
+      action: post
+      commit_description: >-
+        Add backward-compatible features to ${{ name }} documentation
+        and publish a new post-release.
+    docs_change:
+      type: change
+      scope: docs
+      action: post
+      commit_description: >-
+        Introduce backward-incompatible (breaking) changes in ${{ name }} documentation
+        and publish a new post-release.
+    refactor:
+      type: refactor
+      action: post
+      commit_description: >-
+        Refactor code in ${{ name }}$ and publish a new post-release.
+    config:
+      type: config
+      commit_description: >-
+        Change project configurations and metadata.
+    ci:
+      type: ci
+      commit_description: >-
+        Change Continuous Integration and Deployment pipelines.
+    chore:
+      type: chore
+      commit_description: >-
+        Perform general maintenance and housekeeping activities.
+  dev:
     # Pkg API
     pkg-api-remove:
       type: remove
       scope: pkg-api
-      description: Remove a feature from ${{ pkg.name }}$'s API.
+      commit_description: Remove a feature from ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_remove }}$
     pkg-api-change:
       type: change
       scope: pkg-api
-      description: Change a feature in ${{ pkg.name }}$'s API.
+      commit_description: Change a feature in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_change }}$
     pkg-api-deprecate:
       type: deprecate
       scope: pkg-api
-      description: Deprecate a feature in ${{ pkg.name }}$'s API.
+      commit_description: Deprecate a feature in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     pkg-api-feat:
       type: feat
       scope: pkg-api
-      description: Add a feature to ${{ pkg.name }}$'s API.
+      commit_description: Add a feature to ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_feat }}$
     pkg-api-enhance:
       type: enhance
       scope: pkg-api
-      description: Enhance a feature in ${{ pkg.name }}$'s API.
+      commit_description: Enhance a feature in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     pkg-api-secure:
       type: secure
       scope: pkg-api
-      description: Fix a security issue in ${{ pkg.name }}$'s API.
+      commit_description: Fix a security issue in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_secure }}$
     pkg-api-fix:
       type: fix
       scope: pkg-api
-      description: Fix a bug in ${{ pkg.name }}$'s API.
+      commit_description: Fix a bug in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_fix }}$
     pkg-api-perf:
       type: perf
       scope: pkg-api
-      description: Improve performance in ${{ pkg.name }}$'s API.
+      commit_description: Improve performance in ${{ pkg.name }}$'s API.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -192,56 +390,56 @@ commit:
     pkg-cli-remove:
       type: remove
       scope: pkg-cli
-      description: Remove a feature from ${{ pkg.name }}$'s CLI.
+      commit_description: Remove a feature from ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_remove }}$
     pkg-cli-change:
       type: change
       scope: pkg-cli
-      description: Change a feature in ${{ pkg.name }}$'s CLI.
+      commit_description: Change a feature in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_change }}$
     pkg-cli-deprecate:
       type: deprecate
       scope: pkg-cli
-      description: Deprecate a feature in ${{ pkg.name }}$'s CLI.
+      commit_description: Deprecate a feature in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     pkg-cli-feat:
       type: feat
       scope: pkg-cli
-      description: Add a feature to ${{ pkg.name }}$'s CLI.
+      commit_description: Add a feature to ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_feat }}$
     pkg-cli-enhance:
       type: enhance
       scope: pkg-cli
-      description: Enhance a feature in ${{ pkg.name }}$'s CLI.
+      commit_description: Enhance a feature in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     pkg-cli-secure:
       type: secure
       scope: pkg-cli
-      description: Fix a security issue in ${{ pkg.name }}$'s CLI.
+      commit_description: Fix a security issue in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_secure }}$
     pkg-cli-fix:
       type: fix
       scope: pkg-cli
-      description: Fix a bug in ${{ pkg.name }}$'s CLI.
+      commit_description: Fix a bug in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_fix }}$
     pkg-cli-perf:
       type: perf
       scope: pkg-cli
-      description: Improve performance in ${{ pkg.name }}$'s CLI.
+      commit_description: Improve performance in ${{ pkg.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -249,56 +447,56 @@ commit:
     pkg-gui-remove:
       type: remove
       scope: pkg-gui
-      description: Remove a feature from ${{ pkg.name }}$'s GUI.
+      commit_description: Remove a feature from ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_remove }}$
     pkg-gui-change:
       type: change
       scope: pkg-gui
-      description: Change a feature in ${{ pkg.name }}$'s GUI.
+      commit_description: Change a feature in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_change }}$
     pkg-gui-deprecate:
       type: deprecate
       scope: pkg-gui
-      description: Deprecate a feature in ${{ pkg.name }}$'s GUI.
+      commit_description: Deprecate a feature in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     pkg-gui-feat:
       type: feat
       scope: pkg-gui
-      description: Add a feature to ${{ pkg.name }}$'s GUI.
+      commit_description: Add a feature to ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_feat }}$
     pkg-gui-enhance:
       type: enhance
       scope: pkg-gui
-      description: Enhance a feature in ${{ pkg.name }}$'s GUI.
+      commit_description: Enhance a feature in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     pkg-gui-secure:
       type: secure
       scope: pkg-gui
-      description: Fix a security issue in ${{ pkg.name }}$'s GUI.
+      commit_description: Fix a security issue in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_secure }}$
     pkg-gui-fix:
       type: fix
       scope: pkg-gui
-      description: Fix a bug in ${{ pkg.name }}$'s GUI.
+      commit_description: Fix a bug in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_fix }}$
     pkg-gui-perf:
       type: perf
       scope: pkg-gui
-      description: Improve performance in ${{ pkg.name }}$'s GUI.
+      commit_description: Improve performance in ${{ pkg.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -306,56 +504,56 @@ commit:
     pkg-build-remove:
       type: remove
       scope: pkg-build
-      description: Remove a feature from ${{ pkg.name }}$'s build.
+      commit_description: Remove a feature from ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_remove }}$
     pkg-build-change:
       type: change
       scope: pkg-build
-      description: Change a feature in ${{ pkg.name }}$'s build.
+      commit_description: Change a feature in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_change }}$
     pkg-build-deprecate:
       type: deprecate
       scope: pkg-build
-      description: Deprecate a feature in ${{ pkg.name }}$'s build.
+      commit_description: Deprecate a feature in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     pkg-build-feat:
       type: feat
       scope: pkg-build
-      description: Add a feature to ${{ pkg.name }}$'s build.
+      commit_description: Add a feature to ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_feat }}$
     pkg-build-enhance:
       type: enhance
       scope: pkg-build
-      description: Enhance a feature in ${{ pkg.name }}$'s build.
+      commit_description: Enhance a feature in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     pkg-build-secure:
       type: secure
       scope: pkg-build
-      description: Fix a security issue in ${{ pkg.name }}$'s build.
+      commit_description: Fix a security issue in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_secure }}$
     pkg-build-fix:
       type: fix
       scope: pkg-build
-      description: Fix a bug in ${{ pkg.name }}$'s build.
+      commit_description: Fix a bug in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_fix }}$
     pkg-build-perf:
       type: perf
       scope: pkg-build
-      description: Improve performance in ${{ pkg.name }}$'s build.
+      commit_description: Improve performance in ${{ pkg.name }}$'s build.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -363,14 +561,14 @@ commit:
     pkg-code-refactor:
       type: refactor
       scope: pkg
-      description: Refactor code in ${{ pkg.name }}$.
+      commit_description: Refactor code in ${{ pkg.name }}$.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_code }}$
       h3: ${{ ...__custom__.h3_refactor }}$
     pkg-code-style:
       type: style
       scope: pkg
-      description: Change text style and formatting in ${{ pkg.name }}$.
+      commit_description: Change text style and formatting in ${{ pkg.name }}$.
       h1: ${{ ...__custom__.h1_pkg }}$
       h2: ${{ ...__custom__.h2_code }}$
       h3: ${{ ...__custom__.h3_style }}$
@@ -378,56 +576,56 @@ commit:
     test-api-remove:
       type: remove
       scope: test-api
-      description: Remove a feature from ${{ test.name }}$'s API.
+      commit_description: Remove a feature from ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_remove }}$
     test-api-change:
       type: change
       scope: test-api
-      description: Change a feature in ${{ test.name }}$'s API.
+      commit_description: Change a feature in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_change }}$
     test-api-deprecate:
       type: deprecate
       scope: test-api
-      description: Deprecate a feature in ${{ test.name }}$'s API.
+      commit_description: Deprecate a feature in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     test-api-feat:
       type: feat
       scope: test-api
-      description: Add a feature to ${{ test.name }}$'s API.
+      commit_description: Add a feature to ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_feat }}$
     test-api-enhance:
       type: enhance
       scope: test-api
-      description: Enhance a feature in ${{ test.name }}$'s API.
+      commit_description: Enhance a feature in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     test-api-secure:
       type: secure
       scope: test-api
-      description: Fix a security issue in ${{ test.name }}$'s API.
+      commit_description: Fix a security issue in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_secure }}$
     test-api-fix:
       type: fix
       scope: test-api
-      description: Fix a bug in ${{ test.name }}$'s API.
+      commit_description: Fix a bug in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_fix }}$
     test-api-perf:
       type: perf
       scope: test-api
-      description: Improve performance in ${{ test.name }}$'s API.
+      commit_description: Improve performance in ${{ test.name }}$'s API.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_api }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -435,56 +633,56 @@ commit:
     test-cli-remove:
       type: remove
       scope: test-cli
-      description: Remove a feature from ${{ test.name }}$'s CLI.
+      commit_description: Remove a feature from ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_remove }}$
     test-cli-change:
       type: change
       scope: test-cli
-      description: Change a feature in ${{ test.name }}$'s CLI.
+      commit_description: Change a feature in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_change }}$
     test-cli-deprecate:
       type: deprecate
       scope: test-cli
-      description: Deprecate a feature in ${{ test.name }}$'s CLI.
+      commit_description: Deprecate a feature in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     test-cli-feat:
       type: feat
       scope: test-cli
-      description: Add a feature to ${{ test.name }}$'s CLI.
+      commit_description: Add a feature to ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_feat }}$
     test-cli-enhance:
       type: enhance
       scope: test-cli
-      description: Enhance a feature in ${{ test.name }}$'s CLI.
+      commit_description: Enhance a feature in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     test-cli-secure:
       type: secure
       scope: test-cli
-      description: Fix a security issue in ${{ test.name }}$'s CLI.
+      commit_description: Fix a security issue in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_secure }}$
     test-cli-fix:
       type: fix
       scope: test-cli
-      description: Fix a bug in ${{ test.name }}$'s CLI.
+      commit_description: Fix a bug in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_fix }}$
     test-cli-perf:
       type: perf
       scope: test-cli
-      description: Improve performance in ${{ test.name }}$'s CLI.
+      commit_description: Improve performance in ${{ test.name }}$'s CLI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_cli }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -492,56 +690,56 @@ commit:
     test-gui-remove:
       type: remove
       scope: test-gui
-      description: Remove a feature from ${{ test.name }}$'s GUI.
+      commit_description: Remove a feature from ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_remove }}$
     test-gui-change:
       type: change
       scope: test-gui
-      description: Change a feature in ${{ test.name }}$'s GUI.
+      commit_description: Change a feature in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_change }}$
     test-gui-deprecate:
       type: deprecate
       scope: test-gui
-      description: Deprecate a feature in ${{ test.name }}$'s GUI.
+      commit_description: Deprecate a feature in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     test-gui-feat:
       type: feat
       scope: test-gui
-      description: Add a feature to ${{ test.name }}$'s GUI.
+      commit_description: Add a feature to ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_feat }}$
     test-gui-enhance:
       type: enhance
       scope: test-gui
-      description: Enhance a feature in ${{ test.name }}$'s GUI.
+      commit_description: Enhance a feature in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     test-gui-secure:
       type: secure
       scope: test-gui
-      description: Fix a security issue in ${{ test.name }}$'s GUI.
+      commit_description: Fix a security issue in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_secure }}$
     test-gui-fix:
       type: fix
       scope: test-gui
-      description: Fix a bug in ${{ test.name }}$'s GUI.
+      commit_description: Fix a bug in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_fix }}$
     test-gui-perf:
       type: perf
       scope: test-gui
-      description: Improve performance in ${{ test.name }}$'s GUI.
+      commit_description: Improve performance in ${{ test.name }}$'s GUI.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_gui }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -549,56 +747,56 @@ commit:
     test-build-remove:
       type: remove
       scope: test-build
-      description: Remove a feature from ${{ test.name }}$'s build.
+      commit_description: Remove a feature from ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_remove }}$
     test-build-change:
       type: change
       scope: test-build
-      description: Change a feature in ${{ test.name }}$'s build.
+      commit_description: Change a feature in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_change }}$
     test-build-deprecate:
       type: deprecate
       scope: test-build
-      description: Deprecate a feature in ${{ test.name }}$'s build.
+      commit_description: Deprecate a feature in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_deprecate }}$
     test-build-feat:
       type: feat
       scope: test-build
-      description: Add a feature to ${{ test.name }}$'s build.
+      commit_description: Add a feature to ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_feat }}$
     test-build-enhance:
       type: enhance
       scope: test-build
-      description: Enhance a feature in ${{ test.name }}$'s build.
+      commit_description: Enhance a feature in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_enhance }}$
     test-build-secure:
       type: secure
       scope: test-build
-      description: Fix a security issue in ${{ test.name }}$'s build.
+      commit_description: Fix a security issue in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_secure }}$
     test-build-fix:
       type: fix
       scope: test-build
-      description: Fix a bug in ${{ test.name }}$'s build.
+      commit_description: Fix a bug in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_fix }}$
     test-build-perf:
       type: perf
       scope: test-build
-      description: Improve performance in ${{ test.name }}$'s build.
+      commit_description: Improve performance in ${{ test.name }}$'s build.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_build }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -606,14 +804,14 @@ commit:
     test-code-refactor:
       type: refactor
       scope: test
-      description: Refactor code in ${{ test.name }}$.
+      commit_description: Refactor code in ${{ test.name }}$.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_code }}$
       h3: ${{ ...__custom__.h3_refactor }}$
     test-code-style:
       type: style
       scope: test
-      description: Change text style and formatting in ${{ test.name }}$.
+      commit_description: Change text style and formatting in ${{ test.name }}$.
       h1: ${{ ...__custom__.h1_test }}$
       h2: ${{ ...__custom__.h2_code }}$
       h3: ${{ ...__custom__.h3_style }}$
@@ -621,28 +819,28 @@ commit:
     docs-content-remove:
       type: remove
       scope: docs-content
-      description: Remove content from the documentation.
+      commit_description: Remove content from the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_content }}$
       h3: ${{ ...__custom__.h3_remove }}$
     docs-content-change:
       type: change
       scope: docs-content
-      description: Change content in the documentation.
+      commit_description: Change content in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_content }}$
       h3: ${{ ...__custom__.h3_change }}$
     docs-content-feat:
       type: feat
       scope: docs-content
-      description: Add content to the documentation.
+      commit_description: Add content to the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_content }}$
       h3: ${{ ...__custom__.h3_feat }}$
     docs-content-fix:
       type: fix
       scope: docs-content
-      description: Fix content in the documentation.
+      commit_description: Fix content in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_content }}$
       h3: ${{ ...__custom__.h3_fix }}$
@@ -650,28 +848,28 @@ commit:
     docs-design-remove:
       type: remove
       scope: docs-design
-      description: Remove design elements from the documentation.
+      commit_description: Remove design elements from the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_design }}$
       h3: ${{ ...__custom__.h3_remove }}$
     docs-design-change:
       type: change
       scope: docs-design
-      description: Change design elements in the documentation.
+      commit_description: Change design elements in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_design }}$
       h3: ${{ ...__custom__.h3_change }}$
     docs-design-feat:
       type: feat
       scope: docs-design
-      description: Add design elements to the documentation.
+      commit_description: Add design elements to the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_design }}$
       h3: ${{ ...__custom__.h3_feat }}$
     docs-design-fix:
       type: fix
       scope: docs-design
-      description: Fix design elements in the documentation.
+      commit_description: Fix design elements in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_design }}$
       h3: ${{ ...__custom__.h3_fix }}$
@@ -679,28 +877,28 @@ commit:
     docs-feat-remove:
       type: remove
       scope: docs-feat
-      description: Remove features from the documentation.
+      commit_description: Remove features from the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_feat }}$
       h3: ${{ ...__custom__.h3_remove }}$
     docs-feat-change:
       type: change
       scope: docs-feat
-      description: Change features in the documentation.
+      commit_description: Change features in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_feat }}$
       h3: ${{ ...__custom__.h3_change }}$
     docs-feat-feat:
       type: feat
       scope: docs-feat
-      description: Add features to the documentation.
+      commit_description: Add features to the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_feat }}$
       h3: ${{ ...__custom__.h3_feat }}$
     docs-feat-fix:
       type: fix
       scope: docs-feat
-      description: Fix features in the documentation.
+      commit_description: Fix features in the documentation.
       h1: ${{ ...__custom__.h1_docs }}$
       h2: ${{ ...__custom__.h2_feat }}$
       h3: ${{ ...__custom__.h3_fix }}$
@@ -708,42 +906,42 @@ commit:
     ci-main-remove:
       type: remove
       scope: ci-main
-      description: Remove a feature from the main workflow.
+      commit_description: Remove a feature from the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_remove }}$
     ci-main-change:
       type: change
       scope: ci-main
-      description: Change a feature in the main workflow.
+      commit_description: Change a feature in the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_change }}$
     ci-main-feat:
       type: feat
       scope: ci-main
-      description: Add a feature to the main workflow.
+      commit_description: Add a feature to the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_feat }}$
     ci-main-secure:
       type: secure
       scope: ci-main
-      description: Fix a security issue in the main workflow.
+      commit_description: Fix a security issue in the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_secure }}$
     ci-main-fix:
       type: fix
       scope: ci-main
-      description: Fix a bug in the main workflow.
+      commit_description: Fix a bug in the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_fix }}$
     ci-main-perf:
       type: perf
       scope: ci-main
-      description: Improve performance in the main workflow.
+      commit_description: Improve performance in the main workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_main }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -751,42 +949,42 @@ commit:
     ci-build-remove:
       type: remove
       scope: ci-build
-      description: Remove a feature from the build workflow.
+      commit_description: Remove a feature from the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_remove }}$
     ci-build-change:
       type: change
       scope: ci-build
-      description: Change a feature in the build workflow.
+      commit_description: Change a feature in the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_change }}$
     ci-build-feat:
       type: feat
       scope: ci-build
-      description: Add a feature to the build workflow.
+      commit_description: Add a feature to the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_feat }}$
     ci-build-secure:
       type: secure
       scope: ci-build
-      description: Fix a security issue in the build workflow.
+      commit_description: Fix a security issue in the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_secure }}$
     ci-build-fix:
       type: fix
       scope: ci-build
-      description: Fix a bug in the build workflow.
+      commit_description: Fix a bug in the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_fix }}$
     ci-build-perf:
       type: perf
       scope: ci-build
-      description: Improve performance in the build workflow.
+      commit_description: Improve performance in the build workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_build }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -794,42 +992,42 @@ commit:
     ci-lint-remove:
       type: remove
       scope: ci-lint
-      description: Remove a feature from the lint workflow.
+      commit_description: Remove a feature from the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_remove }}$
     ci-lint-change:
       type: change
       scope: ci-lint
-      description: Change a feature in the lint workflow.
+      commit_description: Change a feature in the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_change }}$
     ci-lint-feat:
       type: feat
       scope: ci-lint
-      description: Add a feature to the lint workflow.
+      commit_description: Add a feature to the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_feat }}$
     ci-lint-secure:
       type: secure
       scope: ci-lint
-      description: Fix a security issue in the lint workflow.
+      commit_description: Fix a security issue in the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_secure }}$
     ci-lint-fix:
       type: fix
       scope: ci-lint
-      description: Fix a bug in the lint workflow.
+      commit_description: Fix a bug in the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_fix }}$
     ci-lint-perf:
       type: perf
       scope: ci-lint
-      description: Improve performance in the lint workflow.
+      commit_description: Improve performance in the lint workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_lint }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -837,42 +1035,42 @@ commit:
     ci-test-remove:
       type: remove
       scope: ci-test
-      description: Remove a feature from the test workflow.
+      commit_description: Remove a feature from the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_remove }}$
     ci-test-change:
       type: change
       scope: ci-test
-      description: Change a feature in the test workflow.
+      commit_description: Change a feature in the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_change }}$
     ci-test-feat:
       type: feat
       scope: ci-test
-      description: Add a feature to the test workflow.
+      commit_description: Add a feature to the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_feat }}$
     ci-test-secure:
       type: secure
       scope: ci-test
-      description: Fix a security issue in the test workflow.
+      commit_description: Fix a security issue in the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_secure }}$
     ci-test-fix:
       type: fix
       scope: ci-test
-      description: Fix a bug in the test workflow.
+      commit_description: Fix a bug in the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_fix }}$
     ci-test-perf:
       type: perf
       scope: ci-test
-      description: Improve performance in the test workflow.
+      commit_description: Improve performance in the test workflow.
       h1: ${{ ...__custom__.h1_ci }}$
       h2: ${{ ...__custom__.h2_ci_test }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -880,42 +1078,42 @@ commit:
     cd-pkg-remove:
       type: remove
       scope: cd-pkg
-      description: Remove a feature from the package deployment workflow.
+      commit_description: Remove a feature from the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_remove }}$
     cd-pkg-change:
       type: change
       scope: cd-pkg
-      description: Change a feature in the package deployment workflow.
+      commit_description: Change a feature in the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_change }}$
     cd-pkg-feat:
       type: feat
       scope: cd-pkg
-      description: Add a feature to the package deployment workflow.
+      commit_description: Add a feature to the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_feat }}$
     cd-pkg-secure:
       type: secure
       scope: cd-pkg
-      description: Fix a security issue in the package deployment workflow.
+      commit_description: Fix a security issue in the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_secure }}$
     cd-pkg-fix:
       type: fix
       scope: cd-pkg
-      description: Fix a bug in the package deployment workflow.
+      commit_description: Fix a bug in the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_fix }}$
     cd-pkg-perf:
       type: perf
       scope: cd-pkg
-      description: Improve performance in the package deployment workflow.
+      commit_description: Improve performance in the package deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_pkg }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -923,42 +1121,42 @@ commit:
     cd-docs-remove:
       type: remove
       scope: cd-docs
-      description: Remove a feature from the documentation deployment workflow.
+      commit_description: Remove a feature from the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_remove }}$
     cd-docs-change:
       type: change
       scope: cd-docs
-      description: Change a feature in the documentation deployment workflow.
+      commit_description: Change a feature in the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_change }}$
     cd-docs-feat:
       type: feat
       scope: cd-docs
-      description: Add a feature to the documentation deployment workflow.
+      commit_description: Add a feature to the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_feat }}$
     cd-docs-secure:
       type: secure
       scope: cd-docs
-      description: Fix a security issue in the documentation deployment workflow.
+      commit_description: Fix a security issue in the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_secure }}$
     cd-docs-fix:
       type: fix
       scope: cd-docs
-      description: Fix a bug in the documentation deployment workflow.
+      commit_description: Fix a bug in the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_fix }}$
     cd-docs-perf:
       type: perf
       scope: cd-docs
-      description: Improve performance in the documentation deployment workflow.
+      commit_description: Improve performance in the documentation deployment workflow.
       h1: ${{ ...__custom__.h1_cd }}$
       h2: ${{ ...__custom__.h2_cd_docs }}$
       h3: ${{ ...__custom__.h3_perf }}$
@@ -966,100 +1164,102 @@ commit:
     config-proj:
       type: config
       scope: proj
-      description: Change project configurations.
+      commit_description: Change project configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_proj }}$
     config-pkg:
       type: config
       scope: pkg
-      description: Change package configurations.
+      commit_description: Change package configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_pkg }}$
     config-test:
       type: config
       scope: test
-      description: Change test configurations.
+      commit_description: Change test configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_test }}$
     config-docs:
       type: config
       scope: docs
-      description: Change documentation configurations.
+      commit_description: Change documentation configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_docs }}$
     config-its:
       type: config
       scope: its
-      description: Change issue tracking system configurations.
+      commit_description: Change issue tracking system configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_its }}$
     config-vcs:
       type: config
       scope: vcs
-      description: Change version control system configurations.
+      commit_description: Change version control system configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_vcs }}$
     config-ci:
       type: config
       scope: ci
-      description: Change CI/CD configurations.
+      commit_description: Change CI/CD configurations.
       h1: ${{ ...__custom__.h1_config }}$
       h2: ${{ ...__custom__.h2_ci }}$
     # Maintenance
     maintain-proj:
       type: maintain
       scope: proj
-      description: Perform maintenance tasks on the project as a whole.
+      commit_description: Perform maintenance tasks on the project as a whole.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_proj }}$
     maintain-pkg:
       type: maintain
       scope: pkg
-      description: Perform maintenance tasks on the package.
+      commit_description: Perform maintenance tasks on the package.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_pkg }}$
     maintain-test:
       type: maintain
       scope: test
-      description: Perform maintenance tasks on the test suite.
+      commit_description: Perform maintenance tasks on the test suite.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_test }}$
     maintain-docs:
       type: maintain
       scope: docs
-      description: Perform maintenance tasks on the documentation.
+      commit_description: Perform maintenance tasks on the documentation.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_docs }}$
     maintain-its:
       type: maintain
       scope: its
-      description: Perform maintenance tasks on the issue tracking system.
+      commit_description: Perform maintenance tasks on the issue tracking system.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_its }}$
     maintain-vcs:
       type: maintain
       scope: vcs
-      description: Perform maintenance tasks on the version control system.
+      commit_description: Perform maintenance tasks on the version control system.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_vcs }}$
     maintain-ci:
       type: maintain
       scope: ci
-      description: Perform maintenance tasks on the CI/CD pipelines.
+      commit_description: Perform maintenance tasks on the CI/CD pipelines.
       h1: ${{ ...__custom__.h1_maintain }}$
       h2: ${{ ...__custom__.h2_ci }}$
 label:
   type:
+    prefix: 'type: '
+    color: '#A00000'
     label:
-      change:
-        suffix: Change
-        description: Introduce a breaking change in a project component.
-      feat:
-        suffix: Feat
-        description: Add a new feature to a project component.
       fix:
         suffix: Fix
         description: Fix a bug in a project component.
+      feat:
+        suffix: Feat
+        description: Add a new feature to a project component.
+      change:
+        suffix: Change
+        description: Introduce a breaking change in a project component.
       refactor:
         suffix: Refactor
         description: Refactor code without affecting project interfaces.
@@ -1103,21 +1303,19 @@ label:
       test-build:
         suffix: Test Build
         description: Related to ${{ test.name }}$'s build and installation process.
-  custom:
-    group:
-      remark:
-        prefix: 'remark: '
-        color: '#0366d6'
-        label:
-          queued:
-            suffix: 'Queued'
-            description: Queued for processing.
-          discuss:
-            suffix: 'Discuss'
-            description: Requires more discussion.
-          need_volunteer:
-            suffix: 'Need Volunteer'
-            description: Requires a volunteer.
+  remark:
+    prefix: 'remark: '
+    color: '#0366d6'
+    label:
+      queued:
+        suffix: Queued
+        description: Queued for processing.
+      discuss:
+        suffix: Discuss
+        description: Requires more discussion.
+      need_volunteer:
+        suffix: Need Volunteer
+        description: Requires a volunteer.
 issue:
   blank_enabled: false
   contact_links:
@@ -1760,9 +1958,9 @@ issue:
   forms:
     # Package
     - id: pkg_api_fix
-      action: patch
-      type: fix
-      scope: pkg-api
+      id_labels:
+        - [ type, fix ]
+        - [ scope, pkg-api ]
       pre_process:
         if_any: [ "${{ project.python_api_names }}$" ]
       name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
@@ -1773,9 +1971,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_fix
-      action: patch
-      type: fix
-      scope: pkg-cli
+      id_labels:
+        - [ type, fix ]
+        - [ scope, pkg-cli ]
       pre_process:
         if_any: [ "${{ project.cli_names }}$" ]
       name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
@@ -1786,9 +1984,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_fix
-      action: patch
-      type: fix
-      scope: pkg-gui
+      id_labels:
+        - [ type, fix ]
+        - [scope, pkg-gui ]
       pre_process:
         if_any: [ "${{ project.gui_names }}$" ]
       name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
@@ -1799,9 +1997,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_gui }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_build_fix
-      action: patch
-      type: fix
-      scope: pkg-build
+      id_labels:
+        - [ type, fix ]
+        - [ scope, pkg-build ]
       name: ${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
@@ -1812,9 +2010,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_setup }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_feat
-      action: minor
-      type: feat
-      scope: pkg-api
+      id_labels:
+        - [ type, feat ]
+        - [ scope, pkg-api ]
       pre_process:
         if_any: [ "${{ project.python_api_names }}$" ]
       name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
@@ -1825,9 +2023,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_feat
-      action: minor
-      type: feat
-      scope: pkg-cli
+      id_labels:
+        - [ type, feat ]
+        - [ scope, pkg-cli ]
       pre_process:
         if_any: [ "${{ project.cli_names }}$" ]
       name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
@@ -1838,9 +2036,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_feat
-      action: minor
-      type: feat
-      scope: pkg-gui
+      id_labels:
+        - [ type, feat ]
+        - [ scope, pkg-gui ]
       pre_process:
         if_any: [ "${{ project.gui_names }}$" ]
       name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
@@ -1851,9 +2049,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_gui }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_change
-      action: major
-      type: change
-      scope: pkg-api
+      id_labels:
+        - [ type, change ]
+        - [ scope, pkg-api ]
       pre_process:
         if_any: [ "${{ project.python_api_names }}$" ]
       name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
@@ -1864,9 +2062,9 @@ issue:
       body: ${{ issue.__custom_template__.body_change_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_change
-      action: major
-      type: change
-      scope: pkg-cli
+      id_labels:
+        - [ type, change ]
+        - [ scope, pkg-cli ]
       pre_process:
         if_any: [ "${{ project.cli_names }}$" ]
       name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
@@ -1877,9 +2075,9 @@ issue:
       body: ${{ issue.__custom_template__.body_change_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_change
-      action: major
-      type: change
-      scope: pkg-gui
+      id_labels:
+        - [ type, change ]
+        - [ scope, pkg-gui ]
       pre_process:
         if_any: [ "${{ project.gui_names }}$" ]
       name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
@@ -1891,9 +2089,9 @@ issue:
       post_process: ${{ issue.__custom__.post_process }}$
     # Documentation
     - id: docs_fix
-      action: post
-      type: fix
-      scope: docs
+      id_labels:
+        - [ type, fix ]
+        - [ scope, docs ]
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
       description: >-
         Report problems and errors 
@@ -1907,9 +2105,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_doc }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: docs_feat
-      action: post
-      type: feat
-      scope: docs
+      id_labels:
+        - [ type, feat ]
+        - [ scope, docs ]
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_feat }}$
       description: >-
         Request backward-compatible improvements and new content
@@ -1923,9 +2121,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_doc }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: docs_change
-      action: post
-      type: change
-      scope: docs
+      id_labels:
+        - [ type, change ]
+        - [ scope, docs ]
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_breaking }}$
       description: >-
         Request backward-incompatible changes
@@ -1939,9 +2137,9 @@ issue:
       post_process: ${{ issue.__custom__.post_process }}$
     # Test Suite
     - id: test_api_fix
-      action: post
-      type: fix
-      scope: test-api
+      id_labels:
+        - [ type, fix ]
+        - [ scope, test-api ]
       pre_process:
         if_any: [ "${{ project.test_python_api_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
@@ -1952,9 +2150,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_fix
-      action: post
-      type: fix
-      scope: test-cli
+      id_labels:
+        - [ type, fix ]
+        - [ scope, test-cli ]
       pre_process:
         if_any: [ "${{ project.test_cli_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
@@ -1965,9 +2163,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_fix
-      action: post
-      type: fix
-      scope: test-gui
+      id_labels:
+        - [ type, fix ]
+        - [ scope, test-gui ]
       pre_process:
         if_any: [ "${{ project.test_gui_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
@@ -1978,9 +2176,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_gui }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_build_fix
-      action: post
-      type: fix
-      scope: test-build
+      id_labels:
+        - [ type, fix ]
+        - [ scope, test-build ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
@@ -1991,9 +2189,9 @@ issue:
       body: ${{ issue.__custom_template__.body_fix_setup }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_feat
-      action: post
-      type: feat
-      scope: test-api
+      id_labels:
+        - [ type, feat ]
+        - [ scope, test-api ]
       pre_process:
         if_any: [ "${{ project.test_python_api_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
@@ -2004,9 +2202,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_feat
-      action: post
-      type: feat
-      scope: test-cli
+      id_labels:
+        - [ type, feat ]
+        - [ scope, test-cli ]
       pre_process:
         if_any: [ "${{ project.test_cli_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
@@ -2017,9 +2215,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_feat
-      action: post
-      type: feat
-      scope: test-gui
+      id_labels:
+        - [ type, feat ]
+        - [ scope, test-gui ]
       pre_process:
         if_any: [ "${{ project.test_gui_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
@@ -2030,9 +2228,9 @@ issue:
       body: ${{ issue.__custom_template__.body_feat_gui }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_change
-      action: post
-      type: change
-      scope: test-api
+      id_labels:
+        - [ type, change ]
+        - [ scope, test-api ]
       pre_process:
         if_any: [ "${{ project.test_python_api_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
@@ -2043,9 +2241,9 @@ issue:
       body: ${{ issue.__custom_template__.body_change_api }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_change
-      action: post
-      type: change
-      scope: test-cli
+      id_labels:
+        - [ type, change ]
+        - [ scope, test-cli ]
       pre_process:
         if_any: [ "${{ project.test_cli_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
@@ -2056,9 +2254,9 @@ issue:
       body: ${{ issue.__custom_template__.body_change_cli }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_change
-      action: post
-      type: change
-      scope: test-gui
+      id_labels:
+        - [ type, change ]
+        - [ scope, test-gui ]
       pre_process:
         if_any: [ "${{ project.test_gui_names }}$" ]
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
@@ -2070,8 +2268,8 @@ issue:
       post_process: ${{ issue.__custom__.post_process }}$
     # Refactoring
     - id: refactor
-      action: post
-      type: refactor
+      id_labels:
+        - [ type, refactor ]
       name: ' 🧹️ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
@@ -2084,7 +2282,8 @@ issue:
       post_process: ${{ issue.__custom__.post_process }}$
     # Internal
     - id: config
-      type: config
+      id_labels:
+        - [ type, config ]
       name: ' 🛠️ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
@@ -2096,7 +2295,8 @@ issue:
       body: ${{ issue.__custom_template__.body_config }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: ci
-      type: ci
+      id_labels:
+        - [ type, ci ]
       name: ' 🤖️ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
@@ -2107,7 +2307,8 @@ issue:
       body: ${{ issue.__custom_template__.body_config }}$
       post_process: ${{ issue.__custom__.post_process }}$
     - id: chore
-      type: chore
+      id_labels:
+        - [ type, chore ]
       name: ' 🧹️ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __custom_template__:
