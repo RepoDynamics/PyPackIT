@@ -494,8 +494,8 @@ workflow:
       branch_types: [ main, release ]
       job:
         lint:
-          action: pull
+          action: issue
         refactor:
           action: pull
         test:
-          action: pull
+          action: issue
