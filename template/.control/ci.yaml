@@ -29,7 +29,7 @@ tool:
       file:
         conda: &conda_dev_env
           name: >-
-            #{{ import pylinks; return pylinks.string.to_slug(get("name")) }}#-dev
+            #{{ return slugify(get("name")) }}#-dev
           path: .github/dev_environment.yaml
     config:
       file:
@@ -481,15 +481,21 @@ tool:
               max-complexity: 15
 workflow:
   schedule:
-    update:
-      cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
-      branch:
-        main: pull
-        release: pull
-        pre: pull
-    test:
+    cca:
       cron: '43 23 * * *'  # Every day at 23:43 UTC.
-      branch:
-        main: pull
-        release: pull
-        pre: pull
+      branch_types: [ main, release, pre ]
+      job:
+        sync:
+          action: pull
+        announcement_expiry:
+          action: commit
+    cr_ct:
+      cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
+      branch_types: [ main, release ]
+      job:
+        lint:
+          action: pull
+        refactor:
+          action: pull
+        test:
+          action: pull
