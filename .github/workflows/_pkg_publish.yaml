@@ -25,26 +25,52 @@ on:
 #          Platform to publish to; either 'TestPyPI' (default) or 'PyPI'.
 
 jobs:
-  package-release-pypi:
-    name: ${{ fromJSON(inputs.config).platform }}
+  deploy-pypi:
+    name: ${{ fromJSON(inputs.config).env-name }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ fromJSON(inputs.config).platform }}
-      url: ${{ fromJSON(inputs.config).download-url }}
+      name: ${{ fromJSON(inputs.config).env-name }}
+      url: ${{ fromJSON(inputs.config).env-url }}
     permissions:
       id-token: write
     steps:
-      - name: Build Download
+      - name: Artifact Download
         uses: actions/download-artifact@v4
         with:
-          name: ${{ fromJSON(inputs.config).artifact-name }}
-          path: build
+          path: artifacts
+      - name: Artifact Processing
+        env:
+          ARTIFACT_NAMES: ${{ fromJSON(inputs.config).build-artifact-names }}
+        shell: python
+        run: |
+          import json
+          import os
+          import shutil
+          from pathlib import Path
+          
+          artifact_names = json.loads(os.getenv('ARTIFACT_NAMES'))
+          
+          root_dist_path = Path('dist')
+          root_dist_path.mkdir()
+          
+          for artifact_name in artifact_names:
+              artifact_dist_path = Path('artifacts') / artifact_name / 'dist'              
+              if artifact_dist_path.is_dir():
+                  print(f"Moving contents of {artifact_dist_path} to root dist directory")                  
+                  for item in artifact_dist_path.iterdir():
+                      destination = root_dist_path / item.name
+                      if item.is_dir():
+                          shutil.copytree(item, destination, dirs_exist_ok=True)
+                      else:
+                          shutil.copy2(item, destination)
+              else:
+                  print(f"Directory {artifact_dist_path} does not exist, skipping")
       - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
         # https://github.com/marketplace/actions/pypi-publish
         with:
-          packages-dir: build/dist
-          repository-url: ${{ fromJSON(inputs.config).upload-url }}
+          packages-dir: dist
+          repository-url: ${{ fromJSON(inputs.config).index-url }}
           verify-metadata: true
           verbose: true
           print-hash: true

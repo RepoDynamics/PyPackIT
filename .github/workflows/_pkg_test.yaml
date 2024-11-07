@@ -27,8 +27,11 @@ jobs:
           repository: ${{ matrix.config.repository }}
           ref: ${{ matrix.config.ref }}
           python-version: ${{ matrix.config.python-version }}
-          tests-path: ${{ matrix.config.tests-path }}
-          tests-name: ${{ matrix.config.tests-name }}
+          test-src: ${{ matrix.config.test-src }}
+          test-path: ${{ matrix.config.test-path }}
+          test-name: ${{ matrix.config.test-name }}
+          test-version: ${{ matrix.config.test-version }}
+          test-req-path: ${{ matrix.config.test-req-path }}
           pkg-src: ${{ matrix.config.pkg-src }}
           pkg-path: ${{ matrix.config.pkg-path }}
           pkg-name: ${{ matrix.config.pkg-name }}

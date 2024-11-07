@@ -4,7 +4,6 @@
 # to publish the distribution package on either PyPI or TestPyPI, depending on the input.
 
 name: '[Callable]: Package - Build'
-
 on:
   workflow_call:
     inputs:
@@ -12,25 +11,6 @@ on:
         description: Configuration as a JSON string.
         type: string
         required: true
-#      ref:
-#        type: string
-#        default: ''
-#        required: false
-#        description: |
-#          Reference (i.e. branch, tag or SHA) of the current repository to checkout,
-#          i.e. the `ref` input of `actions/checkout`.
-#      repository:
-#        type: string
-#        default: ${{ github.repository }}
-#        required: false
-#        description: |
-#          Repository to checkout, i.e. the `repository` input of `actions/checkout`.
-#      metadata:
-#        type: string
-#        required: true
-#        description: |
-#          CI metadata as a JSON string.
-
 jobs:
   build-pure:
     name: Pure Python Distribution
@@ -43,32 +23,26 @@ jobs:
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
           path: repo
-
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-
       - name: Environment Setup
         shell: bash
         run: |
           echo "::group::Requirements Installation"
           python -m pip install --upgrade pip build twine versioningit readme-renderer[md]
           echo "::endgroup::"
-          
           echo "::group::Environment Overview"
           python3 -c "import sys; print(sys.version)"
           python3 -m pip list
           echo "::endgroup::"
-
       - name: Build
         shell: bash
         id: build
         env:
           PURE_PYTHON: ${{ fromJSON(inputs.config).pure-python }}
           PKG_PATH: repo/${{ fromJSON(inputs.config).path-pkg }}
-          README_PATH: repo/${{ fromJSON(inputs.config).path-readme }}
-          LICENSE_PATH: repo/${{ fromJSON(inputs.config).path-license }}
           VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
           echo "::group::Latest Git Tag"
@@ -90,22 +64,15 @@ jobs:
           
           if $PURE_PYTHON; then
             echo "::group::Source & Build Distribution"
-            python -m build $PKG_PATH --outdir ./build/dist --verbose
+            python -m build $PKG_PATH --outdir ./dist --verbose
             echo "::endgroup::"
           else
             echo "::group::Source Distribution"
-            python -m build $PKG_PATH --outdir ./build/dist --sdist --verbose
+            python -m build $PKG_PATH --outdir ./dist --sdist --verbose
             echo "::endgroup::"
           fi
-
-      - name: PyPI README Render
-        shell: bash
-        run: >-
-          python -m readme_renderer
-          'repo/${{ fromJSON(inputs.config).path-readme }}'
-          --output ./build/README.html
-
       - name: PyPI README Check
+        if: fromJSON(inputs.config).path-readme
         # Note:
         #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
         #    reStructuredText (reST) READMEs; it always passes for Markdown content
@@ -115,24 +82,28 @@ jobs:
         # Refs:
         #    https://twine.readthedocs.io/en/stable/#twine-check
         #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-        run: twine check ./build/dist/*
-
+        run: twine check ./dist/*
+      - name: PyPI README Render
+        if: fromJSON(inputs.config).path-readme
+        shell: bash
+        run: >-
+          python -m readme_renderer
+          'repo/${{ fromJSON(inputs.config).path-readme }}'
+          --output ./README.html
       - name: Build Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ./build
-          name: ${{ fromJSON(inputs.config).artifact-name }}
-
+          path: ./dist/
+          name: ${{ fromJSON(inputs.config).sdist-artifact-name }}
   build-native:
     name: Native Binary Distribution - ${{ matrix.os }}
     if: fromJSON(inputs.config).pure-python == false
-    runs-on: ${{ matrix.platform.runner }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJSON(inputs.config).cibw-matrix-platform }}
-        py-ver: ${{ fromJSON(inputs.config).cibw-matrix-python }}
+        config: ${{ fromJSON(inputs.config).cibw }}
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v4
@@ -150,11 +121,11 @@ jobs:
           package-dir: ./repo/${{ fromJSON(inputs.config).path-pkg }}
           output-dir: build/dist
         env:
-          CIBW_BUILD: ${{ matrix.py-ver }}-${{ matrix.platform.cibw_platform }}
+          CIBW_BUILD: ${{ matrix.python_version }}-${{ matrix.platform }}
           CIBW_BUILD_VERBOSITY: 2
 
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
           path: ./build
-          name: ${{ fromJSON(inputs.config).artifact-name }} (${{ matrix.platform }})
+          name: ${{ matrix.wheel-artifact-name }}

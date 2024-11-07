@@ -2,7 +2,6 @@
 
 name: 'Workflow'
 run-name: '${{ github.event_name }}: ${{ github.ref }}'
-
 on:
   issues:
     types:
@@ -76,7 +75,6 @@ on:
         type: boolean
         default: false
         required: true
-
 jobs:
   init:
     name: Project
@@ -85,53 +83,55 @@ jobs:
     if: >-
       github.repository != 'RepoDynamics/PyPackIT'
       && (
-        github.event_name != 'pull_request_target'
-        || github.event.pull_request.head.repo.full_name != github.repository
+        (
+            github.event_name != 'pull_request_target'
+            || github.event.pull_request.head.repo.full_name != github.repository
+        ) && (
+            github.event_name != 'push'
+            || (github.ref_type == 'branch' && github.ref_name == github.event.repository.default_branch)
+        )
       )
     uses: ./.github/workflows/_manager.yaml
     permissions:
       contents: write
       issues: write
       pull-requests: write
-#    with:
-#      package-build: ${{ inputs.package-build || false }}
-#      package-lint: ${{ inputs.package-lint || false }}
-#      package-test: ${{ inputs.package-test || false }}
-#      website-build: ${{ inputs.website-build || false }}
-#      meta-sync: ${{ inputs.meta-sync }}
-#      hooks: ${{ inputs.hooks }}
-#      first-major-release: ${{ inputs.first-major-release || false }}
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       zenodo-token: ${{ secrets.ZENODO_TOKEN }}
-  website:
-    name: Website${{ matrix.config.job-suffix }}
+  web-build:
+    name: ${{ matrix.config.job-name }}
     needs: init
-    if: fromJSON(needs.init.outputs.run).website
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: GitHub Pages
-      url: ${{ matrix.config.url }}
+    if: fromJSON(needs.init.outputs.run).web-build
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.init.outputs.website) }}
+        config: ${{ fromJSON(needs.init.outputs.web-build) }}
+    uses: ./.github/workflows/_web_build.yaml
+    with:
+      config: ${{ toJSON(matrix.config) }}
+  web-deploy:
+    name: ${{ fromJSON(needs.init.outputs.web-deploy).job-name }}
+    if: fromJSON(needs.init.outputs.run).web-deploy
+    needs: [ init, web-build ]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: ${{ fromJSON(needs.init.outputs.web-deploy).env-name }}
+      url: ${{ fromJSON(needs.init.outputs.web-deploy).env-url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: RepoDynamics/SphinxDocs@v1
+      - name: GH-Pages Configuration
+        id: configure-pages
+        uses: actions/configure-pages@v5  # https://github.com/actions/configure-pages
+      - name: GH-Pages Deployment
+        id: deploy
+        uses: actions/deploy-pages@v4  # https://github.com/actions/deploy-pages
         with:
-          repository: ${{ matrix.config.repository }}
-          ref: ${{ matrix.config.ref }}
-          path-env: ${{ matrix.config.path-env }}
-          path-web: ${{ matrix.config.path-web }}
-          path-pkg: ${{ matrix.config.path-pkg }}
-          artifact-name: ${{ matrix.config.artifact-name }}
-          deploy: ${{ matrix.config.deploy }}
+          artifact_name: ${{ fromJSON(needs.init.outputs.web-deploy).pages-artifact-name }}
   lint:
-    name: Package Lint${{ matrix.config.job-suffix }}
+    name: ${{ matrix.config.job-name }}
     needs: init
     if: fromJSON(needs.init.outputs.run).lint
     permissions:
@@ -147,7 +147,7 @@ jobs:
     with:
       config: ${{ toJSON(matrix.config) }}
   test:
-    name: Package Test${{ matrix.config.job-suffix }}
+    name: Package Test${{ matrix.config.job-name }}
     needs: init
     if: fromJSON(needs.init.outputs.run).test
     permissions:
@@ -160,9 +160,9 @@ jobs:
     with:
       config: ${{ toJSON(matrix.config.config) }}
   build:
-    name: Package Build${{ matrix.config.job-suffix }}
+    name: ${{ matrix.config.job-name }}
     needs: init
-    if: fromJSON(needs.init.outputs.run).build  # fromJSON(needs.init.outputs.config).run.package_build
+    if: fromJSON(needs.init.outputs.run).build
     strategy:
       fail-fast: false
       matrix:
@@ -170,83 +170,65 @@ jobs:
     uses: ./.github/workflows/_pkg_build.yaml
     with:
       config: ${{ toJSON(matrix.config) }}
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-#      repository: ${{ fromJSON(needs.init.outputs.config).checkout.repository }}
   publish-testpypi:
     name: 'Package Publish'
     needs: [init, build, test, lint]
-    if: fromJSON(needs.init.outputs.run).publish-testpypi  # fromJSON(needs.init.outputs.config).run.package_publish_testpypi
+    if: fromJSON(needs.init.outputs.run).publish-testpypi
     permissions:
       id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.init.outputs.web-build) }}
     uses: ./.github/workflows/_pkg_publish.yaml
     with:
       config: ${{ needs.init.outputs.publish-testpypi }}
-#      platform: TestPyPI
-#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_testpypi }}
-#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_testpypi }}
   test-testpypi:
     name: 'Package Test: TestPyPI'
     needs: [init, publish-testpypi]
-    if: fromJSON(needs.init.outputs.run).test-testpypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_testpypi }}
+    if: fromJSON(needs.init.outputs.run).test-testpypi
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-testpypi }}
-#      config: ${{ needs.init.outputs.config }}
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      package-source: TestPyPI
   publish-pypi:
     name: 'Package Publish'
     needs: [init, test-testpypi]
-    if: fromJSON(needs.init.outputs.run).publish-pypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_publish_pypi }}
+    if: fromJSON(needs.init.outputs.run).publish-pypi
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_publish.yaml
     with:
       config: ${{ needs.init.outputs.publish-pypi }}
-#      platform: PyPI
-#      download-url: ${{ fromJSON(needs.init.outputs.config).package.download_url_pypi }}
-#      upload-url: ${{ fromJSON(needs.init.outputs.config).package.upload_url_pypi }}
-#
   test-pypi:
     name: 'Package Test: PyPI'
     needs: [init, publish-pypi]
-    if: fromJSON(needs.init.outputs.run).test-pypi  # ${{ !failure() && fromJSON(needs.init.outputs.config).run.package_test_pypi }}
+    if: fromJSON(needs.init.outputs.run).test-pypi
     permissions:
       id-token: write
     uses: ./.github/workflows/_pkg_test.yaml
     with:
       config: ${{ needs.init.outputs.test-pypi }}
-#      config: ${{ needs.init.outputs.config }}
-#      metadata: ${{ needs.init.outputs.metadata }}
-#      package-source: PyPI
-#
-  finalize:
-    name: 'Finalize'
-    needs: [ init, build, website, test-pypi ]
-    if: fromJSON(needs.init.outputs.run).finalize
+  release:
+    name: Release
+    needs: [ init, build, web-deploy, test-pypi ]
+    if: fromJSON(needs.init.outputs.run).release
     permissions:
       contents: write
       discussions: write
     runs-on: ubuntu-latest
     steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#        with:
-#          ref: ${{ fromJSON(needs.init.outputs.config).checkout.ref }}
-
       - name: 'Download sdist and wheels artifacts'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ fromJSON(needs.init.outputs.finalize).release.package-artifact-name }}
+          name: ${{ fromJSON(needs.init.outputs.publish).release.package-artifact-name }}
           path: distribution
 
       - name: 'Download gh-pages artifact'
         uses: actions/download-artifact@v3
         with:
-          name: ${{ fromJSON(needs.init.outputs.finalize).release.website-artifact-name }}
+          name: ${{ fromJSON(needs.init.outputs.publish).release.website-artifact-name }}
           path: documentation
 
       - name: 'Zip artifacts'
