@@ -158,10 +158,10 @@ branch:
         required_approving_review_count: 1
   release:
     name: release/v
-    ruleset: ${{ branch.main.ruleset }}
+    ruleset: ${{ branch.main.ruleset }}$
   pre:
     name: prerelease/v
-    ruleset: ${{ branch.main.ruleset }}
+    ruleset: ${{ branch.main.ruleset }}$
   dev:
     name: dev/
     ruleset:
@@ -171,7 +171,7 @@ branch:
       require_linear_history: true
   auto:
     name: auto-update/
-    ruleset: ${{ branch.dev.ruleset }}
+    ruleset: ${{ branch.dev.ruleset }}$
 tag:
   version:
     prefix: ver/
