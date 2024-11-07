@@ -107,3 +107,34 @@ team:
 citation:
   repository:
     build: ${{ pkg.pypi.url.home }}$
+release:
+  zenodo:
+    license: '#{{ return get("citation.license")[0] }}#'
+    keywords: ${{ citation.keywords }}$
+    related_identifiers:
+      - |
+        *{{
+          #{{
+            out = []
+            doi = get("citation.doi")
+            if doi:
+              out.append(
+                {
+                  "identifier": doi,
+                  "relation": "isNewVersionOf",
+                  "resource_type": get(".upload_type")
+                }
+              )
+            return out
+          }}#
+        }}*
+    contributors: |
+      #{{
+        return [
+          member["id"] for member in team_members_without_role_types(
+            "Author",
+            include_other_roles=True,
+            active_only=True,
+          )
+        ]
+      }}#
