@@ -158,7 +158,7 @@ jobs:
         config: ${{ fromJSON(needs.init.outputs.test) }}
     uses: ./.github/workflows/_pkg_test.yaml
     with:
-      config: ${{ toJSON(matrix.config.config) }}
+      config: ${{ toJSON(matrix.config) }}
   build:
     name: ${{ matrix.config.job-name }}
     needs: init
