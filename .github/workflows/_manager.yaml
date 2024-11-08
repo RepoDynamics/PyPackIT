@@ -57,9 +57,12 @@ on:
       run:
         value: ${{ jobs.manager.outputs.run }}
         description: Whether to run subsequent jobs.
-      website:
-        value: ${{ jobs.manager.outputs.website }}
+      web-build:
+        value: ${{ jobs.manager.outputs.web-build }}
         description: Configurations for website job.
+      web-deploy:
+        value: ${{ jobs.manager.outputs.web-deploy }}
+        description: Configurations for website deployment job.
       lint:
         value: ${{ jobs.manager.outputs.lint }}
         description: Configurations for lint job.
@@ -81,9 +84,9 @@ on:
       test-pypi:
         value: ${{ jobs.manager.outputs.test-pypi }}
         description: Configurations for test-pypi job.
-      finalize:
-        value: ${{ jobs.manager.outputs.finalize }}
-        description: Configurations for finalize job.
+      release:
+        value: ${{ jobs.manager.outputs.release }}
+        description: Configurations for release job.
 jobs:
   manager:
     name: 'Manager'
@@ -95,7 +98,8 @@ jobs:
     outputs:
       fail: ${{ steps.proman.outputs.fail }}
       run: ${{ steps.proman.outputs.run }}
-      website: ${{ steps.proman.outputs.website }}
+      web-build: ${{ steps.proman.outputs.web-build }}
+      web-deploy: ${{ steps.proman.outputs.web-deploy }}
       lint: ${{ steps.proman.outputs.lint }}
       test: ${{ steps.proman.outputs.test }}
       build: ${{ steps.proman.outputs.build }}
@@ -103,7 +107,7 @@ jobs:
       test-testpypi: ${{ steps.proman.outputs.test-testpypi }}
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
       test-pypi: ${{ steps.proman.outputs.test-pypi }}
-      finalize: ${{ steps.proman.outputs.finalize }}
+      release: ${{ steps.proman.outputs.release }}
     steps:
       - name: 'Project Manager'
         id: proman
@@ -111,13 +115,6 @@ jobs:
         with:
           admin-token: ${{ secrets.repo-admin-token }}
           zenodo-token: ${{ secrets.zenodo-token }}
-#          package-build: ${{ inputs.package-build }}
-#          package-lint: ${{ inputs.package-lint }}
-#          package-test: ${{ inputs.package-test }}
-#          website-build: ${{ inputs.website-build }}
-#          meta-sync: ${{ inputs.meta-sync }}
-#          hooks: ${{ inputs.hooks }}
-#          first-major-release: ${{ inputs.first-major-release }}
   status:
     name: 'Status'
     runs-on: ubuntu-latest
