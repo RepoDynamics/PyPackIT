@@ -13,8 +13,6 @@ repo:
   allow_auto_merge: false
   delete_branch_on_merge: false
   allow_update_branch: true
-  merge_commit_title: 'PR_TITLE'
-  merge_commit_message: 'PR_BODY'
   archived: false
   gitignore:
     # Project-specific files
