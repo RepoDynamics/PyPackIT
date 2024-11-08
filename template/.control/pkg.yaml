@@ -40,7 +40,7 @@ pkg:
       glob: __init__.py
       docstring:
         content: |
-          ${{ name }}$: ${{ title }}$
+          ${{ name }}$: ${{ title }}$.
   
           ${{ abstract }}$
         max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
