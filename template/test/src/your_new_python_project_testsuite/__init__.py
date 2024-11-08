@@ -109,9 +109,9 @@ def run(
         if args:
             final_args.extend(args)
         if overrides:
-            for key, value in overrides.items():
+            for override_key, override_value in overrides.items():
                 # https://docs.pytest.org/en/stable/reference/reference.html#configuration-options
-                final_args.extend(["--override-ini", f"{key}={value}"])
+                final_args.extend(["--override-ini", f"{override_key}={override_value}"])
         pyargs = pyargs or [pkgdata.get_package_name_from_caller(top_level=True)]
         final_args.extend(["--pyargs", *pyargs])
         print(final_args)

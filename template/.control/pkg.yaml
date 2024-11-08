@@ -82,13 +82,13 @@ __custom_template__:
           require-match: true
           source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
           build-file: '${{ .import_name }}$/__init__.py'
-          replacement: |
+          replacement: >-
             {{
-                "version": "{version}",
-                "build_date": "{build_date:%Y.%m.%d}",
-                "committer_date": "{committer_date:%Y.%m.%d}",
-                "author_date": "{author_date:%Y.%m.%d}",
-                "branch": "{branch}",
-                "distance": "{distance}",
-                "commit_hash": "{revision}",
+            "version": "{version}",
+            "build_date": "{build_date:%Y.%m.%d}",
+            "committer_date": "{committer_date:%Y.%m.%d}",
+            "author_date": "{author_date:%Y.%m.%d}",
+            "branch": "{branch}",
+            "distance": "{distance}",
+            "commit_hash": "{revision}"
             }}

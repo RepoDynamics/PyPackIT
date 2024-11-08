@@ -69,12 +69,17 @@ test:
           source: https://github.com/pytest-dev/pytest-html
           pip: https://pypi.org/project/pytest-html/
           conda: https://anaconda.org/conda-forge/pytest-html
-      pkgdata:
+      pkg_resources:
         name: PkgData
         import_name: pkgdata
-        description: Handling package resources, such as accessing data files that are distributed with the package.
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
         pip:
           spec: pkgdata
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
   entry:
     cli:
       main:
