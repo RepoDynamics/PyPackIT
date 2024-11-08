@@ -118,9 +118,15 @@ jobs:
           python3 -m pip install --upgrade pip
           echo "::endgroup::"
 
-          echo "::group::Install package"
+          echo "::group::Install ${{ fromJSON(inputs.config).pkg.name }}"
           python3 -m pip install "./${{ fromJSON(inputs.config).pkg.path.root }}"
           echo "::endgroup::"
+          
+          if [[ "${{ fromJSON(inputs.config).type }}" == "test" ]]; then
+            echo "::group::Install ${{ fromJSON(inputs.config).pkg2.name }}"
+            python3 -m pip install "./${{ fromJSON(inputs.config).pkg2.path.root }}"
+            echo "::endgroup::"
+          fi
 
           echo "::group::Install mypy"
           python3 -m pip install -r "${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}"
