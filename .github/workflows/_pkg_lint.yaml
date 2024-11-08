@@ -146,6 +146,7 @@ jobs:
         shell: bash
         run: >-
           mypy
+          --package ${{ fromJSON(inputs.config).pkg.import_name }}
           --config-file ${{ fromJSON(inputs.config).tool.mypy.config.file.path }}
           --python-version ${{ matrix.python-version }}
           --install-types
