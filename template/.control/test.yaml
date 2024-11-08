@@ -92,7 +92,7 @@ test:
     top_import:
       glob: __init__.py
       docstring:
-        content: |
+        content: |-
           ${{ test.name }}$: Test Suite for ${{ name }}$.
         max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
         mode: prepend
