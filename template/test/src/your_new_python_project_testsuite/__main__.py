@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import argparse
 import json
 import sys
 
 import your_new_python_project_testsuite as testsuite
+
+if TYPE_CHECKING:
+    from typing import Any
 
 
 class TestSuiteCLIInputError(Exception):
@@ -33,7 +37,7 @@ class TestSuiteCLIInputTypeError(TestSuiteCLIInputError):
     def __init__(
         self,
         arg_name: str,
-        arg_value: str | bool | float | list | dict,
+        arg_value: str | bool | float | list[Any] | dict[str, Any],
         arg_type: type,
     ):
         self.arg_name = arg_name
