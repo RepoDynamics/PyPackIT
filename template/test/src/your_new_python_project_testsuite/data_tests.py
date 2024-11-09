@@ -6,7 +6,7 @@ import your_new_python_project as pkg
 from your_new_python_project.exception.data import DataFileNotFoundError
 
 
-def test_file():
+def test_file() -> None:
     """Test the integrity of the `__test_file__` marker file.
 
     The marker file is used to indicate that the package data files are present.
@@ -19,7 +19,7 @@ def test_file():
     assert filepath.read_text().rstrip() == marker
 
 
-def test_no_file():
+def test_no_file() -> None:
     """Test that an error is raised when the input data file is missing."""
     with pytest.raises(DataFileNotFoundError):
         pkg.data.filepath("path/to/nonexistent/file")
