@@ -166,6 +166,7 @@ jobs:
           path: ${{ fromJSON(inputs.config).tool.mypy.config.workflow.report_path }}
   mypy-report:
     name: MyPy Report
+    if: ${{ !cancelled() }}
     needs: mypy
     runs-on: ubuntu-latest
     steps:
