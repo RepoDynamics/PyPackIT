@@ -106,6 +106,14 @@ jobs:
           name: ${{ fromJSON(inputs.config).artifact.wheel.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
+      - name: ReadMe Upload
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./README.html
+          name: ${{ fromJSON(inputs.config).artifact.readme.name }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention-days }}
   native:
     name: Binary Distribution (${{ matrix.os }})
     if: ${{ fromJSON(inputs.config).cibw }}
