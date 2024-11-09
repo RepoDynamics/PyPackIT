@@ -174,8 +174,8 @@ jobs:
       config: ${{ matrix.config.job }}
   release:
     name: Release
-    needs: [ main, build, web-deploy, test-pypi ]
-    if: fromJSON(needs.main.outputs.run).release
+    needs: [ main, web, publish-pypi ]
+    if: fromJSON(needs.main.outputs.release)
     permissions:
       contents: write
       discussions: write
