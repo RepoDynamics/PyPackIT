@@ -45,7 +45,7 @@ jobs:
           overrides: ${{ fromJSON(inputs.config).overrides }}
   report:
     name: Report
-    if: fromJSON(inputs.config).artifact.report.merge
+    if: ${{ !cancled() && fromJSON(inputs.config).artifact.report.merge }}
     needs: test
     runs-on: ubuntu-latest
     steps:
