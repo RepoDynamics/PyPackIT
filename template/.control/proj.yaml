@@ -108,6 +108,27 @@ citation:
   repository:
     build: ${{ pkg.pypi.url.home }}$
 release:
+  github:
+    asset:
+      sdist:
+        label: Source Distributions
+        files:
+          - source: '*.tar.gz'
+            artifact: ' - sdist$'
+      wheel:
+        label: Binary Distributions
+        files:
+          - source: '*.whl'
+            artifact: ' - wheels$'
+      docs:
+        label: Documentation
+        files:
+          - artifact: '^Website(?!.*GH-Pages$).*'
+      license:
+        label: License
+        files:
+          - source: 'LICENSE*'
+          - source: 'COPYING*'
   zenodo:
     license: '#{{ return get("citation.license")[0] }}#'
     keywords: ${{ citation.keywords }}$
