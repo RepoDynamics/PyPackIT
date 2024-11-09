@@ -1,0 +1,60 @@
+# Install package from a given source and run unit-tests.
+# Install the package and run tests on a matrix of supported Python versions and operating systems.
+
+name: '[Callable]: Package - Test'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+
+jobs:
+  test:
+    name: ${{ matrix.task.name }}
+    permissions:
+      id-token: write  # For token-less upload of coverage reports to Codecov.
+    strategy:
+      fail-fast: false
+      matrix:
+        task: ${{ fromJSON(inputs.config).tasks }}
+    runs-on: ${{ matrix.task.runner }}
+    steps:
+      - uses: RepoDynamics/PyTester@v1
+        with:
+          python-version: ${{ matrix.task.python }}
+          report-artifact-name: ${{ matrix.task.artifact.report.name }}
+          repository: ${{ fromJSON(inputs.config).repository }}
+          ref: ${{ fromJSON(inputs.config).ref }}
+          test-src: ${{ fromJSON(inputs.config).test-src }}
+          test-path: ${{ fromJSON(inputs.config).test-path }}
+          test-name: ${{ fromJSON(inputs.config).test-name }}
+          test-version: ${{ fromJSON(inputs.config).test-version }}
+          test-req-path: ${{ fromJSON(inputs.config).test-req-path }}
+          pkg-src: ${{ fromJSON(inputs.config).pkg-src }}
+          pkg-path: ${{ fromJSON(inputs.config).pkg-path }}
+          pkg-name: ${{ fromJSON(inputs.config).pkg-name }}
+          pkg-version: ${{ fromJSON(inputs.config).pkg-version }}
+          pkg-req-path: ${{ fromJSON(inputs.config).pkg-req-path }}
+          retries: ${{ fromJSON(inputs.config).retries }}
+          retry-sleep-seconds: ${{ fromJSON(inputs.config).retry-sleep-seconds }}
+          pyargs: ${{ fromJSON(inputs.config).pyargs }}
+          args: ${{ fromJSON(inputs.config).args }}
+          overrides: ${{ fromJSON(inputs.config).overrides }}
+  report:
+    name: Report
+    if: fromJSON(inputs.config).artifact.report.merge
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Artifact Merge
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.report.merge.name }}
+          pattern: ${{ fromJSON(inputs.config).artifact.report.merge.pattern }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.report.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.report.retention-days }}
+          separate-directories: 'true'
+          delete-merged: 'true'
