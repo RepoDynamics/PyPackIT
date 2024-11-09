@@ -54,15 +54,9 @@ on:
         description: Token for Zenodo API.
         required: false
     outputs:
-      run:
-        value: ${{ jobs.manager.outputs.run }}
-        description: Whether to run subsequent jobs.
-      web-build:
-        value: ${{ jobs.manager.outputs.web-build }}
+      web:
+        value: ${{ jobs.manager.outputs.web }}
         description: Configurations for website job.
-      web-deploy:
-        value: ${{ jobs.manager.outputs.web-deploy }}
-        description: Configurations for website deployment job.
       lint:
         value: ${{ jobs.manager.outputs.lint }}
         description: Configurations for lint job.
@@ -75,15 +69,9 @@ on:
       publish-testpypi:
         value: ${{ jobs.manager.outputs.publish-testpypi }}
         description: Configurations for publish-testpypi job.
-      test-testpypi:
-        value: ${{ jobs.manager.outputs.test-testpypi }}
-        description: Configurations for test-testpypi job.
       publish-pypi:
         value: ${{ jobs.manager.outputs.publish-pypi }}
         description: Configurations for publish-pypi job.
-      test-pypi:
-        value: ${{ jobs.manager.outputs.test-pypi }}
-        description: Configurations for test-pypi job.
       release:
         value: ${{ jobs.manager.outputs.release }}
         description: Configurations for release job.
@@ -97,16 +85,12 @@ jobs:
       pull-requests: write
     outputs:
       fail: ${{ steps.proman.outputs.fail }}
-      run: ${{ steps.proman.outputs.run }}
-      web-build: ${{ steps.proman.outputs.web-build }}
-      web-deploy: ${{ steps.proman.outputs.web-deploy }}
+      web: ${{ steps.proman.outputs.web }}
       lint: ${{ steps.proman.outputs.lint }}
       test: ${{ steps.proman.outputs.test }}
       build: ${{ steps.proman.outputs.build }}
       publish-testpypi: ${{ steps.proman.outputs.publish-testpypi }}
-      test-testpypi: ${{ steps.proman.outputs.test-testpypi }}
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
-      test-pypi: ${{ steps.proman.outputs.test-pypi }}
       release: ${{ steps.proman.outputs.release }}
     steps:
       - name: RepoDynamics ProMan
