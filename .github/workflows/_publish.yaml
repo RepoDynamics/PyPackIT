@@ -1,0 +1,55 @@
+name: '[Reusable]: PyPI Publish'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+jobs:
+  publish:
+    name: ${{ matrix.config.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(inputs.config).publish }}
+    environment:
+      name: ${{ matrix.config.env.name }}
+      url: ${{ matrix.config.env.url }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Source Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.config.artifact.sdist.name }}
+          path: dist/
+      - name: Binary Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.config.artifact.wheel.merge.name }}
+          pattern: ${{ matrix.config.artifact.wheel.merge.pattern }}
+          path: dist/
+          merge-multiple: 'true'
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # https://github.com/marketplace/actions/pypi-publish
+        with:
+          packages-dir: dist/
+          repository-url: ${{ matrix.config.index-url }}
+          verify-metadata: true
+          verbose: true
+          print-hash: true
+          skip-existing: false
+          attestations: false
+  test:
+    name: Test
+    needs: publish
+    if: fromJSON(inputs.config).test
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/_test.yaml
+    with:
+      config: ${{ fromJSON(inputs.config).test }}
