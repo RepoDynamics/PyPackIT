@@ -149,7 +149,7 @@ jobs:
           retention-days: ${{ matrix.artifact.wheel.retention-days }}
   wheel-merge:
     name: Wheel Artifact Merge
-    if: fromJSON(inputs.config).artifact.wheel.merge
+    if: ${{ !cancelled() && fromJSON(inputs.config).artifact.wheel.merge }}
     needs: [ pure, native ]
     runs-on: ubuntu-latest
     steps:
