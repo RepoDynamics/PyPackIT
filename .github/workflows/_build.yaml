@@ -158,7 +158,7 @@ jobs:
         with:
           name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.wheel.merge.pattern }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.merge.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.merge.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
           separate-directories: 'false'
           delete-merged: 'true'
