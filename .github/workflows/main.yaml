@@ -107,6 +107,9 @@ jobs:
       fail-fast: false
       matrix:
         config: ${{ fromJSON(needs.main.outputs.web) }}
+    permissions:
+      pages: write
+      id-token: write
     uses: ./.github/workflows/_web.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
