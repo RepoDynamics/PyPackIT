@@ -3,7 +3,7 @@
 # This reusable workflow uses the [pypi-publish](https://github.com/pypa/gh-action-pypi-publish) GitHub Action
 # to publish the distribution package on either PyPI or TestPyPI, depending on the input.
 
-name: '[Callable]: Package - Build'
+name: '[Reusable]: Build'
 on:
   workflow_call:
     inputs:
@@ -12,8 +12,8 @@ on:
         type: string
         required: true
 jobs:
-  build-pure:
-    name: Pure Python Distribution
+  pure:
+    name: ${{ fromJSON(inputs.config).pkg.python.pure && 'Pure Python' || 'Source Distribution' }}
     runs-on: ubuntu-latest
     steps:
       - name: Repository Checkout
@@ -41,8 +41,8 @@ jobs:
         shell: bash
         id: build
         env:
-          PURE_PYTHON: ${{ fromJSON(inputs.config).pure-python }}
-          PKG_PATH: repo/${{ fromJSON(inputs.config).path-pkg }}
+          PURE_PYTHON: ${{ !fromJSON(inputs.config).cibw }}
+          PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
           VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
           echo "::group::Latest Git Tag"
@@ -72,7 +72,7 @@ jobs:
             echo "::endgroup::"
           fi
       - name: PyPI README Check
-        if: fromJSON(inputs.config).path-readme
+        if: fromJSON(inputs.config).pkg.readme.path
         # Note:
         #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
         #    reStructuredText (reST) READMEs; it always passes for Markdown content
@@ -84,21 +84,31 @@ jobs:
         #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
         run: twine check ./dist/*
       - name: PyPI README Render
-        if: fromJSON(inputs.config).path-readme
+        if: fromJSON(inputs.config).pkg.readme.path
         shell: bash
         run: >-
           python -m readme_renderer
-          'repo/${{ fromJSON(inputs.config).path-readme }}'
+          'repo/${{ fromJSON(inputs.config).pkg.readme.path }}'
           --output ./README.html
-      - name: Build Upload
+      - name: Source Distribution Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/
-          name: ${{ fromJSON(inputs.config).sdist-artifact-name }}
-  build-native:
-    name: Native Binary Distribution - ${{ matrix.os }}
-    if: fromJSON(inputs.config).pure-python == false
+          path: ./dist/*.tar.gz
+          name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention-days }}
+      - name: Binary Distribution Upload
+        if: ${{ !cancelled() && !fromJSON(inputs.config).cibw }}
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/*.whl
+          name: ${{ fromJSON(inputs.config).artifact.wheel.name }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
+  native:
+    name: Binary Distribution (${{ matrix.os }})
+    if: ${{ fromJSON(inputs.config).cibw }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -112,20 +122,35 @@ jobs:
           fetch-depth: 0
           ref: ${{ fromJSON(inputs.config).ref }}
           path: repo
-
       - name: Build
         # https://cibuildwheel.readthedocs.io/en/stable/
         # https://github.com/pypa/cibuildwheel
         uses: pypa/cibuildwheel@v2.16
         with:
-          package-dir: ./repo/${{ fromJSON(inputs.config).path-pkg }}
-          output-dir: build/dist
+          package-dir: ./repo/${{ fromJSON(inputs.config).pkg.path.root }}
+          output-dir: ./dist
         env:
-          CIBW_BUILD: ${{ matrix.python_version }}-${{ matrix.platform }}
+          CIBW_BUILD: ${{ matrix.python }}-${{ matrix.platform }}
           CIBW_BUILD_VERBOSITY: 2
-
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
-          path: ./build
-          name: ${{ matrix.wheel-artifact-name }}
+          path: ./dist
+          name: ${{ matrix.artifact.wheel.name }}
+          include-hidden-files: ${{ matrix.artifact.wheel.include-hidden }}
+          retention-days: ${{ matrix.artifact.wheel.retention-days }}
+  wheel-merge:
+    name: Wheel Artifact Merge
+    if: fromJSON(inputs.config).artifact.wheel.merge
+    needs: [ pure, native ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Artifact Merge
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
+          pattern: ${{ fromJSON(inputs.config).artifact.wheel.merge.pattern }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.merge.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.merge.retention-days }}
+          separate-directories: 'false'
+          delete-merged: 'true'
