@@ -180,37 +180,11 @@ jobs:
     needs: [ main, web, publish-pypi ]
     if: fromJSON(needs.main.outputs.release)
     permissions:
-      contents: write
       discussions: write
     runs-on: ubuntu-latest
     steps:
-      - name: 'Download sdist and wheels artifacts'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ fromJSON(needs.main.outputs.publish).release.package-artifact-name }}
-          path: distribution
-
-      - name: 'Download gh-pages artifact'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ fromJSON(needs.main.outputs.publish).release.website-artifact-name }}
-          path: documentation
-
-      - name: 'Zip artifacts'
-        run: |
-          mv distribution/dist/*.tar.gz ./
-          zip -r wheels.zip distribution/dist
-          zip -r documentation.zip documentation
-
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: RepoDynamics/ReleaseMan@main
         with:
-          name: ${{ fromJSON(needs.main.outputs.finalize).release.name }}
-          tag_name: ${{ fromJSON(needs.main.outputs.finalize).release.tag-name }}
-          body: ${{ fromJSON(needs.main.outputs.finalize).release.body }}
-          prerelease: ${{ fromJSON(needs.main.outputs.finalize).release.prerelease }}
-#          discussion_category_name: ${{ fromJSON(needs.main.outputs.finalize).release.discussion_category_name }}
-          files: |
-            wheels.zip
-            documentation.zip
-            *.tar.gz
+          config: ${{ needs.main.outputs.release }}
+          zenodo-token: ${{ secrets.zenodo-token }}
