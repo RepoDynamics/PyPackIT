@@ -109,14 +109,14 @@ jobs:
       test-pypi: ${{ steps.proman.outputs.test-pypi }}
       release: ${{ steps.proman.outputs.release }}
     steps:
-      - name: 'Project Manager'
+      - name: RepoDynamics ProMan
         id: proman
         uses: RepoDynamics/ProMan@v1
         with:
           admin-token: ${{ secrets.repo-admin-token }}
           zenodo-token: ${{ secrets.zenodo-token }}
   status:
-    name: 'Status'
+    name: Status
     runs-on: ubuntu-latest
     needs: manager
     steps:
