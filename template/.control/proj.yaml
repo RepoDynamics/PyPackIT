@@ -111,24 +111,36 @@ release:
   github:
     asset:
       sdist:
+        name: >-
+          #{{ slugify(get("name")) }}#-{{ version }}-sdists.zip
         label: Source Distributions
+        format: zip
         files:
-          - source: '*.tar.gz'
-            artifact: ' - sdist$'
+          - source: '^[^/]+ - sdist/[^/]+\.tar\.gz$'
+            artifact: true
       wheel:
+        name: >-
+          #{{ slugify(get("name")) }}#-{{ version }}-wheels.zip
         label: Binary Distributions
+        format: zip
         files:
-          - source: '*.whl'
-            artifact: ' - wheels$'
+          - source: '^[^/]+ - wheels/[^/]+\.whl$'
+            artifact: true
       docs:
+        name: >-
+          #{{ slugify(get("name")) }}#-{{ version }}-docs.zip
         label: Documentation
+        format: zip
         files:
-          - artifact: '^Website(?!.*GH-Pages$).*'
+          - source: '^Website(?!.*GH-Pages)[^/]*$'
+            artifact: true
       license:
+        name: >-
+          #{{ slugify(get("name")) }}#-{{ version }}-license.zip
         label: License
+        format: zip
         files:
-          - source: 'LICENSE*'
-          - source: 'COPYING*'
+          - source: '^(LICENSE|COPYING)[^/]*$'
   zenodo:
     license: '#{{ return get("citation.license")[0] }}#'
     keywords: ${{ citation.keywords }}$
