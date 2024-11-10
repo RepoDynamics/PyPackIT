@@ -142,6 +142,7 @@ release:
         files:
           - source: '^(LICENSE|COPYING)[^/]*$'
   zenodo:
+    asset: ${{ release.github.asset }}$
     license: '#{{ return get("citation.license")[0] }}#'
     keywords: ${{ citation.keywords }}$
     related_identifiers:
