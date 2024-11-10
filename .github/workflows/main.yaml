@@ -176,15 +176,26 @@ jobs:
     with:
       config: ${{ matrix.config.job }}
   release:
-    name: Release
+    name: ${{ fromJSON(needs.main.outputs.release).name }}
     needs: [ main, web, publish-pypi ]
     if: fromJSON(needs.main.outputs.release)
     permissions:
       discussions: write
     runs-on: ubuntu-latest
     steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJSON(needs.main.outputs.release).ref }}
+          fetch-depth: 0
+          path: ${{ fromJSON(needs.main.outputs.release).repo-path }}
+      - name: Artifact Download
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ fromJSON(needs.main.outputs.release).artifact-path }}
       - name: Release
         uses: RepoDynamics/ReleaseMan@main
         with:
-          config: ${{ needs.main.outputs.release }}
+          github-config: ${{ toJSON(fromJSON(needs.main.outputs.release).github) }}
+          zenodo-config: ${{ toJSON(fromJSON(needs.main.outputs.release).zenodo) }}
           zenodo-token: ${{ secrets.zenodo-token }}
