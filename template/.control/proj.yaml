@@ -1,7 +1,7 @@
 name: your new Python project
 title: A New Python Project
 abstract: >-
-  Welcome to ${{ name }}$ powered by [PyPackIT](https://pypackit.repodynamics.com/).
+  Welcome to ${{ name }}$ powered by <a href="https://pypackit.repodynamics.com/">PyPackIT</a>.
   Replace this text with a short abstract of ${{ name }}$,
   describing its purpose and main features.
   By default, this text is displayed on the repository's main README file,
