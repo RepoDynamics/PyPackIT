@@ -161,20 +161,16 @@ jobs:
       id-token: write
     uses: ./.github/workflows/_publish.yaml
     with:
-      config: ${{ fromJSON(needs.main.outputs.publish-testpypi).job }}
+      config: ${{ toJSON(fromJSON(needs.main.outputs.publish-testpypi).job) }}
   publish-pypi:
     name: ${{ matrix.config.name }}
     needs: [ main, publish-testpypi ]
     if: fromJSON(needs.main.outputs.publish-pypi)
     permissions:
       id-token: write
-    strategy:
-      fail-fast: false
-      matrix:
-        config: ${{ fromJSON(needs.main.outputs.publish-pypi) }}
     uses: ./.github/workflows/_publish.yaml
     with:
-      config: ${{ matrix.config.job }}
+      config: ${{ toJSON(fromJSON(needs.main.outputs.publish-pypi).job) }}
   release:
     name: ${{ fromJSON(needs.main.outputs.release).name }}
     needs: [ main, web, publish-pypi ]
