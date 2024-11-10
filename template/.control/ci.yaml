@@ -94,6 +94,7 @@ tool:
                 - id: mixed-line-ending
                   # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
                   stages: [ pre-commit, manual ]
+                  args: [ --fix, lf ]
                   verbose: true
                 - id: no-commit-to-branch
                   # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
