@@ -177,7 +177,11 @@ jobs:
             MyPy Reports
             - ${{ fromJSON(inputs.config).pkg.name }}
             - ${{ fromJSON(inputs.config).version }}
-          pattern: MyPy Report*
+          pattern: >-
+            MyPy Report
+            - ${{ fromJSON(inputs.config).pkg.name }}
+            - ${{ fromJSON(inputs.config).version }}
+            - *
           separate-directories: 'true'
           delete-merged: 'true'
 #  pylint:
