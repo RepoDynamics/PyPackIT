@@ -94,12 +94,18 @@ tool:
                 - id: mixed-line-ending
                   # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
                   stages: [ pre-commit, manual ]
-                  args: [ --fix, lf ]
+                  args: [ --fix, auto ]
                   verbose: true
                 - id: no-commit-to-branch
                   # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
                   stages: [ pre-commit ]
-                  args: [ --branch, '${{ branch.main.name }}$', --pattern, '${{ branch.release.name }}$.*' ]
+                  args:
+                    - --branch
+                    - '${{ branch.main.name }}$'
+                    - --pattern
+                    - '${{ branch.release.name }}$.*'
+                    - --pattern
+                    - '${{ branch.pre.name }}$.*'
                   verbose: true
                 - id: pretty-format-json
                   # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#pretty-format-json
@@ -204,9 +210,9 @@ tool:
           name: Mypy
           import_name: mypy
           pip:
-            spec: mypy[reports] == 1.11.2
+            spec: mypy[reports] == 1.13.0
           conda:
-            spec: mypy = 1.11.2
+            spec: mypy = 1.13.0
             channel: conda-forge
           url:
             docs: https://mypy.readthedocs.io/
