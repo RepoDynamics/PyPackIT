@@ -9,15 +9,15 @@ from __future__ import annotations as _annotations
 
 import copy as _copy
 import json as _json
+import os as _os
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
-import os as _os
 
 import gittidy as _git
+import pysyntax as _pysyntax
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
-import pysyntax as _pysyntax
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -37,7 +37,7 @@ _globals: dict = {}
 class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
     """Customized DirectoryHTMLBuilder to exclude the 404 file."""
 
-    name = 'dirhtml'
+    name = "dirhtml"
 
     def get_target_uri(self, docname: str, typ: str | None = None) -> str:
         if docname == "404":
@@ -46,7 +46,7 @@ class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
 
     def get_outfilename(self, pagename: str) -> str:
         if pagename == "404":
-            return _os.path.join(self.outdir, '404.html')
+            return _os.path.join(self.outdir, "404.html")
         return super().get_outfilename(pagename=pagename)
 
 
@@ -85,13 +85,17 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         -------
         URL to the source file with added line numbers of the object definition, if found.
         """
-        log_intro = f"Resolved source-code filepath of module `{info["module"]}` to `{module_path_abs}`"
-        lines = _pysyntax.parse.object_definition_lines(code=filepath.read_text(), object_name=object_name)
+        log_intro = (
+            f"Resolved source-code filepath of module `{info["module"]}` to `{module_path_abs}`"
+        )
+        lines = _pysyntax.parse.object_definition_lines(
+            code=filepath.read_text(), object_name=object_name
+        )
         if not lines:
             _logger.warning(
                 logger_title,
                 f"{log_intro}, but could not find object `{object_name}` in the file.",
-                f"Generated URL (without line numbers): {url}"
+                f"Generated URL (without line numbers): {url}",
             )
             return url
         start_line, end_line = lines
@@ -105,20 +109,20 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         _logger.success(
             logger_title,
             f"{log_intro} and found object `{object_name}` at {log_segment}.",
-            f"Generated URL: {final_url}"
+            f"Generated URL: {final_url}",
         )
         return final_url
 
     logger_title = "LinkCode Resolve"
-    if domain != 'py' or not info['module']:
+    if domain != "py" or not info["module"]:
         _logger.warning(
             logger_title,
             "Invalid domain or module information:",
             _logger.pretty({"domain": domain, "info": info}),
         )
-        return
+        return None
     source_path = _Path(_meta["pkg"]["path"]["source"])
-    module_path = source_path / info['module'].replace('.', '/')
+    module_path = source_path / info["module"].replace(".", "/")
     module_path_abs = _path_root / module_path
     if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
         filepath = module_path.joinpath("__init__.py")
@@ -129,9 +133,11 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
             logger_title,
             f"Python module {info["module"]} not found at {module_path_abs}.",
         )
-        return
+        return None
     url = f"https://github.dev/{_meta["repo"]["full_name"]}/blob/{_current_hash}/{filepath}"
-    return add_obj_line_number_to_url(url=url, filepath=_path_root/filepath, object_name=info["fullname"])
+    return add_obj_line_number_to_url(
+        url=url, filepath=_path_root / filepath, object_name=info["fullname"]
+    )
 
 
 def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> None:
