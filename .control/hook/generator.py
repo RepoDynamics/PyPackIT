@@ -16,6 +16,7 @@ def extract_defaults_from_schema(schema: str) -> tuple[str, bool]:
     schema : str
         The schema file content.
     """
+
     def recursive_extract(properties, defaults, all_have_defaults=True):
         for key, defs in properties.items():
             if "default" not in defs:
