@@ -9,7 +9,6 @@ from __future__ import annotations as _annotations
 
 import copy as _copy
 import json as _json
-import os as _os
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
@@ -46,7 +45,7 @@ class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
 
     def get_outfilename(self, pagename: str) -> str:
         if pagename == "404":
-            return _os.path.join(self.outdir, "404.html")
+            return str(_Path(self.outdir) / "404.html")
         return super().get_outfilename(pagename=pagename)
 
 
