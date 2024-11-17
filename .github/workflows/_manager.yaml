@@ -53,6 +53,9 @@ on:
       zenodo-token:
         description: Token for Zenodo API.
         required: false
+      zenodo-sandbox-token:
+        description: Token for Zenodo Sandbox API.
+        required: false
     outputs:
       web:
         value: ${{ jobs.manager.outputs.web }}
@@ -99,6 +102,7 @@ jobs:
         with:
           admin-token: ${{ secrets.repo-admin-token }}
           zenodo-token: ${{ secrets.zenodo-token }}
+          zenodo-sandbox-token: ${{ secrets.zenodo-sandbox-token }}
   status:
     name: Status
     runs-on: ubuntu-latest
