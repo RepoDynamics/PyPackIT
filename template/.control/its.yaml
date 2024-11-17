@@ -1338,10 +1338,10 @@ issue:
           description: >-
             Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
             that demonstrates the bug:
-            
+
             - At the top of the code block below,
             add the minimum number of imports required to reproduce the bug.
-            
+
             - Replace the ellipsis (`...`) in the `test` function with a
             [Minimal Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) (MRE).
             Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
@@ -1366,23 +1366,23 @@ issue:
           description: >-
             Please provide a [test case](https://docs.pytest.org/en/stable/getting-started.html)
             that demonstrates the bug:
-            
+
             - In the `test` function below,
             replace the value of `command` with the
             exact command that is causing the problem.
-            
+
             - Replace the value of `expected_return_code`
             with the expected return code of the command.
-            
+
             - Replace the value of `expected_output` with the expected output of the command.
             Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
             to specify the expected results.
-            
+
             - If the command has side effects,
             add further [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
             to specify the expected results.
           value: |
-            import subprocess 
+            import subprocess
 
 
             def test():
@@ -1528,7 +1528,7 @@ issue:
         attributes:
           value: |
             <br>
-            
+
             ## 🤝 Terms and Conditions
       - type: markdown
         attributes:
@@ -1681,7 +1681,7 @@ issue:
         attributes:
           value: |
             ### ℹ️ Choosing the Right Title
-            
+
             <p align="justify">Please write a concise and descriptive title and
             use relevant keywords to help others find the issue.</p>
       - type: markdown
@@ -1720,7 +1720,7 @@ issue:
         attributes:
           value: |
             <br>
-            
+
             ## 🎛 Environment Specifications
       - type: dropdown
         id: os
@@ -1831,7 +1831,7 @@ issue:
           is_checked: true
       body: |
         ### Target
-        
+
         - **Version(s)**: {{ input.version }}
         {%- if input.entrypoint %}
         - Entry Point: `{{ input.entrypoint }}`
@@ -1845,45 +1845,45 @@ issue:
         {%- if input.jsonpath %}
         - JSON Path: `{{ input.jsonpath }}`
         {%- endif %}
-        
+
         ### Summary
-        
+
         {{ input.summary }}
-        
+
         {%- if input.proposal %}
         ### Proposal
-        
+
         {{ input.proposal }}
         {%- endif %}
-        
+
         {%- if input.test_case %}
         ### Test Case
-        
+
         {{ input.test_case }}
         {%- endif %}
-        
+
         {%- if input.mre %}
         ### Minimal Reproducible Example
-        
+
         {{ input.mre }}
         {%- endif %}
-        
+
         {%- if input.stderr %}
         ### Output Log
-        
+
         {{ input.stderr }}
         {%- endif %}
-        
+
         {%- if input.environment %}
         ### Test Environment
-        
+
         - **OS**: {{ input.os }}
         - **Python Version**: {{ input.python_version }}
         - **Package Manager**: {{ input.package_manager }}
         <details><summary><b>Environment</b></summary>
-        
+
         {{ input.environment }}
-        
+
         </details>
         {%- endif %}
     verify_bug:
@@ -2094,7 +2094,7 @@ issue:
         - [ scope, docs ]
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
       description: >-
-        Report problems and errors 
+        Report problems and errors
         in ${{ name }}$'s website and documentation materials.
       __custom_template__:
         purpose: >-
