@@ -48,20 +48,20 @@ jobs:
           echo "::group::Latest Git Tag"
           git -C repo describe || true
           echo "::endgroup::"
-          
+
           echo "::group::Versioning"
           VERSION=$(versioningit $PKG_PATH --verbose)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "::endgroup::"
-          
+
           echo "::group::Package Directory Overview"
           ls -la "$PKG_PATH"
           echo "::endgroup::"
-          
+
           echo "::group::Package Files Overview"
           find "$PKG_PATH" -ls
           echo "::endgroup::"
-          
+
           if $PURE_PYTHON; then
             echo "::group::Source & Build Distribution"
             python -m build $PKG_PATH --outdir ./dist --verbose
