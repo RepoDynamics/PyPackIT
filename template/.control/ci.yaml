@@ -17,9 +17,9 @@ tool:
           description: Running formatting and linting checks.
           import_name: pre_commit
           pip:
-            spec: pre-commit == 3.8.0
+            spec: pre-commit == 4.0.1
           conda:
-            spec: pre-commit = 3.8.0
+            spec: pre-commit = 4.0.1
             channel: conda-forge
           url:
             docs: https://pre-commit.com/
@@ -38,10 +38,10 @@ tool:
         content:
           default_language_version:
             python: python3
-          minimum_pre_commit_version: 3.8.0
+          minimum_pre_commit_version: 4.0.0
           repos:
             - repo: https://github.com/pre-commit/pre-commit-hooks
-              rev: v4.6.0
+              rev: v5.0.0
               hooks:
                 - id: check-ast
                   # https://github.com/pre-commit/pre-commit-hooks#check-ast
@@ -112,7 +112,7 @@ tool:
                   args: [ --markdown-linebreak-ext=md ]
                   verbose: true
             - repo: https://github.com/astral-sh/ruff-pre-commit
-              rev: v0.6.6
+              rev: v0.7.4
               hooks:
                 - id: ruff
                   stages: [ pre-commit, manual ]
@@ -358,7 +358,7 @@ tool:
           fix: true
           line-length: 100
           output-format: grouped
-          required-version: == 0.6.6
+          required-version: == 0.7.4
           show-fixes: true
           src:
             - '${{ pkg.path.source }}$'
