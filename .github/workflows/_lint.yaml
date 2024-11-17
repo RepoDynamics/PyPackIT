@@ -116,7 +116,7 @@ jobs:
           echo "::group::Install ${{ fromJSON(inputs.config).pkg.name }}"
           python3 -m pip install "./${{ fromJSON(inputs.config).pkg.path.root }}"
           echo "::endgroup::"
-          
+
           if [[ "${{ fromJSON(inputs.config).type }}" == "test" ]]; then
             echo "::group::Install ${{ fromJSON(inputs.config).pkg2.name }}"
             python3 -m pip install "./${{ fromJSON(inputs.config).pkg2.path.root }}"
