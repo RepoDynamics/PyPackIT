@@ -1,14 +1,14 @@
 {
    "zenodo": {
       "concept": {
-         "id": null,
-         "doi": null
+         "doi": null,
+         "id": null
       }
    },
    "zenodo_sandbox": {
       "concept": {
-         "id": null,
-         "doi": null
+         "doi": null,
+         "id": null
       }
    }
 }
