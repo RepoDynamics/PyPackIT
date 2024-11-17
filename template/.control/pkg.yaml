@@ -41,7 +41,7 @@ pkg:
       docstring:
         content: |
           ${{ name }}$: ${{ title }}$.
-  
+
           ${{ abstract }}$
         max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
   manifest:
