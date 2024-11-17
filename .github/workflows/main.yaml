@@ -115,6 +115,7 @@ jobs:
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       zenodo-token: ${{ secrets.ZENODO_TOKEN }}
+      zenodo-sandbox-token: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
   web:
     name: ${{ matrix.config.name }}
     needs: main
@@ -210,4 +211,6 @@ jobs:
         with:
           github-config: ${{ toJSON(fromJSON(needs.main.outputs.release).github) }}
           zenodo-config: ${{ toJSON(fromJSON(needs.main.outputs.release).zenodo) }}
-          zenodo-token: ${{ secrets.zenodo-token }}
+          zenodo-sandbox-config: ${{ toJSON(fromJSON(needs.main.outputs.release).zenodo-sandbox) }}
+          zenodo-token: ${{ secrets.ZENODO_TOKEN }}
+          zenodo-sandbox-token: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
