@@ -14,30 +14,30 @@ title: Cloud-Native Continuous Software Engineering Automation for Python Packag
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
   ${{ name }}$ (pronounced ${{ custom.name_ipa }}$)
-  is a comprehensive **cloud-based automation tool** 
+  is a comprehensive **cloud-based automation tool**
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional software on **GitHub**,
-  in accordance with the latest engineering best practices and standards. 
+  in accordance with the latest engineering best practices and standards.
   It is a ready-to-use software suite that streamlines the initiation, configuration,
   development, publication, management, and maintenance of high-quality software libraries in **Python**.
   By taking charge of repetitive tasks and automatically enforcing best practices
-  throughout the software development life-cycle, 
+  throughout the software development life-cycle,
   ${{ name }}$ enables its users to solely focus on the creative aspects of their projects,
   while improving quality and lowering production costs.
-  Using state-of-the-art tools and methodologies, ${{ name }}$ offers a robust project infrastructure, 
-  including a build-ready Python **package skeleton**, 
-  a fully operational **test suite**, a complete **documentation website**, 
+  Using state-of-the-art tools and methodologies, ${{ name }}$ offers a robust project infrastructure,
+  including a build-ready Python **package skeleton**,
+  a fully operational **test suite**, a complete **documentation website**,
   and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
-  and dynamic project management. 
-  ${{ name }}$ establishes a complete **cloud development** environment on GitHub, 
-  integrating with its version control system, issue tracker, 
-  and pull-based model to provide a fully automated software development workflow, 
-  complete with features like **issue management**, **branching model**, and **version scheme**. 
-  Leveraging **GitHub Actions** (GHA), ${{ name }}$ implements a **cloud-native development** process 
+  and dynamic project management.
+  ${{ name }}$ establishes a complete **cloud development** environment on GitHub,
+  integrating with its version control system, issue tracker,
+  and pull-based model to provide a fully automated software development workflow,
+  complete with features like **issue management**, **branching model**, and **version scheme**.
+  Leveraging **GitHub Actions** (GHA), ${{ name }}$ implements a **cloud-native development** process
   with specialized Continuous Integration (CI), Deployment (CD), Testing (CT), Refactoring (CR),
   and Maintenance (CM) pipelines, using **Agile**, **Continuous** software engineering,
   and **DevOps** methodologies.
-  ${{ name }}$ is a free and open-source software suite that readily integrates with 
+  ${{ name }}$ is a free and open-source software suite that readily integrates with
   both new and existing projects to ensure their long-term sustainability and high quality,
   thus enabling developers to rapidly implement their ideas and easily maintain their software.
 keywords:
@@ -68,9 +68,9 @@ highlights:
       ${{ name }}$ is fully preconfigured and readily installed
       in both new and existing repositories,
       requiring most users to only fill project-specific metadata.
-      PyPackIT then takes over, automatically setting up the repository 
-      and generating a complete infrastructure for the project 
-      where the only remaining steps 
+      PyPackIT then takes over, automatically setting up the repository
+      and generating a complete infrastructure for the project
+      where the only remaining steps
       software development process are adding your code, unit-tests and documentation content.
   - title: Customizability and Dynamism
     description: |
@@ -86,8 +86,8 @@ highlights:
       ${{ name }}$ is a cloud-based solution that integrates with GitHub
       and uses GitHub Actions to automate the software development process.
       It provides a cloud-native development environment that
-      eliminates the need for initial setup and configuration, 
-      enabling users to immediately begin the actual 
+      eliminates the need for initial setup and configuration,
+      enabling users to immediately begin the actual
       implementation of software, even directly from the web browser.
       This promotes collaboration, which is essential for project sustainability.
   - title: Continuous Configuration Automation
@@ -102,7 +102,7 @@ highlights:
   - title: Python Package
     description: |
       ${{ name }}$ includes a fully-configured and build-ready
-      package skeleton automatically maintained via the control center. 
+      package skeleton automatically maintained via the control center.
       Users only need to add application code in the provided source files,
       while PyPackIT automates all integration, packaging, and deployment tasks.
       To facilitate software findability and usage,
@@ -110,12 +110,12 @@ highlights:
       with a persistent DOI ensuring reproducibility and reliable citations.
   - title: Test Suite
     description: |
-      ${{ name }}$'s fully operational testing infrastructure enables the 
+      ${{ name }}$'s fully operational testing infrastructure enables the
       immediate adoption of test-driven methodologies,
-      requiring users to only provide test cases in the provided skeleton. 
+      requiring users to only provide test cases in the provided skeleton.
       Testing is then automatically performed throughout the development life-cycle,
-      while improving awareness of software health status via notifications and reports. 
-      The test suite is automatically packaged and distributed along each release, 
+      while improving awareness of software health status via notifications and reports.
+      The test suite is automatically packaged and distributed along each release,
       allowing for verification of software functionality and performance by its users.
   - title: Documentation Website
     description: |
@@ -123,13 +123,13 @@ highlights:
       a comprehensive documentation website, requiring users to
       simply provide docstrings. A fully designed website
       is included, prefilled with content that is automatically customized
-      with project-specific information and continuously complemented 
+      with project-specific information and continuously complemented
       throughout the development process. The website is
       automatically deployed to GitHub Pages and ReadTheDocs,
       requiring no web development knowledge.
   - title: Version Control
     description: |
-      ${{ name }}$ fully integrates with Git to automate tasks 
+      ${{ name }}$ fully integrates with Git to automate tasks
       like branch and commit management, versioning, tagging, and merging.
       It implements a specialized branching model and version scheme
       for simultaneous publication and support of multiple releases,
@@ -169,7 +169,7 @@ highlights:
       supports all SPDX License List entries as well as user-defined licenses.
       Projects can define complex licenses simply by providing an SPDX expression.
       ${{ name }}$ will then automatically retrieve the required license data,
-      customize it with project-specific information, 
+      customize it with project-specific information,
       produce visually appealing and valid license files,
       and integrate license information into all project components and releases.
   - title: Security & Transparency
@@ -220,4 +220,3 @@ citation:
   message: If you use ${{ name }}$, please cite it using this reference.
 custom:
   name_ipa: "[ˈpaɪˌpækɪt]"
-
