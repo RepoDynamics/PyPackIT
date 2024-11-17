@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import argparse
 import json
 import sys
+from typing import TYPE_CHECKING
 
 import your_new_python_project_testsuite as testsuite
 
