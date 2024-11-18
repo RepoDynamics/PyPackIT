@@ -45,11 +45,11 @@ jobs:
           skip-existing: false
           attestations: false
   test:
-    name: Test
+    name: ${{ fromJSON(inputs.config).test.name }}
     needs: publish
     if: fromJSON(inputs.config).test
     permissions:
       id-token: write
     uses: ./.github/workflows/_test.yaml
     with:
-      config: ${{ toJSON(fromJSON(inputs.config).test) }}
+      config: ${{ toJSON(fromJSON(inputs.config).test.job) }}
