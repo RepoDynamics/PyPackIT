@@ -160,7 +160,7 @@ release:
     asset:
       sdist:
         name: >-
-          #{{ slugify(get("name")) }}#-{{ version }}-sdists.zip
+          #{{ return slugify(get("name")) }}#-{{ version }}-sdists.zip
         label: Source Distributions
         format: zip
         files:
@@ -168,7 +168,7 @@ release:
             artifact: true
       wheel:
         name: >-
-          #{{ slugify(get("name")) }}#-{{ version }}-wheels.zip
+          #{{ return slugify(get("name")) }}#-{{ version }}-wheels.zip
         label: Binary Distributions
         format: zip
         files:
@@ -176,7 +176,7 @@ release:
             artifact: true
       docs:
         name: >-
-          #{{ slugify(get("name")) }}#-{{ version }}-docs.zip
+          #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip
         label: Documentation
         format: zip
         files:
@@ -184,14 +184,14 @@ release:
             artifact: true
       license:
         name: >-
-          #{{ slugify(get("name")) }}#-{{ version }}-license.zip
+          #{{ return slugify(get("name")) }}#-{{ version }}-license.zip
         label: License
         format: zip
         files:
           - pattern: '^(LICENSE|COPYING)[^/]*$'
       citation:
         name: >-
-          #{{ slugify(get("name")) }}#-{{ version }}-citation.cff
+          #{{ return slugify(get("name")) }}#-{{ version }}-citation.cff
         label: Citation
         files:
           - source: CITATION.cff
@@ -209,7 +209,7 @@ release:
               {
                 "identifier": doi,
                 "relation": relation,
-                "resource_type": get(".upload_type")
+                "resource_type": get("..upload_type")
               } for doi, relation in [
                 (get("var.zenodo.concept.doi"), "isPartOf"),
                 (last_doi, "isNewVersionOf"),
