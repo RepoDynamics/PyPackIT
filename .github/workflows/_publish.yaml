@@ -52,4 +52,4 @@ jobs:
       id-token: write
     uses: ./.github/workflows/_test.yaml
     with:
-      config: ${{ fromJSON(inputs.config).test }}
+      config: ${{ toJSON(fromJSON(inputs.config).test) }}
