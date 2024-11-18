@@ -190,9 +190,10 @@ jobs:
       config: ${{ toJSON(fromJSON(needs.main.outputs.publish-pypi).job) }}
   release:
     name: ${{ fromJSON(needs.main.outputs.release).name }}
-    needs: [ main, web, publish-pypi ]
-    if: fromJSON(needs.main.outputs.release)
+    needs: [ main, web, lint, test, build, publish-pypi ]
+    if: ${{ !cancelled() && !failure() && fromJSON(needs.main.outputs.release) }}
     permissions:
+      contents: write
       discussions: write
     runs-on: ubuntu-latest
     steps:
