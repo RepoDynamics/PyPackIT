@@ -2,6 +2,9 @@ test:
   path:
     root: test
   name: ${{ pkg.name }}$-TestSuite
+  readme:
+    path: ${{ test.path.root }}$/README.md
+    content: ${{ readme.main.content }}$
   dependency:
     # For other PyTest plugins, see:
     # - https://github.com/augustogoulart/awesome-pytest
