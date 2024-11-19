@@ -8,14 +8,14 @@ Journals For Software Papers
 | Name | Publisher | Impact Factor | CiteScore | Common Subject Areas |
 | ---- | --------- | ------------- | --------- | -------------------- |
 | [IEEE Transactions on Software Engineering](https://www.computer.org/csdl/journal/ts) | IEEE | 7.4 | 9.5 |
-| [Empirical Software Engineering](https://link.springer.com/journal/10664) | Springer | 4.1 | 7.9 | 
+| [Empirical Software Engineering](https://link.springer.com/journal/10664) | Springer | 4.1 | 7.9 |
 | [ACM Transactions on Software Engineering and Methodology (TOSEM)](https://dl.acm.org/journal/tosem) | ACM | 4.4 | 7.1 | Programming Language, Software Engineering, Software |
 | [Information and Software Technology](https://www.sciencedirect.com/journal/information-and-software-technology) | Elsevier | 3.9 | 9.2 | Information Systems, Software, Human-Computer Interaction |
 | [Journal of Systems and Software (JSS)](https://www.sciencedirect.com/journal/journal-of-systems-and-software) | Elsevier | 3.5 | 9 | Information Systems, Software, Computer Networks and Communications, Computer Science Applications |
 | [SoftwareX](https://www.sciencedirect.com/journal/softwarex) | Elsevier | 3.4 | 5.1 | Software, Python, Computational Science |
 | [IEEE Software](https://www.computer.org/csdl/magazine/so) | IEEE | 3.3 | 4.9 | Software Engineering, Software Development, Computing and Processing |
-| [Automated Software Engineering](https://link.springer.com/journal/10515) | Springer | 3.4 | 3.3 | 
-| [Journal of Software: Practice and Experience](https://onlinelibrary.wiley.com/journal/1097024x) | Wiley | 3.2 | 6.7 | 
+| [Automated Software Engineering](https://link.springer.com/journal/10515) | Springer | 3.4 | 3.3 |
+| [Journal of Software: Practice and Experience](https://onlinelibrary.wiley.com/journal/1097024x) | Wiley | 3.2 | 6.7 |
 | [Journal of Software: Evolution and Process](https://onlinelibrary.wiley.com/journal/20477481) | Wiley | 2 | 5 | Software Engineering, Software, Software Development |
 | [Software Quality Journal](https://link.springer.com/journal/11219) | Springer | 2 | 5 | Software Engineering, Software, Software Quality |
 | [Science of Computer Programming](https://www.sciencedirect.com/journal/science-of-computer-programming) | Elsevier | 1.3 | 3.5 | Software, Computational Theory and Mathematics |
@@ -186,7 +186,7 @@ as well as special issues.
 
 SoftwareX aims to acknowledge the impact of software on today's research practice, and on new scientific discoveries in almost all research domains.
 Above all, SoftwareX aims to inform researchers about software applications, tools and libraries with a (proven) potential
-to impact the process of scientific discovery in various domains. 
+to impact the process of scientific discovery in various domains.
 The journal is multidisciplinary and accepts submissions from within and across subject domains such as those represented within
 the broad thematic areas below:
 - Mathematical and Physical Sciences;
@@ -240,11 +240,11 @@ Sample topics include:
 Topics of interest include, but are not restricted to: specification and design representation schemes,
 both formal and informal; descriptions and models of the development process; tools and environments to support software development;
 cognition in software development, including studies of specifiers, designers and implementors, and cognitive properties of representation schemes,
-programming and programming languages; software development methods, analysis and validation; 
-requirements elicitation, acquisition and formalization; system rationale; software quality and metrics; software reuse and adaptation; 
-animation and execution of specifications and designs; domain modelling and analysis; software visualization; software object management; 
-development of user interfaces; group and team work in software engineering; development of distributed, real-time, embedded and composite systems; 
-systems integration; software evolution and maintenance; system testing; reverse engineering and program understanding; 
+programming and programming languages; software development methods, analysis and validation;
+requirements elicitation, acquisition and formalization; system rationale; software quality and metrics; software reuse and adaptation;
+animation and execution of specifications and designs; domain modelling and analysis; software visualization; software object management;
+development of user interfaces; group and team work in software engineering; development of distributed, real-time, embedded and composite systems;
+systems integration; software evolution and maintenance; system testing; reverse engineering and program understanding;
 documentation and program explanation.
 
 
@@ -263,7 +263,7 @@ Software and system design and implementation topics of strong interest to our r
 span the exploration of established and rapidly emerging topics, which include but are not limited to:
 
 - Distributed Computing Paradigms: Service, Cloud, Fog, Edge.
-- Domain Specific Computing: Aerospace, Education, Finance, Healthcare, Transportation, Power.   
+- Domain Specific Computing: Aerospace, Education, Finance, Healthcare, Transportation, Power.  
 - Model-driven Development: Model Transformations, Automated code generation.
 - Networking: Mobile computing, IoT.
 - Operating Systems, Run-time Support, and Virtualization.
@@ -281,7 +281,7 @@ span the exploration of established and rapidly emerging topics, which include b
 
 The “Journal of Software: Evolution and Process” is an archival journal that publishes high quality,
 state-of-the-art research and practice papers dealing with the conception, development, testing, management, quality, maintenance,
-and evolution of software, systems, and services, as well as the continuous improvement of processes and capabilities surrounding them. 
+and evolution of software, systems, and services, as well as the continuous improvement of processes and capabilities surrounding them.
 Areas of interest include but are not limited to:
 - How software, systems and enabled services are conceived, justified, created, managed, maintained and evolved over time
 - How new underlying technologies (which are constantly changing) can be elegantly integrated and dealt with as systems evolve over time
