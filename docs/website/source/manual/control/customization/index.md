@@ -27,7 +27,7 @@ To generate more complex data and files that cannot be declaratively defined in 
 {{ ccc.name }} allows you to define custom Python scripts
 that are automatically executed at certain stages during the control center processing.
 To hook into each stage, you should define a callable object (a function or a class)
-with a certain signature (as described below) in the `main.py` file in the 
+with a certain signature (as described below) in the `main.py` file in the
 [`hooks` directory](#manual-control-structure-hooks) of the control center.
 
 ### Post-Load
@@ -94,14 +94,14 @@ Each `NamedTuple` object has the following attributes:
 
     Type of the dynamic file.
 :subtype: `tuple[str, str]`
-    
+
     File subtype's ID and title.
 :content: `str`
-        
+
     File content.
 :path: `str`
-    
+
     Current path of the file relative to the repository's root directory.
 :path_before: `str`
-    
+
     Previous path of the file relative to the repository's root directory.
