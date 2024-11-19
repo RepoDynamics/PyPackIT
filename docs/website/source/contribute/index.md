@@ -52,6 +52,6 @@ please don't hesitate to [contact us](../help/contact/index.md).
     🙏 <b>We Appreciate All Your Work!</b><br>
     We follow the <a href="https://allcontributors.org/docs/en/specification">All Contributors</a>
     specifications; all types of contributions are encouraged and valued, and all contributors are
-    acknowledged on our <a href="${{ccc.web.page.contribute.url}}">public website</a>
-    and <a href="${{ccc.repo.url.releases.home}}">repository</a>.
+    acknowledged on our <a href="{{ccc.web.page.contribute.url}}">public website</a>
+    and <a href="{{ccc.repo.url.releases.home}}">repository</a>.
 </blockquote>
