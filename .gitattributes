@@ -11,7 +11,7 @@ copyright         text
 *COPYRIGHT*       text
 INSTALL           text
 license           text
-LICENSE           text
+LICENSE*          text
 Makefile          text
 NEWS              text
 readme            text
