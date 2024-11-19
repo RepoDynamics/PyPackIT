@@ -44,8 +44,8 @@ to your repository:
    Note that you have to repeat these steps to replace the token after it expires.
 3. Under ***Repository access*** choose ***Only select repositories***
    and then select your new repository from the dropdown menu.
-4. Under ***Permissions*** select ***Repository permissions*** and set the ***Administration*** and ***Pages***
-   access to ***Read and write***.
+4. Under ***Permissions*** select ***Repository permissions*** and
+   set the ***Administration***, ***Contents***, and ***Pages*** access to ***Read and write***.
 5. Click on the {bdg-success}`Generate token` button at the bottom of the page.
 6. Copy the displayed token to your clipboard.
 7. Go to [Settings > Security > Secrets and variables > Actions > Secrets > New repository secret](){.user-link-repo-settings-secrets-actions-new}
@@ -72,7 +72,8 @@ by enabling the option ***Allow GitHub Actions to create and approve pull reques
 [trusted publishing](https://docs.pypi.org/trusted-publishers/) ({term}`OIDC`)
 to automatically authenticate with PyPI servers and publish your Python package on TestPyPI and PyPI,
 without the need to manually set authentication credentials such as username and password
-(cf. [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)). 
+(cf. [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
+and [GiHub docs](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-pypi)).
 
 To activate trusted publishing for both PyPI and TestPyPI in
 your respective accounts:
@@ -118,7 +119,33 @@ your respective accounts:
 (install-zenodo)=
 ## Zenodo Token
 
-<!-- (https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content) -->
+1. [Create an account on Zenodo](https://zenodo.org/signup/)
+   or [log in to your existing account](https://zenodo.org/login/).
+2. In the [Applications](https://zenodo.org/account/settings/applications/) page of your account,
+   click on [New token](https://zenodo.org/account/settings/applications/tokens/new/)
+   under the ***Personal access tokens*** panel.
+3. Add a ***Name*** (e.g., name of your GitHub repository), select `deposit:actions` under ***Scopes***,
+   and click on the {bdg-info}`Create` button.
+4. Copy the displayed token to your clipboard, and then click on the {bdg-info}`Save` button.
+5. Go to [Settings > Security > Secrets and variables > Actions > Secrets > New repository secret](){.user-link-repo-settings-secrets-actions-new}
+   in your repository.
+6. In the ***Name*** field, enter `ZENODO_TOKEN`,
+   paste the token you copied in step 4 into the ***Secret*** field,
+   and click on the {bdg-success}`Add secret` button.
+7. Repeat the above steps for [Zenodo Sandbox](https://sandbox.zenodo.org/),
+   only this time in step 6, enter `ZENODO_SANDBOX_TOKEN` instead of `ZENODO_TOKEN`.
 
-:::{include} /_snippets/under_construction.md
+
+:::{admonition} For Existing Projects
+:class: important dropdown
+
+If your project is already published on either Zenodo or Zenodo Sandbox
+and you wish to publish future versions under the same so-called concept record
+(instead of creating a new concept), you can add your existing concept's DOI and ID
+to the [variables files](){.user-link-repo-settings-secrets-actions-new} in your repository.
+Note that this **must be done in the first commit after adding your tokens**,
+otherwise a new concept will be created for each platform (Zenodo or Zenodo Sandbox)
+that does not define an ID.
 :::
+
+<!-- (https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content) -->
