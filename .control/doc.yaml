@@ -422,7 +422,7 @@ web:
             url: ${{ web.page.license.url }}$
         icon_links_label: External links
         use_edit_page_button: true
-        announcement: ${{ announcement.url }}$
+        announcement: ${{ doc.announcement.url }}$
         search_bar_text: Search ${{ name }}$
         back_to_top_button: true
         logo:
