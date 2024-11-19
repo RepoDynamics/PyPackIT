@@ -1,4 +1,4 @@
-title: Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub
+title: Cloud-Native Continuous Software Engineering Automation for Python Projects
   # Alternative Titles
   # - A fully automated, plug and play, professional software project management solution for Python packages on GitHub
   # - GitHub-Based Automation Tool For Research Software Engineering in Python
@@ -13,7 +13,7 @@ title: Cloud-Native Continuous Software Engineering Automation for Python Packag
   # - Better Research Software in Python with Automation on GitHub
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
-  ${{ name }}$ (pronounced ${{ custom.name_ipa }}$)
+  ${{ name }}$ (pronounced ${{ __custom__.name_ipa }}$)
   is a comprehensive **cloud-based automation tool**
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional software on **GitHub**,
@@ -41,27 +41,26 @@ abstract: >-
   both new and existing projects to ensure their long-term sustainability and high quality,
   thus enabling developers to rapidly implement their ideas and easily maintain their software.
 keywords:
-  - Project Management
-  - Software Development
-  - DevOps
+  - Automation
+  - Cloud-Native Development
   - Continuous Integration
+  - Continuous Delivery
   - Continuous Deployment
   - Continuous Testing
-  - Automation
-  - Maintenance
-  - GitHub Actions
-  - Developer Experience
-  - Deployment Manager
-  - Release Automation
-  - Repository Template
-  - Dynamic Repository
+  - Continuous Refactoring
+  - Continuous Configuration Automation
+  - Continuous Software Engineering
+  - DevOps
   - Infrastructure as Code
-  - Python
-  - Packaging
-  - Website
+  - Agile
+  - Dynamic Project Management
+  - Template Repository
+  - Python Package Skeleton
+  - Sphinx Website
+  - Test Suite Skeleton
+  - FAIR Software
+  - GitHub Actions
   - Bot
-  - Config
-  # Automatic software project management; Cloud-native software development workflow; Continuous software engineering pipeline; GitHub Actions automation tool; Research software project template; FAIR scientific Python library
 highlights:
   - title: Ready to Use
     description: |
@@ -183,40 +182,54 @@ highlights:
       its entire infrastructure is natively implemented and self-contained.
 license:
   expression: AGPL-3.0-or-later
+role:
+  manager:
+    title: Project Manager
+    description: |
+      Responsible for maintaining the project and its resources.
+    abbreviation: MGR
+    type: ProjectManager
+    assignment:
+      issue: ".*"
+      review: ".*"
+  author:
+    title: Author
+    description: |
+      Responsible for creating the project and its content.
+    abbreviation: AUT
+    type: Author
+    assignment:
+      pull: ".*"
+  contact:
+    title: Contact Person
+    description: |
+      Responsible for communication with project users and contributors.
+    abbreviation: CNT
+    type: ContactPerson
+    assignment:
+      discussion: ".*"
+  security:
+    title: Security Adviser
+    description: |
+      Responsible for ensuring the security of the project and
+      handling security-related issues.
+    abbreviation: SEC
+    type: ProjectMember
+  coc:
+    title: Code of Conduct Supervisor
+    description: |
+      Responsible for ensuring that the project's code of conduct is enforced.
+    abbreviation: COC
+    type: ProjectMember
 team:
   aariam:
     github:
-      id: aariam
-  rlrios:
-    github:
-      id: raquellrios
-  avolkamer:
-    github:
-      id: andreavolkamer
-maintainer:
-  code_owners:
-    owners:
-      # Default owners for everything, unless a later match takes precedence.
-      - "*": [ '${{ team.aariam }}$' ]
-  issue:
-    app_bug: [ '${{ team.aariam }}$' ]
-    pkg_api_enhancement: [ '${{ team.aariam }}$' ]
-    pkg_api_feat: [ '${{ team.aariam }}$' ]
-    pkg_api_change: [ '${{ team.aariam }}$' ]
-  discussion:
-    announcements: [ '${{ team.aariam }}$' ]
-  security: '${{ team.aariam }}$'
-  code_of_conduct: '${{ team.aariam }}$'
-  support: '${{ team.aariam }}$'
-citation:
-  title: "${{ name }}$: ${{ title }}$"
-  authors:
-    - '${{ team.aariam }}$'
-    - '${{ team.rlrios }}$'
-    - '${{ team.avolkamer }}$'
-  contacts:
-    - '${{ team.avolkamer }}$'
-    - '${{ team.aariam }}$'
-  message: If you use ${{ name }}$, please cite it using this reference.
-custom:
+      id: AAriam
+    role:
+      manager: 1
+      author: 1
+      contact: 1
+      security: 1
+      coc: 1
+__custom__:
   name_ipa: "[ˈpaɪˌpækɪt]"

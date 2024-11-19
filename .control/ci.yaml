@@ -1,0 +1,139 @@
+tool:
+  pre-commit:
+    env:
+      dependency:
+        pre_commit:
+          name: Pre-Commit
+          description: Running formatting and linting checks.
+          import_name: pre_commit
+          pip:
+            spec: pre-commit == 4.0.1
+          conda:
+            spec: pre-commit = 4.0.1
+            channel: conda-forge
+          url:
+            docs: https://pre-commit.com/
+            source: https://github.com/pre-commit/pre-commit
+            pip: https://pypi.org/project/pre-commit/
+            conda: https://anaconda.org/conda-forge/pre_commit
+      file:
+        conda: &conda_dev_env
+          name: >-
+            #{{ return slugify(get("name")) }}#-dev
+          path: .github/dev_environment.yaml
+    config:
+      file:
+        type: yaml
+        path: .github/.pre-commit-config.yaml
+        content:
+          default_language_version:
+            python: python3
+          minimum_pre_commit_version: 4.0.0
+          repos:
+            - repo: https://github.com/pre-commit/pre-commit-hooks
+              rev: v5.0.0
+              hooks:
+                - id: check-ast
+                  # https://github.com/pre-commit/pre-commit-hooks#check-ast
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-case-conflict
+                  # https://github.com/pre-commit/pre-commit-hooks#check-case-conflict
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-executables-have-shebangs
+                  # https://github.com/pre-commit/pre-commit-hooks#check-executables-have-shebangs
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-json
+                  # https://github.com/pre-commit/pre-commit-hooks#check-json
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-shebang-scripts-are-executable
+                  # https://github.com/pre-commit/pre-commit-hooks#check-shebang-scripts-are-executable
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-symlinks
+                  # https://github.com/pre-commit/pre-commit-hooks#check-symlinks
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-toml
+                  # https://github.com/pre-commit/pre-commit-hooks#check-toml
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-xml
+                  # https://github.com/pre-commit/pre-commit-hooks#check-xml
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: check-yaml
+                  # https://github.com/pre-commit/pre-commit-hooks#check-yaml
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: destroyed-symlinks
+                  # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#destroyed-symlinks
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: end-of-file-fixer
+                  # https://github.com/pre-commit/pre-commit-hooks#end-of-file-fixer
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: fix-byte-order-marker
+                  # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#fix-byte-order-marker
+                  stages: [ pre-commit, manual ]
+                  verbose: true
+                - id: mixed-line-ending
+                  # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
+                  stages: [ pre-commit, manual ]
+                  args: [ --fix, auto ]
+                  verbose: true
+                - id: no-commit-to-branch
+                  # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
+                  stages: [ pre-commit ]
+                  args:
+                    - --branch
+                    - '${{ branch.main.name }}$'
+                    - --pattern
+                    - '${{ branch.release.name }}$.*'
+                    - --pattern
+                    - '${{ branch.pre.name }}$.*'
+                  verbose: true
+                - id: pretty-format-json
+                  # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#pretty-format-json
+                  stages: [ pre-commit, manual ]
+                  args: [ --autofix, --indent, '3' ]
+                  verbose: true
+                - id: trailing-whitespace
+                  # https://github.com/pre-commit/pre-commit-hooks#trailing-whitespace
+                  stages: [ pre-commit, manual ]
+                  args: [ --markdown-linebreak-ext=md ]
+                  verbose: true
+  readthedocs:
+    config:
+      workflow:
+        name: ${{ repo.name }}$
+        platform: "community"
+      file:
+        type: yaml
+        path: .readthedocs.yaml
+        content:
+          version: 2
+          build:  # Set the version of Python and other tools you might need
+            os: ubuntu-22.04
+            tools:
+              python: "mambaforge-4.10"
+            jobs:
+              post_checkout:
+                # versioningit needs the full git history to determine the package's version at build time.
+                # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
+                - git fetch --unshallow
+          conda:  # Website dependencies
+            environment: ${{ web.env.file.conda.path }}$
+          python:
+            install:  # Install the package
+              - method: pip
+                path: ${{ pkg.path.root }}$
+          sphinx:  # Build with Sphinx
+            configuration: ${{ web.path.source }}$/conf.py
+            builder: dirhtml
+            fail_on_warning: false
+          formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip

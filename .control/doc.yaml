@@ -13,9 +13,8 @@ theme:
       items:
         - service: dynamic
           args:
-            url: ${{ control.url }}$
+            url: ${{ control.url.metadata }}$
             query: '$.copyright'
-            prefix: '©'
           label: ${{ name }}$
           color: ${{ theme.color.primary.light }}$
           logo: ${{ theme.logo.icon.path }}$
@@ -27,10 +26,9 @@ theme:
           title: '${{ name }}$: ${{ copyright }}$'
           alt: ${{ name }}$
           align: left
-        - service: dynamic
+        - service: static
           args:
-            url: ${{ control.url }}$
-            query: '$.license.expression'
+            message: ${{ license.expression }}$
           label: License
           color: ${{ theme.color.secondary.light }}$
           color_dark: ${{ theme.color.secondary.dark }}$
@@ -133,7 +131,57 @@ readme:
                 align: justify
         - heading: Acknowledgements
           body:
-            - This project was developed in [Volkamer Lab](https://volkamerlab.org/).
+            - ${{ name }}$ was developed in [Volkamer Lab](https://volkamerlab.org/).
+health:
+  code_owners: { }
+  code_of_conduct:
+    path: CODE_OF_CONDUCT.md
+    content:
+      class: covenant_code_of_conduct
+      contact_name: |
+        #{{
+          return team_members_with_role_ids(
+            "coc",
+            active_only=True,
+          )[0]["email"]["id"]
+        }}#
+      contact_url: |
+        #{{
+          return team_members_with_role_ids(
+            "coc",
+            active_only=True,
+          )[0]["email"]["url"]
+        }}#
+  contributing:
+    path: CONTRIBUTING.md
+    content:
+      heading: ${{ name }}$ Contributing Guidelines
+      body:
+        - class: paragraph
+          attrs:
+            align: justify
+          content: |
+            Welcome to the <em>${{ name }}$</em> community!
+            We are excited to have you here,
+            and grateful that you are considering contributing.
+            ${{ name }}$ is a free and open-source project that evolves with the needs of its users,
+            and can only grow through the help of great members like you.
+      section:
+        - heading: How To Contribute
+          body:
+            - class: paragraph
+              attrs:
+                align: justify
+              content: |
+                To keep all our project documentation organized and easy to find, the complete
+                <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
+  security:
+    path: SECURITY.md
+    content:
+      heading: Security Policy
+doc:
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
 web:
   toc:
     path: .toc.yaml
@@ -763,5 +811,4 @@ web:
     - links:
         - title: Q&A
           path: 'help/ask'
-announcement:
-  path: ${{ web.path.root }}$/announcement.html
+
