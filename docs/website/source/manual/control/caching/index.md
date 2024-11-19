@@ -10,7 +10,7 @@ and if not, it will fetch it from the corresponding web API and cache it for fut
 
 ## Location
 
-The cache is a YAML file stored at `RepoDynamics/.metadata_cache.yaml` 
+The cache is a YAML file stored at `RepoDynamics/.metadata_cache.yaml`
 relative to your repository's [cache directory](#manual-repo-cache-dir),
 where each piece of cached data is stored as a separate entry with a timestamp.
 If you run {{ ccc.name }} on a local device,
