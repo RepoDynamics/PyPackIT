@@ -17,7 +17,6 @@ repo:
   gitignore:
     # Project-specific files
     - ${{ web.path.root }}$/.build/
-    - ${{ web.path.source }}$/${{ web.page.api.path }}$/**/*
     - ${{ local.cache.path }}$/**
     - '!${{ local.cache.path }}$/**/'
     - '!${{ local.cache.path }}$/**/README.md'
