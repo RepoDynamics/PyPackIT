@@ -463,8 +463,7 @@
       }
    ],
    "issue": {
-      "blank_enabled": false,
-      "contact_links": []
+      "blank_enabled": false
    },
    "keywords": [
       "Automation",
