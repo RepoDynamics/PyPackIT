@@ -1,0 +1,131 @@
+# Contributor Covenant Code of Conduct
+
+## Our Pledge
+
+We as members, contributors, and leaders pledge to make participation in our
+community a harassment-free experience for everyone, regardless of age, body
+size, visible or invisible disability, ethnicity, sex characteristics, gender
+identity and expression, level of experience, education, socio-economic status,
+nationality, personal appearance, race, religion, or sexual identity
+and orientation.
+
+We pledge to act and interact in ways that contribute to an open, welcoming,
+diverse, inclusive, and healthy community.
+
+## Our Standards
+
+Examples of behavior that contributes to a positive environment for our
+community include:
+
+* Demonstrating empathy and kindness toward other people
+* Being respectful of differing opinions, viewpoints, and experiences
+* Giving and gracefully accepting constructive feedback
+* Accepting responsibility and apologizing to those affected by our mistakes,
+  and learning from the experience
+* Focusing on what is best not just for us as individuals, but for the
+  overall community
+
+Examples of unacceptable behavior include:
+
+* The use of sexualized language or imagery, and sexual attention or
+  advances of any kind
+* Trolling, insulting or derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or email
+  address, without their explicit permission
+* Other conduct which could reasonably be considered inappropriate in a
+  professional setting
+
+## Enforcement Responsibilities
+
+Community leaders are responsible for clarifying and enforcing our standards of
+acceptable behavior and will take appropriate and fair corrective action in
+response to any behavior that they deem inappropriate, threatening, offensive,
+or harmful.
+
+Community leaders have the right and responsibility to remove, edit, or reject
+comments, commits, code, wiki edits, issues, and other contributions that are
+not aligned to this Code of Conduct, and will communicate reasons for moderation
+decisions when appropriate.
+
+## Scope
+
+This Code of Conduct applies within all community spaces, and also applies when
+an individual is officially representing the community in public spaces.
+Examples of representing our community include using an official e-mail address,
+posting via an official social media account, or acting as an appointed
+representative at an online or offline event.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the community leaders responsible for enforcement at [armiariam@gmail.com](mailto:armiariam@gmail.com).
+All complaints will be reviewed and investigated promptly and fairly.
+
+All community leaders are obligated to respect the privacy and security of the
+reporter of any incident.
+
+## Enforcement Guidelines
+
+Community leaders will follow these Community Impact Guidelines in determining
+the consequences for any action they deem in violation of this Code of Conduct:
+
+### 1. Correction
+
+**Community Impact**: Use of inappropriate language or other behavior deemed
+unprofessional or unwelcome in the community.
+
+**Consequence**: A private, written warning from community leaders, providing
+clarity around the nature of the violation and an explanation of why the
+behavior was inappropriate. A public apology may be requested.
+
+### 2. Warning
+
+**Community Impact**: A violation through a single incident or series
+of actions.
+
+**Consequence**: A warning with consequences for continued behavior. No
+interaction with the people involved, including unsolicited interaction with
+those enforcing the Code of Conduct, for a specified period of time. This
+includes avoiding interactions in community spaces as well as external channels
+like social media. Violating these terms may lead to a temporary or
+permanent ban.
+
+### 3. Temporary Ban
+
+**Community Impact**: A serious violation of community standards, including
+sustained inappropriate behavior.
+
+**Consequence**: A temporary ban from any sort of interaction or public
+communication with the community for a specified period of time. No public or
+private interaction with the people involved, including unsolicited interaction
+with those enforcing the Code of Conduct, is allowed during this period.
+Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+**Community Impact**: Demonstrating a pattern of violation of community
+standards, including sustained inappropriate behavior, harassment of an
+individual, or aggression toward or disparagement of classes of individuals.
+
+**Consequence**: A permanent ban from any sort of public interaction within
+the community.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant][homepage],
+version 2.0, available at
+https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
+
+Community Impact Guidelines were inspired by [Mozilla's code of conduct
+enforcement ladder](https://github.com/mozilla/diversity).
+
+[homepage]: https://www.contributor-covenant.org
+
+For answers to common questions about this code of conduct, see the FAQ at
+https://www.contributor-covenant.org/faq. Translations are available at
+https://www.contributor-covenant.org/translations.
+
+<hr />
+
+<a alt="PyPackIT" href="https://pypackit.repodynamics.com"><picture><source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FRepoDynamics%2FPyPackIT%2Fmain%2F.github%2F.repodynamics%2Fmetadata.json&amp;query=%24.copyright&amp;label=PyPackIT&amp;style=for-the-badge&amp;color=%23005500&amp;logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iTGF5ZXIgMiIgdmlld0JveD0iMCAwIDIwMS4zIDIwMS4zIj48ZGVmcz48c3R5bGU%2BLmNscy0xe2ZpbGw6IzEzNjUwNDtzdHJva2Utd2lkdGg6MH08L3N0eWxlPjwvZGVmcz48ZyBkYXRhLW5hbWU9IkxheWVyIDEiPjxyZWN0IHdpZHRoPSIyMDEuMyIgaGVpZ2h0PSIyMDEuMyIgcng9IjMwLjEiIHJ5PSIzMC4xIiBzdHlsZT0iZmlsbDojZmZmO3N0cm9rZS13aWR0aDowIi8%2BPHBhdGggZD0iTTE4NC4zIDg5LjJjMC0uMyAwLS41LS4yLS43bC0uNC0xLjNhNDYgNDYgMCAwIDAtOS45LTE3LjZjLTMtMy02LTQuNS04LjktNC41LTIuNyAwLTUuMyAxLjMtOCAzLjctMS4xIDEtMi4yIDIuNC0zLjIgMy44LS41LjctMSAuOC0xLjguOGwtMjAgLjNjLTIuMiAwLTQuOC40LTcuMyAzLTUgNS4yLTguMSAxNC4zLTkgMjYuMi0uNCA0LjQtLjMgOS0uMyAxMy40djUuNGEzMzkgMzM5IDAgMCAwIDAgOC41di4zSDExMXYtLjNsLS4yLTQuOC0uMS0xMi40di0xLjFsLS4xLTE3LjYtLjMtNDYuNGMwLTUuNC0uNS05LjgtMS4yLTEzLjItMi43LTEyLjItNy0xOS0xMi44LTE5LjZhMzIuNyAzMi43IDAgMCAwLTkuNC4yYy02LjUuOC0xMi4yIDEyLjQtMTMgMjYuNC0uNCA1LjMtLjQgMTAuNy0uMyAxNlY1OWMwIDkuOSAwIDIwIC4yIDI5Ljd2NWEyMTA0Ni44IDIxMDQ2LjggMCAwIDAgLjUgNjJjMCA1LjctMS4zIDYuNi0yLjUgNi44LTEuMy4yLTIuNi4zLTQgLjNoLTIuNmE4Ny4yIDg3LjIgMCAwIDEtNS41IDBjLTEuMy0uMS0yLTItMi4yLTUuOHYtOC4zbC0uMi0xOS0uMi0yNy44di0yLjhsLS4zLTMyLjdjMC0zLjgtLjItOC0xLTEyLTEtNi41LTMtMTEuMy02LjEtMTQuNC0xLjgtMS44LTMuNS0yLjYtNS4xLTIuNi0zIDAtNS45IDMtOC4zIDguOC0yIDQuNS0zIDEwLjItMyAxNi40bC4xIDE1Ljh2MTcuMWMwIDUtLjggOC42LTIuNiAxMC41LS42LjctMS40LjgtMi4zIDFIMjhsLTMuMi40Yy0xIDAtMS45LjItMi45LjNMOS40IDExMGMtLjUuMS0xIC40LTEuMy43bC0uNC4zYy0uNi40LTEgMS42LS44IDIuNy41IDMuOCAyLjEgNCAyLjggNC4ybDIgLjMgMTMuNSAySDI3YzEgMCAyLjEgMCAzLjQtLjIgNC40LS43IDguNS04LjYgOS4zLTE3LjcuMy00IC41LTggLjUtMTEuOGwuMi0yMi42di0zLjRjMC0zLjEuNS01LjYgMS40LTcuNy43LTEuNiAxLjctMi41IDIuNy0yLjUuNiAwIDEuMS4zIDEuNS44YTI5LjYgMjkuNiAwIDAgMSAyIDEwLjhMNDggOTQuNGwtLjEgMTQuNi0uMiAxNi45LS4yIDIwVjE2MWMuMyA1LjcgMS41IDExLjYgMy41IDE2LjIgMi4yIDUgNSA3LjggNy44IDguMWwzIC40IDMuMy4zYTEzOSAxMzkgMCAwIDAgNiAuNGMyIDAgNC41LS4zIDYuOC0zIDUtNiA3LjYtMTUgNy43LTI3bC4yLTM1YTE0NjQ0LjkgMTQ2NDQuOSAwIDAgMSAuNy03My41Yy4xLTMuMy43LTMuMyAxLjQtMy4zbDcuNC4yYy40IDAgMSAwIDEgM3YzLjVsLS4xIDE4LS40IDU3LjdjMCA1LjMgMCAxMC4xLjcgMTUgMS44IDEyLjEgNS43IDE5LjcgMTEuNSAyMi41IDEuOCAxIDMuOCAxLjQgNS44IDEuNCAxLjYgMCAzLjMtLjMgNS0xIDQtMS4zIDcuNC02IDkuOC0xMy40IDIuNy04IDMtMTcuMiAzLjItMjUuMnYtMTUuOWguNWM1LjkgMCAxMS44LjIgMTcuNS4zaDEuNWMxLjcgMCAzLjIgMSA0LjkgMy4yIDIuNiAzLjYgNS42IDUuMyA4LjcgNS4zYTEwIDEwIDAgMCAwIDQuOS0xLjRjMy4xLTEuNyA2LTQuOCA4LjktOS40YTQzLjUgNDMuNSAwIDAgMCA2LTE0LjN2LTRsLS4yLTFaIiBjbGFzcz0iY2xzLTEiLz48cGF0aCBkPSJNMTk0LjUgOTguNHYxbC0uMi44Yy0uMS40LS4zLjYtLjUuNnMtLjQtLjEtLjUtLjVMMTkzIDk5bC0uOS0yLjgtLjUtMS4xaC03LjF2LTZoMS41bDMgLjFoMi42bC41LTEgMS0yLjkuMy0xLjNjLjEtLjQuMy0uNS41LS41cy40LjIuNS42bC4yLjdWODZsLTEuNSA2LjMgMS41IDYuMloiIGNsYXNzPSJjbHMtMSIvPjwvZz48L3N2Zz4K" /><source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FRepoDynamics%2FPyPackIT%2Fmain%2F.github%2F.repodynamics%2Fmetadata.json&amp;query=%24.copyright&amp;label=PyPackIT&amp;style=for-the-badge&amp;color=%231CAA00&amp;logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iTGF5ZXIgMiIgdmlld0JveD0iMCAwIDIwMS4zIDIwMS4zIj48ZGVmcz48c3R5bGU%2BLmNscy0xe2ZpbGw6IzEzNjUwNDtzdHJva2Utd2lkdGg6MH08L3N0eWxlPjwvZGVmcz48ZyBkYXRhLW5hbWU9IkxheWVyIDEiPjxyZWN0IHdpZHRoPSIyMDEuMyIgaGVpZ2h0PSIyMDEuMyIgcng9IjMwLjEiIHJ5PSIzMC4xIiBzdHlsZT0iZmlsbDojZmZmO3N0cm9rZS13aWR0aDowIi8%2BPHBhdGggZD0iTTE4NC4zIDg5LjJjMC0uMyAwLS41LS4yLS43bC0uNC0xLjNhNDYgNDYgMCAwIDAtOS45LTE3LjZjLTMtMy02LTQuNS04LjktNC41LTIuNyAwLTUuMyAxLjMtOCAzLjctMS4xIDEtMi4yIDIuNC0zLjIgMy44LS41LjctMSAuOC0xLjguOGwtMjAgLjNjLTIuMiAwLTQuOC40LTcuMyAzLTUgNS4yLTguMSAxNC4zLTkgMjYuMi0uNCA0LjQtLjMgOS0uMyAxMy40djUuNGEzMzkgMzM5IDAgMCAwIDAgOC41di4zSDExMXYtLjNsLS4yLTQuOC0uMS0xMi40di0xLjFsLS4xLTE3LjYtLjMtNDYuNGMwLTUuNC0uNS05LjgtMS4yLTEzLjItMi43LTEyLjItNy0xOS0xMi44LTE5LjZhMzIuNyAzMi43IDAgMCAwLTkuNC4yYy02LjUuOC0xMi4yIDEyLjQtMTMgMjYuNC0uNCA1LjMtLjQgMTAuNy0uMyAxNlY1OWMwIDkuOSAwIDIwIC4yIDI5Ljd2NWEyMTA0Ni44IDIxMDQ2LjggMCAwIDAgLjUgNjJjMCA1LjctMS4zIDYuNi0yLjUgNi44LTEuMy4yLTIuNi4zLTQgLjNoLTIuNmE4Ny4yIDg3LjIgMCAwIDEtNS41IDBjLTEuMy0uMS0yLTItMi4yLTUuOHYtOC4zbC0uMi0xOS0uMi0yNy44di0yLjhsLS4zLTMyLjdjMC0zLjgtLjItOC0xLTEyLTEtNi41LTMtMTEuMy02LjEtMTQuNC0xLjgtMS44LTMuNS0yLjYtNS4xLTIuNi0zIDAtNS45IDMtOC4zIDguOC0yIDQuNS0zIDEwLjItMyAxNi40bC4xIDE1Ljh2MTcuMWMwIDUtLjggOC42LTIuNiAxMC41LS42LjctMS40LjgtMi4zIDFIMjhsLTMuMi40Yy0xIDAtMS45LjItMi45LjNMOS40IDExMGMtLjUuMS0xIC40LTEuMy43bC0uNC4zYy0uNi40LTEgMS42LS44IDIuNy41IDMuOCAyLjEgNCAyLjggNC4ybDIgLjMgMTMuNSAySDI3YzEgMCAyLjEgMCAzLjQtLjIgNC40LS43IDguNS04LjYgOS4zLTE3LjcuMy00IC41LTggLjUtMTEuOGwuMi0yMi42di0zLjRjMC0zLjEuNS01LjYgMS40LTcuNy43LTEuNiAxLjctMi41IDIuNy0yLjUuNiAwIDEuMS4zIDEuNS44YTI5LjYgMjkuNiAwIDAgMSAyIDEwLjhMNDggOTQuNGwtLjEgMTQuNi0uMiAxNi45LS4yIDIwVjE2MWMuMyA1LjcgMS41IDExLjYgMy41IDE2LjIgMi4yIDUgNSA3LjggNy44IDguMWwzIC40IDMuMy4zYTEzOSAxMzkgMCAwIDAgNiAuNGMyIDAgNC41LS4zIDYuOC0zIDUtNiA3LjYtMTUgNy43LTI3bC4yLTM1YTE0NjQ0LjkgMTQ2NDQuOSAwIDAgMSAuNy03My41Yy4xLTMuMy43LTMuMyAxLjQtMy4zbDcuNC4yYy40IDAgMSAwIDEgM3YzLjVsLS4xIDE4LS40IDU3LjdjMCA1LjMgMCAxMC4xLjcgMTUgMS44IDEyLjEgNS43IDE5LjcgMTEuNSAyMi41IDEuOCAxIDMuOCAxLjQgNS44IDEuNCAxLjYgMCAzLjMtLjMgNS0xIDQtMS4zIDcuNC02IDkuOC0xMy40IDIuNy04IDMtMTcuMiAzLjItMjUuMnYtMTUuOWguNWM1LjkgMCAxMS44LjIgMTcuNS4zaDEuNWMxLjcgMCAzLjIgMSA0LjkgMy4yIDIuNiAzLjYgNS42IDUuMyA4LjcgNS4zYTEwIDEwIDAgMCAwIDQuOS0xLjRjMy4xLTEuNyA2LTQuOCA4LjktOS40YTQzLjUgNDMuNSAwIDAgMCA2LTE0LjN2LTRsLS4yLTFaIiBjbGFzcz0iY2xzLTEiLz48cGF0aCBkPSJNMTk0LjUgOTguNHYxbC0uMi44Yy0uMS40LS4zLjYtLjUuNnMtLjQtLjEtLjUtLjVMMTkzIDk5bC0uOS0yLjgtLjUtMS4xaC03LjF2LTZoMS41bDMgLjFoMi42bC41LTEgMS0yLjkuMy0xLjNjLjEtLjQuMy0uNS41LS41cy40LjIuNS42bC4yLjdWODZsLTEuNSA2LjMgMS41IDYuMloiIGNsYXNzPSJjbHMtMSIvPjwvZz48L3N2Zz4K" /><img align="left" alt="PyPackIT" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FRepoDynamics%2FPyPackIT%2Fmain%2F.github%2F.repodynamics%2Fmetadata.json&amp;query=%24.copyright&amp;label=PyPackIT&amp;style=for-the-badge&amp;color=%23005500&amp;logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iTGF5ZXIgMiIgdmlld0JveD0iMCAwIDIwMS4zIDIwMS4zIj48ZGVmcz48c3R5bGU%2BLmNscy0xe2ZpbGw6IzEzNjUwNDtzdHJva2Utd2lkdGg6MH08L3N0eWxlPjwvZGVmcz48ZyBkYXRhLW5hbWU9IkxheWVyIDEiPjxyZWN0IHdpZHRoPSIyMDEuMyIgaGVpZ2h0PSIyMDEuMyIgcng9IjMwLjEiIHJ5PSIzMC4xIiBzdHlsZT0iZmlsbDojZmZmO3N0cm9rZS13aWR0aDowIi8%2BPHBhdGggZD0iTTE4NC4zIDg5LjJjMC0uMyAwLS41LS4yLS43bC0uNC0xLjNhNDYgNDYgMCAwIDAtOS45LTE3LjZjLTMtMy02LTQuNS04LjktNC41LTIuNyAwLTUuMyAxLjMtOCAzLjctMS4xIDEtMi4yIDIuNC0zLjIgMy44LS41LjctMSAuOC0xLjguOGwtMjAgLjNjLTIuMiAwLTQuOC40LTcuMyAzLTUgNS4yLTguMSAxNC4zLTkgMjYuMi0uNCA0LjQtLjMgOS0uMyAxMy40djUuNGEzMzkgMzM5IDAgMCAwIDAgOC41di4zSDExMXYtLjNsLS4yLTQuOC0uMS0xMi40di0xLjFsLS4xLTE3LjYtLjMtNDYuNGMwLTUuNC0uNS05LjgtMS4yLTEzLjItMi43LTEyLjItNy0xOS0xMi44LTE5LjZhMzIuNyAzMi43IDAgMCAwLTkuNC4yYy02LjUuOC0xMi4yIDEyLjQtMTMgMjYuNC0uNCA1LjMtLjQgMTAuNy0uMyAxNlY1OWMwIDkuOSAwIDIwIC4yIDI5Ljd2NWEyMTA0Ni44IDIxMDQ2LjggMCAwIDAgLjUgNjJjMCA1LjctMS4zIDYuNi0yLjUgNi44LTEuMy4yLTIuNi4zLTQgLjNoLTIuNmE4Ny4yIDg3LjIgMCAwIDEtNS41IDBjLTEuMy0uMS0yLTItMi4yLTUuOHYtOC4zbC0uMi0xOS0uMi0yNy44di0yLjhsLS4zLTMyLjdjMC0zLjgtLjItOC0xLTEyLTEtNi41LTMtMTEuMy02LjEtMTQuNC0xLjgtMS44LTMuNS0yLjYtNS4xLTIuNi0zIDAtNS45IDMtOC4zIDguOC0yIDQuNS0zIDEwLjItMyAxNi40bC4xIDE1Ljh2MTcuMWMwIDUtLjggOC42LTIuNiAxMC41LS42LjctMS40LjgtMi4zIDFIMjhsLTMuMi40Yy0xIDAtMS45LjItMi45LjNMOS40IDExMGMtLjUuMS0xIC40LTEuMy43bC0uNC4zYy0uNi40LTEgMS42LS44IDIuNy41IDMuOCAyLjEgNCAyLjggNC4ybDIgLjMgMTMuNSAySDI3YzEgMCAyLjEgMCAzLjQtLjIgNC40LS43IDguNS04LjYgOS4zLTE3LjcuMy00IC41LTggLjUtMTEuOGwuMi0yMi42di0zLjRjMC0zLjEuNS01LjYgMS40LTcuNy43LTEuNiAxLjctMi41IDIuNy0yLjUuNiAwIDEuMS4zIDEuNS44YTI5LjYgMjkuNiAwIDAgMSAyIDEwLjhMNDggOTQuNGwtLjEgMTQuNi0uMiAxNi45LS4yIDIwVjE2MWMuMyA1LjcgMS41IDExLjYgMy41IDE2LjIgMi4yIDUgNSA3LjggNy44IDguMWwzIC40IDMuMy4zYTEzOSAxMzkgMCAwIDAgNiAuNGMyIDAgNC41LS4zIDYuOC0zIDUtNiA3LjYtMTUgNy43LTI3bC4yLTM1YTE0NjQ0LjkgMTQ2NDQuOSAwIDAgMSAuNy03My41Yy4xLTMuMy43LTMuMyAxLjQtMy4zbDcuNC4yYy40IDAgMSAwIDEgM3YzLjVsLS4xIDE4LS40IDU3LjdjMCA1LjMgMCAxMC4xLjcgMTUgMS44IDEyLjEgNS43IDE5LjcgMTEuNSAyMi41IDEuOCAxIDMuOCAxLjQgNS44IDEuNCAxLjYgMCAzLjMtLjMgNS0xIDQtMS4zIDcuNC02IDkuOC0xMy40IDIuNy04IDMtMTcuMiAzLjItMjUuMnYtMTUuOWguNWM1LjkgMCAxMS44LjIgMTcuNS4zaDEuNWMxLjcgMCAzLjIgMSA0LjkgMy4yIDIuNiAzLjYgNS42IDUuMyA4LjcgNS4zYTEwIDEwIDAgMCAwIDQuOS0xLjRjMy4xLTEuNyA2LTQuOCA4LjktOS40YTQzLjUgNDMuNSAwIDAgMCA2LTE0LjN2LTRsLS4yLTFaIiBjbGFzcz0iY2xzLTEiLz48cGF0aCBkPSJNMTk0LjUgOTguNHYxbC0uMi44Yy0uMS40LS4zLjYtLjUuNnMtLjQtLjEtLjUtLjVMMTkzIDk5bC0uOS0yLjgtLjUtMS4xaC03LjF2LTZoMS41bDMgLjFoMi42bC41LTEgMS0yLjkuMy0xLjNjLjEtLjQuMy0uNS41LS41cy40LjIuNS42bC4yLjdWODZsLTEuNSA2LjMgMS41IDYuMloiIGNsYXNzPSJjbHMtMSIvPjwvZz48L3N2Zz4K" title="PyPackIT: © 2023–2024 RepoDynamics" /></picture></a>&nbsp;<a alt="SPDX-License-Identifier: AGPL-3.0-or-later" href="https://pypackit.repodynamics.com/about/license"><picture><source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/static/v1?message=AGPL-3.0-or-later&amp;label=License&amp;style=for-the-badge&amp;color=%233C5500" /><source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/static/v1?message=AGPL-3.0-or-later&amp;label=License&amp;style=for-the-badge&amp;color=%23AF8A00" /><img align="right" alt="SPDX-License-Identifier: AGPL-3.0-or-later" src="https://img.shields.io/static/v1?message=AGPL-3.0-or-later&amp;label=License&amp;style=for-the-badge&amp;color=%233C5500" title="SPDX-License-Identifier: AGPL-3.0-or-later" /></picture></a>
