@@ -7,7 +7,7 @@ To create a new GitHub repository with {{ccc.name}} pre-installed:
 3. [Customize project configurations and metadata](#install-new-project-config).
 4. [Initialize project with a commit](#install-new-project-init).
 
-:::{admonition} Don't Miss Step 2 
+:::{admonition} Don't Miss Step 2
 :class: important
 
 Since step **2** is common for both new and existing repositories,
@@ -41,7 +41,7 @@ By default, the repository name is also used to derive
 the [project name](#ccc-name), and by extension, the [package name](#ccc-pkg-name),
 which has additional restrictions.
 While you can manually set these separately in the control center,
-for consistency, it is recommended to choose a repository name 
+for consistency, it is recommended to choose a repository name
 that can be used to automatically derive the package name.
 Considering the restrictions on the repository name,
 this simply means that the **repository name should not start with a digit,
@@ -50,7 +50,7 @@ and should end with an alphanumeric character**.
 For example, choosing `My-Project` as the repository name
 and leaving the project and package names undefined,
 the project name will be automatically set to `My Project`,
-the distribution package name to `My-Project` (same as the repository name), 
+the distribution package name to `My-Project` (same as the repository name),
 and the import package name to `my_project`.
 That is, the package will be shown on PyPI as `My-Project`,
 while users can install it with `pip install my-project`{l=bash}
@@ -68,7 +68,7 @@ and import it with `import my_project`{l=python}.
 
 You will be redirected to the newly created repository in your selected account.
 Navigating to the repository's [Actions](){.user-link-repo-actions} tab, you will see that a workflow is running.
-It will automatically initialize the new repository by generating all necessary files 
+It will automatically initialize the new repository by generating all necessary files
 and removing extra files that belong to the {{ccc.name}} repository but are not part of the template.
 While waiting for the workflow to complete and **before making any other changes**,
 follow step 2 to [add a Personal Access Token (PAT) and activate external services](#install-common).
@@ -190,6 +190,6 @@ version: 1.0.0
 
 Your repository is now fully configured,
 your package is published, your website is live,
-and all your workflows are set up and running. 
+and all your workflows are set up and running.
 Continue to the [Quickstart](#quickstart) section
 to learn how to further develop your project with {{ccc.name}}.
