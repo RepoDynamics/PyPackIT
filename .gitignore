@@ -1,4 +1,10 @@
-docs/website/.build
+docs/website/.build/
+.local/cache/**
+!.local/cache/**/
+!.local/cache/**/README.md
+.local/report/**
+!.local/report/**/
+!.local/report/**/README.md
 __pycache__/
 *.py[cod]
 *$py.class
@@ -78,6 +84,3 @@ cython_debug/
 .vscode/
 .idea/
 .DS_Store
-.local/**
-!.local/**/
-!.local/**/README.md
