@@ -1,0 +1,7 @@
+name: pypackit-dev
+channels:
+- conda-forge
+- defaults
+dependencies:
+- python
+- pre-commit = 4.0.1
