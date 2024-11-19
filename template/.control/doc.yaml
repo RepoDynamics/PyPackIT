@@ -6,25 +6,6 @@ theme:
     secondary:
       light: '#562B08'
       dark: '#E3651D'
-  logo:
-    __custom__:
-      web_dir: _media/logo
-    icon:
-      path_web: ${{ theme.logo.__custom__.web_dir }}$/favicon.svg
-    simple:
-      light:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/simple_light.svg
-      dark:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/simple_dark.svg
-      raster:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/simple_light.png
-    full:
-      light:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/full_light.svg
-      dark:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/full_dark.svg
-      raster:
-        path_web: ${{ theme.logo.__custom__.web_dir }}$/full_light.png
   footer:
     - class: thematic_break
     - class: badges
@@ -32,7 +13,7 @@ theme:
       items:
         - service: dynamic
           args:
-            url: ${{ control.url }}$
+            url: ${{ control.url.metadata }}$
             query: '$.copyright'
           label: ${{ name }}$
           color: ${{ theme.color.primary.light }}$
