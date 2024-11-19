@@ -22,7 +22,7 @@ simply push the changes to your Github repository, or run `controlman-sync` loca
 {{ ccc.name }} will automatically move the control center directory to the new location.
 :::
 
-For example, to change the control center location 
+For example, to change the control center location
 to a directory at `dev/control-center`, you should have the following
 configuration in one of your YAML files (more details below):
 
@@ -105,7 +105,7 @@ my-dashed-list:  # A key with a nested sequence as its value.
   - Two
   - Three
 my-inline-list: [1, 2, 3]
-my-inline-map: {key1: value1, key2: value2} 
+my-inline-map: {key1: value1, key2: value2}
 my_nested_map:
   key1: value1
   key2: value2
@@ -116,7 +116,7 @@ YAML also provides several advanced features such as anchors and tags
 to enhance its flexibility and reusability.
 [Anchors](https://yaml.org/spec/1.2.2/#3222-anchors-and-aliases)
 allow you to define a value once and reference it later using aliases,
-which can significantly reduce duplication and improve maintainability of large configurations. 
+which can significantly reduce duplication and improve maintainability of large configurations.
 For example, the following YAML file defines a mapping
 named `my-default-settings`, anchors it to the alias `default`,
 and uses that alias to reuse the mapping in two different places:
@@ -124,7 +124,7 @@ and uses that alias to reuse the mapping in two different places:
 :::{code-block} yaml
 :caption: YAML file with anchors and aliases
 
-my-default-settings: &default  # The '&' character is used 
+my-default-settings: &default  # The '&' character is used
   key1: value1                 # to define an anchor named 'default'
   key2: value2                 # for the `my-default-settings` mapping.
 
@@ -205,9 +205,9 @@ into a single mapping using the following logic:
    - Mapping key-value pairs are combined. If two mappings share some keys,
      the values are recursively merged according to the same rules.
    - Sequences are concatenated.
-     Note that files are always read in a shallow-first alphabetical order (i.e., using 
+     Note that files are always read in a shallow-first alphabetical order (i.e., using
      `sorted(pathlib.Path(CONTROL_CENTER_DIRPATH).rglob('*'), key=lambda p: (p.parts, p))`{l=python}),
-     so the order of sequences in the final mapping is determined by the order of the files. 
+     so the order of sequences in the final mapping is determined by the order of the files.
    - Scalar values cannot be merged;
      if a scalar value is defined in multiple files,
      an error is raised and the conflicting paths are reported.
