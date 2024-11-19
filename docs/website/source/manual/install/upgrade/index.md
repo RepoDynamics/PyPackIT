@@ -9,5 +9,3 @@ of the {{ ccc.name }} template repository. Simply copy the files from the templa
 at a specific version tag or commit hash, and paste them into the same directory in your repository.
 
 In the future, we will provide a more automated way to upgrade {{ ccc.name }} in your repository.
-
-
