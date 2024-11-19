@@ -6,17 +6,17 @@ ccid: intro
 # Introduction
 
 PyPackIT is an open-source, cloud-based software suite
-hosted on GitHub at https://github.com/RepoDynamics. 
-It comprises several {term}`Actions` and Python applications, 
-which can be installed in GitHub repositories to perform automated tasks on {term}`GHA`. 
+hosted on GitHub at https://github.com/RepoDynamics.
+It comprises several {term}`Actions` and Python applications,
+which can be installed in GitHub repositories to perform automated tasks on {term}`GHA`.
 To facilitate [installation](#install), PyPackIT includes a template repository at
 https://github.com/RepoDynamics/PyPackIT.
 There, by clicking the
 {{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
-button, users can create a [new GitHub repository](#install-new) 
+button, users can create a [new GitHub repository](#install-new)
 that automatically contains all the necessary files to run PyPackIT,
-such as GHA workflows and configuration files. 
-Installation in [existing repositories](#install-existing) is supported as well, 
+such as GHA workflows and configuration files.
+Installation in [existing repositories](#install-existing) is supported as well,
 simply requiring users to add these files.
 
 
@@ -35,64 +35,64 @@ simply requiring users to add these files.
 
 
 PyPackIT is a ready-to-use automation tool,
-fully configured in accordance with the latest software engineering guidelines and best practices. 
+fully configured in accordance with the latest software engineering guidelines and best practices.
 Upon installation, users only need to invest a few minutes in basic tasks
-such as filling project-specific information in the provided configuration files. 
-PyPackIT then takes over, automatically setting up the repository 
-and generating a complete infrastructure for the project ({numref}`fig-features`), 
-including a python package, test suite, documentation website, license, 
-configuration files for various development tools and services, 
-and community files such as a dynamic repository README. 
-The documentation website along with an initial release of the library 
-can be immediately deployed online, registering the project in indexing repositories 
-and facilitating its discovery from the beginning of the project {cite}`4SimpleRecs, CICDSystematicReview`. 
-All metadata and settings are readily customizable via PyPackIT's configuration files, 
-which form a unified control center enabling {term}`CCA` 
+such as filling project-specific information in the provided configuration files.
+PyPackIT then takes over, automatically setting up the repository
+and generating a complete infrastructure for the project ({numref}`fig-features`),
+including a python package, test suite, documentation website, license,
+configuration files for various development tools and services,
+and community files such as a dynamic repository README.
+The documentation website along with an initial release of the library
+can be immediately deployed online, registering the project in indexing repositories
+and facilitating its discovery from the beginning of the project {cite}`4SimpleRecs, CICDSystematicReview`.
+All metadata and settings are readily customizable via PyPackIT's configuration files,
+which form a unified control center enabling {term}`CCA`
 for the entire project infrastructure and development environment
 throughout the software life-cycle.
 
 After installation, PyPackIT establishes an automated software development workflow ({numref}`fig-workflow`)
-tailored to user needs, 
+tailored to user needs,
 based on a well-tested pull-based model for collaborative research software engineering.
-It includes comprehensive Continuous software engineering pipelines 
+It includes comprehensive Continuous software engineering pipelines
 that use the latest tools and technologies
-to provide an automated Agile software development process, 
-enabling the experimental and highly iterative development of software, 
+to provide an automated Agile software development process,
+enabling the experimental and highly iterative development of software,
 while reducing variance, complexity, cost, and risk.
 PyPackIT's workflow activates automatically in response to various repository events,
 such as submission of issue tickets, commits, and pull requests.
 It then analyzes the triggering event and the current state of the repository
 to execute appropriate tasks on {term}`GHA`.
-This automates the bulk of repetitive engineering and management activities 
+This automates the bulk of repetitive engineering and management activities
 throughout the software life-cycle,
 leaving users with only four manual tasks:
 
-1. **Report**: Each task in the project starts by submitting a ticket to its {term}`ITS`. 
+1. **Report**: Each task in the project starts by submitting a ticket to its {term}`ITS`.
    PyPackIT facilitates reports by automatically configuring and maintaining {term}`GHI`
    to provide users with dynamic submission forms specialized for various issue types.
    Following a ticket submission, PyPackIT automatically performs issue management tasks,
    reducing the triage process to a simple decision on whether to implement the task.
 2. **Design**: Once an issue ticket is approved,
-   users only need to write a short design document 
-   by filling out a form attached to the ticket. 
-   PyPackIT's automated version control then activates, 
-   creating a ready-to-use branch for implementation, 
-   and a dynamically maintained {term}`PR` for tracking progress. 
-3. **Commit**: With PyPackIT's comprehensive infrastructure, 
+   users only need to write a short design document
+   by filling out a form attached to the ticket.
+   PyPackIT's automated version control then activates,
+   creating a ready-to-use branch for implementation,
+   and a dynamically maintained {term}`PR` for tracking progress.
+3. **Commit**: With PyPackIT's comprehensive infrastructure,
    implementation is simplified to writing essential code, docstrings,
-   and test cases in the provided skeleton files 
-   or modifying project configurations in the control center, depending on the task. 
+   and test cases in the provided skeleton files
+   or modifying project configurations in the control center, depending on the task.
    With each commit, PyPackIT's CI/CD pipelines
-   automatically integrate the new changes into the repository, 
-   performing various quality assurance and testing tasks, 
+   automatically integrate the new changes into the repository,
+   performing various quality assurance and testing tasks,
    while producing reports and artifacts for review.
 4. **Review**: When the implementation is finished,
-   PyPackIT automatically sends review requests to designated maintainers. 
-   Once approved, PyPackIT's CI/CD pipelines merge the changes into the project's mainline, 
-   updating all affected project components and documenting the entire development process. 
-   If changes correspond to the library's public API, 
+   PyPackIT automatically sends review requests to designated maintainers.
+   Once approved, PyPackIT's CI/CD pipelines merge the changes into the project's mainline,
+   updating all affected project components and documenting the entire development process.
+   If changes correspond to the library's public API,
    a new release version is published on GitHub along with
-   automatically generated release notes and changelogs, 
+   automatically generated release notes and changelogs,
    and distributed to several online indexing repositories such as PyPI, TestPyPI, and Zenodo.
 
 
@@ -116,34 +116,36 @@ and Continuous Maintenance, Refactoring, and Testing.
 
 
 Moreover, PyPackIT also activates on a scheduled basis,
-executing CM/CR/CT pipelines that perform various maintenance and monitoring tasks 
-on the repository and each released library version, 
-sustaining the health of the software and its development environment. 
-When actions are required, these pipelines automatically submit 
+executing CM/CR/CT pipelines that perform various maintenance and monitoring tasks
+on the repository and each released library version,
+sustaining the health of the software and its development environment.
+When actions are required, these pipelines automatically submit
 issue tickets for manual implementation,
-PRs for automatic fixes that require review, 
-or they directly apply updates to the project. 
+PRs for automatic fixes that require review,
+or they directly apply updates to the project.
 
-Therefore, PyPackIT's comprehensive, dynamic, and highly customizable project skeleton 
-and cloud-native development environment eliminate the need for project setup and configuration, 
-enabling Python projects to immediately begin the actual implementation of software, 
-even directly from the web browser. 
-PyPackIT's automated development workflow greatly simplifies the software development process, 
-limiting manual tasks to writing issue tickets, essential code, test cases, and minimal documentation, 
-while other activities are automatically carried out on the cloud, 
-consistently enforcing best practices throughout the software development life-cycle. 
-Since these repetitive software engineering and management activities are 
-the most common cause of problems in open-source software projects, 
-their automation significantly improves product quality, 
-while allowing developers to solely focus on the creative aspects of their project. 
-PyPackIT thus greatly benefits open-source software engineering 
-that is often faced with challenges regarding funding, time, and staffing, 
-by accelerating development and 
-enabling the consistent and reliable production of high-quality software 
-with minimal cost and effort. 
+Therefore, PyPackIT's comprehensive, dynamic, and highly customizable project skeleton
+and cloud-native development environment eliminate the need for project setup and configuration,
+enabling Python projects to immediately begin the actual implementation of software,
+even directly from the web browser.
+PyPackIT's automated development workflow greatly simplifies the software development process,
+limiting manual tasks to writing issue tickets, essential code, test cases, and minimal documentation,
+while other activities are automatically carried out on the cloud,
+consistently enforcing best practices throughout the software development life-cycle.
+Since these repetitive software engineering and management activities are
+the most common cause of problems in open-source software projects,
+their automation significantly improves product quality,
+while allowing developers to solely focus on the creative aspects of their project.
+PyPackIT thus greatly benefits open-source software engineering
+that is often faced with challenges regarding funding, time, and staffing,
+by accelerating development and
+enabling the consistent and reliable production of high-quality software
+with minimal cost and effort.
 
-:::{admonition} Getting Started
+:::{admonition} What's Next
 :class: seealso
+
+Nex
 
 If you can't wait to get started with PyPackIT,
 skip to the [User Manual](#manual) for detailed instructions
