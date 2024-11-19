@@ -1,6 +1,7 @@
 ---
-sd_hide_title: true
+ccid: license
 ---
+
 # License
 
 ## {{ccc.name}} License and Copyright
