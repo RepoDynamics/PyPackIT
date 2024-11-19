@@ -88,7 +88,7 @@ but it has several key advantages over them:
   You can of course use absolute paths and reference each mapping by its sequence index,
   but then you would need to update all references every time you add or remove a mapping,
   since indices would change.
-  
+
   To simplify such cases, {{ ccc.name }} extends the JSONPath syntax
   to enable using relative paths, as follows:
   - When a path starts with one or more periods (`.`),
@@ -101,7 +101,7 @@ but it has several key advantages over them:
     `.` refers to the path of that sequence.
   - Each additional period refers to the path of the parent complex data structure
     of the previous path, following the same logic.
-  
+
   :::{admonition} Example
   :class: tip dropdown
   This feature is used to dynamically set default values for new pieces of data
@@ -137,7 +137,7 @@ the above Jinja syntax will be rendered in the built website as:
 MyPackage requires Python >=3.10.
 ```
 
-{{ ccc.name }} also configures Sphinx to enable full Jinja templating 
+{{ ccc.name }} also configures Sphinx to enable full Jinja templating
 not only in template files but also in all other source files.
 Together with the availability of the entire project configuration in the `ccc` object,
 this allows you to dynamically create sophisticated contents
