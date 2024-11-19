@@ -128,10 +128,6 @@ tool:
                 - git fetch --unshallow
           conda:  # Website dependencies
             environment: ${{ web.env.file.conda.path }}$
-          python:
-            install:  # Install the package
-              - method: pip
-                path: ${{ pkg.path.root }}$
           sphinx:  # Build with Sphinx
             configuration: ${{ web.path.source }}$/conf.py
             builder: dirhtml
