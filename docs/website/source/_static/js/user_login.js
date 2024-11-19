@@ -80,6 +80,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-org-settings-actions").forEach(link => {
             link.href = `https://github.com/organizations/${repoOwner}/settings/actions`;
         });
+
+        // Constant Files
+        document.querySelectorAll(".user-link-repo-const-variables").forEach(link => {
+            link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.github/.repodynamics/variables.json`;
+        });
+
     };
 
     // Attach click handler to all instances of the login button
