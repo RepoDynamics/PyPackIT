@@ -899,7 +899,7 @@
                         "title": "Release Notes and Changelogs"
                      },
                      {
-                        "link": "https://pypackit.repodynamics.com/help/contact",
+                        "link": "https://pypackit.repodynamics.com/about/contact",
                         "text": "Contact",
                         "title": "Contact Information"
                      }
@@ -1832,7 +1832,7 @@
                   "color": "#3C5500",
                   "color_dark": "#AF8A00",
                   "label": "License",
-                  "link": "https://pypackit.repodynamics.com/about/license",
+                  "link": "https://pypackit.repodynamics.com/about/license/license",
                   "service": "static",
                   "title": "SPDX-License-Identifier: AGPL-3.0-or-later"
                }
@@ -2590,25 +2590,10 @@
             "title": "Release",
             "url": "https://pypackit.repodynamics.com/news/category/release"
          },
-         "blog_category_template": {
-            "path": "news/category/template",
-            "title": "Template",
-            "url": "https://pypackit.repodynamics.com/news/category/template"
-         },
-         "blog_tag_sample": {
-            "path": "news/tag/sample",
-            "title": "sample",
-            "url": "https://pypackit.repodynamics.com/news/tag/sample"
-         },
-         "blog_tag_template": {
-            "path": "news/tag/template",
-            "title": "template",
-            "url": "https://pypackit.repodynamics.com/news/tag/template"
-         },
          "contact": {
-            "path": "help/contact",
+            "path": "about/contact",
             "title": "Contact",
-            "url": "https://pypackit.repodynamics.com/help/contact"
+            "url": "https://pypackit.repodynamics.com/about/contact"
          },
          "contribute": {
             "path": "contribute",
@@ -2617,7 +2602,7 @@
          },
          "help": {
             "path": "help",
-            "title": "Help",
+            "title": "Support Guide",
             "url": "https://pypackit.repodynamics.com/help"
          },
          "install": {
@@ -2631,9 +2616,9 @@
             "url": "https://pypackit.repodynamics.com/intro"
          },
          "license": {
-            "path": "about/license",
+            "path": "about/license/license",
             "title": "License",
-            "url": "https://pypackit.repodynamics.com/about/license"
+            "url": "https://pypackit.repodynamics.com/about/license/license"
          },
          "manual": {
             "path": "manual",
@@ -2942,7 +2927,7 @@
                   {
                      "icon": "fa-solid fa-copyright",
                      "name": "License",
-                     "url": "https://pypackit.repodynamics.com/about/license"
+                     "url": "https://pypackit.repodynamics.com/about/license/license"
                   }
                ],
                "icon_links_label": "External links",
@@ -3065,7 +3050,18 @@
                      "file": "manual/quickstart/index"
                   },
                   {
-                     "file": "manual/testing/index"
+                     "entries": [
+                        {
+                           "file": "manual/control/structure/index"
+                        },
+                        {
+                           "file": "manual/control/templating/index"
+                        },
+                        {
+                           "file": "manual/control/inheritance/index"
+                        }
+                     ],
+                     "file": "manual/control/index"
                   }
                ],
                "file": "manual/index",
@@ -3093,7 +3089,13 @@
             {
                "entries": [
                   {
+                     "file": "about/citation/index"
+                  },
+                  {
                      "file": "about/contact/index"
+                  },
+                  {
+                     "file": "about/license/index"
                   }
                ],
                "file": "about/index",
@@ -3105,7 +3107,7 @@
             {
                "entries": [
                   {
-                     "file": "help/sitemap/index"
+                     "file": "help/website/index"
                   }
                ],
                "file": "help/index",

@@ -29,7 +29,11 @@ entries:
     - file: manual/install/upgrade/index
     - file: manual/install/common/index
   - file: manual/quickstart/index
-  - file: manual/testing/index
+  - file: manual/control/index
+    entries:
+    - file: manual/control/structure/index
+    - file: manual/control/templating/index
+    - file: manual/control/inheritance/index
 - file: news/index
   title: News
   entries:
@@ -43,10 +47,12 @@ entries:
   options:
     numbered: true
   entries:
+  - file: about/citation/index
   - file: about/contact/index
+  - file: about/license/index
 - file: help/index
   title: Help
   options:
     numbered: true
   entries:
-  - file: help/sitemap/index
+  - file: help/website/index
