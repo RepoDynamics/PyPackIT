@@ -38,6 +38,9 @@ jobs:
         shell: micromamba-shell {0}
         run: |
           make -C "repo/${{ fromJSON(inputs.config).path-web }}" BUILDDIR=${{ github.workspace }}/build clean dirhtml
+      - name: Output Structure
+        shell: micromamba-shell {0}
+        run: |
           mv build/dirhtml build/html
       - name: Build Artifact Upload
 #        if: ${{ !cancelled() }}
