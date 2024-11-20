@@ -1,7 +1,6 @@
 # Package
 
 
-
 `__init__.py`: Initialization file necessary for Python to recognize the package,
 containing the package docstring and version information.
 `__main__.py`: Module file pre-equipped with features to enable rapid development
