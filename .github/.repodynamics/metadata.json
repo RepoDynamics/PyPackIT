@@ -828,6 +828,40 @@
                   "class": "paragraph",
                   "content": "PyPackIT (pronounced [\u02c8pa\u026a\u02ccp\u00e6k\u026at]) is a comprehensive <em>cloud-based automation tool</em> for production of <abbr title=\"Findable, Accessible, Interoperable, and Reusable\">FAIR</abbr> and professional software on <em>GitHub</em>, in accordance with the latest engineering best practices and standards. It is a ready-to-use software suite that streamlines the initiation, configuration, development, publication, management, and maintenance of high-quality software libraries in <em>Python</em>. By taking charge of repetitive tasks and automatically enforcing best practices throughout the software development life-cycle, PyPackIT enables its users to solely focus on the creative aspects of their projects, while improving quality and lowering production costs. Using state-of-the-art tools and methodologies, PyPackIT offers a robust project infrastructure, including a build-ready Python <em>package skeleton</em>, a fully operational **test suite**, a complete <em>documentation website</em>, and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA) and dynamic project management. PyPackIT establishes a complete <em>cloud-native development</em> environment on GitHub, integrating with its version control system, issue tracker, and pull-based model to provide a fully automated software development workflow, complete with features like <em>issue management</em>, <em>branching model</em>, and <em>version scheme</em>. Leveraging <em>GitHub Actions</em> (GHA), PyPackIT implements a cloud-native development process with specialized Continuous Integration (CI), Deployment (CD), Testing (CT), Refactoring (CR), and Maintenance (CM) pipelines, using <em>Agile</em>, <em>Continuous software engineering</em>, and <em>DevOps</em> methodologies. PyPackIT is a free and open-source software suite that readily integrates with both new and existing projects to ensure their long-term sustainability and high quality, thus enabling developers to rapidly implement their ideas and easily maintain their software."
                },
+               {
+                  "attrs_container": {
+                     "align": "center"
+                  },
+                  "class": "menu",
+                  "color": "#3C5500",
+                  "color_dark": "#AF8A00",
+                  "height": "33px",
+                  "items": [
+                     {
+                        "link": "https://pypackit.repodynamics.com/intro/overview",
+                        "text": "Overview",
+                        "title": "Project Overview"
+                     },
+                     {
+                        "link": "https://pypackit.repodynamics.com/manual/install",
+                        "text": "Install",
+                        "title": "Installation Instructions"
+                     },
+                     {
+                        "link": "https://pypackit.repodynamics.com/news/category/release",
+                        "text": "Releases",
+                        "title": "Release Notes and Changelogs"
+                     },
+                     {
+                        "link": "https://pypackit.repodynamics.com/help/contact",
+                        "text": "Contact",
+                        "title": "Contact Information"
+                     }
+                  ],
+                  "line_bottom_width": "80%",
+                  "line_top_width": "100%",
+                  "style": "for-the-badge"
+               },
                [
                   {
                      "class": "button",
@@ -872,42 +906,7 @@
                         "Bot"
                      ]
                   }
-               ],
-               {
-                  "attrs_container": {
-                     "align": "center"
-                  },
-                  "class": "menu",
-                  "color": "#3C5500",
-                  "color_dark": "#AF8A00",
-                  "height": "33px",
-                  "items": [
-                     {
-                        "link": "https://pypackit.repodynamics.com/intro/overview",
-                        "text": "Overview",
-                        "title": "Project Overview"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/manual/install",
-                        "text": "Install",
-                        "title": "Installation Instructions"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/news/category/release",
-                        "text": "Releases",
-                        "title": "Release Notes and Changelogs"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/help/contact",
-                        "text": "Contact",
-                        "title": "Contact Information"
-                     }
-                  ],
-                  "line_bottom_width": "80%",
-                  "line_top_width": "100%",
-                  "style": "for-the-badge"
-               },
-               "<br>"
+               ]
             ],
             "section": [
                {
