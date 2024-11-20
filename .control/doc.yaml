@@ -47,7 +47,7 @@ readme:
           title: Welcome to ${{ name }}$! Click to visit our website and learn more.
           alt: '${{ name }}$: ${{ title }}$'
           align: center
-          width: 80%
+          width: 100%
           link: ${{ web.url.home }}$
         - class: menu
           items:
@@ -69,6 +69,7 @@ readme:
             - text: Help
               link: ${{ web.page.help.url }}$
               title: Get Help and Support
+          line_top: false
           line_top_width: 80%
           line_bottom_width: 100%
           style: for-the-badge
@@ -81,6 +82,18 @@ readme:
           content: ${{ abstract }}$
           attrs:
             align: justify
+        - - class: button
+            text: 'Keywords: '
+            style: plastic
+            color: '#2c2e30'
+            color_dark: '#2c2e30'
+            height: 23px
+          - '&nbsp;&nbsp;'
+          - class: buttons
+            items: ${{ keywords }}$
+            height: 23px
+            color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
+            color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
         - class: menu
           items:
             - text: Overview
@@ -95,6 +108,7 @@ readme:
             - text: Contact
               link: ${{ web.page.contact.url }}$
               title: Contact Information
+          line_bottom: false
           line_top_width: 100%
           line_bottom_width: 80%
           style: for-the-badge
@@ -103,18 +117,6 @@ readme:
           height: 33px
           attrs_container:
             align: center
-        - - class: button
-            text: 'Keywords: '
-            style: plastic
-            color: '#2c2e30'
-            color_dark: '#2c2e30'
-            height: 23px
-          - '&nbsp;&nbsp;'
-          - class: buttons
-            items: ${{ keywords }}$
-            height: 23px
-            color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
-            color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
       section:
         - heading: Highlights
           body:
