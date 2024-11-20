@@ -51,7 +51,7 @@ along with instructions on how to customize them.
 
 :::{grid-item-card} Templating
 :class-title: sd-text-center
-:link: substitutions/index
+:link: templating/index
 :link-type: doc
 
 Instructions on how to use substitutions (aka templating) in your repository's control center
@@ -61,7 +61,7 @@ and documentation website.
 
 :::{grid-item-card} Inheritance
 :class-title: sd-text-center
-:link: substitutions/index
+:link: inheritance/index
 :link-type: doc
 
 Instructions on how to use substitutions (aka templating) in your repository's control center
