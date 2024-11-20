@@ -6,6 +6,5 @@ ccid: about
 :::{toctree}
 :hidden:
 license
-credits
 publications
 :::
