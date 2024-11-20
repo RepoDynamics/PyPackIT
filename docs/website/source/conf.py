@@ -13,6 +13,7 @@ import gittidy as _git
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
+import pkgdata as _pkgdata
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -410,7 +411,12 @@ def _read_metadata() -> dict[str, Any]:
 
 def _add_html_context():
     """Add the HTML context to the Sphinx configuration."""
-    _globals.setdefault("html_context", {}).update({"ccc": _copy.deepcopy(_meta)})
+    jinja_helper_module_filepath = _Path(__file__).parent.resolve() / "jinja.py"
+    jinja_helper_module = _pkgdata.import_module_from_path(jinja_helper_module_filepath)
+    jinja_helper_module.metadata = _meta
+    _globals.setdefault("html_context", {}).update(
+        {"ccc": _copy.deepcopy(_meta), "helper": jinja_helper_module}
+    )
     return
 
 
