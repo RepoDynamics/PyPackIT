@@ -145,12 +145,12 @@ with minimal cost and effort.
 :::{admonition} What's Next
 :class: seealso
 
-Nex
-
 If you can't wait to get started with PyPackIT,
 skip to the [User Manual](#manual) for detailed instructions
 on how to install and use PyPackIT in your project.
-Otherwise, continue for a background review of the state of the art
+Otherwise, continue for a more in-depth overview of PyPackIT's
+main features and capabilities, along with a 
+background review of the state of the art
 and current challenges in open-source software development,
 and how PyPackIT addresses them to elevate your project.
 :::
