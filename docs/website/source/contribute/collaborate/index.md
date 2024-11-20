@@ -62,7 +62,7 @@ In essence, this means that any contribution you make, such as code, media, and 
 will also be under the same copyleft license, and free to use, modify and distribute to everyone.
 You are thus responsible to make sure that you own the rights to your contribution,
 or that the material you are contributing is under a license that allows this.
-If you have any doubts or concerns, please feel free to [contact us](../../help/contact/index.md).
+If you have any doubts or concerns, please feel free to [contact us](../../about/contact/index.md).
 
 :::{button-ref} /about/license
 :color: danger
