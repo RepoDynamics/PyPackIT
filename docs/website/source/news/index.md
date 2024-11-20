@@ -1,5 +1,6 @@
 ---
 ccid: blog
+category: Release
 ---
 
 # News
