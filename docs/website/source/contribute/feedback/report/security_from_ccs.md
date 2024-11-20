@@ -49,7 +49,7 @@ or [**click here to directly open a private report form**]({{ccc.repo.url.securi
   🥷🏾 <b>Prefer Anonymity?</b>
   <br><br>
   Our vulnerability management team also welcomes anonymous emails sent to
-  <a href="mailto:{{ccc.maintainer.security.email.url}}
+  <a href="{{ helper.team_members_with_role_ids("security")[0].email.url }}
 ?subject=
 %5BSecurity%20Vulnerability%20Report%5D%3A%20---Please%20provide%20a%20consc
 ise%20title%20here---
@@ -79,7 +79,7 @@ ons.---%0D%0A%0D%0A6.%20Severity%0D%0A---Asses%20the%20severity%20of%20the%2
 security-advisories%2Frepository-security-advisories%2Fabout-repository-secu
 rity-advisories%23cve-identification-numbers%29.---%0D%0A%0D%0A8.%20Mitigati
 on%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---%2
-">{{ccc.maintainer.security.email.url}}</a>.
+">{{ helper.team_members_with_role_ids("security")[0].email.id }}</a>.
 </blockquote>
 
 ---Thank you for reporting a security vulnerability. Please provide as much information as you can under the sections listed below. Texts like this that are surrounded by three hyphens are instructions and should be deleted before sending the email.---
@@ -185,4 +185,4 @@ and are not authorized for testing. Additionally, vulnerabilities found in syste
 fall outside of this policy's scope and should be reported directly to the vendor according to their
 disclosure policy (if any). If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at {{ccc.maintainer.security.email.url}} to discuss it first, before starting your research.
+please contact us at {{ helper.team_members_with_role_ids("security")[0].email.id }} to discuss it first, before starting your research.
