@@ -107,6 +107,29 @@ readme:
                 align: left
               attrs_p:
                 align: justify
+        - heading: Activity
+          body:
+            - class: badges
+              service: github
+              endpoint: commit_activity
+              args:
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+              style: flat-square
+              attrs_container:
+                align: center
+              items:
+                - args:
+                    interval: t
+                - args:
+                    interval: y
+                  label: ""
+                - args:
+                    interval: m
+                  label: ""
+                - args:
+                    interval: w
+                  label: ""
         - heading: Acknowledgements
           body:
             - ${{ name }}$ was developed in [Volkamer Lab](https://volkamerlab.org/).
@@ -432,7 +455,7 @@ web:
         # ---- Analytics ----
         google_analytics_id: G-0X66W6TGL2
       html_context:
-        github_user: ${{ team.owner.github.id }}$
+        github_user: ${{ repo.owner }}$
         github_repo: ${{ repo.name }}$
         github_version: ${{ repo.default_branch }}$
         doc_path: ${{ web.path.source }}$
