@@ -40,7 +40,7 @@ jobs:
           make -C "repo/${{ fromJSON(inputs.config).path-web }}" BUILDDIR=${{ github.workspace }}/build clean dirhtml
           mv build/dirhtml build/html
       - name: Build Artifact Upload
-        if: ${{ !cancelled() }}
+#        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
         with:
           name: ${{ fromJSON(inputs.config).artifact.build.name }}
