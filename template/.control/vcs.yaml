@@ -1,5 +1,11 @@
 repo:
   homepage: ${{ web.url.home }}$
+  topics: |
+    #{{                
+      return [
+        slugify(keyword) for keyword in get("keywords", []) if len(keyword) <= 50
+      ][:20]
+    }}#
   secret_scanning: true
   secret_scanning_push_protection: true
   vulnerability_alerts: true
