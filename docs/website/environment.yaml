@@ -30,3 +30,4 @@ dependencies:
   - versionman
   - sphinx-autobuild >= 2024.09.17
   - pygments-git == 1.7.0
+  - pkgdata

@@ -2182,6 +2182,17 @@
                   "source": "https://github.com/executablebooks/MyST-Parser"
                }
             },
+            "pkg_resources": {
+               "description": "Handling package resources, such as accessing data files that are\ndistributed with the package.\n",
+               "import_name": "pkgdata",
+               "pip": {
+                  "spec": "pkgdata"
+               },
+               "url": {
+                  "docs": "https://pkgdata.repodynamics.com/",
+                  "source": "https://github.com/repodynamics/pkgdata"
+               }
+            },
             "pygments_git_lexer": {
                "description": "Pygments lexer for Git files and outputs.\n",
                "import_name": "pygments_git",
