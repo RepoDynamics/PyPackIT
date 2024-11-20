@@ -81,18 +81,6 @@ readme:
           content: ${{ abstract }}$
           attrs:
             align: justify
-        - - class: button
-            text: 'Keywords: '
-            style: plastic
-            color: '#2c2e30'
-            color_dark: '#2c2e30'
-            height: 23px
-          - '&nbsp;&nbsp;'
-          - class: buttons
-            items: ${{ keywords }}$
-            height: 23px
-            color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
-            color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
         - class: menu
           items:
             - text: Overview
@@ -115,7 +103,18 @@ readme:
           height: 33px
           attrs_container:
             align: center
-        - <br>
+        - - class: button
+            text: 'Keywords: '
+            style: plastic
+            color: '#2c2e30'
+            color_dark: '#2c2e30'
+            height: 23px
+          - '&nbsp;&nbsp;'
+          - class: buttons
+            items: ${{ keywords }}$
+            height: 23px
+            color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
+            color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
       section:
         - heading: Highlights
           body:
