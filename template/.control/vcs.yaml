@@ -1,7 +1,7 @@
 repo:
   homepage: ${{ web.url.home }}$
   topics: |
-    #{{                
+    #{{
       return [
         slugify(keyword) for keyword in get("keywords", []) if len(keyword) <= 50
       ][:20]
