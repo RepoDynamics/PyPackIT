@@ -3002,6 +3002,20 @@
             {
                "entries": [
                   {
+                     "entries": [
+                        {
+                           "file": "manual/install/new/index"
+                        },
+                        {
+                           "file": "manual/install/existing/index"
+                        },
+                        {
+                           "file": "manual/install/upgrade/index"
+                        },
+                        {
+                           "file": "manual/install/common/index"
+                        }
+                     ],
                      "file": "manual/install/index"
                   },
                   {
