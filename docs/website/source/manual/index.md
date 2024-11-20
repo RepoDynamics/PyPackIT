@@ -32,6 +32,16 @@ from submitting an issue ticket to deploying a new release.
 :::
 
 
+:::{grid-item-card} Control Center
+:class-title: sd-text-center
+:link: control/index
+:link-type: doc
+
+A detailed explanation of your repository's control center and its feature,
+along with a full reference of all its available options.
+:::
+
+
 :::{grid-item-card} Repository
 :link: repo/index
 :link-type: doc
@@ -100,17 +110,7 @@ development environment and workflows.
 :::
 
 
-:::{grid-item-card} Control Center
-:class-title: sd-text-center
-:link: control/index
-:link-type: doc
 
-A detailed explanation of your repository's control center and its feature,
-along with a full reference of all its available options.
-
-it also provides a full reference of all {{ccc.name}}'s available configurations
-and options that can be set to fully customize it according to your project's specific needs.
-:::
 
 :::{grid-item-card} Usage
 :class-title: sd-text-center
