@@ -44,7 +44,7 @@ a free and open-source project.
 :::{admonition} Contact us
 :class: seealso
 After reading this guide, if you're still unsure where to start or have questions,
-please don't hesitate to [contact us](../help/contact/index.md).
+please don't hesitate to [contact us](../about/contact/index.md).
 :::
 
 
