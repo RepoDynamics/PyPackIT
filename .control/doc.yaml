@@ -783,6 +783,16 @@ web:
           source: https://github.com/adamchainz/pygments-git
         pip:
           spec: pygments-git == 1.7.0
+      pkg_resources:
+        import_name: pkgdata
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
+        pip:
+          spec: pkgdata
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
   url:
     custom:
       name: pypackit.repodynamics.com
