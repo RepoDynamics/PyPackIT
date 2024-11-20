@@ -39,11 +39,12 @@ jobs:
         run: |
           make -C "repo/${{ fromJSON(inputs.config).path-web }}" BUILDDIR=${{ github.workspace }}/build clean dirhtml
       - name: Output Structure
+        if: ${{ !cancelled() }}
         shell: micromamba-shell {0}
         run: |
           mv build/dirhtml build/html
       - name: Build Artifact Upload
-#        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
         with:
           name: ${{ fromJSON(inputs.config).artifact.build.name }}
@@ -51,7 +52,7 @@ jobs:
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include-hidden }}
           path: build/*
       - name: GH-Pages Artifact Upload
-        if: fromJSON(inputs.config).deploy
+        if: ${{ !cancelled() && fromJSON(inputs.config).deploy }}
         id: upload-pages
         uses: actions/upload-pages-artifact@v3  # https://github.com/actions/upload-pages-artifact
         with:
