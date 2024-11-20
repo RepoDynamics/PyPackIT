@@ -69,8 +69,7 @@ readme:
             - text: Help
               link: ${{ web.page.help.url }}$
               title: Get Help and Support
-          line_top: false
-          line_top_width: 80%
+          line_top_width: 100%
           line_bottom_width: 100%
           style: for-the-badge
           color: ${{ theme.color.primary.light }}$
@@ -94,29 +93,7 @@ readme:
             height: 23px
             color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
             color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
-        - class: menu
-          items:
-            - text: Overview
-              link: ${{ web.page.overview.url }}$
-              title: Project Overview
-            - text: Install
-              link: ${{ web.page.install.url }}$
-              title: Installation Instructions
-            - text: Releases
-              link: ${{ web.page.blog_category_release.url }}$
-              title: Release Notes and Changelogs
-            - text: Contact
-              link: ${{ web.page.contact.url }}$
-              title: Contact Information
-          line_bottom: false
-          line_top_width: 100%
-          line_bottom_width: 80%
-          style: for-the-badge
-          color: ${{ theme.color.secondary.light }}$
-          color_dark: ${{ theme.color.secondary.dark }}$
-          height: 33px
-          attrs_container:
-            align: center
+        - <hr>
       section:
         - heading: Highlights
           body:
