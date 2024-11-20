@@ -818,8 +818,7 @@
                      }
                   ],
                   "line_bottom_width": "100%",
-                  "line_top": false,
-                  "line_top_width": "80%",
+                  "line_top_width": "100%",
                   "style": "for-the-badge"
                },
                {
@@ -874,41 +873,7 @@
                      ]
                   }
                ],
-               {
-                  "attrs_container": {
-                     "align": "center"
-                  },
-                  "class": "menu",
-                  "color": "#3C5500",
-                  "color_dark": "#AF8A00",
-                  "height": "33px",
-                  "items": [
-                     {
-                        "link": "https://pypackit.repodynamics.com/intro/overview",
-                        "text": "Overview",
-                        "title": "Project Overview"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/manual/install",
-                        "text": "Install",
-                        "title": "Installation Instructions"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/news/category/release",
-                        "text": "Releases",
-                        "title": "Release Notes and Changelogs"
-                     },
-                     {
-                        "link": "https://pypackit.repodynamics.com/about/contact",
-                        "text": "Contact",
-                        "title": "Contact Information"
-                     }
-                  ],
-                  "line_bottom": false,
-                  "line_bottom_width": "80%",
-                  "line_top_width": "100%",
-                  "style": "for-the-badge"
-               }
+               "<hr>"
             ],
             "section": [
                {
@@ -1832,7 +1797,7 @@
                   "color": "#3C5500",
                   "color_dark": "#AF8A00",
                   "label": "License",
-                  "link": "https://pypackit.repodynamics.com/about/license/license",
+                  "link": "https://pypackit.repodynamics.com/about/license",
                   "service": "static",
                   "title": "SPDX-License-Identifier: AGPL-3.0-or-later"
                }
@@ -2616,9 +2581,9 @@
             "url": "https://pypackit.repodynamics.com/intro"
          },
          "license": {
-            "path": "about/license/license",
+            "path": "about/license",
             "title": "License",
-            "url": "https://pypackit.repodynamics.com/about/license/license"
+            "url": "https://pypackit.repodynamics.com/about/license"
          },
          "manual": {
             "path": "manual",
@@ -2927,7 +2892,7 @@
                   {
                      "icon": "fa-solid fa-copyright",
                      "name": "License",
-                     "url": "https://pypackit.repodynamics.com/about/license/license"
+                     "url": "https://pypackit.repodynamics.com/about/license"
                   }
                ],
                "icon_links_label": "External links",
