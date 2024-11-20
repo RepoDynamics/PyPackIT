@@ -23,7 +23,7 @@ along with guides on how to maintain and upgrade an existing installation.
 
 :::{grid-item-card} Quickstart Guide
 :class-title: sd-text-center
-:link: install/index
+:link: quickstart/index
 :link-type: doc
 
 An introductory tutorial that walks you through
