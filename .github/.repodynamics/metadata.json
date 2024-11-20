@@ -956,6 +956,59 @@
                },
                {
                   "body": [
+                     {
+                        "args": {
+                           "repo": "PyPackIT",
+                           "user": "RepoDynamics"
+                        },
+                        "attrs_container": {
+                           "align": "center"
+                        },
+                        "class": "badges",
+                        "endpoint": "commit_activity",
+                        "items": [
+                           {
+                              "alt": "Total Commits",
+                              "args": {
+                                 "interval": "t"
+                              },
+                              "label": "Commits",
+                              "title": "Total number of commits in the repository."
+                           },
+                           {
+                              "alt": "Commits/Year",
+                              "args": {
+                                 "interval": "y"
+                              },
+                              "label": "",
+                              "title": "Average number of commits in the repository per year."
+                           },
+                           {
+                              "alt": "Commits/Month",
+                              "args": {
+                                 "interval": "m"
+                              },
+                              "label": "",
+                              "title": "Average number of commits in the repository per month."
+                           },
+                           {
+                              "alt": "Commits/Week",
+                              "args": {
+                                 "interval": "w"
+                              },
+                              "label": "",
+                              "title": "Average number of commits in the repository per week."
+                           }
+                        ],
+                        "link": "https://github.com/RepoDynamics/PyPackIT/commits",
+                        "service": "github",
+                        "style": "flat-square"
+                     }
+                  ],
+                  "heading": "Activity"
+               },
+               {
+                  "body": [
                      "PyPackIT was developed in [Volkamer Lab](https://volkamerlab.org/)."
                   ],
                   "heading": "Acknowledgements"
@@ -1564,6 +1617,7 @@
       "id": 640622662,
       "name": "PyPackIT",
       "node_id": "R_kgDOJi8gRg",
+      "owner": "RepoDynamics",
       "private_vulnerability_reporting": true,
       "secret_scanning": true,
       "secret_scanning_push_protection": true,
@@ -1594,6 +1648,9 @@
             "home": "https://github.com/RepoDynamics/PyPackIT/actions"
          },
          "blob": "https://github.com/RepoDynamics/PyPackIT/blob/main",
+         "commits": {
+            "home": "https://github.com/RepoDynamics/PyPackIT/commits"
+         },
          "discussions": {
             "home": "https://github.com/RepoDynamics/PyPackIT/discussions",
             "new": {
