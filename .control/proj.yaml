@@ -14,29 +14,29 @@ title: Cloud-Native Continuous Software Engineering Automation for Python Projec
   # - Toward Better Research Software with Python Packages and Automation on GitHub
 abstract: >-
   ${{ name }}$ (pronounced ${{ __custom__.name_ipa }}$)
-  is a comprehensive **cloud-based automation tool**
+  is a comprehensive <em>cloud-based automation tool</em>
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
-  and professional software on **GitHub**,
+  and professional software on <em>GitHub</em>,
   in accordance with the latest engineering best practices and standards.
   It is a ready-to-use software suite that streamlines the initiation, configuration,
-  development, publication, management, and maintenance of high-quality software libraries in **Python**.
+  development, publication, management, and maintenance of high-quality software libraries in <em>Python</em>.
   By taking charge of repetitive tasks and automatically enforcing best practices
   throughout the software development life-cycle,
   ${{ name }}$ enables its users to solely focus on the creative aspects of their projects,
   while improving quality and lowering production costs.
   Using state-of-the-art tools and methodologies, ${{ name }}$ offers a robust project infrastructure,
-  including a build-ready Python **package skeleton**,
-  a fully operational **test suite**, a complete **documentation website**,
+  including a build-ready Python <em>package skeleton</em>,
+  a fully operational **test suite**, a complete <em>documentation website</em>,
   and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
   and dynamic project management.
-  ${{ name }}$ establishes a complete **cloud development** environment on GitHub,
+  ${{ name }}$ establishes a complete <em>cloud-native development</em> environment on GitHub,
   integrating with its version control system, issue tracker,
   and pull-based model to provide a fully automated software development workflow,
-  complete with features like **issue management**, **branching model**, and **version scheme**.
-  Leveraging **GitHub Actions** (GHA), ${{ name }}$ implements a **cloud-native development** process
+  complete with features like <em>issue management</em>, <em>branching model</em>, and <em>version scheme</em>.
+  Leveraging <em>GitHub Actions</em> (GHA), ${{ name }}$ implements a cloud-native development process
   with specialized Continuous Integration (CI), Deployment (CD), Testing (CT), Refactoring (CR),
-  and Maintenance (CM) pipelines, using **Agile**, **Continuous** software engineering,
-  and **DevOps** methodologies.
+  and Maintenance (CM) pipelines, using <em>Agile</em>, <em>Continuous software engineering</em>,
+  and <em>DevOps</em> methodologies.
   ${{ name }}$ is a free and open-source software suite that readily integrates with
   both new and existing projects to ensure their long-term sustainability and high quality,
   thus enabling developers to rapidly implement their ideas and easily maintain their software.
@@ -93,11 +93,11 @@ highlights:
     description: |
       ${{ name }}$ provides a centralized user interface
       based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
-      to enable **Continuous Configuration Automation** (CCA)
+      to enable Continuous Configuration Automation (CCA)
       for the entire project. ${{ name }}$'s control center
       simplifies project configuration, customization, and management
-      via automatic data **templating** and **augmentation**, cross-repository **inheritance**,
-      and **synchronization** features that instantly apply modifications to all project components.
+      via automatic data <em>templating</em> and <em>augmentation</em>, cross-repository <em>inheritance</em>,
+      and <em>synchronization</em> features that instantly apply modifications to all project components.
   - title: Python Package
     description: |
       ${{ name }}$ includes a fully-configured and build-ready
