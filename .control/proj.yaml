@@ -26,8 +26,8 @@ abstract: >-
   while improving quality and lowering production costs.
   Using state-of-the-art tools and methodologies, ${{ name }}$ offers a robust project infrastructure,
   including a build-ready Python <strong>package skeleton</strong>,
-  a fully operational **test suite**, a complete <strong>documentation website</strong>,
-  and a comprehensive **control center** facilitating Continuous Configuration Automation (CCA)
+  a fully operational <strong>test suite</strong>, a complete <strong>documentation website</strong>,
+  and a comprehensive <strong>control center</strong> facilitating Continuous Configuration Automation (CCA)
   and dynamic project management.
   ${{ name }}$ establishes a complete <strong>cloud-native development</strong> environment on GitHub,
   integrating with its version control system, issue tracker,
@@ -92,7 +92,7 @@ highlights:
   - title: Continuous Configuration Automation
     description: |
       ${{ name }}$ provides a centralized user interface
-      based on **DevOps** practices like **Infrastructure-as-Code** (IaC)
+      based on <strong>DevOps</strong> practices like <strong>Infrastructure-as-Code</strong> (IaC)
       to enable Continuous Configuration Automation (CCA)
       for the entire project. ${{ name }}$'s control center
       simplifies project configuration, customization, and management
