@@ -142,7 +142,7 @@ your respective accounts:
 If your project is already published on either Zenodo or Zenodo Sandbox
 and you wish to publish future versions under the same so-called concept record
 (instead of creating a new concept), you can add your existing concept's DOI and ID
-to the [variables files](){.user-link-repo-settings-secrets-actions-new} in your repository.
+to the [variables files](){.user-link-repo-const-variables} in your repository.
 Note that this **must be done in the first commit after adding your tokens**,
 otherwise a new concept will be created for each platform (Zenodo or Zenodo Sandbox)
 that does not define an ID.
