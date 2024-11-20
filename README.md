@@ -160,6 +160,18 @@ Highlights
 
 <h2>
 
+Activity
+
+</h2>
+
+<div align="center">
+
+<a alt="Total Commits" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Total Commits" src="https://img.shields.io/github/commit-activity/t/RepoDynamics/PyPackIT?label=Commits&amp;style=flat-square" title="Total number of commits in the repository." /></a>&nbsp;<a alt="Commits/Year" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Year" src="https://img.shields.io/github/commit-activity/y/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per year." /></a>&nbsp;<a alt="Commits/Month" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Month" src="https://img.shields.io/github/commit-activity/m/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per month." /></a>&nbsp;<a alt="Commits/Week" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Week" src="https://img.shields.io/github/commit-activity/w/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per week." /></a>
+
+</div>
+
+<h2>
+
 Acknowledgements
 
 </h2>
