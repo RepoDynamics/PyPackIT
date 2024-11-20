@@ -3013,7 +3013,27 @@
                      "file": "intro/background/index"
                   },
                   {
-                     "file": "intro/basics/index"
+                     "file": "intro/glossary/index"
+                  },
+                  {
+                     "file": "intro/references/index"
+                  },
+                  {
+                     "entries": [
+                        {
+                           "file": "intro/supplementary/python/index"
+                        },
+                        {
+                           "file": "intro/supplementary/versioning/index"
+                        },
+                        {
+                           "file": "intro/supplementary/indexes/index"
+                        },
+                        {
+                           "file": "intro/supplementary/publication/index"
+                        }
+                     ],
+                     "file": "intro/supplementary/index"
                   }
                ],
                "file": "intro/index",

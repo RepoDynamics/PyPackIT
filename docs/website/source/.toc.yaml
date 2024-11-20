@@ -9,7 +9,14 @@ entries:
   entries:
   - file: intro/overview/index
   - file: intro/background/index
-  - file: intro/basics/index
+  - file: intro/glossary/index
+  - file: intro/references/index
+  - file: intro/supplementary/index
+    entries:
+    - file: intro/supplementary/python/index
+    - file: intro/supplementary/versioning/index
+    - file: intro/supplementary/indexes/index
+    - file: intro/supplementary/publication/index
 - file: manual/index
   title: Manual
   options:
