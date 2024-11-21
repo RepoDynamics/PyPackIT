@@ -965,42 +965,74 @@
                            "align": "center"
                         },
                         "class": "badges",
+                        "items": [
+                           {
+                              "endpoint": "created_at"
+                           },
+                           {
+                              "endpoint": "contributors"
+                           },
+                           {
+                              "endpoint": "language_count"
+                           },
+                           {
+                              "endpoint": "top_language"
+                           }
+                        ],
+                        "service": "github",
+                        "style": "flat-square"
+                     }
+                  ],
+                  "heading": "Repository"
+               },
+               {
+                  "body": [
+                     {
+                        "args": {
+                           "repo": "PyPackIT",
+                           "user": "RepoDynamics"
+                        },
+                        "attrs_container": {
+                           "align": "center"
+                        },
+                        "class": "badges",
                         "endpoint": "commit_activity",
                         "items": [
                            {
-                              "alt": "Total Commits",
                               "args": {
                                  "interval": "t"
-                              },
-                              "label": "Commits",
-                              "title": "Total number of commits in the repository."
+                              }
                            },
                            {
-                              "alt": "Commits/Year",
                               "args": {
                                  "interval": "y"
                               },
-                              "label": "",
-                              "title": "Average number of commits in the repository per year."
+                              "label": ""
                            },
                            {
-                              "alt": "Commits/Month",
                               "args": {
                                  "interval": "m"
                               },
-                              "label": "",
-                              "title": "Average number of commits in the repository per month."
+                              "label": ""
                            },
                            {
-                              "alt": "Commits/Week",
                               "args": {
                                  "interval": "w"
                               },
-                              "label": "",
-                              "title": "Average number of commits in the repository per week."
+                              "label": ""
+                           },
+                           {
+                              "endpoint": "commits_since_latest_release",
+                              "label": "since latest release"
+                           },
+                           {
+                              "endpoint": "last_commit",
+                              "label": "last"
+                           },
+                           {
+                              "endpoint": "release_date"
                            }
                         ],
-                        "link": "https://github.com/RepoDynamics/PyPackIT/commits",
                         "service": "github",
                         "style": "flat-square"
                      }
