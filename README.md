@@ -160,13 +160,25 @@ Highlights
 
 <h2>
 
+Repository
+
+</h2>
+
+<div align="center">
+
+<img alt="Repository creation date" src="https://img.shields.io/github/created-at/RepoDynamics/PyPackIT?label=Created&amp;style=flat-square" title="Repository creation date." />&nbsp;<a alt="Repository contributors" href="https://github.com/RepoDynamics/PyPackIT/graphs/contributors"><img alt="Repository contributors" src="https://img.shields.io/github/contributors-anon/RepoDynamics/PyPackIT?label=Contributors&amp;style=flat-square" title="Total number of contributors. Click to see the full list of contributors." /></a>&nbsp;<img alt="Programming Languages" src="https://img.shields.io/github/languages/count/RepoDynamics/PyPackIT?label=Languages&amp;style=flat-square" title="Number of programming languages used in the project." />&nbsp;<img alt="Top Programming Language" src="https://img.shields.io/github/languages/top/RepoDynamics/PyPackIT?style=flat-square" title="Percentage of the most used programming language in the repository." />
+
+</div>
+
+<h2>
+
 Activity
 
 </h2>
 
 <div align="center">
 
-<a alt="Total Commits" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Total Commits" src="https://img.shields.io/github/commit-activity/t/RepoDynamics/PyPackIT?label=Commits&amp;style=flat-square" title="Total number of commits in the repository." /></a>&nbsp;<a alt="Commits/Year" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Year" src="https://img.shields.io/github/commit-activity/y/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per year." /></a>&nbsp;<a alt="Commits/Month" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Month" src="https://img.shields.io/github/commit-activity/m/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per month." /></a>&nbsp;<a alt="Commits/Week" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Week" src="https://img.shields.io/github/commit-activity/w/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Average number of commits in the repository per week." /></a>
+<a alt="Total commits" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Total commits" src="https://img.shields.io/github/commit-activity/t/RepoDynamics/PyPackIT?label=Commits&amp;style=flat-square" title="Total number of commits . Click to see the full list of commits." /></a>&nbsp;<a alt="Commits/Year" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Year" src="https://img.shields.io/github/commit-activity/y/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Number of commits in the last year. Click to see the full list of commits." /></a>&nbsp;<a alt="Commits/Month" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Month" src="https://img.shields.io/github/commit-activity/m/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Number of commits in the last month. Click to see the full list of commits." /></a>&nbsp;<a alt="Commits/Week" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits/Week" src="https://img.shields.io/github/commit-activity/w/RepoDynamics/PyPackIT?label=&amp;style=flat-square" title="Number of commits in the last week. Click to see the full list of commits." /></a>&nbsp;<a alt="Commits since latest release" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/RepoDynamics/PyPackIT/latest?include_prereleases&amp;sort=date&amp;label=since%20latest%20release&amp;style=flat-square" title="Number of commits since the latest release. Click to see the full list of commits." /></a>&nbsp;<a alt="Last commit" href="https://github.com/RepoDynamics/PyPackIT/commits"><img alt="Last commit" src="https://img.shields.io/github/last-commit/RepoDynamics/PyPackIT?display_timestamp=author&amp;label=last&amp;style=flat-square" title="Time of the last commit. Click to see the full list of commits." /></a>&nbsp;<a alt="Latest release date" href="https://github.com/RepoDynamics/PyPackIT/releases/latest"><img alt="Latest release date" src="https://img.shields.io/github/release-date-pre/RepoDynamics/PyPackIT?display_date=published_at&amp;label=Latest%20Release&amp;style=flat-square" title="Latest release date. Click to see more details in the Releases section of the repository." /></a>
 
 </div>
 
