@@ -126,6 +126,377 @@ readme:
             align: center
         - <br>
       section:
+        - heading: Metadata
+          body:
+            - class: table
+              rows:
+                - |
+                  *{{
+                    #{{
+                      badges = []
+                      concept_doi = get("var.zenodo.concept.doi")
+                      if concept_doi:
+                        badges.append(
+                          {"args": {"message": concept_doi}, "label": "Project"} 
+                        )
+                      curr_changelog = changelog.current_public
+                      curr_doi = curr_changelog.get("release", {}).get("zenodo", {}).get("doi")
+                      if curr_doi:
+                        badges.append(
+                          {
+                            "args": {"message": curr_doi},
+                            "label": f"Latest Version ({curr_changelog["version"]})"
+                          }
+                        )
+                      if not badges:
+                        return []
+                      badges_config = {
+                        "class": "badges",
+                        "service": "static",
+                        "style": "flat-square",
+                        "items": badges,
+                      }
+                      return [["<b>DOIs</b>", badges_config]]
+                    }}#
+                  }}*
+                - - <b>License</b>
+                  - class: badges
+                    style: flat-square
+                    items:
+                      - service: static
+                        args:
+                          message: ${{ license.expression }}$
+                        label: SPDX Identifier
+                        color: ${{ theme.color.secondary.light }}$
+                        color_dark: ${{ theme.color.secondary.dark }}$
+                        link: ${{ web.page.license.url }}$
+                        title: 'SPDX-License-Identifier: ${{ license.expression }}$'
+                        alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
+                      - service: dynamic
+                        args:
+                          url: ${{ control.url.metadata }}$
+                          query: '$.copyright'
+                        label: Copyright
+                        color: ${{ theme.color.primary.light }}$
+                        logo: ${{ theme.logo.icon.path }}$
+                        logo_type: file
+                        color_dark: ${{ theme.color.primary.dark }}$
+                        logo_dark: ${{ theme.logo.icon.path }}$
+                        logo_type_dark: file
+                        link: ${{ web.url.home }}$
+                        title: '${{ name }}$: ${{ copyright }}$'
+                        alt: ${{ name }}$
+                - - <b>Package</b>
+                  - class: badges
+                    service: static
+                    items:
+                      - label: Distribution Name
+                        args:
+                          message: ${{ pkg.name }}$
+                      - label: Import Name
+                        args:
+                          message: ${{ pkg.import_name }}$
+                      - |
+                        *{{
+                          #{{
+                            badges = []
+                            oss = get("pkg.os")
+                            color_green = get("__custom__.color.badge_green")
+                            color_red = get("__custom__.color.badge_red")
+                            for os_name, os_id, logo, logo_color in (
+                              ("Linux", "linux", "linux", "#FCC624"),
+                              ("macOS", "macos", "apple", "#000000"),
+                              ("Windows", "windows", "https://commons.wikimedia.org/wiki/File:Microsoft_logo.svg", None),
+                            ):
+                              if os_id not in oss:
+                                supports = "No"
+                                color = color_red
+                              else:
+                                os = oss[os_id]
+                                supports = "Yes" if "cibuild" not in os else " | ".join(os["cibuild"])
+                                color = color_red
+                              badge = {
+                                "label": f"{os_name} Support",
+                                "args": {"message": supports},
+                                "color": color,
+                                "logo": logo,
+                                "logo_color": logo_color
+                              }
+                              badges.append(badge)
+                            return badges
+                          }}#
+                        }}*
+                      - label: Python Support
+                        args:
+                          message: >-
+                            #{{ return " | ".join(get("pkg.python.version.minors")) }}#
+                      - label: Pure Python
+                        args:
+                          message: >-
+                            #{{ return "Yes" if get("pkg.python.pure") else "No" }}#
+                      - label: Python Implementation
+                        args:
+                          message: ${{ pkg.python.implementation }}$
+                      - label: CLI
+                        args:
+                          message: >-
+                            #{{
+                              cli = get("pkg.entry.cli")
+                              if not cli:
+                                return "No"
+                              return " | ".join(entry["name"] for entry in cli.values())
+                            }}#
+                      - label: GUI
+                        args:
+                          message: >-
+                            #{{
+                              gui = get("pkg.entry.gui")
+                              if not gui:
+                                return "No"
+                              return " | ".join(entry["name"] for entry in gui.values())
+                            }}#
+                      - label: Typed
+                        args:
+                          message: >-
+                            #{{ return "Yes" if get("pkg.typed") else "No" }}#
+        - heading: Statistics
+          body:
+            - class: table
+              rows:
+                - - <b>Repository</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - endpoint: created_at
+                      - endpoint: contributors
+                      - endpoint: language_count
+                      - endpoint: top_language
+                      - service: librariesio
+                        endpoint: dependency_status_github
+                      - endpoint: repo_size
+                      - endpoint: code_size
+                - - <b>Releases</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                      package: ${{ pkg.name }}$
+                    style: flat-square
+                    items:
+                      - endpoint: release_date
+                      - endpoint: version
+                        args:
+                          display_name: tag
+                          sort: semver
+                      - service: conda
+                        endpoint: version
+                      - service: pypi
+                        endpoint: version
+                - - <b>Downloads</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                      package: ${{ pkg.name }}$
+                    style: flat-square
+                    items:
+                      - service: conda
+                        endpoint: downloads
+                      - endpoint: downloads_all_releases
+                      - service: pepy
+                        endpoint: total_downloads
+                      - service: pypi
+                        endpoint: downloads
+                        args:
+                          period: m
+                      - service: pypi
+                        endpoint: downloads
+                        args:
+                          period: w
+                      - service: pypi
+                        endpoint: downloads
+                        args:
+                          period: d
+                - - <b>Users</b>
+                  - class: badges
+                    service: librariesio
+                    args:
+                      platform: pypi
+                      package: ${{ pkg.name }}$
+                    style: flat-square
+                    items:
+                      - endpoint: dependents
+                      - endpoint: dependents
+                        args:
+                          repo: true
+                - - <b>Community</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - endpoint: forks
+                      - endpoint: stars
+                      - endpoint: watchers
+                - |
+                  *{{
+                    #{{
+                      out = []
+                      label_data = [("Total", None)] + [
+                        (badge_label, get(f"label.{label_type}.label.name"))
+                        for badge_label, label_type in (
+                          ("Bug Fixes", "fix"),
+                          ("New Features", "feat"),
+                          ("Breaking Changes", "change"),
+                        )
+                      ]
+                      repo_owner = get("repo.owner")
+                      repo_name = get("repo.name")
+                      for title, issue_kind in (
+                        ("Issues", "issues"),
+                        ("PRs", "pulls"),
+                      ):
+                        badges = []
+                        for badge_label, issue_label in label_data:
+                          badges_config = {
+                            "class": "badges",
+                            "service": "github",
+                            "endpoint": "issue_count",
+                            "args": {"user": repo_owner, "repo": repo_name, "kind": issue_kind},
+                            "style": "flat-square",
+                            "separator": 0,
+                            "items": [
+                              {"args": {"state": "open"}, "label": badge_label},
+                              {"args": {"state": "closed"}, "label": ""},
+                            ],
+                          }
+                          badges.extend([badges_config, "&nbsp;&nbsp;"])
+                        out.append([f"<b>{title}</b>", badges])
+                      return out
+                    }}#
+                  }}*
+                - - <b>Commits</b>
+                  - class: badges
+                    service: github
+                    endpoint: commit_activity
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - args:
+                          interval: t
+                      - args:
+                          interval: y
+                        label: ""
+                      - args:
+                          interval: m
+                        label: ""
+                      - args:
+                          interval: w
+                        label: ""
+                      - endpoint: commits_since_latest_release
+                        label: since latest release
+                      - endpoint: last_commit
+                        label: last
+                - - <b>Discussions</b>
+                  - class: badges
+                    service: github
+                    endpoint: discussion_search_hits
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - |
+                        *{{
+                          #{{
+                            return [
+                              {"args": {"query": f'category:"{category["name"]}"'}, "label": category["name"]}
+                              for category in get("discussion.category", {}).values() 
+                            ]
+                          }}#
+                        }}*
+                - - <b>Website</b>
+                  - class: badges
+                    style: flat-square
+                    items:
+                      - service: website
+                        args:
+                          url: ${{ web.url.home }}$
+                          up_message: online
+                          up_color: '#00802b'
+                          down_message: offline
+                          down_color: '#AF1F10'
+                        label: Status
+                - - <b>Health</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - service: codecov
+                        endpoint: coverage
+                        args:
+                          vcs_name: github
+                      - service: librariesio
+                        endpoint: source_rank
+                        args:
+                          platform: pypi
+                          package: ${{ pkg.name }}$
+                      - service: librariesio
+                        endpoint: dependency_status
+                        args:
+                          platform: pypi
+                          package: ${{ pkg.name }}$
+                      - service: librariesio
+                        endpoint: dependency_status_github
+                        args:
+                          platform: github
+                          package: ""
+                - - <b>Workflows</b>
+                  - class: badges
+                    service: github
+                    args:
+                      user: ${{ repo.owner }}$
+                      repo: ${{ repo.name }}$
+                    style: flat-square
+                    items:
+                      - endpoint: workflow_status
+                        args:
+                          workflow: main.yaml
+                        label: CI/CD
+                      - service: readthedocs
+                        endpoint: build_status
+                        args:
+                          name: ${{ tool.readthedocs.config.workflow.name }}$
+                      - endpoint: deployment_status
+                        args:
+                          environment: |
+                            #{{
+                              import jinja2
+                              return jinja2.Template(get("")).render(pkg=get("pkg"))
+                            }}#
+                      - endpoint: deployment_status
+                        args:
+                          environment: |
+                            #{{
+                              import jinja2
+                              return jinja2.Template(get("")).render(pkg=get("test"))
+                            }}#
+                      - endpoint: deployment_status
+                        args:
+                          environment: ${{ workflow.job.web.env.name }}$
         - heading: Highlights
           body:
             - class: highlights
@@ -813,3 +1184,6 @@ __custom__:
     > All files in this directory are automatically maintained.
     > They can be managed through the [`user/discussion.yaml`](${{ control.path }}$/user/discussion.yaml)
     > configuration file of the repository's [control center](${{ control.path }}$).
+  color:
+    badge_green: "#00802B"
+    badge_red: "#AF1F10"
