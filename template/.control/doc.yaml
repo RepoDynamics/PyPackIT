@@ -161,7 +161,7 @@ readme:
                         "logo_color": "#1682D4",
                         "items": badges,
                       }
-                      return [["<b>DOIs</b>", badges_config]]
+                      return [["<b>DOIs</b>", [badges_config]]]
                     }}#
                   }}*
                 - - <b>License</b>
@@ -341,34 +341,68 @@ readme:
                         - service: pypi
                           endpoint: version
                 - - <b>Downloads</b>
-                  - - class: badges
-                      service: github
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
-                      args:
-                        user: ${{ repo.owner }}$
-                        repo: ${{ repo.name }}$
-                        package: ${{ pkg.name }}$
-                      items:
-                        - service: conda
-                          endpoint: downloads
-                        - endpoint: downloads_all_releases
-                        - service: pepy
-                          endpoint: total_downloads
-                        - service: pypi
-                          endpoint: downloads
-                          args:
-                            period: m
-                        - service: pypi
-                          endpoint: downloads
-                          args:
-                            period: w
-                        - service: pypi
-                          endpoint: downloads
-                          args:
-                            period: d
+                  - - - |
+                        *{{
+                          #{{
+                            if not get("pkg.pypi.publishable"):
+                              return []
+                            badges = {
+                              "class": "badges",
+                              "style": get("__custom__.badge.style"),
+                              "height": get("__custom__.badge.height"),
+                              "color": get("__custom__.badge.color.blue"),
+                              "separator": 1,
+                              "service": "pypi",
+                              "endpoint": "downloads",
+                              "args": {"package": get("pkg.name")},
+                              "label": "",
+                              "logo": "",
+                              "items": [
+                                {
+                                  "service": "pepy",
+                                  "endpoint": "total_downloads",
+                                  "label": "PyPI",
+                                  "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                                  "logo_type": "file",
+                                  "logo_media_type": "png",
+                                },
+                              ] + [{"args": {"period": period}} for period in ("m", "w", "d")]
+                            }
+                            return [badges, "&nbsp;" * get("__custom__.badge.separator")]
+                          }}#
+                        }}*
+                      - |
+                        *{{
+                          #{{
+                            conda = get("pkg.conda") 
+                            if not conda:
+                              return []
+                            badge = {
+                              "class": "badge",
+                              "style": get("__custom__.badge.style"),
+                              "height": get("__custom__.badge.height"),
+                              "color": get("__custom__.badge.color.blue"),
+                              "service": "conda",
+                              "endpoint": "downloads",
+                              "args": {"channel": conda["channel"], "package": get("pkg.name")},
+                              "label": "Conda",
+                              "logo": "anaconda",
+                              "logo_color": "#44A833",
+                            }
+                            return [badge, "&nbsp;" * get("__custom__.badge.separator")]
+                          }}#
+                        }}*
+                      - class: badge
+                        style: ${{ __custom__.badge.style }}$
+                        height: ${{ __custom__.badge.height }}$
+                        color: ${{ __custom__.badge.color.blue }}$
+                        separator: ${{ __custom__.badge.separator }}$
+                        service: github
+                        endpoint: downloads_all_releases
+                        label: GitHub
+                        args:
+                          user: ${{ repo.owner }}$
+                          repo: ${{ repo.name }}$
                 - - <b>Users</b>
                   - - class: badges
                       style: ${{ __custom__.badge.style }}$
