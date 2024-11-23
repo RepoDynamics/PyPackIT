@@ -191,23 +191,9 @@ jobs:
     permissions:
       contents: write
       discussions: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ fromJSON(needs.main.outputs.release).ref }}
-          fetch-depth: 0
-          path: ${{ fromJSON(needs.main.outputs.release).repo-path }}
-      - name: Artifact Download
-        uses: actions/download-artifact@v4
-        with:
-          path: ${{ fromJSON(needs.main.outputs.release).artifact-path }}
-      - name: Release
-        uses: RepoDynamics/ReleaseMan@main
-        with:
-          github-config: ${{ toJSON(fromJSON(needs.main.outputs.release).github) }}
-          zenodo-config: ${{ toJSON(fromJSON(needs.main.outputs.release).zenodo) }}
-          zenodo-sandbox-config: ${{ toJSON(fromJSON(needs.main.outputs.release).zenodo-sandbox) }}
-          zenodo-token: ${{ secrets.ZENODO_TOKEN }}
-          zenodo-sandbox-token: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
+    uses: ./.github/workflows/_release.yaml
+    with:
+      config: ${{ toJSON(fromJSON(needs.main.outputs.release).job) }}
+    secrets:
+      zenodo-token: ${{ secrets.ZENODO_TOKEN }}
+      zenodo-sandbox-token: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
