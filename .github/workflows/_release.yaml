@@ -1,0 +1,49 @@
+name: '[Reusable]: GitHub/Zenodo Release'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+    secrets:
+      zenodo-token:
+        description: Token for Zenodo API.
+        required: false
+      zenodo-sandbox-token:
+        description: Token for Zenodo Sandbox API.
+        required: false
+jobs:
+  release:
+    name: ${{ matrix.task.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        task: ${{ fromJSON(inputs.config).tasks }}
+    environment:
+      name: ${{ matrix.task.env.name }}
+      url: ${{ matrix.task.env.url }}
+    permissions:
+      contents: write
+      discussions: write
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-depth: 0
+          path: ${{ fromJSON(inputs.config).repo-path }}
+      - name: Artifact Download
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ fromJSON(inputs.config).artifact-path }}
+      - name: Release
+        uses: RepoDynamics/ReleaseMan@main
+        with:
+          github-config: ${{ matrix.task.github }}
+          zenodo-config: ${{ matrix.task.zenodo }}
+          zenodo-sandbox-config: ${{ matrix.task.zenodo-sandbox }}
+          zenodo-token: ${{ secrets.zenodo-token }}
+          zenodo-sandbox-token: ${{ secrets.zenodo-sandbox-token }}
