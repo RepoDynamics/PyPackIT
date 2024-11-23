@@ -1,4 +1,3 @@
-name: your new Python project
 title: A New Python Project
 abstract: >-
   Welcome to ${{ name }}$ powered by <a href="https://pypackit.repodynamics.com/">PyPackIT</a>.
@@ -105,101 +104,60 @@ team:
       security: 1
       coc: 1
 citation:
-  authors: |
-    #{{
-      return [
-        {"id": int_author["id"], "member": True}
-        for int_author in team_members_with_role_types("Author", active_only=True)
-      ] + [
-        {"id": ext_author["id"], "member": False}
-        for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)
-      ]
-    }}#
-  contacts: |
-    #{{
+  cff:
+    authors: |
+      #{{
         return [
-          member["id"] for member in team_members_with_role_types(
-            "ContactPerson",
-            active_only=True,
-          )
+          {"id": int_author["id"], "member": True}
+          for int_author in team_members_with_role_types("Author", active_only=True)
+        ] + [
+          {"id": ext_author["id"], "member": False}
+          for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)
         ]
-    }}#
-  doi: |
-    #{{
-      curr_changelog = changelog.current_public
-      return curr_changelog.get("release", {}).get(
-        "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
-      ).get("doi")
-    }}#
-  version: >-
-    #{{ return changelog.current_public.get("version") }}#
-  date_released: >-
-    #{{ return changelog.current_public.get("date") }}#
-  commit: >-
-    #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
-  repository:
-    build: ${{ pkg.pypi.url.home }}$
-  identifiers:
-    - |
-      *{{
-        #{{
-          out = []
-          concept_doi = get("var.zenodo.concept.doi")
-          if concept_doi:
-            entry = {
-              "type": "doi",
-              "value": concept_doi,
-              "description": "Persistent DOI of the project as a whole."
-            }
-            out.append(entry)
-          return out
-        }}#
-      }}*
-release:
-  github:
-    asset:
-      sdist:
-        name: >-
-          #{{ return slugify(get("name")) }}#-{{ version }}-sdists.zip
-        label: Source Distributions
-        format: zip
-        files:
-          - pattern: '^[^/]+ - sdist/[^/]+\.tar\.gz$'
-            artifact: true
-      wheel:
-        name: >-
-          #{{ return slugify(get("name")) }}#-{{ version }}-wheels.zip
-        label: Binary Distributions
-        format: zip
-        files:
-          - pattern: '^[^/]+ - wheels/[^/]+\.whl$'
-            artifact: true
-      docs:
-        name: >-
-          #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip
-        label: Documentation
-        format: zip
-        files:
-          - pattern: '^Website(?!.*GH-Pages)[^/]*$'
-            artifact: true
-      license:
-        name: >-
-          #{{ return slugify(get("name")) }}#-{{ version }}-license.zip
-        label: License
-        format: zip
-        files:
-          - pattern: '^(LICENSE|COPYING)[^/]*$'
-      citation:
-        name: >-
-          #{{ return slugify(get("name")) }}#-{{ version }}-citation.cff
-        label: Citation
-        files:
-          - source: CITATION.cff
-        media_type: application/yaml
+      }}#
+    contacts: |
+      #{{
+          return [
+            member["id"] for member in team_members_with_role_types(
+              "ContactPerson",
+              active_only=True,
+            )
+          ]
+      }}#
+    doi: |
+      #{{
+        curr_changelog = changelog.current_public
+        return curr_changelog.get("release", {}).get(
+          "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
+        ).get("doi")
+      }}#
+    version: >-
+      #{{ return changelog.current_public.get("version") }}#
+    date_released: >-
+      #{{ return changelog.current_public.get("date") }}#
+    commit: >-
+      #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
+    repository:
+      build: ${{ pkg.pypi.url.home }}$
+    identifiers:
+      - |
+        *{{
+          #{{
+            out = []
+            concept_doi = get("var.zenodo.concept.doi")
+            if concept_doi:
+              entry = {
+                "type": "doi",
+                "value": concept_doi,
+                "description": "Persistent DOI of the project as a whole."
+              }
+              out.append(entry)
+            return out
+          }}#
+        }}*
   zenodo:
-    asset: ${{ release.github.asset }}$
-    license: '#{{ return get("citation.license")[0] }}#'
-    keywords: ${{ citation.keywords }}$
+    license: '#{{ return get("citation.cff.license")[0] }}#'
+    keywords: ${{ citation.cff.keywords }}$
     related_identifiers:
       - |
         *{{
