@@ -1646,13 +1646,13 @@ issue:
         validations:
           required: true
   __custom__:
-    title_api: ' 🖥 API'
-    title_cli: ' ⌨️ CLI'
-    title_gui: ' 🖱 GUI'
+    title_api: ' ${{ __custom__.icon.api }}$ API'
+    title_cli: ' ${{ __custom__.icon.cli }}$ CLI'
+    title_gui: ' ${{ __custom__.icon.gui }}$ GUI'
     title_setup: ' ⚙️ Setup'
-    title_bug: ' 🐞 Bug Report'
-    title_feat: ' ✨ Feature Request'
-    title_breaking: ' 💥 Change Request'
+    title_bug: ' ${{ __custom__.icon.fix }}$ Bug Report'
+    title_feat: ' ${{ __custom__.icon.feat }}$ Feature Request'
+    title_breaking: ' ${{ __custom__.icon.change }}$ Change Request'
     title_doc: ' 📚 Docs'
     title_test: ' 🧪 Test'
     heading_bug_report:
