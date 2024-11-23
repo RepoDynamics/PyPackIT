@@ -49,7 +49,7 @@ pkg:
     - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
   build: ${{ __custom_template__.pyproject-build }}$
-  authors: ${{ citation.authors }}$
+  authors: ${{ citation.cff.authors }}$
 __custom_template__:
   pyproject-build:
     requires: [ setuptools >= 72.1.0, versioningit >= 3.1.2 ]
