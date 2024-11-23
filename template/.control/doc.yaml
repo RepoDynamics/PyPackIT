@@ -47,9 +47,6 @@ readme:
   main:
     path: README.md
     content:
-      #TODO: add badges
-      # refs:
-      # - https://github.com/alexandresanlim/Badges4-README.md-Profile
       body:
         - class: block_image
           src: ${{ theme.logo.full.light.url }}$
@@ -277,7 +274,6 @@ readme:
                       return out                      
                     }}#
                   }}*
-
           section:
             - heading: Requirements
               body:
