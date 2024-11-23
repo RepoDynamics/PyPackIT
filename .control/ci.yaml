@@ -134,3 +134,74 @@ tool:
             builder: dirhtml
             fail_on_warning: false
           formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+workflow:
+  publish:
+    github:
+      name: Release
+      task_name: GitHub
+      env:
+        name: GitHub Release
+        url: ${{ repo.url.deployments.home }}$
+      asset:
+        template:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}.zip
+          label: ${{ name }}$
+          format: zip
+          files:
+            - source: template
+            - source: .github/workflows
+              destination: .github/workflows
+        docs:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip
+          label: Documentation
+          format: zip
+          files:
+            - pattern: '^Website(?!.*GH-Pages)[^/]*$'
+              artifact: true
+        license:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-license.zip
+          label: License
+          format: zip
+          files:
+            - pattern: '^(LICENSE|COPYING)[^/]*$'
+        citation:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-citation.cff
+          label: Citation
+          files:
+            - source: CITATION.cff
+          media_type: application/yaml
+    zenodo:
+      name: Zenodo
+      env:
+        name: Zenodo
+        url: https://zenodo.org/records/{{ id }}
+      asset: ${{ workflow.publish.github.asset }}$
+    zenodo-sandbox:
+      name: Zenodo Sandbox
+      env:
+        name: Zenodo Sandbox
+        url: https://sandbox.zenodo.org/records/{{ id }}
+      asset: ${{ workflow.publish.github.asset }}$
+  schedule:
+    cca:
+      cron: '43 23 * * *'  # Every day at 23:43 UTC.
+      branch_types: [ main, release, pre ]
+      job:
+        sync:
+          action: pull
+        announcement_expiry:
+          action: commit
+    cr_ct:
+      cron: '43 6 * * 6'  # Every Saturday at 6:43 UTC.
+      branch_types: [ main, release ]
+      job:
+        lint:
+          action: issue
+        refactor:
+          action: pull
+        test:
+          action: issue
