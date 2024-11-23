@@ -231,5 +231,119 @@ team:
       contact: 1
       security: 1
       coc: 1
+citation:
+  cff:
+    authors: |
+      #{{
+        return [
+          {"id": int_author["id"], "member": True}
+          for int_author in team_members_with_role_types("Author", active_only=True)
+        ] + [
+          {"id": ext_author["id"], "member": False}
+          for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)
+        ]
+      }}#
+    contacts: |
+      #{{
+          return [
+            member["id"] for member in team_members_with_role_types(
+              "ContactPerson",
+              active_only=True,
+            )
+          ]
+      }}#
+    doi: |
+      #{{
+        curr_changelog = changelog.current_public
+        return curr_changelog.get("release", {}).get(
+          "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
+        ).get("doi")
+      }}#
+    version: >-
+      #{{ return changelog.current_public.get("version") }}#
+    date_released: >-
+      #{{ return changelog.current_public.get("date") }}#
+    commit: >-
+      #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
+    repository:
+      build: ${{ pkg.pypi.url.home }}$
+    identifiers:
+      - |
+        *{{
+          #{{
+            out = []
+            concept_doi = get("var.zenodo.concept.doi")
+            if concept_doi:
+              entry = {
+                "type": "doi",
+                "value": concept_doi,
+                "description": "Persistent DOI of the project as a whole."
+              }
+              out.append(entry)
+            return out
+          }}#
+        }}*
+  zenodo:
+    license: '#{{ return get("citation.cff.license")[0] }}#'
+    keywords: ${{ citation.cff.keywords }}$
+    related_identifiers:
+      - |
+        *{{
+          #{{
+            last_doi = changelog.last_public.get("release", {}).get("zenodo", {}).get("doi")
+            out = [
+              {
+                "identifier": doi,
+                "relation": relation,
+                "resource_type": get("..upload_type")
+              } for doi, relation in [
+                (get("var.zenodo.concept.doi"), "isPartOf"),
+                (last_doi, "isNewVersionOf"),
+              ] if doi
+            ]
+            return out
+          }}#
+        }}*
+    contributors: |
+      #{{
+        out = []
+        for role_type in (
+          "RightsHolder",
+          "Producer",
+          "Distributor",
+          "Sponsor",
+          "RegistrationAgency",
+          "RegistrationAuthority",
+          "HostingInstitution",
+          "Supervisor",
+          "ProjectLeader",
+          "WorkPackageLeader",
+          "ContactPerson",
+          "ProjectManager",
+          "DataManager",
+          "Editor",
+          "ResearchGroup",
+          "Researcher",
+          "DataCurator",
+          "DataCollector",
+          "ProjectMember",
+          "RelatedPerson",
+          "Other",
+        ):
+          for is_member in (True, False):
+            for contributor in changelog.current_public.contributors_with_role_types(role_type, member=is_member):
+              out.append({"id": contributor["id"], "member": is_member, "role_types": role_type})
+          for member in team_members_with_role_types(role_type, active_only=True):
+            entry = {"id": member["id"], "member": True, "role_types": role_type}
+            if entry not in out:
+              out.append(entry)
+        return out
+      }}#
+    custom:
+      code:programmingLanguage:
+        - id: python
+      code:developmentStatus:
+        id: >-
+          #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
 __custom__:
   name_ipa: "[ˈpaɪˌpækɪt]"
