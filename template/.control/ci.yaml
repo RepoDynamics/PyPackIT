@@ -477,6 +477,83 @@ tool:
             mccabe:
               max-complexity: 15
 workflow:
+  publish:
+    pypi:
+      name: Publish (PyPI)
+      task_name: '{{ pkg.name }} v{{ version }}'
+      env:
+        name: PyPI ({{ pkg.name }})
+        url: https://pypi.org/project/{{ pkg.name }}/{{ version }}
+      index:
+        url:
+          upload: https://upload.pypi.org/legacy/
+      action:
+        pkg: auto
+        test: auto
+    testpypi:
+      name: Publish (TestPyPI)
+      task_name: '{{ pkg.name }} v{{ version }}'
+      env:
+        name: TestPyPI ({{ pkg.name }})
+        url: https://test.pypi.org/project/{{ pkg.name }}/{{ version }}
+      index:
+        url:
+          upload: https://test.pypi.org/legacy/
+      action:
+        pkg: auto
+        test: auto
+    github:
+      asset:
+        sdist:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-sdists.zip
+          label: Source Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - sdist/[^/]+\.tar\.gz$'
+              artifact: true
+        wheel:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-wheels.zip
+          label: Binary Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - wheels/[^/]+\.whl$'
+              artifact: true
+        docs:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip
+          label: Documentation
+          format: zip
+          files:
+            - pattern: '^Website(?!.*GH-Pages)[^/]*$'
+              artifact: true
+        license:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-license.zip
+          label: License
+          format: zip
+          files:
+            - pattern: '^(LICENSE|COPYING)[^/]*$'
+        citation:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-citation.cff
+          label: Citation
+          files:
+            - source: CITATION.cff
+          media_type: application/yaml
+    zenodo:
+      name: "Publish: Zenodo"
+      env:
+        name: Zenodo
+        url: https://zenodo.org/records/{{ id }}
+      asset: ${{ workflow.publish.github.asset }}$
+    zenodo-sandbox:
+      name: "Publish: Zenodo Sandbox"
+      env:
+        name: Zenodo Sandbox
+        url: https://sandbox.zenodo.org/records/{{ id }}
+      asset: ${{ workflow.publish.github.asset }}$
   schedule:
     cca:
       cron: '43 23 * * *'  # Every day at 23:43 UTC.
