@@ -503,6 +503,11 @@ workflow:
         pkg: auto
         test: auto
     github:
+      name: Release
+      task_name: GitHub
+      env:
+        name: GitHub Release
+        url: ${{ repo.url.deployments.home }}$
       asset:
         sdist:
           name: >-
@@ -543,13 +548,13 @@ workflow:
             - source: CITATION.cff
           media_type: application/yaml
     zenodo:
-      name: "Publish: Zenodo"
+      name: Zenodo
       env:
         name: Zenodo
         url: https://zenodo.org/records/{{ id }}
       asset: ${{ workflow.publish.github.asset }}$
     zenodo-sandbox:
-      name: "Publish: Zenodo Sandbox"
+      name: Zenodo Sandbox
       env:
         name: Zenodo Sandbox
         url: https://sandbox.zenodo.org/records/{{ id }}
