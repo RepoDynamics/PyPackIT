@@ -128,7 +128,7 @@ citation:
     doi: |
       #{{
         curr_changelog = changelog.current_public
-        return curr_changelog.get("release", {}).get(
+        return curr_changelog.get(
           "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
         ).get("doi")
       }}#
@@ -163,7 +163,7 @@ citation:
       - |
         *{{
           #{{
-            last_doi = changelog.last_public.get("release", {}).get("zenodo", {}).get("doi")
+            last_doi = changelog.last_public.get("zenodo", {}).get("doi")
             out = [
               {
                 "identifier": doi,
