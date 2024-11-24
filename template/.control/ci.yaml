@@ -508,6 +508,10 @@ workflow:
       env:
         name: GitHub Release
         url: ${{ repo.url.deployments.home }}$
+      release:
+        body:
+          body: ${{ __custom__.changelog.body }}$
+          section: ${{ __custom__.changelog.section }}$
       asset:
         sdist:
           name: >-
