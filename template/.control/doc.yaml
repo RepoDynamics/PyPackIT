@@ -532,7 +532,7 @@ readme:
                                         "logo_media_type": "png", 
                                       }
                                       out.append(badge)
-                              for platform in ("zenodo", "zenodo-sandbox"):
+                              for platform in ("zenodo", "zenodo_sandbox"):
                                 env = get(f"workflow.publish.{platform}.env")
                                 if env:
                                   badge = {
