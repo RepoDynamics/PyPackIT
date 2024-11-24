@@ -1,3 +1,4 @@
+name: Your New Python Project
 title: A New Python Project
 abstract: >-
   Welcome to ${{ name }}$ powered by <a href="https://pypackit.repodynamics.com/">PyPackIT</a>.
