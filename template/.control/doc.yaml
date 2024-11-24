@@ -274,6 +274,10 @@ readme:
                       return out                      
                     }}#
                   }}*
+            - >-
+              **#{{ return changelog.current_public.protocol["data"]["summary"] }}#**
+            - >-
+              #{{ return changelog.current_public.protocol["data"]["description"] }}#
           section:
             - heading: Requirements
               body:
