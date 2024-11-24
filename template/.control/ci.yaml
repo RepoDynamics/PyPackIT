@@ -557,7 +557,7 @@ workflow:
         name: Zenodo
         url: https://zenodo.org/records/{{ id }}
       asset: ${{ workflow.publish.github.asset }}$
-    zenodo-sandbox:
+    zenodo_sandbox:
       name: Zenodo Sandbox
       env:
         name: Zenodo Sandbox
