@@ -1,0 +1,11 @@
+[
+   {
+      "ongoing": true,
+      "version": "0.0.0",
+      "date": "2024-12-29",
+      "type": "major",
+      "phase": "pre",
+      "title": "Project Initialization",
+      "description": "This is an initial emtpy release."
+   }
+]
