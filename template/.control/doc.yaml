@@ -1610,29 +1610,31 @@ __custom__:
                 "link": f"https://sandbox.zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
               }
               badge_items.append(badge)
-            tag = f"{get("tag.version.prefix")}{dev_release["version"]}"
-            github = {
-              "label": "git checkout",
-              "args": {"message": tag},
-              "logo": "github",
-              "logo_type": "name",
-              "color": "#181717",
-              "link": get("repo.url.releases.home"),
-            }
-            out.append(github)
-            binder = {
-              "label": "Binder",
-              "service": "binder",
-              "endpoint": "github",
-              "args": {
-                "message": "try online",
-                "user": get("repo.owner"),
-                "repo": get("repo.name"),
-                "ref": tag
-              },
-              "color": "#579ACA",
-            }
-            out.append(binder)
+            version = dev_release.get("version")
+            if version:
+              tag = f"{get("tag.version.prefix")}{version}"
+              github = {
+                "label": "git checkout",
+                "args": {"message": tag},
+                "logo": "github",
+                "logo_type": "name",
+                "color": "#181717",
+                "link": get("repo.url.releases.home"),
+              }
+              badge_items.append(github)
+              binder = {
+                "label": "Binder",
+                "service": "binder",
+                "endpoint": "github",
+                "args": {
+                  "message": "try online",
+                  "user": get("repo.owner"),
+                  "repo": get("repo.name"),
+                  "ref": tag
+                },
+                "color": "#579ACA",
+              }
+              badge_items.append(binder)
             badges = {
               "class": "badges",
               "service": "static",
