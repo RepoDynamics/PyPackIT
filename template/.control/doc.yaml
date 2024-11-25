@@ -1328,14 +1328,14 @@ __custom__:
                 zenodo = curr_changelog.get("zenodo", {})
                 if zenodo:
                   badge = {
-                      "label": "DOI",
-                      "args": {"message": zenodo["doi"]},
-                      "logo": "zenodo",
-                      "logo_color": "#1682D4",
-                      "color": "#1682D4",
-                      "link": f"https://zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
-                    }
-                    out.append(badge)
+                    "label": "DOI",
+                    "args": {"message": zenodo["doi"]},
+                    "logo": "zenodo",
+                    "logo_color": "#1682D4",
+                    "color": "#1682D4",
+                    "link": f"https://zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
+                  }
+                  out.append(badge)
                 version = curr_changelog.version
                 if get("pkg.pypi.publishable") and get("workflow.publish.pypi"):
                   pypi = {
@@ -1602,14 +1602,14 @@ __custom__:
             zenodo = dev_release.get("zenodo_sandbox")           
             if zenodo:
               badge = {
-                  "label": "DOI",
-                  "args": {"message": zenodo["doi"]},
-                  "logo": "zenodo",
-                  "logo_color": "#1682D4",
-                  "color": "#1682D4",
-                  "link": f"https://sandbox.zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
-                }
-                badge_items.append(badge)
+                "label": "DOI",
+                "args": {"message": zenodo["doi"]},
+                "logo": "zenodo",
+                "logo_color": "#1682D4",
+                "color": "#1682D4",
+                "link": f"https://sandbox.zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
+              }
+              badge_items.append(badge)
             tag = f"{get("tag.version.prefix")}{dev_release["version"]}"
                 github = {
                   "label": "git checkout",
