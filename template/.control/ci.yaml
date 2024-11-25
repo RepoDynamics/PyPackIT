@@ -552,13 +552,15 @@ workflow:
             - source: CITATION.cff
           media_type: application/yaml
     zenodo:
-      name: Zenodo
+      name: Release
+      task_name: Zenodo
       env:
         name: Zenodo
         url: https://zenodo.org/records/{{ id }}
       asset: ${{ workflow.publish.github.asset }}$
     zenodo_sandbox:
-      name: Zenodo Sandbox
+      name: Release
+      task_name: Zenodo Sandbox
       env:
         name: Zenodo Sandbox
         url: https://sandbox.zenodo.org/records/{{ id }}
