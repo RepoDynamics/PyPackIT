@@ -1596,9 +1596,10 @@ __custom__:
             dev_release = changelog.current_public.get("dev")
             if not dev_release:
               return []
-            badge_items = [
-              {"label": "🗓 Release Date", "args": {"message": dev_release["date"]}}
-            ]
+            badge_items = []
+            date = dev_release.get("date")
+            if date:
+              badge_items.append({"label": "🗓 Release Date", "args": {"message": date}})
             zenodo = dev_release.get("zenodo_sandbox")           
             if zenodo:
               badge = {
