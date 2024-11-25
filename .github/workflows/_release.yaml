@@ -42,8 +42,8 @@ jobs:
       - name: Release
         uses: RepoDynamics/ReleaseMan@main
         with:
-          github-config: ${{ matrix.task.github }}
-          zenodo-config: ${{ matrix.task.zenodo }}
-          zenodo-sandbox-config: ${{ matrix.task.zenodo-sandbox }}
+          github-config: ${{ toJSON(matrix.task.github) }}
+          zenodo-config: ${{ toJSON(matrix.task.zenodo) }}
+          zenodo-sandbox-config: ${{ toJSON(matrix.task.zenodo-sandbox) }}
           zenodo-token: ${{ secrets.zenodo-token }}
           zenodo-sandbox-token: ${{ secrets.zenodo-sandbox-token }}
