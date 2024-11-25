@@ -129,7 +129,7 @@ citation:
       #{{
         curr_changelog = changelog.current_public
         return curr_changelog.get(
-          "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
+          "zenodo_sandbox" if curr_changelog.get("phase") == "dev" else "zenodo", {}
         ).get("doi")
       }}#
     version: >-
