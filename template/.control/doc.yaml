@@ -1593,7 +1593,7 @@ __custom__:
       - |
         *{{
           #{{
-            dev_release = changelog.current_public.get("dev_release")
+            dev_release = changelog.current_public.get("dev")
             if not dev_release:
               return []
             badge_items = [
