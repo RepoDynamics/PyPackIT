@@ -573,7 +573,7 @@ document:
       repo:
         path: README.md
       pkg:
-        path: ${{ pkg.readme.file }}$
+        path: ${{ pkg.path.root }}$/${{ pkg.readme.file }}$
         target: pypi
   code_of_conduct:
     content:
@@ -628,9 +628,6 @@ document:
     output:
       repo:
         path: SECURITY.md
-doc:
-  announcement:
-    path: ${{ web.path.root }}$/announcement.html
 web:
   toc:
     path: .toc.yaml
@@ -1264,6 +1261,9 @@ web:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_dark.svg
     logo_full_raster:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
+  page: '#{{ return hook.web_page() }}#'
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
 __custom__:
   md_alert_dynamic_dir: |
     > [!CAUTION]
@@ -1297,6 +1297,7 @@ __custom__:
     pkg: 📦
     test: 🧪
     docs: 📚
+    repo: 🧰
   changelog:
     body:
       - class: badges
