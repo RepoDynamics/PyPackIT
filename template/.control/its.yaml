@@ -2909,7 +2909,7 @@ pull:
                 {% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}
                 {% set config = ccc.tool.readthedocs.config.workflow %}
                 {% set domain = "org.readthedocs.build" if config.platform == "community" else "com.readthedocs.build" %}
-                {% set url = "https://" ~ config.name ~ "--" ~ pull_request.number ~ "." ~ domain ~ "/" %}                
+                {% set url = "https://" ~ config.name ~ "--" ~ pull_request.number ~ "." ~ domain ~ "/" %}
                 {% if config.version_scheme.translation %}
                   {% set url = url ~ config.language ~ "/" ~ pull_request.number ~ "/" %}
                 {% endif %}
