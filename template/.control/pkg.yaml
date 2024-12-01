@@ -1,7 +1,21 @@
 pkg:
+  os:
+    linux:
+      name: Linux
+      runner: ubuntu-latest
+    macos:
+      name: MacOS
+      runner: macos-latest
+    windows:
+      name: Windows
+      runner: windows-latest
+  classifiers:
+    - 'Natural Language :: ${{ language.name }}$'
+    - '*{{ $[[ license.component.*.trove_classifier ]]$ }}*'
+    - '*{{ #{{ return hook.trove_classifiers() }}*'
   readme:
-    path: ${{ pkg.path.root }}$/README.md
-    content: ${{ readme.main.content }}$
+    file: ${{ pkg.path.root }}$/README.md
+    content-type: text/markdown
   urls:
     Homepage: ${{ web.url.home }}$
     Documentation: ${{ web.page.manual.url }}$
@@ -28,7 +42,7 @@ pkg:
         url:
           docs: https://pkgdata.repodynamics.com/
           source: https://github.com/repodynamics/pkgdata
-  file:
+  source_file:
     all:
       glob: '**/*.py'
       header_comments:
