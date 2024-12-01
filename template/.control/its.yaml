@@ -1289,7 +1289,7 @@ label:
   commit:
     prefix: Commit
     color: '#0366d6'
-    label: '#{{ hook.commit_labels() }}#'
+    label: '#{{ return hook.commit_labels() }}#'
   release:
     prefix: Release
     color: '#0366d6'
