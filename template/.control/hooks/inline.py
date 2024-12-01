@@ -3,16 +3,22 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from controlman.changelog_manager import ChangelogManager
+from loggerman import logger
+import mdit
+import pylinks as pl
+import pyserials as ps
 
 if TYPE_CHECKING:
     from typing import Callable, Any
     from pathlib import Path
+    from pyserials import NestedDict
 
 
 class InlineHooks:
 
-    def __init__(self, repo_path: Path):
+    def __init__(self, repo_path: Path, ccc: NestedDict):
         self.repo_path = repo_path
+        self.ccc = ccc
         self.get = None
         self.changelog = ChangelogManager(repo_path=self.repo_path)
         return
@@ -20,28 +26,29 @@ class InlineHooks:
     def __call__(self, get_metadata: Callable[[str, Any, bool], Any]):
         self.get = get_metadata
         self.changelog(get_metadata=get_metadata)
+        return self
 
     def trove_classifiers(self) -> list[str]:
 
         def programming_language():
             base = "Programming Language :: Python"
             return [base] + [
-                f"{base} :: {version}" for version in self.get(".python.version.minors") + ["3 :: Only"]
+                f"{base} :: {version}" for version in self.get("..python.version.minors") + ["3 :: Only"]
             ]
 
         def operating_system():
             base = "Operating System :: {}"
             trove = {
-                "ubuntu": "",
-                "macos": "",
-                "windows": "",
+                "ubuntu": "POSIX :: Linux",
+                "macos": "MacOS",
+                "windows": "Microsoft :: Windows",
             }
             out = [
-                trove[runner_type] for runner_type in set(
-                    [os["runner"].split("-")[0] for os in self.get(".os").values()]
+                base.format(trove[runner_type]) for runner_type in set(
+                    [os["runner"].split("-")[0] for os in self.get("..os").values()]
                 )
             ]
-            if self.get(".python.pure"):
+            if self.get("..python.pure"):
                 out.append(base.format("OS Independent"))
             return out
 
@@ -75,6 +82,71 @@ class InlineHooks:
             return f"Development Status :: {code} - {code_name[code]}"
 
         out = programming_language() + operating_system() + [development_phase()]
-        if self.get(".typed"):
+        if self.get("..typed"):
             out.append("Typing :: Typed")
         return out
+
+    def web_page(self) -> dict[str, dict[str, str]]:
+        path = self.repo_path / (self.ccc["web.path.source"] or self.get("web.path.source"))
+        url_home = self.get("web.url.home")
+        pages = {}
+        blog = {}
+        for md_filepath in path.rglob("*.md", case_sensitive=False):
+            if not md_filepath.is_file():
+                continue
+            rel_path = md_filepath.relative_to(path)
+            dirhtml_path = str(rel_path.with_suffix("")).removesuffix("/index")
+            text = md_filepath.read_text()
+            frontmatter = mdit.parse.frontmatter(text) or {}
+            if "ccid" in frontmatter:
+                pages[pl.string.to_slug(frontmatter["ccid"])] = {
+                    "title": mdit.parse.title(text),
+                    "path": dirhtml_path,
+                    "url": f"{url_home}/{dirhtml_path}",
+                }
+            for key in ["category", "tags"]:
+                val = frontmatter.get(key)
+                if not val:
+                    continue
+                if isinstance(val, str):
+                    val = [item.strip() for item in val.split(",")]
+                if not isinstance(val, list):
+                    logger.warning(
+                        mdit.inline_container(
+                            "Invalid webpage frontmatter: ",
+                            mdit.element.code_span(str(rel_path)),
+                        ),
+                        mdit.inline_container(
+                            "Invalid frontmatter value for ",
+                            mdit.element.code_span(key),
+                            " :"),
+                        mdit.element.code_block(
+                            ps.write.to_yaml_string(val, end_of_file_newline=False),
+                            language="yaml",
+                        ),
+                    )
+                blog.setdefault(key, []).extend(val)
+        if "blog" not in pages:
+            return pages
+        for key, values in blog.items():
+            for value in set(values):
+                value_slug = pl.string.to_slug(value)
+                key_singular = key.removesuffix('s')
+                final_key = f"blog_{key_singular}_{value_slug}"
+                if final_key in pages:
+                    logger.error(
+                        mdit.inline_container(
+                            "Duplicate webpage ID ",
+                            mdit.element.code_span(final_key)
+                        ),
+                        f"Generated ID '{final_key}' already exists "
+                        f"for page '{pages[final_key]['path']}'. "
+                        "Please do not use `ccid` values that start with 'blog_'."
+                    )
+                blog_group_path = f"{pages["blog"]["path"]}/{key_singular}/{value_slug}"
+                pages[final_key] = {
+                    "title": value,
+                    "path": blog_group_path,
+                    "url": f"{url_home}/{blog_group_path}",
+                }
+        return pages
