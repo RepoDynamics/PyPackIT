@@ -2,9 +2,21 @@ test:
   path:
     root: test
   name: ${{ pkg.name }}$-TestSuite
+  os:
+    linux:
+      name: Linux
+      runner: ubuntu-latest
+    macos:
+      name: MacOS
+      runner: macos-latest
+    windows:
+      name: Windows
+      runner: windows-latest
   readme:
-    path: ${{ test.path.root }}$/README.md
-    content: ${{ readme.main.content }}$
+    text: |
+      # ${{ test.name }}$
+      This is the test-suite for ${{ pkg.name }}$.
+    content-type: text/markdown
   dependency:
     # For other PyTest plugins, see:
     # - https://github.com/augustogoulart/awesome-pytest
@@ -89,7 +101,7 @@ test:
         name: ${{ test.name }}$
         description: Main CLI entry of the test-suite.
         ref: ${{ test.import_name }}$.__main__:main
-  file:
+  source_file:
     all:
       glob: '**/*.py'
       header_comments:
