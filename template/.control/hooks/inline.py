@@ -46,6 +46,28 @@ class InlineHooks:
         self.changelog(get_metadata=get_metadata)
         return self
 
+    def commit_labels(self) -> dict:
+        out = {}
+        release_commits = self.get("commit.release")
+        commit_config = self.get("commit.config")
+        label_prefix = self.get("label.commit.prefix")
+        label_sep = self.get("label.commit.separator")
+        scope_start = commit_config["scope_start"]
+        scope_end = commit_config["scope_end"]
+        scope_sep = commit_config["scope_separator"]
+        for commit_id, commit_data in release_commits.items():
+            scopes = commit_data.get("scope")
+            if isinstance(scopes, str):
+                scopes = [scopes]
+            scope = f"{scope_start}{scope_sep.join(scopes)}{scope_end}" if scopes else ""
+            label_suffix = f"{commit_data["type"]}{scope}"
+            out[commit_id] = {
+                "suffix": label_suffix,
+                "description": commit_data.get("type_description", ""),
+                "name": f"{label_prefix}{label_sep}{label_suffix}"
+            }
+        return out
+
     def trove_classifiers(self) -> list[str]:
         """Create trove classifiers for the package/test-suite."""
 
