@@ -136,186 +136,168 @@ commit:
       scope: pkg-api
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s API and publish a new patch release.
+        Fix bugs in ${{ pkg.name }}$'s API.
     pkg_cli_fix:
       type: fix
       scope: pkg-cli
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s CLI and publish a new patch release.
+        Fix bugs in ${{ pkg.name }}$'s CLI.
     pkg_gui_fix:
       type: fix
       scope: pkg-gui
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s GUI and publish a new patch release.
+        Fix bugs in ${{ pkg.name }}$'s GUI.
     pkg_build_fix:
       type: fix
       scope: pkg-build
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s build system and publish a new patch release.
+        Fix bugs in ${{ pkg.name }}$'s build system.
     pkg_api_feat:
       type: feat
       scope: pkg-api
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s API
-        and publish a new minor release.
+        Add backward-compatible features to ${{ pkg.name }}$'s API.
     pkg_cli_feat:
       type: feat
       scope: pkg-cli
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s CLI
-        and publish a new minor release.
+        Add backward-compatible features to ${{ pkg.name }}$'s CLI.
     pkg_gui_feat:
       type: feat
       scope: pkg-gui
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s GUI
-        and publish a new minor release.
+        Add backward-compatible features to ${{ pkg.name }}$'s GUI.
     pkg_build_feat:
       type: feat
       scope: pkg-build
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s build system
-        and publish a new minor release.
+        Add backward-compatible features to ${{ pkg.name }}$'s build system.
     pkg_api_change:
       type: change
       scope: pkg-api
       action: major
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s API
-        and publish a new major release.
+        Introduce backward-incompatible changes in ${{ pkg.name }}$'s API.
     pkg_cli_change:
       type: change
       scope: pkg-cli
       action: major
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s CLI
-        and publish a new major release.
+        Introduce backward-incompatible changes in ${{ pkg.name }}$'s CLI.
     pkg_gui_change:
       type: change
       scope: pkg-gui
       action: major
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s GUI
-        and publish a new major release.
+        Introduce backward-incompatible changes in ${{ pkg.name }}$'s GUI.
     pkg_build_change:
       type: change
       scope: pkg-build
       action: major
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ pkg.name }}$'s build system
-        and publish a new major release.
+        Introduce backward-incompatible changes in ${{ pkg.name }}$'s build system.
     test_api_fix:
       type: fix
       scope: test-api
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s API and publish a new post-release.
+        Fix bugs in ${{ test.name }}$'s API.
     test_cli_fix:
       type: fix
       scope: test-cli
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s CLI and publish a new post-release.
+        Fix bugs in ${{ test.name }}$'s CLI.
     test_gui_fix:
       type: fix
       scope: test-gui
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s GUI and publish a new post-release.
+        Fix bugs in ${{ test.name }}$'s GUI.
     test_build_fix:
       type: fix
       scope: test-build
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s build system and publish a new post-release.
+        Fix bugs in ${{ test.name }}$'s build system.
     test_api_feat:
       type: feat
       scope: test-api
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s API
-        and publish a new post-release.
+        Add backward-compatible features to ${{ test.name }}$'s API.
     test_cli_feat:
       type: feat
       scope: test-cli
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s CLI
-        and publish a new post-release.
+        Add backward-compatible features to ${{ test.name }}$'s CLI.
     test_gui_feat:
       type: feat
       scope: test-gui
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s GUI
-        and publish a new post-release.
+        Add backward-compatible features to ${{ test.name }}$'s GUI.
     test_build_feat:
       type: feat
       scope: test-build
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s build system
-        and publish a new post-release.
+        Add backward-compatible features to ${{ test.name }}$'s build system.
     test_api_change:
       type: change
       scope: test-api
       action: post
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s API
-        and publish a new post-release.
+        Introduce backward-incompatible changes in ${{ test.name }}$'s API.
     test_cli_change:
       type: change
       scope: test-cli
       action: post
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s CLI
-        and publish a new post-release.
+        Introduce backward-incompatible changes in ${{ test.name }}$'s CLI.
     test_gui_change:
       type: change
       scope: test-gui
       action: post
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s GUI
-        and publish a new post-release.
+        Introduce backward-incompatible changes in ${{ test.name }}$'s GUI.
     test_build_change:
       type: change
       scope: test-build
       action: post
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ test.name }}$'s build system
-        and publish a new post-release.
+        Introduce backward-incompatible changes in ${{ test.name }}$'s build system.
     docs_fix:
       type: fix
       scope: docs
       action: post
       type_description: >-
-        Fix bugs in ${{ name }} documentation and publish a new post-release.
+        Fix bugs in ${{ name }} documentation.
     docs_feat:
       type: feat
       scope: docs
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ name }} documentation
-        and publish a new post-release.
+        Add backward-compatible features to ${{ name }} documentation.
     docs_change:
       type: change
       scope: docs
       action: post
       type_description: >-
-        Introduce backward-incompatible (breaking) changes in ${{ name }} documentation
-        and publish a new post-release.
+        Introduce backward-incompatible changes in ${{ name }} documentation.
     refactor:
       type: refactor
       action: post
       type_description: >-
-        Refactor code in ${{ name }}$ and publish a new post-release.
+        Refactor code in ${{ name }}$.
     config:
       type: config
       type_description: >-
@@ -1688,8 +1670,8 @@ issue:
         validations:
           required: true
     labels:
-      - [ commit, '${{ ...commit }}$' ]
-      - [ release, '#{{ return get(f"commit.release.{get("...commit")}").get("action", "local") }}#' ]
+      - [ commit, '${{ ..commit }}$' ]
+      - [ release, '#{{ return get(f"commit.release.{get("..commit")}").get("action", "local") }}#' ]
   __custom__:
     title_pkg: ' ${{ __custom__.icon.pkg }}$ App'
     title_doc: ' ${{ __custom__.icon.docs }}$ Docs'
@@ -1745,7 +1727,7 @@ issue:
               required: true
             - label: >-
                 I agree to follow ${{ name }}$'s
-                [Code of Conduct](${{ health.code_of_conduct.url }}$).
+                [Code of Conduct](${{ document.code_of_conduct.output.repo.url }}$).
               required: true
       - type: markdown
         attributes:
@@ -2300,7 +2282,7 @@ issue:
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2314,7 +2296,7 @@ issue:
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2328,7 +2310,7 @@ issue:
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2342,7 +2324,7 @@ issue:
         - [ scope, pkg ]
         - [ component, build ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
@@ -2357,7 +2339,7 @@ issue:
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2371,7 +2353,7 @@ issue:
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2385,7 +2367,7 @@ issue:
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2399,7 +2381,7 @@ issue:
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2413,7 +2395,7 @@ issue:
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2427,7 +2409,7 @@ issue:
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
       name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2441,7 +2423,7 @@ issue:
         - [ type, fix ]
         - [ scope, docs ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
       description: >-
         Report problems and errors
@@ -2458,7 +2440,7 @@ issue:
         - [ type, feat ]
         - [ scope, docs ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_feat }}$
       description: >-
         Request backward-compatible improvements and new content
@@ -2475,7 +2457,7 @@ issue:
         - [ type, change ]
         - [ scope, docs ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_breaking }}$
       description: >-
         Request backward-incompatible changes
@@ -2493,7 +2475,7 @@ issue:
         - [ scope, test ]
         - [ scope, test-api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2507,7 +2489,7 @@ issue:
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2521,7 +2503,7 @@ issue:
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
@@ -2535,7 +2517,7 @@ issue:
         - [ scope, test ]
         - [ component, build ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ test.name }}$.
       __custom_template__:
@@ -2550,7 +2532,7 @@ issue:
         - [ scope, test ]
         - [ component, api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2564,7 +2546,7 @@ issue:
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2578,7 +2560,7 @@ issue:
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
@@ -2592,7 +2574,7 @@ issue:
         - [ scope, test ]
         - [ component, api ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2606,7 +2588,7 @@ issue:
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2620,7 +2602,7 @@ issue:
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
@@ -2634,7 +2616,7 @@ issue:
         - [ type, refactor ]
       labels:
         - [ scope, repo ]
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ' ${{ __custom__.icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
@@ -2650,7 +2632,7 @@ issue:
         - [ type, config ]
       labels:
         - [ scope, repo ]
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ' ${{ __custom__.icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
@@ -2665,7 +2647,7 @@ issue:
         - [ type, ci ]
       labels:
         - [ scope, repo ]
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ' ${{ __custom__.icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
@@ -2679,7 +2661,7 @@ issue:
         - [ type, chore ]
       labels:
         - [ scope, repo ]
-        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+        - '*{{ issue.__custom_template__.labels }}*'
       name: ' ${{ __custom__.icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __custom_template__:
