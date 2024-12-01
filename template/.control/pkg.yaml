@@ -12,9 +12,9 @@ pkg:
   classifiers:
     - 'Natural Language :: ${{ language.name }}$'
     - '*{{ $[[ license.component.*.trove_classifier ]]$ }}*'
-    - '*{{ #{{ return hook.trove_classifiers() }}*'
+    - '*{{ #{{ return hook.trove_classifiers() }}# }}*'
   readme:
-    file: ${{ pkg.path.root }}$/README.md
+    file: README.md
     content-type: text/markdown
   urls:
     Homepage: ${{ web.url.home }}$
