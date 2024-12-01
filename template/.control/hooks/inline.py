@@ -4,15 +4,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from controlman.changelog_manager import ChangelogManager
-from loggerman import logger
 import mdit
 import pylinks as pl
 import pyserials as ps
+from controlman.changelog_manager import ChangelogManager
+from loggerman import logger
 
 if TYPE_CHECKING:
-    from typing import Callable, Any
+    from collections.abc import Callable
     from pathlib import Path
+    from typing import Any
+
     from pyserials import NestedDict
 
 
@@ -47,6 +49,7 @@ class InlineHooks:
         return self
 
     def commit_labels(self) -> dict:
+        """Create labels for `$.label.commit.label`."""
         out = {}
         release_commits = self.get("commit.release")
         commit_config = self.get("commit.config")
@@ -64,20 +67,21 @@ class InlineHooks:
             out[commit_id] = {
                 "suffix": label_suffix,
                 "description": commit_data.get("type_description", ""),
-                "name": f"{label_prefix}{label_sep}{label_suffix}"
+                "name": f"{label_prefix}{label_sep}{label_suffix}",
             }
         return out
 
     def trove_classifiers(self) -> list[str]:
         """Create trove classifiers for the package/test-suite."""
 
-        def programming_language():
+        def programming_language() -> list[str]:
             base = "Programming Language :: Python"
             return [base] + [
-                f"{base} :: {version}" for version in self.get("..python.version.minors") + ["3 :: Only"]
+                f"{base} :: {version}"
+                for version in ["3 :: Only", *self.get("..python.version.minors")]
             ]
 
-        def operating_system():
+        def operating_system() -> list[str]:
             base = "Operating System :: {}"
             trove = {
                 "ubuntu": "POSIX :: Linux",
@@ -85,15 +89,14 @@ class InlineHooks:
                 "windows": "Microsoft :: Windows",
             }
             out = [
-                base.format(trove[runner_type]) for runner_type in set(
-                    [os["runner"].split("-")[0] for os in self.get("..os").values()]
-                )
+                base.format(trove[runner_type])
+                for runner_type in {os["runner"].split("-")[0] for os in self.get("..os").values()}
             ]
             if self.get("..python.pure"):
                 out.append(base.format("OS Independent"))
             return out
 
-        def development_phase():
+        def development_phase() -> str:
             log = self.changelog.current_public
             ver = log.version
             phase = log.get("phase")
@@ -107,10 +110,7 @@ class InlineHooks:
                 code = 4
             else:
                 highest_major = max(int(version[0]) for version in self.get("project.versions"))
-                if int(ver[0]) == highest_major:
-                    code = 5
-                else:
-                    code = 6
+                code = 5 if int(ver[0]) == highest_major else 6
             code_name = {
                 1: "Planning",
                 2: "Pre-Alpha",
@@ -159,9 +159,8 @@ class InlineHooks:
                             mdit.element.code_span(str(rel_path)),
                         ),
                         mdit.inline_container(
-                            "Invalid frontmatter value for ",
-                            mdit.element.code_span(key),
-                            " :"),
+                            "Invalid frontmatter value for ", mdit.element.code_span(key), " :"
+                        ),
                         mdit.element.code_block(
                             ps.write.to_yaml_string(val, end_of_file_newline=False),
                             language="yaml",
@@ -173,17 +172,16 @@ class InlineHooks:
         for key, values in blog.items():
             for value in set(values):
                 value_slug = pl.string.to_slug(value)
-                key_singular = key.removesuffix('s')
+                key_singular = key.removesuffix("s")
                 final_key = f"blog_{key_singular}_{value_slug}"
                 if final_key in pages:
                     logger.error(
                         mdit.inline_container(
-                            "Duplicate webpage ID ",
-                            mdit.element.code_span(final_key)
+                            "Duplicate webpage ID ", mdit.element.code_span(final_key)
                         ),
                         f"Generated ID '{final_key}' already exists "
                         f"for page '{pages[final_key]['path']}'. "
-                        "Please do not use `ccid` values that start with 'blog_'."
+                        "Please do not use `ccid` values that start with 'blog_'.",
                     )
                 blog_group_path = f"{pages["blog"]["path"]}/{key_singular}/{value_slug}"
                 pages[final_key] = {
