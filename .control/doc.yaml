@@ -16,11 +16,11 @@ theme:
             url: ${{ control.url.metadata }}$
             query: '$.copyright'
           label: ${{ name }}$
-          color: ${{ theme.color.primary.light }}$
-          logo: ${{ theme.logo.icon.path }}$
+          color: ${{ color.primary.light }}$
+          logo: ${{ web.file.icon.path }}$
           logo_type: file
-          color_dark: ${{ theme.color.primary.dark }}$
-          logo_dark: ${{ theme.logo.icon.path }}$
+          color_dark: ${{ color.primary.dark }}$
+          logo_dark: ${{ web.file.icon.path }}$
           logo_type_dark: file
           link: ${{ team.owner.github.url }}$
           title: '${{ name }}$: Copyright ${{ copyright }}$'
@@ -43,8 +43,8 @@ readme:
     content:
       body:
         - class: block_image
-          src: ${{ theme.logo.full.light.url }}$
-          src_dark: ${{ theme.logo.full.dark.url }}$
+          src: ${{ web.file.logo_full_light.url }}$
+          src_dark: ${{ web.file.logo_full_dark.url }}$
           title: Welcome to ${{ name }}$! Click to visit our website and learn more.
           alt: '${{ name }}$: ${{ title }}$'
           align: center
@@ -73,8 +73,8 @@ readme:
           line_top_width: 100%
           line_bottom_width: 100%
           style: for-the-badge
-          color: ${{ theme.color.primary.light }}$
-          color_dark: ${{ theme.color.primary.dark }}$
+          color: ${{ color.primary.light }}$
+          color_dark: ${{ color.primary.dark }}$
           height: 33px
           attrs_container:
             align: center
@@ -140,8 +140,8 @@ readme:
               items: ${{ highlights }}$
               button:
                 style: for-the-badge
-                color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
-                color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
+                color: [ '${{ color.primary.light }}$', '${{ color.secondary.light }}$' ]
+                color_dark: [ '${{ color.primary.dark }}$', '${{ color.secondary.dark }}$' ]
                 height: 30px
                 align: left
               attrs_p:
@@ -414,8 +414,8 @@ readme:
                         args:
                           message: ${{ license.expression }}$
                         label: SPDX Identifier
-                        color: ${{ theme.color.secondary.light }}$
-                        color_dark: ${{ theme.color.secondary.dark }}$
+                        color: ${{ color.secondary.light }}$
+                        color_dark: ${{ color.secondary.dark }}$
                         link: ${{ web.page.license.url }}$
                         title: 'SPDX-License-Identifier: ${{ license.expression }}$'
                         alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
@@ -424,11 +424,11 @@ readme:
                           url: ${{ control.url.metadata }}$
                           query: '$.copyright'
                         label: Copyright
-                        color: ${{ theme.color.primary.light }}$
-                        logo: ${{ theme.logo.icon.path }}$
+                        color: ${{ color.primary.light }}$
+                        logo: ${{ web.file.icon.path }}$
                         logo_type: file
-                        color_dark: ${{ theme.color.primary.dark }}$
-                        logo_dark: ${{ theme.logo.icon.path }}$
+                        color_dark: ${{ color.primary.dark }}$
+                        logo_dark: ${{ web.file.icon.path }}$
                         logo_type_dark: file
                         link: ${{ web.url.home }}$
                         title: '${{ name }}$: ${{ copyright }}$'
@@ -638,7 +638,7 @@ web:
       html_title: ${{ name }}$
       html_short_title: ${{ name }}$
       html_baseurl: ${{ web.url.base }}$
-      html_favicon: ${{ theme.logo.icon.path_web }}$
+      html_favicon: ${{ web.file.icon.rel_path }}$
       html_sidebars:
         "${{ web.page.blog.path }}$/**":
           - ablog/postcard.html
@@ -657,8 +657,8 @@ web:
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
         #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
-        - '${{ theme.logo.simple.light.path_web }}$'
-        - '${{ theme.logo.simple.dark.path_web }}$'
+        - '${{ web.file.logo_simple_light.rel_path }}$'
+        - '${{ web.file.logo_simple_dark.rel_path }}$'
       html_secnumber_suffix: ". "
       html_extra_path: [ ]
       html_use_opensearch: ${{ web.url.base }}$
@@ -695,7 +695,7 @@ web:
       latex_theme: manual
       latex_show_urls: footnote
       latex_show_pagerefs: true
-      latex_logo: ${{ theme.logo.full.raster.path_web }}$
+      latex_logo: ${{ web.file.logo_full_raster.rel_path }}$
       python_display_short_literal_types: true
       python_maximum_signature_line_length: 80
     extension:
@@ -819,7 +819,7 @@ web:
             url: ${{ web.page.license.url }}$
         icon_links_label: External links
         use_edit_page_button: true
-        announcement: ${{ doc.announcement.url }}$
+        announcement: ${{ web.announcement.url }}$
         search_bar_text: Search ${{ name }}$
         back_to_top_button: true
         logo:
@@ -997,7 +997,7 @@ web:
         ogp_enable_meta_description: true
         ogp_social_cards:
           image: _static/simple_light.svg
-          line_color: ${{ theme.color.primary.light }}$
+          line_color: ${{ color.primary.light }}$
     bibtex:
       dependency:
         import_name: sphinxcontrib.bibtex
