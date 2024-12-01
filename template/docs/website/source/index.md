@@ -6,7 +6,8 @@ html_theme.sidebar_secondary.remove:
 # {{ccc.name}}
 
 {% for theme in ["light", "dark"] %}
-:::{image} {{ ccc.theme.logo.full[theme].path_web }}
+{% set key = "logo_full_" + theme %}
+:::{image} {{ ccc.web.file[key].rel_path }}
 :alt: {{ccc.name}}
 :align: center
 :class: only-{{theme}} homepage-logo
