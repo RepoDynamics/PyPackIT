@@ -1,3 +1,5 @@
+"""Inline Hooks."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -15,6 +17,15 @@ if TYPE_CHECKING:
 
 
 class InlineHooks:
+    """Inline Hooks.
+
+    Parameters
+    ----------
+    repo_path
+        Path to the root of the repository.
+    ccc
+        Control center configurations from the existing `metadata.json` file.
+    """
 
     def __init__(self, repo_path: Path, ccc: NestedDict):
         self.repo_path = repo_path
@@ -23,12 +34,20 @@ class InlineHooks:
         self.changelog = ChangelogManager(repo_path=self.repo_path)
         return
 
-    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]):
+    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> InlineHooks:
+        """Prime with metadata getter function.
+
+        Parameters
+        ----------
+        get_metadata
+            A function to retrieve current control center configurations.
+        """
         self.get = get_metadata
         self.changelog(get_metadata=get_metadata)
         return self
 
     def trove_classifiers(self) -> list[str]:
+        """Create trove classifiers for the package/test-suite."""
 
         def programming_language():
             base = "Programming Language :: Python"
@@ -87,6 +106,7 @@ class InlineHooks:
         return out
 
     def web_page(self) -> dict[str, dict[str, str]]:
+        """Create `$.web.page` data."""
         path = self.repo_path / (self.ccc["web.path.source"] or self.get("web.path.source"))
         url_home = self.get("web.url.home")
         pages = {}
