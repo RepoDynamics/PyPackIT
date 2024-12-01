@@ -1284,7 +1284,7 @@ label:
         suffix: ${{ __custom__.icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: ${{ __custom__.icon.build }}$ Build
+        suffix: ${{ __custom__.icon.setup }}$ Build
         description: Related to the build and installation process.
   commit:
     prefix: Commit
