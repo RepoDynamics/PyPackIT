@@ -69,7 +69,7 @@ document:
               *{{
                 #{{
                   out = []
-                  doi = get("var.zenodo.concept.doi") 
+                  doi = get("var.zenodo.concept.doi")
                   if doi:
                     zenodo = {
                       "label": "DOI",
@@ -86,7 +86,7 @@ document:
                       "args": {"message": f"pip install {get("pkg.name")}"},
                       "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                       "logo_type": "file",
-                      "logo_media_type": "png", 
+                      "logo_media_type": "png",
                       "color": "#3775A9",
                       "link": get("pkg.pypi.url.home"),
                     }
@@ -139,7 +139,7 @@ document:
               attrs_p:
                 align: justify
         - heading: >-
-            #{{ 
+            #{{
               if changelog.current_public.get("phase") == "dev":
                 return "Upcoming Release"
               return "Latest Release"
@@ -294,7 +294,7 @@ document:
                       - |
                         *{{
                           #{{
-                            conda = get("pkg.conda") 
+                            conda = get("pkg.conda")
                             if not conda:
                               return []
                             badge = {
@@ -433,7 +433,7 @@ document:
                                   "args": {"query": f'category:"{category["name"]}"'},
                                   "label": f"{category["emoji"]} {category["name"]}",
                                   "title": category["description"],
-                                } for category in get("discussion.category", {}).values() 
+                                } for category in get("discussion.category", {}).values()
                               ]
                             }}#
                           }}*
@@ -472,7 +472,7 @@ document:
                           *{{
                             #{{
                               import jinja2
-                              
+
                               out = []
                               for platform in ("pypi", "testpypi"):
                                 env = get(f"workflow.publish.{platform}.env")
@@ -488,7 +488,7 @@ document:
                                         "args": {"environment": env_name},
                                         "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                                         "logo_type": "file",
-                                        "logo_media_type": "png", 
+                                        "logo_media_type": "png",
                                       }
                                       out.append(badge)
                               for platform in ("zenodo", "zenodo_sandbox"):
@@ -498,7 +498,7 @@ document:
                                     "endpoint": "deployment_status",
                                     "args": {"environment": env["name"]},
                                     "logo": "zenodo",
-                                    "logo_type": "name", 
+                                    "logo_type": "name",
                                   }
                                   out.append(badge)
                               github_env = get("workflow.publish.github.env")
@@ -507,7 +507,7 @@ document:
                                   "endpoint": "deployment_status",
                                   "args": {"environment": github_env["name"]},
                                   "logo": "github",
-                                  "logo_type": "name", 
+                                  "logo_type": "name",
                                 }
                                 out.append(badge)
                               web_env = get("workflow.web.env")
@@ -516,7 +516,7 @@ document:
                                   "endpoint": "deployment_status",
                                   "args": {"environment": web_env["name"]},
                                   "logo": "github",
-                                  "logo_type": "name", 
+                                  "logo_type": "name",
                                 }
                                 out.append(badge)
                               rtd_name = get("tool.readthedocs.config.workflow.name")
@@ -1371,7 +1371,7 @@ __custom__:
                     "args": {"message": f"{get("pkg.name")} == {version}"},
                     "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                     "logo_type": "file",
-                    "logo_media_type": "png", 
+                    "logo_media_type": "png",
                     "color": "#3775A9",
                     "link": get("pkg.pypi.url.home"),
                   }
@@ -1410,7 +1410,7 @@ __custom__:
                   "color": "#579ACA",
                 }
                 out.append(binder)
-                return out                      
+                return out
               }}#
             }}*
       - >-
@@ -1430,7 +1430,7 @@ __custom__:
             date = dev_release.get("date")
             if date:
               badge_items.append({"label": "🗓 Release Date", "args": {"message": date}})
-            zenodo = dev_release.get("zenodo_sandbox")           
+            zenodo = dev_release.get("zenodo_sandbox")
             if zenodo:
               badge = {
                 "label": "DOI",
