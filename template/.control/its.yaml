@@ -1230,7 +1230,7 @@ commit:
       h2: ${{ ...__custom__.h2_ci }}$
 label:
   type:
-    prefix: 'Type: '
+    prefix: Type
     color: '#A00000'
     label:
       fix:
@@ -1255,7 +1255,7 @@ label:
         suffix: ${{ __custom__.icon.chore }}$ maintenance
         description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
-    prefix: 'Scope: '
+    prefix: Scope
     color: '#A00000'
     label:
       pkg:
@@ -1271,45 +1271,27 @@ label:
         suffix: ${{ __custom__.icon.repo }}$ repo
         description: Related to ${{ repo.name }}$ repository.
   component:
-    prefix: 'Component: '
+    prefix: Component
     color: '#0366d6'
     label:
       api:
-        suffix: API
+        suffix: ${{ __custom__.icon.api }}$ API
         description: Related to the Python application programming interface.
       cli:
-        suffix: CLI
+        suffix: ${{ __custom__.icon.cli }}$ CLI
         description: Related to the command-line interface.
       gui:
-        suffix: GUI
+        suffix: ${{ __custom__.icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: Build
+        suffix: ${{ __custom__.icon.build }}$ Build
         description: Related to the build and installation process.
   commit:
-    prefix: 'Commit: '
+    prefix: Commit
     color: '#0366d6'
-    label: |
-      #{{
-        out = {}
-        release_commits = get("commit.release")
-        commit_config = get("commit.config")
-        scope_start = commit_config["scope_start"]
-        scope_end = commit_config["scope_end"]
-        scope_sep = commit_config["scope_separator"]
-        for commit_id, commit_data in release_commits.items():
-          scopes = commit_data.get("scope")
-          if isinstance(scopes, str):
-            scopes = [scopes]
-          scope = f"{scope_start}{scope_sep.join(scopes)}{scope_end}" if scopes else ""
-          out[commit_id] = {
-            "suffix": f"{commit_data["type"]}{scope}",
-            "description": commit_data.get("type_description", ""),
-          }
-        return out
-      }}#
+    label: '#{{ hook.commit_labels() }}#'
   release:
-    prefix: 'Release: '
+    prefix: Release
     color: '#0366d6'
     label:
       major:
@@ -1328,7 +1310,7 @@ label:
         suffix: local
         description: Publish a new local release.
   remark:
-    prefix: 'remark: '
+    prefix: Remark
     color: '#0366d6'
     label:
       queued:
