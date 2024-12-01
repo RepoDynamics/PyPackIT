@@ -49,27 +49,38 @@ on:
     - cron: '43 6 * * 6'   # Every Saturday at 6:43 UTC.
   workflow_dispatch:
     inputs:
-      config:
-        description: Configuration
+      cca:
+        description: CCA
         type: choice
         options:
-          - disable
+          - disabled
           - report
           - pull
-          - pull & merge
+          - merge
           - commit
-        default: report
+          - amend
+        default: disabled
         required: true
-      lint:
-        description: Lint
+      refactor:
+        description: Refactoring
         type: choice
         options:
-          - disable
+          - disabled
           - report
           - pull
-          - pull & merge
+          - merge
           - commit
-        default: report
+          - amend
+        default: disabled
+        required: true
+      web:
+        description: Website
+        type: choice
+        options:
+          - disabled
+          - build
+          - deploy
+        default: disabled
         required: true
       build:
         description: Build
@@ -78,11 +89,6 @@ on:
         required: true
       test:
         description: Test
-        type: boolean
-        default: false
-        required: true
-      website:
-        description: Website
         type: boolean
         default: false
         required: true
