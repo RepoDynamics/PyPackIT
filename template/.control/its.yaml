@@ -1248,61 +1248,103 @@ commit:
       h2: ${{ ...__custom__.h2_ci }}$
 label:
   type:
-    prefix: 'type: '
+    prefix: 'Type: '
     color: '#A00000'
     label:
       fix:
-        suffix: Fix
+        suffix: ${{ __custom__.icon.fix }}$ bug fix
         description: Fix a bug in a project component.
       feat:
-        suffix: Feat
+        suffix: ${{ __custom__.icon.feat }}$ new feature
         description: Add a new feature to a project component.
       change:
-        suffix: Change
+        suffix: ${{ __custom__.icon.change }}$ breaking change
         description: Introduce a breaking change in a project component.
       refactor:
-        suffix: Refactor
+        suffix: ${{ __custom__.icon.refactor }}$ refactoring
         description: Refactor code without affecting project interfaces.
       config:
-        suffix: Config
+        suffix: ${{ __custom__.icon.config }}$ configuration
         description: Change project configurations and metadata.
       ci:
-        suffix: CI
-        description: Change CI/CD pipelines.
+        suffix: ${{ __custom__.icon.ci }}$ DevOps
+        description: Change automated workflows and development environments.
       chore:
-        suffix: Chore
-        description: Perform housekeeping tasks.
+        suffix: ${{ __custom__.icon.chore }}$ maintenance
+        description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
-    prefix: 'scope: '
+    prefix: 'Scope: '
+    color: '#A00000'
+    label:
+      pkg:
+        suffix: ${{ __custom__.icon.pkg }}$ app
+        description: Related to ${{ pkg.name }}$ package.
+      test:
+        suffix: ${{ __custom__.icon.test }}$ tests
+        description: Related to ${{ test.name }}$ package.
+      docs:
+        suffix: ${{ __custom__.icon.docs }}$ docs
+        description: Related to ${{ name }}$ documentation and website.
+      repo:
+        suffix: ${{ __custom__.icon.repo }}$ repo
+        description: Related to ${{ repo.name }}$ repository.
+  component:
+    prefix: 'Component: '
     color: '#0366d6'
     label:
-      pkg-api:
-        suffix: Pkg API
-        description: Related to ${{ pkg.name }}$'s Python API.
-      pkg-cli:
-        suffix: Pkg CLI
-        description: Related to ${{ pkg.name }}$'s command-line interface.
-      pkg-gui:
-        suffix: Pkg GUI
-        description: Related to ${{ pkg.name }}$'s graphical user interface.
-      pkg-build:
-        suffix: Pkg Build
-        description: Related to ${{ pkg.name }}$'s build and installation process.
-      docs:
-        suffix: Docs
-        description: Related to documentation and website.
-      test-api:
-        suffix: Test API
-        description: Related to ${{ test.name }}$'s Python API.
-      test-cli:
-        suffix: Test CLI
-        description: Related to ${{ test.name }}$'s command-line interface.
-      test-gui:
-        suffix: Test GUI
-        description: Related to ${{ test.name }}$'s graphical user interface.
-      test-build:
-        suffix: Test Build
-        description: Related to ${{ test.name }}$'s build and installation process.
+      api:
+        suffix: API
+        description: Related to the Python application programming interface.
+      cli:
+        suffix: CLI
+        description: Related to the command-line interface.
+      gui:
+        suffix: GUI
+        description: Related to the graphical user interface.
+      build:
+        suffix: Build
+        description: Related to the build and installation process.
+  commit:
+    prefix: 'Commit: '
+    color: '#0366d6'
+    label: |
+      #{{
+        out = {}
+        release_commits = get("commit.release")
+        commit_config = get("commit.config")
+        scope_start = commit_config["scope_start"]
+        scope_end = commit_config["scope_end"]
+        scope_sep = commit_config["scope_separator"]
+        for commit_id, commit_data in release_commits.items():
+          scopes = commit_data.get("scope")
+          if isinstance(scopes, str):
+            scopes = [scopes]
+          scope = f"{scope_start}{scope_sep.join(scopes)}{scope_end}" if scopes else ""
+          out[commit_id] = {
+            "suffix": f"{commit_data["type"]}{scope}",
+            "description": commit_data.get("type_description", ""),
+          }
+        return out
+      }}#
+  release:
+    prefix: 'Release: '
+    color: '#0366d6'
+    label:
+      major:
+        suffix: major
+        description: Publish a new major release.
+      minor:
+        suffix: minor
+        description: Publish a new minor release.
+      patch:
+        suffix: patch
+        description: Publish a new patch release.
+      post:
+        suffix: post
+        description: Publish a new post release.
+      local:
+        suffix: local
+        description: Publish a new local release.
   remark:
     prefix: 'remark: '
     color: '#0366d6'
@@ -1645,16 +1687,20 @@ issue:
           placeholder: $.license.expression
         validations:
           required: true
+    labels:
+      - [ commit, '${{ ...commit }}$' ]
+      - [ release, '#{{ return get(f"commit.release.{get("...commit")}").get("action", "local") }}#' ]
   __custom__:
+    title_pkg: ' ${{ __custom__.icon.pkg }}$ App'
+    title_doc: ' ${{ __custom__.icon.docs }}$ Docs'
+    title_test: ' ${{ __custom__.icon.test }}$ Tests'
     title_api: ' ${{ __custom__.icon.api }}$ API'
     title_cli: ' ${{ __custom__.icon.cli }}$ CLI'
     title_gui: ' ${{ __custom__.icon.gui }}$ GUI'
-    title_setup: ' ⚙️ Setup'
+    title_setup: ' ${{ __custom__.icon.setup }}$ Setup'
     title_bug: ' ${{ __custom__.icon.fix }}$ Bug Report'
     title_feat: ' ${{ __custom__.icon.feat }}$ Feature Request'
     title_breaking: ' ${{ __custom__.icon.change }}$ Change Request'
-    title_doc: ' 📚 Docs'
-    title_test: ' 🧪 Test'
     heading_bug_report:
       type: markdown
       attributes:
@@ -1708,13 +1754,14 @@ issue:
         id: collab
         attributes:
           label: |
-            Thank you again for filling out this ticket.
-            If you are willing to collaborate on its implementation,
+            Thank you again for filling out this issue ticket.
+            If you are willing to collaborate on its design and implementation,
             please select the option below.
           options:
             - label: >-
                 I am willing to collaborate on this issue and submit a pull request.
               required: false
+
     environment:
       - type: markdown
         attributes:
@@ -1733,7 +1780,7 @@ issue:
         validations:
           required: true
       - type: dropdown
-        id: python_version
+        id: python_versions
         attributes:
           label: Python Version
           description: |
@@ -1823,69 +1870,6 @@ issue:
         description: Please describe your proposal in detail.
       validations:
         required: true
-    post_process:
-      assign_creator:
-        if_checkbox:
-          id: collab
-          number: 1
-          is_checked: true
-      body: |
-        ### Target
-
-        - **Version(s)**: {{ input.version }}
-        {%- if input.entrypoint %}
-        - Entry Point: `{{ input.entrypoint }}`
-        {%- endif %}
-        {%- if input.endpoint %}
-        - End Point: `{{ input.endpoint }}`
-        {%- endif %}
-        {%- if input.url %}
-        - URL: {{ input.url }}
-        {%- endif %}
-        {%- if input.jsonpath %}
-        - JSON Path: `{{ input.jsonpath }}`
-        {%- endif %}
-
-        ### Summary
-
-        {{ input.summary }}
-
-        {%- if input.proposal %}
-        ### Proposal
-
-        {{ input.proposal }}
-        {%- endif %}
-
-        {%- if input.test_case %}
-        ### Test Case
-
-        {{ input.test_case }}
-        {%- endif %}
-
-        {%- if input.mre %}
-        ### Minimal Reproducible Example
-
-        {{ input.mre }}
-        {%- endif %}
-
-        {%- if input.stderr %}
-        ### Output Log
-
-        {{ input.stderr }}
-        {%- endif %}
-
-        {%- if input.environment %}
-        ### Test Environment
-
-        - **OS**: {{ input.os }}
-        - **Python Version**: {{ input.python_version }}
-        - **Package Manager**: {{ input.package_manager }}
-        <details><summary><b>Environment</b></summary>
-
-        {{ input.environment }}
-
-        </details>
-        {%- endif %}
     verify_bug:
       type: markdown
       attributes:
@@ -1955,52 +1939,411 @@ issue:
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.test_gui_names }}$
+  protocol:
+    template:
+      heading: 'Development Protocol #{{ issue.number }}'
+      body:
+        - |
+          {%- for label in form.id_labels + form.labels -%}
+          {{
+            mdit.element.badge(
+              service="static",
+              label=label.prefix,
+              args={"message": label.suffix if label.prefix else label.name},
+              style=ccc.__custom__.badge.style,
+              color=label.color,
+              label_color=ccc.__custom__.badge.color.grey,
+              height=ccc.__custom__.badge.height,
+            ).source()
+          }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+          {%- endfor -%}
+          {%- set versions = version_labels | map(attribute='suffix') | join(' | ') -%}
+          {{
+            mdit.element.badge(
+              service="static",
+              label=version_labels[0].prefix,
+              args={"message": versions},
+              style=ccc.__custom__.badge.style,
+              color=version_labels[0].color,
+              label_color=ccc.__custom__.badge.color.grey,
+              height=ccc.__custom__.badge.height,
+            ).source()
+          }}
+      section:
+        - heading: Status
+          body:
+            - class: badges
+              style: ${{ __custom__.badge.style }}$
+              height: ${{ __custom__.badge.height }}$
+              label_color: ${{ __custom__.badge.color.grey }}$
+              separator: ${{ __custom__.badge.separator }}$
+              service: github
+              endpoint: issue_details
+              args:
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+                kind: issues
+                number: '{{ issue.number }}'
+              items:
+                - service: static
+                  label: State
+                  args:
+                    message: '{{ issue.state.value }}'
+                  color: >-
+                    {{ ccc.__custom__.badge.color.green if issue.state.value == "open" else ccc.__custom__.badge.color.red }}
+                - service: static
+                  label: Last Status
+                  args:
+                    message: '{{ ccc.label.status.label[status.value].suffix }}'
+                  title: '{{ ccc.label.status.label[status.value].description }}'
+                  color: >-
+                    {{ ccc.label.status.label[status.value].color if ccc.label.status.label[status.value].color is defined else ccc.label.status.color }}
+                - label: Last Update
+                  args:
+                    property: last-update
+                - label: Comments
+                  args:
+                    property: comments
+            - |
+              {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
+              - [{{ "X" if status > id else " " }}] {{ id.replace("_", " ").title() }}
+              {% endfor -%}
+              {%- if pull_requests -%}
+              The implementation, testing, and deployment are tracked in the following PRs:
+              {% for pull in pull_requests -%}
+              - [{{ "X" if pull.merged " " }}] #{{ pull.number }} (branch: [`{{ pull.head.name }}`]({{ pull.head.url.homepage }}))
+              {% endfor -%}
+              {%- endif -%}
+        - heading: User Requirements Document (URD)
+          body:
+            - class: badges
+              style: ${{ __custom__.badge.style }}$
+              height: ${{ __custom__.badge.height }}$
+              label_color: ${{ __custom__.badge.color.grey }}$
+              separator: ${{ __custom__.badge.separator }}$
+              service: github
+              endpoint: issue_details
+              args:
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+                kind: issues
+                number: '{{ issue.number }}'
+              items:
+                - service: static
+                  label: Issue Type
+                  args:
+                    message: '{{ form.name }}'
+                  title: '{{ form.description }}'
+                  color: ${{ __custom__.badge.color.blue }}$
+                - label: Submitted
+                  args:
+                    property: age
+                  color: ${{ __custom__.badge.color.blue }}$
+                - service: static
+                  Label: Submitted By
+                  args:
+                    message: '{{ issue.user.name.full }}'
+                  link: '{{ issue.user.github.url }}'
+                  color: ${{ __custom__.badge.color.blue }}$
+            - |
+              ### Summary
+
+              {% if input.endpoint -%}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="Endpoint",
+                  args={"message": input.entrypoint + "." + input.endpoint},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- elif input.entrypoint -%}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="Endpoint",
+                  args={"message": input.entrypoint},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif -%}
+              {%- if input.url %}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="URL",
+                  args={"message": input.url},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  link=input.url,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif %}
+              {%- if input.jsonpath %}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="JSON Path",
+                  args={"message": input.jsonpath},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  link=input.url,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif %}
+
+              {{ input.summary }}
+
+              {% if input.proposal -%}
+              ### Proposal
+
+              {{ input.proposal }}
+              {%- endif %}
+
+              {% if input.test_case -%}
+              ### Test Case
+
+              ```python
+              {{ input.test_case }}
+              ```
+              {%- endif %}
+
+              {% if input.mre -%}
+              ### Minimal Reproducible Example
+
+              {{ input.mre }}
+              {%- endif %}
+
+              {% if input.stderr -%}
+              ### Output Log
+
+              ```bash
+              {{ input.stderr }}
+              ```
+              {%- endif %}
+
+              {% if input.environment -%}
+              ### Test Environment
+
+              {%- set os_names = input.os | join(' | ') -%}
+              {%- set py_vers = input.python_versions | join(' | ') -%}
+              {{
+                mdit.element.badges(
+                  service="static",
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.red,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  items=[
+                    {
+                      "label": "⚙️ Operating Systems",
+                      "args": {"message": os_names},
+                    },
+                    {
+                      "label": "Python Versions",
+                      "args": {"message": py_vers},
+                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
+                      "logo_type": "file",
+                      "logo_media_type": "svg+xml",
+                    },
+                    {
+                      "label": ccc.__custom__.icon.pkg + " Package Manager",
+                      "args": {"message": input.package_manager},
+                    },
+                  ]
+                )
+              }}
+
+              <details><summary><b>Environment</b></summary>
+
+              ```yaml
+              {{ input.environment }}
+              ```
+
+              </details>
+              {%- endif %}
+        - heading: Triage
+          body: |
+            {{ data.triage }}
+        - heading: Plan
+          body: |
+            {{ data.plan }}
+        - heading: Software Requirements Specification (SRS)
+          body: |
+            {{ data.srs }}
+        - heading: Software Design Document (SDD)
+          body: |
+            {{ data.sdd }}
+        - heading: Timeline
+          body: |
+            <div align="center">
+
+            {{ timeline }}
+
+            </div>
+    data:
+      summary:
+        value: '{{ pr_title }}'
+      description:
+        value: "\n\n**TBD**\n\n"
+      urd:
+        value: "\n\n{{ issue_body }}\n\n"
+      triage:
+        value: "\n\n**TBD**\n\n"
+      plan:
+        value: "\n\n**TBD**\n\n"
+      srs:
+        value: "\n\n**TBD**\n\n"
+      sdd:
+        value: "\n\n**TBD**\n\n"
+      testing:
+        value: "\n\n**TBD**\n\n"
+      deployment:
+        value: "\n\n**TBD**\n\n"
+      timeline:
+        value: >-
+
+          |    Date    |   Time   |              Actor               |                      Description                      |
+
+          | ---------- | -------- | -------------------------------- | ----------------------------------------------------- |
+        template: |
+          {%- macro make_entry(actor, description) -%}
+            | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ "{:<32}".format(actor) }} | {{ "{:<53}".format(description) }} |
+          {%- endmacro -%}
+
+          {%- macro make_description() -%}
+            {%- if action == "assigned" -%}
+              {%- if event == "issues" -%}
+                Issue assigned to {{ assignee.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request assigned to {{ assignee.md_name }}.
+              {%- endif -%}
+            {%- elif action == "unassigned" -%}
+              {%- if event == "issues" -%}
+                Issue unassigned from {{ assignee.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request unassigned from {{ assignee.md_name }}.
+              {%- endif -%}
+            {%- elif action == "review_requested" -%}
+              Review assigned to {{ requested_reviewer.md_name }}.
+            {%- elif action == "review_request_removed" -%}
+              Review unassigned from {{ requested_reviewer.md_name }}.
+            {%- elif action == "synchronize" -%}
+              New commits pushed to [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) (CI [{{ context.run_id }}]({{ context.run_url }})).
+            {%- elif action == "labeled" -%}
+              {%- set category = label.category.value -%}
+              {%- if category == "type" -%}
+                  Type set to `{{ label.suffix }}`.
+              {%- elif category == "scope" -%}
+                  Scope set to `{{ label.suffix }}`.
+              {%- elif category == "version" -%}
+                    Target version set to `{{ label.suffix }}`.
+              {%- elif category == "branch" -%}
+                    Target branch set to `{{ label.suffix }}`.
+              {%- elif category == "status" -%}
+                {%- set status = label.id.value or label.id -%}
+                {%- if status == "triage" -%}
+                  Entered the triage phase.
+                {%- elif status == "rejected" -%}
+                  Rejected and closed.
+                {%- elif status == "duplicate" -%}
+                  Marked as duplicate and closed.
+                {%- elif status == "invalid" -%}
+                  Marked as invalid and closed.
+                {%- elif status == "planning" -%}
+                  Entered the planning phase.
+                {%- elif status == "requirement_analysis" -%}
+                  Entered the requirement analysis phase.
+                {%- elif status == "design" -%}
+                  Entered the design phase.
+                {%- elif status == "implementation" -%}
+                  Entered the implementation phase.
+                {%- elif status == "testing" -%}
+                  Entered the testing phase.
+                {%- elif status == "deploy_alpha" -%}
+                  Deployed as alpha release.
+                {%- elif status == "deploy_beta" -%}
+                  Deployed as beta release.
+                {%- elif status == "deploy_rc" -%}
+                  Deployed as release candidate.
+                {%- elif status == "deploy_final" -%}
+                  Deployed as final release.
+                {%- else -%}
+                  Status changed to {{ status }}.
+                {%- endif -%}
+              {%- endif -%}
+            {%- elif action == "opened" -%}
+              {%- if event == "issues" -%}
+                Issue ticket #{{ issue.number }} submitted by {{ issue.user.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request #{{ pull_request.number }} opened from branch [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) to branch [{{ pull_request.base.name }}]({{ pull_request.base.url.homepage }}) by {{ pull_request.user.md_name }}.
+              {%- endif -%}
+            {%- endif -%}
+          {%- endmacro -%}
+          {%- set description = make_description() %}
+          {{ make_entry(sender.md_name, description) if description else "" -}}
   forms:
     # Package
     - id: pkg_api_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, pkg-api ]
-      pre_process:
-        if_any: [ "${{ project.python_api_names }}$" ]
-      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
+        - [ scope, pkg ]
+        - [ component, api ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.python_api_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, pkg-cli ]
-      pre_process:
-        if_any: [ "${{ project.cli_names }}$" ]
-      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
+        - [ scope, pkg ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.cli_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_fix
       id_labels:
         - [ type, fix ]
-        - [scope, pkg-gui ]
-      pre_process:
-        if_any: [ "${{ project.gui_names }}$" ]
-      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
+        - [ scope, pkg ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.gui_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_build_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, pkg-build ]
-      name: ${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
+        - [ scope, pkg ]
+        - [ component, build ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
       __custom_template__:
         purpose: >-
@@ -2008,90 +2351,97 @@ issue:
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
       body: ${{ issue.__custom_template__.body_fix_setup }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, pkg-api ]
-      pre_process:
-        if_any: [ "${{ project.python_api_names }}$" ]
-      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
+        - [ scope, pkg ]
+        - [ component, api ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.python_api_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, pkg-cli ]
-      pre_process:
-        if_any: [ "${{ project.cli_names }}$" ]
-      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
+        - [ scope, pkg ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.cli_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, pkg-gui ]
-      pre_process:
-        if_any: [ "${{ project.gui_names }}$" ]
-      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
+        - [ scope, pkg ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.gui_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_api_change
       id_labels:
         - [ type, change ]
-        - [ scope, pkg-api ]
-      pre_process:
-        if_any: [ "${{ project.python_api_names }}$" ]
-      name: ${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
+        - [ scope, pkg ]
+        - [ component, api ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.python_api_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_pkg_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_cli_change
       id_labels:
         - [ type, change ]
-        - [ scope, pkg-cli ]
-      pre_process:
-        if_any: [ "${{ project.cli_names }}$" ]
-      name: ${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
+        - [ scope, pkg ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.cli_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: pkg_gui_change
       id_labels:
         - [ type, change ]
-        - [ scope, pkg-gui ]
-      pre_process:
-        if_any: [ "${{ project.gui_names }}$" ]
-      name: ${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
+        - [ scope, pkg ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.gui_names")) }}#'
+      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     # Documentation
     - id: docs_fix
       id_labels:
         - [ type, fix ]
         - [ scope, docs ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
       description: >-
         Report problems and errors
@@ -2103,11 +2453,12 @@ issue:
           e.g. misspellings and other mechanical errors,
           broken links and images, layout issues, etc.
       body: ${{ issue.__custom_template__.body_fix_doc }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: docs_feat
       id_labels:
         - [ type, feat ]
         - [ scope, docs ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_feat }}$
       description: >-
         Request backward-compatible improvements and new content
@@ -2119,11 +2470,12 @@ issue:
           i.e. a change that is not a bug fix
           and does not break existing references or functionalities.
       body: ${{ issue.__custom_template__.body_feat_doc }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: docs_change
       id_labels:
         - [ type, change ]
         - [ scope, docs ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
       name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_breaking }}$
       description: >-
         Request backward-incompatible changes
@@ -2134,143 +2486,156 @@ issue:
           ${{ name }}$'s website and documentation materials</b>,
           i.e. a change that breaks existing references or functionalities.
       body: ${{ issue.__custom_template__.body_change_doc }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     # Test Suite
     - id: test_api_fix
       id_labels:
         - [ type, fix ]
+        - [ scope, test ]
         - [ scope, test-api ]
-      pre_process:
-        if_any: [ "${{ project.test_python_api_names }}$" ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, test-cli ]
-      pre_process:
-        if_any: [ "${{ project.test_cli_names }}$" ]
+        - [ scope, test ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, test-gui ]
-      pre_process:
-        if_any: [ "${{ project.test_gui_names }}$" ]
+        - [ scope, test ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
       description: ${{ issue.__custom_template__.description_bug }}$
       __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_bug }}$
       body: ${{ issue.__custom_template__.body_fix_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_build_fix
       id_labels:
         - [ type, fix ]
-        - [ scope, test-build ]
+        - [ scope, test ]
+        - [ component, build ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
-      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
+      description: Report problems in downloading, installation, or initialization of ${{ test.name }}$.
       __custom_template__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
       body: ${{ issue.__custom_template__.body_fix_setup }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, test-api ]
-      pre_process:
-        if_any: [ "${{ project.test_python_api_names }}$" ]
+        - [ scope, test ]
+        - [ component, api ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, test-cli ]
-      pre_process:
-        if_any: [ "${{ project.test_cli_names }}$" ]
+        - [ scope, test ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_feat
       id_labels:
         - [ type, feat ]
-        - [ scope, test-gui ]
-      pre_process:
-        if_any: [ "${{ project.test_gui_names }}$" ]
+        - [ scope, test ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
       description: ${{ issue.__custom_template__.description_feat }}$
       __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_feat }}$
       body: ${{ issue.__custom_template__.body_feat_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_api_change
       id_labels:
         - [ type, change ]
-        - [ scope, test-api ]
-      pre_process:
-        if_any: [ "${{ project.test_python_api_names }}$" ]
+        - [ scope, test ]
+        - [ component, api ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_python_api_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_test_api }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_api }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_cli_change
       id_labels:
         - [ type, change ]
-        - [ scope, test-cli ]
-      pre_process:
-        if_any: [ "${{ project.test_cli_names }}$" ]
+        - [ scope, test ]
+        - [ component, cli ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_cli_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_test_cli }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_cli }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: test_gui_change
       id_labels:
         - [ type, change ]
-        - [ scope, test-gui ]
-      pre_process:
-        if_any: [ "${{ project.test_gui_names }}$" ]
+        - [ scope, test ]
+        - [ component, gui ]
+      labels:
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      active: '#{{ return bool(get("project.test_gui_names")) }}#'
       name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
       description: ${{ issue.__custom_template__.description_break }}$
       __custom__: ${{ issue.__custom__.custom_test_gui }}$
       __custom_template__:
         purpose: ${{ issue.__custom_template__.purpose_break }}$
       body: ${{ issue.__custom_template__.body_change_gui }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     # Refactoring
     - id: refactor
       id_labels:
         - [ type, refactor ]
-      name: ' 🧹️ Refactoring Request'
+      labels:
+        - [ scope, repo ]
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      name: ' ${{ __custom__.icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
       __custom_template__:
@@ -2279,12 +2644,14 @@ issue:
           i.e. a change that improves the code quality, readability, and maintainability,
           without affecting the code's runtime behavior.
       body: ${{ issue.__custom_template__.body_refactor }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     # Internal
     - id: config
       id_labels:
         - [ type, config ]
-      name: ' 🛠️ Configuration Request'
+      labels:
+        - [ scope, repo ]
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      name: ' ${{ __custom__.icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
       __custom_template__:
@@ -2293,11 +2660,13 @@ issue:
           such as project information and other options that do not fall under
           other issue categories.
       body: ${{ issue.__custom_template__.body_config }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: ci
       id_labels:
         - [ type, ci ]
-      name: ' 🤖️ DevOps Request'
+      labels:
+        - [ scope, repo ]
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      name: ' ${{ __custom__.icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
       __custom_template__:
@@ -2305,11 +2674,13 @@ issue:
           requesting a <b>change in ${{ name }}$'s automated workflows and development environment</b>,
           such as CI/CD pipelines, testing, and deployment configurations.
       body: ${{ issue.__custom_template__.body_config }}$
-      post_process: ${{ issue.__custom__.post_process }}$
     - id: chore
       id_labels:
         - [ type, chore ]
-      name: ' 🧹️ Maintenance Request'
+      labels:
+        - [ scope, repo ]
+        - '*{{ ${{ issue.__custom_template__.labels }}$ }}*'
+      name: ' ${{ __custom__.icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __custom_template__:
         purpose: >-
@@ -2317,4 +2688,389 @@ issue:
           such as file cleanup and other tasks that
           do not fall under other issue categories.
       body: ${{ issue.__custom_template__.body_maintenance }}$
-      post_process: ${{ issue.__custom__.post_process }}$
+pull:
+  protocol:
+    template:
+      heading: 'Development Protocol #{{ pull_request.number }}'
+      body:
+        - - class: badge
+            label: Resolves
+            service: static
+            args:
+              message: '#{{ issue.number }}'
+            link: '{{ issue.html_url }}'
+            style: ${{ __custom__.badge.style }}$
+            height: ${{ __custom__.badge.height }}$
+            label_color: ${{ __custom__.badge.color.grey }}$
+            color: ${{ __custom__.badge.color.blue }}$
+          - '{{ "&nbsp;" * ccc.__custom__.badge.separator }}'
+          - |
+            {%- for label in form.id_labels + form.labels -%}
+            {{
+              mdit.element.badge(
+                service="static",
+                label=label.prefix,
+                args={"message": label.suffix if label.prefix else label.name},
+                style=ccc.__custom__.badge.style,
+                color=label.color,
+                label_color=ccc.__custom__.badge.color.grey,
+                height=ccc.__custom__.badge.height,
+              ).source()
+            }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+            {%- endfor -%}
+            {%- set versions = version_labels | map(attribute='suffix') | join(' | ') -%}
+            {{
+              mdit.element.badge(
+                service="static",
+                label=version_labels[0].prefix,
+                args={"message": versions},
+                style=ccc.__custom__.badge.style,
+                color=version_labels[0].color,
+                label_color=ccc.__custom__.badge.color.grey,
+                height=ccc.__custom__.badge.height,
+              ).source()
+            }}
+      section:
+        - heading: Status
+          body:
+            - class: badges
+              style: ${{ __custom__.badge.style }}$
+              height: ${{ __custom__.badge.height }}$
+              label_color: ${{ __custom__.badge.color.grey }}$
+              separator: ${{ __custom__.badge.separator }}$
+              service: github
+              endpoint: issue_details
+              args:
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+                kind: issues
+                number: '{{ issue.number }}'
+              items:
+                - service: static
+                  label: State
+                  args:
+                    message: '{{ issue.state.value }}'
+                  color: >-
+                    {{ ccc.__custom__.badge.color.green if issue.state.value == "open" else ccc.__custom__.badge.color.red }}
+                - service: static
+                  label: Last Status
+                  args:
+                    message: '{{ ccc.label.status.label[status.value].suffix }}'
+                  title: '{{ ccc.label.status.label[status.value].description }}'
+                  color: >-
+                    {{ ccc.label.status.label[status.value].color if ccc.label.status.label[status.value].color is defined else ccc.label.status.color }}
+                - label: Last Update
+                  args:
+                    property: last-update
+                - label: Comments
+                  args:
+                    property: comments
+            - |
+              {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
+              - [{{ "X" if status > id else " " }}] {{ id.replace("_", " ").title() }}
+              {% endfor -%}
+        - heading: User Requirements Document (URD)
+          body:
+            - class: badges
+              style: ${{ __custom__.badge.style }}$
+              height: ${{ __custom__.badge.height }}$
+              label_color: ${{ __custom__.badge.color.grey }}$
+              separator: ${{ __custom__.badge.separator }}$
+              service: github
+              endpoint: issue_details
+              args:
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+                kind: issues
+                number: '{{ issue.number }}'
+              items:
+                - service: static
+                  label: Issue Type
+                  args:
+                    message: '{{ form.name }}'
+                  title: '{{ form.description }}'
+                  color: ${{ __custom__.badge.color.blue }}$
+                - label: Submitted
+                  args:
+                    property: age
+                  color: ${{ __custom__.badge.color.blue }}$
+                - service: static
+                  Label: Submitted By
+                  args:
+                    message: '{{ issue.user.name.full }}'
+                  link: '{{ issue.user.github.url }}'
+                  color: ${{ __custom__.badge.color.blue }}$
+            - |
+              ### Summary
+
+              {% if input.endpoint -%}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="Endpoint",
+                  args={"message": input.entrypoint + "." + input.endpoint},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- elif input.entrypoint -%}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="Endpoint",
+                  args={"message": input.entrypoint},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif -%}
+              {%- if input.url %}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="URL",
+                  args={"message": input.url},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  link=input.url,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif %}
+              {%- if input.jsonpath %}
+              {{
+                mdit.element.badge(
+                  service="static",
+                  label="JSON Path",
+                  args={"message": input.jsonpath},
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.blue,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  link=input.url,
+                ).source()
+              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              {%- endif %}
+
+              {{ input.summary }}
+
+              {% if input.proposal -%}
+              ### Proposal
+
+              {{ input.proposal }}
+              {%- endif %}
+
+              {% if input.test_case -%}
+              ### Test Case
+
+              ```python
+              {{ input.test_case }}
+              ```
+              {%- endif %}
+
+              {% if input.mre -%}
+              ### Minimal Reproducible Example
+
+              {{ input.mre }}
+              {%- endif %}
+
+              {% if input.stderr -%}
+              ### Output Log
+
+              ```bash
+              {{ input.stderr }}
+              ```
+              {%- endif %}
+
+              {% if input.environment -%}
+              ### Test Environment
+
+              {%- set os_names = input.os | join(' | ') -%}
+              {%- set py_vers = input.python_versions | join(' | ') -%}
+              {{
+                mdit.element.badges(
+                  service="static",
+                  style=ccc.__custom__.badge.style,
+                  color=ccc.__custom__.badge.color.red,
+                  label_color=ccc.__custom__.badge.color.grey,
+                  height=ccc.__custom__.badge.height,
+                  items=[
+                    {
+                      "label": "⚙️ Operating Systems",
+                      "args": {"message": os_names},
+                    },
+                    {
+                      "label": "Python Versions",
+                      "args": {"message": py_vers},
+                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
+                      "logo_type": "file",
+                      "logo_media_type": "svg+xml",
+                    },
+                    {
+                      "label": ccc.__custom__.icon.pkg + " Package Manager",
+                      "args": {"message": input.package_manager},
+                    },
+                  ]
+                )
+              }}
+
+              <details><summary><b>Environment</b></summary>
+
+              ```yaml
+              {{ input.environment }}
+              ```
+
+              </details>
+              {%- endif %}
+        - heading: Triage
+          body: |
+            {{ data.triage }}
+        - heading: Plan
+          body: |
+            {{ data.plan }}
+        - heading: Software Requirements Specification (SRS)
+          body: |
+            {{ data.srs }}
+        - heading: Software Design Document (SDD)
+          body: |
+            {{ data.sdd }}
+        - heading: Testing
+          body:
+            - - |
+                {% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}
+                {% set config = ccc.tool.readthedocs.config.workflow %}
+                {% set domain = "org.readthedocs.build" if config.platform == "community" else "com.readthedocs.build" %}
+                {% set url = "https://" ~ config.name ~ "--" ~ pull_request.number ~ "." ~ domain ~ "/" %}                
+                {% if config.version_scheme.translation %}
+                  {% set url = url ~ config.language ~ "/" ~ pull_request.number ~ "/" %}
+                {% endif %}
+                {{
+                  mdit.element.badge(
+                    service="static",
+                    label="Website Preview",
+                    args={"message": "Read The Docs"},
+                    style=ccc.__custom__.badge.style,
+                    color=ccc.__custom__.badge.color.blue,
+                    label_color=ccc.__custom__.badge.color.grey,
+                    height=ccc.__custom__.badge.height,
+                    link=url,
+                  ).source()
+                }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+                {%- endif -%}
+              # ReadTheDocs website preview badge
+              # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
+              # Refs: https://github.com/readthedocs/actions/blob/v1/preview/scripts/edit-description.js
+              #       https://docs.readthedocs.io/en/latest/guides/pull-requests.html
+        - heading: Timeline
+          body: |
+            <div align="center">
+
+            {{ timeline }}
+
+            </div>
+    data:
+      summary:
+        value: '{{ pr_title }}'
+      description:
+        value: "\n\n**TBD**\n\n"
+      urd:
+        value: "\n\n{{ issue_body }}\n\n"
+      triage:
+        value: "\n\n**TBD**\n\n"
+      plan:
+        value: "\n\n**TBD**\n\n"
+      srs:
+        value: "\n\n**TBD**\n\n"
+      sdd:
+        value: "\n\n**TBD**\n\n"
+      testing:
+        value: "\n\n**TBD**\n\n"
+      deployment:
+        value: "\n\n**TBD**\n\n"
+      timeline:
+        value: >-
+
+          |    Date    |   Time   |              Actor               |                      Description                      |
+
+          | ---------- | -------- | -------------------------------- | ----------------------------------------------------- |
+        template: |
+          {%- macro make_entry(actor, description) -%}
+            | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ "{:<32}".format(actor) }} | {{ "{:<53}".format(description) }} |
+          {%- endmacro -%}
+
+          {%- macro make_description() -%}
+            {%- if action == "assigned" -%}
+              {%- if event == "issues" -%}
+                Issue assigned to {{ assignee.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request assigned to {{ assignee.md_name }}.
+              {%- endif -%}
+            {%- elif action == "unassigned" -%}
+              {%- if event == "issues" -%}
+                Issue unassigned from {{ assignee.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request unassigned from {{ assignee.md_name }}.
+              {%- endif -%}
+            {%- elif action == "review_requested" -%}
+              Review assigned to {{ requested_reviewer.md_name }}.
+            {%- elif action == "review_request_removed" -%}
+              Review unassigned from {{ requested_reviewer.md_name }}.
+            {%- elif action == "synchronize" -%}
+              New commits pushed to [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) (CI [{{ context.run_id }}]({{ context.run_url }})).
+            {%- elif action == "labeled" -%}
+              {%- set category = label.category.value -%}
+              {%- if category == "type" -%}
+                  Type set to `{{ label.suffix }}`.
+              {%- elif category == "scope" -%}
+                  Scope set to `{{ label.suffix }}`.
+              {%- elif category == "version" -%}
+                    Target version set to `{{ label.suffix }}`.
+              {%- elif category == "branch" -%}
+                    Target branch set to `{{ label.suffix }}`.
+              {%- elif category == "status" -%}
+                {%- set status = label.id.value or label.id -%}
+                {%- if status == "triage" -%}
+                  Entered the triage phase.
+                {%- elif status == "rejected" -%}
+                  Rejected and closed.
+                {%- elif status == "duplicate" -%}
+                  Marked as duplicate and closed.
+                {%- elif status == "invalid" -%}
+                  Marked as invalid and closed.
+                {%- elif status == "planning" -%}
+                  Entered the planning phase.
+                {%- elif status == "requirement_analysis" -%}
+                  Entered the requirement analysis phase.
+                {%- elif status == "design" -%}
+                  Entered the design phase.
+                {%- elif status == "implementation" -%}
+                  Entered the implementation phase.
+                {%- elif status == "testing" -%}
+                  Entered the testing phase.
+                {%- elif status == "deploy_alpha" -%}
+                  Deployed as alpha release.
+                {%- elif status == "deploy_beta" -%}
+                  Deployed as beta release.
+                {%- elif status == "deploy_rc" -%}
+                  Deployed as release candidate.
+                {%- elif status == "deploy_final" -%}
+                  Deployed as final release.
+                {%- else -%}
+                  Status changed to {{ status }}.
+                {%- endif -%}
+              {%- endif -%}
+            {%- elif action == "opened" -%}
+              {%- if event == "issues" -%}
+                Issue ticket #{{ issue.number }} submitted by {{ issue.user.md_name }}.
+              {%- elif event == "pull_request" -%}
+                Pull request #{{ pull_request.number }} opened from branch [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) to branch [{{ pull_request.base.name }}]({{ pull_request.base.url.homepage }}) by {{ pull_request.user.md_name }}.
+              {%- endif -%}
+            {%- endif -%}
+          {%- endmacro -%}
+          {%- set description = make_description() %}
+          {{ make_entry(sender.md_name, description) if description else "" -}}
