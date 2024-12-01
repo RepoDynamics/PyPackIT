@@ -41,7 +41,7 @@ jobs:
         shell: bash
         id: build
         env:
-          PURE_PYTHON: ${{ !fromJSON(inputs.config).cibw }}
+          PURE_PYTHON: ${{ fromJSON(inputs.config).pkg.python.pure }}
           PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
           VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
@@ -72,7 +72,7 @@ jobs:
             echo "::endgroup::"
           fi
       - name: PyPI README Check
-        if: fromJSON(inputs.config).pkg.readme.path
+        if: fromJSON(inputs.config).pkg.readme
         # Note:
         #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
         #    reStructuredText (reST) READMEs; it always passes for Markdown content
@@ -84,11 +84,11 @@ jobs:
         #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
         run: twine check ./dist/*
       - name: PyPI README Render
-        if: fromJSON(inputs.config).pkg.readme.path
+        if: fromJSON(inputs.config).pkg.readme.file
         shell: bash
         run: >-
           python -m readme_renderer
-          'repo/${{ fromJSON(inputs.config).pkg.readme.path }}'
+          'repo/${{ fromJSON(inputs.config).pkg.readme.file }}'
           --output ./README.html
       - name: Source Distribution Upload
         if: ${{ !cancelled() }}
@@ -99,7 +99,7 @@ jobs:
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include-hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention-days }}
       - name: Binary Distribution Upload
-        if: ${{ !cancelled() && !fromJSON(inputs.config).cibw }}
+        if: ${{ !cancelled() && fromJSON(inputs.config).pkg.python.pure }}
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.whl
@@ -115,13 +115,13 @@ jobs:
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include-hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention-days }}
   native:
-    name: Binary Distribution (${{ matrix.os }})
-    if: ${{ fromJSON(inputs.config).cibw }}
+    name: Binary Distribution | ${{ matrix.build.os.name }}
+    if: ${{ !fromJSON(inputs.config).pkg.python.pure }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(inputs.config).cibw }}
+        build: ${{ fromJSON(inputs.config).cibw }}
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v4
@@ -133,7 +133,7 @@ jobs:
       - name: Build
         # https://cibuildwheel.readthedocs.io/en/stable/
         # https://github.com/pypa/cibuildwheel
-        uses: pypa/cibuildwheel@v2.16
+        uses: pypa/cibuildwheel@v2.22
         with:
           package-dir: ./repo/${{ fromJSON(inputs.config).pkg.path.root }}
           output-dir: ./dist
