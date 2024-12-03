@@ -295,7 +295,7 @@ document:
                       - |
                         *{{
                           #{{
-                            conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda") 
+                            conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
                             if not conda:
                               return []
                             badge = {
