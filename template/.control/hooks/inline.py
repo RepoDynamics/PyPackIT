@@ -13,7 +13,7 @@ from loggerman import logger
 if TYPE_CHECKING:
     from collections.abc import Callable
     from pathlib import Path
-    from typing import Any
+    from typing import Any, Literal
 
     from pyserials import NestedDict
 
@@ -69,6 +69,32 @@ class InlineHooks:
                 "description": commit_data.get("type_description", ""),
                 "name": f"{label_prefix}{label_sep}{label_suffix}",
             }
+        return out
+
+    def conda_req(self, typ: Literal["host", "run", "run_constrained"]) -> list[dict]:
+        """Create requirements for conda recipe."""
+        out = []
+        dep_key = {"host": "build", "run": "core", "run_constrained": "optional"}[typ]
+        dep_groups = self.get(f"..dependency.{dep_key}")
+        if not dep_groups:
+            return out
+        if typ == "run_constrained":
+            reqs = []
+            for dep_group in dep_groups.values():
+                reqs.extend(list(dep_group["package"].values()))
+        else:
+            reqs = dep_groups.values()
+        for req in reqs:
+            conda = req.get("conda")
+            if not conda:
+                continue
+            entry = {
+                "value": f"{conda["channel"]}::{conda["spec"].strip()}"
+            }
+            selector = conda.get("selector", "")
+            if selector:
+                entry["selector"] = selector
+            out.append(entry)
         return out
 
     def trove_classifiers(self) -> list[str]:
