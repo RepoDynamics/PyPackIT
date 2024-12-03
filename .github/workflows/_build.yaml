@@ -147,13 +147,80 @@ jobs:
           name: ${{ matrix.artifact.wheel.name }}
           include-hidden-files: ${{ matrix.artifact.wheel.include-hidden }}
           retention-days: ${{ matrix.artifact.wheel.retention-days }}
+  conda:
+    name: Conda Distribution | ${{ matrix.task.os.name }}
+    runs-on: ${{ matrix.task.os.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        task: ${{ fromJSON(inputs.config).conda-builds }}
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ fromJSON(inputs.config).repository }}
+          fetch-depth: 0
+          ref: ${{ fromJSON(inputs.config).ref }}
+          path: repo
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          channels: ${{ fromJSON(inputs.config).conda-channels }}
+          auto-activate-base: true
+          activate-environment: ""
+          auto-update-conda: true
+          miniconda-version: latest
+          conda-version: latest
+          conda-build-version: latest
+      - name: Environment Setup
+        run: |
+          mkdir dist
+          echo "::group::Requirements Installation"
+          conda install versioningit
+          echo "::endgroup::"
+          echo "::group::Environment Overview"
+          conda list
+          echo "::endgroup::"
+          echo "::group::Conda Info"
+          conda info
+          echo "::endgroup::"
+      - name: Versioning
+        id: version
+        env:
+          PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
+        run:
+          VERSION=$(versioningit $PKG_PATH --verbose)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Build
+        env:
+          PKG_FULL_VERSION: ${{ steps.version.outputs.version }}
+        run: >-
+          conda build ${{ fromJSON(inputs.config).conda-recipe-path }}$
+          --python ${{ matrix.task.python }}$
+          --package-format conda
+          --output-folder dist
+          --stats-file dist/build-stats.json
+          --verify
+          --keep-going
+          --debug
+          --no-anaconda-upload
+      - name: Build Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
+          name: ${{ matrix.task.artifact.conda.name }}
+          include-hidden-files: ${{ matrix.task.artifact.conda.include-hidden }}
+          retention-days: ${{ matrix.task.artifact.conda.retention-days }}
   wheel-merge:
-    name: Wheel Artifact Merge
+    name: Artifact Merge
     if: ${{ !cancelled() && fromJSON(inputs.config).artifact.wheel.merge }}
     needs: [ pure, native ]
     runs-on: ubuntu-latest
     steps:
-      - name: Artifact Merge
+      - name: Wheels
         uses: actions/upload-artifact/merge@v4
         with:
           name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
@@ -161,6 +228,15 @@ jobs:
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
           separate-directories: 'false'
+          delete-merged: 'true'
+      - name: Conda Dists
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.conda.merge.name }}
+          pattern: ${{ fromJSON(inputs.config).artifact.conda.merge.pattern }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.conda.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.conda.retention-days }}
+          separate-directories: 'true'
           delete-merged: 'true'
   hash-digest:
     name: Hash Digest
