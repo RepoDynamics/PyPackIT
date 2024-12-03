@@ -1,0 +1,167 @@
+{%- macro render_source_url(source) -%}
+{% if source.url is string -%}
+url: {{ source.url }}
+{% else -%}
+url:
+{%- for url in source.url %}
+  - {{ url }}
+{% endfor -%}
+{% endif -%}
+{%- for hash_key in ["sha256", "sha1", "md5"] -%}
+{%- set hash_val = source[hash_key] -%}
+{%- if hash_val -%}
+{{ hash_key }}: {{ hash_val }}
+{% endif -%}
+{% endfor -%}
+{% endif -%}
+{%- endmacro -%}
+
+{%- macro render_source_git(source) -%}
+{% for key_suffix in ["url", "rev", "depth"] -%}
+{% set key = "git_" ~ key_suffix -%}
+{% set val = source[key] -%}
+{% if val -%}
+{{ key }}: {{ val }}
+{% endif -%}
+{% endfor -%}
+{%- endmacro -%}
+
+{%- macro render_source(source) -%}
+{% if source.url -%}
+render_source_url(source)
+{% elif source.git_url -%}
+render_source_git(source)
+{% endif -%}
+{% if source.patches -%}
+patches:
+{%- for patch in source.patches %}
+  - {{ patch }}
+{% endfor -%}
+{% endif -%}
+{% if source.folder -%}
+folder: {{ source.folder }}
+{% endif -%}
+{% endmacro -%}
+
+
+{{ '{% set name = "' ~ package.name ~ '" %}' }}
+{{ '{% set version = "' ~ package.version ~ '" %}' }}
+{{ header }}
+
+{%- raw %}
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+{%- endraw %}
+
+source:
+  {% if source is mapping -%}
+  {{ render_source(source) | indent(width=2) }}
+  {%- else -%}
+  {%- for src in source -%}
+  - {{ render_source(src) | indent(width=4) }}
+  {% endfor -%}
+  {%- endif %}
+
+{% if build -%}
+build:
+  {%
+    for key in [
+      "noarch",
+      "skip",
+      "script",
+      "number",
+      "string",
+      "force_use_keys",
+      "force_ignore_keys",
+      "entry_points",
+      "osx_is_app",
+      "python_site_packages_path",
+      "track_features",
+      "preserve_egg_dir",
+      "skip_compile_pyc",
+      "no_link",
+      "rpaths",
+      "always_include_files",
+      "binary_relocation",
+      "detect_binary_files_with_prefix",
+      "binary_has_prefix_files",
+      "has_prefix_files",
+      "ignore_prefix_files",
+      "include_recipe",
+      "script_env",
+      "run_exports",
+    ]
+  -%}
+  {% set val = build[key] -%}
+  {% if val -%}
+  {% if val is string or not val is sequence -%}
+  {{ key }}: {{ val }}
+  {% else -%}
+  {{ key }}:
+    {% for v in val -%}
+    - {{ val }}
+    {% endfor -%}
+  {% endif -%}
+  {% endif -%}
+  {% endfor -%}
+{%- endif %}
+
+requirements:
+  build:
+    # If your project compiles code (such as a C extension) then add the required compilers as separate entries here.
+    # Compilers are named 'c', 'cxx', 'fortran', among others
+    - {{ compiler('c') }}
+    # this is necessary for all compiled recipes
+    - {{ stdlib('c') }}
+  host:
+    - python
+    - pip
+    - setuptools
+  run:
+    - python
+
+test:
+  # Some packages might need a `test/commands` key to check CLI.
+  # List all the packages/modules that `run_test.py` imports.
+  imports:
+    - simplejson
+    - simplejson.tests
+  # For python packages, it is useful to run pip check. However, sometimes the
+  # metadata used by pip is out of date. Thus this section is optional if it is
+  # failing.
+  requires:
+    - pip
+  commands:
+    - pip check
+
+about:
+  home: https://github.com/simplejson/simplejson
+  summary: 'Simple, fast, extensible JSON encoder/decoder for Python'
+  description: |
+    simplejson is a simple, fast, complete, correct and extensible
+    JSON <https://json.org> encoder and decoder for Python 2.5+ and
+    Python 3.3+. It is pure Python code with no dependencies, but includes
+    an optional C extension for a serious speed boost.
+  # Remember to specify the license variants for BSD, Apache, GPL, and LGPL.
+  # Use the SPDX identifier, e.g: GPL-2.0-only instead of GNU General Public License version 2.0
+  # See https://spdx.org/licenses/
+  license: MIT
+  # The license_family, i.e. "BSD" if license is "BSD-3-Clause".
+  # Optional
+  license_family: MIT
+  # It is required to include a license file in the package,
+  # (even if the license doesn't require it) using the license_file entry.
+  # Please also note that some projects have multiple license files which all need to be added using a valid yaml list.
+  # See https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#license-file
+  license_file: LICENSE.txt
+  # The doc_url and dev_url are optional.
+  doc_url: https://simplejson.readthedocs.io/
+  dev_url: https://github.com/simplejson/simplejson
+
+extra:
+  recipe-maintainers:
+    # GitHub IDs for maintainers of the recipe.
+    # Always check with the people listed below if they are OK becoming maintainers of the recipe. (There will be spam!)
+    - LisaSimpson
+    - LandoCalrissian
