@@ -35,16 +35,16 @@ pkg:
         name: Setuptools
         import_name: setuptools
         pip:
-          spec: '>= 72.1.0'
+          spec: setuptools >=72.1.0
         conda:
-          spec: '>= 72.1.0'
+          spec: ${{ ..pip.spec }}$
       versioning:
         name: versioningit
         import_name: versioningit
         pip:
-          spec: '>= 3.1.2'
+          spec: versioningit >=3.1.2
         conda:
-          spec: '>= 3.1.2'
+          spec: ${{ ..pip.spec }}$
     core:
       pkg_resources:
         name: PkgData
@@ -54,6 +54,9 @@ pkg:
           distributed with the package.
         pip:
           spec: pkgdata
+        conda:
+          spec: pkgdata
+          channel: repodynamics
         url:
           docs: https://pkgdata.repodynamics.com/
           source: https://github.com/repodynamics/pkgdata
