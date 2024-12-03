@@ -30,6 +30,21 @@ pkg:
         description: Main CLI entry of the package.
         ref: ${{ pkg.import_name }}$.__main__:main
   dependency:
+    build:
+      builder:
+        name: Setuptools
+        import_name: setuptools
+        pip:
+          spec: '>= 72.1.0'
+        conda:
+          spec: '>= 72.1.0'
+      versioning:
+        name: versioningit
+        import_name: versioningit
+        pip:
+          spec: '>= 3.1.2'
+        conda:
+          spec: '>= 3.1.2'
     core:
       pkg_resources:
         name: PkgData
@@ -64,45 +79,5 @@ pkg:
     - global-exclude *.py[cod] __pycache__ *.so
   build: ${{ __custom_template__.pyproject-build }}$
   authors: ${{ citation.cff.authors }}$
-__custom_template__:
-  pyproject-build:
-    requires: [ setuptools >= 72.1.0, versioningit >= 3.1.2 ]
-    backend: setuptools.build_meta
-    tool:
-      setuptools:
-        packages:
-          find:
-            where: [ '${{ .path.source_rel }}$' ]
-            namespaces: true
-        include-package-data: true
-        license-files: [ LICENSES/*, COPYRIGHTS/* ]
-        cmdclass:
-          build_py: versioningit.cmdclass.build_py
-          sdist: versioningit.cmdclass.sdist
-      versioningit:
-        vcs:
-          method: git
-          match: [ '${{ tag.version.prefix }}$[0-9]*.[0-9]*.[0-9]*' ]
-          default-tag: ${{ tag.version.prefix }}$0.0.0
-        tag2version:
-          rmprefix: ${{ tag.version.prefix }}$
-        format:
-          distance: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}'
-          dirty: '{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty'
-          distance-dirty: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty'
-        onbuild:
-          method: replace-version
-          regex: '^__version_details__: dict\[str, str\] = (?P<version>.*)'
-          require-match: true
-          source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
-          build-file: '${{ .import_name }}$/__init__.py'
-          replacement: >-
-            {{
-            "version": "{version}",
-            "build_date": "{build_date:%Y.%m.%d}",
-            "committer_date": "{committer_date:%Y.%m.%d}",
-            "author_date": "{author_date:%Y.%m.%d}",
-            "branch": "{branch}",
-            "distance": "{distance}",
-            "commit_hash": "{revision}"
-            }}
+  conda:
+    recipe: ${{ __custom_template__.conda-recipe }}$
