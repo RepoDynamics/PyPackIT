@@ -478,6 +478,17 @@ tool:
               max-complexity: 15
 workflow:
   publish:
+#    anaconda:
+#      name: Publish (Anaconda)
+#      task_name: '{{ pkg.name }} v{{ version }}'
+#      env:
+#        name: Anaconda ({{ pkg.name }})
+#        url: https://pypi.org/project/{{ pkg.name }}/{{ version }}
+#      index:
+#        channel:
+#      action:
+#        pkg: auto
+#        test: auto
     pypi:
       name: Publish (PyPI)
       task_name: '{{ pkg.name }} v{{ version }}'
