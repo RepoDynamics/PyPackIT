@@ -69,6 +69,14 @@ tool:
                   # https://github.com/pre-commit/pre-commit-hooks#check-yaml
                   stages: [ pre-commit, manual ]
                   verbose: true
+                  exclude: |
+                    #{{
+                      import re
+                      conda_meta_paths = []
+                      for key in ("pkg", "test"):
+                        conda_meta_paths.extend(list(get(f"{key}.conda.recipe.path", {}).values()))
+                      return "|".join(re.escape(path) for path in conda_meta_paths)
+                    }}#
                 - id: destroyed-symlinks
                   # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#destroyed-symlinks
                   stages: [ pre-commit, manual ]
