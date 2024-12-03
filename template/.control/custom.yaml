@@ -45,38 +45,38 @@ __custom_template__:
             }}
   conda-recipe:
     path:
-      local: ${{ ....path.root }}$/conda-recipe/local
-      global: ${{ ....path.root }}$/conda-recipe/global
+      local: ${{ ..path.root }}$/conda-recipe/local
+      global: ${{ ..path.root }}$/conda-recipe/global
     meta:
       values:
         build:
           values:
             script:
-              - value: { { PYTHON } } -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv
+              - value: '{{ PYTHON }} -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv'
         requirements:
           values:
             host:
               values:
                   - value: python ${{ pkg.python.version.spec }}$
-                    - value: pip
-                    - |
-                      *{{
-                        #{{
-                          out = []
-                          for build_req in get(".........dependency.build").values():
-                            conda = build_req.get("conda")
-                            if not conda:
-                              continue
-                            entry = {
-                              "value": f"{build_req["name"]} {conda["spec"].strip()}"
-                            }
-                            selector = conda.get("selector", "")
-                            if selector:
-                              entry["selector"] = selector
-                            out.append(entry)
-                          return out
-                        }}#
-                      }}*
+                  - value: pip
+                  - |
+                    *{{
+                      #{{
+                        out = []
+                        for build_req in get("..dependency.build").values():
+                          conda = build_req.get("conda")
+                          if not conda:
+                            continue
+                          entry = {
+                            "value": f"{build_req["name"]} {conda["spec"].strip()}"
+                          }
+                          selector = conda.get("selector", "")
+                          if selector:
+                            entry["selector"] = selector
+                          out.append(entry)
+                        return out
+                      }}#
+                    }}*
             run:
               values:
                 - value: python ${{ pkg.python.version.spec }}$
@@ -84,7 +84,7 @@ __custom_template__:
                   *{{
                     #{{
                       out = []
-                      for dep in get(".........dependency.core").values():
+                      for dep in get("..dependency.core").values():
                         conda = dep.get("conda")
                         if not conda:
                           continue
@@ -104,7 +104,7 @@ __custom_template__:
                   *{{
                     #{{
                       out = []
-                      for dep_group in get(".........dependency.optional", {}).values():
+                      for dep_group in get("..dependency.optional", {}).values():
                         for dep in dep_group.get("package", {}).values():
                           conda = dep.get("conda")
                           if not conda:
@@ -127,7 +127,7 @@ __custom_template__:
                   *{{
                     #{{
                       out = []
-                      for entry in get(".........entry.python", {}).values():
+                      for entry in get("..entry.python", {}).values():
                         conda = entry["conda"]
                         if not conda:
                           continue
@@ -140,20 +140,20 @@ __custom_template__:
                   }}*
             requires:
               values:
-                - pip
+                - value: pip
             commands:
               values:
-                - pip check
+                - value: pip check
                 - |
                   *{{
                     #{{
                       out = []
-                      for key in ("cli, "gui"):
-                        for entry in get(f".........entry.{key}", {}).values():
+                      for key in ("cli", "gui"):
+                        for entry in get(f"..entry.{key}", {}).values():
                           conda = entry["conda"]
                           if not conda:
                             continue
-                          entry = {"value": entry["name"]}
+                          entry = {"value": f"{entry["name"]} --help"}
                           if conda is not True:
                             entry["selector"] = conda
                           out.append(entry)
