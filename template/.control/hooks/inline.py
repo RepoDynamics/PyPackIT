@@ -88,9 +88,7 @@ class InlineHooks:
             conda = req.get("conda")
             if not conda:
                 continue
-            entry = {
-                "value": f"{conda["channel"]}::{conda["spec"].strip()}"
-            }
+            entry = {"value": f"{conda["channel"]}::{conda["spec"].strip()}"}
             selector = conda.get("selector", "")
             if selector:
                 entry["selector"] = selector
