@@ -190,8 +190,8 @@ file:
           ]
         }}#
       destinations:
-        - ${{ pkg.path.root }}$/LICENSES
-        - ${{ test.path.root }}$/LICENSES
+        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.licenses }}$
+        - ${{ test.path.root }}$/${{ __custom__.dir_name.licenses }}$
     copyright_texts:
       sources: |
         #{{
@@ -202,5 +202,5 @@ file:
           ]
         }}#
       destinations:
-        - ${{ pkg.path.root }}$/COPYRIGHTS
-        - ${{ test.path.root }}$/COPYRIGHTS
+        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.copyrights }}$
+        - ${{ test.path.root }}$/${{ __custom__.dir_name.copyrights }}$
