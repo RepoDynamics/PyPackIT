@@ -162,3 +162,38 @@ jobs:
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
           separate-directories: 'false'
           delete-merged: 'true'
+  hash-digest:
+    name: Hash Digest
+    needs: [ pure, native ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Source Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
+          path: sdist/
+      - name: Binary Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.config.artifact.wheel.merge.name }}
+          pattern: ${{ matrix.config.artifact.wheel.merge.pattern }}
+          path: dists/
+          merge-multiple: 'true'
+      - name: Source Distribution Digest
+        id: sdist
+        run: |
+          directory="sdist/"
+          json_output="["
+          # Find all files recursively and create hashes
+          find "$directory" -type f | while read -r file; do
+            filename=$(basename "$file")
+            md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
+            sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
+            sha256=$(openssl dgst -sha256 "$file" | awk '{print $NF}')
+            json_output="$json_output{\"filename\":\"$filename\",\"md5\":\"$md5\",\"sha1\":\"$sha1\",\"sha256\":\"$sha256\"},"
+          done
+          # Remove trailing comma and close the JSON array
+          json_output="${json_output%,}]"
+          # Output the JSON array
+          echo "Hashes: $json_output"
+          echo "hashes=$json_output" >> $GITHUB_OUTPUT
