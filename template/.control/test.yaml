@@ -21,6 +21,7 @@ test:
     # For other PyTest plugins, see:
     # - https://github.com/augustogoulart/awesome-pytest
     # - https://pytest-with-eric.com/pytest-best-practices/pytest-plugins/
+    build: ${{ pkg.dependency.build }}$
     core:
       testing:
         name: Pytest
@@ -121,3 +122,5 @@ test:
     - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
   build: ${{ __custom_template__.pyproject-build }}$
+  conda:
+    recipe: ${{ __custom_template__.conda-recipe }}$
