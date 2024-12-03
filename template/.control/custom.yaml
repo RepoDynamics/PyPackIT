@@ -1,0 +1,182 @@
+__custom__:
+  dir_name:
+    licenses: LICENSES
+    copyrights: COPYRIGHTS
+__custom_template__:
+  pyproject-build:
+    backend: setuptools.build_meta
+    tool:
+      setuptools:
+        packages:
+          find:
+            where: [ '${{ .path.source_rel }}$' ]
+            namespaces: true
+        include-package-data: true
+        license-files: [ '${{ __custom__.dir_name.licenses }}$/*', '${{ __custom__.dir_name.copyrights }}$/*' ]
+        cmdclass:
+          build_py: versioningit.cmdclass.build_py
+          sdist: versioningit.cmdclass.sdist
+      versioningit:
+        vcs:
+          method: git
+          match: [ '${{ tag.version.prefix }}$[0-9]*.[0-9]*.[0-9]*' ]
+          default-tag: ${{ tag.version.prefix }}$0.0.0
+        tag2version:
+          rmprefix: ${{ tag.version.prefix }}$
+        format:
+          distance: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}'
+          dirty: '{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty'
+          distance-dirty: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty'
+        onbuild:
+          method: replace-version
+          regex: '^__version_details__: dict\[str, str\] = (?P<version>.*)'
+          require-match: true
+          source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
+          build-file: '${{ .import_name }}$/__init__.py'
+          replacement: >-
+            {{
+            "version": "{version}",
+            "build_date": "{build_date:%Y.%m.%d}",
+            "committer_date": "{committer_date:%Y.%m.%d}",
+            "author_date": "{author_date:%Y.%m.%d}",
+            "branch": "{branch}",
+            "distance": "{distance}",
+            "commit_hash": "{revision}"
+            }}
+  conda-recipe:
+    path:
+      local: ${{ ....path.root }}$/conda-recipe/local
+      global: ${{ ....path.root }}$/conda-recipe/global
+    meta:
+      values:
+        build:
+          values:
+            script:
+              - value: { { PYTHON } } -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv
+        requirements:
+          values:
+            host:
+              values:
+                  - value: python ${{ pkg.python.version.spec }}$
+                    - value: pip
+                    - |
+                      *{{
+                        #{{
+                          out = []
+                          for build_req in get(".........dependency.build").values():
+                            conda = build_req.get("conda")
+                            if not conda:
+                              continue
+                            entry = {
+                              "value": f"{build_req["name"]} {conda["spec"].strip()}"
+                            }
+                            selector = conda.get("selector", "")
+                            if selector:
+                              entry["selector"] = selector
+                            out.append(entry)
+                          return out
+                        }}#
+                      }}*
+            run:
+              values:
+                - value: python ${{ pkg.python.version.spec }}$
+                - |
+                  *{{
+                    #{{
+                      out = []
+                      for dep in get(".........dependency.core").values():
+                        conda = dep.get("conda")
+                        if not conda:
+                          continue
+                        entry = {
+                          "value": f"{dep["name"]} {conda["spec"].strip()}"
+                        }
+                        selector = conda.get("selector", "")
+                        if selector:
+                          entry["selector"] = selector
+                        out.append(entry)
+                      return out
+                    }}#
+                  }}*
+            run_constrained:
+              values:
+                - |
+                  *{{
+                    #{{
+                      out = []
+                      for dep_group in get(".........dependency.optional", {}).values():
+                        for dep in dep_group.get("package", {}).values():
+                          conda = dep.get("conda")
+                          if not conda:
+                            continue
+                          entry = {
+                            "value": f"{dep["name"]} {conda["spec"].strip()}"
+                          }
+                          selector = conda.get("selector", "")
+                          if selector:
+                            entry["selector"] = selector
+                          out.append(entry)
+                      return out
+                    }}#
+                  }}*
+        test:
+          values:
+            imports:
+              values:
+                - |
+                  *{{
+                    #{{
+                      out = []
+                      for entry in get(".........entry.python", {}).values():
+                        conda = entry["conda"]
+                        if not conda:
+                          continue
+                        entry = {"value": entry["name"]}
+                        if conda is not True:
+                          entry["selector"] = conda
+                        out.append(entry)
+                      return out
+                    }}#
+                  }}*
+            requires:
+              values:
+                - pip
+            commands:
+              values:
+                - pip check
+                - |
+                  *{{
+                    #{{
+                      out = []
+                      for key in ("cli, "gui"):
+                        for entry in get(f".........entry.{key}", {}).values():
+                          conda = entry["conda"]
+                          if not conda:
+                            continue
+                          entry = {"value": entry["name"]}
+                          if conda is not True:
+                            entry["selector"] = conda
+                          out.append(entry)
+                      return out
+                    }}#
+                  }}*
+        about:
+          home: ${{ web.url.home }}$
+          license: ${{ license.expression }}$
+          license_file:
+            - ${{ __custom__.dir_name.licenses }}$
+            - ${{ __custom__.dir_name.copyrights }}$
+          summary: ${{ title }}$
+          dev_url: ${{ repo.url.home }}$
+          doc_url: ${{ web.url.home }}$
+          doc_source_url: ${{ document.readme.output.pkg.url }}$
+        extra:
+          recipe-maintainers: |
+            #{{
+                return [
+                  member["github"]["id"] for member in team_members_with_role_types(
+                    "ProjectManager",
+                    active_only=True,
+                  )
+                ]
+            }}#
