@@ -91,10 +91,11 @@ document:
                       "link": get("pkg.pypi.url.home"),
                     }
                     out.append(pypi)
-                  if get("pkg.conda") and get("workflow.publish.conda-forge"):
+                  publish_conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
+                  if publish_conda:
                     conda = {
                       "label": "Conda",
-                      "args": {"message": f"conda install {get("pkg.name")} -c conda-forge"},
+                      "args": {"message": f"conda install {get("pkg.name")} -c {publish_conda["index"]["channel"]}"},
                       "logo": "anaconda",
                       "logo_type": "name",
                       "logo_color": "#44A833",
@@ -1376,10 +1377,11 @@ __custom__:
                     "link": get("pkg.pypi.url.home"),
                   }
                   out.append(pypi)
-                if get("pkg.conda") and get("workflow.publish.conda-forge"):
+                conda_publish = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
+                if conda_publish:
                   conda = {
                     "label": "conda install",
-                    "args": {"message": f"{get("pkg.name")} == {version} -c conda-forge"},
+                    "args": {"message": f"{get("pkg.name")} == {version} -c {conda_publish["index"]["channel"]}"},
                     "logo": "anaconda",
                     "logo_type": "name",
                     "logo_color": "#44A833",
