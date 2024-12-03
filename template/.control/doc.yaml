@@ -294,7 +294,7 @@ document:
                       - |
                         *{{
                           #{{
-                            conda = get("pkg.conda")
+                            conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda") 
                             if not conda:
                               return []
                             badge = {
@@ -304,7 +304,7 @@ document:
                               "color": get("__custom__.badge.color.blue"),
                               "service": "conda",
                               "endpoint": "downloads",
-                              "args": {"channel": conda["channel"], "package": get("pkg.name")},
+                              "args": {"channel": conda.get("index", {}).get("channel", "conda-forge"), "package": get("pkg.name")},
                               "label": "Conda",
                               "logo": "anaconda",
                               "logo_color": "#44A833",
