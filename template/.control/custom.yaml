@@ -59,66 +59,14 @@ __custom_template__:
               values:
                   - value: python ${{ pkg.python.version.spec }}$
                   - value: pip
-                  - |
-                    *{{
-                      #{{
-                        out = []
-                        for build_req in get("..dependency.build").values():
-                          conda = build_req.get("conda")
-                          if not conda:
-                            continue
-                          entry = {
-                            "value": f"{build_req["name"]} {conda["spec"].strip()}"
-                          }
-                          selector = conda.get("selector", "")
-                          if selector:
-                            entry["selector"] = selector
-                          out.append(entry)
-                        return out
-                      }}#
-                    }}*
+                  - '*{{ #{{ return hook.conda_req("host") }}# }}*'
             run:
               values:
                 - value: python ${{ pkg.python.version.spec }}$
-                - |
-                  *{{
-                    #{{
-                      out = []
-                      for dep in get("..dependency.core").values():
-                        conda = dep.get("conda")
-                        if not conda:
-                          continue
-                        entry = {
-                          "value": f"{dep["name"]} {conda["spec"].strip()}"
-                        }
-                        selector = conda.get("selector", "")
-                        if selector:
-                          entry["selector"] = selector
-                        out.append(entry)
-                      return out
-                    }}#
-                  }}*
+                - '*{{ #{{ return hook.conda_req("run") }}# }}*'
             run_constrained:
               values:
-                - |
-                  *{{
-                    #{{
-                      out = []
-                      for dep_group in get("..dependency.optional", {}).values():
-                        for dep in dep_group.get("package", {}).values():
-                          conda = dep.get("conda")
-                          if not conda:
-                            continue
-                          entry = {
-                            "value": f"{dep["name"]} {conda["spec"].strip()}"
-                          }
-                          selector = conda.get("selector", "")
-                          if selector:
-                            entry["selector"] = selector
-                          out.append(entry)
-                      return out
-                    }}#
-                  }}*
+                - '*{{ #{{ return hook.conda_req("run_constrained") }}# }}*'
         test:
           values:
             imports:
@@ -164,8 +112,18 @@ __custom_template__:
           home: ${{ web.url.home }}$
           license: ${{ license.expression }}$
           license_file:
-            - ${{ __custom__.dir_name.licenses }}$
-            - ${{ __custom__.dir_name.copyrights }}$
+            - '{{ pkg_dir }}${{ __custom__.dir_name.licenses }}$/'
+            - |
+              *{{
+                #{{
+                  if not any(
+                    component["path"].get("header_plain")
+                    for component in get("license.component", {}).values()
+                  ):
+                    return []
+                  return ['{{ pkg_dir }}${{ __custom__.dir_name.copyrights }}$/']
+                }}#
+              }}*
           summary: ${{ title }}$
           dev_url: ${{ repo.url.home }}$
           doc_url: ${{ web.url.home }}$
