@@ -11,6 +11,12 @@ on:
         description: Configuration as a JSON string.
         type: string
         required: true
+    outputs:
+      hashes:
+        description: |
+          Hash values of the generated build distributions.
+          This is a JSON string representing an array of objects.
+        value: ${{ jobs.hash-digest.outputs.hashes }}
 jobs:
   pure:
     name: ${{ fromJSON(inputs.config).pkg.python.pure && 'Pure Python' || 'Source Distribution' }}
@@ -171,10 +177,8 @@ jobs:
           channels: ${{ fromJSON(inputs.config).conda-channels }}
           auto-activate-base: true
           activate-environment: ""
-          auto-update-conda: true
           miniconda-version: latest
-          conda-version: latest
-          conda-build-version: latest
+          conda-build-version: '>=24.11'
       - name: Environment Setup
         run: |
           mkdir dist
@@ -191,15 +195,15 @@ jobs:
         id: version
         env:
           PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
-        run:
+        run: |
           VERSION=$(versioningit $PKG_PATH --verbose)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Build
         env:
           PKG_FULL_VERSION: ${{ steps.version.outputs.version }}
         run: >-
-          conda build ${{ fromJSON(inputs.config).conda-recipe-path }}$
-          --python ${{ matrix.task.python }}$
+          conda build repo/${{ fromJSON(inputs.config).conda-recipe-path }}
+          --python ${{ matrix.task.python }}
           --package-format conda
           --output-folder dist
           --stats-file dist/build-stats.json
@@ -211,17 +215,18 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./dist
-          name: ${{ matrix.task.artifact.conda.name }}
-          include-hidden-files: ${{ matrix.task.artifact.conda.include-hidden }}
-          retention-days: ${{ matrix.task.artifact.conda.retention-days }}
+          name: ${{ matrix.task.artifact.name }}
+          include-hidden-files: ${{ matrix.task.artifact.include-hidden }}
+          retention-days: ${{ matrix.task.artifact.retention-days }}
   wheel-merge:
     name: Artifact Merge
-    if: ${{ !cancelled() && fromJSON(inputs.config).artifact.wheel.merge }}
-    needs: [ pure, native ]
+    if: ${{ !cancelled() }}
+    needs: [ pure, native, conda ]
     runs-on: ubuntu-latest
     steps:
       - name: Wheels
         uses: actions/upload-artifact/merge@v4
+        if: ${{ fromJSON(inputs.config).artifact.wheel.merge }}
         with:
           name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.wheel.merge.pattern }}
@@ -231,6 +236,7 @@ jobs:
           delete-merged: 'true'
       - name: Conda Dists
         uses: actions/upload-artifact/merge@v4
+        if: ${{ !cancelled() && fromJSON(inputs.config).artifact.conda.merge }}
         with:
           name: ${{ fromJSON(inputs.config).artifact.conda.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.conda.merge.pattern }}
@@ -240,36 +246,47 @@ jobs:
           delete-merged: 'true'
   hash-digest:
     name: Hash Digest
-    needs: [ pure, native ]
+    if: ${{ !cancelled() }}
+    needs: [ wheel-merge ]
     runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - name: Source Distribution Download
         uses: actions/download-artifact@v4
         with:
           name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
-          path: sdist/
+          path: dists/sdist
       - name: Binary Distribution Download
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.config.artifact.wheel.merge.name }}
-          pattern: ${{ matrix.config.artifact.wheel.merge.pattern }}
-          path: dists/
+          name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
+          pattern: ${{ fromJSON(inputs.config).artifact.wheel.merge.pattern }}
+          path: dists/wheels
           merge-multiple: 'true'
-      - name: Source Distribution Digest
-        id: sdist
+      - name: Conda Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.conda.merge.name }}
+          pattern: ${{ fromJSON(inputs.config).artifact.conda.merge.pattern }}
+          path: dists/conda
+          merge-multiple: 'true'
+      - name: File Overview
+        run: tree
+      - name: Hash Generation
+        id: hash
         run: |
-          directory="sdist/"
-          json_output="["
-          # Find all files recursively and create hashes
-          find "$directory" -type f | while read -r file; do
-            filename=$(basename "$file")
-            md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
-            sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
-            sha256=$(openssl dgst -sha256 "$file" | awk '{print $NF}')
-            json_output="$json_output{\"filename\":\"$filename\",\"md5\":\"$md5\",\"sha1\":\"$sha1\",\"sha256\":\"$sha256\"},"
-          done
+          directory="dists"
+          hashes="["
+          while IFS= read -r -d '' file; do
+              filename=$(basename "$file")
+              md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
+              sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
+              sha256=$(openssl dgst -sha256 "$file" | awk '{print $NF}')
+              hashes="$hashes{\"filename\":\"$filename\",\"md5\":\"$md5\",\"sha1\":\"$sha1\",\"sha256\":\"$sha256\"},"
+          done < <(find "$directory" -type f \( -name "*.tar.gz" -o -name "*.whl" -o -name "*.conda" \) -print0)
           # Remove trailing comma and close the JSON array
-          json_output="${json_output%,}]"
+          hashes="${hashes%,}]"
           # Output the JSON array
-          echo "Hashes: $json_output"
-          echo "hashes=$json_output" >> $GITHUB_OUTPUT
+          echo "Hashes: $hashes"
+          echo "hashes=$hashes" >> $GITHUB_OUTPUT
