@@ -181,6 +181,15 @@ jobs:
     uses: ./.github/workflows/_publish.yaml
     with:
       config: ${{ toJSON(fromJSON(needs.main.outputs.publish-testpypi).job) }}
+  publish-anaconda:
+    name: ${{ fromJSON(needs.main.outputs.publish-anaconda).name }}
+    needs: [ main, web, lint, test, build ]
+    if: fromJSON(needs.main.outputs.publish-anaconda)
+    uses: ./.github/workflows/_publish_anaconda.yaml
+    secrets:
+      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+    with:
+      config: ${{ toJSON(fromJSON(needs.main.outputs.publish-anaconda).job) }}
   publish-pypi:
     name: ${{ fromJSON(needs.main.outputs.publish-pypi).name }}
     needs: [ main, publish-testpypi ]
