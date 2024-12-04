@@ -28,9 +28,9 @@ test:
         import_name: pytest
         description: Testing framework for Python.
         pip:
-          spec: pytest == 8.3.3
+          spec: pytest ==8.3.3
         conda:
-          spec: pytest = 8.3.3
+          spec: ${{ ..pip.spec }}$
           channel: conda-forge
         url:
           docs: https://docs.pytest.org/en/stable/
@@ -45,9 +45,9 @@ test:
           This is indirectly used by the `pytest-cov` plugin.
           However, we include it explicitly here to pin the version for reproducibility.
         pip:
-          spec: coverage == 7.6.1
+          spec: coverage ==7.6.1
         conda:
-          spec: coverage = 7.6.1
+          spec: ${{ ..pip.spec }}$
           channel: conda-forge
         url:
           docs: https://coverage.readthedocs.io/
@@ -62,9 +62,9 @@ test:
           This plugin uses the [coverage.py](https://github.com/nedbat/coveragepy) package
           to measure code coverage.
         pip:
-          spec: pytest-cov == 5.0.0
+          spec: pytest-cov ==5.0.0
         conda:
-          spec: pytest-cov = 5.0.0
+          spec: ${{ ..pip.spec }}$
           channel: conda-forge
         url:
           docs: https://pytest-cov.readthedocs.io/
@@ -76,9 +76,9 @@ test:
         import_name: pytest_html
         description: Pytest plugin for generating HTML reports.
         pip:
-          spec: pytest-html == 4.1.1
+          spec: pytest-html ==4.1.1
         conda:
-          spec: pytest-html = 4.1.1
+          spec: ${{ ..pip.spec }}$
           channel: conda-forge
         url:
           docs: https://pytest-html.readthedocs.io/
@@ -93,6 +93,9 @@ test:
           distributed with the package.
         pip:
           spec: pkgdata
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: repodynamics
         url:
           docs: https://pkgdata.repodynamics.com/
           source: https://github.com/repodynamics/pkgdata
