@@ -1,0 +1,105 @@
+name: '[Reusable]: Anaconda Publish'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+    secrets:
+      anaconda-token:
+        description: Anaconda token for uploading to anaconda.org.
+        required: true
+jobs:
+  publish:
+    name: ${{ matrix.config.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(inputs.config).publish }}
+    environment:
+      name: ${{ matrix.config.env.name }}
+      url: ${{ matrix.config.env.url }}
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+          miniconda-version: latest
+      - name: Environment Setup
+        run: |
+          echo "::group::Requirements Installation"
+          conda install anaconda-client
+          echo "::endgroup::"
+          echo "::group::Environment Overview"
+          conda list
+          echo "::endgroup::"
+          echo "::group::Conda Info"
+          conda info
+          echo "::endgroup::"
+      - name: Distribution Download
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.config.artifact.conda.merge.name }}
+          pattern: ${{ matrix.config.artifact.conda.merge.pattern }}
+          path: dists
+          merge-multiple: 'true'
+      - name: Publish
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.anaconda-token }}
+        run: |
+          directory="dists"
+          hashes="["
+          while IFS= read -r -d '' file; do
+            anaconda upload $filepath --user ${{ matrix.config.user }} --label test --force
+            filename=$(basename "$file")
+            md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
+            sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
+            sha256=$(openssl dgst -sha256 "$file" | awk '{print $NF}')
+            hashes="$hashes{\"filename\":\"$filename\",\"md5\":\"$md5\",\"sha1\":\"$sha1\",\"sha256\":\"$sha256\"},"
+          done < <(find "$directory" -type f -name "*.conda" -print0)
+          # Remove trailing comma and close the JSON array
+          hashes="${hashes%,}]"
+          echo "Hashes: $hashes"
+          echo "hashes=$hashes" >> $GITHUB_OUTPUT
+  finalize:
+    name: Finalization
+    needs: [ publish ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+          miniconda-version: latest
+      - name: Environment Setup
+        run: |
+          echo "::group::Requirements Installation"
+          conda install anaconda-client
+          echo "::endgroup::"
+          echo "::group::Environment Overview"
+          conda list
+          echo "::endgroup::"
+          echo "::group::Conda Info"
+          conda info
+          echo "::endgroup::"
+      - name: Relabel
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.anaconda-token }}
+          PACKAGES: ${{ fromJSON(inputs.config).finalize }}
+        run: |
+          echo "$PACKAGES" | jq -c '.[]' | while read -r obj; do
+            label=$(echo "$obj" | jq -r '.label')
+            spec=$(echo "$obj" | jq -r '.spec')
+            anaconda move $spec --from-label test --to-label $label
+          done
