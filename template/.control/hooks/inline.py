@@ -48,6 +48,15 @@ class InlineHooks:
         self.changelog(get_metadata=get_metadata)
         return self
 
+    def binder_dependencies(self) -> dict:
+        """Create environment dependencies for binder."""
+        out = {}
+        for deps in (self.get("pkg.dependency", {}), self.get("test.dependency", {})):
+            out.update(deps.get("core", {}))
+            for dep_group in deps.get("optional", {}).values():
+                out.update(dep_group["package"])
+        return out
+
     def commit_labels(self) -> dict:
         """Create labels for `$.label.commit.label`."""
         out = {}
