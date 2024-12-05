@@ -75,6 +75,9 @@ on:
       publish-pypi:
         value: ${{ jobs.manager.outputs.publish-pypi }}
         description: Configurations for publish-pypi job.
+      publish-anaconda:
+        value: ${{ jobs.manager.outputs.publish-anaconda }}
+        description: Configurations for publish-anaconda job.
       release:
         value: ${{ jobs.manager.outputs.release }}
         description: Configurations for release job.
@@ -94,6 +97,7 @@ jobs:
       build: ${{ steps.proman.outputs.build }}
       publish-testpypi: ${{ steps.proman.outputs.publish-testpypi }}
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
+      publish-anaconda: ${{ steps.proman.outputs.publish-anaconda }}
       release: ${{ steps.proman.outputs.release }}
     steps:
       - name: RepoDynamics ProMan
