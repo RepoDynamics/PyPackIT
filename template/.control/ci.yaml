@@ -354,11 +354,11 @@ tool:
   binder:
     env:
       dependency: '#{{ return hook.binder_dependencies() }}#'
-    file:
-      conda:
-        name: '#{{ return slugify(get("name")) }}#'
-        python: '=#{{ return get("pkg.python.version.minors")[0] }}#'
-        path: .binder/environment.yml  # repo2docker only recognizes `environment.yml` for conda
+      file:
+        conda:
+          name: '#{{ return slugify(get("name")) }}#'
+          python: '=#{{ return get("pkg.python.version.minors")[0] }}#'
+          path: .binder/environment.yml  # repo2docker only recognizes `environment.yml` for conda
   ruff:
     config:
       file:
