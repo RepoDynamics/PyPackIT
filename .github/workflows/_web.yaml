@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
           path: repo
       - name: Environment Setup
-        uses: mamba-org/setup-micromamba@v1  # https://github.com/mamba-org/setup-micromamba
+        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
         with:
           environment-file: repo/${{ fromJSON(inputs.config).path-env }}
           cache-environment: true
