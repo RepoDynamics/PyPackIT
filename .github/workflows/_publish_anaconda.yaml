@@ -57,7 +57,7 @@ jobs:
           directory="dists"
           hashes="["
           while IFS= read -r -d '' file; do
-            anaconda upload $filepath --user ${{ matrix.config.user }} --label test --force
+            anaconda upload $file --user ${{ matrix.config.user }} --label test --force
             filename=$(basename "$file")
             md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
             sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
@@ -96,7 +96,7 @@ jobs:
       - name: Relabel
         env:
           ANACONDA_API_TOKEN: ${{ secrets.anaconda-token }}
-          PACKAGES: ${{ fromJSON(inputs.config).finalize }}
+          PACKAGES: ${{ toJSON(fromJSON(inputs.config).finalize) }}
         run: |
           echo "$PACKAGES" | jq -c '.[]' | while read -r obj; do
             label=$(echo "$obj" | jq -r '.label')
