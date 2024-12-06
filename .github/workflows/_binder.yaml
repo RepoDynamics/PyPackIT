@@ -65,7 +65,7 @@ jobs:
         id: docker
         uses: RepoDynamics/BinderDocker@v0.1
         with:
-          image-tags: ${{ fromJSON(inputs.config).image-tags }}${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || "" }}
+          image-tags: ${{ fromJSON(inputs.config).image-tags }}${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || '' }}
           git-path: repo
           git-ref: ${{ fromJSON(inputs.config).ref }}
           cache-image-names: ${{ fromJSON(inputs.config).cache-image-names }}
