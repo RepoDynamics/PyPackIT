@@ -57,7 +57,7 @@ jobs:
           directory="dists"
           hashes="["
           while IFS= read -r -d '' file; do
-            anaconda upload $file --user ${{ matrix.config.user }} --label test --force
+            anaconda upload "$file" --user ${{ matrix.config.user }} --label test --force
             filename=$(basename "$file")
             md5=$(openssl dgst -md5 "$file" | awk '{print $NF}')
             sha1=$(openssl dgst -sha1 "$file" | awk '{print $NF}')
