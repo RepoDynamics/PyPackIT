@@ -69,6 +69,9 @@ on:
       build:
         value: ${{ jobs.manager.outputs.build }}
         description: Configurations for build job.
+      docker:
+        value: ${{ jobs.manager.outputs.docker }}
+        description: Configurations for docker job.
       publish-testpypi:
         value: ${{ jobs.manager.outputs.publish-testpypi }}
         description: Configurations for publish-testpypi job.
@@ -95,6 +98,7 @@ jobs:
       lint: ${{ steps.proman.outputs.lint }}
       test: ${{ steps.proman.outputs.test }}
       build: ${{ steps.proman.outputs.build }}
+      docker: ${{ steps.proman.outputs.docker }}
       publish-testpypi: ${{ steps.proman.outputs.publish-testpypi }}
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
       publish-anaconda: ${{ steps.proman.outputs.publish-anaconda }}
