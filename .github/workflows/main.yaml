@@ -172,15 +172,15 @@ jobs:
     uses: ./.github/workflows/_build.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
-  docker:
+  binder:
     name: ${{ matrix.config.name }}
     needs: [main, web, lint, test, build]
-    if: fromJSON(needs.main.outputs.docker)
+    if: fromJSON(needs.main.outputs.binder)
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.main.outputs.docker) }}
-    uses: ./.github/workflows/_docker.yaml
+        config: ${{ fromJSON(needs.main.outputs.binder) }}
+    uses: ./.github/workflows/_binder.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
   publish-testpypi:
