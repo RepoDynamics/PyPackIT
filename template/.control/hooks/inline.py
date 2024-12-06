@@ -52,10 +52,10 @@ class InlineHooks:
         """Create environment dependencies for binder."""
         out = {}
         for pkg_typ in ("pkg", "test"):
-            for deps in self.get(f"{pkg_typ}.dependency", {}):
-                out.update(deps.get("core", {}))
-                for dep_group in deps.get("optional", {}).values():
-                    out.update(dep_group["package"])
+            deps = self.get(f"{pkg_typ}.dependency", {})
+            out.update(deps.get("core", {}))
+            for dep_group in deps.get("optional", {}).values():
+                out.update(dep_group["package"])
         env_path = self.get(".file.conda.path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         for pkg_typ in ("pkg", "test"):
