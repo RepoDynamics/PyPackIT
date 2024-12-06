@@ -51,10 +51,23 @@ class InlineHooks:
     def binder_dependencies(self) -> dict:
         """Create environment dependencies for binder."""
         out = {}
-        for deps in (self.get("pkg.dependency", {}), self.get("test.dependency", {})):
-            out.update(deps.get("core", {}))
-            for dep_group in deps.get("optional", {}).values():
-                out.update(dep_group["package"])
+        for pkg_typ in ("pkg", "test"):
+            for deps in self.get(f"{pkg_typ}.dependency", {}):
+                out.update(deps.get("core", {}))
+                for dep_group in deps.get("optional", {}).values():
+                    out.update(dep_group["package"])
+        env_path = self.get(".file.conda.path")
+        dir_depth = len(env_path.removesuffix("/").split("/")) - 1
+        for pkg_typ in ("pkg", "test"):
+            name = self.get(f"{pkg_typ}.name")
+            import_name = self.get(f"{pkg_typ}.import_name")
+            pkg_path = self.get(f"{pkg_typ}.path.root")
+            if not import_name:
+                continue
+            out[name] = {
+                "import_name": import_name,
+                "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"}
+            }
         return out
 
     def commit_labels(self) -> dict:
