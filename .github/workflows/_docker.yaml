@@ -1,0 +1,40 @@
+name: '[Reusable]: GitHub Container Release'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+
+jobs:
+  repo2docker:
+    name: ${{ fromJSON(inputs.config).name }}
+    runs-on: ubuntu-latest
+    environment: ${{ fromJSON(inputs.config).env }}
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-depth: 0
+          path: repo
+      - name: SHA Check
+        id: check
+        run: |
+          cd repo
+          echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Docker
+        uses: aariam/repo2docker-action@master
+        with:
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_REGISTRY: ghcr.io
+          IMAGE_NAME: ${{ github.repository }}
+          IMAGE_SHA: ${{ steps.check.outputs.commit_hash }}
+          LATEST_TAG_OFF: ${{ fromJSON(inputs.config).latest-tag-off }}
+          ADDITIONAL_TAG: ${{ fromJSON(inputs.config).tags }}
+          NO_PUSH: ${{ fromJSON(inputs.config).no-push }}
+          REPO2DOCKER_EXTRA_ARGS: ${{ fromJSON(inputs.config).args }}
+          PUBLIC_REGISTRY_CHECK: True
