@@ -1,0 +1,90 @@
+name: '[Reusable]: GitHub Container Build and Release'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+
+jobs:
+  mybinder:
+    name: mybinder.org
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger
+        run: |
+          URL="https://mybinder.org/build/gh/${{ github.repository }}/${{ fromJSON(inputs.config).ref }}"
+          echo "URL: $URL"
+          
+          echo "::group::API Request"
+          curl -L --connect-timeout 20 --max-time 900 "${URL}"
+          curl_return=$?
+          echo "::endgroup::"
+          
+          if [ "${curl_return}" -eq 0 ]; then
+              echo "Image has been successfully built on mybinder.org."
+          elif [ "${curl_return}" -eq 28 ]; then
+              echo "Triggered new image build."
+          else
+              echo "::error title=mybinder.org::Could not trigger new build; curl exit code $curl_return"
+              exit 1
+          fi
+  repo2docker:
+    name: ${{ fromJSON(inputs.config).name }}
+    runs-on: ubuntu-latest
+    environment: ${{ fromJSON(inputs.config).env }}
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-depth: 0
+          path: repo
+      - name: SHA Check
+        id: sha
+        run: |
+          cd repo
+          SHA=$(git rev-parse HEAD)
+          echo "Full Commit SHA: $SHA"
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+      - name: Environment Setup
+        if: ${{ fromJSON(inputs.config).path-dockerfile }}
+        env:
+          CONFIG_PATH: ${{ fromJSON(inputs.config).path-config }}
+          DOCKERFILE_PATH: ${{ fromJSON(inputs.config).path-dockerfile }}
+        run: |
+          if [ -d "DOCKERFILE_PATH" ]; then
+            rm -rf "repo/$DOCKERFILE_PATH"
+          fi
+          mv "repo/$CONFIG_PATH" "repo/$DOCKERFILE_PATH"
+      - name: File Overview
+        run: tree repo
+      - name: Containerization
+        id: docker
+        uses: RepoDynamics/BinderDocker@v0.1
+        with:
+          image-tags: ${{ fromJSON(inputs.config).image-tags }}${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || "" }}
+          git-path: repo
+          git-ref: ${{ fromJSON(inputs.config).ref }}
+          cache-image-names: ${{ fromJSON(inputs.config).cache-image-names }}
+          repo2docker-args: ${{ fromJSON(inputs.config).repo2docker-args }}
+          dockerfile-append: ${{ fromJSON(inputs.config).dockerfile-append }}
+          test-script: ${{ fromJSON(inputs.config).test-script }}
+          push: ${{ fromJSON(inputs.config).push }}
+          check-public: True
+      - name: Dockerfile Generation
+        if: fromJSON(inputs.config).tag-sha && fromJSON(inputs.config).push
+        run: |
+          cat <<EOF > Dockerfile
+          FROM ${{ steps.docker.outputs.image-base-name }}:${{ steps.sha.outputs.sha }}
+          EOF
+      - name: Dockerfile Upload
+        if: fromJSON(inputs.config).tag-sha && fromJSON(inputs.config).push
+        uses: actions/upload-artifact@v4
+        with:
+          path: Dockerfile
+          name: ${{ fromJSON(inputs.config).artifact.dockerfile.name }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.dockerfile.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.dockerfile.retention-days }}
