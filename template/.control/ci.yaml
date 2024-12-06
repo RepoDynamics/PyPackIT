@@ -358,7 +358,7 @@ tool:
         conda:
           name: '#{{ return slugify(get("name")) }}#'
           python: '=#{{ return get("pkg.python.version.minors")[0] }}#'
-          path: .binder/environment.yml  # repo2docker only recognizes `environment.yml` for conda
+          path: ${{ workflow.binder.path.config }}$/environment.yml  # repo2docker only recognizes `environment.yml` for conda
   ruff:
     config:
       file:
@@ -493,6 +493,12 @@ tool:
             mccabe:
               max-complexity: 15
 workflow:
+  binder:
+    path:
+      config: .docker
+      dockerfile: .binder
+    image:
+      test_script: '${{ test.entry.cli.main.name }}$'
   publish:
     anaconda:
       name: Publish (Anaconda)
