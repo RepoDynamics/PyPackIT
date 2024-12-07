@@ -103,6 +103,16 @@ document:
                       "link": get("pkg.conda.url.home"),
                     }
                     out.append(conda)
+                  docker = {
+                      "label": "docker pull",
+                      "args": {"message": get("repo.name")},
+                      "logo": "docker",
+                      "logo_type": "name",
+                      "color": "#2496ED",
+                      "logo_color": "#2496ED",
+                      "link": get("repo.url.releases.home"),
+                    }
+                  out.append(docker)
                   if get("workflow.publish.github"):
                     github = {
                       "label": "GitHub",
