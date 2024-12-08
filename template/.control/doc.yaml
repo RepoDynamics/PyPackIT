@@ -159,7 +159,7 @@ document:
               return "Latest Release"
             }}#
           body: ${{ __custom__.changelog.body }}$
-          section: ${{ __custom__.changelog.section }}$
+          sections: ${{ __custom__.changelog.sections }}$
         - heading: Statistics
           body:
             - class: table
