@@ -7,30 +7,11 @@ on:
         type: string
         required: true
         description: Configuration as a JSON string.
-
+    secrets:
+      container-registry-token:
+        description: Token for the docker container registry.
+        required: false
 jobs:
-  mybinder:
-    name: mybinder.org
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger
-        run: |
-          URL="https://mybinder.org/build/gh/${{ github.repository }}/${{ fromJSON(inputs.config).ref }}"
-          echo "URL: $URL"
-          
-          echo "::group::API Request"
-          curl -L --connect-timeout 20 --max-time 900 "${URL}"
-          curl_return=$?
-          echo "::endgroup::"
-          
-          if [ "${curl_return}" -eq 0 ]; then
-              echo "Image has been successfully built on mybinder.org."
-          elif [ "${curl_return}" -eq 28 ]; then
-              echo "Triggered new image build."
-          else
-              echo "::error title=mybinder.org::Could not trigger new build; curl exit code $curl_return"
-              exit 1
-          fi
   repo2docker:
     name: ${{ fromJSON(inputs.config).name }}
     runs-on: ubuntu-latest
@@ -40,8 +21,6 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-    env:
-      DOCKER_CONFIG: $HOME/.docker  # https://github.com/docker/login-action/issues/147
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v4
@@ -68,18 +47,14 @@ jobs:
           mv "repo/$CONFIG_PATH" "repo/$DOCKERFILE_PATH"
       - name: File Overview
         run: tree -a repo
-      # https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds
-      - name: Registry Login
-        uses: docker/login-action@v3  # https://github.com/docker/login-action
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ github.token }}
       # https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#upgrading-a-workflow-that-accesses-ghcrio
       - name: Build and Deploy
         id: docker
         uses: RepoDynamics/BinderDocker@v0.1
         with:
+          docker_registry: ${{ fromJSON(inputs.config).registry }}
+          docker_username: ${{ fromJSON(inputs.config).username }}
+          docker_password: ${{ secrets.container-registry-token || github.token }}
           image_name: ${{ fromJSON(inputs.config).image-name }}
           image_tags: ${{ fromJSON(inputs.config).image-tags }}${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || '' }}
           git_path: repo
@@ -90,6 +65,15 @@ jobs:
           dockerfile_append: ${{ fromJSON(inputs.config).dockerfile-append }}
           test_script: ${{ fromJSON(inputs.config).test-script }}
           push: ${{ fromJSON(inputs.config).push }}
+          verify_public: 'error'
+      # https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds
+      - name: Registry Login
+        uses: docker/login-action@v3  # https://github.com/docker/login-action
+        with:
+          registry: ${{ fromJSON(inputs.config).registry }}
+          username: ${{ fromJSON(inputs.config).username }}
+          password: ${{ secrets.container-registry-token || github.token }}
+          logout: 'false'
       # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-docker-images#publishing-images-to-github-packages
       - name: Attestation
         if: fromJSON(inputs.config).push
@@ -100,21 +84,6 @@ jobs:
           subject-digest: ${{ steps.docker.outputs.image_digest }}
           push-to-registry: 'true'
           show-summary: 'true'
-      - name: Validation
-        if: fromJSON(inputs.config).push
-        run: |
-          docker logout
-          image_names_str="${{ steps.docker.outputs.image_names }}"
-          IFS=' ' read -r -a image_names <<< "$image_names_str"
-          for image_name in "${image_names[@]}"; do
-              echo "::group::Public Status Validation: ${image_name}"
-              if docker pull "${image_name}"; then
-                  echo "✅ ${image_name} is publicly visible."
-              else
-                  echo "::warning title=BinderDocker::Pushed image '${image_name}' is not publicly visible."
-              fi
-              echo "::endgroup::"
-          done
       - name: Dockerfile Generation
         if: fromJSON(inputs.config).tag-sha && fromJSON(inputs.config).push
         run: |
@@ -129,3 +98,26 @@ jobs:
           name: ${{ fromJSON(inputs.config).artifact.dockerfile.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.dockerfile.include-hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.dockerfile.retention-days }}
+  mybinder:
+    name: mybinder.org
+    needs: repo2docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Trigger
+        run: |
+          URL="https://mybinder.org/build/gh/${{ github.repository }}/${{ fromJSON(inputs.config).ref }}"
+          echo "URL: $URL"
+
+          echo "::group::API Request"
+          curl -L --connect-timeout 20 --max-time 900 "${URL}"
+          curl_return=$?
+          echo "::endgroup::"
+
+          if [ "${curl_return}" -eq 0 ]; then
+              echo "Image has been successfully built on mybinder.org."
+          elif [ "${curl_return}" -eq 28 ]; then
+              echo "Triggered new image build."
+          else
+              echo "::error title=mybinder.org::Could not trigger new build; curl exit code $curl_return"
+              exit 1
+          fi
