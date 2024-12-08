@@ -186,6 +186,8 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+    secrets:
+      container-registry-token: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
     with:
       config: ${{ toJSON(matrix.config.job) }}
   publish-testpypi:
