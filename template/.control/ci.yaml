@@ -562,6 +562,20 @@ workflow:
           files:
             - pattern: '^[^/]+ - wheels/[^/]+\.whl$'
               artifact: true
+        conda:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-conda.zip
+          label: Conda Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - conda/.+\.conda$'
+              artifact: true
+        dockerfile:
+          name: Dockerfile
+          label: Dockerfile
+          files:
+            - source: ${{ workflow.binder.path.dockerfile }}$/Dockerfile
+          media_type: text/plain
         docs:
           name: >-
             #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip
