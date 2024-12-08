@@ -41,7 +41,7 @@ jobs:
           CONFIG_PATH: ${{ fromJSON(inputs.config).path-config }}
           DOCKERFILE_PATH: ${{ fromJSON(inputs.config).path-dockerfile }}
         run: |
-          if [ -d "$DOCKERFILE_PATH" ]; then
+          if [ -d "repo/$DOCKERFILE_PATH" ]; then
             rm -rf "repo/$DOCKERFILE_PATH"
           fi
           mv "repo/$CONFIG_PATH" "repo/$DOCKERFILE_PATH"
