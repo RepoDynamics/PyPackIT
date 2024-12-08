@@ -5,11 +5,11 @@ This section describes the installation steps that are common to both
 [new](#install-new) and [existing](#install-existing) repositories.
 Follow these steps when you are asked to do so in the respective installation guides:
 
-1. [Add a Personal Access Token (PAT) to the repository](#install-pat).
+1. [Add a GitHub Personal Access Token (PAT) to the repository](#install-pat).
 2. [Activate trusted publishing (OIDC) for PyPI and TestPyPI](#install-pypi).
-3. [Create a Codecov account and install the Codecov GitHub app](#install-codecov).
+3. [Add an Anaconda token to the repository](#install-anaconda)
 4. [Add a Zenodo token to the repository](#install-zenodo).
-
+5. [Create a Codecov account and install the Codecov GitHub app](#install-codecov).
 
 (install-pat)=
 ## GitHub PAT
@@ -107,13 +107,23 @@ your respective accounts:
    only this time under the ***Environment name*** field enter `TestPyPI` instead of `PyPI`.
 
 
-(install-codecov)=
-## CodeCov Account
+(install-anaconda)=
+## Anaconda Token
 
-1. Create an account on [CodeCov](https://codecov.io/) using your GitHub account.
-2. Install the Codecov GitHub app either by clicking on the ***Configure Codecov's GitHub app*** link
-   on the Codecov website, or directly from the [app page](https://github.com/apps/codecov).
-   You can choose to install it for all your repositories or only for the current repository.
+1. [Create an account on Anaconda](https://anaconda.org/account/register)
+   or [log in to your existing account](https://anaconda.org/account/login).
+2. In the [Settings](https://anaconda.org/aariam/settings/profile) page of your account,
+   click on [Access](https://anaconda.org/aariam/settings/access) under the left panel.
+3. In the ***Token Name*** field, enter a name (for your own reference) for the token.
+4. From the ***Scopes*** section, select ***Allow all operations***.
+5. Choose an expiration date under ***Expiration date***.
+   Note that you have to repeat these steps to replace the token after it expires.
+6. Click on the {bdg-success}`Create` button and copy the displayed token to your clipboard.
+7. Go to [Settings > Security > Secrets and variables > Actions > Secrets > New repository secret](){.user-link-repo-settings-secrets-actions-new}
+   in your repository.
+8. In the ***Name*** field, enter `ANACONDA_TOKEN`,
+   paste the token you copied in step 6 into the ***Secret*** field,
+   and click on the {bdg-success}`Add secret` button.
 
 
 (install-zenodo)=
@@ -149,3 +159,13 @@ that does not define an ID.
 :::
 
 <!-- (https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content) -->
+
+
+(install-codecov)=
+## CodeCov Account
+
+1. Create an account on [CodeCov](https://codecov.io/) using your GitHub account.
+2. Install the Codecov GitHub app either by clicking on the ***Configure Codecov's GitHub app*** link
+   on the Codecov website, or directly from the [app page](https://github.com/apps/codecov).
+   You can choose to install it for all your repositories or only for the current repository.
+
