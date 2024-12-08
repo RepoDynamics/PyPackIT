@@ -544,7 +544,7 @@ workflow:
       release:
         body:
           body: ${{ __custom__.changelog.body }}$
-          section: ${{ __custom__.changelog.section }}$
+          sections: ${{ __custom__.changelog.sections }}$
       asset:
         sdist:
           name: >-
