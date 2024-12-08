@@ -56,7 +56,7 @@ jobs:
           docker_username: ${{ fromJSON(inputs.config).username }}
           docker_password: ${{ secrets.container-registry-token || github.token }}
           image_name: ${{ fromJSON(inputs.config).image-name }}
-          image_tags: ${{ fromJSON(inputs.config).image-tags }}${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || '' }}
+          image_tags: ${{ fromJSON(inputs.config).image-tags }} ${{ (fromJSON(inputs.config).tag-sha && steps.sha.outputs.sha) || '' }}
           git_path: repo
           git_ref: ${{ fromJSON(inputs.config).ref }}
           cache_image_names: ${{ fromJSON(inputs.config).cache-image-names }}
@@ -76,7 +76,7 @@ jobs:
           logout: 'false'
       # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-docker-images#publishing-images-to-github-packages
       - name: Attestation
-        if: fromJSON(inputs.config).push
+        if: fromJSON(inputs.config).attest
         id: attest
         uses: actions/attest-build-provenance@v2  # https://github.com/actions/attest-build-provenance
         with:
