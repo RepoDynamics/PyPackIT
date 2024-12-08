@@ -82,8 +82,8 @@ document:
                     out.append(zenodo)
                   if get("pkg.pypi.publishable") and get("workflow.publish.pypi"):
                     pypi = {
-                      "label": "PyPI",
-                      "args": {"message": f"pip install {get("pkg.name")}"},
+                      "label": "pip install ",
+                      "args": {"message": get("pkg.name").lower()},
                       "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                       "logo_type": "file",
                       "logo_media_type": "png",
@@ -94,8 +94,8 @@ document:
                   publish_conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
                   if publish_conda:
                     conda = {
-                      "label": "Conda",
-                      "args": {"message": f"conda install {get("pkg.name")} -c {publish_conda["index"]["channel"]}"},
+                      "label": "conda install",
+                      "args": {"message": f"{get("pkg.name").lower()} -c {publish_conda["index"]["channel"].lower()}"},
                       "logo": "anaconda",
                       "logo_type": "name",
                       "logo_color": "#44A833",
@@ -103,16 +103,19 @@ document:
                       "link": get("pkg.conda.url.home"),
                     }
                     out.append(conda)
-                  docker = {
-                      "label": "docker pull",
-                      "args": {"message": get("repo.name")},
-                      "logo": "docker",
-                      "logo_type": "name",
-                      "color": "#2496ED",
-                      "logo_color": "#2496ED",
-                      "link": get("repo.url.releases.home"),
-                    }
-                  out.append(docker)
+                  publish_docker = get("workflow.binder")
+                  if publish_docker:
+                    index = publish_docker["index"]
+                    docker = {
+                        "label": "docker pull",
+                        "args": {"message": f"{index["registry"]}/{index["namespace"]}/{index["name"]}:latest".lower()},
+                        "logo": "docker",
+                        "logo_type": "name",
+                        "color": "#2496ED",
+                        "logo_color": "#2496ED",
+                        "link": index["url"]["home"],
+                      }
+                    out.append(docker)
                   if get("workflow.publish.github"):
                     github = {
                       "label": "GitHub",
@@ -315,7 +318,7 @@ document:
                               "color": get("__custom__.badge.color.blue"),
                               "service": "conda",
                               "endpoint": "downloads",
-                              "args": {"channel": conda.get("index", {}).get("channel", "conda-forge"), "package": get("pkg.name")},
+                              "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pkg.name").lower()},
                               "label": "Conda",
                               "logo": "anaconda",
                               "logo_color": "#44A833",
@@ -1399,6 +1402,19 @@ __custom__:
                     "link": get("pkg.conda.url.home"),
                   }
                   out.append(conda)
+                publish_docker = get("workflow.binder")
+                if publish_docker:
+                  index = publish_docker["index"]
+                  docker = {
+                      "label": "docker pull",
+                      "args": {"message": f"{index["registry"]}/{index["namespace"]}/{index["name"]}:{version}".lower()},
+                      "logo": "docker",
+                      "logo_type": "name",
+                      "color": "#2496ED",
+                      "logo_color": "#2496ED",
+                      "link": index["url"]["home"],
+                    }
+                  out.append(docker)
                 tag = f"{get("tag.version.prefix")}{version}"
                 github = {
                   "label": "git checkout",
@@ -1429,7 +1445,7 @@ __custom__:
         **#{{ return changelog.current_public.title }}#**
       - >-
         #{{ return changelog.current_public.description }}#
-    section:
+    sections:
       - |
         *{{
           #{{
