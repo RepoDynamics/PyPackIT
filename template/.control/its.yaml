@@ -1952,9 +1952,9 @@ issue:
                 - service: static
                   label: State
                   args:
-                    message: '{{ issue.state.value }}'
+                    message: '{{ issue.state }}'
                   color: >-
-                    {{ ccc.__custom__.badge.color.green if issue.state.value == "open" else ccc.__custom__.badge.color.red }}
+                    {{ ccc.__custom__.badge.color.green if issue.state == "open" else ccc.__custom__.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2151,9 +2151,6 @@ issue:
         - heading: Software Requirements Specification (SRS)
           body: |
             {{ data.srs }}
-        - heading: Software Design Document (SDD)
-          body: |
-            {{ data.sdd }}
         - heading: Timeline
           body: |
             <div align="center">
@@ -2213,7 +2210,7 @@ issue:
             {%- elif action == "synchronize" -%}
               New commits pushed to [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) (CI [{{ context.run_id }}]({{ context.run_url }})).
             {%- elif action == "labeled" -%}
-              {%- set category = label.category.value -%}
+              {%- set category = label.category -%}
               {%- if category == "type" -%}
                   Type set to `{{ label.suffix }}`.
               {%- elif category == "scope" -%}
@@ -2223,7 +2220,7 @@ issue:
               {%- elif category == "branch" -%}
                     Target branch set to `{{ label.suffix }}`.
               {%- elif category == "status" -%}
-                {%- set status = label.id.value or label.id -%}
+                {%- set status = label.id or label.id -%}
                 {%- if status == "triage" -%}
                   Entered the triage phase.
                 {%- elif status == "rejected" -%}
@@ -2701,7 +2698,7 @@ pull:
                 height=ccc.__custom__.badge.height,
               ).source()
             }}
-      section:
+      sections:
         - heading: Status
           body:
             - class: badges
@@ -2709,20 +2706,18 @@ pull:
               height: ${{ __custom__.badge.height }}$
               label_color: ${{ __custom__.badge.color.grey }}$
               separator: ${{ __custom__.badge.separator }}$
-              service: github
-              endpoint: issue_details
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
-                kind: issues
-                number: '{{ issue.number }}'
+                kind: pulls
+                number: '{{ pull_request.number }}'
               items:
                 - service: static
                   label: State
                   args:
-                    message: '{{ issue.state.value }}'
+                    message: '{{ pull_request.state }}'
                   color: >-
-                    {{ ccc.__custom__.badge.color.green if issue.state.value == "open" else ccc.__custom__.badge.color.red }}
+                    {{ ccc.__custom__.badge.color.green if pull_request.state == "open" else ccc.__custom__.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2730,186 +2725,22 @@ pull:
                   title: '{{ status_label.description }}'
                   color: >-
                     {{ status_label.color if status_label.color is defined else ccc.label.status.color }}
-                - label: Last Update
+                - service: github
+                  endpoint: issue_details
+                  label: Last Update
                   args:
                     property: last-update
-                - label: Comments
+                - service: github
+                  endpoint: issue_details
+                  label: Comments
                   args:
                     property: comments
-            - |
-              {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
-              - [{{ "X" if status_label.id > id else " " }}] {{ id.replace("_", " ").title() }}
-              {% endfor -%}
-        - heading: User Requirements Document (URD)
-          body:
-            - class: badges
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
-              separator: ${{ __custom__.badge.separator }}$
-              service: github
-              endpoint: issue_details
-              args:
-                user: ${{ repo.owner }}$
-                repo: ${{ repo.name }}$
-                kind: issues
-                number: '{{ issue.number }}'
-              items:
-                - service: static
-                  label: Issue Type
-                  args:
-                    message: '{{ form.name }}'
-                  title: '{{ form.description }}'
-                  color: ${{ __custom__.badge.color.blue }}$
-                - label: Submitted
-                  args:
-                    property: age
-                  color: ${{ __custom__.badge.color.blue }}$
-                - service: static
-                  label: Submitted By
-                  args:
-                    message: '{{ issue.user.name.full }}'
-                  link: '{{ issue.user.github.url }}'
-                  color: ${{ __custom__.badge.color.blue }}$
-            - |
-              ### Summary
-
-              {% if input.endpoint -%}
-              {{
-                mdit.element.badge(
-                  service="static",
-                  label="Endpoint",
-                  args={"message": input.entrypoint + "." + input.endpoint},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
-                ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
-              {%- elif input.entrypoint -%}
-              {{
-                mdit.element.badge(
-                  service="static",
-                  label="Endpoint",
-                  args={"message": input.entrypoint},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
-                ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
-              {%- endif -%}
-              {%- if input.url %}
-              {{
-                mdit.element.badge(
-                  service="static",
-                  label="URL",
-                  args={"message": input.url},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
-                  link=input.url,
-                ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
-              {%- endif %}
-              {%- if input.jsonpath %}
-              {{
-                mdit.element.badge(
-                  service="static",
-                  label="JSON Path",
-                  args={"message": input.jsonpath},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
-                  link=input.url,
-                ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
-              {%- endif %}
-
-              {{ input.summary }}
-
-              {% if input.proposal -%}
-              ### Proposal
-
-              {{ input.proposal }}
-              {%- endif %}
-
-              {% if input.test_case -%}
-              ### Test Case
-
-              ```python
-              {{ input.test_case }}
-              ```
-              {%- endif %}
-
-              {% if input.mre -%}
-              ### Minimal Reproducible Example
-
-              {{ input.mre }}
-              {%- endif %}
-
-              {% if input.stderr -%}
-              ### Output Log
-
-              ```bash
-              {{ input.stderr }}
-              ```
-              {%- endif %}
-
-              {% if input.environment -%}
-              ### Test Environment
-
-              {%- set os_names = input.os | join(' | ') -%}
-              {%- set py_vers = input.python_versions | join(' | ') -%}
-              {{
-                mdit.element.badges(
-                  service="static",
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.red,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
-                  items=[
-                    {
-                      "label": "⚙️ Operating Systems",
-                      "args": {"message": os_names},
-                    },
-                    {
-                      "label": "Python Versions",
-                      "args": {"message": py_vers},
-                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
-                      "logo_type": "file",
-                      "logo_media_type": "svg+xml",
-                    },
-                    {
-                      "label": ccc.__custom__.icon.pkg + " Package Manager",
-                      "args": {"message": input.package_manager},
-                    },
-                  ]
-                )
-              }}
-
-              <details><summary><b>Environment</b></summary>
-
-              ```yaml
-              {{ input.environment }}
-              ```
-
-              </details>
-              {%- endif %}
-        - heading: Triage
-          body: |
-            {{ data.triage }}
-        - heading: Plan
-          body: |
-            {{ data.plan }}
-        - heading: Software Requirements Specification (SRS)
-          body: |
-            {{ data.srs }}
         - heading: Software Design Document (SDD)
           body: |
             {{ data.sdd }}
+        - heading: Implementation
+          body:
+            - '{{ tasklist }}'
         - heading: Testing
           body:
             - - |
@@ -2937,25 +2768,22 @@ pull:
               # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
               # Refs: https://github.com/readthedocs/actions/blob/v1/preview/scripts/edit-description.js
               #       https://docs.readthedocs.io/en/latest/guides/pull-requests.html
+        - heading: Deployment
+          body:
+            - '{{ data.deployment }}'
         - heading: Timeline
           body: |
             <div align="center">
 
-            {{ timeline }}
+            {{ data.timeline }}
 
             </div>
+            
+            {{ config }}
     data:
       summary:
         value: '{{ pr_title }}'
       description:
-        value: "\n\n**TBD**\n\n"
-      urd:
-        value: "\n\n{{ issue_body }}\n\n"
-      triage:
-        value: "\n\n**TBD**\n\n"
-      plan:
-        value: "\n\n**TBD**\n\n"
-      srs:
         value: "\n\n**TBD**\n\n"
       sdd:
         value: "\n\n**TBD**\n\n"
@@ -2963,85 +2791,4 @@ pull:
         value: "\n\n**TBD**\n\n"
       deployment:
         value: "\n\n**TBD**\n\n"
-      timeline:
-        value: >-
-
-          |    Date    |   Time   |              Actor               |                      Description                      |
-
-          | ---------- | -------- | -------------------------------- | ----------------------------------------------------- |
-        template: |
-          {%- macro make_entry(actor, description) -%}
-            | {{ now.strftime("%Y.%m.%d") }} | {{ now.strftime("%H:%M:%S") }} | {{ "{:<32}".format(actor) }} | {{ "{:<53}".format(description) }} |
-          {%- endmacro -%}
-
-          {%- macro make_description() -%}
-            {%- if action == "assigned" -%}
-              {%- if event == "issues" -%}
-                Issue assigned to {{ assignee.md_name }}.
-              {%- elif event == "pull_request" -%}
-                Pull request assigned to {{ assignee.md_name }}.
-              {%- endif -%}
-            {%- elif action == "unassigned" -%}
-              {%- if event == "issues" -%}
-                Issue unassigned from {{ assignee.md_name }}.
-              {%- elif event == "pull_request" -%}
-                Pull request unassigned from {{ assignee.md_name }}.
-              {%- endif -%}
-            {%- elif action == "review_requested" -%}
-              Review assigned to {{ requested_reviewer.md_name }}.
-            {%- elif action == "review_request_removed" -%}
-              Review unassigned from {{ requested_reviewer.md_name }}.
-            {%- elif action == "synchronize" -%}
-              New commits pushed to [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) (CI [{{ context.run_id }}]({{ context.run_url }})).
-            {%- elif action == "labeled" -%}
-              {%- set category = label.category.value -%}
-              {%- if category == "type" -%}
-                  Type set to `{{ label.suffix }}`.
-              {%- elif category == "scope" -%}
-                  Scope set to `{{ label.suffix }}`.
-              {%- elif category == "version" -%}
-                    Target version set to `{{ label.suffix }}`.
-              {%- elif category == "branch" -%}
-                    Target branch set to `{{ label.suffix }}`.
-              {%- elif category == "status" -%}
-                {%- set status = label.id.value or label.id -%}
-                {%- if status == "triage" -%}
-                  Entered the triage phase.
-                {%- elif status == "rejected" -%}
-                  Rejected and closed.
-                {%- elif status == "duplicate" -%}
-                  Marked as duplicate and closed.
-                {%- elif status == "invalid" -%}
-                  Marked as invalid and closed.
-                {%- elif status == "planning" -%}
-                  Entered the planning phase.
-                {%- elif status == "requirement_analysis" -%}
-                  Entered the requirement analysis phase.
-                {%- elif status == "design" -%}
-                  Entered the design phase.
-                {%- elif status == "implementation" -%}
-                  Entered the implementation phase.
-                {%- elif status == "testing" -%}
-                  Entered the testing phase.
-                {%- elif status == "deploy_alpha" -%}
-                  Deployed as alpha release.
-                {%- elif status == "deploy_beta" -%}
-                  Deployed as beta release.
-                {%- elif status == "deploy_rc" -%}
-                  Deployed as release candidate.
-                {%- elif status == "deploy_final" -%}
-                  Deployed as final release.
-                {%- else -%}
-                  Status changed to {{ status }}.
-                {%- endif -%}
-              {%- endif -%}
-            {%- elif action == "opened" -%}
-              {%- if event == "issues" -%}
-                Issue ticket #{{ issue.number }} submitted by {{ issue.user.md_name }}.
-              {%- elif event == "pull_request" -%}
-                Pull request #{{ pull_request.number }} opened from branch [{{ pull_request.head.name }}]({{ pull_request.head.url.homepage }}) to branch [{{ pull_request.base.name }}]({{ pull_request.base.url.homepage }}) by {{ pull_request.user.md_name }}.
-              {%- endif -%}
-            {%- endif -%}
-          {%- endmacro -%}
-          {%- set description = make_description() %}
-          {{ make_entry(sender.md_name, description) if description else "" -}}
+      timeline: ${{ issue.protocol.data.timeline }}$
