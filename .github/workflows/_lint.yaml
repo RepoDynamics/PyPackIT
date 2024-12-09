@@ -1,4 +1,4 @@
-name: '[Callable]: Package - Lint'
+name: '[Reusable]: Package - Lint'
 on:
   workflow_call:
     inputs:
