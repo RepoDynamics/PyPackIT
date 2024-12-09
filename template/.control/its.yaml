@@ -1908,7 +1908,6 @@ issue:
       default:
         pr_title: '{{ data.summary }}'
     template:
-      heading: 'Development Protocol #{{ issue.number }}'
       body:
         - |
           {%- for label in form.id_labels + form.labels -%}
@@ -1924,14 +1923,14 @@ issue:
             ).source()
           }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
           {%- endfor -%}
-          {%- set versions = version_labels | map(attribute='suffix') | join(' | ') -%}
+          {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
           {{
             mdit.element.badge(
               service="static",
-              label=version_labels[0].prefix,
+              label=labels["version"][0].prefix,
               args={"message": versions},
               style=ccc.__custom__.badge.style,
-              color=version_labels[0].color,
+              color=labels["version"][0].color,
               label_color=ccc.__custom__.badge.color.grey,
               height=ccc.__custom__.badge.height,
             ).source()
@@ -1959,10 +1958,10 @@ issue:
                 - service: static
                   label: Last Status
                   args:
-                    message: '{{ ccc.label.status.label[status.value].suffix }}'
-                  title: '{{ ccc.label.status.label[status.value].description }}'
+                    message: '{{ status_label.suffix }}'
+                  title: '{{ status_label.description }}'
                   color: >-
-                    {{ ccc.label.status.label[status.value].color if ccc.label.status.label[status.value].color is defined else ccc.label.status.color }}
+                    {{ status_label.color if status_label.color is defined else ccc.label.status.color }}
                 - service: github
                   endpoint: issue_details
                   label: Last Update
@@ -1975,7 +1974,7 @@ issue:
                     property: comments
             - |
               {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
-              - [{{ "X" if status > id else " " }}] {{ id.replace("_", " ").title() }}
+              - [{{ "X" if status_label.id > id else " " }}] {{ id.replace("_", " ").title() }}
               {% endfor -%}
               {%- if pull_requests -%}
               The implementation, testing, and deployment are tracked in the following PRs:
@@ -2263,8 +2262,8 @@ issue:
               {%- endif -%}
             {%- endif -%}
           {%- endmacro -%}
-          {%- set description = make_description() %}
-          {{ make_entry(sender.md_name, description) if description else "" -}}
+          {%- set description = make_description() -%}
+          {{ "\n" ~ make_entry(sender.md_name, description) if description else "" -}}
   forms:
     # Package
     - id: pkg_api_fix
@@ -2664,7 +2663,6 @@ issue:
 pull:
   protocol:
     template:
-      heading: 'Development Protocol #{{ pull_request.number }}'
       body:
         - - class: badge
             label: Resolves
@@ -2691,14 +2689,14 @@ pull:
               ).source()
             }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
             {%- endfor -%}
-            {%- set versions = version_labels | map(attribute='suffix') | join(' | ') -%}
+            {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
             {{
               mdit.element.badge(
                 service="static",
-                label=version_labels[0].prefix,
+                label=labels["version"][0].prefix,
                 args={"message": versions},
                 style=ccc.__custom__.badge.style,
-                color=version_labels[0].color,
+                color=labels["version"][0].color,
                 label_color=ccc.__custom__.badge.color.grey,
                 height=ccc.__custom__.badge.height,
               ).source()
@@ -2728,10 +2726,10 @@ pull:
                 - service: static
                   label: Last Status
                   args:
-                    message: '{{ ccc.label.status.label[status.value].suffix }}'
-                  title: '{{ ccc.label.status.label[status.value].description }}'
+                    message: '{{ status_label.suffix }}'
+                  title: '{{ status_label.description }}'
                   color: >-
-                    {{ ccc.label.status.label[status.value].color if ccc.label.status.label[status.value].color is defined else ccc.label.status.color }}
+                    {{ status_label.color if status_label.color is defined else ccc.label.status.color }}
                 - label: Last Update
                   args:
                     property: last-update
@@ -2740,7 +2738,7 @@ pull:
                     property: comments
             - |
               {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
-              - [{{ "X" if status > id else " " }}] {{ id.replace("_", " ").title() }}
+              - [{{ "X" if status_label.id > id else " " }}] {{ id.replace("_", " ").title() }}
               {% endfor -%}
         - heading: User Requirements Document (URD)
           body:
