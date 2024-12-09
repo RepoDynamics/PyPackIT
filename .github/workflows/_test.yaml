@@ -1,7 +1,7 @@
 # Install package from a given source and run unit-tests.
 # Install the package and run tests on a matrix of supported Python versions and operating systems.
 
-name: '[Callable]: Package - Test'
+name: '[Reusable]: Package - Test'
 
 on:
   workflow_call:
