@@ -68,6 +68,12 @@ class InlineHooks:
                 "import_name": import_name,
                 "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"}
             }
+        out["jupyterlab-myst"] = {  # https://github.com/jupyter-book/jupyterlab-myst
+            "name": "jupyterlab_myst",
+            "import_name": "jupyterlab_myst",
+            "pip": {"spec": "jupyterlab_myst"},
+            "conda": {"spec": "jupyterlab_myst", "channel": "conda-forge"}
+        }
         return out
 
     def commit_labels(self) -> dict:
