@@ -69,10 +69,10 @@ class InlineHooks:
                 "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"}
             }
         out["jupyterlab-myst"] = {  # https://github.com/jupyter-book/jupyterlab-myst
-            "name": "jupyterlab_myst",
+            "name": "jupyterlab-myst",
             "import_name": "jupyterlab_myst",
-            "pip": {"spec": "jupyterlab_myst"},
-            "conda": {"spec": "jupyterlab_myst", "channel": "conda-forge"}
+            "pip": {"spec": "jupyterlab-myst"},
+            "conda": {"spec": "jupyterlab-myst", "channel": "conda-forge"}
         }
         return out
 
