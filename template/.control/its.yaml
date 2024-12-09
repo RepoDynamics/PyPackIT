@@ -1904,6 +1904,9 @@ issue:
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.test_gui_names }}$
   protocol:
+    config:
+      default:
+        pr_title: '{{ data.summary }}'
     template:
       heading: 'Development Protocol #{{ issue.number }}'
       body:
@@ -1933,7 +1936,7 @@ issue:
               height=ccc.__custom__.badge.height,
             ).source()
           }}
-      section:
+      sections:
         - heading: Status
           body:
             - class: badges
@@ -1941,8 +1944,6 @@ issue:
               height: ${{ __custom__.badge.height }}$
               label_color: ${{ __custom__.badge.color.grey }}$
               separator: ${{ __custom__.badge.separator }}$
-              service: github
-              endpoint: issue_details
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1962,10 +1963,14 @@ issue:
                   title: '{{ ccc.label.status.label[status.value].description }}'
                   color: >-
                     {{ ccc.label.status.label[status.value].color if ccc.label.status.label[status.value].color is defined else ccc.label.status.color }}
-                - label: Last Update
+                - service: github
+                  endpoint: issue_details
+                  label: Last Update
                   args:
                     property: last-update
-                - label: Comments
+                - service: github
+                  endpoint: issue_details
+                  label: Comments
                   args:
                     property: comments
             - |
@@ -1975,7 +1980,7 @@ issue:
               {%- if pull_requests -%}
               The implementation, testing, and deployment are tracked in the following PRs:
               {% for pull in pull_requests -%}
-              - [{{ "X" if pull.merged " " }}] #{{ pull.number }} (branch: [`{{ pull.head.name }}`]({{ pull.head.url.homepage }}))
+              - [{{ "X" if pull.merged else " " }}] #{{ pull.number }} (branch: [`{{ pull.head.name }}`]({{ pull.head.url.homepage }}))
               {% endfor -%}
               {%- endif -%}
         - heading: User Requirements Document (URD)
@@ -1985,8 +1990,6 @@ issue:
               height: ${{ __custom__.badge.height }}$
               label_color: ${{ __custom__.badge.color.grey }}$
               separator: ${{ __custom__.badge.separator }}$
-              service: github
-              endpoint: issue_details
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1999,12 +2002,14 @@ issue:
                     message: '{{ form.name }}'
                   title: '{{ form.description }}'
                   color: ${{ __custom__.badge.color.blue }}$
-                - label: Submitted
+                - service: github
+                  endpoint: issue_details
+                  label: Submitted
                   args:
                     property: age
                   color: ${{ __custom__.badge.color.blue }}$
                 - service: static
-                  Label: Submitted By
+                  label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
@@ -2141,7 +2146,9 @@ issue:
             {{ data.triage }}
         - heading: Plan
           body: |
-            {{ data.plan }}
+            {{ data.summary }}
+            
+            {{ data.description }}
         - heading: Software Requirements Specification (SRS)
           body: |
             {{ data.srs }}
@@ -2152,16 +2159,18 @@ issue:
           body: |
             <div align="center">
 
-            {{ timeline }}
+            {{ data.timeline }}
 
             </div>
+            
+            {{ config }}
+            
+            {{ inputs }}
     data:
       summary:
-        value: '{{ pr_title }}'
-      description:
         value: "\n\n**TBD**\n\n"
-      urd:
-        value: "\n\n{{ issue_body }}\n\n"
+      description:
+        value: "\n\n\n"
       triage:
         value: "\n\n**TBD**\n\n"
       plan:
@@ -2759,7 +2768,7 @@ pull:
                     property: age
                   color: ${{ __custom__.badge.color.blue }}$
                 - service: static
-                  Label: Submitted By
+                  label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
