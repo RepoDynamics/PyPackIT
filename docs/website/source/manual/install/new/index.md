@@ -24,9 +24,9 @@ The first step is to [create a new repository](https://docs.github.com/en/reposi
 using {{ ccc.name }}'s GitHub template repository:
 
 1. [Sign in](https://github.com/login) to your GitHub account.
-2. {{ '[Click here](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
+2. {{ '[Click here](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }},
    or alternatively navigate to the {{ '[{} template repository]({})'.format(ccc.name, ccc.repo.url.home) }},
-   Click on the {bdg-success}`Use this template` button on the top-right corner
+   click on the {bdg-success}`Use this template` button on the top-right corner,
    and select ***Create a new repository*** from the dropdown menu.
 3. Enter a name for your repository in the ***Repository name*** field.
 
@@ -37,10 +37,10 @@ using {{ ccc.name }}'s GitHub template repository:
 A GitHub repository name can only contain alphanumeric characters,
 hyphens, underscores, and periods.
 That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
-By default, the repository name is also used to derive
-the [project name](#ccc-name), and by extension, the [package name](#ccc-pkg-name),
-which has additional restrictions.
-While you can manually set these separately in the control center,
+However, the repository name can also used to derive
+the [project name](#ccc-name) and the [package name](#ccc-pkg-name),
+the latter of which has additional restrictions.
+While you can set these separately in the control center,
 for consistency, it is recommended to choose a repository name
 that can be used to automatically derive the package name.
 Considering the restrictions on the repository name,
@@ -68,7 +68,7 @@ and import it with `import my_project`{l=python}.
 
 You will be redirected to the newly created repository in your selected account.
 Navigating to the repository's [Actions](){.user-link-repo-actions} tab, you will see that a workflow is running.
-It will automatically initialize the new repository by generating all necessary files
+It will automatically initialize your new repository by generating all necessary files
 and removing extra files that belong to the {{ccc.name}} repository but are not part of the template.
 While waiting for the workflow to complete and **before making any other changes**,
 follow step 2 to [add a Personal Access Token (PAT) and activate external services](#install-common).
@@ -92,45 +92,62 @@ In this case, you can re-run the workflow by clicking on the ***Re-run all jobs*
 which can also be investigated in case of a failure or unexpected behavior.
 :::
 
-Start customizing your new project:
+Your repository is now in the initialization phase.
+During this phase, every time you push a commit, {{ccc.name}} will run a workflow to:
+
+- Update all dynamic files and directories according to the new control center configurations.
+- Update repository configurations, including general settings and metadata, branch names,
+  labels, issues forms, discussions, and security settings.
+- Format, refactor, lint, build, and test the package, test suite, and documentation website.
+- Publish a developmental version of the package to your Anaconda channel.
+- Deploy the updated website to [GitHub Pages](https://pages.github.com/).
+- Build a docker image of the repository and deploy it to GitHub Container Registry (ghcr.io)
+  or another registry of your choice.
+- Trigger a build on mybinder.org using the docker image.
+- Update a draft release on GitHub.
+- Update draft releases on Zenodo and/or Zenodo Sandbox.
+
+All jobs can be fully customized (or disabled) from your repository's control center.
+To start customizing your new project:
 
 1. Navigate to the [`.control/proj.yaml`](){.user-link-repo-cc-proj} file in the repository.
-2. Replace the placeholder values for [`$.title`](#ccc-title), [`$.abstract`](#ccc-abstract),
-   [`$.keywords`](#ccc-keywords), and [`$.highlights`](#ccc-highlights) keys
-   with your project's information.
+2. Replace the placeholder values for [`$.name`](#ccc-name), [`$.title`](#ccc-title),
+   [`$.abstract`](#ccc-abstract), [`$.keywords`](#ccc-keywords), and [`$.highlights`](#ccc-highlights) keys
+   with your project's information. You can also remove the `$.name` key altogether,
+   and {{ ccc.name }} will use your repository name instead.
 3. Commit and push your changes. If you have followed the link in step 1 above,
    you should be on the [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
    web-based editor, where you can commit and push your changes by clicking the
    <i class="fa-solid fa-code-branch"></i> icon in the left sidebar,
    typing a commit message, and clicking the {bdg-success}`Commit & Push` button.
 
-After pushing your changes, the workflow will run again
-and update all dynamic files with your new project information.
-Looking at the changed files in the newly created [commits](){.user-link-repo-commits},
+After pushing your changes, the workflow will run again.
+You can see the results of each job in the respective workflow run page
+under the repository's [Actions](){.user-link-repo-actions} tab,
+where all created artifacts are uploaded along with comprehensive job reports and logs.
+Navigating to different parts of your project, you can also verify the changes made. For example:
+
+- Under the [About](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#about-topics)
+section of your repository's [homepage](){.user-link-repo-home} 
+you can see the updated title, keywords, license, citation, and other project metadata,
+along with a link to your online documentation website.
+- Looking at the changed files in the newly created [commits](){.user-link-repo-commits},
 you can find all the files that have been updated,
 such as the [repository README file](){.user-link-repo-readme}.
-Furthermore, since now you have provided your {term}`PAT`,
-the workflow will also activate [GitHub Pages](https://pages.github.com/) for your repository,
-build your website, and deploy it online.
-A link to your website will be added to the
-the [About](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#about-topics)
-section of your repository's [homepage](){.user-link-repo-home},
-along with your project's title and keywords.
+- Navigating to the [Releases](){.user-link-repo-releases} section of your repository,
+you can find the draft release that is automatically updated after each push.
+- In the [Packages](){.user-link-repo-releases} section of your repository,
+you can find the uploaded docker image.
+- Clicking on the Binder badge in your repository README, you can verify
+that the docker image is now available on mybinder.org.
+- If you have activated Anaconda, Zenodo, or Zenodo Sandbox, you can see the updated draft
+on the respective websites.
 
-Your repository is now in the initialization phase.
-During this phase, every time you push a commit to the repository, {{ccc.name}} will:
 
-- Update all dynamic files and directories according to the new control center configurations.
-- Update repository configurations, including general settings, branch names,
-  labels, issues forms, discussions, security settings, etc.
-- Build and deploy your website to GitHub Pages.
-- Build, lint, and test your package.
-- Upload build artifacts, reports, and logs for each workflow run.
-
-Continue customizing your project by modifying the [control center files](){.user-link-repo-cc}
+You can continue customizing your project by modifying the [control center files](){.user-link-repo-cc}
 and pushing your changes to the repository.
 For example, open the [`.control/doc.yaml`](){.user-link-repo-cc-doc} file
-and change your project theme's colors under [`$.theme.color`](#ccc-theme-color);
+and change your project theme's colors under [`$.color`](#ccc-color);
 this will update the color of multiple components in your website, README files, and other documents.
 You can also add your project's logo by replacing the sample logo files
 in [`docs/website/source/_media/logo`](){.user-link-repo-logo}.
@@ -154,40 +171,67 @@ see the [Options](#cc-options) section.
 ## Project Initialization
 
 After you feel satisfied with the results,
-signal {{ccc.name}} to initialize your project,
-by pushing a commit of [type](#feature-commits-structure) `init`
-(i.e., a commit whose message starts with ***init:***).
-After performing the same tasks as in the initialization phase,
-{{ccc.name}} will:
+you can signal {{ ccc.name }} to initialize your project
+via a commit. Communicating with {{ ccc.name }} through commits
+is done via [commit message footers](#feature-commits-structure).
+This is the last part of the commit message,
+separated from everything above it by a pre-defined separator (cf. [`$.commit.config`](#ccc-commit-config)).
+The footer must be in standard YAML syntax, just like the control center configuration files.
+Depending on the ongoing event, {{ ccc.name }} looks for specific keys defined in the commit footer
+for instructions. During the initialization phase, {{ ccc.name }} looks for a `initialize-project`
+key in the footer of the head commit of each push event. Setting this key to `true` will signal
+the end of the initialization phase. If this key is present, {{ ccc.name }} will also look for
+the following keys for further customized instructions for the initialization event:
 
-- Replace all previous commits in the repository with a single `init` commit.
-- Tag the commit with the version number `0.0.0`.
-- Publish your package to PyPI and TestPyPI.
-- Apply the specified branch protection rules to all branches.
+:`version`: **string**, **default**: `0.0.0`
 
-You can also customize the initialization process by providing additional configurations
-in the commit message:
+    The version to use for the initial release.
+    This is useful if you already have an earlier version of your project
+    published, and want to contrinue from there.
+    Note that this must be a valid Python [public version identifier](https://packaging.python.org/en/latest/specifications/version-specifiers/#public-version-identifiers)
+:`squash`: **boolean**, **default**: `true`
+    
+    Whether to squash all previous commits into the current commit.
+    By default, {{ ccc.name }} rewrites the entrire Git history during initialization,
+    merging all changes into the latest commit,
+    so that the repository only contains the initialization commit afterwards.
+    If you want to keep the Git history of the initialization phase, set this to false.
+:`publish-zenodo`: **boolean**, **default**: `true`
+    
+    Whether to publish the draft release on Zenodo.
+:`publish-pypi`: **boolean**, **default**: `true`
+    
+    Whether to publish the initial release on PyPI.
+:`publish-github`: **boolean**, **default**: `true`
+    
+    Whether to publish the draft release on GitHub.
+:`publish-zenodo-sandbox`: **boolean**, **default**: `true`
+    
+    Whether to publish the draft release on Zenodo Sandbox.
+:`publish-testpypi`: **boolean**, **default**: `true`
+    
+    Whether to publish the initial release on TestPyPI.
 
-- To **disable commit squashing** and keep the previous commits in the repository,
-  set the `squash` key to `false` in the [commit message footer](#feature-commits-structure).
-- To **use a different version number** for the initial release,
-  set the `version` key to the desired version number in the commit message footer
-  (e.g., `version: 1.0.0`).
-- Provide a **custom description** in the commit message summary to overwrite the default message
-  (e.g., `init: Start my project.`).
+For example, to initialize your project with version `1.0.0` while keeping all commits,
+use a commit message like the following:
 
 :::{code-block} git-commit-edit-msg
-:caption: Example `init` commit message
+:caption: Example initialization commit message
 
 init: Initialize my project.
 
 Here is an optional body for my commit message.
 
 ---
-squash: false
+initialize-project: true
 version: 1.0.0
+squash: false
 :::
 
+After performing the same tasks as in the initialization phase,
+{{ccc.name}} will tag the latest commit with the given version number,
+and publish your package to the specified repositories.
+It will also apply all specified branch and tag protection rulesets.
 Your repository is now fully configured,
 your package is published, your website is live,
 and all your workflows are set up and running.
