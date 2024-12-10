@@ -486,12 +486,14 @@ document:
               content: |
                 To keep all our project documentation organized and easy to find, the complete
                 <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
+      footer: ${{ document.readme.content.footer }}$
   security:
     output:
       repo:
         path: SECURITY.md
     content:
       heading: Security Policy
+      footer: ${{ document.readme.content.footer }}$
 web:
   toc:
     path: .toc.yaml
