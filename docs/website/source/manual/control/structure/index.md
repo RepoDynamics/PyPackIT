@@ -1,26 +1,32 @@
 # Structure
 
 The control center is a directory in your repository
-containing declarative configurations in data files, along with optional
-Python scripts to dynamically generate custom metadata and configurations during runtime.
+containing declarative configurations in data files,
+along with optional Python file to dynamically
+generate custom configurations and files during runtime.
 
 
 ## Location
 
-By default, the control center is located at a directory named [`.control`](){.user-link-repo-cc}
-in the root of your repository.
-You can customize its location by setting the [`$.control.path`](#ccc-control-path) key
-in your configuration files to the desired path relative to the root of your repository.
+By default, the control center can be found in the
+[`.control`](){.user-link-repo-cc} directory
+located at the root of your repository.
+You can customize its location
+by setting the [`$.control.path`](#ccc-control-path) key
+in your configuration files to the desired path
+relative to the root of your repository.
+
 
 :::{admonition} Dynamic Directory
 :class: important
 
 Like other [dynamic directories](#repo-structure) in your repository,
 you should not manually move or rename the control center directory.
-After setting the new path in the configuration files,
-simply push the changes to your Github repository, or run `controlman-sync` locally.
-{{ ccc.name }} will automatically move the control center directory to the new location.
+Instead, after setting the new path in the configuration files,
+simply push the changes to your GitHub repository, or run `pypackit sync` locally.
+{{ ccc.name }} will automatically move the directory to the new location.
 :::
+
 
 For example, to change the control center location
 to a directory at `dev/control-center`, you should have the following
@@ -36,7 +42,7 @@ control:
 
 ## Data Files
 
-Declarative (i.e., almost all) project configurations are stored in YAML files
+Declarative project configurations are stored in YAML files
 within the control center directory.
 
 ::::{admonition} YAML Data File Format
@@ -51,7 +57,8 @@ Scalars represent single values and include strings, numbers, booleans, and null
 Sequences and mappings on the other hand are complex data types that can contain other data types.
 Sequences (aka lists, arrays) are ordered lists of items, while mappings (aka dictionaries, hash tables)
 represent key-value pairs. Each YAML file contains a single top-level data structure,
-which can be any of the mentioned data types. For example, a YAML file can contain a single string,
+which can be any of the mentioned data types.
+For example, a YAML file can contain a single string,
 and thus act as a plain text file:
 
 :::{code-block} yaml
@@ -135,9 +142,10 @@ my-cases:
     settings: *default         # Both cases reference the same settings.
 :::
 
-[Tags](https://yaml.org/spec/1.2.2/#tags) allow you to explicitly define the data type of a node
+[Tags](https://yaml.org/spec/1.2.2/#tags) allow you to explicitly define the datatype of a node
 or apply custom semantics to the content.
-For instance, a tag like `!str` can be used to specify that a value should be treated as a string.
+For instance, a tag like `!str` can be used to specify
+that a value should be treated as a string.
 {{ ccc.name }} uses this feature to allow for
 [referencing values from external sources](#cc-inheritance).
 
@@ -195,7 +203,7 @@ When processing the control center, {{ ccc.name }} will automatically merge all 
 into a single mapping using the following logic:
 
 1. The control center directory is recursively scanned
-   (excluding the [`hook`](#cc-dir-hook) subdirectory),
+   (excluding the [`hooks`](#cc-dir-hook) subdirectory),
    and all files with a `.yaml` or `.yml` extension (case-insensitive)
    are gathered as configuration files. Each file must represent a mapping.
 2. All key-value pairs from the collected files are recursively merged
@@ -205,14 +213,15 @@ into a single mapping using the following logic:
    - Mapping key-value pairs are combined. If two mappings share some keys,
      the values are recursively merged according to the same rules.
    - Sequences are concatenated.
-     Note that files are always read in a shallow-first alphabetical order (i.e., using
-     `sorted(pathlib.Path(CONTROL_CENTER_DIRPATH).rglob('*'), key=lambda p: (p.parts, p))`{l=python}),
-     so the order of sequences in the final mapping is determined by the order of the files.
+     Note that files are always read in a shallow-first alphabetical order,
+     so the order of concatenated sequences in the final mapping
+     is determined by the order of the files.
    - Scalar values cannot be merged;
      if a scalar value is defined in multiple files,
      an error is raised and the conflicting paths are reported.
    - Mixed types (e.g., a sequence and a mapping) are not allowed at the same path;
      if such a conflict is detected, an error is raised and the conflicting paths are reported.
+
 
 (manual-control-configpaths)=
 ### Configuration Paths
@@ -223,10 +232,12 @@ to refer to a specific configuration value's location in the control center.
 :::{admonition} JSONPath Syntax
 :class: note dropdown
 
-JSONPath is a query language that defines a string syntax for selecting a subset of a data structure.
+JSONPath is a query language that defines a string syntax
+for selecting a subset of a data structure.
 It was originally designed for JSON data,
-but can also used with other data serialization formats like YAML.
-The root of the data structure (in our case, the control center's top-level mapping)
+but can also be used with other data serialization formats like YAML.
+In JSONPath, the root of the data structure
+(in our case, the control center's top-level mapping)
 is represented by the `$` symbol,
 mapping keys are accessed using the dot (`.`) notation,
 and sequences are accessed using square brackets (`[]`) with an index.
@@ -250,21 +261,23 @@ as explained [above](#cc-file-structure).
 
 
 (manual-control-structure-hooks)=
-## Python Scripts
+## Python Files
 
 In addition to declarative configurations in YAML files,
-you can also include Python scripts in the control center directory.
-These can act as hooks to [dynamically generate custom metadata and configurations](#cc-hooks)
+you can also include Python files in the control center directory.
+These act as hooks to [dynamically generate custom configurations and files](#cc-hooks)
 during control center synchronization events.
-To do so, you must create a subdirectory named `hook` at the root of the control center directory,
-containing a file named `main.py`.
-Before running your script, {{ ccc.name }} will also look for a `requirements.txt` file
-in the `hook` directory, and install the specified packages using `pip` if found.
+They must be added to a subdirectory named `hooks`
+at the root of the control center directory.
+For each type of hook, {{ ccc.name }} looks for a specific file in this directory.
+Before running your hooks, {{ ccc.name }} will also look for a `requirements.txt` file
+in the `hooks` directory, and install the specified packages using `pip` if found.
 Note that in contrast to the YAML files,
-the `hook` directory and and its constituent `main.py` and `requirements.txt` files
-must be exactly named and located as described above.
-However, beside these two files,
-you are free to add any other additional files or subdirectories in the `hook` directory.
+the `hooks` directory and its constituent files
+must be exactly named and located as described here.
+However, beside the requirements and hook files,
+you are free to add any other additional files or subdirectories to the `hooks` directory.
 For example, if you want to implement multiple complex hooks,
-you can modularize your code by creating a Python package in the `hook` directory,
-adding it to your `hook/requirements.txt` file, and importing it in your `hook/main.py` script.
+you can modularize your code by creating a Python package in the `hooks` directory,
+adding it to your `hooks/requirements.txt` file,
+and importing it in your hook files.
