@@ -235,5 +235,13 @@ It will also apply all specified branch and tag protection rulesets.
 Your repository is now fully configured,
 your package is published, your website is live,
 and all your workflows are set up and running.
+
+
+:::{admonition} What's Next
+:class: seealso
+
 Continue to the [Quickstart](#quickstart) section
-to learn how to further develop your project with {{ccc.name}}.
+to learn how to start the development of your project with {{ccc.name}}.
+:::
+
+
