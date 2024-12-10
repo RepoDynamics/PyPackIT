@@ -1,8 +1,9 @@
 # Control Center
 
+<!--
 Your repository's control center is the singular interface
-from which you can manage your entire project, and even multiple projects at once.
-
+from which you can manage your entire project,
+and even multiple projects at once.
 
 It contains all available settings for {{ ccc.name }} itself,
 along with all information, configurations, and metadata of your project and all its components,
@@ -29,7 +30,7 @@ generates all necessary files in the required locations, and updates them dynami
 Therefore, besides your source code, unit tests, and documentation content,
 all other aspects of your project are automatically managed by {{ ccc.name }} according to your specifications
 in the `meta` directory.
-
+-->
 
 
 ::::{grid} 1
@@ -54,8 +55,8 @@ along with instructions on how to customize them.
 :link: templating/index
 :link-type: doc
 
-Instructions on how to use substitutions (aka templating) in your repository's control center
-and documentation website.
+Instructions on how to use templating
+in your repository's control center files.
 :::
 
 
@@ -64,10 +65,11 @@ and documentation website.
 :link: inheritance/index
 :link-type: doc
 
-Instructions on how to use substitutions (aka templating) in your repository's control center
-and documentation website.
+Instructions on how to dynamically inherit
+specific configurations from external resources.
 :::
 
+<!--
 
 :::{grid-item-card} Validation
 :class-title: sd-text-center
@@ -96,5 +98,7 @@ in your repository's control center.
 A full reference and in-depth explanation of all dynamic files that are
 automatically generated and updated by your repository's control center.
 :::
+
+-->
 
 ::::
