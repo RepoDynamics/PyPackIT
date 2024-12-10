@@ -11813,8 +11813,8 @@
          "Programming Language :: Python :: 3.12",
          "Programming Language :: Python :: 3.13",
          "Operating System :: Microsoft :: Windows",
-         "Operating System :: POSIX :: Linux",
          "Operating System :: MacOS",
+         "Operating System :: POSIX :: Linux",
          "Operating System :: OS Independent",
          "Development Status :: 1 - Planning",
          "Typing :: Typed"
@@ -14423,6 +14423,9 @@
                   },
                   "line-length": 100,
                   "lint": {
+                     "allowed-confusables": [
+                        "\u2013"
+                     ],
                      "flake8-annotations": {
                         "allow-star-arg-any": true,
                         "mypy-init-return": true,
