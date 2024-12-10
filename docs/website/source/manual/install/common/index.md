@@ -99,7 +99,7 @@ your respective accounts:
       as described in the [installation guide](#install-repo-naming).
    2. ***Owner***: GitHub username or organization name that owns the repository.
    3. ***Reposiroty name***: Name of your GitHub repository.
-   4. ***Workflow name***: `_pkg_publish.yaml`
+   4. ***Workflow name***: `cd-pypi.yaml`
    5. ***Environment name***: `PyPI`
 4. Click on the {bdg-info}`Add` button to submit the form.
    Make sure the submission is accepted by checking the response message that appears at the top of the page.
