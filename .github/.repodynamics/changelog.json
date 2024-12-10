@@ -1,8 +1,13 @@
 [
    {
-      "date": "2024-12-29",
+      "date": "2024-12-10",
       "description": "This is an initial emtpy release.",
+      "github": {
+         "id": 189950648,
+         "node_id": "RE_kwDOJi8gRs4LUmq4"
+      },
       "phase": "dev",
+      "tag": "ver/0.0.0",
       "title": "Project Initialization",
       "type": "major",
       "version": "0.0.0"
