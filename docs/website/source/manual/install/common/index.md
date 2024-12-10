@@ -11,6 +11,10 @@ Follow these steps when you are asked to do so in the respective installation gu
 4. [Add a Zenodo token to the repository](#install-zenodo).
 5. [Create a Codecov account and install the Codecov GitHub app](#install-codecov).
 
+Note that other than the first step (GitHub PAT), all others are optional
+and you can skip them if you do not wish to use the respective services.
+
+
 (install-pat)=
 ## GitHub PAT
 
@@ -75,7 +79,7 @@ without the need to manually set authentication credentials such as username and
 (cf. [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
 and [GiHub docs](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-pypi)).
 
-To activate trusted publishing for both PyPI and TestPyPI in
+To activate trusted publishing for PyPI and TestPyPI in
 your respective accounts:
 
 1. [Create an account on PyPI](https://pypi.org/account/register/)
@@ -110,6 +114,9 @@ your respective accounts:
 (install-anaconda)=
 ## Anaconda Token
 
+{{ ccc.name }} can also build a conda package and publish it to your Anaconda channel.
+To enable automatic publishing on Anaconda:
+
 1. [Create an account on Anaconda](https://anaconda.org/account/register)
    or [log in to your existing account](https://anaconda.org/account/login).
 2. In the [Settings](https://anaconda.org/aariam/settings/profile) page of your account,
@@ -128,6 +135,8 @@ your respective accounts:
 
 (install-zenodo)=
 ## Zenodo Token
+
+To enable the automatic publishing to Zenodo and/or Zenodo Sandbox:
 
 1. [Create an account on Zenodo](https://zenodo.org/signup/)
    or [log in to your existing account](https://zenodo.org/login/).
@@ -164,8 +173,9 @@ that does not define an ID.
 (install-codecov)=
 ## CodeCov Account
 
+To automatically upload your test coverage results to CodeCov:
+
 1. Create an account on [CodeCov](https://codecov.io/) using your GitHub account.
 2. Install the Codecov GitHub app either by clicking on the ***Configure Codecov's GitHub app*** link
    on the Codecov website, or directly from the [app page](https://github.com/apps/codecov).
    You can choose to install it for all your repositories or only for the current repository.
-
