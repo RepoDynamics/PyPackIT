@@ -6,7 +6,6 @@
 import argparse
 import sys
 
-import pypackit.data
 from pypackit import __version__
 
 

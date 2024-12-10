@@ -2147,7 +2147,7 @@ issue:
         - heading: Plan
           body: |
             {{ data.summary }}
-            
+
             {{ data.description }}
         - heading: Software Requirements Specification (SRS)
           body: |
@@ -2159,9 +2159,9 @@ issue:
             {{ data.timeline }}
 
             </div>
-            
+
             {{ config }}
-            
+
             {{ inputs }}
     data:
       summary:
@@ -2775,7 +2775,7 @@ pull:
             {{ data.timeline }}
 
             </div>
-            
+
             {{ config }}
     data:
       summary:
