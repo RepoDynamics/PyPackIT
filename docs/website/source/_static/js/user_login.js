@@ -35,6 +35,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-tree").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/tree/${repoBranch}`;
         });
+        document.querySelectorAll(".user-link-repo-releases").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/releases`;
+        });
+        document.querySelectorAll(".user-link-repo-packages").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/pkgs/container/${repoName}`;
+        });
         document.querySelectorAll(".user-link-repo-actions").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/actions`;
         });
@@ -103,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <i class="fa-brands fa-square-github" style="margin-right: 1px;"></i>
                             ${link.innerHTML}
                           </span>`;
+        link.target = "_blank";
     });
 
     // Close the popup if the user clicks outside the dialog
