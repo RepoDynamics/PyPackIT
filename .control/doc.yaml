@@ -79,7 +79,7 @@ document:
               *{{
                 #{{
                   out = []
-                  doi = get("var.zenodo.concept.doi") 
+                  doi = get("var.zenodo.concept.doi")
                   if doi:
                     zenodo = {
                       "label": "DOI",

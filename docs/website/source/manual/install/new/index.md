@@ -128,7 +128,7 @@ where all created artifacts are uploaded along with comprehensive job reports an
 Navigating to different parts of your project, you can also verify the changes made. For example:
 
 - Under the [About](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#about-topics)
-section of your repository's [homepage](){.user-link-repo-home} 
+section of your repository's [homepage](){.user-link-repo-home}
 you can see the updated title, keywords, license, citation, and other project metadata,
 along with a link to your online documentation website.
 - Looking at the changed files in the newly created [commits](){.user-link-repo-commits},
@@ -190,26 +190,26 @@ the following keys for further customized instructions for the initialization ev
     published, and want to contrinue from there.
     Note that this must be a valid Python [public version identifier](https://packaging.python.org/en/latest/specifications/version-specifiers/#public-version-identifiers)
 :`squash`: **boolean**, **default**: `true`
-    
+
     Whether to squash all previous commits into the current commit.
     By default, {{ ccc.name }} rewrites the entrire Git history during initialization,
     merging all changes into the latest commit,
     so that the repository only contains the initialization commit afterwards.
     If you want to keep the Git history of the initialization phase, set this to false.
 :`publish-zenodo`: **boolean**, **default**: `true`
-    
+
     Whether to publish the draft release on Zenodo.
 :`publish-pypi`: **boolean**, **default**: `true`
-    
+
     Whether to publish the initial release on PyPI.
 :`publish-github`: **boolean**, **default**: `true`
-    
+
     Whether to publish the draft release on GitHub.
 :`publish-zenodo-sandbox`: **boolean**, **default**: `true`
-    
+
     Whether to publish the draft release on Zenodo Sandbox.
 :`publish-testpypi`: **boolean**, **default**: `true`
-    
+
     Whether to publish the initial release on TestPyPI.
 
 For example, to initialize your project with version `1.0.0` while keeping all commits,
@@ -243,5 +243,3 @@ and all your workflows are set up and running.
 Continue to the [Quickstart](#quickstart) section
 to learn how to start the development of your project with {{ccc.name}}.
 :::
-
-
