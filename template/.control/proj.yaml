@@ -218,11 +218,3 @@ citation:
       code:developmentStatus:
         id: >-
           #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
-
-color:
-  primary:
-    light: '#0F3460'
-    dark: '#3A98B9'
-  secondary:
-    light: '#562B08'
-    dark: '#E3651D'
