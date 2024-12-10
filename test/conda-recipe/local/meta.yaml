@@ -46,7 +46,7 @@ about:
   license: AGPL-3.0-or-later
   license_file:
     - '{{ pkg_dir }}LICENSES/'
-    - '{{ pkg_dir }}${{ __custom__.dir_name.copyrights }}$/'
+    - '{{ pkg_dir }}COPYRIGHTS/'
   summary: Cloud-Native Continuous Software Engineering Automation for Python Packages
     on GitHub
   dev_url: https://github.com/RepoDynamics/PyPackIT

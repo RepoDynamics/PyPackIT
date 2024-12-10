@@ -3316,7 +3316,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "polls": {
             "created_at": "2023-05-21",
@@ -11832,7 +11832,7 @@
                      "license": "AGPL-3.0-or-later",
                      "license_file": [
                         "{{ pkg_dir }}LICENSES/",
-                        "{{ pkg_dir }}${{ __custom__.dir_name.copyrights }}$/"
+                        "{{ pkg_dir }}COPYRIGHTS/"
                      ],
                      "summary": "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
                   },
@@ -13367,7 +13367,7 @@
                      "license": "AGPL-3.0-or-later",
                      "license_file": [
                         "{{ pkg_dir }}LICENSES/",
-                        "{{ pkg_dir }}${{ __custom__.dir_name.copyrights }}$/"
+                        "{{ pkg_dir }}COPYRIGHTS/"
                      ],
                      "summary": "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
                   },
