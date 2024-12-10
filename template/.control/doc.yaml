@@ -1,3 +1,10 @@
+color:
+  primary:
+    light: '#0F3460'
+    dark: '#3A98B9'
+  secondary:
+    light: '#562B08'
+    dark: '#E3651D'
 document:
   readme:
     content:
@@ -545,7 +552,6 @@ document:
                               return out
                             }}#
                           }}*
-
       footer:
         - class: thematic_break
         - class: badges
@@ -1712,5 +1718,4 @@ __custom__:
                 return out
               }}#
             }}*
-
   logo_dir_path: _media/logo  # Path to logo directory relative to website source directory
