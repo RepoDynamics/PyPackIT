@@ -1725,7 +1725,6 @@ issue:
             - label: >-
                 I am willing to collaborate on this issue and submit a pull request.
               required: false
-
     environment:
       - type: markdown
         attributes:
@@ -1803,6 +1802,7 @@ issue:
         description: Please provide a summary of the issue.
       validations:
         required: true
+      changelog: true
     mre_generic:
       type: textarea
       id: mre
@@ -1834,6 +1834,7 @@ issue:
         description: Please describe your proposal in detail.
       validations:
         required: true
+      changelog: true
     verify_bug:
       type: markdown
       attributes:
@@ -1976,7 +1977,7 @@ issue:
               {%- for id in ["triage", "planning", "requirement_analysis", "design"] -%}
               - [{{ "X" if status_label.id > id else " " }}] {{ id.replace("_", " ").title() }}
               {% endfor -%}
-              {%- if pull_requests -%}
+              {%- if pull_requests %}
               The implementation, testing, and deployment are tracked in the following PRs:
               {% for pull in pull_requests -%}
               - [{{ "X" if pull.merged else " " }}] #{{ pull.number }} (branch: [`{{ pull.head.name }}`]({{ pull.head.url.homepage }}))
@@ -2165,19 +2166,15 @@ issue:
     data:
       summary:
         value: "\n\n**TBD**\n\n"
+        changelog: true
       description:
         value: "\n\n\n"
+        changelog: true
       triage:
         value: "\n\n**TBD**\n\n"
       plan:
         value: "\n\n**TBD**\n\n"
       srs:
-        value: "\n\n**TBD**\n\n"
-      sdd:
-        value: "\n\n**TBD**\n\n"
-      testing:
-        value: "\n\n**TBD**\n\n"
-      deployment:
         value: "\n\n**TBD**\n\n"
       timeline:
         value: >-
