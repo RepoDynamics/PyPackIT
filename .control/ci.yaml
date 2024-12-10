@@ -383,6 +383,7 @@ tool:
           format:
             docstring-code-format: true
           lint:
+            allowed-confusables: [ '–' ]
             ignore:
               - PLR1711  # https://docs.astral.sh/ruff/rules/useless-return/
               # Rules conflicting with the formatter (see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
