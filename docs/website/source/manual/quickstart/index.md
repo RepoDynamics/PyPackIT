@@ -1,5 +1,6 @@
 # Quickstart
 
+This quickstart guide demonstrates a simple iteration cycle using {{ ccc.name }}.
 
 Every change in the repository is initiated by opening an issue.
 Each issue form is linked to a specific primary commit type.
