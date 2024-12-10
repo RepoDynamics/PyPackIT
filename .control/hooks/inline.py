@@ -177,7 +177,7 @@ class InlineHooks:
         out = programming_language() + operating_system() + [development_phase()]
         if self.get("..typed"):
             out.append("Typing :: Typed")
-        return out
+        return sorted(out)
 
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
