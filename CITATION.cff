@@ -5,6 +5,10 @@ license:
   - AGPL-3.0-or-later
 url: https://pypackit.repodynamics.com
 repository-code: https://github.com/RepoDynamics/PyPackIT
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.14359838
+    description: Persistent DOI of the project as a whole.
 type: software
 title: 'PyPackIT: Cloud-Native Continuous Software Engineering Automation for Python
   Projects'

@@ -191,7 +191,13 @@
          ],
          "date_released": "2024-12-10",
          "doi": null,
-         "identifiers": [],
+         "identifiers": [
+            {
+               "description": "Persistent DOI of the project as a whole.",
+               "type": "doi",
+               "value": "10.5281/zenodo.14359838"
+            }
+         ],
          "keywords": [
             "Automation",
             "Cloud-Native Development",
@@ -310,7 +316,13 @@
          ],
          "language": "eng",
          "license": "AGPL-3.0-or-later",
-         "related_identifiers": [],
+         "related_identifiers": [
+            {
+               "identifier": "10.5281/zenodo.14359838",
+               "relation": "isPartOf",
+               "resource_type": "software"
+            }
+         ],
          "title": "PyPackIT: Cloud-Native Continuous Software Engineering Automation for Python Projects",
          "upload_type": "software"
       }
@@ -699,6 +711,16 @@
                   "color": "#0B3C75",
                   "height": "23px",
                   "items": [
+                     {
+                        "args": {
+                           "message": "10.5281/zenodo.14359838"
+                        },
+                        "color": "#1682D4",
+                        "label": "DOI",
+                        "link": "https://doi.org/10.5281/zenodo.14359838",
+                        "logo": "zenodo",
+                        "logo_type": "name"
+                     },
                      {
                         "args": {
                            "message": "PyPackIT"
