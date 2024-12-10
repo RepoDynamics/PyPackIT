@@ -2,6 +2,13 @@
    {
       "date": "2024-12-10",
       "description": "This is an initial emtpy release.",
+      "dev": {
+         "zenodo_sandbox": {
+            "doi": "10.5072/zenodo.141305",
+            "draft": true,
+            "id": 141305
+         }
+      },
       "github": {
          "id": 189950648,
          "node_id": "RE_kwDOJi8gRs4LUmq4"
@@ -10,6 +17,11 @@
       "tag": "ver/0.0.0",
       "title": "Project Initialization",
       "type": "major",
-      "version": "0.0.0"
+      "version": "0.0.0",
+      "zenodo": {
+         "doi": "10.5281/zenodo.14359839",
+         "draft": true,
+         "id": 14359839
+      }
    }
 ]
