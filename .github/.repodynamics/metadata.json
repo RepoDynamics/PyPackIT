@@ -3316,7 +3316,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "polls": {
             "created_at": "2023-05-21",
@@ -11806,17 +11806,17 @@
       "classifiers": [
          "Natural Language :: English",
          "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+         "Development Status :: 1 - Planning",
+         "Operating System :: MacOS",
+         "Operating System :: Microsoft :: Windows",
+         "Operating System :: OS Independent",
+         "Operating System :: POSIX :: Linux",
          "Programming Language :: Python",
          "Programming Language :: Python :: 3 :: Only",
          "Programming Language :: Python :: 3.10",
          "Programming Language :: Python :: 3.11",
          "Programming Language :: Python :: 3.12",
          "Programming Language :: Python :: 3.13",
-         "Operating System :: Microsoft :: Windows",
-         "Operating System :: MacOS",
-         "Operating System :: POSIX :: Linux",
-         "Operating System :: OS Independent",
-         "Development Status :: 1 - Planning",
          "Typing :: Typed"
       ],
       "conda": {
