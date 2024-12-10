@@ -1,8 +1,10 @@
 [
    {
-      "date": "2024-11-20",
-      "phase": true,
-      "public": true,
+      "date": "2024-12-29",
+      "description": "This is an initial emtpy release.",
+      "phase": "dev",
+      "title": "Project Initialization",
+      "type": "major",
       "version": "0.0.0"
    }
 ]
