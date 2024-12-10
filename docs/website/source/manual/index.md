@@ -42,6 +42,8 @@ along with a full reference of all its available options.
 :::
 
 
+<!--
+
 :::{grid-item-card} Repository
 :link: repo/index
 :link-type: doc
@@ -183,5 +185,6 @@ A comprehensive overview of {{ ccc.name }}'s architecture,
 implementation, and infrastructure.
 :::
 
+-->
 
 ::::
