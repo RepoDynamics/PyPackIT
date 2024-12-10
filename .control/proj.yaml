@@ -264,8 +264,6 @@ citation:
       #{{ return changelog.current_public.get("date") }}#
     commit: >-
       #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
-    repository:
-      build: ${{ pkg.pypi.url.home }}$
     identifiers:
       - |
         *{{
