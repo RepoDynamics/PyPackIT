@@ -26,7 +26,7 @@ native development process with specialized Continuous Integration (CI), Deploym
 PyPackIT is a free and open-source software suite that readily integrates with both new and existing
 projects to ensure their long-term sustainability and high quality, thus enabling developers to
 rapidly implement their ideas and easily maintain their software.
-"""
+"""  # noqa: RUF002
 
 __all__ = ["__version_details__", "__version__"]
 
