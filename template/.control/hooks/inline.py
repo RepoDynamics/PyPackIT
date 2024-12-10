@@ -66,13 +66,13 @@ class InlineHooks:
                 continue
             out[name] = {
                 "import_name": import_name,
-                "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"}
+                "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"},
             }
         out["jupyterlab-myst"] = {  # https://github.com/jupyter-book/jupyterlab-myst
             "name": "jupyterlab-myst",
             "import_name": "jupyterlab_myst",
             "pip": {"spec": "jupyterlab-myst"},
-            "conda": {"spec": "jupyterlab-myst", "channel": "conda-forge"}
+            "conda": {"spec": "jupyterlab-myst", "channel": "conda-forge"},
         }
         return out
 

@@ -50,7 +50,7 @@ repos:
           - pre-commit
           - manual
         verbose: true
-        exclude: 
+        exclude:
           pkg/conda\-recipe/local|pkg/conda\-recipe/global|test/conda\-recipe/local|test/conda\-recipe/global
       - id: destroyed-symlinks
         stages:
