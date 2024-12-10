@@ -1,33 +1,30 @@
 name: pypackit-docs
-channels:
-- conda-forge
-- defaults
 dependencies:
-- python
-- pip
-- sphinx == 7.4.7
-- pydata-sphinx-theme == 0.15.4
-- myst-nb = 1.1.1
-- sphinx-thebe = 0.3.1
-- sphinx-design = 0.6.1
-- sphinx-external-toc = 1.0.1
-- ablog = 0.11.11
-- sphinx-copybutton = 0.5.2
-- sphinxext-opengraph = 0.9.1
-- sphinxcontrib-bibtex = 2.6.3
-- sphinx-togglebutton = 0.3.2
-- sphinxcontrib-mermaid = 0.9.2
-- myst-parser = 3.0.1
-- linkify-it-py == 2.0.3
-- librsvg
-- intersphinx-registry
-- pip:
-  - sphinx-last-updated-by-git == 0.3.7
-  - sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.2
-  - sphinx-tippy == 0.4.3
-  - sphinx-notfound-page == 1.0.4
-  - gittidy
-  - versionman
-  - sphinx-autobuild >= 2024.09.17
-  - pygments-git == 1.7.0
-  - pkgdata
+  - python
+  - pip
+  - conda-forge::sphinx == 7.4.7
+  - conda-forge::pydata-sphinx-theme == 0.15.4
+  - conda-forge::myst-nb = 1.1.1
+  - conda-forge::sphinx-thebe = 0.3.1
+  - conda-forge::sphinx-design = 0.6.1
+  - conda-forge::sphinx-external-toc = 1.0.1
+  - conda-forge::ablog = 0.11.11
+  - conda-forge::sphinx-copybutton = 0.5.2
+  - conda-forge::sphinxext-opengraph = 0.9.1
+  - conda-forge::sphinxcontrib-bibtex = 2.6.3
+  - conda-forge::sphinx-togglebutton = 0.3.2
+  - conda-forge::sphinxcontrib-mermaid = 0.9.2
+  - conda-forge::myst-parser = 3.0.1
+  - conda-forge::linkify-it-py == 2.0.3
+  - conda-forge::librsvg
+  - conda-forge::intersphinx-registry
+  - pip:
+      - sphinx-last-updated-by-git == 0.3.7
+      - sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.2
+      - sphinx-tippy == 0.4.3
+      - sphinx-notfound-page == 1.0.4
+      - gittidy
+      - versionman
+      - sphinx-autobuild >= 2024.09.17
+      - pygments-git == 1.7.0
+      - pkgdata
