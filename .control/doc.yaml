@@ -1,45 +1,15 @@
-theme:
-  color:
-    primary:
-      light: '#005500' # 135400
-      dark: '#1CAA00'  # 459B24
-    secondary:
-      light: '#3C5500' # 055005
-      dark: '#AF8A00'  # 9CCC00
-  footer:
-    - class: thematic_break
-    - class: badges
-      style: for-the-badge
-      items:
-        - service: dynamic
-          args:
-            url: ${{ control.url.metadata }}$
-            query: '$.copyright'
-          label: ${{ name }}$
-          color: ${{ color.primary.light }}$
-          logo: ${{ web.file.icon.path }}$
-          logo_type: file
-          color_dark: ${{ color.primary.dark }}$
-          logo_dark: ${{ web.file.icon.path }}$
-          logo_type_dark: file
-          link: ${{ team.owner.github.url }}$
-          title: '${{ name }}$: Copyright ${{ copyright }}$'
-          alt: ${{ .title }}$
-          align: left
-        - service: static
-          args:
-            message: ${{ license.expression }}$
-          label: SPDX License Identifier
-          color: "#4398CC"
-          logo: spdx
-          logo_color: "#4398CC"
-          link: ${{ web.page.license.url }}$
-          title: 'SPDX-License-Identifier: ${{ license.expression }}$'
-          alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
-          align: right
-readme:
-  main:
-    path: README.md
+color:
+  primary:
+    light: '#005500' # 135400
+    dark: '#1CAA00'  # 459B24
+  secondary:
+    light: '#3C5500' # 055005
+    dark: '#AF8A00'  # 9CCC00
+document:
+  readme:
+    output:
+      repo:
+        path: README.md
     content:
       body:
         - class: block_image
@@ -133,7 +103,7 @@ readme:
                   return out
                 }}#
               }}*
-      section:
+      sections:
         - heading: Highlights
           body:
             - class: highlights
@@ -146,108 +116,124 @@ readme:
                 align: left
               attrs_p:
                 align: justify
-
         - heading: Statistics
           body:
             - class: table
               rows:
-                - - <b>Repository</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - endpoint: created_at
-                      - endpoint: contributors
-                      - endpoint: language_count
-                      - endpoint: top_language
-                      - service: librariesio
-                        endpoint: dependency_status_github
-                      - endpoint: repo_size
-                      - endpoint: code_size
-                - - <b>Releases</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                      package: ${{ pkg.name }}$
-                    style: flat-square
-                    items:
-                      - endpoint: release_date
-                      - endpoint: version
-                        args:
-                          display_name: tag
-                          sort: semver
-                      - service: conda
-                        endpoint: version
-                      - service: pypi
-                        endpoint: version
-                - - <b>Downloads</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                      package: ${{ pkg.name }}$
-                    style: flat-square
-                    items:
-                      - service: conda
-                        endpoint: downloads
-                      - endpoint: downloads_all_releases
-                      - service: pepy
-                        endpoint: total_downloads
-                      - service: pypi
-                        endpoint: downloads
-                        args:
-                          period: m
-                      - service: pypi
-                        endpoint: downloads
-                        args:
-                          period: w
-                      - service: pypi
-                        endpoint: downloads
-                        args:
-                          period: d
-                - - <b>Users</b>
-                  - class: badges
-                    service: librariesio
-                    args:
-                      platform: pypi
-                      package: ${{ pkg.name }}$
-                    style: flat-square
-                    items:
-                      - endpoint: dependents
-                      - endpoint: dependents
-                        args:
-                          repo: true
-                - - <b>Community</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - endpoint: forks
-                      - endpoint: stars
-                      - endpoint: watchers
+                - - <b>Project</b>
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      color: ${{ __custom__.badge.color.blue }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: github
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      items:
+                        - endpoint: created_at
+                          label: 🗓 Creation Date
+                        - endpoint: contributors
+                          label: 🧑‍💻️ Contributors
+                        - endpoint: language_count
+                          label: 🔠 Programming Languages
+                        - endpoint: top_language
+                          logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
+                          logo_type: file
+                          logo_media_type: svg+xml
+                        - endpoint: repo_size
+                          label: 🚚 Repo Size
+                        - endpoint: code_size
+                          label: 🚛 Code Size
+                - - <b>Health</b>
+                  - - class: badges
+                      service: github
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      items:
+                        - service: librariesio
+                          endpoint: dependency_status_github
+                          args:
+                            platform: github
+                            package: ""
+                          label: Repository Dependencies
+                        - service: website
+                          args:
+                            url: ${{ web.url.home }}$
+                            up_message: online
+                            up_color: '#00802b'
+                            down_message: offline
+                            down_color: '#AF1F10'
+                          label: Website
+                - - <b>Standards</b>
+                  - - class: badges
+                      service: static
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      items:
+                        - label: Testing
+                          args:
+                            message: Pytest
+                          color: "#0A9EDC"
+                          logo: pytest
+                          logo_color: "#0A9EDC"
+                          logo_type: name
+                          link: https://github.com/pytest-dev/pytest/
+                        - label: Type Checking
+                          args:
+                            message: mypy
+                          color: "#2A6DB2"
+                          logo: ${{ web.path.source }}$/_media/logo_ext/mypy.svg
+                          logo_type: file
+                          logo_media_type: svg+xml
+                          link: https://github.com/python/mypy
+                        - label: Lint
+                          args:
+                            message: Ruff
+                          color: "#D7FF64"
+                          logo: ruff
+                          logo_type: name
+                          logo_color: "#D7FF64"
+                          link: https://github.com/astral-sh/ruff
+                        - label: Security
+                          args:
+                            message: CodeQL
+                          color: "#181717"
+                          logo: github
+                          logo_type: name
+                          link: https://codeql.github.com/
+                        - label: Code Style
+                          args:
+                            message: Black
+                          color: "#000"
+                          logo: ${{ web.path.source }}$/_media/logo_ext/black.png
+                          logo_type: file
+                          logo_media_type: png
+                          link: https://github.com/psf/black
                 - |
                   *{{
                     #{{
                       out = []
                       label_data = [("Total", None)] + [
-                        (badge_label, get(f"label.{label_type}.label.name"))
+                        (badge_label, get(f"label.type.label.{label_type}.name"))
                         for badge_label, label_type in (
-                          ("Bug Fixes", "fix"),
-                          ("New Features", "feat"),
-                          ("Breaking Changes", "change"),
+                          (f"{get(f"__custom__.icon.fix")} Bug Fixes", "fix"),
+                          (f"{get(f"__custom__.icon.feat")} New Features", "feat"),
+                          (f"{get(f"__custom__.icon.change")} Breaking Changes", "change"),
                         )
                       ]
                       repo_owner = get("repo.owner")
                       repo_name = get("repo.name")
+                      color_open = get("__custom__.badge.color.red")
+                      color_closed = get("__custom__.badge.color.green")
+                      style = get("__custom__.badge.style")
+                      height = get("__custom__.badge.height")
+                      separator = get("__custom__.badge.separator")
                       for title, issue_kind in (
                         ("Issues", "issues"),
                         ("PRs", "pulls"),
@@ -258,263 +244,207 @@ readme:
                             "class": "badges",
                             "service": "github",
                             "endpoint": "issue_count",
-                            "args": {"user": repo_owner, "repo": repo_name, "kind": issue_kind},
-                            "style": "flat-square",
+                            "args": {"user": repo_owner, "repo": repo_name, "kind": issue_kind, "label": issue_label},
+                            "style": style,
+                            "height": height,
                             "separator": 0,
                             "items": [
-                              {"args": {"state": "open"}, "label": badge_label},
-                              {"args": {"state": "closed"}, "label": ""},
+                              {"args": {"state": "open"}, "label": badge_label, "color": color_open},
+                              {"args": {"state": "closed"}, "label": "", "color": color_closed},
                             ],
                           }
-                          badges.extend([badges_config, "&nbsp;&nbsp;"])
-                        out.append([f"<b>{title}</b>", badges])
+                          badges.extend([badges_config, "&nbsp;" * separator])
+                        out.append([f"<b>{title}</b>", [badges]])
                       return out
                     }}#
                   }}*
                 - - <b>Commits</b>
-                  - class: badges
-                    service: github
-                    endpoint: commit_activity
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - args:
-                          interval: t
-                      - args:
-                          interval: y
-                        label: ""
-                      - args:
-                          interval: m
-                        label: ""
-                      - args:
-                          interval: w
-                        label: ""
-                      - endpoint: commits_since_latest_release
-                        label: since latest release
-                      - endpoint: last_commit
-                        label: last
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      color: ${{ __custom__.badge.color.blue }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: github
+                      endpoint: commit_activity
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      items:
+                        - args:
+                            interval: t
+                          label: Total
+                          logo: git
+                          logo_type: name
+                          logo_color: "#F05032"
+                        - args:
+                            interval: y
+                          label: ""
+                        - args:
+                            interval: m
+                          label: ""
+                        - args:
+                            interval: w
+                          label: ""
+                        - endpoint: commits_since_latest_release
+                          label: Since Latest Release
+                        - endpoint: last_commit
+                          label: Last
                 - - <b>Discussions</b>
-                  - class: badges
-                    service: github
-                    endpoint: discussion_search_hits
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - |
-                        *{{
-                          #{{
-                            return [
-                              {"args": {"query": f'category:"{category["name"]}"'}, "label": category["name"]}
-                              for category in get("discussion.category", {}).values() 
-                            ]
-                          }}#
-                        }}*
-                - - <b>Website</b>
-                  - class: badges
-                    style: flat-square
-                    items:
-                      - service: website
-                        args:
-                          url: ${{ web.url.home }}$
-                          up_message: online
-                          up_color: '#00802b'
-                          down_message: offline
-                          down_color: '#AF1F10'
-                        label: Status
-                - - <b>Health</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - service: codecov
-                        endpoint: coverage
-                        args:
-                          vcs_name: github
-                      - service: librariesio
-                        endpoint: source_rank
-                        args:
-                          platform: pypi
-                          package: ${{ pkg.name }}$
-                      - service: librariesio
-                        endpoint: dependency_status
-                        args:
-                          platform: pypi
-                          package: ${{ pkg.name }}$
-                      - service: librariesio
-                        endpoint: dependency_status_github
-                        args:
-                          platform: github
-                          package: ""
-                - - <b>Workflows</b>
-                  - class: badges
-                    service: github
-                    args:
-                      user: ${{ repo.owner }}$
-                      repo: ${{ repo.name }}$
-                    style: flat-square
-                    items:
-                      - endpoint: workflow_status
-                        args:
-                          workflow: main.yaml
-                        label: CI/CD
-                      - service: readthedocs
-                        endpoint: build_status
-                        args:
-                          name: ${{ tool.readthedocs.config.workflow.name }}$
-                      - endpoint: deployment_status
-                        args:
-                          environment: |
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      color: ${{ __custom__.badge.color.blue }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: github
+                      endpoint: discussion_search_hits
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      items:
+                        - |
+                          *{{
+                            #{{
+                              return [
+                                {
+                                  "args": {"query": f'category:"{category["name"]}"'},
+                                  "label": f"{category["emoji"]} {category["name"]}",
+                                  "title": category["description"],
+                                } for category in get("discussion.category", {}).values()
+                              ]
+                            }}#
+                          }}*
+                - - <b>Community</b>
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      color: ${{ __custom__.badge.color.blue }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: github
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      logo: github
+                      items:
+                        - endpoint: forks
+                        - endpoint: stars
+                        - endpoint: watchers
+                - - <b>DevOps</b>
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: github
+                      args:
+                        user: ${{ repo.owner }}$
+                        repo: ${{ repo.name }}$
+                      items:
+                        - endpoint: workflow_status
+                          logo: github
+                          logo_type: name
+                          args:
+                            workflow: main.yaml
+                          label: CI
+                        - |
+                          *{{
                             #{{
                               import jinja2
-                              return jinja2.Template(get("")).render(pkg=get("pkg"))
-                            }}#
-                      - endpoint: deployment_status
-                        args:
-                          environment: |
-                            #{{
-                              import jinja2
-                              return jinja2.Template(get("")).render(pkg=get("test"))
-                            }}#
-                      - endpoint: deployment_status
-                        args:
-                          environment: ${{ workflow.job.web.env.name }}$
-        - heading: Metadata
-          body:
-            - class: table
-              rows:
-                - |
-                  *{{
-                    #{{
-                      badges = []
-                      concept_doi = get("var.zenodo.concept.doi")
-                      if concept_doi:
-                        badges.append(
-                          {"args": {"message": concept_doi}, label="" 
-                        )
-                      
-                      
-                      curr_changelog = changelog.current_public
-                      doi = curr_changelog.get("release", {}).get(
-                        "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
-                      ).get("doi")
-                    }}#
-                  }}*
-                - - <b>License</b>
-                  - class: badges
-                    style: flat-square
-                    items:
-                      - service: static
-                        args:
-                          message: ${{ license.expression }}$
-                        label: SPDX Identifier
-                        color: ${{ color.secondary.light }}$
-                        color_dark: ${{ color.secondary.dark }}$
-                        link: ${{ web.page.license.url }}$
-                        title: 'SPDX-License-Identifier: ${{ license.expression }}$'
-                        alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
-                      - service: dynamic
-                        args:
-                          url: ${{ control.url.metadata }}$
-                          query: '$.copyright'
-                        label: Copyright
-                        color: ${{ color.primary.light }}$
-                        logo: ${{ web.file.icon.path }}$
-                        logo_type: file
-                        color_dark: ${{ color.primary.dark }}$
-                        logo_dark: ${{ web.file.icon.path }}$
-                        logo_type_dark: file
-                        link: ${{ web.url.home }}$
-                        title: '${{ name }}$: ${{ copyright }}$'
-                        alt: ${{ name }}$
-                - - <b>Package</b>
-                  - class: badges
-                    service: static
-                    items:
-                      - label: Distribution Name
-                        args:
-                          message: ${{ pkg.name }}$
-                      - label: Import Name
-                        args:
-                          message: ${{ pkg.import_name }}$
-                      - label: Typed
-                        args:
-                          message: >-
-                            #{{ return "Yes" if get("pkg.typed") else "No" }}#
-                      - |
-                        *{{
-                          #{{
-                            badges = []
-                            oss = get("pkg.os")
-                            color_green = get("__custom__.color.badge_green")
-                            color_red = get("__custom__.color.badge_red")
-                            for os_name, os_id, logo, logo_color in (
-                              ("Linux", "linux", "linux", "#FCC624"),
-                              ("macOS", "macos", "apple", "#000000"),
-                              ("Windows", "windows", "https://commons.wikimedia.org/wiki/File:Microsoft_logo.svg", None),
-                            ):
-                              if os_id not in oss:
-                                supports = "No"
-                                color = color_red
-                              else:
-                                os = oss[os_id]
-                                supports = "Yes" if "cibuild" not in os else " | ".join(os["cibuild"])
-                                color = color_red
-                              badge = {
-                                "label": f"{os_name} Support",
-                                "args": {"message": supports},
-                                "color": color,
-                                "logo": logo,
-                                "logo_color": logo_color
-                              }
-                              badges.append(badge)
-                            return badges
-                          }}#
-                        }}*
-                      - label: Python Support
-                        args:
-                          message: >-
-                            #{{ return " | ".join(get("pkg.python.version.minors")) }}#
-                      - label: Pure Python
-                        args:
-                          message: >-
-                            #{{ return "Yes" if get("pkg.python.pure") else "No" }}#
-                      - label: Python Implementation
-                        args:
-                          message: ${{ pkg.python.implementation }}$
-                      - label: CLI
-                        args:
-                          message: >-
-                            #{{
-                              cli = get("pkg.entry.cli")
-                              if not cli:
-                                return "No"
-                              return " | ".join(entry["name"] for entry in cli.values())
-                            }}#
-                      - label: GUI
-                        args:
-                          message: >-
-                            #{{
-                              gui = get("pkg.entry.gui")
-                              if not gui:
-                                return "No"
-                              return " | ".join(entry["name"] for entry in gui.values())
-                            }}#
 
-
+                              out = []
+                              for platform in ("pypi", "testpypi"):
+                                env = get(f"workflow.publish.{platform}.env")
+                                if env:
+                                  for pkg_key in ("pkg", "test"):
+                                    pkg_name = get(f"{pkg_key}.name")
+                                    if pkg_name:
+                                      env_name = jinja2.Template(env["name"]).render(
+                                        pkg={"name": pkg_name}
+                                      )
+                                      badge = {
+                                        "endpoint": "deployment_status",
+                                        "args": {"environment": env_name},
+                                        "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                                        "logo_type": "file",
+                                        "logo_media_type": "png",
+                                      }
+                                      out.append(badge)
+                              for platform in ("zenodo", "zenodo_sandbox"):
+                                env = get(f"workflow.publish.{platform}.env")
+                                if env:
+                                  badge = {
+                                    "endpoint": "deployment_status",
+                                    "args": {"environment": env["name"]},
+                                    "logo": "zenodo",
+                                    "logo_type": "name",
+                                  }
+                                  out.append(badge)
+                              github_env = get("workflow.publish.github.env")
+                              if github_env:
+                                badge = {
+                                  "endpoint": "deployment_status",
+                                  "args": {"environment": github_env["name"]},
+                                  "logo": "github",
+                                  "logo_type": "name",
+                                }
+                                out.append(badge)
+                              web_env = get("workflow.web.env")
+                              if web_env:
+                                badge = {
+                                  "endpoint": "deployment_status",
+                                  "args": {"environment": web_env["name"]},
+                                  "logo": "github",
+                                  "logo_type": "name",
+                                }
+                                out.append(badge)
+                              rtd_name = get("tool.readthedocs.config.workflow.name")
+                              if rtd_name:
+                                badge = {
+                                  "service": "readthedocs",
+                                  "endpoint": "build_status",
+                                  "args": {"name": rtd_name},
+                                  "label": "CD ReadTheDocs",
+                                }
+                                out.append(badge)
+                              return out
+                            }}#
+                          }}*
         - heading: Acknowledgements
           body:
             - ${{ name }}$ was developed in [Volkamer Lab](https://volkamerlab.org/).
-health:
-  code_owners: { }
+      footer:
+        - class: thematic_break
+        - class: badges
+          style: for-the-badge
+          items:
+            - service: dynamic
+              args:
+                url: ${{ control.url.metadata }}$
+                query: '$.copyright'
+              label: ${{ name }}$
+              color: ${{ color.primary.light }}$
+              logo: ${{ web.file.icon.path }}$
+              logo_type: file
+              color_dark: ${{ color.primary.dark }}$
+              logo_dark: ${{ web.file.icon.path }}$
+              logo_type_dark: file
+              link: ${{ team.owner.github.url }}$
+              title: '${{ name }}$: Copyright ${{ copyright }}$'
+              alt: ${{ .title }}$
+              align: left
+            - service: static
+              args:
+                message: ${{ license.expression }}$
+              label: SPDX License Identifier
+              color: "#4398CC"
+              logo: spdx
+              logo_color: "#4398CC"
+              link: ${{ web.page.license.url }}$
+              title: 'SPDX-License-Identifier: ${{ license.expression }}$'
+              alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
+              align: right
   code_of_conduct:
-    path: CODE_OF_CONDUCT.md
+    output:
+      repo:
+        path: CODE_OF_CONDUCT.md
     content:
       class: covenant_code_of_conduct
       contact_name: |
@@ -532,7 +462,9 @@ health:
           )[0]["email"]["url"]
         }}#
   contributing:
-    path: CONTRIBUTING.md
+    output:
+      repo:
+        path: CONTRIBUTING.md
     content:
       heading: ${{ name }}$ Contributing Guidelines
       body:
@@ -545,7 +477,7 @@ health:
             and grateful that you are considering contributing.
             ${{ name }}$ is a free and open-source project that evolves with the needs of its users,
             and can only grow through the help of great members like you.
-      section:
+      sections:
         - heading: How To Contribute
           body:
             - class: paragraph
@@ -555,12 +487,11 @@ health:
                 To keep all our project documentation organized and easy to find, the complete
                 <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
   security:
-    path: SECURITY.md
+    output:
+      repo:
+        path: SECURITY.md
     content:
       heading: Security Policy
-doc:
-  announcement:
-    path: ${{ web.path.root }}$/announcement.html
 web:
   toc:
     path: .toc.yaml
@@ -1218,7 +1149,49 @@ web:
     - links:
         - title: Q&A
           path: 'help/ask'
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
+  file:
+    icon:
+      rel_path: ${{ __custom__.logo_dir_path }}$/favicon.svg
+    logo_simple_light:
+      rel_path: ${{ __custom__.logo_dir_path }}$/simple_light.svg
+    logo_simple_dark:
+      rel_path: ${{ __custom__.logo_dir_path }}$/simple_dark.svg
+    logo_simple_raster:
+      rel_path: ${{ __custom__.logo_dir_path }}$/simple_light.png
+    logo_full_light:
+      rel_path: ${{ __custom__.logo_dir_path }}$/full_light.svg
+    logo_full_dark:
+      rel_path: ${{ __custom__.logo_dir_path }}$/full_dark.svg
+    logo_full_raster:
+      rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
 __custom__:
-  color:
-    badge_green: "#00802B"
-    badge_red: "#AF1F10"
+  badge:
+    color:
+      grey: "#494949"
+      blue: "#0B3C75"
+      green: "#00802B"
+      orange: "#D93402"
+      red: "#AF1F10"
+    style: flat-square
+    height: 23px
+    separator: 2
+  icon:
+    post: 📫
+    fix: 🐞
+    feat: ✨
+    change: 💥
+    config: 🛠️
+    refactor: 🧹️
+    chore: ♻️
+    ci: 🤖️
+    api: 🖥
+    cli: ⌨️
+    gui: 🖱
+    setup: ⚙️
+    pkg: 📦
+    test: 🧪
+    docs: 📚
+    repo: 🧰
+  logo_dir_path: _media/logo  # Path to logo directory relative to website source directory
