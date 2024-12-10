@@ -1,3 +1,6 @@
+# PyPackIT-TestSuite © 2023–2024 RepoDynamics
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Run all tests for the package."""
 
 from __future__ import annotations

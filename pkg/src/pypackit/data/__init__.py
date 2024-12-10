@@ -1,3 +1,6 @@
+# PyPackIT © 2023–2024 RepoDynamics
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Functions for retrieving package data files."""
 
 from __future__ import annotations as _annotations

@@ -1,0 +1,13 @@
+name: pypackit
+dependencies:
+  - python =3.10
+  - pip
+  - repodynamics::pkgdata
+  - conda-forge::pytest ==8.3.3
+  - conda-forge::coverage ==7.6.1
+  - conda-forge::pytest-cov ==5.0.0
+  - conda-forge::pytest-html ==4.1.1
+  - conda-forge::jupyterlab-myst
+  - pip:
+      - -e ../pkg
+      - -e ../test

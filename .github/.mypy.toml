@@ -1,0 +1,20 @@
+[tool.mypy]
+any_exprs_report = ".local/report/mypy"
+cache_dir = ".local/cache/mypy"
+color_output = true
+html_report = ".local/report/mypy"
+linecount_report = ".local/report/mypy"
+linecoverage_report = ".local/report/mypy"
+lineprecision_report = ".local/report/mypy"
+packages = ["pypackit"]
+pretty = true
+raise_exceptions = true
+show_column_numbers = true
+show_error_code_links = true
+show_error_context = true
+show_traceback = true
+strict = true
+txt_report = ".local/report/mypy"
+verbosity = 2
+warn_return_any = true
+xml_report = ".local/report/mypy"

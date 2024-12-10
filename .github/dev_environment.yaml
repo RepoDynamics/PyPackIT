@@ -2,3 +2,5 @@ name: pypackit-dev
 dependencies:
   - python
   - conda-forge::pre-commit = 4.0.1
+  - conda-forge::pylint = 3.3.0
+  - conda-forge::mypy = 1.13.0

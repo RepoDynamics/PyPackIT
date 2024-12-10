@@ -1,0 +1,98 @@
+[project]
+name = "PyPackIT-TestSuite"
+description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
+keywords = [
+    "Automation",
+    "Cloud-Native Development",
+    "Continuous Integration",
+    "Continuous Delivery",
+    "Continuous Deployment",
+    "Continuous Testing",
+    "Continuous Refactoring",
+    "Continuous Configuration Automation",
+    "Continuous Software Engineering",
+    "DevOps",
+    "Infrastructure as Code",
+    "Agile",
+    "Dynamic Project Management",
+    "Template Repository",
+    "Python Package Skeleton",
+    "Sphinx Website",
+    "Test Suite Skeleton",
+    "FAIR Software",
+    "GitHub Actions",
+    "Bot",
+]
+authors = [
+    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
+]
+maintainers = [
+    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pytest ==8.3.3",
+    "coverage ==7.6.1",
+    "pytest-cov ==5.0.0",
+    "pytest-html ==4.1.1",
+    "pkgdata",
+]
+dynamic = [
+    "version",
+]
+license = {text = "AGPL-3.0-or-later"}
+
+[project.urls]
+Homepage = "https://pypackit.repodynamics.com"
+Source = "https://github.com/RepoDynamics/PyPackIT"
+Download = "https://github.com/RepoDynamics/PyPackIT/releases"
+Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
+
+[project.readme]
+text = "# PyPackIT-TestSuite\nThis is the test-suite for PyPackIT.\n"
+content-type = "text/markdown"
+
+[project.scripts]
+PyPackIT-TestSuite = "pypackit_testsuite.__main__:main"
+
+[build-system]
+requires = [
+    "setuptools >=72.1.0",
+    "versioningit >=3.1.2",
+]
+build-backend = "setuptools.build_meta"
+
+[tool]
+[tool.setuptools]
+include-package-data = true
+license-files = ["LICENSES/*", "COPYRIGHTS/*"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+[tool.setuptools.cmdclass]
+build_py = "versioningit.cmdclass.build_py"
+sdist = "versioningit.cmdclass.sdist"
+
+[tool.versioningit]
+[tool.versioningit.vcs]
+method = "git"
+match = ["ver/[0-9]*.[0-9]*.[0-9]*"]
+default-tag = "ver/0.0.0"
+
+[tool.versioningit.tag2version]
+rmprefix = "ver/"
+
+[tool.versioningit.format]
+distance = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}"
+dirty = "{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty"
+distance-dirty = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty"
+
+[tool.versioningit.onbuild]
+method = "replace-version"
+regex = "^__version_details__: dict\\[str, str\\] = (?P<version>.*)"
+require-match = true
+source-file = "src/pypackit_testsuite/__init__.py"
+build-file = "pypackit_testsuite/__init__.py"
+replacement = "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}"

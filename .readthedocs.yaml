@@ -8,6 +8,10 @@ build:
       - git fetch --unshallow
 conda:
   environment: docs/website/environment.yaml
+python:
+  install:
+    - method: pip
+      path: pkg
 sphinx:
   configuration: docs/website/source/conf.py
   builder: dirhtml

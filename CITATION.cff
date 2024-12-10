@@ -11,7 +11,7 @@ identifiers:
     description: Persistent DOI of the project as a whole.
 type: software
 title: 'PyPackIT: Cloud-Native Continuous Software Engineering Automation for Python
-  Projects'
+  Packages on GitHub'
 authors:
   - family-names: Ariamajd
     given-names: Armin

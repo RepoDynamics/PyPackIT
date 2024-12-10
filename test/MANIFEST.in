@@ -1,0 +1,3 @@
+graft src/pypackit_testsuite/data
+include src/pypackit_testsuite/py.typed
+global-exclude *.py[cod] __pycache__ *.so

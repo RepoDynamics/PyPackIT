@@ -1,0 +1,8 @@
+name: pypackit-testsuite
+dependencies:
+  - python >=3.10
+  - conda-forge::pytest ==8.3.3
+  - conda-forge::coverage ==7.6.1
+  - conda-forge::pytest-cov ==5.0.0
+  - conda-forge::pytest-html ==4.1.1
+  - repodynamics::pkgdata

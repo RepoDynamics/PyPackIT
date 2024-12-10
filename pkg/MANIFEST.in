@@ -1,0 +1,3 @@
+graft src/pypackit/data
+include src/pypackit/py.typed
+global-exclude *.py[cod] __pycache__ *.so

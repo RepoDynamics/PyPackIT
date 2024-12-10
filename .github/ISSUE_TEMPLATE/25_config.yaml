@@ -1,0 +1,113 @@
+name:  🛠️ Configuration Request
+description: Request a change in PyPackIT's metadata and settings.
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        <p align="justify">
+          Thank you for providing feedback on PyPackIT;
+          we greatly appreciate your contribution!
+          Before submitting a ticket,
+          please take a moment to review and accept our terms and conditions.
+        </p>
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+        ## 🤝 Terms and Conditions
+  - type: markdown
+    attributes:
+      value: |
+        ### ⛔ Choosing the Right Form
+
+        <p align="justify">
+          Please note that this form is specifically for requesting a <b>reconfiguration</b> in PyPackIT's metadata and settings, such as project information and other options that do not fall under other issue categories.,
+          For other types of issues and requests, select the appropriate form
+          from the <a href="https://github.com/RepoDynamics/PyPackIT/issues/new/choose">issue template chooser</a>.
+          If you are unsure about which form to choose or have another inquiry,
+          please open a discussion in our <a href="https://github.com/RepoDynamics/PyPackIT/discussions">discussion forum</a>.
+        </p>
+  - type: markdown
+    attributes:
+      value: |
+        ### ℹ️ Choosing the Right Title
+
+        <p align="justify">Please write a concise and descriptive title and
+        use relevant keywords to help others find the issue.</p>
+  - type: markdown
+    attributes:
+      value: '### ✅ Agreements'
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 'To submit an issue, please agree to the following terms and conditions:'
+      options:
+        - label: "I confirm that I am following PyPackIT's [Contribution Guidelines](https://pypackit.repodynamics.com/contribute).<!--
+            ISSUE-ID: config -->"
+          required: true
+        - label: I agree to follow PyPackIT's [Code of Conduct](https://github.com/RepoDynamics/PyPackIT/blob/main/CODE_OF_CONDUCT.md).
+          required: true
+  - type: markdown
+    attributes:
+      value: '### 🧑‍💻️ Collaboration'
+  - type: checkboxes
+    id: collab
+    attributes:
+      label: |
+        Thank you again for filling out this issue ticket.
+        If you are willing to collaborate on its design and implementation,
+        please select the option below.
+      options:
+        - label: I am willing to collaborate on this issue and submit a pull request.
+          required: false
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+        ## 💥 Change Request
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: |
+        Please select all relevant PyPackIT versions.
+      multiple: true
+      options:
+        - 0.0.0
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: Please provide the URL of the relevant configuration file in the
+        repository.
+      placeholder: https://github.com/RepoDynamics/PyPackIT/blob/main/.control/proj.yaml
+    validations:
+      required: true
+  - type: input
+    id: jsonpath
+    attributes:
+      label: Path
+      description: Please provide the JSONPath expression to the relevant configuration
+        field.
+      placeholder: $.license.expression
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Please provide a summary of the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Please describe your proposal in detail.
+    validations:
+      required: true

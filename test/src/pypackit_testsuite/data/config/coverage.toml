@@ -1,0 +1,21 @@
+[tool.coverage]
+[tool.coverage.html]
+directory = "$|| path_report ||/coverage/html"
+title = "PyPackIT Test Coverage"
+
+[tool.coverage.json]
+output = "$|| path_report ||/coverage/coverage.json"
+pretty_print = true
+
+[tool.coverage.report]
+exclude_also = ["def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:", "@(abc\\.)?abstractmethod", "if _?TYPE_CHECKING:"]
+show_missing = true
+
+[tool.coverage.run]
+branch = true
+data_file = "$|| path_cache ||/coverage/coverage"
+debug_file = "$|| path_report ||/coverage/debug.log"
+source_pkgs = ["pypackit"]
+
+[tool.coverage.xml]
+output = "$|| path_report ||/coverage/coverage.xml"

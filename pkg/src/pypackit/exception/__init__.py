@@ -1,3 +1,6 @@
+# PyPackIT © 2023–2024 RepoDynamics
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Exceptions raised by the package."""
 
 

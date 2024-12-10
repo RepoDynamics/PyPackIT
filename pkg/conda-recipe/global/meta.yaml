@@ -1,0 +1,58 @@
+{% set name = "PyPackIT" %}
+{% set version = "0.0.0" %}
+{% set pkg_dir = "./" %}
+
+package:
+  name: '{{ name | lower }}'
+  version: '{{ version }}'
+
+source:
+  path: ../../../
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv
+  number: 0
+  entry_points:
+    - PyPackIT = pypackit.__main__:main
+
+requirements:
+  host:
+    - python >=3.10
+    - pip
+    - conda-forge::setuptools >=72.1.0
+    - conda-forge::versioningit >=3.1.2
+  run:
+    - python >=3.10
+    - repodynamics::pkgdata
+
+test:
+  imports:
+    - pypackit
+  requires:
+    - pip
+  commands:
+    - pip check
+    - PyPackIT --help
+
+about:
+  home: https://pypackit.repodynamics.com
+  license: AGPL-3.0-or-later
+  license_file:
+    - '{{ pkg_dir }}LICENSES/'
+    - '{{ pkg_dir }}${{ __custom__.dir_name.copyrights }}$/'
+  summary: Cloud-Native Continuous Software Engineering Automation for Python Packages
+    on GitHub
+  dev_url: https://github.com/RepoDynamics/PyPackIT
+  doc_url: https://pypackit.repodynamics.com
+  doc_source_url: https://github.com/RepoDynamics/PyPackIT/blob/main/pkg/README.md
+  description: |-
+    {{
+      load_file_regex(
+        load_file=pkg_dir ~ "README.md",
+        regex_pattern="(?s)^(.*)$",
+      )[1] | default("") | indent(width=4)
+    }}
+
+recipe-maintainers:
+  - AAriam

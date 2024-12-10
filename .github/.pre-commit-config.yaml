@@ -50,6 +50,8 @@ repos:
           - pre-commit
           - manual
         verbose: true
+        exclude: 
+          pkg/conda\-recipe/local|pkg/conda\-recipe/global|test/conda\-recipe/local|test/conda\-recipe/global
       - id: destroyed-symlinks
         stages:
           - pre-commit
@@ -99,4 +101,33 @@ repos:
           - manual
         args:
           - --markdown-linebreak-ext=md
+        verbose: true
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.4
+    hooks:
+      - id: ruff
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --verbose
+          - --config
+          - .github/.ruff.toml
+          - --exit-non-zero-on-fix
+        types_or:
+          - python
+          - pyi
+          - jupyter
+        verbose: true
+      - id: ruff-format
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --config
+          - .github/.ruff.toml
+        types_or:
+          - python
+          - pyi
+          - jupyter
         verbose: true

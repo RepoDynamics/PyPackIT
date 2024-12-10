@@ -1,0 +1,45 @@
+cache-dir = ".local/cache/ruff"
+fix = true
+line-length = 100
+output-format = "grouped"
+required-version = "== 0.7.4"
+show-fixes = true
+src = ["pkg/src", "test/src"]
+target-version = "py310"
+
+[format]
+docstring-code-format = true
+
+[lint]
+ignore = ["PLR1711", "W191", "E501", "E111", "E114", "E117", "D206", "D300", "Q000", "Q001", "Q002", "Q003", "COM812", "COM819", "ISC001", "ISC002", "ANN101", "ANN102"]
+select = ["F", "E", "W", "C90", "I", "N", "D", "UP", "YTT", "ANN", "ASYNC", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN", "LOG", "G", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "E", "R", "W", "TRY", "FLY", "NPY", "PERF", "FURB", "RUF"]
+
+[lint.flake8-annotations]
+allow-star-arg-any = true
+mypy-init-return = true
+suppress-dummy-args = true
+suppress-none-returning = true
+
+[lint.flake8-comprehensions]
+allow-dict-calls-with-keyword-arguments = true
+
+[lint.flake8-type-checking]
+quote-annotations = true
+
+[lint.mccabe]
+max-complexity = 15
+
+[lint.per-file-ignores]
+"docs/website/source/conf.py" = ["TRY003"]
+"pkg/src/pypackit/__main__.py" = ["T20"]
+"test/src/**" = ["S101"]
+"test/src/pypackit_testsuite/__init__.py" = ["T20"]
+"test/src/pypackit_testsuite/__main__.py" = ["T20"]
+
+[lint.pydocstyle]
+convention = "numpy"
+
+[lint.pylint]
+max-args = 10
+max-public-methods = 50
+max-returns = 10
