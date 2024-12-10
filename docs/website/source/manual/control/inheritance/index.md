@@ -86,6 +86,7 @@ To extract only the `team` data, you can add a JSONPath expression to the tag:
 team: !ext https://raw.githubusercontent.com/MyOrg/.Control/refs/head/main/config.yaml $.members
 :::
 
-Notice that in contrast to templating syntax where the leading `$.` of JSONPath expressions are omitted,
+Notice that in contrast to templating syntax
+where the leading `$.` of JSONPath expressions are omitted,
 here they are included in the tag value.
 ::::
