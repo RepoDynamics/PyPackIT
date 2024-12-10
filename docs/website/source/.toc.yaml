@@ -2,57 +2,57 @@ root: index
 defaults:
   hidden: true
 entries:
-- file: intro/index
-  title: Intro
-  options:
-    numbered: true
-  entries:
-  - file: intro/overview/index
-  - file: intro/background/index
-  - file: intro/glossary/index
-  - file: intro/references/index
-  - file: intro/supplementary/index
+  - file: intro/index
+    title: Intro
+    options:
+      numbered: true
     entries:
-    - file: intro/supplementary/python/index
-    - file: intro/supplementary/versioning/index
-    - file: intro/supplementary/indexes/index
-    - file: intro/supplementary/publication/index
-- file: manual/index
-  title: Manual
-  options:
-    numbered: true
-  entries:
-  - file: manual/install/index
+      - file: intro/overview/index
+      - file: intro/background/index
+      - file: intro/glossary/index
+      - file: intro/references/index
+      - file: intro/supplementary/index
+        entries:
+          - file: intro/supplementary/python/index
+          - file: intro/supplementary/versioning/index
+          - file: intro/supplementary/indexes/index
+          - file: intro/supplementary/publication/index
+  - file: manual/index
+    title: Manual
+    options:
+      numbered: true
     entries:
-    - file: manual/install/new/index
-    - file: manual/install/existing/index
-    - file: manual/install/upgrade/index
-    - file: manual/install/common/index
-  - file: manual/quickstart/index
-  - file: manual/control/index
+      - file: manual/install/index
+        entries:
+          - file: manual/install/new/index
+          - file: manual/install/existing/index
+          - file: manual/install/upgrade/index
+          - file: manual/install/common/index
+      - file: manual/quickstart/index
+      - file: manual/control/index
+        entries:
+          - file: manual/control/structure/index
+          - file: manual/control/templating/index
+          - file: manual/control/inheritance/index
+  - file: news/index
+    title: News
     entries:
-    - file: manual/control/structure/index
-    - file: manual/control/templating/index
-    - file: manual/control/inheritance/index
-- file: news/index
-  title: News
-  entries:
-  - glob: news/post/**
-- file: contribute/index
-  title: Contribute
-  options:
-    numbered: true
-- file: about/index
-  title: About
-  options:
-    numbered: true
-  entries:
-  - file: about/citation/index
-  - file: about/contact/index
-  - file: about/license/index
-- file: help/index
-  title: Help
-  options:
-    numbered: true
-  entries:
-  - file: help/website/index
+      - glob: news/post/**
+  - file: contribute/index
+    title: Contribute
+    options:
+      numbered: true
+  - file: about/index
+    title: About
+    options:
+      numbered: true
+    entries:
+      - file: about/citation/index
+      - file: about/contact/index
+      - file: about/license/index
+  - file: help/index
+    title: Help
+    options:
+      numbered: true
+    entries:
+      - file: help/website/index
