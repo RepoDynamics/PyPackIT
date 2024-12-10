@@ -5,7 +5,6 @@
 
 import pytest
 
-import pypackit as pkg
 import pypackit.data as pkg_data
 from pypackit.exception.data import DataFileNotFoundError
 
