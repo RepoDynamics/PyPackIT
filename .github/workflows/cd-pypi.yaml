@@ -50,6 +50,6 @@ jobs:
     if: fromJSON(inputs.config).test
     permissions:
       id-token: write
-    uses: ./.github/workflows/_test.yaml
+    uses: ./.github/workflows/ci-test.yaml
     with:
       config: ${{ toJSON(fromJSON(inputs.config).test.job) }}
