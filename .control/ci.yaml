@@ -69,6 +69,14 @@ tool:
                   # https://github.com/pre-commit/pre-commit-hooks#check-yaml
                   stages: [ pre-commit, manual ]
                   verbose: true
+                  exclude: |
+                    #{{
+                      import re
+                      conda_meta_paths = []
+                      for key in ("pkg", "test"):
+                        conda_meta_paths.extend(list(get(f"{key}.conda.recipe.path", {}).values()))
+                      return "|".join(re.escape(path) for path in conda_meta_paths)
+                    }}#
                 - id: destroyed-symlinks
                   # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#destroyed-symlinks
                   stages: [ pre-commit, manual ]
@@ -107,18 +115,53 @@ tool:
                   stages: [ pre-commit, manual ]
                   args: [ --markdown-linebreak-ext=md ]
                   verbose: true
+            - repo: https://github.com/astral-sh/ruff-pre-commit
+              rev: v0.7.4
+              hooks:
+                - id: ruff
+                  stages: [ pre-commit, manual ]
+                  args:
+                    - --verbose
+                    - --config
+                    - '${{ tool.ruff.config.file.path }}$'
+                    - --exit-non-zero-on-fix  # DO NOT CHANGE - Required for RepoDynamics CI
+                  types_or: [ python, pyi, jupyter ]
+                  verbose: true
+                - id: ruff-format
+                  stages: [ pre-commit, manual ]
+                  args: [ --config, '${{ tool.ruff.config.file.path }}$' ]
+                  types_or: [ python, pyi, jupyter ]
+                  verbose: true
+  codecov:
+    config:
+      file:
+        type: yaml
+        path: .github/.codecov.yml
+        content:
+          coverage:
+            precision: 2
+            round: nearest
+            range: "90...100"
+            status:
+              project:
+                default:
+                  target: 100%
+                  threshold: 5%
+          comment:
+            layout: "header, diff, flags, files"
+            require_changes: false
+            behavior: default
   readthedocs:
     config:
       workflow:
-        name: >-
-          #{{ return slugify(get("repo.name")) }}#
+        name: ${{ repo.name }}$
         platform: "community"
       file:
         type: yaml
         path: .readthedocs.yaml
         content:
           version: 2
-          build:  # Set the version of Python and other tools you might need
+          build: # Set the version of Python and other tools you might need
             os: ubuntu-22.04
             tools:
               python: "mambaforge-4.10"
@@ -127,21 +170,381 @@ tool:
                 # versioningit needs the full git history to determine the package's version at build time.
                 # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
                 - git fetch --unshallow
-          conda:  # Website dependencies
+          conda: # Website dependencies
             environment: ${{ web.env.file.conda.path }}$
-          sphinx:  # Build with Sphinx
+          python:
+            install: # Install the package
+              - method: pip
+                path: ${{ pkg.path.root }}$
+          sphinx: # Build with Sphinx
             configuration: ${{ web.path.source }}$/conf.py
             builder: dirhtml
             fail_on_warning: false
           formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+  pylint:
+    env:
+      dependency:
+        pylint:
+          name: Pylint
+          import_name: pylint
+          pip:
+            spec: pylint[spelling] == 3.3.0
+          conda:
+            spec: pylint = 3.3.0
+            channel: conda-forge
+          url:
+            docs: https://pylint.readthedocs.io/
+            source: https://github.com/pylint-dev/pylint
+            pip: https://pypi.org/project/pylint/
+            conda: https://anaconda.org/conda-forge/pylint
+      file:
+        conda: *conda_dev_env
+        pip:
+          path: .github/workflow_requirements/pylint.txt
+  mypy:
+    env:
+      dependency:
+        mypy:
+          name: Mypy
+          import_name: mypy
+          pip:
+            spec: mypy[reports] == 1.13.0
+          conda:
+            spec: mypy = 1.13.0
+            channel: conda-forge
+          url:
+            docs: https://mypy.readthedocs.io/
+            source: https://github.com/python/mypy
+            pip: https://pypi.org/project/mypy/
+            conda: https://anaconda.org/conda-forge/mypy
+      file:
+        conda: *conda_dev_env
+        pip:
+          path: .github/workflow_requirements/mypy.txt
+    config:
+      file:
+        type: toml
+        path: .github/.mypy.toml
+        content:
+          # Ref: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
+          tool:
+            mypy:
+              # Import discovery
+              packages: [ '${{ pkg.import_name }}$' ]
+              # Configuring warnings
+              warn_return_any: true
+              # Miscellaneous strictness flags
+              strict: true
+              # Configuring error messages
+              show_error_context: true
+              show_column_numbers: true
+              show_error_code_links: true
+              pretty: true
+              color_output: true
+              # Incremental mode
+              cache_dir: ${{ tool.mypy.config.workflow.cache_path }}$
+              # Advanced options
+              show_traceback: true
+              raise_exceptions: true
+              # Report generation
+              any_exprs_report: ${{ tool.mypy.config.workflow.report_path }}$
+              html_report: ${{ tool.mypy.config.workflow.report_path }}$
+              linecount_report: ${{ tool.mypy.config.workflow.report_path }}$
+              linecoverage_report: ${{ tool.mypy.config.workflow.report_path }}$
+              lineprecision_report: ${{ tool.mypy.config.workflow.report_path }}$
+              txt_report: ${{ tool.mypy.config.workflow.report_path }}$
+              xml_report: ${{ tool.mypy.config.workflow.report_path }}$
+              # Miscellaneous
+              verbosity: 2
+      workflow:
+        cache_path: ${{ local.cache.path }}$/mypy
+        report_path: ${{ local.report.path }}$/mypy
+  pytest:
+    # Ref: https://docs.pytest.org/en/stable/reference/reference.html#ini-options-ref
+    # Ref: https://docs.pytest.org/en/stable/reference/customize.html
+    config:
+      file:
+        type: toml
+        path: ${{ test.path.import }}$/data/config/pytest.toml
+        content:
+          tool:
+            pytest:
+              ini_options:
+                addopts: >-
+                  -r a
+                  --verbose
+                  --color=yes
+                  --full-trace
+                  --strict-config
+                  --junit-xml='$|| path_report ||/pytest/junit.xml'
+                  --import-mode=importlib
+                  --debug='$|| path_report ||/pytest/debug.log'
+                  --cov
+                  --cov-config='$|| path_config ||/coverage.toml'
+                  --cov-report=term-missing:skip-covered
+                  --cov-report=html
+                  --cov-report=xml
+                  --cov-report=json
+                  --html='$|| path_report ||/pytest/report.html'
+                  --self-contained-html
+                cache_dir: $|| path_cache ||/pytest
+                console_output_style: count
+                junit_logging: all
+                junit_suite_name: ${{ test.import_name }}$
+                log_auto_indent: true
+                log_cli: true
+                log_cli_date_format: '%Y-%m-%d %H:%M:%S'
+                log_cli_format: '%(levelname)s %(message)s'
+                log_cli_level: INFO
+                log_date_format: '%Y-%m-%d %H:%M:%S'
+                log_file: $|| path_report ||/pytest/log.txt
+                log_file_date_format: '%Y-%m-%d %H:%M:%S'
+                log_file_format: '%(asctime)s %(levelname)s %(message)s'
+                log_file_level: DEBUG
+                log_format: '%(asctime)s %(levelname)s %(message)s'
+                log_level: DEBUG
+                minversion: 8.3.3
+                python_classes: [ Test*, '*Test' ]
+                python_files: [ test_*.py, tests_*.py, '*_test.py', '*_tests.py' ]
+                python_functions: [ 'test_*', 'tests_*', '*_test',  '*_tests' ]
+                required_plugins:
+                  - pytest-cov == 5.0.0
+                  - pytest-html == 4.1.1
+  coverage:
+    # pytest-cov / Coverage.py
+    # Ref: https://pytest-cov.readthedocs.io/en/latest/config.html
+    # Ref: https://coverage.readthedocs.io/en/latest/config.html
+    config:
+      file:
+        type: toml
+        path: ${{ test.path.import }}$/data/config/coverage.toml
+        content:
+          tool:
+            coverage:
+              run:
+                branch: true
+                data_file: $|| path_cache ||/coverage/coverage
+                debug_file: $|| path_report ||/coverage/debug.log
+                source_pkgs: [ "${{ pkg.import_name }}$" ]
+              report:
+                # Regexes for lines to exclude from consideration
+                exclude_also:
+                  # debug-only code:
+                  - "def __repr__"
+                  - "if self\\.debug"
+                  # defensive assertion code:
+                  - "raise AssertionError"
+                  - "raise NotImplementedError"
+                  # non-runnable code:
+                  - "if 0:"
+                  - "if __name__ == .__main__.:"
+                  # abstract methods:
+                  - "@(abc\\.)?abstractmethod"
+                  # type checking:
+                  - "if _?TYPE_CHECKING:"
+                show_missing: true
+              html:
+                directory: $|| path_report ||/coverage/html
+                title: "${{ pkg.name }}$ Test Coverage"
+              xml:
+                output: $|| path_report ||/coverage/coverage.xml
+              json:
+                output: $|| path_report ||/coverage/coverage.json
+                pretty_print: true
+  binder:
+    env:
+      dependency: '#{{ return hook.binder_dependencies() }}#'
+      file:
+        conda:
+          name: '#{{ return slugify(get("name")) }}#'
+          python: '=#{{ return get("pkg.python.version.minors")[0] }}#'
+          path: ${{ workflow.binder.path.config }}$/environment.yml  # repo2docker only recognizes `environment.yml` for conda
+  ruff:
+    config:
+      file:
+        type: toml
+        path: .github/.ruff.toml
+        content:
+          # https://docs.astral.sh/ruff/settings/
+          cache-dir: ${{ local.cache.path }}$/ruff
+          fix: true
+          line-length: 100
+          output-format: grouped
+          required-version: == 0.7.4
+          show-fixes: true
+          src:
+            - '${{ pkg.path.source }}$'
+            - '${{ test.path.source }}$'
+          target-version: >-
+            #{{
+              major, minor = get("pkg.python.version.minors")[0].split(".")
+              return f"py{major}{minor}"
+            }}#
+          format:
+            docstring-code-format: true
+          lint:
+            ignore:
+              - PLR1711  # https://docs.astral.sh/ruff/rules/useless-return/
+              # Rules conflicting with the formatter (see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
+              - W191
+              - E501
+              - E111
+              - E114
+              - E117
+              - D206
+              - D300
+              - Q000
+              - Q001
+              - Q002
+              - Q003
+              - COM812
+              - COM819
+              - ISC001
+              - ISC002
+              # Deprecated rules
+              - ANN101
+              - ANN102
+            per-file-ignores:
+              '${{ test.path.source }}$/**':
+                - S101
+              '${{ web.path.source }}$/conf.py':
+                - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
+              # https://docs.astral.sh/ruff/rules/#flake8-print-t20
+              '${{ pkg.path.import }}$/__main__.py':
+                - T20
+              '${{ test.path.import }}$/__main__.py':
+                - T20
+              '${{ test.path.import }}$/__init__.py':
+                - T20
+            select:
+              # https://docs.astral.sh/ruff/rules
+              - F      # pyflakes
+              - E      # pycodestyle error
+              - W      # pycodestyle warning
+              - C90    # mccabe
+              - I      # isort
+              - N      # pep8-naming
+              - D      # pydocstyle
+              - UP     # pyupgrade
+              - YTT    # flake8-2020
+              - ANN    # flake8-annotations
+              - ASYNC  # flake8-async
+              - S      # flake8-bandit
+              - BLE    # flake8-blind-except
+              - FBT    # flake8-boolean-trap
+              - B      # flake8-bugbear
+              - A      # flake8-builtins
+              - COM    # flake8-commas
+              - C4     # flake8-comprehensions
+              - DTZ    # flake8-datetimez
+              - T10    # flake8-debugger
+              - EM     # flake8-errmsg
+              - EXE    # flake8-executable
+              - FA     # flake8-future-annotations
+              - ISC    # flake8-implicit-str-concat
+              - ICN    # flake8-import-conventions
+              - LOG    # flake8-logging
+              - G      # flake8-logging-format
+              - PIE    # flake8-pie
+              - T20    # flake8-print
+              - PYI    # flake8-pyi
+              - PT     # flake8-pytest-style
+              - Q      # flake8-quotes
+              - RSE    # flake8-raise
+              - RET    # flake8-return
+              - SLF    # flake8-self
+              - SLOT   # flake8-slot
+              - SIM    # flake8-simplify
+              - TID    # flake8-tidy-imports
+              - TCH    # flake8-type-checking
+              - INT    # flake8-gettext
+              - ARG    # flake8-unused-arguments
+              - PTH    # flake8-use-pathlib
+              - TD     # flake8-todos
+              - FIX    # flake8-fixme
+              - ERA    # eradicate
+              - PD     # pandas-vet
+              - PGH    # pygrep-hooks
+              - PL     # pylint
+              - E      # error
+              - R      # refactor
+              - W      # warning
+              - TRY    # tryceratops
+              - FLY    # flynt
+              - NPY    # numpy
+              - PERF   # perflint
+              - FURB   # refurb
+              - RUF    # ruff-specific rules
+            flake8-annotations:
+              allow-star-arg-any: true
+              mypy-init-return: true
+              suppress-dummy-args: true
+              suppress-none-returning: true
+            flake8-comprehensions:
+              allow-dict-calls-with-keyword-arguments: true
+            flake8-type-checking:
+              quote-annotations: true
+            pydocstyle:
+              convention: numpy
+            pylint:
+              max-args: 10
+              max-public-methods: 50
+              max-returns: 10
+            mccabe:
+              max-complexity: 15
 workflow:
+  binder:
+    path:
+      config: .docker
+      dockerfile: .binder
+    image:
+      test_script: '${{ test.entry.cli.main.name }}$'
   publish:
+    anaconda:
+      name: Publish (Anaconda)
+      task_name: '{{ pkg.name }} v{{ version }}'
+      env:
+        name: Anaconda ({{ pkg.name }})
+        url: https://anaconda.org/${{ ..index.channel }}$/{{ pkg.name }}/files?version={{ version }}
+      index:
+        channel: ${{ repo.owner }}$
+      action:
+        pkg: auto
+        test: auto
+    pypi:
+      name: Publish (PyPI)
+      task_name: '{{ pkg.name }} v{{ version }}'
+      env:
+        name: PyPI ({{ pkg.name }})
+        url: https://pypi.org/project/{{ pkg.name }}/{{ version }}
+      index:
+        url:
+          upload: https://upload.pypi.org/legacy/
+      action:
+        pkg: auto
+        test: auto
+    testpypi:
+      name: Publish (TestPyPI)
+      task_name: '{{ pkg.name }} v{{ version }}'
+      env:
+        name: TestPyPI ({{ pkg.name }})
+        url: https://test.pypi.org/project/{{ pkg.name }}/{{ version }}
+      index:
+        url:
+          upload: https://test.pypi.org/legacy/
+      action:
+        pkg: auto
+        test: auto
     github:
       name: Release
       task_name: GitHub
       env:
         name: GitHub Release
         url: ${{ repo.url.deployments.home }}$
+      release:
+        body:
+          body: ${{ __custom__.changelog.body }}$
+          sections: ${{ __custom__.changelog.sections }}$
       asset:
         template:
           name: >-
@@ -152,6 +555,36 @@ workflow:
             - source: template
             - source: .github/workflows
               destination: .github/workflows
+        sdist:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-sdists.zip
+          label: Source Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - sdist/[^/]+\.tar\.gz$'
+              artifact: true
+        wheel:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-wheels.zip
+          label: Binary Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - wheels/[^/]+\.whl$'
+              artifact: true
+        conda:
+          name: >-
+            #{{ return slugify(get("name")) }}#-{{ version }}-conda.zip
+          label: Conda Distributions
+          format: zip
+          files:
+            - pattern: '^[^/]+ - conda/.+\.conda$'
+              artifact: true
+        dockerfile:
+          name: Dockerfile
+          label: Dockerfile
+          files:
+            - source: ${{ workflow.binder.path.dockerfile }}$/Dockerfile
+          media_type: text/plain
         docs:
           name: >-
             #{{ return slugify(get("name")) }}#-{{ version }}-docs.zip

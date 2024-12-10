@@ -1,0 +1,86 @@
+pkg:
+  os:
+    linux:
+      name: Linux
+      runner: ubuntu-latest
+    macos:
+      name: MacOS
+      runner: macos-latest
+    windows:
+      name: Windows
+      runner: windows-latest
+  classifiers:
+    - 'Natural Language :: ${{ language.name }}$'
+    - '*{{ $[[ license.component.*.trove_classifier ]]$ }}*'
+    - '*{{ #{{ return hook.trove_classifiers() }}# }}*'
+  readme:
+    file: README.md
+    content-type: text/markdown
+  urls:
+    Homepage: ${{ web.url.home }}$
+    Documentation: ${{ web.page.manual.url }}$
+    Source: ${{ repo.url.home }}$
+    Download: ${{ repo.url.releases.home }}$
+    News: ${{ web.page.blog.url }}$
+    Issue-Tracker: ${{ repo.url.issues.home }}$
+  entry:
+    cli:
+      main:
+        name: ${{ pkg.name }}$
+        description: Main CLI entry of the package.
+        ref: ${{ pkg.import_name }}$.__main__:main
+  dependency:
+    build:
+      builder:
+        name: Setuptools
+        import_name: setuptools
+        pip:
+          spec: setuptools >=72.1.0
+        conda:
+          spec: ${{ ..pip.spec }}$
+      versioning:
+        name: versioningit
+        import_name: versioningit
+        pip:
+          spec: versioningit >=3.1.2
+        conda:
+          spec: ${{ ..pip.spec }}$
+    core:
+      pkg_resources:
+        name: PkgData
+        import_name: pkgdata
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
+        pip:
+          spec: pkgdata
+        conda:
+          spec: pkgdata
+          channel: repodynamics
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
+  source_file:
+    all:
+      glob: '**/*.py'
+      header_comments:
+        content: |
+          ${{ pkg.name }}$ ${{ copyright }}$
+          SPDX-License-Identifier: ${{ license.expression }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+    top_import:
+      glob: __init__.py
+      docstring:
+        content: |
+          ${{ name }}$: ${{ title }}$.
+
+          ${{ abstract }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+  manifest:
+    - graft ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/data
+    - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
+    - global-exclude *.py[cod] __pycache__ *.so
+  build: ${{ __custom_template__.pyproject-build }}$
+  authors: ${{ citation.cff.authors }}$
+  conda:
+    recipe: ${{ __custom_template__.conda-recipe }}$

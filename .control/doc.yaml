@@ -10,6 +10,9 @@ document:
     output:
       repo:
         path: README.md
+      pkg:
+        path: ${{ pkg.path.root }}$/${{ pkg.readme.file }}$
+        target: pypi
     content:
       body:
         - class: block_image
@@ -90,6 +93,42 @@ document:
                       "link": f"https://doi.org/{doi}"
                     }
                     out.append(zenodo)
+                  if get("pkg.pypi.publishable") and get("workflow.publish.pypi"):
+                    pypi = {
+                      "label": "pip install ",
+                      "args": {"message": get("pkg.name").lower()},
+                      "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                      "logo_type": "file",
+                      "logo_media_type": "png",
+                      "color": "#3775A9",
+                      "link": get("pkg.pypi.url.home"),
+                    }
+                    out.append(pypi)
+                  publish_conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
+                  if publish_conda:
+                    conda = {
+                      "label": "conda install",
+                      "args": {"message": f"{get("pkg.name").lower()} -c {publish_conda["index"]["channel"].lower()}"},
+                      "logo": "anaconda",
+                      "logo_type": "name",
+                      "logo_color": "#44A833",
+                      "color": "#44A833",
+                      "link": get("pkg.conda.url.home"),
+                    }
+                    out.append(conda)
+                  publish_docker = get("workflow.binder")
+                  if publish_docker:
+                    index = publish_docker["index"]
+                    docker = {
+                        "label": "docker pull",
+                        "args": {"message": f"{index["registry"]}/{index["namespace"]}/{index["name"]}:latest".lower()},
+                        "logo": "docker",
+                        "logo_type": "name",
+                        "color": "#2496ED",
+                        "logo_color": "#2496ED",
+                        "link": index["url"]["home"],
+                      }
+                    out.append(docker)
                   if get("workflow.publish.github"):
                     github = {
                       "label": "GitHub",
@@ -103,6 +142,16 @@ document:
                   return out
                 }}#
               }}*
+            - service: binder
+              endpoint: github
+              label: Binder
+              args:
+                message: try online
+                user: ${{ repo.owner }}$
+                repo: ${{ repo.name }}$
+                ref: ${{ repo.default_branch }}$
+              color: "#579ACA"
+              label_color: ${{ __custom__.badge.color.grey }}$
       sections:
         - heading: Highlights
           body:
@@ -116,6 +165,14 @@ document:
                 align: left
               attrs_p:
                 align: justify
+        - heading: >-
+            #{{
+              if changelog.current_public.get("phase") == "dev":
+                return "Upcoming Release"
+              return "Latest Release"
+            }}#
+          body: ${{ __custom__.changelog.body }}$
+          sections: ${{ __custom__.changelog.sections }}$
         - heading: Statistics
           body:
             - class: table
@@ -155,6 +212,21 @@ document:
                         user: ${{ repo.owner }}$
                         repo: ${{ repo.name }}$
                       items:
+                        - service: codecov
+                          endpoint: coverage
+                          args:
+                            vcs_name: github
+                        - service: librariesio
+                          endpoint: source_rank
+                          args:
+                            platform: pypi
+                            package: ${{ pkg.name }}$
+                        - service: librariesio
+                          endpoint: dependency_status
+                          args:
+                            platform: pypi
+                            package: ${{ pkg.name }}$
+                          label: Package Dependencies
                         - service: librariesio
                           endpoint: dependency_status_github
                           args:
@@ -215,6 +287,85 @@ document:
                           logo_type: file
                           logo_media_type: png
                           link: https://github.com/psf/black
+                - - <b>Downloads</b>
+                  - - - |
+                        *{{
+                          #{{
+                            if not get("pkg.pypi.publishable"):
+                              return []
+                            badges = {
+                              "class": "badges",
+                              "style": get("__custom__.badge.style"),
+                              "height": get("__custom__.badge.height"),
+                              "color": get("__custom__.badge.color.blue"),
+                              "separator": 1,
+                              "service": "pypi",
+                              "endpoint": "downloads",
+                              "args": {"package": get("pkg.name")},
+                              "logo": "",
+                              "label": "",
+                              "items": [
+                                {
+                                  "service": "pepy",
+                                  "endpoint": "total_downloads",
+                                  "label": "PyPI",
+                                  "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                                  "logo_type": "file",
+                                  "logo_media_type": "png",
+                                },
+                              ] + [{"args": {"period": period}} for period in ("m", "w", "d")]
+                            }
+                            return [badges, "&nbsp;" * get("__custom__.badge.separator")]
+                          }}#
+                        }}*
+                      - |
+                        *{{
+                          #{{
+                            conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
+                            if not conda:
+                              return []
+                            badge = {
+                              "class": "badge",
+                              "style": get("__custom__.badge.style"),
+                              "height": get("__custom__.badge.height"),
+                              "color": get("__custom__.badge.color.blue"),
+                              "service": "conda",
+                              "endpoint": "downloads",
+                              "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pkg.name").lower()},
+                              "label": "Conda",
+                              "logo": "anaconda",
+                              "logo_color": "#44A833",
+                            }
+                            return [badge, "&nbsp;" * get("__custom__.badge.separator")]
+                          }}#
+                        }}*
+                      - class: badge
+                        style: ${{ __custom__.badge.style }}$
+                        height: ${{ __custom__.badge.height }}$
+                        color: ${{ __custom__.badge.color.blue }}$
+                        service: github
+                        endpoint: downloads_all_releases
+                        label: GitHub
+                        args:
+                          user: ${{ repo.owner }}$
+                          repo: ${{ repo.name }}$
+                - - <b>Users</b>
+                  - - class: badges
+                      style: ${{ __custom__.badge.style }}$
+                      height: ${{ __custom__.badge.height }}$
+                      color: ${{ __custom__.badge.color.blue }}$
+                      separator: ${{ __custom__.badge.separator }}$
+                      service: librariesio
+                      args:
+                        platform: pypi
+                        package: ${{ pkg.name }}$
+                      items:
+                        - endpoint: dependents
+                          label: Dependent Packages
+                        - endpoint: dependents
+                          args:
+                            repo: true
+                          label: Dependent Repositories
                 - |
                   *{{
                     #{{
@@ -1169,32 +1320,3 @@ web:
     logo_full_raster:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
   page: '#{{ return hook.web_page() }}#'
-__custom__:
-  badge:
-    color:
-      grey: "#494949"
-      blue: "#0B3C75"
-      green: "#00802B"
-      orange: "#D93402"
-      red: "#AF1F10"
-    style: flat-square
-    height: 23px
-    separator: 2
-  icon:
-    post: 📫
-    fix: 🐞
-    feat: ✨
-    change: 💥
-    config: 🛠️
-    refactor: 🧹️
-    chore: ♻️
-    ci: 🤖️
-    api: 🖥
-    cli: ⌨️
-    gui: 🖱
-    setup: ⚙️
-    pkg: 📦
-    test: 🧪
-    docs: 📚
-    repo: 🧰
-  logo_dir_path: _media/logo  # Path to logo directory relative to website source directory

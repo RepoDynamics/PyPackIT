@@ -1,0 +1,129 @@
+test:
+  path:
+    root: test
+  name: ${{ pkg.name }}$-TestSuite
+  os:
+    linux:
+      name: Linux
+      runner: ubuntu-latest
+    macos:
+      name: MacOS
+      runner: macos-latest
+    windows:
+      name: Windows
+      runner: windows-latest
+  readme:
+    text: |
+      # ${{ test.name }}$
+      This is the test-suite for ${{ pkg.name }}$.
+    content-type: text/markdown
+  dependency:
+    # For other PyTest plugins, see:
+    # - https://github.com/augustogoulart/awesome-pytest
+    # - https://pytest-with-eric.com/pytest-best-practices/pytest-plugins/
+    build: ${{ pkg.dependency.build }}$
+    core:
+      testing:
+        name: Pytest
+        import_name: pytest
+        description: Testing framework for Python.
+        pip:
+          spec: pytest ==8.3.3
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: conda-forge
+        url:
+          docs: https://docs.pytest.org/en/stable/
+          source: https://github.com/pytest-dev/pytest
+          pip: https://pypi.org/project/pytest/
+          conda: https://anaconda.org/conda-forge/pytest
+      coverage:
+        name: Coverage.py
+        import_name: coverage
+        description: Code coverage measurement for Python.
+        notes: |
+          This is indirectly used by the `pytest-cov` plugin.
+          However, we include it explicitly here to pin the version for reproducibility.
+        pip:
+          spec: coverage ==7.6.1
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: conda-forge
+        url:
+          docs: https://coverage.readthedocs.io/
+          source: https://github.com/nedbat/coveragepy
+          pip: https://pypi.org/project/coverage/
+          conda: https://anaconda.org/conda-forge/coverage
+      plugin_cov:
+        name: Pytest-Cov
+        import_name: pytest_cov
+        description: Pytest plugin for measuring test coverage.
+        notes: |
+          This plugin uses the [coverage.py](https://github.com/nedbat/coveragepy) package
+          to measure code coverage.
+        pip:
+          spec: pytest-cov ==5.0.0
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: conda-forge
+        url:
+          docs: https://pytest-cov.readthedocs.io/
+          source: https://github.com/pytest-dev/pytest-cov
+          pip: https://pypi.org/project/pytest-cov/
+          conda: https://anaconda.org/conda-forge/pytest-cov
+      plugin_html:
+        name: Pytest-HTML
+        import_name: pytest_html
+        description: Pytest plugin for generating HTML reports.
+        pip:
+          spec: pytest-html ==4.1.1
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: conda-forge
+        url:
+          docs: https://pytest-html.readthedocs.io/
+          source: https://github.com/pytest-dev/pytest-html
+          pip: https://pypi.org/project/pytest-html/
+          conda: https://anaconda.org/conda-forge/pytest-html
+      pkg_resources:
+        name: PkgData
+        import_name: pkgdata
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
+        pip:
+          spec: pkgdata
+        conda:
+          spec: ${{ ..pip.spec }}$
+          channel: repodynamics
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
+  entry:
+    cli:
+      main:
+        name: ${{ test.name }}$
+        description: Main CLI entry of the test-suite.
+        ref: ${{ test.import_name }}$.__main__:main
+  source_file:
+    all:
+      glob: '**/*.py'
+      header_comments:
+        content: |
+          ${{ test.name }}$ ${{ copyright }}$
+          SPDX-License-Identifier: ${{ license.expression }}$
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+    top_import:
+      glob: __init__.py
+      docstring:
+        content: |-
+          ${{ test.name }}$: Test Suite for ${{ name }}$.
+        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        mode: prepend
+  manifest:
+    - graft ${{ test.path.source_rel }}$/${{ test.import_name }}$/data
+    - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed
+    - global-exclude *.py[cod] __pycache__ *.so
+  build: ${{ __custom_template__.pyproject-build }}$
+  conda:
+    recipe: ${{ __custom_template__.conda-recipe }}$
