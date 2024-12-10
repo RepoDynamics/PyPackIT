@@ -1166,6 +1166,7 @@ web:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_dark.svg
     logo_full_raster:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
+  page: '#{{ return hook.web_page() }}#'
 __custom__:
   badge:
     color:
