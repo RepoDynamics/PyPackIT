@@ -74,7 +74,7 @@ by enabling the option ***Allow GitHub Actions to create and approve pull reques
 
 {{ ccc.name }} uses
 [trusted publishing](https://docs.pypi.org/trusted-publishers/) ({term}`OIDC`)
-to automatically authenticate with PyPI servers and publish your Python package on TestPyPI and PyPI,
+to automatically authenticate with PyPI servers and publish your Python package and test suite on TestPyPI and PyPI,
 without the need to manually set authentication credentials such as username and password
 (cf. [PyPI docs](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
 and [GiHub docs](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-pypi)).
@@ -100,15 +100,22 @@ your respective accounts:
    2. ***Owner***: GitHub username or organization name that owns the repository.
    3. ***Reposiroty name***: Name of your GitHub repository.
    4. ***Workflow name***: `cd-pypi.yaml`
-   5. ***Environment name***: `PyPI`
+   5. ***Environment name***: Name of the deployment environment
+      defined at [`$.workflow.publish.pypi`](#ccc-workflow-publish-pypi),
+      `PyPI (<YOUR-PACKAGE-NAME>)` by default.
 4. Click on the {bdg-info}`Add` button to submit the form.
    Make sure the submission is accepted by checking the response message that appears at the top of the page.
    If the submission is rejected due to a name conflict,
    you have to try a different name for the project.
    In that case, don't forget to update your [package name](#ccc-pkg-name) in the project metadata
    (and/or rename your repository) afterwards.
-5. Repeat the above steps in your [TestPyPI](https://test.pypi.org/manage/account/publishing/) account,
-   only this time under the ***Environment name*** field enter `TestPyPI` instead of `PyPI`.
+5. Repeat the above steps for your test suite,
+   replacing ***PyPI Project Name*** and ***Environment name*** with [`$.test.name`](#ccc-pkg-name)
+   and `PyPI (<YOUR-TEST-SUITE-NAME>)`.
+6. Repeat the above steps in your [TestPyPI](https://test.pypi.org/manage/account/publishing/) account,
+   only this time under the ***Environment name*** field enter
+   the name of the deployment environment defined at [`$.workflow.publish.testpypi`](#ccc-workflow-publish-testpypi),
+   `TestPyPI (<YOUR-PACKAGE-NAME>)` and `TestPyPI (<YOUR-TEST-SUITE-NAME>)` by default.
 
 
 (install-anaconda)=
