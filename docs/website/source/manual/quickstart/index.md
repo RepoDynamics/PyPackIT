@@ -1,6 +1,54 @@
 # Quickstart
 
-This quickstart guide demonstrates a simple iteration cycle using {{ ccc.name }}.
+This quickstart guide demonstrates a simple iteration cycle with {{ ccc.name }}.
+In general, every change in the project starts by opening an issue ticket:
+
+1. To [open a new issue ticket](){.user-link-repo-issues-choose},
+   click on the {bdg-success}`New issue` button in the [Issues](){.user-link-repo-issues}
+   section of the repository.
+2. Select the appropriate issue type from the list, and click on the {bdg-success}`Get started` button.
+3. Fill in the issue form with relevant information, and click on the {bdg-success}`Submit new issue` button.
+
+Under the repository's [Actions](){.user-link-repo-actions} tab,
+you will see that a new workflow run has been started to process the submitted issue ticket.
+This will automatically add all relevant labels to the issue, assign it to specified team members,
+and generate a development protocol. Once finished, the submitted ticket will be replaced
+with the generated protocol.
+
+It is now the job of the assigned team members to triage the submitted ticket and
+devise a plan:
+
+4. Add relevant triage documentation under the specified section in the development protocol.
+5. Depending on the triage decision, change the status label of ticket.
+   If you do not plan to implement the issue, change its label to one of `rejected`, `duplicate`, or `invalid`.
+   This will automatically close the issue. Otherwise, change the label to `planning`.
+   You will see that the old status label is automatically removed, and the Status section
+   of the protocol is updated to reflect the current progress.
+6. When the issue is ready for implementation, change the status label to `implementation`
+
+Another workflow run will be triggered, performing the following automated tasks:
+- A development branch is created from each affected base branch, and a new ongoing changelog entry is added
+  with data from the development protocol and the issue ticket.
+- For each development branch, a draft pull request is created with an added implementation protocol,
+  and labeled and assigned to specified team members accordingly.
+
+It is now the job of the assigned team members to devise an implementation tasklist:
+
+7. Edit the pull request protocol to add tasks under the specified section.
+8. Start implementing the changes in the created development branch.
+9. When a specified task is finished, commit the changes with a commit message matching the respective task in the tasklist.
+
+The pull request protocol is automatically updated to reflect the progress in the development branch.
+When all tasks are complete, {{ ccc.name }} automatically un-drafts the pull request
+and assigns specified team members to review the pull request.
+For every push to the development branch, CI pipelines are run and their results are shown
+on the pull request page. After approvals by reviewers, the status label of the pull request
+can be changed to one of `alpha release`, `beta release`, `release candidate`, or `final release`.
+{{ ccc.name }} will then automatically merge the pull request into the base branch
+and publish a new release.
+
+
+<!--
 
 Every change in the repository is initiated by opening an issue.
 Each issue form is linked to a specific primary commit type.
@@ -43,3 +91,5 @@ and add or delete branch labels as necessary.
 
 Changing the status label of an issue to `in_dev` will then automatically carry out the following tasks:
 1. Create a new development branch from each of the issue's
+
+-->
