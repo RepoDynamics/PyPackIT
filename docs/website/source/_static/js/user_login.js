@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-actions").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/actions`;
         });
+        document.querySelectorAll(".user-link-repo-issues").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/issues`;
+        });
+        document.querySelectorAll(".user-link-repo-issues-chooser").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/issues/new/choose`;
+        });
         document.querySelectorAll(".user-link-repo-commits").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/commits/${repoBranch}`;
         });
