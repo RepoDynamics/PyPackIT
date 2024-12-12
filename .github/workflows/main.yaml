@@ -100,7 +100,7 @@ on:
 jobs:
   main:
     name: Project
-    # If the event is 'pull_request_target', only run if its from a fork.
+    # Run 'pull_request_target' only for pulls from forks.
     if: >-
       (
           github.event_name != 'pull_request_target'
