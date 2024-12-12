@@ -22,6 +22,14 @@ jobs:
         task: ${{ fromJSON(inputs.config).tasks }}
     runs-on: ${{ matrix.task.runner }}
     steps:
+      - name: Repository Checkout
+        if: (fromJSON(inputs.config).test-src != 'pypi') || (fromJSON(inputs.config).pkg-src != 'pypi')
+        uses: actions/checkout@v4  # https://github.com/actions/checkout
+        with:
+          repository: ${{ fromJSON(inputs.config).repository }}
+          ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-tags: true
+          path: repo
       - uses: RepoDynamics/PyTester@v1
         with:
           python-version: ${{ matrix.task.python }}
@@ -43,6 +51,29 @@ jobs:
           pyargs: ${{ fromJSON(inputs.config).pyargs }}
           args: ${{ fromJSON(inputs.config).args }}
           overrides: ${{ fromJSON(inputs.config).overrides }}
+      - name: Report Upload
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.task.artifact.report.name }}
+          path: report
+      - name: CodeCov Upload
+        if: ${{ !cancelled() && fromJSON(inputs.config).upload-codecov }}
+        # https://github.com/marketplace/actions/codecov
+        # https://github.com/codecov/codecov-action
+        env:
+          OS: ${{ runner.os }}
+          PYTHON: ${{ matrix.task.python }}
+        uses: codecov/codecov-action@v4
+        with:
+          # TODO: Check that env_vars are correctly set. (https://github.com/codecov/codecov-action/pull/64)
+          codecov_yml_path: repo/${{ fromJSON(inputs.config).codecov-yml-path }}
+          directory: report
+          env_vars: OS,PYTHON
+          fail_ci_if_error: false
+          root_dir: repo
+          use_oidc: true  # https://github.com/codecov/codecov-action/issues/1489#issuecomment-2197308411
+          verbose: true
   report:
     name: Report
     if: ${{ !cancelled() && fromJSON(inputs.config).artifact.report.merge }}
