@@ -1,6 +1,6 @@
 message: If you use PyPackIT, please cite it using this reference.
 version: 0.0.0
-date-released: '2024-12-12'
+date-released: '2024-12-13'
 license:
   - AGPL-3.0-or-later
 url: https://pypackit.repodynamics.com
