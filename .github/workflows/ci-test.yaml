@@ -33,9 +33,6 @@ jobs:
       - uses: RepoDynamics/PyTester@v1
         with:
           python-version: ${{ matrix.task.python }}
-          report-artifact-name: ${{ matrix.task.artifact.report.name }}
-          repository: ${{ fromJSON(inputs.config).repository }}
-          ref: ${{ fromJSON(inputs.config).ref }}
           test-src: ${{ fromJSON(inputs.config).test-src }}
           test-path: ${{ fromJSON(inputs.config).test-path }}
           test-name: ${{ fromJSON(inputs.config).test-name }}
@@ -51,6 +48,8 @@ jobs:
           pyargs: ${{ fromJSON(inputs.config).pyargs }}
           args: ${{ fromJSON(inputs.config).args }}
           overrides: ${{ fromJSON(inputs.config).overrides }}
+      - name: uname
+        run: uname -a
       - name: Report Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
