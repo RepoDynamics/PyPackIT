@@ -1,0 +1,72 @@
+# References
+# 1. Dockerfiles: https://github.com/pandoc/dockerfiles
+# 2. Docker images: https://hub.docker.com/u/pandoc
+# 3. GHA examples: https://github.com/pandoc/pandoc-action-example
+
+
+name: Pandoc
+on:
+  workflow_dispatch:
+    inputs:
+      pandoc-args:
+        description: Pandoc [arguments](https://pandoc.org/MANUAL.html).
+        type: string
+        required: true
+        default: --help
+      git-repo:
+        description: GitHub repository to checkout.
+        type: string
+        required: false
+      git-ref:
+        description: GitHub reference to checkout.
+        type: string
+        required: false
+      artifact-path:
+        description: A file, directory or wildcard pattern that describes what to upload
+        type: string
+        required: false
+      artifact-name:
+        description: Upload artifact name
+        default: Pandoc
+        type: string
+        required: false
+      artifact-retention-days:
+        description: >
+          Duration after which artifact will expire in days. 0 means using default retention.
+        default: 0
+        type: number
+        required: false
+      artifact-compression-level:
+        description: >
+          The level of compression for Zlib to be applied to the artifact archive.
+        default: 6
+        type: number
+        required: false
+      artifact-include-hidden-files:
+        description: Whether to include hidden files in the uploaded artifact.
+        type: boolean
+        default: true
+        required: false
+jobs:
+  pandoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.git-repo || github.repository }}
+          ref: ${{ inputs.git-ref || github.ref }}
+      - name: Convert
+        uses: docker://pandoc/latex:3-ubuntu
+        with:
+          args: ${{ inputs.pandoc-args }}
+      - name: Upload
+        if: ${{ inputs.artifact-path }}
+        uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact/tree/main
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}
+          retention-days: ${{ inputs.artifact-retention-days }}
+          compression-level: ${{ inputs.artifact-compression-level }}
+          overwrite: ${{ inputs.artifact-overwrite }}
+          include-hidden-files: ${{ inputs.artifact-include-hidden-files }}
