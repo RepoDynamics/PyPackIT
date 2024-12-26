@@ -23,7 +23,6 @@ Journals For Software Papers
 | [Journal of Open Source Software (JOSS)](https://joss.theoj.org/) | Open Journals | - | - | Python, Artificial Intelligence
 | [Semantic Web - Interoperability, Usability, Applicability](https://www.semantic-web-journal.net/) | IOS Press
 | [Journal of Open Research Software (JORS)](https://openresearchsoftware.metajnl.com/) | Ubiquity Press | - | 4.1 | Software, Python, Artifical Intelligence |
-| [PyOpenSci](https://www.pyopensci.org/) |
 
 
 
@@ -354,23 +353,6 @@ SCP is divided into two tracks. These are: (1) Research papers and (2) Software.
 
 
 
-### [Journal of Open Source Software](https://joss.theoj.org/)
-- [Overview](https://research.com/journal/journal-of-open-source-software)
-- [Journal Insights](https://joss.theoj.org/about)
-- [Guide for Authors](https://joss.readthedocs.io/en/latest/#submitting-a-paper-to-joss)
-
-#### [Scope](https://joss.theoj.org/about#submitting)
-JOSS publishes articles about research software.
-This definition includes software that:
-solves complex modeling problems in a scientific context (physics, mathematics, biology, medicine, social science, neuroscience, engineering);
-supports the functioning of research instruments or the execution of research experiments; extracts knowledge from large data sets;
-offers a mathematical library; or similar.
-
-JOSS submissions must:
-- Be open source (i.e., have an OSI-approved license).
-- Have an obvious research application.
-- Be feature-complete (no half-baked solutions) and be designed for maintainable extension (not one-off modifications).
-- Minor 'utility' packages, including 'thin' API clients, and single-function packages are not acceptable.
 
 
 
