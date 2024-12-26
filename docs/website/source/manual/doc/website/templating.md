@@ -22,7 +22,7 @@ the above Jinja syntax will be rendered in the built website as:
 MyPackage requires Python >=3.10.
 ```
 
-{{ ccc.name }} also configures Sphinx to enable full Jinja templating
+|{{ ccc.name }}| also configures Sphinx to enable full Jinja templating
 not only in template files but also in all other source files.
 Together with the availability of the entire project configuration in the `ccc` object,
 this allows you to dynamically create sophisticated contents

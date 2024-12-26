@@ -3,7 +3,7 @@
 (help-website-login)=
 ## Login
 To improve the documentation, all links referencing the different parts
-of a {{ ccc.name }} repository can be dynamically updated to point to your repository.
+of a |{{ ccc.name }}| repository can be dynamically updated to point to your repository.
 To do this, click on the <button class="user-login-button btn btn-sm inline_icon pst-js-only" title="Login" aria-label="Login">
   <i class="fa-solid fa-user-gear fa-lg"></i>
 </button> icon and enter your GitHub repository full name.

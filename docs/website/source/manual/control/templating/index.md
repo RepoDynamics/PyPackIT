@@ -1,19 +1,27 @@
 (manual-control-templating)=
 # Templating
 
-{{ ccc.name }}'s templating mechanism enables the use of
-all control center contents throughout the project.
+|{{ ccc.name }}|'s templating capabilities enables the
+dynamic generation of configurations at runtime,
+and the reuse of all control center contents throughout the project.
+Since you can use the control center to generate any file in your repository,
+this effectively renders your entire project highly dynamic, flexible, and customizable,
+while eliminating data redundancy and ensuring consistency across all project resources.
+
+Templating can be applied to any YAML file within the control center.
+This is similar to the Jinja templating that many other tools use
+to generate dynamic configuration files,
+e.g., in [conda build recipes](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#templating-with-jinja),
+but with some key differences:
+
+- |{{ ccc.name }}| implements its own templating engine,
+  which offers much more flexibility and features for this use case.
+- 
+
 Within the control center configuration files
 you can use any control center content by referencing its path,
 which allows you to reuse values for different configurations,
 or to dynamically construct more complex values.
-Since you can use the control center to generate any file in your repository,
-this effectively renders your entire project highly dynamic, flexible, and customizable,
-while eliminating data redundancy and ensuring consistency across all project resources.
-Similarly, for website files, Jinja templating is enabled
-and the entire control center content is passed to the Sphinx environment during builds.
-This also enables you to create sophisticated webpages that are automatically updated
-with any changes to the control center.
 
 
 ## Configuration Files
@@ -89,7 +97,7 @@ but it has several key advantages over them:
   but then you would need to update all references every time you add or remove a mapping,
   since indices would change.
 
-  To simplify such cases, {{ ccc.name }} extends the JSONPath syntax
+  To simplify such cases, |{{ ccc.name }}| extends the JSONPath syntax
   to enable using relative paths, as follows:
   - When a path starts with one or more periods (`.`),
     it is considered a relative path.

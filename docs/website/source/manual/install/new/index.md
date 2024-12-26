@@ -1,8 +1,8 @@
 (install-new)=
 # New Repository
 
-To create a new GitHub repository with {{ccc.name}} pre-installed:
-1. [Create a repository from {{ ccc.name }}'s template repository](#install-repo-creation).
+To create a new GitHub repository with |{{ccc.name}}| pre-installed:
+1. [Create a repository from |{{ ccc.name }}|'s template repository](#install-repo-creation).
 2. [Add a Personal Access Token (PAT) and activate external services](#install-common).
 3. [Customize project configurations and metadata](#install-new-project-config).
 4. [Initialize project with a commit](#install-new-project-init).
@@ -21,11 +21,11 @@ Don't forget to follow all four steps in the given order.
 ## Repository Creation
 
 The first step is to [create a new repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-using {{ ccc.name }}'s GitHub template repository:
+using |{{ ccc.name }}|'s GitHub template repository:
 
 1. [Sign in](https://github.com/login) to your GitHub account.
-2. {{ '[Click here](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }},
-   or alternatively navigate to the {{ '[{} template repository]({})'.format(ccc.name, ccc.repo.url.home) }},
+2. |{{ '[Click here](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}|,
+   or alternatively navigate to the |{{ '[{} template repository]({})'.format(ccc.name, ccc.repo.url.home) }}|,
    click on the {bdg-success}`Use this template` button on the top-right corner,
    and select ***Create a new repository*** from the dropdown menu.
 3. Enter a name for your repository in the ***Repository name*** field.
@@ -69,7 +69,7 @@ and import it with `import my_project`{l=python}.
 You will be redirected to the newly created repository in your selected account.
 Navigating to the repository's [Actions](){.user-link-repo-actions} tab, you will see that a workflow is running.
 It will automatically initialize your new repository by generating all necessary files
-and removing extra files that belong to the {{ccc.name}} repository but are not part of the template.
+and removing extra files that belong to the |{{ccc.name}}| repository but are not part of the template.
 While waiting for the workflow to complete and **before making any other changes**,
 follow step 2 to [add a Personal Access Token (PAT) and activate external services](#install-common).
 
@@ -88,12 +88,12 @@ which contains all the generated files for your repository.
 Rarely, workflows may fail due to internal GitHub errors.
 When a workflow fails, you will see a red cross mark next to the workflow name.
 In this case, you can re-run the workflow by clicking on the ***Re-run all jobs*** button.
-{{ ccc.name }} always generates comprehensive job reports and logs for each workflow run,
+|{{ ccc.name }}| always generates comprehensive job reports and logs for each workflow run,
 which can also be investigated in case of a failure or unexpected behavior.
 :::
 
 Your repository is now in the initialization phase.
-During this phase, every time you push a commit, {{ccc.name}} will run a workflow to:
+During this phase, every time you push a commit, |{{ccc.name}}| will run a workflow to:
 
 - Update all dynamic files and directories according to the new control center configurations.
 - Update repository configurations, including general settings and metadata, branch names,
@@ -114,7 +114,7 @@ To start customizing your new project:
 2. Replace the placeholder values for [`$.name`](#ccc-name), [`$.title`](#ccc-title),
    [`$.abstract`](#ccc-abstract), [`$.keywords`](#ccc-keywords), and [`$.highlights`](#ccc-highlights) keys
    with your project's information. You can also remove the `$.name` key altogether,
-   and {{ ccc.name }} will use your repository name instead.
+   and |{{ ccc.name }}| will use your repository name instead.
 3. Commit and push your changes. If you have followed the link in step 1 above,
    you should be on the [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
    web-based editor, where you can commit and push your changes by clicking the
@@ -158,7 +158,7 @@ that you want to add to your repository, you can do so now.
 :::{admonition} Control Center Configurations
 :class: seealso
 
-{{ ccc.name }} is highly customizable with a wide range of options available in the control center,
+|{{ ccc.name }}| is highly customizable with a wide range of options available in the control center,
 most of which are provided with standard default values based on best practices.
 To avoid overwhelming you with all the available options at once,
 only the most essential configurations are provided in the configuration files.
@@ -171,16 +171,16 @@ see the [Options](#cc-options) section.
 ## Project Initialization
 
 After you feel satisfied with the results,
-you can signal {{ ccc.name }} to initialize your project
-via a commit. Communicating with {{ ccc.name }} through commits
+you can signal |{{ ccc.name }}| to initialize your project
+via a commit. Communicating with |{{ ccc.name }}| through commits
 is done via [commit message footers](#feature-commits-structure).
 This is the last part of the commit message,
 separated from everything above it by a pre-defined separator (cf. [`$.commit.config`](#ccc-commit-config)).
 The footer must be in standard YAML syntax, just like the control center configuration files.
-Depending on the ongoing event, {{ ccc.name }} looks for specific keys defined in the commit footer
-for instructions. During the initialization phase, {{ ccc.name }} looks for a `initialize-project`
+Depending on the ongoing event, |{{ ccc.name }}| looks for specific keys defined in the commit footer
+for instructions. During the initialization phase, |{{ ccc.name }}| looks for a `initialize-project`
 key in the footer of the head commit of each push event. Setting this key to `true` will signal
-the end of the initialization phase. If this key is present, {{ ccc.name }} will also look for
+the end of the initialization phase. If this key is present, |{{ ccc.name }}| will also look for
 the following keys for further customized instructions for the initialization event:
 
 :`version`: **string**, **default**: `0.0.0`
@@ -192,7 +192,7 @@ the following keys for further customized instructions for the initialization ev
 :`squash`: **boolean**, **default**: `true`
 
     Whether to squash all previous commits into the current commit.
-    By default, {{ ccc.name }} rewrites the entrire Git history during initialization,
+    By default, |{{ ccc.name }}| rewrites the entrire Git history during initialization,
     merging all changes into the latest commit,
     so that the repository only contains the initialization commit afterwards.
     If you want to keep the Git history of the initialization phase, set this to false.
@@ -229,7 +229,7 @@ squash: false
 :::
 
 After performing the same tasks as in the initialization phase,
-{{ccc.name}} will tag the latest commit with the given version number,
+|{{ccc.name}}| will tag the latest commit with the given version number,
 and publish your package to the specified repositories.
 It will also apply all specified branch and tag protection rulesets.
 Your repository is now fully configured,
@@ -241,5 +241,5 @@ and all your workflows are set up and running.
 :class: seealso
 
 Continue to the [Quickstart](#quickstart) section
-to learn how to start the development of your project with {{ccc.name}}.
+to learn how to start the development of your project with |{{ccc.name}}|.
 :::

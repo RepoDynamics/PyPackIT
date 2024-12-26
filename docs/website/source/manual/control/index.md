@@ -5,7 +5,7 @@ Your repository's control center is the singular interface
 from which you can manage your entire project,
 and even multiple projects at once.
 
-It contains all available settings for {{ ccc.name }} itself,
+It contains all available settings for |{{ ccc.name }}| itself,
 along with all information, configurations, and metadata of your project and all its components,
 gathered in one place and presented in a clear, consistent, and concise format.
 
@@ -23,12 +23,12 @@ Therefore, instead of having to deal with multiple interfaces and diverse config
 and metadata files scattered across your repository and each with its own format and syntax,
 you can simply manage your entire project from within the control center,
 using a single, unified, and consistent interface;
-{{ ccc.name }} automatically translates your changes into the appropriate formats,
+|{{ ccc.name }}| automatically translates your changes into the appropriate formats,
 generates all necessary files in the required locations, and updates them dynamically.
 
 
 Therefore, besides your source code, unit tests, and documentation content,
-all other aspects of your project are automatically managed by {{ ccc.name }} according to your specifications
+all other aspects of your project are automatically managed by |{{ ccc.name }}| according to your specifications
 in the `meta` directory.
 -->
 
@@ -39,14 +39,23 @@ in the `meta` directory.
 :padding: 4 0 0 4
 
 
-:::{grid-item-card} Location and Structure
+:::{grid-item-card} Location
+:class-title: sd-text-center
+:link: location/index
+:link-type: doc
+
+Learn where to find your project's control center
+and how to customize its location.
+:::
+
+
+:::{grid-item-card} Structure
 :class-title: sd-text-center
 :link: structure/index
 :link-type: doc
 
-An overview of the location, general structure,
-and constituents of your repository's control center,
-along with instructions on how to customize them.
+An overview of the general structure
+and constituents of your project's control center.
 :::
 
 

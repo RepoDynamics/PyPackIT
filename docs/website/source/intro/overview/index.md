@@ -10,7 +10,7 @@ some of PyPackIT's key components, features and capabilities.
 
 ## Continuous Configuration Automation
 
-{{ ccc.name }} facilitates project configuration, customization, and management
+|{{ ccc.name }}| facilitates project configuration, customization, and management
 by introducing a centralized control mechanism
 based on DevOps practices like IaC.
 It provides a control center as the singular user interface
@@ -515,7 +515,7 @@ the CD pipeline carries out additional deployment tasks:
 ## Continuous Maintenance, Refactoring, and Testing
 
 To ensure long-term software sustainability,
-{{ ccc.name }} periodically runs Continuous pipelines on a scheduled basis
+|{{ ccc.name }}| periodically runs Continuous pipelines on a scheduled basis
 to check for problems and perform automatic fixes and updates.
 In addition to CCA mentioned above, tasks include:
 
@@ -542,14 +542,14 @@ facilitating the prolonged development and support of software.
 
 ## Licensing
 
-{{ ccc.name }} greatly facilitates project licensing and copyright management,
+|{{ ccc.name }}| greatly facilitates project licensing and copyright management,
 in accordance with best practices for {term}`FOSS`
 {cite}`QuickGuideToLicensing, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio`
 and the upcoming [PEP 639](https://peps.python.org/pep-0639/),
 by integrating with the System Package Data Exchange ([SPDX](https://spdx.org/)) license standard.
 This allows users to define complex licenses for their projects
 using a simple [SPDX license expression](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/).
-{{ ccc.name }} supports all [SPDX License List](https://spdx.org/licenses/) entries
+|{{ ccc.name }}| supports all [SPDX License List](https://spdx.org/licenses/) entries
 as well as user-defined licenses.
 It can automatically customize licenses with project-specific information and
 produce visually appealing Markdown and plain-text outputs
@@ -566,7 +566,7 @@ Another recommended option is the GNU Affero General Public License
 which is a strong copyleft license promoting FOSS by enforcing downstream source disclosure.
 To change the project license, users only need to provide the corresponding expression
 in the control center (e.g., `MIT OR (AGPL-3.0-or-later WITH GPL-3.0-linking-exception)`);
-{{ ccc.name }} will then automatically download the required license data and integrate it into the project:
+|{{ ccc.name }}| will then automatically download the required license data and integrate it into the project:
 
 - **Validation**:
   User is notified if the provided license expression is invalid,
@@ -624,12 +624,12 @@ PyPackIT incorporates several security measures:
   use of untrusted applications, exposure of tokens and secrets,
   and loose workflow permissions, among others.
 
-Moreover, to ensure that {{ ccc.name }} itself is highly secure,
+Moreover, to ensure that |{{ ccc.name }}| itself is highly secure,
 its entire infrastructure is natively implemented and self-contained.
 With the exception of a handful of fundamental {term}`Actions` and Python libraries
 from trusted vendors like GitHub and PyPA,
 PyPackIT does not rely on other third-party dependencies.
-This gives the {{ ccc.name }} team full control over the software stack,
+This gives the |{{ ccc.name }}| team full control over the software stack,
 allowing us to rapidly respond to issues
 and continuously improve the product,
-while making {{ ccc.name }} fully transparent and easily auditable by the community.
+while making |{{ ccc.name }}| fully transparent and easily auditable by the community.

@@ -14,7 +14,7 @@ This is to ensure that all configurations and data that are
 correctly specified by the user, by [validating](#manual-control-validation) them against
 a predefined schema.
 
-To allow for user-defined custom specifications, {{ ccc.name }} provides a top-level
+To allow for user-defined custom specifications, |{{ ccc.name }}| provides a top-level
 [`$.custom`](#ccc-custom) key in the control center configuration files, under which you can define
 any custom data structures and values that are not covered by the predefined options.
 These can then be referenced and used just like any other control center content.
@@ -24,7 +24,7 @@ These can then be referenced and used just like any other control center content
 ## Hooks
 
 To generate more complex data and files that cannot be declaratively defined in YAML files,
-{{ ccc.name }} allows you to define custom Python scripts
+|{{ ccc.name }}| allows you to define custom Python scripts
 that are automatically executed at certain stages during the control center processing.
 To hook into each stage, you should define a callable object (a function or a class)
 with a certain signature (as described below) in the `main.py` file in the

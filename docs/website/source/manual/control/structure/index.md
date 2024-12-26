@@ -1,48 +1,14 @@
 # Structure
 
-The control center is a directory in your repository
-containing declarative configurations in data files,
-along with optional Python file to dynamically
+The control center directory contains
+declarative configurations in data files,
+along with optional Python modules to dynamically
 generate custom configurations and files during runtime.
-
-
-## Location
-
-By default, the control center can be found in the
-[`.control`](){.user-link-repo-cc} directory
-located at the root of your repository.
-You can customize its location
-by setting the [`$.control.path`](#ccc-control-path) key
-in your configuration files to the desired path
-relative to the root of your repository.
-
-
-:::{admonition} Dynamic Directory
-:class: important
-
-Like other [dynamic directories](#repo-structure) in your repository,
-you should not manually move or rename the control center directory.
-Instead, after setting the new path in the configuration files,
-simply push the changes to your GitHub repository, or run `pypackit sync` locally.
-{{ ccc.name }} will automatically move the directory to the new location.
-:::
-
-
-For example, to change the control center location
-to a directory at `dev/control-center`, you should have the following
-configuration in one of your YAML files (more details below):
-
-:::{code-block} yaml
-:caption: Setting the control center path to `dev/control-center`
-
-control:
-  path: dev/control-center
-:::
 
 
 ## Data Files
 
-Declarative project configurations are stored in YAML files
+All project configurations are stored in YAML files
 within the control center directory.
 
 ::::{admonition} YAML Data File Format
@@ -146,7 +112,7 @@ my-cases:
 or apply custom semantics to the content.
 For instance, a tag like `!str` can be used to specify
 that a value should be treated as a string.
-{{ ccc.name }} uses this feature to allow for
+|{{ ccc.name }}| uses this feature to allow for
 [referencing values from external sources](#cc-inheritance).
 
 To learn more about the YAML file format,
@@ -154,10 +120,11 @@ see [Learn YAML in Y Minutes](https://learnxinyminutes.com/docs/yaml/), or check
 full specification at [yaml.org](https://yaml.org/spec/1.2.2/).
 ::::
 
-The entire project configuration is essentially a large mapping (aka `dict`),
-where some keys have simple scalar values,
-while others have complex nested structures.
-By default, this mapping is broken down to multiple YAML files,
+The entire project configuration is essentially a large mapping
+(equivalent to a JSON object or a Python dictionary)
+where some keys have simple scalar values (strings, numbers, booleans),
+while others have complex nested structures (sequences and mappings).
+By default, this mapping is broken down into multiple YAML files,
 each containing a thematically related subset of the project configurations:
 
 :::{admonition} Control Center's Default Directory Structure
@@ -168,7 +135,7 @@ and click on them to open the corresponding file
 in your repository (needs [logging in](#help-website-login) to our website).
 Note that only the most essential configurations are provided in the default configuration files.
 For a full reference of all available options you can set,
-see the [Options](#cc-options) section.
+see the [API reference](#api).
 
 <pre>
 🏠 <a class="user-link-repo-tree" title="Repository Root Directory">&lt;REPOSITORY ROOT&gt;</a>
@@ -193,17 +160,17 @@ see the [Options](#cc-options) section.
 
 :::
 
-{.dummy #cc-file-structure}
+{#cc-file-structure}
 You are completely free to restructure your configurations in any way you like.
 For example, you can have a single large YAML file with all configurations,
 or you can further break down the configurations into more files and subdirectories.
 You can even break down a single complex value (i.e., a mapping or a sequence)
 into multiple files, each containing a subset of the value's data.
-When processing the control center, {{ ccc.name }} will automatically merge all configurations
+When processing the control center, |{{ ccc.name }}| will automatically merge all configurations
 into a single mapping using the following logic:
 
 1. The control center directory is recursively scanned
-   (excluding the [`hooks`](#cc-dir-hook) subdirectory),
+   (excluding the [`hooks`](#manual-control-structure-hooks) subdirectory),
    and all files with a `.yaml` or `.yml` extension (case-insensitive)
    are gathered as configuration files. Each file must represent a mapping.
 2. All key-value pairs from the collected files are recursively merged
@@ -261,17 +228,17 @@ as explained [above](#cc-file-structure).
 
 
 (manual-control-structure-hooks)=
-## Python Files
+## Hooks Directory
 
-In addition to declarative configurations in YAML files,
-you can also include Python files in the control center directory.
+In addition to YAML files,
+you can also include Python modules in the control center directory.
 These act as hooks to [dynamically generate custom configurations and files](#cc-hooks)
 during control center synchronization events.
 They must be added to a subdirectory named `hooks`
 at the root of the control center directory.
-For each type of hook, {{ ccc.name }} looks for a specific file in this directory.
-Before running your hooks, {{ ccc.name }} will also look for a `requirements.txt` file
-in the `hooks` directory, and install the specified packages using `pip` if found.
+For each type of hook, |{{ ccc.name }}| looks for a specific file in this directory.
+Before running your hooks, |{{ ccc.name }}| will also look for a `requirements.txt` file
+in the `hooks` directory, and will install the specified packages using `pip` if found.
 Note that in contrast to the YAML files,
 the `hooks` directory and its constituent files
 must be exactly named and located as described here.

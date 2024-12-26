@@ -9,6 +9,13 @@ custom-404
 :::
 
 
+Similarly, for website files, Jinja templating is enabled
+and the entire control center content is passed to the Sphinx environment during builds.
+This also enables you to create sophisticated webpages that are automatically updated
+with any changes to the control center.
+
+
+
 ## Working on Documentation
 
 To make the development process easier, you can install the

@@ -12,7 +12,7 @@ which can be installed in GitHub repositories to perform automated tasks on {ter
 To facilitate [installation](#install), PyPackIT includes a template repository at
 https://github.com/RepoDynamics/PyPackIT.
 There, by clicking the
-{{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}
+|{{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}|
 button, users can create a [new GitHub repository](#install-new)
 that automatically contains all the necessary files to run PyPackIT,
 such as GHA workflows and configuration files.
@@ -27,7 +27,7 @@ simply requiring users to add these files.
 :align: center
 :name: fig-features
 
-{{ccc.name}}'s key infrastructure elements (left) and workflows (right).
+|{{ccc.name}}|'s key infrastructure elements (left) and workflows (right).
 :::
 :::{image} /_media/figure/key_features_light.svg
 :class: hidden

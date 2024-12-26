@@ -15,7 +15,7 @@ ccid: install
 :link: new/index
 :link-type: doc
 
-Create a new GitHub repository with {{ ccc.name }} pre-installed.
+Create a new GitHub repository with |{{ ccc.name }}| pre-installed.
 :::
 
 
@@ -24,7 +24,7 @@ Create a new GitHub repository with {{ ccc.name }} pre-installed.
 :link: existing/index
 :link-type: doc
 
-Install {{ ccc.name }} in an existing GitHub repository.
+Install |{{ ccc.name }}| in an existing GitHub repository.
 :::
 
 
@@ -33,7 +33,7 @@ Install {{ ccc.name }} in an existing GitHub repository.
 :link: upgrade/index
 :link-type: doc
 
-Manage your upgrading strategy for an existing {{ ccc.name }} installation.
+Manage your upgrading strategy for an existing |{{ ccc.name }}| installation.
 :::
 
 

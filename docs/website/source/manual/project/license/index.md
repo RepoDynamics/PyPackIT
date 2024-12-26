@@ -1,13 +1,13 @@
 # Project License
 
-{{ ccc.name }} greatly facilitates project licensing and copyright management,
+|{{ ccc.name }}| greatly facilitates project licensing and copyright management,
 in accordance with best practices for {term}`FOSS`
 {cite}`QuickGuideToLicensing, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio`,
 including the upcoming [PEP 639](https://peps.python.org/pep-0639/). 
-To do so, {{ ccc.name }} implements the System Package Data Exchange ([SPDX](https://spdx.org/)) license standard,
+To do so, |{{ ccc.name }}| implements the System Package Data Exchange ([SPDX](https://spdx.org/)) license standard,
 allowing users to define complex licenses for their projects
 using a simple [SPDX license expression](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/).
-{{ ccc.name }} supports all entries in the [SPDX License List](https://spdx.org/licenses/),
+|{{ ccc.name }}| supports all entries in the [SPDX License List](https://spdx.org/licenses/),
 as well as custom license definitions.
 It can process SPDX licenses in their
 [native XML format](https://github.com/spdx/license-list-XML/blob/779bbe079ca2595e2d91fae30733f5b40eaf60e1/DOCS/xml-fields.md),

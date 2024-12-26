@@ -1,13 +1,13 @@
 
 # Overview
 
-{{ccc.name}} is a fully configured, yet highly customizable automation system
+|{{ccc.name}}| is a fully configured, yet highly customizable automation system
 that integrates with your GitHub repository and takes responsibility for a large portion
 of common tasks in every step of the development and maintenance process of your software project.
 From configuring your repository, Python package, test-suite, documentation website,
 and all other related tools and services according to the latest standards and best practices,
 to managing your project's branches, issues, pull requests, and releases,
-{{ccc.name}} provides an exhaustive set of fully-configured
+|{{ccc.name}}| provides an exhaustive set of fully-configured
 continuous integration, deployment, and testing (CI/CD/CT) workflows
 that render your entire development and maintenance pipelines automated and dynamic.
 These workflows, which are built on
@@ -32,20 +32,20 @@ significantly reducing the initial setup time and complexity.
 
 
 
-{{ccc.name}} is provided as a
+|{{ccc.name}}| is provided as a
 [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository),
 and uses [GitHub Actions](https://github.com/features/actions)
 to automate the entire development and maintenance process of your project.
-When you [create a new repository from the {{ ccc.name }} template](../../manual/install/new-repo.md),
-or [integrate {{ ccc.name }} into your existing repository](../../manual/install/existing-repo.md),
+When you [create a new repository from the |{{ ccc.name }}| template](../../manual/install/new-repo.md),
+or [integrate |{{ ccc.name }}| into your existing repository](../../manual/install/existing-repo.md),
 fully configured [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
 are added to your repository,
 which will automatically run GitHub Actions every time a supported event occurs in your repository.
-These workflows use {{ ccc.name }}'s own
+These workflows use |{{ ccc.name }}|'s own
 [custom actions](https://docs.github.com/en/actions/creating-actions/about-custom-actions),
 most notably the [RepoDynamics Action](https://github.com/RepoDynamics/init),
 which is entirely powered by our [RepoDynamics Python package](https://github.com/RepoDynamics/RepoDynamics).
-This package, being the brain of the {{ ccc.name }} software suite,
+This package, being the brain of the |{{ ccc.name }}| software suite,
 is responsible for analyzing the event that triggered the workflow,
 along with the current state of the repository, and automatically performing a variety of tasks accordingly.
 These include:
@@ -87,7 +87,7 @@ These include:
   [support resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project),
   and governance policy.
 - Adding and dynamically updating configuration files for other external tools that are used/supported
-  by {{ ccc.name }}, such as
+  by |{{ ccc.name }}|, such as
   [Read The Docs](https://readthedocs.org/) website,
   [Codecov](https://codecov.io/) test coverage reports,
   branch-specific [pre-commit](https://pre-commit.com/) configuration files,
@@ -133,7 +133,7 @@ These include:
 
 ### Documentation Website
 
-{{ ccc.name }} comes with a fully developed, ready to use,
+|{{ ccc.name }}| comes with a fully developed, ready to use,
 yet highly customizable professional documentation website for your project,
 that is automatically generated, deployed, and maintained,
 with minimal effort required from your side.
@@ -269,7 +269,7 @@ allowing for further advanced customizations, if needed.
 
 The build and deployment process of the website is automatically carried out on the cloud,
 as part of the provided GitHub Actions workflows for the repository.
-After {{ ccc.name }} is installed in your repository,
+After |{{ ccc.name }}| is installed in your repository,
 it automatically activates and configures the [GitHub Pages](https://pages.github.com/) service
 for your repository, and deploys the website.
 Subsequently, every time a change that affects the website
@@ -286,8 +286,8 @@ where `<username>` is the GitHub username of the person or organization that own
 and `<repository-name>` is the name of the repository.
 However, you can also configure a custom domain
 for your website in the repository's control center,
-and {{ ccc.name }} will automatically set it up for you.
-{{ ccc.name }} also automatically generates a full configuration file for the
+and |{{ ccc.name }}| will automatically set it up for you.
+|{{ ccc.name }}| also automatically generates a full configuration file for the
 [Read The Docs](https://readthedocs.org/) platform,
 so that you can easily build and deploy your website there as well.
 

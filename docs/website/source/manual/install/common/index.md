@@ -25,13 +25,13 @@ with the required permissions, and store it as a secret in the repository.
 :::{admonition} Why a PAT is Required
 :class: note dropdown
 
-{{ccc.name}} works by interacting with your repository
+|{{ccc.name}}| works by interacting with your repository
 and performing various tasks on your behalf. To be allowed to do so,
-{{ccc.name}} needs a token to authenticate with GitHub.
+|{{ccc.name}}| needs a token to authenticate with GitHub.
 By default, GitHub automatically creates a unique [`GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret)
 at the beginning of each workflow run, to be used by the workflow to authenticate with GitHub.
 However, this token has limited [permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
-by design, and is not sufficient for {{ccc.name}} to perform all its tasks,
+by design, and is not sufficient for |{{ccc.name}}| to perform all its tasks,
 such as modifying the repository's settings.
 Therefore, the PAT is used instead of the `GITHUB_TOKEN` to perform
 tasks that require higher permissions.
@@ -72,7 +72,7 @@ by enabling the option ***Allow GitHub Actions to create and approve pull reques
 (install-pypi)=
 ## PyPI Trusted Publishing
 
-{{ ccc.name }} uses
+|{{ ccc.name }}| uses
 [trusted publishing](https://docs.pypi.org/trusted-publishers/) ({term}`OIDC`)
 to automatically authenticate with PyPI servers and publish your Python package and test suite on TestPyPI and PyPI,
 without the need to manually set authentication credentials such as username and password
@@ -121,7 +121,7 @@ your respective accounts:
 (install-anaconda)=
 ## Anaconda Token
 
-{{ ccc.name }} can also build a conda package and publish it to your Anaconda channel.
+|{{ ccc.name }}| can also build a conda package and publish it to your Anaconda channel.
 To enable automatic publishing on Anaconda:
 
 1. [Create an account on Anaconda](https://anaconda.org/account/register)
