@@ -1,4 +1,5 @@
 docs/website/.build/
+docs/website/source/api/*/**
 .local/cache/**
 !.local/cache/**/
 !.local/cache/**/README.md
