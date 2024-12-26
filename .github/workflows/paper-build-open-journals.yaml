@@ -1,0 +1,187 @@
+# Refs:
+#   https://github.com/openjournals/inara
+#   https://github.com/openjournals/openjournals-draft-action
+
+name: Paper Build (Open Journals)
+run-name: >-
+  Paper (${{ inputs.journal }}):
+  ${{ inputs.repository || github.repository }}/${{ inputs.ref || github.ref }}/${{ inputs.filepath }}
+on:
+  workflow_dispatch:
+    inputs:
+      filepath:
+        description: Path to the paper's Markdown file
+        required: true
+        type: string
+        default: docs/papers/joss/paper.md
+      journal:
+        description: Target journal
+        required: true
+        default: JOSS
+        type: choice
+        options:
+          - JOSS
+          - JOSE
+          - ReScience C
+      artifact:
+        description: >-
+          Artifact name
+          (default: 'paper - REPO-OWNER_REPO-NAME - BRANCH-NAME - TAG - DISTANCE - COMMIT-HASH - FILEPATH - JOURNAL')
+        required: false
+        type: string
+      ref:
+        description: >-
+          Git reference (default: HEAD of the branch from which the workflow is run)
+        required: false
+        type: string
+      repository:
+        description: >-
+          GitHub repository (default: current repository)
+        required: false
+        type: string
+jobs:
+  build:
+    name: ${{ matrix.output.name }}
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-base-name: ${{ steps.artifact-name-gen.outputs.artifact_base_name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        output:
+          - name: PDF (final)
+            arg: -p
+            paths:
+              - output: paper.pdf
+              - output: jats
+          - name: PDF (draft)
+            arg: -o pdf
+            paths:
+              - output: paper.pdf
+                renamed: draft.pdf
+          - name: PDF (context)
+            arg: -o contextpdf
+            paths:
+              - output: paper.context.pdf
+                renamed: context.pdf
+          - name: LaTeX (final)
+            arg: -o tex
+            paths:
+              - output: paper.tex
+          - name: LaTeX (draft)
+            arg: -o preprint
+            paths:
+              - output: paper.preprint.tex
+                renamed: draft.tex
+          - name: Word DOCX
+            arg: -o docx
+            paths:
+              - output: paper.docx
+          - name: HTML
+            arg: -o html
+            paths:
+              - output: paper.html
+                renamed: index.html
+              - output: media
+          - name: CrossRef
+            arg: -o crossref
+            paths:
+              - output: paper.crossref
+                renamed: crossref.xml
+          - name: CFF
+            arg: -o cff
+            paths:
+              - output: CITATION.cff
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Directory Location
+        run: |
+          dirpath=$(dirname "${{ inputs.filepath }}")
+          echo "$dirpath"
+          echo "DIRPATH=$dirpath" >> $GITHUB_ENV
+      - name: Directory Overview
+        run: tree $DIRPATH
+      - name: Directory Cleanup
+        run: |
+          output_json='${{ toJSON(matrix.output) }}'
+          echo "$output_json" | jq -c '.paths[]' | while read -r path; do
+            output_path=$(echo "$path" | jq -r '.output')
+            rm -rf "${DIRPATH}/${output_path}" 2>/dev/null || echo "Removal of '${DIRPATH}/${output_path}' failed."
+          done
+      - name: Directory Overview
+        run: tree $DIRPATH
+      - name: Journal Determination
+        run: |
+          journal=$(echo "${{ inputs.journal }}" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
+          echo "$journal"
+          echo "JOURNAL=$journal" >> $GITHUB_ENV
+      - name: Build
+        uses: docker://openjournals/inara:latest
+        with:
+          args: ${{ matrix.output.arg }} -v ${{ inputs.filepath }}
+      - name: Output Rename
+        run: |
+          output_json='${{ toJSON(matrix.output) }}'
+          echo "$output_json" | jq -c '.paths[]' | while read -r path; do
+            if echo "$path" | jq -e 'has("renamed")' >/dev/null; then
+              output_path=$(echo "$path" | jq -r '.output')
+              new_path=$(echo "$path" | jq -r '.renamed')
+              echo "Renaming '$output_path' to '$new_path'"
+              mv "${DIRPATH}/${output_path}" "${DIRPATH}/${new_path}"
+            fi
+          done
+      - name: Directory Overview
+        run: tree $DIRPATH
+      - name: Artifact Name Generation
+        id: artifact-name-gen
+        run: >-
+          name="paper
+          - ${{ inputs.repository || github.repository }}
+          - $(git branch --show-current)
+          - $(git describe --long --always)
+          - ${{ inputs.filepath }}
+          - ${{ inputs.journal }}"
+          
+          name_normalized=$(echo "$name" | tr '":<>|*?\/' '_')
+          
+          echo "artifact_base_name=$name_normalized" >> $GITHUB_OUTPUT
+      - name: Artifact Filepath Determination
+        run: |
+          upload_paths=""
+          output_json='${{ toJSON(matrix.output) }}'
+          mapfile -t paths < <(echo "$output_json" | jq -c '.paths[]')
+          for path in "${paths[@]}"; do
+            if echo "$path" | jq -e 'has("renamed")' >/dev/null; then
+              upload_path=$(echo "$path" | jq -r '.renamed')
+            else
+              upload_path=$(echo "$path" | jq -r '.output')
+            fi
+            upload_paths+="${DIRPATH}/${upload_path}"$'\n'
+          done
+          {
+            echo 'UPLOAD_PATHS<<EOF'
+            echo "$upload_paths"
+            echo EOF
+          } >> "$GITHUB_ENV"
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact-name-gen.outputs.artifact_base_name }} - ${{ matrix.output.name }}
+          path: ${{ env.UPLOAD_PATHS }}
+  artifact-merge:
+    name: Artifact Merge
+    if: ${{ !cancelled() }}
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: ${{ inputs.artifact || needs.build.outputs.artifact-base-name }}
+          pattern: ${{ needs.build.outputs.artifact-base-name }} - *
+          separate-directories: 'false'
+          delete-merged: 'true'
