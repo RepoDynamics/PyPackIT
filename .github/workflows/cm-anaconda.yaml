@@ -1,0 +1,46 @@
+name: '[Reusable] CM: Anaconda'
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+    secrets:
+      anaconda-token:
+        description: Anaconda token for authenticating with anaconda.org.
+        required: true
+jobs:
+  cleanup:
+    name: Anaconda Channel Cleanup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+          miniconda-version: latest
+      - name: Environment Setup
+        run: |
+          echo "::group::Requirements Installation"
+          conda install anaconda-client
+          echo "::endgroup::"
+          echo "::group::Environment Overview"
+          conda list
+          echo "::endgroup::"
+          echo "::group::Conda Info"
+          conda info
+          echo "::endgroup::"
+      - name: Cleanup
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.anaconda-token }}
+          PKG_SPECS: ${{ fromJSON(inputs.config).remove }}
+        run: |
+          for spec in $PKG_SPECS; do
+              anaconda remove $spec
+          done
