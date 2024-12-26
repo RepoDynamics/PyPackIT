@@ -183,6 +183,24 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
         f"Could not render page '{docname}' as Jinja template. "
         "Please ensure that the page content is valid."
     )
+    # Change Jinja environment markers to avoid clashes with the MyST Attributes extension
+    # as well as templating syntax in control center configurations.
+    # Refs:
+    # - Jinja: https://jinja.palletsprojects.com/en/stable/api/#jinja2.Environment
+    # - MyST: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#attributes
+    attrs_default = {}
+    for attr, attr_new_val in (
+        ("block_start_string", "|{%"),
+        ("block_end_string", "%}|"),
+        ("variable_start_string", "|{{"),
+        ("variable_end_string", "}}|"),
+        ("comment_start_string", "|{#"),
+        ("comment_end_string", "#}|"),
+    ):
+        attr_val = getattr(app.builder.templates.environment, attr)
+        attrs_default[attr] = attr_val
+        setattr(app.builder.templates.environment, attr, attr_new_val)
+    # Run page through Jinja
     try:
         content[0] = app.builder.templates.render_string(
             content[0],
@@ -190,6 +208,9 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
         )
     except Exception as e:
         raise RuntimeError(error_msg) from e
+    # Revert Jinja environment markers to their defaults.
+    for attr, attr_val in attrs_default.items():
+        setattr(app.builder.templates.environment, attr, attr_val)
     return
 
 
