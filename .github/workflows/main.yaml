@@ -172,6 +172,15 @@ jobs:
     uses: ./.github/workflows/ci-build.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
+  cm-anaconda:
+    name: Anaconda Maintenance
+    needs: [ main ]
+    if: fromJSON(needs.main.outputs.cm-anaconda)
+    uses: ./.github/workflows/cm-anaconda.yaml
+    secrets:
+      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+    with:
+      config: ${{ needs.main.outputs.cm-anaconda }}
   binder:
     name: ${{ matrix.config.name }}
     needs: [main, web, lint, test, build]
