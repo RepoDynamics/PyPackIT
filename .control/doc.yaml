@@ -687,13 +687,13 @@ web:
       - file: api/index
         title: API
         entries:
-          - file: api/control/index
+          - file: api/metadata/index
           - file: api/local/index
           - file: api/changelog/index
-          - file: api/vars/index
+          - file: api/variables/index
           - file: api/contributors/index
           - file: api/cache/index
-          - file: api/ref/index
+          - file: api/refs/index
       - file: news/index
         title: News
         entries:
@@ -893,7 +893,7 @@ web:
         show_prev_next: True
         show_nav_level: 1
         navigation_depth: 5
-        show_toc_level: 3
+        show_toc_level: 5
         header_links_before_dropdown: 7
         icon_links:
           - name: Source Repository
@@ -925,7 +925,8 @@ web:
         sidebarwidth: 270
         sidebar_includehidden: True
         # ---- Analytics ----
-        google_analytics_id: G-0X66W6TGL2
+        analytics:
+          google_analytics_id: G-0X66W6TGL2
       html_context:
         github_user: ${{ repo.owner }}$
         github_repo: ${{ repo.name }}$
@@ -1290,6 +1291,14 @@ web:
           Creating reference documentation from JSONSchemas.
         pip:
           spec: jsonschema-mdit
+      controlman:
+        import_name: controlman
+        pip:
+          spec: controlman
+      mdit:
+        import_name: mdit
+        pip:
+          spec: mdit
   url:
     custom:
       name: pypackit.repodynamics.com
