@@ -105,7 +105,7 @@ Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_t
 {% set outer_loop = loop %}
 {% for name, color in ccc.color.items() %}
 html[data-theme="{{theme}}"] {
-    --pst-color-{{name}}: #{{color[theme]}};
+    --pst-color-{{name}}: {{color[theme]}};
 }
 {% endfor %}
 {% endfor %}
