@@ -98,7 +98,7 @@ to fully leverage |{{ccc.name}}|'s capabilities.
 
 :::{card} API Reference
 :link: api/index.html
-:img-top: /_static/img/icon/api.svg
+:img-top: /_media/icon/api.svg
 :text-align: center
 :class-img-top: dark-light icon-image
 
