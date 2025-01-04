@@ -1,0 +1,30 @@
+.bd-article p.jsonschema-badges {
+    text-align: initial;
+}
+img.jsonschema-badge {
+    border-radius: 0 !important;
+    height: 26px;
+}
+img.shields-badge-medium {
+    height: 23px;
+    border-radius: 0 !important;
+}
+img.shields-badge-large {
+    height: 27px;
+    border-radius: 0 !important;
+}
+.jsonschema-deflist {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.jsonschema-deflist-key {
+    font-weight: bold;
+    margin-top: 0.5em;
+    margin-bottom: 0;
+}
+.jsonschema-deflist-summary {
+    margin-left: 3em;
+    text-indent: -3em;
+    padding-left: 3em;
+}
