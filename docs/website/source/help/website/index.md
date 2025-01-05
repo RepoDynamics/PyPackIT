@@ -1,4 +1,4 @@
-# Navigating the Website
+# Documentation Guide
 
 (help-website-login)=
 ## Login
@@ -9,6 +9,18 @@ To do this, click on the <button class="user-login-button btn btn-sm inline_icon
 </button> icon and enter your GitHub repository full name.
 This icon is part of the website's navigation bar, which is located at the top-right corner of the page
 on large screens, and in the menu on small screens.
+
+
+## API Reference
+
+The [API Reference](#api) is ...
+
+
+[JSON Schema](https://json-schema.org/)
+
+[Draft 2020-12](https://json-schema.org/draft/2020-12)
+
+[Documentation](https://json-schema.org/understanding-json-schema)
 
 
 ## Copying Code Blocks
