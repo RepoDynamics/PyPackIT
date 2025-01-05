@@ -15432,7 +15432,7 @@
                "navbar_start": [
                   "navbar-logo"
                ],
-               "navigation_depth": 5,
+               "navigation_depth": 10,
                "primary_sidebar_end": [],
                "pygments_dark_style": "monokai",
                "pygments_light_style": "default",
