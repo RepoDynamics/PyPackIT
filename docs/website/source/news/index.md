@@ -3,6 +3,7 @@ ccid: blog
 category: Release
 ---
 
+(news)=
 # News
 
 :::{postlist}
