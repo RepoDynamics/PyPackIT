@@ -37,13 +37,13 @@ entries:
   - file: api/index
     title: API
     entries:
-      - file: api/control/index
+      - file: api/metadata/index
       - file: api/local/index
       - file: api/changelog/index
-      - file: api/vars/index
+      - file: api/variables/index
       - file: api/contributors/index
       - file: api/cache/index
-      - file: api/ref/index
+      - file: api/refs/index
   - file: news/index
     title: News
     entries:
