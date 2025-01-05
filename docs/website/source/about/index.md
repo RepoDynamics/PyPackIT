@@ -2,6 +2,7 @@
 ccid: about
 ---
 
+(about)=
 # About
 
 ::::{grid} 1
