@@ -681,6 +681,7 @@ web:
           - file: manual/quickstart/index
           - file: manual/control/index
             entries:
+              - file: manual/control/location/index
               - file: manual/control/structure/index
               - file: manual/control/templating/index
               - file: manual/control/inheritance/index
@@ -792,6 +793,8 @@ web:
       latex_logo: ${{ web.file.logo_full_raster.rel_path }}$
       python_display_short_literal_types: true
       python_maximum_signature_line_length: 80
+      suppress_warnings:
+        - etoc.toctree
     extension:
       # Sphinx's built-in extensions: https://www.sphinx-doc.org/en/master/usage/extensions/index.html#built-in-extensions
       autosummary:
@@ -1180,6 +1183,11 @@ web:
           spec: sphinx-notfound-page == 1.0.4
       config:
         notfound_urls_prefix: /${{ repo.name }}$/  # dynamically set in conf.py if not set here
+    jsonschema:
+      dependency:
+        import_name: jsonschema_autodoc.sphinx
+        pip:
+          spec: jsonschema-autodoc
   env:
     file:
       conda:
