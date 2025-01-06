@@ -1,24 +1,6 @@
 
 # Overview
 
-|{{ccc.name}}| is a fully configured, yet highly customizable automation system
-that integrates with your GitHub repository and takes responsibility for a large portion
-of common tasks in every step of the development and maintenance process of your software project.
-From configuring your repository, Python package, test-suite, documentation website,
-and all other related tools and services according to the latest standards and best practices,
-to managing your project's branches, issues, pull requests, and releases,
-|{{ccc.name}}| provides an exhaustive set of fully-configured
-continuous integration, deployment, and testing (CI/CD/CT) workflows
-that render your entire development and maintenance pipelines automated and dynamic.
-These workflows, which are built on
-[GitHub Actions](https://github.com/features/actions)—GitHub's own powerful automation platform—contain
-detailed instructions and commands for automatically performing a variety of tasks every time an event
-(e.g., pushing to a branch, opening an issue or pull request, etc.) occurs in your repository.
-
-Simply create a new repository from the PyPackIT template, add your project's information, and start coding;
-PyPackIT will automatically create and deploy a professional documentation website for your project,
-run various tests on your code, build your Python package, publish it on PyPI and GitHub,
-create detailed release notes and changelogs, manage your repository's issues and pull requests.
 
 The project addresses a common challenge faced by developers when initiating a new app or Python package:
 starting from scratch and configuring every element manually. Creating an ideal repository structure,
