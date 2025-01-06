@@ -9,11 +9,13 @@ import os as _os
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
+import controlman.data_validator as _controlman_data_validator
 import gittidy as _git
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
 import pkgdata as _pkgdata
+
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -463,6 +465,36 @@ def _add_intersphinx_mapping():
     return
 
 
+def _add_api_files():
+    schemas = [
+        {
+            "id": f"https://controlman.repodynamics.com/schema/{schema[0]}",
+            "name": schema[1],
+            "filepath": f"api/{schema[0]}",
+        } for schema in (
+            ("metadata", "ccc"),
+            ("local", "cc-local"),
+            ("cache", "cc-cache"),
+            ("variables", "cc-vars"),
+            ("changelog", "cc-changelog"),
+            ("contributors", "cc-contrib")
+        )
+    ]
+    _globals["jsonschema_autodoc"] = {
+        "schemas": schemas,
+        "registry": sorted((schema_id, resource.contents) for schema_id, resource in _controlman_data_validator.get_registry().items()),
+        "badge_permissive": {"color": "#00802B"},
+        "badge_restrictive": {"color": "#AF1F10"},
+        "badges": {
+            "separator": 2,
+            "style": "flat-square",
+            "color": "#0B3C75"
+        },
+        "ref_doc_filepath": "api/refs"
+    }
+    return
+
+
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
@@ -478,4 +510,5 @@ _add_intersphinx_mapping()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
+_add_api_files()
 globals().update(_globals)
