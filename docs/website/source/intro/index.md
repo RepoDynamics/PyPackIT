@@ -40,9 +40,9 @@ Upon installation, users only need to invest a few minutes in basic tasks
 such as filling project-specific information in the provided configuration files.
 PyPackIT then takes over, automatically setting up the repository
 and generating a complete infrastructure for the project ({numref}`fig-features`),
-including a python package, test suite, documentation website, license,
+including a python package, test suite, website, license,
 configuration files for various development tools and services,
-and community files such as a dynamic repository README.
+and documentation files such as a dynamic repository README.
 The documentation website along with an initial release of the library
 can be immediately deployed online, registering the project in indexing repositories
 and facilitating its discovery from the beginning of the project {cite}`4SimpleRecs, CICDSystematicReview`.
