@@ -12,6 +12,9 @@ Actions
 ITS
   Issue Tracking System
 
+FOSS
+  Free and Open-Source Software.
+
 GHI
   GitHub Issues
 
