@@ -4,7 +4,7 @@
 
 GHA
   [GitHub Actions](https://github.com/features/actions);
-  GitHub's cloud computing platform
+  GitHub's automation and cloud computing platform.
 
 Actions
   GitHub Actions applications
@@ -29,5 +29,14 @@ OIDC
 
 PyPA
   [Python Packaging Authority](https://www.pypa.io/)
+
+CM
+  Continuous Maintenance
+
+CR
+  Continuous Refactoring
+
+CT
+  Continuous Testing
 
 :::
