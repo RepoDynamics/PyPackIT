@@ -31,6 +31,7 @@ entries:
       - file: manual/quickstart/index
       - file: manual/control/index
         entries:
+          - file: manual/control/location/index
           - file: manual/control/structure/index
           - file: manual/control/templating/index
           - file: manual/control/inheritance/index
