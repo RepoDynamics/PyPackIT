@@ -1,6 +1,8 @@
 ---
 ccid: contribute
 ---
+
+(contribute)=
 # Contribute
 :::{toctree}
 :hidden:
