@@ -6,6 +6,9 @@ ccid: api
 # API Reference
 
 
+
+
+
 ::::{grid} 1
 :margin: 0
 :gutter: 0
@@ -14,10 +17,11 @@ ccid: api
 
 :::{grid-item-card} Control Center Configurations
 :class-title: sd-text-center
-:link: control/index
+:link: metadata/index
 :link-type: doc
 
-Control center configurations.
+A full reference of all available options in the project's control center
+and its corresponding `metadata.json` file.
 :::
 
 
