@@ -10,13 +10,13 @@ ccid: help
 :padding: 4 0 0 4
 
 
-:::{grid-item-card} Website
+:::{grid-item-card} Documentation Guide
 :class-title: sd-text-center
 :link: website/index
 :link-type: doc
 
-Instructions on navigating the website, finding resources,
-and using available features.
+Instructions on navigating the documentation website, finding resources,
+and using available features and materials.
 :::
 
 
