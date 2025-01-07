@@ -1034,6 +1034,7 @@ web:
           docs: https://ablog.readthedocs.io/
           source: https://github.com/sunpy/ablog
           docs_config:
+            title: Configuration Docs
             url: https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
         pip:
           spec: ablog == 0.11.11
