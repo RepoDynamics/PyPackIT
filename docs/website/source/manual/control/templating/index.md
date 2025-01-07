@@ -8,6 +8,9 @@ Since you can use the control center to generate any file in your repository,
 this effectively renders your entire project highly dynamic, flexible, and customizable,
 while eliminating data redundancy and ensuring consistency across all project resources.
 
+
+
+
 Templating can be applied to any YAML file within the control center.
 This is similar to the Jinja templating that many other tools use
 to generate dynamic configuration files,
@@ -24,12 +27,17 @@ which allows you to reuse values for different configurations,
 or to dynamically construct more complex values.
 
 
+## General Syntax
+
+Templates can be 
+
+
 ## Configuration Files
 
 Within the control center YAML files,
 you can reuse any value by referencing its path using the `${‎{ PATH }}` substitution syntax:
 - `${‎{` denotes the start of the substitution.
-- `PATH` is a [JSONPath expression](manual-control-configpaths)
+- `PATH` is a [JSONPath expression](manual-cc-configpaths)
   pointing to the value you want to substitute,
   only without the leading `$.`.
 - `}}` denotes the end of the substitution.
@@ -56,7 +64,7 @@ repo:
 
 ::::
 
-This sounds similar to [YAML anchors and references](#yaml-intro),
+This sounds similar to [YAML anchors and references](#yaml),
 but it has several key advantages over them:
 
 - **Multi File Support**:
@@ -120,3 +128,17 @@ but it has several key advantages over them:
   For example, `email.url` is set to `mailto:${‎{ .id }}`,
   and `linkedin.url` is set to `https://linkedin.com/in/${‎{ .id }}`.
   :::
+
+
+## Sequence Unpacking
+
+Sometimes, instead of templating an entire sequence,
+you may want to insert elements at a certain position.
+For example, assume you have following keywords:
+
+:::{code-block} yaml
+:caption: `.control/vcs.yaml`
+
+repo:
+  description: ${‎{ title }}
+:::
