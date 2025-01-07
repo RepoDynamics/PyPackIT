@@ -23,8 +23,12 @@ dependencies:
       - sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.2
       - sphinx-tippy == 0.4.3
       - sphinx-notfound-page == 1.0.4
+      - jsonschema-autodoc
       - gittidy
       - versionman
       - sphinx-autobuild >= 2024.09.17
       - pygments-git == 1.7.0
       - pkgdata
+      - jsonschema-mdit
+      - controlman
+      - mdit
