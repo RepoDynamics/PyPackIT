@@ -1,21 +1,7 @@
+(manual-cc)=
 # Control Center
 
-<!--
-Your repository's control center is the singular interface
-from which you can manage your entire project,
-and even multiple projects at once.
 
-It contains all available settings for |{{ ccc.name }}| itself,
-along with all information, configurations, and metadata of your project and all its components,
-gathered in one place and presented in a clear, consistent, and concise format.
-
-All available options are already provided in the `.meta` directory,
-where all general configurations and settings are set to sensible default values.
-Therefore, as the first step, you only need to add some basic information about your project,
-and provide some project-specific configurations:
-
-where all configurations, metadata, and settings for your GitHub repository (and its corresponding git repository),
-package, website, development pipeline, and other tools are stored in one place.
 
 Any change applied to the control center is automatically propagated throughout your repository,
 Python package, test suite, documentation website, and all other supported tools and external services.
@@ -30,7 +16,7 @@ generates all necessary files in the required locations, and updates them dynami
 Therefore, besides your source code, unit tests, and documentation content,
 all other aspects of your project are automatically managed by |{{ ccc.name }}| according to your specifications
 in the `meta` directory.
--->
+
 
 
 ::::{grid} 1
