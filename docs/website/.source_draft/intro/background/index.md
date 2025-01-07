@@ -168,13 +168,44 @@ numerous repetitive engineering and management tasks throughout the software lif
 
 ## Python Programming Language
 
-The choice of programming language greatly influences software adoption and sustainability \cite{RolesOfCodeInCSE}. For scientific software, the language should be fast, stable, predictable, versatile, user-friendly, and well-known \cite{SoftDevEnvForSciSoft, PythonEcosystemSciComp}. While low-level languages like C and Fortran dominate legacy high-performance computing (HPC) due to their speed and hardware integration \cite{SoftEngForCompSci, UnderstandingHPCCommunity, SciCompGridlock}, they fall short in addressing the diverse needs of modern research software \cite{PythonEcosystemSciComp}. Additionally, their complexity can obstruct software extension and maintenance \cite{SoftEngForCompSci, SciCompGridlock}. Therefore, higher-level languages are advised to improve development, collaboration, and productivity \cite{SoftEngForCompSci, BestPracticesForSciComp}. Over the past decade, Python has emerged as the leading programming language for research software development \cite{SurveySEPracticesInScience2, AnalyzingGitHubRepoOfPapers, DevOpsInSciSysDev}, widely adopted by major organizations such as CERN \cite{IntroducingPythonAtCERN, PythonAtCERN} and NASA \cite{PythonAtNASA}, and instrumental in key scientific achievements \cite{PythonScientificSuccessStories}, including the discovery of gravitational waves \cite{GravWaveDiscovery} and black hole imaging \cite{BlackHoleImage}. Python is now the most recommended language for scientific computing due to its simplicity, versatility, and extensive ecosystem \cite{PythonBatteriesIncluded, PythonForSciComp, PythonForSciAndEng, PythonJupyterEcosystem, SciCompWithPythonOnHPC, PythonEcosystemSciComp, WhatMakesPythonFirstChoice}, which provides performance-optimized libraries for array programming \cite{NumPy}, fundamental algorithms \cite{SciPy}, data analysis \cite{pandas}, machine learning \cite{PyTorch, Top5MLLibPython, ScikitLearn}, image processing \cite{scikitImage}, visualization \cite{Matplotlib, Mayavi}, interactive distributed computing \cite{IPython, Jupyter, Jupyter2}, parallel programming \cite{DaskAndNumba, DaskApplications}, and domain-specific scientific applications \cite{Astropy, SunPy, Pangeo, MDAnalysis, Biopython, NIPY}. Python can readily handle complex tasks such as web integration and visualization, which are hard to address in low-level languages \cite{PythonEcosystemSciComp}, while bridging the performance gap via optimized compilers \cite{Cython, Numba, Pythran}, GPU run-time code generators \cite{PyCUDA}, and APIs for integrating low-level languages \cite{PythonForSciComp, PythonEcosystemSciComp}. This adaptability enables rapid prototyping of complex applications, allowing researchers to quickly evaluate various scientific models and efficiently optimize the best solution \cite{BestPracticesForSciComp}. The recent advancements in parallel distributed computing with Python \cite{SciCompWithPythonOnHPC, ParallelDistCompUsingPython, ScientistsGuideToCloudComputing, DemystPythonPackageWithCondaEnvMod, PythonAcceleratorsForHPC} and Jupyter \cite{DistWorkflowsWithJupyter} has even motivated large HPC communities to shift toward Python \cite{SoftEngForCompSci, InteractiveSupercomputingWithJupyter}. Therefore, PyPackIT is specialized in the production of research software in Python, and provides a complete infrastructure and development environment using the latest tools and standards in its ecosystem.
+The choice of programming language greatly influences software adoption and sustainability \cite{RolesOfCodeInCSE}. 
+For scientific software, the language should be fast, stable, predictable, 
+versatile, user-friendly, and well-known \cite{SoftDevEnvForSciSoft, PythonEcosystemSciComp}. 
+While low-level languages like C and Fortran dominate legacy high-performance computing (HPC) 
+due to their speed and hardware integration \cite{SoftEngForCompSci, UnderstandingHPCCommunity, SciCompGridlock}, 
+they fall short in addressing the diverse needs of modern research software \cite{PythonEcosystemSciComp}. 
+Additionally, their complexity can obstruct software extension and maintenance \cite{SoftEngForCompSci, SciCompGridlock}. 
+Therefore, higher-level languages are advised to improve development, collaboration, 
+and productivity \cite{SoftEngForCompSci, BestPracticesForSciComp}. 
+Over the past decade, Python has emerged as the leading programming language 
+for research software development \cite{SurveySEPracticesInScience2, AnalyzingGitHubRepoOfPapers, DevOpsInSciSysDev}, 
+widely adopted by major organizations such as CERN \cite{IntroducingPythonAtCERN, PythonAtCERN} and NASA \cite{PythonAtNASA}, 
+and instrumental in key scientific achievements \cite{PythonScientificSuccessStories}, 
+including the discovery of gravitational waves \cite{GravWaveDiscovery} and black hole imaging \cite{BlackHoleImage}. 
+Python is now the most recommended language for scientific computing due to its simplicity, 
+versatility, and extensive ecosystem \cite{PythonBatteriesIncluded, PythonForSciComp, PythonForSciAndEng, PythonJupyterEcosystem, SciCompWithPythonOnHPC, PythonEcosystemSciComp, WhatMakesPythonFirstChoice}, 
+which provides performance-optimized libraries for array programming \cite{NumPy}, 
+fundamental algorithms \cite{SciPy}, 
+data analysis \cite{pandas}, machine learning \cite{PyTorch, Top5MLLibPython, ScikitLearn}, 
+image processing \cite{scikitImage}, visualization \cite{Matplotlib, Mayavi}, 
+interactive distributed computing \cite{IPython, Jupyter, Jupyter2}, 
+parallel programming \cite{DaskAndNumba, DaskApplications}, 
+and domain-specific scientific applications \cite{Astropy, SunPy, Pangeo, MDAnalysis, Biopython, NIPY}. 
+Python can readily handle complex tasks such as web integration and visualization, 
+which are hard to address in low-level languages \cite{PythonEcosystemSciComp}, 
+while bridging the performance gap via optimized compilers \cite{Cython, Numba, Pythran}, 
+GPU run-time code generators \cite{PyCUDA}, and APIs for integrating low-level languages \cite{PythonForSciComp, PythonEcosystemSciComp}. 
+This adaptability enables rapid prototyping of complex applications, 
+allowing researchers to quickly evaluate various scientific models and 
+efficiently optimize the best solution \cite{BestPracticesForSciComp}. 
+The recent advancements in parallel distributed computing with 
+Python \cite{SciCompWithPythonOnHPC, ParallelDistCompUsingPython, ScientistsGuideToCloudComputing, DemystPythonPackageWithCondaEnvMod, PythonAcceleratorsForHPC} 
+and Jupyter \cite{DistWorkflowsWithJupyter} has even motivated large HPC communities 
+to shift toward Python \cite{SoftEngForCompSci, InteractiveSupercomputingWithJupyter}. 
 
-## FAIR Research Software
-
-Research software is a valuable asset that can be readily reused as a building block in numerous computational studies. As software is complex and intangible in nature \cite{MythicalManMonth}, such studies cannot be replicated, verified, or built upon without full access to the underlying source code, input data, and parameters \cite{ReprodResearchInCompSci, AccessibleReproducibleResearch, BarelySufficientPracticesInSciComp, ShiningLight, PublishYourCode, CaseForOpenCompProg}. Despite this, research software has been rarely published \cite{BridgingTheChasm, CaseForOpenCompProg, 4SimpleRecs, PublishYourCode, CompSciError}, leading to controversies \cite{InfluentialPandemicSimulation} and retractions \cite{RetractionCOVID}, preventing software reuse \cite{SurveySEPracticesInScience, SciSoftwareAccuracy}, and forcing scientists to re-implement computational workflows from scratch in each new project \cite{ProblemsOfEndUserDevs, BetterSoftwareBetterResearch}, which is an error-prone process yielding low-quality results \cite{SurveySEPracticesInScience2, SoftEngForCompSci}. In response, widespread appeals have emerged for an open research culture, promoting transparency and reproducibility \cite{PublishYourCode, PromotingOpenResearch, ReprodResearchInCompSci, CaseForOpenCompProg, EnhancingReproducibility, ShiningLight, TroublingTrendsInSciSoftware}. While more publications now include links to source code and data, this is still strongly biased toward a handful of institutions working in specific computer science fields \cite{AnalyzingGitHubRepoOfPapers}. Common obstacles to publishing research software include the lack of efficient mechanisms and tools for packaging, distribution, and indexing \cite{CaseForOpenCompProg, SurveySEPracticesInScience, ReprodResearchInCompSci}, as well as code quality concerns and technical challenges to refactor, document, and maintain the software \cite{BarelySufficientPracticesInSciComp, BetterSoftwareBetterResearch, PublishYourCode}. To sustain scientific progress in CSE, it is thus crucial to address these challenges and ensure that research software is FAIR \cite{FAIR4RS}: findable, accessible, interoperable, and reusable.
-
-Regarding accessibility, many journals now mandate source code submissions for peer-review and public access \cite{RealSoftwareCrisis, DoesYourCodeStandUp, CaseForOpenCompProg, TowardReproducibleCompResearch, MakingDataMaximallyAvailable, JournalOfBioStatPolicy}. It is thus highly recommended to adopt an open-source model from start \cite{BetterSoftwareBetterResearch, PublishYourCode, SurveySEPracticesInScience, BarelySufficientPracticesInSciComp, BestPracticesInBioinfSoftware, POVHowOpenSciHelps, 4SimpleRecs, ELIXIRSoftwareManagementPlan, 10RuleForSoftwareInCompBio}, making the source code freely accessible under a permissive license \cite{BusinessOfOpenSource}. This provides a full record of activities that can be crucial in tracking progress and recognition, enables transparent peer review, promotes trust and adoption, leads to more citations, and improves software quality and sustainability by encouraging community collaboration \cite{SharingDetailedResData, BetterSoftwareBetterResearch, ShiningLight, PublishYourCode, CaseForOpenCompProg, 4SimpleRecs, POVHowOpenSciHelps, BestPracticesInBioinfSoftware, SurveySEPracticesInScience, 10SimpleRulesForOpenDevOfSciSoft, BarelySufficientPracticesInSciComp}. Furthermore, to facilitate findability, research software must be searchable by its functionalities and attributes \cite{10MetricsForSciSoftware}. This requires the distribution of software to related public indexing repositories, along with comprehensive metadata and identifiers \cite{WhatMakesCompSoftSuccessful, HowToSupportOpenSource, 10SimpleRulesForOpenDevOfSciSoft, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, BarelySufficientPracticesInSciComp, 4SimpleRecs}. For reproducibility of research results, each distribution must be permanently available and uniquely indexed with a persistent global identifier that enables reliable citations, such as a Digital Object Identifier (DOI) \cite{BarelySufficientPracticesInSciComp, BestPracticesInBioinfSoftware, ELIXIRSoftwareManagementPlan, BestPracticesInBioinfSoftware, 4SimpleRecs}. To ensure the interoperability and reusability of research software, employing DRY (Don't Repeat Yourself) Principles is encouraged to modularize code into separate methods and routines, organized into a software library with a clear API \cite{FAIR4RS, 10MetricsForSciSoftware, SciSoftDevIsNotOxymoron, 5RecommendedPracticesForCompSci, BestPracticesForSciComp}. As review articles and scientific textbooks provide an overview of recent progress and established knowledge in a field, scientific libraries do the same for code, implementing state-of-the-art algorithms and well-known procedures for use in computational studies \cite{RolesOfCodeInCSE}. Packaging code into software libraries can also greatly simplify the setup process for users \cite{10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, WhyJohnnyCantBuild}, which is a common problem in research software \cite{NamingThePainInDevSciSoft, CompSciError}. Therefore, PyPackIT is focused on the production of open-source and FAIR scientific Python libraries, and implements automated solutions to facilitate above-mentioned challenges, such as licensing, packaging, distribution, and indexing \cite{BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio}.
+Therefore, PyPackIT is specialized in the production of research software in Python, 
+and provides a complete infrastructure and development environment 
+using the latest tools and standards in its ecosystem.
 
 ## Cloud-Native Development
 
@@ -190,39 +221,6 @@ ITSs, one of the most important tools for research software development, simplif
 
 Another important aspect of the development workflow are version control practices \cite{10MetricsForSciSoftware, ELIXIRSoftwareManagementPlan} such as branching, which provides isolation for simultaneous development and maintenance of multiple software versions \cite{ImportanceOfBranchingModels}. For example, to support cloud-native development, short-lived branches are used to implement new changes, which are then merged into stable branches that contain production-ready code \cite{CICDSystematicReview}. While crucial for software development, branching is considered one of the most problematic practices of VCSs \cite{EffectOfBranchingStrategies}. The suitability of a branching model is also project-dependent, resulting in a variety of different strategies \cite{BranchUseInPractice}. Although several well-established models exist \cite{TrunkBasedDev, GitFlow, GitHubFlow, GitLabFlow}, they are not fully aligned with the needs of research software, which is typically first released as a proof-of-concept prototype and can undergo multiple significant changes after its initial publication \cite{UnderstandingHPCCommunity}. This requires a branching model that enables the development, release, and long-term maintenance of multiple versions of the software in parallel, to facilitate rapid evolution while ensuring the reproducibility and sustainability of the scientific results based on earlier releases \cite{ConfigManageForLargescaleSciComp}. In accordance with these requirements, PyPackIT includes automated version control in the development workflow, complete with a specialized branching model and version scheme.
 
-## Quality Assurance and Testing
-
-Given the integral role of computational studies in solving critical real-life problems, ensuring the reliability and correctness of scientific software is of utmost importance. As software bugs can lead to incorrect scientific results \cite{CompSciError}, software testing is one of the most crucial practices in research software development \cite{BestPracticesForSciComp, 5RecommendedPracticesForCompSci, BestPracticesInBioinfSoftware, SurveySEPracticesInScience, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines}. It is highly recommended to use test-driven development methodologies and perform frequent testing from the beginning of the development cycle, thus preventing the accumulation of errors into complex problems \cite{10SimpleRulesOnWritingCleanAndReliableSciSoft, SciSoftDevIsNotOxymoron, SurveySEPracticesInScience}. This is especially important for research software \cite{EmpStudyDesignInHPC}, in which deviations from expected behavior may also occur due to the underlying scientific model, making it harder to identify the root cause of problems \cite{SoftDevEnvForSciSoft}. Thus, unit tests must be written parallel to code implementation, verifying the accuracy of individual code components in isolation \cite{BarelySufficientPracticesInSciComp}. They can also be used in regression testing, which is crucial for ensuring that features remain functional after each modification \cite{10SimpleRulesOnWritingCleanAndReliableSciSoft, BestPracticesForSciComp}. To ensure testing effectiveness, test coverage metrics must be monitored to identify code components and software functionalities that are not covered by the available test cases \cite{DLRSoftEngGuidelines, 10SimpleRulesOnWritingCleanAndReliableSciSoft}. To improve reproducibility and increase trust in the software \cite{ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines}, users must also be able to run the tests on their machines to asses the functionality and performance of their local installation \cite{10MetricsForSciSoftware, BestPracticesInBioinfSoftware}. To facilitate this, all tests and corresponding data should be organized into a software package \cite{BestPracticesInBioinfSoftware}, called test suite, and distributed along instructions on how to run it and information about the testing methodology \cite{BarelySufficientPracticesInSciComp, 10MetricsForSciSoftware}.
-
-In addition to testing, static code analysis tools such as linters and type checkers must also be used to check for violations and other potential issues in the code \cite{DLRSoftEngGuidelines, BestPracticesForSciComp}. These tools help with refactoring as well, improving code quality, performance, and maintainability \cite{SurveySEPracticesInScience, 10SimpleRulesOnWritingCleanAndReliableSciSoft}. Moreover, to facilitate readability, which is a key factor in collaboration and peer review \cite{BestPracticesForSciComp}, code formatting tools must be used to establish a consistent coding style according to best practices \cite{BestPracticesForSciComp, NLeScienceSoftDevGuide}. Importantly, to ensure that these practices are consistently performed, they must be automated in the project's development workflow \cite{BestPracticesForSciComp, 10MetricsForSciSoftware, 10SimpleRulesOnWritingCleanAndReliableSciSoft}. This is a challenging task that often prevents adequate code quality assurance and testing \cite{StairwayToHeaven}, specially in research software projects \cite{TestingResearchSoftwareSurvey, SoftEngForCompSci} as they lack management support \cite{SurveySEPracticesInScience} and skills in modern software engineering and testing methodologies  \cite{HowScientistsDevAndUseSciSoft, SurveySEPracticesInScience2, ProblemsOfEndUserDevs}. Consequently, while more than half of scientists' programming time is spent on debugging code \cite{SurveySEPracticesInScience2}, only primitive methods are used that are slow, ineffective, and prone to errors \cite{SurveySEPracticesInScience2, SoftEngForCompSci, SurveySEPracticesInScience}. As code quality assurance and testing practices are usually neglected \cite{CompSciError, ProblemsOfEndUserDevs, SurveySEPracticesInScience2, SoftwareChasm}, research software may contain inapparent issues that do not interrupt the execution of the program, but result in incorrect outputs that compromise scientific findings \cite{CompSciError}. Such errors have caused numerous retractions \cite{NightmareRetraction, RetractionChang, RetractionMa, RetractionChang2, RetractionJAmCollCardiol, RetractionMeasuresOfCladeConfidence, RetractionsEffectOfAProgram}, corrections \cite{CorrectionHypertension}, and comments \cite{CommentOnError, CommentOnError2, CommentOnError3, CommentOnError4, CommentOnError5, ClusterFailureFMRI}, even in high-profile publications. Therefore, there is a current need for promoting and facilitating standard code analysis, formatting, and testing practices in research software engineering \cite{TestingResearchSoftwareSurvey, ApproxTowerInCompSci, SoftEngForCompSci} Accordingly, PyPackIT offers a fully automated quality assurance and testing infrastructure for the entire development life-cycle, fulfilling all requirements, including coverage monitoring, documentation, and test-suite distribution.
-
-## Documentation
-
-One of the main determining factors of software quality and success is documentation \cite{HowToSupportOpenSource, 10SimpleRulesForOpenDevOfSciSoft, BestPracticesForSciComp, GoodEnoughPracticesInSciComp, DLRSoftEngGuidelines, NLeScienceSoftDevGuide, SurveySEPracticesInScience, WhatMakesCompSoftSuccessful}. It must provide clear information on how to install and execute the software, how each part works, and how to use them correctly, thus ensuring that the capabilities and limitations of the software are understood and exploited in the intended way by its users \cite{WhatMakesCompSoftSuccessful, SciSoftDevIsNotOxymoron, ELIXIRSoftwareManagementPlan, SurveySEPracticesInScience, NamingThePainInDevSciSoft, CompSciError, BestPracticesInBioinfSoftware, BarelySufficientPracticesInSciComp, 10RuleForSoftwareInCompBio}. This is especially important for research software, where knowledge about the project is continuously lost \cite{EmpStudyDesignInHPC, SoftwareSustainabilityInstitute} due to high developer turnover rates \cite{RecommendOnResearchSoftware}. Moreover, as the software evolves, it is crucial to document all important changes in each new release compared to its earlier version. This information must be published along each release, allowing users to evaluate the update impact on their projects. Additionally, it must be recorded chronologically in a so-called \href{https://keepachangelog.com}{changelog}, providing an overview of the software evolution to new users and contributors \cite{ELIXIRSoftwareManagementPlan, GoodEnoughPracticesInSciComp, SustainableResearchSoftwareHandOver}. As building a community is crucial for research software success \cite{WhatMakesCompSoftSuccessful}, equally important as user documentation is providing collaborators with project information \cite{SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware} including contribution guidelines, governance model, and code of conduct \cite{SustainableResearchSoftwareHandOver, GoodEnoughPracticesInSciComp, 4SimpleRecs, ELIXIRSoftwareManagementPlan}.
-
-Producing and maintaining high-quality documentation requires significant time, effort, and skills \cite{SurveySEPracticesInScience}. In addition to writing large amounts of content, developers typically need to design, develop, and deploy a website to present the documentation in an accessible, coherent, and user-friendly format \cite{WhatMakesCompSoftSuccessful}. This is a non-trivial task, requiring a broad knowledge of web development concepts and tools, including HTML, CSS, and JavaScript, as well as web hosting services and practices. Moreover, the documentation website must always reflect the latest state of the project, requiring developers to periodically update and maintain it after each change. To facilitate software documentation, several tools and practices have been developed \cite{TenSimpleRulesForDocumentingSciSoft}. For example, it is recommended to embed the documentation of code components next to their source code, as specially annotated comments called docstrings \cite{WhatMakesCompSoftSuccessful, BestPracticesForSciComp}. The developers can then use a static site generator like \href{https://www.sphinx-doc.org}{Sphinx} to generate a website that includes the library's API documentation, automatically extracted from these comments \cite{SurveySEPracticesInScience, TenSimpleRulesForDocumentingSciSoft}. While such tools can greatly simplify the process, developers still need to invest a lot of time and effort to find, learn, set up, and configure them. Consequently, research software is typically not well-documented \cite{CompSciError, SoftEngForCompSci, ProblemsOfEndUserDevs, AnalyzingGitHubRepoOfPapers, DealingWithRiskInSciSoft}. This is one of the most common barriers to using available research software \cite{HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl}, a typical cause of software misuse leading to faulty scientific results \cite{CompSciError}, and one of the main reasons why researchers refrain from publishing their software \cite{InfluentialPandemicSimulation, BetterSoftwareBetterResearch}. Therefore, PyPackIT puts great emphasis on documentation, providing infrastructure and automated solutions that enable projects to maintain high-quality documentation with minimal effort.
-
-## Maintenance
-
-Modern research software can often remain useful and operational for decades \cite{SoftwareSustainabilityInstitute, SoftEngForCompSci}. Thus, considering the amounts of time and effort required to develop high-quality software, it is important to sustain the available options \cite{BarelySufficientPracticesInSciComp}. This requires active maintenance \cite{SoftEngForCompSci}: The project must continuously receive feedback from its community to fix existing issues, improve functionalities, and add missing features \cite{SoftwareSustainabilityInstitute}. This is more crucial for research software, which also needs to reflect scientific advances \cite{SoftDevEnvForSciSoft}. Maintaining software dependencies \cite{FortyYearsOfSoftwareReuse} is another important aspect \cite{EmpComparisonOfDepNetEvolution}: To facilitate usability, scientific software libraries must be compatible with diverse computer environments, requiring them to remain functional with future dependency versions. However, most projects are unaware of their outdated dependencies and do not update them regularly \cite{DoDevsUpdateDeps}, leading to incompatibilities, bugs, and other issues in the software \cite{MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet}. Research software maintenance is particularly hindered by short-term funding options \cite{ManagingChaos, BetterSoftwareBetterResearch}, small team sizes \cite{SoftEngForCompSci, HowScientistsReallyUseComputers}, high turnover rates \cite{RecommendOnResearchSoftware, EmpStudyDesignInHPC}, and the fact that it does not lead to new publications \cite{SoftEngForCompSci}. Another main barrier is technical debt \cite{BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci}: Neglecting software engineering best practices during the development considerably increases the workload of performing new tasks \cite{ManagingTechnicalDebt}, causing each new modification to further increase the software entropy \cite{10SimpleRulesForOpenDevOfSciSoft, SoftDesignForEmpoweringSci} and create new technical debt, making maintenance increasingly harder \cite{ManagingChaos, SoftwareSustainabilityInstitute}. Consequently, the extra time and effort required for maintenance is one of the main reasons for not publicly releasing research software \cite{BetterSoftwareBetterResearch, PublishYourCode}, which is often abandoned as an unsustainable prototype, not usable in future research projects \cite{SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode}. To prevent these issues, quality assurance and maintenance tasks should be automated and enforced from the beginning of the project \cite{SoftEngForCompSci}. PyPackIT achieves this by several mechanisms, including its automated pull-based development model that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices throughout the development process, and Continuous Maintenance (CM) \cite{ContinuousMaintenance}, Refactoring (CR) \cite{ContRefact}, and Testing (CT) \cite{ContinuousSoftEng} pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks, such as updating dependencies and development tools, to maintain the health of the software and its development environment.
-
-## Configuration
-
-Software projects usually contain multiple data files
-declaring metadata and settings for different project components.
-The requirement for each tool to have its own configuration file
-in a specific format and location complicates maintenance and organization.
-Additionally, redundancy arises as some data is reused within and across projects,
-hindering the rapid and reliable modification of configurations \cite{BestPracticesForSciComp}.
-Manual adjustments via interactive interfaces further complicate configuration tracking and replicability,
-making consistent production and management of software projects a challenge \cite{DevOpsInSciSysDev}.
-To solve such issues, DevOps practices such as Infrastructure-as-Code (IaC)
-and Continuous Configuration Automation (CCA) have been developed to enable dynamic configuration management
-of software infrastructures using machine-readable definition files \cite{InfrastructureAsCode}.
-PyPackIT implements a similar mechanism to facilitate the definition, customization, synchronization,
-and maintenance of all project metadata and settings.
-It provides a user-friendly control center that renders the entire project infrastructure
-and development environment dynamic, enabling automatic project management and configuration.
 
 
 
@@ -607,24 +605,12 @@ when setting up a GitHub repository for a software project:
 
 ## Development Workflow
 
-:::{admonition} 🚧 Under Construction 🚧
-:class: danger
-
-This subsection is currently under construction.
-:::
-
 In addition, a well-structured repository should also have a clear and consistent workflow,
   and a well-defined process for reviewing and merging contributions.
   This helps streamline the development process,
   and makes it easier for new contributors to get started with the project.
 
-- **Continuous Integration and Deployment**: Continuous integration and deployment (CI/CD) pipelines
-  automate the process of building, testing, and deploying software,
-  enabling developers to quickly and efficiently release new versions of their projects.
-- [**Workflow**]{.primary-color}: The development workflow defines the exact process
-  by which changes are made to the project, from the initial idea to the final implementation.
-  It is crucial for developers to have comprehensive and well-defined workflows in place,
-  to ensure that changes are made in a consistent and organized manner.
+
 - **Branching Model**: The branching model of the repository must be designed
     to support the development workflow of the project.
     For example, the repository may follow a [Gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
@@ -641,24 +627,10 @@ it must first be [packaged](https://packaging.python.org/en/latest/overview/) in
 and distributed on an online software repository (aka package index),
 which provides a centralized location for publishing and sharing packages,
 so that users can find, download, and install it on their systems.
-There are two major software repositories for Python packages:
-- [Python Package Index (PyPI)](https://pypi.org/): The official software repository for Python,
-  run by the [Python Software Foundation (PSF)](https://www.python.org/psf-landing/).
-- [Anaconda.org](https://anaconda.org/): A language-agnostic platform
-  with support for multiple programming languages, which makes it a popular choice
-  for publishing Python packages with non-Python dependencies,
-  as is often the case for scientific software.
-
+There are two major software repositories for Python packages: {term}`PyPA` and {term}`Anaconda.org`.
 Each of these platforms has its own package management system,
 which is the software that users use to download and install packages from the repository:
-- [pip](https://pip.pypa.io/en/stable/): The official package manager for Python,
-  maintained by the [Python Packaging Authority (PyPA)](https://www.pypa.io/en/latest/),
-  and the recommended tool for downloading, installing, and managing packages from PyPI.
-- [conda](https://docs.conda.io/en/latest/)
-  (and its more performant twin, [mamba](https://mamba.readthedocs.io/en/latest/)):
-  Cross-platform package managers for Python and other programming languages,
-  used to download, install, and manage packages from Anaconda.org.
-
+{term}`pip` and {term}`conda` (or its more performant twin, {term}`mamba`)
 The packaging and distribution process involves several steps:
 1. The source code must first be structured into one or several
    [import packages](https://packaging.python.org/en/latest/glossary/#term-Import-Package),
@@ -780,9 +752,7 @@ The packaging and distribution process involves several steps:
      Built distributions are [binary archives](https://packaging.python.org/en/latest/specifications/binary-distribution-format/)
      containing files and metadata that only need to be moved to the correct location on the target system,
      to be installed.
-     Currently, PyPI/pip uses the [Wheel](https://packaging.python.org/en/latest/glossary/#term-Wheel) format
-     (originally introduced in [PEP 427](https://www.python.org/dev/peps/pep-0427/),
-     replacing the older [Egg](https://packaging.python.org/en/latest/glossary/#term-Egg) format),
+     Currently, PyPI/pip uses the {term}`Wheel` format,
      while Anaconda/conda uses the
      [`.conda` format](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html#conda-file-format)
      superseding the older `.tar.bz2` format.
@@ -859,63 +829,8 @@ the entire packaging and distribution process, from start to finish,
 to save time and effort for the developers, and ensure that the process is carried out correctly.
 
 
-For the TOML file format,
-see [Learn TOML in Y Minutes](https://learnxinyminutes.com/docs/toml/), or check out the
-full specification at [toml.io](https://toml.io/en/v1.0.0).
 
 ## Quality Assurance and Testing
-
-
-Code quality assurance and testing are crucial aspects of every software development process,
-ensuring that the code is correct, functional, secure, robust,
-reliable, maintainable, and sustainable {cite}`CompSciError`.
-It is highly recommended to use test-driven development methodologies and perform frequent testing
-from the beginning of the development cycle,
-thus preventing the accumulation of errors into complex problems {cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft`.
-Thus, unit tests must be written parallel to code implementation,
-verifying the accuracy of individual code components in isolation.
-They can also be used in regression testing, which is crucial for ensuring that features remain functional
-after each modification.
-To ensure testing effectiveness, test coverage metrics must be monitored to identify code components
-and software functionalities that are not covered
-by the available test cases.
-To improve reproducibility and increase trust in the software,
-users must also be able to run the tests on their machines to assess the functionality and performance
-of their local installation {cite}`10MetricsForSciSoftware`.
-To facilitate this, all tests and corresponding data should be
-organized into a software package, called test suite, and distributed along instructions on how to run it
-and information about the testing methodology.
-
-In addition to testing, static code analysis tools such as linters and type checkers
-must also be used to check for violations and potential issues in the code.
-These tools help with refactoring as well, improving code quality, performance,
-and maintainability.
-Moreover, to facilitate readability, which is a key factor in collaboration
-and peer review, code formatting tools must be used to
-establish a consistent coding style according to best practices {cite}`BestPracticesForSciComp`.
-Importantly, to ensure that these practices are consistently performed,
-they must be automated in the project's development workflow.
-This is a challenging task that often prevents adequate code quality assurance and testing {cite}`StairwayToHeaven`,
-specially in open-source research software projects {cite}`TestingResearchSoftwareSurvey`
-as they lack management support and skills in
-modern software engineering and testing methodologies {cite}`HowScientistsDevAndUseSciSoft, ProblemsOfEndUserDevs`.
-Consequently, while more than half of scientists' programming time is spent on debugging code,
-only primitive methods are used that are slow, ineffective, and prone to errors {cite}`SurveySEPracticesInScience2, SurveySEPracticesInScience`.
-As code quality assurance and testing practices are usually neglected,
-open-source software may contain inapparent issues that do not interrupt the execution of the program,
-but result in incorrect outputs that compromise scientific findings \cite{CompSciError, SoftwareChasm}.
-Such errors have caused numerous
-retractions {cite}`NightmareRetraction, RetractionChang, RetractionMa, RetractionChang2, RetractionJAmCollCardiol, RetractionMeasuresOfCladeConfidence, RetractionsEffectOfAProgram`,
-corrections {cite}`CorrectionHypertension`,
-and comments {cite}`CommentOnError, CommentOnError2, CommentOnError3, CommentOnError4, CommentOnError5, ClusterFailureFMRI`,
-even in high-profile publications.
-Therefore, there is a current need for promoting and facilitating standard code analysis, formatting,
-and testing practices in research software engineering \cite{TestingResearchSoftwareSurvey, ApproxTowerInCompSci, SoftEngForCompSci}.
-Accordingly, PyPackIT offers a fully automated quality assurance and testing infrastructure
-for the entire development life-cycle, fulfilling all requirements, including coverage monitoring,
-documentation, and test-suite distribution.
-
-
 
 These encompass a wide range of activities and practices, from formatting and static code analysis routines,
 to various dynamic testing methods, such as unit testing, integration testing, and end-to-end testing:
@@ -988,98 +903,3 @@ It requires clear guidelines and often the implementation of automated checks
 that are integrated into the development workflow,
 such as pre-commit hooks or continuous integration pipelines.
 
-## Documentation
-
-One of the main determining factors of software quality and success is documentation {cite}`WhatMakesCompSoftSuccessful`.
-It must provide clear information on how to install and execute the software,
-how each part works, and how to use them correctly,
-thus ensuring that the capabilities and limitations of the software are understood
-and exploited in the intended way by its users.
-This is especially important for open-source software,
-where knowledge about the project is continuously lost
-due to high developer turnover rates {cite}`RecommendOnResearchSoftware`.
-Moreover, as the software evolves, it is crucial to document
-all important changes in each new release compared to its earlier version.
-This information must be published along each release,
-allowing users to evaluate the update impact on their projects.
-Additionally, it must be recorded chronologically in a so-called [changelog](https://keepachangelog.com),
-providing an overview of the software evolution to new users and contributors.
-As building a community is crucial for research software success,
-equally important as user documentation is providing new collaborators
-with project information including contribution guidelines, governance model,
-and code of conduct.
-
-Producing and maintaining high-quality documentation requires significant time, effort, and skills.
-In addition to writing large amounts of content, developers typically need to design,
-develop, and deploy a website to present the documentation in an accessible,
-coherent, and user-friendly format.
-This is a non-trivial task, requiring a broad knowledge of web development concepts and tools,
-including HTML, CSS, and JavaScript, as well as web hosting services and practices.
-Moreover, the documentation website must always reflect the latest state of the project,
-requiring developers to periodically update and maintain it after each change.
-To facilitate software documentation,
-several tools and practices have been developed {cite}`TenSimpleRulesForDocumentingSciSoft`.
-For example, it is recommended to embed the documentation of code components next to their source code,
-as specially annotated comments called docstrings.
-The developers can then use a static site generator like \href{https://www.sphinx-doc.org}{Sphinx}
-to generate a website that includes the library's API documentation,
-automatically extracted from these comments.
-While such tools can greatly simplify the process,
-developers still need to invest a lot of time and effort to find, learn, set up, and configure them.
-Consequently, open-source software is typically not well-documented {cite}`AnalyzingGitHubRepoOfPapers`.
-This is one of the most common barriers to using available options {cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl`,
-a typical cause of software misuse leading to faulty results {cite}`CompSciError`,
-and one of the main reasons why developers refrain from publishing their software {cite}`BetterSoftwareBetterResearch`.
-Therefore, PyPackIT puts great emphasis on documentation,
-providing infrastructure and automated solutions that enable projects to maintain
-high-quality documentation with minimal effort.
-
-## Maintenance
-
-Modern software can often remain useful and operational for decades {cite}`SoftEngForCompSci`.
-Thus, considering the amounts of time and effort required to develop high-quality software,
-it is important to sustain the available options. This requires active maintenance:
-The project must continuously receive feedback from its community
-to fix existing issues, improve functionalities, and add missing features.
-Maintaining software dependencies is another important aspect {cite}`FortyYearsOfSoftwareReuse`:
-To facilitate usability, software libraries must be compatible with diverse computer environments,
-requiring it to remain functional with future dependency versions {cite}`EmpComparisonOfDepNetEvolution`.
-However, most projects are unaware of their outdated dependencies
-and do not update them regularly {cite}`DoDevsUpdateDeps`, leading to incompatibilities, bugs,
-and other issues in the software {cite}`MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet`.
-Another main barrier is technical debt {cite}`ManagingTechnicalDebt`:
-Neglecting software engineering best practices during the development considerably increases the workload
-of performing new tasks, causing each new modification
-to further increase the software entropy and create new technical debt,
-making maintenance increasingly harder.
-Consequently, the extra time and effort required for maintenance is one of the main reasons
-for not publicly releasing software {cite}`BetterSoftwareBetterResearch, PublishYourCode`,
-which is often abandoned as an unsustainable prototype, not usable in future projects {cite}`PublishYourCode`.
-To prevent these issues, quality assurance and maintenance tasks should be automated
-and enforced from the beginning of the project {cite}`SoftEngForCompSci`.
-{{ ccc.name }} achieves this by several mechanisms, including its automated pull-based development model
-that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices
-throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`,
-Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng`
-pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks,
-such as updating dependencies and development tools,
-to maintain the health of the software and its development environment.
-
-## Configuration Management
-
-Software projects usually contain multiple data files
-declaring metadata and settings for different project components.
-The requirement for each tool to have its own configuration file
-in a specific format and location complicates maintenance and organization.
-Additionally, redundancy arises as some data is reused within and across projects,
-hindering the rapid and reliable modification of configurations {cite}`BestPracticesForSciComp`.
-Manual adjustments via interactive interfaces further complicate configuration tracking and replicability,
-making consistent production and management of software projects a challenge {cite}`DevOpsInSciSysDev`.
-To solve such issues, DevOps practices such as Infrastructure-as-Code (IaC)
-and Continuous Configuration Automation (CCA) have been developed
-to enable dynamic configuration management of software infrastructures
-using machine-readable definition files {cite}`InfrastructureAsCode`.
-{{ ccc.name }} implements a similar mechanism to facilitate the definition, customization,
-synchronization, and maintenance of all project metadata and settings.
-It provides a user-friendly control center that renders the entire project infrastructure
-and development environment dynamic, enabling automatic project management and configuration.
