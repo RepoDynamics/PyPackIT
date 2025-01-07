@@ -277,16 +277,4 @@ Wheel
   wheels are widely supported by tools like {term}`pip`,
   replacing the older [Egg](https://packaging.python.org/en/latest/glossary/#term-Egg) format.
 
-YAML
-  [YAML Ain't Markup Language](https://yaml.org/) (YAML)
-  is a human-readable data serialization format
-  commonly used for configuration files
-  and data exchange between programming languages.
-  It represents data in a structured, hierarchical format
-  using indentation for nesting and key-value pairs for defining data.
-  YAML supports complex data types, such as scalars (strings, numbers),
-  sequences (lists), and mappings (dictionaries).
-  It is widely used in tools like {term}`GHA`
-  for its simplicity and ease of integration with programming languages.
-  [Learn YAML in Y minutes](https://learnxinyminutes.com/yaml/).
 :::
