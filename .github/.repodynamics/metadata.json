@@ -15255,7 +15255,8 @@
                "_templates"
             ],
             "today_fmt": "%b %d, %Y",
-            "trim_footnote_reference_space": true
+            "trim_footnote_reference_space": true,
+            "suppress_warnings": ["etoc.toctree"]
          },
          "dependency": {
             "conda": {
@@ -15275,6 +15276,11 @@
             "autodoc": {
                "dependency": {
                   "import_name": "sphinx.ext.autodoc"
+               }
+            },
+            "jsonschema_autodoc": {
+               "dependency": {
+                  "import_name": "jsonschema_autodoc.sphinx"
                }
             },
             "autosummary": {
