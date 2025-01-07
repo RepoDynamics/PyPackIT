@@ -21,11 +21,11 @@ and have all other repositories inherit them.
 
 ## Syntax
 
-Inherited values are defined using a custom [YAML tag](#yaml-intro) named `ext`,
+Inherited values are defined using a custom [YAML tag](#yaml) named `ext`,
 with the syntax `!ext URL [JSONPath]`, where:
 - `!ext` defines the tag.
 - `URL` is the URL to the data file.
-- `[JSONPath]` is an optional [JSONPath expression](#manual-control-configpaths)
+- `[JSONPath]` is an optional [JSONPath expression](#manual-cc-configpaths)
   pointing to the value you want to extract from the data file.
   If omitted, the top-level object (i.e., the entire file) is used.
 
