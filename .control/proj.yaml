@@ -84,11 +84,11 @@ highlights:
   - title: Continuous Configuration Automation
     description: |
       ${{ name }}$ offers a centralized user interface
-      for configuration, customization, and management
+      for automatic configuration, customization, and management
       of the entire project, and even multiple projects at once.
       Based on DevOps practices like Infrastructure-as-Code,
-      ${{ name }}$'s control center consolidates all project configurations,
-      supporting both declarative definitions
+      ${{ name }}$'s control center consolidates all project configurations
+      into a unified data structure, supporting both declarative definitions
       and dynamic data generation at runtime via built-in templating, scripting,
       and online retrieval features.
       Configurations are automatically applied to related components,
