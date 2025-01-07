@@ -1,67 +1,88 @@
-(cc-options)=
+(manual-cc-options)=
 # Options
 
-The control center contains all key information and metadata of your project,
-such as its name, description, keywords, license and copyright information,
-authors/maintainers and their roles, contact information, citations,
-and branding and styling information, to name a few.
+The control center provides
+[more than four thousand options](#https-controlman-repodynamics-com-schema-metadata-index)
+structured into a number of
+[top-level key-value pairs](#https-controlman-repodynamics-com-schema-metadata-properties)
+covering every aspect of the project
+from general descriptors and metadata
+to various workflow setting and tool-specific configurations
+({numref}`tab-cc-options-overview`).
+All available options are documented in the
+[API Reference](#https-controlman-repodynamics-com-schema-metadata),
+which is automatically generated from [JSON Schemas](https://json-schema.org/understanding-json-schema)
+that define the structure of control center configurations
+and are used to validate user settings during [synchronization](#manual-cc-sync) events.
 
 
-Furthermore, the control center contains all configurations and metadata for your
-GitHub/Git repository (e.g. general settings; branch protection rules; security configurations;
-GitHub Pages settings; templates for issues, pull requests, and discussions; funding options;
-health files contents; README files contents; description and topics; gitignore and gitattributes files),
+:::{table} An overview of main control center configuration categories. 
+:widths: auto
+:align: center
+:name: tab-cc-options-overview
 
-Python package and test suite (e.g. build configurations; package metadata; dependencies
-and other requirements; entry points and scripts declarations; manifest file content;
-docstrings; PyPI and Conda settings),
-
-documentation website (e.g. menu, navigation bar, and quicklinks items; theme and styling settings;
-custom domain declaration; web analytics settings, announcement configurations),
-
-and all other tools and external services that are utilized by your project
-(e.g. settings for various linting, formatting, and testing tools such as
-Ruff, Mypy, Pylint, Bandit, Isort, Black, Pytest, Pytest-cov, etc.;
-pre-commit hooks configurations; settings for external platforms such as Codecov and ReadTheDocs).
-
+| Category        | Examples                                                                                                                                                                                   |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Descriptors     | Project descriptors like [name](#ccc-name), [title](#ccc-title), [abstract](#ccc-abstract), [keywords](#ccc-keywords), [highlights](#ccc-highlights), and [theme colors](#ccc-color).      |
+| Metadata        | Project metadata such as [license](#ccc-license), [copyright](#ccc-copyright), [citation](#ccc-citation), [language](#ccc-language), [funding](#ccc-funding), and [team](#ccc-team).       |
+| Packages        | Python [package](#ccc-pkg) and [test suite](#ccc-test) configurations including [build settings](#ccc-pkg-build), [dependencies](#ccc-pkg-dependency), and [entry points](#ccc-pkg-entry). |
+| Documentation   | Dynamic [document definitions](#ccc-documents), [discussions categories](#ccc-discussion), and [website configurations](#ccc-web).                                                         |
+| Issue Tracking  | Configurations for [issues](#ccc-issue) and [pull requests](#ccc-pull), including [issue forms](#ccc-issus-forms), [protocols](#ccc-issue-protocol), and [labels](#ccc-label).             |
+| Version Control | General configurations for the GitHub/Git [repository](#ccc-repo) and its [branches](#ccc-branch), [tags](#ccc-tag), [files](#ccc-file), and [commits](#ccc-commit).                       |
+| Workflow        | Workflow configurations such as [role definitions](#ccc-role) and settings for various [Continuous pipelines](#ccc-workflow) and development [tools](#ccc-tool).                           |
+:::
 
 
-Project: Main project metadata and settings, including
-      name, descriptors, copyright, license, citation,
-      funding, team, theme, documentation, and contact information.
-  Package: Python package and test-suite configurations,
-      including build system, dependencies, requirements,
-      entry points, classifiers, and other metadata.
-  Documentation: Project documentation and UX configurations, including
-      website, README files, community health files, and theme settings.
-  Issue Tracking: Issue tracking and development configurations,
-      including templates and settings for issues, labels, 
-      design documents, commits, pull requests, and changelogs.
-  Version Control: Version control system (VCS) configurations, such as
-      GitHub/Git repository settings, branch/tag names,
-      protection rules, and directory structure.
-  Workflow: Development workflow configurations for 
-      Continuous integration, deployment, configuration automation,
-      maintenance, testing, and refactoring tasks.
+(manual-cc-configpaths)=
+## Configuration Paths
+
+We use [JSONPath](#intro-jsonpath) path expressions
+to refer to a specific configuration's location in the control center.
+For example, you can set the name of your project at [`$.name`](#ccc-name),
+i.e., as the value of the `name` key in the top-level control center mapping.
+In which control center YAML file this key is defined (if at all) is completely up to you,
+as [explained earlier](#manual-cc-structure-customization).
 
 
-Examples of dynamically maintained project components and settings include:
+## Customization
 
-- **Project Descriptors**:
-  Name, Title, Abstract, Keywords, Highlights
-- **Project Metadata**:
-  License, Citation, Funding, Team, Roles, Contacts
-- **Package and Test Suite**:
-  Build Configurations, Requirements, Dependencies,
-  Metadata, Version, Entry Points, Docstrings
-- **Documentation**:
-  API Reference, Installation Guide, Contribution Guide, Governance Model,
-  Security Policy, README Files, Badges, Website and Theme Configurations
-- **Issue Tracking**:
-  GHI Settings, Issue Submission Forms, Labels, Pull Request Templates,
-  Design Documents, Discussion Forms
-- **Version Control**:
-  Git/GitHub Repository Settings, Branch and Tag Configurations,
-  Protection Rules, Commit Types, Changelogs, Release Notes
-- **Workflows**:
-  Continuous Pipeline Configurations, Tool Settings, Development Environment Specifications
+Most control center options only accept a set of
+predefined data structures and values, as described in the
+[API Reference](#https-controlman-repodynamics-com-schema-metadata).
+This is to ensure that all configurations and data are
+correctly specified by the user, by validating them against
+a predefined schema.
+
+To enable custom user-defined configurations,
+|{{ ccc.name }}| allows two special keys
+that accept arbitrary values: `__custom__` and `__custom_template__`.
+These keys can be added under any mapping in the control center configurations,
+except those that already accept additional properties.
+For example, you can define a top-level custom key at `$.__custom__`
+and add all your custom configurations under it:
+
+
+:::{code-block} yaml
+:caption: Defining custom configurations at `$.__custom__`
+
+__custom__:
+  my_custom_sequence:
+    - 1
+    - 2
+    - 3
+  my_custom_mapping:
+    a: true
+    b: false
+  my_custom_string: Hello World
+:::
+
+
+There two differences between `__custom__` and `__custom_template__` keys
+(see [templating](#manual-cc-templating) for more details):
+
+1. Relative paths in templates defined under `__custom_template__`
+   are resolved against the path where that template is referenced, not where it is defined.
+2. `__custom_template__` key-value pairs are not included in the [output metadata file](#manual-cc-outputs).
+
+In other words, `__custom_template__` is only meant for intermediate configurations
+that are used to generate other settings during synchronization events.
