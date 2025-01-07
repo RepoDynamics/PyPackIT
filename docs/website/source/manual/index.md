@@ -26,19 +26,20 @@ along with guides on how to maintain and upgrade an existing installation.
 :link: quickstart/index
 :link-type: doc
 
-An introductory tutorial that walks you through
+An introductory tutorial showcasing a
 a simple development cycle with |{{ ccc.name }}|,
 from submitting an issue ticket to deploying a new release.
 :::
 
 
-:::{grid-item-card} Control Center
+:::{grid-item-card} Configuration
 :class-title: sd-text-center
 :link: control/index
 :link-type: doc
 
-A detailed explanation of your repository's control center and its feature,
-along with a full reference of all its available options.
+A detailed introduction to |{{ ccc.name }}|'s control center
+and how it enables Continuous configuration automation
+and dynamic project management.
 :::
 
 
