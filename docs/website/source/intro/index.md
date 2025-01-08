@@ -50,7 +50,7 @@ license and citation files,
 community health files such as a dynamic repository README,
 and configuration files for various development tools and services.
 An initial release of the software along with its test suite and documentation website
-can be immediately deployed online,registering the project in various indexing repositories
+can be immediately deployed online, registering the project in various indexing repositories
 and facilitating its discovery from the beginning.
 All metadata and settings are readily customizable via PyPackIT's configuration files,
 which form a unified control center enabling {term}`CCA`
