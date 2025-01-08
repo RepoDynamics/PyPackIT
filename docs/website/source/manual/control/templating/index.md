@@ -25,6 +25,8 @@ a **valid YAML data structure**.
 
 ## Syntax and Behaviour
 
+Templates can be used in place of any key, value,
+or sequence element in a YAML file.
 Similar to Jinja, templates are surrounded by delimiters
 that denote the beginning and the end of the template.
 There are four kinds of templates, each with its own start and end delimiters:
@@ -34,7 +36,14 @@ There are four kinds of templates, each with its own start and end delimiters:
 3. [Code templates](#manual-cc-templating-code) use `#{{` and `}}#` delimiters.
 4. [Unpacking templates](#manual-cc-templating-unpack) use `*{{` and `}}*` delimiters.
 
-Templates can be used in place of any key, value, or sequence element in a YAML file.
+There must always be at least one space between the
+template content and each of the delimiters.
+For example, let `...` be a placeholder for the template content.
+Then, `${{ ...}}$` is not valid and will be treated as a string,
+whereas `${{ ...   }}$` is a valid template. Any other extra whitespace
+characters (i.e., newlines and tabs) between the content and delimiters
+are allowed as well.
+
 
 ::::{admonition} Example
 :class: tip dropdown
@@ -129,10 +138,6 @@ They use the syntax `${{ <JSONPath> }}$` where `<JSONPath>`
 is a [JSONPath expression](manual-cc-configpaths) (without the leading `$.`)
 pointing to a value in the control center configurations.
 to extract values from anywhere in the control center configurations.
-Note that there must be **at least one whitespace character**
-between `<JSONPath>` and each of the delimiters. For example,
-`${{ <JSONPath>}}$` is not valid and will be treated as a string,
-whereas `${{ <JSONPath>   }}$` is a valid template.
 
 
 ::::{admonition} Example
@@ -354,6 +359,11 @@ entry in the `changelog.json` file with a `type` other than `local`.
 
 ::::
 
+:::{py:data} hook
+
+An `InlineHooks` instance, if defined (see [Using a Python File](#manual-cc-templating-code-hook) below).
+:::
+
 
 ### Helper Functions
 
@@ -445,33 +455,114 @@ and replaces any non-alphanumeric characters with hyphens.
 
 ### Dependencies
 
-If your code templates depend on modules not included in the standard library,
-declare them in the [`requirements.txt`]() file inside your control center's `hooks` directory.
-You can then import these dependencies inside the code templates that use them.
+If your code templates depend on modules
+not included in the standard library,
+you can declare them in the [`requirements.txt`]() file
+of your control center's `hooks` directory.
+|{{ ccc.name }}| will `pip install -r` the requirements file
+during each synchronization event, so that you can import
+those dependencies in your code templates.
 
 
+(manual-cc-templating-code-hook)=
 ### Using a Python File
 
 Maintaining long code templates in YAML files is cumbersome,
-as they are not processed by IDEs and cannot be easily tested, refactored, and formatted.
+as they are not processed by IDEs and cannot be easily tested, refactored, or formatted.
 |{{ ccc.name }}| allows you to write your template codes in a separate Python file,
 which can then be used in any code template inside YAML files.
-These reusable code components must be added as methods to a class 
+These reusable code components must be added to a class named `InlineHooks` inside
+a file named `inline.py` located in the control center's `hooks` directory.
+By default, this class is added to your repository at
+[`.control/hooks/inline.py`](){.user-link-repo-cc-hooks-inline},
+where it already contains several methods that are used in your
+default configuration files.
+You can thus simply add new methods to this class,
+to be used within your code templates.
+During synchronization, if this class exists, |{{ ccc.name }}|
+will automatically instantiate it and make it available to code templates
+as a variable named `hook`.
 
 
 (manual-cc-templating-unpack)=
 ## Unpacking Templates
 
 Sometimes, instead of templating an entire sequence,
-you may want to insert elements at a certain position.
-For example, assume you have following keywords:
+you may want to insert elements at a certain position,
+or concatenate the sequence with another.
+For example, assume you have the following project keywords:
 
 :::{code-block} yaml
-:caption: `.control/vcs.yaml`
 
-repo:
-  description: ${‎{ title }}
+keywords:
+  - first main keyword
+  - second main keyword
 :::
+
+You also have another sequence,
+containing some extended keywords:
+
+:::{code-block} yaml
+
+__custom__:
+  extended_keywords:
+    - first extended keyword
+    - second extended keyword
+:::
+
+If you wish to add your main keywords to the extended list,
+you cannot simply use a reference or code template like:
+
+:::{code-block} yaml
+
+__custom__:
+  extended_keywords:
+    - ${{ keywords }}$
+    - first extended keyword
+    - second extended keyword
+:::
+
+as that will incorrectly resolve to:
+
+:::{code-block} yaml
+
+__custom__:
+  extended_keywords:
+    - - first main keyword
+      - second main keyword
+    - first extended keyword
+    - second extended keyword
+:::
+
+Instead, you must wrap the reference template inside an unpacking template:
+
+:::{code-block} yaml
+
+__custom__:
+  extended_keywords:
+    - *{{ ${{ keywords }}$ }}*
+    - first extended keyword
+    - second extended keyword
+:::
+
+which will correctly resolve to:
+
+:::{code-block} yaml
+
+__custom__:
+  extended_keywords:
+    - first main keyword
+    - second main keyword
+    - first extended keyword
+    - second extended keyword
+:::
+
+Similarly, you can also wrap query and code templates inside unpacking templates.
+How this works is that |{{ ccc.name }}| first resolves the nested template
+that is wrapped by the unpacking template, and will then iterate over the
+resolved value and insert elements one after another at the template's index.
+Note that if the nested template returns an empty sequence, nothing will be added.
+This can also be useful if want to add a single element conditionally.
 
 
 ## String Formatting
