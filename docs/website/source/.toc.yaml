@@ -17,6 +17,7 @@ entries:
           - file: intro/supplementary/versioning/index
           - file: intro/supplementary/indexes/index
           - file: intro/supplementary/publication/index
+          - file: intro/supplementary/yaml/index
   - file: manual/index
     title: Manual
     options:
@@ -33,8 +34,14 @@ entries:
         entries:
           - file: manual/control/location/index
           - file: manual/control/structure/index
+          - file: manual/control/options/index
+          - file: manual/control/synchronization/index
+          - file: manual/control/augmentation/index
+          - file: manual/control/outputs/index
           - file: manual/control/templating/index
           - file: manual/control/inheritance/index
+          - file: manual/control/hooks/index
+          - file: manual/control/caching/index
   - file: api/index
     title: API
     entries:
