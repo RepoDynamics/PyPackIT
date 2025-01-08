@@ -14,7 +14,7 @@ pre-configured default values, local calculations, and external data retrieval.
 ## Default Values
 
 Many control center configurations whose values can be automatically determined
-from other configurations are given default values using [templating](#manual-control-templating) features.
+from other configurations are given default values using [templating](#manual-cc-templating) features.
 For example, there are several URLs defined under [`$.repo.url`](#ccc-repo-url),
 each pointing to a specific part of your GitHub repository.
 All of these are automatically set based on other repository data.
