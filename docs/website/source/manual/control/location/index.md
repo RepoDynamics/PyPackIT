@@ -7,10 +7,8 @@ are consolidated in a [structured format](#manual-cc-structure).
 This allows for easy tracking of settings throughout the project's lifespan
 and eliminates the need for maintaining multiple configuration files in
 different locations.
-
-By default, the control center directory can be found at
-[`.control`](){.user-link-repo-cc}
-located at the root of the repository.
+By default, the control center can be found at the root of the repository
+in a directory named [`.control/`](){.user-link-repo-cc}.
 
 
 ## Customization
@@ -32,7 +30,7 @@ during the next [synchronization](#manual-cc-sync) event.
 
 
 For example, to change the control center location
-to a directory at `dev/control-center`, you should have the following
+to a repository directory at `dev/control-center`, you should have the following
 configuration in your [YAML files](#manual-cc-structure-yaml-files):
 
 :::{code-block} yaml
