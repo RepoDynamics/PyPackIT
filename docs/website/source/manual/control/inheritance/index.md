@@ -1,18 +1,17 @@
 (cc-inheritance)=
 # Inheritance
 
-While [templating](#manual-control-templating)
+While [templating](#manual-cc-templating)
 greatly reduces data redundancy, facilitates maintenance, and ensures consistency
 *within* a project, inheritance does the same *across* multiple projects,
-allowing you to easily share and reuse configurations and metadata between them,
+allowing you to easily share and reuse configurations and metadata between projects
 and manage them from a single source.
-It works similarly to templating, but instead of referencing
-a path within your project's control center configurations,
-you can reference a URL to any `JSON`, `YAML`, or `TOML` data file,
-along with an optional JSONPath expression to extract specific data from it.
 For example, if you have a GitHub organization with multiple repositories,
-you can create a repository that contains all the shared configurations and metadata,
-and have all other repositories inherit them.
+you can create a repository containing all the shared configurations and metadata,
+and have all other repositories inherit them dynamically.
+During [synchronization](#manual-cc-sync) events,
+|{{ ccc.name }}| automatically downloads the data from the specified URLs
+and merges them with your control center configurations.
 
 
 :::{include} /_snippets/admo_caching.md
@@ -21,17 +20,22 @@ and have all other repositories inherit them.
 
 ## Syntax
 
+Inheritance works similarly to templating, but instead of referencing
+a path within your project's control center configurations,
+you can reference a URL to any `JSON`, `YAML`, or `TOML` data file,
+along with an optional template to extract specific data from it.
 Inherited values are defined using a custom [YAML tag](#yaml) named `ext`,
-with the syntax `!ext URL [JSONPath]`, where:
+with the syntax `!ext <URL> [<TEMPLATE>]`, where:
 - `!ext` defines the tag.
-- `URL` is the URL to the data file.
-- `[JSONPath]` is an optional [JSONPath expression](#manual-cc-configpaths)
-  pointing to the value you want to extract from the data file.
-  If omitted, the top-level object (i.e., the entire file) is used.
+- `<URL>` is the URL to the data file.
+  It must end with `.json`, `.yaml`, `.yml`, or `.toml` (case-insensitive).
+- `[<TEMPLATE>]` is an optional [template](#manual-cc-templating)
+  to generate or extract data from the data file.
+  If omitted, the top-level data structure (i.e., the entire file) is used.
 
 
 ::::{admonition} Example
-:class: tip dropdown
+:class: tip dropdown toggle-shown
 
 Assume you have a GitHub organization named `MyOrg`,
 where the same team members work on multiple repositories.
@@ -50,7 +54,7 @@ member2:
     id: john-doe
 :::
 
-Assuming the file is located at the root of branch `main` in the repository `MyOrg/.Control`,
+Assuming the file is located at the root of the `main` branch,
 its URL would be `https://raw.githubusercontent.com/MyOrg/.Control/refs/head/main/team.yaml`
 (notice the use of the `raw.githubusercontent.com` domain that serves the raw file content
 instead of an HTML page). Now, in your other repositories' control centers,
@@ -78,15 +82,13 @@ members:
       id: john-doe
 :::
 
-To extract only the `team` data, you can add a JSONPath expression to the tag:
+To extract only the `team` data, you can add a template to the tag:
 
 :::{code-block} yaml
 :caption: Inheriting `$.team` from a specific part of the shared file
 
-team: !ext https://raw.githubusercontent.com/MyOrg/.Control/refs/head/main/config.yaml $.members
+team: !ext https://raw.githubusercontent.com/MyOrg/.Control/refs/head/main/config.yaml ${{ members }}$
 :::
 
-Notice that in contrast to templating syntax
-where the leading `$.` of JSONPath expressions are omitted,
-here they are included in the tag value.
+You can also use any other templating feature for more complex data extractions.
 ::::
