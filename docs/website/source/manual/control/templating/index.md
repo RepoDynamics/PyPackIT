@@ -23,7 +23,7 @@ In contrast, |{{ ccc.name }}|'s templating syntax is designed to maintain
 a **valid YAML data structure**.
 
 
-## General Syntax
+## Syntax and Behaviour
 
 Similar to Jinja, templates are surrounded by delimiters
 that denote the beginning and the end of the template.
@@ -113,6 +113,13 @@ in which case the above examples will generate the following outputs, respective
 
 ::::
 
+Templates are evaluated recursively,
+so that they can depend on other templates.
+Before resolving any template, |{{ ccc.name }}| first
+resolves all templates that are referenced in the current template.
+You only need to make sure not to create circular references,
+otherwise you will get an error informing you of the circular path.
+
 
 (manual-cc-templating-ref)=
 ## Reference Templates
@@ -120,6 +127,7 @@ in which case the above examples will generate the following outputs, respective
 Reference templates are used to reuse configurations.
 They use the syntax `${{ <JSONPath> }}$` where `<JSONPath>`
 is a [JSONPath expression](manual-cc-configpaths) (without the leading `$.`)
+pointing to a value in the control center configurations.
 to extract values from anywhere in the control center configurations.
 Note that there must be **at least one whitespace character**
 between `<JSONPath>` and each of the delimiters. For example,
@@ -151,67 +159,308 @@ repo:
 ::::
 
 
-### JSONPath Queries
+(manual-cc-templating-nesting)=
+### Nesting
 
-Substitutions allow the use of JSONPath expressions,
-which can be used for complex queries,
-e.g., to dynamically build an array of values from different parts of the control center.
-For example, if you need a list of all team members' full names,
-you can use the following JSONPath expression: `${‎{ team[*].name.full }}`.
+Sometimes, the JSONPath you wish to query may itself contain variable parts
+defined elsewhere in your configurations. Such parts can be replaced with
+another reference template.
+|{{ ccc.name }}| will then first resolve these nested templates to build
+the final JSONPath of the parent template.
+For each nesting level, you must add an extra `{` and `}`
+to the start and end delimiters, respectively.
+
+::::{admonition} Example
+:class: tip dropdown
+
+Assume you want to get the full name of a team member
+whose ID is stored under a custom key at `$.__custom__.target_member_id`:
+
+:::{code-block} yaml
+
+__custom__:
+  target_member_id: member_1 
+:::
+
+Your template must then be:
+
+```text
+${{ team.${{{ __custom__.target_member_id }}}$.name.full }}$
+```
+
+This is first resolved to `${{ team.member_1.name.full }}$`,
+which will then return the full name of the member.
+
+Further nesting levels are also allowed.
+For example, assume the following configurations:
+
+:::{code-block} yaml
+:caption: `.control/vcs.yaml`
+
+__custom__:
+  first_member_id: member_1
+  second_member_id: member_2
+  target_member_key: first_member_id 
+:::
+
+Here, `first_member_id` and `second_member_id` contain two different member IDs,
+and `target_member_key` tells you which one to choose.
+To get the corresponding member's full name, you can use the following template:
+
+```text
+${{ team.${{{ __custom__.${{{{ __custom__.target_member_key }}}} }}}$.name.full }}$
+```
+
+This will first resolve to:
+
+```text
+${{ team.${{{ __custom__.first_member_id }}}$.name.full }}$
+```
+
+then to `${{ team.member_1.name.full }}$`,
+and finally it returns the full name of the member.
+::::
 
 
-### Recursive Referencing
+(manual-cc-templating-query)=
+## Query Templates
 
-Substitutions are evaluated recursively,
-meaning that you can use substitutions to reference a content that itself contains substitutions.
-You only need to make sure not to create any circular references,
-otherwise you will get an error.
-  
-
-
-## Relative Paths
-
-Substitutions can use relative paths,
-which are resolved relative to the path of the value using the substitution.
-This is particularly useful when using substitutions at locations
-that do not have a fixed path. For example, assume you have a sequence of mappings
-where some value in each mapping depends on other values in the same mapping.
-You can of course use absolute paths and reference each mapping by its sequence index,
-but then you would need to update all references every time you add or remove a mapping,
-since indices would change.
-
-To simplify such cases, |{{ ccc.name }}| extends the JSONPath syntax
-to enable using relative paths, as follows:
-- When a path starts with one or more periods (`.`),
-  it is considered a relative path.
-- One period refers to the path of the **complex data structure** (i.e., mapping or sequence)
-  containing the value using the substitution.
-  That is, if the substitution syntax is used in the value of a key in a mapping,
-  `.` refers to the path of that mapping.
-  Similarly, if the substitution syntax is used in the value of an element in a sequence,
-  `.` refers to the path of that sequence.
-- Each additional period refers to the path of the parent complex data structure
-  of the previous path, following the same logic.
+JSONPath expressions are queries designed to return a sequence of
+zero or more nodes that match the specified expression,
+regardless of whether or not that expression specifically points to a single node.
+In other words, even simple JSONPath expressions like `$.path.to.some.node`
+always return a sequence of values.
+When using [reference templates](manual-cc-templating-ref),
+|{{ ccc.name }}| checks the length of the returned sequence; if it contains only one node,
+then that node is returned, otherwise the entire sequence is returned.
+This fails in cases where your query is meant to return a sequence,
+but it ends up matching only a single node. In such cases,
+the reference template will incorrectly resolve to the node value,
+whereas a sequence of node values was expected.
+Query templates solve this issue by always 
+returning a sequence, regardless of the number of matched nodes.
+They can be used in place of reference templates where the query
+must return a sequence, but may end up matching only one node.
 
 
 :::{admonition} Example
 :class: tip dropdown
 
-This feature is used to dynamically set default values for new pieces of data
-that are added to the control center. For example, the control center has configurations
-for entering the [`email`](#cccdef-email) and other social accounts of each team member.
-Each of these are a mapping including the keys `id` and `url`.
-By default, the `url` key of each mapping is built using string substitution with relative paths.
-For example, `email.url` is set to `mailto:${‎{ .id }}`,
-and `linkedin.url` is set to `https://linkedin.com/in/${‎{ .id }}`.
+Assume you need a list of your project members' full names for some configuration.
+You can generate this list using the JSONPath expression `$.team.*.name.full`.
+However, if use a reference template `${{ team.*.name.full }}$`
+and your team has only one member, then you will get a string
+(i.e. the full name of the only member) instead of a list.
+Replacing the reference template with the
+corresponding query template `$[[ team.*.name.full ]]$`
+ensures that the template always resolves to a sequence,
+even when there is only one member.
+:::
+
+You can also use [nested reference templates](#manual-cc-templating-nesting)
+inside query templates the same way they are used inside reference templates.
+
+
+(manual-cc-templating-code)=
+## Code Templates
+
+Code templates are the most powerful type of template,
+allowing you to execute Python code to generate a value.
+They use the syntax `#{{ <CODE> }}#` where `<CODE>`
+corresponds to a Python function body, i.e.,
+any valid Python code ending with a return statement.
+For example, `#{{ return 1 + 1 }}#` resolves to the integer `2`.
+
+
+### JSONPath Queries
+
+Code templates are a superset of reference and query templates,
+meaning they can also use JSONPath expressions to query other parts
+of the control center configurations.
+For this, a function named `get` is provided to the local environment
+in which the code is executed. 
+
+
+::::{admonition} JSONPath Resolver Function
+:class: note
+
+:::{py:function} get(path: str, default: typing.Any = None, search: bool = False) -> typing.Any
+:single-line-type-parameter-list:
+:single-line-parameter-list:
+
+Resolve a JSONPath expression in control center configurations.
+
+:param path: JSONPath expression to resolve.
+    The JSONPath syntax is the same as described in reference and query templates.
+:param default: Default value to return if no matches are found.
+    By default, `None` is returned when `search` is set to `False`,
+    otherwise, an empty list is returned.
+:param search: Always return a list.
+    Setting this to `True` will make the resolution
+    work in the same way as query references.
+:::
+::::
+
+
+Therefore, any reference template `${{ <JSONPath> }}$` can be
+expressed as an equivalent code template `#{{ return get("<JSONPath>") }}#`,
+and any query template `$[[ <JSONPath> ]]$` can be
+expressed as `#{{ return get("<JSONPath>", search=True) }}#`.
+
+
+### Helper Variables
+
+Several variables are made available to code templates:
+
+:::{py:data} repo_path
+:type: pathlib.Path
+
+Current absolute path to the repository directory on the local machine.
+This can be used for example to access files in the repository.
+:::
+
+:::{py:data} ccc
+:type: dict
+
+Current content (i.e., before synchronization) of the `metadata.json` file.
+This can be used for example to check whether a configuration has changed.
+:::
+
+::::{py:data} changelog
+:type: controlman.changelog_manager.ChangelogManager
+
+A changelog manager with three properties:
+
+:::{py:property} contributor
+:type: dict
+
+The `contributor.json` data structure containing
+information about the project's external contributors.
+:::
+
+:::{py:property} current_public
+:type: dict
+
+A [changelog](#cc-changelog) mapping corresponding to the latest
+entry in the `changelog.json` file with a `type` other than `local`.
+:::
+
+:::{py:property} last_public
+:type: dict
+
+A [changelog](#cc-changelog) mapping corresponding to the second-latest
+entry in the `changelog.json` file with a `type` other than `local`.
+:::
+
+::::
+
+
+### Helper Functions
+
+In addition to the `get` function, several helper functions are also made
+available to code templates:
+
+
+:::{py:function} team_members_with_role_ids(role_ids: str | typing.Sequence[str], active_only: bool = True) -> list[dict]
+:single-line-type-parameter-list:
+:single-line-parameter-list:
+
+Get team members with specific role IDs.
+
+:param role_ids: Role ID(s) to filter for, as defined in [`$.role`].
+    This can be either a single role ID (as a string) or a sequence of role IDs.
+:param active_only: Only return team members who are [active](#ccc-team---active). Default is `True`.
+:return: A list of dictionaries (i.e., [entity](#https://controlman.repodynamics.com/schema/entity-def) mappings)
+    corresponding to selected team members.
+    Members are sorted according to their [priority](#ccc-team---role--) (highest first)
+    in the given role. If multiple `role_ids` are provided, the highest priority between
+    all roles is selected for each member.
+    Members with the same priority are sorted alphabetically
+    by their last and first names, in that order.
 :::
 
 
-## Code Templates
+:::{py:function} team_members_with_role_types(role_types: str | typing.Sequence[str], active_only: bool = True) -> list[dict]
+:single-line-type-parameter-list:
+:single-line-parameter-list:
+
+Get team members with specific role types.
+
+:param role_types: Role type(s) to filter for, as defined in [`$.role.*.type`].
+    This can be either a single role type (as a string) or a sequence of role types.
+:param active_only: Only return team members who are [active](#ccc-team---active). Default is `True`.
+:return: A list of dictionaries (i.e., [entity](#https://controlman.repodynamics.com/schema/entity-def) mappings)
+    corresponding to selected team members.
+    Members are sorted according to their [priority](#ccc-team---role--) (highest first)
+    in the given role. If multiple `role_types` are provided, the highest priority between
+    all roles is selected for each member.
+    Members with the same priority are sorted alphabetically
+    by their last and first names, in that order.
+:::
 
 
+:::{py:function} team_members_without_role_types(role_types: str | typing.Sequence[str], include_other_roles: bool = True, active_only: bool = True) -> list[dict]
+:single-line-type-parameter-list:
+:single-line-parameter-list:
 
-## Sequence Unpacking
+Get team members without specific role types.
+
+:param role_types: Role type(s) to filter out, as defined in [`$.role.*.type`].
+    This can be either a single role type (as a string) or a sequence of role types.
+:param include_other_roles: Whether to include team members that have roles other than the excluded role types
+:param active_only: Only return team members who are [active](#ccc-team---active). Default is `True`.
+:return: A list of dictionaries (i.e., [entity](#https://controlman.repodynamics.com/schema/entity-def) mappings)
+    corresponding to selected team members.
+:::
+
+
+:::{py:function} fill_entity(entity: dict) -> tuple[dict, dict | None]:
+:single-line-type-parameter-list:
+:single-line-parameter-list:
+
+Fill all missing information for a person, using GitHub API.
+
+:param entity: The [entity](#https://controlman.repodynamics.com/schema/entity-def) mapping
+    representing the person. It must at least contain a [GitHub ID](#https://controlman.repodynamics.com/schema/entity-def-github-id).
+:return: A 2-tuple where the first element is the same `entity` input dictionary
+    with all available information filled in-place. Note that already defined values will not be replaced.
+    The second tuple element is the raw GitHub user API response.
+:::
+
+
+:::{py:function} slugify(string: str, reduce: bool = True) -> str:
+:single-line-type-parameter-list:
+:single-line-parameter-list:
+
+Convert a string to a URL-friendly slug.
+This performs unicode-normalization on the string,
+converts it to lowercase,
+and replaces any non-alphanumeric characters with hyphens.
+
+:param string: The string to slugify.
+:param reduce: If set to `True` (default), consecutive sequences of hyphens (after replacing non-alphanumeric characters)
+    are reduced to a single hyphen, and any leading and trailing hyphens are stripped.
+:::
+
+
+### Dependencies
+
+If your code templates depend on modules not included in the standard library,
+declare them in the [`requirements.txt`]() file inside your control center's `hooks` directory.
+You can then import these dependencies inside the code templates that use them.
+
+
+### Using a Python File
+
+Maintaining long code templates in YAML files is cumbersome,
+as they are not processed by IDEs and cannot be easily tested, refactored, and formatted.
+|{{ ccc.name }}| allows you to write your template codes in a separate Python file,
+which can then be used in any code template inside YAML files.
+These reusable code components must be added as methods to a class 
+
+
+(manual-cc-templating-unpack)=
+## Unpacking Templates
 
 Sometimes, instead of templating an entire sequence,
 you may want to insert elements at a certain position.
@@ -227,18 +476,145 @@ repo:
 
 ## String Formatting
 
-Templates can also be used as part of a string value
+Templates can also be used as a part of any string,
+similar to how Python f-strings work.
+In this case, the returned values of the templates
+are always first cast to a string.
+For unpacking templates, |{{ ccc.name }}| first iterates over
+the returned value, casts each element to a string,
+and joins them via ", " delimiters.
 
-Substitutions can be used within strings,
-enabling the dynamic construction of complex values from multiple parts of the control center.
-For example, the title used in your project's citation,
-configurable at [`$.citation.title`](#ccc-citation-title),
-is set to `${‎{ name }}: ${‎{ title }}`,
-so, assuming your project's [`$.name`](#ccc-name) and [`$.title`](#ccc-title)
-are `MyProject` and `A Great Project`, respectively,
-the citation title will be `MyProject: A Great Project`.
-Note that if you reference a value that is not a string,
-it will be converted to a string before being substituted.
-In contrast, when the entire value is being substituted
-(i.e., the entire string is only the substitution syntax),
-the substituted value will have the same type as the referenced value.
+
+::::{admonition} Example
+:class: tip dropdown
+
+Assume the following configurations:
+
+:::{code-block} yaml
+
+name: MyProject
+team:
+  member_1:
+    name:
+      first: Jane
+      last: Doe
+  member_2:
+    name:
+      first: John
+      last: Doe
+:::
+
+The template defined at `$.__custom__.project_info`: 
+
+:::{code-block} yaml
+
+__custom__:
+  project_info: >-
+    The project ${{ name }}$ 
+    has #{{ return len(get("team")) }}# members;
+    their names are: *{{ $[[ team.*.name.full ]]$ }}*
+:::
+
+will then resolve to:
+
+:::{code-block} yaml
+
+__custom__:
+  project_info: >-
+    The project MyProject 
+    has 2 members;
+    their names are: Jane Doe, John Doe
+:::
+
+::::
+
+For more complex string compositions,
+you can instead use a code template that returns the entire string.
+
+
+## Relative Paths
+
+There may be cases where the absolute JSONPath of a configuration
+you want to use in a template is unknown or unstable.
+For example, assume you have a sequence of mappings
+where some value in each mapping needs to be templated against other values in the same mapping.
+You can of course use absolute paths and reference each mapping by its sequence index:
+
+```yaml
+__custom__:
+  dependent_mappings:
+    - a: 1
+      b: true
+      c: >-
+        This value depends on
+        ${{ __custom__.dependent_mappings[0].a }}$ and
+        ${{ __custom__.dependent_mappings[0].b }}$.
+    - a: 2
+      b: false
+      c: >-
+        This value depends on
+        ${{ __custom__.dependent_mappings[1].a }}$ and
+        ${{ __custom__.dependent_mappings[1].b }}$.
+```
+
+However, you would then need to
+update all templates when you insert or remove an element,
+since indices would change.
+To simplify such cases, |{{ ccc.name }}| extends the JSONPath syntax
+to enable using relative paths.
+These are resolved relative to the path of the value where the template is defined, as follows:
+
+- When a JSONPath starts with one or more periods (`.`),
+  it is considered a relative path.
+- One period refers to the path of the **complex data structure** (i.e., mapping or sequence)
+  containing the value with the template.
+  That is, if the template is used in the value of a key in a mapping,
+  `.` refers to the JSONPath of that mapping.
+  Similarly, if the template is used in the value of an element in a sequence,
+  `.` refers to the JSONPath of that sequence.
+- Each additional period refers to the JSONPath of the parent complex data structure
+  of the previous JSONPath, following the same logic.
+
+Therefore, the above example can be rewritten as:
+
+```yaml
+__custom__:
+  dependent_mappings:
+    - a: 1
+      b: true
+      c: >-
+        This value depends on
+        ${{ .a }}$ and
+        ${{ .b }}$.
+    - a: 2
+      b: false
+      c: >-
+        This value depends on
+        ${{ .a }}$ and
+        ${{ .b }}$.
+```
+
+Now, the templates will always resolve to the values within the same mapping,
+regardless of the indices. However, there still remains the problem of redundancy,
+as all elements now have the exact same template.
+This is where the `__custom_template__` key comes in play.
+As [mentioned earlier](#manual-cc-options-custom),
+relative paths in templates defined under `__custom_template__`
+are resolved against the path where that template is referenced, not where it is defined.
+This means you can further simplify the above example to:
+
+```yaml
+__custom_template__:
+  c: >-
+    This value depends on
+    ${{ .a }}$ and
+    ${{ .b }}$.
+__custom__:
+  dependent_mappings:
+    - a: 1
+      b: true
+      c: ${{ __custom_template__.c }}$
+    - a: 2
+      b: false
+      c: ${{ __custom_template__.c }}$
+```
