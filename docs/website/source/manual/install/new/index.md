@@ -163,7 +163,7 @@ most of which are provided with standard default values based on best practices.
 To avoid overwhelming you with all the available options at once,
 only the most essential configurations are provided in the configuration files.
 For a full reference of all available options you can set in your repository's control center,
-see the [Options](#cc-options) section.
+see the [Options](#manual-cc-options) section.
 :::
 
 
