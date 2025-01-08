@@ -21,6 +21,11 @@ if TYPE_CHECKING:
 class InlineHooks:
     """Inline Hooks.
 
+    During control center synchronization events,
+    this class is instantiated with the given parameters,
+    and made available to code templates in control center YAML files
+    as a variable named `hook`.
+
     Parameters
     ----------
     repo_path
@@ -37,7 +42,15 @@ class InlineHooks:
         return
 
     def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> InlineHooks:
-        """Prime with metadata getter function.
+        """Prime this instance with the JSONPath resolver function.
+
+        This method is used internally by PyPackIT,
+        and is of no use to the user.
+        It exists due to a technical detail,
+        namely that the JSONPath resolver function
+        is not available during instantiation.
+        When this instance is passed to code templates,
+        this method is already called.
 
         Parameters
         ----------
