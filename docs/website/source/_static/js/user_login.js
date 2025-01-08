@@ -61,6 +61,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-cc").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control`;
         });
+        document.querySelectorAll(".user-link-repo-cc-hooks").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-hooks-inline").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks/inline.py`;
+        });
         document.querySelectorAll(".user-link-repo-cc-proj").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/proj.yaml`;
         });
