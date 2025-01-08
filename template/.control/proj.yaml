@@ -10,7 +10,7 @@ abstract: >-
   and on the package's main docstring.
   Like all other entries in the repository's control center,
   this text can also contain dynamic references to other entries,
-  using the <code>${‎{ json-path.to.value }}$</code> syntax.
+  using the <code>${{ json-path.to.value }}$</code> syntax.
   By default, the first occurrence of the name of the project
   in this text is styled as strong and linked to the project's website.
 keywords:
