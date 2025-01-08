@@ -44,6 +44,7 @@ In which control center YAML file this key is defined (if at all) is completely 
 as [explained earlier](#manual-cc-structure-customization).
 
 
+(manual-cc-options-custom)=
 ## Customization
 
 Most control center options only accept a set of
