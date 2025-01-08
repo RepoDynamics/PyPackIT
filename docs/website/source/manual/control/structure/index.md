@@ -8,10 +8,10 @@ dealing with different tool-specific formats.
 
 The entire control center settings is essentially a large mapping
 (equivalent to a JSON object or a Python dictionary) with a [defined schema](#manual-cc-options)
-where some keys have simple scalar values (strings, numbers, booleans),
+where some keys have simple scalar values (strings, numbers, booleans)
 while others have complex nested structures (sequences and mappings).
-By default, this mapping is broken down into multiple YAML files,
-each containing a thematically related subset of the project configurations:
+By default, this top-level mapping is broken down into multiple YAML files,
+each containing a thematically related subset of the project configurations.
 
 
 :::{admonition} Control Center's Default Directory Structure
@@ -28,6 +28,10 @@ see the [API reference](#api).
 🏠 <a class="user-link-repo-tree" title="Repository Root Directory">&lt;REPOSITORY ROOT&gt;</a>
  ┃
  ┣ 🗂 <a class="user-link-repo-cc" title="Control Center Directory">.control</a>
+ ┃ ┃
+ ┃ ┣ 🗂 <a class="user-link-repo-cc-hooks" title="Hooks Subdirectory">hooks</a>
+ ┃ ┃ ┃
+ ┃ ┃ ┗ 📄 <a class="user-link-repo-cc-hooks-inline" title="Inline Hooks">inline.py</a>
  ┃ ┃
  ┃ ┣ 📄 <a class="user-link-repo-cc-proj" title="Main Project Configurations">proj.yaml</a>
  ┃ ┃
@@ -52,8 +56,8 @@ see the [API reference](#api).
 ## Customization
 
 You are completely free to restructure your configurations in any way you like.
-For example, you can have a single large YAML file with all configurations,
-or you can further break down the configurations into more files and subdirectories.
+For example, you can combine all configurations into a single large YAML file,
+or you can further break them down into other files and subdirectories.
 You can even break down a single complex value (i.e., a mapping or a sequence)
 into multiple files, each containing a subset of the value's data.
 During [synchronization](#manual-cc-sync) events,
