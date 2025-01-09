@@ -2,6 +2,7 @@
 ccid: help
 ---
 
+(help)=
 # Support Guide
 
 ::::{grid} 1
