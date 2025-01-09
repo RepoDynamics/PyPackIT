@@ -709,3 +709,42 @@ __custom__:
       b: false
       c: ${{ __custom_template__.c }}$
 ```
+
+### Referencing Keys and Indices
+
+Relative paths can also access the key names of parent mappings
+or the index values of parent sequences.
+This is done by adding the `__key__` field to end of a relative path.
+For example, the following template:
+
+```yaml
+__custom_template__:
+  location: >-
+    This template is located in
+    a mapping named ${{ .__key__ }}$,
+    which is at index ${{ ..__key__ }}$
+    of a sequence under ${{ ...__key__ }}$
+__custom__:
+  grandparent_sequence:
+    - parent_mapping:
+        template: ${{ __custom_template__.location }}$
+```
+
+will resolve to:
+
+```yaml
+__custom_template__:
+  location: >-
+    This template is located in
+    a mapping named '${{ .__key__ }}$',
+    which is at index ${{ ..__key__ }}$
+    of a sequence under '${{ ...__key__ }}$'.
+__custom__:
+  grandparent_sequence:
+    - parent_mapping:
+        template: >-
+          This template is located in
+          a mapping named 'parent_mapping',
+          which is at index 0
+          of a sequence under 'grandparent_seqeunce'.
+```
