@@ -457,8 +457,8 @@ and replaces any non-alphanumeric characters with hyphens.
 
 If your code templates depend on modules
 not included in the standard library,
-you can declare them in the [`requirements.txt`]() file
-of your control center's `hooks` directory.
+you can declare them in the `requirements.txt` file
+of your control center's [`hooks` directory](#manual-cc-hooks).
 |{{ ccc.name }}| will `pip install -r` the requirements file
 during each synchronization event, so that you can import
 those dependencies in your code templates.
@@ -471,10 +471,10 @@ Maintaining long code templates in YAML files is cumbersome,
 as they are not processed by IDEs and cannot be easily tested, refactored, or formatted.
 |{{ ccc.name }}| allows you to write your template codes in a separate Python file,
 which can then be used in any code template inside YAML files.
-These reusable code components must be added to a class named `InlineHooks` inside
-a file named `inline.py` located in the control center's `hooks` directory.
+These reusable code components must be added to a class named `Hooks` inside
+a file named `cca_inline.py` located in the control center's [`hooks` directory](#manual-cc-hooks).
 By default, this class is added to your repository at
-[`.control/hooks/inline.py`](){.user-link-repo-cc-hooks-inline},
+[`.control/hooks/cca_inline.py`](){.user-link-repo-cc-hooks-cca-inline},
 where it already contains several methods that are used in your
 default configuration files.
 You can thus simply add new methods to this class,
