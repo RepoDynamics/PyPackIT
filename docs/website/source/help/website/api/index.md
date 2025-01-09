@@ -1,13 +1,15 @@
 # JSON Schemas
 
-The [API Reference](#api) is ...
-
-
-[JSON Schema](https://json-schema.org/)
-
-[Draft 2020-12](https://json-schema.org/draft/2020-12)
-
-[Documentation](https://json-schema.org/understanding-json-schema)
+The [API](#api) section of the documentation
+contains a full reference of all available options
+in your project's configuration and metadata files.
+These are automatically generated from [JSON Schema](https://json-schema.org/)
+schemas that define the exact data structure of configurations
+and are used to validate user settings.
+All schemas are written in [Draft 2020-12](https://json-schema.org/draft/2020-12).
+If you are unfamiliar with JSON Schema specifications,
+we recommend you read the [documentation](https://json-schema.org/understanding-json-schema)
+to better understand the API reference documentation. 
 
 
 ## Default Values
