@@ -11,16 +11,6 @@ This icon is part of the website's navigation bar, which is located at the top-r
 on large screens, and in the menu on small screens.
 
 
-## API Reference
-
-The [API Reference](#api) is ...
-
-
-[JSON Schema](https://json-schema.org/)
-
-[Draft 2020-12](https://json-schema.org/draft/2020-12)
-
-[Documentation](https://json-schema.org/understanding-json-schema)
 
 
 ## Copying Code Blocks
