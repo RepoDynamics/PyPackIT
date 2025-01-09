@@ -64,8 +64,14 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".user-link-repo-cc-hooks").forEach(link => {
             link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks`;
         });
-        document.querySelectorAll(".user-link-repo-cc-hooks-inline").forEach(link => {
-            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks/inline.py`;
+        document.querySelectorAll(".user-link-repo-cc-hooks-cca").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks/cca.py`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-hooks-cca-inline").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks/cca_inline.py`;
+        });
+        document.querySelectorAll(".user-link-repo-cc-hooks-requirements").forEach(link => {
+            link.href = `https://github.com/${repoOwner}/${repoName}/blob/${repoBranch}/.control/hooks/requirements.txt`;
         });
         document.querySelectorAll(".user-link-repo-cc-proj").forEach(link => {
             link.href = `https://github.dev/${repoOwner}/${repoName}/blob/${repoBranch}/.control/proj.yaml`;
