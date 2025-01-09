@@ -47,40 +47,37 @@ control center settings to corresponding components,
 replacing manual configurations with replicable declarations and
 making the entire project highly dynamic and customizable.
 To further simplify dynamic project configuration and content management,
-the control center is equipped with several key features:
+the control center is equipped with several features:
 
 - **Preconfiguration**:
   For all generic configurations,
   default settings are provided based on the latest standards and best practices,
   requiring only project-specific metadata to be declared.
 - **Augmentation**:
-  Additional data are dynamically generated at runtime
-  by analyzing the repository and retrieving information from web APIs
-  to minimize manual inputs and updates.
+  Project information and statistics are automatically generated at runtime
+  by analyzing the repository and retrieving information from web APIs,
+  minimizing manual inputs.
 - **Templating**:
-  Data reuse is facilitated by templating features that enable
-  dynamic referencing of all control center contents throughout project files,
-  removing redundancy and allowing for centralized and automatic updates.
+  Dynamic data generation and reuse is enabled for the entire repository
+  by a specialized templating engine,
+  eliminating redundancy and allowing for centralized and automatic updates.
 - **Inheritance**:
-  Data can be dynamically inherited from external sources,
+  Configurations can be automatically inherited from external sources over HTTP requests,
   allowing for consistent creation and centralized maintenance
   of multiple projects with shared settings.
-- **Synchronization**:
-  Changes to control center contents are automatically propagated
-  throughout the project, ensuring consistency across all components
-  without the need for manual intervention.
-- **Validation**:
-  All inputs are validated against detailed predefined schemas
-  to ensure correctness and notify users of any errors or inconsistencies
-  with comprehensive reports.
 - **Customization**:
-  Additional configurations can be added either declaratively in YAML files
-  or dynamically via Python scripts executed at runtime,
-  further facilitating user customization.
+  Additional configurations and workflow routines can be added
+  either declaratively in YAML files or dynamically via Python plugins executed at runtime,
+  maximizing customizability.
+- **Validation**:
+  Inputs are thoroughly validated against predefined schemas,
+  providing comprehensive error reports for any inconsistencies.
+- **Synchronization**:
+  Changes are automatically propagated throughout the project,
+  ensuring consistency across all components without the need for manual intervention.
 - **Caching**:
-  To speed up processing and reduce web API usage,
-  all retrieved data can be cached both locally and on GHA,
-  with user-defined retention times.
+  Intermediate data such as those retrieved from web APIs can be cached both locally and on GHA
+  to speed up the process, with configurable retention times. 
 
 
 ## Python Package
