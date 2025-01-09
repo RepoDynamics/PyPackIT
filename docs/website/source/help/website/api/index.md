@@ -1,4 +1,5 @@
-# JSON Schemas
+(help-jsonschema)
+# JSON Schema
 
 The [API](#api) section of the documentation
 contains a full reference of all available options
