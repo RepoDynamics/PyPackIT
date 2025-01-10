@@ -34,7 +34,7 @@ from submitting an issue ticket to deploying a new release.
 
 :::{grid-item-card} Configuration Guide
 :class-title: sd-text-center
-:link: control/index
+:link: config/index
 :link-type: doc
 
 Learn how to use |{{ ccc.name }}|'s control center
