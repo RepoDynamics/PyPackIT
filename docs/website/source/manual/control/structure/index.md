@@ -20,8 +20,10 @@ each containing a thematically related subset of the project configurations.
 You can hover over the file names to see their descriptions,
 and click on them to open the corresponding file
 in your repository (needs [logging in](#help-website-login) to our website).
-Note that only the most essential configurations are provided in the default configuration files.
-For a full reference of all available [options](#manual-cc-options) you can set,
+Note that many control center [options](#manual-cc-options)
+have default values that are automatically applied at runtime,
+when not explicitly set in the configuration files.
+For a full reference of all available options,
 see the [API reference](#api).
 
 <pre>
@@ -31,7 +33,11 @@ see the [API reference](#api).
  ┃ ┃
  ┃ ┣ 🗂 <a class="user-link-repo-cc-hooks" title="Hooks Subdirectory">hooks</a>
  ┃ ┃ ┃
- ┃ ┃ ┗ 📄 <a class="user-link-repo-cc-hooks-inline" title="Inline Hooks">inline.py</a>
+ ┃ ┃ ┣ 📄 <a class="user-link-repo-cc-hooks-cca" title="CCA Hooks">cca.py</a>
+ ┃ ┃ ┃
+ ┃ ┃ ┣ 📄 <a class="user-link-repo-cc-hooks-cca-inline" title="CCA Inline Code Templates">cca_inline.py</a>
+ ┃ ┃ ┃
+ ┃ ┃ ┗ 📄 <a class="user-link-repo-cc-hooks-requirements" title="Python Dependencies">requirements.txt</a>
  ┃ ┃
  ┃ ┣ 📄 <a class="user-link-repo-cc-proj" title="Main Project Configurations">proj.yaml</a>
  ┃ ┃
@@ -49,7 +55,20 @@ see the [API reference](#api).
  ┗ ...
 </pre>
 
+For more information about the `hooks` subdirectory and its content,
+see [Hooks](#manual-cc-hooks).
 :::
+
+
+(manual-cc-configpaths)=
+## Configuration Paths
+
+We use [JSONPath](#intro-jsonpath) path expressions
+to refer to a specific configuration's location in the control center.
+For example, you can set the name of your project at [`$.name`](#ccc-name),
+i.e., as the value of the `name` key in the top-level control center mapping.
+In which control center YAML file this key is defined (if at all) is completely up to you,
+as [explained below](#manual-cc-structure-customization).
 
 
 (manual-cc-structure-customization)=
