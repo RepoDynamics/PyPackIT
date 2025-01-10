@@ -35,7 +35,7 @@ using |{{ ccc.name }}|'s GitHub template repository:
 :name: install-repo-naming
 
 A GitHub repository name can only contain alphanumeric characters,
-hyphens, underscores, and periods.
+hyphens, underscores, and periods [^stackoverflow-github-repo-name].
 That is, the matching regular expression is: `^[a-zA-Z0-9._-]+$`.
 However, the repository name can also used to derive
 the [project name](#ccc-name) and the [package name](#ccc-pkg-name),
@@ -56,6 +56,10 @@ That is, the package will be shown on PyPI as `My-Project`,
 while users can install it with `pip install my-project`{l=bash}
 (or any other equivalent name, due to PyPA's name normalization),
 and import it with `import my_project`{l=python}.
+
+Note that GitHub retains the capitalization only when displaying the repository name,
+but URLs and other repository addresses are case-insensitive.
+[^stackoverflow-github-repo-name]: [Experimentally determined GitHub repository naming rules.](https://stackoverflow.com/a/59082561/14923024)
 :::
 
 4. Optionally, if you are a member of an organization, you can choose to create the repository under
