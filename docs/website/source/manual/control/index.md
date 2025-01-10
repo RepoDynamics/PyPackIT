@@ -89,19 +89,42 @@ instructions on adding additional custom configurations.
 :::
 
 
-:::{grid-item-card} Synchronization
+:::{grid-item-card} Templating
 :class-title: sd-text-center
-:link: synchronization/index
+:link: templating/index
 :link-type: doc
 
-A full reference and in-depth explanation of all available options
-in your repository's control center.
+Instructions on how to use templating
+in your repository's control center files
+to dynamically generate and reuse data.
 :::
 
 
-:::{grid-item-card} Augmentation
+:::{grid-item-card} Inheritance
 :class-title: sd-text-center
-:link: augmentation/index
+:link: inheritance/index
+:link-type: doc
+
+Learn how to dynamically inherit
+specific configurations from online resources
+and simultaneously manage multiple projects.
+:::
+
+
+:::{grid-item-card} Hooks
+:class-title: sd-text-center
+:link: hooks/index
+:link-type: doc
+
+Instructions on how to add custom plugins
+that can hook into specific workflow steps
+to extend |{{ ccc.name }}|'s functionalities.
+:::
+
+
+:::{grid-item-card} Synchronization
+:class-title: sd-text-center
+:link: synchronization/index
 :link-type: doc
 
 A full reference and in-depth explanation of all available options
@@ -116,36 +139,6 @@ in your repository's control center.
 
 A full reference and in-depth explanation of all dynamic files that are
 automatically generated and updated by your repository's control center.
-:::
-
-
-:::{grid-item-card} Templating
-:class-title: sd-text-center
-:link: templating/index
-:link-type: doc
-
-Instructions on how to use templating
-in your repository's control center files.
-:::
-
-
-:::{grid-item-card} Inheritance
-:class-title: sd-text-center
-:link: inheritance/index
-:link-type: doc
-
-Instructions on how to dynamically inherit
-specific configurations from external resources.
-:::
-
-
-:::{grid-item-card} Hooks
-:class-title: sd-text-center
-:link: hooks/index
-:link-type: doc
-
-Instructions on how to use substitutions (aka templating) in your repository's control center
-and documentation website.
 :::
 
 
