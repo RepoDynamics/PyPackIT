@@ -34,7 +34,7 @@ which are hard to manage, modify, and reproduce.
 |{{ ccc.name }}| enables automatic project configuration, customization, and management
 by introducing a centralized control mechanism based on CCA and IaC practices.
 It provides a [control center](#manual-cc) as the singular user interface
-to manage the entire project, and even multiple projects at once.
+to dynamically manage the entire project, and even multiple projects at once.
 PyPackIT's control center unifies and structures all project configurations,
 metadata, and variables into declarative definitions in [YAML](#yaml)—a
 standard human-readable data serialization format.
@@ -49,9 +49,8 @@ making the entire project highly dynamic and customizable.
 To further simplify dynamic project configuration and content management,
 the control center is equipped with several features:
 
-- **Preconfiguration**:
-  For all generic configurations,
-  default settings are provided based on the latest standards and best practices,
+- [**Preconfiguration**](#manual-cc-preconfig):
+  Default settings are provided based on the latest standards and best practices,
   requiring only project-specific metadata to be declared.
 - **Augmentation**:
   Project information and statistics are automatically generated at runtime
