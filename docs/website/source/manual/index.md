@@ -27,19 +27,19 @@ along with guides on how to maintain and upgrade an existing installation.
 :link-type: doc
 
 An introductory tutorial showcasing a
-a simple development cycle with |{{ ccc.name }}|,
+simple development cycle with |{{ ccc.name }}|,
 from submitting an issue ticket to deploying a new release.
 :::
 
 
-:::{grid-item-card} Configuration
+:::{grid-item-card} Configuration Guide
 :class-title: sd-text-center
 :link: control/index
 :link-type: doc
 
-A detailed introduction to |{{ ccc.name }}|'s control center
-and how it enables Continuous configuration automation
-and dynamic project management.
+Learn how to use |{{ ccc.name }}|'s control center
+to dynamically customize and manage your project with
+Continuous configuration automation.
 :::
 
 
