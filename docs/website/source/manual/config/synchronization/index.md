@@ -1,12 +1,34 @@
 (manual-cc-sync)=
 # Synchronization
 
+|{{ ccc.name }}|'s CCA pipeline automatically
+applies all control center configurations
+to corresponding components,
+ensuring that your entire project is always 
+in sync with your specifications.
+The CCA pipeline is automatically triggered on GHA
+whenever commits are pushed to a branch,
+and during scheduled Continuous maintenance pipelines.
+In addition, they can also be invoked manually both on GHA
+and on local machines.
+During each run, |{{ ccc.name }}| first compiles your control center settings by
+reading all your configuration files,
+augmenting them with dynamically generated data,
+resolving all templates and inherited configurations,
+filling in missing values with defaults,
+and validating all configurations against a predefined schema.
+This full version of your project configurations is then used
+to automatically generate content for your project
+and configure its different components via tool-specific APIs
+and configuration files.
+It is also written to a single JSON file at `.github/repodynamics/metadata.json`,
+from which your entire project configurations can be easily accessed both locally and online.
+For example, the content of the `metadata.json` file
+is automatically passed to your website during builds,
+essentially rendering your entire documentation dynamic.
 
 
-push the changes to your GitHub repository, or run `pypackit sync` locally.
-
-
-
+The exact steps of |{{ ccc.name}}|'s CCA pipeline are as follows:
 
 1. The `metadata.json` file in the current branch is loaded and validated.
    This is used as a reference for the current state of the repository (i.e., before synchronization),
