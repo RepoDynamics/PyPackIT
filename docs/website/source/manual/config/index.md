@@ -127,18 +127,18 @@ to extend |{{ ccc.name }}|'s functionalities.
 :link: synchronization/index
 :link-type: doc
 
-A full reference and in-depth explanation of all available options
-in your repository's control center.
+Overview of |{{ ccc.name }}|'s Continuous configuration automation
+pipeline and how it renders your entire project highly customizable and dynamic.
 :::
 
 
-:::{grid-item-card} Outputs
+:::{grid-item-card} Output
 :class-title: sd-text-center
-:link: outputs/index
+:link: output/index
 :link-type: doc
 
-A full reference and in-depth explanation of all dynamic files that are
-automatically generated and updated by your repository's control center.
+A summary of all dynamic files and directories that are
+automatically generated and maintained by |{{ ccc.name }}|'s control center.
 :::
 
 
@@ -147,8 +147,8 @@ automatically generated and updated by your repository's control center.
 :link: caching/index
 :link-type: doc
 
-Instructions on how to use substitutions (aka templating) in your repository's control center
-and documentation website.
+Instructions on how to configure caching behaviour in |{{ ccc.name }}|
+to speed up your workflows and reduce web API usage.
 :::
 
 ::::
