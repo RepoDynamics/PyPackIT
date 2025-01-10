@@ -1,4 +1,4 @@
-"""Inline Hooks."""
+"""Inline hooks passed to code templates in control center YAML files."""
 
 from __future__ import annotations
 
@@ -15,29 +15,71 @@ if TYPE_CHECKING:
     from pathlib import Path
     from typing import Any, Literal
 
+    from controlman.cache_manager import CacheManager
     from pyserials import NestedDict
 
 
-class InlineHooks:
+class Hooks:
     """Inline Hooks.
+
+    During control center synchronization events,
+    this class is instantiated with the given parameters,
+    and made available to code templates in control center YAML files
+    as a variable named `hook`.
 
     Parameters
     ----------
     repo_path
         Path to the root of the repository.
     ccc
-        Control center configurations from the existing `metadata.json` file.
+        Control center configurations
+        from the existing `metadata.json` file
+        on the current branch.
+    ccc_main
+        Control center configurations
+        from the existing `metadata.json` file
+        on the main branch.
+    cache_manager
+        Cache manager with `get` and `set` methods
+        to retrieve and set cached values.
+    github_token
+        GitHub token for making authenticated GitHub API requests.
+        This is always provided when running on the cloud,
+        but on local machines it is only provided if the user explicitly
+        inputs one.
+    kwargs
+        For forward compatibility with newer PyPackIT versions
+        that may add additional input argument.
     """
 
-    def __init__(self, repo_path: Path, ccc: NestedDict):
+    def __init__(
+        self,
+        repo_path: Path,
+        ccc: NestedDict,
+        ccc_main: NestedDict,
+        cache_manager: CacheManager,
+        github_token: str | None = None,
+        **kwargs,
+    ):
         self.repo_path = repo_path
         self.ccc = ccc
+        self.ccc_main = ccc_main
+        self.cache_manager = cache_manager
+        self.github_token = github_token
         self.get = None
         self.changelog = ChangelogManager(repo_path=self.repo_path)
         return
 
-    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> InlineHooks:
-        """Prime with metadata getter function.
+    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> Hooks:
+        """Prime this instance with the JSONPath resolver function.
+
+        This method is used internally by PyPackIT,
+        and is of no use to the user.
+        It exists due to a technical detail,
+        namely that the JSONPath resolver function
+        is not available during instantiation.
+        When this instance is passed to code templates,
+        this method is already called.
 
         Parameters
         ----------
