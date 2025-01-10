@@ -30,18 +30,17 @@ entries:
           - file: manual/install/upgrade/index
           - file: manual/install/common/index
       - file: manual/quickstart/index
-      - file: manual/control/index
+      - file: manual/config/index
         entries:
-          - file: manual/control/location/index
-          - file: manual/control/structure/index
-          - file: manual/control/options/index
-          - file: manual/control/synchronization/index
-          - file: manual/control/augmentation/index
-          - file: manual/control/outputs/index
-          - file: manual/control/templating/index
-          - file: manual/control/inheritance/index
-          - file: manual/control/hooks/index
-          - file: manual/control/caching/index
+          - file: manual/config/location/index
+          - file: manual/config/structure/index
+          - file: manual/config/options/index
+          - file: manual/config/synchronization/index
+          - file: manual/config/outputs/index
+          - file: manual/config/templating/index
+          - file: manual/config/inheritance/index
+          - file: manual/config/hooks/index
+          - file: manual/config/caching/index
   - file: api/index
     title: API
     entries:
@@ -74,3 +73,6 @@ entries:
       numbered: true
     entries:
       - file: help/website/index
+        entries:
+          - file: help/website/tips/index
+          - file: help/website/api/index

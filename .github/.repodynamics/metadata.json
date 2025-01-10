@@ -3291,15 +3291,6 @@
             "name": "Bug Report",
             "updated_at": "2023-07-08"
          },
-         "general": {
-            "created_at": "2023-05-21",
-            "description": "Chat about anything and everything here",
-            "emoji": "\ud83d\udcac",
-            "id": "DIC_kwDOJi8gRs4CWomu",
-            "is_answerable": false,
-            "name": "General",
-            "updated_at": "2023-05-21"
-         },
          "installation": {
             "created_at": "2023-05-21",
             "description": "Ask questions about the installation process.",
@@ -3318,15 +3309,6 @@
             "name": "New Features",
             "updated_at": "2023-07-04"
          },
-         "polls": {
-            "created_at": "2023-05-21",
-            "description": "Take a vote from the community",
-            "emoji": "\ud83d\uddf3\ufe0f",
-            "id": "DIC_kwDOJi8gRs4CWomy",
-            "is_answerable": false,
-            "name": "Polls",
-            "updated_at": "2023-05-21"
-         },
          "release": {
             "created_at": "2023-05-21",
             "description": "New release announcements",
@@ -3336,14 +3318,14 @@
             "name": "Release",
             "updated_at": "2023-08-04"
          },
-         "show-and-tell": {
-            "created_at": "2023-05-21",
-            "description": "Show off something you've made",
-            "emoji": "\ud83d\ude4c",
-            "id": "DIC_kwDOJi8gRs4CWomx",
+         "testimonials": {
+            "created_at": "2025-01-09",
+            "description": "Write a testimonial for PyPackIT and share your experience with others.",
+            "emoji": "\ud83d\udcdd",
+            "id": "DIC_kwDOJi8gRs4Cl3_R",
             "is_answerable": false,
-            "name": "Show and tell",
-            "updated_at": "2023-05-21"
+            "name": "Testimonials",
+            "updated_at": "2025-01-09"
          },
          "usage": {
             "created_at": "2023-07-03",
@@ -4711,13 +4693,6 @@
                                        },
                                        {
                                           "args": {
-                                             "query": "category:\"General\""
-                                          },
-                                          "label": "\ud83d\udcac\u2002General",
-                                          "title": "Chat about anything and everything here"
-                                       },
-                                       {
-                                          "args": {
                                              "query": "category:\"Installation\""
                                           },
                                           "label": "\ud83d\ude4f\u2002Installation",
@@ -4732,13 +4707,6 @@
                                        },
                                        {
                                           "args": {
-                                             "query": "category:\"Polls\""
-                                          },
-                                          "label": "\ud83d\uddf3\ufe0f\u2002Polls",
-                                          "title": "Take a vote from the community"
-                                       },
-                                       {
-                                          "args": {
                                              "query": "category:\"Release\""
                                           },
                                           "label": "\ud83d\udce3\u2002Release",
@@ -4746,10 +4714,10 @@
                                        },
                                        {
                                           "args": {
-                                             "query": "category:\"Show and tell\""
+                                             "query": "category:\"Testimonials\""
                                           },
-                                          "label": "\ud83d\ude4c\u2002Show and tell",
-                                          "title": "Show off something you've made"
+                                          "label": "\ud83d\udcdd\u2002Testimonials",
+                                          "title": "Write a testimonial for PyPackIT and share your experience with others."
                                        },
                                        {
                                           "args": {
@@ -13489,12 +13457,10 @@
             "new": {
                "branding": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=branding",
                "bug-report": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=bug-report",
-               "general": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=general",
                "installation": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=installation",
                "new-features": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=new-features",
-               "polls": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=polls",
                "release": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=release",
-               "show-and-tell": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=show-and-tell",
+               "testimonials": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=testimonials",
                "usage": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=usage"
             }
          },
@@ -15945,37 +15911,34 @@
                   {
                      "entries": [
                         {
-                           "file": "manual/control/location/index"
+                           "file": "manual/config/location/index"
                         },
                         {
-                           "file": "manual/control/structure/index"
+                           "file": "manual/config/structure/index"
                         },
                         {
-                           "file": "manual/control/options/index"
+                           "file": "manual/config/options/index"
                         },
                         {
-                           "file": "manual/control/synchronization/index"
+                           "file": "manual/config/synchronization/index"
                         },
                         {
-                           "file": "manual/control/augmentation/index"
+                           "file": "manual/config/outputs/index"
                         },
                         {
-                           "file": "manual/control/outputs/index"
+                           "file": "manual/config/templating/index"
                         },
                         {
-                           "file": "manual/control/templating/index"
+                           "file": "manual/config/inheritance/index"
                         },
                         {
-                           "file": "manual/control/inheritance/index"
+                           "file": "manual/config/hooks/index"
                         },
                         {
-                           "file": "manual/control/hooks/index"
-                        },
-                        {
-                           "file": "manual/control/caching/index"
+                           "file": "manual/config/caching/index"
                         }
                      ],
-                     "file": "manual/control/index"
+                     "file": "manual/config/index"
                   }
                ],
                "file": "manual/index",
@@ -16048,6 +16011,14 @@
             {
                "entries": [
                   {
+                     "entries": [
+                        {
+                           "file": "help/website/tips/index"
+                        },
+                        {
+                           "file": "help/website/api/index"
+                        }
+                     ],
                      "file": "help/website/index"
                   }
                ],
