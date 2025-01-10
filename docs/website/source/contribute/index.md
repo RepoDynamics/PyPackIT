@@ -3,7 +3,7 @@ ccid: contribute
 ---
 
 (contribute)=
-# Contribute
+# Contribution Guide
 :::{toctree}
 :hidden:
 
