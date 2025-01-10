@@ -41,19 +41,8 @@ This file, which is located at `.github/control/.metadata.json`, serves two main
 - It is made available to your documentation website, allowing you to use all available data and configurations
   in your website's content and templates, without any required intervention from |{{ ccc.name }}|.
 
-
-The options available in your repository's control center can be divided into three categories:
-- |{{ ccc.name }}|-specific configurations and data; these are directly read from your
-  control center's contents whenever needed.
-- GitHub-specific configurations and data that can be directly set using GitHub's UI, CLI, or API;
-  these are directly applied to your repository by |{{ ccc.name }}|.
-- Configurations and data for your GitHub/Git repository, package, test-suite, documentation website,
-  and all external tools used in your project, which must be placed in specific files
-  at specific locations in your repository, to be read and used by the corresponding
-  platforms, tools, and services that require them.
-
-This section covers the third category, providing a full reference of all such files
-that are automatically generated in your repository by |{{ ccc.name }}|.
+  
+  
 
 
 :::{admonition} Dynamic Files
