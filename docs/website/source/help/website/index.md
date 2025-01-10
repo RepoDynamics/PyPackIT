@@ -20,7 +20,7 @@ using this documentation website.
 :link: api/index
 :link-type: doc
 
-Information to better understand the [API Reference](#api) section,
+Information to better understand the API section,
 which is automatically generated from JSON Schema definitions.
 :::
 
