@@ -1,5 +1,5 @@
 (manual-cc)=
-# Control Center
+# Configuration
 
 As described in the [Introduction](#overview-cc) section,
 the control center is a powerful DevOps tool
