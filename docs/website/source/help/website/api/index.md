@@ -1,4 +1,4 @@
-(help-jsonschema)
+(help-jsonschema)=
 # JSON Schema
 
 The [API](#api) section of the documentation
@@ -13,6 +13,7 @@ we recommend you read the [documentation](https://json-schema.org/understanding-
 to better understand the API reference documentation. 
 
 
+(help-jsonschema-defaults)=
 ## Default Values
 
 JSON Schema allows for an [annotation keyword](https://json-schema.org/understanding-json-schema/reference/annotations)
