@@ -724,6 +724,9 @@ web:
           numbered: true
         entries:
           - file: help/website/index
+            entries:
+              - file: help/website/tips/index
+              - file: help/website/api/index
   sphinx:
     config:
       trim_footnote_reference_space: true
