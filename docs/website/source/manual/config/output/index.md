@@ -1,7 +1,14 @@
 (manual-cc-output)
 # Output
 
-- **Project metadata files**: License files, citation files 
+|{{ ccc.name }}| recognizes most standard files in your project
+and has built-in functionalities to automatically generate and maintain them
+from your control center configurations, which are provided with sensible default values
+that can be easily customized. These files include:
+
+- **Project metadata files**
+  - **License files** are automatically generated from an SPDX license expression configurable at [`$.license`](#ccc-license).
+  - citation files 
 - **GitHub configuration files**: `CODEOWNERS`, funding, issue template chooser, issue forms, discussion forms, pull request templates
 - **Git configuration files**: gitignore, gitattributes
 - **Website configuration files**: External TOC
