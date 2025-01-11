@@ -5,7 +5,7 @@
 
 Action
   An [Action](https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions)
-  is a reusable application for the {term}`GHA` platform
+  is a reusable application for the [GHA](#bg-gha) platform
   to perform specific tasks within an automated workflow.
   Actions can be written in JavaScript, Python, or as Docker containers
   and are used to encapsulate functionality such as running tests,
@@ -30,6 +30,9 @@ Anaconda.org
   allowing users to easily download and install packages 
   hosted on the platform using command-line tools.
 
+API
+  Application Programming Interface.
+
 CCA
   Continuous Configuration Automation (CCA)
   refers to the automated management and maintenance
@@ -40,6 +43,11 @@ CCA
   reducing manual effort and errors.
   By integrating with CI/CD pipelines, CCA supports scalability
   rapid deployments, and the enforcement of configuration policies in modern DevOps practices.
+
+CI/CD
+  Aggregation of Continuous Integration, Delivery, and Deployment,
+  as part of [Continuous software engineering](#bg-continuous) practices.
+  CI/CD is also often used as an umbrella term for Continuous methodologies in general. 
 
 CM
   Continuous Maintenance (CM) is the ongoing process of updating,
@@ -116,16 +124,7 @@ FOSS
   by providing reusable tools and fostering a shared knowledge ecosystem.  
 
 GHA
-  [GitHub Actions](https://github.com/features/actions) (GHA)
-  is an automation and cloud computing platform integrated into GitHub
-  that enables developers to define workflows for building,
-  testing, deploying, and managing projects.
-  Workflows are defined using YAML files stored in a repository’s `.github/workflows` directory
-  and can be triggered by events like commits, pull requests, or scheduled intervals.
-  GHA supports a wide range of tasks through pre-built or custom actions,
-  including CI/CD pipelines, automated code reviews, and deployment to cloud services.
-  It integrates tightly with GitHub repositories, providing a scalable and flexible solution
-  for automating development processes.
+  
 
 GHI
   [GitHub Issues](https://github.com/features/issues) (GHI)
@@ -135,7 +134,7 @@ GHI
   Each issue serves as a discussion thread and can include labels,
   milestones, assignees, comments, and references to pull requests or commits.
   GHI supports project management workflows with features like Kanban-style project boards,
-  templates, and automation through {term}`GHA`.
+  templates, and automation through [GHA](#bg-gha).
   It integrates seamlessly with GitHub’s version control system,
   making it a key tool for tracking and coordinating work in software development projects.
 
