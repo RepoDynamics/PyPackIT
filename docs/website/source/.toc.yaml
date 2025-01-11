@@ -7,17 +7,13 @@ entries:
     options:
       numbered: true
     entries:
+      - file: intro/motivation/index
       - file: intro/overview/index
       - file: intro/background/index
+        entries:
+          - glob: intro/background/**/*
       - file: intro/glossary/index
       - file: intro/references/index
-      - file: intro/supplementary/index
-        entries:
-          - file: intro/supplementary/python/index
-          - file: intro/supplementary/versioning/index
-          - file: intro/supplementary/indexes/index
-          - file: intro/supplementary/publication/index
-          - file: intro/supplementary/yaml/index
   - file: manual/index
     title: Manual
     options:
