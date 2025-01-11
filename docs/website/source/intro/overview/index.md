@@ -2,10 +2,126 @@
 ccid: overview
 ---
 
+(overview)=
 # Overview
 
-This section offers a more detailed overview of
-some of PyPackIT's key components, features and capabilities.
+PyPackIT is a ready-to-use automation tool,
+fully configured in accordance with the
+latest software engineering guidelines and best practices.
+It is an open-source, cloud-based software suite
+hosted on [GitHub](#bg-gh) at https://github.com/RepoDynamics,
+comprising several [GitHub Actions](#bg-gha) (GHA) [actions](#bg-gha) and [Python](#bg-py) applications.
+These can be installed in GitHub repositories
+to perform automated tasks on the GHA cloud framework.
+To facilitate [installation](#install), PyPackIT includes a 
+[repository template](#bg-ghrt) at https://github.com/RepoDynamics/PyPackIT.
+There, by clicking the
+|{{ '[{{bdg-success}}`Use this template`](https://github.com/new?template_name={}&template_owner={})'.format(ccc.repo.name, ccc.team.owner.github.id) }}|
+button, users can create a [new GitHub repository](#install-new)
+that automatically contains all the necessary files to run PyPackIT,
+such as GHA [workflows](#bg-gha-workflow) and configuration files.
+Installation in [existing repositories](#install-existing) is supported as well,
+simply requiring users to add these files.
+
+Upon installation, users only need to invest a few minutes
+filling project-specific information in the provided configuration files.
+PyPackIT then takes over, automatically setting up the repository
+and generating a complete infrastructure for the project,
+including a build-ready python package,
+fully automated test suite,
+comprehensive documentation website,
+license and citation files,
+community health files such as a dynamic repository README,
+and configuration files for various development tools and services.
+An initial release of the software along with its test suite and documentation website
+can be immediately deployed online, registering the project in various indexing repositories
+and facilitating its discovery from the beginning.
+All metadata and settings are readily customizable via PyPackIT's configuration files,
+which form a unified control center enabling {term}`CCA`
+for the entire project infrastructure and development environment
+throughout the software life-cycle.
+
+
+:::{image} /_media/figure/workflow_light.svg
+:class: hidden
+:::
+:::{figure} /_media/figure/workflow_dark.svg
+:alt: PyPackIT Workflow
+:class: dark-light themed
+:align: center
+:name: fig-workflow
+
+PyPackIT's software development workflow.
+Labeled arrows represent manual tasks performed by users:
+**Report**, **Design**, **Commit**, and **Review**.
+All other activities are automated,
+which fall into four main categories
+spanning different stages of the software development life-cycle:
+**Issue Management**, **Version Control**, **Continuous Integration and Deployment**,
+and **Continuous Maintenance, Refactoring, and Testing**.
+:::
+
+
+After installation, PyPackIT establishes an automated
+software development workflow ({numref}`fig-workflow`) tailored to user needs,
+based on a well-tested pull-based model
+for collaborative open-source software engineering.
+It includes comprehensive Continuous software engineering pipelines
+that use the latest tools and technologies
+to enable an automated Agile software development process,
+allowing for highly iterative and experimental software development,
+while reducing variance, complexity, cost, and risk.
+PyPackIT's workflow activates automatically in response to various repository events,
+such as submission of issue tickets, commits, and pull requests.
+It then analyzes the triggering event and the current state of the repository
+to execute appropriate tasks on [GHA](#bg-gha).
+Doing so, PyPackIT automates the bulk of repetitive engineering and management activities
+throughout the software life-cycle, leaving users with only four manual tasks:
+
+1. **Report**: Each task in the project starts by submitting a ticket to its {term}`ITS`.
+   PyPackIT facilitates reports by automatically configuring and maintaining {term}`GHI`
+   to provide users with dynamic submission forms specialized for various issue types.
+   Following a ticket submission, PyPackIT automatically performs issue management tasks,
+   reducing the triage process to a simple decision on whether to implement the task.
+2. **Design**: Once an issue ticket is approved,
+   users only need to write a short design document
+   by filling out a form attached to the ticket.
+   PyPackIT's automated version control then activates,
+   creating a ready-to-use branch for implementation,
+   and a dynamically maintained {term}`PR` for tracking progress.
+3. **Commit**: With PyPackIT's comprehensive infrastructure,
+   implementation is simplified to writing essential code, docstrings,
+   and test cases in the provided skeleton files
+   or modifying project configurations in the control center, depending on the task.
+   With each commit, PyPackIT's CI/CD pipelines
+   automatically integrate the new changes into the repository,
+   performing various quality assurance and testing tasks,
+   while producing reports and artifacts for review.
+4. **Review**: When the implementation is finished,
+   PyPackIT automatically sends review requests to designated maintainers.
+   Once approved, PyPackIT's CI/CD pipelines merge the changes into the project's mainline,
+   updating all affected project components and
+   generating changelogs that document the entire development process.
+   If changes correspond to the software's public interfaces,
+   a new version is generated along with release notes and various artifacts,
+   which can be automatically published to user-selected indexing repositories and cloud services,
+   such as PyPI, Anaconda, Zenodo, and various Docker registries and BinderHub instances.
+
+
+Moreover, PyPackIT also activates on a scheduled basis,
+executing {term}`CM`, {term}`CR`, and {term}`CT` pipelines
+that perform various maintenance and monitoring tasks
+on the repository and each released library version,
+sustaining the health of the software and its development environment.
+When actions are required, these pipelines automatically submit
+issue tickets for manual implementation,
+PRs for automatic fixes that require review,
+or they directly apply updates to the project.
+
+The rest of this section offers a more detailed overview
+of some of PyPackIT's key components, features and capabilities.
+
+
 
 (overview-cc)=
 ## Continuous Configuration Automation
@@ -598,6 +714,7 @@ the CD pipeline carries out additional deployment tasks:
   with a DOI, facilitating reproducibility and citations.
 
 
+(overview-cm)=
 ## Continuous Maintenance, Refactoring, and Testing
 
 Modern software can remain useful and operational
@@ -751,7 +868,7 @@ PyPackIT incorporates several security measures:
 
 Moreover, to ensure that |{{ ccc.name }}| itself is highly secure,
 its entire infrastructure is natively implemented and self-contained.
-With the exception of a handful of fundamental {term}`Actions` and Python libraries
+With the exception of a handful of fundamental [GHA actions](#bg-gha) and Python libraries
 from trusted vendors like GitHub and PyPA,
 PyPackIT does not rely on other third-party dependencies.
 This gives the |{{ ccc.name }}| team full control over the software stack,
