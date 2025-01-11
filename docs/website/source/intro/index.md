@@ -142,11 +142,14 @@ such as limited funding, time, staffing, and technical expertise.
 If you can't wait to get started with |{{ ccc.name }}|,
 skip to the [User Manual](#manual) for detailed instructions
 on how to install and use |{{ ccc.name }}| in your project.
-Otherwise, continue to the [Overview](#overview) section
-for a review of the state of the art and current challenges
-in open-source software development,
-along with a more in-depth overview of |{{ ccc.name }}|'s key features and capabilities
-addressing these challenges. 
-The [Background](#bg) section provides supplementary background information
-on key concepts, methodologies, tools, and technologies used in |{{ ccc.name }}|.
+Otherwise, continue to the [Motivation](#overview) section
+where we outline key aspects of software engineering and
+the challenges they present to FOSS projects,
+highlighting |{{ ccc.name }}|'s solutions to these challenges.
+The [Overview](#overview) section then provides
+a more in-depth summary of |{{ ccc.name }}|'s 
+key features and capabilities,
+while the [Background](#bg) section offers
+supplementary information on key concepts, methodologies, 
+tools, and technologies used in |{{ ccc.name }}|.
 :::
