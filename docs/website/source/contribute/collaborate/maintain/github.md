@@ -2,7 +2,7 @@
 
 Learn about risks of script injection in GitHub workflows, when using user inputs in inline scripts:
 https://docs.github.com/en/github-ae@latest/actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
-
+https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
 ## Issues
 
 
