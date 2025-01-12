@@ -1,140 +1,6 @@
-# Background
-
-## GitHub Social Coding Platform
-
-Software development is becoming a highly collaborative
-and distributed process \cite{ScaleAndEvolOfCoordNeeds},
-with contributors from diverse geographical and temporal coordinates \cite{GlobalSoftEng}.
-These added social aspects increase project complexity \cite{InfluenceOfSocialAndTechnicalFactors},
-requiring high degrees of communication and coordination \cite{UnderstandingCommunitySmells, CollabSoftEngBookChallenges, GlobalSoftDevChallenges}.
-Consequently, effective collaboration and project management are major challenges in research software development \cite{ConfigManageForLargescaleSciComp}.
-Cloud-based software hosting services aim to solve such problems \cite{OpenSourceSoftHostingPlatforms}.
-These so-called social coding platforms (SCPs) offer a transparent mutual environment
-for communication and collaboration \cite{CharacterizingProjEvolOnSocialCodingPlat, SocialCodingInGitHub},
-equipped with crucial software engineering tools,
-such as distributed version control systems (VCSs) \cite{VCSReview} like \href{https://git-scm.com/}{Git} \cite{BetterSoftwareBetterResearch, BarelySufficientPracticesInSciComp, BestPracticesInBioinfSoftware, 4SimpleRecs, 10RuleForSoftwareInCompBio, SustainableResearchSoftwareHandOver, SurveySEPracticesInScience, BestPracticesForSciComp, QuickGuideToOrgCompBioProjects, WhatMakesCompSoftSuccessful, GoodEnoughPracticesInSciComp, SciSoftDevIsNotOxymoron}.
-\href{https://github.com}{GitHub}, currently the world’s largest SCP \cite{GitHubOctoverse2023},
-is thus one of the most recommended platforms
-for research software projects \cite{ELIXIRSoftwareManagementPlan, BetterSoftwareBetterResearch, 4SimpleRecs, 10RuleForSoftwareInCompBio, BestPracticesForSciComp, 10SimpleRulesGitAndGitHub},
-providing special features for scientific applications and offering free upgrades
-to students and academic researchers \cite{GitHubForScience}.
-Accordingly, PyPackIT is built on top of GitHub,
-making use of its rich functionalities to provide a comprehensive environment
-for collaborative cloud development of research software.
-
-Critical to PyPackIT's goals, in November 2019 GitHub introduced \href{https://github.com/features/actions}{GitHub Actions} (GHA),
-an event-driven cloud computing platform for execution of automated software development \href{https://docs.github.com/en/actions/using-workflows/about-workflows}{workflows} on configurable machines,
-in response to specific \href{https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows}{events}
-like various activities in the repository \cite{GitHubDevWorkflowAutoEcoBook, HandsOnGHA}.
-Shortly after its release, GHA became the most popular Continuous Integration (CI) service on GitHub,
-due to its generous free tier for public repositories, full integration with GitHub,
-and better hardware and software support \cite{RiseAndFallOfCIinGH, OnUsageAndMigrationOfCITools, OnUseOfGHA}.
-
-Moreover, GitHub's comprehensive \href{https://docs.github.com/en/rest}{REST}
-and \href{https://docs.github.com/en/graphql}{GraphQL} application programming interfaces (APIs)
-grant workflows full control of all repository components,
-enabling automation well beyond conventional CI practices \cite{DevPerceptionOfGHA, GitHubDevWorkflowAutoEcoBook}.
-To facilitate GHA workflow development,
-GitHub allows reusable components called \href{https://docs.github.com/en/actions/creating-actions/about-custom-actions}{Actions},
-which act as building blocks for workflows, similar to software libraries.
-Developers can host Actions on public GitHub repositories
-and publish them on \href{https://github.com/marketplace}{GitHub Marketplace},
-an indexing service allowing users to search for suitable options.
-However, implementing workflows and Actions is a non-trivial task,
-faced by challenges in tooling, resources, configuration, testability,
-debugging, maintenance, and security \cite{HowDoSoftDevsUseGHA, EvolutionOfGHAWorkflows, OnUseOfGHA, OnOutdatednessOfWorkflowsInGHA, AutoSecurityAssessOfGHAWorkflows}.
-
-Action reuse is also low, due to issues with compatibility,
-functionality, performance, and findability \cite{DevPerceptionOfGHA}.
-Therefore, while GHA's automation capabilities can greatly improve
-the software development process \cite{HowDoSoftDevsUseGHA, LetsSuperchargeWorkflows},
-most projects only use it for basic tasks \cite{OnUseOfGHA}.
-On the other hand, PyPackIT makes extensive use of GHA features
-and implements specialized workflows and Actions according to research software needs.
-These cloud applications fully integrate with other repository components
-to create comprehensive automation pipelines that streamline
-numerous repetitive engineering and management tasks throughout the software life-cycle.
-
-## Python Programming Language
-
-The choice of programming language greatly influences software adoption and sustainability \cite{RolesOfCodeInCSE}. 
-For scientific software, the language should be fast, stable, predictable, 
-versatile, user-friendly, and well-known \cite{SoftDevEnvForSciSoft, PythonEcosystemSciComp}. 
-While low-level languages like C and Fortran dominate legacy high-performance computing (HPC) 
-due to their speed and hardware integration \cite{SoftEngForCompSci, UnderstandingHPCCommunity, SciCompGridlock}, 
-they fall short in addressing the diverse needs of modern research software \cite{PythonEcosystemSciComp}. 
-Additionally, their complexity can obstruct software extension and maintenance \cite{SoftEngForCompSci, SciCompGridlock}. 
-Therefore, higher-level languages are advised to improve development, collaboration, 
-and productivity \cite{SoftEngForCompSci, BestPracticesForSciComp}. 
-Over the past decade, Python has emerged as the leading programming language 
-for research software development \cite{SurveySEPracticesInScience2, AnalyzingGitHubRepoOfPapers, DevOpsInSciSysDev}, 
-widely adopted by major organizations such as CERN \cite{IntroducingPythonAtCERN, PythonAtCERN} and NASA \cite{PythonAtNASA}, 
-and instrumental in key scientific achievements \cite{PythonScientificSuccessStories}, 
-including the discovery of gravitational waves \cite{GravWaveDiscovery} and black hole imaging \cite{BlackHoleImage}. 
-Python is now the most recommended language for scientific computing due to its simplicity, 
-versatility, and extensive ecosystem \cite{PythonBatteriesIncluded, PythonForSciComp, PythonForSciAndEng, PythonJupyterEcosystem, SciCompWithPythonOnHPC, PythonEcosystemSciComp, WhatMakesPythonFirstChoice}, 
-which provides performance-optimized libraries for array programming \cite{NumPy}, 
-fundamental algorithms \cite{SciPy}, 
-data analysis \cite{pandas}, machine learning \cite{PyTorch, Top5MLLibPython, ScikitLearn}, 
-image processing \cite{scikitImage}, visualization \cite{Matplotlib, Mayavi}, 
-interactive distributed computing \cite{IPython, Jupyter, Jupyter2}, 
-parallel programming \cite{DaskAndNumba, DaskApplications}, 
-and domain-specific scientific applications \cite{Astropy, SunPy, Pangeo, MDAnalysis, Biopython, NIPY}. 
-Python can readily handle complex tasks such as web integration and visualization, 
-which are hard to address in low-level languages \cite{PythonEcosystemSciComp}, 
-while bridging the performance gap via optimized compilers \cite{Cython, Numba, Pythran}, 
-GPU run-time code generators \cite{PyCUDA}, and APIs for integrating low-level languages \cite{PythonForSciComp, PythonEcosystemSciComp}. 
-This adaptability enables rapid prototyping of complex applications, 
-allowing researchers to quickly evaluate various scientific models and 
-efficiently optimize the best solution \cite{BestPracticesForSciComp}. 
-The recent advancements in parallel distributed computing with 
-Python \cite{SciCompWithPythonOnHPC, ParallelDistCompUsingPython, ScientistsGuideToCloudComputing, DemystPythonPackageWithCondaEnvMod, PythonAcceleratorsForHPC} 
-and Jupyter \cite{DistWorkflowsWithJupyter} has even motivated large HPC communities 
-to shift toward Python \cite{SoftEngForCompSci, InteractiveSupercomputingWithJupyter}. 
-
-Therefore, PyPackIT is specialized in the production of research software in Python, 
-and provides a complete infrastructure and development environment 
-using the latest tools and standards in its ecosystem.
-
-
-
-# OLD
+# Background OLD
 
 ## GitHub
-
-The growth of the Python ecosystem and its open-source libraries has been further accelerated
-by the emergence of cloud-based platforms for version control systems (VCSs),
-such as [GitHub](https://github.com),
-which marked a significant shift in how software is developed, shared, and maintained.
-Their purpose is to facilitate collaborative software development,
-by providing a centralized location for storing code, tracking changes,
-and managing contributions from multiple developers.
-They are especially crucial for open-source projects,
-where developers from various backgrounds contribute to a shared codebase,
-and feedback from the community is an integral part of the development process.
-
-GitHub, launched in 2008, has quickly risen to prominence
-as the world's largest host of source code,
-with more than 100 million developers working on over 372 million repositories,
-as of November 2023.[^github-stats]
-In addition to its user-friendly interface, GitHub offers an extensive set of features
-that have solidified its position in the software development landscape, including:
-- **Version Control**: At its core, GitHub provides git-based version control,
-  enabling developers to track changes, revert to previous states,
-  and manage different versions of their code efficiently.
-- **Issue Tracking**: GitHub includes an issue tracking system that allows developers
-  to report bugs, request features, and discuss improvements within the platform.
-- **Collaboration Tools**: Features such as pull requests, code reviews, and branch management
-  facilitate collaboration among developers, making it easier to contribute to and maintain projects.
-- **Automation Tools**: GitHub allows for building continuous integration, deployment, and
-  testing (CI/CD/CT) pipelines, enabling automatic testing, building, and deployment of software projects,
-  directly from GitHub repositories and without the need for third-party platforms.
-- **Web Hosting**: GitHub provides free web hosting for static websites stored in GitHub repositories,
-  making it easier to publish documentation and other project-related content.
-- **Integration**: GitHub can be readily integrated with various development tools and services,
-  enhancing its utility in different stages of software development.
-
-[^github-stats]: [GitHub (2023). Octoverse: The state of open source and rise of AI in 2023.](https://github.blog/2023-11-08-the-state-of-open-source-and-ai/)
 
 ## Repository Setup
 
@@ -351,22 +217,6 @@ when setting up a GitHub repository for a software project:
   several pre-defined external platforms such as [Tidelift](https://tidelift.com/) and [Patreon](https://www.patreon.com/),
   and any other platform of choice.
 
-## Development Workflow
-
-In addition, a well-structured repository should also have a clear and consistent workflow,
-  and a well-defined process for reviewing and merging contributions.
-  This helps streamline the development process,
-  and makes it easier for new contributors to get started with the project.
-
-
-- **Branching Model**: The branching model of the repository must be designed
-    to support the development workflow of the project.
-    For example, the repository may follow a [Gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
-    branching model, where the `master` branch is used for stable releases,
-    and the `develop` branch is used for development.
-    Alternatively, it may follow a [GitHub Flow](https://guides.github.com/introduction/flow/)
-    branching model, where the `master` branch is used for development,
-    and releases are tagged from the `master` branch.
 
 ## Packaging and Distribution
 
@@ -628,24 +478,4 @@ to various dynamic testing methods, such as unit testing, integration testing, a
   including unit tests, integration tests, end-to-end tests, and functional tests.
   These can then be incorporated in the development workflows of the project,
   to ensure the integrity and functionality of the code at every stage of the development process.
-
-While the Python ecosystem offers a comprehensive set of powerful tools to help developers
-carry out these tasks, successfully integrating them into the development process
-can be challenging and time-consuming, especially in the current rapidly evolving landscape:
-Developers must maintain a broad and up-to-date overview
-of the various tools and best practices involved,
-to select the right set of tools for their project.
-These tools usually offer a wide range of configuration options, which must be carefully set
-to ensure that they are compatible with the project's workflow.
-Integrating multiple tools, each with its own configuration and usage nuances,
-into a single coherent workflow can be complex.
-Ensuring that these tools work seamlessly together,
-and with the project's existing infrastructure, requires significant setup and maintenance effort.
-Additionally, balancing the strictness of rules
-against the practicality of day-to-day development is a nuanced task.
-More importantly, enforcing coding standards and testing practices
-across all contributors can be challenging in collaborative projects.
-It requires clear guidelines and often the implementation of automated checks
-that are integrated into the development workflow,
-such as pre-commit hooks or continuous integration pipelines.
 
