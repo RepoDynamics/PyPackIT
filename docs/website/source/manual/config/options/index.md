@@ -65,6 +65,7 @@ they do not need simply by removing the corresponding configurations
 from the provided configuration files.
 
 
+(manual-cc-augment)=
 ## Augmentation
 
 Another way |{{ ccc.name }}| minimizes manual configurations
