@@ -1,4 +1,4 @@
-(cc-inheritance)=
+(manual-cc-inheritance)=
 # Inheritance
 
 While [templating](#manual-cc-templating)
