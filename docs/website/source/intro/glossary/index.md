@@ -3,18 +3,7 @@
 :::{glossary}
 :sorted:
 
-Action
-  An [Action](https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions)
-  is a reusable application for the [GHA](#bg-gha) platform
-  to perform specific tasks within an automated workflow.
-  Actions can be written in JavaScript, Python, or as Docker containers
-  and are used to encapsulate functionality such as running tests,
-  deploying code, or managing infrastructure.
-  Actions can be created by users or sourced from the [GitHub Marketplace](https://github.com/marketplace),
-  where thousands of pre-built actions are available.
-  By combining multiple actions, developers can define complex workflows
-  for CI/CD pipelines and other automated tasks in a GitHub repository.
-
+  
 Anaconda.org
   [Anaconda.org](http://www.anaconda.org/)
   is a language-agnostic package hosting and management service
@@ -33,16 +22,6 @@ Anaconda.org
 API
   Application Programming Interface.
 
-CCA
-  Continuous Configuration Automation (CCA)
-  refers to the automated management and maintenance
-  of configuration settings across IT infrastructure.
-  It ensures that systems remain consistent, compliant,
-  and aligned with predefined configurations while adapting to changes dynamically.
-  CCA tools enable version-controlled, repeatable configuration changes,
-  reducing manual effort and errors.
-  By integrating with CI/CD pipelines, CCA supports scalability
-  rapid deployments, and the enforcement of configuration policies in modern DevOps practices.
 
 CI/CD
   Aggregation of Continuous Integration, Delivery, and Deployment,
@@ -123,20 +102,6 @@ FOSS
   It plays a critical role in software development
   by providing reusable tools and fostering a shared knowledge ecosystem.  
 
-GHA
-  
-
-GHI
-  [GitHub Issues](https://github.com/features/issues) (GHI)
-  is a built-in {term}`ITS` within GitHub,
-  used to document and manage tasks, bugs, feature requests,
-  and other work items for a repository.
-  Each issue serves as a discussion thread and can include labels,
-  milestones, assignees, comments, and references to pull requests or commits.
-  GHI supports project management workflows with features like Kanban-style project boards,
-  templates, and automation through [GHA](#bg-gha).
-  It integrates seamlessly with GitHub’s version control system,
-  making it a key tool for tracking and coordinating work in software development projects.
 
 ITS
   An Issue Tracking System (ITS) is a software tool used to document,
@@ -144,7 +109,7 @@ ITS
   It enables teams to report problems, prioritize work, assign responsibilities, and monitor progress.
   Common features include categorization, tagging, status updates, comment threads,
   and integration with version control systems.
-  Popular ITS tools include Jira, GitHub Issues, GitLab Issues, and Bugzilla.
+  Popular ITS tools include Jira, [GitHub Issues](#bg-ghi), GitLab Issues, and Bugzilla.
   ITS platforms are essential for effective project management, fostering collaboration,
   and ensuring accountability in software development and other workflows.
 
