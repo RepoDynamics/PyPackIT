@@ -354,12 +354,12 @@ and result in multi-million-dollar losses
 :::{admonition} |{{ ccc.name}}|'s Solution
 :class: tip
 
-|{{ ccc.name}}| provides a ready-to-use test suite,
+|{{ ccc.name}}| provides a ready-to-use [test suite](#overview-testsuite),
 where users only need to add test cases in the provided skeleton files.
 The test suite benefits from the same features as the project's main Python package,
 and can be automatically distributed in each release as a stand-alone package.
 All quality assurance and testing routines are automated
-in the provided Continuous Integration, Refactoring, and Testing pipelines,
+in the provided [Continuous Integration](#overview-ci), [Refactoring, and Testing pipelines](#overview-cm),
 with feature such as code style formatting, linting and automatic refactoring,
 coverage monitoring, and comprehensive report generation.
 :::
@@ -404,7 +404,7 @@ creating barriers to use and leading to software misuse and downstream issues
 :::{admonition} |{{ ccc.name}}|'s Solution
 :class: tip
 
-|{{ ccc.name}}| provides a fully designed website filled with automatically 
+|{{ ccc.name}}| provides a fully designed [website](#overview-docs) filled with automatically 
 generated documentation such as project information, package metadata, 
 installation guides, API reference, changelogs, release notes, contribution guides, 
 and citation data. The website can be automatically deployed to 
@@ -447,7 +447,7 @@ and sustainability of earlier releases
 :::{admonition} |{{ ccc.name }}|'s Solution
 :class: tip
 
-|{{ ccc.name }}| automates version control tasks
+|{{ ccc.name }}| automates [version control](#overview-vcs) tasks
 such as branching, pull request creation, commit message generation,
 versioning, tagging, and merging,
 with a branching model and versioning scheme
@@ -455,6 +455,7 @@ specialized for FOSS requirements.
 :::
 
 
+(motiv-cca)=
 ## Configuration Management
 
 Software projects rely on various tools and services 
@@ -494,7 +495,7 @@ which are hard to manage, modify, and reproduce.
 for automatic configuration, customization, 
 and management of the entire project, 
 and even multiple projects at once.
-|{{ ccc.name }}|’s control center 
+|{{ ccc.name }}|’s [control center](#overview-cc) 
 consolidates all project configurations 
 into a unified data structure, 
 supporting both declarative definitions 
@@ -546,7 +547,7 @@ and its development environment {cite}`SoftEngForCompSci`.
 :class: tip
 
 |{{ ccc.name }}| provides fully automated 
-Continuous Maintenance, Refactoring, and Testing pipelines
+[Continuous Maintenance, Refactoring, and Testing](#overview-cm) pipelines
 that periodically perform tasks such as 
 testing previous releases with up-to-date dependencies, 
 refactoring code according to the latest standards, 
