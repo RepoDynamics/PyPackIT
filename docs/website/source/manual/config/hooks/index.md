@@ -55,7 +55,7 @@ which is documented in the [Templating](#manual-cc-templating) section.
 
 ## CCA
 
-CCA plugins hook into the Continuous configuration automation pipeline
+CCA plugins hook into the Continuous Configuration Automation pipeline
 that processes your control center configuration files to synchronize your repository.
 They can be added to the `Hooks` class in the `cca.py` module,
 which is included in your repository by default.
