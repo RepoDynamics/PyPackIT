@@ -1,7 +1,7 @@
 (motivation)=
 # Motivation
 
-Free and Open Source Software ({term}`FOSS`)
+Free and Open Source Software (FOSS)
 is a cornerstone of modern science and technology,
 fueling innovation by granting users the freedom to access, 
 enhance, and redistribute source code {cite}`FOSS, BriefHistoryOfFOSS`.
@@ -102,11 +102,11 @@ and limited availability of tools, technologies, instructions, and resources
 For example, GitHub offers public repositories free integration with [GitHub Actions](#bg-gha) (GHA),
 which can be used to for automation well beyond conventional CI/CD practices 
 {cite}`DevPerceptionOfGHA, GitHubDevWorkflowAutoEcoBook`.
-However, implementing GHA [workflows](#bg-gha-workflows) 
+However, implementing GHA [workflows](#bg-gha-workflow) 
 involves challenges related to tooling, configuration, 
 testability, debugging, maintenance, and security
 {cite}`HowDoSoftDevsUseGHA, EvolutionOfGHAWorkflows, OnOutdatednessOfWorkflowsInGHA, AutoSecurityAssessOfGHAWorkflows`.
-[Action](#bg-gha-actions) reuse is also low, due to issues with compatibility, 
+[Action](#bg-gha-action) reuse is also low, due to issues with compatibility, 
 functionality, and findability {cite}`DevPerceptionOfGHA`.
 Consequently, most projects do not make use of these advanced features that can 
 greatly improve the software development process {cite}`OnUseOfGHA, LetsSuperchargeWorkflows`.
@@ -174,7 +174,7 @@ Another crucial aspect is documenting the development process
 to record a clear overview of the project evolution and
 ensure that the implementation matches the expected design
 {cite}`WhatMakesCompSoftSuccessful, 5RecommendedPracticesForCompSci, BestPracticesForSciComp, BestPracticesInBioinfSoftware, DealingWithRiskInSciSoft`.
-Issue tracking systems (ITSs) like GitHub Issues (GHI) 
+Issue tracking systems (ITSs) like [GitHub Issues](#bg-ghi) (GHI) 
 help document and organize tasks, 
 but need significant setup to function effectively 
 {cite}`SurveySEPracticesInScience, DLRSoftEngGuidelines, ELIXIRSoftwareManagementPlan, EmpAnalysisOfIssueTemplatesOnGitHub`. 
@@ -297,9 +297,9 @@ for licensing, packaging, distribution, indexing, and maintenance of research so
 :class: tip
 
 |{{ ccc.name }}| is specialized in the production of FAIR Python applications,
-and provides a comprehensive infrastructure and automated solutions
+and provides a comprehensive [package infrastructure](#overview-pkg) and automated solutions
 based on the latest guidelines and best practices
-for licensing, packaging, and distribution of software to multiple indexing repositories.
+for [licensing](#overview-license), build, and distribution of software to multiple indexing repositories.
 :::
 
 
@@ -369,67 +369,100 @@ coverage monitoring, and comprehensive report generation.
 
 Documentation is a key factor in software quality and success,
 ensuring users understand how to install, use, and exploit the software's capabilities
-while recognizing its limitations {cite}`10SimpleRulesForOpenDevOfSciSoft, BestPracticesForSciComp, GoodEnoughPracticesInSciComp, WhatMakesCompSoftSuccessful, SciSoftDevIsNotOxymoron, NamingThePainInDevSciSoft, CompSciError, BarelySufficientPracticesInSciComp`.
-This is especially important for {term}`FOSS`,
-which often suffers from knowledge loss due to high developer turnover rates {cite}`HowToSupportOpenSource, RecommendOnResearchSoftware, EmpStudyDesignInHPC, SoftwareSustainabilityInstitute`.
+while recognizing its limitations 
+{cite}`10SimpleRulesForOpenDevOfSciSoft, BestPracticesForSciComp, GoodEnoughPracticesInSciComp, WhatMakesCompSoftSuccessful, SciSoftDevIsNotOxymoron, NamingThePainInDevSciSoft, CompSciError, BarelySufficientPracticesInSciComp`.
+This is especially important for FOSS,
+which often suffers from knowledge loss due to high developer turnover rates 
+{cite}`HowToSupportOpenSource, RecommendOnResearchSoftware, EmpStudyDesignInHPC, SoftwareSustainabilityInstitute`.
 As software evolves, documenting and publishing changelogs with each release
 allows existing users to assess the update impact and helps new users and contributors 
 understand the software's progression {cite}`ELIXIRSoftwareManagementPlan, GoodEnoughPracticesInSciComp, SustainableResearchSoftwareHandOver`.
-As community building is crucial for FOSS success {cite}`HowToSupportOpenSource, WhatMakesCompSoftSuccessful`,
+As community building is crucial for FOSS success 
+{cite}`HowToSupportOpenSource, WhatMakesCompSoftSuccessful`,
 project documentation should also include contribution guidelines,
-governance models, and codes of conduct {cite}`SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware, SustainableResearchSoftwareHandOver, 4SimpleRecs, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines, NLeScienceSoftDevGuide`.
+developer guides, governance models, and codes of conduct 
+{cite}`SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware, SustainableResearchSoftwareHandOver, 4SimpleRecs, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines, NLeScienceSoftDevGuide`.
 
 However, high-quality documentation requires time, effort, and skills,
 including web development knowledge to create user-friendly websites
-that stay up to date with the latest project developments {cite}`SurveySEPracticesInScience, WhatMakesCompSoftSuccessful`. 
-Although tools exist to aid documentation {cite}`TenSimpleRulesForDocumentingSciSoft, WhatMakesCompSoftSuccessful, BestPracticesForSciComp`,
+that stay up to date with the latest project developments 
+{cite}`SurveySEPracticesInScience, WhatMakesCompSoftSuccessful`. 
+Although tools exist to aid documentation 
+{cite}`TenSimpleRulesForDocumentingSciSoft, WhatMakesCompSoftSuccessful, BestPracticesForSciComp`,
 developers must still invest time in setting them up.
-Consequently, FOSS is often not well-documented {cite}`SoftEngForCompSci, ProblemsOfEndUserDevs, AnalyzingGitHubRepoOfPapers, DealingWithRiskInSciSoft`,
-creating barriers to use and leading to software misuse and faulty results {cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl, CompSciError`.
+A more important issue is the lack of automation,
+requiring developers to manually document
+a large amount of specifications, instructions,
+design decisions, implementation details, changelogs,
+and other essential essential documentation.
+Consequently, FOSS is often not well-documented
+{cite}`SoftEngForCompSci, ProblemsOfEndUserDevs, AnalyzingGitHubRepoOfPapers, DealingWithRiskInSciSoft`,
+creating barriers to use and leading to software misuse and downstream issues
+{cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl, CompSciError`.
 
 
 :::{admonition} |{{ ccc.name}}|'s Solution
 :class: tip
 
-Therefore, PyPackIT puts great emphasis on documentation,
-providing infrastructure and automated solutions that enable projects to maintain
-high-quality documentation with minimal effort.
+|{{ ccc.name}}| provides a fully designed website filled with automatically 
+generated documentation such as project information, package metadata, 
+installation guides, API reference, changelogs, release notes, contribution guides, 
+and citation data. The website can be automatically deployed to 
+GitHub Pages and Read The Docs platforms,
+and is easily customizable via the control center with no web development knowledge. 
+PyPackIT can also dynamically generate standalone documents in various Markdown formats, 
+such as community health files and READMEs for different indexing repositories.
 :::
-
-
-To address these issues, |{{ ccc.name }}| emphasizes providing infrastructure and automated solutions 
-for maintaining high-quality documentation with minimal effort.
 
 
 ## Version Control
 
-Version control practices such as branching and tagging
-are vital yet challenging tasks in software development {cite}`10MetricsForSciSoftware, ELIXIRSoftwareManagementPlan, EffectOfBranchingStrategies, BranchUseInPractice`.
+Version control practices such as branching, merging, tagging, and history management
+are vital yet challenging tasks in software development 
+{cite}`10MetricsForSciSoftware, ELIXIRSoftwareManagementPlan, EffectOfBranchingStrategies, BranchUseInPractice`.
 Branching provides isolation for development and testing of individual changes,
-while tags allow to annotate specific states of the code with version numbers
-to clearly communicate and reference changes {cite}`ImportanceOfBranchingModels, CICDSystematicReview`.
-Although established models like GitFlow and trunk-based development exist {cite}`TrunkBasedDev, GitFlow, GitHubFlow, GitLabFlow`,
-they do not fully align with the evolving nature of {term}`FOSS`,
-which often begins as a prototype and undergoes significant changes {cite}`UnderstandingHPCCommunity`.
-A suitable model must, thus, support simultaneous development and
-long-term maintenance of multiple versions, to facilitate rapid evolution
-while ensuring the availability and sustainability of earlier releases {cite}`ConfigManageForLargescaleSciComp`. 
+which must then be merged back into the project's mainline
+with information-rich commit messages to maintain a clear history.
+Moreover, tags allow to annotate specific states of the code with version numbers
+to clearly communicate and reference changes 
+{cite}`ImportanceOfBranchingModels, CICDSystematicReview`.
 
+While established versioning schemes like [Semantic Versioning](#bg-semver)
+and branching models like trunk-based development {cite}`TrunkBasedDev`,
+git-flow {cite}`GitFlow`, GitHub flow {cite}`GitHubFlow`,
+and GitLab flow {cite}`GitLabFlow` exist,
+enforcing their consistent and effective application in the project
+still requires implementing them into automated workflows.
+Moreover, these general-purpose strategies 
+may require adjustments to fully align with the evolving nature of FOSS,
+which often begins as a prototype and undergoes significant changes 
+{cite}`UnderstandingHPCCommunity`.
+For example, a suitable model for FOSS development should support 
+simultaneous development and long-term maintenance of multiple versions,
+to facilitate rapid evolution while ensuring the availability 
+and sustainability of earlier releases
+{cite}`ConfigManageForLargescaleSciComp`.
 
 
 :::{admonition} |{{ ccc.name }}|'s Solution
 :class: tip
 
-|{{ ccc.name }}| addresses these needs by automating version control tasks 
-with a specialized branching model and version scheme.
+|{{ ccc.name }}| automates version control tasks
+such as branching, pull request creation, commit message generation,
+versioning, tagging, and merging,
+with a branching model and versioning scheme
+specialized for FOSS requirements.
 :::
 
 
 ## Configuration Management
 
-Software projects rely on various tools and services throughout the development life cycle,
-each requiring separate configuration via specific files or user interfaces.
-This can lead to several maintenance challenges {cite}`BestPracticesForSciComp, DevOpsInSciSysDev`:
+Software projects rely on various tools and services 
+throughout the development life cycle,
+each requiring separate configuration 
+via specific files or user interfaces.
+This can lead to several maintenance challenges 
+{cite}`BestPracticesForSciComp, DevOpsInSciSysDev`:
 Tool-specific formats and requirements result in data redundancy,
 since many settings are shared.
 As configuration files are often static,
@@ -439,22 +472,37 @@ leading to conflicts and inconsistencies.
 Moreover, configurations via interactive user interfaces
 complicate the tracking and replication of settings,
 as they must be manually recorded and applied.
+These issues complicate project initialization, configuration,
+and customization, hampering the growth of sustainability of FOSS projects.
 
 DevOps practices such as Continuous Configuration Automation (CCA)
 and Infrastructure-as-Code (IaC) were developed to tackle these issues,
-enabling dynamic configuration management of software infrastructure
+enabling dynamic configuration management of hardware and software infrastructures
 through machine-readable definition files {cite}`InfrastructureAsCode`.
-However, due to a lack of publicly available tools,
-most projects still rely on a combination of different configuration files and manual settings,
+While these practices are more prevalent in server and network management applications,
+they can greatly benefit software development projects as well.
+Nevertheless, due to a lack of publicly available tools,
+most projects still rely on a combination of 
+different configuration files and manual settings,
 which are hard to manage, modify, and reproduce.
 
 
 :::{admonition} |{{ ccc.name}}|'s Solution
 :class: tip
 
-|{{ ccc.name }}| implements a similar system, providing a user-friendly control center 
-for defining, customizing, synchronizing, and maintaining project metadata, 
-making project management and configuration more efficient and automated.
+|{{ ccc.name }}| provides a centralized user interface 
+for automatic configuration, customization, 
+and management of the entire project, 
+and even multiple projects at once.
+|{{ ccc.name }}|’s control center 
+consolidates all project configurations 
+into a unified data structure, 
+supporting both declarative definitions 
+and dynamic data generation at runtime 
+via built-in templating, scripting, 
+and online retrieval features. 
+Configurations are automatically applied to related components, 
+eliminating redundancy and rendering the entire project dynamic.
 :::
 
 
@@ -474,47 +522,39 @@ and future dependency versions {cite}`EmpComparisonOfDepNetEvolution`.
 However, many projects overlook outdated dependencies {cite}`DoDevsUpdateDeps`,
 leading to incompatibilities and bugs {cite}`MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet`.
 
-Open-source software development challenges such as funding {cite}`ManagingChaos, BetterSoftwareBetterResearch`,
+Challenges such as funding {cite}`ManagingChaos, BetterSoftwareBetterResearch`,
 small team sizes {cite}`SoftEngForCompSci, HowScientistsReallyUseComputers`,
 and high developer turnover rates {cite}`RecommendOnResearchSoftware, EmpStudyDesignInHPC`
-further hinder maintenance, exacerbated by technical debt and increased software entropy
-from neglected software engineering best practices {cite}`BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci, ManagingTechnicalDebt, 10SimpleRulesForOpenDevOfSciSoft, SoftDesignForEmpoweringSci, ManagingChaos, SoftwareSustainabilityInstitute`.
+further hinder maintenance of FOSS projects,
+exacerbated by technical debt and increased software entropy
+from neglected software engineering best practices
+{cite}`BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci, ManagingTechnicalDebt, 10SimpleRulesForOpenDevOfSciSoft, SoftDesignForEmpoweringSci, ManagingChaos, SoftwareSustainabilityInstitute`.
 Consequently, the extra effort required for maintenance is a major barrier
 to publicly releasing software {cite}`BetterSoftwareBetterResearch, PublishYourCode`,
-often leaving it as an unsustainable prototype {cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`.
+often leaving it as an unsustainable prototype 
+{cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`.
 To prevent such issues, quality assurance and maintenance tasks should be automated
-and enforced from the beginning of the project {cite}`SoftEngForCompSci`.
+and enforced from the beginning of the project {cite}`SoftEngForCompSci`,
+in form of Continuous Maintenance (CM) {cite}`ContinuousMaintenance`, 
+Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng` 
+pipelines to periodically update dependencies and development tools, 
+and automatically maintain the health of the software 
+and its development environment {cite}`SoftEngForCompSci`.
 
 
 :::{admonition} |{{ ccc.name}}|'s Solution
 :class: tip
 
-|{{ ccc.name }}| achieves this by several mechanisms, including its automated pull-based development model
-that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices
-throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`,
-Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng`
-pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks,
-such as updating dependencies and development tools,
-to maintain the health of the software and its development environment.
-:::
-
-
-:::{admonition} |{{ ccc.name }}|'s Solution
-:class: tip
-
-|{{ ccc.name }}| addresses these needs by offering an automated quality assurance 
-and testing infrastructure for the entire development life-cycle, 
-including coverage monitoring and test-suite distribution.
-
-To prevent these issues, quality assurance and maintenance tasks 
-should be automated and enforced from the beginning of the project {cite}`SoftEngForCompSci`. 
-|{{ ccc.name }}| achieves this by implementing Continuous Maintenance (CM) {cite}`ContinuousMaintenance`, 
-Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng` pipelines 
-that periodically perform various automated tasks, 
-such as updating dependencies and development tools, 
-to continuously maintain the health of the software and its development environment.
-|{{ ccc.name }}| mitigates maintenance challenges by implementing automated 
-Continuous Maintenance (CM), Refactoring (CR), and Testing (CT) pipelines 
-from the project's inception to ensure software and environment health
-{cite}`SoftEngForCompSci, ContinuousMaintenance, ContRefact, ContinuousSoftEng`.
+|{{ ccc.name }}| provides fully automated 
+Continuous Maintenance, Refactoring, and Testing pipelines
+that periodically perform tasks such as 
+testing previous releases with up-to-date dependencies, 
+refactoring code according to the latest standards, 
+upgrading development tools and project infrastructure, 
+and cleaning up the repository and its development environment.
+|{{ ccc.name }}| can automatically submit 
+issue tickets and pull requests 
+for applying updates and fixes, 
+thus maintaining the health of the project 
+and ensuring its long-term sustainability.
 :::
