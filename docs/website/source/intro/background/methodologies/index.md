@@ -165,6 +165,7 @@ Additionally, real-time monitoring and incident response enable teams to identif
 and resolve issues before they impact users {cite}`DevOpsInSciSysDev, ResearchOps`.
 
 
+(bg-iac)=
 ### Infrastructure-as-Code (IaC)
 
 Infrastructure-as-Code (IaC) is a practice that 
