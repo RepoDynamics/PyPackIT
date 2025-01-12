@@ -20,8 +20,8 @@ most popular programming language and social coding platform, respectively.
 providing them with a comprehensive and robust project infrastructure ({numref}`fig-features`) including:
 
 - [**Control Center**](#overview-cc): A centralized user interface to automatically manage 
-  all project metadata and settings according to DevOps practices 
-  like Infrastructure-as-Code and Continuous configuration automation. 
+  all project metadata and settings according to [cloud-native](#bg-cloud-native) practices 
+  like [Infrastructure-as-Code](#bg-iac) and [Continuous Configuration Automation](#bg-cca). 
   It enables dynamic content management for the entire project, 
   simplifying setup, configuration, and maintenance via built-in templating, 
   inheritance, and synchronization features 
@@ -33,7 +33,7 @@ providing them with a comprehensive and robust project infrastructure ({numref}`
   with all necessary source files and configuration files, 
   automatically customized according to control center settings. 
   Users only need to add application code to the provided source files, 
-  while |{{ ccc.name }}| automates all packaging, versioning, licensing,
+  while |{{ ccc.name }}| automates all packaging, versioning, [licensing](#overview-license),
   build, distribution, and indexing tasks.
   |{{ ccc.name }}| supports automatic deployment to various indexing repositories, 
   including Anaconda, PyPI, Zenodo, GitHub Releases, and any Docker registry.
