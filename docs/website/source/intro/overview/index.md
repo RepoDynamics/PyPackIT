@@ -10,7 +10,8 @@ fully configured in accordance with the
 latest software engineering guidelines and best practices.
 It is an open-source, cloud-based software suite
 hosted on [GitHub](#bg-gh) at https://github.com/RepoDynamics,
-comprising several [GitHub Actions](#bg-gha) (GHA) [actions](#bg-gha) and [Python](#bg-py) applications.
+comprising several [GitHub Actions](#bg-gha) (GHA) [actions](#bg-gha) 
+and [Python](#bg-py) applications.
 These can be installed in GitHub repositories
 to perform automated tasks on the GHA cloud framework.
 To facilitate [installation](#install), PyPackIT includes a 
@@ -37,9 +38,9 @@ An initial release of the software along with its test suite and documentation w
 can be immediately deployed online, registering the project in various indexing repositories
 and facilitating its discovery from the beginning.
 All metadata and settings are readily customizable via PyPackIT's configuration files,
-which form a unified control center enabling {term}`CCA`
+which form a unified control center enabling Continuous Configuration Automation
 for the entire project infrastructure and development environment
-throughout the software life-cycle.
+throughout the software life cycle.
 
 
 :::{image} /_media/figure/workflow_light.svg
@@ -65,21 +66,22 @@ and **Continuous Maintenance, Refactoring, and Testing**.
 After installation, PyPackIT establishes an automated
 software development workflow ({numref}`fig-workflow`) tailored to user needs,
 based on a well-tested pull-based model
-for collaborative open-source software engineering.
+for collaborative software development.
 It includes comprehensive Continuous software engineering pipelines
 that use the latest tools and technologies
-to enable an automated Agile software development process,
+to enable a cloud-native Agile software development process,
 allowing for highly iterative and experimental software development,
 while reducing variance, complexity, cost, and risk.
-PyPackIT's workflow activates automatically in response to various repository events,
+PyPackIT activates automatically in response to various repository events,
 such as submission of issue tickets, commits, and pull requests.
 It then analyzes the triggering event and the current state of the repository
-to execute appropriate tasks on [GHA](#bg-gha).
-Doing so, PyPackIT automates the bulk of repetitive engineering and management activities
-throughout the software life-cycle, leaving users with only four manual tasks:
+to execute appropriate tasks on [GHA](#bg-gha),
+thus automating the bulk of repetitive engineering 
+and management activities throughout the software life cycle, 
+which leaves users with only four manual tasks:
 
 1. **Report**: Each task in the project starts by submitting a ticket to its {term}`ITS`.
-   PyPackIT facilitates reports by automatically configuring and maintaining {term}`GHI`
+   PyPackIT facilitates reports by automatically configuring and maintaining [GHI](#bg-ghi)
    to provide users with dynamic submission forms specialized for various issue types.
    Following a ticket submission, PyPackIT automatically performs issue management tasks,
    reducing the triage process to a simple decision on whether to implement the task.
@@ -122,30 +124,8 @@ The rest of this section offers a more detailed overview
 of some of PyPackIT's key components, features and capabilities.
 
 
-
 (overview-cc)=
 ## Continuous Configuration Automation
-
-Software projects rely on various tools and services throughout the development life cycle,
-each requiring separate configuration via specific files or user interfaces.
-This can lead to several maintenance challenges {cite}`BestPracticesForSciComp, DevOpsInSciSysDev`:
-Tool-specific formats and requirements result in data redundancy,
-since many settings are shared.
-As configuration files are often static,
-they require manual intervention to reflect each change.
-Otherwise they quickly fall out of sync with the current state of the project,
-leading to conflicts and inconsistencies.
-Moreover, configurations via interactive user interfaces
-complicate the tracking and replication of settings,
-as they must be manually recorded and applied.
-
-DevOps practices such as Continuous Configuration Automation (CCA)
-and Infrastructure-as-Code (IaC) were developed to tackle these issues,
-enabling dynamic configuration management of software infrastructure
-through machine-readable definition files {cite}`InfrastructureAsCode`.
-However, due to a lack of publicly available tools,
-most projects still rely on a combination of different configuration files and manual settings,
-which are hard to manage, modify, and reproduce.
 
 |{{ ccc.name }}| enables automatic project configuration, customization, and management
 by introducing a centralized control mechanism based on CCA and IaC practices.
@@ -195,6 +175,7 @@ the control center is equipped with several features:
   to speed up the process, with configurable retention times. 
 
 
+(overview-pkg)=
 ## Python Package
 
 PyPackIT provides a comprehensive infrastructure for Python packages,
@@ -233,55 +214,8 @@ including refactoring, formatting, testing, versioning, packaging, distribution,
 are automatically carried out by PyPackIT's CI/CD pipelines on the cloud.
 
 
+(overview-testsuite)=
 ## Test Suite
-
-
-Code quality assurance and testing are
-crucial aspects of every software development process,
-ensuring that the application is functional, correct,
-secure, and maintainable {cite}`CompSciError, BestPracticesForSciComp, 5RecommendedPracticesForCompSci, BestPracticesInBioinfSoftware, SurveySEPracticesInScience, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`.
-To prevent the accumulation of errors into complex problems,
-it is highly recommended to use test-driven development methodologies
-{cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft, SciSoftDevIsNotOxymoron, SurveySEPracticesInScience`.
-This involves early and frequent unit and regression testing
-to validate new code components and ensure existing features
-remain functional after changes {cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft, SurveySEPracticesInScience, BarelySufficientPracticesInSciComp, 10SimpleRulesOnWritingCleanAndReliableSciSoft, BestPracticesForSciComp`.
-To ensure testing effectiveness, coverage metrics must be frequently monitored to identify
-untested components {cite}`DLRSoftEngGuidelines, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
-Users should also be able to run tests locally
-to verify software functionality and performance on their machines {cite}`ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`,
-necessitating the tests to be packaged and distributed along with the software 
-{cite}`BarelySufficientPracticesInSciComp, 10MetricsForSciSoftware, BestPracticesInBioinfSoftware`.
-Other crucial quality assurance routines include formatting
-to improve readability and establish a consistent coding style,
-and static code analysis such as linting and type checking
-to identify issues undetected by tests,
-and refactor code to improve quality, security, and maintainability
-{cite}`DLRSoftEngGuidelines, BestPracticesForSciComp, SurveySEPracticesInScience, 10SimpleRulesOnWritingCleanAndReliableSciSoft, NLeScienceSoftDevGuide`.
-
-To ensure effective quality assurance, code analysis and testing practices
-need to be automated in the project's development workflow
-{cite}`BestPracticesForSciComp, 10MetricsForSciSoftware, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
-This is however a challenging task {cite}`StairwayToHeaven`,
-resulting in the prevalence of slow and ineffective testing methods especially in FOSS projects
-{cite}`ProblemsOfEndUserDevs, TestingResearchSoftwareSurvey, SoftEngForCompSci, SurveySEPracticesInScience, SurveySEPracticesInScience2`.
-Consequently, software products may contain hidden bugs
-that do not interrupt the execution of the program
-but generate incorrect outputs.
-In sensitive areas like governmental and military applications,
-such bugs can compromise critical scientific conclusions
-and result in multi-million-dollar losses
-{cite}`CompSciError, SoftwareChasm, ApproxTowerInCompSci, NightmareRetraction, RetractionChang, RetractionMa, RetractionChang2, RetractionJAmCollCardiol, RetractionMeasuresOfCladeConfidence, RetractionsEffectOfAProgram, CorrectionHypertension, CommentOnError, CommentOnError2, CommentOnError3, CommentOnError4, CommentOnError5, ClusterFailureFMRI`.
-
-
-:::{admonition} |{{ ccc.name}}|'s Solution
-:class: tip
-
-Accordingly, PyPackIT offers a fully automated quality assurance and testing infrastructure
-for the entire development life-cycle, fulfilling all requirements, including coverage monitoring,
-documentation, and test-suite distribution.
-:::
-
 
 PyPackIT simplifies software testing with a fully automated testing infrastructure
 using [PyTest](https://pytest.org/), one of the most popular testing frameworks for Python.
@@ -312,36 +246,8 @@ with same features as the project's main package, offering several benefits:
   and its dependencies are isolated from the main package.
 
 
+(overview-docs)=
 ## Documentation
-
-Documentation is a key factor in software quality and success,
-ensuring users understand how to install, use, and exploit the software's capabilities
-while recognizing its limitations {cite}`10SimpleRulesForOpenDevOfSciSoft, BestPracticesForSciComp, GoodEnoughPracticesInSciComp, WhatMakesCompSoftSuccessful, SciSoftDevIsNotOxymoron, NamingThePainInDevSciSoft, CompSciError, BarelySufficientPracticesInSciComp`.
-This is especially important for {term}`FOSS`,
-which often suffers from knowledge loss due to high developer turnover rates {cite}`HowToSupportOpenSource, RecommendOnResearchSoftware, EmpStudyDesignInHPC, SoftwareSustainabilityInstitute`.
-As software evolves, documenting and publishing changelogs with each release
-allows existing users to assess the update impact and helps new users and contributors 
-understand the software's progression {cite}`ELIXIRSoftwareManagementPlan, GoodEnoughPracticesInSciComp, SustainableResearchSoftwareHandOver`.
-As community building is crucial for FOSS success {cite}`HowToSupportOpenSource, WhatMakesCompSoftSuccessful`,
-project documentation should also include contribution guidelines,
-governance models, and codes of conduct {cite}`SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware, SustainableResearchSoftwareHandOver, 4SimpleRecs, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines, NLeScienceSoftDevGuide`.
-
-However, high-quality documentation requires time, effort, and skills,
-including web development knowledge to create user-friendly websites
-that stay up to date with the latest project developments {cite}`SurveySEPracticesInScience, WhatMakesCompSoftSuccessful`. 
-Although tools exist to aid documentation {cite}`TenSimpleRulesForDocumentingSciSoft, WhatMakesCompSoftSuccessful, BestPracticesForSciComp`,
-developers must still invest time in setting them up.
-Consequently, FOSS is often not well-documented {cite}`SoftEngForCompSci, ProblemsOfEndUserDevs, AnalyzingGitHubRepoOfPapers, DealingWithRiskInSciSoft`,
-creating barriers to use and leading to software misuse and faulty results {cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl, CompSciError`.
-
-
-:::{admonition} |{{ ccc.name}}|'s Solution
-:class: tip
-
-Therefore, PyPackIT puts great emphasis on documentation,
-providing infrastructure and automated solutions that enable projects to maintain
-high-quality documentation with minimal effort.
-:::
 
 PyPackIT offers an automated solution for generating,
 deploying, and maintaining a comprehensive documentation website
@@ -435,21 +341,8 @@ providing users and contributors with an up-to-date overview of project specific
 status, health, progress, and other statistics.
 
 
+(overview-vcs)=
 ## Version Control
-
-
-Version control practices such as branching and tagging
-are vital yet challenging tasks in software development {cite}`10MetricsForSciSoftware, ELIXIRSoftwareManagementPlan, EffectOfBranchingStrategies, BranchUseInPractice`.
-Branching provides isolation for development and testing of individual changes,
-while tags allow to annotate specific states of the code with version numbers
-to clearly communicate and reference changes {cite}`ImportanceOfBranchingModels, CICDSystematicReview`.
-Although established models like GitFlow and trunk-based development exist {cite}`TrunkBasedDev, GitFlow, GitHubFlow, GitLabFlow`,
-they do not fully align with the evolving nature of {term}`FOSS`,
-which often begins as a prototype and undergoes significant changes {cite}`UnderstandingHPCCommunity`.
-A suitable model must, thus, support simultaneous development and
-long-term maintenance of multiple versions, to facilitate rapid evolution
-while ensuring the availability and sustainability of earlier releases {cite}`ConfigManageForLargescaleSciComp`. 
-
 
 PyPackIT fully integrates with Git to automate tasks
 like branch and commit management, tagging, and merging.
@@ -529,6 +422,7 @@ which are crucial for open-source software development
 due to its uncertain and evolving nature {cite}`SurveySEPracticesInScience`.
 
 
+(overview-its)=
 ## Issue Management
 
 PyPackIT establishes a pull-based development workflow,
@@ -600,6 +494,7 @@ Additionally, an empty commit is added to them containing issue data in the comm
 maintaining a clear and information-rich history on Git.
 
 
+(overview-ci)=
 ## Continuous Integration
 
 When an issue is ready for implementation, PyPackIT automatically opens a draft PR
@@ -679,6 +574,7 @@ When the PR is approved by reviewers, PyPackIT automatically performs the mergin
   are updated according to control center content.
 
 
+(overview-cd)=
 ## Continuous Deployment
 
 If the merged changes correspond to a new release or pre-release of the library,
@@ -717,45 +613,6 @@ the CD pipeline carries out additional deployment tasks:
 (overview-cm)=
 ## Continuous Maintenance, Refactoring, and Testing
 
-Modern software can remain useful and operational
-for decades {cite}`SoftwareSustainabilityInstitute, SoftEngForCompSci`.
-Considering the amounts of time and effort required
-to develop high-quality software from scratch,
-ensuring the long-term sustainability of available software
-is crucial {cite}`BarelySufficientPracticesInSciComp`.
-This requires continuous feedback from the community and active maintenance
-to fix existing issues, improve functionalities, and add new features.
-Maintaining software dependencies is equally important {cite}`FortyYearsOfSoftwareReuse`,
-as software must remain compatible with diverse computer environments
-and future dependency versions {cite}`EmpComparisonOfDepNetEvolution`.
-However, many projects overlook outdated dependencies {cite}`DoDevsUpdateDeps`,
-leading to incompatibilities and bugs {cite}`MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet`.
-
-Open-source software development challenges such as funding {cite}`ManagingChaos, BetterSoftwareBetterResearch`,
-small team sizes {cite}`SoftEngForCompSci, HowScientistsReallyUseComputers`,
-and high developer turnover rates {cite}`RecommendOnResearchSoftware, EmpStudyDesignInHPC`
-further hinder maintenance, exacerbated by technical debt and increased software entropy
-from neglected software engineering best practices {cite}`BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci, ManagingTechnicalDebt, 10SimpleRulesForOpenDevOfSciSoft, SoftDesignForEmpoweringSci, ManagingChaos, SoftwareSustainabilityInstitute`.
-Consequently, the extra effort required for maintenance is a major barrier
-to publicly releasing software {cite}`BetterSoftwareBetterResearch, PublishYourCode`,
-often leaving it as an unsustainable prototype {cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`.
-To prevent such issues, quality assurance and maintenance tasks should be automated
-and enforced from the beginning of the project {cite}`SoftEngForCompSci`.
-
-
-:::{admonition} |{{ ccc.name}}|'s Solution
-:class: tip
-
-|{{ ccc.name }}| achieves this by several mechanisms, including its automated pull-based development model
-that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices
-throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`,
-Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng`
-pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks,
-such as updating dependencies and development tools,
-to maintain the health of the software and its development environment.
-:::
-
-
 To ensure long-term software sustainability,
 |{{ ccc.name }}| periodically runs Continuous pipelines on a scheduled basis
 to check for problems and perform automatic fixes and updates.
@@ -782,6 +639,7 @@ and encourage maintenance activities {cite}`CanAutoPRsEncourageDepUpgrade`,
 facilitating the prolonged development and support of software.
 
 
+(overview-license)=
 ## Licensing
 
 |{{ ccc.name }}| greatly facilitates project licensing and copyright management,
