@@ -4,7 +4,7 @@
 The control center YAML files are equipped with
 advanced templating capabilities for
 dynamic generation and synchronization of configurations at runtime.
-This enables Continuous configuration automation, eliminates data redundancy,
+This enables Continuous Configuration Automation, eliminates data redundancy,
 and ensures consistency across all project resources.
 These features are similar to [Jinja](#intro-jinja) templating used by other tools
 (e.g. in [conda build recipes](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#templating-with-jinja))
