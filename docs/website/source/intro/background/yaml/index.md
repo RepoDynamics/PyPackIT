@@ -106,7 +106,7 @@ or apply custom semantics to the content.
 For instance, a tag like `!str` can be used to specify
 that a value should be treated as a string.
 |{{ ccc.name }}| uses this feature to allow for
-[referencing values from external sources](#cc-inheritance).
+[referencing values from external sources](#manual-cc-inheritance).
 
 
 :::{admonition} Learn More
