@@ -39,7 +39,7 @@ from submitting an issue ticket to deploying a new release.
 
 Learn how to use |{{ ccc.name }}|'s control center
 to dynamically customize and manage your project with
-Continuous configuration automation.
+Continuous Configuration Automation.
 :::
 
 
