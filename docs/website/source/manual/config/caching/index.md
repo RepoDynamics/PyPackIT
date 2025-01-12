@@ -1,3 +1,4 @@
+(manual-cc-cache)=
 # Caching
 
 To speed up the processing of your repository's control center,
