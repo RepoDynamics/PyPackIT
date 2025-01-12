@@ -111,7 +111,7 @@ which leaves users with only four manual tasks:
 
 
 Moreover, PyPackIT also activates on a scheduled basis,
-executing {term}`CM`, {term}`CR`, and {term}`CT` pipelines
+executing Continuous Maintenance, Refactoring, and Testing pipelines
 that perform various maintenance and monitoring tasks
 on the repository and each released library version,
 sustaining the health of the software and its development environment.
@@ -127,14 +127,14 @@ of some of PyPackIT's key components, features and capabilities.
 (overview-cc)=
 ## Continuous Configuration Automation
 
-|{{ ccc.name }}| enables automatic project configuration, customization, and management
-by introducing a centralized control mechanism based on CCA and IaC practices.
+|{{ ccc.name }}| enables automatic [project configuration](#motiv-cca),customization, and management
+by introducing a centralized control mechanism based on [CCA](#bg-cca) and [IaC](#bg-iac) practices.
 It provides a [control center](#manual-cc) as the singular user interface
 to dynamically manage the entire project, and even multiple projects at once.
-PyPackIT's control center unifies and structures all project configurations,
+PyPackIT's control center unifies and [structures](#manual-cc-structure) all project configurations,
 metadata, and variables into declarative definitions in [YAML](#yaml)—a
 standard human-readable data serialization format.
-These are consolidated into one repository location under version control,
+These are consolidated into one repository [location](#manual-cc-location) under version control,
 allowing for easy tracking of settings throughout the project lifespan,
 and eliminating the need for maintaining multiple configuration files in
 different formats and locations.
@@ -148,29 +148,29 @@ the control center is equipped with several features:
 - [**Preconfiguration**](#manual-cc-preconfig):
   Default settings are provided based on the latest standards and best practices,
   requiring only project-specific metadata to be declared.
-- **Augmentation**:
+- [**Augmentation**](#manual-cc-augment):
   Project information and statistics are automatically generated at runtime
   by analyzing the repository and retrieving information from web APIs,
   minimizing manual inputs.
-- **Templating**:
+- [**Templating**](#manual-cc-templating):
   Dynamic data generation and reuse is enabled for the entire repository
   by a specialized templating engine,
   eliminating redundancy and allowing for centralized and automatic updates.
-- **Inheritance**:
+- [**Inheritance**](#manual-cc-inheritance):
   Configurations can be automatically inherited from external sources over HTTP requests,
   allowing for consistent creation and centralized maintenance
   of multiple projects with shared settings.
-- **Customization**:
+- [**Customization**](#manual-cc-hooks):
   Additional configurations and workflow routines can be added
   either declaratively in YAML files or dynamically via Python plugins executed at runtime,
   maximizing customizability.
-- **Validation**:
+- [**Validation**](#manual-cc-options):
   Inputs are thoroughly validated against predefined schemas,
   providing comprehensive error reports for any inconsistencies.
-- **Synchronization**:
+- [**Synchronization**](#manual-cc-sync):
   Changes are automatically propagated throughout the project,
   ensuring consistency across all components without the need for manual intervention.
-- **Caching**:
+- [**Caching**](#manual-cc-cache):
   Intermediate data such as those retrieved from web APIs can be cached both locally and on GHA
   to speed up the process, with configurable retention times. 
 
