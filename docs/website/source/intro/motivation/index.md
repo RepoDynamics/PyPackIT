@@ -117,18 +117,21 @@ that can compromise the development process or introduce security vulnerabilitie
 {cite}`CITheater, OnOutdatednessOfWorkflowsInGHA, AutoSecurityAssessOfGHAWorkflows, AmbushFromAllSides`. 
 
 
-:::{admonition} PyPackIT's Solution
+:::{admonition} |{{ ccc.name }}|'s Solution
 :class: tip
 
 |{{ ccc.name }}| exploits the full potential of GHA
 to enable a cloud-native Agile development process
-by providing a full set of ready-to-use and
+by providing a comprehensive set of ready-to-use and
 highly customizable automation pipelines for
 [Continuous configuration automation](#overview-cc),
 [Continuous integration](#overview-ci) and [deployment](#overview-cd), and 
 [Continuous maintenance, refactoring, and testing](#overciew-cm),
 designed according to the latest guidelines and engineering best practices
 {cite}`HighwaysToCD, ExtremeProgExplained, OopsAnalysisOfTravisCI, ProblemsCausesSolutionsCD, CDSoftIntensive, OnRapidRelease, QualityAndProductivityCI, UsageCostsAndBenefitsOfCI, CIImprovingSoftQualBook, CIBlogPost, ModelingCI, UnderstandingSimilAndDiffinSoftDev, EffectsOfCIOnSoftDev, AgileSoftDevMethodAndPractices, ContinuousSoftEng, CICDSystematicReview`.
+These pipelines fully integrate with various repository components
+to automate numerous repetitive engineering and management tasks
+throughout the entire software life cycle.
 :::
 
 
@@ -202,54 +205,316 @@ While these can be used in conjunction with GHA to automate a variety of issue m
 such capabilities are often not exploited due to the initial implementation barrier.
 
 
-:::{admonition} PyPackIT's Solution
+:::{admonition} |{{ ccc.name }}|'s Solution
 :class: tip
 
-PyPackIT is built on top of GitHub, making use of its rich functionalities 
-to provide a comprehensive environment for collaborative cloud development of research software.
-
-PyPackIT provides an automated development workflow based on a well-tested strategy 
-for collaborative research software projects \cite{ConfigManageForLargescaleSciComp}. 
-It uses distributed VCSs and issue tracking systems (ITSs) to establish a pull-based development model
-
-PyPackIT makes extensive use of these features to streamline its pull-based development workflow. 
-It offers fully designed issue forms based on best practices 
-\cite{WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse}, 
-and uses their inputs to automate activities like ticket labeling and organization, 
-task assignment, documentation, and creating issue–commit links.
+|{{ ccc.name }}| establishes a [comprehensive development workflow](#overview-its)
+for collaborative and distributed cloud development
+using a well-tested pull-based strategy {cite}`ConfigManageForLargescaleSciComp`.
+It provides dynamically-maintained type-specific issue forms
+designed according to best practices
+to collect machine-readable user inputs
+{cite}`WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse`.
+|{{ ccc.name }}| then uses these inputs
+to automate issue management activities on GHA, including 
+ticket labeling and organization, task assignment, documentation, 
+and creating issue–commit links.
 :::
 
 
+## FAIRness
+
+FOSS is a valuable asset for technological innovations and scientific advancements, 
+but often lacks findability, accessibility, interoperability, and reusability
+{cite}`AccessibleReproducibleResearch, ShiningLight, CaseForOpenCompProg, SciSoftwareAccuracy, SurveySEPracticesInScience`—key
+aspects of the FAIR principles {cite}`FAIR4RS`.
+
+**Findability** requires that software is searchable by its functionalities and attributes.
+This necessitates distribution to permanent public indexing repositories
+along with comprehensive metadata and unique global identifiers like DOIs
+to enable reliable citations
+{cite}`10MetricsForSciSoftware, SustainableResearchSoftwareHandOver, WhatMakesCompSoftSuccessful, 10SimpleRulesForOpenDevOfSciSoft, 4SimpleRecs, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan`.
+
+**Accessibility** involves adopting an open-source model
+under a permissive license {cite}`BusinessOfOpenSource`—ideally
+from the start {cite}`BetterSoftwareBetterResearch, PublishYourCode, POVHowOpenSciHelps`—to
+enable transparent peer reviews, facilitate progress tracking,
+and promote trust, adoption, and collaboration 
+{cite}`SharingDetailedResData, CaseForOpenCompProg, 10SimpleRulesForOpenDevOfSciSoft`.
+
+For **interoperability**, a key factor is using a well-suited
+and popular programming language in the target community
+{cite}`RolesOfCodeInCSE, SoftDevEnvForSciSoft`.
+While low-level languages like C still dominate 
+legacy high-performance computing (HPC) communities 
+due to their speed and hardware integration 
+{cite}`SoftEngForCompSci, UnderstandingHPCCommunity, SciCompGridlock`, 
+their complexity can obstruct software extension and maintenance
+{cite}`PythonEcosystemSciComp, SoftEngForCompSci, SciCompGridlock`.
+Therefore, higher-level languages are commonly advised
+to improve development, collaboration, and productivity
+{cite}`SoftEngForCompSci, BestPracticesForSciComp`. 
+[Python](#bg-py) is now the most popular and recommended programming language
+due to its simplicity, versatility, extensive ecosystem of performance-optimized libraries,
+and the ability to quickly implement complex tasks
+that are hard to address in low-level languages
+{cite}`PythonBatteriesIncluded, PythonForSciComp, PythonForSciAndEng, PythonJupyterEcosystem, SciCompWithPythonOnHPC, PythonEcosystemSciComp, WhatMakesPythonFirstChoice`.
+
+Lastly, **reusability** is enabled by employing DRY (Don't Repeat Yourself) principles 
+and modularizing code into applications with clear programming 
+and user interfaces 
+{cite}`FAIR4RS, 5RecommendedPracticesForCompSci, BestPracticesForSciComp, RolesOfCodeInCSE`. 
+Applications must then be packaged into as many distribution formats as possible, 
+to ensure compatibility with different hardware and software environments. 
+This can also greatly simplify the setup process for users 
+{cite}`10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, WhyJohnnyCantBuild`, 
+which is a common problem in FOSS {cite}`NamingThePainInDevSciSoft, CompSciError`. 
+
+Despite its importance, FAIRness is often overlooked in FOSS projects
+{cite}`AnalyzingGitHubRepoOfPapers, BridgingTheChasm, PublishYourCode, CompSciError`,
+leading to unsustainable prototypes unfit for production environments
+{cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`. 
+This hampers FOSS adoption {cite}`SurveySEPracticesInScience, SciSoftwareAccuracy`
+and forces projects to reimplement algorithms from scratch
+{cite}`ProblemsOfEndUserDevs, BetterSoftwareBetterResearch`, 
+which can lead to errors and redundancy issues 
+{cite}`SurveySEPracticesInScience2, SoftEngForCompSci`. 
+In scientific fields that rely heavily on research software,
+FAIRness issues have resulted in many controversies and paper retractions
+{cite}`InfluentialPandemicSimulation, RetractionCOVID`.
+Thus, there is a growing call for a FAIR and open research culture 
+to enhance transparency and reproducibility 
+{cite}`PromotingOpenResearch, ReprodResearchInCompSci, EnhancingReproducibility, TroublingTrendsInSciSoftware`, 
+and many journals now mandate source code submissions 
+for peer-review and public access 
+{cite}`RealSoftwareCrisis, DoesYourCodeStandUp, TowardReproducibleCompResearch, MakingDataMaximallyAvailable, JournalOfBioStatPolicy`.
+This highlights the need for efficient tools and mechanisms
+for licensing, packaging, distribution, indexing, and maintenance of research software
+{cite}`CaseForOpenCompProg, SurveySEPracticesInScience, ReprodResearchInCompSci, BarelySufficientPracticesInSciComp, BetterSoftwareBetterResearch, PublishYourCode`.
+
+
+:::{admonition} |{{ ccc.name }}|'s Solution
+:class: tip
+
+|{{ ccc.name }}| is specialized in the production of FAIR Python applications,
+and provides a comprehensive infrastructure and automated solutions
+based on the latest guidelines and best practices
+for licensing, packaging, and distribution of software to multiple indexing repositories.
+:::
+
+
+## Quality Assurance and Testing
+
+Code quality assurance and testing are
+crucial aspects of every software development process,
+ensuring that the application is functional, correct, secure, and maintainable 
+{cite}`CompSciError, BestPracticesForSciComp, 5RecommendedPracticesForCompSci, BestPracticesInBioinfSoftware, SurveySEPracticesInScience, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`.
+To prevent the accumulation of errors into complex problems,
+it is highly recommended to use test-driven development methodologies
+{cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft, SciSoftDevIsNotOxymoron, SurveySEPracticesInScience`.
+This involves early and frequent unit and regression testing
+to validate new code components and 
+ensure existing features remain functional after changes 
+{cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft, SurveySEPracticesInScience, BarelySufficientPracticesInSciComp, 10SimpleRulesOnWritingCleanAndReliableSciSoft, BestPracticesForSciComp`.
+To ensure testing effectiveness, coverage metrics must be frequently monitored 
+to identify untested components 
+{cite}`DLRSoftEngGuidelines, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
+Users should also be able to run tests locally
+to verify software functionality and performance on their machines {cite}`ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`,
+necessitating the tests to be packaged and distributed along with the software 
+{cite}`BarelySufficientPracticesInSciComp, 10MetricsForSciSoftware, BestPracticesInBioinfSoftware`.
+Other crucial quality assurance routines include formatting
+to improve readability and establish a consistent coding style,
+as well as static code analysis such as linting and type checking
+to identify issues undetected by tests
+and refactor code to improve quality, security, and maintainability
+{cite}`DLRSoftEngGuidelines, BestPracticesForSciComp, SurveySEPracticesInScience, 10SimpleRulesOnWritingCleanAndReliableSciSoft, NLeScienceSoftDevGuide`.
+
+To warrant consistent and effective quality assurance,
+code analysis and testing practices need to be automated 
+in the project's development workflow
+and carried out on configurable virtual machines
+{cite}`BestPracticesForSciComp, 10MetricsForSciSoftware, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
+This ensures that all changes in the project pass the same checks and standards,
+and that the code is always tested in the same reproducible and transparent environment.
+While the Python ecosystem offers powerful code analysis and testing tools,
+assembling the right set of tools into a comprehensive automated pipeline
+is still a challenging task {cite}`StairwayToHeaven`,
+resulting in the prevalence of slow and ineffective testing methods in FOSS projects
+{cite}`ProblemsOfEndUserDevs, TestingResearchSoftwareSurvey, SoftEngForCompSci, SurveySEPracticesInScience, SurveySEPracticesInScience2`.
+Consequently, software products may contain hidden bugs
+that do not interrupt the execution of the program
+but generate incorrect outputs.
+In sensitive areas like governmental and military applications,
+such bugs can compromise critical scientific conclusions
+and result in multi-million-dollar losses
+{cite}`CompSciError, SoftwareChasm, ApproxTowerInCompSci, NightmareRetraction, RetractionChang, RetractionMa, RetractionChang2, RetractionJAmCollCardiol, RetractionMeasuresOfCladeConfidence, RetractionsEffectOfAProgram, CorrectionHypertension, CommentOnError, CommentOnError2, CommentOnError3, CommentOnError4, CommentOnError5, ClusterFailureFMRI`.
+
+
+:::{admonition} |{{ ccc.name}}|'s Solution
+:class: tip
+
+|{{ ccc.name}}| provides a ready-to-use test suite,
+where users only need to add test cases in the provided skeleton files.
+The test suite benefits from the same features as the project's main Python package,
+and can be automatically distributed in each release as a stand-alone package.
+All quality assurance and testing routines are automated
+in the provided Continuous Integration, Refactoring, and Testing pipelines,
+with feature such as code style formatting, linting and automatic refactoring,
+coverage monitoring, and comprehensive report generation.
+:::
+
+
+## Documentation
+
+Documentation is a key factor in software quality and success,
+ensuring users understand how to install, use, and exploit the software's capabilities
+while recognizing its limitations {cite}`10SimpleRulesForOpenDevOfSciSoft, BestPracticesForSciComp, GoodEnoughPracticesInSciComp, WhatMakesCompSoftSuccessful, SciSoftDevIsNotOxymoron, NamingThePainInDevSciSoft, CompSciError, BarelySufficientPracticesInSciComp`.
+This is especially important for {term}`FOSS`,
+which often suffers from knowledge loss due to high developer turnover rates {cite}`HowToSupportOpenSource, RecommendOnResearchSoftware, EmpStudyDesignInHPC, SoftwareSustainabilityInstitute`.
+As software evolves, documenting and publishing changelogs with each release
+allows existing users to assess the update impact and helps new users and contributors 
+understand the software's progression {cite}`ELIXIRSoftwareManagementPlan, GoodEnoughPracticesInSciComp, SustainableResearchSoftwareHandOver`.
+As community building is crucial for FOSS success {cite}`HowToSupportOpenSource, WhatMakesCompSoftSuccessful`,
+project documentation should also include contribution guidelines,
+governance models, and codes of conduct {cite}`SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware, SustainableResearchSoftwareHandOver, 4SimpleRecs, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines, NLeScienceSoftDevGuide`.
+
+However, high-quality documentation requires time, effort, and skills,
+including web development knowledge to create user-friendly websites
+that stay up to date with the latest project developments {cite}`SurveySEPracticesInScience, WhatMakesCompSoftSuccessful`. 
+Although tools exist to aid documentation {cite}`TenSimpleRulesForDocumentingSciSoft, WhatMakesCompSoftSuccessful, BestPracticesForSciComp`,
+developers must still invest time in setting them up.
+Consequently, FOSS is often not well-documented {cite}`SoftEngForCompSci, ProblemsOfEndUserDevs, AnalyzingGitHubRepoOfPapers, DealingWithRiskInSciSoft`,
+creating barriers to use and leading to software misuse and faulty results {cite}`HowScientistsReallyUseComputers, HowScientistsDevSciSoftExternalRepl, CompSciError`.
+
+
+:::{admonition} |{{ ccc.name}}|'s Solution
+:class: tip
+
+Therefore, PyPackIT puts great emphasis on documentation,
+providing infrastructure and automated solutions that enable projects to maintain
+high-quality documentation with minimal effort.
+:::
+
+
+To address these issues, |{{ ccc.name }}| emphasizes providing infrastructure and automated solutions 
+for maintaining high-quality documentation with minimal effort.
+
+
+## Version Control
+
+Version control practices such as branching and tagging
+are vital yet challenging tasks in software development {cite}`10MetricsForSciSoftware, ELIXIRSoftwareManagementPlan, EffectOfBranchingStrategies, BranchUseInPractice`.
+Branching provides isolation for development and testing of individual changes,
+while tags allow to annotate specific states of the code with version numbers
+to clearly communicate and reference changes {cite}`ImportanceOfBranchingModels, CICDSystematicReview`.
+Although established models like GitFlow and trunk-based development exist {cite}`TrunkBasedDev, GitFlow, GitHubFlow, GitLabFlow`,
+they do not fully align with the evolving nature of {term}`FOSS`,
+which often begins as a prototype and undergoes significant changes {cite}`UnderstandingHPCCommunity`.
+A suitable model must, thus, support simultaneous development and
+long-term maintenance of multiple versions, to facilitate rapid evolution
+while ensuring the availability and sustainability of earlier releases {cite}`ConfigManageForLargescaleSciComp`. 
 
 
 
+:::{admonition} |{{ ccc.name }}|'s Solution
+:class: tip
+
+|{{ ccc.name }}| addresses these needs by automating version control tasks 
+with a specialized branching model and version scheme.
+:::
 
 
+## Configuration Management
+
+Software projects rely on various tools and services throughout the development life cycle,
+each requiring separate configuration via specific files or user interfaces.
+This can lead to several maintenance challenges {cite}`BestPracticesForSciComp, DevOpsInSciSysDev`:
+Tool-specific formats and requirements result in data redundancy,
+since many settings are shared.
+As configuration files are often static,
+they require manual intervention to reflect each change.
+Otherwise they quickly fall out of sync with the current state of the project,
+leading to conflicts and inconsistencies.
+Moreover, configurations via interactive user interfaces
+complicate the tracking and replication of settings,
+as they must be manually recorded and applied.
+
+DevOps practices such as Continuous Configuration Automation (CCA)
+and Infrastructure-as-Code (IaC) were developed to tackle these issues,
+enabling dynamic configuration management of software infrastructure
+through machine-readable definition files {cite}`InfrastructureAsCode`.
+However, due to a lack of publicly available tools,
+most projects still rely on a combination of different configuration files and manual settings,
+which are hard to manage, modify, and reproduce.
 
 
+:::{admonition} |{{ ccc.name}}|'s Solution
+:class: tip
+
+|{{ ccc.name }}| implements a similar system, providing a user-friendly control center 
+for defining, customizing, synchronizing, and maintaining project metadata, 
+making project management and configuration more efficient and automated.
+:::
 
 
+## Maintenance
+
+Modern software can remain useful and operational
+for decades {cite}`SoftwareSustainabilityInstitute, SoftEngForCompSci`.
+Considering the amounts of time and effort required
+to develop high-quality software from scratch,
+ensuring the long-term sustainability of available software
+is crucial {cite}`BarelySufficientPracticesInSciComp`.
+This requires continuous feedback from the community and active maintenance
+to fix existing issues, improve functionalities, and add new features.
+Maintaining software dependencies is equally important {cite}`FortyYearsOfSoftwareReuse`,
+as software must remain compatible with diverse computer environments
+and future dependency versions {cite}`EmpComparisonOfDepNetEvolution`.
+However, many projects overlook outdated dependencies {cite}`DoDevsUpdateDeps`,
+leading to incompatibilities and bugs {cite}`MeasuringDepFreshness, ThouShaltNotDepend, OnImpactOfSecVulnInDepNet`.
+
+Open-source software development challenges such as funding {cite}`ManagingChaos, BetterSoftwareBetterResearch`,
+small team sizes {cite}`SoftEngForCompSci, HowScientistsReallyUseComputers`,
+and high developer turnover rates {cite}`RecommendOnResearchSoftware, EmpStudyDesignInHPC`
+further hinder maintenance, exacerbated by technical debt and increased software entropy
+from neglected software engineering best practices {cite}`BetterSoftwareBetterResearch, ProblemsOfEndUserDevs, SoftEngForCompSci, ManagingTechnicalDebt, 10SimpleRulesForOpenDevOfSciSoft, SoftDesignForEmpoweringSci, ManagingChaos, SoftwareSustainabilityInstitute`.
+Consequently, the extra effort required for maintenance is a major barrier
+to publicly releasing software {cite}`BetterSoftwareBetterResearch, PublishYourCode`,
+often leaving it as an unsustainable prototype {cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`.
+To prevent such issues, quality assurance and maintenance tasks should be automated
+and enforced from the beginning of the project {cite}`SoftEngForCompSci`.
 
 
+:::{admonition} |{{ ccc.name}}|'s Solution
+:class: tip
+
+|{{ ccc.name }}| achieves this by several mechanisms, including its automated pull-based development model
+that promotes collaboration and feedback, CI/CD pipelines that enforce software engineering best practices
+throughout the development process, and Continuous Maintenance (CM) {cite}`ContinuousMaintenance`,
+Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng`
+pipelines (abbreviated as CM/CR/CT) that periodically perform various automated tasks,
+such as updating dependencies and development tools,
+to maintain the health of the software and its development environment.
+:::
 
 
+:::{admonition} |{{ ccc.name }}|'s Solution
+:class: tip
 
+|{{ ccc.name }}| addresses these needs by offering an automated quality assurance 
+and testing infrastructure for the entire development life-cycle, 
+including coverage monitoring and test-suite distribution.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+To prevent these issues, quality assurance and maintenance tasks 
+should be automated and enforced from the beginning of the project {cite}`SoftEngForCompSci`. 
+|{{ ccc.name }}| achieves this by implementing Continuous Maintenance (CM) {cite}`ContinuousMaintenance`, 
+Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng` pipelines 
+that periodically perform various automated tasks, 
+such as updating dependencies and development tools, 
+to continuously maintain the health of the software and its development environment.
+|{{ ccc.name }}| mitigates maintenance challenges by implementing automated 
+Continuous Maintenance (CM), Refactoring (CR), and Testing (CT) pipelines 
+from the project's inception to ensure software and environment health
+{cite}`SoftEngForCompSci, ContinuousMaintenance, ContRefact, ContinuousSoftEng`.
+:::
