@@ -174,6 +174,7 @@ Another crucial aspect is documenting the development process
 to record a clear overview of the project evolution and
 ensure that the implementation matches the expected design
 {cite}`WhatMakesCompSoftSuccessful, 5RecommendedPracticesForCompSci, BestPracticesForSciComp, BestPracticesInBioinfSoftware, DealingWithRiskInSciSoft`.
+
 Issue tracking systems (ITSs) like [GitHub Issues](#bg-ghi) (GHI) 
 help document and organize tasks, 
 but need significant setup to function effectively 
@@ -196,12 +197,13 @@ Such problems have even motivated the development of machine-learning tools
 for automatic ticket classification
 {cite}`PredictingIssueTypesOnGitHub, ImpactOfDataQualityForAutomaticIssueClassification`
 and issue–commit link recovery {cite}`IssueCommitLink-DeepLink, FRLink`. 
-Moreover, in 2021 GitHub introduced
+In 2021 GitHub introduced
 [issue forms](https://github.blog/changelog/2021-06-23-issues-forms-beta-for-public-repositories/),
 allowing projects to provide multiple issue submission options
 using structured web forms that enable the collection of machine-readable user inputs
 {cite}`EmpAnalysisOfIssueTemplatesOnGitHub, FirstLookAtBugReportTempOnGitHub, UnderstandingIssueTemplateOnGitHub`. 
-While these can be used in conjunction with GHA to automate a variety of issue management tasks,
+While these can be used in conjunction with GHA to automate a variety of issue management tasks
+without the need for machine-learning tools,
 such capabilities are often not exploited due to the initial implementation barrier.
 
 
@@ -268,7 +270,14 @@ Applications must then be packaged into as many distribution formats as possible
 to ensure compatibility with different hardware and software environments. 
 This can also greatly simplify the setup process for users 
 {cite}`10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, WhyJohnnyCantBuild`, 
-which is a common problem in FOSS {cite}`NamingThePainInDevSciSoft, CompSciError`. 
+which is a common problem in FOSS {cite}`NamingThePainInDevSciSoft, CompSciError`.
+On the other hand, to ensure the reproducibility of results,
+consistent execution and predictable outcomes must be guaranteed 
+regardless of the runtime environment. 
+This is achieved through containerization—a cloud-native approach 
+using technologies like Docker to encapsulate applications 
+and all their dependencies into isolated, portable images
+{cite}`AdoptingSoftEngConceptsInSciResearch, 10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, Docker`.
 
 Despite its importance, FAIRness is often overlooked in FOSS projects
 {cite}`AnalyzingGitHubRepoOfPapers, BridgingTheChasm, PublishYourCode, CompSciError`,
@@ -289,7 +298,7 @@ and many journals now mandate source code submissions
 for peer-review and public access 
 {cite}`RealSoftwareCrisis, DoesYourCodeStandUp, TowardReproducibleCompResearch, MakingDataMaximallyAvailable, JournalOfBioStatPolicy`.
 This highlights the need for efficient tools and mechanisms
-for licensing, packaging, distribution, indexing, and maintenance of research software
+for licensing, packaging, containerization, distribution, indexing, and maintenance of FOSS
 {cite}`CaseForOpenCompProg, SurveySEPracticesInScience, ReprodResearchInCompSci, BarelySufficientPracticesInSciComp, BetterSoftwareBetterResearch, PublishYourCode`.
 
 
@@ -299,7 +308,9 @@ for licensing, packaging, distribution, indexing, and maintenance of research so
 |{{ ccc.name }}| is specialized in the production of FAIR Python applications,
 and provides a comprehensive [package infrastructure](#overview-pkg) and automated solutions
 based on the latest guidelines and best practices
-for [licensing](#overview-license), build, and distribution of software to multiple indexing repositories.
+for [licensing](#overview-license), build, containerization,
+and distribution of software to multiple indexing repositories
+with comprehensive metadata and identifiers.
 :::
 
 
@@ -541,6 +552,9 @@ Refactoring (CR) {cite}`ContRefact`, and Testing (CT) {cite}`ContinuousSoftEng`
 pipelines to periodically update dependencies and development tools, 
 and automatically maintain the health of the software 
 and its development environment {cite}`SoftEngForCompSci`.
+Furthermore, providing a ready-to-use development environment tailored to project needs 
+can greatly lower the entry barrier for future maintainers and external collaborators, 
+fostering the long-term sustainability of FOSS.
 
 
 :::{admonition} |{{ ccc.name}}|'s Solution
