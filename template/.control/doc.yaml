@@ -913,7 +913,10 @@ web:
     myst-nb:
       dependency:
         import_name: myst_nb
-        description: Adding MyST Markdown and Jupyter support to Sphinx.
+        description: |
+          Adds MyST Markdown and Jupyter support to Sphinx
+          to enable rich features like
+          executable code blocks, diagrams, charts, figures, tables, and mathematical notation.
         note: |
           MyST-NB is built on top of [MyST-Parser](https://myst-parser.readthedocs.io/)
           and exposes all of its functionalities. It also includes support for Jupyter Notebooks.
@@ -969,7 +972,9 @@ web:
     design:
       dependency:
         import_name: sphinx_design
-        description: Adding responsive web components, such as grids, cards, tabs, etc.
+        description: |
+          Adds directives for responsive web components 
+          like grids, cards, tabs, drop-down elements, and badges.
         url:
           docs: https://sphinx-design.readthedocs.io/
           source: https://github.com/executablebooks/sphinx-design
@@ -1017,7 +1022,9 @@ web:
     ablog:
       dependency:
         import_name: ablog
-        description: Adding a news blog to the website.
+        description: |
+          Adds support for a news blog with RSS web feeds,
+          searching, and categorization features.
         url:
           docs: https://ablog.readthedocs.io/
           source: https://github.com/sunpy/ablog
@@ -1066,7 +1073,9 @@ web:
       dependency:
         import_name: sphinxext.opengraph
         description: |
-          Generating [Open Graph](https://ogp.me/) metadata for each page.
+          Adds [Open Graph](https://ogp.me/) metadata to each page
+          for search engine optimization (SEO), rich previews on social media,
+          and enhanced project findability and visibility.
         url:
           docs: https://sphinxext-opengraph.readthedocs.io/
           source: https://github.com/wpilibsuite/sphinxext-opengraph/
@@ -1087,7 +1096,7 @@ web:
     bibtex:
       dependency:
         import_name: sphinxcontrib.bibtex
-        description: Adding BibTeX-style citations.
+        description: Adds support for BibTeX bibliographies and citations.
         url:
           docs: https://sphinxcontrib-bibtex.readthedocs.io/
           source: https://github.com/mcmtroffaes/sphinxcontrib-bibtex
