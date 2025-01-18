@@ -94,6 +94,38 @@ or [composite actions](https://docs.github.com/en/actions/sharing-automations/cr
 that can use any programming language under the hood.
 
 
+(bg-ghcs)=
+## GitHub Codespaces
+
+[GitHub Codespaces](https://github.com/features/codespaces) is a cloud-based development environment 
+that allows developers to instantly start coding in a fully configured, containerized workspace. 
+Integrated directly into GitHub, Codespaces eliminates the need for complex local setups 
+by providing on-demand development environments that mirror production configurations.
+
+Codespaces leverages Visual Studio Code (VS Code), 
+offering a familiar interface and support for 
+extensions, themes, and custom settings. 
+Developers can launch Codespaces directly from a repository, 
+enabling them to begin contributing without needing 
+to install dependencies or configure environments. 
+This is particularly beneficial for onboarding new team members 
+and open-source contributors, as it drastically reduces setup time.
+
+Customization is a key feature of Codespaces. 
+Teams can define [development container](https://containers.dev) configurations using `devcontainer.json` files, 
+specifying the runtime environment, tools, and extensions required for the project. 
+This ensures consistency across all development environments, 
+preventing configuration drift and improving collaboration across teams.
+
+GitHub Codespaces also integrates with GitHub Actions, 
+enabling seamless automation of development workflows. 
+Developers can switch between local and cloud-based environments without losing context, 
+making it easier to contribute, review code, and run tests. 
+While Codespaces offers free usage for public repositories, 
+private repositories and larger resource allocations may require a paid subscription, 
+with pricing based on compute and storage consumption.
+
+
 (bg-ghi)=
 ## GitHub Issues
 
