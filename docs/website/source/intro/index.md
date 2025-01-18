@@ -87,7 +87,7 @@ The workflow includes comprehensive Continuous software engineering pipelines
 that use the latest tools and technologies to establish an automated Agile software development process. 
 This enables the experimental and highly iterative development of software, 
 while reducing variance, complexity, cost, and risk.
-Overall, |{{ ccc.name }}|'s workflow automates the bulk of 
+|{{ ccc.name }}|'s workflow automates the bulk of 
 repetitive engineering and management activities throughout the software life cycle, including:
 
 - [**Issue Management**](#overview-its): The project's issue tracking system is dynamically maintained, 
@@ -110,17 +110,18 @@ repetitive engineering and management activities throughout the software life cy
   and transparency of the Agile development process.
 - [**Continuous Maintenance, Refactoring, and Testing**](#overview-cm):
   |{{ ccc.name }}| periodically performs 
-  automated maintenance tasks to ensure the long-term sustainability of projects 
-  and the health of the research software development environment. 
-  These tasks include testing and refactoring code, 
+  automated maintenance and monitoring tasks to ensure the long-term sustainability of projects 
+  and the health of their development environments. 
+  Tasks include testing previous releases in up-to-date environments, 
   updating dependencies and development tools, 
-  and cleaning up the repository to remove outdated development artifacts, 
-  such as builds, logs, and reports.
+  refactoring code, and cleaning up the repository 
+  to remove outdated artifacts such as builds, logs, and reports.
 
 
 In summary, |{{ ccc.name }}| provides Python projects on GitHub 
 with a comprehensive, dynamic, and highly customizable project skeleton 
-along with a ready-to-use cloud-native development environment. 
+along with a ready-to-use cloud-native development environment
+using GitHub Actions and GitHub Codespaces.
 This eliminates the need for manual project setup and configuration, 
 enabling developers to immediately begin the actual implementation of software, 
 even directly from the web browser. 
@@ -146,12 +147,12 @@ Continue to the [Motivation](#overview) section
 where we outline key aspects of software engineering and
 the challenges they present to FOSS projects,
 highlighting |{{ ccc.name }}|'s solutions to these challenges.
-If you can't wait to get started with |{{ ccc.name }}|,
+If you cannot wait to get started with |{{ ccc.name }}|,
 skip to the [Overview](#overview) section for
 a more in-depth summary of |{{ ccc.name }}|'s 
 key features and capabilities, before proceeding to the
 [User Manual](#manual) for detailed instructions
-on how to install and use |{{ ccc.name }}| in your project.
+on how to install and use |{{ ccc.name }}| in your projects.
 The [Background](#bg) section offers
 supplementary information on key concepts, methodologies, 
 tools, and technologies used in |{{ ccc.name }}|,
