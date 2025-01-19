@@ -351,8 +351,12 @@ Code quality assurance and testing are
 crucial aspects of every software development process,
 ensuring that the application is functional, correct, secure, and maintainable 
 {cite}`CompSciError, BestPracticesForSciComp, 5RecommendedPracticesForCompSci, BestPracticesInBioinfSoftware, SurveySEPracticesInScience, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`.
+As projects grow in complexity over time, 
+it becomes increasingly challenging to ensure 
+that the software functions as expected in all scenarios 
+and that changes do not introduce new bugs or disrupt existing functionality.
 To prevent the accumulation of errors into complex problems,
-it is highly recommended to use test-driven development methodologies
+it is highly recommended to use [test-driven development](#bg-tdd) (TDD) methodologies
 {cite}`10SimpleRulesOnWritingCleanAndReliableSciSoft, SciSoftDevIsNotOxymoron, SurveySEPracticesInScience`.
 This involves early and frequent unit and regression testing
 to validate new code components and 
