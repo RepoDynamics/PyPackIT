@@ -23,6 +23,38 @@ GitHub is the world's largest social coding platform
 as of November 2024 {cite}`GitHubOctoverse2024`.
 
 
+(bg-gh-repo)=
+## Repository
+
+[GitHub repositories](https://docs.github.com/en/repositories) 
+are the primary organizational units 
+for storing, managing, and collaborating on projects within the GitHub ecosystem. 
+A repository houses all project-related files, 
+including source code, configuration files, documentation, and other resources.
+It lays the foundation for the project's structure and workflows,
+and sets the general tone for the entire development lifecycle.
+Additionally, repositories serve as a version control hub, 
+tracking every modification and providing a full history of changes. 
+This capability ensures that teams can revert to earlier versions, 
+manage conflicting updates, and maintain project integrity.
+
+As one of the first steps in starting a new software project,
+setting up a GitHub repository is a crucial part of the development process.
+It includes [configuration](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings)
+and [customization](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository) 
+tasks such adding a [README file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes),
+[license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository),
+[funding options](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository),
+[citation file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files),
+[Open Graph image](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview),
+and [keywords](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics) 
+that help users better find the project through various
+[search](https://docs.github.com/en/search-github/searching-on-github/searching-for-repositories)
+and [filtering](https://docs.github.com/en/search-github/searching-on-github/searching-topics) options.
+GitHub repositories also support advanced management [tools and features](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository)
+that must be configured, as described in the rest of this section.
+
+
 (bg-gha)=
 ## GitHub Actions
 
@@ -136,12 +168,21 @@ for user feedbacks and tracking progress.
 It is used to report, document, and managing bugs, feature requests,
 and all other development tasks for the project.
 Each issue serves as a discussion thread and can include labels,
-milestones, assignees, comments, and references to pull requests or commits.
+milestones, assignees, comments, and references to pull requests or commits 
+(cf. [GitHub docs](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)).
 GHI supports project management workflows 
 with features like Kanban-style project boards,
 customizable submission forms, and automation through [GHA](#bg-gha).
 It integrates seamlessly with GitHub’s version control system,
 making it a key tool for tracking and coordinating work in software development projects.
+
+GHI and can be [configured](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
+to provide a comprehensive ITS for the project
+with customizable [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms)
+that enable the collection of machine-readable user inputs.
+Developers can also define a set of [labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
+to categorize issues, pull requests, and discussions.
+
 
 (bg-gh-pull)=
 ## GitHub Pull Requests
@@ -221,3 +262,95 @@ GitHub Pages is an ideal platform for hosting project documentation websites.
 Integration with GHA enables automated website builds and deployments, 
 making content updates seamless.
 
+
+## GitHub Sponsors
+
+[GitHub Sponsors](https://github.com/sponsors) is a program 
+that allows developers and organizations to financially support 
+open-source contributors and maintainers. 
+It provides a seamless way for contributors 
+to receive recurring or one-time funding directly through GitHub.
+
+Contributors can create a [sponsorship profile](https://docs.github.com/en/sponsors) 
+to highlight their work and funding needs. 
+Sponsors can choose tiers offering benefits 
+such as public recognition or exclusive updates. 
+To make sponsoring easier, repositories can include a 
+[`FUNDING.yml`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository) file, 
+which adds a "Sponsor" button directly to the repository’s interface, 
+linking to sponsorship platforms including GitHub Sponsors, [Tidelift](https://tidelift.com/), [Patreon](https://www.patreon.com/),
+or any other platform of choice.
+
+GitHub does not take a fee for sponsorships, 
+ensuring that all contributions go to the intended recipient. 
+While this program strengthens the open-source ecosystem, 
+its focus on transparency and simplicity makes it a vital tool 
+for sustaining widely used yet underfunded projects.
+
+
+(bg-gh-writing)=
+## Writing on GitHub
+
+[GitHub-Flavored Markdown](#bg-gfmd) (GFM) 
+is an extended version of Markdown 
+designed specifically for [writing rich documents on GitHub](https://docs.github.com/en/get-started/writing-on-github), 
+including [README files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes),
+[community health files](#bg-gh-health-files), 
+issue tickets, pull requests, discussions, and project wikis.
+GFM enhances standard Markdown by supporting features like tables, 
+task lists, and syntax highlighting for code blocks.
+
+Markdown content in GitHub is rendered to HTML, 
+making it visually accessible in web browsers.
+While HTML elements can be embedded 
+within Markdown files for additional customization, 
+not all HTML tags and features are supported.
+GitHub performs additional post-processing and sanitization 
+after rendering the contents to HTML,
+removing unsupported elements (e.g., `<svg>`, `<inline>`)
+and attributes (e.g., `class`, `style`).
+JavaScript and CSS are explicitly excluded, 
+which limits the creation of highly interactive or responsive documents. 
+This restriction ensures security and uniformity across GitHub-hosted content 
+but may make it challenging to achieve visually appealing designs.
+
+
+(bg-gh-health-files)=
+## Community Health Files
+
+To help build and maintain a healthy and collaborative environment for open-source projects,
+GitHub allows users to add certain 
+[community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+to their repositories.
+When properly configured, links to these files are automatically displayed on the repository's homepage
+and various other related pages, making them easily accessible to the community.
+They include:
+- [Code of Conduct](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project):
+  Defining standards for how to engage in the community,
+  expected behavior, and the consequences of violating these standards.
+  It is an important aspect of community management, as it helps establish a safe and welcoming environment
+  for all community members, and ensures that everyone is treated with respect and dignity.
+- [Contributing Guidelines](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors):
+  Providing clear instructions and guidelines for how to contribute to the project,
+  from opening issues for reporting bugs and requesting new features or changes,
+  to implementing the code and submitting pull requests.
+  This helps ensure that contributions are made in a consistent manner
+  and are compatible with the project's workflow,
+  thus saving time and effort for both the contributors and the maintainers.
+- [Security Policy](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository):
+  Detailing the security disclosure policy of the project for users and security researchers/auditors,
+  providing instructions on how to securely report security vulnerabilities in the project,
+  clarifying the exact steps that are taken to handle and resolve the issue,
+  and the expected response time.
+- [Support Resources](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project):
+  Providing information and resources on how to get help with the project,
+  such as asking questions about the software,
+  requesting clarifications and further information on various aspects of the project,
+  reporting potential bugs and issues, and requesting new features or changes.
+  This makes it easier for users to find the relevant resources,
+  and helps reduce the number of duplicate issues and questions.
+- [Governance Model](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file#supported-file-types):
+  Defining the governance model of the project, including the roles and responsibilities of the maintainers,
+  the decision-making process, and the criteria for becoming a maintainer.
+  This helps establish a clear and transparent governance model for the project,
+  and provides a framework for the community to participate in the decision-making process.
