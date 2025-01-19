@@ -125,20 +125,22 @@ Keys starting with the following terms are recognized as well:
 - `sponsor`, `funding`, `donate`, `donation`
 
 
+(bg-pypi-readme)=
 #### README
 
 PyPI renders the full description of the package to HTML
 and displays it on the project's webpage.
 In addition to plain text and HTML inputs,
-it also supports Markdown(GitHub-Flavored or CommonMark)
+it also supports [GitHub-Flavored Markdown](#bg-ghfm)
 and reStructuredText.
-However, like GitHub, PyPI impose several restrictions on the supported features,
+However, like [GitHub](#bg-gh-writing), PyPI also imposes several restrictions on the supported features,
 and perform additional post-processing and sanitization after rendering the contents to HTML.
 This is done by PyPA's [Readme Renderer](https://github.com/pypa/readme_renderer) library,
 which only allows a limited subset of HTML
 [tags](https://github.com/pypa/readme_renderer/blob/04d5cfe76850192364eff344be7fe27730af8484/readme_renderer/clean.py#L20-L31)
 and [attributes](https://github.com/pypa/readme_renderer/blob/04d5cfe76850192364eff344be7fe27730af8484/readme_renderer/clean.py#L33-L65).
-Since these do not completely overlap with the features supported by GitHub,
+Since these do not completely overlap with the features supported by GitHub
+(e.g., GitHub [supports](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/quickstart-for-writing-on-github#adding-an-image-to-suit-your-visitors) `<picture>` elements but PyPI does not),
 a separate [PyPI-friendly README](https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/)
 is usually required for PyPI, 
 to ensure that the contents are correctly rendered.
