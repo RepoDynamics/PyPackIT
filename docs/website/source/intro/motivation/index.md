@@ -298,7 +298,8 @@ and many journals now mandate source code submissions
 for peer-review and public access 
 {cite}`RealSoftwareCrisis, DoesYourCodeStandUp, TowardReproducibleCompResearch, MakingDataMaximallyAvailable, JournalOfBioStatPolicy`.
 This highlights the need for efficient tools and mechanisms
-for licensing, packaging, containerization, distribution, indexing, and maintenance of FOSS
+for licensing, packaging, containerization, distribution, indexing, and maintenance—key 
+challenges in publishing FAIR software
 {cite}`CaseForOpenCompProg, SurveySEPracticesInScience, ReprodResearchInCompSci, BarelySufficientPracticesInSciComp, BetterSoftwareBetterResearch, PublishYourCode`.
 
 
