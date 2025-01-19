@@ -71,6 +71,7 @@ In the following, we outline key requirements and challenges
 in FOSS development, highlighting |{{ ccc.name }}|'s solutions to them.
 
 
+(motiv-cloud-auto)=
 ## Cloud-Native Automation
 
 FOSS often faces evolving requirements and specifications so that 
@@ -135,6 +136,7 @@ throughout the entire software life cycle.
 :::
 
 
+(motiv-workflow)=
 ## Collaborative Workflow
 
 Software development has become a highly collaborative and distributed process
@@ -159,9 +161,23 @@ GitHub, currently the largest SCP {cite}`GitHubOctoverse2023`,
 is especially recommended for FOSS projects 
 {cite}`10RuleForSoftwareInCompBio, BestPracticesForSciComp, 10SimpleRulesGitAndGitHub` 
 as it provides special features like software citation 
-and free upgrades for academic use {cite}`GitHubForScience`. 
+and free upgrades for academic use {cite}`GitHubForScience`.
+A [GitHub repository](#bg-gh-repo) serves as much more 
+than a code-hosting platform—it functions 
+as the central hub for a project. 
+It’s where contributors meet to discuss issues and ideas,
+review work, and plan for future development.
+Additionally, the repository acts as the project’s public face, 
+allowing users to learn about the software, 
+follow its progress, provide feedback, and contribute. 
+A well-structured GitHub repository is crucial for a software project's success, 
+directly impacting adoption, growth, and long-term sustainability.
+However, setting up a robust repository is a non-trivial task
+involving multiple steps such as configuration of various features
+and customization with project metadata.
+
 GitHub's [pull-based development model](#bg-pull-based) offers 
-an effective solution by enabling community contributions 
+an effective solution for collaboration by enabling community contributions 
 through issuing tickets and pull requests (PRs), 
 while maintainers review and integrate changes. 
 This accelerates development and enhances code quality through reviews, 
@@ -224,6 +240,7 @@ and creating issue–commit links.
 :::
 
 
+(motiv-fairness)=
 ## FAIRness
 
 FOSS is a valuable asset for technological innovations and scientific advancements, 
@@ -243,6 +260,19 @@ from the start {cite}`BetterSoftwareBetterResearch, PublishYourCode, POVHowOpenS
 enable transparent peer reviews, facilitate progress tracking,
 and promote trust, adoption, and collaboration 
 {cite}`SharingDetailedResData, CaseForOpenCompProg, 10SimpleRulesForOpenDevOfSciSoft`.
+The license determines the legal status of the project
+and defines the terms and conditions
+under which the software can be used, modified, and distributed.
+It is an important aspect of software projects
+and can have a significant impact on their adoption and growth.
+A suitable license protects the rights of the creator 
+while encouraging use and contribution from others.
+Therefore, it is crucial for developers 
+to carefully choose a license that best suits their needs,
+and correctly add it to their project so that 
+it can be automatically detected by other services and indexing repositories.
+This makes it clear to users and collaborators
+under which terms they can use and contribute to the project.
 
 For **interoperability**, a key factor is using a well-suited
 and popular programming language in the target community
@@ -574,3 +604,28 @@ for applying updates and fixes,
 thus maintaining the health of the project 
 and ensuring its long-term sustainability.
 :::
+
+
+## Security
+
+Security is a crucial aspect of software development,
+and should be considered at every stage of the development process.
+This is especially important for open-source projects
+where the source code and other project resources are publicly available.
+Therefore, implementing security measures and
+protocols for reporting and handling security issues in the repository
+is essential for ensuring software integrity and safeguarding the project against vulnerabilities.
+GitHub provides several [security features](https://docs.github.com/en/code-security/getting-started/github-security-features)
+that must be correctly configured to help developers
+identify, privately report, and fix potential security issues in their repositories,
+such as [code scanning](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning),
+[dependency review](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review),
+[secret scanning](https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning),
+[security policies](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository),
+and [security advisories](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
+In addition, setting up various [branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
+for repository's release branches is another crucial security measure,
+safeguarding the main codebase and ensuring that changes are reviewed and tested before being merged.
+This practice, which is especially important
+for projects with multiple contributors and outside collaborators,
+not only maintains code quality but also fosters a disciplined development environment.
