@@ -5,11 +5,12 @@ ccid: intro
 (intro)=
 # Introduction
 
-|{{ ccc.name }}| is an open-source, ready-to-use, cloud-based automation tool
+|{{ ccc.name }}| is an open-source, ready-to-use, [cloud-based automation](#motiv-cloud-auto) tool
 that streamlines every step of the software development life cycle,
 from initiation and configuration to deployment and long-term maintenance.
 In line with the latest software engineering best practices,
-it ensures the quality and FAIRness (Findability, Accessibility, Interoperability, Reusability)
+it ensures the quality and [FAIRness](#motiv-fairness) 
+(Findability, Accessibility, Interoperability, Reusability)
 of software projects,
 while significantly accelerating development
 and lowering production costs at the same time.
@@ -77,7 +78,7 @@ providing them with a comprehensive and robust project infrastructure ({numref}`
 
 After installation, |{{ ccc.name }}| automatically activates in response to various repository events, 
 executing appropriate tasks on the GitHub Actions cloud computing platform. 
-This establishes an automated pull-based software development workflow 
+This establishes an automated [pull-based software development workflow](#motiv-workflow) 
 tailored to collaborative software engineering needs. 
 |{{ ccc.name }}|'s workflow accelerates progress and innovation 
 by promoting community engagement and feedback, 
@@ -105,7 +106,8 @@ repetitive engineering and management activities throughout the software life cy
 - [**Continuous Integration**](#overview-ci) and [**Deployment**](#overview-cd):
   |{{ ccc.name }}|'s CI/CD pipelines automate tasks 
   such as code style formatting, static code analysis, type checking, testing, build, 
-  containerization, and release, thus eliminating the need for dedicated integration and deployment teams, 
+  containerization, and release to indexing repositories and online platforms, 
+  thus eliminating the need for dedicated integration and deployment teams, 
   while increasing control, integrity, scalability, security,
   and transparency of the Agile development process.
 - [**Continuous Maintenance, Refactoring, and Testing**](#overview-cm):
