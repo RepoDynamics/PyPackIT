@@ -107,7 +107,7 @@ which leaves users with only four manual tasks:
    If changes correspond to the software's public interfaces,
    a new version is generated along with release notes and various artifacts,
    which can be automatically published to user-selected indexing repositories and cloud services,
-   such as PyPI, Anaconda, Zenodo, and various Docker registries and BinderHub instances.
+   such as [PyPI](#bg-pypi), [Anaconda](#bg-anaconda-org), Zenodo, and various Docker registries and BinderHub instances.
 
 
 Moreover, |{{ ccc.name }}| also activates on a scheduled basis,
@@ -577,7 +577,7 @@ are updated according to control center settings.
 
 PyPackIT's CD pipeline is activated when the merged changes correspond to a new (pre)release. 
 It generates a public version number to tag the release 
-and deploy it to user-specified indexing repositories. 
+and deploy it to user-specified indexing repositories ({numref}`tab-supported-repos`). 
 By default, the built Docker image is published to GHCR, 
 providing an isolated environment for running the application on any machine or HPC cluster.
 PyPackIT also uses the Docker image to trigger a build on [mybinder.org](https://mybinder.org)—a free 
@@ -586,6 +586,23 @@ allowing users to interact with the image from their web browser
 using a JupyterLab interface. 
 The build is cached on mybinder servers, 
 significantly shortening subsequent loading times.
+
+
+:::{table} Indexing repositories supported by PyPackIT. Deployment is automated by PyPackIT's CD pipeline, requiring only a one-time setup. This can be done by configuring [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) for the chosen indexing repository or by generating an access token and adding it as a secret to the GitHub repository. 
+:widths: auto
+:name: tab-supported-repos
+
+| Repository                                                                                             | Description                                                                                                                                                                                    | Requirement                   |
+|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| [PyPI](#bg-pypi)                                                                                       | Python's official software repository used by the [pip](#bg-pip) package manager.                                                                                                              | Trusted Publishing            |
+| [Anaconda](#bg-anaconda-org)                                                                           | A popular language-agnostic repository used by the [conda](#bg-conda) package manager.                                                                                                         | Token                         |
+| [Zenodo](https://zenodo.org/)                                                                          | A general-purpose repository capable of minting persistent DOIs for immutable depositions.                                                                                                     | Token                         |
+| Docker                                                                                                 | Any Docker registry such as [Docker Hub](https://hub.docker.com/) or [GitHub Container Registry](https://github.blog/news-insights/product-news/introducing-github-container-registry/) (GHCR) | Token (not required for GHCR) |
+| [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) | GitHub's general-purpose repository for uploading build artifacts and release notes.                                                                                                           | No requirements               |
+| [TestPyPI](https://test.pypi.org/)                                                                     | A separate instance of PyPI for testing purposes.                                                                                                                                              | Trusted Publishing            |
+| [Zenodo Sandbox](https://sandbox.zenodo.org/)                                                          | A separate instance of Zenodo for testing purposes.                                                                                                                                            | Token                         |
+:::
+
 
 Further deployment tasks include finalizing and publishing 
 the draft releases on Zenodo and GitHub Releases, 
@@ -607,61 +624,30 @@ The updated documentation website is deployed online as well,
 with added banners and blog posts to announce the new release.
 
 
-If the merged changes correspond to a new release or pre-release of the library,
-the CD pipeline carries out additional deployment tasks:
-
-- [Source distributions](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)
-  (sdists) is generated, allowing for customized installations and reproducible builds according to
-  [PyPA guidelines](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives).
-- [Built distributions](https://packaging.python.org/en/latest/glossary/#term-Built-Distribution)
-  ([wheels](https://packaging.python.org/en/latest/glossary/#term-Wheel) are included as well,
-  facilitating installation on different platforms.
-  |{{ ccc.name }}| uses PyPA's [Build](https://build.pypa.io/) and [Cibuildwheel](https://cibuildwheel.pypa.io/)
-  tools to automatically create platform-independent wheels for pure-Python packages,
-  and platform-dependent binaries for packages with extension modules
-  written in compiled languages like C and C++.
-  This is crucial for many libraries that rely on extension modules for compute-heavy calculations.
-- Documentation website is updated and deployed online.
-  A banner is added to announce the new release, and a blog post is created with release notes.
-- Distribution packages are versioned, tagged, and published on GitHub,
-  along with the test suite, documentation website, and detailed release notes.
-- Package is also deployed to [Python Package Index](https://pypi.org/) (PyPI),
-  Pythons's official software repository.
-  This makes the library easily installable with [Pip](https://pip.pypa.io/),
-  Python's official package manager.
-  Moreover, it enables the community to discover the library based on its keywords, classifiers,
-  and other attributes, while an automatically generated [PyPI-friendly README file](ttps://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/)
-  provides a complete project overview.
-  The deployment is automated using [trusted publishing](https://docs.pypi.org/trusted-publishers/) with
-  [PyPA's official GHA application](https://github.com/pypa/gh-action-pypi-publish),
-  which only requires a one-time account configuration on PyPI.
-- Following a one-time account configuration on [Zenodo](https://zenodo.org/)—an open-access
-  repository for research outputs, the release will also be permanently available and uniquely indexed
-  with a DOI, facilitating reproducibility and citations.
-
-
 (overview-cm)=
 ## Continuous Maintenance, Refactoring, and Testing
 
-To ensure long-term software sustainability,
-|{{ ccc.name }}| periodically runs Continuous pipelines on a scheduled basis
-to check for problems and perform automatic fixes and updates.
-In addition to CCA mentioned above, tasks include:
-
-- **CT**: To ensure compatibility with up-to-date environments,
-  previous releases are periodically tested with the latest available dependencies,
-  including new Python versions, according to the project's version specifiers.
-- **CR**: Code analysis and formatting tasks are performed using updated tools
-  and standards to curb the ever-increasing code complexity
-  and maintain quality and consistency during both development and support phases.
-- **CM**: To maintain the health of the development environment,
-  the repository and its components are frequently cleaned up,
-  removing outdated development artifacts, such as builds, logs, and reports.
+In addition to CI/CD pipelines that integrate and deploy new changes, 
+PyPackIT also periodically runs other Continuous pipelines 
+to ensure the long-term sustainability of the project and its products. 
+For example, previous releases are tested with the latest versions 
+of their dependencies (within the specified range) 
+to confirm compatibility with up-to-date environments. 
+The CCA pipeline is also run to update dynamic configurations and content, 
+such as those inherited from external sources. 
+Code analysis, refactoring and style formatting tasks are performed as well, 
+using updated tools and standards to curb the ever-increasing code complexity 
+and maintain quality and consistency during both development and support phases. 
+To maintain the health of the development environment, 
+the repository and its components are frequently cleaned up, 
+removing outdated artifacts, such as builds, logs, and reports.
 
 During each run, |{{ ccc.name }}| automatically applies updates and fixes to a new branch,
 and creates a PR for review by maintainers.
 After approval, changes are automatically merged into the project
-and applied to all components. Similarly, if a problem is found,
+and applied to all components. 
+Alternatively, users can opt in for automatic merging without the need for manual approvals.
+Similarly, if a problem is found,
 a new issue ticket is automatically submitted to the issue tracking system,
 notifying project maintainers to take action.
 These automated processes significantly simplify
@@ -672,13 +658,13 @@ facilitating the prolonged development and support of software.
 (overview-license)=
 ## Licensing
 
-|{{ ccc.name }}| greatly facilitates project licensing and copyright management,
-in accordance with best practices for {term}`FOSS`
-{cite}`QuickGuideToLicensing, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio`
-and the upcoming [PEP 639](https://peps.python.org/pep-0639/),
-by integrating with the System Package Data Exchange ([SPDX](https://spdx.org/)) license standard.
+|{{ ccc.name }}| greatly facilitates project licensing and copyright management
+according to best practices for {term}`FOSS`
+{cite}`QuickGuideToLicensing, BarelySufficientPracticesInSciComp, ELIXIRSoftwareManagementPlan, SustainableResearchSoftwareHandOver, ShiningLight, 10RuleForSoftwareInCompBio`.
+In line with the upcoming [PEP 639](https://peps.python.org/pep-0639/) for improving license clarity,
+PyPackIT incorporates the [System Package Data Exchange](https://spdx.org/) (SPDX) license standard.
 This allows users to define complex licenses for their projects
-using a simple [SPDX license expression](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/).
+using simple [SPDX license expressions](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/).
 |{{ ccc.name }}| supports all [SPDX License List](https://spdx.org/licenses/) entries
 as well as user-defined licenses.
 It can automatically customize licenses with project-specific information and
@@ -686,17 +672,16 @@ produce visually appealing Markdown and plain-text outputs
 that are valid according to the SPDX License List
 [matching guidelines](https://spdx.github.io/spdx-spec/v3.0.1/annexes/license-matching-guidelines-and-templates/).
 
-By default, new projects are licensed under the [`MIT` License](https://spdx.org/licenses/MIT.html),
-which is a permissive [OSI-approved](https://opensource.org/licenses) and
-[FSF Free](https://www.gnu.org/licenses/license-list.en.html) license
-that supports {term}`FOSS` commercialization {cite}`SettingUpShop`
-and fulfils the Bayh–Dole requirements for patenting publicly funded products {cite}`BayhDole`.
+By default, new projects are licensed under the [`MIT` License](https://spdx.org/licenses/MIT.html)—a
+permissive [OSI-approved](https://opensource.org/licenses) and [FSF Free](https://www.gnu.org/licenses/license-list.en.html) license 
+supporting {term}`FOSS` commercialization {cite}`SettingUpShop`
+and fulfilling the Bayh–Dole requirements for patenting publicly funded products {cite}`BayhDole`.
 Another recommended option is the GNU Affero General Public License
 ([`AGPL-3.0-or-later`](https://www.gnu.org/licenses/agpl-3.0)),
 which is a strong copyleft license promoting FOSS by enforcing downstream source disclosure.
-To change the project license, users only need to provide the corresponding expression
-in the control center (e.g., `MIT OR (AGPL-3.0-or-later WITH GPL-3.0-linking-exception)`);
-|{{ ccc.name }}| will then automatically download the required license data and integrate it into the project:
+To change the project license, users only need 
+to provide the corresponding expression in the control center.
+|{{ ccc.name }}| then automatically downloads all required license data and integrates it into the project:
 
 - **Validation**:
   User is notified if the provided license expression is invalid,
@@ -730,29 +715,25 @@ To enhance project security while supporting community collaboration,
 |{{ ccc.name }}| incorporates several security measures:
 
 - **Protection Rules**:
-  By default, protection rules are applied to repository branches and tags,
-  requiring passing status checks and admin approvals before changes can be made
-  to important repository references (cf. [Manual](#branch-protection-rules)).
-  This prevents accidental or unauthorized changes to resources
-  that may compromise the integrity of the development environment
-  or the software itself.
-- **Security Vulnerability Scanning**:
-  Several code analysis tools are integrated into CI/CD pipelines
-  to ensure that changes do not introduce
-  security vulnerabilities into the codebase.
+  By default, release branches and version tags
+  require passing status checks and admin approvals before changes can be made,
+  ensuring the integrity of the project and its releases.
+- **Vulnerability Scanning**:
+  Code analysis tools integrated into CI/CD pipelines ensure changes 
+  do not introduce security vulnerabilities into the codebase.
 - **Dependency Monitoring**:
   GitHub's Dependabot and Dependency-Review Action are used to continuously monitor
-  project dependencies, to alert maintainers of any issues
-  and propose updates when possible.
+  project dependencies, alerting maintainers of issues
+  and proposing updates.
 - **PR Approval**:
   External PRs require project maintainers' approval before CI/CD pipelines can run,
-  to prevent malicious code from being executed.
+  preventing the execution of untrusted code.
 - **Workflow Security**:
   GHA workflows are developed according to best practices
   {cite}`AutoSecurityAssessOfGHAWorkflows, GHADocsSecurity`
-  to prevent security issues that may arise through command injection,
-  use of untrusted applications, exposure of tokens and secrets,
-  and loose workflow permissions, among others.
+  to prevent security issues like command injection,
+  token/secret exposure, use of untrusted applications,
+  and loose workflow permissions.
 
 Moreover, to ensure that |{{ ccc.name }}| itself is highly secure,
 its entire infrastructure is natively implemented and self-contained.
