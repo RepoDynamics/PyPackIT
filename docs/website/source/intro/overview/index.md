@@ -327,14 +327,21 @@ To improve project visibility and searchability,
 [SphinxExt-OpenGraph](https://github.com/wpilibsuite/sphinxext-opengraph) plugin, 
 enabling search engine optimization (SEO) and rich social media previews.
 
-Furthermore, PyPackIT can dynamically generate Markdown documents in various flavors, 
-from declarative instructions in the control center. 
-This is mainly used to add platform-specific 
-[community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file#supported-file-types) 
-and [README file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
-for GitHub and other indexing repositories like PyPI. 
-The READMEs serve as the front page of the repositories, 
-featuring a clean design with key project information 
+Furthermore, PyPackIT can dynamically generate [Markdown](#bg-markdown) documents in various flavors, 
+from declarative instructions in the control center.
+This enables the creation of complex documents without writing any Markdown.
+Instead, users simply declare the type and content of elements,
+which PyPackIT can use to generate Markdown files for different specifications.
+When an element is not supported in a specification, PyPackIT can automatically
+generate a similar supported element.
+This is mainly used to add
+[community health files](#bg-gh-health-files) 
+and platform-specific README files
+for [GitHub](#bg-gh-writing) 
+and other indexing repositories like [PyPI](#bg-pypi-readme),
+which have specific restrictions for README files.
+Serving as the front page of the repositories, 
+the generated READMEs feature a clean design including key project information 
 and links to the main sections of the documentation website. 
 Moreover, they include a set of dynamic badges {cite}`RepositoryBadges`
 that provide an up-to-date overview of project specifications, status, and progress.
@@ -485,7 +492,7 @@ By default, the pipeline carries out the following tasks:
     Static code analysis and type checking is performed
     to detect code violations, errors, and security issues,
     using well-established linters such as [Ruff](https://docs.astral.sh/ruff/}{Ruff),
-    [Mypy](https://mypy.readthedocs.io/), and [CodeQL](https://codeql.github.com/)
+    [Mypy](https://mypy.readthedocs.io/), and [CodeQL](https://codeql.github.com/).
 :**Data Validation**:
     Data files in JSON, YAML, and TOML formats
     are checked for issues and syntax errors.
@@ -497,8 +504,10 @@ By default, the pipeline carries out the following tasks:
     Changed dependencies are analyzed for security and license issues,
     using GitHub's [Dependency-Review Action](https://github.com/actions/dependency-review-action).
 :**Build**:
-    Source ([sdist](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)) 
-    and built ([wheel](https://packaging.python.org/en/latest/glossary/\#term-Built-Distribution)) 
+    [Source](https://packaging.python.org/en/latest/specifications/source-distribution-format/) 
+    ([sdist](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)) 
+    and [built](https://packaging.python.org/en/latest/specifications/binary-distribution-format/) 
+    ([wheel](https://packaging.python.org/en/latest/glossary/\#term-Built-Distribution)) 
     distributions are generated for package and test suite 
     according to [PyPA guidelines](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives). 
     PyPackIT uses PyPA's [Build](https://build.pypa.io/) and [Cibuildwheel](https://cibuildwheel.pypa.io/) 
