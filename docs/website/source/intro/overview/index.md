@@ -187,7 +187,7 @@ the control center is equipped with several features:
 ## Python Package
 
 |{{ ccc.name }}| provides a comprehensive infrastructure for Python packages,
-in line with the latest {term}`PyPA` standards {cite}`PythonPackagingUserGuide`.
+in line with the latest [PyPA](#bg-pypa) standards {cite}`PythonPackagingUserGuide`.
 It offers a build-ready [import package](https://packaging.python.org/en/latest/glossary/#term-Import-Package) 
 containing key source files with basic functionalities for data file support, 
 error handling, and command-line interface development. 
@@ -384,157 +384,228 @@ buggy applications in production {cite}`CICDSystematicReview`.
 (overview-its)=
 ## Issue Management
 
-|{{ ccc.name }}| establishes an automated pull-based development workflow,
-in which new tasks in the project start by submitting an issue ticket to its ITS,
-enabling the community to readily propose changes and ensuring that the entire evolution
-of the software library is properly documented
-in a traceable and transparent way.
-To facilitate this, |{{ ccc.name }}| automatically configures and maintains the repository's GHI,
-according to customizable configurations in the control center.
-For example:
+|{{ ccc.name }}| establishes an automated pull-based development workflow
+based on a well-tested strategy for FOSS projects {cite}`ConfigManageForLargescaleSciComp`:
+New tasks in the project start by submitting a ticket to its ITS,
+promoting community collaboration while ensuring thorough documentation of software evolution.
+PyPackIT automatically configures and maintains GHI 
+according to customizable configurations in the control center. 
+By default, it includes a comprehensive set of issue forms 
+allowing users to submit type-specific tickets, 
+such as bug reports and feature requests 
+for the application or its test suite and documentation. 
+Designed according to best practices 
+{cite}`WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse`,
+these forms collect essential type-specific user inputs in a machine-readable format. 
+They also include selectable options for inputs 
+such as currently available version numbers and API endpoints, 
+which are automatically kept up to date by PyPackIT's CCA pipeline.
 
-- Submission options are provided for different issue types,
-  such as requesting bug fixes, new features, and other changes in various project components,
-  including the library, test suite, documentation website, and control center settings.
-- Specialized submission forms are supplied for each issue type
-  according to best practices {cite}`WhatMakesAGoodBugReport, NeedsInBugReports, QualityOfBugReportsInEclipse`,
-  offering relevant instructions to users and
-  collecting type-specific information via machine-readable input types.
-- Dynamic input options in submission forms are automatically updated,
-  eliminating the need for frequent manual maintenance.
-  These include lists of supported releases, operating systems, and Python versions,
-  which let users easily specify issue details from dropdown menus.
-- Labels are automatically created and updated,
-  providing useful categorization options for issues and PRs.
+After an issue is submitted, PyPackIT processes user inputs 
+to automate the bulk of issue management activities. 
+It uses a customizable template to generate 
+a standardized software development [protocol](#manual-protocols) for the issue, 
+which is attached to the ticket. 
+By default, this document includes formatted user inputs 
+under User Requirements Document (URD), 
+and contains other standard sections like Software Requirements Document (SRD) 
+and Software Design Document (SDD) for maintainers' inputs. 
+It also includes dynamic components that are updated by PyPackIT 
+to reflect current status and progress, 
+such as a list of completed/remaining tasks, 
+related pull requests, and activity logs. 
+To improve ITS organization and searchability, 
+PyPackIT uses inputs to automatically 
+[label](#manual-labels) tickets based on issue type, affected versions, API endpoints, 
+and other configurable options. 
+Ticket inputs can also be used 
+to automatically assign specific team members to each ticket, 
+as defined by the project's [governance model](#manual-governance) in the control center.
 
-
-Furthermore, |{{ ccc.name }}| automates the bulk of management activities throughout the workflow.
-After an issue is submitted, it processes ticket inputs
-to perform several tasks, including:
-
-- **Formatting**:
-  User inputs are formatted to provide a consistent and concise overview for each ticket.
-- **Labeling**:
-  Tickets are labeled based on issue type, user inputs, and current stage
-  to facilitate the organization and findability of the project's ongoing and finished tasks.
-- **Assignment**:
-  Tasks are assigned to maintainers according to a declarative project governance model
-  in the control center, which defines member roles and privileges.
-- **Documentation**:
-  A standardized form is attached to tickets to facilitate the documentation
-  and tracking of the development process.
-  The form contains a structured template for documenting software requirements specification,
-  design description, implementation plans, and other development details,
-  with a timeline that is automatically updated by |{{ ccc.name }}| with important milestones
-  to reflect the progress.
-
-Therefore, after ticket submission, notified maintainers only need to triage the issue,
-which is also facilitated by |{{ ccc.name }}|.
-For example, by posting a comment under an issue,
-project maintainers can command |{{ ccc.name }}| to automatically test
-a specific version of the library in a specific environment with given test cases.
-This greatly accelerates bug report triage,
-eliminating the need for manual branch creation and test suite modification and execution.
-If the new test cases fail, |{{ ccc.name }}| automatically adds them to the project's test suite
-and initiates a bug fix task, thus providing a streamlined solution
-for continuously turning bugs into new test cases,
-to validate the fix and prevent future recurrences
-according to best practices {cite}`BestPracticesForSciComp, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
-
-After triage, maintainers can command |{{ ccc.name }}| to perform various tasks
-by changing the ticket's status label.
-For example, rejected tickets are automatically closed
-and the documentation is updated to specify the reason and details.
-On the other hand, when a ticket is labeled ready for implementation,
-|{{ ccc.name }}| creates a new development branch from each affected release branch,
-as specified in ticket data.
-These development branches are then automatically linked to the issue ticket on GitHub.
-Additionally, an empty commit is added to them containing issue data in the commit message,
-maintaining a clear and information-rich history on Git.
+After triage, project members can communicate with PyPackIT through issue comments and labels. 
+For example, by posting a semantic comment under the issue, 
+members can command PyPackIT to automatically test 
+a certain version of the software in a specific environment with given test cases. 
+This greatly accelerates bug triage, 
+eliminating the need for manual branch creation, 
+test suite modification, and execution. 
+If the new test cases fail, 
+PyPackIT automatically adds them 
+to the test suite and initiates a bug fix cycle, 
+streamlining the process of turning bugs into tests 
+to validate fixes and prevent future recurrences
+{cite}`BestPracticesForSciComp, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
+Furthermore, changing the ticket's status label tells PyPackIT to perform additional tasks. 
+Rejected tickets are automatically closed with updated documentation, 
+while tickets labeled ready for implementation trigger 
+the creation of development branches from affected release branches. 
+These branches are automatically prepared for development 
+and linked to the issue ticket on GitHub. 
+For example, a new entry is added to the changelog file, 
+and the README file is temporarily modified to reflect development on the branch. 
+Changes are added with a commit message containing issue data, 
+ensuring a clear and informative history on Git.
 
 
 (overview-ci)=
 ## Continuous Integration
 
-When an issue is ready for implementation, |{{ ccc.name }}| automatically opens a draft PR
-for each created development branch,
-filled with information from the corresponding issue data,
-and labeled accordingly.
-Developers can thus immediately start implementing the specified changes.
-With each commit on a development branch,
-|{{ ccc.name }}| runs a CI pipeline to integrate the new changes into the code base
-according to best practices {cite}`CICDSystematicReview, ModelingCI, ContinuousSoftEng`:
+When an issue is ready for implementation, 
+PyPackIT opens a draft PR from each created development branch. 
+Similar to issue tickets, PRs are also 
+automatically labeled, assigned, and documented. 
+If the PR corresponds to a new release, 
+PyPackIT also creates draft releases 
+on selected platforms like GitHub Releases and Zenodo. 
+Contributors can thus immediately start the implementation 
+in the provided development containers, 
+requiring only a web browser. 
+With each commit on a development branch, 
+PyPackIT runs its CI pipeline 
+to integrate changes into the codebase 
+according to best practices 
+{cite}`CICDSystematicReview, ModelingCI, ContinuousSoftEng`,
+while generating comprehensive build artifacts and reports for review. 
+Similar to other project components, 
+the CI pipeline is highly customizable 
+through PyPackIT's control center, 
+allowing users to modify defaults or add additional tasks.
+By default, the pipeline carries out the following tasks:
 
-- **Configuration Synchronization**:
-  Modifications in control center settings are applied to dynamic files in the branch.
-- **Code Formatting**:
-  [Black](https://black.readthedocs.io/) code style is applied to changed source files.
-- **Code Analysis**:
-  Static code analysis and type checking is performed
-  using well-established linters such as [Ruff](https://docs.astral.sh/ruff/}{Ruff),
-  [Mypy](https://mypy.readthedocs.io/), and [CodeQL](https://codeql.github.com/)
-  to detect potential errors, code violations, security issues, and other code smells
-  in both Python and supported data file.
-- **Data File Analysis**:
-  Data files in JSON, YAML, and TOML formats
-  are checked for syntax errors.
-- **Refactoring**:
-  Available fixes such as end-of-file and end-of-line standardization
-  and safe refactoring suggestions by Ruff are automatically applied.
-- **Dependency Review**:
-  Changed dependencies are analyzed for security and license issues,
-  using GitHub's [Dependency-Review Action](https://github.com/actions/dependency-review-action).
-- **Build**: Source and binary distributions are built and attached when package files are modified.
-- **Testing**: Test suite is executed on a matrix of supported operating systems and Python versions
-  to verify the correctness and compatibility of changes applied to source files.
-- **Website Build**: Documentation website is built and attached to the CI
-  to reflect the latest changes in package and website source files and configurations.
-- **Report**:
-  Comprehensive reports are generated for each step to
-  improve the visibility of integration status and facilitate reviews.
-- **Progress Tracking**
-  The draft PR is updated to reflect the progress,
-  automatically marking tasks as complete based on commit messages and CI outputs.
+:**CCA**:
+    Dynamic files and content in the branch are synchronized 
+    with updated control center configurations.
+:**Formatting**:
+    Changed source files are formatted according to 
+    Python's official style guide {cite}`PEP8`,
+    using [Ruff](https://docs.astral.sh/ruff/) as 
+    a fast drop-in replacement for the popular
+    [Black](https://black.readthedocs.io/) formatter.
+:**Code Analysis**:
+    Static code analysis and type checking is performed
+    to detect code violations, errors, and security issues,
+    using well-established linters such as [Ruff](https://docs.astral.sh/ruff/}{Ruff),
+    [Mypy](https://mypy.readthedocs.io/), and [CodeQL](https://codeql.github.com/)
+:**Data Validation**:
+    Data files in JSON, YAML, and TOML formats
+    are checked for issues and syntax errors.
+:**Refactoring**:
+    Available fixes such as end-of-file and end-of-line standardization
+    and safe refactoring suggestions by Ruff 
+    are automatically applied to affected files.
+:**Dependency Review**:
+    Changed dependencies are analyzed for security and license issues,
+    using GitHub's [Dependency-Review Action](https://github.com/actions/dependency-review-action).
+:**Build**:
+    Source ([sdist](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)) 
+    and built ([wheel](https://packaging.python.org/en/latest/glossary/\#term-Built-Distribution)) 
+    distributions are generated for package and test suite 
+    according to [PyPA guidelines](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives). 
+    PyPackIT uses PyPA's [Build](https://build.pypa.io/) and [Cibuildwheel](https://cibuildwheel.pypa.io/) 
+    tools to create platform-independent wheels for pure-Python packages, 
+    and platform-dependent binaries for packages with extension modules. 
+    Conda distributions are also generated using the 
+    [Conda-build](https://docs.conda.io/projects/conda-build/en/stable/) tool.
+:**Containerization**:
+    A [Jupyter](https://jupyter.org/)-enabled Docker image is created using 
+    [JupyerHub](https://jupyter.org/hub)'s [Repo2docker](https://github.com/jupyterhub/repo2docker) application, 
+    with the package, test suite, and all requirements installed. 
+    In addition to Python and Conda dependencies, 
+    Debian packages can also be installed from [APT](https://wiki.debian.org/apt-get), 
+    enabling applications with complex environments to be easily distributed.
+:**Testing**: 
+    Test suite is executed on all supported operating systems and Python versions 
+    to verify the correctness and compatibility of applied changes. 
+    This is done for both Python and Conda distributions, as well as the Docker image.
+:**Website Build**: 
+    Documentation website is built with the latest changes and attached to the CI for offline preview. 
+    If deployment to Read The Docs is enabled, a link for online preview is also added to the PR.
+:**Changelog update**:
+    Project's changelog file is updated with data from the corresponding issue, PR, and commits, 
+    along with identifiers such as DOI, version, commit hash, and date. 
+    The changelog contains machine-readable data in JSON, 
+    maintaining a chronological record of the entire project evolution. 
+    It is used to automatically generate release notes in Markdown format, 
+    according to a customizable template.
+:**Draft update**:
+    All draft releases are updated with the latest configurations, 
+    documentation, and build artifacts. 
+    Release-specific metadata such as external contributors and acknowledgments 
+    can also be added using automated rules or semantic PR comments.
+:**Progress Tracking**:
+    Dynamic elements in the issue ticket and draft PR are updated to reflect the progress. 
+    PyPackIT uses commit messages to automatically mark corresponding tasks in the PR as complete. A
+    s GHI displays the number of completed and remaining tasks in each issue ticket/PR, 
+    this provides a clear overview of overall progress in the project.
+:**Report**:
+    Comprehensive logs and reports are generated for each step, 
+    improving the visibility of integration status and facilitating reviews. 
+    These are displayed on GHA's terminal in real-time, 
+    and rendered as a responsive HTML document for download.
 
-When package-related changes are successfully integrated,
-a new developmental release is automatically versioned, tagged, and published to TestPyPI.
-This serves several purposes {cite}`CICDSystematicReview`:
 
-- The library is automatically tested in a production-like environment,
-  ensuring that it works as intended after download and installation on user machines.
-- New features and developments can be easily shared with other collaborators,
-  enabling early feedback and reviews during the implementation phase.
-- The entire development progress leading to each final release
-  is permanently documented in a clear and transparent manner.
+Furthermore, when release-related changes are successfully integrated, 
+a new developmental release is automatically versioned, tagged, 
+and published to selected indexing repositories, 
+e.g., Anaconda, TestPyPI, Zenodo Sandbox, and Docker registries. 
+This allows the application to be automatically tested in a production-like environment, 
+ensuring that it works as intended after download and installation on user machines. 
+It also greatly simplifies the sharing of new developments among collaborators, 
+enabling feedback and reviews during the implementation phase. 
+Moreover, the entire development progress leading to each final release 
+is clearly documented and permanently available {cite}`CICDSystematicReview`.
 
-When all implementation tasks specified in a PR are marked as complete,
-|{{ ccc.name }}| automatically initiates the process to merge the changes into production:
-
-- Reviewers are automatically designated to the PR
-  according to rules defined in the control center
-  based on several different factors, such as changed files or issue type.
-- The status and outputs of CI pipelines are displayed in the PR,
-  and automatically updated after each revision during the review process.
-
-When the PR is approved by reviewers, |{{ ccc.name }}| automatically performs the merging:
-
-- Changelogs are updated using
-  issue ticket and PR data, maintaining chronological records
-  of all key aspects of the development process for both users and developers of the library.
-  |{{ ccc.name }}| automatically correlates each implementation task with a specific changelog section
-  based on [Conventional Commits](https://www.conventionalcommits.org) types defined in the control center.
-  For example, tasks marked as `fix` are added to `Bug Fixes` section of the user changelog for library's public API.
-- A consistent and clear Git history is maintained by squash merging the development branch
-  into the corresponding release branch.
-  To establish issue–commit links and reflect the development documentation in the project's VCS,
-  the commit message contains the issue ticket number and other details such as type, scope, and description.
-- When changes are merged into the repository's main branch,
-  all project-wide configurations such as repository and workflow settings
-  are updated according to control center content.
+When all implementation tasks specified in the PR are marked as complete, 
+PyPackIT automatically initiates the review process by sending review requests 
+to designated members according to the project's governance model. 
+The CI pipeline is automatically triggered by changes during the review process as well, 
+providing team members with detailed status checks, reports, and build artifacts 
+to keep them informed about the outcomes of revisions. 
+After the PR is approved by reviewers, PyPackIT automatically merges the changes into production. 
+By default, this is done by squash merging the development branch 
+into the (pre)release branch to maintain a clear and linear Git history. 
+The commit message is automatically generated according to a template,
+and can include issue ticket number and other details to establish issue–commit links 
+and reflect documentation in the VCS. 
+Moreover, when changes are merged into the main branch, 
+all project-wide configurations such as repository and workflow settings 
+are updated according to control center settings.
 
 
 (overview-cd)=
 ## Continuous Deployment
+
+PyPackIT's CD pipeline is activated when the merged changes correspond to a new (pre)release. 
+It generates a public version number to tag the release 
+and deploy it to user-specified indexing repositories. 
+By default, the built Docker image is published to GHCR, 
+providing an isolated environment for running the application on any machine or HPC cluster.
+PyPackIT also uses the Docker image to trigger a build on [mybinder.org](https://mybinder.org)—a free 
+[BinderHub](https://binderhub.readthedocs.io) instance 
+allowing users to interact with the image from their web browser 
+using a JupyterLab interface. 
+The build is cached on mybinder servers, 
+significantly shortening subsequent loading times.
+
+Further deployment tasks include finalizing and publishing 
+the draft releases on Zenodo and GitHub Releases, 
+which can contain any number of user-specified source and build artifacts. 
+By default, they include all distribution packages, built documentation, 
+citation and license files, and a `Dockerfile` pointing to the deployed Docker image. 
+The DOI minted by Zenodo is reserved before the deployment and included in all distributions' metadata. 
+Each release is therefore permanently available through a unique DOI, 
+enabling reliable citations. 
+FAIRness is further improved by uploading source and built distributions to PyPI and Anaconda repositories. 
+This allows for customized and reproducible builds
+while facilitating installation on different platforms and architectures 
+using Pip and Conda package managers. 
+All distributions and releases automatically include up-to-date metadata, 
+documentation, and detailed release notes, 
+enabling the community to discover the application 
+based on various keywords, classifiers, and other identifiers. 
+The updated documentation website is deployed online as well, 
+with added banners and blog posts to announce the new release.
+
 
 If the merged changes correspond to a new release or pre-release of the library,
 the CD pipeline carries out additional deployment tasks:
