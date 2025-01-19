@@ -36,9 +36,9 @@ allowing users to easily download and install packages
 hosted on the platform using command-line tools.
 
 
-## Conda Forge
+## Conda-forge
 
-[conda-forge](https://conda-forge.org/) is a community-driven collection of recipes,
+[Conda-forge](https://conda-forge.org/) is a community-driven collection of recipes,
 build infrastructure, and packages for the [Conda](#bg-conda) package manager.
 It provides a vast [public repository](https://github.com/conda-forge/feedstocks) 
 of high-quality, up-to-date packages,
