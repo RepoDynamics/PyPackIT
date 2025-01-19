@@ -23,7 +23,7 @@ like Continuous software engineering, DevOps, and containerization.
 :::
 
 
-:::{grid-item-card} GitHub
+:::{grid-item-card} GitHub Repositories and Services
 :class-title: sd-text-center
 :link: github/index
 :link-type: doc
@@ -35,7 +35,7 @@ and repository templates.
 :::
 
 
-:::{grid-item-card} Python
+:::{grid-item-card} Python Programming Language
 :class-title: sd-text-center
 :link: python/index
 :link-type: doc
@@ -48,7 +48,7 @@ PyPI, PyPA, Pip, PEP, and PSF.
 :::
 
 
-:::{grid-item-card} Anaconda
+:::{grid-item-card} Anaconda Ecosystem
 :class-title: sd-text-center
 :link: anaconda/index
 :link-type: doc
@@ -59,7 +59,7 @@ Conda-forge, Miniforge, Mamba, and Micromamba.
 :::
 
 
-:::{grid-item-card} Versioning
+:::{grid-item-card} Software Versioning
 :class-title: sd-text-center
 :link: versioning/index
 :link-type: doc
@@ -69,7 +69,7 @@ including Semantic Versioning and Python version specifiers.
 :::
 
 
-:::{grid-item-card} Jinja
+:::{grid-item-card} Jinja Templating
 :class-title: sd-text-center
 :link: jinja/index
 :link-type: doc
@@ -80,7 +80,7 @@ macros, filters, variables, conditionals, and loops.
 :::
 
 
-:::{grid-item-card} JSONPath
+:::{grid-item-card} JSONPath Expression
 :class-title: sd-text-center
 :link: jsonpath/index
 :link-type: doc
@@ -91,7 +91,7 @@ serializable data structures like JSON and YAML.
 :::
 
 
-:::{grid-item-card} YAML
+:::{grid-item-card} YAML Format
 :class-title: sd-text-center
 :link: yaml/index
 :link-type: doc
