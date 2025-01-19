@@ -520,14 +520,14 @@ By default, the pipeline carries out the following tasks:
 :**Website Build**: 
     Documentation website is built with the latest changes and attached to the CI for offline preview. 
     If deployment to Read The Docs is enabled, a link for online preview is also added to the PR.
-:**Changelog update**:
+:**Changelog Update**:
     Project's changelog file is updated with data from the corresponding issue, PR, and commits, 
     along with identifiers such as DOI, version, commit hash, and date. 
     The changelog contains machine-readable data in JSON, 
     maintaining a chronological record of the entire project evolution. 
     It is used to automatically generate release notes in Markdown format, 
     according to a customizable template.
-:**Draft update**:
+:**Draft Update**:
     All draft releases are updated with the latest configurations, 
     documentation, and build artifacts. 
     Release-specific metadata such as external contributors and acknowledgments 
@@ -708,8 +708,8 @@ in the control center (e.g., `MIT OR (AGPL-3.0-or-later WITH GPL-3.0-linking-exc
   according to control center configurations.
 - **Documentation**:
   For each license component, syntactically valid and nicely formatted documents are generated
-  and added to the repository according to
-  [GitHub specifications](https://github.blog/changelog/2022-05-26-easily-discover-and-navigate-to-multiple-licenses-in-repositories/),
+  and [added to the repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#applying-a-license-to-a-repository-with-a-license-file) 
+  according to [GitHub specifications](https://github.blog/changelog/2022-05-26-easily-discover-and-navigate-to-multiple-licenses-in-repositories/),
   so that they are correctly recognized and displayed.
   These are also included in the project's website, along with other license details.
 - **Annotation**:
@@ -756,10 +756,35 @@ To enhance project security while supporting community collaboration,
 
 Moreover, to ensure that |{{ ccc.name }}| itself is highly secure,
 its entire infrastructure is natively implemented and self-contained.
-With the exception of a handful of fundamental [GHA actions](#bg-gha) and Python libraries
+With the exception of well-established [GHA actions](#bg-gha) and Python libraries
 from trusted vendors like GitHub and PyPA,
 |{{ ccc.name }}| does not rely on other third-party dependencies.
 This gives the |{{ ccc.name }}| team full control over the software stack,
 allowing us to rapidly respond to issues
 and continuously improve the product,
-while making |{{ ccc.name }}| fully transparent and easily auditable by the community.
+while making |{{ ccc.name }}| fully transparent 
+and easily auditable by the community.
+
+
+## Publication
+
+In addition to software engineering, 
+PyPackIT also facilitates scientific and technical publications. 
+It enables users to create papers, posters, and presentations 
+in a variety of formats including LaTeX and Markdown. 
+For this, PyPackIT provides a dedicated development container 
+that includes a full installation of [Tex Live](https://tug.org/texlive/) 
+and [Pandoc](https://pandoc.org), allowing for seamless conversion 
+and compilation of documents to PDF and other output formats. 
+The writing experience is enhanced using powerful tools and extensions 
+like [LaTeX-Workshop](https://github.com/James-Yu/LaTeX-Workshop), 
+which enable continuous compilation and preview in GitHub Codespaces 
+and VSCode—similar to online TeX-editing platforms like [Overleaf](https://www.overleaf.com/). 
+This setup allows research projects to keep their related publications 
+next to the underlying software under version control, 
+benefiting from features such as detailed change histories 
+and comprehensive revisions through commit messages, 
+issue tickets, and pull request reviews. 
+Additionally, it supports automation, 
+for example for generating figures and tables directly from code, 
+to ensure consistency between the software and its related publications.
