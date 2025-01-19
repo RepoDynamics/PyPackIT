@@ -345,6 +345,7 @@ with comprehensive metadata and identifiers.
 :::
 
 
+(motiv-testing)=
 ## Quality Assurance and Testing
 
 Code quality assurance and testing are
@@ -369,12 +370,39 @@ Users should also be able to run tests locally
 to verify software functionality and performance on their machines {cite}`ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines`,
 necessitating the tests to be packaged and distributed along with the software 
 {cite}`BarelySufficientPracticesInSciComp, 10MetricsForSciSoftware, BestPracticesInBioinfSoftware`.
-Other crucial quality assurance routines include formatting
-to improve readability and establish a consistent coding style,
-as well as static code analysis such as linting and type checking
-to identify issues undetected by tests
-and refactor code to improve quality, security, and maintainability
-{cite}`DLRSoftEngGuidelines, BestPracticesForSciComp, SurveySEPracticesInScience, 10SimpleRulesOnWritingCleanAndReliableSciSoft, NLeScienceSoftDevGuide`.
+
+Other crucial quality assurance routines include 
+{cite}`DLRSoftEngGuidelines, BestPracticesForSciComp, SurveySEPracticesInScience, 10SimpleRulesOnWritingCleanAndReliableSciSoft, NLeScienceSoftDevGuide`:
+
+- **Code Formatting**:
+  Python imposes few restrictions on the formatting of source code,
+  leaving developers free to decide how to structure their programs. 
+  This flexibility can lead to inconsistent styles,
+  making codebases harder to read, review, and maintain, 
+  particularly in collaborative projects.
+  Python's official style guide, 
+  [PEP 8](https://peps.python.org/pep-0008/),
+  addresses these issues by outlining best practices for naming conventions, 
+  indentation, line length, whitespace usage, and other layout rules.
+  Compliant code formatting tools such as [Black](https://github.com/psf/black) and [YAPF](https://github.com/google/yapf) 
+  can thus be used to establish a consistent code style by automatically reformatting files.
+- **Static Code Analysis**:
+  Static code analysis, or linting, involves inspecting code for potential errors, 
+  code smells, and style violations without executing it. 
+  This process is an essential first line of defense in maintaining code quality,
+  promoting code refactoring according to best practices. 
+  Tools like [Ruff](https://github.com/astral-sh/ruff), [Pylint](https://github.com/pylint-dev/pylint), [Flake8](https://github.com/PyCQA/flake8), and [Bandit](https://github.com/PyCQA/bandit)
+  are popular examples that can help
+  to detect security vulnerabilities, syntax errors, unused imports, and non-compliant code structures.
+- **Type Checking**:
+  Although Python is a dynamically typed language,
+  it supports optional type annotations introduced in [PEP 484](https://www.python.org/dev/peps/pep-0484/). 
+  These improve code readability and documentation while enabling static type checking. 
+  Tools like [Mypy](https://github.com/python/mypy) analyze type annotations to identify type-related errors, 
+  ensuring that functions and variables conform to their expected types.
+  Static type checking helps developers catch potential bugs early in the development cycle, 
+  especially in large and complex codebases.
+  
 
 To warrant consistent and effective quality assurance,
 code analysis and testing practices need to be automated 
@@ -383,7 +411,7 @@ and carried out on configurable virtual machines
 {cite}`BestPracticesForSciComp, 10MetricsForSciSoftware, 10SimpleRulesOnWritingCleanAndReliableSciSoft`.
 This ensures that all changes in the project pass the same checks and standards,
 and that the code is always tested in the same reproducible and transparent environment.
-While the Python ecosystem offers powerful code analysis and testing tools,
+While the Python ecosystem offers powerful code analysis and testing tools like [Pytest](https://github.com/pytest-dev/pytest),
 assembling the right set of tools into a comprehensive automated pipeline
 is still a challenging task {cite}`StairwayToHeaven`,
 resulting in the prevalence of slow and ineffective testing methods in FOSS projects
@@ -411,6 +439,7 @@ coverage monitoring, and comprehensive report generation.
 :::
 
 
+(motiv-doc)=
 ## Documentation
 
 Documentation is a key factor in software quality and success,
@@ -428,6 +457,16 @@ As community building is crucial for FOSS success
 project documentation should also include contribution guidelines,
 developer guides, governance models, and codes of conduct 
 {cite}`SurveySEPracticesInScience, BestPracticesForSciComp, BestPracticesInBioinfSoftware, SustainableResearchSoftwareHandOver, 4SimpleRecs, ELIXIRSoftwareManagementPlan, DLRSoftEngGuidelines, NLeScienceSoftDevGuide`.
+Other important documents include README files for both the source code repository
+and other indexing repositories hosting binary distributions.
+Acting as the front page of the repository,
+README files should provide visitors with a concise
+and visually appealing overview of the project,
+including a short description, keywords, 
+and links to important resources and documents.
+Ideally, they should also include dynamic information
+such as project statistics and status indicators
+that are automatically updated to reflect the current project state.
 
 However, high-quality documentation requires time, effort, and skills,
 including web development knowledge to create user-friendly websites
