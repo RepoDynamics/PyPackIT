@@ -1,3 +1,4 @@
+(refs)=
 # References
 
 ```{bibliography}
