@@ -101,6 +101,18 @@ such as available data structures and syntax, as well as advanced features
 like anchors and tags.
 :::
 
+
+:::{grid-item-card} TOML Format
+:class-title: sd-text-center
+:link: toml/index
+:link-type: doc
+
+Find out about the TOML data serialization format,
+which is used in Python projects to define package configuration
+and metadata in the `pyproject.toml` file.
+:::
+
+
 ::::
 
 
