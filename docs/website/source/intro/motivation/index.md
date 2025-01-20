@@ -36,7 +36,7 @@ These include the introduction of research software engineering
 as a new academic discipline 
 {cite}`RSEIntro, RSEReportUK, RSEHistory, WhyScienceNeedsMoreRSE, SoftwareSustainabilityInstitute`, 
 and the establishment of various guidelines 
-{cite}`FAIR4RS, 4SimpleRecs, 10MetricsForSciSoftware, BestPracticesForSciComp, RecommendOnResearchSoftware, ELIXIRSoftwareManagementPlan, NLeScienceSoftDevGuide, BestPracticesInBioinfSoftware, 10RuleForSoftwareInCompBio, SustainableResearchSoftwareHandOver, QuickGuideToOrgCompBioProjects, EnhancingReproducibility, SciSoftDevIsNotOxymoron, 5RecommendedPracticesForCompSci, 10SimpleRulesOnWritingCleanAndReliableSciSoft, BarelySufficientPracticesInSciComp, GoodEnoughPracticesInSciComp` 
+{cite}`FAIR4RS, 4SimpleRecs, 10MetricsForSciSoftware, BestPracticesForSciComp, RecommendOnResearchSoftware, ELIXIRSoftwareManagementPlan, NLeScienceSoftDevGuide, BestPracticesInBioinfSoftware, 10RuleForSoftwareInCompBio, SustainableResearchSoftwareHandOver, QuickGuideToOrgCompBioProjects, EnhancingReproducibility, SciSoftDevIsNotOxymoron, 5RecommendedPracticesForCompSci, 10SimpleRulesOnWritingCleanAndReliableSciSoft, BarelySufficientPracticesInSciComp, GoodEnoughPracticesInSciComp, TuringWay` 
 and workshops 
 {cite}`SoftwareCarpentryOriginal, SoftwareCarpentry, SoftEngForSci` 
 to promote software engineering best practices among developers.
@@ -296,7 +296,7 @@ Lastly, **reusability** is enabled by employing DRY (Don't Repeat Yourself) prin
 and modularizing code into applications with clear programming 
 and user interfaces 
 {cite}`FAIR4RS, 5RecommendedPracticesForCompSci, BestPracticesForSciComp, RolesOfCodeInCSE`. 
-Applications must then be packaged into as many distribution formats as possible, 
+Applications must then be [packaged](#bg-packaging) into as many distribution formats as possible, 
 to ensure compatibility with different hardware and software environments. 
 This can also greatly simplify the setup process for users 
 {cite}`10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, WhyJohnnyCantBuild`, 
