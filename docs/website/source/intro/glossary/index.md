@@ -3,10 +3,8 @@
 :::{glossary}
 :sorted:
 
-
 API
   Application Programming Interface.
-
 
 CI/CD
   Aggregation of Continuous Integration, Delivery, and Deployment,
@@ -62,7 +60,6 @@ FOSS
   It plays a critical role in software development
   by providing reusable tools and fostering a shared knowledge ecosystem.  
 
-
 ITS
   An Issue Tracking System (ITS) is a software tool used to document,
   manage, and track issues, bugs, tasks, and feature requests throughout a project's life cycle.
@@ -72,7 +69,6 @@ ITS
   Popular ITS tools include Jira, [GitHub Issues](#bg-ghi), GitLab Issues, and Bugzilla.
   ITS platforms are essential for effective project management, fostering collaboration,
   and ensuring accountability in software development and other workflows.
-
 
 OIDC
   [OpenID Connect](https://openid.net/connect/) (OIDC)
@@ -98,7 +94,6 @@ PAT
   They are often used in automated workflows, scripts,
   or integrations requiring authenticated access.
 
-
 PR
   A Pull Request (PR) is a feature in distributed version control systems such as GitHub,
   which allows developers to propose changes to a codebase.
@@ -109,29 +104,5 @@ PR
   They often include a description of the changes, references to related issues, 
   and a summary of the intent or impact of the modification.
   PRs are a critical component of modern collaborative software development workflows.
-
-
-Setuptools
-  [Setuptools](https://setuptools.pypa.io/) is a Python library by [PyPA](#bg-pypa)
-  designed to facilitate the packaging, distribution, and installation of Python projects.
-  It extends Python's standard distutils library,
-  offering additional features such as dependency management,
-  support for plugins, and creating Python package distributions
-  like source archives and {term}`wheel`s.
-  It is a core component of the Python packaging ecosystem
-  and is widely used to prepare projects for distribution on repositories like [PyPI](#bg-pypi).
-
-TOML
-  [Tom's Obvious Minimal Language](https://toml.io) (TOML)
-  is a human-readable configuration file format
-  with support for hierarchical data structures,
-  offering an alternative to formats like JSON and YAML.
-  TOML files, such as Python's `pyproject.toml`,
-  are commonly used in software projects
-  to define configurations in a structured and machine-parsable format.
-  [Learn TOML in Y Minutes](https://learnxinyminutes.com/docs/toml/)
-
-Wheel
-  
 
 :::
