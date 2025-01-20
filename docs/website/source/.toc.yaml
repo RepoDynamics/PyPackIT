@@ -11,7 +11,23 @@ entries:
       - file: intro/overview/index
       - file: intro/background/index
         entries:
-          - glob: intro/background/**/*
+          - file: intro/methodologies/index
+          - file: intro/github/index
+          - file: intro/python/index
+            entries:
+              - file: intro/python/pypi/index
+              - file: intro/python/pip/index
+              - file: intro/python/packaging/index
+              - file: intro/python/governance/index
+          - file: intro/conda/index
+            entries:
+              - file: intro/conda/packaging/index
+          - file: intro/versioning/index
+          - file: intro/jsonpath/index
+          - file: intro/yaml/index
+          - file: intro/toml/index
+          - file: intro/jinja/index
+          - file: intro/markdown/index
       - file: intro/glossary/index
       - file: intro/references/index
   - file: manual/index
