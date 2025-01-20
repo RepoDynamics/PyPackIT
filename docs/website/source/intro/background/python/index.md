@@ -44,4 +44,3 @@ The recent advancements in parallel distributed computing with Python
 and Jupyter {cite}`DistWorkflowsWithJupyter` 
 has even motivated large high-performance computing (HPC) communities 
 to shift toward Python {cite}`SoftEngForCompSci, InteractiveSupercomputingWithJupyter`. 
-
