@@ -69,17 +69,6 @@ including Semantic Versioning and Python version specifiers.
 :::
 
 
-:::{grid-item-card} Jinja Templating
-:class-title: sd-text-center
-:link: jinja/index
-:link-type: doc
-
-Explore further details on the Jinja templating engine
-and its features and syntax including expressions, logic statements,
-macros, filters, variables, conditionals, and loops.
-:::
-
-
 :::{grid-item-card} JSONPath Expression
 :class-title: sd-text-center
 :link: jsonpath/index
@@ -112,6 +101,28 @@ which is used in Python projects to define package configuration
 and metadata in the `pyproject.toml` file.
 :::
 
+
+:::{grid-item-card} Jinja Templating
+:class-title: sd-text-center
+:link: jinja/index
+:link-type: doc
+
+Explore further details on the Jinja templating engine
+and its features and syntax including expressions, logic statements,
+macros, filters, variables, conditionals, and loops.
+:::
+
+
+:::{grid-item-card} Markdown Format
+:class-title: sd-text-center
+:link: toml/index
+:link-type: doc
+
+Learn more about the Markdown markup language
+and its various flavors like CommonMark, GitHub-Flavored Markdown,
+Pandoc Markdown, and MyST Markdown
+for writing rich and technical documents.
+:::
 
 ::::
 
