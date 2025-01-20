@@ -19,21 +19,25 @@ These include preparing import packages, configuring metadata,
 building the package, and publishing it to indexing repositories 
 like [PyPI](#bg-pypi) and [Anaconda.org](#bg-anaconda-org). 
 Users can then download and install the package on their machines
-using supported package management systems, such as [pip](#bg-pip) 
+using supported package management systems such as [pip](#bg-pip). 
 for PyPI and [conda](#bg-conda) or [mamba](#bg-mamba) for Anaconda.org.
+
+The rest of this page provides a general overview 
+of key steps in the packaging and distribution of Python packages.
+For information about Conda packages, see [Packaging and Distribution](#bg-conda-packaging)
+in the Anaconda ecosystem.
 
 
 :::{admonition} Learn More
 :class: seealso
 
-The rest of this page provides a general overview 
-of key steps in the packaging and distribution process.
 For more detailed information, see:
 - [Python Packaging User Guide](https://packaging.python.org)---The official Python packaging guide by PyPA.
 - [pyOpenSci Python Package Guide](https://www.pyopensci.org/python-package-guide/)---Packaging guides and tutorials for scientific packages by the [pyOpenSci](https://www.pyopensci.org/python-packaging-science.html) community. 
 :::
 
 
+(bg-pkg-structure)=
 ## Package Structure
 
 The first step in packaging involves 
@@ -58,6 +62,7 @@ All the source code of the package must be placed inside this directory,
 organized into subpackages and modules, which can be further nested to any depth.
 
 
+(bg-pyproject)=
 ## Configuration and Metadata
 
 Import packages must define additional
@@ -140,6 +145,7 @@ including:
   These must be specified in a standardized format defined in
   [PEP 508](https://www.python.org/dev/peps/pep-0508/),
   and must be kept up to date and synchronized with the dependencies used in the source code.
+  Note that only packages available from PyPI are allowed.
 - [**Entry Points**]{.primary-color}: The entry points of the package,
   such as console scripts, GUI scripts, and other callable objects,
   which are automatically registered by the package manager and made available to the user.
@@ -239,6 +245,7 @@ and [cibuildwheel](https://github.com/pypa/cibuildwheel) (for platform-specific 
 packages provided by PyPA.
 
 
+(bg-packaging-publish)=
 ## Publication
 
 The final step in the process involves publishing the package to a repository, 
