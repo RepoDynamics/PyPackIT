@@ -3,21 +3,6 @@
 :::{glossary}
 :sorted:
 
-  
-Anaconda.org
-  [Anaconda.org](http://www.anaconda.org/)
-  is a language-agnostic package hosting and management service
-  by [Anaconda Inc.](http://anaconda.com/)
-  for sharing [conda packages](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/packages.html)
-  and [standard Python packages](https://docs.anaconda.com/anacondaorg/user-guide/packages/standard-python-packages/)
-  in private and public repositories.
-  Supporting multiple programming languages, it is a popular choice
-  for publishing Python packages with non-Python dependencies,
-  which are common in high-performance computing applications.
-  Similar to {term}`PyPI` using {term}`pip`,
-  Anaconda.org integrates with the {term}`conda` package manager, 
-  allowing users to easily download and install packages 
-  hosted on the platform using command-line tools.
 
 API
   Application Programming Interface.
@@ -39,31 +24,6 @@ CM
   dependency updates, performance tuning, and responding to user feedback.
   CM ensures that software remains reliable, secure,
   and aligned with organizational or user needs over time, particularly in dynamic environments.
-
-Conda
-  [Conda](https://docs.conda.i) is an open-source package and environment manager
-  for Python and other programming languages.
-  It is designed to handle package dependencies, installations,
-  and updates across platforms.
-  Unlike {term}`pip`, conda manages both Python packages
-  and non-Python dependencies, such as C libraries.
-  It supports creating isolated virtual environments,
-  allowing users to manage multiple projects with different dependencies.
-  Conda is included with the [Anaconda](https://docs.anaconda.com/anaconda/)
-  and [Miniconda](https://docs.anaconda.com/miniconda/) distributions,
-  and works with repositories such as {term}`Anaconda.org` and {term}`conda-forge`.
-
-conda-forge
-  [conda-forge](https://conda-forge.org/) is a community-driven collection of recipes,
-  build infrastructure, and packages for the {term}`conda` package manager.
-  It provides a vast public repository of high-quality, up-to-date packages,
-  many of which are not available in the [default Anaconda repository](https://repo.anaconda.com/pkgs/).
-  Packages on conda-forge are automatically built
-  and tested across multiple operating systems and architectures
-  using Continuous Integration (CI) systems,
-  and uploaded to the [conda-forge Anaconda channel](https://anaconda.org/conda-forge).
-  It is a widely used source for Python and non-Python packages,
-  especially in scientific computing and data science communities.
 
 CR
   Continuous Refactoring (CR) is the practice of regularly and incrementally
@@ -114,20 +74,6 @@ ITS
   and ensuring accountability in software development and other workflows.
 
 
-Mamba
-  [Mamba](https://mamba.readthedocs.io/) is a high-performance
-  reimplementation of the {term}`conda` package manager in C++,
-  as part of the {term}`conda-forge` ecosystem.
-  It offers improved speed for resolving dependencies and installing packages
-  while maintaining compatibility with the conda ecosystem.
-  Mamba supports the same commands and functionality as conda,
-  including managing environments and installing packages
-  from repositories like {term}`Anaconda.org` and conda-forge.
-  It also introduces efficient parallel downloads
-  and optimized dependency resolution,
-  making it particularly useful for users
-  working with large or complex package environments.
-
 OIDC
   [OpenID Connect](https://openid.net/connect/) (OIDC)
   is an identity layer built on top of the OAuth 2.0 protocol
@@ -152,26 +98,6 @@ PAT
   They are often used in automated workflows, scripts,
   or integrations requiring authenticated access.
 
-PEP
-  A [Python Enhancement Proposal](https://peps.python.org/) (PEP)
-  is a formal document that outlines proposed changes, new features,
-  or processes for the Python language and its ecosystem,
-  serving as a reference for Python's development.
-  PEPs are reviewed and approved by Python’s core developers
-  and are a cornerstone of Python's open development model.
-  Notable examples include [PEP 8](https://peps.python.org/pep-0008/) (style guide for Python code),
-  [PEP 20](https://peps.python.org/pep-0020/) (The Zen of Python), and
-  [PEP 440](https://peps.python.org/pep-0440/) (Version Identification and Dependency Specification).
-
-pip
-  [Pip](https://pip.pypa.io) is the default package manager for Python,
-  maintained by {term}`PyPA`.
-  It is a command-line tool, often included with Python distributions,
-  and is essential for managing Python environments in software development workflows.  
-  Pip can be used to download and install packages
-  from source distributions and binary wheels available
-  in online repositories such as {term}`PyPI`
-  and version control systems like Git.
 
 PR
   A Pull Request (PR) is a feature in distributed version control systems such as GitHub,
@@ -184,42 +110,16 @@ PR
   and a summary of the intent or impact of the modification.
   PRs are a critical component of modern collaborative software development workflows.
 
-PSF
-  [Python Software Foundation](https://www.python.org/psf-landing/) (PSF)
-  is a non-profit organization that manages the intellectual property rights
-  for Python, oversees its licensing, and provides financial support
-  for Python-related events and projects, such as PyCon conferences.
-  It also fosters collaboration and education within the global Python community
-  through grants, sponsorships, and outreach programs.
-
-PyPA
-  [Python Packaging Authority](https://www.pypa.io/) (PyPA)
-  is a working group that maintains and develops tools, standards,
-  and libraries for Python package management and distribution.
-  PyPA oversees key projects such as {term}`pip` and {term}`setuptools`,
-  and manages specifications like the
-  [Python Packaging User Guide](https://packaging.python.org/en/latest/)
-  and standards such as {term}`PEP` [517](https://peps.python.org/pep-0517/)
-  and {term}`PEP` [621](https://peps.python.org/pep-0621/).
-
-PyPI
-  [Python Package Index](https://pypi.org/) (PyPI)
-  is the official software repository for Python packages.
-  Run by the {term}`PSF`, PyPI provides a centralized public platform
-  to publish and share reusable software.
-  It serves as the default package source for tools like {term}`pip`,
-  enabling users to download and install packages
-  directly into their Python environments.
 
 Setuptools
-  [Setuptools](https://setuptools.pypa.io/) is a Python library by {term}`PyPA`
+  [Setuptools](https://setuptools.pypa.io/) is a Python library by [PyPA](#bg-pypa)
   designed to facilitate the packaging, distribution, and installation of Python projects.
   It extends Python's standard distutils library,
   offering additional features such as dependency management,
   support for plugins, and creating Python package distributions
   like source archives and {term}`wheel`s.
   It is a core component of the Python packaging ecosystem
-  and is widely used to prepare projects for distribution on repositories like {term}`PyPI`.
+  and is widely used to prepare projects for distribution on repositories like [PyPI](#bg-pypi).
 
 TOML
   [Tom's Obvious Minimal Language](https://toml.io) (TOML)
@@ -232,14 +132,6 @@ TOML
   [Learn TOML in Y Minutes](https://learnxinyminutes.com/docs/toml/)
 
 Wheel
-  [Wheel](https://packaging.python.org/en/latest/glossary/#term-Wheel) is the standard
-  [binary distribution format](https://packaging.python.org/en/latest/specifications/binary-distribution-format/#binary-distribution-format)
-  for Python packages, designed to expedite the installation process
-  by eliminating the need for building packages from source.
-  A wheel archive contains all the necessary files
-  for a Python package, including compiled binaries for specific platforms if needed.
-  As a platform-independent standard defined in [PEP 427](https://www.python.org/dev/peps/pep-0427/),
-  wheels are widely supported by tools like {term}`pip`,
-  replacing the older [Egg](https://packaging.python.org/en/latest/glossary/#term-Egg) format.
+  
 
 :::
