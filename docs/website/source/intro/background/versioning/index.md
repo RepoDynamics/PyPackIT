@@ -1,5 +1,5 @@
 (bg-versioning)=
-# Software Versioning
+# Versioning
 
 Software versioning is a systematic method of 
 assigning unique version numbers to software releases, 
