@@ -309,7 +309,12 @@ using technologies like Docker to encapsulate applications
 and all their dependencies into isolated, portable images
 {cite}`AdoptingSoftEngConceptsInSciResearch, 10RuleForSoftwareInCompBio, ELIXIRSoftwareManagementPlan, Docker`.
 
-Despite its importance, FAIRness is often overlooked in FOSS projects
+
+Ensuring FAIRness is a non-trivial task,
+requiring developers to be familiar with the specific requirements and nuances of 
+packaging and distribution for different formats and platforms 
+(cf. packaging in [Python](#bg-packaging) vs [Conda](#bg-conda-packaging)). 
+Consequently, despite its importance, FAIRness is often overlooked in FOSS projects
 {cite}`AnalyzingGitHubRepoOfPapers, BridgingTheChasm, PublishYourCode, CompSciError`,
 leading to unsustainable prototypes unfit for production environments
 {cite}`SustainableResearchSoftwareHandOver, 10RuleForSoftwareInCompBio, PublishYourCode`. 
