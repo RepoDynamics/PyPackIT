@@ -57,15 +57,16 @@ especially in scientific computing and data science communities.
 is the core package and environment manager used across the Anaconda ecosystem.
 Unlike Python's native package manager [pip](#bg-pip), 
 Conda supports packages written in any language, 
-including Python, R, C, and C++, 
-making it especially useful for scientific computing and data science workflows.
-It also supports creating isolated virtual environments,
+including Python, R, C, and C++. 
+Compared to [pip](#bg-pip), it can install any system-level binaries,
+making it more similar to OS package managers like [APT](https://wiki.debian.org/apt-get).
+Conda also supports creating isolated virtual environments,
 allowing users to manage multiple projects with different dependencies.
 
-Conda is an open-source software
-included with the [Anaconda and Miniconda distributions](#bg-anaconda-dist),
-and works with repositories such as [Anaconda.org](#bg-anaconda-org) and [conda-forge](#bg-conda-forge).
-It is designed to simplify the installation and management 
+Conda is an open-source software by the [Conda community](https://conda.org/)
+included in the [Anaconda and Miniconda distributions](#bg-anaconda-dist).
+It works with repositories such as [Anaconda.org](#bg-anaconda-org) and [conda-forge](#bg-conda-forge),
+and is designed to simplify the installation and management 
 of software packages and their dependencies across platforms,
 with support for precompiled binary packages for faster installation. 
 
