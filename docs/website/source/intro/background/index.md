@@ -35,7 +35,7 @@ and repository templates.
 :::
 
 
-:::{grid-item-card} Python Programming Language
+:::{grid-item-card} Python Ecosystem
 :class-title: sd-text-center
 :link: python/index
 :link-type: doc
@@ -48,12 +48,12 @@ PyPI, PyPA, Pip, PEP, and PSF.
 :::
 
 
-:::{grid-item-card} Anaconda Ecosystem
+:::{grid-item-card} Conda Ecosystem
 :class-title: sd-text-center
 :link: anaconda/index
 :link-type: doc
 
-Find out more about the Anaconda ecosystem and learn
+Find out about the Conda ecosystem and learn
 more about Anaconda.org, Anaconda distribution, Conda, Miniconda,
 Conda-forge, Miniforge, Mamba, and Micromamba.
 :::
@@ -102,3 +102,14 @@ like anchors and tags.
 :::
 
 ::::
+
+
+
+:::{admonition} External Resources
+:class: seealso
+
+A full list of literature cited throughout the documentation 
+is provided in [References](#refs). Freely available online resources include:
+- [The Turing Way](https://book.the-turing-way.org/) handbook to reproducible, ethical and collaborative data science.
+- [Python Tutorials & Learning Resources for Scientists](https://www.pyopensci.org/learn.html) by the [pyOpenSci](https://www.pyopensci.org/) community.
+:::
