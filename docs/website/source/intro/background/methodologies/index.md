@@ -1,5 +1,5 @@
 (bg-methodologies)=
-# Software Development Methodologies
+# Methodologies
 
 Software development methodologies are structured frameworks 
 that guide the planning, execution, and delivery of software projects. 
