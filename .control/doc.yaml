@@ -721,6 +721,13 @@ web:
         title: Contribute
         options:
           numbered: true
+        entries:
+          - file: contribute/feedback/index
+            entries:
+              - file: contribute/feedback/security/index
+              - file: contribute/feedback/bug/index
+          - file: contribute/develop/index
+          - file: contribute/support/index
       - file: about/index
         title: About
         options:
@@ -729,6 +736,8 @@ web:
           - file: about/citation/index
           - file: about/contact/index
           - file: about/license/index
+            entries:
+              - glob: about/license/*/index
       - file: help/index
         title: Help
         options:
