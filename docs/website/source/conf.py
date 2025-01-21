@@ -7,6 +7,7 @@ import copy as _copy
 import json as _json
 import os as _os
 from pathlib import Path as _Path
+import shutil as _shutil
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman.data_validator as _controlman_data_validator
@@ -495,6 +496,22 @@ def _add_api_files():
     return
 
 
+def _add_license():
+    for license_id, component in _meta.get("license", {}).get("component", {}).items():
+        copyright_path = component["path"].get("header_plain")
+        if copyright_path:
+            copyright_abs_path = _path_root / copyright_path
+            component["header_plain"] = copyright_abs_path.read_text()
+        license_path = _path_root / component["path"]["text_plain"]
+        dest_path = _meta["web"].get("page", {}).get("license", {}).get("path")
+        if not dest_path:
+            continue
+        dest_dir = _Path(dest_path) / license_id.lower()
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        _shutil.copy2(license_path, dest_dir / "index.md")
+    return
+
+
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
@@ -507,8 +524,9 @@ _add_theme()
 _add_extensions()
 _add_ablog_blog_authors()
 _add_intersphinx_mapping()
+_add_license()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
-_add_api_files()
+# _add_api_files()
 globals().update(_globals)
