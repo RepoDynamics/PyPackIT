@@ -13321,6 +13321,8 @@
       ],
       "gitignore": [
          "docs/website/.build/",
+         "docs/website/source/api/*/**",
+         "docs/website/source/about/license/*/**",
          ".local/cache/**",
          "!.local/cache/**/",
          "!.local/cache/**/README.md",
@@ -15162,7 +15164,14 @@
                }
             }
          },
-
+         "jsonschema": {
+            "dependency": {
+               "import_name": "jsonschema_autodoc.sphinx",
+               "pip": {
+                  "spec": "jsonschema-autodoc"
+               }
+            }
+         },
          "last_update": {
             "dependency": {
                "description": "Adding page-specific last-updated dates to each page.",
