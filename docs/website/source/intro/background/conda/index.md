@@ -36,6 +36,7 @@ allowing users to easily download and install packages
 hosted on the platform using command-line tools.
 
 
+(bg-conda-forge)=
 ## Conda-forge
 
 [Conda-forge](https://conda-forge.org/) is a community-driven collection of recipes,
@@ -51,6 +52,7 @@ It is a widely used source for Python and non-Python packages,
 especially in scientific computing and data science communities.
 
 
+(bg-conda)=
 ## Conda
 
 [Conda](https://docs.conda.io) 
@@ -71,6 +73,7 @@ of software packages and their dependencies across platforms,
 with support for precompiled binary packages for faster installation. 
 
 
+(bg-mamba)=
 ## Mamba
 
 [Mamba](https://mamba.readthedocs.io/) is a high-performance
@@ -87,6 +90,7 @@ making it particularly useful for users
 working with large or complex package environments.
 
 
+(bg-micromamba)=
 ## Micromamba
 
 [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) 
@@ -110,6 +114,7 @@ Moreover, it provides access to the [Anaconda Public Repository](https://repo.an
 with more than eight thousand open-source packages.
 
 
+(bg-miniconda)=
 ## Miniconda Distribution
 
 [Miniconda](https://docs.anaconda.com/miniconda/) 
@@ -119,6 +124,7 @@ This allows users to install only the packages they need using Conda,
 providing greater control over their environment.
 
 
+(bg-miniforge)=
 ## Miniforge Distribution
 
 [Miniforge](https://github.com/conda-forge/miniforge) 
