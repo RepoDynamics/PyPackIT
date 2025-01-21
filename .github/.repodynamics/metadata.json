@@ -40,7 +40,7 @@
                   },
                   {
                      "args": {
-                        "message": "2024-12-13"
+                        "message": "2025-01-21"
                      },
                      "label": "\ud83d\uddd3\u2002Release Date"
                   },
@@ -518,7 +518,7 @@
          "contacts": [
             "aariam"
          ],
-         "date_released": "2024-12-13",
+         "date_released": "2025-01-21",
          "doi": null,
          "identifiers": [
             {
@@ -3307,7 +3307,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -3763,7 +3763,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2024-12-13"
+                                 "message": "2025-01-21"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
@@ -16330,7 +16330,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2024-12-13"
+                                 "message": "2025-01-21"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
