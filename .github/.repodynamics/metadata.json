@@ -14949,13 +14949,6 @@
                   "source": "https://github.com/Quansight-labs/intersphinx_registry"
                }
             },
-            "jsonschema-autodoc": {
-               "description": "Creating reference documentation from JSONSchemas.\n",
-               "import_name": "jsonschema_mdit",
-               "pip": {
-                  "spec": "jsonschema-autodoc"
-               }
-            },
             "librsvg": {
                "conda": {
                   "channel": "conda-forge",
@@ -15849,53 +15842,53 @@
                   {
                      "entries": [
                         {
-                           "file": "intro/methodologies/index"
+                           "file": "intro/background/methodologies/index"
                         },
                         {
-                           "file": "intro/github/index"
-                        },
-                        {
-                           "entries": [
-                              {
-                                 "file": "intro/python/pypi/index"
-                              },
-                              {
-                                 "file": "intro/python/pip/index"
-                              },
-                              {
-                                 "file": "intro/python/packaging/index"
-                              },
-                              {
-                                 "file": "intro/python/governance/index"
-                              }
-                           ],
-                           "file": "intro/python/index"
+                           "file": "intro/background/github/index"
                         },
                         {
                            "entries": [
                               {
-                                 "file": "intro/conda/packaging/index"
+                                 "file": "intro/background/python/pypi/index"
+                              },
+                              {
+                                 "file": "intro/background/python/pip/index"
+                              },
+                              {
+                                 "file": "intro/background/python/packaging/index"
+                              },
+                              {
+                                 "file": "intro/background/python/governance/index"
                               }
                            ],
-                           "file": "intro/conda/index"
+                           "file": "intro/background/python/index"
                         },
                         {
-                           "file": "intro/versioning/index"
+                           "entries": [
+                              {
+                                 "file": "intro/background/conda/packaging/index"
+                              }
+                           ],
+                           "file": "intro/background/conda/index"
                         },
                         {
-                           "file": "intro/jsonpath/index"
+                           "file": "intro/background/versioning/index"
                         },
                         {
-                           "file": "intro/yaml/index"
+                           "file": "intro/background/jsonpath/index"
                         },
                         {
-                           "file": "intro/toml/index"
+                           "file": "intro/background/yaml/index"
                         },
                         {
-                           "file": "intro/jinja/index"
+                           "file": "intro/background/toml/index"
                         },
                         {
-                           "file": "intro/markdown/index"
+                           "file": "intro/background/jinja/index"
+                        },
+                        {
+                           "file": "intro/background/markdown/index"
                         }
                      ],
                      "file": "intro/background/index"
@@ -16011,6 +16004,25 @@
                "title": "News"
             },
             {
+               "entries": [
+                  {
+                     "entries": [
+                        {
+                           "file": "contribute/feedback/security/index"
+                        },
+                        {
+                           "file": "contribute/feedback/bug/index"
+                        }
+                     ],
+                     "file": "contribute/feedback/index"
+                  },
+                  {
+                     "file": "contribute/develop/index"
+                  },
+                  {
+                     "file": "contribute/support/index"
+                  }
+               ],
                "file": "contribute/index",
                "options": {
                   "numbered": true
@@ -16026,6 +16038,11 @@
                      "file": "about/contact/index"
                   },
                   {
+                     "entries": [
+                        {
+                           "glob": "about/license/*/index"
+                        }
+                     ],
                      "file": "about/license/index"
                   }
                ],
