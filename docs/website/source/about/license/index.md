@@ -4,11 +4,20 @@ ccid: license
 
 # License
 
-## |{{ccc.name}}| License and Copyright
-We are advocates of [copyleft](https://copyleft.org/) and [open-source](https://opensource.org/) software,
-and |{{ccc.name}}| is licensed under |{{ccc.license.expression}}|.
-Unlike traditional copyright, which restricts the rights of others to use, modify,
-and distribute a work, [copyleft licenses](https://choosealicense.com/licenses/) grant users the freedom to access, modify,
-distribute, and redistribute the work and its derivative works, as long as it remains
-under the same copyleft license. This ensures that the work and all its derivatives
-will always remain free to use.
+|{{ ccc.name }}| is licensed according to the
+[System Package Data Exchange](https://spdx.org/) (SPDX) license standard,
+as described in [PEP 639](https://peps.python.org/pep-0639/).
+The license is communicated through an 
+[SPDX license identifier](https://spdx.dev/learn/handling-license-info/):
+
+
+:::{admonition} |{{ ccc.name }}|'s SPDX License Identifier
+:class: danger
+
+<div align="center"><strong><code style="font-size: 1.2em; color: rgb(255,40,40)">|{{ ccc.license.expression }}|</code></strong></div>
+:::
+
+Detailed information about each license component is provided below.
+
+
+|{{ helper.create_license_data() }}|
