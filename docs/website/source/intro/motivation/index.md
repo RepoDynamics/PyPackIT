@@ -247,7 +247,6 @@ FOSS is a valuable asset for technological innovations and scientific advancemen
 but often lacks findability, accessibility, interoperability, and reusability
 {cite}`AccessibleReproducibleResearch, ShiningLight, CaseForOpenCompProg, SciSoftwareAccuracy, SurveySEPracticesInScience`—key
 aspects of the FAIR principles {cite}`FAIR4RS`.
-
 **Findability** requires that software is searchable by its functionalities and attributes.
 This necessitates distribution to permanent public indexing repositories
 along with comprehensive metadata and unique global identifiers like DOIs
@@ -263,7 +262,17 @@ and promote trust, adoption, and collaboration
 The license determines the legal status of the project
 and defines the terms and conditions
 under which the software can be used, modified, and distributed.
-It is an important aspect of software projects
+Unlike traditional copyright licenses 
+that restrict the rights of others 
+to use, modify, and distribute a work,
+[open-source](https://opensource.org/) and
+[copyleft](https://copyleft.org/) licenses
+grant users the freedom to access, modify, 
+and redistribute the work and its derivative works, 
+as long as they remain under the same copyleft license. 
+This ensures that the work and all its derivatives
+will always remain free to use.
+Licensing is thus an important aspect of software projects
 and can have a significant impact on their adoption and growth.
 A suitable license protects the rights of the creator 
 while encouraging use and contribution from others.
