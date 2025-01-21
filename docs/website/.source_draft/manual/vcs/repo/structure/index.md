@@ -1,6 +1,21 @@
 (repo-structure)=
 # Structure
 
+The directory structure of the repository defines the layout
+  and the overall organization of the project; it is an important factor that can have a significant impact
+  on the development process and maintainability of the project.
+  A well-structured repository should have a clear directory structure,
+  with a logical separation between different components of the project,
+  and a consistent and standardized naming scheme for files and directories.
+  This makes it easier for developers to navigate the repository,
+  locate the relevant files, and understand the overall structure of the project.
+  In addition, GitHub and many other tools and services that are commonly used in the project development
+  process rely on the repository's structure to locate and identify various components of the project.
+  This requires developers to follow a specific directory structure and naming scheme
+  when setting up their repositories, so that these tools can locate the relevant files and directories
+  needed for their operation.
+  Moreover, the repository structure is one of the first things that users notice when visiting the repository,
+  and thus plays a vital role in establishing the project's credibility and professionalism.
 
 In addition to several files in the root directory,
 |{{ ccc.name }}| recognizes and works with seven main directories
