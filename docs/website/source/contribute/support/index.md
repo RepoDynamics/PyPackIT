@@ -1,9 +1,5 @@
----
-sd_hide_title: true
----
 # Support
 
-## Support Us
 
 If you like our project and have found it useful, but just don't have the time to get involved,
 we would still be very thankful to see your support:
