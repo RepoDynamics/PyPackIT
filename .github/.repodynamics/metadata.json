@@ -15169,14 +15169,7 @@
                }
             }
          },
-         "jsonschema": {
-            "dependency": {
-               "import_name": "jsonschema_autodoc.sphinx",
-               "pip": {
-                  "spec": "jsonschema-autodoc"
-               }
-            }
-         },
+
          "last_update": {
             "dependency": {
                "description": "Adding page-specific last-updated dates to each page.",
