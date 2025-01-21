@@ -23,6 +23,8 @@ repo:
   gitignore:
     # Project-specific files
     - ${{ web.path.root }}$/.build/
+    - ${{ web.path.source }}$/api/*/**
+    - ${{ web.path.source }}$/about/license/*/**
     - ${{ local.cache.path }}$/**
     - '!${{ local.cache.path }}$/**/'
     - '!${{ local.cache.path }}$/**/README.md'
