@@ -112,3 +112,38 @@ def create_license_data():
             )
             container.append(resources_admo)
     return container.source()
+
+
+def footer_template(license_path):
+    """Create badges for footer template."""
+    badge_list = [
+        {
+            "label": metadata["name"],
+            "args": {"message": "0.0.0"},
+            "logo": f"source/{metadata["web"]["file"]["icon"]["rel_path"]}",
+            "logo_type": "file",
+        },
+        {
+            "label": "Copyright",
+            "args": {"message": metadata["copyright"]},
+        },
+        {
+            "label": "SPDX License ID",
+            "args": {"message": metadata["license"]["expression"]},
+            "title": f"SPDX License Identifier: {metadata["license"]["expression"]}",
+            "alt": f"SPDX License Identifier: {metadata["license"]["expression"]}",
+            "link": license_path,
+        }
+    ]
+    badges = mdit.element.badges(
+        items=badge_list,
+        service="static",
+        style="flat-square",
+        classes=["footer-badge"],
+        separator=0,
+        color=metadata["color"]["primary"]["light"],
+        color_dark=metadata["color"]["primary"]["dark"],
+        label_color="rgb(200,200,200)",
+        label_color_dark="#555"
+    )
+    return badges.source(target="github")
