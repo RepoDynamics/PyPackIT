@@ -4,6 +4,8 @@
 function updateImagesBasedOnTheme() {
     // Check if the current theme is dark
     const dark = document.documentElement.dataset.theme == 'dark';
+
+    // ---- Update <img> elements with "dark-light" and "themed" classes ----
     // Get all elements with both "dark-light" and "themed" classes
     const elements = document.querySelectorAll('.dark-light.themed');
     // Regular expression to find "_light" or "_dark" right before the file extension
@@ -22,6 +24,44 @@ function updateImagesBasedOnTheme() {
         } else {
             // Log element details if it doesn't have a src
             console.log("Element without src detected:", element);
+        }
+    });
+
+    // ---- Update <picture> elements ----
+    const pictures = document.querySelectorAll("picture");
+    pictures.forEach((picture) => {
+        const img = picture.querySelector("img");
+        if (!img) return;
+        let dataLightSrc = picture.getAttribute("data-light-src");
+        let dataDarkSrc = picture.getAttribute("data-dark-src");
+        const sources = picture.querySelectorAll("source");
+        if (!dataLightSrc || !dataDarkSrc) {
+            // If not stored, iterate over <source> elements to identify light/dark URLs
+            sources.forEach((source) => {
+                const isLightScheme = source.media.includes("(prefers-color-scheme: light)");
+                if (isLightScheme) {
+                    dataLightSrc = source.srcset;
+                    picture.setAttribute("data-light-src", dataLightSrc); // Store light URL
+                } else {
+                    dataDarkSrc = source.srcset;
+                    picture.setAttribute("data-dark-src", dataDarkSrc); // Store dark URL
+                }
+            });
+        }
+        // Based on the current theme, select the appropriate source URL
+        const newSrc = dark ? dataDarkSrc : dataLightSrc;
+        if (newSrc) {
+            // Update all <source> elements with the selected URL
+            sources.forEach((source) => {
+                source.srcset = newSrc;
+            });
+            // Force the browser to re-evaluate the <picture>
+            const img = picture.querySelector("img");
+            if (img) {
+                const currentSrc = img.src;
+                img.src = ""; // Clear current src
+                img.src = currentSrc; // Restore it to force re-render
+            }
         }
     });
 }
