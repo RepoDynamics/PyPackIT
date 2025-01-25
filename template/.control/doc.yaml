@@ -1,10 +1,10 @@
 color:
   primary:
-    light: '#0F3460'
-    dark: '#3A98B9'
+    light: '#005500'
+    dark: '#1CAA00'
   secondary:
-    light: '#562B08'
-    dark: '#E3651D'
+    light: '#3C5500'
+    dark: '#AF8A00'
 document:
   readme:
     output:
@@ -841,8 +841,8 @@ web:
         # -- Header --
         navbar_start: [ navbar-logo ]  # header left
         navbar_center: [ navbar-nav ]  # header center
-        navbar_persistent: [ search-button ]  # header right persistent
-        navbar_end: [ navbar-icon-links, theme-switcher ]  # header right
+        navbar_persistent: [ search-button, theme-switcher ]  # header right persistent
+        navbar_end: [ navbar-icon-links ]  # header right
         navbar_align: left  # alignment of `navbar_center`: {"left", "right", "content"}
         # -- Article Header --
         article_header_start: [ breadcrumbs ]  # article header left
@@ -860,7 +860,7 @@ web:
         # -- Content Footer --
         content_footer_items: [ ]
         # -- Footer --
-        footer_start: [ version, copyright, pypackit_ver ]  # footer left
+        footer_start: [ footer_badges ]  # footer left
         footer_center: [ ]  # footer center
         footer_end: [ quicklinks ]  # footer right
         # ---- General ----
@@ -870,9 +870,21 @@ web:
         show_toc_level: 3
         header_links_before_dropdown: 7
         icon_links:
+          - name: MyBinder
+            icon: fa-custom fa-mybinder
+            url: https://example.com
+          - name: Docker Image
+            icon: fa-brands fa-docker
+            url: https://example.com
+          - name: Conda Distribution
+            icon: fa-custom fa-conda
+            url: https://example.com
           - name: PyPI Distribution
             icon: fa-brands fa-python
             url: ${{ pkg.pypi.url.home }}$
+          - name: Zenodo Record
+            icon: fa-solid fa-z
+            url: https://example.com
           - name: Source Repository
             icon: fa-brands fa-github
             url: ${{ repo.url.home }}$
@@ -1029,6 +1041,7 @@ web:
           docs: https://ablog.readthedocs.io/
           source: https://github.com/sunpy/ablog
           docs_config:
+            title: Configuration Options
             url: https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
         pip:
           spec: ablog == 0.11.11
@@ -1180,6 +1193,25 @@ web:
           spec: sphinx-notfound-page == 1.0.4
       config:
         notfound_urls_prefix: /${{ repo.name }}$/  # dynamically set in conf.py if not set here
+  css:
+    theme_font_sizes:
+      # Font sizes for pydata-sphinx-theme.
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
+      selector: html
+      prefix: pst-font-size-
+      properties:
+        milli: 0.9rem
+        base: 1rem
+        # 1.2x (minor third) typographic scale starting from 1.10rem.
+        # https://designcode.io/typographic-scales
+        h6: 1.10rem
+        h5: 1.32rem
+        h4: 1.58rem
+        h3: 1.90rem
+        h2: 2.28rem
+        h1: 2.74rem
+
   env:
     file:
       conda:
@@ -1291,5 +1323,34 @@ web:
     logo_full_raster:
       rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
   page: '#{{ return hook.web_page() }}#'
+  quicklinks:
+    - links:
+        - title: Motivation
+          path: 'intro/motivation'
+        - title: Overview
+          path: 'intro/overview'
+        - title: Background
+          path: 'intro/background'
+    - links:
+        - title: Installation
+          path: 'manual/install'
+        - title: Quickstart
+          path: 'manual/quickstart'
+        - title: Release Notes
+          path: 'news/category/release'
+    - links:
+        - title: Feedback
+          path: 'contribute/feedback'
+        - title: Develop
+          path: 'contribute/develop'
+        - title: Support
+          path: 'contribute/support'
+    - links:
+        - title: Cite
+          path: about/citation
+        - title: License
+          path: about/license
+        - title: Team
+          path: about/team
   announcement:
     path: ${{ web.path.root }}$/announcement.html
