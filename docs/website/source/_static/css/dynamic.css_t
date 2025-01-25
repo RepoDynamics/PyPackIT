@@ -1,0 +1,30 @@
+/* Apply dynamic stylesheets from control center configurations. */
+
+
+{% for stylesheet in ccc.get("web", {}).get("css", {}).values() %}
+    {% set selector = stylesheet.selector %}
+    {% if selector %}
+        {% set name_prefix = stylesheet.get("prefix", "") %}
+        {% set name_suffix = stylesheet.get("suffix", "") %}
+{{ selector }} {
+        {% for name_mid, value in stylesheet.properties.items() %}
+            {% set name = name_prefix ~ name_mid ~ name_suffix %}
+    {{ name }}: {{ value }};
+        {% endfor %}
+}
+    {% else %}
+        {% for case_name, case in stylesheet.cases.items() %}
+            {% set name_prefix = case.get("prefix", "") %}
+            {% set name_suffix = case.get("suffix", "") %}
+{{ case.selector }} {
+            {% for name_mid, values in case.properties.items() %}
+                {% set value = values.get(case_name) %}
+                {% if value %}
+                    {% set name = name_prefix ~ name_mid ~ name_suffix %}
+    {{ name }}: {{ value }};
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+}
+    {% endif %}
+{% endfor %}
