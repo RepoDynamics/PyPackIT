@@ -11,7 +11,8 @@ that are evaluated during builds.
 Stylesheets are categorized into the following subdirectories:
 
 - `theme`: Stylesheets specific to the HTML theme of the website.
-- `extensions`: Stylesheets specific to different extensions used in the website.
+- `extensions`: Stylesheets specific to different extensions used in the website. 
+  Each file corresponds to an extension.
 - `custom`: Custom stylesheets unrelated to the theme and other extensions.
 
 
