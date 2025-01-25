@@ -20,13 +20,3 @@ and target them here:
     margin: 20px 0 20px 0;
     max-height: 500px;
 }
-
-/* Set the color of custom SVG icons to the primary color of the theme.
-To do so, icons are stored in black color, and a filter generator is used
-to calculate the filter that gives the primary color starting from black.
-The filter is calculated during build in `conf.py`, and added to `ccc`. */
-{% for theme in ["light", "dark"] %}
-html[data-theme="{{theme}}"] .black-svg-icon {
-    {{ ccc.color.css_filter[theme] }};
-}
-{% endfor %}
