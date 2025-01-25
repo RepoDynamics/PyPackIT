@@ -414,19 +414,6 @@ def _add_intersphinx_mapping():
     return
 
 
-def _add_css_filters():
-    """Calculate and add CSS filters for transforming black to project colors.
-
-    This is used to change the color of icons to project colors.
-    """
-    _meta["color"]["css_filter"] = {
-        theme: _pcit.css_filter.generate(_pcit.color.css(_meta["color"]["primary"][theme]))[2]
-        for theme in ["light", "dark"]
-    }
-    return
-
-
-
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
@@ -439,7 +426,6 @@ _add_theme()
 _add_extensions()
 _add_ablog_blog_authors()
 _add_intersphinx_mapping()
-_add_css_filters()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
