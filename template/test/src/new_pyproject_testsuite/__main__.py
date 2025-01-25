@@ -7,7 +7,7 @@ import json
 import sys
 from typing import TYPE_CHECKING
 
-import your_new_python_project_testsuite as testsuite
+import new_pyproject_testsuite as testsuite
 
 if TYPE_CHECKING:
     from typing import Any

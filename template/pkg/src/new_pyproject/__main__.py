@@ -3,7 +3,7 @@
 import argparse
 import sys
 
-from your_new_python_project import __version__
+from new_pyproject import __version__
 
 
 def main() -> int:

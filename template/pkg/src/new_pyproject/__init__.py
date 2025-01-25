@@ -1,4 +1,4 @@
-from your_new_python_project import data
+from new_pyproject import data
 
 __all__ = ["data", "__version_details__", "__version__"]
 

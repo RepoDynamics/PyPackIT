@@ -20,7 +20,7 @@ def filepath(relative_path: str) -> _Path:
     path_data_dir = _Path(_pkgdata.get_package_path_from_caller(top_level=False))
     abs_filepath = path_data_dir / relative_path
     if not abs_filepath.is_file():
-        from your_new_python_project.exception.data import DataFileNotFoundError
+        from new_pyproject.exception.data import DataFileNotFoundError
 
         raise DataFileNotFoundError(
             path_relative=relative_path,
