@@ -1,18 +1,18 @@
-name: Your New Python Project
-title: A New Python Project
+name: New PyProject
+title: A Brand New Python Project Powered By PyPackIT
 abstract: >-
-  Welcome to ${{ name }}$ powered by <a href="https://pypackit.repodynamics.com/">PyPackIT</a>.
+  Welcome to your ${{ name }}$ powered by <a href="https://pypackit.repodynamics.com/">PyPackIT</a>.
   Replace this text with a short abstract of your project,
   describing its purpose and main features.
-  By default, this text is automatically displayed
+  By default, this text is automatically displayed 
   on the homepage of your project's website
   as well as all repositories hosting your project,
   including GitHub, PyPI, Anaconda, and Zenodo.
   It is also included in your project's citation files,
-  and is added to the main docstring of your package.
+  and is added to the main docstring of your package. 
   Like all other entries in your project's control center,
   this text can also contain dynamic references to other entries,
-  e.g., using the <code>${{ JSONPath.TO.VALUE }}$</code> syntax.
+  e.g., using the <code>&#36;{​{ JSONPath.TO.VALUE }}&#36;</code> syntax.
   By default, the first occurrence of your project's name
   in this text is styled as strong and linked to the project's website.
 keywords:
@@ -26,8 +26,8 @@ highlights:
   - title: First Key Feature
     description: >-
       Description of the first key feature of ${{ name }}$.
-      By default, these highlights are displayed on the repository's main README file,
-      on the homepage of the project's website, and on the project's PyPI and TestPyPI pages.
+      By default, these highlights are displayed on the homepage of your project's website
+      as well as all repositories hosting your project.
   - title: Second Key Feature
     description: >-
       Description of the second key feature of ${{ name }}$.
@@ -37,8 +37,7 @@ highlights:
     description: >-
       Description of the third key feature of ${{ name }}$.
       You can add as many keynotes as you want.
-      However, in order to keep the READMEs clean and tidy,
-      it is recommended to keep the number of keynotes between 3 and 7.
+      However, we recommend to keep the number of keynotes between 3 and 10.
 license:
   expression: MIT
 role:
