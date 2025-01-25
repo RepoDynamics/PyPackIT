@@ -1,0 +1,20 @@
+/* Styles for the `footer_badges.html` template. */
+
+
+.footer-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: start; /* Align items to the left */
+    width: max-content; /* Ensure the width matches the largest child */
+    margin: 0 30px 0 0;
+}
+
+.footer-badge {
+    height: 25px;
+    border-radius: 0 !important;
+    aspect-ratio: auto;
+    min-width: auto;
+    object-fit: contain; /* Maintain aspect ratio */
+    flex-shrink: 0; /* Prevent badges from shrinking */
+}
