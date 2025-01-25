@@ -1,10 +1,16 @@
 color:
   primary:
-    light: '#005500' # 135400
-    dark: '#1CAA00'  # 459B24
+    light: rgb(0 85 0)
+    dark: rgb(28 170 0)
   secondary:
-    light: '#3C5500' # 055005
-    dark: '#AF8A00'  # 9CCC00
+    light: rgb(60 85 0)  # rgb(5 80 5)
+    dark: rgb(175 138 0)  # rgb(156 204 0)
+  accent:
+    light: rgb(19 84 0)
+    dark: rgb(69 155 36)
+  info:
+    light:
+
 document:
   readme:
     output:
@@ -884,16 +890,6 @@ web:
           url:
             docs: https://www.sphinx-doc.org/en/master/usage/extensions/ifconfig.html
   theme:
-    dependency:
-      import_name: pydata_sphinx_theme
-      pip:
-        spec: pydata-sphinx-theme == 0.15.4
-      conda:
-        spec: pydata-sphinx-theme == 0.15.4
-        channel: conda-forge
-      url:
-        docs: https://pydata-sphinx-theme.readthedocs.io/
-        source: https://github.com/pydata/pydata-sphinx-theme
     config:
       # https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#references
       html_theme_options:
@@ -901,8 +897,8 @@ web:
         # -- Header --
         navbar_start: [ navbar-logo ]  # header left
         navbar_center: [ navbar-nav ]  # header center
-        navbar_persistent: [ search-button ]  # header right persistent
-        navbar_end: [ navbar-icon-links, theme-switcher, user_login_button ]  # header right
+        navbar_persistent: [ search-button, theme-switcher, user_login_button ]  # header right persistent
+        navbar_end: [ navbar-icon-links ]  # header right
         navbar_align: left  # alignment of `navbar_center`: {"left", "right", "content"}
         # -- Article Header --
         article_header_start: [ breadcrumbs ]  # article header left
@@ -919,7 +915,7 @@ web:
         # -- Content Footer --
         content_footer_items: [ user_login_dialog ]
         # -- Footer --
-        footer_start: [ version, copyright, pypackit_ver ]  # footer left
+        footer_start: [ footer_badges ]  # footer left
         footer_center: [ ]  # footer center
         footer_end: [ quicklinks ]  # footer right
         # ---- General ----
@@ -983,9 +979,9 @@ web:
           pip: https://pypi.org/project/myst-nb/
           conda: https://anaconda.org/conda-forge/myst-nb
         pip:
-          spec: myst-nb == 1.1.1
+          spec: myst-nb == 1.1.2
         conda:
-          spec: myst-nb = 1.1.1
+          spec: myst-nb = 1.1.2
           channel: conda-forge
       config:
         # ---- MyST Parser Configurations ----
@@ -1031,6 +1027,7 @@ web:
         description: Adding responsive web components, such as grids, cards, tabs, etc.
         url:
           docs: https://sphinx-design.readthedocs.io/
+          pip: https://pypi.org/project/sphinx_design/
           source: https://github.com/executablebooks/sphinx-design
         pip:
           spec: sphinx-design == 0.6.1
@@ -1062,14 +1059,15 @@ web:
         description: Adding a news blog to the website.
         url:
           docs: https://ablog.readthedocs.io/
+          pip: https://pypi.org/project/ablog/
           source: https://github.com/sunpy/ablog
           docs_config:
             title: Configuration Docs
             url: https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
         pip:
-          spec: ablog == 0.11.11
+          spec: ablog == 0.11.12
         conda:
-          spec: ablog = 0.11.11
+          spec: ablog = 0.11.12
           channel: conda-forge
       config:
         # blog_authors (if not explicitly set here) is dynamically generated in conf.py from `team` data.
@@ -1090,6 +1088,7 @@ web:
         description: Adding a copy button to code blocks.
         url:
           docs: https://sphinx-copybutton.readthedocs.io/
+          pip: https://pypi.org/project/sphinx-copybutton/
           source: https://github.com/executablebooks/sphinx-copybutton
         pip:
           spec: sphinx-copybutton == 0.5.2
@@ -1100,10 +1099,11 @@ web:
       dependency:
         import_name: sphinx_last_updated_by_git
         pip:
-          spec: sphinx-last-updated-by-git == 0.3.7
+          spec: sphinx-last-updated-by-git == 0.3.8
         description: Adding page-specific last-updated dates to each page.
         url:
           docs: https://sphinx-last-updated-by-git.readthedocs.io/
+          pip: https://pypi.org/project/sphinx-last-updated-by-git/
           source: https://github.com/mgeier/sphinx-last-updated-by-git
     opengraph:
       dependency:
@@ -1151,6 +1151,7 @@ web:
         description: Adding toggle buttons to admonitions and other content.
         url:
           docs: https://sphinx-togglebutton.readthedocs.io/
+          pip: https://pypi.org/project/sphinx-togglebutton/
           source: https://github.com/executablebooks/sphinx-togglebutton
         pip:
           spec: sphinx-togglebutton == 0.3.2
@@ -1167,19 +1168,21 @@ web:
         description: Adding Mermaid diagrams and charts.
         url:
           docs: https://sphinxcontrib-mermaid-demo.readthedocs.io/en/stable/
+          pip: https://pypi.org/project/sphinxcontrib-mermaid/
           source: https://github.com/mgaitan/sphinxcontrib-mermaid
         pip:
-          spec: sphinxcontrib-mermaid == 0.9.2
+          spec: sphinxcontrib-mermaid == 1.0.0
         conda:
-          spec: sphinxcontrib-mermaid = 0.9.2
+          spec: sphinxcontrib-mermaid = 1.0.0
           channel: conda-forge
     svg2pdf:
       dependency:
         import_name: sphinxcontrib.rsvgconverter
         description: Converting SVG images to PNG for LaTeX.
         pip:
-          spec: sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.2
+          spec: sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.3
         url:
+          pip: https://pypi.org/project/sphinxcontrib-svg2pdfconverter/
           source: https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter
         notes: |
           This doesn't work on `latex_logo`;
@@ -1239,9 +1242,9 @@ web:
           source: https://github.com/executablebooks/MyST-Parser
           docs: https://myst-parser.readthedocs.io/
         pip:
-          spec: myst-parser[linkify] == 3.0.1
+          spec: myst-parser[linkify] == 4.0.0
         conda:
-          spec: myst-parser = 3.0.1
+          spec: myst-parser = 4.0.0
           channel: conda-forge
       linkify:
         import_name: linkify_it
@@ -1249,6 +1252,7 @@ web:
           Linkify extension for MyST Markdown to automatically convert URLs to hyperlinks.
         url:
           docs: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#linkify
+          pip: https://pypi.org/project/linkify-it-py/
         pip:
           spec: linkify-it-py == 2.0.3
         conda:
@@ -1281,7 +1285,7 @@ web:
         url:
           source: https://github.com/sphinx-doc/sphinx-autobuild
         pip:
-          spec: sphinx-autobuild >= 2024.09.17
+          spec: sphinx-autobuild >= 2024.10.03
       librsvg:
         import_name: librsvg
         description: |
@@ -1311,9 +1315,10 @@ web:
         description: |
           Pygments lexer for Git files and outputs.
         url:
+          pip: https://pypi.org/project/pygments-git/
           source: https://github.com/adamchainz/pygments-git
         pip:
-          spec: pygments-git == 1.7.0
+          spec: pygments-git == 1.8.0
       pkg_resources:
         import_name: pkgdata
         description: |
