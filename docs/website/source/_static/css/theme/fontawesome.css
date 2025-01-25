@@ -1,10 +1,24 @@
-/* Custom FontAwesome hover colors for the navigation bar */
-/* Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/header-links.html#fontawesome-icons */
-/* Color Ref: https://simpleicons.org */
-i.fa-twitter:hover {color: #1DA1F2}
-i.fa-linkedin:hover {color: #0A66C2}
-i.fa-researchgate:hover {color: #40BA9B}
-i.fa-orcid:hover {color: #A5CD39}
-i.fa-python:hover {color: #FFD43B}
-i.fa-conda:hover {color: #44A833}
-i.fa-github:hover {color: #181717}
+/* Custom colors for FontAwesome icons.
+
+Notes
+-----
+The recommended way in PyData docs (i.e., targeting `i.fa-something:before`) does not work.
+Also, targeting the class alone (i.e., `.fa-something:hover`) doesn't work either.
+We thus use a parent selector for hover, and then target the class name directly.
+
+References
+----------
+- PyData Docs: https://pydata-sphinx-theme.readthedocs.io/en/v0.16.1/user_guide/header-links.html#fontawesome-icons
+- Colors: https://simpleicons.org
+*/
+
+a:hover .fa-conda {color: #44A833}
+a:hover .fa-docker {color: #2496ED}
+a:hover .fa-github {color: #181717}
+a:hover .fa-linkedin {color: #0A66C2}
+a:hover .fa-mybinder {color: #E66581}
+a:hover .fa-orcid {color: #A5CD39}
+a:hover .fa-python {color: #FFD43B}
+a:hover .fa-researchgate {color: #40BA9B}
+a:hover .fa-twitter {color: #1DA1F2}
+a:hover .fa-z {color: #1682D4}  /* Z for Zenodo */
