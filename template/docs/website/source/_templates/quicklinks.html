@@ -1,12 +1,18 @@
-<div class="quicklinks">
-{% for group in ccc.web.quicklinks %}
-    <ul>
-    {% if 'heading' in group %}
-        <li>{{ group.heading }}</li>
-    {% endif %}
-{% for entry in group.links %}
-        <li><a href="{{ pathto(entry.path) }}">{{ entry.title }}</a></li>
-{% endfor %}
-    </ul>
-{% endfor %}
+<!-- Quicklinks section in footer -->
+
+<div class="quicklinks-container">
+    <div class="quicklinks">
+    {% for group in ccc.web.quicklinks %}
+        <div class="quicklinks-group">
+        {% if 'heading' in group %}
+            <h6>{{ group.heading }}</h6>
+        {% endif %}
+            <ul>
+    {% for entry in group.links %}
+                <li><a href="{{ pathto(entry.path) }}">{{ entry.title }}</a></li>
+    {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    </div>
 </div>
