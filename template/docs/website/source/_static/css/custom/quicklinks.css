@@ -1,0 +1,63 @@
+/* Styles for the `quicklinks.html` template. */
+
+
+.quicklinks-container {
+    display: flex;
+    justify-content: flex-end; /* Align the entire content to the right */
+    width: 100%; /* Ensure the container spans the full width */
+}
+
+.quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    margin: 0;
+    padding: 0;
+    column-gap: 50px;
+    row-gap: 10px;
+    width: auto;
+}
+
+.quicklinks-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 1 auto;
+    padding: 0;
+    margin: 0;
+}
+
+.quicklinks-group ul {
+    list-style: none;
+    text-align: left;
+    font-size: var(--pst-font-size-base);
+    padding: 0;
+    margin: 0;
+}
+
+.quicklinks h6 {
+    margin: 0;
+}
+
+.quicklinks-group a {
+    text-decoration: none;  /* Remove underlines from links */
+    display: inline-block; /* Ensure links behave properly */
+}
+.quicklinks-group a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/*@media (max-width: 960px) {*/
+/*    .quicklinks {*/
+/*        flex-direction: column; !* Make items stack vertically *!*/
+/*        align-items: flex-end; !* Align the whole div to the right *!*/
+/*    }*/
+/*    .quicklinks ul {*/
+/*        flex: 1 0 50%; !* On small screens, each <ul> takes up the full width *!*/
+/*        margin: 0 0 20px 0;*/
+/*        display: block;*/
+/*        float: none;*/
+/*        text-align: right; !* Align text to the right *!*/
+/*    }*/
+/*}*/
