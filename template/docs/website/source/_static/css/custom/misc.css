@@ -1,0 +1,73 @@
+/* Miscellaneous styles used throughout the website */
+
+
+/* Wide buttons displayed on the homepage */
+.homepage-button-text {
+    font-size: var(--pst-font-size-h6);
+    font-weight: bold;
+}
+
+.project-name {
+    color: var(--pst-color-primary);
+    font-weight: bold;
+}
+
+.digit {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+!important
+}
+
+.inline-img {
+    color: var(--pst-color-text-base);
+    height: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.h1_title {
+    font-size: var(--pst-font-size-h1);
+    font-weight: bold;
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.centered-text-h2 {
+    font-size: var(--pst-font-size-h2);
+    color: var(--pst-color-primary);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.inline_icon {
+    color: var(--pst-color-text-base)
+}
+
+.inline_icon:hover {
+    color: var(--pst-color-primary)
+}
+
+.primary-color {
+    color: var(--pst-color-primary)
+}
+
+.centered {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.margin-sides {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
