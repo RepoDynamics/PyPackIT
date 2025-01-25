@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 import gittidy as _git
 import pysyntax as _pysyntax
 from loggerman import logger as _logger
+import pkgdata as _pkgdata
+import pycolorit as _pcit
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
 
@@ -178,13 +180,15 @@ def _add_css_and_js_files() -> None:
     """Add CSS and JS files from the static directory.
 
     This function takes the first static path defined in `html_static_path`
-    (this should be the '_static' directory in the Sphinx project) and looks
-    for all CSS and JS files in the 'css' and 'js' subdirectories, respectively.
+    (this should be the '_static' directory in the Sphinx project)
+    and recursively looks for all CSS and JS files in the directory.
     It then adds these files to the Sphinx configuration in the `html_css_files`
     and `html_js_files` lists.
     Therefore, you can add new CSS and JS files to the 'css' and 'js'
     directories in the '_static' directory, and they will be automatically
     added to the Sphinx configuration.
+    You can also append '_t' to the end of these files,
+    allowing you to use jinja templating in the file.
     """
     static_paths = _globals.get("html_static_path", [])
     if not static_paths:
@@ -379,7 +383,12 @@ def _read_metadata() -> dict[str, Any]:
 
 def _add_html_context():
     """Add the HTML context to the Sphinx configuration."""
-    _globals.setdefault("html_context", {}).update({"ccc": _copy.deepcopy(_meta)})
+    jinja_helper_module_filepath = _Path(__file__).parent.resolve() / "jinja.py"
+    jinja_helper_module = _pkgdata.import_module_from_path(jinja_helper_module_filepath)
+    jinja_helper_module.metadata = _meta
+    _globals.setdefault("html_context", {}).update(
+        {"ccc": _copy.deepcopy(_meta), "helper": jinja_helper_module}
+    )
     return
 
 
@@ -405,6 +414,19 @@ def _add_intersphinx_mapping():
     return
 
 
+def _add_css_filters():
+    """Calculate and add CSS filters for transforming black to project colors.
+
+    This is used to change the color of icons to project colors.
+    """
+    _meta["color"]["css_filter"] = {
+        theme: _pcit.css_filter.generate(_pcit.color.css(_meta["color"]["primary"][theme]))[2]
+        for theme in ["light", "dark"]
+    }
+    return
+
+
+
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
@@ -417,6 +439,7 @@ _add_theme()
 _add_extensions()
 _add_ablog_blog_authors()
 _add_intersphinx_mapping()
+_add_css_filters()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
