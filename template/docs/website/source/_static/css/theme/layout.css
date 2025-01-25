@@ -1,0 +1,151 @@
+/* General layout of the website. */
+
+
+/* Total page width.
+
+References
+----------
+- https://pydata-sphinx-theme.readthedocs.io/en/v0.16.1/user_guide/layout.html#horizontal-spacing */
+.bd-page-width {
+  max-width: 100%;  /* default is 88rem */
+}
+
+
+/* ------------- Header / Navigation Bar ------------- */
+
+/* Styles for the announcement banner. */
+.bd-header-announcement {
+  min-height: 2rem;  /* default is 3rem */
+}
+
+/* Navigation bar height.
+
+References
+----------
+- https://github.com/pydata/pydata-sphinx-theme/blob/d76892d437e3c0dc8a059741a84afbd6cc458509/src/pydata_sphinx_theme/assets/styles/variables/_layout.scss
+*/
+html {
+  --pst-header-height: 3.5rem;  /* Default: 4rem */
+}
+
+/* Styles for the header logo component.
+
+References
+----------
+- https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/components/header/_header-logo.scss */
+.navbar-brand {
+  max-height: calc(0.8 * var(--pst-header-height));
+  max-width: 200px;
+  margin: 0 15px 0 0;
+}
+
+/* Distance between the persistent icons and the icon links.
+
+This also sets the distance between the icon links and the light/dark switch.
+ */
+.bd-header .navbar-header-items__end {
+  column-gap: 1rem; /* Default is 1.12rem, which is larger than the distance between icon links */
+}
+
+/* Margin for persistent icons in navbar.
+
+Set this to 1rem, equal to the gap between icons in normal view.
+Otherwise, when more than one icon is in the persistent navbar,
+there will be large spaces between them.
+ */
+.navbar-persistent--mobile {
+  margin-left: 1rem;
+}
+
+/* Prevent wrapping of navbar-end elements.
+
+References
+----------
+- https://github.com/pydata/pydata-sphinx-theme/pull/1784
+- https://github.com/pydata/pydata-sphinx-theme/issues/845
+
+ */
+.bd-header .navbar-header-items .navbar-header-items__end {
+  flex-wrap: nowrap;
+}
+
+
+
+/* ------------- Main Container ------------- */
+
+/* The general layout is as follows:
+
+<div class="bd-container">
+  <div class="bd-container__inner bd-page-width">
+    <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      ...
+    </div>
+    <main id="main-content" class="bd-main" role="main">
+      <div class="bd-content">
+        <div class="bd-article-container">
+          ...
+        </div>
+        <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc">
+          ...
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+*/
+
+/* Common width for both sidebars */
+:root {
+  --sidebar-width: calc(20vw); /* Calculate width as 20% of the viewport width */
+}
+.bd-sidebar-primary {
+  width: var(--sidebar-width);
+  min-width: 17rem;
+}
+.bd-sidebar-secondary {
+  width: var(--sidebar-width);
+  min-width: 17rem;
+}
+
+/* Make the left sidebar snap to left, right sidebar to right, and article in the middle */
+.bd-container .bd-container__inner {
+  justify-content: center;
+}
+.bd-container .bd-container__inner .bd-main .bd-content {
+  justify-content: start;
+}
+.bd-container .bd-container__inner .bd-main .bd-content .bd-article-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 3rem; /* Default: 1rem */
+  /* https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
+  max-width: 65em; /* default is 60em */
+}
+
+/* Remove the default border and add background color and shadow instead. */
+.bd-sidebar-primary {
+  border-right-style: hidden;
+  background-color: var(--pst-color-background);
+  box-shadow: 0 0 .25rem 0 var(--pst-color-shadow);
+  filter: brightness(110%);
+}
+
+/* Text justification */
+.bd-article p {
+    text-align: justify;
+}
+
+
+/* ------------- Footer ------------- */
+
+/* Remove the default border and add background color and shadow instead. */
+.bd-footer {
+  border-top-style: hidden;
+  background-color: var(--pst-color-on-background);
+  box-shadow: 0 -.125rem .25rem 0 var(--pst-color-shadow);
+  z-index: 1;
+}
+
+.bd-footer .footer-items__center, .bd-footer .footer-items__end, .bd-footer .footer-items__start {
+  justify-content: start;
+}
