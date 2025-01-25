@@ -1,7 +1,4 @@
 
-
-
-
 html[data-theme="light"] {
     --pst-color-primary: rgb(19, 84, 0);  /* (69, 157, 185) */
     --pst-color-secondary: rgb(5, 80, 5);  /* (238, 144, 64) */
