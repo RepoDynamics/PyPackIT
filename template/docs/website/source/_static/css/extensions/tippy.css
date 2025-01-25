@@ -1,4 +1,9 @@
-/* https://sphinx-tippy.readthedocs.io/en/latest/#usage */
+/* Theme for tippy tooltips.
+
+References
+----------
+- https://sphinx-tippy.readthedocs.io/en/latest/#usage
+*/
 
 .tippy-box {
     background-color:var(--pst-color-surface);
