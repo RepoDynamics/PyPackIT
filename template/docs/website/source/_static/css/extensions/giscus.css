@@ -1,3 +1,10 @@
+/* Custom theme for giscus app.
+
+References
+----------
+- https://giscus.app/
+- https://github.com/giscus/giscus/blob/main/styles/themes/custom_example.css
+ */
 
 main {
   --color-prettylights-syntax-comment: #768390;
