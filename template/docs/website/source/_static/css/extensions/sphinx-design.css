@@ -1,71 +1,48 @@
+/* Stylesheet for the Sphinx-Design extension.
+
+References
+----------
+- https://sphinx-design.readthedocs.io/en/pydata-theme/css_variables.html
+- https://sphinx-design.readthedocs.io/en/pydata-theme/css_classes.html
+ */
+
+
+/* Explicitly set the background color.
+
+When an `img-top` is added that does not fill the entire width of the card,
+or when the image is transparent, then background of the top part is different
+from the card body. We set the top background to the same value as the body here:
+*/
 .sd-card {
-    border-radius:1rem;
-    margin: 0 0 3% 3%;
+    background-color: var(--pst-color-on-background);
 }
+
+/* Change the roundness of cards. */
+.sd-card {
+    /* 7px is slightly rounder than default. */
+    border-radius:7px;
+    /* Prevent child elements (sd-card-header, sd-card-body, sd-card-footer)
+       from extending beyond the card's borders after changing roundness. */
+    overflow: hidden;
+}
+
+/* Change the border color of cards on hover. */
+.sd-card:hover {
+  border-color: var(--pst-color-primary);
+}
+
+/* Color of card titles. */
 .sd-card-title {
     color: var(--pst-color-primary);
 }
 
-
-html[data-theme="light"] .sd-card {
-    background: rgb(255, 255, 255);
+/* Distance between cards in a card carousel. */
+.sd-cards-carousel .sd-card {
+    margin: 0 0 0 10px;
 }
 
-html[data-theme="dark"] .sd-card {
-    background: rgb(25, 25, 27);
-    /*border-color: red;*/
-}
-
-.sd-card-hover:hover {
-  border-color: #119100;
-  transform: scale(1.01)
-}
-
-.sd-card-img-top {
-    width: auto;
-    max-height: 70px;
-    align-self: center;
-    margin: 5% 0 0 0;
-}
-
-.sd-cards-carousel .sd-card-hover:hover {
+/* Prevent magnification when hovering on cards,
+   since they overflow from the carousel container and don't look nice. */
+.sd-cards-carousel .sd-card:hover {
     transform: none;
 }
-
-
-
-html[data-theme="dark"] {
-    --sd-color-card-border-hover: yellow;
-    /*--sd-color-card-text: orange;*/
-    --sd-color-card-header: green;
-    --sd-color-card-footer: pink;
-}
-
-/*html[data-theme="light"] {*/
-/*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
-/*  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);*/
-/*  --sd-color-card-background: blue;*/
-/*  --sd-color-card-text: blue;*/
-/*  --sd-color-card-header: transparent;*/
-/*  --sd-color-card-footer: transparent;*/
-/*  --sd-color-card-border-hover: rgb(33, 197, 0);*/
-/*}*/
-
-/*html[data-theme="dark"] {*/
-/*  --sd-color-card-border: rgba(0, 0, 0, 0.125);*/
-/*  --sd-color-card-border-hover: hsla(231, 99%, 66%, 1);*/
-/*  --sd-color-card-background: transparent;*/
-/*  --sd-color-card-text: red;*/
-/*  --sd-color-card-header: transparent;*/
-/*  --sd-color-card-footer: transparent;*/
-/*  --sd-color-card-border-hover: rgb(33, 197, 0);*/
-/*  --sd-color-primary-text: red;*/
-/*  --sd-color-secondary-text: red;*/
-/*  --sd-color-success-text: red;*/
-/*  --sd-color-info-text: red;*/
-/*  --sd-color-warning-text: red;*/
-/*  --sd-color-danger-text: red;*/
-/*  --sd-color-light-text: red;*/
-/*  --sd-color-muted-text: red;*/
-/*  --sd-color-dark-text: red;*/
-/*}*/
