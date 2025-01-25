@@ -1,0 +1,58 @@
+
+
+{% for color_sheet in ccc.get("color", {}).get("css", {}).values() %}
+    {% for theme in ["light", "dark"] %}
+        {% set selector = color_sheet.selector.get(theme) %}
+        {% if selector %}
+{{ selector }} {
+            {% set name_prefix = color_sheet.get("prefix", {}).get(theme, "") %}
+            {% set name_suffix = color_sheet.get("suffix", {}).get(theme, "") %}
+            {% for name_mid, colors in color_sheet.color.items() %}
+                {% set color = colors.get(theme) %}
+                {% if color %}
+                    {% set name = name_prefix ~ name_mid ~ name_suffix %}
+--{{ name }}: color;
+                {% endif %}
+            {% endfor %}
+}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+
+/*
+CSS colors for the pydata-sphinx HTML theme
+Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+Ref: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+*/
+
+
+{% for theme in ["light", "dark"] %}
+{% set outer_loop = loop %}
+{% for name, color in ccc.color.items() %}
+html[data-theme="{{theme}}"] {
+    --pst-color-{{name}}: #{{color[theme]}};
+}
+{% endfor %}
+{% endfor %}
+
+
+/* Set the color of custom SVG icons to the primary color of the theme.
+To do so, icons are stored in black color, and a filter generator is used
+to calculate the filter that gives the primary color starting from black.
+The filter is calculated during build in `conf.py`, and added to `ccc`. */
+{% for theme in ["light", "dark"] %}
+html[data-theme="{{theme}}"] .black-svg-icon {
+    {{ ccc.color.css_filter[theme] }};
+}
+{% endfor %}
+
+
+/*html[data-theme="light"] .bd-header {*/
+/*    background-color: white !important;*/
+/*}*/
+
+/*html[data-theme="dark"] .bd-header {*/
+/*    background-color: black !important;*/
+/*}*/
