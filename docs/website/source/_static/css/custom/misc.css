@@ -1,5 +1,6 @@
 /* Miscellaneous styles used throughout the website */
 
+
 /* Wide buttons displayed on the homepage */
 .homepage-button-text {
     font-size: var(--pst-font-size-h6);
@@ -69,4 +70,8 @@
 .margin-sides {
     padding-left: 0.3em;
     padding-right: 0.3em;
+}
+
+.hidden {
+    display: none;
 }
