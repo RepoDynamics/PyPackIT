@@ -63,7 +63,7 @@ html_theme.sidebar_secondary.remove:
 
 :::{card} Introduction
 :link: intro/index.html
-:img-top: /_static/img/icon/background.svg
+:img-top: /_media/icon/background.svg
 :class-title: sd-text-center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -79,7 +79,7 @@ summarizing essential information to help you get started with {{ccc.name}}.
 
 :::{card} User Manual
 :link: manual/index.html
-:img-top: /_static/img/icon/user_guide.svg
+:img-top: /_media/icon/user_guide.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -95,7 +95,7 @@ providing hands-on experience with
 
 :::{card} API Reference
 :link: api/index.html
-:img-top: /_static/img/icon/api.svg
+:img-top: /_media/icon/api.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -107,7 +107,7 @@ including all its packages, modules, classes, methods, functions, and attributes
 
 :::{card} News Blog
 :link: news/index.html
-:img-top: /_static/img/icon/news.svg
+:img-top: /_media/icon/news.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -124,7 +124,7 @@ so you never miss out on any important updates.
 
 :::{card} Contribution Guide
 :link: contribute/index.html
-:img-top: /_static/img/icon/dev_guide.svg
+:img-top: /_media/icon/dev_guide.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -141,7 +141,7 @@ we highly appreciate all your contributions!
 
 :::{card} About {{ ccc.name }}
 :link: about/index.html
-:img-top: /_static/img/icon/about.svg
+:img-top: /_media/icon/about.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
@@ -153,7 +153,7 @@ and the dedication driving {{ ccc.name }}'s success.
 
 :::{card} Support Guide
 :link: help/index.html
-:img-top: /_static/img/icon/faq.svg
+:img-top: /_media/icon/faq.svg
 :text-align: center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
