@@ -360,5 +360,3 @@ citation:
       code:developmentStatus:
         id: >-
           #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
-__custom__:
-  name_ipa: "[ˈpaɪˌpækɪt]"
