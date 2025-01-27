@@ -121,6 +121,10 @@ References
   /* https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html#horizontal-spacing */
   max-width: 65em; /* default is 60em */
 }
+.bd-container .bd-container__inner .bd-main .bd-content .bd-article-container .bd-article {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 
 /* Remove the default border and add background color and shadow instead. */
 .bd-sidebar-primary {
