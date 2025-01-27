@@ -51,11 +51,13 @@ async function loadOptions() {
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
-  const resultDiv = document.getElementById('api-response');
+  const rawResultDiv = document.getElementById('api-raw-response');
+  const renderedResultDiv = document.getElementById('api-rendered-response');
   const selectedKey = dropdown.value;
 
   if (!selectedKey) {
-    resultDiv.textContent = "Please select an option.";
+    rawResultDiv.textContent = "Please select an option.";
+    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
     return;
   }
 
@@ -63,18 +65,28 @@ async function fetchAPI() {
   const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
   try {
-    resultDiv.textContent = 'Loading...';
+    rawResultDiv.textContent = 'Loading...';
+    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
+
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: headers
     });
     if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
     const data = await response.text();
-    resultDiv.textContent = data;
+
+    // Display the raw HTML response
+    rawResultDiv.textContent = data;
+
+    // Display the rendered HTML response
+    renderedResultDiv.innerHTML = data;
   } catch (error) {
-    resultDiv.textContent = `Error: ${error.message}`;
+    rawResultDiv.textContent = `Error: ${error.message}`;
+    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
   }
 }
+
 
 // Load options when the page loads
 window.addEventListener('load', loadOptions);
