@@ -9,6 +9,7 @@ References
 /* Background color for the dropdown container */
 .choices {
   background-color: var(--pst-color-on-background); /* Main container background */
+  z-index: 1000;
 }
 
 .choices__inner {
