@@ -23,11 +23,11 @@
                      "args": {
                         "message": "0.0.0"
                      },
-                     "color": "#3C5500",
-                     "color_dark": "#AF8A00",
+                     "color": "rgb(60 85 0)",
+                     "color_dark": "rgb(175 138 0)",
                      "label": "PyPackIT",
-                     "label_color": "#005500",
-                     "label_color_dark": "#1CAA00",
+                     "label_color": "rgb(0 85 0)",
+                     "label_color_dark": "rgb(28 170 0)",
                      "logo": "docs/website/source/_media/logo/favicon.svg",
                      "logo_type": "file"
                   },
@@ -586,6 +586,10 @@
       },
       "zenodo": {
          "access_right": "open",
+         "concept": {
+            "doi": "10.5281/zenodo.14359838",
+            "id": 14359838
+         },
          "contributors": [
             {
                "id": "aariam",
@@ -657,13 +661,185 @@
       }
    },
    "color": {
+      "accent": {
+         "dark": "rgb(69 155 36)",
+         "light": "rgb(19 84 0)"
+      },
+      "accent-bg": {
+         "dark": "hsl(308 59 17)",
+         "light": "hsl(307 64 92)"
+      },
+      "attention": {
+         "dark": "hsl(25 100 64)",
+         "light": "hsl(24 93 50)"
+      },
+      "attention-bg": {
+         "dark": "hsl(24 96 20)",
+         "light": "hsl(29 74 89)"
+      },
+      "background": {
+         "dark": "hsl(216 20 10)",
+         "light": "hsl(0 0 100)"
+      },
+      "blockquote-notch": {
+         "dark": "hsl(215 11 65)",
+         "light": "hsl(215 12 46)"
+      },
+      "border": {
+         "dark": "hsl(216 20 35)",
+         "light": "hsl(213 11 84)"
+      },
+      "border-muted": {
+         "dark": "hsl(216 20 20)",
+         "light": "rgba(23 23 26 / 0.2)"
+      },
+      "danger": {
+         "dark": "hsl(352 66% 72)",
+         "light": "hsl(351 68 51)"
+      },
+      "danger-bg": {
+         "dark": "hsl(350 64 19)",
+         "light": "hsl(353 67 93)"
+      },
+      "dark": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(218 19 16)"
+      },
+      "dark-bg": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(218 19 16)"
+      },
+      "heading": {
+         "dark": "hsl(208 18 84)",
+         "light": "hsl(218 19 16)"
+      },
+      "info": {
+         "dark": "hsl(219 82 71)",
+         "light": "hsl(219 82 53)"
+      },
+      "info-bg": {
+         "dark": "hsl(219 88 19)",
+         "light": "hsl(219 84 93)"
+      },
+      "inline-code": {
+         "dark": "hsl(307 65 87)",
+         "light": "hsl(308 59 36)"
+      },
+      "inline-code-links": {
+         "dark": "hsl(189 54 51)",
+         "light": "hsl(189 86 23)"
+      },
+      "light": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(210 9 96)"
+      },
+      "light-bg": {
+         "dark": "hsl(210 9 67)",
+         "light": "hsl(210 9 97)"
+      },
+      "link": {
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
+      },
+      "link-hover": {
+         "dark": "rgb(175 138 0)",
+         "light": "rgb(60 85 0)"
+      },
+      "muted": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(216 20 20)"
+      },
+      "muted-bg": {
+         "dark": "hsl(216 20 14)",
+         "light": "hsl(216 20 44)"
+      },
+      "on-background": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(0 0 100)"
+      },
+      "on-surface": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(218 19 16)"
+      },
       "primary": {
-         "dark": "#1CAA00",
-         "light": "#005500"
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
+      },
+      "primary-bg": {
+         "dark": "hsl(189 85 11)",
+         "light": "hsl(189 54 88)"
       },
       "secondary": {
-         "dark": "#AF8A00",
-         "light": "#3C5500"
+         "dark": "rgb(175 138 0)",
+         "light": "rgb(60 85 0)"
+      },
+      "secondary-bg": {
+         "dark": "hsl(262 58 24)",
+         "light": "hsl(267 100 89)"
+      },
+      "shadow": {
+         "dark": "rgba(0 0 0 / 0.1)",
+         "light": "rgba(0 0 0 / 0.1)"
+      },
+      "success": {
+         "dark": "hsl(149 36 54)",
+         "light": "hsl(149 100 26)"
+      },
+      "success-bg": {
+         "dark": "hsl(149 100 9)",
+         "light": "hsl(150 37 88)"
+      },
+      "surface": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table": {
+         "dark": "hsl(0 0 100)",
+         "light": "hsl(216 20 10)"
+      },
+      "table-heading-bg": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table-inner-border": {
+         "dark": "hsl(215 19 26)",
+         "light": "hsl(216 11 91)"
+      },
+      "table-outer-border": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table-row-hover-bg": {
+         "dark": "hsl(262 59 35)",
+         "light": "hsl(267 95 85)"
+      },
+      "table-row-zebra-high-bg": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(0 0 100)"
+      },
+      "table-row-zebra-low-bg": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "target": {
+         "dark": "hsl(53 93 21)",
+         "light": "hsl(37 80 77)"
+      },
+      "text-base": {
+         "dark": "hsl(208 18 84)",
+         "light": "hsl(218 19 16)"
+      },
+      "text-muted": {
+         "dark": "hsl(215 11 65)",
+         "light": "hsl(216 20 35)"
+      },
+      "warning": {
+         "dark": "hsl(25 100 64)",
+         "light": "hsl(24 93 50)"
+      },
+      "warning-bg": {
+         "dark": "hsl(24 96 20)",
+         "light": "hsl(29 74 89)"
       }
    },
    "commit": {
@@ -3307,7 +3483,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -3379,8 +3555,8 @@
                            "query": "$.copyright",
                            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/.github/.repodynamics/metadata.json"
                         },
-                        "color": "#005500",
-                        "color_dark": "#1CAA00",
+                        "color": "rgb(0 85 0)",
+                        "color_dark": "rgb(28 170 0)",
                         "label": "PyPackIT",
                         "link": "https://github.com/RepoDynamics",
                         "logo": "docs/website/source/_media/logo/favicon.svg",
@@ -3451,8 +3627,8 @@
                      "align": "center"
                   },
                   "class": "menu",
-                  "color": "#005500",
-                  "color_dark": "#1CAA00",
+                  "color": "rgb(0 85 0)",
+                  "color_dark": "rgb(28 170 0)",
                   "height": "33px",
                   "items": [
                      {
@@ -3631,8 +3807,8 @@
                            "query": "$.copyright",
                            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/.github/.repodynamics/metadata.json"
                         },
-                        "color": "#005500",
-                        "color_dark": "#1CAA00",
+                        "color": "rgb(0 85 0)",
+                        "color_dark": "rgb(28 170 0)",
                         "label": "PyPackIT",
                         "link": "https://github.com/RepoDynamics",
                         "logo": "docs/website/source/_media/logo/favicon.svg",
@@ -3670,12 +3846,12 @@
                         "button": {
                            "align": "left",
                            "color": [
-                              "#005500",
-                              "#3C5500"
+                              "rgb(0 85 0)",
+                              "rgb(60 85 0)"
                            ],
                            "color_dark": [
-                              "#1CAA00",
-                              "#AF8A00"
+                              "rgb(28 170 0)",
+                              "rgb(175 138 0)"
                            ],
                            "height": "30px",
                            "style": "for-the-badge"
@@ -3746,11 +3922,11 @@
                               "args": {
                                  "message": "0.0.0"
                               },
-                              "color": "#3C5500",
-                              "color_dark": "#AF8A00",
+                              "color": "rgb(60 85 0)",
+                              "color_dark": "rgb(175 138 0)",
                               "label": "PyPackIT",
-                              "label_color": "#005500",
-                              "label_color_dark": "#1CAA00",
+                              "label_color": "rgb(0 85 0)",
+                              "label_color_dark": "rgb(28 170 0)",
                               "logo": "docs/website/source/_media/logo/favicon.svg",
                               "logo_type": "file"
                            },
@@ -4909,8 +5085,8 @@
                            "query": "$.copyright",
                            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/.github/.repodynamics/metadata.json"
                         },
-                        "color": "#005500",
-                        "color_dark": "#1CAA00",
+                        "color": "rgb(0 85 0)",
+                        "color_dark": "rgb(28 170 0)",
                         "label": "PyPackIT",
                         "link": "https://github.com/RepoDynamics",
                         "logo": "docs/website/source/_media/logo/favicon.svg",
@@ -14913,7 +15089,7 @@
                "import_name": "sphinx-autobuild",
                "notes": "This is added to the `Makefile` of Sphinx under the `livehtml` target,\nmeaning that you can run `make livehtml` in the website directory\nto start the autobuild server.\n",
                "pip": {
-                  "spec": "sphinx-autobuild >= 2024.09.17"
+                  "spec": "sphinx-autobuild >= 2024.10.03"
                },
                "url": {
                   "source": "https://github.com/sphinx-doc/sphinx-autobuild"
@@ -14974,7 +15150,8 @@
                   "spec": "linkify-it-py == 2.0.3"
                },
                "url": {
-                  "docs": "https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#linkify"
+                  "docs": "https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#linkify",
+                  "pip": "https://pypi.org/project/linkify-it-py/"
                }
             },
             "mdit": {
@@ -14986,13 +15163,13 @@
             "myst": {
                "conda": {
                   "channel": "conda-forge",
-                  "spec": "myst-parser = 3.0.1"
+                  "spec": "myst-parser = 4.0.0"
                },
                "description": "Adding MyST Markdown functionalities to Sphinx.",
                "import_name": "myst_parser",
                "notes": "This is added as a dependency and not an extension\nbecause the MyST-NB extension (a superset of MyST-Parser) is used as an extension,\nwhich already includes MyST-Parser.\nHowever, here we specifically include MyST-Parser to ensure the correct version is installed.\n",
                "pip": {
-                  "spec": "myst-parser[linkify] == 3.0.1"
+                  "spec": "myst-parser[linkify] == 4.0.0"
                },
                "url": {
                   "docs": "https://myst-parser.readthedocs.io/",
@@ -15014,9 +15191,10 @@
                "description": "Pygments lexer for Git files and outputs.\n",
                "import_name": "pygments_git",
                "pip": {
-                  "spec": "pygments-git == 1.7.0"
+                  "spec": "pygments-git == 1.8.0"
                },
                "url": {
+                  "pip": "https://pypi.org/project/pygments-git/",
                   "source": "https://github.com/adamchainz/pygments-git"
                }
             },
@@ -15061,12 +15239,12 @@
             "dependency": {
                "conda": {
                   "channel": "conda-forge",
-                  "spec": "ablog = 0.11.11"
+                  "spec": "ablog = 0.11.12"
                },
                "description": "Adding a news blog to the website.",
                "import_name": "ablog",
                "pip": {
-                  "spec": "ablog == 0.11.11"
+                  "spec": "ablog == 0.11.12"
                },
                "url": {
                   "docs": "https://ablog.readthedocs.io/",
@@ -15074,6 +15252,7 @@
                      "title": "Configuration Docs",
                      "url": "https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html"
                   },
+                  "pip": "https://pypi.org/project/ablog/",
                   "source": "https://github.com/sunpy/ablog"
                }
             }
@@ -15117,6 +15296,7 @@
                },
                "url": {
                   "docs": "https://sphinx-copybutton.readthedocs.io/",
+                  "pip": "https://pypi.org/project/sphinx-copybutton/",
                   "source": "https://github.com/executablebooks/sphinx-copybutton"
                }
             }
@@ -15137,6 +15317,7 @@
                },
                "url": {
                   "docs": "https://sphinx-design.readthedocs.io/",
+                  "pip": "https://pypi.org/project/sphinx_design/",
                   "source": "https://github.com/executablebooks/sphinx-design"
                }
             }
@@ -15177,10 +15358,11 @@
                "description": "Adding page-specific last-updated dates to each page.",
                "import_name": "sphinx_last_updated_by_git",
                "pip": {
-                  "spec": "sphinx-last-updated-by-git == 0.3.7"
+                  "spec": "sphinx-last-updated-by-git == 0.3.8"
                },
                "url": {
                   "docs": "https://sphinx-last-updated-by-git.readthedocs.io/",
+                  "pip": "https://pypi.org/project/sphinx-last-updated-by-git/",
                   "source": "https://github.com/mgeier/sphinx-last-updated-by-git"
                }
             }
@@ -15189,15 +15371,16 @@
             "dependency": {
                "conda": {
                   "channel": "conda-forge",
-                  "spec": "sphinxcontrib-mermaid = 0.9.2"
+                  "spec": "sphinxcontrib-mermaid = 1.0.0"
                },
                "description": "Adding Mermaid diagrams and charts.",
                "import_name": "sphinxcontrib.mermaid",
                "pip": {
-                  "spec": "sphinxcontrib-mermaid == 0.9.2"
+                  "spec": "sphinxcontrib-mermaid == 1.0.0"
                },
                "url": {
                   "docs": "https://sphinxcontrib-mermaid-demo.readthedocs.io/en/stable/",
+                  "pip": "https://pypi.org/project/sphinxcontrib-mermaid/",
                   "source": "https://github.com/mgaitan/sphinxcontrib-mermaid"
                }
             }
@@ -15233,13 +15416,13 @@
             "dependency": {
                "conda": {
                   "channel": "conda-forge",
-                  "spec": "myst-nb = 1.1.1"
+                  "spec": "myst-nb = 1.1.2"
                },
                "description": "Adding MyST Markdown and Jupyter support to Sphinx.",
                "import_name": "myst_nb",
                "note": "MyST-NB is built on top of [MyST-Parser](https://myst-parser.readthedocs.io/)\nand exposes all of its functionalities. It also includes support for Jupyter Notebooks.\nWhen using MyST-NB, MyST-Parser must not be included separately.\n",
                "pip": {
-                  "spec": "myst-nb == 1.1.1"
+                  "spec": "myst-nb == 1.1.2"
                },
                "url": {
                   "conda": "https://anaconda.org/conda-forge/myst-nb",
@@ -15272,7 +15455,7 @@
                "ogp_site_url": "https://pypackit.repodynamics.com",
                "ogp_social_cards": {
                   "image": "_static/simple_light.svg",
-                  "line_color": "#005500"
+                  "line_color": "rgb(0 85 0)"
                },
                "ogp_use_first_image": true
             },
@@ -15300,9 +15483,10 @@
                "import_name": "sphinxcontrib.rsvgconverter",
                "notes": "This doesn't work on `latex_logo`;\nsee [nbsphinx](https://nbsphinx.readthedocs.io/en/latest/markdown-cells.html).\n",
                "pip": {
-                  "spec": "sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.2"
+                  "spec": "sphinxcontrib-svg2pdfconverter[CairoSVG] == 1.2.3"
                },
                "url": {
+                  "pip": "https://pypi.org/project/sphinxcontrib-svg2pdfconverter/",
                   "source": "https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter"
                }
             }
@@ -15373,6 +15557,7 @@
                },
                "url": {
                   "docs": "https://sphinx-togglebutton.readthedocs.io/",
+                  "pip": "https://pypi.org/project/sphinx-togglebutton/",
                   "source": "https://github.com/executablebooks/sphinx-togglebutton"
                }
             }
@@ -15628,11 +15813,11 @@
          "dependency": {
             "conda": {
                "channel": "conda-forge",
-               "spec": "sphinx == 7.4.7"
+               "spec": "sphinx == 8.1.3"
             },
             "import_name": "sphinx",
             "pip": {
-               "spec": "sphinx == 7.4.7"
+               "spec": "sphinx == 8.1.3"
             },
             "url": {
                "docs": "https://www.sphinx-doc.org/",
@@ -15749,9 +15934,7 @@
                   "quicklinks"
                ],
                "footer_start": [
-                  "version",
-                  "copyright",
-                  "pypackit_ver"
+                  "footer_badges"
                ],
                "header_links_before_dropdown": 7,
                "icon_links": [
@@ -15792,12 +15975,12 @@
                   "navbar-nav"
                ],
                "navbar_end": [
-                  "navbar-icon-links",
-                  "theme-switcher",
-                  "user_login_button"
+                  "navbar-icon-links"
                ],
                "navbar_persistent": [
-                  "search-button"
+                  "search-button",
+                  "theme-switcher",
+                  "user_login_button"
                ],
                "navbar_start": [
                   "navbar-logo"
@@ -15823,11 +16006,11 @@
          "dependency": {
             "conda": {
                "channel": "conda-forge",
-               "spec": "pydata-sphinx-theme == 0.15.4"
+               "spec": "pydata-sphinx-theme == 0.16.1"
             },
             "import_name": "pydata_sphinx_theme",
             "pip": {
-               "spec": "pydata-sphinx-theme == 0.15.4"
+               "spec": "pydata-sphinx-theme == 0.16.1"
             },
             "url": {
                "docs": "https://pydata-sphinx-theme.readthedocs.io/",
@@ -16313,11 +16496,11 @@
                               "args": {
                                  "message": "0.0.0"
                               },
-                              "color": "#3C5500",
-                              "color_dark": "#AF8A00",
+                              "color": "rgb(60 85 0)",
+                              "color_dark": "rgb(175 138 0)",
                               "label": "PyPackIT",
-                              "label_color": "#005500",
-                              "label_color_dark": "#1CAA00",
+                              "label_color": "rgb(0 85 0)",
+                              "label_color_dark": "rgb(28 170 0)",
                               "logo": "docs/website/source/_media/logo/favicon.svg",
                               "logo_type": "file"
                            },
