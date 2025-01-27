@@ -114,12 +114,12 @@ def create_license_data():
     return container.source()
 
 
-def footer_template(license_path):
+def footer_template(license_path, version):
     """Create badges for footer template."""
     badge_list = [
         {
             "label": metadata["name"],
-            "args": {"message": "0.0.0"},
+            "args": {"message": version or "0.0.0"},
             "logo": f"source/{metadata["web"]["file"]["icon"]["rel_path"]}",
             "logo_type": "file",
         },
