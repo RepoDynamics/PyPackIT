@@ -1,3 +1,9 @@
+const apiUrls = [
+  "https://doi.org/10.5281/zenodo.14744153",
+  "https://doi.org/10.5281/zenodo.14744900",
+];
+
+
 // Helper function to escape HTML entities
 function escapeHTML(html) {
   return html
@@ -6,10 +12,6 @@ function escapeHTML(html) {
     .replace(/>/g, "&gt;"); // Encode >
 }
 
-const apiUrls = [
-  "https://doi.org/10.5281/zenodo.14744153",
-  "https://doi.org/10.5281/zenodo.14744900",
-];
 
 async function loadOptions() {
   try {
