@@ -24,7 +24,7 @@
     {{ name }}: {{ value }};
                 {% endif %}
             {% endfor %}
-        {% endfor %}
 }
+        {% endfor %}
     {% endif %}
 {% endfor %}
