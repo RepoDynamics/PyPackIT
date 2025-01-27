@@ -67,7 +67,7 @@ html_theme.sidebar_secondary.remove:
 :link: intro/index.html
 :img-top: /_media/icon/background.svg
 :class-title: sd-text-center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 Start off with the [Intro](#intro) section to learn more about
 |{{ccc.name}}|'s motivations, objectives and capabilities.
@@ -83,7 +83,7 @@ that are essential to fully understanding and utilizing |{{ccc.name}}|.
 :link: manual/index.html
 :img-top: /_media/icon/user_guide.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 Dive into the [Manual](#manual) for in-depth information on the key concepts of |{{ccc.name}}|,
 along with detailed explanations of all its features and functionalities.
@@ -100,7 +100,7 @@ to fully leverage |{{ccc.name}}|'s capabilities.
 :link: api/index.html
 :img-top: /_media/icon/api.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 Refer to the [API](#api) guide for a complete reference of |{{ccc.name}}|'s options
 and settings that can be used to customize and manage your entire project.
@@ -115,7 +115,7 @@ about your project, such as changelogs, variables, contributors, and cached data
 :link: news/index.html
 :img-top: /_media/icon/news.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 Check out the [News](#news) blog to stay up to date with our latest announcements and developments.
 This section keeps you informed about |{{ccc.name}}|'s new releases with detailed changelogs,
@@ -131,7 +131,7 @@ so you never miss out on any important updates.
 :link: contribute/index.html
 :img-top: /_media/icon/dev_guide.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 |{{ ccc.name }}| is a free and open-source project that can only survive
 and grow through the help and support of great members like you.
@@ -148,7 +148,7 @@ we highly appreciate all your contributions!
 :link: about/index.html
 :img-top: /_media/icon/about.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 The [About](#about) section provides information and metadata about
 the |{{ ccc.name }}| project, such as instructions on how to cite
@@ -163,7 +163,7 @@ and other acknowledgments.
 :link: help/index.html
 :img-top: /_media/icon/faq.svg
 :text-align: center
-:class-img-top: dark-light icon-image
+:class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
 The [Help](#help) section is the go-to resource for assistance with any challenges you encounter.
 Explore FAQs, troubleshoot common issues, and connect with our support team for personalized solutions.
