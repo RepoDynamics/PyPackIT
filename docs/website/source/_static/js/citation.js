@@ -10,9 +10,6 @@ async function loadOptions() {
 
     const dropdown = document.getElementById('api-dropdown');
 
-    // Clear existing options if any
-    dropdown.innerHTML = '<option value="" disabled selected>Select an option</option>';
-
     // Sort optionsData before populating the dropdown
     const sortedEntries = Object.entries(optionsData).sort(([, valueA], [, valueB]) => {
       const textA = valueA.length === 1 ? valueA[0] : `${valueA[0]} (${valueA[1]})`;
@@ -20,18 +17,29 @@ async function loadOptions() {
       return textA.localeCompare(textB); // Sort alphabetically
     });
 
-    // Populate dropdown with sorted options
-    for (const [key, value] of sortedEntries) {
-      console.log('Processing key:', key, 'value:', value);
-      let displayText = value.length === 1
+    // Populate dropdown with sorted options using Choices.js
+    const choices = new Choices(dropdown, {
+      searchEnabled: true,
+      itemSelectText: '',
+      placeholder: true,
+      noResultsText: 'No options found',
+      removeItemButton: false,
+    });
+
+    // Add sorted options to Choices.js
+    sortedEntries.forEach(([key, value]) => {
+      const displayText = value.length === 1
         ? value[0]
         : `${value[0]} (${value[1]})`;
 
-      const optionElement = document.createElement('option');
-      optionElement.value = key; // Use the key as the value sent to the API
-      optionElement.textContent = displayText; // Display the constructed text
-      dropdown.appendChild(optionElement);
-    }
+      choices.setChoices([
+        {
+          value: key, // Key as the value sent to the API
+          label: displayText, // Display text for the dropdown
+          selected: false,
+        },
+      ]);
+    });
 
   } catch (error) {
     console.error('Error in loadOptions:', error);
