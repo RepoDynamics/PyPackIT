@@ -7,7 +7,7 @@ ccid: install
 
 
 ::::{grid} 1 1 1 3
-:padding: 4 0 0 4
+:padding: 4 4 0 0
 
 
 :::{grid-item-card} New Repository

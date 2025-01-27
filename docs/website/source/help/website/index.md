@@ -3,8 +3,8 @@
 
 ::::{grid} 1
 :margin: 0
-:gutter: 0
-:padding: 4 0 0 4
+:gutter: 3
+:padding: 4 4 0 0
 
 :::{grid-item-card} Tips and Tricks
 :class-title: sd-text-center
