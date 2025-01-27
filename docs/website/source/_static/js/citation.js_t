@@ -71,6 +71,9 @@ async function loadOptions() {
         // Add all prepared options in one call
         choices.setChoices(preparedOptions, 'value', 'label', false);
 
+        // Make the dropdown visible once Choices.js has been initialized
+        dropdown.style.visibility = "visible";
+
         // Automatically select "apa" if it exists
         const apaOption = preparedOptions.find(option => option.value ===
             'apa');
