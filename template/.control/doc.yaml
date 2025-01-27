@@ -1201,21 +1201,7 @@ web:
         dark:
           selector: 'html[data-theme="dark"]'
           prefix: --pst-color-
-      properties:
-        primary: ${{ color.primary }}$
-        secondary: ${{ color.secondary }}$
-        accent: ${{ color.accent }}$
-
-        primary-bg:
-          light: ${{ color.primary.dark }}$
-          dark: ${{ color.primary.light }}$
-        secondary-bg:
-          light: ${{ color.secondary.dark }}$
-          dark: ${{ color.secondary.light }}$
-        accent-bg:
-          light: ${{ color.accent.dark }}$
-          dark: ${{ color.accent.light }}$
-
+      properties: ${{ color }}$
     theme_font_sizes:
       # Font sizes for pydata-sphinx-theme.
       # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
@@ -1236,13 +1222,13 @@ web:
     theme_header_color:
       cases:
         light:
-          selector: 'html[data-theme="light"] .bd-header'
+          selector: html[data-theme="light"] .bd-header
         dark:
-          selector: 'html[data-theme="dark"] .bd-header'
+          selector: html[data-theme="dark"] .bd-header
         properties:
           background-color:
-            light: 'white !important'
-            dark: 'black !important'
+            light: white !important
+            dark: black !important
     black_to_primary_filter:
       # CSS filters for transforming black to project's primary color.
       # This is used to dynamically change the color of SVG icons
@@ -1263,7 +1249,6 @@ web:
                 for theme in ["light", "dark"]
             }
           }}#
-
   env:
     file:
       conda:
