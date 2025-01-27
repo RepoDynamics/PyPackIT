@@ -26,7 +26,7 @@ async function loadOptions() {
       return {
         value: key, // Key as the value sent to the API
         label: displayText, // Display text for the dropdown
-        selected: false,
+        selected: false, // Default: not selected
       };
     });
 
@@ -42,10 +42,18 @@ async function loadOptions() {
     // Add all prepared options in one call
     choices.setChoices(preparedOptions, 'value', 'label', false);
 
+    // Automatically select "apa" if it exists
+    const apaOption = preparedOptions.find(option => option.value === 'apa');
+    if (apaOption) {
+      dropdown.value = 'apa'; // Set "apa" as selected in the dropdown
+      await fetchAPI(); // Fetch and display the API response for "apa"
+    } else {
+      console.warn('The "apa" style was not found in the options.');
+    }
   } catch (error) {
     console.error('Error in loadOptions:', error);
-    const resultDiv = document.getElementById('api-response');
-    resultDiv.textContent = `Error loading options: ${error.message}`;
+    const resultDiv = document.getElementById('api-rendered-response');
+    resultDiv.innerHTML = `Error loading options: ${error.message}`;
   }
 }
 
@@ -79,7 +87,7 @@ async function fetchAPI() {
 
     // Display the raw HTML response inside the <pre> element
     if (preElement) {
-      preElement.textContent = data
+      preElement.textContent = data;
     }
 
     // Display the rendered HTML response
@@ -90,6 +98,5 @@ async function fetchAPI() {
   }
 }
 
-
-// Load options when the page loads
+// Load options and prepopulate the divs when the page loads
 window.addEventListener('load', loadOptions);
