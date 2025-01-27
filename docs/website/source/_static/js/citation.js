@@ -1,3 +1,8 @@
+const apiUrls = [
+  "https://doi.org/10.5281/zenodo.14744153",
+  "https://doi.org/10.5281/zenodo.14744900",
+];
+
 async function loadOptions() {
   try {
     console.log('Fetching options JSON...');
@@ -46,7 +51,7 @@ async function loadOptions() {
     const apaOption = preparedOptions.find(option => option.value === 'apa');
     if (apaOption) {
       dropdown.value = 'apa'; // Set "apa" as selected in the dropdown
-      await fetchAPI(); // Fetch and display the API response for "apa"
+      await fetchAPI(); // Fetch and display the API responses for "apa"
     } else {
       console.warn('The "apa" style was not found in the options.');
     }
@@ -59,42 +64,53 @@ async function loadOptions() {
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
-  const apiRawResponseDiv = document.getElementById('api-raw-response'); // The wrapper <div>
-  const preElement = apiRawResponseDiv.querySelector('pre'); // The <pre> inside the <div>
-  const renderedResultDiv = document.getElementById('api-rendered-response');
+  const rawResultList = document.getElementById('api-raw-response'); // The wrapper <div>
+  const renderedResultList = document.getElementById('api-rendered-response');
   const selectedKey = dropdown.value;
 
   if (!selectedKey) {
-    if (preElement) preElement.textContent = "Please select an option.";
-    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
+    rawResultList.innerHTML = "<li>Please select an option.</li>";
+    renderedResultList.innerHTML = ""; // Clear previous rendered HTML
     return;
   }
 
-  const apiUrl = `https://doi.org/10.5281/zenodo.14744153`;
-  const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
+  rawResultList.innerHTML = ''; // Clear previous raw results
+  renderedResultList.innerHTML = ''; // Clear previous rendered results
 
-  try {
-    if (preElement) preElement.textContent = 'Loading...';
-    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
+  // Loop through all API URLs
+  for (const apiUrl of apiUrls) {
+    const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: headers,
-    });
-    if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+    try {
+      // Show loading state
+      const rawItem = document.createElement('li');
+      rawItem.textContent = `Loading from ${apiUrl}...`;
+      rawResultList.appendChild(rawItem);
 
-    const data = await response.text();
+      const renderedItem = document.createElement('li');
+      renderedItem.textContent = `Loading from ${apiUrl}...`;
+      renderedResultList.appendChild(renderedItem);
 
-    // Display the raw HTML response inside the <pre> element
-    if (preElement) {
-      preElement.textContent = data;
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+      });
+      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
+      const data = await response.text();
+
+      // Update raw and rendered lists
+      rawItem.textContent = data;
+      renderedItem.innerHTML = data; // Render HTML content
+    } catch (error) {
+      const rawItem = document.createElement('li');
+      rawItem.textContent = `Error fetching from ${apiUrl}: ${error.message}`;
+      rawResultList.appendChild(rawItem);
+
+      const renderedItem = document.createElement('li');
+      renderedItem.textContent = `Error fetching from ${apiUrl}: ${error.message}`;
+      renderedResultList.appendChild(renderedItem);
     }
-
-    // Display the rendered HTML response
-    renderedResultDiv.innerHTML = data;
-  } catch (error) {
-    if (preElement) preElement.textContent = `Error: ${error.message}`;
-    renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
   }
 }
 
