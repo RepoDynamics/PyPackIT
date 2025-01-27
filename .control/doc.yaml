@@ -8,6 +8,7 @@ color:
   accent:
     light: rgb(19 84 0)
     dark: rgb(69 155 36)
+  heading: ${{ color.primary }}$
 document:
   readme:
     output:
