@@ -21,7 +21,7 @@ async function loadOptions() {
     const optionsData = await response.json();
     console.log('Options Data:', optionsData);
 
-    const dropdown = document.getElementById('api-dropdown');
+    const dropdown = document.getElementById('citation-style-dropdown');
 
     // Sort optionsData before populating the dropdown
     const sortedEntries = Object.entries(optionsData).sort(([, valueA], [, valueB]) => {
@@ -65,15 +65,15 @@ async function loadOptions() {
     }
   } catch (error) {
     console.error('Error in loadOptions:', error);
-    const resultDiv = document.getElementById('api-rendered-response');
+    const resultDiv = document.getElementById('project-citations-rendered');
     resultDiv.innerHTML = `Error loading options: ${error.message}`;
   }
 }
 
 async function fetchAPI() {
-  const dropdown = document.getElementById('api-dropdown');
-  const rawResultPre = document.getElementById('api-raw-response'); // The wrapper <pre>
-  const renderedResultList = document.getElementById('api-rendered-response'); // The <ul> for rendered responses
+  const dropdown = document.getElementById('citation-style-dropdown');
+  const rawResultPre = document.getElementById('project-citations-raw-html'); // The wrapper <pre>
+  const renderedResultList = document.getElementById('project-citations-rendered'); // The <ul> for rendered responses
   const selectedKey = dropdown.value;
 
   if (!selectedKey) {
