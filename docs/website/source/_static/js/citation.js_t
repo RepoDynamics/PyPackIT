@@ -1,139 +1,160 @@
 /* Fetch citation data from DOI API.
-*/
+ */
 
 
 // Dynamically set DOIs using Jinja
 const dois = [
-  {% for doi in ccc.__custom__.dois %}"{{ doi }}",{% endfor %}
+    {% for doi in ccc.__custom__.dois %}"{{ doi }}",{% endfor %}
 ];
 
 
 function escapeHTML(html) {
-  // Escape HTML entities for displaying raw HTML.
+    // Escape HTML entities for displaying raw HTML.
 
-  return html
-    .replace(/&/g, "&amp;") // Encode &
-    .replace(/</g, "&lt;") // Encode <
-    .replace(/>/g, "&gt;"); // Encode >
+    return html
+        .replace(/&/g, "&amp;") // Encode &
+        .replace(/</g, "&lt;") // Encode <
+        .replace(/>/g, "&gt;"); // Encode >
 }
 
 
 async function loadOptions() {
-  // Load citation style options in the dropdown menu.
+    // Load citation style options in the dropdown menu.
 
-  try {
-    console.log('Fetching options JSON...');
-    const response = await fetch('https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_static/data/csl_styles.json');
-    if (!response.ok) throw new Error(`Failed to load options: ${response.statusText}`);
+    try {
+        console.log('Fetching options JSON...');
+        const response = await fetch(
+            'https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_static/data/csl_styles.json'
+            );
+        if (!response.ok) throw new Error(
+            `Failed to load options: ${response.statusText}`);
 
-    console.log('Response received.');
-    const optionsData = await response.json();
-    console.log('Options Data:', optionsData);
+        console.log('Response received.');
+        const optionsData = await response.json();
+        console.log('Options Data:', optionsData);
 
-    const dropdown = document.getElementById('citation-style-dropdown');
+        const dropdown = document.getElementById('citation-style-dropdown');
 
-    // Sort optionsData before populating the dropdown
-    const sortedEntries = Object.entries(optionsData).sort(([, valueA], [, valueB]) => {
-      const textA = valueA.length === 1 ? valueA[0] : `${valueA[0]} (${valueA[1]})`;
-      const textB = valueB.length === 1 ? valueB[0] : `${valueB[0]} (${valueB[1]})`;
-      return textA.localeCompare(textB); // Sort alphabetically
-    });
+        // Sort optionsData before populating the dropdown
+        const sortedEntries = Object.entries(optionsData).sort(([, valueA],
+            [, valueB]) => {
+            const textA = valueA.length === 1 ? valueA[0] :
+                `${valueA[0]} (${valueA[1]})`;
+            const textB = valueB.length === 1 ? valueB[0] :
+                `${valueB[0]} (${valueB[1]})`;
+            return textA.localeCompare(
+            textB); // Sort alphabetically
+        });
 
-    // Prepare options in a batch to add them all at once
-    const preparedOptions = sortedEntries.map(([key, value]) => {
-      const displayText = value.length === 1
-        ? value[0]
-        : `${value[0]} (${value[1]})`;
+        // Prepare options in a batch to add them all at once
+        const preparedOptions = sortedEntries.map(([key, value]) => {
+            const displayText = value.length === 1 ?
+                value[0] :
+                `${value[0]} (${value[1]})`;
 
-      return {
-        value: key, // Key as the value sent to the API
-        label: displayText, // Display text for the dropdown
-        selected: false, // Default: not selected
-      };
-    });
+            return {
+                value: key, // Key as the value sent to the API
+                label: displayText, // Display text for the dropdown
+                selected: false, // Default: not selected
+            };
+        });
 
-    // Initialize Choices.js once and add all options at once
-    const choices = new Choices(dropdown, {
-      searchEnabled: true,
-      itemSelectText: '',
-      placeholder: true,
-      noResultsText: 'No options found',
-      removeItemButton: false,
-    });
+        // Initialize Choices.js once and add all options at once
+        const choices = new Choices(dropdown, {
+            searchEnabled: true,
+            itemSelectText: '',
+            placeholder: true,
+            noResultsText: 'No options found',
+            removeItemButton: false,
+        });
 
-    // Add all prepared options in one call
-    choices.setChoices(preparedOptions, 'value', 'label', false);
+        // Add all prepared options in one call
+        choices.setChoices(preparedOptions, 'value', 'label', false);
 
-    // Automatically select "apa" if it exists
-    const apaOption = preparedOptions.find(option => option.value === 'apa');
-    if (apaOption) {
-      dropdown.value = 'apa'; // Set "apa" as selected in the dropdown
-      await fetchAPI(); // Fetch and display the API responses for "apa"
-    } else {
-      console.warn('The "apa" style was not found in the options.');
+        // Automatically select "apa" if it exists
+        const apaOption = preparedOptions.find(option => option.value ===
+            'apa');
+        if (apaOption) {
+            dropdown.value = 'apa'; // Set "apa" as selected in the dropdown
+            await fetchAPI
+        (); // Fetch and display the API responses for "apa"
+        } else {
+            console.warn('The "apa" style was not found in the options.');
+        }
+    } catch (error) {
+        console.error('Error in loadOptions:', error);
+        const resultDiv = document.getElementById(
+            'project-citations-rendered');
+        resultDiv.innerHTML = `Error loading options: ${error.message}`;
     }
-  } catch (error) {
-    console.error('Error in loadOptions:', error);
-    const resultDiv = document.getElementById('project-citations-rendered');
-    resultDiv.innerHTML = `Error loading options: ${error.message}`;
-  }
 }
 
 async function fetchAPI() {
-  const dropdown = document.getElementById('citation-style-dropdown');
-  const rawResultPre = document.getElementById('project-citations-raw-html'); // The wrapper <pre>
-  const renderedResultList = document.getElementById('project-citations-rendered'); // The <ul> for rendered responses
-  const selectedKey = dropdown.value;
+    const dropdown = document.getElementById('citation-style-dropdown');
+    const rawResultPre = document.getElementById(
+        'project-citations-raw-html'); // The wrapper <pre>
+    const renderedResultList = document.getElementById(
+        'project-citations-rendered'); // The <ul> for rendered responses
+    const selectedKey = dropdown.value;
 
-  if (!selectedKey) {
-    rawResultPre.innerHTML = "<div class='citation'>Please select an option.</div>";
-    renderedResultList.innerHTML = ""; // Clear previous rendered HTML
-    return;
-  }
-
-  rawResultPre.innerHTML = ''; // Clear previous raw results
-  renderedResultList.innerHTML = ''; // Clear previous rendered results
-
-  // Loop through all API URLs
-  for (const doi of dois) {
-    const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
-
-    // Create a container for this API's response
-    const rawResponseDiv = document.createElement('div');
-    rawResponseDiv.className = 'citation';
-    rawResponseDiv.textContent = `Loading from ${doi}...`; // Add a loading message
-    rawResultPre.appendChild(rawResponseDiv);
-
-    const renderedLoadingItem = document.createElement('li');
-    renderedLoadingItem.textContent = `Loading from ${doi}...`;
-    renderedResultList.appendChild(renderedLoadingItem);
-
-    try {
-      const response = await fetch(`https://doi.org/${doi}`, {
-        method: 'GET',
-        headers: headers,
-      });
-      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
-
-      const data = await response.text();
-
-      // Update raw results inside <pre> with escaped HTML
-      rawResponseDiv.textContent = ''; // Clear the "Loading" message
-      rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
-
-      // Update rendered results
-      renderedLoadingItem.textContent = ''; // Clear the "Loading" message
-      const renderedItemContent = document.createElement('div');
-      renderedItemContent.innerHTML = data; // Render HTML content
-      renderedLoadingItem.appendChild(renderedItemContent);
-    } catch (error) {
-      const errorMessage = `Error fetching from ${doi}: ${error.message}`;
-      rawResponseDiv.textContent = ''; // Clear the "Loading" message
-      rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
-
-      renderedLoadingItem.textContent = errorMessage;
+    if (!selectedKey) {
+        rawResultPre.innerHTML =
+            "<div class='citation'>Please select an option.</div>";
+        renderedResultList.innerHTML = ""; // Clear previous rendered HTML
+        return;
     }
-  }
+
+    rawResultPre.innerHTML = ''; // Clear previous raw results
+    renderedResultList.innerHTML = ''; // Clear previous rendered results
+
+    // Loop through all API URLs
+    for (const doi of dois) {
+        const headers = {
+            'accept': `text/x-bibliography; style=${selectedKey}`
+        };
+
+        // Create a container for this API's response
+        const rawResponseDiv = document.createElement('div');
+        rawResponseDiv.className = 'citation';
+        rawResponseDiv.textContent =
+        `Loading from ${doi}...`; // Add a loading message
+        rawResultPre.appendChild(rawResponseDiv);
+
+        const renderedLoadingItem = document.createElement('li');
+        renderedLoadingItem.textContent = `Loading from ${doi}...`;
+        renderedResultList.appendChild(renderedLoadingItem);
+
+        try {
+            const response = await fetch(`https://doi.org/${doi}`, {
+                method: 'GET',
+                headers: headers,
+            });
+            if (!response.ok) throw new Error(
+                `Error: ${response.status} ${response.statusText}`);
+
+            const data = await response.text();
+
+            // Update raw results inside <pre> with escaped HTML
+            rawResponseDiv.textContent = ''; // Clear the "Loading" message
+            rawResponseDiv.innerHTML =
+                `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
+
+            // Update rendered results
+            renderedLoadingItem.textContent =
+            ''; // Clear the "Loading" message
+            const renderedItemContent = document.createElement('div');
+            renderedItemContent.innerHTML = data; // Render HTML content
+            renderedLoadingItem.appendChild(renderedItemContent);
+        } catch (error) {
+            const errorMessage =
+                `Error fetching from ${doi}: ${error.message}`;
+            rawResponseDiv.textContent = ''; // Clear the "Loading" message
+            rawResponseDiv.innerHTML =
+                `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
+
+            renderedLoadingItem.textContent = errorMessage;
+        }
+    }
 }
 
 // Load options and prepopulate the divs when the page loads
