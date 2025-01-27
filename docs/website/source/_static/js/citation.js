@@ -1,3 +1,11 @@
+// Helper function to escape HTML entities
+function escapeHTML(html) {
+  return html
+    .replace(/&/g, "&amp;") // Encode &
+    .replace(/</g, "&lt;") // Encode <
+    .replace(/>/g, "&gt;"); // Encode >
+}
+
 const apiUrls = [
   "https://doi.org/10.5281/zenodo.14744153",
   "https://doi.org/10.5281/zenodo.14744900",
@@ -64,33 +72,34 @@ async function loadOptions() {
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
-  const rawResultList = document.getElementById('api-raw-response'); // The wrapper <div>
-  const renderedResultList = document.getElementById('api-rendered-response');
+  const rawResultPre = document.getElementById('api-raw-response'); // The wrapper <pre>
+  const renderedResultList = document.getElementById('api-rendered-response'); // The <ul> for rendered responses
   const selectedKey = dropdown.value;
 
   if (!selectedKey) {
-    rawResultList.innerHTML = "<li>Please select an option.</li>";
+    rawResultPre.innerHTML = "<div class='citation'>Please select an option.</div>";
     renderedResultList.innerHTML = ""; // Clear previous rendered HTML
     return;
   }
 
-  rawResultList.innerHTML = ''; // Clear previous raw results
+  rawResultPre.innerHTML = ''; // Clear previous raw results
   renderedResultList.innerHTML = ''; // Clear previous rendered results
 
   // Loop through all API URLs
   for (const apiUrl of apiUrls) {
     const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
+    // Create a container for this API's response
+    const rawResponseDiv = document.createElement('div');
+    rawResponseDiv.className = 'citation';
+    rawResponseDiv.textContent = `Loading from ${apiUrl}...`; // Add a loading message
+    rawResultPre.appendChild(rawResponseDiv);
+
+    const renderedLoadingItem = document.createElement('li');
+    renderedLoadingItem.textContent = `Loading from ${apiUrl}...`;
+    renderedResultList.appendChild(renderedLoadingItem);
+
     try {
-      // Show loading state
-      const rawItem = document.createElement('li');
-      rawItem.textContent = `Loading from ${apiUrl}...`;
-      rawResultList.appendChild(rawItem);
-
-      const renderedItem = document.createElement('li');
-      renderedItem.textContent = `Loading from ${apiUrl}...`;
-      renderedResultList.appendChild(renderedItem);
-
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -99,17 +108,21 @@ async function fetchAPI() {
 
       const data = await response.text();
 
-      // Update raw and rendered lists
-      rawItem.textContent = data;
-      renderedItem.innerHTML = data; // Render HTML content
-    } catch (error) {
-      const rawItem = document.createElement('li');
-      rawItem.textContent = `Error fetching from ${apiUrl}: ${error.message}`;
-      rawResultList.appendChild(rawItem);
+      // Update raw results inside <pre> with escaped HTML
+      rawResponseDiv.textContent = ''; // Clear the "Loading" message
+      rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
 
-      const renderedItem = document.createElement('li');
-      renderedItem.textContent = `Error fetching from ${apiUrl}: ${error.message}`;
-      renderedResultList.appendChild(renderedItem);
+      // Update rendered results
+      renderedLoadingItem.textContent = ''; // Clear the "Loading" message
+      const renderedItemContent = document.createElement('div');
+      renderedItemContent.innerHTML = data; // Render HTML content
+      renderedLoadingItem.appendChild(renderedItemContent);
+    } catch (error) {
+      const errorMessage = `Error fetching from ${apiUrl}: ${error.message}`;
+      rawResponseDiv.textContent = ''; // Clear the "Loading" message
+      rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
+
+      renderedLoadingItem.textContent = errorMessage;
     }
   }
 }
