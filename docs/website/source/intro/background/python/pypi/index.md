@@ -49,10 +49,13 @@ in URL labels and addresses to add a custom icon to the link
 (cf. [Warehouse source code](https://github.com/pypi/warehouse/blob/cd4cd6505989cf6139078d0d958b4ded2b95fa3c/warehouse/templates/packaging/detail.html#L16-L66)).
 For example, following URL labels (i.e., keys of the [`project.url`] table in `pyproject.toml`)
 are automatically recognized by PyPI (case-insensitive) and displayed with a custom icon:
+
 - `home`, `homepage`, `home page`
 - `download`
 - `changelog`, `change log`, `changes`, `release notes`, `news`, `what's new`, `history`
+
 Keys starting with the following terms are recognized as well:
+
 - `documentation`, `docs`
 - `issue`, `bug`, `tracker`, `report`
 - `sponsor`, `funding`, `donate`, `donation`
