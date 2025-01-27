@@ -51,12 +51,13 @@ async function loadOptions() {
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
-  const rawResultDiv = document.getElementById('api-raw-response');
+  const apiRawResponseDiv = document.getElementById('api-raw-response'); // The wrapper <div>
+  const preElement = apiRawResponseDiv.querySelector('pre'); // The <pre> inside the <div>
   const renderedResultDiv = document.getElementById('api-rendered-response');
   const selectedKey = dropdown.value;
 
   if (!selectedKey) {
-    rawResultDiv.textContent = "Please select an option.";
+    if (preElement) preElement.textContent = "Please select an option.";
     renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
     return;
   }
@@ -65,24 +66,26 @@ async function fetchAPI() {
   const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
   try {
-    rawResultDiv.textContent = 'Loading...';
+    if (preElement) preElement.textContent = 'Loading...';
     renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
 
     const response = await fetch(apiUrl, {
       method: 'GET',
-      headers: headers
+      headers: headers,
     });
     if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
 
     const data = await response.text();
 
-    // Display the raw HTML response
-    rawResultDiv.textContent = data;
+    // Display the raw HTML response inside the <pre> element
+    if (preElement) {
+      preElement.textContent = data
+    }
 
     // Display the rendered HTML response
     renderedResultDiv.innerHTML = data;
   } catch (error) {
-    rawResultDiv.textContent = `Error: ${error.message}`;
+    if (preElement) preElement.textContent = `Error: ${error.message}`;
     renderedResultDiv.innerHTML = ""; // Clear previous rendered HTML
   }
 }
