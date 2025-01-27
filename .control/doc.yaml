@@ -8,9 +8,6 @@ color:
   accent:
     light: rgb(19 84 0)
     dark: rgb(69 155 36)
-  info:
-    light:
-
 document:
   readme:
     output:
