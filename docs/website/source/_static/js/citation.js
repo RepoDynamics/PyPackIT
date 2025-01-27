@@ -17,7 +17,20 @@ async function loadOptions() {
       return textA.localeCompare(textB); // Sort alphabetically
     });
 
-    // Populate dropdown with sorted options using Choices.js
+    // Prepare options in a batch to add them all at once
+    const preparedOptions = sortedEntries.map(([key, value]) => {
+      const displayText = value.length === 1
+        ? value[0]
+        : `${value[0]} (${value[1]})`;
+
+      return {
+        value: key, // Key as the value sent to the API
+        label: displayText, // Display text for the dropdown
+        selected: false,
+      };
+    });
+
+    // Initialize Choices.js once and add all options at once
     const choices = new Choices(dropdown, {
       searchEnabled: true,
       itemSelectText: '',
@@ -26,20 +39,8 @@ async function loadOptions() {
       removeItemButton: false,
     });
 
-    // Add sorted options to Choices.js
-    sortedEntries.forEach(([key, value]) => {
-      const displayText = value.length === 1
-        ? value[0]
-        : `${value[0]} (${value[1]})`;
-
-      choices.setChoices([
-        {
-          value: key, // Key as the value sent to the API
-          label: displayText, // Display text for the dropdown
-          selected: false,
-        },
-      ]);
-    });
+    // Add all prepared options in one call
+    choices.setChoices(preparedOptions, 'value', 'label', false);
 
   } catch (error) {
     console.error('Error in loadOptions:', error);
