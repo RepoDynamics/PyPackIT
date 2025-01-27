@@ -13,8 +13,15 @@ async function loadOptions() {
     // Clear existing options if any
     dropdown.innerHTML = '<option value="" disabled selected>Select an option</option>';
 
-    // Populate dropdown with options
-    for (const [key, value] of Object.entries(optionsData)) {
+    // Sort optionsData before populating the dropdown
+    const sortedEntries = Object.entries(optionsData).sort(([, valueA], [, valueB]) => {
+      const textA = valueA.length === 1 ? valueA[0] : `${valueA[0]} (${valueA[1]})`;
+      const textB = valueB.length === 1 ? valueB[0] : `${valueB[0]} (${valueB[1]})`;
+      return textA.localeCompare(textB); // Sort alphabetically
+    });
+
+    // Populate dropdown with sorted options
+    for (const [key, value] of sortedEntries) {
       console.log('Processing key:', key, 'value:', value);
       let displayText = value.length === 1
         ? value[0]
@@ -32,7 +39,6 @@ async function loadOptions() {
     resultDiv.textContent = `Error loading options: ${error.message}`;
   }
 }
-
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
@@ -60,8 +66,6 @@ async function fetchAPI() {
     resultDiv.textContent = `Error: ${error.message}`;
   }
 }
-
-
 
 // Load options when the page loads
 window.addEventListener('load', loadOptions);
