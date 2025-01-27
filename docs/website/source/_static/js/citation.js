@@ -1,8 +1,12 @@
 async function loadOptions() {
   try {
-    const response = await fetch('https://raw.githubusercontent.com/RepoDynamics/PyPackIT/refs/heads/main/docs/website/source/_static/data/csl_styles.json');
+    console.log('Fetching options JSON...');
+    const response = await fetch('https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_static/data/csl_styles.json');
     if (!response.ok) throw new Error(`Failed to load options: ${response.statusText}`);
+
+    console.log('Response received.');
     const optionsData = await response.json();
+    console.log('Options Data:', optionsData);
 
     const dropdown = document.getElementById('api-dropdown');
 
@@ -11,7 +15,7 @@ async function loadOptions() {
 
     // Populate dropdown with options
     for (const [key, value] of Object.entries(optionsData)) {
-      // Create the display text based on the array content
+      console.log('Processing key:', key, 'value:', value);
       let displayText = value.length === 1
         ? value[0]
         : `${value[0]} (${value[1]})`;
@@ -23,11 +27,12 @@ async function loadOptions() {
     }
 
   } catch (error) {
-    console.error(error);
+    console.error('Error in loadOptions:', error);
     const resultDiv = document.getElementById('api-response');
     resultDiv.textContent = `Error loading options: ${error.message}`;
   }
 }
+
 
 async function fetchAPI() {
   const dropdown = document.getElementById('api-dropdown');
@@ -39,9 +44,8 @@ async function fetchAPI() {
     return;
   }
 
-  // API request construction
-    const apiUrl = `https://doi.org/10.5281/zenodo.14744153`;
-    const headers = {'accept': `text/x-bibliography; style=${selectedOption}`};
+  const apiUrl = `https://doi.org/10.5281/zenodo.14744153`;
+  const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
   try {
     resultDiv.textContent = 'Loading...';
@@ -58,5 +62,6 @@ async function fetchAPI() {
 }
 
 
+
 // Load options when the page loads
-window.onload = loadOptions;
+window.addEventListener('load', loadOptions);
