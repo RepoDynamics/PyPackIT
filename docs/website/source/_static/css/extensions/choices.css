@@ -1,0 +1,70 @@
+/* Custom styles for Choices.js
+
+References
+----------
+- https://github.com/Choices-js/Choices/blob/main/src/styles/choices.scss
+*/
+
+
+/* Background color for the dropdown container */
+.choices {
+  background-color: var(--pst-color-on-background); /* Main container background */
+}
+
+.choices__inner {
+    background-color: var(--pst-color-on-background);
+}
+
+.choices[data-type*=select-one] .choices__input {
+    background-color: var(--pst-color-on-background);
+}
+
+/* Hover effect for options */
+.choices__item--choice:hover {
+  background-color: var(--pst-color-background);
+}
+
+/* Highlighted item when using keyboard navigation */
+.is-highlighted {
+  background-color: var(--pst-color-background);
+}
+
+/* Selected items in the dropdown */
+.choices__item--selectable {
+  background-color: var(--pst-color-on-background);
+}
+
+/* Background color for the dropdown options list */
+.choices__list--dropdown {
+  background-color: var(--pst-color-on-background) !important; /* Dropdown background */
+}
+
+/* Background and hover color for individual options */
+.choices__item--choice {
+  background-color: var(--pst-color-on-background) !important; /* Default option background */
+  transition: background-color 0.2s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for individual options */
+.choices__item--choice:hover,
+.choices__item--choice.is-highlighted {
+  background-color: var(--pst-color-background) !important; /* Hover background */
+  color: inherit !important; /* Ensure text color matches */
+}
+
+/* Background color for the selected items in multi-select mode */
+.choices__item--selectable {
+  background-color: var(--pst-color-on-background) !important; /* Selected item background */
+}
+
+/* Background color for the search input box */
+.choices__input {
+  background-color: var(--pst-color-on-background) !important; /* Search box background */
+  color: inherit !important; /* Match text color with theme */
+}
+
+/* Placeholder text styling */
+.choices__placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
