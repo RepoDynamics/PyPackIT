@@ -1219,6 +1219,66 @@ web:
         import_name: jsonschema_autodoc.sphinx
         pip:
           spec: jsonschema-autodoc
+  css:
+    theme_colors:
+      # Colors for pydata-sphinx-theme
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+      cases:
+        light:
+          selector: 'html[data-theme="light"]'
+          prefix: --pst-color-
+        dark:
+          selector: 'html[data-theme="dark"]'
+          prefix: --pst-color-
+      properties: ${{ color }}$
+    theme_font_sizes:
+      # Font sizes for pydata-sphinx-theme.
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
+      selector: html
+      prefix: pst-font-size-
+      properties:
+        milli: 0.9rem
+        base: 1rem
+        # 1.2x (minor third) typographic scale starting from 1.10rem.
+        # https://designcode.io/typographic-scales
+        h6: 1.10rem
+        h5: 1.32rem
+        h4: 1.58rem
+        h3: 1.90rem
+        h2: 2.28rem
+        h1: 2.74rem
+    theme_header_color:
+      cases:
+        light:
+          selector: html[data-theme="light"] .bd-header
+        dark:
+          selector: html[data-theme="dark"] .bd-header
+        properties:
+          background-color:
+            light: white !important
+            dark: black !important
+    black_to_primary_filter:
+      # CSS filters for transforming black to project's primary color.
+      # This is used to dynamically change the color of SVG icons
+      # with class name 'black-svg-icon'.
+      cases:
+        light:
+          selector: html[data-theme="light"] .black-svg-icon
+        dark:
+          selector: html[data-theme="dark"] .black-svg-icon
+      properties:
+        filter: |
+          #{{
+            import pycolorit as pcit
+
+            primary_color = get("color.primary")
+            return {
+                theme: pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
+                for theme in ["light", "dark"]
+            }
+          }}#
   env:
     file:
       conda:
