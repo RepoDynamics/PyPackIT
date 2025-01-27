@@ -17,6 +17,7 @@ which on large screens is located at the top-right corner of every page,
 and in the top-left menu on small screens.
 
 
+(help-copy-button)=
 ## Copying Code Blocks
 
 You can simply copy the contents of each code block in this documentation
