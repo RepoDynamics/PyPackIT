@@ -1,0 +1,8 @@
+#project-citations-rendered {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+#project-citations-rendered li:not(:last-child) {
+  margin-bottom: 1rem;
+}
