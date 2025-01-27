@@ -1,11 +1,16 @@
-const apiUrls = [
-  "https://doi.org/10.5281/zenodo.14744153",
-  "https://doi.org/10.5281/zenodo.14744900",
+/* Fetch citation data from DOI API.
+*/
+
+
+// Dynamically set DOIs using Jinja
+const dois = [
+  {% for doi in ccc.__custom__.dois %}"{{ doi }}",{% endfor %}
 ];
 
 
-// Helper function to escape HTML entities
 function escapeHTML(html) {
+  // Escape HTML entities for displaying raw HTML.
+
   return html
     .replace(/&/g, "&amp;") // Encode &
     .replace(/</g, "&lt;") // Encode <
@@ -14,6 +19,8 @@ function escapeHTML(html) {
 
 
 async function loadOptions() {
+  // Load citation style options in the dropdown menu.
+
   try {
     console.log('Fetching options JSON...');
     const response = await fetch('https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_static/data/csl_styles.json');
@@ -88,21 +95,21 @@ async function fetchAPI() {
   renderedResultList.innerHTML = ''; // Clear previous rendered results
 
   // Loop through all API URLs
-  for (const apiUrl of apiUrls) {
+  for (const doi of dois) {
     const headers = { 'accept': `text/x-bibliography; style=${selectedKey}` };
 
     // Create a container for this API's response
     const rawResponseDiv = document.createElement('div');
     rawResponseDiv.className = 'citation';
-    rawResponseDiv.textContent = `Loading from ${apiUrl}...`; // Add a loading message
+    rawResponseDiv.textContent = `Loading from ${doi}...`; // Add a loading message
     rawResultPre.appendChild(rawResponseDiv);
 
     const renderedLoadingItem = document.createElement('li');
-    renderedLoadingItem.textContent = `Loading from ${apiUrl}...`;
+    renderedLoadingItem.textContent = `Loading from ${doi}...`;
     renderedResultList.appendChild(renderedLoadingItem);
 
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`https://doi.org/${doi}`, {
         method: 'GET',
         headers: headers,
       });
@@ -120,7 +127,7 @@ async function fetchAPI() {
       renderedItemContent.innerHTML = data; // Render HTML content
       renderedLoadingItem.appendChild(renderedItemContent);
     } catch (error) {
-      const errorMessage = `Error fetching from ${apiUrl}: ${error.message}`;
+      const errorMessage = `Error fetching from ${doi}: ${error.message}`;
       rawResponseDiv.textContent = ''; // Clear the "Loading" message
       rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
 
