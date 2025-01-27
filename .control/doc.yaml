@@ -1255,10 +1255,10 @@ web:
           selector: html[data-theme="light"] .bd-header
         dark:
           selector: html[data-theme="dark"] .bd-header
-        properties:
-          background-color:
-            light: white !important
-            dark: black !important
+      properties:
+        background-color:
+          light: white !important
+          dark: black !important
     black_to_primary_filter:
       # CSS filters for transforming black to project's primary color.
       # This is used to dynamically change the color of SVG icons
