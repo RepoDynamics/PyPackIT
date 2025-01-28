@@ -1242,7 +1242,7 @@ web:
       # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
       # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
       selector: html
-      prefix: pst-font-size-
+      prefix: --pst-font-size-
       properties:
         milli: 0.9rem
         base: 1rem
