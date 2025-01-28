@@ -1,13 +1,6 @@
 # Citation
 
-Please cite our work.
-
-<div>
-  <select id="citation-style-dropdown" onchange="fetchAPI()">
-    <option value="" disabled selected>Select a citation style</option>
-    <!-- Options will be dynamically loaded here -->
-  </select>
-</div>
+Please use the following references to cite |{{ ccc.name }}| in your work:
 
 
 <ul id="project-citations-rendered">
@@ -15,22 +8,58 @@ Please cite our work.
 </ul>
 
 
+<div>
+  <select id="citation-style-dropdown" onchange="fetchAPI()" style="visibility: hidden;">
+    <option value="" disabled selected>Select a citation style</option>
+    <!-- Options will be dynamically loaded here -->
+  </select>
+</div>
+
+
+Select a [citation style](https://github.com/citation-style-language/styles)
+from the menu to reformat the references.
+You can then either [copy](#help-copy-button) the updated plain text above,
+or the corresponding HTML code below.
+Alternatively, select the BibTeX, RIS, or CiteProc JSON tabs
+to copy the references in your citation database file.
+
+
 :::::{tab-set}
 
 ::::{tab-item} HTML
 
+<!-- 
+Wrap in `<div><pre>` to add coppy button.
+Ref: https://sphinx-copybutton.readthedocs.io/en/latest/use.html#add-or-remove-copy-buttons-to-any-element-with-a-css-selector
+-->
 <div class="highlight">
-    <pre><div id="project-citations-raw-html"><!-- Raw API responses will be displayed here --></div></pre>
+    <pre><div id="project-citations-html"><!-- API response will be displayed here --></div></pre>
+</div>
+::::
+
+
+::::{tab-item} BibTeX
+
+<div class="highlight">
+    <pre><div id="project-citations-bib"><!-- API response will be displayed here --></div></pre>
+</div>
+::::
+
+
+::::{tab-item} RIS
+
+<div class="highlight">
+    <pre><div id="project-citations-ris"><!-- API response will be displayed here --></div></pre>
+</div>
+::::
+
+
+::::{tab-item} CiteProc JSON
+
+<div class="highlight">
+    <pre><div id="project-citations-citeproc"><!-- API response will be displayed here --></div></pre>
 </div>
 ::::
 
 
 :::::
-
-
-
-
-
-
-
-
