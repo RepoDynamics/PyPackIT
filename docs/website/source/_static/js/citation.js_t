@@ -19,7 +19,7 @@ during build. If no DOI is available in `ccc.citation.dois` then the entire scri
 
 {% if ccc.citation is defined and ccc.citation.dois %}
 
-const dois = {{ ccc.citation.dois | tojson }};
+const dois = {{ ccc.citation.dois | tojson }}.map(obj => obj.value);
 
 function escapeHTML(html) {
     // Escape HTML entities for displaying raw HTML.
