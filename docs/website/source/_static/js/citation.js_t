@@ -1,11 +1,12 @@
 /* Fetch citation data from DOI API.
- */
+*/
 
 
-// Dynamically set DOIs using Jinja
-const dois = [
-    {% for doi in ccc.__custom__.dois %}"{{ doi }}",{% endfor %}
-];
+// Write the script only if citation data if available
+{% if ccc.citation is defined and ccc.citation.dois %}
+
+
+const dois = {{ ccc.citation.dois | tojson }};
 
 
 function escapeHTML(html) {
@@ -95,7 +96,7 @@ async function loadOptions() {
 async function fetchAPI() {
     const dropdown = document.getElementById('citation-style-dropdown');
     const rawResultPre = document.getElementById(
-        'project-citations-raw-html'); // The wrapper <pre>
+        'project-citations-html'); // The wrapper <pre>
     const renderedResultList = document.getElementById(
         'project-citations-rendered'); // The <ul> for rendered responses
     const selectedKey = dropdown.value;
@@ -162,3 +163,11 @@ async function fetchAPI() {
 
 // Load options and prepopulate the divs when the page loads
 window.addEventListener('load', loadOptions);
+
+
+// No citation data available
+{% else %}
+
+console.warn('Citation data is not available in `ccc.citation.dois`.');
+
+{% endif %}
