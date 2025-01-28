@@ -1,4 +1,4 @@
-/* Fetch citation data from DOI API. */
+/* Fetch citation data from DOI API and insert in citation page. */
 
 // Write the script only if citation data is available
 {% if ccc.citation is defined and ccc.citation.dois %}
@@ -44,7 +44,7 @@ async function fetchIndependentFormats() {
                 if (acceptHeader === 'application/citeproc+json') {
                     results.push(JSON.parse(data)); // Parse and collect JSON objects
                 } else {
-                    results.push(data); // Collect plain text results
+                    results.push(data.trim()); // Collect plain text results, stripping extra whitespace
                 }
             }
 
@@ -52,8 +52,8 @@ async function fetchIndependentFormats() {
                 // Pretty-print JSON for CiteProc
                 container.textContent = JSON.stringify(results, null, 2);
             } else {
-                // Concatenate responses with a newline
-                container.textContent = results.join('\n');
+                // Concatenate responses with two newlines
+                container.textContent = results.join('\n\n');
             }
         } catch (error) {
             container.textContent = `Error fetching data for format ${acceptHeader}: ${error.message}`;
@@ -173,7 +173,7 @@ async function fetchAPI() {
 
             // Update raw results inside <pre> with escaped HTML
             rawResponseDiv.textContent = ''; // Clear the "Loading" message
-            rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
+            rawResponseDiv.innerHTML = `&lt;div class=\"citation\"&gt;${escapeHTML(data)}&lt;/div&gt;`;
 
             // Update rendered results
             renderedLoadingItem.textContent = ''; // Clear the "Loading" message
@@ -183,7 +183,7 @@ async function fetchAPI() {
         } catch (error) {
             const errorMessage = `Error fetching from ${doi}: ${error.message}`;
             rawResponseDiv.textContent = ''; // Clear the "Loading" message
-            rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
+            rawResponseDiv.innerHTML = `&lt;div class=\"citation\"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
 
             renderedLoadingItem.textContent = errorMessage;
         }
