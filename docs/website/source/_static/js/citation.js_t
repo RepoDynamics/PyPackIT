@@ -1,6 +1,22 @@
-/* Fetch citation data from DOI API and insert in citation page. */
+/* Fetch citation data from DOI API and insert in citation page.
 
-// Write the script only if citation data is available
+This script performs the following tasks:
+
+- When the citation page is first loaded, it calls the DOI API to generate
+  BibTex, RIS, CiteProc, and HTML outputs for all DOIs in `ccc.citation.dois`.
+- It also populates the citation style dropdown menu
+  with available options read from a remote JSON file.
+- Every time the user selects a citation style from the menu,
+  the corresponding format is fetched from the DOI API
+  and used to update the plain-text and HTML versions of the references.
+
+Notes
+-----
+The script uses Jinja templating to fetch the DOIs from the control center configurations
+during build. If no DOI is available in `ccc.citation.dois` then the entire script is omitted.
+*/
+
+
 {% if ccc.citation is defined and ccc.citation.dois %}
 
 const dois = {{ ccc.citation.dois | tojson }};
