@@ -1,32 +1,73 @@
-/* Fetch citation data from DOI API.
-*/
+/* Fetch citation data from DOI API. */
 
-
-// Write the script only if citation data if available
+// Write the script only if citation data is available
 {% if ccc.citation is defined and ccc.citation.dois %}
-
 
 const dois = {{ ccc.citation.dois | tojson }};
 
-
 function escapeHTML(html) {
     // Escape HTML entities for displaying raw HTML.
-
     return html
         .replace(/&/g, "&amp;") // Encode &
         .replace(/</g, "&lt;") // Encode <
         .replace(/>/g, "&gt;"); // Encode >
 }
 
+async function fetchIndependentFormats() {
+    // Fetch and populate BibTeX, RIS, and CiteProc JSON formats.
+    const formats = {
+        'project-citations-bib': 'application/x-bibtex',
+        'project-citations-ris': 'application/x-research-info-systems',
+        'project-citations-citeproc': 'application/citeproc+json'
+    };
+
+    for (const [divId, acceptHeader] of Object.entries(formats)) {
+        const container = document.getElementById(divId);
+        if (!container) {
+            console.error(`Container with ID ${divId} not found.`);
+            continue;
+        }
+
+        try {
+            let results = [];
+            for (const doi of dois) {
+                const headers = { 'accept': acceptHeader };
+                const response = await fetch(`https://doi.org/${doi}`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
+                const data = await response.text();
+
+                if (acceptHeader === 'application/citeproc+json') {
+                    results.push(JSON.parse(data)); // Parse and collect JSON objects
+                } else {
+                    results.push(data); // Collect plain text results
+                }
+            }
+
+            if (acceptHeader === 'application/citeproc+json') {
+                // Pretty-print JSON for CiteProc
+                container.textContent = JSON.stringify(results, null, 2);
+            } else {
+                // Concatenate responses with a newline
+                container.textContent = results.join('\n');
+            }
+        } catch (error) {
+            container.textContent = `Error fetching data for format ${acceptHeader}: ${error.message}`;
+        }
+    }
+}
 
 async function loadOptions() {
     // Load citation style options in the dropdown menu.
-
     try {
         console.log('Fetching options JSON...');
         const response = await fetch(
             'https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_static/data/csl_styles.json'
-            );
+        );
         if (!response.ok) throw new Error(
             `Failed to load options: ${response.statusText}`);
 
@@ -37,14 +78,10 @@ async function loadOptions() {
         const dropdown = document.getElementById('citation-style-dropdown');
 
         // Sort optionsData before populating the dropdown
-        const sortedEntries = Object.entries(optionsData).sort(([, valueA],
-            [, valueB]) => {
-            const textA = valueA.length === 1 ? valueA[0] :
-                `${valueA[0]} (${valueA[1]})`;
-            const textB = valueB.length === 1 ? valueB[0] :
-                `${valueB[0]} (${valueB[1]})`;
-            return textA.localeCompare(
-            textB); // Sort alphabetically
+        const sortedEntries = Object.entries(optionsData).sort(([, valueA], [, valueB]) => {
+            const textA = valueA.length === 1 ? valueA[0] : `${valueA[0]} (${valueA[1]})`;
+            const textB = valueB.length === 1 ? valueB[0] : `${valueB[0]} (${valueB[1]})`;
+            return textA.localeCompare(textB); // Sort alphabetically
         });
 
         // Prepare options in a batch to add them all at once
@@ -76,34 +113,31 @@ async function loadOptions() {
         dropdown.style.visibility = "visible";
 
         // Automatically select "apa" if it exists
-        const apaOption = preparedOptions.find(option => option.value ===
-            'apa');
+        const apaOption = preparedOptions.find(option => option.value === 'apa');
         if (apaOption) {
             dropdown.value = 'apa'; // Set "apa" as selected in the dropdown
-            await fetchAPI
-        (); // Fetch and display the API responses for "apa"
+            await fetchAPI(); // Fetch and display the API responses for "apa"
         } else {
             console.warn('The "apa" style was not found in the options.');
         }
+
+        // Fetch independent formats (BibTeX, RIS, CiteProc JSON)
+        await fetchIndependentFormats();
     } catch (error) {
         console.error('Error in loadOptions:', error);
-        const resultDiv = document.getElementById(
-            'project-citations-rendered');
+        const resultDiv = document.getElementById('project-citations-rendered');
         resultDiv.innerHTML = `Error loading options: ${error.message}`;
     }
 }
 
 async function fetchAPI() {
     const dropdown = document.getElementById('citation-style-dropdown');
-    const rawResultPre = document.getElementById(
-        'project-citations-html'); // The wrapper <pre>
-    const renderedResultList = document.getElementById(
-        'project-citations-rendered'); // The <ul> for rendered responses
+    const rawResultPre = document.getElementById('project-citations-html'); // The wrapper <pre>
+    const renderedResultList = document.getElementById('project-citations-rendered'); // The <ul> for rendered responses
     const selectedKey = dropdown.value;
 
     if (!selectedKey) {
-        rawResultPre.innerHTML =
-            "<div class='citation'>Please select an option.</div>";
+        rawResultPre.innerHTML = "<div class='citation'>Please select an option.</div>";
         renderedResultList.innerHTML = ""; // Clear previous rendered HTML
         return;
     }
@@ -111,7 +145,7 @@ async function fetchAPI() {
     rawResultPre.innerHTML = ''; // Clear previous raw results
     renderedResultList.innerHTML = ''; // Clear previous rendered results
 
-    // Loop through all API URLs
+    // Loop through all DOIs
     for (const doi of dois) {
         const headers = {
             'accept': `text/x-bibliography; style=${selectedKey}`
@@ -120,8 +154,7 @@ async function fetchAPI() {
         // Create a container for this API's response
         const rawResponseDiv = document.createElement('div');
         rawResponseDiv.className = 'citation';
-        rawResponseDiv.textContent =
-        `Loading from ${doi}...`; // Add a loading message
+        rawResponseDiv.textContent = `Loading from ${doi}...`; // Add a loading message
         rawResultPre.appendChild(rawResponseDiv);
 
         const renderedLoadingItem = document.createElement('li');
@@ -140,21 +173,17 @@ async function fetchAPI() {
 
             // Update raw results inside <pre> with escaped HTML
             rawResponseDiv.textContent = ''; // Clear the "Loading" message
-            rawResponseDiv.innerHTML =
-                `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
+            rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(data)}&lt;/div&gt;`;
 
             // Update rendered results
-            renderedLoadingItem.textContent =
-            ''; // Clear the "Loading" message
+            renderedLoadingItem.textContent = ''; // Clear the "Loading" message
             const renderedItemContent = document.createElement('div');
             renderedItemContent.innerHTML = data; // Render HTML content
             renderedLoadingItem.appendChild(renderedItemContent);
         } catch (error) {
-            const errorMessage =
-                `Error fetching from ${doi}: ${error.message}`;
+            const errorMessage = `Error fetching from ${doi}: ${error.message}`;
             rawResponseDiv.textContent = ''; // Clear the "Loading" message
-            rawResponseDiv.innerHTML =
-                `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
+            rawResponseDiv.innerHTML = `&lt;div class="citation"&gt;${escapeHTML(errorMessage)}&lt;/div&gt;`;
 
             renderedLoadingItem.textContent = errorMessage;
         }
@@ -163,7 +192,6 @@ async function fetchAPI() {
 
 // Load options and prepopulate the divs when the page loads
 window.addEventListener('load', loadOptions);
-
 
 // No citation data available
 {% else %}
