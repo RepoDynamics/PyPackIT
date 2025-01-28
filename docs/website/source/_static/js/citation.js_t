@@ -30,7 +30,9 @@ function escapeHTML(html) {
 }
 
 async function fetchIndependentFormats() {
-    // Fetch and populate BibTeX, RIS, and CiteProc JSON formats.
+    /* Fetch and populate BibTeX, RIS, and CiteProc JSON formats.
+       This is done only once when the page is loaded.
+    */
     const formats = {
         'project-citations-bib': 'application/x-bibtex',
         'project-citations-ris': 'application/x-research-info-systems',
