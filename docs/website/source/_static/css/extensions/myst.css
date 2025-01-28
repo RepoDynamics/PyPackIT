@@ -1,0 +1,7 @@
+blockquote > div > p + p.attribution {
+    font-style: normal;
+    font-size: var(--pst-font-size-milli);
+    text-align: right;
+    color: var(--pst-color-text-muted);
+    padding-right: 2rem;
+}
