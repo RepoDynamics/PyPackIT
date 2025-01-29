@@ -17,7 +17,7 @@ html_theme.sidebar_secondary.remove:
 ---
 
 {.element-in-page-without-sidebar}
-|{{ ccc.abstract.replace(ccc.name, "[{}]{}".format(ccc.name, "{.project-name}"), 1) }}|
+|{{ ccc.abstract.replace(ccc.name, "[{}]{}".format(ccc.name, "{.sd-font-weight-bold .pst-color-primary}"), 1) }}|
 
 
 <div class="element-in-page-without-sidebar">
