@@ -1,13 +1,20 @@
 /* Miscellaneous styles used throughout the website */
 
 
+.font-h6 {
+    font-size: var(--pst-font-size-h6);
+    font-weight: var(--pst-font-weight-heading);
+    font-family: var(--pst-font-family-heading);
+}
+
+
 /* Wide buttons displayed on the homepage */
 .homepage-button-text {
     font-size: var(--pst-font-size-h6);
     font-weight: bold;
 }
 
-.project-name {
+.primary-colored-bold-text {
     color: var(--pst-color-primary);
     font-weight: bold;
 }
@@ -74,4 +81,19 @@
 
 .hidden {
     display: none;
+}
+
+.iconed-text {
+    display: inline-flex;
+    align-items: flex-start; /* Align text to top */
+    gap: 8px; /* Controls spacing between icon and text */
+}
+.iconed-text .icon {
+    flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+.iconed-text .text {
+    flex: 1; /* Ensures text takes remaining space */
+}
+.iconed-text .text p {
+    text-align: left;
 }
