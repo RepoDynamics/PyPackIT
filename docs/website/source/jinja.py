@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 import mdit
 
 if TYPE_CHECKING:
-    from typing import Sequence
+    from typing import Sequence, Literal
 
 
 metadata: dict = {}
@@ -41,10 +42,22 @@ def team_members_with_role_ids(role_ids: str | Sequence[str], active_only: bool 
     return [member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]
 
 
-def create_citation():
-    """Create citation information for the project."""
-    return
-
+def get_forms_by_regex(regex: str, form_type: Literal["issue", "discussion"] = "issue") -> list[dict]:
+    """Get issue forms (from `ccc.issue.forms`)
+    and discussion categories (from `ccc.discussion.category`)
+    matching a RegEx."""
+    out = []
+    pattern = re.compile(regex)
+    if form_type == "issue":
+        forms = metadata.get("issue", {}).get("forms", [])
+        for form in forms:
+            if pattern.match(form["id"]):
+                out.append(form)
+        return out
+    for category_slug, category_data in metadata.get("discussion", {}).get("category", {}).items():
+        if pattern.match(category_slug):
+            out.append(category_data)
+    return out
 
 def create_license_data():
     """Create data for each license component."""
