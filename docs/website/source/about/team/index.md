@@ -1,52 +1,102 @@
 # Credits
 
+|{% import 'entity_card.md' as entity_card %}|
+{% set emeriti = [] %}
 
-## Authors
 
-::::{grid} 2 3 3 4
+
+## Team
+::::::::::{grid} 1
 :gutter: 3
 
 |{% for author in ccc.team.values() %}|
-
-:::{grid-item-card} |{{ author.name.full }}|
-:class-title: sd-text-center
-:class-footer: centered
-:img-top: |{{ author.avatar }}|
-+++
-|{% if author.website -%}|[{fas}`globe;margin-sides`]({{author.website.url}})|{% endif %}|
-|{%- if author.email -%}|[{fas}`envelope;margin-sides`](author.email.url)|{% endif %}|
-|{%- if author.github -%}|[{fab}`github;margin-sides`]({{author.github.url}})|{% endif %}|
-|{%- if author.linkedin -%}|[{fab}`linkedin;margin-sides`]({{author.linkedin.url}})|{% endif %}|
-|{%- if author.orcid -%}|[{fab}`orcid;margin-sides`]({{author.orcid.url}})|{% endif %}|
-|{%- if author.researchgate -%}|[{fab}`researchgate;margin-sides`]({{author.researchgate.url}})|{% endif %}|
-|{%- if author.twitter %}|[{fab}`twitter;margin-sides`]({{author.twitter.url}})|{% endif %}|
-:::
-
+    |{% if author.active %}|
+        |{{- entity_card.make_entity(author, ccc) }}|
+    |{% else %}|
+        {% set _ = emeriti.append(author) %}
+    |{% endif %}|
 |{% endfor %}|
+::::::::::
 
-::::
 
 
-## Maintainers
-<!--
-::::{grid} 2 3 3 4
+|{% if emeriti %}|
+## Emeriti
+::::::::::{grid} 1
 :gutter: 3
-{% for maintainer in ccc.maintainer.list %}
-:::{grid-item-card} {{maintainer.name}}
-:class-title: sd-text-center
-:class-footer: centered
-:img-top: {{maintainer.avatar_url}}
-+++
-{% if maintainer.url.website -%}[{fas}`globe;margin-sides`]({{maintainer.url.website}}){% endif %}
-{%- if maintainer.email -%}[{fas}`envelope;margin-sides`](mailto:{{maintainer.email}}){% endif %}
-{%- if maintainer.url.github -%}[{fab}`github;margin-sides`]({{maintainer.url.github}}){% endif %}
-{%- if maintainer.url.linkedin -%}[{fab}`linkedin;margin-sides`]({{maintainer.url.linkedin}}){% endif %}
-{%- if maintainer.url.orcid -%}[{fab}`orcid;margin-sides`]({{maintainer.url.orcid}}){% endif %}
-{%- if maintainer.url.researchgate -%}[{fab}`researchgate;margin-sides`]({{maintainer.url.researchgate}}){% endif %}
-{%- if maintainer.url.twitter %}[{fab}`twitter;margin-sides`]({{maintainer.url.twitter}}){% endif %}
-:::
-{% endfor %}
-::::
--->
 
-## Collaborators
+|{% for emeritus in emeriti %}|
+    |{{- entity_card.make_entity(emeritus, ccc) }}|
+|{% endfor %}|
+::::::::::
+|{% endif %}|
+
+
+
+|{% if ccc.contributor %}|
+## Contributors
+::::::::::{grid} 1
+:gutter: 3
+
+|{% for contributor in ccc.contributor.values() %}|
+    |{{- entity_card.make_entity(contributor, ccc) }}|
+|{% endfor %}|
+::::::::::
+|{% endif %}|
+
+
+
+|{% if ccc.role %}|
+## Roles
+::::::::::{grid} 1
+:gutter: 3
+|{% for role_id, role in ccc.role.items() %}|
+:::::::::{grid-item-card}
+
+[|{{ role.title }}|]{.pst-color-primary .sd-font-weight-bold #role-|{{ role_id }}|} (|{{ role.abbreviation }}|)
+^^^
+|{{ role.description }}|
+|{% if role.assignment %}|
+Tasks
+-----
+
+|{% if role.assignment.issue %}|
+{.sd-text-left}
+**Issues**:
+|{% for issue_form in helper.get_forms_by_regex(role.assignment.issue) -%}|
+{bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
+|{% endfor %}|
+|{% endif %}|
+
+|{% if role.assignment.pull %}|
+{.sd-text-left}
+**Pull Requests**:
+|{% for issue_form in helper.get_forms_by_regex(role.assignment.pull) -%}|
+{bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
+|{% endfor %}|
+|{% endif %}|
+
+|{% if role.assignment.review %}|
+{.sd-text-left}
+**Pull Request Reviews**:
+|{% for issue_form in helper.get_forms_by_regex(role.assignment.review) -%}|
+{bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
+|{% endfor %}|
+|{% endif %}|
+
+|{% if role.assignment.discussion %}|
+{.sd-text-left}
+**Discussions**:
+|{% for discussion_category in helper.get_forms_by_regex(role.assignment.discussion, "discussion") -%}|
+{bdg-ref-secondary}`|{{ discussion_category.emoji }}| |{{ discussion_category.name }}| <discussion-category-|{{ discussion_category.id }}|>`
+|{% endfor %}|
+|{% endif %}|
+
+|{% endif %}|
++++
+DataCite Contribution Type: [|{{ role.type }}|]{.pst-color-primary .sd-font-weight-bold}
+
+:::::::::
+|{% endfor %}|
+::::::::::
+|{% endif %}|
