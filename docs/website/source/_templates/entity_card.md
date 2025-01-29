@@ -1,3 +1,5 @@
+<!-- Jinja macro to create a card for a person. -->
+
 |{% macro make_entity(entity, ccc) %}|
 :::::::::{grid-item-card}
 
