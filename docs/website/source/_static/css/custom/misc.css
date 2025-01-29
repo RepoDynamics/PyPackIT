@@ -14,11 +14,6 @@
     font-weight: bold;
 }
 
-.primary-colored-bold-text {
-    color: var(--pst-color-primary);
-    font-weight: bold;
-}
-
 .digit {
   font-variation-settings:
   'FILL' 1,
