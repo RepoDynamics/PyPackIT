@@ -955,9 +955,7 @@ web:
         myst_links_external_new_tab: true
         myst_heading_anchors: 6
         myst_fence_as_directive: [ mermaid ]  # https://github.com/mgaitan/sphinxcontrib-mermaid?tab=readme-ov-file#markdown-support
-        myst_sub_delimiters:
-          - "|"
-          - "|"
+        myst_linkify_fuzzy_links: false
     thebe:
       dependency:
         import_name: sphinx_thebe
