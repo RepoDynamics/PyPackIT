@@ -59,6 +59,7 @@ def get_forms_by_regex(regex: str, form_type: Literal["issue", "discussion"] = "
             out.append(category_data)
     return out
 
+
 def create_license_data():
     """Create data for each license component."""
     container = mdit.block_container()
@@ -160,3 +161,23 @@ def footer_template(license_path, version):
         label_color_dark="#555"
     )
     return badges.source(target="github")
+
+
+def dependency_availability():
+    deps = metadata["pkg"]["dependency"]
+    counts = {
+        dep_type: {count_type: 0 for count_type in ["total", "pip", "conda", "apt"]}
+        for dep_type in ["core", "optional"]
+    }
+    for core_dep in deps.get("core", {}).values():
+        counts["core"]["total"] += 1
+        for repo in ("pip", "conda", "apt"):
+            if repo in core_dep:
+                counts["core"][repo] += 1
+    for opt_group in deps.get("optional", {}).values():
+        for opt_dep in opt_group["package"].values():
+            counts["optional"]["total"] += 1
+            for repo in ("pip", "conda", "apt"):
+                if repo in opt_dep:
+                    counts["optional"][repo] += 1
+    return counts
