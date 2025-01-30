@@ -29,7 +29,10 @@ if _TYPE_CHECKING:
     from sphinx.application import Sphinx
 
 
-_METADATA_FILEPATH: str = ".github/.repodynamics/metadata.json"
+_DATA_DIR_PATH = ".github/.repodynamics"
+_METADATA_FILEPATH: str = f"{_DATA_DIR_PATH}/metadata.json"
+_CHANGELOG_FILEPATH: str = f"{_DATA_DIR_PATH}/changelog.json"
+_CONTRIBUTORS_FILEPATH: str = f"{_DATA_DIR_PATH}/contributors.json"
 _globals: dict = {}
 
 
@@ -211,7 +214,8 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
         )
     except Exception as e:
         raise RuntimeError(error_msg) from e
-    # Revert Jinja environment markers to their defaults.
+    # Revert Jinja environment markers to their defaults
+    # so that other templates and tools have the default markers.
     for attr, attr_val in attrs_default.items():
         setattr(app.builder.templates.environment, attr, attr_val)
     return
@@ -420,16 +424,18 @@ def _add_ablog_blog_authors() -> None:
     return
 
 
-def _read_metadata() -> dict[str, Any]:
-    """Read control center metadata."""
-    error_msg = (
-        f"Could not read control center metadata file at '{_METADATA_FILEPATH}'. "
-        "Please ensure that the file is a valid JSON file."
-    )
+def _read_json_data(name: str, path: str | _Path, required: bool):
+    """Read a JSON data file."""
     try:
-        with (_path_root / _METADATA_FILEPATH).open() as f:
+        with (_path_root / path).open() as f:
             return _json.load(f)
     except _json.JSONDecodeError as e:
+        if not required:
+            return
+        error_msg = (
+            f"Could not read project {name} file at '{path}'. "
+            "Please ensure that the file is a valid JSON file."
+        )
         raise RuntimeError(error_msg) from e
 
 
@@ -516,7 +522,9 @@ _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
 _current_hash = _git_api.commit_hash_normal()
-_meta = _read_metadata()
+_meta = _read_json_data(name="metadata", path=_METADATA_FILEPATH, required=True)
+_meta["changelogs"] = _read_json_data(name="changelog", path=_CHANGELOG_FILEPATH, required=False)
+_meta["contributor"] = _read_json_data(name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False)
 _add_sphinx()
 _add_version()
 _add_css_and_js_files()
