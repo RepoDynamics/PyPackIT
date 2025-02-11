@@ -7,6 +7,9 @@
     font-family: var(--pst-font-family-heading);
 }
 
+.float-right {
+    float: right !important;
+}
 
 /* Wide buttons displayed on the homepage */
 .homepage-button-text {
