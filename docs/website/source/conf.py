@@ -429,7 +429,7 @@ def _read_json_data(name: str, path: str | _Path, required: bool):
     try:
         with (_path_root / path).open() as f:
             return _json.load(f)
-    except _json.JSONDecodeError as e:
+    except (_json.JSONDecodeError, FileNotFoundError) as e:
         if not required:
             return
         error_msg = (
