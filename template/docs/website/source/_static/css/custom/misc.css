@@ -7,11 +7,6 @@
     font-weight: bold;
 }
 
-.project-name {
-    color: var(--pst-color-primary);
-    font-weight: bold;
-}
-
 .digit {
   font-variation-settings:
   'FILL' 1,
