@@ -139,6 +139,11 @@ References
     text-align: justify;
 }
 
+/* Make h5 and h6 headers also the same color as rest */
+h5, h6 {
+  color: var(--pst-color-heading); /* default: --pst-color-text-base */
+}
+
 
 /* ------------- Footer ------------- */
 
