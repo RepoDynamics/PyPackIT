@@ -165,19 +165,53 @@ def footer_template(license_path, version):
 
 def dependency_availability():
     deps = metadata["pkg"]["dependency"]
+    dep_types = ["core", "optional"]
+    repos = ["pip", "conda", "apt"]
     counts = {
-        dep_type: {count_type: 0 for count_type in ["total", "pip", "conda", "apt"]}
-        for dep_type in ["core", "optional"]
+        dep_type: {count_type: 0 for count_type in ["total", *repos]}
+        for dep_type in dep_types
     }
     for core_dep in deps.get("core", {}).values():
         counts["core"]["total"] += 1
-        for repo in ("pip", "conda", "apt"):
+        for repo in repos:
             if repo in core_dep:
                 counts["core"][repo] += 1
     for opt_group in deps.get("optional", {}).values():
         for opt_dep in opt_group["package"].values():
             counts["optional"]["total"] += 1
-            for repo in ("pip", "conda", "apt"):
+            for repo in repos:
                 if repo in opt_dep:
                     counts["optional"][repo] += 1
+    for dep_type in dep_types:
+        count_total = counts[dep_type]["total"]
+        for repo in repos:
+            count_repo = counts[dep_type][repo]
+            if count_repo == count_total:
+                counts[dep_type][repo] = "✅"
+            elif count_repo == 0:
+                counts[dep_type][repo] = "❌"
+            else:
+                counts[dep_type][repo] = f"{count_repo}/{count_total}"
     return counts
+
+
+def comma_list_of_dependencies(pkg: Literal["pkg", "test"], dep: Literal["core", "optional"]) -> str:
+    """Generate a Markdown string representing a comma-separated list
+    of required or optional runtime dependencies for the package or the test suite.
+    """
+    def add_link(dep_id: str, dep: dict) -> None:
+        names.append(f"[{dep["name"]}](#dep-{pkg}-{dep_id})")
+        return
+    src = metadata.get(pkg, {}).get("dependency", {}).get(dep)
+    if not src:
+        return "---"
+    names = []
+    sort_func = lambda item: item[1]["name"]
+    if dep == "core":
+        for dep_id, dep in sorted(src.items(), key=sort_func):
+            add_link(dep_id, dep)
+    else:
+        for dep_group in src.values():
+            for dep_id, dep in sorted(dep_group["package"].items(), key=sort_func):
+                add_link(dep_id, dep)
+    return ", ".join(names)
