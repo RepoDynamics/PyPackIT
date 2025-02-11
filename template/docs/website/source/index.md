@@ -20,7 +20,7 @@ html_theme.sidebar_secondary.remove:
 
 
 <!-- Project Abstract -->
-{{ ccc.abstract.replace(ccc.name, "[{}]{}".format(ccc.name, "{.project-name}"), 1) }}
+{{ ccc.abstract.replace(ccc.name, "[{}]{}".format(ccc.name, "{.sd-font-weight-bold .pst-color-primary}"), 1) }}
 
 
 <!-- 'Key Features' Button -->
