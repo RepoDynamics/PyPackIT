@@ -109,9 +109,71 @@ class DependencyInstaller:
         self._data = dep_data
         return
 
-    def create_installation_files(self):
+    def create_installation_files(
+        self,
+        dependencies: dict[SourceName, list[dict]],
+        indent_json: int | None = 4,
+        indent_xml: int | None = 4,
+        indent_yaml: int | None = 2,
+        conda_env_name: str | None = None,
+        combine_scripts: bool = True,
+        output_dir: str | _Path | None = None,
+        overwrite: bool = False,
+        filename_conda: str = "environment.yml",
+        filename_pip: str = "requirements.txt",
+        filename_apt: str = "apt.txt",
+        filename_brew: str = "Brewfile",
+        filename_choco: str = "packages.config",
+        filename_winget: str = "packages.json",
+        filename_bash: str = "install.sh",
+        filename_pwsh: str = "install.ps1",
+        filename_bash_template: str = "bash/{}.sh",
+        filename_pwsh_template: str = "pwsh/{}.ps1",
+    ):
         """Create environment files for dependencies."""
-        return
+
+        def _write_file(filename: str):
+            filepath = output_dir / filename
+            filepath.parent.mkdir(parents=True, exist_ok=True)
+            if not filepath.exists() or overwrite:
+                filepath.write_text(dep_content)
+            else:
+                raise FileExistsError(f"File already exists: '{filepath}'")
+            return
+
+        inputs = locals()
+        out = {}
+        for source, dep_data in dependencies.items():
+            deps = [dep["install"][source] for dep in dep_data]
+            if source == "conda":
+                out[source] = create_env_file_conda(deps, env_name=conda_env_name, indent=indent_yaml)
+            elif source == "pip":
+                out[source] = create_env_file_pip(deps)
+            elif source == "apt":
+                out[source] = create_env_file_apt(deps)
+            elif source == "brew":
+                out[source] = create_env_file_brew(deps)
+            elif source == "choco":
+                out[source] = create_env_file_choco(deps, indent=indent_xml)
+            elif source == "winget":
+                out[source] = create_env_file_winget(deps, indent=indent_json)
+            else:
+                # bash and pwsh
+                if not combine_scripts:
+                    out[source] = {dep["name"]: dep["install"][source] for dep in dep_data}
+                else:
+                    out[source] = "\n\n".join(
+                        [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
+                    )
+        if output_dir:
+            output_dir = _Path(output_dir)
+            for source, content in out.items():
+                if source in {"bash", "pwsh"} and not combine_scripts:
+                    for dep_name, dep_content in content.items():
+                        _write_file(inputs[f"filename_{source}_template"].format(dep_name))
+                else:
+                    _write_file(inputs[f"filename_{source}"])
+        return out
 
     def resolve_dependencies(
         self,
@@ -121,7 +183,7 @@ class DependencyInstaller:
         sources: Sequence[SourceName] | None = None,
         exclude_sources: Sequence[SourceName] | None = None,
         exclude_installed: bool = True,
-    ):
+    ) -> dict[SourceName, list[dict]]:
         """Resolve dependencies for a given platform and set of variants.
 
         Parameters
@@ -358,7 +420,7 @@ def get_native_platform() -> PlatformName:
 
 def create_env_file_conda(
     packages: list[dict],
-    env_name: str = "",
+    env_name: str | None = None,
     indent: int | None = 2,
 ) -> str:
     """Create a Conda
@@ -382,12 +444,7 @@ def create_env_file_conda(
         lines.append(f"name: {env_name}")
     lines.append("dependencies:")
     for pkg in packages:
-        spec_parts = [pkg["channel"]]
-        for part_name, part_prefix in (("subdir", "/"), ("name", "::"), ("version", " "), ("build", " ")):
-            if part_name in pkg:
-                spec_parts.append(f"{part_prefix}{pkg[part_name]}")
-        spec = "".join(spec_parts)
-        lines.append(f"{" " * indent}- {spec}")
+        lines.append(f"{" " * indent}- {pkg["spec"]}")
     return f"{"\n".join(lines)}\n"
 
 
@@ -400,17 +457,7 @@ def create_env_file_pip(packages: list[dict]) -> str:
     packages:
         List of dictionaries with package details.
     """
-    lines = []
-    for pkg in packages:
-        spec_parts = [pkg["name"]]
-        if "extras" in pkg:
-            spec_parts.append(f"[{','.join(pkg['extras'])}]")
-        if "version" in pkg:
-            spec_parts.append(pkg["version"])
-        if "marker" in pkg:
-            spec_parts.append(f"; {pkg['marker']}")
-        lines.append(" ".join(spec_parts))
-    return f"{"\n".join(lines)}\n"
+    return f"{"\n".join([pkg["spec"]["pep508"] for pkg in packages])}\n"
 
 
 def create_env_file_apt(packages: list[dict]) -> str:
@@ -421,7 +468,15 @@ def create_env_file_apt(packages: list[dict]) -> str:
     packages:
         List of dictionaries with package details.
     """
-    return f"{"\n".join([pkg["spec"] for pkg in packages])}\n"
+    lines = []
+    for pkg in packages:
+        spec = pkg["name"]
+        if "version" in pkg:
+            spec += f"={pkg['version']}"
+        if "release" in pkg:
+            spec += f"/{pkg['release']}"
+        lines.append(spec)
+    return f"{"\n".join(lines)}\n"
 
 
 def create_env_file_brew(packages: list[dict]) -> str:
@@ -462,7 +517,7 @@ def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
     for pkg in packages:
         package_element = _xml_ET.SubElement(root, "package")
         for key, value in pkg.items():
-            if value is not None:
+            if value is not None and value not in ("homepage", ):
                 package_element.set(snake_case_to_camel_case(key), str(value))
     xml_str = _xml_ET.tostring(root, encoding='utf-8')
     # Format the XML string to add indentation
@@ -487,19 +542,22 @@ def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
         List of dictionaries with package details.
         Keys are the same as the attributes in the `packages.json` file,
         but snake_case instead of camelCase.
-        However, here data are in a flat structure, with each package defining its source.
+        Data is in a flat structure, with each package defining its source.
+    indent:
+        Number of spaces to use for indentation.
+        If `None`, a compact format is used with no indentation or newlines.
     """
     file = {"Sources": []}
     for pkg in packages:
         source = {snake_case_to_camel_case(key): value for key, value in pkg["source"].items()}
-        package = {snake_case_to_camel_case(key): value for key, value in pkg.items() if key != "source"}
+        package = {snake_case_to_camel_case(key): value for key, value in pkg.items() if key not in ("source", "homepage")}
         for src in file["Sources"]:
             if src["SourceDetails"] == source:
                 src["Packages"].append(package)
                 break
         else:
             file["Sources"].append({"SourceDetails": source, "Packages": [package]})
-    return _json.dumps(file, sort_keys=True, indent=indent)
+    return f"{_json.dumps(file, sort_keys=True, indent=indent).strip()}\n"
 
 
 def snake_case_to_camel_case(string: str) -> str:
