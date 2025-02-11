@@ -134,6 +134,9 @@ that allows developers to instantly start coding in a fully configured, containe
 Integrated directly into GitHub, Codespaces eliminates the need for complex local setups 
 by providing on-demand development environments that mirror production configurations.
 
+A codespace is a development environment that's hosted on the cloud,
+and is customizable through configuration files 
+in a practice called Configuration-as-Code (cf. [Infrastructure-as-Code](#bg-iac)).
 Codespaces leverages Visual Studio Code (VS Code), 
 offering a familiar interface and support for 
 extensions, themes, and custom settings. 
