@@ -11,28 +11,35 @@ ccid: about
 :padding: 4 4 0 0
 
 
-:::{grid-item-card} Citation
+:::{grid-item-card} Citation and Referencing
 :class-title: sd-text-center
 :link: citation/index
 :link-type: doc
 
-Citation data for citing PyPackIT in your project.
+Get bibliographic reference data in various formats and styles
+to cite |{{ ccc.name }}| in your projects and publications.
 :::
 
-:::{grid-item-card} Contact
-:class-title: sd-text-center
-:link: contact/index
-:link-type: doc
 
-Contact information.
-:::
-
-:::{grid-item-card} License
+:::{grid-item-card} License and Copyright
 :class-title: sd-text-center
 :link: license/index
 :link-type: doc
 
-PyPackIT's license and copyright information.
+Read |{{ ccc.name }}|'s license and copyright information
+to learn more about the terms and conditions
+for using, modifying, and redistributing |{{ ccc.name }}|.
+:::
+
+
+:::{grid-item-card} Credits
+:class-title: sd-text-center
+:link: contact/index
+:link-type: doc
+
+Meet the team behind |{{ ccc.name }}| and find out more about
+the collaborators, contributors, sponsors, and other people
+and organizations that make |{{ ccc.name }}| possible.
 :::
 
 
