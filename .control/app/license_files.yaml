@@ -1,0 +1,23 @@
+copy_app_license:
+  sources: |
+    #{{
+      return [
+        component["path"]["text_plain"]
+        for component in get("license.component", {}).values()
+      ]
+    }}#
+  destinations:
+    - ${{ pkg.path.root }}$/${{ __custom__.dir_name.licenses }}$
+    - ${{ test.path.root }}$/${{ __custom__.dir_name.licenses }}$
+copy_app_copyright:
+  sources: |
+    #{{
+      return [
+        component["path"]["header_plain"]
+        for component in get("license.component", {}).values()
+        if component["path"].get("header_plain")
+      ]
+    }}#
+  destinations:
+    - ${{ pkg.path.root }}$/${{ __custom__.dir_name.copyrights }}$
+    - ${{ test.path.root }}$/${{ __custom__.dir_name.copyrights }}$

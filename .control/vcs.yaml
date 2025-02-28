@@ -56,31 +56,6 @@ branch:
 tag:
   version:
     prefix: ver/
-file:
-  duplicate:
-    license_texts:
-      sources: |
-        #{{
-          return [
-            component["path"]["text_plain"]
-            for component in get("license.component", {}).values()
-          ]
-        }}#
-      destinations:
-        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.licenses }}$
-        - ${{ test.path.root }}$/${{ __custom__.dir_name.licenses }}$
-    copyright_texts:
-      sources: |
-        #{{
-          return [
-            component["path"]["header_plain"]
-            for component in get("license.component", {}).values()
-            if component["path"].get("header_plain")
-          ]
-        }}#
-      destinations:
-        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.copyrights }}$
-        - ${{ test.path.root }}$/${{ __custom__.dir_name.copyrights }}$
 file_gitattributes:
   name: .gitattributes
   summary: Main [`.gitattributes`](https://git-scm.com/docs/gitattributes) file for the repository.
