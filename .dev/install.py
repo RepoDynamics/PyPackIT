@@ -5,8 +5,10 @@
 
 from __future__ import annotations as _annotations
 
+import argparse as _argparse
 import subprocess as _subprocess
 import copy as _copy
+import tempfile as _tempfile
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 from pathlib import Path as _Path
 import json as _json
@@ -81,103 +83,283 @@ References
 """
 
 
-_REL_DEP_FILEPATH = "data/dependencies.json"
-"""Relative path from this file to the dependency data file."""
+def run(
+    filepath: str | _Path = ".github/.repodynamics/metadata.json",
+    pkg: bool = True,
+    pkg_extras: Sequence[str] | Literal["all"] | None = "all",
+    pkg_variants: dict[str, str | int | bool] | None = None,
+    test: bool = True,
+    test_extras: Sequence[str] | Literal["all"] | None = "all",
+    test_variants: dict[str, str | int | bool] | None = None,
+    python_version: str | None = None,
+    platform: PlatformName | None = None,
+    sources: Sequence[SourceName] | None = None,
+    exclude_sources: Sequence[SourceName] | None = None,
+    exclude_installed: bool = True,
+    pip_in_conda: bool = True,
+    conda_env_name: str | None = None,
+    install: bool = True,
+    output_dir: str | _Path | None = None,
+    overwrite: bool = False,
+    filename_conda: str = "environment.yml",
+    filename_pip: str = "requirements.txt",
+    filename_apt: str = "apt.txt",
+    filename_brew: str = "Brewfile",
+    filename_choco: str = "packages.config",
+    filename_winget: str = "packages.json",
+    filename_bash: str = "install.sh",
+    filename_pwsh: str = "install.ps1",
+    indent_json: int | None = 4,
+    indent_xml: int | None = 4,
+    indent_yaml: int | None = 2,
+):
+    """Generate and/or install package dependencies based on the given configurations."""
+    dependencies, files = get_dependencies(
+        filepath=filepath,
+        pkg=pkg,
+        pkg_extras=pkg_extras,
+        pkg_variants=pkg_variants,
+        test=test,
+        test_extras=test_extras,
+        test_variants=test_variants,
+        python_version=python_version,
+        platform=platform,
+        sources=sources,
+        exclude_sources=exclude_sources,
+        exclude_installed=exclude_installed,
+        pip_in_conda=pip_in_conda,
+        conda_env_name=conda_env_name,
+        indent_json=indent_json,
+        indent_xml=indent_xml,
+        indent_yaml=indent_yaml,
+    )
+    if install:
+        install_files(files)
+    paths = {}
+    if output_dir:
+        paths = write_files(
+            files=files,
+            output_dir=output_dir,
+            overwrite=overwrite,
+            filename_conda=filename_conda,
+            filename_pip=filename_pip,
+            filename_apt=filename_apt,
+            filename_brew=filename_brew,
+            filename_choco=filename_choco,
+            filename_winget=filename_winget,
+            filename_bash=filename_bash,
+            filename_pwsh=filename_pwsh,
+        )
+    return dependencies, files, paths
+
+
+def get_dependencies(
+    filepath: str | _Path = ".github/.repodynamics/metadata.json",
+    pkg: bool = True,
+    pkg_extras: Sequence[str] | Literal["all"] | None = "all",
+    pkg_variants: dict[str, str | int | bool] | None = None,
+    test: bool = True,
+    test_extras: Sequence[str] | Literal["all"] | None = "all",
+    test_variants: dict[str, str | int | bool] | None = None,
+    python_version: str | None = None,
+    platform: PlatformName | None = None,
+    sources: Sequence[SourceName] | None = None,
+    exclude_sources: Sequence[SourceName] | None = None,
+    exclude_installed: bool = True,
+    pip_in_conda: bool = True,
+    conda_env_name: str | None = None,
+    indent_json: int | None = 4,
+    indent_xml: int | None = 4,
+    indent_yaml: int | None = 2,
+) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
+    filepath = _Path(filepath).resolve()
+    if not filepath.is_file():
+        raise FileNotFoundError(f"Metadata file not found at '{filepath}'")
+    try:
+        data = _json.loads(filepath.read_text())
+    except _json.JSONDecodeError as e:
+        raise ValueError(f"Failed to load dependencies from '{filepath}'") from e
+    return DependencyInstaller(
+        python_version=data["pkg"]["python"]["version"],
+        pkg_dep=data["pkg"]["dependency"],
+        test_dep=data.get("test", {}).get("dependency", {}),
+    ).run(
+        pkg=pkg,
+        pkg_extras=pkg_extras,
+        pkg_variants=pkg_variants,
+        test=test,
+        test_extras=test_extras,
+        test_variants=test_variants,
+        python_version=python_version,
+        platform=platform,
+        sources=sources,
+        exclude_sources=exclude_sources,
+        exclude_installed=exclude_installed,
+        pip_in_conda=pip_in_conda,
+        conda_env_name=conda_env_name,
+        indent_json=indent_json,
+        indent_xml=indent_xml,
+        indent_yaml=indent_yaml,
+    )
+
+
+def install_files(
+    files: dict[SourceName, str],
+    cmd_bash: Sequence[str] = ("bash", "{filepath}"),
+    cmd_pwsh: Sequence[str] = ("pwsh", "-ExecutionPolicy", "Bypass", "-File", "{filepath}"),
+    cmd_apt: Sequence[str] = ("apt-get", "-y", "install", "--no-install-recommends"),
+    cmd_brew: Sequence[str] = ("brew", "bundle", "--file", "{filepath}"),
+    cmd_choco: Sequence[str] = ("choco", "install", "{filepath}", "-y"),
+    cmd_winget: Sequence[str] = ("winget", "import", "--accept-source-agreements", "--accept-package-agreements", "-i", "{filepath}"),
+    cmd_conda: Sequence[str] = ("conda", "env", "update", "--file", "{filepath}"),  # https://stackoverflow.com/questions/42352841/how-to-update-an-existing-conda-environment-with-a-yml-file
+    cmd_pip: Sequence[str] = ("pip", "install", "-r", "{filepath}"),
+):
+    """Install dependencies from the given files."""
+    inputs = locals()
+
+    def _install(content: str, cmd: Sequence[str]):
+        file = _tempfile.NamedTemporaryFile(mode="w", delete=False)
+        file.write(content)
+        filepath = file.name
+        cmd_filled = [cmd_part.format(filepath=filepath) for cmd_part in cmd]
+        try:
+            _subprocess.run(cmd_filled, check=True)
+        finally:
+            _Path(filepath).unlink()
+        return
+
+    for source in ("bash", "pwsh", "apt", "brew", "choco", "winget", "conda", "pip"):
+        if source not in files:
+            continue
+        if source == "apt":
+            _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)
+        else:
+            _install(files[source], inputs[f"cmd_{source}"])
+    return
+
+
+def write_files(
+    files: dict[SourceName, str],
+    output_dir: str | _Path,
+    overwrite: bool = False,
+    filename_conda: str = "environment.yml",
+    filename_pip: str = "requirements.txt",
+    filename_apt: str = "apt.txt",
+    filename_brew: str = "Brewfile",
+    filename_choco: str = "packages.config",
+    filename_winget: str = "packages.json",
+    filename_bash: str = "install.sh",
+    filename_pwsh: str = "install.ps1",
+) -> dict[SourceName, str]:
+    """Create environment files for dependencies."""
+
+    def _write_file(filename: str, dep_content: str):
+        filepath = output_dir / filename
+        out[source] = filepath
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+        if not filepath.exists() or overwrite:
+            filepath.write_text(dep_content)
+        else:
+            raise FileExistsError(f"File already exists: '{filepath}'")
+        return
+
+    inputs = locals()
+    output_dir = _Path(output_dir)
+    out = {}
+    for source, content in files.items():
+        _write_file(inputs[f"filename_{source}"], dep_content=content)
+    return out
 
 
 class DependencyInstaller:
-    """Resolve and install dependencies based on given configurations.
+    """Resolve and install dependencies based on given configurations."""
 
-    Parameters
-    ----------
-    filepath
-        Path to the JSON file containing dependency data.
-        If not provided, the default dependency file is used.
-    """
-
-    def __init__(self, filepath: str | _Path | None = None):
-        input_filepath = filepath or _Path(__file__).parent / _REL_DEP_FILEPATH
-        dependency_filepath = _Path(input_filepath).resolve()
-        if not dependency_filepath.is_file():
-            raise FileNotFoundError(f"Dependency file not found at '{dependency_filepath}'")
-        try:
-            dep_data = _json.loads(dependency_filepath.read_text())
-        except _json.JSONDecodeError as e:
-            raise ValueError(f"Failed to load dependencies from '{dependency_filepath}'") from e
-        if not isinstance(dep_data, dict):
-            raise ValueError(f"Invalid dependencies data loaded from '{dependency_filepath}'")
-        self._data = dep_data
+    def __init__(
+        self,
+        python_version: dict,
+        pkg_dep: dict,
+        test_dep: dict,
+    ):
+        self._pyver = python_version
+        self._dep = {"pkg": pkg_dep, "test": test_dep}
         return
 
-    def create_installation_files(
+    def run(
         self,
-        dependencies: dict[SourceName, list[dict]],
+        pkg: bool = True,
+        pkg_extras: Sequence[str] | Literal["all"] | None = "all",
+        pkg_variants: dict[str, str | int | bool] | None = None,
+        test: bool = True,
+        test_extras: Sequence[str] | Literal["all"] | None = "all",
+        test_variants: dict[str, str | int | bool] | None = None,
+        python_version: str | None = None,
+        platform: PlatformName | None = None,
+        sources: Sequence[SourceName] | None = None,
+        exclude_sources: Sequence[SourceName] | None = None,
+        exclude_installed: bool = True,
+        extra_pip_specs: Sequence[str] | None = None,
+        pip_in_conda: bool = True,
+        conda_env_name: str | None = None,
         indent_json: int | None = 4,
         indent_xml: int | None = 4,
         indent_yaml: int | None = 2,
-        conda_env_name: str | None = None,
-        combine_scripts: bool = True,
-        output_dir: str | _Path | None = None,
-        overwrite: bool = False,
-        filename_conda: str = "environment.yml",
-        filename_pip: str = "requirements.txt",
-        filename_apt: str = "apt.txt",
-        filename_brew: str = "Brewfile",
-        filename_choco: str = "packages.config",
-        filename_winget: str = "packages.json",
-        filename_bash: str = "install.sh",
-        filename_pwsh: str = "install.ps1",
-        filename_bash_template: str = "bash/{}.sh",
-        filename_pwsh_template: str = "pwsh/{}.ps1",
-    ):
-        """Create environment files for dependencies."""
-
-        def _write_file(filename: str):
-            filepath = output_dir / filename
-            filepath.parent.mkdir(parents=True, exist_ok=True)
-            if not filepath.exists() or overwrite:
-                filepath.write_text(dep_content)
-            else:
-                raise FileExistsError(f"File already exists: '{filepath}'")
-            return
-
+    ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
+        """Install dependencies for the given configuration."""
         inputs = locals()
-        out = {}
+        dependencies = {}
+        for lib in ("pkg", "test"):
+            if not inputs[lib]:
+                continue
+            deps = self.resolve_dependencies(
+                lib=lib,
+                extras=inputs[f"{lib}_extras"],
+                platform=platform,
+                variants=inputs[f"{lib}_variants"],
+                sources=sources,
+                exclude_sources=exclude_sources,
+                exclude_installed=exclude_installed,
+            )
+            for source, dep_data in deps.items():
+                dependencies.setdefault(source, []).extend(dep_data)
+        if python_version:
+            if python_version not in self._pyver["minors"]:
+                raise ValueError(f"Python version '{python_version}' is not supported.")
+        else:
+            python_version = self._pyver["spec"]
+        dependencies.setdefault("conda", []).append({"spec": f"python {python_version}"})
+        if extra_pip_specs:
+            dependencies.setdefault("pip", []).extend([{"spec": spec} for spec in extra_pip_specs])
+        files = {}
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
             if source == "conda":
-                out[source] = create_env_file_conda(deps, env_name=conda_env_name, indent=indent_yaml)
-            elif source == "pip":
-                out[source] = create_env_file_pip(deps)
+                files[source] = create_env_file_conda(
+                    deps,
+                    pip_packages=[dep["install"]["pip"] for dep in dependencies.get("pip", [])] if pip_in_conda else None,
+                    env_name=conda_env_name,
+                    indent=indent_yaml
+                )
+            elif source == "pip" and not pip_in_conda:
+                files[source] = create_env_file_pip(deps)
             elif source == "apt":
-                out[source] = create_env_file_apt(deps)
+                files[source] = create_env_file_apt(deps)
             elif source == "brew":
-                out[source] = create_env_file_brew(deps)
+                files[source] = create_env_file_brew(deps)
             elif source == "choco":
-                out[source] = create_env_file_choco(deps, indent=indent_xml)
+                files[source] = create_env_file_choco(deps, indent=indent_xml)
             elif source == "winget":
-                out[source] = create_env_file_winget(deps, indent=indent_json)
+                files[source] = create_env_file_winget(deps, indent=indent_json)
             else:
                 # bash and pwsh
-                if not combine_scripts:
-                    out[source] = {dep["name"]: dep["install"][source] for dep in dep_data}
-                else:
-                    out[source] = "\n\n".join(
-                        [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
-                    )
-        if output_dir:
-            output_dir = _Path(output_dir)
-            for source, content in out.items():
-                if source in {"bash", "pwsh"} and not combine_scripts:
-                    for dep_name, dep_content in content.items():
-                        _write_file(inputs[f"filename_{source}_template"].format(dep_name))
-                else:
-                    _write_file(inputs[f"filename_{source}"])
-        return out
+                files[source] = "\n\n".join(
+                    ["set -e"] + [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
+                )
+        return dependencies, files
 
     def resolve_dependencies(
         self,
-        dependencies: list[dict],
+        lib: Literal["pkg", "test"],
+        extras: Sequence[str] | Literal["all"] | None = "all",
         platform: PlatformName | None = None,
         variants: dict[str, str | int | bool] | None = None,
         sources: Sequence[SourceName] | None = None,
@@ -188,9 +370,10 @@ class DependencyInstaller:
 
         Parameters
         ----------
-        dependencies
-            List of dependencies to resolve.
-            This can be the output of `get_dependencies`.
+        lib
+            Library type to get dependencies for.
+        extras
+            Optional runtime dependency groups to get in addition to core dependencies.
         platform
             Name of the target platform.
             This corresponds to the conda-build subdirectory name.
@@ -219,9 +402,9 @@ class DependencyInstaller:
             platform = get_native_platform()
         selector_vars = {"build_platform": platform} | {
             key: key in _CONDA_SUBDIR_TO_OS_ARCH[platform] for key in _CONDA_SELECTOR_VARS
-        } | self.get_variants(variants)
+        } | self.get_variants(lib=lib, input_variants=variants)
         if not sources:
-            sources = ["conda", "pip"]
+            sources = ["pip", "conda"]
             if platform.startswith("linux"):
                 sources.extend(["apt", "bash", "brew"])
             elif platform.startswith("osx"):
@@ -230,6 +413,7 @@ class DependencyInstaller:
                 sources.extend(["choco", "winget", "pwsh"])
         exclude_sources = set(exclude_sources or [])
         out = {}
+        dependencies = self.get_dependencies(lib, extras=extras)
         for dependency in dependencies:
             if exclude_sources and set(dependency.get("install", {}).keys()) & exclude_sources:
                 continue
@@ -253,56 +437,40 @@ class DependencyInstaller:
 
     def get_dependencies(
         self,
-        build: bool = False,
-        extras: Sequence[str] | None = None,
+        lib: Literal["pkg", "test"],
+        extras: Sequence[str] | Literal["all"] | None = "all",
     ) -> list[dict]:
         """Get a list of dependencies for the given configuration.
 
         Parameters
         ----------
-        build
-            Whether to get build (True) or runtime dependencies (False).
+        lib
+            Library type to get dependencies for.
         extras
             Optional runtime dependency groups to get in addition to core dependencies.
             If `build` is True, this is ignored.
         """
-        deps = list(self._data.get("build" if build else "core", {}).values())
-        if extras and not build:
-            self.verify_compatibility(extras)
-            optional_group_keys = []
-            for extra in extras:
-                for group in self._data.get("group", {}).values():
-                    if extra == group["name"]:
-                        optional_group_keys.extend(group["optionals"])
-                        break
-                else:
-                    for group_key, group in self._data.get("optional", {}).items():
-                        if extra == group["name"]:
-                            optional_group_keys.append(group_key)
-                            break
-                    else:
+        data = self._dep[lib]
+        deps = list(data.get("core", {}).values())
+        if extras:
+            optional_group_keys = data.get("optional", {}).keys()
+            if extras != "all":
+                for extra in extras:
+                    if extra not in optional_group_keys:
                         raise ValueError(f"Invalid optional dependency group: {extra}")
-            for group_key in set(optional_group_keys):
-                deps.extend(list(self._data["optional"][group_key]["package"].values()))
+            for group_key, group in data.get("optional", {}).items():
+                if extras == "all" or group["name"] in extras:
+                    deps.extend(list(group["package"].values()))
         return _copy.deepcopy(deps)
 
-    def verify_compatibility(self, extras: Sequence[str]):
-        """Verify that the given optional dependency groups are compatible with one another."""
-        set_extras = set(extras)
-        for group in self._data.get("group", {}).values():
-            if group["compatible"]:
-                continue
-            intersection = set(group["optionals"]) & set_extras
-            if len(intersection) > 1:
-                raise ValueError(
-                    f"Incompatible optional dependency groups: {intersection}\n{group['description']}"
-                )
-        return
-
-    def get_variants(self, input_variants: dict[str, str | int | bool] | None = None) -> dict:
+    def get_variants(
+        self,
+        lib: Literal["pkg", "test"],
+        input_variants: dict[str, str | int | bool] | None = None
+    ) -> dict:
         """Get a full set of variant values based on input variants and project variant data."""
         input_variants = input_variants or {}
-        project_variant_data = self._data.get("variant", {})
+        project_variant_data = self._dep[lib].get("variant", {})
         project_variants = project_variant_data.get("variants", {})
         project_zip_keys = project_variant_data.get("zip_keys", [])
         # Validate input variants
@@ -419,7 +587,8 @@ def get_native_platform() -> PlatformName:
 
 
 def create_env_file_conda(
-    packages: list[dict],
+    packages: list[dict] | None = None,
+    pip_packages: list[dict] | None = None,
     env_name: str | None = None,
     indent: int | None = 2,
 ) -> str:
@@ -433,18 +602,27 @@ def create_env_file_conda(
         List of dictionaries with package details.
         All keys are the same as the attributes in the `environment.yml` file,
         but snake_case instead of camelCase.
+    pip_packages
+        List of dictionaries with pip package details.
     env_name
         Name of the conda environment.
     indent:
         Number of spaces to use for indentation.
         If `None`, a compact format is used with no indentation or newlines.
     """
+    match_specs = [pkg["spec"] for pkg in (packages or [])]
+    if not any(spec.startswith("pip ") for spec in match_specs):
+        match_specs.append("pip")
     lines = []
     if env_name:
         lines.append(f"name: {env_name}")
     lines.append("dependencies:")
-    for pkg in packages:
-        lines.append(f"{" " * indent}- {pkg["spec"]}")
+    for match_spec in sorted(match_specs):
+        lines.append(f"{" " * indent}- {match_spec}")
+    if pip_packages:
+        lines.append(f"{" " * indent}- pip:")
+        for pkg in pip_packages:
+            lines.append(f"{" " * (indent * 2)}- {pkg['spec']}")
     return f"{"\n".join(lines)}\n"
 
 
@@ -457,7 +635,7 @@ def create_env_file_pip(packages: list[dict]) -> str:
     packages:
         List of dictionaries with package details.
     """
-    return f"{"\n".join([pkg["spec"]["pep508"] for pkg in packages])}\n"
+    return f"{"\n".join([pkg["spec"] for pkg in packages])}\n"
 
 
 def create_env_file_apt(packages: list[dict]) -> str:
@@ -564,3 +742,48 @@ def snake_case_to_camel_case(string: str) -> str:
     """Convert a snake_case string to CamelCase."""
     components = string.split('_')
     return ''.join([components[0]] + [x.title() for x in components[1:]])
+
+
+def parse_args():
+    def parse_extras(value):
+        if value.lower() == "all":
+            return "all"
+        return value.split(",") if "," in value else [value]
+
+    parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
+    parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
+    parser.add_argument("--pkg", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--pkg-extras", type=parse_extras, default="all")
+    parser.add_argument("--pkg-variants", type=_json.loads, default=None, help="JSON string of package variants")
+    parser.add_argument("--test", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--test-extras", type=parse_extras, default="all")
+    parser.add_argument("--test-variants", type=_json.loads, default=None, help="JSON string of test variants")
+    parser.add_argument("--python-version", type=str, default=None)
+    parser.add_argument("--platform", type=str, choices=[
+        "emscripten-wasm32", "linux-32", "linux-64", "linux-aarch64", "linux-armv6l", "linux-armv7l", "linux-ppc64", "linux-ppc64le", "linux-riscv32", "linux-riscv64", "linux-s390x", "osx-64", "osx-arm64", "wasi-wasm32", "win-32", "win-64", "win-arm64", "zos-z"
+    ], default=None)
+    parser.add_argument("--sources", nargs="*", choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"], default=None)
+    parser.add_argument("--exclude-sources", nargs="*", choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"], default=None)
+    parser.add_argument("--exclude-installed", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--pip-in-conda", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--conda-env-name", type=str, default=None)
+    parser.add_argument("--install", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--output-dir", type=str, default=None)
+    parser.add_argument("--overwrite", action=_argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--filename-conda", type=str, default="environment.yml")
+    parser.add_argument("--filename-pip", type=str, default="requirements.txt")
+    parser.add_argument("--filename-apt", type=str, default="apt.txt")
+    parser.add_argument("--filename-brew", type=str, default="Brewfile")
+    parser.add_argument("--filename-choco", type=str, default="packages.config")
+    parser.add_argument("--filename-winget", type=str, default="packages.json")
+    parser.add_argument("--filename-bash", type=str, default="install.sh")
+    parser.add_argument("--filename-pwsh", type=str, default="install.ps1")
+    parser.add_argument("--indent-json", type=int, default=4)
+    parser.add_argument("--indent-xml", type=int, default=4)
+    parser.add_argument("--indent-yaml", type=int, default=2)
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    run(**vars(args))
