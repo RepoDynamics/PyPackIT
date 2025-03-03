@@ -179,18 +179,18 @@ to the start and end delimiters, respectively.
 :class: tip dropdown
 
 Assume you want to get the full name of a team member
-whose ID is stored under a custom key at `$.__custom__.target_member_id`:
+whose ID is stored under a custom key at `$.__data__.target_member_id`:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   target_member_id: member_1 
 :::
 
 Your template must then be:
 
 ```text
-${{ team.${{{ __custom__.target_member_id }}}$.name.full }}$
+${{ team.${{{ __data__.target_member_id }}}$.name.full }}$
 ```
 
 This is first resolved to `${{ team.member_1.name.full }}$`,
@@ -202,7 +202,7 @@ For example, assume the following configurations:
 :::{code-block} yaml
 :caption: `.control/vcs.yaml`
 
-__custom__:
+__data__:
   first_member_id: member_1
   second_member_id: member_2
   target_member_key: first_member_id 
@@ -213,13 +213,13 @@ and `target_member_key` tells you which one to choose.
 To get the corresponding member's full name, you can use the following template:
 
 ```text
-${{ team.${{{ __custom__.${{{{ __custom__.target_member_key }}}} }}}$.name.full }}$
+${{ team.${{{ __data__.${{{{ __data__.target_member_key }}}} }}}$.name.full }}$
 ```
 
 This will first resolve to:
 
 ```text
-${{ team.${{{ __custom__.first_member_id }}}$.name.full }}$
+${{ team.${{{ __data__.first_member_id }}}$.name.full }}$
 ```
 
 then to `${{ team.member_1.name.full }}$`,
@@ -504,7 +504,7 @@ containing some extended keywords:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   extended_keywords:
     - first extended keyword
     - second extended keyword
@@ -515,7 +515,7 @@ you cannot simply use a reference or code template like:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   extended_keywords:
     - ${{ keywords }}$
     - first extended keyword
@@ -526,7 +526,7 @@ as that will incorrectly resolve to:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   extended_keywords:
     - - first main keyword
       - second main keyword
@@ -538,7 +538,7 @@ Instead, you must wrap the reference template inside an unpacking template:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   extended_keywords:
     - *{{ ${{ keywords }}$ }}*
     - first extended keyword
@@ -549,7 +549,7 @@ which will correctly resolve to:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   extended_keywords:
     - first main keyword
     - second main keyword
@@ -595,11 +595,11 @@ team:
       last: Doe
 :::
 
-The template defined at `$.__custom__.project_info`: 
+The template defined at `$.__data__.project_info`: 
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   project_info: >-
     The project ${{ name }}$ 
     has #{{ return len(get("team")) }}# members;
@@ -610,7 +610,7 @@ will then resolve to:
 
 :::{code-block} yaml
 
-__custom__:
+__data__:
   project_info: >-
     The project MyProject 
     has 2 members;
@@ -632,20 +632,20 @@ where some value in each mapping needs to be templated against other values in t
 You can of course use absolute paths and reference each mapping by its sequence index:
 
 ```yaml
-__custom__:
+__data__:
   dependent_mappings:
     - a: 1
       b: true
       c: >-
         This value depends on
-        ${{ __custom__.dependent_mappings[0].a }}$ and
-        ${{ __custom__.dependent_mappings[0].b }}$.
+        ${{ __data__.dependent_mappings[0].a }}$ and
+        ${{ __data__.dependent_mappings[0].b }}$.
     - a: 2
       b: false
       c: >-
         This value depends on
-        ${{ __custom__.dependent_mappings[1].a }}$ and
-        ${{ __custom__.dependent_mappings[1].b }}$.
+        ${{ __data__.dependent_mappings[1].a }}$ and
+        ${{ __data__.dependent_mappings[1].b }}$.
 ```
 
 However, you would then need to
@@ -669,7 +669,7 @@ These are resolved relative to the path of the value where the template is defin
 Therefore, the above example can be rewritten as:
 
 ```yaml
-__custom__:
+__data__:
   dependent_mappings:
     - a: 1
       b: true
@@ -688,26 +688,26 @@ __custom__:
 Now, the templates will always resolve to the values within the same mapping,
 regardless of the indices. However, there still remains the problem of redundancy,
 as all elements now have the exact same template.
-This is where the `__custom_template__` key comes in play.
+This is where the `__temp__` key comes in play.
 As [mentioned earlier](#manual-cc-options-custom),
-relative paths in templates defined under `__custom_template__`
+relative paths in templates defined under `__temp__`
 are resolved against the path where that template is referenced, not where it is defined.
 This means you can further simplify the above example to:
 
 ```yaml
-__custom_template__:
+__temp__:
   c: >-
     This value depends on
     ${{ .a }}$ and
     ${{ .b }}$.
-__custom__:
+__data__:
   dependent_mappings:
     - a: 1
       b: true
-      c: ${{ __custom_template__.c }}$
+      c: ${{ __temp__.c }}$
     - a: 2
       b: false
-      c: ${{ __custom_template__.c }}$
+      c: ${{ __temp__.c }}$
 ```
 
 ### Referencing Keys and Indices
@@ -718,28 +718,28 @@ This is done by adding the `__key__` field to end of a relative path.
 For example, the following template:
 
 ```yaml
-__custom_template__:
+__temp__:
   location: >-
     This template is located in
     a mapping named ${{ .__key__ }}$,
     which is at index ${{ ..__key__ }}$
     of a sequence under ${{ ...__key__ }}$
-__custom__:
+__data__:
   grandparent_sequence:
     - parent_mapping:
-        template: ${{ __custom_template__.location }}$
+        template: ${{ __temp__.location }}$
 ```
 
 will resolve to:
 
 ```yaml
-__custom_template__:
+__temp__:
   location: >-
     This template is located in
     a mapping named '${{ .__key__ }}$',
     which is at index ${{ ..__key__ }}$
     of a sequence under '${{ ...__key__ }}$'.
-__custom__:
+__data__:
   grandparent_sequence:
     - parent_mapping:
         template: >-

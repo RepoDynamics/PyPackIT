@@ -1,4 +1,4 @@
-__custom__:
+__data__:
   dir_name:
     licenses: LICENSES
     copyrights: COPYRIGHTS
@@ -40,11 +40,11 @@ __custom__:
     body:
       - class: badges
         service: static
-        style: ${{ __custom__.badge.style }}$
-        height: ${{ __custom__.badge.height }}$
-        color: ${{ __custom__.badge.color.blue }}$
-        label_color: ${{ __custom__.badge.color.grey }}$
-        separator: ${{ __custom__.badge.separator }}$
+        style: ${{ __data__.badge.style }}$
+        height: ${{ __data__.badge.height }}$
+        color: ${{ __data__.badge.color.blue }}$
+        label_color: ${{ __data__.badge.color.grey }}$
+        separator: ${{ __data__.badge.separator }}$
         items:
           - label: ${{ pkg.name }}$
             args:
@@ -65,7 +65,7 @@ __custom__:
                   "patch": "fix",
                   "post": "post"
                 }[release_type]
-                icon = get(f"__custom__.icon.{icon_type}")
+                icon = get(f"__data__.icon.{icon_type}")
                 return f"{icon} Release Type"
               }}#
             args:
@@ -80,7 +80,7 @@ __custom__:
                   "patch": "green",
                   "post": "blue"
                 }[release_type]
-                return get(f"__custom__.badge.color.{color_name}")
+                return get(f"__data__.badge.color.{color_name}")
               }}#
           - label: 🗓 Release Date
             args:
@@ -221,11 +221,11 @@ __custom__:
             badges = {
               "class": "badges",
               "service": "static",
-              "style": get("__custom__.badge.style"),
-              "height": get("__custom__.badge.height"),
-              "color": get("__custom__.badge.color.blue"),
-              "label_color": get("__custom__.badge.color.grey"),
-              "separator": get("__custom__.badge.separator"),
+              "style": get("__data__.badge.style"),
+              "height": get("__data__.badge.height"),
+              "color": get("__data__.badge.color.blue"),
+              "label_color": get("__data__.badge.color.grey"),
+              "separator": get("__data__.badge.separator"),
               "items": badge_items
             }
             section = {
@@ -239,15 +239,15 @@ __custom__:
         body:
           - - class: button
               text: "⚙️ Operating System"
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.grey }}$
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               separator: 1
               items:
                 - |
@@ -255,8 +255,8 @@ __custom__:
                     #{{
                       badges = []
                       oss = get("pkg.os")
-                      color_green = get("__custom__.badge.color.green")
-                      color_red = get("__custom__.badge.color.red")
+                      color_green = get("__data__.badge.color.green")
+                      color_red = get("__data__.badge.color.red")
                       for os_name, os_id, logo, logo_color in (
                         ("Linux", "linux", f"{get("web.path.source")}/_media/logo_ext/linux.png", None),
                         ("macOS", "macos", "apple", "#000000"),
@@ -285,20 +285,20 @@ __custom__:
               service: static
               args:
                 message: "Python"
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.grey }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.grey }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
               logo_type: file
               logo_media_type: svg+xml
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.blue }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.blue }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               separator: 1
               items:
                 - label: Versions
@@ -312,17 +312,17 @@ __custom__:
                   color: >-
                     #{{
                       if get("pkg.python.pure"):
-                        return get("__custom__.badge.color.green")
-                      return get("__custom__.badge.color.blue")
+                        return get("__data__.badge.color.green")
+                      return get("__data__.badge.color.blue")
                     }}#
           - |
             #{{
               deps = list(get("pkg.dependency.core", {}).values())
-              style = get("__custom__.badge.style")
-              height = get("__custom__.badge.height")
-              green = get("__custom__.badge.color.green")
-              blue = get("__custom__.badge.color.blue")
-              grey = get("__custom__.badge.color.grey")
+              style = get("__data__.badge.style")
+              height = get("__data__.badge.height")
+              green = get("__data__.badge.color.green")
+              blue = get("__data__.badge.color.blue")
+              grey = get("__data__.badge.color.grey")
               label = "📦 Dependencies"
               if not deps:
                 badge = {
@@ -371,10 +371,10 @@ __custom__:
             *{{
               #{{
                 interfaces = get("pkg.entry")
-                style = get("__custom__.badge.style")
-                height = get("__custom__.badge.height")
-                blue = get("__custom__.badge.color.blue")
-                grey = get("__custom__.badge.color.grey")
+                style = get("__data__.badge.style")
+                height = get("__data__.badge.height")
+                blue = get("__data__.badge.color.blue")
+                grey = get("__data__.badge.color.grey")
 
                 config = {
                   "python": {
@@ -389,7 +389,7 @@ __custom__:
                     "logo_color": "#4EAA25",
                   },
                   "gui": {
-                    "text": f"{get("__custom__.icon.gui")} GUI"
+                    "text": f"{get("__data__.icon.gui")} GUI"
                   },
                 }
                 item_color = {
@@ -436,7 +436,7 @@ __custom__:
                 return out
               }}#
             }}*
-__custom_template__:
+__temp__:
   pyproject-build:
     backend: setuptools.build_meta
     tool:
@@ -446,7 +446,7 @@ __custom_template__:
             where: [ '${{ .path.source_rel }}$' ]
             namespaces: true
         include-package-data: true
-        license-files: [ '${{ __custom__.dir_name.licenses }}$/*', '${{ __custom__.dir_name.copyrights }}$/*' ]
+        license-files: [ '${{ __data__.dir_name.licenses }}$/*', '${{ __data__.dir_name.copyrights }}$/*' ]
         cmdclass:
           build_py: versioningit.cmdclass.build_py
           sdist: versioningit.cmdclass.sdist
@@ -546,7 +546,7 @@ __custom_template__:
           home: ${{ web.url.home }}$
           license: ${{ license.expression }}$
           license_file:
-            - '{{ pkg_dir }}${{ __custom__.dir_name.licenses }}$/'
+            - '{{ pkg_dir }}${{ __data__.dir_name.licenses }}$/'
             - |
               *{{
                 #{{
@@ -555,7 +555,7 @@ __custom_template__:
                     for component in get("license.component", {}).values()
                   ):
                     return []
-                  return [f'{{{{ pkg_dir }}}}{get("__custom__.dir_name.copyrights")}/']
+                  return [f'{{{{ pkg_dir }}}}{get("__data__.dir_name.copyrights")}/']
                 }}#
               }}*
           summary: ${{ title }}$

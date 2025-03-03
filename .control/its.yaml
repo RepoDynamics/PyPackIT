@@ -1,5 +1,5 @@
 commit:
-  __custom__:
+  __data__:
     h1_pkg:
       title: Package
       description: Changes in the ${{ pkg.name }}$ Python package.
@@ -316,975 +316,975 @@ commit:
       type: remove
       scope: pkg-api
       type_description: Remove a feature from ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_remove }}$
     pkg-api-change:
       type: change
       scope: pkg-api
       type_description: Change a feature in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_change }}$
     pkg-api-deprecate:
       type: deprecate
       scope: pkg-api
       type_description: Deprecate a feature in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     pkg-api-feat:
       type: feat
       scope: pkg-api
       type_description: Add a feature to ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_feat }}$
     pkg-api-enhance:
       type: enhance
       scope: pkg-api
       type_description: Enhance a feature in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     pkg-api-secure:
       type: secure
       scope: pkg-api
       type_description: Fix a security issue in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_secure }}$
     pkg-api-fix:
       type: fix
       scope: pkg-api
       type_description: Fix a bug in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_fix }}$
     pkg-api-perf:
       type: perf
       scope: pkg-api
       type_description: Improve performance in ${{ pkg.name }}$'s API.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Pkg CLI
     pkg-cli-remove:
       type: remove
       scope: pkg-cli
       type_description: Remove a feature from ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_remove }}$
     pkg-cli-change:
       type: change
       scope: pkg-cli
       type_description: Change a feature in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_change }}$
     pkg-cli-deprecate:
       type: deprecate
       scope: pkg-cli
       type_description: Deprecate a feature in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     pkg-cli-feat:
       type: feat
       scope: pkg-cli
       type_description: Add a feature to ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_feat }}$
     pkg-cli-enhance:
       type: enhance
       scope: pkg-cli
       type_description: Enhance a feature in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     pkg-cli-secure:
       type: secure
       scope: pkg-cli
       type_description: Fix a security issue in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_secure }}$
     pkg-cli-fix:
       type: fix
       scope: pkg-cli
       type_description: Fix a bug in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_fix }}$
     pkg-cli-perf:
       type: perf
       scope: pkg-cli
       type_description: Improve performance in ${{ pkg.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Pkg GUI
     pkg-gui-remove:
       type: remove
       scope: pkg-gui
       type_description: Remove a feature from ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_remove }}$
     pkg-gui-change:
       type: change
       scope: pkg-gui
       type_description: Change a feature in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_change }}$
     pkg-gui-deprecate:
       type: deprecate
       scope: pkg-gui
       type_description: Deprecate a feature in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     pkg-gui-feat:
       type: feat
       scope: pkg-gui
       type_description: Add a feature to ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_feat }}$
     pkg-gui-enhance:
       type: enhance
       scope: pkg-gui
       type_description: Enhance a feature in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     pkg-gui-secure:
       type: secure
       scope: pkg-gui
       type_description: Fix a security issue in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_secure }}$
     pkg-gui-fix:
       type: fix
       scope: pkg-gui
       type_description: Fix a bug in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_fix }}$
     pkg-gui-perf:
       type: perf
       scope: pkg-gui
       type_description: Improve performance in ${{ pkg.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Pkg Build
     pkg-build-remove:
       type: remove
       scope: pkg-build
       type_description: Remove a feature from ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_remove }}$
     pkg-build-change:
       type: change
       scope: pkg-build
       type_description: Change a feature in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_change }}$
     pkg-build-deprecate:
       type: deprecate
       scope: pkg-build
       type_description: Deprecate a feature in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     pkg-build-feat:
       type: feat
       scope: pkg-build
       type_description: Add a feature to ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_feat }}$
     pkg-build-enhance:
       type: enhance
       scope: pkg-build
       type_description: Enhance a feature in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     pkg-build-secure:
       type: secure
       scope: pkg-build
       type_description: Fix a security issue in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_secure }}$
     pkg-build-fix:
       type: fix
       scope: pkg-build
       type_description: Fix a bug in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_fix }}$
     pkg-build-perf:
       type: perf
       scope: pkg-build
       type_description: Improve performance in ${{ pkg.name }}$'s build.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Pkg Code
     pkg-code-refactor:
       type: refactor
       scope: pkg
       type_description: Refactor code in ${{ pkg.name }}$.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_code }}$
-      h3: ${{ ...__custom__.h3_refactor }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_code }}$
+      h3: ${{ ...__data__.h3_refactor }}$
     pkg-code-style:
       type: style
       scope: pkg
       type_description: Change text style and formatting in ${{ pkg.name }}$.
-      h1: ${{ ...__custom__.h1_pkg }}$
-      h2: ${{ ...__custom__.h2_code }}$
-      h3: ${{ ...__custom__.h3_style }}$
+      h1: ${{ ...__data__.h1_pkg }}$
+      h2: ${{ ...__data__.h2_code }}$
+      h3: ${{ ...__data__.h3_style }}$
     # Test API
     test-api-remove:
       type: remove
       scope: test-api
       type_description: Remove a feature from ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_remove }}$
     test-api-change:
       type: change
       scope: test-api
       type_description: Change a feature in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_change }}$
     test-api-deprecate:
       type: deprecate
       scope: test-api
       type_description: Deprecate a feature in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     test-api-feat:
       type: feat
       scope: test-api
       type_description: Add a feature to ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_feat }}$
     test-api-enhance:
       type: enhance
       scope: test-api
       type_description: Enhance a feature in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     test-api-secure:
       type: secure
       scope: test-api
       type_description: Fix a security issue in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_secure }}$
     test-api-fix:
       type: fix
       scope: test-api
       type_description: Fix a bug in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_fix }}$
     test-api-perf:
       type: perf
       scope: test-api
       type_description: Improve performance in ${{ test.name }}$'s API.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_api }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_api }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Test CLI
     test-cli-remove:
       type: remove
       scope: test-cli
       type_description: Remove a feature from ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_remove }}$
     test-cli-change:
       type: change
       scope: test-cli
       type_description: Change a feature in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_change }}$
     test-cli-deprecate:
       type: deprecate
       scope: test-cli
       type_description: Deprecate a feature in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     test-cli-feat:
       type: feat
       scope: test-cli
       type_description: Add a feature to ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_feat }}$
     test-cli-enhance:
       type: enhance
       scope: test-cli
       type_description: Enhance a feature in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     test-cli-secure:
       type: secure
       scope: test-cli
       type_description: Fix a security issue in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_secure }}$
     test-cli-fix:
       type: fix
       scope: test-cli
       type_description: Fix a bug in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_fix }}$
     test-cli-perf:
       type: perf
       scope: test-cli
       type_description: Improve performance in ${{ test.name }}$'s CLI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_cli }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_cli }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Test GUI
     test-gui-remove:
       type: remove
       scope: test-gui
       type_description: Remove a feature from ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_remove }}$
     test-gui-change:
       type: change
       scope: test-gui
       type_description: Change a feature in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_change }}$
     test-gui-deprecate:
       type: deprecate
       scope: test-gui
       type_description: Deprecate a feature in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     test-gui-feat:
       type: feat
       scope: test-gui
       type_description: Add a feature to ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_feat }}$
     test-gui-enhance:
       type: enhance
       scope: test-gui
       type_description: Enhance a feature in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     test-gui-secure:
       type: secure
       scope: test-gui
       type_description: Fix a security issue in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_secure }}$
     test-gui-fix:
       type: fix
       scope: test-gui
       type_description: Fix a bug in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_fix }}$
     test-gui-perf:
       type: perf
       scope: test-gui
       type_description: Improve performance in ${{ test.name }}$'s GUI.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_gui }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_gui }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Test Build
     test-build-remove:
       type: remove
       scope: test-build
       type_description: Remove a feature from ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_remove }}$
     test-build-change:
       type: change
       scope: test-build
       type_description: Change a feature in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_change }}$
     test-build-deprecate:
       type: deprecate
       scope: test-build
       type_description: Deprecate a feature in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_deprecate }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_deprecate }}$
     test-build-feat:
       type: feat
       scope: test-build
       type_description: Add a feature to ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_feat }}$
     test-build-enhance:
       type: enhance
       scope: test-build
       type_description: Enhance a feature in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_enhance }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_enhance }}$
     test-build-secure:
       type: secure
       scope: test-build
       type_description: Fix a security issue in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_secure }}$
     test-build-fix:
       type: fix
       scope: test-build
       type_description: Fix a bug in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_fix }}$
     test-build-perf:
       type: perf
       scope: test-build
       type_description: Improve performance in ${{ test.name }}$'s build.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_build }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_build }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Test Code
     test-code-refactor:
       type: refactor
       scope: test
       type_description: Refactor code in ${{ test.name }}$.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_code }}$
-      h3: ${{ ...__custom__.h3_refactor }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_code }}$
+      h3: ${{ ...__data__.h3_refactor }}$
     test-code-style:
       type: style
       scope: test
       type_description: Change text style and formatting in ${{ test.name }}$.
-      h1: ${{ ...__custom__.h1_test }}$
-      h2: ${{ ...__custom__.h2_code }}$
-      h3: ${{ ...__custom__.h3_style }}$
+      h1: ${{ ...__data__.h1_test }}$
+      h2: ${{ ...__data__.h2_code }}$
+      h3: ${{ ...__data__.h3_style }}$
     # Docs Content
     docs-content-remove:
       type: remove
       scope: docs-content
       type_description: Remove content from the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_content }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_content }}$
+      h3: ${{ ...__data__.h3_remove }}$
     docs-content-change:
       type: change
       scope: docs-content
       type_description: Change content in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_content }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_content }}$
+      h3: ${{ ...__data__.h3_change }}$
     docs-content-feat:
       type: feat
       scope: docs-content
       type_description: Add content to the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_content }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_content }}$
+      h3: ${{ ...__data__.h3_feat }}$
     docs-content-fix:
       type: fix
       scope: docs-content
       type_description: Fix content in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_content }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_content }}$
+      h3: ${{ ...__data__.h3_fix }}$
     # Docs Design
     docs-design-remove:
       type: remove
       scope: docs-design
       type_description: Remove design elements from the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_design }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_design }}$
+      h3: ${{ ...__data__.h3_remove }}$
     docs-design-change:
       type: change
       scope: docs-design
       type_description: Change design elements in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_design }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_design }}$
+      h3: ${{ ...__data__.h3_change }}$
     docs-design-feat:
       type: feat
       scope: docs-design
       type_description: Add design elements to the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_design }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_design }}$
+      h3: ${{ ...__data__.h3_feat }}$
     docs-design-fix:
       type: fix
       scope: docs-design
       type_description: Fix design elements in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_design }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_design }}$
+      h3: ${{ ...__data__.h3_fix }}$
     # Docs Features
     docs-feat-remove:
       type: remove
       scope: docs-feat
       type_description: Remove features from the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_feat }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_feat }}$
+      h3: ${{ ...__data__.h3_remove }}$
     docs-feat-change:
       type: change
       scope: docs-feat
       type_description: Change features in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_feat }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_feat }}$
+      h3: ${{ ...__data__.h3_change }}$
     docs-feat-feat:
       type: feat
       scope: docs-feat
       type_description: Add features to the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_feat }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_feat }}$
+      h3: ${{ ...__data__.h3_feat }}$
     docs-feat-fix:
       type: fix
       scope: docs-feat
       type_description: Fix features in the documentation.
-      h1: ${{ ...__custom__.h1_docs }}$
-      h2: ${{ ...__custom__.h2_feat }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_docs }}$
+      h2: ${{ ...__data__.h2_feat }}$
+      h3: ${{ ...__data__.h3_fix }}$
     # CI Main
     ci-main-remove:
       type: remove
       scope: ci-main
       type_description: Remove a feature from the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_remove }}$
     ci-main-change:
       type: change
       scope: ci-main
       type_description: Change a feature in the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_change }}$
     ci-main-feat:
       type: feat
       scope: ci-main
       type_description: Add a feature to the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_feat }}$
     ci-main-secure:
       type: secure
       scope: ci-main
       type_description: Fix a security issue in the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_secure }}$
     ci-main-fix:
       type: fix
       scope: ci-main
       type_description: Fix a bug in the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_fix }}$
     ci-main-perf:
       type: perf
       scope: ci-main
       type_description: Improve performance in the main workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_main }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_main }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # CI Build
     ci-build-remove:
       type: remove
       scope: ci-build
       type_description: Remove a feature from the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_remove }}$
     ci-build-change:
       type: change
       scope: ci-build
       type_description: Change a feature in the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_change }}$
     ci-build-feat:
       type: feat
       scope: ci-build
       type_description: Add a feature to the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_feat }}$
     ci-build-secure:
       type: secure
       scope: ci-build
       type_description: Fix a security issue in the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_secure }}$
     ci-build-fix:
       type: fix
       scope: ci-build
       type_description: Fix a bug in the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_fix }}$
     ci-build-perf:
       type: perf
       scope: ci-build
       type_description: Improve performance in the build workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_build }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_build }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # CI Lint
     ci-lint-remove:
       type: remove
       scope: ci-lint
       type_description: Remove a feature from the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_remove }}$
     ci-lint-change:
       type: change
       scope: ci-lint
       type_description: Change a feature in the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_change }}$
     ci-lint-feat:
       type: feat
       scope: ci-lint
       type_description: Add a feature to the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_feat }}$
     ci-lint-secure:
       type: secure
       scope: ci-lint
       type_description: Fix a security issue in the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_secure }}$
     ci-lint-fix:
       type: fix
       scope: ci-lint
       type_description: Fix a bug in the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_fix }}$
     ci-lint-perf:
       type: perf
       scope: ci-lint
       type_description: Improve performance in the lint workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_lint }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_lint }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # CI Test
     ci-test-remove:
       type: remove
       scope: ci-test
       type_description: Remove a feature from the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_remove }}$
     ci-test-change:
       type: change
       scope: ci-test
       type_description: Change a feature in the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_change }}$
     ci-test-feat:
       type: feat
       scope: ci-test
       type_description: Add a feature to the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_feat }}$
     ci-test-secure:
       type: secure
       scope: ci-test
       type_description: Fix a security issue in the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_secure }}$
     ci-test-fix:
       type: fix
       scope: ci-test
       type_description: Fix a bug in the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_fix }}$
     ci-test-perf:
       type: perf
       scope: ci-test
       type_description: Improve performance in the test workflow.
-      h1: ${{ ...__custom__.h1_ci }}$
-      h2: ${{ ...__custom__.h2_ci_test }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_ci }}$
+      h2: ${{ ...__data__.h2_ci_test }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # CD Pkg
     cd-pkg-remove:
       type: remove
       scope: cd-pkg
       type_description: Remove a feature from the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_remove }}$
     cd-pkg-change:
       type: change
       scope: cd-pkg
       type_description: Change a feature in the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_change }}$
     cd-pkg-feat:
       type: feat
       scope: cd-pkg
       type_description: Add a feature to the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_feat }}$
     cd-pkg-secure:
       type: secure
       scope: cd-pkg
       type_description: Fix a security issue in the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_secure }}$
     cd-pkg-fix:
       type: fix
       scope: cd-pkg
       type_description: Fix a bug in the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_fix }}$
     cd-pkg-perf:
       type: perf
       scope: cd-pkg
       type_description: Improve performance in the package deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_pkg }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_pkg }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # CD Docs
     cd-docs-remove:
       type: remove
       scope: cd-docs
       type_description: Remove a feature from the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_remove }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_remove }}$
     cd-docs-change:
       type: change
       scope: cd-docs
       type_description: Change a feature in the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_change }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_change }}$
     cd-docs-feat:
       type: feat
       scope: cd-docs
       type_description: Add a feature to the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_feat }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_feat }}$
     cd-docs-secure:
       type: secure
       scope: cd-docs
       type_description: Fix a security issue in the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_secure }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_secure }}$
     cd-docs-fix:
       type: fix
       scope: cd-docs
       type_description: Fix a bug in the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_fix }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_fix }}$
     cd-docs-perf:
       type: perf
       scope: cd-docs
       type_description: Improve performance in the documentation deployment workflow.
-      h1: ${{ ...__custom__.h1_cd }}$
-      h2: ${{ ...__custom__.h2_cd_docs }}$
-      h3: ${{ ...__custom__.h3_perf }}$
+      h1: ${{ ...__data__.h1_cd }}$
+      h2: ${{ ...__data__.h2_cd_docs }}$
+      h3: ${{ ...__data__.h3_perf }}$
     # Config
     config-proj:
       type: config
       scope: proj
       type_description: Change project configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_proj }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_proj }}$
     config-pkg:
       type: config
       scope: pkg
       type_description: Change package configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_pkg }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_pkg }}$
     config-test:
       type: config
       scope: test
       type_description: Change test configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_test }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_test }}$
     config-docs:
       type: config
       scope: docs
       type_description: Change documentation configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_docs }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_docs }}$
     config-its:
       type: config
       scope: its
       type_description: Change issue tracking system configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_its }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_its }}$
     config-vcs:
       type: config
       scope: vcs
       type_description: Change version control system configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_vcs }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_vcs }}$
     config-ci:
       type: config
       scope: ci
       type_description: Change CI/CD configurations.
-      h1: ${{ ...__custom__.h1_config }}$
-      h2: ${{ ...__custom__.h2_ci }}$
+      h1: ${{ ...__data__.h1_config }}$
+      h2: ${{ ...__data__.h2_ci }}$
     # Maintenance
     maintain-proj:
       type: maintain
       scope: proj
       type_description: Perform maintenance tasks on the project as a whole.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_proj }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_proj }}$
     maintain-pkg:
       type: maintain
       scope: pkg
       type_description: Perform maintenance tasks on the package.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_pkg }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_pkg }}$
     maintain-test:
       type: maintain
       scope: test
       type_description: Perform maintenance tasks on the test suite.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_test }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_test }}$
     maintain-docs:
       type: maintain
       scope: docs
       type_description: Perform maintenance tasks on the documentation.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_docs }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_docs }}$
     maintain-its:
       type: maintain
       scope: its
       type_description: Perform maintenance tasks on the issue tracking system.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_its }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_its }}$
     maintain-vcs:
       type: maintain
       scope: vcs
       type_description: Perform maintenance tasks on the version control system.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_vcs }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_vcs }}$
     maintain-ci:
       type: maintain
       scope: ci
       type_description: Perform maintenance tasks on the CI/CD pipelines.
-      h1: ${{ ...__custom__.h1_maintain }}$
-      h2: ${{ ...__custom__.h2_ci }}$
+      h1: ${{ ...__data__.h1_maintain }}$
+      h2: ${{ ...__data__.h2_ci }}$
 label:
   type:
     prefix: Type
     color: '#A00000'
     label:
       fix:
-        suffix: ${{ __custom__.icon.fix }}$ bug fix
+        suffix: ${{ __data__.icon.fix }}$ bug fix
         description: Fix a bug in a project component.
       feat:
-        suffix: ${{ __custom__.icon.feat }}$ new feature
+        suffix: ${{ __data__.icon.feat }}$ new feature
         description: Add a new feature to a project component.
       change:
-        suffix: ${{ __custom__.icon.change }}$ breaking change
+        suffix: ${{ __data__.icon.change }}$ breaking change
         description: Introduce a breaking change in a project component.
       refactor:
-        suffix: ${{ __custom__.icon.refactor }}$ refactoring
+        suffix: ${{ __data__.icon.refactor }}$ refactoring
         description: Refactor code without affecting project interfaces.
       config:
-        suffix: ${{ __custom__.icon.config }}$ configuration
+        suffix: ${{ __data__.icon.config }}$ configuration
         description: Change project configurations and metadata.
       ci:
-        suffix: ${{ __custom__.icon.ci }}$ DevOps
+        suffix: ${{ __data__.icon.ci }}$ DevOps
         description: Change automated workflows and development environments.
       chore:
-        suffix: ${{ __custom__.icon.chore }}$ maintenance
+        suffix: ${{ __data__.icon.chore }}$ maintenance
         description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
     prefix: Scope
     color: '#A00000'
     label:
       pkg:
-        suffix: ${{ __custom__.icon.pkg }}$ app
+        suffix: ${{ __data__.icon.pkg }}$ app
         description: Related to ${{ pkg.name }}$ package.
       test:
-        suffix: ${{ __custom__.icon.test }}$ tests
+        suffix: ${{ __data__.icon.test }}$ tests
         description: Related to ${{ test.name }}$ package.
       docs:
-        suffix: ${{ __custom__.icon.docs }}$ docs
+        suffix: ${{ __data__.icon.docs }}$ docs
         description: Related to ${{ name }}$ documentation and website.
       repo:
-        suffix: ${{ __custom__.icon.repo }}$ repo
+        suffix: ${{ __data__.icon.repo }}$ repo
         description: Related to ${{ repo.name }}$ repository.
   component:
     prefix: Component
     color: '#0366d6'
     label:
       api:
-        suffix: ${{ __custom__.icon.api }}$ API
+        suffix: ${{ __data__.icon.api }}$ API
         description: Related to the Python application programming interface.
       cli:
-        suffix: ${{ __custom__.icon.cli }}$ CLI
+        suffix: ${{ __data__.icon.cli }}$ CLI
         description: Related to the command-line interface.
       gui:
-        suffix: ${{ __custom__.icon.gui }}$ GUI
+        suffix: ${{ __data__.icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: ${{ __custom__.icon.setup }}$ Build
+        suffix: ${{ __data__.icon.setup }}$ Build
         description: Related to the build and installation process.
   commit:
     prefix: Commit
@@ -1331,12 +1331,12 @@ issue:
     - name: '💬  Contact Us'
       about: Have another inquiry or need help? Contact us directly!
       url: ${{ web.page.contact.url }}$
-  __custom_template__:
+  __temp__:
     # Body Templates
     body_fix_api:
-      - '*{{ issue.__custom_template__.header_bug }}*'
-      - '*{{ issue.__custom_template__.address_api }}*'
-      - ${{ issue.__custom__.issue_summary }}$
+      - '*{{ issue.__temp__.header_bug }}*'
+      - '*{{ issue.__temp__.address_api }}*'
+      - ${{ issue.__data__.issue_summary }}$
       - type: textarea
         id: test_case
         attributes:
@@ -1353,7 +1353,7 @@ issue:
             Use [`assert` statements](https://docs.pytest.org/en/stable/how-to/assert.html)
             to specify the expected results.
           value: |
-            import ${{ .__custom__.python_api_names[0] }}$
+            import ${{ .__data__.python_api_names[0] }}$
 
 
             def test():
@@ -1362,9 +1362,9 @@ issue:
         validations:
           required: true
     body_fix_cli:
-      - '*{{ issue.__custom_template__.header_bug }}*'
-      - '*{{ issue.__custom_template__.address_cli }}*'
-      - ${{ issue.__custom__.issue_summary }}$
+      - '*{{ issue.__temp__.header_bug }}*'
+      - '*{{ issue.__temp__.address_cli }}*'
+      - ${{ issue.__data__.issue_summary }}$
       - type: textarea
         id: test_case
         attributes:
@@ -1403,123 +1403,123 @@ issue:
         validations:
           required: true
     body_fix_gui:
-      - '*{{ issue.__custom_template__.header_bug }}*'
-      - '*{{ issue.__custom_template__.address_gui }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.mre_generic }}$
-      - ${{ issue.__custom__.stderr_optional }}$
+      - '*{{ issue.__temp__.header_bug }}*'
+      - '*{{ issue.__temp__.address_gui }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.mre_generic }}$
+      - ${{ issue.__data__.stderr_optional }}$
     body_fix_setup:
-      - '*{{ issue.__custom_template__.header_bug }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.mre_generic }}$
-      - ${{ issue.__custom__.stderr_optional }}$
+      - '*{{ issue.__temp__.header_bug }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.mre_generic }}$
+      - ${{ issue.__data__.stderr_optional }}$
     body_feat_api:
-      - '*{{ issue.__custom_template__.header_feature }}*'
-      - '*{{ issue.__custom_template__.address_api }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_feature }}*'
+      - '*{{ issue.__temp__.address_api }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_feat_cli:
-      - '*{{ issue.__custom_template__.header_feature }}*'
-      - '*{{ issue.__custom_template__.address_cli }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_feature }}*'
+      - '*{{ issue.__temp__.address_cli }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_feat_gui:
-      - '*{{ issue.__custom_template__.header_feature }}*'
-      - '*{{ issue.__custom_template__.address_gui }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_feature }}*'
+      - '*{{ issue.__temp__.address_gui }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_change_api:
-      - '*{{ issue.__custom_template__.header_breaking }}*'
-      - '*{{ issue.__custom_template__.address_api }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_breaking }}*'
+      - '*{{ issue.__temp__.address_api }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_change_cli:
-      - '*{{ issue.__custom_template__.header_breaking }}*'
-      - '*{{ issue.__custom_template__.address_cli }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_breaking }}*'
+      - '*{{ issue.__temp__.address_cli }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_change_gui:
-      - '*{{ issue.__custom_template__.header_breaking }}*'
-      - '*{{ issue.__custom_template__.address_gui }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header_breaking }}*'
+      - '*{{ issue.__temp__.address_gui }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_fix_doc:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_bug }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_bug_report }}$
-      - ${{ issue.__custom__.version }}$
-      - '*{{ issue.__custom_template__.address_doc }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.mre_generic }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_bug }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_bug_report }}$
+      - ${{ issue.__data__.version }}$
+      - '*{{ issue.__temp__.address_doc }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.mre_generic }}$
     body_feat_doc:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_feat }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_feature_request }}$
-      - ${{ issue.__custom__.version }}$
-      - '*{{ issue.__custom_template__.address_doc }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_feat }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_feature_request }}$
+      - ${{ issue.__data__.version }}$
+      - '*{{ issue.__temp__.address_doc }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_change_doc:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_change }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
-      - '*{{ issue.__custom_template__.address_doc }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_change }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
+      - '*{{ issue.__temp__.address_doc }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_refactor:
-      - '*{{ issue.__custom_template__.header }}*'
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_config:
-      - '*{{ issue.__custom_template__.header }}*'
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
-      - '*{{ issue.__custom_template__.address_config }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
+      - '*{{ issue.__temp__.address_config }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_devops:
-      - '*{{ issue.__custom_template__.header }}*'
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
-      - '*{{ issue.__custom_template__.address_config }}*'
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
+      - '*{{ issue.__temp__.address_config }}*'
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     body_maintenance:
-      - '*{{ issue.__custom_template__.header }}*'
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
-      - ${{ issue.__custom__.issue_summary }}$
-      - ${{ issue.__custom__.proposal }}$
+      - '*{{ issue.__temp__.header }}*'
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
+      - ${{ issue.__data__.issue_summary }}$
+      - ${{ issue.__data__.proposal }}$
     # Body Header Templates
     header_bug:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_bug }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - '*{{ issue.__custom__.environment }}*'
-      - ${{ issue.__custom__.heading_bug_report }}$
-      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_bug }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - '*{{ issue.__data__.environment }}*'
+      - ${{ issue.__data__.heading_bug_report }}$
+      - ${{ issue.__data__.version }}$
     header_feature:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_feat }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_feature_request }}$
-      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_feat }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_feature_request }}$
+      - ${{ issue.__data__.version }}$
     header_breaking:
-      - '*{{ issue.__custom_template__.header }}*'
-      - ${{ issue.__custom__.verify_change }}$
-      - '*{{ issue.__custom__.agreements }}*'
-      - ${{ issue.__custom__.heading_change_request }}$
-      - ${{ issue.__custom__.version }}$
+      - '*{{ issue.__temp__.header }}*'
+      - ${{ issue.__data__.verify_change }}$
+      - '*{{ issue.__data__.agreements }}*'
+      - ${{ issue.__data__.heading_change_request }}$
+      - ${{ issue.__data__.version }}$
     header:
       - type: markdown
         attributes:
@@ -1542,7 +1542,7 @@ issue:
             ### ⛔ Choosing the Right Form
 
             <p align="justify">
-              Please note that this form is specifically for ${{ .__custom_template__.purpose }}$,
+              Please note that this form is specifically for ${{ .__temp__.purpose }}$,
               For other types of issues and requests, select the appropriate form
               from the <a href="${{ repo.url.issues.chooser }}$">issue template chooser</a>.
               If you are unsure about which form to choose or have another inquiry,
@@ -1551,29 +1551,29 @@ issue:
     # Template Chooser Descriptions
     description_bug: >-
       Report problems and errors in
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$.
     description_feat: >-
       Request backward-compatible improvements and new functionalities
-      in ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
+      in ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$.
     description_break: >-
       Request backward-incompatible changes to
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$.
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$.
     # Form Purpose
     purpose_bug: >-
       reporting a <b>non-security-related bug in
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$</b>,
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$</b>,
       i.e. an unexpected behavior or result
-      in ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
+      in ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_description }}$.
     purpose_feat: >-
       requesting a <b>backward-compatible improvement</b> or <b>new functionality</b> in
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$,
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$,
       i.e. a non-breaking change (that is not a bug fix) in
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_description }}$.
     purpose_break: >-
       requesting a <b>backward-incompatible change</b> in
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_name }}$,
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_name }}$,
       i.e. a breaking change in behaviour or functionalities of
-      ${{ .__custom__.pkg_name }}$'s ${{ .__custom__.pkg_entry_description }}$.
+      ${{ .__data__.pkg_name }}$'s ${{ .__data__.pkg_entry_description }}$.
     # Address
     address_api:
       - type: dropdown
@@ -1582,7 +1582,7 @@ issue:
           label: API Entry Point
           description: Please select the relevant API entry point.
           multiple: false
-          options: ${{ .__custom__.python_api_names }}$
+          options: ${{ .__data__.python_api_names }}$
           default: 0
         validations:
           required: true
@@ -1594,8 +1594,8 @@ issue:
             Please provide the fully qualified name (minus the entry point)
             of the relevant API endpoint.
             For example, for a method at
-            `${{ .__custom__.python_api_names[0] }}$.module_name.ClassName.method_name`
-            in the entry point `${{ .__custom__.python_api_names[0] }}$`,
+            `${{ .__data__.python_api_names[0] }}$.module_name.ClassName.method_name`
+            in the entry point `${{ .__data__.python_api_names[0] }}$`,
             you should write `module_name.ClassName.method_name`.
           placeholder: module_name.ClassName.method_name
         validations:
@@ -1607,7 +1607,7 @@ issue:
           label: CLI Entry Point
           description: Please select the relevant CLI entry point.
           multiple: false
-          options: ${{ .__custom__.cli_names }}$
+          options: ${{ .__data__.cli_names }}$
           default: 0
         validations:
           required: true
@@ -1618,7 +1618,7 @@ issue:
           label: GUI Entry Point
           description: Please select the affected GUI entry point.
           multiple: false
-          options: ${{ .__custom__.gui_names }}$
+          options: ${{ .__data__.gui_names }}$
           default: 0
         validations:
           required: true
@@ -1654,17 +1654,17 @@ issue:
     labels:
       - [ commit, '${{ ..commit }}$' ]
       - [ release, '#{{ return get(f"commit.release.{get("..commit")}").get("action", "local") }}#' ]
-  __custom__:
-    title_pkg: ' ${{ __custom__.icon.pkg }}$ App'
-    title_doc: ' ${{ __custom__.icon.docs }}$ Docs'
-    title_test: ' ${{ __custom__.icon.test }}$ Tests'
-    title_api: ' ${{ __custom__.icon.api }}$ API'
-    title_cli: ' ${{ __custom__.icon.cli }}$ CLI'
-    title_gui: ' ${{ __custom__.icon.gui }}$ GUI'
-    title_setup: ' ${{ __custom__.icon.setup }}$ Setup'
-    title_bug: ' ${{ __custom__.icon.fix }}$ Bug Report'
-    title_feat: ' ${{ __custom__.icon.feat }}$ Feature Request'
-    title_breaking: ' ${{ __custom__.icon.change }}$ Change Request'
+  __data__:
+    title_pkg: ' ${{ __data__.icon.pkg }}$ App'
+    title_doc: ' ${{ __data__.icon.docs }}$ Docs'
+    title_test: ' ${{ __data__.icon.test }}$ Tests'
+    title_api: ' ${{ __data__.icon.api }}$ API'
+    title_cli: ' ${{ __data__.icon.cli }}$ CLI'
+    title_gui: ' ${{ __data__.icon.gui }}$ GUI'
+    title_setup: ' ${{ __data__.icon.setup }}$ Setup'
+    title_bug: ' ${{ __data__.icon.fix }}$ Bug Report'
+    title_feat: ' ${{ __data__.icon.feat }}$ Feature Request'
+    title_breaking: ' ${{ __data__.icon.change }}$ Change Request'
     heading_bug_report:
       type: markdown
       attributes:
@@ -1917,12 +1917,12 @@ issue:
               service="static",
               label=label.prefix,
               args={"message": label.suffix if label.prefix else label.name},
-              style=ccc.__custom__.badge.style,
+              style=ccc.__data__.badge.style,
               color=label.color,
-              label_color=ccc.__custom__.badge.color.grey,
-              height=ccc.__custom__.badge.height,
+              label_color=ccc.__data__.badge.color.grey,
+              height=ccc.__data__.badge.height,
             ).source()
-          }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+          }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
           {%- endfor -%}
           {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
           {{
@@ -1930,20 +1930,20 @@ issue:
               service="static",
               label=labels["version"][0].prefix,
               args={"message": versions},
-              style=ccc.__custom__.badge.style,
+              style=ccc.__data__.badge.style,
               color=labels["version"][0].color,
-              label_color=ccc.__custom__.badge.color.grey,
-              height=ccc.__custom__.badge.height,
+              label_color=ccc.__data__.badge.color.grey,
+              height=ccc.__data__.badge.height,
             ).source()
           }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
-              separator: ${{ __custom__.badge.separator }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              label_color: ${{ __data__.badge.color.grey }}$
+              separator: ${{ __data__.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1955,7 +1955,7 @@ issue:
                   args:
                     message: '{{ issue.state }}'
                   color: >-
-                    {{ ccc.__custom__.badge.color.green if issue.state == "open" else ccc.__custom__.badge.color.red }}
+                    {{ ccc.__data__.badge.color.green if issue.state == "open" else ccc.__data__.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -1986,10 +1986,10 @@ issue:
         - heading: User Requirements Document (URD)
           body:
             - class: badges
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
-              separator: ${{ __custom__.badge.separator }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              label_color: ${{ __data__.badge.color.grey }}$
+              separator: ${{ __data__.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2001,19 +2001,19 @@ issue:
                   args:
                     message: '{{ form.name }}'
                   title: '{{ form.description }}'
-                  color: ${{ __custom__.badge.color.blue }}$
+                  color: ${{ __data__.badge.color.blue }}$
                 - service: github
                   endpoint: issue_details
                   label: Submitted
                   args:
                     property: age
-                  color: ${{ __custom__.badge.color.blue }}$
+                  color: ${{ __data__.badge.color.blue }}$
                 - service: static
                   label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
-                  color: ${{ __custom__.badge.color.blue }}$
+                  color: ${{ __data__.badge.color.blue }}$
             - |
               ### Summary
 
@@ -2023,24 +2023,24 @@ issue:
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint + "." + input.endpoint},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
+                  style=ccc.__data__.badge.style,
+                  color=ccc.__data__.badge.color.blue,
+                  label_color=ccc.__data__.badge.color.grey,
+                  height=ccc.__data__.badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
               {%- elif input.entrypoint -%}
               {{
                 mdit.element.badge(
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
+                  style=ccc.__data__.badge.style,
+                  color=ccc.__data__.badge.color.blue,
+                  label_color=ccc.__data__.badge.color.grey,
+                  height=ccc.__data__.badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
               {%- endif -%}
               {%- if input.url %}
               {{
@@ -2048,13 +2048,13 @@ issue:
                   service="static",
                   label="URL",
                   args={"message": input.url},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
+                  style=ccc.__data__.badge.style,
+                  color=ccc.__data__.badge.color.blue,
+                  label_color=ccc.__data__.badge.color.grey,
+                  height=ccc.__data__.badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
               {%- endif %}
               {%- if input.jsonpath %}
               {{
@@ -2062,13 +2062,13 @@ issue:
                   service="static",
                   label="JSON Path",
                   args={"message": input.jsonpath},
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.blue,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
+                  style=ccc.__data__.badge.style,
+                  color=ccc.__data__.badge.color.blue,
+                  label_color=ccc.__data__.badge.color.grey,
+                  height=ccc.__data__.badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
               {%- endif %}
 
               {{ input.summary }}
@@ -2109,10 +2109,10 @@ issue:
               {{
                 mdit.element.badges(
                   service="static",
-                  style=ccc.__custom__.badge.style,
-                  color=ccc.__custom__.badge.color.red,
-                  label_color=ccc.__custom__.badge.color.grey,
-                  height=ccc.__custom__.badge.height,
+                  style=ccc.__data__.badge.style,
+                  color=ccc.__data__.badge.color.red,
+                  label_color=ccc.__data__.badge.color.grey,
+                  height=ccc.__data__.badge.height,
                   items=[
                     {
                       "label": "⚙️ Operating Systems",
@@ -2126,7 +2126,7 @@ issue:
                       "logo_media_type": "svg+xml",
                     },
                     {
-                      "label": ccc.__custom__.icon.pkg + " Package Manager",
+                      "label": ccc.__data__.icon.pkg + " Package Manager",
                       "args": {"message": input.package_manager},
                     },
                   ]
@@ -2266,192 +2266,192 @@ issue:
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_api }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_pkg_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_api }}$
     - id: pkg_cli_fix
       id_labels:
         - [ type, fix ]
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_cli }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_pkg_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_cli }}$
     - id: pkg_gui_fix
       id_labels:
         - [ type, fix ]
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_gui }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_pkg_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_gui }}$
     - id: pkg_build_fix
       id_labels:
         - [ type, fix ]
         - [ scope, pkg ]
         - [ component, build ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
+        - '*{{ issue.__temp__.labels }}*'
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
-      __custom_template__:
+      __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
-      body: ${{ issue.__custom_template__.body_fix_setup }}$
+      body: ${{ issue.__temp__.body_fix_setup }}$
     - id: pkg_api_feat
       id_labels:
         - [ type, feat ]
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_api }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_pkg_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_api }}$
     - id: pkg_cli_feat
       id_labels:
         - [ type, feat ]
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_cli }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_pkg_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_cli }}$
     - id: pkg_gui_feat
       id_labels:
         - [ type, feat ]
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_gui }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_pkg_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_gui }}$
     - id: pkg_api_change
       id_labels:
         - [ type, change ]
         - [ scope, pkg ]
         - [ component, api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_api }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_pkg_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_api }}$
     - id: pkg_cli_change
       id_labels:
         - [ type, change ]
         - [ scope, pkg ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.cli_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_cli }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_pkg_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_cli }}$
     - id: pkg_gui_change
       id_labels:
         - [ type, change ]
         - [ scope, pkg ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.gui_names")) }}#'
-      name: ${{ issue.__custom__.title_pkg }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_pkg_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_gui }}$
+      name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_pkg_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_gui }}$
     # Documentation
     - id: docs_fix
       id_labels:
         - [ type, fix ]
         - [ scope, docs ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_bug }}$
+        - '*{{ issue.__temp__.labels }}*'
+      name: ${{ issue.__data__.title_doc }}$${{ issue.__data__.title_bug }}$
       description: >-
         Report problems and errors
         in ${{ name }}$'s website and documentation materials.
-      __custom_template__:
+      __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in
           ${{ name }}$'s website and documentation materials</b>,
           e.g. misspellings and other mechanical errors,
           broken links and images, layout issues, etc.
-      body: ${{ issue.__custom_template__.body_fix_doc }}$
+      body: ${{ issue.__temp__.body_fix_doc }}$
     - id: docs_feat
       id_labels:
         - [ type, feat ]
         - [ scope, docs ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_feat }}$
+        - '*{{ issue.__temp__.labels }}*'
+      name: ${{ issue.__data__.title_doc }}$${{ issue.__data__.title_feat }}$
       description: >-
         Request backward-compatible improvements and new content
         in ${{ name }}$'s website and documentation materials.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>backward-compatible improvement</b> or <b>new content</b> in
           ${{ name }}$'s website and documentation materials</b>,
           i.e. a change that is not a bug fix
           and does not break existing references or functionalities.
-      body: ${{ issue.__custom_template__.body_feat_doc }}$
+      body: ${{ issue.__temp__.body_feat_doc }}$
     - id: docs_change
       id_labels:
         - [ type, change ]
         - [ scope, docs ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ${{ issue.__custom__.title_doc }}$${{ issue.__custom__.title_breaking }}$
+        - '*{{ issue.__temp__.labels }}*'
+      name: ${{ issue.__data__.title_doc }}$${{ issue.__data__.title_breaking }}$
       description: >-
         Request backward-incompatible changes
         to ${{ name }}$'s website and documentation materials.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>backward-incompatible change</b> in
           ${{ name }}$'s website and documentation materials</b>,
           i.e. a change that breaks existing references or functionalities.
-      body: ${{ issue.__custom_template__.body_change_doc }}$
+      body: ${{ issue.__temp__.body_change_doc }}$
     # Test Suite
     - id: test_api_fix
       id_labels:
@@ -2459,201 +2459,201 @@ issue:
         - [ scope, test ]
         - [ scope, test-api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_test_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_api }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_test_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_api }}$
     - id: test_cli_fix
       id_labels:
         - [ type, fix ]
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_test_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_cli }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_test_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_cli }}$
     - id: test_gui_fix
       id_labels:
         - [ type, fix ]
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_bug }}$
-      description: ${{ issue.__custom_template__.description_bug }}$
-      __custom__: ${{ issue.__custom__.custom_test_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_bug }}$
-      body: ${{ issue.__custom_template__.body_fix_gui }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_bug }}$
+      description: ${{ issue.__temp__.description_bug }}$
+      __data__: ${{ issue.__data__.custom_test_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_bug }}$
+      body: ${{ issue.__temp__.body_fix_gui }}$
     - id: test_build_fix
       id_labels:
         - [ type, fix ]
         - [ scope, test ]
         - [ component, build ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_setup }}$${{ issue.__custom__.title_bug }}$
+        - '*{{ issue.__temp__.labels }}*'
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
       description: Report problems in downloading, installation, or initialization of ${{ test.name }}$.
-      __custom_template__:
+      __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
           i.e. an unexpected behavior that occurs during
           the download, installation, or initialization of the application.
-      body: ${{ issue.__custom_template__.body_fix_setup }}$
+      body: ${{ issue.__temp__.body_fix_setup }}$
     - id: test_api_feat
       id_labels:
         - [ type, feat ]
         - [ scope, test ]
         - [ component, api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_test_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_api }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_test_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_api }}$
     - id: test_cli_feat
       id_labels:
         - [ type, feat ]
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_test_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_cli }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_test_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_cli }}$
     - id: test_gui_feat
       id_labels:
         - [ type, feat ]
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_feat }}$
-      description: ${{ issue.__custom_template__.description_feat }}$
-      __custom__: ${{ issue.__custom__.custom_test_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_feat }}$
-      body: ${{ issue.__custom_template__.body_feat_gui }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_feat }}$
+      description: ${{ issue.__temp__.description_feat }}$
+      __data__: ${{ issue.__data__.custom_test_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_feat }}$
+      body: ${{ issue.__temp__.body_feat_gui }}$
     - id: test_api_change
       id_labels:
         - [ type, change ]
         - [ scope, test ]
         - [ component, api ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_python_api_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_api }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_test_api }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_api }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_api }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_test_api }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_api }}$
     - id: test_cli_change
       id_labels:
         - [ type, change ]
         - [ scope, test ]
         - [ component, cli ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_cli_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_cli }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_test_cli }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_cli }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_cli }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_test_cli }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_cli }}$
     - id: test_gui_change
       id_labels:
         - [ type, change ]
         - [ scope, test ]
         - [ component, gui ]
       labels:
-        - '*{{ issue.__custom_template__.labels }}*'
+        - '*{{ issue.__temp__.labels }}*'
       active: '#{{ return bool(get("project.test_gui_names")) }}#'
-      name: ${{ issue.__custom__.title_test }}$${{ issue.__custom__.title_gui }}$${{ issue.__custom__.title_breaking }}$
-      description: ${{ issue.__custom_template__.description_break }}$
-      __custom__: ${{ issue.__custom__.custom_test_gui }}$
-      __custom_template__:
-        purpose: ${{ issue.__custom_template__.purpose_break }}$
-      body: ${{ issue.__custom_template__.body_change_gui }}$
+      name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_gui }}$${{ issue.__data__.title_breaking }}$
+      description: ${{ issue.__temp__.description_break }}$
+      __data__: ${{ issue.__data__.custom_test_gui }}$
+      __temp__:
+        purpose: ${{ issue.__temp__.purpose_break }}$
+      body: ${{ issue.__temp__.body_change_gui }}$
     # Refactoring
     - id: refactor
       id_labels:
         - [ type, refactor ]
       labels:
         - [ scope, repo ]
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ' ${{ __custom__.icon.refactor }}$ Refactoring Request'
+        - '*{{ issue.__temp__.labels }}*'
+      name: ' ${{ __data__.icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>code formatting and refactoring</b> in ${{ name }}$'s source files,
           i.e. a change that improves the code quality, readability, and maintainability,
           without affecting the code's runtime behavior.
-      body: ${{ issue.__custom_template__.body_refactor }}$
+      body: ${{ issue.__temp__.body_refactor }}$
     # Internal
     - id: config
       id_labels:
         - [ type, config ]
       labels:
         - [ scope, repo ]
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ' ${{ __custom__.icon.config }}$ Configuration Request'
+        - '*{{ issue.__temp__.labels }}*'
+      name: ' ${{ __data__.icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>reconfiguration</b> in ${{ name }}$'s metadata and settings,
           such as project information and other options that do not fall under
           other issue categories.
-      body: ${{ issue.__custom_template__.body_config }}$
+      body: ${{ issue.__temp__.body_config }}$
     - id: ci
       id_labels:
         - [ type, ci ]
       labels:
         - [ scope, repo ]
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ' ${{ __custom__.icon.ci }}$ DevOps Request'
+        - '*{{ issue.__temp__.labels }}*'
+      name: ' ${{ __data__.icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>change in ${{ name }}$'s automated workflows and development environment</b>,
           such as CI/CD pipelines, testing, and deployment configurations.
-      body: ${{ issue.__custom_template__.body_config }}$
+      body: ${{ issue.__temp__.body_config }}$
     - id: chore
       id_labels:
         - [ type, chore ]
       labels:
         - [ scope, repo ]
-        - '*{{ issue.__custom_template__.labels }}*'
-      name: ' ${{ __custom__.icon.chore }}$ Maintenance Request'
+        - '*{{ issue.__temp__.labels }}*'
+      name: ' ${{ __data__.icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
-      __custom_template__:
+      __temp__:
         purpose: >-
           requesting a <b>maintenance job</b> in ${{ name }}$,
           such as file cleanup and other tasks that
           do not fall under other issue categories.
-      body: ${{ issue.__custom_template__.body_maintenance }}$
+      body: ${{ issue.__temp__.body_maintenance }}$
 pull:
   protocol:
     template:
@@ -2664,11 +2664,11 @@ pull:
             args:
               message: '#{{ issue.number }}'
             link: '{{ issue.html_url }}'
-            style: ${{ __custom__.badge.style }}$
-            height: ${{ __custom__.badge.height }}$
-            label_color: ${{ __custom__.badge.color.grey }}$
-            color: ${{ __custom__.badge.color.blue }}$
-          - '{{ "&nbsp;" * ccc.__custom__.badge.separator }}'
+            style: ${{ __data__.badge.style }}$
+            height: ${{ __data__.badge.height }}$
+            label_color: ${{ __data__.badge.color.grey }}$
+            color: ${{ __data__.badge.color.blue }}$
+          - '{{ "&nbsp;" * ccc.__data__.badge.separator }}'
           - |
             {%- for label in form.id_labels + form.labels -%}
             {{
@@ -2676,12 +2676,12 @@ pull:
                 service="static",
                 label=label.prefix,
                 args={"message": label.suffix if label.prefix else label.name},
-                style=ccc.__custom__.badge.style,
+                style=ccc.__data__.badge.style,
                 color=label.color,
-                label_color=ccc.__custom__.badge.color.grey,
-                height=ccc.__custom__.badge.height,
+                label_color=ccc.__data__.badge.color.grey,
+                height=ccc.__data__.badge.height,
               ).source()
-            }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+            }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
             {%- endfor -%}
             {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
             {{
@@ -2689,20 +2689,20 @@ pull:
                 service="static",
                 label=labels["version"][0].prefix,
                 args={"message": versions},
-                style=ccc.__custom__.badge.style,
+                style=ccc.__data__.badge.style,
                 color=labels["version"][0].color,
-                label_color=ccc.__custom__.badge.color.grey,
-                height=ccc.__custom__.badge.height,
+                label_color=ccc.__data__.badge.color.grey,
+                height=ccc.__data__.badge.height,
               ).source()
             }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
-              separator: ${{ __custom__.badge.separator }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              label_color: ${{ __data__.badge.color.grey }}$
+              separator: ${{ __data__.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2714,7 +2714,7 @@ pull:
                   args:
                     message: '{{ pull_request.state }}'
                   color: >-
-                    {{ ccc.__custom__.badge.color.green if pull_request.state == "open" else ccc.__custom__.badge.color.red }}
+                    {{ ccc.__data__.badge.color.green if pull_request.state == "open" else ccc.__data__.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2753,13 +2753,13 @@ pull:
                     service="static",
                     label="Website Preview",
                     args={"message": "Read The Docs"},
-                    style=ccc.__custom__.badge.style,
-                    color=ccc.__custom__.badge.color.blue,
-                    label_color=ccc.__custom__.badge.color.grey,
-                    height=ccc.__custom__.badge.height,
+                    style=ccc.__data__.badge.style,
+                    color=ccc.__data__.badge.color.blue,
+                    label_color=ccc.__data__.badge.color.grey,
+                    height=ccc.__data__.badge.height,
                     link=url,
                   ).source()
-                }}{{ "&nbsp;" * ccc.__custom__.badge.separator }}
+                }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
                 {%- endif -%}
               # ReadTheDocs website preview badge
               # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html

@@ -1,4 +1,4 @@
-__custom__:
+__data__:
   name_ipa: "[ˈpaɪˌpækɪt]"
   dir_name:
     licenses: LICENSES
@@ -35,11 +35,11 @@ __custom__:
     body:
       - class: badges
         service: static
-        style: ${{ __custom__.badge.style }}$
-        height: ${{ __custom__.badge.height }}$
-        color: ${{ __custom__.badge.color.blue }}$
-        label_color: ${{ __custom__.badge.color.grey }}$
-        separator: ${{ __custom__.badge.separator }}$
+        style: ${{ __data__.badge.style }}$
+        height: ${{ __data__.badge.height }}$
+        color: ${{ __data__.badge.color.blue }}$
+        label_color: ${{ __data__.badge.color.grey }}$
+        separator: ${{ __data__.badge.separator }}$
         items:
           - label: ${{ pkg.name }}$
             args:
@@ -60,7 +60,7 @@ __custom__:
                   "patch": "fix",
                   "post": "post"
                 }[release_type]
-                icon = get(f"__custom__.icon.{icon_type}")
+                icon = get(f"__data__.icon.{icon_type}")
                 return f"{icon} Release Type"
               }}#
             args:
@@ -75,7 +75,7 @@ __custom__:
                   "patch": "green",
                   "post": "blue"
                 }[release_type]
-                return get(f"__custom__.badge.color.{color_name}")
+                return get(f"__data__.badge.color.{color_name}")
               }}#
           - label: 🗓 Release Date
             args:
@@ -216,11 +216,11 @@ __custom__:
             badges = {
               "class": "badges",
               "service": "static",
-              "style": get("__custom__.badge.style"),
-              "height": get("__custom__.badge.height"),
-              "color": get("__custom__.badge.color.blue"),
-              "label_color": get("__custom__.badge.color.grey"),
-              "separator": get("__custom__.badge.separator"),
+              "style": get("__data__.badge.style"),
+              "height": get("__data__.badge.height"),
+              "color": get("__data__.badge.color.blue"),
+              "label_color": get("__data__.badge.color.grey"),
+              "separator": get("__data__.badge.separator"),
               "items": badge_items
             }
             section = {
@@ -234,15 +234,15 @@ __custom__:
         body:
           - - class: button
               text: "⚙️ Operating System"
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.grey }}$
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               separator: 1
               items:
                 - |
@@ -250,8 +250,8 @@ __custom__:
                     #{{
                       badges = []
                       oss = get("pkg.os")
-                      color_green = get("__custom__.badge.color.green")
-                      color_red = get("__custom__.badge.color.red")
+                      color_green = get("__data__.badge.color.green")
+                      color_red = get("__data__.badge.color.red")
                       for os_name, os_id, logo, logo_color in (
                         ("Linux", "linux", f"{get("web.path.source")}/_media/logo_ext/linux.png", None),
                         ("macOS", "macos", "apple", "#000000"),
@@ -280,20 +280,20 @@ __custom__:
               service: static
               args:
                 message: "Python"
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.grey }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.grey }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
               logo_type: file
               logo_media_type: svg+xml
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __custom__.badge.style }}$
-              height: ${{ __custom__.badge.height }}$
-              color: ${{ __custom__.badge.color.blue }}$
-              label_color: ${{ __custom__.badge.color.grey }}$
+              style: ${{ __data__.badge.style }}$
+              height: ${{ __data__.badge.height }}$
+              color: ${{ __data__.badge.color.blue }}$
+              label_color: ${{ __data__.badge.color.grey }}$
               separator: 1
               items:
                 - label: Versions
@@ -307,17 +307,17 @@ __custom__:
                   color: >-
                     #{{
                       if get("pkg.python.pure"):
-                        return get("__custom__.badge.color.green")
-                      return get("__custom__.badge.color.blue")
+                        return get("__data__.badge.color.green")
+                      return get("__data__.badge.color.blue")
                     }}#
           - |
             #{{
               deps = list(get("pkg.dependency.core", {}).values())
-              style = get("__custom__.badge.style")
-              height = get("__custom__.badge.height")
-              green = get("__custom__.badge.color.green")
-              blue = get("__custom__.badge.color.blue")
-              grey = get("__custom__.badge.color.grey")
+              style = get("__data__.badge.style")
+              height = get("__data__.badge.height")
+              green = get("__data__.badge.color.green")
+              blue = get("__data__.badge.color.blue")
+              grey = get("__data__.badge.color.grey")
               label = "📦 Dependencies"
               if not deps:
                 badge = {
@@ -366,10 +366,10 @@ __custom__:
             *{{
               #{{
                 interfaces = get("pkg.entry")
-                style = get("__custom__.badge.style")
-                height = get("__custom__.badge.height")
-                blue = get("__custom__.badge.color.blue")
-                grey = get("__custom__.badge.color.grey")
+                style = get("__data__.badge.style")
+                height = get("__data__.badge.height")
+                blue = get("__data__.badge.color.blue")
+                grey = get("__data__.badge.color.grey")
 
                 config = {
                   "python": {
@@ -384,7 +384,7 @@ __custom__:
                     "logo_color": "#4EAA25",
                   },
                   "gui": {
-                    "text": f"{get("__custom__.icon.gui")} GUI"
+                    "text": f"{get("__data__.icon.gui")} GUI"
                   },
                 }
                 item_color = {
@@ -431,139 +431,3 @@ __custom__:
                 return out
               }}#
             }}*
-__custom_template__:
-  pyproject-build:
-    backend: setuptools.build_meta
-    tool:
-      setuptools:
-        packages:
-          find:
-            where: [ '${{ .path.source_rel }}$' ]
-            namespaces: true
-        include-package-data: true
-        license-files: [ '${{ __custom__.dir_name.licenses }}$/*', '${{ __custom__.dir_name.copyrights }}$/*' ]
-        cmdclass:
-          build_py: versioningit.cmdclass.build_py
-          sdist: versioningit.cmdclass.sdist
-      versioningit:
-        vcs:
-          method: git
-          match: [ '${{ tag.version.prefix }}$[0-9]*.[0-9]*.[0-9]*' ]
-          default-tag: ${{ tag.version.prefix }}$0.0.0
-        tag2version:
-          rmprefix: ${{ tag.version.prefix }}$
-        format:
-          distance: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}'
-          dirty: '{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty'
-          distance-dirty: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty'
-        onbuild:
-          method: replace-version
-          regex: '^__version_details__: dict\[str, str\] = (?P<version>.*)'
-          require-match: true
-          source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
-          build-file: '${{ .import_name }}$/__init__.py'
-          replacement: >-
-            {{
-            "version": "{version}",
-            "build_date": "{build_date:%Y.%m.%d}",
-            "committer_date": "{committer_date:%Y.%m.%d}",
-            "author_date": "{author_date:%Y.%m.%d}",
-            "branch": "{branch}",
-            "distance": "{distance}",
-            "commit_hash": "{revision}"
-            }}
-  conda-recipe:
-    path:
-      local: ${{ ..path.root }}$/conda-recipe/local
-      global: ${{ ..path.root }}$/conda-recipe/global
-    meta:
-      values:
-        build:
-          values:
-            script:
-              - value: '{{ PYTHON }} -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv'
-        requirements:
-          values:
-            host:
-              values:
-                  - value: python ${{ pkg.python.version.spec }}$
-                  - value: pip
-                  - '*{{ #{{ return hook.conda_req("host") }}# }}*'
-            run:
-              values:
-                - value: python ${{ pkg.python.version.spec }}$
-                - '*{{ #{{ return hook.conda_req("run") }}# }}*'
-            run_constrained:
-              values:
-                - '*{{ #{{ return hook.conda_req("run_constrained") }}# }}*'
-        test:
-          values:
-            imports:
-              values:
-                - |
-                  *{{
-                    #{{
-                      out = []
-                      for entry in get("..entry.python", {}).values():
-                        conda = entry["conda"]
-                        if not conda:
-                          continue
-                        entry = {"value": entry["name"]}
-                        if conda is not True:
-                          entry["selector"] = conda
-                        out.append(entry)
-                      return out
-                    }}#
-                  }}*
-            requires:
-              values:
-                - value: pip
-            commands:
-              values:
-                - value: pip check
-                - |
-                  *{{
-                    #{{
-                      out = []
-                      for key in ("cli", "gui"):
-                        for entry in get(f"..entry.{key}", {}).values():
-                          conda = entry["conda"]
-                          if not conda:
-                            continue
-                          entry = {"value": f"{entry["name"]} --help"}
-                          if conda is not True:
-                            entry["selector"] = conda
-                          out.append(entry)
-                      return out
-                    }}#
-                  }}*
-        about:
-          home: ${{ web.url.home }}$
-          license: ${{ license.expression }}$
-          license_file:
-            - '{{ pkg_dir }}${{ __custom__.dir_name.licenses }}$/'
-            - |
-              *{{
-                #{{
-                  if not any(
-                    component["path"].get("header_plain")
-                    for component in get("license.component", {}).values()
-                  ):
-                    return []
-                  return [f'{{{{ pkg_dir }}}}{get("__custom__.dir_name.copyrights")}/']
-                }}#
-              }}*
-          summary: ${{ title }}$
-          dev_url: ${{ repo.url.home }}$
-          doc_url: ${{ web.url.home }}$
-          doc_source_url: ${{ document.readme.output.pkg.url }}$
-        extra:
-          recipe-maintainers: |
-            #{{
-                return [
-                  member["github"]["id"] for member in team_members_with_role_types(
-                    "ProjectManager",
-                    active_only=True,
-                  )
-                ]
-            }}#

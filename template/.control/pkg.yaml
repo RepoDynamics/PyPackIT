@@ -80,7 +80,7 @@ pkg:
     - graft ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/data
     - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build: ${{ __custom_template__.pyproject-build }}$
+  build: ${{ __temp__.pyproject-build }}$
   authors: ${{ citation.cff.authors }}$
   conda:
-    recipe: ${{ __custom_template__.conda-recipe }}$
+    recipe: ${{ __temp__.conda-recipe }}$

@@ -57,27 +57,27 @@ document:
             label: Keywords
             args:
               message: ${{ keywords[0] }}$
-            style: ${{ __custom__.badge.style }}$
-            height: ${{ __custom__.badge.height }}$
-            color: ${{ __custom__.badge.color.blue }}$
-            label_color: ${{ __custom__.badge.color.grey }}$
+            style: ${{ __data__.badge.style }}$
+            height: ${{ __data__.badge.height }}$
+            color: ${{ __data__.badge.color.blue }}$
+            label_color: ${{ __data__.badge.color.grey }}$
           - '&nbsp;'
           - class: buttons
             items: ${{ keywords[1:] }}$
-            style: ${{ __custom__.badge.style }}$
-            height: ${{ __custom__.badge.height }}$
-            color: ${{ __custom__.badge.color.blue }}$
+            style: ${{ __data__.badge.style }}$
+            height: ${{ __data__.badge.height }}$
+            color: ${{ __data__.badge.color.blue }}$
         - class: paragraph
           content: ${{ abstract }}$
           attrs:
             align: justify
         - class: badges
           service: static
-          style: ${{ __custom__.badge.style }}$
-          height: ${{ __custom__.badge.height }}$
-          color: ${{ __custom__.badge.color.blue }}$
-          label_color: ${{ __custom__.badge.color.grey }}$
-          separator: ${{ __custom__.badge.separator }}$
+          style: ${{ __data__.badge.style }}$
+          height: ${{ __data__.badge.height }}$
+          color: ${{ __data__.badge.color.blue }}$
+          label_color: ${{ __data__.badge.color.grey }}$
+          separator: ${{ __data__.badge.separator }}$
           items:
             - |
               *{{
@@ -152,7 +152,7 @@ document:
                 repo: ${{ repo.name }}$
                 ref: ${{ repo.default_branch }}$
               color: "#579ACA"
-              label_color: ${{ __custom__.badge.color.grey }}$
+              label_color: ${{ __data__.badge.color.grey }}$
       sections:
         - heading: Highlights
           body:
@@ -172,18 +172,18 @@ document:
                 return "Upcoming Release"
               return "Latest Release"
             }}#
-          body: ${{ __custom__.changelog.body }}$
-          sections: ${{ __custom__.changelog.sections }}$
+          body: ${{ __data__.changelog.body }}$
+          sections: ${{ __data__.changelog.sections }}$
         - heading: Statistics
           body:
             - class: table
               rows:
                 - - <b>Project</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      color: ${{ __data__.badge.color.blue }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: github
                       args:
                         user: ${{ repo.owner }}$
@@ -206,9 +206,9 @@ document:
                 - - <b>Health</b>
                   - - class: badges
                       service: github
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      separator: ${{ __data__.badge.separator }}$
                       args:
                         user: ${{ repo.owner }}$
                         repo: ${{ repo.name }}$
@@ -245,9 +245,9 @@ document:
                 - - <b>Standards</b>
                   - - class: badges
                       service: static
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      separator: ${{ __data__.badge.separator }}$
                       items:
                         - label: Testing
                           args:
@@ -296,9 +296,9 @@ document:
                               return []
                             badges = {
                               "class": "badges",
-                              "style": get("__custom__.badge.style"),
-                              "height": get("__custom__.badge.height"),
-                              "color": get("__custom__.badge.color.blue"),
+                              "style": get("__data__.badge.style"),
+                              "height": get("__data__.badge.height"),
+                              "color": get("__data__.badge.color.blue"),
                               "separator": 1,
                               "service": "pypi",
                               "endpoint": "downloads",
@@ -316,7 +316,7 @@ document:
                                 },
                               ] + [{"args": {"period": period}} for period in ("m", "w", "d")]
                             }
-                            return [badges, "&nbsp;" * get("__custom__.badge.separator")]
+                            return [badges, "&nbsp;" * get("__data__.badge.separator")]
                           }}#
                         }}*
                       - |
@@ -327,9 +327,9 @@ document:
                               return []
                             badge = {
                               "class": "badge",
-                              "style": get("__custom__.badge.style"),
-                              "height": get("__custom__.badge.height"),
-                              "color": get("__custom__.badge.color.blue"),
+                              "style": get("__data__.badge.style"),
+                              "height": get("__data__.badge.height"),
+                              "color": get("__data__.badge.color.blue"),
                               "service": "conda",
                               "endpoint": "downloads",
                               "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pkg.name").lower()},
@@ -337,13 +337,13 @@ document:
                               "logo": "anaconda",
                               "logo_color": "#44A833",
                             }
-                            return [badge, "&nbsp;" * get("__custom__.badge.separator")]
+                            return [badge, "&nbsp;" * get("__data__.badge.separator")]
                           }}#
                         }}*
                       - class: badge
-                        style: ${{ __custom__.badge.style }}$
-                        height: ${{ __custom__.badge.height }}$
-                        color: ${{ __custom__.badge.color.blue }}$
+                        style: ${{ __data__.badge.style }}$
+                        height: ${{ __data__.badge.height }}$
+                        color: ${{ __data__.badge.color.blue }}$
                         service: github
                         endpoint: downloads_all_releases
                         label: GitHub
@@ -352,10 +352,10 @@ document:
                           repo: ${{ repo.name }}$
                 - - <b>Users</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      color: ${{ __data__.badge.color.blue }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: librariesio
                       args:
                         platform: pypi
@@ -374,18 +374,18 @@ document:
                       label_data = [("Total", None)] + [
                         (badge_label, get(f"label.type.label.{label_type}.name"))
                         for badge_label, label_type in (
-                          (f"{get(f"__custom__.icon.fix")} Bug Fixes", "fix"),
-                          (f"{get(f"__custom__.icon.feat")} New Features", "feat"),
-                          (f"{get(f"__custom__.icon.change")} Breaking Changes", "change"),
+                          (f"{get(f"__data__.icon.fix")} Bug Fixes", "fix"),
+                          (f"{get(f"__data__.icon.feat")} New Features", "feat"),
+                          (f"{get(f"__data__.icon.change")} Breaking Changes", "change"),
                         )
                       ]
                       repo_owner = get("repo.owner")
                       repo_name = get("repo.name")
-                      color_open = get("__custom__.badge.color.red")
-                      color_closed = get("__custom__.badge.color.green")
-                      style = get("__custom__.badge.style")
-                      height = get("__custom__.badge.height")
-                      separator = get("__custom__.badge.separator")
+                      color_open = get("__data__.badge.color.red")
+                      color_closed = get("__data__.badge.color.green")
+                      style = get("__data__.badge.style")
+                      height = get("__data__.badge.height")
+                      separator = get("__data__.badge.separator")
                       for title, issue_kind in (
                         ("Issues", "issues"),
                         ("PRs", "pulls"),
@@ -412,10 +412,10 @@ document:
                   }}*
                 - - <b>Commits</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      color: ${{ __data__.badge.color.blue }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: github
                       endpoint: commit_activity
                       args:
@@ -443,10 +443,10 @@ document:
                           label: Last
                 - - <b>Discussions</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      color: ${{ __data__.badge.color.blue }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: github
                       endpoint: discussion_search_hits
                       args:
@@ -467,10 +467,10 @@ document:
                           }}*
                 - - <b>Community</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      color: ${{ __custom__.badge.color.blue }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      color: ${{ __data__.badge.color.blue }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: github
                       args:
                         user: ${{ repo.owner }}$
@@ -482,9 +482,9 @@ document:
                         - endpoint: watchers
                 - - <b>DevOps</b>
                   - - class: badges
-                      style: ${{ __custom__.badge.style }}$
-                      height: ${{ __custom__.badge.height }}$
-                      separator: ${{ __custom__.badge.separator }}$
+                      style: ${{ __data__.badge.style }}$
+                      height: ${{ __data__.badge.height }}$
+                      separator: ${{ __data__.badge.separator }}$
                       service: github
                       args:
                         user: ${{ repo.owner }}$
@@ -1346,19 +1346,19 @@ web:
           channel: conda-forge
   file:
     icon:
-      rel_path: ${{ __custom__.logo_dir_path }}$/favicon.svg
+      rel_path: ${{ __data__.logo_dir_path }}$/favicon.svg
     logo_simple_light:
-      rel_path: ${{ __custom__.logo_dir_path }}$/simple_light.svg
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.svg
     logo_simple_dark:
-      rel_path: ${{ __custom__.logo_dir_path }}$/simple_dark.svg
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_dark.svg
     logo_simple_raster:
-      rel_path: ${{ __custom__.logo_dir_path }}$/simple_light.png
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.png
     logo_full_light:
-      rel_path: ${{ __custom__.logo_dir_path }}$/full_light.svg
+      rel_path: ${{ __data__.logo_dir_path }}$/full_light.svg
     logo_full_dark:
-      rel_path: ${{ __custom__.logo_dir_path }}$/full_dark.svg
+      rel_path: ${{ __data__.logo_dir_path }}$/full_dark.svg
     logo_full_raster:
-      rel_path: ${{ __custom__.logo_dir_path }}$/full_light.png
+      rel_path: ${{ __data__.logo_dir_path }}$/full_light.png
   page: '#{{ return hook.web_page() }}#'
   quicklinks:
     - links:

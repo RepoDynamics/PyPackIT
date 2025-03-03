@@ -11,7 +11,7 @@ title: Cloud-Native Continuous Software Engineering Automation for Python Packag
   # - Automated research software development with Python packages on GitHub
   # - A fully automated scientific software project management solution/system for Python packages on GitHub
 abstract: >-
-  ${{ name }}$ ${{ __custom__.name_ipa }}$
+  ${{ name }}$ ${{ __data__.name_ipa }}$
   is a comprehensive <strong>cloud-based automation tool</strong>
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional applications on <strong>GitHub</strong>,

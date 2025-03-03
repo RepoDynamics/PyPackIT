@@ -67,8 +67,8 @@ file:
           ]
         }}#
       destinations:
-        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.licenses }}$
-        - ${{ test.path.root }}$/${{ __custom__.dir_name.licenses }}$
+        - ${{ pkg.path.root }}$/${{ __data__.dir_name.licenses }}$
+        - ${{ test.path.root }}$/${{ __data__.dir_name.licenses }}$
     copyright_texts:
       sources: |
         #{{
@@ -79,8 +79,8 @@ file:
           ]
         }}#
       destinations:
-        - ${{ pkg.path.root }}$/${{ __custom__.dir_name.copyrights }}$
-        - ${{ test.path.root }}$/${{ __custom__.dir_name.copyrights }}$
+        - ${{ pkg.path.root }}$/${{ __data__.dir_name.copyrights }}$
+        - ${{ test.path.root }}$/${{ __data__.dir_name.copyrights }}$
 file_gitattributes:
   name: .gitattributes
   summary: Main [`.gitattributes`](https://git-scm.com/docs/gitattributes) file for the repository.

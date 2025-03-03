@@ -124,6 +124,6 @@ test:
     - graft ${{ test.path.source_rel }}$/${{ test.import_name }}$/data
     - include ${{ test.path.source_rel }}$/${{ test.import_name }}$/py.typed
     - global-exclude *.py[cod] __pycache__ *.so
-  build: ${{ __custom_template__.pyproject-build }}$
+  build: ${{ __temp__.pyproject-build }}$
   conda:
-    recipe: ${{ __custom_template__.conda-recipe }}$
+    recipe: ${{ __temp__.conda-recipe }}$

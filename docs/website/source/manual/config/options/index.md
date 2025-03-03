@@ -113,17 +113,17 @@ a predefined schema.
 
 To enable custom user-defined configurations,
 |{{ ccc.name }}| allows two special keys
-that accept arbitrary values: `__custom__` and `__custom_template__`.
+that accept arbitrary values: `__data__` and `__temp__`.
 These keys can be added under any mapping in the control center configurations,
 except those that already accept additional properties.
-For example, you can define a top-level custom key at `$.__custom__`
+For example, you can define a top-level custom key at `$.__data__`
 and add all your custom configurations under it:
 
 
 :::{code-block} yaml
-:caption: Defining custom configurations at `$.__custom__`
+:caption: Defining custom configurations at `$.__data__`
 
-__custom__:
+__data__:
   my_custom_sequence:
     - 1
     - 2
@@ -135,12 +135,12 @@ __custom__:
 :::
 
 
-There two differences between `__custom__` and `__custom_template__` keys
+There two differences between `__data__` and `__temp__` keys
 (see [templating](#manual-cc-templating) for more details):
 
-1. Relative paths in templates defined under `__custom_template__`
+1. Relative paths in templates defined under `__temp__`
    are resolved against the path where that template is referenced, not where it is defined.
-2. `__custom_template__` key-value pairs are not included in the [output metadata file](#manual-cc-outputs).
+2. `__temp__` key-value pairs are not included in the [output metadata file](#manual-cc-outputs).
 
-In other words, `__custom_template__` is only meant for intermediate configurations
+In other words, `__temp__` is only meant for intermediate configurations
 that are used to generate other settings during synchronization events.

@@ -49,7 +49,7 @@ def create_citation():
 def create_license_data():
     """Create data for each license component."""
     container = mdit.block_container()
-    badge_data = metadata["__custom__"]["badge"]
+    badge_data = metadata["__data__"]["badge"]
     green = badge_data["color"]["green"]
     red = badge_data["color"]["red"]
     for license_id, component in metadata.get("license", {}).get("component").items():

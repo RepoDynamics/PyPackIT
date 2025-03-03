@@ -543,8 +543,8 @@ workflow:
         url: ${{ repo.url.deployments.home }}$
       release:
         body:
-          body: ${{ __custom__.changelog.body }}$
-          sections: ${{ __custom__.changelog.sections }}$
+          body: ${{ __data__.changelog.body }}$
+          sections: ${{ __data__.changelog.sections }}$
       asset:
         sdist:
           name: >-

@@ -7,8 +7,8 @@ copy_app_license:
       ]
     }}#
   destinations:
-    - ${{ pkg.path.root }}$/${{ __custom__.dir_name.licenses }}$
-    - ${{ test.path.root }}$/${{ __custom__.dir_name.licenses }}$
+    - ${{ pkg.path.root }}$/${{ __data__.dir_name.licenses }}$
+    - ${{ test.path.root }}$/${{ __data__.dir_name.licenses }}$
 copy_app_copyright:
   sources: |
     #{{
@@ -19,5 +19,5 @@ copy_app_copyright:
       ]
     }}#
   destinations:
-    - ${{ pkg.path.root }}$/${{ __custom__.dir_name.copyrights }}$
-    - ${{ test.path.root }}$/${{ __custom__.dir_name.copyrights }}$
+    - ${{ pkg.path.root }}$/${{ __data__.dir_name.copyrights }}$
+    - ${{ test.path.root }}$/${{ __data__.dir_name.copyrights }}$
