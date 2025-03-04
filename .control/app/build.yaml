@@ -135,8 +135,10 @@ __temp__:
         - '*{{ #{{ return hook.trove_classifiers() }}# }}*'
       urls:
         Homepage: ${{ web.url.home }}$
+        Documentation: ${{ web.page.manual.url }}$
         Source: ${{ repo.url.home }}$
         Download: ${{ repo.url.releases.home }}$
+        News: ${{ web.page.blog.url }}$
         Issue-Tracker: ${{ repo.url.issues.home }}$
       scripts: >-
         #{{ return hook.pyproject_scripts("cli") }}#
