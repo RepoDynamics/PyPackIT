@@ -81,7 +81,7 @@ pypkg_main:
       name: Package README
       summary: |
         Main README file for the package.
-      path: ${{ pypkg_main.path.root }}$/${{ pypkg_main.pyproject.readme.file }}$
+      path: ${{ pypkg_main.path.root }}$/${{ pypkg_main.pyproject.project.readme.file }}$
       content: ${{ file_readme.content }}$
       type: md
       file_setting:
@@ -523,10 +523,10 @@ __temp__:
         - '*{{ #{{ return hook.trove_classifiers() }}# }}*'
       urls:
         Homepage: ${{ web.url.home }}$
-        Documentation: ${{ web.page.manual.url }}$
+        Documentation: ${{ data_website.page.manual.url }}$
         Source: ${{ repo.url.home }}$
         Download: ${{ repo.url.releases.home }}$
-        News: ${{ web.page.blog.url }}$
+        News: ${{ data_website.page.blog.url }}$
         Issue-Tracker: ${{ repo.url.issues.home }}$
       scripts: >-
         #{{ return hook.pyproject_scripts("cli") }}#
