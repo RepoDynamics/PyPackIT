@@ -260,8 +260,8 @@ color:
     dark: rgb(69 155 36)
   heading: ${{ color.primary }}$
 zenodo:
-  license: '#{{ return get("citation.cff.license")[0] }}#'
-  keywords: ${{ citation.cff.keywords }}$
+  license: '#{{ return get("file_citation_cff.content.license")[0] }}#'
+  keywords: '#{{ return get("keywords") }}#'
   related_identifiers:
     - |
       *{{
@@ -456,3 +456,37 @@ file_funding_github:
     # See the schema or the GitHub documentation for the supported funding platforms.
     github:
       - ${{ team.owner.github.id }}$
+data_project:
+  dois: |
+    #{{
+      out = []
+      preferred = get("file_citation_cff.content.preferred_citation", {})
+      preferred_doi = preferred.get("doi")
+      name = get("name")
+      if preferred_doi:
+        description = f"{name} paper in {preferred.get("journal") or preferred.get("publisher")}"
+        out.append({"value": preferred_doi, "description": description})
+      zenodo_concept_doi = get("zenodo.concept.doi")
+      if zenodo_concept_doi:
+        description = f"{name} immutable record on Zenodo"
+        out.append({"value": zenodo_concept_doi, "description": description})
+      latest_doi = get("file_citation_cff.content.doi")
+      if latest_doi:
+        description = f"{name} latest release (v{get("file_citation_cff.content.version")})"
+        out.append({"value": latest_doi, "description": description})
+      return out
+    }}#
+  jsonschema:
+    schema:
+      properties:
+        dois:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [ value, description ]
+            properties:
+              value:
+                $ref: https://jsonschemata.repodynamics.com/id/doi
+              description:
+                $ref: https://jsonschemata.repodynamics.com/string/oneline
