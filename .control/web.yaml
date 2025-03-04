@@ -8,7 +8,7 @@ file_web_toc:
     [Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)
     extension to define the structure of the website.
   type: yaml
-  path: ${{ data_website.path.source }}/.toc.yaml
+  path: ${{ data_website.path.source }}$/.toc.yaml
   content:
     root: index
     defaults:
@@ -431,7 +431,7 @@ file_sphinx_conf:
         for pkg in get(f"devcontainer_docs.environment.website.{pkg_manager}", {}).values():
           sphinx_conf = pkg.get("data", {}).get("sphinx_config")
           if sphinx_conf:
-            ps.recursive_update(
+            ps.update.recursive_update(
               source=out,
               addon=sphinx_conf,
               undefined_existing="raise"
@@ -562,7 +562,7 @@ file_script_web_livehtml:
     sphinx-autobuild \
       ${{ data_website.path.source }}$ \
       ${{ data_website.path.build }}$ \
-      ${{ file_script_web_build.config.sphinx_build_options }}$ \
+      ${{ file_script_web_build.data.sphinx_build_options }}$ \
       -a -b=dirhtml --open-browser --delay 0
   notes: |
     References:
