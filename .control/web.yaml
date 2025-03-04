@@ -141,6 +141,7 @@ data_website:
       rel_path: ${{ __data__.logo_dir_path }}$/full_light.png
   page: '#{{ return hook.web_page() }}#'
   jsonschema:
+    fill_defaults: true
     schema:
       additionalProperties: false
       properties:
@@ -158,6 +159,9 @@ data_website:
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
             source:
               summary: Path to website source directory relative to the repository root.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            build:
+              summary: Path to website build directory relative to the repository root.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
             to_root:
               summary: Relative path from the source directory to the root of the repository.
