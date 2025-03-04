@@ -294,7 +294,7 @@ pypkg_test:
                 - pytest-html == 4.1.1
     coverage_config:
       name: Coverage Configuration
-      summary: |
+      summary: >-
         Coverage [configuration file](https://coverage.readthedocs.io/en/latest/config.html),
         which is also used by the 
         [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/config.html) plugin.
