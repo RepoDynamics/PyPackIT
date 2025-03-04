@@ -1,0 +1,3 @@
+name: presentation
+dependencies:
+  - conda-forge::jupyterlab-myst

@@ -1,0 +1,5 @@
+name: type_check
+dependencies:
+  - pip
+  - pip:
+      - mypy [reports] ==1.15.0

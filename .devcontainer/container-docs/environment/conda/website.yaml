@@ -1,0 +1,34 @@
+name: website
+dependencies:
+  - conda-forge::sphinx ==8.1.3
+  - conda-forge::pydata-sphinx-theme ==0.16.1
+  - conda-forge::myst-nb ==1.2.0
+  - conda-forge::sphinx-design ==0.6.1
+  - conda-forge::sphinx-external-toc ==1.0.1
+  - conda-forge::ablog ==0.11.12
+  - conda-forge::sphinx-copybutton ==0.5.2
+  - conda-forge::sphinxext-opengraph ==0.9.1
+  - conda-forge::sphinxcontrib-bibtex ==2.6.3
+  - conda-forge::sphinx-togglebutton ==0.3.2
+  - conda-forge::sphinxcontrib-mermaid ==1.0.0
+  - conda-forge::sphinx-thebe ==0.3.1
+  - conda-forge::myst-parser ==4.0.0
+  - conda-forge::linkify-it-py ==2.0.3
+  - conda-forge::librsvg ==2.58.4
+  - conda-forge::libffi ==3.4.4
+  - conda-forge::cairo ==1.18.2
+  - conda-forge::intersphinx-registry
+  - pip
+  - pip:
+      - controlman
+      - gittidy
+      - jsonschema-autodoc
+      - mdit
+      - pkgdata
+      - pygments-git ==1.8.0
+      - sphinx-autobuild ==2024.10.03
+      - sphinx-last-updated-by-git ==0.3.8
+      - sphinx-notfound-page ==1.0.4
+      - sphinx-tippy ==0.4.3
+      - sphinxcontrib-svg2pdfconverter [CairoSVG] ==1.2.3
+      - versionman

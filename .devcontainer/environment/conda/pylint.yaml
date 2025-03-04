@@ -1,0 +1,5 @@
+name: pylint
+dependencies:
+  - conda-forge::pylint ==3.3.4
+  - conda-forge::pyenchant ==3.2.2
+  - conda-forge::enchant ==2.8.2
