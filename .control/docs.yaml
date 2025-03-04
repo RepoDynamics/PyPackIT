@@ -21,8 +21,8 @@ file_readme:
   content:
     body:
       - class: block_image
-        src: ${{ web.file.logo_full_light.url }}$
-        src_dark: ${{ web.file.logo_full_dark.url }}$
+        src: ${{ data_website.file.logo_full_light.url }}$
+        src_dark: ${{ data_website.file.logo_full_dark.url }}$
         title: Welcome to ${{ name }}$! Click to visit our website and learn more.
         alt: '${{ name }}$: ${{ title }}$'
         align: center
@@ -31,22 +31,22 @@ file_readme:
       - class: menu
         items:
           - text: Intro
-            link: ${{ web.page.intro.url }}$
+            link: ${{ data_website.page.intro.url }}$
             title: Introduction and Background
           - text: Manual
-            link: ${{ web.page.manual.url }}$
+            link: ${{ data_website.page.manual.url }}$
             title: User Manual
           - text: News
-            link: ${{ web.page.blog.url }}$
+            link: ${{ data_website.page.blog.url }}$
             title: Latest News and Releases
           - text: Contribute
-            link: ${{ web.page.contribute.url }}$
+            link: ${{ data_website.page.contribute.url }}$
             title: How to Contribute
           - text: About
-            link: ${{ web.page.about.url }}$
+            link: ${{ data_website.page.about.url }}$
             title: About the Project
           - text: Help
-            link: ${{ web.page.help.url }}$
+            link: ${{ data_website.page.help.url }}$
             title: Get Help and Support
         line_top_width: 100%
         line_bottom_width: 100%
@@ -200,7 +200,7 @@ file_readme:
                       - endpoint: language_count
                         label: 🔠 Programming Languages
                       - endpoint: top_language
-                        logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
+                        logo: ${{ data_website.path.source }}$/_media/logo_ext/python.svg
                         logo_type: file
                         logo_media_type: svg+xml
                       - endpoint: repo_size
@@ -265,7 +265,7 @@ file_readme:
                         args:
                           message: mypy
                         color: "#2A6DB2"
-                        logo: ${{ web.path.source }}$/_media/logo_ext/mypy.svg
+                        logo: ${{ data_website.path.source }}$/_media/logo_ext/mypy.svg
                         logo_type: file
                         logo_media_type: svg+xml
                         link: https://github.com/python/mypy
@@ -288,7 +288,7 @@ file_readme:
                         args:
                           message: Black
                         color: "#000"
-                        logo: ${{ web.path.source }}$/_media/logo_ext/black.png
+                        logo: ${{ data_website.path.source }}$/_media/logo_ext/black.png
                         logo_type: file
                         logo_media_type: png
                         link: https://github.com/psf/black
@@ -577,10 +577,10 @@ file_readme:
               query: '$.copyright'
             label: ${{ name }}$
             color: ${{ color.primary.light }}$
-            logo: ${{ web.file.icon.path }}$
+            logo: ${{ data_website.file.icon.path }}$
             logo_type: file
             color_dark: ${{ color.primary.dark }}$
-            logo_dark: ${{ web.file.icon.path }}$
+            logo_dark: ${{ data_website.file.icon.path }}$
             logo_type_dark: file
             link: ${{ team.owner.github.url }}$
             title: '${{ name }}$: Copyright ${{ copyright }}$'
@@ -593,7 +593,7 @@ file_readme:
             color: "#4398CC"
             logo: spdx
             logo_color: "#4398CC"
-            link: ${{ web.page.license.url }}$
+            link: ${{ data_website.page.license.url }}$
             title: 'SPDX-License-Identifier: ${{ license.expression }}$'
             alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
             align: right
@@ -678,8 +678,8 @@ file_contributing:
               align: justify
             content: |
               To keep all our project documentation organized and easy to find, the complete
-              <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
-    footer: ${{ document.readme.content.footer }}$
+              <a href="${{ data_website.page.contribute.url }}$">contribution guide</a> is hosted on our website.
+    footer: ${{ file_readme.content.footer }}$
 file_governance:
   name: Governance
   type: md
@@ -723,7 +723,7 @@ file_security:
       - .github/SECURITY.md
   content:
     heading: Security Policy
-    footer: ${{ document.readme.content.footer }}$
+    footer: ${{ file_readme.content.footer }}$
 file_support:
   name: Support Resources
   type: md

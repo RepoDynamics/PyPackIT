@@ -475,7 +475,7 @@ devcontainer_main:
               per-file-ignores:
                 '${{ pypkg_test.path.source }}$/**':
                   - S101
-                '${{ web.path.source }}$/conf.py':
+                '${{ data_website.path.source }}$/conf.py':
                   - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
                 # https://docs.astral.sh/ruff/rules/#flake8-print-t20
                 '${{ pypkg_main.path.import }}$/__main__.py':
@@ -611,7 +611,7 @@ file_pixi_manifest:
             return
           return license_components[0]["path"]["text_plain"]
         }}#
-      readme: '#{{ return get("document.readme.output.repo.path") }}#'
+      readme: '#{{ return get("file_readme.path") }}#'
       homepage: '#{{ return get("web.url.home") }}#'
       repository: ${{ repo.url.home }}$
       documentation: ${{ .homepage }}$

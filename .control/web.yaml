@@ -8,7 +8,7 @@ file_web_toc:
     [Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)
     extension to define the structure of the website.
   type: yaml
-  path: ${{ web.path.source }}/.toc.yaml
+  path: ${{ data_website.path.source }}/.toc.yaml
   content:
     root: index
     defaults:
@@ -123,7 +123,7 @@ data_website:
     to_root: |
       #{{ return len(get(".source").split("/")) * "../" }}#
   announcement:
-    path: ${{ web.path.root }}$/announcement.html
+    path: ${{ data_website.path.root }}$/announcement.html
   file:
     icon:
       rel_path: ${{ __data__.logo_dir_path }}$/favicon.svg
@@ -221,7 +221,7 @@ data_website:
             path:
               summary: Path to the announcement banner file.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              default: ${{ web.path.root }}$/announcement.html
+              default: ${{ data_website.path.root }}$/announcement.html
               examples:
                 - docs/announcement.html
             retention_days:
@@ -251,7 +251,7 @@ data_website:
               path:
                 summary: Absolute path to the file.
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ web.path.source }}$/${{ .rel_path }}$
+                default: ${{ data_website.path.source }}$/${{ .rel_path }}$
               url:
                 title: URL
                 summary: URL to the file.
@@ -417,7 +417,7 @@ file_sphinx_conf:
   name: Sphinx Configuration
   summary: Sphinx configuration file for the website.
   type: json
-  path: ${{ web.path.source }}$/conf.json
+  path: ${{ data_website.path.source }}$/conf.json
   content: |
     #{{
       import pyserials as ps
@@ -509,13 +509,13 @@ file_readthedocs:
           # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
           - git fetch --unshallow
     conda: # Website dependencies
-      environment: ${{ web.env.file.conda.path }}$
+      environment: ${{ devcontainer_docs.environment.website.path }}$
     python:
       install: # Install the package
         - method: pip
           path: ${{ pypkg_main.path.root }}$
     sphinx: # Build with Sphinx
-      configuration: ${{ web.path.source }}$/conf.py
+      configuration: ${{ data_website.path.source }}$/conf.py
       builder: dirhtml
       fail_on_warning: false
     formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
@@ -623,9 +623,9 @@ devcontainer_docs:
               html_title: ${{ name }}$
               html_short_title: ${{ name }}$
               html_baseurl: ${{ web.url.base }}$
-              html_favicon: ${{ web.file.icon.rel_path }}$
+              html_favicon: ${{ data_website.file.icon.rel_path }}$
               html_sidebars:
-                "${{ web.page.blog.path }}$/**":
+                "${{ data_website.page.blog.path }}$/**":
                   - ablog/postcard.html
                   - ablog/recentposts.html
                   - ablog/tagcloud.html
@@ -642,8 +642,8 @@ devcontainer_docs:
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
-                - '${{ web.file.logo_simple_light.rel_path }}$'
-                - '${{ web.file.logo_simple_dark.rel_path }}$'
+                - '${{ data_website.file.logo_simple_light.rel_path }}$'
+                - '${{ data_website.file.logo_simple_dark.rel_path }}$'
               html_css_files:
                 - https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css
               html_js_files:
@@ -655,7 +655,7 @@ devcontainer_docs:
               html_math_renderer: mathjax
               html_context:
                 # Used by the Giscus template to extract page title
-                pp_title_sep: ${{ web.sphinx.config.html_secnumber_suffix }}$
+                pp_title_sep: ${{ devcontainer_docs.environment.website.conda.sphinx.data.sphinx_config.html_secnumber_suffix }}$
               html_last_updated_fmt: '%b %d, %Y'
               numfig_format:
                 code-block: Code %s
@@ -684,7 +684,7 @@ devcontainer_docs:
               latex_theme: manual
               latex_show_urls: footnote
               latex_show_pagerefs: true
-              latex_logo: ${{ web.file.logo_full_raster.rel_path }}$
+              latex_logo: ${{ data_website.file.logo_full_raster.rel_path }}$
               python_display_short_literal_types: true
               python_maximum_signature_line_length: 80
               # ----- Builtin Extensions ------
@@ -768,10 +768,10 @@ devcontainer_docs:
                     url: ${{ repo.url.discussions.home }}$
                   - name: License
                     icon: fa-solid fa-copyright
-                    url: ${{ web.page.license.url }}$
+                    url: ${{ data_website.page.license.url }}$
                 icon_links_label: External links
                 use_edit_page_button: true
-                announcement: ${{ web.announcement.url }}$
+                announcement: ${{ data_website.announcement.url }}$
                 search_bar_text: Search ${{ name }}$
                 back_to_top_button: true
                 logo:
@@ -789,7 +789,7 @@ devcontainer_docs:
                 github_user: ${{ repo.owner }}$
                 github_repo: ${{ repo.name }}$
                 github_version: ${{ repo.default_branch }}$
-                doc_path: ${{ web.path.source }}$
+                doc_path: ${{ data_website.path.source }}$
                 default_mode: auto  # Default theme mode: {'light', 'dark', 'auto'}
         # ---- Third-Party Sphinx Extensions ----
         # Resources:
@@ -870,9 +870,9 @@ devcontainer_docs:
               blog_baseurl: ${{ web.url.base }}$
               blog_default_author: owner
               blog_feed_archives: true
-              blog_path: ${{ web.page.blog.path }}$/list
+              blog_path: ${{ data_website.page.blog.path }}$/list
               blog_post_pattern:
-                - ${{ web.page.blog.path }}$/post/*.md
+                - ${{ data_website.page.blog.path }}$/post/*.md
               post_show_prev_next: false
               blog_title: ${{ name }}$ News
               fontawesome_included: true

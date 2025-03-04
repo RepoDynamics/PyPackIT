@@ -244,9 +244,9 @@ file_gitignore:
   path: .gitignore
   content:
     # Project-specific files
-    - ${{ web.path.root }}$/.build/
-    - ${{ web.path.source }}$/api/*/**
-    - ${{ web.path.source }}$/about/license/*/**
+    - ${{ data_website.path.root }}$/.build/
+    - ${{ data_website.path.source }}$/api/*/**
+    - ${{ data_website.path.source }}$/about/license/*/**
     - ${{ local.cache.path }}$/**
     - '!${{ local.cache.path }}$/**/'
     - '!${{ local.cache.path }}$/**/README.md'
