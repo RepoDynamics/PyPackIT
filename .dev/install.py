@@ -339,8 +339,9 @@ class DependencyInstaller:
                     env_name=conda_env_name,
                     indent=indent_yaml
                 )
-            elif source == "pip" and not pip_in_conda:
-                files[source] = create_env_file_pip(deps)
+            elif source == "pip":
+                if not pip_in_conda:
+                    files[source] = create_env_file_pip(deps)
             elif source == "apt":
                 files[source] = create_env_file_apt(deps)
             elif source == "brew":
