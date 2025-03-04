@@ -339,91 +339,6 @@ def _merge_extra_config(
     return
 
 
-def _add_theme() -> None:
-    """Add theme configurations."""
-    theme = _meta["web"].get("theme")
-    if not theme:
-        print("No theme specified in control center metadata at 'web.theme'.")  # noqa: T201
-        return
-    error_msg_html_theme = (
-        "The key `html_theme` is already defined in the Sphinx configuration at `web.sphinx`, "
-        "but a theme is specified in the control center metadata at `web.theme`. "
-        "Please remove one of the theme configurations.",
-    )
-    if "html_theme" in _globals:
-        raise RuntimeError(error_msg_html_theme)
-    _globals["html_theme"] = _meta["web"]["theme"]["dependency"]["import_name"]
-    _merge_extra_config(
-        config=_meta["web"]["theme"].get("config", {}),
-        config_key="web.theme.config",
-        config_name="theme",
-    )
-    return
-
-
-def _add_extensions() -> None:
-    """Add extensions and their configurations."""
-    if "extensions" in _globals:
-        error_msg = (
-            "The key `extensions` is already defined in the Sphinx configuration at `web.sphinx`. "
-            "Please remove the key from the configuration.",
-        )
-        raise RuntimeError(error_msg)
-    extensions = []
-    _globals["extensions"] = extensions
-    for _ext_type, _ext_path, _exts in (
-        ("internal", "web.sphinx.extension", _meta["web"]["sphinx"].get("extension", {})),
-        ("external", "web.extension", _meta["web"].get("extension", {})),
-    ):
-        for _ext_id, _ext in _exts.items():
-            # Add extension name to `extensions`
-            _ext_import_name = _ext["dependency"]["import_name"]
-            if _ext_import_name in extensions:
-                error_msg = (
-                    f"Duplicate extension name '{_ext_import_name}' for Sphinx "
-                    f"{_ext_type} extension defined at "
-                    f"`{_ext_path}.{_ext_id}.dependency.import_name`. "
-                    "Please ensure that no two extensions have the same import name.",
-                )
-                raise RuntimeError(error_msg)
-            # Add extension configurations to global variables
-            extensions.append(_ext_import_name)
-            _merge_extra_config(
-                config=_ext.get("config", {}),
-                config_key=f"{_ext_path}.{_ext_id}.config",
-                config_name=f"{_ext_type} extension",
-            )
-    return
-
-
-def _add_ablog_blog_authors() -> None:
-    """Add ablog `blog_authors` extension configuration.
-
-    This function looks for the `blog_authors` key in the Sphinx configuration;
-    if not found, it adds the `blog_authors` key with the authors from the control center metadata.
-
-    References
-    ----------
-    - [ABlog Configuration Options](https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html#confval-blog_authors)
-    """
-    if "blog_authors" in _globals:
-        return
-    blog_authors = {}
-    _globals["blog_authors"] = blog_authors
-    for person_id, person in _meta["team"].items():
-        if "website" in person:
-            url = person["website"]
-        else:
-            for contact_type in ("github", "twitter", "linkedin", "researchgate", "orcid", "email"):
-                if contact_type in person:
-                    url = person[contact_type]["url"]
-                    break
-            else:
-                url = _meta["web"]["url"]["home"]
-        blog_authors[person_id] = (person["name"]["full"], url)
-    return
-
-
 def _read_json_data(name: str, path: str | _Path, required: bool):
     """Read a JSON data file."""
     try:
@@ -528,9 +443,6 @@ _meta["contributor"] = _read_json_data(name="contributors", path=_CONTRIBUTORS_F
 _add_sphinx()
 _add_version()
 _add_css_and_js_files()
-_add_theme()
-_add_extensions()
-_add_ablog_blog_authors()
 _add_intersphinx_mapping()
 _add_license()
 _logger.info("Configurations", _logger.pretty(_globals))
