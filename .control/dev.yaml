@@ -209,18 +209,18 @@ devcontainer_main:
                 pretty: true
                 color_output: true
                 # Incremental mode
-                cache_dir: ${{ tool.mypy.config.workflow.cache_path }}$
+                cache_dir: ${{ devcontainer_main.environment.type_check.data.cache_path }}$
                 # Advanced options
                 show_traceback: true
                 raise_exceptions: true
                 # Report generation
-                any_exprs_report: ${{ tool.mypy.config.workflow.report_path }}$
-                html_report: ${{ tool.mypy.config.workflow.report_path }}$
-                linecount_report: ${{ tool.mypy.config.workflow.report_path }}$
-                linecoverage_report: ${{ tool.mypy.config.workflow.report_path }}$
-                lineprecision_report: ${{ tool.mypy.config.workflow.report_path }}$
-                txt_report: ${{ tool.mypy.config.workflow.report_path }}$
-                xml_report: ${{ tool.mypy.config.workflow.report_path }}$
+                any_exprs_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                html_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                linecount_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                linecoverage_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                lineprecision_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                txt_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                xml_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
                 # Miscellaneous
                 verbosity: 2
     codecov:
@@ -416,13 +416,13 @@ devcontainer_main:
                     args:
                       - --verbose
                       - --config
-                      - '${{ tool.ruff.config.file.path }}$'
+                      - '${{ devcontainer_main.environment.pre_commit.file.ruff_config.path }}$'
                       - --exit-non-zero-on-fix  # DO NOT CHANGE - Required for RepoDynamics CI
                     types_or: [ python, pyi, jupyter ]
                     verbose: true
                   - id: ruff-format
                     stages: [ pre-commit, manual ]
-                    args: [ --config, '${{ tool.ruff.config.file.path }}$' ]
+                    args: [ --config, '${{ devcontainer_main.environment.pre_commit.file.ruff_config.path }}$' ]
                     types_or: [ python, pyi, jupyter ]
                     verbose: true
         ruff_config:

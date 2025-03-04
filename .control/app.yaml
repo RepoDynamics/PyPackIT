@@ -64,7 +64,7 @@ pypkg_main:
         content: |
           ${{ pypkg_main.name }}$ ${{ copyright }}$
           SPDX-License-Identifier: ${{ license.expression }}$
-        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        max_line_length: ${{ devcontainer_main.environment.pre_commit.file.ruff_config.content.line-length }}$
     top_import:
       glob: __init__.py
       docstring:
@@ -72,7 +72,7 @@ pypkg_main:
           ${{ name }}$: ${{ title }}$.
 
           ${{ abstract }}$
-        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        max_line_length: ${{ devcontainer_main.environment.pre_commit.file.ruff_config.content.line-length }}$
   conda:
     recipe: ${{ __temp__.conda_recipe }}$
   pyproject: ${{ __temp__.pyproject }}$
@@ -206,13 +206,13 @@ pypkg_test:
         content: |
           ${{ pypkg_test.name }}$ ${{ copyright }}$
           SPDX-License-Identifier: ${{ license.expression }}$
-        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        max_line_length: ${{ devcontainer_main.environment.pre_commit.file.ruff_config.content.line-length }}$
     top_import:
       glob: __init__.py
       docstring:
         content: |-
           ${{ pypkg_test.name }}$: Test Suite for ${{ name }}$.
-        max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+        max_line_length: ${{ devcontainer_main.environment.pre_commit.file.ruff_config.content.line-length }}$
         mode: prepend
   conda:
     recipe: ${{ __temp__.conda-recipe }}$
