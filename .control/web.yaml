@@ -1148,13 +1148,13 @@ devcontainer_docs:
         build:
           name: Build Website
           description: Build the website using Sphinx.
-          process: [ bash, ${{ file_script_web_build.path }}$ ]
+          process: [ bash, '${{ file_script_web_build.path }}$' ]
         live:
           name: Live Website Preview
           description: |
             Start a live preview server for the website.
             This will automatically rebuild the website when changes are made.
-          process: [ bash, ${{ file_script_web_livehtml.path }}$ ]
+          process: [ bash, '${{ file_script_web_livehtml.path }}$' ]
 
 devcontainer_openjournals:
   # https://github.com/openjournals/inara
