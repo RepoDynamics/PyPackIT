@@ -110,7 +110,6 @@ file_web_toc:
               - file: help/website/tips/index
               - file: help/website/api/index
 
-
 web:
   url:
     custom:
@@ -416,6 +415,7 @@ data_css:
 
 file_sphinx_conf:
   name: Sphinx Configuration
+  summary: Sphinx configuration file for the website.
   type: json
   path: ${{ web.path.source }}$/conf.json
   content: |
@@ -521,7 +521,6 @@ file_readthedocs:
     formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
   jsonschema:
     schema: !ext https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
-
 
 file_script_web_build:
   name: Website Build Script
@@ -803,7 +802,7 @@ devcontainer_docs:
             conda: https://anaconda.org/conda-forge/myst-nb
             docs: https://myst-parser.readthedocs.io/
             source: https://github.com/executablebooks/MyST-Parser
-          note: |
+          notes: |
             MyST-NB is built on top of [MyST-Parser](https://myst-parser.readthedocs.io/)
             and exposes all of its functionalities. It also includes support for Jupyter Notebooks.
             When using MyST-NB, MyST-Parser must not be included separately.
@@ -844,7 +843,6 @@ devcontainer_docs:
               extensions: [ sphinx_design ]
               sd_fontawesome_latex: true
         sphinx-external-toc:
-          import_name: sphinx_external_toc
           description: Adding external table of contents to Sphinx.
           spec:
             version: ==1.0.1
@@ -993,7 +991,7 @@ devcontainer_docs:
         linkify-it-py:
           description: |
             Linkify extension for MyST Markdown to automatically convert URLs to hyperlinks.
-          conda:
+          spec:
             version: ==2.0.3
           url:
             docs: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#linkify
@@ -1104,7 +1102,7 @@ devcontainer_docs:
             This is added to the `Makefile` of Sphinx under the `livehtml` target,
             meaning that you can run `make livehtml` in the website directory
             to start the autobuild server.
-          pip:
+          spec:
             version: ==2024.10.03
           url:
             package: https://pypi.org/project/sphinx-autobuild/
@@ -1156,59 +1154,21 @@ devcontainer_docs:
             This will automatically rebuild the website when changes are made.
           process: [ bash, '${{ file_script_web_livehtml.path }}$' ]
 
-devcontainer_openjournals:
-  # https://github.com/openjournals/inara
-  service:
 
-  container:
-    name: Open-Journals Paper Builder
-    shutdownAction: none
-    customizations:
-      vscode:
-        settings:
-          tasks:
-            version: 2.0.0
-            tasks:
-              - label: Build Paper (Final)
-                type: process
-                command: inara
-                args: [ "-p", "-o", "pdf", "-v", "${file}" ]
-                group:
-                  kind: build
-                  isDefault: true
-                presentation:
-                  reveal: always
-                  echo: true
-                  focus: true
-                  panel: new
-              - label: Build Paper (Draft)
-                type: process
-                command: inara
-                args: [ "-o", "pdf,contextpdf,tex,preprint,docx,html,crossref,cff", "-vv", "${file}" ]
-                group:
-                  kind: build
-                  isDefault: false
-                presentation:
-                  reveal: always
-                  echo: true
-                  focus: true
-                  panel: new
-
-
-temp_focker: |
-  COPY ${{ .path }}$/env /tmp/temp-env-files
-  RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
-  RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
-    if [ -f /tmp/temp-env-files/apt.txt ]; then \
-      apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
-    fi && rm -rf /var/lib/apt/lists/*
-  RUN if [ -d /tmp/temp-env-files/conda ] && ls /tmp/temp-env-files/conda/*.yaml >/dev/null 2>&1; then \
-    for file in /tmp/temp-env-files/conda/*.yaml; do \
-      conda env create -f "$file"; \
-    done; \
-  fi
-
-temp_install_pkg_deps: |
-  COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
-  RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
+__temp__:
+  docker_install: |
+    COPY ${{ .path }}$/env /tmp/temp-env-files
+    RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
+    RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
+      if [ -f /tmp/temp-env-files/apt.txt ]; then \
+        apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
+      fi && rm -rf /var/lib/apt/lists/*
+    RUN if [ -d /tmp/temp-env-files/conda ] && ls /tmp/temp-env-files/conda/*.yaml >/dev/null 2>&1; then \
+      for file in /tmp/temp-env-files/conda/*.yaml; do \
+        conda env create -f "$file"; \
+      done; \
+    fi
+  docker_pkg_deps: |
+    COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
+    RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
 
