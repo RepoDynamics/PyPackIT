@@ -126,9 +126,9 @@ pypkg_test:
         description: Testing framework for Python.
         install:
           conda:
-            version: ==8.3.3
             homepage: https://anaconda.org/conda-forge/pytest
           pip:
+            version: ==8.3.3
             homepage: https://pypi.org/project/pytest/
         url:
           docs: https://docs.pytest.org/en/stable/
@@ -142,9 +142,9 @@ pypkg_test:
           to measure code coverage.
         install:
           conda:
-            version: ==5.0.0
             homepage: https://anaconda.org/conda-forge/pytest-cov
           pip:
+            version: ==5.0.0
             homepage: https://pypi.org/project/pytest-cov/
         url:
           docs: https://pytest-cov.readthedocs.io/
@@ -155,9 +155,9 @@ pypkg_test:
         description: Pytest plugin for generating HTML reports.
         install:
           conda:
-            version: ==4.1.1
             homepage: https://anaconda.org/conda-forge/pytest-html
           pip:
+            version: ==4.1.1
             homepage: https://pypi.org/project/pytest-html/
         url:
           docs: https://pytest-html.readthedocs.io/
@@ -171,9 +171,9 @@ pypkg_test:
           However, we include it explicitly here to pin the version for reproducibility.
         install:
           conda:
-            version: ==7.6.1
             homepage: https://anaconda.org/conda-forge/coverage
           pip:
+            version: ==7.6.1
             homepage: https://pypi.org/project/coverage/
         url:
           docs: https://coverage.readthedocs.io/
