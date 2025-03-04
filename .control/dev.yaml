@@ -587,6 +587,8 @@ devcontainer_main:
 file_pixi_manifest:
   # https://pixi.sh/latest/reference/pixi_manifest/
   name: Pixi Manifest
+  summary: |
+    The Pixi manifest file in TOML format.
   type: toml
   path: pixi.toml
   content:
