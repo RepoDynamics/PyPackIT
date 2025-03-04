@@ -1,4 +1,3 @@
-[tool.coverage]
 [tool.coverage.html]
 directory = "$|| path_report ||/coverage/html"
 title = "PyPackIT Test Coverage"
