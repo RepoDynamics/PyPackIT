@@ -471,7 +471,7 @@ __temp__:
           summary: ${{ title }}$
           dev_url: ${{ repo.url.home }}$
           doc_url: ${{ web.url.home }}$
-          doc_source_url: ${{ document.readme.output.pkg.url }}$
+          doc_source_url: ${{ file_readme.url }}$
         extra:
           recipe-maintainers: |
             #{{
