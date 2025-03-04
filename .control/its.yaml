@@ -2790,7 +2790,8 @@ pull:
         value: "\n\n**TBD**\n\n"
       timeline: ${{ issue.protocol.data.timeline }}$
 file_codeowners:
-  summary: [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file.
+  summary: >-
+    [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file.
   description: |
     If present, a CODEOWNERS file is automatically maintained at the given [`path`](#ccc-code-owners-path),
     using file ownership information defined for team members.
