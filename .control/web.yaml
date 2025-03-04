@@ -1,3 +1,528 @@
+# Website Table of Contents (TOC)
+
+file_web_toc:
+  name: Website Table of Contents
+  summary: Central table of contents definition for the entire website.
+  description: |
+    This file is used by the 
+    [Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)
+    extension to define the structure of the website.
+  type: yaml
+  path: ${{ web.path.source }}/.toc.yaml
+  content:
+    root: index
+    defaults:
+      hidden: true
+    entries:
+      - file: intro/index
+        title: Intro
+        options:
+          numbered: true
+        entries:
+          - file: intro/motivation/index
+          - file: intro/overview/index
+          - file: intro/background/index
+            entries:
+              - file: intro/background/methodologies/index
+              - file: intro/background/github/index
+              - file: intro/background/python/index
+                entries:
+                  - file: intro/background/python/pypi/index
+                  - file: intro/background/python/pip/index
+                  - file: intro/background/python/packaging/index
+                  - file: intro/background/python/governance/index
+              - file: intro/background/conda/index
+                entries:
+                  - file: intro/background/conda/packaging/index
+              - file: intro/background/versioning/index
+              - file: intro/background/jsonpath/index
+              - file: intro/background/yaml/index
+              - file: intro/background/toml/index
+              - file: intro/background/jinja/index
+              - file: intro/background/markdown/index
+          - file: intro/glossary/index
+          - file: intro/references/index
+      - file: manual/index
+        title: Manual
+        options:
+          numbered: true
+        entries:
+          - file: manual/install/index
+            entries:
+              - file: manual/install/new/index
+              - file: manual/install/existing/index
+              - file: manual/install/upgrade/index
+              - file: manual/install/common/index
+          - file: manual/quickstart/index
+          - file: manual/config/index
+            entries:
+              - file: manual/config/location/index
+              - file: manual/config/structure/index
+              - file: manual/config/options/index
+              - file: manual/config/synchronization/index
+              - file: manual/config/outputs/index
+              - file: manual/config/templating/index
+              - file: manual/config/inheritance/index
+              - file: manual/config/hooks/index
+              - file: manual/config/caching/index
+      - file: api/index
+        title: API
+        entries:
+          - file: api/metadata/index
+          - file: api/local/index
+          - file: api/changelog/index
+          - file: api/variables/index
+          - file: api/contributors/index
+          - file: api/cache/index
+          - file: api/refs/index
+      - file: news/index
+        title: News
+        entries:
+          - glob: news/post/**
+      - file: contribute/index
+        title: Contribute
+        options:
+          numbered: true
+        entries:
+          - file: contribute/feedback/index
+            entries:
+              - file: contribute/feedback/security/index
+              - file: contribute/feedback/bug/index
+          - file: contribute/develop/index
+          - file: contribute/support/index
+      - file: about/index
+        title: About
+        options:
+          numbered: true
+        entries:
+          - file: about/citation/index
+          - file: about/contact/index
+          - file: about/license/index
+            entries:
+              - glob: about/license/*/index
+      - file: help/index
+        title: Help
+        options:
+          numbered: true
+        entries:
+          - file: help/website/index
+            entries:
+              - file: help/website/tips/index
+              - file: help/website/api/index
+
+
+web:
+  url:
+    custom:
+      name: pypackit.repodynamics.com
+data_website:
+  path:
+    root: docs/website
+    source_rel: source
+    source: ${{ .root }}$/${{ .source_rel }}$
+    build: ${{ .root }}$/.build
+    to_root: |
+      #{{ return len(get(".source").split("/")) * "../" }}#
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
+  file:
+    icon:
+      rel_path: ${{ __data__.logo_dir_path }}$/favicon.svg
+    logo_simple_light:
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.svg
+    logo_simple_dark:
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_dark.svg
+    logo_simple_raster:
+      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.png
+    logo_full_light:
+      rel_path: ${{ __data__.logo_dir_path }}$/full_light.svg
+    logo_full_dark:
+      rel_path: ${{ __data__.logo_dir_path }}$/full_dark.svg
+    logo_full_raster:
+      rel_path: ${{ __data__.logo_dir_path }}$/full_light.png
+  page: '#{{ return hook.web_page() }}#'
+  jsonschema:
+    schema:
+      additionalProperties: false
+      properties:
+        path:
+          summary: Paths to the website directory.
+          type: object
+          additionalProperties: false
+          required: [ root, source_rel, source, to_root ]
+          properties:
+            root:
+              summary: Path to website root directory relative to the repository root.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            source_rel:
+              summary: Path to website source directory relative to the website root directory.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            source:
+              summary: Path to website source directory relative to the repository root.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            to_root:
+              summary: Relative path from the source directory to the root of the repository.
+              type: string
+        page:
+          summary: Paths to important pages on the website.
+          description:
+            All paths must be relative to the root of the website directory, without suffix.
+          type: object
+          additionalProperties:
+            title: Relative path to the page.
+            type: object
+            properties:
+              title:
+                summary: Title of the page.
+                type: string
+                examples:
+                  - Introduction
+                  - User Manual
+                  - Installation
+              path:
+                summary: Path to the page.
+                type: string
+                examples:
+                  - intro
+                  - intro/index
+                  - user-manual
+                  - user-manual/installation/index
+              url:
+                summary: URL of the page.
+                $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+            examples:
+              - about/license
+              - help/contact
+        quicklinks:
+          summary: Quicklinks
+          description: |
+            Quicklinks to important pages on the website.
+            These are displayed in the footer of the website.
+          type: array
+          items:
+            title: Group
+            type: object
+            required: [ links ]
+            properties:
+              title:
+                summary: Title for the group of quicklinks.
+                type: string
+                examples:
+                  - About
+                  - Contact
+                  - Help
+              links:
+                summary: Quicklinks in the group.
+                type: array
+        announcement:
+          summary: Configurations of project announcements.
+          type: object
+          required: [ path, retention_days, url ]
+          properties:
+            path:
+              summary: Path to the announcement banner file.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+              default: ${{ web.path.root }}$/announcement.html
+              examples:
+                - docs/announcement.html
+            retention_days:
+              summary: Number of days to keep an announcement.
+              default: 30
+              $ref: https://jsonschemata.repodynamics.com/number/non-negative
+            url:
+              summary: URL to the announcement banner file.
+              $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+              default: ${{ repo.url.raw }}$/${{ .path }}$
+        file:
+          summary: Declaration of files in the website source directory.
+          type: object
+          additionalProperties:
+            title: Website File
+            description: |
+              Declaration of a file in the website source directory.
+            type: object
+            additionalProperties: false
+            required: [ path, url ]
+            properties:
+              rel_path:
+                title: Relative Path
+                summary: |
+                  Path to the file relative to the website source directory.
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+              path:
+                summary: Absolute path to the file.
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+                default: ${{ web.path.source }}$/${{ .rel_path }}$
+              url:
+                title: URL
+                summary: URL to the file.
+                $ref: https://jsonschemata.repodynamics.com/url/https
+                default: ${{ repo.url.raw }}$/${{ .path }}$
+data_css:
+  stylesheet:
+    theme_colors:
+      # Colors for pydata-sphinx-theme
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+      cases:
+        light:
+          selector: 'html[data-theme="light"]'
+          prefix: --pst-color-
+        dark:
+          selector: 'html[data-theme="dark"]'
+          prefix: --pst-color-
+      properties: ${{ color }}$
+    theme_font_sizes:
+      # Font sizes for pydata-sphinx-theme.
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
+      selector: html
+      prefix: --pst-font-size-
+      properties:
+        milli: 0.9rem
+        base: 1rem
+        # 1.2x (minor third) typographic scale starting from 1.10rem.
+        # https://designcode.io/typographic-scales
+        h6: 1.10rem
+        h5: 1.32rem
+        h4: 1.58rem
+        h3: 1.90rem
+        h2: 2.28rem
+        h1: 2.74rem
+    theme_header_color:
+      cases:
+        light:
+          selector: html[data-theme="light"] .bd-header
+        dark:
+          selector: html[data-theme="dark"] .bd-header
+      properties:
+        background-color:
+          light: white !important
+          dark: black !important
+    black_to_primary_filter:
+      # CSS filters for transforming black to project's primary color.
+      # This is used to dynamically change the color of SVG icons
+      # with class name 'black-svg-icon'.
+      cases:
+        light:
+          selector: html[data-theme="light"] .black-svg-icon
+        dark:
+          selector: html[data-theme="dark"] .black-svg-icon
+      properties:
+        filter: |
+          #{{
+            import pycolorit as pcit
+  
+            primary_color = get("color.primary")
+            return {
+                theme: pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
+                for theme in ["light", "dark"]
+            }
+          }}#
+
+  jsonschema:
+    schema:
+      title: CSS Stylesheets
+      summary: CSS stylesheet definitions.
+      description: |
+        These stylesheets are dynamically added to the website during builds.
+        For each stylesheet, add a key-value pair where the
+        key is an ID for the stylesheet,
+        and the value is a mapping defining CSS selectors, 
+        property names, and corresponding values.
+      type: object
+      additionalProperties: false
+      properties:
+        stylesheet:
+          type: object
+          additionalProperties:
+            title: Stylesheet
+            summary: |
+              A series of property-value pairs with common property-name prefix and/or suffixes,
+              for a common CSS selector.
+            description: |
+              You can either define a single `selector` with optional `prefix` and `suffix`,
+              or defines a series of `cases`, each with its own selector, prefix, and suffix.
+            type: object
+            additionalProperties: false
+            required: [ properties ]
+            oneOf:
+              - required: [ selector ]
+              - required: [ cases ]
+            properties:
+              selector:
+                summary: Single CSS selector to apply all properties to.
+                $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                description: |
+                  If you use this instead of `cases`, then all `properties` must be strings.
+                examples:
+                  - 'html[data-theme="light"]'
+                  - '.some-class-name'
+                  - '#some-id'
+              prefix:
+                summary: Single prefix to prepend to all property names.
+                $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                examples:
+                  - '--'
+                  - '--pst-color-'
+              suffix:
+                summary: Single suffix to append to all property names.
+                $ref: https://jsonschemata.repodynamics.com/string/nonempty
+              cases:
+                summary: Cases for applying properties.
+                description: |
+                  To remove redundancy, you can define multiple selectors
+                  (each with optional property-names prefix and suffix)
+                  to apply properties to. For example, you may define
+                  color variables to be applied to `html[data-theme="light"]`
+                  and `html[data-theme="dark"]` selectors.
+                type: object
+                minProperties: 1
+                additionalProperties:
+                  type: object
+                  additionalProperties: false
+                  required: [ selector ]
+                  properties:
+                    selector:
+                      summary: CSS selector to apply properties to.
+                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                    prefix:
+                      summary: Prefix to prepend to property names.
+                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                    suffix:
+                      summary: Suffix to append to property names.
+                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
+              properties:
+                summary: Properties to apply to the selector.
+                description: |
+                  Each key here defines the middle part of a CSS property name.
+                  It is prefixed and suffixed (if defined) to generate the full name.
+                  If you have defined a single selector for this stylesheet,
+                  then all values must be strings. Otherwise, values must be mappings
+                  from case IDs to corresponding values as strings.
+                type: object
+                additionalProperties:
+                  title: Property
+                  summary: The value of the CSS property.
+                  description: |
+                    If you have defined a single selector for this stylesheet,
+                    then this must be a string. Otherwise, it must be a mapping
+                    from case IDs to corresponding values as strings.
+                  oneOf:
+                    - $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                    - type: object
+                      additionalProperties:
+                        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+
+file_sphinx_conf:
+  name: Sphinx Configuration
+  type: json
+  path: ${{ web.path.source }}$/conf.json
+  content: |
+    #{{
+      import pyserials as ps
+      
+      out = {}
+      for pkg_manager in ("conda", "pip"):
+        for pkg in get(f"devcontainer_docs.environment.website.{pkg_manager}", {}).values():
+          sphinx_conf = pkg.get("data", {}).get("sphinx_config")
+          if sphinx_conf:
+            ps.recursive_update(
+              source=out,
+              addon=sphinx_conf,
+              undefined_existing="raise"
+            )
+      return out    
+    }}#
+  jsonschema:
+    schema:
+      $ref: https://jsonschemata.repodynamics.com/config/sphinx
+
+data_readthedocs:
+  name: ${{ repo.name }}$
+  platform: community
+  version_scheme:
+    single_version: false
+    translation: false
+  language: en
+  jsonschema:
+    schema:
+      summary: Workflow configurations for the ReadTheDocs website.
+      description: |
+        These are used to create website preview links for pull requests.
+      type: object
+      additionalProperties: false
+      required: [ name, platform, version_scheme, language ]
+      properties:
+        name:
+          summary: Name of the project on ReadTheDocs.
+          description: |
+            This is the slug name of the project.
+          type: string
+        platform:
+          summary: ReadTheDocs hosting platform type.
+          type: string
+          enum: [ community, business ]
+        version_scheme:
+          summary: Versioning scheme of the website.
+          description: |
+            See [ReadTheDocs documentation](https://docs.readthedocs.io/en/stable/versioning-schemes.html)
+            for more information.
+          type: object
+          additionalProperties: false
+          required: [ single_version, translation ]
+          properties:
+            single_version:
+              summary: Whether the website has a single version (vs. multiple versions).
+              type: boolean
+            translation:
+              summary: Whether the website supports multiple languages.
+              type: boolean
+        language:
+          summary: Language of the website.
+          type: string
+file_readthedocs:
+  name: ReadTheDocs Configuration
+  summary: >-
+    [Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html) 
+    for the [ReadTheDocs](https://readthedocs.org/) web hosting service.
+  type: yaml
+  path: .readthedocs.yaml
+  path_schema:
+    description: |
+      By default, ReadTheDocs only looks for a 
+      [`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file)) 
+      file in the root of the repository.
+      However, you can [change this manually](https://docs.readthedocs.io/en/stable/guides/setup/monorepo.html#how-to-use-a-readthedocs-yaml-file-in-a-sub-folder)
+      by setting another path on the ReadTheDocs website,
+      and then specifying that path here.
+    default: .readthedocs.yaml
+  content:
+    version: 2
+    build: # Set the version of Python and other tools you might need
+      os: ubuntu-22.04
+      tools:
+        python: "mambaforge-4.10"
+      jobs:
+        post_checkout:
+          # versioningit needs the full git history to determine the package's version at build time.
+          # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
+          - git fetch --unshallow
+    conda: # Website dependencies
+      environment: ${{ web.env.file.conda.path }}$
+    python:
+      install: # Install the package
+        - method: pip
+          path: ${{ pkg.path.root }}$
+    sphinx: # Build with Sphinx
+      configuration: ${{ web.path.source }}$/conf.py
+      builder: dirhtml
+      fail_on_warning: false
+    formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+  jsonschema:
+    schema: !ext https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
+
+
 file_script_web_build:
   name: Website Build Script
   summary: Script to build the website using Sphinx.
@@ -668,9 +1193,6 @@ devcontainer_openjournals:
                   echo: true
                   focus: true
                   panel: new
-
-
-
 
 
 temp_focker: |
