@@ -1,0 +1,105 @@
+pyfile_pkg_all:
+  glob: '**/*.py'
+  header_comments:
+    content: |
+      ${{ pkg.name }}$ ${{ copyright }}$
+      SPDX-License-Identifier: ${{ license.expression }}$
+    max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+pyfile_pkg_top:
+  glob: __init__.py
+  docstring:
+    content: |
+      ${{ name }}$: ${{ title }}$.
+
+      ${{ abstract }}$
+    max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
+
+
+
+pypkg_pkg:
+  os:
+    linux-64:
+      name: Linux (x64)
+      runner: ubuntu-24.04
+    linux-arm64:
+      name: Linux (arm64)
+      runner: ubuntu-24.04-arm
+    macos-64:
+      name: macOS (x64)
+      runner: macos-13
+    macos-arm64:
+      name: macOS (arm64)
+      runner: macos-15
+    windows-64:
+      name: Windows (x64)
+      runner: windows-2025
+
+
+  entry:
+    cli:
+      main:
+        name: ${{ pkg.name }}$
+        description: Main CLI entry of the package.
+        ref: ${{ pkg.import_name }}$.__main__:main
+  dependency:
+    build:
+      builder:
+        name: Setuptools
+        import_name: setuptools
+        install:
+          pip:
+            version: '>=72.1.0'
+            homepage: https://pypi.org/project/setuptools/
+          conda:
+            homepage: https://anaconda.org/conda-forge/setuptools
+        file:
+          manifest:
+            name: MANIFEST.in
+            description: |
+              The `MANIFEST.in` file is used to 
+              [control files and directories](https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#controlling-files-in-the-distribution)
+              when creating a source distribution of the package.
+              It is used by the `sdist` command of `setuptools` to determine which files
+              to include in the source distribution.
+            notes: |
+              The [Setuptools-SCM](https://pypi.org/project/setuptools-scm/) plugin
+              can be used instead of the `MANIFEST.in` file to automatically
+              include all git-tracked files in the source distribution.
+              The plugin also automatically manages the version number of the package,
+              similar to [`versioningit`](https://pypi.org/project/versioningit/).
+            type: txt
+            path: ${{ pkg.path.root }}/MANIFEST.in  # Filename must be `MANIFEST.in`
+            content:
+              - graft ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/data
+              - include ${{ pkg.path.source_rel }}$/${{ pkg.import_name }}$/py.typed
+              - global-exclude *.py[cod] __pycache__ *.so
+      versioning:
+        name: versioningit
+        import_name: versioningit
+        install:
+          pip:
+            version: versioningit >=3.1.2
+            homepage: https://pypi.org/project/versioningit/
+          conda:
+            homepage: https://anaconda.org/conda-forge/versioningit
+    core:
+      pkg_resources:
+        name: PkgData
+        import_name: pkgdata
+        description: |
+          Handling package resources, such as accessing data files that are
+          distributed with the package.
+        install:
+          pip:
+            homepage: https://pypi.org/project/pkgdata/
+          conda:
+            channel: repodynamics
+            homepage: https://anaconda.org/repodynamics/pkgdata
+        url:
+          docs: https://pkgdata.repodynamics.com/
+          source: https://github.com/repodynamics/pkgdata
+  source_file:
+
+  conda:
+    recipe: ${{ __temp__.conda-recipe }}$
+  pyproject: ${{ temp_pyproject }}$
