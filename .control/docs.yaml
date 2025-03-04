@@ -3,6 +3,8 @@ file_readme:
   summary: >-
     GitHub repository [`README`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
     file.
+  type: md
+  path: README.md
   path_schema:
     description: |
       The file must be named `README` (case-sensitive) and placed either in the
@@ -16,12 +18,6 @@ file_readme:
       - README.md
       - .github/README.txt
       - docs/README.rst
-  output:
-    repo:
-      path: README.md
-    pkg:
-      path: ${{ pkg.path.root }}$/${{ pkg.readme.file }}$
-      target: pypi
   content:
     body:
       - class: block_image
@@ -649,6 +645,7 @@ file_contributing:
   summary: >-
     GitHub [`CONTRIBUTING`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors)
     community health file.
+  path: CONTRIBUTING.md
   path_schema:
     description: |
       The file must be named `CONTRIBUTING` (case-insensitive)
@@ -661,9 +658,6 @@ file_contributing:
       - contributing.rst
       - docs/CONTRIBUTING.txt
       - .github/contributing.md
-  output:
-    repo:
-      path: CONTRIBUTING.md
   content:
     heading: ${{ name }}$ Contributing Guidelines
     body:
@@ -692,6 +686,7 @@ file_governance:
   summary: >-
     GitHub [`GOVERNANCE`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/)
     community health file.
+  path: GOVERNANCE.md
   path_schema:
     description: |
       The file must be named `GOVERNANCE` (case-sensitive)
@@ -704,12 +699,16 @@ file_governance:
       - GOVERNANCE.md
       - docs/GOVERNANCE.txt
       - .github/GOVERNANCE.md
+  content:
+    heading: Project Governance
+    footer: ${{ file_readme.content.footer }}$
 file_security:
   name: Security Policy
   type: md
   summary: >-
     GitHub [`SECURITY`](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)
     community health file.
+  path: SECURITY.md
   path_schema:
     description: |
       The file must be named `SECURITY` (case-sensitive)
@@ -722,9 +721,6 @@ file_security:
       - SECURITY.md
       - docs/SECURITY.txt
       - .github/SECURITY.md
-  output:
-    repo:
-      path: SECURITY.md
   content:
     heading: Security Policy
     footer: ${{ document.readme.content.footer }}$
@@ -734,6 +730,7 @@ file_support:
   summary: >-
       GitHub [`SUPPORT`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project)
       community health file.
+  path: SUPPORT.md
   path_schema:
     description: |
       The file must be named `SUPPORT` (case-sensitive)
@@ -746,5 +743,6 @@ file_support:
       - SUPPORT.md
       - docs/SUPPORT.txt
       - .github/SUPPORT.md
-  output:
-      repo:
+  content:
+    heading: Support Resources
+    footer: ${{ file_readme.content.footer }}$
