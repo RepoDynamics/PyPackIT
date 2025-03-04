@@ -2789,3 +2789,34 @@ pull:
       deployment:
         value: "\n\n**TBD**\n\n"
       timeline: ${{ issue.protocol.data.timeline }}$
+file_codeowners:
+  summary: [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file.
+  description: |
+    If present, a CODEOWNERS file is automatically maintained at the given [`path`](#ccc-code-owners-path),
+    using file ownership information defined for team members.
+    For each pull request, GitHub will then automatically add the owners of each
+    modified file in that pull request as reviewers.
+    Note that you can also assign issue-form-specific review tasks to each role
+    (cf. [`ccc.role.*.assignment.review`](#ccc-role---assignment-review)).
+
+    :::{admonition} Considerations
+    :class: important
+
+    - Code owners must have write permissions to the repository.
+    - For code owners to be automatically requested for reviews, protection rules for
+      [requiring pull request reviews](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-pull-request-reviews-before-merging)
+      must be enabled.
+    :::
+  path: .github/CODEOWNERS
+  path_schema:
+    description: |
+      The file must be named `CODEOWNERS` (case-sensitive, without extension)
+      and placed either in the `.github` directory, the `docs` directory,
+      or the root of the repository.
+    enum:
+      - CODEOWNERS
+      - .github/CODEOWNERS
+      - docs/CODEOWNERS
+    pattern: ^(?:|.github/|docs/)CODEOWNERS$
+  content: >-
+    #{{ return hook.file_codeowners() }}#
