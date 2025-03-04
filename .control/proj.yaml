@@ -323,7 +323,8 @@ zenodo:
         #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
 file_citation_cff:
   name: CFF Citation
-  summary: [`CITATION.cff`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files) file.
+  summary: >-
+    [`CITATION.cff`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files) file.
   description: |
     Citation file for the project
     in the [Citation File Format](https://citation-file-format.github.io/) (CFF). 
@@ -453,4 +454,5 @@ file_funding_github:
       $ref: https://jsonschemata.repodynamics.com/config/github/funding
   content:
     # See the schema or the GitHub documentation for the supported funding platforms.
-    github: [ ${{ team.owner.github.id }}$ ]
+    github:
+      - ${{ team.owner.github.id }}$
