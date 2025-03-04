@@ -2,10 +2,10 @@ commit:
   __data__:
     h1_pkg:
       title: Package
-      description: Changes in the ${{ pkg.name }}$ Python package.
+      description: Changes in the ${{ pypkg_main.name }}$ Python package.
     h1_test:
       title: Test Suite
-      description: Changes in the ${{ test.name }}$ Python package, i.e., ${{ pkg.name }}$'s test-suite.
+      description: Changes in the ${{ pypkg_test.name }}$ Python package, i.e., ${{ pypkg_main.name }}$'s test-suite.
     h1_docs:
       title: Documentation
       description: Changes in the project documentation materials and website.
@@ -68,10 +68,10 @@ commit:
       description: Related to the entire project.
     h2_pkg:
       title: Package
-      description: Related to the ${{ pkg.name }}$ Python package.
+      description: Related to the ${{ pypkg_main.name }}$ Python package.
     h2_test:
       title: Test Suite
-      description: Related to the ${{ test.name }}$ Python package, i.e., ${{ pkg.name }}$'s test-suite.
+      description: Related to the ${{ pypkg_test.name }}$ Python package, i.e., ${{ pypkg_main.name }}$'s test-suite.
     h2_docs:
       title: Documentation
       description: Related to the project documentation materials and website.
@@ -136,145 +136,145 @@ commit:
       scope: pkg-api
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s API.
+        Fix bugs in ${{ pypkg_main.name }}$'s API.
     pkg_cli_fix:
       type: fix
       scope: pkg-cli
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s CLI.
+        Fix bugs in ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_fix:
       type: fix
       scope: pkg-gui
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s GUI.
+        Fix bugs in ${{ pypkg_main.name }}$'s GUI.
     pkg_build_fix:
       type: fix
       scope: pkg-build
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s build system.
+        Fix bugs in ${{ pypkg_main.name }}$'s build system.
     pkg_api_feat:
       type: feat
       scope: pkg-api
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s API.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s API.
     pkg_cli_feat:
       type: feat
       scope: pkg-cli
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s CLI.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_feat:
       type: feat
       scope: pkg-gui
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s GUI.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s GUI.
     pkg_build_feat:
       type: feat
       scope: pkg-build
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s build system.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s build system.
     pkg_api_change:
       type: change
       scope: pkg-api
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s API.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s API.
     pkg_cli_change:
       type: change
       scope: pkg-cli
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s CLI.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_change:
       type: change
       scope: pkg-gui
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s GUI.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s GUI.
     pkg_build_change:
       type: change
       scope: pkg-build
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s build system.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s build system.
     test_api_fix:
       type: fix
       scope: test-api
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s API.
+        Fix bugs in ${{ pypkg_test.name }}$'s API.
     test_cli_fix:
       type: fix
       scope: test-cli
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s CLI.
+        Fix bugs in ${{ pypkg_test.name }}$'s CLI.
     test_gui_fix:
       type: fix
       scope: test-gui
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s GUI.
+        Fix bugs in ${{ pypkg_test.name }}$'s GUI.
     test_build_fix:
       type: fix
       scope: test-build
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s build system.
+        Fix bugs in ${{ pypkg_test.name }}$'s build system.
     test_api_feat:
       type: feat
       scope: test-api
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s API.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s API.
     test_cli_feat:
       type: feat
       scope: test-cli
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s CLI.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s CLI.
     test_gui_feat:
       type: feat
       scope: test-gui
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s GUI.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s GUI.
     test_build_feat:
       type: feat
       scope: test-build
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s build system.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s build system.
     test_api_change:
       type: change
       scope: test-api
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s API.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s API.
     test_cli_change:
       type: change
       scope: test-cli
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s CLI.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s CLI.
     test_gui_change:
       type: change
       scope: test-gui
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s GUI.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s GUI.
     test_build_change:
       type: change
       scope: test-build
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s build system.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s build system.
     docs_fix:
       type: fix
       scope: docs
@@ -315,56 +315,56 @@ commit:
     pkg-api-remove:
       type: remove
       scope: pkg-api
-      type_description: Remove a feature from ${{ pkg.name }}$'s API.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-api-change:
       type: change
       scope: pkg-api
-      type_description: Change a feature in ${{ pkg.name }}$'s API.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-api-deprecate:
       type: deprecate
       scope: pkg-api
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s API.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-api-feat:
       type: feat
       scope: pkg-api
-      type_description: Add a feature to ${{ pkg.name }}$'s API.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-api-enhance:
       type: enhance
       scope: pkg-api
-      type_description: Enhance a feature in ${{ pkg.name }}$'s API.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-api-secure:
       type: secure
       scope: pkg-api
-      type_description: Fix a security issue in ${{ pkg.name }}$'s API.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-api-fix:
       type: fix
       scope: pkg-api
-      type_description: Fix a bug in ${{ pkg.name }}$'s API.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-api-perf:
       type: perf
       scope: pkg-api
-      type_description: Improve performance in ${{ pkg.name }}$'s API.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -372,56 +372,56 @@ commit:
     pkg-cli-remove:
       type: remove
       scope: pkg-cli
-      type_description: Remove a feature from ${{ pkg.name }}$'s CLI.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-cli-change:
       type: change
       scope: pkg-cli
-      type_description: Change a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-cli-deprecate:
       type: deprecate
       scope: pkg-cli
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-cli-feat:
       type: feat
       scope: pkg-cli
-      type_description: Add a feature to ${{ pkg.name }}$'s CLI.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-cli-enhance:
       type: enhance
       scope: pkg-cli
-      type_description: Enhance a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-cli-secure:
       type: secure
       scope: pkg-cli
-      type_description: Fix a security issue in ${{ pkg.name }}$'s CLI.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-cli-fix:
       type: fix
       scope: pkg-cli
-      type_description: Fix a bug in ${{ pkg.name }}$'s CLI.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-cli-perf:
       type: perf
       scope: pkg-cli
-      type_description: Improve performance in ${{ pkg.name }}$'s CLI.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -429,56 +429,56 @@ commit:
     pkg-gui-remove:
       type: remove
       scope: pkg-gui
-      type_description: Remove a feature from ${{ pkg.name }}$'s GUI.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-gui-change:
       type: change
       scope: pkg-gui
-      type_description: Change a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-gui-deprecate:
       type: deprecate
       scope: pkg-gui
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-gui-feat:
       type: feat
       scope: pkg-gui
-      type_description: Add a feature to ${{ pkg.name }}$'s GUI.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-gui-enhance:
       type: enhance
       scope: pkg-gui
-      type_description: Enhance a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-gui-secure:
       type: secure
       scope: pkg-gui
-      type_description: Fix a security issue in ${{ pkg.name }}$'s GUI.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-gui-fix:
       type: fix
       scope: pkg-gui
-      type_description: Fix a bug in ${{ pkg.name }}$'s GUI.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-gui-perf:
       type: perf
       scope: pkg-gui
-      type_description: Improve performance in ${{ pkg.name }}$'s GUI.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -486,56 +486,56 @@ commit:
     pkg-build-remove:
       type: remove
       scope: pkg-build
-      type_description: Remove a feature from ${{ pkg.name }}$'s build.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-build-change:
       type: change
       scope: pkg-build
-      type_description: Change a feature in ${{ pkg.name }}$'s build.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-build-deprecate:
       type: deprecate
       scope: pkg-build
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s build.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-build-feat:
       type: feat
       scope: pkg-build
-      type_description: Add a feature to ${{ pkg.name }}$'s build.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-build-enhance:
       type: enhance
       scope: pkg-build
-      type_description: Enhance a feature in ${{ pkg.name }}$'s build.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-build-secure:
       type: secure
       scope: pkg-build
-      type_description: Fix a security issue in ${{ pkg.name }}$'s build.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-build-fix:
       type: fix
       scope: pkg-build
-      type_description: Fix a bug in ${{ pkg.name }}$'s build.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-build-perf:
       type: perf
       scope: pkg-build
-      type_description: Improve performance in ${{ pkg.name }}$'s build.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -543,14 +543,14 @@ commit:
     pkg-code-refactor:
       type: refactor
       scope: pkg
-      type_description: Refactor code in ${{ pkg.name }}$.
+      type_description: Refactor code in ${{ pypkg_main.name }}$.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_refactor }}$
     pkg-code-style:
       type: style
       scope: pkg
-      type_description: Change text style and formatting in ${{ pkg.name }}$.
+      type_description: Change text style and formatting in ${{ pypkg_main.name }}$.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_style }}$
@@ -558,56 +558,56 @@ commit:
     test-api-remove:
       type: remove
       scope: test-api
-      type_description: Remove a feature from ${{ test.name }}$'s API.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-api-change:
       type: change
       scope: test-api
-      type_description: Change a feature in ${{ test.name }}$'s API.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_change }}$
     test-api-deprecate:
       type: deprecate
       scope: test-api
-      type_description: Deprecate a feature in ${{ test.name }}$'s API.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-api-feat:
       type: feat
       scope: test-api
-      type_description: Add a feature to ${{ test.name }}$'s API.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-api-enhance:
       type: enhance
       scope: test-api
-      type_description: Enhance a feature in ${{ test.name }}$'s API.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-api-secure:
       type: secure
       scope: test-api
-      type_description: Fix a security issue in ${{ test.name }}$'s API.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-api-fix:
       type: fix
       scope: test-api
-      type_description: Fix a bug in ${{ test.name }}$'s API.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-api-perf:
       type: perf
       scope: test-api
-      type_description: Improve performance in ${{ test.name }}$'s API.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -615,56 +615,56 @@ commit:
     test-cli-remove:
       type: remove
       scope: test-cli
-      type_description: Remove a feature from ${{ test.name }}$'s CLI.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-cli-change:
       type: change
       scope: test-cli
-      type_description: Change a feature in ${{ test.name }}$'s CLI.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_change }}$
     test-cli-deprecate:
       type: deprecate
       scope: test-cli
-      type_description: Deprecate a feature in ${{ test.name }}$'s CLI.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-cli-feat:
       type: feat
       scope: test-cli
-      type_description: Add a feature to ${{ test.name }}$'s CLI.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-cli-enhance:
       type: enhance
       scope: test-cli
-      type_description: Enhance a feature in ${{ test.name }}$'s CLI.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-cli-secure:
       type: secure
       scope: test-cli
-      type_description: Fix a security issue in ${{ test.name }}$'s CLI.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-cli-fix:
       type: fix
       scope: test-cli
-      type_description: Fix a bug in ${{ test.name }}$'s CLI.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-cli-perf:
       type: perf
       scope: test-cli
-      type_description: Improve performance in ${{ test.name }}$'s CLI.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -672,56 +672,56 @@ commit:
     test-gui-remove:
       type: remove
       scope: test-gui
-      type_description: Remove a feature from ${{ test.name }}$'s GUI.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-gui-change:
       type: change
       scope: test-gui
-      type_description: Change a feature in ${{ test.name }}$'s GUI.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_change }}$
     test-gui-deprecate:
       type: deprecate
       scope: test-gui
-      type_description: Deprecate a feature in ${{ test.name }}$'s GUI.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-gui-feat:
       type: feat
       scope: test-gui
-      type_description: Add a feature to ${{ test.name }}$'s GUI.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-gui-enhance:
       type: enhance
       scope: test-gui
-      type_description: Enhance a feature in ${{ test.name }}$'s GUI.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-gui-secure:
       type: secure
       scope: test-gui
-      type_description: Fix a security issue in ${{ test.name }}$'s GUI.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-gui-fix:
       type: fix
       scope: test-gui
-      type_description: Fix a bug in ${{ test.name }}$'s GUI.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-gui-perf:
       type: perf
       scope: test-gui
-      type_description: Improve performance in ${{ test.name }}$'s GUI.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -729,56 +729,56 @@ commit:
     test-build-remove:
       type: remove
       scope: test-build
-      type_description: Remove a feature from ${{ test.name }}$'s build.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-build-change:
       type: change
       scope: test-build
-      type_description: Change a feature in ${{ test.name }}$'s build.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_change }}$
     test-build-deprecate:
       type: deprecate
       scope: test-build
-      type_description: Deprecate a feature in ${{ test.name }}$'s build.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-build-feat:
       type: feat
       scope: test-build
-      type_description: Add a feature to ${{ test.name }}$'s build.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-build-enhance:
       type: enhance
       scope: test-build
-      type_description: Enhance a feature in ${{ test.name }}$'s build.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-build-secure:
       type: secure
       scope: test-build
-      type_description: Fix a security issue in ${{ test.name }}$'s build.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-build-fix:
       type: fix
       scope: test-build
-      type_description: Fix a bug in ${{ test.name }}$'s build.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-build-perf:
       type: perf
       scope: test-build
-      type_description: Improve performance in ${{ test.name }}$'s build.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -786,14 +786,14 @@ commit:
     test-code-refactor:
       type: refactor
       scope: test
-      type_description: Refactor code in ${{ test.name }}$.
+      type_description: Refactor code in ${{ pypkg_test.name }}$.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_refactor }}$
     test-code-style:
       type: style
       scope: test
-      type_description: Change text style and formatting in ${{ test.name }}$.
+      type_description: Change text style and formatting in ${{ pypkg_test.name }}$.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_style }}$
@@ -1260,10 +1260,10 @@ label:
     label:
       pkg:
         suffix: ${{ __data__.icon.pkg }}$ app
-        description: Related to ${{ pkg.name }}$ package.
+        description: Related to ${{ pypkg_main.name }}$ package.
       test:
         suffix: ${{ __data__.icon.test }}$ tests
-        description: Related to ${{ test.name }}$ package.
+        description: Related to ${{ pypkg_test.name }}$ package.
       docs:
         suffix: ${{ __data__.icon.docs }}$ docs
         description: Related to ${{ name }}$ documentation and website.
@@ -1875,32 +1875,32 @@ issue:
           - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
           - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
     custom_pkg_api:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
       python_api_names: ${{ project.python_api_names }}$
     custom_pkg_cli:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
       cli_names: ${{ project.cli_names }}$
     custom_pkg_gui:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.gui_names }}$
     custom_test_api:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
       python_api_names: ${{ project.test_python_api_names }}$
     custom_test_cli:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
       cli_names: ${{ project.test_cli_names }}$
     custom_test_gui:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.test_gui_names }}$
@@ -2310,7 +2310,7 @@ issue:
       labels:
         - '*{{ issue.__temp__.labels }}*'
       name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
-      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
+      description: Report problems in downloading, installation, or initialization of ${{ pypkg_main.name }}$.
       __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
@@ -2503,7 +2503,7 @@ issue:
       labels:
         - '*{{ issue.__temp__.labels }}*'
       name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
-      description: Report problems in downloading, installation, or initialization of ${{ test.name }}$.
+      description: Report problems in downloading, installation, or initialization of ${{ pypkg_test.name }}$.
       __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,

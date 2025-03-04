@@ -4,7 +4,7 @@ workflow:
       config: .binder_config
       dockerfile: .binder
     image:
-      test_script: '${{ test.entry.cli.main.name }}$'
+      test_script: '${{ pypkg_test.entry.cli.main.name }}$'
   publish:
     anaconda:
       name: Publish (Anaconda)

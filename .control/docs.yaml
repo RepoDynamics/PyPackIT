@@ -225,12 +225,12 @@ file_readme:
                         endpoint: source_rank
                         args:
                           platform: pypi
-                          package: ${{ pkg.name }}$
+                          package: ${{ pypkg_main.name }}$
                       - service: librariesio
                         endpoint: dependency_status
                         args:
                           platform: pypi
-                          package: ${{ pkg.name }}$
+                          package: ${{ pypkg_main.name }}$
                         label: Package Dependencies
                       - service: librariesio
                         endpoint: dependency_status_github
@@ -363,7 +363,7 @@ file_readme:
                     service: librariesio
                     args:
                       platform: pypi
-                      package: ${{ pkg.name }}$
+                      package: ${{ pypkg_main.name }}$
                     items:
                       - endpoint: dependents
                         label: Dependent Packages

@@ -18,9 +18,9 @@ pypkg_main:
   entry:
     cli:
       main:
-        name: ${{ pkg.name }}$
+        name: ${{ pypkg_main.name }}$
         description: Main CLI entry of the package.
-        ref: ${{ pkg.import_name }}$.__main__:main
+        ref: ${{ pypkg_main.import_name }}$.__main__:main
   dependency:
     build:
       builder:
@@ -118,7 +118,7 @@ pypkg_test:
     # For other PyTest plugins, see:
     # - https://github.com/augustogoulart/awesome-pytest
     # - https://pytest-with-eric.com/pytest-best-practices/pytest-plugins/
-    build: ${{ pkg.dependency.build }}$
+    build: ${{ pypkg_main.dependency.build }}$
     core:
       testing:
         name: Pytest
@@ -196,22 +196,22 @@ pypkg_test:
   entry:
     cli:
       main:
-        name: ${{ test.name }}$
+        name: ${{ pypkg_test.name }}$
         description: Main CLI entry of the test-suite.
-        ref: ${{ test.import_name }}$.__main__:main
+        ref: ${{ pypkg_test.import_name }}$.__main__:main
   source_file:
     all:
       glob: '**/*.py'
       header_comments:
         content: |
-          ${{ test.name }}$ ${{ copyright }}$
+          ${{ pypkg_test.name }}$ ${{ copyright }}$
           SPDX-License-Identifier: ${{ license.expression }}$
         max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
     top_import:
       glob: __init__.py
       docstring:
         content: |-
-          ${{ test.name }}$: Test Suite for ${{ name }}$.
+          ${{ pypkg_test.name }}$: Test Suite for ${{ name }}$.
         max_line_length: ${{ tool.ruff.config.file.content.line-length }}$
         mode: prepend
   conda:
@@ -247,7 +247,7 @@ pypkg_test:
         See [Pytest Configuration Options](https://docs.pytest.org/en/stable/reference/reference.html#ini-options-ref)
         for a full list of available settings.
       type: toml
-      path: ${{ test.path.import }}$/data/config/pytest.toml
+      path: ${{ pypkg_test.path.import }}$/data/config/pytest.toml
       content:
         tool:
           pytest:
@@ -272,7 +272,7 @@ pypkg_test:
               cache_dir: $|| path_cache ||/pytest
               console_output_style: count
               junit_logging: all
-              junit_suite_name: ${{ test.import_name }}$
+              junit_suite_name: ${{ pypkg_test.import_name }}$
               log_auto_indent: true
               log_cli: true
               log_cli_date_format: '%Y-%m-%d %H:%M:%S'
@@ -299,7 +299,7 @@ pypkg_test:
         which is also used by the 
         [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/config.html) plugin.
       type: toml
-      path: ${{ test.path.import }}$/data/config/coverage.toml
+      path: ${{ pypkg_test.path.import }}$/data/config/coverage.toml
       content:
         tool:
           coverage:
@@ -307,7 +307,7 @@ pypkg_test:
               branch: true
               data_file: $|| path_cache ||/coverage/coverage
               debug_file: $|| path_report ||/coverage/debug.log
-              source_pkgs: [ "${{ pkg.import_name }}$" ]
+              source_pkgs: [ "${{ pypkg_main.import_name }}$" ]
             report:
               # Regexes for lines to exclude from consideration
               exclude_also:
@@ -327,7 +327,7 @@ pypkg_test:
               show_missing: true
             html:
               directory: $|| path_report ||/coverage/html
-              title: "${{ pkg.name }}$ Test Coverage"
+              title: "${{ pypkg_main.name }}$ Test Coverage"
             xml:
               output: $|| path_report ||/coverage/coverage.xml
             json:
@@ -371,8 +371,8 @@ copy_app_license:
       ]
     }}#
   destinations:
-    - ${{ pkg.path.root }}$/${{ __data__.dir_name.licenses }}$
-    - ${{ test.path.root }}$/${{ __data__.dir_name.licenses }}$
+    - ${{ pypkg_main.path.root }}$/${{ __data__.dir_name.licenses }}$
+    - ${{ pypkg_test.path.root }}$/${{ __data__.dir_name.licenses }}$
 copy_app_copyright:
   sources: |
     #{{
@@ -383,8 +383,8 @@ copy_app_copyright:
       ]
     }}#
   destinations:
-    - ${{ pkg.path.root }}$/${{ __data__.dir_name.copyrights }}$
-    - ${{ test.path.root }}$/${{ __data__.dir_name.copyrights }}$
+    - ${{ pypkg_main.path.root }}$/${{ __data__.dir_name.copyrights }}$
+    - ${{ pypkg_test.path.root }}$/${{ __data__.dir_name.copyrights }}$
 # Templates
 __temp__:
   conda_recipe:
@@ -401,12 +401,12 @@ __temp__:
           values:
             host:
               values:
-                  - value: python ${{ pkg.python.version.spec }}$
+                  - value: python ${{ pypkg_main.python.version.spec }}$
                   - value: pip
                   - '*{{ #{{ return hook.conda_req("host") }}# }}*'
             run:
               values:
-                - value: python ${{ pkg.python.version.spec }}$
+                - value: python ${{ pypkg_main.python.version.spec }}$
                 - '*{{ #{{ return hook.conda_req("run") }}# }}*'
             run_constrained:
               values:

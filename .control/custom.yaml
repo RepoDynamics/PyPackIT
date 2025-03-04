@@ -41,7 +41,7 @@ __data__:
         label_color: ${{ __data__.badge.color.grey }}$
         separator: ${{ __data__.badge.separator }}$
         items:
-          - label: ${{ pkg.name }}$
+          - label: ${{ pypkg_main.name }}$
             args:
               message: >-
                 #{{ return changelog.current_public.version }}#

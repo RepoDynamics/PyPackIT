@@ -197,7 +197,7 @@ devcontainer_main:
             tool:
               mypy:
                 # Import discovery
-                packages: [ '${{ pkg.import_name }}$' ]
+                packages: [ '${{ pypkg_main.import_name }}$' ]
                 # Configuring warnings
                 warn_return_any: true
                 # Miscellaneous strictness flags
@@ -440,8 +440,8 @@ devcontainer_main:
             required-version: == 0.7.4
             show-fixes: true
             src:
-              - '${{ pkg.path.source }}$'
-              - '${{ test.path.source }}$'
+              - '${{ pypkg_main.path.source }}$'
+              - '${{ pypkg_test.path.source }}$'
             target-version: >-
               #{{
                 major, minor = get("pkg.python.version.minors")[0].split(".")
@@ -473,16 +473,16 @@ devcontainer_main:
                 - ANN101
                 - ANN102
               per-file-ignores:
-                '${{ test.path.source }}$/**':
+                '${{ pypkg_test.path.source }}$/**':
                   - S101
                 '${{ web.path.source }}$/conf.py':
                   - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
                 # https://docs.astral.sh/ruff/rules/#flake8-print-t20
-                '${{ pkg.path.import }}$/__main__.py':
+                '${{ pypkg_main.path.import }}$/__main__.py':
                   - T20
-                '${{ test.path.import }}$/__main__.py':
+                '${{ pypkg_test.path.import }}$/__main__.py':
                   - T20
-                '${{ test.path.import }}$/__init__.py':
+                '${{ pypkg_test.path.import }}$/__init__.py':
                   - T20
               select:
                 # https://docs.astral.sh/ruff/rules

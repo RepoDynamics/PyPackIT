@@ -513,7 +513,7 @@ file_readthedocs:
     python:
       install: # Install the package
         - method: pip
-          path: ${{ pkg.path.root }}$
+          path: ${{ pypkg_main.path.root }}$
     sphinx: # Build with Sphinx
       configuration: ${{ web.path.source }}$/conf.py
       builder: dirhtml
