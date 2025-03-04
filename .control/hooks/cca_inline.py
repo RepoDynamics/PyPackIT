@@ -182,7 +182,7 @@ class Hooks:
             base = "Programming Language :: Python"
             return [base] + [
                 f"{base} :: {version}"
-                for version in ["3 :: Only", *self.get("..python.version.minors")]
+                for version in ["3 :: Only", *self.get(".python.version.minors")]
             ]
 
         def operating_system() -> list[str]:
@@ -194,9 +194,9 @@ class Hooks:
             }
             out = [
                 base.format(trove[runner_type])
-                for runner_type in {os["runner"].split("-")[0] for os in self.get("..os").values()}
+                for runner_type in {os["runner"].split("-")[0] for os in self.get(".os").values()}
             ]
-            if self.get("..python.pure"):
+            if self.get(".python.pure"):
                 out.append(base.format("OS Independent"))
             return out
 
@@ -227,13 +227,13 @@ class Hooks:
             return f"Development Status :: {code} - {code_name[code]}"
 
         out = programming_language() + operating_system() + [development_phase()]
-        if self.get("..typed"):
+        if self.get(".typed"):
             out.append("Typing :: Typed")
         return sorted(out)
 
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
-        path = self.repo_path / (self.ccc["web.path.source"] or self.get("web.path.source"))
+        path = self.repo_path / (self.ccc["data_web.path.source"] or self.get("data_web.path.source"))
         url_home = self.get("web.url.home")
         pages = {}
         blog = {}
