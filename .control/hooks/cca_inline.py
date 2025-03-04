@@ -101,7 +101,7 @@ class Hooks:
         """Create environment dependencies for binder."""
         if self._binder_files:
             return self._binder_files.get(source, "")
-        install = _import_module_from_path(".dev/install.py")
+        install = _import_module_from_path(self.repo_path / ".dev/install.py")
         pyver = self.get("pkg.python.version")
         pkg_path = self.get("pkg.path.root")
         test_path = self.get("test.path.root")

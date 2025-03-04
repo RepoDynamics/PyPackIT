@@ -273,7 +273,7 @@ zenodo:
               "relation": relation,
               "resource_type": get("..upload_type")
             } for doi, relation in [
-              (get("var.zenodo.concept.doi"), "isPartOf"),
+              (get("zenodo.concept.doi"), "isPartOf"),
               (last_doi, "isNewVersionOf"),
             ] if doi
           ]
@@ -376,7 +376,7 @@ file_citation_cff:
         *{{
           #{{
             out = []
-            concept_doi = get("var.zenodo.concept.doi")
+            concept_doi = get("zenodo.concept.doi")
             if concept_doi:
               entry = {
                 "type": "doi",

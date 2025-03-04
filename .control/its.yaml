@@ -2121,7 +2121,7 @@ issue:
                     {
                       "label": "Python Versions",
                       "args": {"message": py_vers},
-                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
+                      "logo": ccc.data_website.path.source + "_media/logo_ext/python.svg",
                       "logo_type": "file",
                       "logo_media_type": "svg+xml",
                     },

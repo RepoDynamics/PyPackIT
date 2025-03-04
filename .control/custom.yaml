@@ -98,27 +98,27 @@ __data__:
                   }
                   out.append(badge)
                 version = curr_changelog.version
-                if get("pkg.pypi.publishable") and get("workflow.publish.pypi"):
+                if get("pypkg_main.pypi.publishable") and get("workflow.publish.pypi"):
                   pypi = {
                     "label": "pip install",
-                    "args": {"message": f"{get("pkg.name")} == {version}"},
-                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                    "args": {"message": f"{get("pypkg_main.name")} == {version}"},
+                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
                     "logo_type": "file",
                     "logo_media_type": "png",
                     "color": "#3775A9",
-                    "link": get("pkg.pypi.url.home"),
+                    "link": get("pypkg_main.pypi.url.home"),
                   }
                   out.append(pypi)
                 conda_publish = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
                 if conda_publish:
                   conda = {
                     "label": "conda install",
-                    "args": {"message": f"{get("pkg.name")} == {version} -c {conda_publish["index"]["channel"]}"},
+                    "args": {"message": f"{get("pypkg_main.name")} == {version} -c {conda_publish["index"]["channel"]}"},
                     "logo": "anaconda",
                     "logo_type": "name",
                     "logo_color": "#44A833",
                     "color": "#44A833",
-                    "link": get("pkg.conda.url.home"),
+                    "link": get("pypkg_main.conda.url.home"),
                   }
                   out.append(conda)
                 publish_docker = get("workflow.binder")
@@ -249,11 +249,11 @@ __data__:
                   *{{
                     #{{
                       badges = []
-                      oss = get("pkg.os")
+                      oss = get("pypkg_main.os")
                       color_green = get("__data__.badge.color.green")
                       color_red = get("__data__.badge.color.red")
                       for os_name, os_id, logo, logo_color in (
-                        ("Linux", "linux", f"{get("web.path.source")}/_media/logo_ext/linux.png", None),
+                        ("Linux", "linux", f"{get("data_website.path.source")}/_media/logo_ext/linux.png", None),
                         ("macOS", "macos", "apple", "#000000"),
                         ("Windows", "windows", "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", None),
                       ):
@@ -299,20 +299,20 @@ __data__:
                 - label: Versions
                   args:
                     message: >-
-                      #{{ return " | ".join(get("pkg.python.version.minors")) }}#
+                      #{{ return " | ".join(get("pypkg_main.python.version.minors")) }}#
                 - label: Implementation
                   args:
                     message: >-
-                      #{{ return "any" if get("pkg.python.pure") else pkg.python.implementation }}#
+                      #{{ return "any" if get("pypkg_main.python.pure") else pypkg_main.python.implementation }}#
                   color: >-
                     #{{
-                      if get("pkg.python.pure"):
+                      if get("pypkg_main.python.pure"):
                         return get("__data__.badge.color.green")
                       return get("__data__.badge.color.blue")
                     }}#
           - |
             #{{
-              deps = list(get("pkg.dependency.core", {}).values())
+              deps = list(get("pypkg_main.dependency.core", {}).values())
               style = get("__data__.badge.style")
               height = get("__data__.badge.height")
               green = get("__data__.badge.color.green")
@@ -350,7 +350,7 @@ __data__:
               out = [button, "&nbsp;", badges]
               for dep in deps:
                 name = dep["name"].strip()
-                name_spec = dep.get("pip", {}).get("spec") or dep.get("conda", {}).get("spec")
+                name_spec = dep["install"].get("pip", {}).get("spec") or dep.get("conda", {}).get("spec")
                 spec = name_spec.strip().casefold().removeprefix(name.casefold()).strip()
                 badge = {
                   "label": name,
@@ -365,7 +365,7 @@ __data__:
           - |
             *{{
               #{{
-                interfaces = get("pkg.entry")
+                interfaces = get("pypkg_main.entry")
                 style = get("__data__.badge.style")
                 height = get("__data__.badge.height")
                 blue = get("__data__.badge.color.blue")
@@ -374,7 +374,7 @@ __data__:
                 config = {
                   "python": {
                     "text": "API",
-                    "logo": f"{get("web.path.source")}/_media/logo_ext/python.svg",
+                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/python.svg",
                     "logo_type": "file",
                     "logo_media_type": "svg+xml",
                   },

@@ -87,7 +87,7 @@ file_readme:
             *{{
               #{{
                 out = []
-                doi = get("var.zenodo.concept.doi")
+                doi = get("zenodo.concept.doi")
                 if doi:
                   zenodo = {
                     "label": "DOI",
@@ -98,27 +98,27 @@ file_readme:
                     "link": f"https://doi.org/{doi}"
                   }
                   out.append(zenodo)
-                if get("pkg.pypi.publishable") and get("workflow.publish.pypi"):
+                if get("pypkg_main.pypi.publishable") and get("workflow.publish.pypi"):
                   pypi = {
                     "label": "pip install ",
-                    "args": {"message": get("pkg.name").lower()},
-                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                    "args": {"message": get("pypkg_main.name").lower()},
+                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
                     "logo_type": "file",
                     "logo_media_type": "png",
                     "color": "#3775A9",
-                    "link": get("pkg.pypi.url.home"),
+                    "link": get("pypkg_main.pypi.url.home"),
                   }
                   out.append(pypi)
                 publish_conda = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
                 if publish_conda:
                   conda = {
                     "label": "conda install",
-                    "args": {"message": f"{get("pkg.name").lower()} -c {publish_conda["index"]["channel"].lower()}"},
+                    "args": {"message": f"{get("pypkg_main.name").lower()} -c {publish_conda["index"]["channel"].lower()}"},
                     "logo": "anaconda",
                     "logo_type": "name",
                     "logo_color": "#44A833",
                     "color": "#44A833",
-                    "link": get("pkg.conda.url.home"),
+                    "link": get("pypkg_main.conda.url.home"),
                   }
                   out.append(conda)
                 publish_docker = get("workflow.binder")
@@ -296,7 +296,7 @@ file_readme:
                 - - - |
                       *{{
                         #{{
-                          if not get("pkg.pypi.publishable"):
+                          if not get("pypkg_main.pypi.publishable"):
                             return []
                           badges = {
                             "class": "badges",
@@ -306,7 +306,7 @@ file_readme:
                             "separator": 1,
                             "service": "pypi",
                             "endpoint": "downloads",
-                            "args": {"package": get("pkg.name")},
+                            "args": {"package": get("pypkg_main.name")},
                             "logo": "",
                             "label": "",
                             "items": [
@@ -314,7 +314,7 @@ file_readme:
                                 "service": "pepy",
                                 "endpoint": "total_downloads",
                                 "label": "PyPI",
-                                "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                                "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
                                 "logo_type": "file",
                                 "logo_media_type": "png",
                               },
@@ -336,7 +336,7 @@ file_readme:
                             "color": get("__data__.badge.color.blue"),
                             "service": "conda",
                             "endpoint": "downloads",
-                            "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pkg.name").lower()},
+                            "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pypkg_main.name").lower()},
                             "label": "Conda",
                             "logo": "anaconda",
                             "logo_color": "#44A833",
@@ -518,7 +518,7 @@ file_readme:
                                     badge = {
                                       "endpoint": "deployment_status",
                                       "args": {"environment": env_name},
-                                      "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                                      "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
                                       "logo_type": "file",
                                       "logo_media_type": "png",
                                     }

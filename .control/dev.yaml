@@ -444,7 +444,7 @@ devcontainer_main:
               - '${{ pypkg_test.path.source }}$'
             target-version: >-
               #{{
-                major, minor = get("pkg.python.version.minors")[0].split(".")
+                major, minor = get("pypkg_main.python.version.minors")[0].split(".")
                 return f"py{major}{minor}"
               }}#
             format:

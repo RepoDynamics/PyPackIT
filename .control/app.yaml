@@ -113,7 +113,7 @@ pypkg_test:
   path:
     root: test
   name: ${{ pypkg_main.name }}$-TestSuite
-  os: ${{ pypkg_main.os }}
+  os: ${{ pypkg_main.os }}$
   dependency:
     # For other PyTest plugins, see:
     # - https://github.com/augustogoulart/awesome-pytest
@@ -215,14 +215,14 @@ pypkg_test:
         max_line_length: ${{ devcontainer_main.environment.pre_commit.file.ruff_config.content.line-length }}$
         mode: prepend
   conda:
-    recipe: ${{ __temp__.conda-recipe }}$
+    recipe: ${{ __temp__.conda_recipe }}$
   pyproject: ${{ __temp__.pyproject }}$
   file:
     readme:
       name: Test Suite README
       summary: |
         Main README file for the test suite.
-      path: ${{ pypkg_test.path.root }}$/${{ pypkg_test.pyproject.readme.file }}$
+      path: ${{ pypkg_test.path.root }}$/${{ pypkg_test.pyproject.project.readme.file }}$
       content: ${{ file_readme.content }}$
       type: md
       file_setting:
