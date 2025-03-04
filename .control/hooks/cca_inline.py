@@ -102,10 +102,10 @@ class Hooks:
         if self._binder_files:
             return self._binder_files.get(source, "")
         install = _import_module_from_path(self.repo_path / ".dev/install.py")
-        pyver = self.get("pkg.python.version")
-        pkg_path = self.get("pkg.path.root")
-        test_path = self.get("test.path.root")
-        pkg_dep = self.get("pkg.dependency")
+        pyver = self.get("pypkg_main.python.version")
+        pkg_path = self.get("pypkg_main.path.root")
+        test_path = self.get("pypkg_test.path.root")
+        pkg_dep = self.get("pypkg_main.dependency")
         env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
@@ -113,7 +113,7 @@ class Hooks:
         _, self._binder_files = install.DependencyInstaller(
             python_version=pyver,
             pkg_dep=pkg_dep,
-            test_dep=self.get("test.dependency", {}),
+            test_dep=self.get("pypkg_test.dependency", {}),
         ).run(
             platform="linux-64",
             sources=["conda", "apt", "bash"],

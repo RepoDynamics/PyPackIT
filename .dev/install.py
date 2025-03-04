@@ -180,9 +180,9 @@ def get_dependencies(
     except _json.JSONDecodeError as e:
         raise ValueError(f"Failed to load dependencies from '{filepath}'") from e
     return DependencyInstaller(
-        python_version=data["pkg"]["python"]["version"],
-        pkg_dep=data["pkg"]["dependency"],
-        test_dep=data.get("test", {}).get("dependency", {}),
+        python_version=data["pypkg_main"]["python"]["version"],
+        pkg_dep=data["pypkg_main"]["dependency"],
+        test_dep=data.get("pypkg_test", {}).get("dependency", {}),
     ).run(
         pkg=pkg,
         pkg_extras=pkg_extras,
@@ -326,9 +326,9 @@ class DependencyInstaller:
                 raise ValueError(f"Python version '{python_version}' is not supported.")
         else:
             python_version = self._pyver["spec"]
-        dependencies.setdefault("conda", []).append({"spec": f"python {python_version}"})
+        dependencies.setdefault("conda", []).append({"install": {"conda": {"spec": f"python {python_version}"}}})
         if extra_pip_specs:
-            dependencies.setdefault("pip", []).extend([{"spec": spec} for spec in extra_pip_specs])
+            dependencies.setdefault("pip", []).extend([{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs])
         files = {}
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
