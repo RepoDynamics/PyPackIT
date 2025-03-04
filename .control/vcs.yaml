@@ -203,32 +203,37 @@ file_gitattributes:
       # ------------------------------------------ Jupyter notebook --------------------------------------
       - "*.ipynb": [ text, eol=lf ]
     jsonschema:
-      title: .gitattributes
-      description: |
-        The data must be an array of objects, as explained below.
-      type: array
-      uniqueItems: true
-      items:
-        title: File Attributes
-        summary: Attributes for a specific filetype.
-        description: |
-          This must be a key-value pair, where the key is a path or glob pattern,
-          and the value is the attributes to set for the matched files,
-          specified as an array of strings.
-        type: object
-        minProperties: 1
-        maxProperties: 1
-        additionalProperties:
-          title: Attributes
-          summary: List of attributes to set for the matched files.
-          type: array
-          minItems: 1
-          uniqueItems: true
-          items:
-            title: Attribute
-            summary: An attribute to set for the matched files.
-            type: string
-            minLength: 1
+      schema:
+        additionalProperties: false
+        required: [ content ]
+        properties:
+          content:
+            title: .gitattributes
+            description: |
+              The data must be an array of objects, as explained below.
+            type: array
+            uniqueItems: true
+            items:
+              title: File Attributes
+              summary: Attributes for a specific filetype.
+              description: |
+                This must be a key-value pair, where the key is a path or glob pattern,
+                and the value is the attributes to set for the matched files,
+                specified as an array of strings.
+              type: object
+              minProperties: 1
+              maxProperties: 1
+              additionalProperties:
+                title: Attributes
+                summary: List of attributes to set for the matched files.
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items:
+                  title: Attribute
+                  summary: An attribute to set for the matched files.
+                  type: string
+                  minLength: 1
 file_gitignore:
   name: .gitignore
   summary: Main [`.gitignore`](https://git-scm.com/docs/gitignore) file for the repository.
