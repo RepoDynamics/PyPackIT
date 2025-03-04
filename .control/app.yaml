@@ -77,8 +77,20 @@ pypkg_main:
     recipe: ${{ __temp__.conda_recipe }}$
   pyproject: ${{ __temp__.pyproject }}$
   file:
+    readme:
+      name: Package README
+      summary: |
+        Main README file for the package.
+      path: ${{ pypkg_main.path.root }}$/${{ pypkg_main.pyproject.readme.file }}$
+      content: ${{ file_readme.content }}$
+      type: md
+      file_setting:
+        md:
+          target: pypi
     setuptools_manifest:
       name: MANIFEST.in
+      summary: |
+        Manifest file for controlling files and directories in the source distribution.
       description: |
         The `MANIFEST.in` file is used to 
         [control files and directories](https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#controlling-files-in-the-distribution)
@@ -206,8 +218,20 @@ pypkg_test:
     recipe: ${{ __temp__.conda-recipe }}$
   pyproject: ${{ __temp__.pyproject }}$
   file:
+    readme:
+      name: Test Suite README
+      summary: |
+        Main README file for the test suite.
+      path: ${{ pypkg_test.path.root }}$/${{ pypkg_test.pyproject.readme.file }}$
+      content: ${{ file_readme.content }}$
+      type: md
+      file_setting:
+        md:
+          target: pypi
     setuptools_manifest:
       name: MANIFEST.in
+      summary: |
+        Manifest file for controlling files and directories in the source distribution.
       type: txt
       path: ${{ pypkg_test.path.root }}$/MANIFEST.in
       content:
@@ -216,9 +240,10 @@ pypkg_test:
         - global-exclude *.py[cod] __pycache__ *.so
     pytest_config:
       name: Pytest Configuration
-      description: |
+      summary: >-
         Pytest [configuration file](https://docs.pytest.org/en/stable/reference/customize.html)
-        in TOML format. 
+        in TOML format.
+      description: |
         See [Pytest Configuration Options](https://docs.pytest.org/en/stable/reference/reference.html#ini-options-ref)
         for a full list of available settings.
       type: toml
@@ -269,7 +294,7 @@ pypkg_test:
                 - pytest-html == 4.1.1
     coverage_config:
       name: Coverage Configuration
-      description: |
+      summary: |
         Coverage [configuration file](https://coverage.readthedocs.io/en/latest/config.html),
         which is also used by the 
         [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/config.html) plugin.
@@ -308,7 +333,7 @@ pypkg_test:
             json:
               output: $|| path_report ||/coverage/coverage.json
               pretty_print: true
-
+# Binder configuration files
 file_binder_conda:
   name: Binder Conda Environment File
   summary: >-
@@ -336,8 +361,7 @@ file_binder_postbuild:
   path: ${{ workflow.binder.path.config}}$/postBuild
   content: |
     #{{ return hook.binder_config_file("bash") }}#
-
-
+# License files
 copy_app_license:
   sources: |
     #{{
@@ -361,7 +385,7 @@ copy_app_copyright:
   destinations:
     - ${{ pkg.path.root }}$/${{ __data__.dir_name.copyrights }}$
     - ${{ test.path.root }}$/${{ __data__.dir_name.copyrights }}$
-
+# Templates
 __temp__:
   conda_recipe:
     path:
