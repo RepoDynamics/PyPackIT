@@ -2790,6 +2790,7 @@ pull:
         value: "\n\n**TBD**\n\n"
       timeline: ${{ issue.protocol.data.timeline }}$
 file_codeowners:
+  name: CODEOWNERS
   summary: >-
     [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file.
   description: |
@@ -2819,5 +2820,6 @@ file_codeowners:
       - .github/CODEOWNERS
       - docs/CODEOWNERS
     pattern: ^(?:|.github/|docs/)CODEOWNERS$
+  type: txt
   content: >-
     #{{ return hook.file_codeowners() }}#
