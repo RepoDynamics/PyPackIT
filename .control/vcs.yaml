@@ -80,7 +80,7 @@ file_gitattributes:
   content: |-
     #{{
       lines = []
-      attributes = get(".config.content", [])
+      attributes = get(".data.content", [])
       max_len_pattern = max([len(list(attribute.keys())[0]) for attribute in attributes])
       max_len_attr = max(
           [max(len(attr) for attr in list(attribute.values())[0]) for attribute in attributes]
@@ -92,7 +92,7 @@ file_gitattributes:
           lines.append(f"{pattern: <{max_len_pattern}}    {attrs_str}")
       return "\n".join(lines)
     }}#
-  config:
+  data:
     content:
       # ------------------------------------------ Auto Detect -------------------------------------------
       # Auto-detect text files and perform LF normalization. This will handle all files NOT listed below.
