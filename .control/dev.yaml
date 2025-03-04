@@ -188,7 +188,7 @@ devcontainer_main:
       file:
         mypy_config:
           name: Mypy Configuration
-          summary: |
+          summary: >-
             Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
             in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
           type: toml
@@ -235,7 +235,7 @@ devcontainer_main:
       file:
         codecov_config:
           name: Codecov Configuration
-          summary: |
+          summary: >-
             Codecov [configuration file](https://docs.codecov.com/docs/codecov-yaml)
             in YAML format.
           description: |
@@ -427,7 +427,7 @@ devcontainer_main:
                     verbose: true
         ruff_config:
           name: Ruff Configuration
-          summary: |
+          summary: >-
             Ruff [configuration file](https://docs.astral.sh/ruff/settings/)
             in TOML format.
           type: toml
