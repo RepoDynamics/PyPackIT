@@ -45,7 +45,7 @@ about:
     on GitHub
   dev_url: https://github.com/RepoDynamics/PyPackIT
   doc_url: https://pypackit.repodynamics.com
-  doc_source_url: https://github.com/RepoDynamics/PyPackIT/blob/main/pkg/README.md
+  doc_source_url: https://github.com/RepoDynamics/PyPackIT/blob/main/README.md
   description: |-
     {{
       load_file_regex(

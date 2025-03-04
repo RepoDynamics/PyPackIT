@@ -1,0 +1,288 @@
+{
+   "author": "RepoDynamics",
+   "bibtex_bibfiles": [
+      "refs.bib"
+   ],
+   "bibtex_default_style": "plain",
+   "bibtex_reference_style": "label",
+   "blog_authors": {
+      "aariam": [
+         "Armin Ariamajd",
+         "https://github.com/AAriam"
+      ],
+      "owner": [
+         "RepoDynamics",
+         "https://repodynamics.com"
+      ]
+   },
+   "blog_baseurl": "https://pypackit.repodynamics.com",
+   "blog_default_author": "owner",
+   "blog_feed_archives": true,
+   "blog_path": "news/list",
+   "blog_post_pattern": [
+      "news/post/*.md"
+   ],
+   "blog_title": "PyPackIT News",
+   "exclude_patterns": [
+      "Thumbs.db",
+      ".DS_Store",
+      ".ipynb_checkpoints",
+      "README.md"
+   ],
+   "extensions": [
+      "sphinx.ext.duration",
+      "sphinx.ext.graphviz",
+      "sphinx.ext.inheritance_diagram",
+      "sphinx.ext.intersphinx",
+      "sphinx.ext.linkcode",
+      "myst_nb",
+      "sphinx_design",
+      "sphinx_external_toc",
+      "sphinx_copybutton",
+      "sphinxext.opengraph",
+      "sphinxcontrib.bibtex",
+      "sphinx_togglebutton",
+      "sphinxcontrib.mermaid",
+      "sphinx_thebe",
+      "sphinx_last_updated_by_git",
+      "sphinxcontrib.rsvgconverter",
+      "sphinx_tippy",
+      "notfound.extension",
+      "jsonschema_autodoc.sphinx"
+   ],
+   "external_toc_exclude_missing": false,
+   "external_toc_path": "docs/website/source/.toc.yaml",
+   "fontawesome_included": true,
+   "html_baseurl": "https://pypackit.repodynamics.com",
+   "html_context": {
+      "default_mode": "auto",
+      "doc_path": "docs/website/source",
+      "github_repo": "PyPackIT",
+      "github_user": "RepoDynamics",
+      "github_version": "main",
+      "pp_title_sep": ".\u2002"
+   },
+   "html_css_files": [
+      "https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+   ],
+   "html_extra_path": [],
+   "html_favicon": "_media/logo/favicon.svg",
+   "html_js_files": [
+      "https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"
+   ],
+   "html_last_updated_fmt": "%b %d, %Y",
+   "html_math_renderer": "mathjax",
+   "html_secnumber_suffix": ".\u2002",
+   "html_short_title": "PyPackIT",
+   "html_show_sphinx": false,
+   "html_sidebars": {
+      "news/**": [
+         "ablog/postcard.html",
+         "ablog/recentposts.html",
+         "ablog/tagcloud.html",
+         "ablog/categories.html",
+         "ablog/archives.html",
+         "ablog/authors.html"
+      ]
+   },
+   "html_static_path": [
+      "_static",
+      "_media/logo/simple_light.svg",
+      "_media/logo/simple_dark.svg"
+   ],
+   "html_theme": "pydata_sphinx_theme",
+   "html_theme_options": {
+      "analytics": {
+         "google_analytics_id": "G-0X66W6TGL2"
+      },
+      "announcement": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/announcement.html",
+      "article_footer_items": [],
+      "article_header_end": [],
+      "article_header_start": [
+         "breadcrumbs"
+      ],
+      "back_to_top_button": true,
+      "content_footer_items": [
+         "user_login_dialog"
+      ],
+      "footer_center": [],
+      "footer_end": [
+         "quicklinks"
+      ],
+      "footer_start": [
+         "footer_badges"
+      ],
+      "header_links_before_dropdown": 7,
+      "icon_links": [
+         {
+            "icon": "fa-brands fa-github",
+            "name": "Source Repository",
+            "url": "https://github.com/RepoDynamics/PyPackIT"
+         },
+         {
+            "icon": "fa-regular fa-circle-dot",
+            "name": "Issues",
+            "url": "https://github.com/RepoDynamics/PyPackIT/issues"
+         },
+         {
+            "icon": "fa-solid fa-code-pull-request",
+            "name": "Pull Requests",
+            "url": "https://github.com/RepoDynamics/PyPackIT/pulls"
+         },
+         {
+            "icon": "fa-solid fa-comments",
+            "name": "Discussions",
+            "url": "https://github.com/RepoDynamics/PyPackIT/discussions"
+         },
+         {
+            "icon": "fa-solid fa-copyright",
+            "name": "License",
+            "url": "https://pypackit.repodynamics.com/about/license"
+         }
+      ],
+      "icon_links_label": "External links",
+      "logo": {
+         "alt_text": "PyPackIT",
+         "image_dark": "_static/simple_dark.svg",
+         "image_light": "_static/simple_light.svg"
+      },
+      "navbar_align": "left",
+      "navbar_center": [
+         "navbar-nav"
+      ],
+      "navbar_end": [
+         "navbar-icon-links"
+      ],
+      "navbar_persistent": [
+         "search-button",
+         "theme-switcher",
+         "user_login_button"
+      ],
+      "navbar_start": [
+         "navbar-logo"
+      ],
+      "navigation_depth": 5,
+      "primary_sidebar_end": [],
+      "pygments_dark_style": "monokai",
+      "pygments_light_style": "default",
+      "search_bar_text": "Search PyPackIT",
+      "secondary_sidebar_items": [
+         "page-toc",
+         "last-updated",
+         "edit-this-page"
+      ],
+      "show_nav_level": 1,
+      "show_prev_next": true,
+      "show_toc_level": 5,
+      "sidebar_includehidden": true,
+      "sidebarwidth": 270,
+      "use_edit_page_button": true
+   },
+   "html_title": "PyPackIT",
+   "html_use_opensearch": "https://pypackit.repodynamics.com",
+   "intersphinx_mapping": {
+      "matplotlib": null,
+      "numpy": null,
+      "python": [
+         "https://docs.python.org/3/",
+         null
+      ],
+      "scipy": null
+   },
+   "language": "en",
+   "latex_elements": {
+      "figure_align": "htbp",
+      "fncychap": "\\usepackage[Bjornstrup]{fncychap}",
+      "fontpkg": "\\setmainfont{DejaVu Serif}\n\\setsansfont{DejaVu Sans}\n\\setmonofont{DejaVu Sans Mono}\n",
+      "papersize": "a4paper",
+      "pointsize": "11pt",
+      "preamble": "\\usepackage[titles]{tocloft}\n\\usepackage{fontspec}\n\\cftsetpnumwidth {1.25cm}\\cftsetrmarg{1.5cm}\n\\setlength{\\cftchapnumwidth}{0.75cm}\n\\setlength{\\cftsecindent}{\\cftchapnumwidth}\n\\setlength{\\cftsecnumwidth}{1.25cm}\n",
+      "printindex": "\\footnotesize\\raggedright\\printindex"
+   },
+   "latex_engine": "lualatex",
+   "latex_logo": "_media/logo/full_light.png",
+   "latex_show_pagerefs": true,
+   "latex_show_urls": "footnote",
+   "latex_theme": "manual",
+   "math_eqref_format": "Eq. {number}",
+   "math_number_all": true,
+   "math_numfig": true,
+   "math_numsep": ".",
+   "maximum_signature_line_length": 80,
+   "myst_enable_extensions": [
+      "amsmath",
+      "attrs_inline",
+      "attrs_block",
+      "colon_fence",
+      "deflist",
+      "dollarmath",
+      "fieldlist",
+      "html_admonition",
+      "html_image",
+      "linkify",
+      "replacements",
+      "smartquotes",
+      "substitution",
+      "tasklist"
+   ],
+   "myst_fence_as_directive": [
+      "mermaid"
+   ],
+   "myst_heading_anchors": 6,
+   "myst_linkify_fuzzy_links": false,
+   "myst_links_external_new_tab": true,
+   "needs_sphinx": 8.1,
+   "nitpicky": true,
+   "notfound_urls_prefix": "/PyPackIT/",
+   "numfig": true,
+   "numfig_format": {
+      "code-block": "Code %s",
+      "figure": "Figure %s",
+      "section": "Section",
+      "table": "Table %s"
+   },
+   "numfig_secnum_depth": 3,
+   "ogp_enable_meta_description": true,
+   "ogp_site_url": "https://pypackit.repodynamics.com",
+   "ogp_social_cards": {
+      "image": "_static/simple_light.svg",
+      "line_color": "rgb(0 85 0)"
+   },
+   "ogp_use_first_image": true,
+   "post_always_section": true,
+   "post_auto_image": 1,
+   "post_show_prev_next": false,
+   "project": "PyPackIT",
+   "project_copyright": "\u00a9 2023\u20132025 RepoDynamics",
+   "pygment_style": "default",
+   "python_display_short_literal_types": true,
+   "python_maximum_signature_line_length": 80,
+   "root_doc": "index",
+   "sd_fontawesome_latex": true,
+   "show_authors": true,
+   "show_warning_types": true,
+   "suppress_warnings": [
+      "etoc.toctree"
+   ],
+   "templates_path": [
+      "_templates"
+   ],
+   "tippy_props": {
+      "delay": [
+         200,
+         500
+      ],
+      "duration": [
+         200,
+         100
+      ],
+      "interactive": true,
+      "maxWidth": 500,
+      "placement": "auto-start",
+      "theme": "material"
+   },
+   "today_fmt": "%b %d, %Y",
+   "togglebutton_hint": "show details",
+   "togglebutton_hint_hide": "hide details",
+   "trim_footnote_reference_space": true
+}

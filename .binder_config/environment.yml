@@ -1,0 +1,6 @@
+dependencies:
+  - pip
+  - python >=3.10
+  - pip:
+    - -e ../pkg
+    - -e ../test

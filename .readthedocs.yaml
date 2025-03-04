@@ -7,7 +7,7 @@ build:
     post_checkout:
       - git fetch --unshallow
 conda:
-  environment: docs/website/environment.yaml
+  environment: .devcontainer/container-docs/env/conda/website.yaml
 python:
   install:
     - method: pip

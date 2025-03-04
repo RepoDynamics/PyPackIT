@@ -1,0 +1,22 @@
+{
+   "description": "Install Pixi in the development container and activate it.",
+   "documentationURL": "https://pixi.sh/latest/ide_integration/devcontainer/",
+   "id": "pixi",
+   "mounts": [
+      {
+         "source": "${localWorkspaceFolderBasename}-pixi",
+         "target": "${containerWorkspaceFolder}/.pixi",
+         "type": "volume"
+      }
+   ],
+   "name": "Pixi",
+   "options": {
+      "version": {
+         "default": "0.40.3",
+         "description": "The version of Pixi to install.",
+         "type": "string"
+      }
+   },
+   "postCreateCommand": "sudo chown $(whoami) .pixi &&  echo 'eval \"$(pixi completion -s bash)\"' >> $HOME/.bashrc &&  pixi install",
+   "version": "0.40.3"
+}

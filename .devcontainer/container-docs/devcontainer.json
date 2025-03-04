@@ -1,0 +1,25 @@
+{
+   "customizations": {
+      "vscode": {
+         "extensions": [
+            "James-Yu.latex-workshop",
+            "ExecutableBookProject.myst-highlight"
+         ]
+      }
+   },
+   "dockerComposeFile": [
+      "../docker-compose.yaml"
+   ],
+   "features": {
+      "ghcr.io/devcontainers/features/common-utils:2": {},
+      "ghcr.io/devcontainers/features/conda:1": {
+         "addCondaForge": true,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/git:1": {}
+   },
+   "name": "Documentation Environment",
+   "service": "docs",
+   "shutdownAction": "none",
+   "workspaceFolder": "/workspace"
+}

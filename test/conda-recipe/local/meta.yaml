@@ -27,9 +27,9 @@ requirements:
   run:
     - python >=3.10
     - conda-forge::pytest ==8.3.3
-    - conda-forge::coverage ==7.6.1
     - conda-forge::pytest-cov ==5.0.0
     - conda-forge::pytest-html ==4.1.1
+    - conda-forge::coverage ==7.6.1
     - repodynamics::pkgdata
 
 test:
@@ -51,10 +51,14 @@ about:
     on GitHub
   dev_url: https://github.com/RepoDynamics/PyPackIT
   doc_url: https://pypackit.repodynamics.com
-  doc_source_url: https://github.com/RepoDynamics/PyPackIT/blob/main/pkg/README.md
-  description: |
-    # PyPackIT-TestSuite
-    This is the test-suite for PyPackIT.
+  doc_source_url: https://github.com/RepoDynamics/PyPackIT/blob/main/README.md
+  description: |-
+    {{
+      load_file_regex(
+        load_file=pkg_dir ~ "README.md",
+        regex_pattern="(?s)^(.*)$",
+      )[1] | default("") | indent(width=4)
+    }}
 
 recipe-maintainers:
   - AAriam

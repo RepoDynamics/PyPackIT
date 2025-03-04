@@ -1,0 +1,29 @@
+services:
+  openjournals:
+    container_name: inara
+    image: openjournals/inara:latest
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - tail -f /dev/null
+    volumes:
+      - ../:/workspace
+    working_dir: /workspace
+  main:
+    container_name: main
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    privileged: true
+    build:
+      context: ../
+      dockerfile: .devcontainer/devcontainer_main/devcontainer.json/Dockerfile
+  docs:
+    container_name: docs
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    build:
+      context: ../
+      dockerfile: .devcontainer/devcontainer_docs/devcontainer.json/Dockerfile
