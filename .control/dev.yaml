@@ -366,7 +366,7 @@ devcontainer_main:
                       #{{
                         import re
                         conda_meta_paths = []
-                        for key in ("pkg", "test"):
+                        for key in ("pypkg_main", "pypkg_test"):
                           conda_meta_paths.extend(list(get(f"{key}.conda.recipe.path", {}).values()))
                         return "|".join(re.escape(path) for path in conda_meta_paths)
                       }}#
