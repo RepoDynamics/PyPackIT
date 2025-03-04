@@ -1,5 +1,5 @@
 {
-   "__custom__": {
+   "__data__": {
       "badge": {
          "color": {
             "blue": "#0B3C75",
@@ -506,6 +506,7 @@
       }
    },
    "citation": {
+      "dois": [{"value": "10.5281/zenodo.14744153", "description": "First description"}, {"value": "10.5281/zenodo.14744900", "description": "Second description"}],
       "cff": {
          "abstract": "PyPackIT [\u02c8pa\u026a\u02ccp\u00e6k\u026at] is a comprehensive <strong>cloud-based automation tool</strong> for production of <abbr title=\"Findable, Accessible, Interoperable, and Reusable\">FAIR</abbr> and professional applications on <strong>GitHub</strong>, in accordance with the latest software engineering best practices and standards. PyPackIT is a ready-to-use software suite  that streamlines the initiation, configuration, development, publication, management,  and maintenance of high-quality <strong>Python applications</strong>. By taking charge of repetitive tasks  and automatically enforcing best practices throughout the software development life cycle, PyPackIT enables users to solely focus  on the creative aspects of their projects, while improving quality and lowering production costs. Using latest tools and methodologies, PyPackIT offers a robust project infrastructure, including a build-ready Python <strong>package skeleton</strong>, a fully operational <strong>test suite</strong>,  an automated <strong>documentation website</strong>, and a comprehensive <strong>control center</strong>  according to <strong>Infrastructure-as-Code</strong> and <strong>Continuous Configuration Automation</strong> practices  to enable dynamic project management and customization. PyPackIT establishes a complete <strong>cloud development</strong> environment on GitHub, integrating with its version control system, issue tracker,and pull-based model  to provide a fully <strong>automated software development workflow</strong> with <strong>issue management</strong>,  <strong>branching model</strong>, and <strong>versioning scheme</strong>. Leveraging <strong>GitHub Actions</strong>,  PyPackIT implements a cloud-native Agile development process using <strong>Continuous software engineering</strong>, <strong>containerization</strong>, and <strong>DevOps</strong> methodologies, with a full set of <strong>Continuous Integration</strong>, Deployment, Testing, Refactoring, and Maintenance pipelines.  PyPackIT is a <strong>free</strong> and <strong>open-source</strong> software suite that readily integrates with both new and existing projects to ensure their long-term sustainability and high quality, enabling software projects to rapidly implement their ideas  and easily maintain their products.",
          "authors": [
@@ -710,8 +711,8 @@
          "light": "hsl(218 19 16)"
       },
       "heading": {
-         "dark": "hsl(208 18 84)",
-         "light": "hsl(218 19 16)"
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
       },
       "info": {
          "dark": "hsl(219 82 71)",
@@ -843,7 +844,7 @@
       }
    },
    "commit": {
-      "__custom__": {
+      "__data__": {
          "h1_cd": {
             "description": "Changes in the Continuous Deployment pipelines of the project.",
             "title": "CD"
@@ -5199,7 +5200,7 @@
       }
    ],
    "issue": {
-      "__custom__": {
+      "__data__": {
          "agreements": [
             {
                "attributes": {
@@ -5493,7 +5494,7 @@
       ],
       "forms": [
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT",
@@ -5791,7 +5792,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\ud83d\udda5\u2002API\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT"
                ],
@@ -6075,7 +6076,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\u2328\ufe0f\u2002CLI\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -6639,7 +6640,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\u2699\ufe0f\u2002Setup\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT",
@@ -6854,7 +6855,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\ud83d\udda5\u2002API\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT"
                ],
@@ -7055,7 +7056,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\u2328\ufe0f\u2002CLI\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -7252,7 +7253,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\ud83d\uddb1\u2002GUI\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT",
@@ -7467,7 +7468,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\ud83d\udda5\u2002API\u2002\ud83d\udca5\u2002Change Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT"
                ],
@@ -7668,7 +7669,7 @@
             "name": "\u2002\ud83d\udce6\u2002App\u2002\u2328\ufe0f\u2002CLI\u2002\ud83d\udca5\u2002Change Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -8421,7 +8422,7 @@
             "name": "\u2002\ud83d\udcda\u2002Docs\u2002\ud83d\udca5\u2002Change Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT-TestSuite",
@@ -8719,7 +8720,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\ud83d\udda5\u2002API\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT-TestSuite"
                ],
@@ -9003,7 +9004,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\u2328\ufe0f\u2002CLI\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -9567,7 +9568,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\u2699\ufe0f\u2002Setup\u2002\ud83d\udc1e\u2002Bug Report"
          },
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT-TestSuite",
@@ -9782,7 +9783,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\ud83d\udda5\u2002API\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT-TestSuite"
                ],
@@ -9983,7 +9984,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\u2328\ufe0f\u2002CLI\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -10180,7 +10181,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\ud83d\uddb1\u2002GUI\u2002\u2728\u2002Feature Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "pkg_entry_description": "Python application programming interface",
                "pkg_entry_name": "API",
                "pkg_name": "PyPackIT-TestSuite",
@@ -10395,7 +10396,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\ud83d\udda5\u2002API\u2002\ud83d\udca5\u2002Change Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "cli_names": [
                   "PyPackIT-TestSuite"
                ],
@@ -10596,7 +10597,7 @@
             "name": "\u2002\ud83e\uddea\u2002Tests\u2002\u2328\ufe0f\u2002CLI\u2002\ud83d\udca5\u2002Change Request"
          },
          {
-            "__custom__": {
+            "__data__": {
                "gui_names": [],
                "pkg_entry_description": "graphical user interface",
                "pkg_entry_name": "GUI",
@@ -11562,7 +11563,7 @@
          },
          "template": {
             "body": [
-               "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__custom__.badge.style,\n    color=label.color,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__custom__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}\n"
+               "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__data__.badge.style,\n    color=label.color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__data__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}\n"
             ],
             "sections": [
                {
@@ -11581,7 +11582,7 @@
                               "args": {
                                  "message": "{{ issue.state }}"
                               },
-                              "color": "{{ ccc.__custom__.badge.color.green if issue.state == \"open\" else ccc.__custom__.badge.color.red }}",
+                              "color": "{{ ccc.__data__.badge.color.green if issue.state == \"open\" else ccc.__data__.badge.color.red }}",
                               "label": "State",
                               "service": "static"
                            },
@@ -11663,7 +11664,7 @@
                         "separator": 2,
                         "style": "flat-square"
                      },
-                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.blue,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.blue,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.blue,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.blue,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.red,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.web.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.__custom__.icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
+                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.red,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.web.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.__data__.icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
                   ],
                   "heading": "User Requirements Document (URD)"
                },
@@ -12903,8 +12904,8 @@
                      "service": "static",
                      "style": "flat-square"
                   },
-                  "{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}",
-                  "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__custom__.badge.style,\n    color=label.color,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__custom__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n  ).source()\n}}\n"
+                  "{{ \"&nbsp;\" * ccc.__data__.badge.separator }}",
+                  "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__data__.badge.style,\n    color=label.color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__data__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}\n"
                ]
             ],
             "sections": [
@@ -12924,7 +12925,7 @@
                               "args": {
                                  "message": "{{ pull_request.state }}"
                               },
-                              "color": "{{ ccc.__custom__.badge.color.green if pull_request.state == \"open\" else ccc.__custom__.badge.color.red }}",
+                              "color": "{{ ccc.__data__.badge.color.green if pull_request.state == \"open\" else ccc.__data__.badge.color.red }}",
                               "label": "State",
                               "service": "static"
                            },
@@ -12974,7 +12975,7 @@
                {
                   "body": [
                      [
-                        "{% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}\n{% set config = ccc.tool.readthedocs.config.workflow %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.__custom__.badge.style,\n    color=ccc.__custom__.badge.color.blue,\n    label_color=ccc.__custom__.badge.color.grey,\n    height=ccc.__custom__.badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__custom__.badge.separator }}\n{%- endif -%}\n"
+                        "{% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}\n{% set config = ccc.tool.readthedocs.config.workflow %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif -%}\n"
                      ]
                   ],
                   "heading": "Testing"
@@ -15082,6 +15083,248 @@
          "retention_days": 30,
          "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/announcement.html"
       },
+      "css": {
+         "black_to_primary_filter": {
+            "cases": {
+               "dark": {
+                  "selector": "html[data-theme=\"dark\"] .black-svg-icon"
+               },
+               "light": {
+                  "selector": "html[data-theme=\"light\"] .black-svg-icon"
+               }
+            },
+            "properties": {
+               "filter": {
+                  "dark": "invert(67%) sepia(56%) saturate(7092%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(21%) sepia(31%) saturate(3822%) hue-rotate(94deg) brightness(95%) contrast(106%)"
+               }
+            }
+         },
+         "theme_colors": {
+            "cases": {
+               "dark": {
+                  "prefix": "--pst-color-",
+                  "selector": "html[data-theme=\"dark\"]"
+               },
+               "light": {
+                  "prefix": "--pst-color-",
+                  "selector": "html[data-theme=\"light\"]"
+               }
+            },
+            "properties": {
+               "accent": {
+                  "dark": "rgb(69 155 36)",
+                  "light": "rgb(19 84 0)"
+               },
+               "accent-bg": {
+                  "dark": "hsl(308 59 17)",
+                  "light": "hsl(307 64 92)"
+               },
+               "attention": {
+                  "dark": "hsl(25 100 64)",
+                  "light": "hsl(24 93 50)"
+               },
+               "attention-bg": {
+                  "dark": "hsl(24 96 20)",
+                  "light": "hsl(29 74 89)"
+               },
+               "background": {
+                  "dark": "hsl(216 20 10)",
+                  "light": "hsl(0 0 100)"
+               },
+               "blockquote-notch": {
+                  "dark": "hsl(215 11 65)",
+                  "light": "hsl(215 12 46)"
+               },
+               "border": {
+                  "dark": "hsl(216 20 35)",
+                  "light": "hsl(213 11 84)"
+               },
+               "border-muted": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "rgba(23 23 26 / 0.2)"
+               },
+               "danger": {
+                  "dark": "hsl(352 66% 72)",
+                  "light": "hsl(351 68 51)"
+               },
+               "danger-bg": {
+                  "dark": "hsl(350 64 19)",
+                  "light": "hsl(353 67 93)"
+               },
+               "dark": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(218 19 16)"
+               },
+               "dark-bg": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(218 19 16)"
+               },
+               "heading": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "info": {
+                  "dark": "hsl(219 82 71)",
+                  "light": "hsl(219 82 53)"
+               },
+               "info-bg": {
+                  "dark": "hsl(219 88 19)",
+                  "light": "hsl(219 84 93)"
+               },
+               "inline-code": {
+                  "dark": "hsl(307 65 87)",
+                  "light": "hsl(308 59 36)"
+               },
+               "inline-code-links": {
+                  "dark": "hsl(189 54 51)",
+                  "light": "hsl(189 86 23)"
+               },
+               "light": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(210 9 96)"
+               },
+               "light-bg": {
+                  "dark": "hsl(210 9 67)",
+                  "light": "hsl(210 9 97)"
+               },
+               "link": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "link-hover": {
+                  "dark": "rgb(175 138 0)",
+                  "light": "rgb(60 85 0)"
+               },
+               "muted": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(216 20 20)"
+               },
+               "muted-bg": {
+                  "dark": "hsl(216 20 14)",
+                  "light": "hsl(216 20 44)"
+               },
+               "on-background": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(0 0 100)"
+               },
+               "on-surface": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(218 19 16)"
+               },
+               "primary": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "primary-bg": {
+                  "dark": "hsl(189 85 11)",
+                  "light": "hsl(189 54 88)"
+               },
+               "secondary": {
+                  "dark": "rgb(175 138 0)",
+                  "light": "rgb(60 85 0)"
+               },
+               "secondary-bg": {
+                  "dark": "hsl(262 58 24)",
+                  "light": "hsl(267 100 89)"
+               },
+               "shadow": {
+                  "dark": "rgba(0 0 0 / 0.1)",
+                  "light": "rgba(0 0 0 / 0.1)"
+               },
+               "success": {
+                  "dark": "hsl(149 36 54)",
+                  "light": "hsl(149 100 26)"
+               },
+               "success-bg": {
+                  "dark": "hsl(149 100 9)",
+                  "light": "hsl(150 37 88)"
+               },
+               "surface": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table": {
+                  "dark": "hsl(0 0 100)",
+                  "light": "hsl(216 20 10)"
+               },
+               "table-heading-bg": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table-inner-border": {
+                  "dark": "hsl(215 19 26)",
+                  "light": "hsl(216 11 91)"
+               },
+               "table-outer-border": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table-row-hover-bg": {
+                  "dark": "hsl(262 59 35)",
+                  "light": "hsl(267 95 85)"
+               },
+               "table-row-zebra-high-bg": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(0 0 100)"
+               },
+               "table-row-zebra-low-bg": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "target": {
+                  "dark": "hsl(53 93 21)",
+                  "light": "hsl(37 80 77)"
+               },
+               "text-base": {
+                  "dark": "hsl(208 18 84)",
+                  "light": "hsl(218 19 16)"
+               },
+               "text-muted": {
+                  "dark": "hsl(215 11 65)",
+                  "light": "hsl(216 20 35)"
+               },
+               "warning": {
+                  "dark": "hsl(25 100 64)",
+                  "light": "hsl(24 93 50)"
+               },
+               "warning-bg": {
+                  "dark": "hsl(24 96 20)",
+                  "light": "hsl(29 74 89)"
+               }
+            }
+         },
+         "theme_font_sizes": {
+            "prefix": "--pst-font-size-",
+            "properties": {
+               "base": "1rem",
+               "h1": "2.74rem",
+               "h2": "2.28rem",
+               "h3": "1.90rem",
+               "h4": "1.58rem",
+               "h5": "1.32rem",
+               "h6": "1.10rem",
+               "milli": "0.9rem"
+            },
+            "selector": "html"
+         },
+         "theme_header_color": {
+            "cases": {
+               "dark": {
+                  "selector": "html[data-theme=\"dark\"] .bd-header"
+               },
+               "light": {
+                  "selector": "html[data-theme=\"light\"] .bd-header"
+               }
+            },
+            "properties": {
+               "background-color": {
+                  "dark": "black !important",
+                  "light": "white !important"
+               }
+            }
+         }
+      },
       "env": {
          "dependency": {
             "autobuild": {
@@ -15406,6 +15649,7 @@
                "myst_fence_as_directive": [
                   "mermaid"
                ],
+               "myst_linkify_fuzzy_links": false,
                "myst_heading_anchors": 6,
                "myst_links_external_new_tab": true,
                "myst_sub_delimiters": [
@@ -15739,8 +15983,14 @@
             "html_context": {
                "pp_title_sep": ".\u2002"
             },
+            "html_css_files": [
+               "https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+            ],
             "html_extra_path": [],
             "html_favicon": "_media/logo/favicon.svg",
+            "html_js_files": [
+               "https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"
+            ],
             "html_last_updated_fmt": "%b %d, %Y",
             "html_math_renderer": "mathjax",
             "html_secnumber_suffix": ".\u2002",
