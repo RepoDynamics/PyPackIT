@@ -1,7 +1,7 @@
 pypkg_test:
   path:
     root: test
-  name: ${{ pkg.name }}$-TestSuite
+  name: ${{ pypkg_main.name }}$-TestSuite
   os:
     linux:
       name: Linux
