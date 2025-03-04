@@ -1,9 +1,10 @@
-message: If you use PyPackIT, please cite it using this reference.
+message: Please cite PyPackIT using the following references.
 version: 0.0.0
 date-released: '2025-01-21'
 license:
   - AGPL-3.0-or-later
 url: https://pypackit.repodynamics.com
+repository-artifact: https://github.com/RepoDynamics/PyPackIT/releases
 repository-code: https://github.com/RepoDynamics/PyPackIT
 identifiers:
   - type: doi
