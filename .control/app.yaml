@@ -37,7 +37,7 @@ pypkg_main:
         import_name: versioningit
         install:
           pip:
-            version: versioningit >=3.1.2
+            version: '>=3.1.2'
             homepage: https://pypi.org/project/versioningit/
           conda:
             homepage: https://anaconda.org/conda-forge/versioningit
