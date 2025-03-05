@@ -18,7 +18,7 @@ services:
     privileged: true
     build:
       context: ../
-      dockerfile: .devcontainer/devcontainer_main/devcontainer.json/Dockerfile
+      dockerfile: .devcontainer/Dockerfile
   docs:
     container_name: docs
     volumes:
@@ -26,4 +26,4 @@ services:
     command: sleep infinity
     build:
       context: ../
-      dockerfile: .devcontainer/devcontainer_docs/devcontainer.json/Dockerfile
+      dockerfile: .devcontainer/container-docs/Dockerfile

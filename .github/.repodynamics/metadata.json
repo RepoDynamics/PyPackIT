@@ -3546,8 +3546,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(48%) sepia(42%) saturate(6587%) hue-rotate(79deg) brightness(104%) contrast(101%)",
-                  "light": "invert(17%) sepia(99%) saturate(1497%) hue-rotate(94deg) brightness(98%) contrast(101%)"
+                  "dark": "invert(55%) sepia(62%) saturate(5336%) hue-rotate(78deg) brightness(99%) contrast(101%)",
+                  "light": "invert(17%) sepia(51%) saturate(3084%) hue-rotate(94deg) brightness(99%) contrast(102%)"
                }
             }
          },
@@ -4461,7 +4461,7 @@
                "docs": {
                   "build": {
                      "context": "../",
-                     "dockerfile": ".devcontainer/devcontainer_docs/devcontainer.json/Dockerfile"
+                     "dockerfile": ".devcontainer/container-docs/Dockerfile"
                   },
                   "command": "sleep infinity",
                   "container_name": "docs",
@@ -4472,7 +4472,7 @@
                "main": {
                   "build": {
                      "context": "../",
-                     "dockerfile": ".devcontainer/devcontainer_main/devcontainer.json/Dockerfile"
+                     "dockerfile": ".devcontainer/Dockerfile"
                   },
                   "command": "sleep infinity",
                   "container_name": "main",
@@ -6213,7 +6213,7 @@
       "service": {
          "build": {
             "context": "../",
-            "dockerfile": ".devcontainer/devcontainer_main/devcontainer.json/Dockerfile"
+            "dockerfile": ".devcontainer/Dockerfile"
          },
          "privileged": true
       },
@@ -6354,7 +6354,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - pip\n  - python >=3.10\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.1\n  - conda-forge::pytest ==8.3.3\n  - conda-forge::pytest-cov ==5.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python >=3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
