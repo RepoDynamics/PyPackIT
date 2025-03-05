@@ -509,7 +509,7 @@ file_readme:
                             for platform in ("pypi", "testpypi"):
                               env = get(f"workflow.publish.{platform}.env")
                               if env:
-                                for pkg_key in ("pkg", "test"):
+                                for pkg_key in ("pypkg_main", "pypkg_test"):
                                   pkg_name = get(f"{pkg_key}.name")
                                   if pkg_name:
                                     env_name = jinja2.Template(env["name"]).render(
