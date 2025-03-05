@@ -182,7 +182,7 @@ class Hooks:
             base = "Programming Language :: Python"
             return [base] + [
                 f"{base} :: {version}"
-                for version in ["3 :: Only", *self.get(".python.version.minors")]
+                for version in ["3 :: Only", *self.get(f"{key}.python.version.minors")]
             ]
 
         def operating_system() -> list[str]:
@@ -194,9 +194,9 @@ class Hooks:
             }
             out = [
                 base.format(trove[runner_type])
-                for runner_type in {os["runner"].split("-")[0] for os in self.get(".os").values()}
+                for runner_type in {os["runner"].split("-")[0] for os in self.get(f"{key}.os").values()}
             ]
-            if self.get(".python.pure"):
+            if self.get(f"{key}.python.pure"):
                 out.append(base.format("OS Independent"))
             return out
 
@@ -226,8 +226,9 @@ class Hooks:
             }
             return f"Development Status :: {code} - {code_name[code]}"
 
+        key = self.get(".__key__")
         out = programming_language() + operating_system() + [development_phase()]
-        if self.get(".typed"):
+        if self.get(f"{key}.typed"):
             out.append("Typing :: Typed")
         return sorted(out)
 
