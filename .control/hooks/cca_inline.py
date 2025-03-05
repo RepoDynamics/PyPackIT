@@ -117,7 +117,6 @@ class Hooks:
         ).run(
             platform="linux-64",
             sources=["conda", "apt", "bash"],
-            exclude_sources=["pip"],
             extra_pip_specs=pip_specs,
         )
         if "bash" in self._binder_files:
