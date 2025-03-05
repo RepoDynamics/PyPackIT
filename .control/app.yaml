@@ -3,18 +3,30 @@ pypkg_main:
     linux-64:
       name: Linux (x64)
       runner: ubuntu-24.04
+      data:
+        logo: ${{ data_website.path.source }}/_media/logo_ext/linux.png
     linux-arm64:
       name: Linux (arm64)
       runner: ubuntu-24.04-arm
+      data:
+        logo: ${{ ...linux-64.data.logo }}$
     macos-64:
       name: macOS (x64)
       runner: macos-13
+      data:
+        logo: apple
+        logo_color: '#000000'
     macos-arm64:
       name: macOS (arm64)
       runner: macos-15
+      data:
+        logo: apple
+        logo_color: '#000000'
     windows-64:
       name: Windows (x64)
       runner: windows-2025
+      data:
+        logo: https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg
   entry:
     cli:
       main:

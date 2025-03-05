@@ -251,26 +251,14 @@ __data__:
                       badges = []
                       oss = get("pypkg_main.os")
                       color_green = get("__data__.badge.color.green")
-                      color_red = get("__data__.badge.color.red")
-                      for os_name, os_id, logo, logo_color in (
-                        ("Linux", "linux", f"{get("data_website.path.source")}/_media/logo_ext/linux.png", None),
-                        ("macOS", "macos", "apple", "#000000"),
-                        ("Windows", "windows", "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", None),
-                      ):
-                        if os_id not in oss:
-                          supports = "not supported"
-                          color = color_red
-                        else:
-                          os = oss[os_id]
-                          os_name = os["name"]
-                          supports = "any" if "cibuild" not in os else " | ".join(os["cibuild"])
-                          color = color_green
+                      for os in oss.values():
+                        supports = "any" if "cibuild" not in os else " | ".join(os["builds"])
                         badge = {
-                          "label": os_name,
+                          "label": os["name"],
                           "args": {"message": supports},
-                          "color": color,
-                          "logo": logo,
-                          "logo_color": logo_color
+                          "color": color_green,
+                          "logo": os.get("data", {}).get("logo"),
+                          "logo_color": os.get("data", {}).get("logo_color")
                         }
                         badges.append(badge)
                       return badges
