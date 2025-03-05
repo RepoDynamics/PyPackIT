@@ -1,6 +1,25 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools >=72.1.0",
+    "versioningit >=3.1.2",
+]
+
 [project]
 name = "PyPackIT"
 description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
+requires-python = ">=3.10"
+license = "AGPL-3.0-or-later"
+license-files = [
+    "LICENSES/*",
+    "COPYRIGHTS/*",
+]
+authors = [
+    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
+]
+maintainers = [
+    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
+]
 keywords = [
     "Automation",
     "Cloud-Native Development",
@@ -25,7 +44,6 @@ keywords = [
 ]
 classifiers = [
     "Natural Language :: English",
-    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Development Status :: 1 - Planning",
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",
@@ -39,20 +57,16 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
-authors = [
-    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
-]
-maintainers = [
-    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
-]
-requires-python = ">=3.10"
 dependencies = [
     "pkgdata",
 ]
 dynamic = [
     "version",
 ]
-license = {text = "AGPL-3.0-or-later"}
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
 
 [project.urls]
 Homepage = "https://pypackit.repodynamics.com"
@@ -62,25 +76,11 @@ Download = "https://github.com/RepoDynamics/PyPackIT/releases"
 News = "https://pypackit.repodynamics.com/news"
 Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
 
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
-
 [project.scripts]
 PyPackIT = "pypackit.__main__:main"
 
-[build-system]
-requires = [
-    "setuptools >=72.1.0",
-    "versioningit >=3.1.2",
-]
-build-backend = "setuptools.build_meta"
-
-[tool]
 [tool.setuptools]
 include-package-data = true
-license-files = ["LICENSES/*", "COPYRIGHTS/*"]
-
 [tool.setuptools.packages.find]
 where = ["src"]
 namespaces = true
@@ -89,7 +89,6 @@ namespaces = true
 build_py = "versioningit.cmdclass.build_py"
 sdist = "versioningit.cmdclass.sdist"
 
-[tool.versioningit]
 [tool.versioningit.vcs]
 method = "git"
 match = ["ver/[0-9]*.[0-9]*.[0-9]*"]

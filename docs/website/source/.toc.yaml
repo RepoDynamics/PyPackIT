@@ -37,7 +37,6 @@ entries:
     entries:
       - file: manual/install/index
         entries:
-          - file: manual/install/requirements
           - file: manual/install/new/index
           - file: manual/install/existing/index
           - file: manual/install/upgrade/index
@@ -85,10 +84,10 @@ entries:
       numbered: true
     entries:
       - file: about/citation/index
+      - file: about/contact/index
       - file: about/license/index
         entries:
           - glob: about/license/*/index
-      - file: about/team/index
   - file: help/index
     title: Help
     options:
