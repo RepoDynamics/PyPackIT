@@ -3546,8 +3546,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(49%) sepia(23%) saturate(6807%) hue-rotate(77deg) brightness(97%) contrast(103%)",
-                  "light": "invert(15%) sepia(51%) saturate(3951%) hue-rotate(106deg) brightness(104%) contrast(105%)"
+                  "dark": "invert(48%) sepia(42%) saturate(6587%) hue-rotate(79deg) brightness(104%) contrast(101%)",
+                  "light": "invert(17%) sepia(99%) saturate(1497%) hue-rotate(94deg) brightness(98%) contrast(101%)"
                }
             }
          },
