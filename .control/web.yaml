@@ -570,6 +570,7 @@ file_script_web_livehtml:
 devcontainer_docs:
   dockerfile:
     - FROM texlive/texlive:latest
+    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir }}$/
   container:
     name: Documentation Environment
     shutdownAction: none
@@ -581,12 +582,15 @@ devcontainer_docs:
         version: latest
         addCondaForge: true
       # https://github.com/devcontainers/features/tree/main/src/git
-      "ghcr.io/devcontainers/features/git:1": {}
+      ghcr.io/devcontainers/features/git:1: {}
+      ./${{ devfeat_conda_setup.path }}$: {}
     customizations:
       vscode:
         extensions:
           - James-Yu.latex-workshop
           - ExecutableBookProject.myst-highlight
+        settings:
+          terminal.integrated.scrollback: 100000
   environment:
     website:
       conda:
@@ -1161,17 +1165,12 @@ devcontainer_docs:
 
 __temp__:
   docker_install: |
-    COPY ${{ .path }}$/env /tmp/temp-env-files
+    
     RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
     RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
       if [ -f /tmp/temp-env-files/apt.txt ]; then \
         apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
       fi && rm -rf /var/lib/apt/lists/*
-    RUN if [ -d /tmp/temp-env-files/conda ] && ls /tmp/temp-env-files/conda/*.yaml >/dev/null 2>&1; then \
-      for file in /tmp/temp-env-files/conda/*.yaml; do \
-        conda env create -f "$file"; \
-      done; \
-    fi
   docker_pkg_deps: |
     COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
     RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
