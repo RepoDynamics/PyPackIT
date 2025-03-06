@@ -224,6 +224,10 @@ devcontainer_main:
                 # Miscellaneous
                 verbosity: 2
     codecov:
+      conda:
+        rust:
+          notes: |
+            Required for the `codecov` package.
       pip:
         codecov-cli:
           spec:

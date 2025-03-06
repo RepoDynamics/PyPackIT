@@ -1,5 +1,6 @@
 name: codecov
 dependencies:
+  - rust
   - pip
   - pip:
       - codecov-cli ==10.0.1
