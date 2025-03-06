@@ -26,7 +26,63 @@ devfeature_pixi:
     curl -L -o /usr/local/bin/pixi -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
     chmod +x /usr/local/bin/pixi
     pixi info
-
+devfeature_conda_setup:
+  feature:
+    name: Conda Setup
+    version: 0.1.0
+    description: Install conda environments and setup conda configuration.
+    installsAfter:
+      - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/conda
+    postCreateCommand: >-
+      channels=$(conda config --show channels 2>/dev/null | grep 'channels:') 
+      && [ -n "$channels" ] 
+      && echo "Removing existing Conda channels..." 
+      && conda config --remove-key channels; 
+      echo "Adding conda-forge as the only channel..." 
+      && conda config --add channels conda-forge 
+      && echo "Setting strict channel priority..." 
+      && conda config --set channel_priority strict 
+      && echo "Verifying channels..." 
+      && conda config --show channels;
+      echo "Initializing conda..."
+      && conda init
+    options:
+      log_dir:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: /var/log/conda_setup
+      env_dir:
+        type: string
+        description: Absolute path to the directory containing conda environment files.
+        default: /usr/local/share/conda-envs
+  install: |
+    #!/usr/bin/env bash
+    set -eux
+    # Check if any channels are set
+    channels=$(conda config --show channels 2>/dev/null | grep 'channels:')
+    if [ -n "$channels" ]; then
+        echo "Removing existing Conda channels..."
+        conda config --remove-key channels
+    fi
+    echo "Adding conda-forge as the only channel..."
+    conda config --add channels conda-forge
+    echo "Setting strict channel priority..."
+    conda config --set channel_priority strict
+    echo "Verifying channels..."
+    conda config --show channels
+    echo "Updating conda..."
+    conda update -n base conda
+    echo "Creating log directory..."
+    mkdir -p $LOG_DIR
+    if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
+        umask 0002;
+        for file in $ENV_DIR/*.yaml; do
+            conda env update --file "$file" 2>&1 | tee "$LOG_DIR/$(basename "$file").log";
+        done;
+    fi
+    echo "Cleaning up cache..."
+    conda clean --all -y
 devcontainer:
   docker-compose:
     config:
@@ -50,13 +106,14 @@ devcontainer_main:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
     - FROM mcr.microsoft.com/devcontainers/universal:2-linux
+    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir }}$/
   container:
     name: Main Development Environment
     forwardPorts:
       - 8888:8888  # for Jupyter Notebook
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
-#      ../feature/${{ devfeat_pixi.metadata.id }}$: {}
+      ./${{ devfeat_conda_setup.path }}$: {}
     customizations:
       vscode:
         extensions:
@@ -144,6 +201,7 @@ devcontainer_main:
           - zhuangtongfa.Material-theme
           - dracula-theme.theme-dracula
         settings:
+          terminal.integrated.scrollback: 100000
           tasks:
             version: 2.0.0
             tasks:
@@ -172,6 +230,19 @@ devcontainer_main:
                   focus: true
                   panel: new
   environment:
+    base:
+      conda:
+        conda-build:
+          description: |
+            Tool for building conda packages.
+          url:
+            docs: https://conda.io/projects/conda-build
+            package: https://anaconda.org/conda-forge/conda-build
+          notes: |
+            For proper functioning, it is strongly recommended to 
+            install conda-build in the conda base environment.
+            See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
+            for more information.
     type_check:
       pip:
         mypy:
