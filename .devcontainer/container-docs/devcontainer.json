@@ -16,7 +16,8 @@
          "addCondaForge": true,
          "version": "latest"
       },
-      "ghcr.io/devcontainers/features/git:1": {}
+      "ghcr.io/devcontainers/features/git:1": {},
+      "../features/conda-install": {}
    },
    "name": "Documentation Environment",
    "service": "docs",
