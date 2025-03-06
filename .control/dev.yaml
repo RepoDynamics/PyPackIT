@@ -32,7 +32,7 @@ devcontainer:
     config:
       services:
         openjournals:
-          container_name: inara
+          container_name: openjournals
           image: openjournals/inara:latest
           entrypoint: [ "/bin/sh" ]
           command: [ "-c", "tail -f /dev/null" ]  # `sleep` is not available in the base image.
