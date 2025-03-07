@@ -3293,6 +3293,7 @@
    "control": {
       "cache": {
          "retention_hours": {
+            "css_color_filter": 0,
             "doi": 1000,
             "extension": 0,
             "license": 1000,
@@ -3546,8 +3547,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(39%) sepia(94%) saturate(750%) hue-rotate(72deg) brightness(103%) contrast(107%)",
-                  "light": "invert(9%) sepia(88%) saturate(6121%) hue-rotate(102deg) brightness(101%) contrast(101%)"
+                  "dark": "invert(40%) sepia(82%) saturate(2317%) hue-rotate(77deg) brightness(102%) contrast(106%)",
+                  "light": "invert(19%) sepia(84%) saturate(1334%) hue-rotate(91deg) brightness(95%) contrast(102%)"
                }
             }
          },
@@ -4539,7 +4540,7 @@
       },
       "dockerfile": [
          "FROM texlive/texlive:latest",
-         "COPY .devcontainer/container-docs/environment {'type': 'string', 'description': 'Absolute path to the directory containing conda environment files.', 'default': '/usr/local/share/conda-envs'}/"
+         "COPY .devcontainer/container-docs/environment /usr/local/share/conda-envs/"
       ],
       "environment": {
          "website": {
@@ -4620,9 +4621,9 @@
                   "name": "libffi",
                   "spec": {
                      "channel": "conda-forge",
-                     "full": "conda-forge::libffi ==3.4.4",
+                     "full": "conda-forge::libffi ==3.4.6",
                      "name": "libffi",
-                     "version": "==3.4.4"
+                     "version": "==3.4.6"
                   },
                   "url": {
                      "docs": "https://sourceware.org/libffi/",
@@ -5555,7 +5556,7 @@
       },
       "dockerfile": [
          "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
-         "COPY .devcontainer/environment {'type': 'string', 'description': 'Absolute path to the directory containing conda environment files.', 'default': '/usr/local/share/conda-envs'}/"
+         "COPY .devcontainer/environment /usr/local/share/conda-envs/"
       ],
       "environment": {
          "base": {
