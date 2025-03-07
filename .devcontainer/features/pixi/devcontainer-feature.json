@@ -17,6 +17,6 @@
          "type": "string"
       }
    },
-   "postCreateCommand": "sudo chown $(whoami) .pixi &&  echo 'eval \"$(pixi completion -s bash)\"' >> $HOME/.bashrc &&  pixi install",
+   "postCreateCommand": "sudo chown $(whoami) .pixi && echo 'eval \"$(pixi completion -s bash)\"' >> $HOME/.bashrc && pixi install",
    "version": "0.40.3"
 }
