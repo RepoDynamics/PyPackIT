@@ -59,6 +59,8 @@ devfeature_conda_setup:
   install: |
     #!/usr/bin/env bash
     set -eux
+    echo "Initializing conda..."
+    conda init
     # Check if any channels are set
     channels=$(conda config --show channels 2>/dev/null | grep 'channels:')
     if [ -n "$channels" ]; then
@@ -72,7 +74,7 @@ devfeature_conda_setup:
     echo "Verifying channels..."
     conda config --show channels
     echo "Updating conda..."
-    conda update -n base conda
+    conda update -n base --all -y
     echo "Creating log directory..."
     mkdir -p $LOG_DIR
     if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
@@ -645,6 +647,10 @@ devcontainer_main:
             package: https://anaconda.org/conda-forge/jupyterlab-myst
             source: https://github.com/jupyter-book/jupyterlab-myst
   task:
+    jupyterlab:
+      name: Open JupyterLab
+      script: |
+        jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
     build-oj-paper:
       # https://github.com/openjournals/inara
       name: Build Open-Journals Paper
