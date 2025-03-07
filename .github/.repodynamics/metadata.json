@@ -4540,7 +4540,7 @@
       },
       "dockerfile": [
          "FROM texlive/texlive:latest",
-         "COPY .devcontainer/container-docs/environment /usr/local/share/conda-envs/"
+         "COPY .devcontainer/container-docs/environment /usr/local/share/environments/"
       ],
       "environment": {
          "website": {
@@ -5556,7 +5556,7 @@
       },
       "dockerfile": [
          "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
-         "COPY .devcontainer/environment /usr/local/share/conda-envs/"
+         "COPY .devcontainer/environment /usr/local/share/environments/"
       ],
       "environment": {
          "base": {
@@ -6295,7 +6295,7 @@
          "name": "Conda Setup",
          "options": {
             "env_dir": {
-               "default": "/usr/local/share/conda-envs",
+               "default": "/usr/local/share/environments/conda",
                "description": "Absolute path to the directory containing conda environment files.",
                "type": "string"
             },
@@ -6305,10 +6305,10 @@
                "type": "string"
             }
          },
-         "postCreateCommand": "channels=$(conda config --show channels 2>/dev/null | grep 'channels:')  && [ -n \"$channels\" ]  && echo \"Removing existing Conda channels...\"  && conda config --remove-key channels;  echo \"Adding conda-forge as the only channel...\"  && conda config --add channels conda-forge  && echo \"Setting strict channel priority...\"  && conda config --set channel_priority strict  && echo \"Verifying channels...\"  && conda config --show channels; echo \"Initializing conda...\" && conda init",
+         "postCreateCommand": "echo \"Initializing conda...\" && conda init; echo \"Removing existing Conda channels...\"  && config --remove-key channels 2>/dev/null || true;  echo \"Adding conda-forge as the only channel...\"  && conda config --add channels conda-forge  && echo \"Setting strict channel priority...\"  && conda config --set channel_priority strict;  echo \"Verifying channels...\"  && conda config --show channels;",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\n# Check if any channels are set\nchannels=$(conda config --show channels 2>/dev/null | grep 'channels:')\nif [ -n \"$channels\" ]; then\n    echo \"Removing existing Conda channels...\"\n    conda config --remove-key channels\nfi\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Updating conda...\"\nconda update -n base --all -y\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIR/$(basename \"$file\").log\";\n    done;\nfi\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Updating conda...\"\nconda update -n base --all -y\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIR/$(basename \"$file\").log\";\n    done;\nfi\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/conda_setup"
    },
    "devfeature_pixi": {
