@@ -2,12 +2,8 @@
 set -eux
 echo "Initializing conda..."
 conda init
-# Check if any channels are set
-channels=$(conda config --show channels 2>/dev/null | grep 'channels:')
-if [ -n "$channels" ]; then
-    echo "Removing existing Conda channels..."
-    conda config --remove-key channels
-fi
+echo "Removing existing Conda channels..."
+conda config --remove-key channels 2>/dev/null || true
 echo "Adding conda-forge as the only channel..."
 conda config --add channels conda-forge
 echo "Setting strict channel priority..."
