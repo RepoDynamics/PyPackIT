@@ -6,17 +6,16 @@ import ast as _ast
 import copy as _copy
 import json as _json
 import os as _os
-from pathlib import Path as _Path
 import shutil as _shutil
+from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman.data_validator as _controlman_data_validator
 import gittidy as _git
+import pkgdata as _pkgdata
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
-import pkgdata as _pkgdata
-
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -346,7 +345,7 @@ def _read_json_data(name: str, path: str | _Path, required: bool):
             return _json.load(f)
     except (_json.JSONDecodeError, FileNotFoundError) as e:
         if not required:
-            return
+            return None
         error_msg = (
             f"Could not read project {name} file at '{path}'. "
             "Please ensure that the file is a valid JSON file."
@@ -393,26 +392,26 @@ def _add_api_files():
             "id": f"https://controlman.repodynamics.com/schema/{schema[0]}",
             "name": schema[1],
             "filepath": f"api/{schema[0]}",
-        } for schema in (
+        }
+        for schema in (
             ("metadata", "ccc"),
             ("local", "cc-local"),
             ("cache", "cc-cache"),
             ("variables", "cc-vars"),
             ("changelog", "cc-changelog"),
-            ("contributors", "cc-contrib")
+            ("contributors", "cc-contrib"),
         )
     ]
     _globals["jsonschema_autodoc"] = {
         "schemas": schemas,
-        "registry": sorted((schema_id, resource.contents) for schema_id, resource in _controlman_data_validator.get_registry().items()),
+        "registry": sorted(
+            (schema_id, resource.contents)
+            for schema_id, resource in _controlman_data_validator.get_registry().items()
+        ),
         "badge_permissive": {"color": "#00802B"},
         "badge_restrictive": {"color": "#AF1F10"},
-        "badges": {
-            "separator": 2,
-            "style": "flat-square",
-            "color": "#0B3C75"
-        },
-        "ref_doc_filepath": "api/refs"
+        "badges": {"separator": 2, "style": "flat-square", "color": "#0B3C75"},
+        "ref_doc_filepath": "api/refs",
     }
     return
 
@@ -439,7 +438,9 @@ _git_api = _git.Git(path=_path_root)
 _current_hash = _git_api.commit_hash_normal()
 _meta = _read_json_data(name="metadata", path=_METADATA_FILEPATH, required=True)
 _meta["changelogs"] = _read_json_data(name="changelog", path=_CHANGELOG_FILEPATH, required=False)
-_meta["contributor"] = _read_json_data(name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False)
+_meta["contributor"] = _read_json_data(
+    name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False
+)
 _add_sphinx_config(
     _read_json_data(name="Sphinx config", path=_meta["file_sphinx_conf"]["path"], required=True)
 )

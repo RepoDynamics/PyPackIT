@@ -5,13 +5,15 @@ from typing import TYPE_CHECKING
 import mdit
 
 if TYPE_CHECKING:
-    from typing import Sequence
+    from collections.abc import Sequence
 
 
 metadata: dict = {}
 
 
-def team_members_with_role_ids(role_ids: str | Sequence[str], active_only: bool = True) -> list[dict]:
+def team_members_with_role_ids(
+    role_ids: str | Sequence[str], active_only: bool = True
+) -> list[dict]:
     """Get team members with a specific role ID.
 
     Parameters
@@ -38,7 +40,9 @@ def team_members_with_role_ids(role_ids: str | Sequence[str], active_only: bool 
                     (member_data | {"id": member_id}, role_ids.index(role_id), member_priority)
                 )
                 break
-    return [member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]
+    return [
+        member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+    ]
 
 
 def create_citation():
@@ -65,7 +69,7 @@ def create_license_data():
             {
                 "label": "Custom",
                 "args": {"message": str(component["custom"]).lower()},
-                "color": red if component["custom"] else green
+                "color": red if component["custom"] else green,
             },
             {
                 "label": "OSI Approved",
@@ -76,7 +80,7 @@ def create_license_data():
                 "label": "FSF Libre",
                 "args": {"message": str(component["fsf_libre"]).lower()},
                 "color": green if component["osi_approved"] else red,
-            }
+            },
         ]
         if "trove_classifier" in component:
             badge_list.append(
@@ -133,7 +137,7 @@ def footer_template(license_path, version):
             "title": f"SPDX License Identifier: {metadata["license"]["expression"]}",
             "alt": f"SPDX License Identifier: {metadata["license"]["expression"]}",
             "link": license_path,
-        }
+        },
     ]
     badges = mdit.element.badges(
         items=badge_list,
@@ -144,6 +148,6 @@ def footer_template(license_path, version):
         color=metadata["color"]["primary"]["light"],
         color_dark=metadata["color"]["primary"]["dark"],
         label_color="rgb(200,200,200)",
-        label_color_dark="#555"
+        label_color_dark="#555",
     )
     return badges.source(target="github")

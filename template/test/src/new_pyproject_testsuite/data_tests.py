@@ -1,8 +1,7 @@
 """Unit tests for the data sub-package."""
 
-import pytest
-
 import new_pyproject as pkg
+import pytest
 from new_pyproject.exception.data import DataFileNotFoundError
 
 

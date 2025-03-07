@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import importlib.util as _importlib_util
 import sys as _sys
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING
 
 import mdit
 import pylinks as pl
-from pylinks.exception.api import WebAPIError as _WebAPIError
 import pyserials as ps
 from controlman.changelog_manager import ChangelogManager
 from loggerman import logger
+from pylinks.exception.api import WebAPIError as _WebAPIError
 
 if TYPE_CHECKING:
-    from types import ModuleType
     from collections.abc import Callable
     from pathlib import Path
+    from types import ModuleType
     from typing import Any, Literal
 
     from controlman.cache_manager import CacheManager
@@ -109,7 +109,9 @@ class Hooks:
         env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
-        pip_specs = [f"-e {path_to_root}{app_path}" for app_path in (pkg_path, test_path) if app_path]
+        pip_specs = [
+            f"-e {path_to_root}{app_path}" for app_path in (pkg_path, test_path) if app_path
+        ]
         _, self._binder_files = install.DependencyInstaller(
             python_version=pyver,
             pkg_dep=pkg_dep,
@@ -164,7 +166,12 @@ class Hooks:
             if not conda:
                 continue
             spec = [conda["channel"]]
-            for part_name, part_prefix in (("subdir", "/"), ("name", "::"), ("version", " "), ("build", " ")):
+            for part_name, part_prefix in (
+                ("subdir", "/"),
+                ("name", "::"),
+                ("version", " "),
+                ("build", " "),
+            ):
                 if part_name in conda:
                     spec.append(f"{part_prefix}{conda[part_name]}")
             entry = {"value": "".join(spec)}
@@ -193,7 +200,9 @@ class Hooks:
             }
             out = [
                 base.format(trove[runner_type])
-                for runner_type in {os["runner"].split("-")[0] for os in self.get(f"{key}.os").values()}
+                for runner_type in {
+                    os["runner"].split("-")[0] for os in self.get(f"{key}.os").values()
+                }
             ]
             if self.get(f"{key}.python.pure"):
                 out.append(base.format("OS Independent"))
@@ -233,7 +242,9 @@ class Hooks:
 
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
-        path = self.repo_path / (self.ccc["data_website.path.source"] or self.get("data_website.path.source"))
+        path = self.repo_path / (
+            self.ccc["data_website.path.source"] or self.get("data_website.path.source")
+        )
         url_home = self.get("web.url.home")
         pages = {}
         blog = {}
@@ -310,16 +321,20 @@ class Hooks:
                     pattern_description[glob_def["glob"]] = glob_def["description"]
             for member_role in member.get("role", {}).keys():
                 for glob_def in role[member_role].get("ownership", []):
-                    data.setdefault(glob_def["priority"], {}).setdefault(glob_def["glob"], []).append(
-                        member["github"]["id"]
-                    )
+                    data.setdefault(glob_def["priority"], {}).setdefault(
+                        glob_def["glob"], []
+                    ).append(member["github"]["id"])
                     if glob_def.get("description"):
                         pattern_description[glob_def["glob"]] = glob_def["description"]
         if not data:
             return ""
         # Get the maximum length of patterns to align the columns when writing the file
         max_len = max(
-            [len(glob_pattern) for priority_dic in data.values() for glob_pattern in priority_dic.keys()]
+            [
+                len(glob_pattern)
+                for priority_dic in data.values()
+                for glob_pattern in priority_dic.keys()
+            ]
         )
         lines = []
         for priority_defs in [defs for priority, defs in sorted(data.items())]:
@@ -355,7 +370,7 @@ class Hooks:
                 ("first", "given-names"),
                 ("particle", "name-particle"),
                 ("suffix", "name-suffix"),
-                ("affiliation", "affiliation")
+                ("affiliation", "affiliation"),
             ):
                 if name.get(in_key):
                     out[out_key] = name[in_key]
@@ -390,16 +405,17 @@ class Hooks:
         except _WebAPIError as e:
             logger.error(
                 "CodeCov Configuration File Validation",
-                "Validation of Codecov configuration file failed.", str(e)
+                "Validation of Codecov configuration file failed.",
+                str(e),
             )
         return
 
     def pyproject_dependency(self, typ: Literal["build", "core", "optional"]) -> dict | list:
         """Create PEP 508 dependencies from a control center dependency."""
+
         def create(pkgs: dict) -> list[str]:
             return [
-                pkg["install"]["pip"]["spec"]
-                for pkg in pkgs.values() if "pip" in pkg["install"]
+                pkg["install"]["pip"]["spec"] for pkg in pkgs.values() if "pip" in pkg["install"]
             ]
 
         if typ == "optional":
@@ -411,7 +427,7 @@ class Hooks:
 
     def pyproject_entry_points(self):
         entry_points = {}
-        for entry_group in self.get(f".entry.api", {}).values():
+        for entry_group in self.get(".entry.api", {}).values():
             entry_group_out = {}
             for entry_point in entry_group["entry"].values():
                 entry_group_out[entry_point["name"]] = entry_point["ref"]

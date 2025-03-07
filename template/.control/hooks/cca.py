@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from controlman.cache_manager import CacheManager
-    from controlman.datatype import DynamicFile, DynamicDir
+    from controlman.datatype import DynamicDir, DynamicFile
     from pyserials import NestedDict
 
 
@@ -138,7 +138,9 @@ class Hooks:
         """
         return
 
-    def output_generation(self, data: dict, files: list[DynamicFile], dirs: list[DynamicDir]) -> None:
+    def output_generation(
+        self, data: dict, files: list[DynamicFile], dirs: list[DynamicDir]
+    ) -> None:
         """Run hooks after generating outputs (stage 7).
 
         Parameters

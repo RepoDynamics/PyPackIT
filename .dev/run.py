@@ -1,7 +1,5 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
-
 import json
 from pathlib import Path as _Path
 

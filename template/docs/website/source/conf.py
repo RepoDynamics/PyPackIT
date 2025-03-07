@@ -13,10 +13,9 @@ from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import gittidy as _git
+import pkgdata as _pkgdata
 import pysyntax as _pysyntax
 from loggerman import logger as _logger
-import pkgdata as _pkgdata
-import pycolorit as _pcit
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
 

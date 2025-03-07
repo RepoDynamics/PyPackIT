@@ -6,20 +6,22 @@
 from __future__ import annotations as _annotations
 
 import argparse as _argparse
-import subprocess as _subprocess
 import copy as _copy
-import tempfile as _tempfile
-from typing import TYPE_CHECKING as _TYPE_CHECKING
-from pathlib import Path as _Path
 import json as _json
 import platform as _platform
-import sys as _sys
 import struct as _struct
-import xml.etree.ElementTree as _xml_ET
+import subprocess as _subprocess
+import sys as _sys
+import tempfile as _tempfile
 import xml.dom.minidom as _xml_minidom
+import xml.etree.ElementTree as _xml_ET
+from pathlib import Path as _Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 if _TYPE_CHECKING:
-    from typing import Literal, Sequence
+    from collections.abc import Sequence
+    from typing import Literal
+
     PlatformName = Literal[
         "emscripten-wasm32",
         "linux-32",
@@ -210,8 +212,21 @@ def install_files(
     cmd_apt: Sequence[str] = ("apt-get", "-y", "install", "--no-install-recommends"),
     cmd_brew: Sequence[str] = ("brew", "bundle", "--file", "{filepath}"),
     cmd_choco: Sequence[str] = ("choco", "install", "{filepath}", "-y"),
-    cmd_winget: Sequence[str] = ("winget", "import", "--accept-source-agreements", "--accept-package-agreements", "-i", "{filepath}"),
-    cmd_conda: Sequence[str] = ("conda", "env", "update", "--file", "{filepath}"),  # https://stackoverflow.com/questions/42352841/how-to-update-an-existing-conda-environment-with-a-yml-file
+    cmd_winget: Sequence[str] = (
+        "winget",
+        "import",
+        "--accept-source-agreements",
+        "--accept-package-agreements",
+        "-i",
+        "{filepath}",
+    ),
+    cmd_conda: Sequence[str] = (
+        "conda",
+        "env",
+        "update",
+        "--file",
+        "{filepath}",
+    ),  # https://stackoverflow.com/questions/42352841/how-to-update-an-existing-conda-environment-with-a-yml-file
     cmd_pip: Sequence[str] = ("pip", "install", "-r", "{filepath}"),
 ):
     """Install dependencies from the given files."""
@@ -326,18 +341,24 @@ class DependencyInstaller:
                 raise ValueError(f"Python version '{python_version}' is not supported.")
         else:
             python_version = self._pyver["spec"]
-        dependencies.setdefault("conda", []).append({"install": {"conda": {"spec": f"python {python_version}"}}})
+        dependencies.setdefault("conda", []).append(
+            {"install": {"conda": {"spec": f"python {python_version}"}}}
+        )
         if extra_pip_specs:
-            dependencies.setdefault("pip", []).extend([{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs])
+            dependencies.setdefault("pip", []).extend(
+                [{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs]
+            )
         files = {}
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
             if source == "conda":
                 files[source] = create_env_file_conda(
                     deps,
-                    pip_packages=[dep["install"]["pip"] for dep in dependencies.get("pip", [])] if pip_in_conda else None,
+                    pip_packages=[dep["install"]["pip"] for dep in dependencies.get("pip", [])]
+                    if pip_in_conda
+                    else None,
                     env_name=conda_env_name,
-                    indent=indent_yaml
+                    indent=indent_yaml,
                 )
             elif source == "pip":
                 if not pip_in_conda:
@@ -353,7 +374,8 @@ class DependencyInstaller:
             else:
                 # bash and pwsh
                 files[source] = "\n\n".join(
-                    ["set -e"] + [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
+                    ["set -e"]
+                    + [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
                 )
         return dependencies, files
 
@@ -401,9 +423,11 @@ class DependencyInstaller:
         """
         if not platform:
             platform = get_native_platform()
-        selector_vars = {"build_platform": platform} | {
-            key: key in _CONDA_SUBDIR_TO_OS_ARCH[platform] for key in _CONDA_SELECTOR_VARS
-        } | self.get_variants(lib=lib, input_variants=variants)
+        selector_vars = (
+            {"build_platform": platform}
+            | {key: key in _CONDA_SUBDIR_TO_OS_ARCH[platform] for key in _CONDA_SELECTOR_VARS}
+            | self.get_variants(lib=lib, input_variants=variants)
+        )
         if not sources:
             sources = ["pip", "conda"]
             if platform.startswith("linux"):
@@ -422,7 +446,9 @@ class DependencyInstaller:
             if selector and not evaluate_selector(selector, selector_vars):
                 continue
             if exclude_installed and dependency.get("validator"):
-                validator_result = _subprocess.run(["python", "-c", dependency["validator"]], capture_output=True)
+                validator_result = _subprocess.run(
+                    ["python", "-c", dependency["validator"]], capture_output=True, check=False
+                )
                 if validator_result.returncode == 0:
                     continue
             for source in sources:
@@ -465,9 +491,7 @@ class DependencyInstaller:
         return _copy.deepcopy(deps)
 
     def get_variants(
-        self,
-        lib: Literal["pkg", "test"],
-        input_variants: dict[str, str | int | bool] | None = None
+        self, lib: Literal["pkg", "test"], input_variants: dict[str, str | int | bool] | None = None
     ) -> dict:
         """Get a full set of variant values based on input variants and project variant data."""
         input_variants = input_variants or {}
@@ -489,7 +513,8 @@ class DependencyInstaller:
                     input_indices.append(project_variants[zip_key].index(input_variants[zip_key]))
             if len(input_indices) > 1 and len(set(input_indices)) != 1:
                 raise ValueError(
-                    f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}")
+                    f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}"
+                )
         output = {}
         # Set the variant values
         for project_variant_key, project_variant_values in project_variants.items():
@@ -519,7 +544,9 @@ class DependencyInstaller:
                 break
             else:
                 output[project_variant_key] = (
-                    ".".join(_sys.version_info[:2]) if project_variant_key == "python" else project_variant_values[0]
+                    ".".join(_sys.version_info[:2])
+                    if project_variant_key == "python"
+                    else project_variant_values[0]
                 )
         return output
 
@@ -696,9 +723,9 @@ def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
     for pkg in packages:
         package_element = _xml_ET.SubElement(root, "package")
         for key, value in pkg.items():
-            if value is not None and value not in ("homepage", ):
+            if value is not None and value not in ("homepage",):
                 package_element.set(snake_case_to_camel_case(key), str(value))
-    xml_str = _xml_ET.tostring(root, encoding='utf-8')
+    xml_str = _xml_ET.tostring(root, encoding="utf-8")
     # Format the XML string to add indentation
     parsed_xml = _xml_minidom.parseString(xml_str)
     if indent is None:
@@ -729,7 +756,11 @@ def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
     file = {"Sources": []}
     for pkg in packages:
         source = {snake_case_to_camel_case(key): value for key, value in pkg["source"].items()}
-        package = {snake_case_to_camel_case(key): value for key, value in pkg.items() if key not in ("source", "homepage")}
+        package = {
+            snake_case_to_camel_case(key): value
+            for key, value in pkg.items()
+            if key not in ("source", "homepage")
+        }
         for src in file["Sources"]:
             if src["SourceDetails"] == source:
                 src["Packages"].append(package)
@@ -741,8 +772,8 @@ def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
 
 def snake_case_to_camel_case(string: str) -> str:
     """Convert a snake_case string to CamelCase."""
-    components = string.split('_')
-    return ''.join([components[0]] + [x.title() for x in components[1:]])
+    components = string.split("_")
+    return "".join([components[0]] + [x.title() for x in components[1:]])
 
 
 def parse_args():
@@ -755,16 +786,52 @@ def parse_args():
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument("--pkg", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--pkg-extras", type=parse_extras, default="all")
-    parser.add_argument("--pkg-variants", type=_json.loads, default=None, help="JSON string of package variants")
+    parser.add_argument(
+        "--pkg-variants", type=_json.loads, default=None, help="JSON string of package variants"
+    )
     parser.add_argument("--test", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--test-extras", type=parse_extras, default="all")
-    parser.add_argument("--test-variants", type=_json.loads, default=None, help="JSON string of test variants")
+    parser.add_argument(
+        "--test-variants", type=_json.loads, default=None, help="JSON string of test variants"
+    )
     parser.add_argument("--python-version", type=str, default=None)
-    parser.add_argument("--platform", type=str, choices=[
-        "emscripten-wasm32", "linux-32", "linux-64", "linux-aarch64", "linux-armv6l", "linux-armv7l", "linux-ppc64", "linux-ppc64le", "linux-riscv32", "linux-riscv64", "linux-s390x", "osx-64", "osx-arm64", "wasi-wasm32", "win-32", "win-64", "win-arm64", "zos-z"
-    ], default=None)
-    parser.add_argument("--sources", nargs="*", choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"], default=None)
-    parser.add_argument("--exclude-sources", nargs="*", choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"], default=None)
+    parser.add_argument(
+        "--platform",
+        type=str,
+        choices=[
+            "emscripten-wasm32",
+            "linux-32",
+            "linux-64",
+            "linux-aarch64",
+            "linux-armv6l",
+            "linux-armv7l",
+            "linux-ppc64",
+            "linux-ppc64le",
+            "linux-riscv32",
+            "linux-riscv64",
+            "linux-s390x",
+            "osx-64",
+            "osx-arm64",
+            "wasi-wasm32",
+            "win-32",
+            "win-64",
+            "win-arm64",
+            "zos-z",
+        ],
+        default=None,
+    )
+    parser.add_argument(
+        "--sources",
+        nargs="*",
+        choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"],
+        default=None,
+    )
+    parser.add_argument(
+        "--exclude-sources",
+        nargs="*",
+        choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"],
+        default=None,
+    )
     parser.add_argument("--exclude-installed", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--pip-in-conda", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--conda-env-name", type=str, default=None)
