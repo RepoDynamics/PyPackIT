@@ -288,9 +288,9 @@ def _get_path_repo_root() -> tuple[_Path, str]:
     raise RuntimeError(error_msg)
 
 
-def _add_sphinx() -> None:
+def _add_sphinx_config(config: dict) -> None:
     """Set sphinx main configurations."""
-    _globals.update(_meta["web"]["sphinx"]["config"])
+    _globals.update(config)
     return
 
 
@@ -440,7 +440,9 @@ _current_hash = _git_api.commit_hash_normal()
 _meta = _read_json_data(name="metadata", path=_METADATA_FILEPATH, required=True)
 _meta["changelogs"] = _read_json_data(name="changelog", path=_CHANGELOG_FILEPATH, required=False)
 _meta["contributor"] = _read_json_data(name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False)
-_add_sphinx()
+_add_sphinx_config(
+    _read_json_data(name="Sphinx config", path=_meta["file_sphinx_conf"]["path"], required=True)
+)
 _add_version()
 _add_css_and_js_files()
 _add_intersphinx_mapping()
