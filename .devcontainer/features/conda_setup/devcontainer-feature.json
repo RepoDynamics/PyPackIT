@@ -18,6 +18,6 @@
          "type": "string"
       }
    },
-   "postCreateCommand": "channels=$(conda config --show channels 2>/dev/null | grep 'channels:')  && [ -n \"$channels\" ]  && echo \"Removing existing Conda channels...\"  && conda config --remove-key channels;  echo \"Adding conda-forge as the only channel...\"  && conda config --add channels conda-forge  && echo \"Setting strict channel priority...\"  && conda config --set channel_priority strict  && echo \"Verifying channels...\"  && conda config --show channels; echo \"Initializing conda...\" && conda init",
+   "postCreateCommand": "echo \"Removing existing Conda channels...\"  && config --remove-key channels 2>/dev/null || true;  echo \"Adding conda-forge as the only channel...\"  && conda config --add channels conda-forge  && echo \"Setting strict channel priority...\"  && conda config --set channel_priority strict  && echo \"Verifying channels...\"  && conda config --show channels; echo \"Initializing conda...\" && conda init",
    "version": "0.1.0"
 }
