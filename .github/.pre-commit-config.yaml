@@ -103,7 +103,7 @@ repos:
           - --markdown-linebreak-ext=md
         verbose: true
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.6
+    rev: v0.7.4
     hooks:
       - id: ruff
         stages:
