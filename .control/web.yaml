@@ -583,7 +583,7 @@ devcontainer_docs:
         addCondaForge: true
       # https://github.com/devcontainers/features/tree/main/src/git
       ghcr.io/devcontainers/features/git:1: {}
-      ./${{ devfeat_conda_setup.path }}$: {}
+      ./${{ devfeature_conda_setup.path }}$: {}
     customizations:
       vscode:
         extensions:
