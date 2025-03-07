@@ -14,7 +14,7 @@
       "../docker-compose.yaml"
    ],
    "features": {
-      "./features/conda_setup": {},
+      "../features/conda_setup": {},
       "ghcr.io/devcontainers/features/common-utils:2": {},
       "ghcr.io/devcontainers/features/conda:1": {
          "addCondaForge": true,
