@@ -60,14 +60,14 @@ file_gitattributes:
   name: .gitattributes
   summary: Main [`.gitattributes`](https://git-scm.com/docs/gitattributes) file for the repository.
   description: |
-    The `.gitattributes` file defines attributes 
+    The `.gitattributes` file defines attributes
     for files and directories in the repository,
-    such as data type (e.g., text or binary), 
+    such as data type (e.g., text or binary),
     line endings, diff settings, and merge strategies
     to manage how Git handles specific files.
-    The data is in plain text, 
+    The data is in plain text,
     where each line specifies a path or glob pattern and its attributes.
-    
+
     :::{admonition} Learn More: `.gitattributes`
     :class: dropdown seealso
 
@@ -238,12 +238,12 @@ file_gitignore:
   name: .gitignore
   summary: Main [`.gitignore`](https://git-scm.com/docs/gitignore) file for the repository.
   description: |
-    The `.gitignore` file defines files and directories in the repository 
+    The `.gitignore` file defines files and directories in the repository
     to be excluded from version control by Git,
     preventing them from being pushed to the remote repository.
     The data is in plain text, where each line specifies a path or glob pattern to ignore.
     In addition to project-specific files,
-    the `.gitignore` file also includes common patterns from relevant 
+    the `.gitignore` file also includes common patterns from relevant
     [`gitignore` templates](https://github.com/github/gitignore).
   type: txt
   path: .gitignore

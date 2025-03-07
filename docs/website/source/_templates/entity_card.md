@@ -24,7 +24,7 @@
 
 :::::{grid-item}
 :class: font-h6 centered
-|{{ entity.name.full }}| |{% if entity.alias %}|(|{{ entity.alias }}|)|{% endif %}| 
+|{{ entity.name.full }}| |{% if entity.alias %}|(|{{ entity.alias }}|)|{% endif %}|
 :::::
 
 :::::{grid-item}

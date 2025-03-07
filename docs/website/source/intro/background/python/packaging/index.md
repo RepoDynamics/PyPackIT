@@ -1,28 +1,28 @@
 (bg-packaging)=
 # Packaging and Distribution
 
-Packaging and distributing Python applications 
-ensures that software can be easily shared, 
-installed, and run across different environments. 
-This process involves preparing code 
-for public or private distribution 
-while handling dependencies and configurations 
-in a standardized way. 
-Effective packaging streamlines deployment, 
-fosters collaboration, and enables scalability 
+Packaging and distributing Python applications
+ensures that software can be easily shared,
+installed, and run across different environments.
+This process involves preparing code
+for public or private distribution
+while handling dependencies and configurations
+in a standardized way.
+Effective packaging streamlines deployment,
+fosters collaboration, and enables scalability
 by providing consistent methods for delivering software.
 
-The packaging and distribution process involves several key steps, 
-each playing a critical role in ensuring compatibility, 
+The packaging and distribution process involves several key steps,
+each playing a critical role in ensuring compatibility,
 reliability, and ease of use for end users.
 These include preparing import packages, configuring metadata,
-building the package, and publishing it to indexing repositories 
-like [PyPI](#bg-pypi) and [Anaconda.org](#bg-anaconda-org). 
+building the package, and publishing it to indexing repositories
+like [PyPI](#bg-pypi) and [Anaconda.org](#bg-anaconda-org).
 Users can then download and install the package on their machines
-using supported package management systems such as [pip](#bg-pip). 
+using supported package management systems such as [pip](#bg-pip).
 for PyPI and [conda](#bg-conda) or [mamba](#bg-mamba) for Anaconda.org.
 
-The rest of this page provides a general overview 
+The rest of this page provides a general overview
 of key steps in the packaging and distribution of Python packages.
 For information about Conda packages, see [Packaging and Distribution](#bg-conda-packaging)
 in the Anaconda ecosystem.
@@ -33,22 +33,22 @@ in the Anaconda ecosystem.
 
 For more detailed information, see:
 - [Python Packaging User Guide](https://packaging.python.org)---The official Python packaging guide by PyPA.
-- [pyOpenSci Python Package Guide](https://www.pyopensci.org/python-package-guide/)---Packaging guides and tutorials for scientific packages by the [pyOpenSci](https://www.pyopensci.org/python-packaging-science.html) community. 
+- [pyOpenSci Python Package Guide](https://www.pyopensci.org/python-package-guide/)---Packaging guides and tutorials for scientific packages by the [pyOpenSci](https://www.pyopensci.org/python-packaging-science.html) community.
 :::
 
 
 (bg-pkg-structure)=
 ## Package Structure
 
-The first step in packaging involves 
+The first step in packaging involves
 organizing the project’s code into one or several
 [import packages](https://packaging.python.org/en/latest/glossary/#term-Import-Package).
 This requires developers to follow a specific directory structure and naming scheme,
 so that the package and its components can be correctly recognized
 by [Python's import system](https://docs.python.org/3/reference/import.html).
-Organizing code into reusable and logically structured packages 
-also makes it easier for developers to maintain and extend their projects. 
-Moreover, proper use of namespaces and directory structures 
+Organizing code into reusable and logically structured packages
+also makes it easier for developers to maintain and extend their projects.
+Moreover, proper use of namespaces and directory structures
 is essential for clarity and functionality.
 
 Python packages are directories containing a special `__init__.py` file
@@ -57,7 +57,7 @@ which marks them as importable modules.
 The name of this directory defines the import name of the package,
 and must be a valid [Python identifier](https://docs.python.org/3/reference/lexical_analysis.html#identifiers)
 and should follow the [naming conventions](https://www.python.org/dev/peps/pep-0008/#package-and-module-names)
-defined in PEP 8. 
+defined in PEP 8.
 All the source code of the package must be placed inside this directory,
 organized into subpackages and modules, which can be further nested to any depth.
 
@@ -66,23 +66,23 @@ organized into subpackages and modules, which can be further nested to any depth
 ## Configuration and Metadata
 
 Import packages must define additional
-build settings and package metadata, 
+build settings and package metadata,
 allowing them to be built into binaries and installed on other machines.
 
 
 :::{admonition} History
 :class: note dropdown toggle-shown
 
-Previously, building Python packages was done by 
-[distutils](https://packaging.python.org/en/latest/key_projects/#distutils)---the 
-original Python packaging system---which used a 
-[`setup.py` file](https://packaging.python.org/en/latest/discussions/setup-py-deprecated/) 
+Previously, building Python packages was done by
+[distutils](https://packaging.python.org/en/latest/key_projects/#distutils)---the
+original Python packaging system---which used a
+[`setup.py` file](https://packaging.python.org/en/latest/discussions/setup-py-deprecated/)
 for configurations.
-As [Setuptools](https://packaging.python.org/en/latest/key_projects/#setuptools) 
+As [Setuptools](https://packaging.python.org/en/latest/key_projects/#setuptools)
 started [replacing distutils](https://peps.python.org/pep-0632/),
 it added its own [`setup.cfg` file](https://setuptools.pypa.io/en/latest/userguide/declarative_config.html)
 to enable declarative configurations in `.ini` format and reduce boilerplate code.
-Additionally, [PEP 517](https://peps.python.org/pep-0517/) and 
+Additionally, [PEP 517](https://peps.python.org/pep-0517/) and
 [PEP 518](https://www.python.org/dev/peps/pep-0518/) proposed
 standardization of configurations in a build-system independent format,
 using a `pyproject.toml` file. First introduced in 2016, this new standard
@@ -91,7 +91,7 @@ was established in 2021, after the acceptance and implementation of
 [PEP 660](https://www.python.org/dev/peps/pep-0660/).
 While `setup.py` and `setup.cfg` files are still valid configuration files for Setuptools,
 it is [highly recommended](https://packaging.python.org/en/latest/guides/modernize-setup-py-project/)
-to use `pyproject.toml` for defining static configurations and metadata in a declarative format. 
+to use `pyproject.toml` for defining static configurations and metadata in a declarative format.
 :::
 
 
@@ -202,7 +202,7 @@ These include:
 The [`tool`](https://packaging.python.org/en/latest/specifications/pyproject-toml/#arbitrary-tool-configuration-the-tool-table)
 table can contain arbitrary configurations for tools and services used in the entire project,
 including but not limited to build tools, linters, formatters, and testing tools.
-Each tool defines its own configuration structure, which can be added in a sub-table within `tool`. 
+Each tool defines its own configuration structure, which can be added in a sub-table within `tool`.
 
 
 ## Build
@@ -215,7 +215,7 @@ to be downloaded and installed by the end-users via package managers.
 There are two major distribution formats for Python packages:
 
 - [**Source Distributions**](https://packaging.python.org/en/latest/specifications/source-distribution-format)
-  or [sdists](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist) 
+  or [sdists](https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist)
   are `tar.gz` archive files providing the source code of the package,
   along with the required configuration files, metadata, and resources
   that are needed for generating various built distributions.
@@ -232,7 +232,7 @@ There are two major distribution formats for Python packages:
   wheels are widely supported by tools like [pip](#bg-pip),
   replacing the older [Egg](https://packaging.python.org/en/latest/glossary/#term-Egg) format.
   Wheels can be either platform-independent or platform-specific,
-  depending on whether the package is 
+  depending on whether the package is
   [pure-Python](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#pure-python-wheels)
   or contains compiled extensions.
 
@@ -248,8 +248,8 @@ packages provided by PyPA.
 (bg-packaging-publish)=
 ## Publication
 
-The final step in the process involves publishing the package to a repository, 
-such as [PyPI](#bg-pypi), for distribution. 
+The final step in the process involves publishing the package to a repository,
+such as [PyPI](#bg-pypi), for distribution.
 For PyPI, this requires developers to create an account on the platform,
 generate an API token for authentication,
 and use the [twine](https://github.com/pypa/twine/) library to upload the packages.

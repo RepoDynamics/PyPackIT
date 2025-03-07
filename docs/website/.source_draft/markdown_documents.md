@@ -14,7 +14,7 @@ That is, when the file extension is in a supported format (e.g., `.md`, `.rst`),
 the contents are rendered as HTML on the respective platforms.
 However, GitHub only allows [GitHub Flavored Markdown](https://github.github.com/gfm/) syntax,
 and performs additional post-processing and sanitization after rendering the contents to HTML,
-due to security concerns. This means that only a 
+due to security concerns. This means that only a
 [limited subset of HTML features](https://docs.github.com/en/get-started/writing-on-github)
 are supported.
 Like GitHub, PyPI and Anaconda also impose several restrictions

@@ -21,12 +21,12 @@ used in the CI/CD operations of the repository.
 - [Workflow security: `pull_request` vs `pull_request_target`](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
 
 
-More recently, [Ruff](https://github.com/astral-sh/ruff), a high-performance linter written in Rust, 
-  has gained popularity for its speed and extensive feature set. 
-  Ruff combines the functionality of several existing tools, 
-  offering a drop-in replacement for Pylint, Bandit, Flake8, Black, and Isort, 
-  while supporting advanced linting capabilities. 
-  Unlike traditional linters, Ruff can also automatically fix 
+More recently, [Ruff](https://github.com/astral-sh/ruff), a high-performance linter written in Rust,
+  has gained popularity for its speed and extensive feature set.
+  Ruff combines the functionality of several existing tools,
+  offering a drop-in replacement for Pylint, Bandit, Flake8, Black, and Isort,
+  while supporting advanced linting capabilities.
+  Unlike traditional linters, Ruff can also automatically fix
   a range of issues it detects, streamlining the development process further.
 
 

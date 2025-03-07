@@ -19,14 +19,14 @@ Specifiers
 |{%- endif %}|
 |{% if dep.conda -%}|
 - [**Anaconda**](|{{ dep.get("url", {}).get("conda") or "https://anaconda.org/" ~ dep.conda.channel ~ "/" ~ dep.name }}|):
-  - Channel: `|{{ dep.conda.channel }}|` 
+  - Channel: `|{{ dep.conda.channel }}|`
   - Specifier: `|{{ dep.conda.spec }}|`
   |{% if dep.conda.selector -%}|
   - Platform selector: `|{{ dep.conda.selector }}|`
   |{%- endif %}|
 |{%- endif %}|
 |{% if dep.apt -%}|
-- [**APT**](|{{ dep.get("url", {}).get("apt") or "https://packages.debian.org/" ~ dep.name }}|): 
+- [**APT**](|{{ dep.get("url", {}).get("apt") or "https://packages.debian.org/" ~ dep.name }}|):
   - Specifier: `|{{ dep.apt.spec }}|`
 |{%- endif %}|
 

@@ -3,13 +3,13 @@
 |{% if 'citation' not in ccc or 'dois' not in ccc.citation %}|
 
 |{{ ccc.name }}| has currently no available citation data.
-Please contact us if you need to cite |{{ ccc.name }}| in your work. 
+Please contact us if you need to cite |{{ ccc.name }}| in your work.
 
 |{% else %}|
 
 |{% set suffix = 's' if ccc.citation.dois | length > 1 else '' %}|
 
-Please cite |{{ ccc.name }}| in your work 
+Please cite |{{ ccc.name }}| in your work
 using the following reference|{{ suffix }}|:
 
 <ul id="project-citations-rendered">
@@ -40,7 +40,7 @@ The reference|{{ suffix }}| correspond|{{ 's' if ccc.citation.dois | length < 2 
 
 ::::{tab-item} HTML
 
-<!-- 
+<!--
 Wrap in `<div><pre>` to add coppy button.
 Ref: https://sphinx-copybutton.readthedocs.io/en/latest/use.html#add-or-remove-copy-buttons-to-any-element-with-a-css-selector
 -->

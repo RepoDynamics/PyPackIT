@@ -67,12 +67,12 @@ html_theme.sidebar_secondary.remove:
 :class-title: sd-text-center
 :class-img-top: dark-light black-svg-icon icon-as-card-img-top
 
-Begin with the Introduction section 
-to learn more about {{ccc.name}}'s motivations, 
-objectives, and capabilities. 
-This high-level overview highlights key features of {{ ccc.name }}, 
-the challenges they address, and how they can enhance your work. 
-The Introduction section is the perfect starting point for new users, 
+Begin with the Introduction section
+to learn more about {{ccc.name}}'s motivations,
+objectives, and capabilities.
+This high-level overview highlights key features of {{ ccc.name }},
+the challenges they address, and how they can enhance your work.
+The Introduction section is the perfect starting point for new users,
 summarizing essential information to help you get started with {{ccc.name}}.
 :::
 

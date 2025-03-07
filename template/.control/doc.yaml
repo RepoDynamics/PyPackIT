@@ -974,7 +974,7 @@ web:
       dependency:
         import_name: sphinx_design
         description: |
-          Adds directives for responsive web components 
+          Adds directives for responsive web components
           like grids, cards, tabs, drop-down elements, and badges.
         url:
           docs: https://sphinx-design.readthedocs.io/
@@ -1241,7 +1241,7 @@ web:
         filter: |
           #{{
             import pycolorit as pcit
-            
+
             primary_color = get("color.primary")
             return {
                 theme: pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]

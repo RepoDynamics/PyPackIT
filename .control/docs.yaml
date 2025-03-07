@@ -691,7 +691,7 @@ file_governance:
     description: |
       The file must be named `GOVERNANCE` (case-sensitive)
       and placed either in the `.github` directory, the `docs` directory,
-      or the root of the repository. 
+      or the root of the repository.
       It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
     pattern: ^(?:|.github/|docs/)GOVERNANCE(?i:.(txt|md|rst))?$
     examples:
@@ -713,7 +713,7 @@ file_security:
     description: |
       The file must be named `SECURITY` (case-sensitive)
       and placed either in the `.github` directory, the `docs` directory,
-      or the root of the repository. 
+      or the root of the repository.
       It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
     pattern: ^(?:|.github/|docs/)SECURITY(?i:.(txt|md|rst))?$
     examples:
@@ -735,7 +735,7 @@ file_support:
     description: |
       The file must be named `SUPPORT` (case-sensitive)
       and placed either in the `.github` directory, the `docs` directory,
-      or the root of the repository. 
+      or the root of the repository.
       It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
     pattern: ^(?:|.github/|docs/)SUPPORT(?i:.(txt|md|rst))?$
     examples:

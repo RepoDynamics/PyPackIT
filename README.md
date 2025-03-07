@@ -82,7 +82,7 @@ Highlights
    upgrading development tools and project infrastructure,
    and cleaning up the repository and its development environment.
    PyPackIT can automatically submit issue tickets and pull requests
-   for applying updates and fixes, thus maintaining 
+   for applying updates and fixes, thus maintaining
    the health of the project and ensuring its long-term sustainability.
 </p>
 

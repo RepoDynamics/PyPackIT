@@ -63,7 +63,7 @@ _CONDA_SUBDIR_TO_OS_ARCH = {
     "win-arm64": {"win", "arm64"},
     "zos-z": {"zos", "z"},
 }
-"""Mapping of Conda subdirectory (i.e. build platform) names 
+"""Mapping of Conda subdirectory (i.e. build platform) names
 to corresponding OS architecture keys expected to be True.
 
 References

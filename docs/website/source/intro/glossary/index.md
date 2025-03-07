@@ -9,7 +9,7 @@ API
 CI/CD
   Aggregation of Continuous Integration, Delivery, and Deployment,
   as part of [Continuous software engineering](#bg-continuous) practices.
-  CI/CD is also often used as an umbrella term for Continuous methodologies in general. 
+  CI/CD is also often used as an umbrella term for Continuous methodologies in general.
 
 CM
   Continuous Maintenance (CM) is the ongoing process of updating,
@@ -76,8 +76,8 @@ OIDC
   that enables secure authentication and authorization for web and mobile applications.
   OIDC allows applications to verify the identity of a user based on authentication
   performed by an identity provider and to obtain basic profile information about the user.
-  Key features of OIDC include support for single sign-on (SSO), session management, 
-  and compatibility with OAuth 2.0 for access delegation, making it a widely adopted standard 
+  Key features of OIDC include support for single sign-on (SSO), session management,
+  and compatibility with OAuth 2.0 for access delegation, making it a widely adopted standard
   for identity management and user authentication in platforms such as
   [GitHub](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
   and [PyPI](https://docs.pypi.org/trusted-publishers/).
@@ -101,7 +101,7 @@ PR
   and requests their review and integration into the main or another target branch.
   PRs facilitate collaboration by enabling code reviews,
   discussions, and testing before merging.
-  They often include a description of the changes, references to related issues, 
+  They often include a description of the changes, references to related issues,
   and a summary of the intent or impact of the modification.
   PRs are a critical component of modern collaborative software development workflows.
 

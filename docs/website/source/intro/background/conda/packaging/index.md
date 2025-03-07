@@ -1,16 +1,16 @@
 (bg-conda-packaging)=
 # Packaging and Distribution
 
-The (Ana)conda ecosystem provides a robust infrastructure 
+The (Ana)conda ecosystem provides a robust infrastructure
 for packaging and distributing software
 spanning multiple languages, including Python, R, C, and C++.
-Unlike Python’s native ecosystem, 
+Unlike Python’s native ecosystem,
 which primarily targets Python packages,
-Conda offers a more expansive approach with cross-language compatibility, 
-environment isolation, and efficient dependency management. 
+Conda offers a more expansive approach with cross-language compatibility,
+environment isolation, and efficient dependency management.
 
-This section delves into the details of 
-the packaging and distribution process in the Conda ecosystem, 
+This section delves into the details of
+the packaging and distribution process in the Conda ecosystem,
 highlighting relevant parallels and contrasts with [Python's native process](#bg-packaging).
 
 
@@ -31,8 +31,8 @@ are compressed archives that can contain different types of files
 from package metadata, Python modules, and other source files,
 to system-level libraries and executable programs.
 Therefore, a conda package can be anything from a pure-Python package
-(called a 
-[Noarch](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/packages.html#noarch-python) 
+(called a
+[Noarch](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/packages.html#noarch-python)
 package in conda)
 to complex applications containing multiple platform-specific binaries.
 Since Conda packages are language-agnostic, they also do not impose
@@ -46,7 +46,7 @@ Similar to the [`pyproject.toml` file](#bg-pyproject) for Python packages,
 Conda packages must define build settings and package metadata
 in a so-called [Conda-build recipe](https://docs.conda.io/projects/conda-build/en/stable/concepts/recipe.html),
 consisting of a [`meta.yaml` file](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html) written in [YAML](#bg-yaml)
-plus other optional files such as 
+plus other optional files such as
 [build scripts](https://docs.conda.io/projects/conda-build/en/stable/resources/build-scripts.html)
 for Unix and Windows-based systems.
 Conda-build recipes and `pyproject.toml` files share many configurations
@@ -61,7 +61,7 @@ Python packages located at the same filepath,
 Conda-build recipes allow users to dynamically
 collect the required [source](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html#source-section)
 files from any online or local location.
-The recipe must then define a [build script](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html#build-section), 
+The recipe must then define a [build script](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html#build-section),
 in which files are installed into an isolated build environment.
 For example, to build a Python package,
 this involves using [pip](#bg-pip) to install the package into the build environment.
@@ -71,23 +71,23 @@ along with package metadata defined in the recipe.
 
 ## Build
 
-The [build process](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs.html) 
-in the Conda ecosystem involves converting source code 
-and dependencies into a distributable binary package. 
-This is achieved using the [conda-build](https://github.com/conda/conda-build) tool, 
+The [build process](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs.html)
+in the Conda ecosystem involves converting source code
+and dependencies into a distributable binary package.
+This is achieved using the [conda-build](https://github.com/conda/conda-build) tool,
 which automates the creation of [`.conda` files](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html#conda-file-format)
 (superseding the older `.tar.bz2` format) optimized for fast installation.
-This generates platform-specific binaries that are ready for distribution. 
-Unlike Python’s reliance on `wheel` for binary distributions, 
-Conda packages inherently bundle all required dependencies, 
-including compiled libraries, 
+This generates platform-specific binaries that are ready for distribution.
+Unlike Python’s reliance on `wheel` for binary distributions,
+Conda packages inherently bundle all required dependencies,
+including compiled libraries,
 which ensures smooth installation regardless of the target environment.
 
 
 ## Publication
 
-Once a package is built, it can be published 
-to repositories like [Anaconda.org](#bg-anaconda-org) or [conda-forge](#bg-conda-forge). 
+Once a package is built, it can be published
+to repositories like [Anaconda.org](#bg-anaconda-org) or [conda-forge](#bg-conda-forge).
 For Anaconda.org, developers must [create an account](https://docs.anaconda.com/free/anacondaorg/user-guide/work-with-accounts/)
 on the platform and use the [anaconda-client](https://github.com/Anaconda-Platform/anaconda-client) library
 to [upload the package](https://docs.anaconda.com/free/anacondaorg/user-guide/packages/conda-packages/#uploading-conda-packages)

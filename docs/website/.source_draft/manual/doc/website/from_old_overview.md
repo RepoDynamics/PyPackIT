@@ -157,4 +157,3 @@ and |{{ ccc.name }}| will automatically set it up for you.
 |{{ ccc.name }}| also automatically generates a full configuration file for the
 [Read The Docs](https://readthedocs.org/) platform,
 so that you can easily build and deploy your website there as well.
-

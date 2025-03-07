@@ -1,44 +1,44 @@
 (bg-versioning)=
 # Versioning
 
-Software versioning is a systematic method of 
-assigning unique version numbers to software releases, 
-allowing developers and users 
-to track changes, improvements, and fixes over time. 
-Versioning is crucial for managing software development, 
-ensuring backward compatibility, and facilitating effective collaboration among teams. 
-A well-defined versioning strategy enhances transparency, 
-simplifies dependency management, 
+Software versioning is a systematic method of
+assigning unique version numbers to software releases,
+allowing developers and users
+to track changes, improvements, and fixes over time.
+Versioning is crucial for managing software development,
+ensuring backward compatibility, and facilitating effective collaboration among teams.
+A well-defined versioning strategy enhances transparency,
+simplifies dependency management,
 and supports Continuous workflows and cloud-native practices.
 
-Historically, software versioning began as simple incremental numbering 
-but has evolved into more structured and standardized systems. 
-Today, versioning strategies often reflect the development lifecycle, 
-stability, and compatibility of software. 
-Popular methods include Semantic Versioning (SemVer), 
-date-based versioning, and revision control systems 
-that embed version history into the software development process. 
-Selecting the appropriate versioning strategy is vital for managing feature development, 
+Historically, software versioning began as simple incremental numbering
+but has evolved into more structured and standardized systems.
+Today, versioning strategies often reflect the development lifecycle,
+stability, and compatibility of software.
+Popular methods include Semantic Versioning (SemVer),
+date-based versioning, and revision control systems
+that embed version history into the software development process.
+Selecting the appropriate versioning strategy is vital for managing feature development,
 bug fixes, and major architectural changes.
 
 
 (bg-semver)=
 ## Semantic Versioning
 
-[Semantic Versioning](https://semver.org/spec/v2.0.0.html) (SemVer) is one of the 
-most widely adopted versioning systems in software development. 
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html) (SemVer) is one of the
+most widely adopted versioning systems in software development.
 It uses a three-part version number in `X.Y.Z` format (e.g., `1.2.3`),
-where `X`, `Y`, and `Z` are non-negative integers 
-representing the so-called ***major***, ***minor***, and ***patch*** numbers, respectively. 
-This system promotes clarity, helping developers and users 
+where `X`, `Y`, and `Z` are non-negative integers
+representing the so-called ***major***, ***minor***, and ***patch*** numbers, respectively.
+This system promotes clarity, helping developers and users
 understand the impact of software updates.
-SemVer's structured approach helps communicate 
+SemVer's structured approach helps communicate
 the nature of changes between releases;
-for each release, one of the components is incremented by 1, 
-while the lower-priority components (major > minor > patch) are reset to 0. 
+for each release, one of the components is incremented by 1,
+while the lower-priority components (major > minor > patch) are reset to 0.
 Which component is incremented depends on the type of changes in the release ({numref}`fig-semver`):
 
-1. **Major release**: 
+1. **Major release**:
   If the release contains any backward-incompatible changes,
   then the major number must be incremented.
 2. **Minor release**:
@@ -65,22 +65,22 @@ while the lower-priority numbers (the ones to its right) are reset to 0.
 
 Note that SemVer necessitates that the application has a clear public API,
 enabling distinction between backward-compatible and incompatible changes.
-The public API is introduced in version `1.0.0`, 
+The public API is introduced in version `1.0.0`,
 while major version zero (`0.y.z`) is for initial development and signals an unstable API.
 Pre-release and build metadata can also be appended to version numbers,
 by appending a hyphen or plus sign followed by a series of dot-separated identifiers,
-e.g., `2.1.4-alpha`, `2.1.4+build.123`, or `2.1.4-beta.2+build.3`. 
+e.g., `2.1.4-alpha`, `2.1.4+build.123`, or `2.1.4-beta.2+build.3`.
 
 
 (bg-pep440)=
 ## Python Version Specifiers
 
 Python package versioning must follow the [specifications](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-specifiers)
-set by the PyPA. Originally described in [PEP 440](https://peps.python.org/pep-0440/), 
-this standard defines how Python projects should assign version numbers 
-to ensure compatibility across the Python ecosystem, 
+set by the PyPA. Originally described in [PEP 440](https://peps.python.org/pep-0440/),
+this standard defines how Python projects should assign version numbers
+to ensure compatibility across the Python ecosystem,
 particularly for distribution on PyPI.
-According to PyPA's specifications, 
+According to PyPA's specifications,
 canonical [public version identifiers](https://peps.python.org/pep-0440/#public-version-identifiers)
 must be unique within a given distribution,
 and must comply with the following scheme, where each `N` is a non-negative integer:

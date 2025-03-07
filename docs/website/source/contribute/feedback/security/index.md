@@ -15,13 +15,13 @@ In case a security vulnerability is detected that may affect users, we take imme
 :::{admonition} |{{ccc.name}}| Security Measures 🛡
 :class: seealso
 
-Learn more about our security measures and procedures 
+Learn more about our security measures and procedures
 to handle vulnerability issues on our
 [Developer Guide](#dev-guide).
 :::
 
-The following vulnerability disclosure policy 
-is intended to give users, contributors, 
+The following vulnerability disclosure policy
+is intended to give users, contributors,
 and security researchers clear guidelines for
 [reporting potential security vulnerabilities](#reporting-a-potential-vulnerability)
 and [conducting vulnerability discovery activities](#testing-for-vulnerabilities).
@@ -32,7 +32,7 @@ and how long we ask security researchers to wait before publicly disclosing vuln
 
 ### Reporting a Potential Vulnerability
 
-If you have found a potential vulnerability 
+If you have found a potential vulnerability
 in our application, website, or repository,
 please report it as soon as possible
 following the guidelines described here.
@@ -44,7 +44,7 @@ or discussion forums.
 #### Where to Report
 
 We use the [GitHub security advisories feature](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories)
-to securely discuss, fix and publish information 
+to securely discuss, fix and publish information
 about security vulnerabilities in |{{ccc.name}}|.
 To privately report a security vulnerability,
 follow the [documentation on Github](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)
@@ -57,7 +57,7 @@ sections of our GitHub repository.
 :::{admonition} Prefer Anonymity?
 :class: tip
 
-Our vulnerability management team 
+Our vulnerability management team
 also welcomes anonymous emails sent to
 <a href="|{{ helper.team_members_with_role_ids("security")[0].email.url }}|?subject=%5BSecurity%20Vulnerability%20Report%5D%3A%20---Please%20provide%20a%20conscise%20title%20here---&body=---Thank%20you%20for%20reporting%20a%20security%20vulnerability.%20Please%20provide%20as%20much%20information%20as%20you%20can%20under%20the%20sections%20listed%20below.%20Texts%20like%20this%20that%20are%20surrounded%20by%20three%20hyphens%20are%20instructions%20and%20should%20be%20deleted%20before%20sending%20the%20email.---%20%0D%0A%0D%0A1.%20Summary%0D%0A---Provide%20a%20short%20summary%20of%20the%20problem.%20Make%20the%20impact%20and%20severity%20as%20clear%20as%20possible.%20For%20example%3A%20An%20unsafe%20deserialization%20vulnerability%20allows%20any%20unauthenticated%20user%20to%20execute%20arbitrary%20code%20on%20the%20server.---%0D%0A%0D%0A2.%20Details%0D%0A---Give%20all%20details%20on%20the%20vulnerability.%20Pointing%20to%20the%20incriminated%20source%20code%20is%20very%20helpful%20for%20the%20maintainer.---%0D%0A%0D%0A3.%20PoC%0D%0A---Complete%20instructions%2C%20including%20specific%20configuration%20details%2C%20to%20reproduce%20the%20vulnerability.---%0D%0A%0D%0A4.%20Impact%0D%0A---What%20kind%20of%20vulnerability%20is%20it%3F%20Who%20is%20impacted%3F---%0D%0A%0D%0A5.%20Affected%20Products%0D%0A---For%20each%20affected%20product%2C%20name%20the%20ecosystem%20%28e.g.%20pip%2C%20GitHub%20Actions%29%2C%20package-%20or%20filename%2C%20and%20affected%20versions.---%0D%0A%0D%0A6.%20Severity%0D%0A---Asses%20the%20severity%20of%20the%20issue%2C%20e.g.%20using%20a%20CVSS%20vector%20string%20%28learn%20more%20at%20https%3A%2F%2Fwww.first.org%2Fcvss%2Fv3.1%2Fuser-guide%29.---%0D%0A%0D%0A7.%20Weaknesses%0D%0A---Provide%20Common%20Weakness%20Enumerator%20%28CWE%3B%20learn%20more%20at%20https%3A%2F%2Fdocs.github.com%2Fen%2Fcode-security%2Fsecurity-advisories%2Frepository-security-advisories%2Fabout-repository-security-advisories%23cve-identification-numbers%29.---%0D%0A%0D%0A8.%20Mitigation%0D%0A---Provide%20necessary%20steps%20to%20mitigate%20the%20problem.---">|{{ helper.team_members_with_role_ids("security")[0].email.id }}|</a>.
 :::
@@ -155,21 +155,21 @@ describing what systems and types of research are covered under this policy.
 
 #### Authorization
 
-If you make a good faith effort 
+If you make a good faith effort
 to comply with this policy during your security research,
-we will consider your research to be authorized, 
+we will consider your research to be authorized,
 will work with you to understand and resolve the issue quickly,
 and will not recommend or pursue legal action related to your research.
-Should legal action be initiated 
-by a third party against you 
+Should legal action be initiated
+by a third party against you
 for activities that were conducted
-in accordance with this policy, 
+in accordance with this policy,
 we will make this authorization known.
 
 
 #### Guidelines
 
-Under this policy, "research" and "vulnerability discovery" 
+Under this policy, "research" and "vulnerability discovery"
 means activities in which you:
 
 * Notify us as soon as possible after you discover a real or potential security issue.
@@ -194,26 +194,26 @@ or proprietary information or secrets of any kind), **you must**:
 
 The following test methods are **not authorized**:
 
-* Network denial of service (DoS or DDoS) tests or other tests 
+* Network denial of service (DoS or DDoS) tests or other tests
   that impair access to or damage a system or data.
-* Social engineering (e.g., phishing, vishing) 
+* Social engineering (e.g., phishing, vishing)
   or any other non-technical vulnerability testing.
 
 
 #### Scope
-This policy applies to any source code, data, or configuration 
-directly stored in our GitHub repository at |{{ccc.repo.url.home}}|, 
-and any software, package, website, or other digital products and services 
+This policy applies to any source code, data, or configuration
+directly stored in our GitHub repository at |{{ccc.repo.url.home}}|,
+and any software, package, website, or other digital products and services
 that are directly published/deployed from this repository.
 
-**Any service not expressly listed above**, 
+**Any service not expressly listed above**,
 such as any connected services, are **excluded from scope**
-and are **not authorized** for testing. 
+and are **not authorized** for testing.
 Additionally, vulnerabilities found in systems from our vendors
-fall outside of this policy's scope and 
-should be reported directly to the vendor 
-according to their disclosure policy (if any). 
+fall outside of this policy's scope and
+should be reported directly to the vendor
+according to their disclosure policy (if any).
 If you aren't sure whether a system is in scope or not,
 or there is a particular system not in scope that you think merits testing,
-please contact us at |{{ helper.team_members_with_role_ids("security")[0].email.id }}| 
+please contact us at |{{ helper.team_members_with_role_ids("security")[0].email.id }}|
 to discuss it first, before starting your research.

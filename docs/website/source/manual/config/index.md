@@ -4,7 +4,7 @@
 As described in the [Introduction](#overview-cc) section,
 the control center is a powerful DevOps tool
 that facilitates [configuration management](#motiv-cca)
-by enabling [CCA](#bg-cca) and 
+by enabling [CCA](#bg-cca) and
 rendering your whole project highly dynamic.
 For most cases, it is the only interface you need to interact
 with to configure, customize, and manage your entire project.
@@ -47,9 +47,9 @@ it is possible to include your entire project (with all Python codes,
 test cases, and documentation) in the control center as (static or dynamic) configurations,
 so that everything can be dynamically updated.
 Changes to control center configurations are automatically propagated throughout your repository
-and all supported tools and services during so-called [synchronization](#manual-cc-sync) 
+and all supported tools and services during so-called [synchronization](#manual-cc-sync)
 events that trigger the CCA pipeline.
-These are carried out automatically on GHA, 
+These are carried out automatically on GHA,
 but can also be invoked locally using |{{ ccc.name }}|'s CLI.
 
 

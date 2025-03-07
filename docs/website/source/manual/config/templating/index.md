@@ -54,23 +54,23 @@ that generates the string `"generated_value"`:
 1. Usage as a key in a mapping:
    :::{code-block} yaml
    :caption: Input YAML
-  
+
    ${{ ... }}$: some_value
    :::
-  
-  
+
+
    :::{code-block} yaml
    :caption: Output YAML
-  
+
    generated_value: some_value
    :::
 2. Usage as a value in a mapping:
    :::{code-block} yaml
    :caption: Input YAML
-  
+
    some_key: ${{ ... }}$
    :::
-  
+
 
    :::{code-block} yaml
    :caption: Output YAML
@@ -80,10 +80,10 @@ that generates the string `"generated_value"`:
 3. Usage as an element in a sequence:
    :::{code-block} yaml
    :caption: Input YAML
-  
+
    - ${{ ... }}$
    :::
-  
+
 
    :::{code-block} yaml
    :caption: Output YAML
@@ -104,7 +104,7 @@ in which case the above examples will generate the following outputs, respective
 1. Usage as a key in a mapping:
    :::{code-block} yaml
    :caption: Output YAML
-  
+
    [1, 2, 3]: some_value
    :::
 2. Usage as a value in a mapping:
@@ -184,7 +184,7 @@ whose ID is stored under a custom key at `$.__data__.target_member_id`:
 :::{code-block} yaml
 
 __data__:
-  target_member_id: member_1 
+  target_member_id: member_1
 :::
 
 Your template must then be:
@@ -205,7 +205,7 @@ For example, assume the following configurations:
 __data__:
   first_member_id: member_1
   second_member_id: member_2
-  target_member_key: first_member_id 
+  target_member_key: first_member_id
 :::
 
 Here, `first_member_id` and `second_member_id` contain two different member IDs,
@@ -242,7 +242,7 @@ This fails in cases where your query is meant to return a sequence,
 but it ends up matching only a single node. In such cases,
 the reference template will incorrectly resolve to the node value,
 whereas a sequence of node values was expected.
-Query templates solve this issue by always 
+Query templates solve this issue by always
 returning a sequence, regardless of the number of matched nodes.
 They can be used in place of reference templates where the query
 must return a sequence, but may end up matching only one node.
@@ -283,7 +283,7 @@ Code templates are a superset of reference and query templates,
 meaning they can also use JSONPath expressions to query other parts
 of the control center configurations.
 For this, a function named `get` is provided to the local environment
-in which the code is executed. 
+in which the code is executed.
 
 
 ::::{admonition} JSONPath Resolver Function
@@ -595,13 +595,13 @@ team:
       last: Doe
 :::
 
-The template defined at `$.__data__.project_info`: 
+The template defined at `$.__data__.project_info`:
 
 :::{code-block} yaml
 
 __data__:
   project_info: >-
-    The project ${{ name }}$ 
+    The project ${{ name }}$
     has #{{ return len(get("team")) }}# members;
     their names are: *{{ $[[ team.*.name.full ]]$ }}*
 :::
@@ -612,7 +612,7 @@ will then resolve to:
 
 __data__:
   project_info: >-
-    The project MyProject 
+    The project MyProject
     has 2 members;
     their names are: Jane Doe, John Doe
 :::

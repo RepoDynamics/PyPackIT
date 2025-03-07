@@ -4,7 +4,7 @@
 |{{ ccc.name }}|'s CCA pipeline automatically
 applies all control center configurations
 to corresponding components,
-ensuring that your entire project is always 
+ensuring that your entire project is always
 in sync with your specifications.
 The CCA pipeline is automatically triggered on GHA
 whenever commits are pushed to a branch,
@@ -39,7 +39,7 @@ The exact steps of |{{ ccc.name}}|'s CCA pipeline are as follows:
    is loaded and validated.
    This is used as a reference for current project-wide configurations,
    such as branch and tag name specifications.
-3. Initialization hooks are executed, if specified. 
+3. Initialization hooks are executed, if specified.
 4. The control center configuration files in the current branch are loaded
    and merged. Inherited configurations are resolved and merged as well,
    either using cached data (if a non-expired cache exists),

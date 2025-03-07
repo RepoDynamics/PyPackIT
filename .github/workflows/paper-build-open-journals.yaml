@@ -145,9 +145,9 @@ jobs:
           - $(git describe --long --always)
           - ${{ inputs.filepath }}
           - ${{ inputs.journal }}"
-          
+
           name_normalized=$(echo "$name" | tr '":<>|*?\/' '_')
-          
+
           echo "artifact_base_name=$name_normalized" >> $GITHUB_OUTPUT
       - name: Artifact Filepath Determination
         run: |

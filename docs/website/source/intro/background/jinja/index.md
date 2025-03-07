@@ -1,14 +1,14 @@
 (intro-jinja)=
 # Jinja
 
-[Jinja](https://jinja.palletsprojects.com/) is a fast and flexible templating engine for Python, 
-commonly used to dynamically generate HTML, configuration files, or other text-based formats. 
-It allows embedding Python-like expressions and control structures within templates 
+[Jinja](https://jinja.palletsprojects.com/) is a fast and flexible templating engine for Python,
+commonly used to dynamically generate HTML, configuration files, or other text-based formats.
+It allows embedding Python-like expressions and control structures within templates
 using a concise syntax, such as `{{ }}` for variable interpolation
-and `{% %}` for logic statements like loops and conditionals. 
-Jinja supports features like template inheritance, macros, filters, and extensions, 
-enabling reusable and modular templates. 
-Widely adopted in web frameworks like Flask and for tools like Ansible, 
+and `{% %}` for logic statements like loops and conditionals.
+Jinja supports features like template inheritance, macros, filters, and extensions,
+enabling reusable and modular templates.
+Widely adopted in web frameworks like Flask and for tools like Ansible,
 Jinja simplifies rendering dynamic content in various contexts.
 
 

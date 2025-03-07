@@ -104,7 +104,7 @@ pypkg_main:
       summary: |
         Manifest file for controlling files and directories in the source distribution.
       description: |
-        The `MANIFEST.in` file is used to 
+        The `MANIFEST.in` file is used to
         [control files and directories](https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#controlling-files-in-the-distribution)
         when creating a source distribution of the package.
         It is used by the `sdist` command of `setuptools` to determine which files
@@ -308,7 +308,7 @@ pypkg_test:
       name: Coverage Configuration
       summary: >-
         Coverage [configuration file](https://coverage.readthedocs.io/en/latest/config.html),
-        which is also used by the 
+        which is also used by the
         [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/config.html) plugin.
       type: toml
       path: ${{ pypkg_test.path.import }}$/data/config/coverage.toml

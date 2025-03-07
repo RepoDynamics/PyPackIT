@@ -16,7 +16,7 @@ that define the structure of control center configurations
 and are used to validate user settings during [synchronization](#manual-cc-sync) events.
 
 
-:::{table} An overview of main control center configuration categories. 
+:::{table} An overview of main control center configuration categories.
 :widths: auto
 :align: center
 :name: tab-cc-options-overview

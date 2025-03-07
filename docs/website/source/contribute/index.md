@@ -9,14 +9,14 @@ ccid: contribute
 Welcome to our community!
 We are excited to have you here,
 and grateful that you are considering contributing.
-|{{ccc.name}}| is a free and open-source project 
+|{{ccc.name}}| is a free and open-source project
 that can only survive and grow
 through the help of great members like you.
-There are many different ways 
+There are many different ways
 |{{ccc.name}}| can benefit from your experience,
 knowledge, and support.
 All types of contributions are encouraged and valued,
-and all contributors are acknowledged on our 
+and all contributors are acknowledged on our
 [public website](#contributors)
 and |{{ '[repository]({})'.format(ccc.repo.url.releases.home) }}|.
 
@@ -33,10 +33,10 @@ and |{{ '[repository]({})'.format(ccc.repo.url.releases.home) }}|.
 :link-type: doc
 
 Tell us your experience using |{{ccc.name}}|,
-report a bug, security vulnerability or problem you encountered, 
+report a bug, security vulnerability or problem you encountered,
 discuss new ideas and request new features,
 showcase your usage, ask questions, chat with the community,
-join the conversation 
+join the conversation
 and help us improve and tailor |{{ccc.name}}| toward your needs.
 :::
 
@@ -58,7 +58,7 @@ to documentation, graphic design, web development, project maintenance, and DevO
 :link-type: doc
 
 Support |{{ ccc.name }}| and help us attract more users and contributors
-by citing our work in your publications, 
+by citing our work in your publications,
 mentioning our project in your website and social media,
 or simply giving us a like on GitHub.
 Become a patron and help us sustainably

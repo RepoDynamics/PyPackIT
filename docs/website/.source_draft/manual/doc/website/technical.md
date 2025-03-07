@@ -1,5 +1,5 @@
 ## Requirements
-    
+
 ### sphinxext-opengraph
 To add [Open Graph](https://ogp.me/) meta tags to each HTML page of the site.
 

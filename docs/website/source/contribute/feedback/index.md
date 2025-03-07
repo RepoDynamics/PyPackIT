@@ -3,7 +3,7 @@
 
 
 |{{ccc.name}}| evolves with the needs of its users,
-and so we encourage all types of feedback. 
+and so we encourage all types of feedback.
 
 
 ::::{grid} 1
@@ -29,7 +29,7 @@ in our project.
 :link: bug/index
 :link-type: doc
 
-Report a bug in 
+Report a bug in
 :::
 
 ::::

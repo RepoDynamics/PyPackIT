@@ -16,38 +16,38 @@ abstract: >-
   for production of <abbr title="Findable, Accessible, Interoperable, and Reusable">FAIR</abbr>
   and professional applications on <strong>GitHub</strong>,
   in accordance with the latest software engineering best practices and standards.
-  ${{ name }}$ is a ready-to-use software suite 
-  that streamlines the initiation, configuration, development, publication, management, 
+  ${{ name }}$ is a ready-to-use software suite
+  that streamlines the initiation, configuration, development, publication, management,
   and maintenance of high-quality <strong>Python applications</strong>.
-  By taking charge of repetitive tasks 
+  By taking charge of repetitive tasks
   and automatically enforcing best practices
   throughout the software development life cycle,
-  ${{ name }}$ enables users to solely focus 
+  ${{ name }}$ enables users to solely focus
   on the creative aspects of their projects,
   while improving quality and lowering production costs.
   Using latest tools and methodologies, ${{ name }}$ offers a robust project infrastructure,
   including a build-ready Python <strong>package skeleton</strong>,
-  a fully operational <strong>test suite</strong>, 
+  a fully operational <strong>test suite</strong>,
   an automated <strong>documentation website</strong>,
-  and a comprehensive <strong>control center</strong> 
+  and a comprehensive <strong>control center</strong>
   according to <strong>Infrastructure-as-Code</strong>
-  and <strong>Continuous Configuration Automation</strong> practices 
+  and <strong>Continuous Configuration Automation</strong> practices
   to enable dynamic project management and customization.
   ${{ name }}$ establishes a complete <strong>cloud development</strong> environment on GitHub,
-  integrating with its version control system, issue tracker,and pull-based model 
+  integrating with its version control system, issue tracker,and pull-based model
   to provide a fully <strong>automated software development workflow</strong>
-  with <strong>issue management</strong>, 
+  with <strong>issue management</strong>,
   <strong>branching model</strong>, and <strong>versioning scheme</strong>.
-  Leveraging <strong>GitHub Actions</strong>, 
+  Leveraging <strong>GitHub Actions</strong>,
   ${{ name }}$ implements a cloud-native Agile development process
   using <strong>Continuous software engineering</strong>, <strong>containerization</strong>,
   and <strong>DevOps</strong> methodologies,
   with a full set of <strong>Continuous Integration</strong>, Deployment, Testing, Refactoring,
-  and Maintenance pipelines. 
+  and Maintenance pipelines.
   ${{ name }}$ is a <strong>free</strong> and <strong>open-source</strong> software suite
   that readily integrates with both new and existing projects
   to ensure their long-term sustainability and high quality,
-  enabling software projects to rapidly implement their ideas 
+  enabling software projects to rapidly implement their ideas
   and easily maintain their products.
 keywords:
   - Automation
@@ -122,7 +122,7 @@ highlights:
       upgrading development tools and project infrastructure,
       and cleaning up the repository and its development environment.
       ${{ name }}$ can automatically submit issue tickets and pull requests
-      for applying updates and fixes, thus maintaining 
+      for applying updates and fixes, thus maintaining
       the health of the project and ensuring its long-term sustainability.
   - title: Issue Management
     description: |
@@ -327,7 +327,7 @@ file_citation_cff:
     [`CITATION.cff`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files) file.
   description: |
     Citation file for the project
-    in the [Citation File Format](https://citation-file-format.github.io/) (CFF). 
+    in the [Citation File Format](https://citation-file-format.github.io/) (CFF).
     Current schema version is [CFF v1.2.0](https://github.com/citation-file-format/citation-file-format/blob/main/schema-guide.md).
   type: yaml
   path: CITATION.cff  # GitHub only supports `CITATION.cff` at root.

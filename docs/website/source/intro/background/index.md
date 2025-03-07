@@ -1,7 +1,7 @@
 # Background
 
 This section provides supplementary background information
-on key concepts, methodologies, tools, and technologies 
+on key concepts, methodologies, tools, and technologies
 used in |{{ ccc.name }}|.
 
 
@@ -18,8 +18,8 @@ used in |{{ ccc.name }}|.
 
 Discover more about different software development methodologies
 such as Agile, pull-based, and test-driven development,
-as well as cloud-native practices 
-like Continuous software engineering, DevOps, and containerization. 
+as well as cloud-native practices
+like Continuous software engineering, DevOps, and containerization.
 :::
 
 
@@ -29,7 +29,7 @@ like Continuous software engineering, DevOps, and containerization.
 :link-type: doc
 
 Learn more about the GitHub social coding platform,
-GitHub repositories, and various services including 
+GitHub repositories, and various services including
 Actions, Codespaces, Discussions, Issues, Pages, pull requests,
 and repository templates.
 :::
@@ -131,7 +131,7 @@ for writing rich and technical documents.
 :::{admonition} External Resources
 :class: seealso
 
-A full list of literature cited throughout the documentation 
+A full list of literature cited throughout the documentation
 is provided in [References](#refs). Freely available online resources include:
 - [The Turing Way](https://book.the-turing-way.org/) handbook to reproducible, ethical and collaborative data science.
 - [Python Tutorials & Learning Resources for Scientists](https://www.pyopensci.org/learn.html) by the [pyOpenSci](https://www.pyopensci.org/) community.

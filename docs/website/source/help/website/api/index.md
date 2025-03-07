@@ -10,7 +10,7 @@ and are used to validate user settings.
 All schemas are written in [Draft 2020-12](https://json-schema.org/draft/2020-12).
 If you are unfamiliar with JSON Schema specifications,
 we recommend you read the [documentation](https://json-schema.org/understanding-json-schema)
-to better understand the API reference documentation. 
+to better understand the API reference documentation.
 
 
 (help-jsonschema-defaults)=
@@ -65,7 +65,7 @@ and so, `b` will also be instantiated with the defined default value (i.e., an e
 Now, since both `a` and `b` are instantiated, all parents of `c` are instantiated,
 and `c` will thus be instantiated as well, resulting in the final output `{a: {b: {c: 0}}}`.
 Note that an input of `{a: {b: {}}` will also produce the same result (
-this time `b` is instantiated because it is present in the input, not due to having a default value set 
+this time `b` is instantiated because it is present in the input, not due to having a default value set
 ), while `{a: b: {c: 1}}` will remain as is (`c` is already instantiated in input, so the default is ignored).
 
 
@@ -103,4 +103,4 @@ Note that in this case, an input of `{a: {b: {}}` will remain unchanged,
 since the default value of `b` will not be applied.
 Therefore, from reading the API reference alone you cannot deduce whether
 or not a default value will be applied to your configurations,
-as this is also dependent on your actual configurations. 
+as this is also dependent on your actual configurations.

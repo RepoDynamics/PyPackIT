@@ -4,7 +4,7 @@ file_web_toc:
   name: Website Table of Contents
   summary: Central table of contents definition for the entire website.
   description: |
-    This file is used by the 
+    This file is used by the
     [Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)
     extension to define the structure of the website.
   type: yaml
@@ -336,7 +336,7 @@ data_css:
         These stylesheets are dynamically added to the website during builds.
         For each stylesheet, add a key-value pair where the
         key is an ID for the stylesheet,
-        and the value is a mapping defining CSS selectors, 
+        and the value is a mapping defining CSS selectors,
         property names, and corresponding values.
       type: object
       additionalProperties: false
@@ -430,7 +430,7 @@ file_sphinx_conf:
   content: |
     #{{
       import pyserials as ps
-      
+
       out = {}
       for pkg_manager in ("conda", "pip"):
         for pkg in get(f"devcontainer_docs.environment.website.{pkg_manager}", {}).values():
@@ -441,7 +441,7 @@ file_sphinx_conf:
               addon=sphinx_conf,
               undefined_existing="raise"
             )
-      return out    
+      return out
     }}#
   jsonschema:
     schema:
@@ -493,14 +493,14 @@ data_readthedocs:
 file_readthedocs:
   name: ReadTheDocs Configuration
   summary: >-
-    [Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html) 
+    [Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html)
     for the [ReadTheDocs](https://readthedocs.org/) web hosting service.
   type: yaml
   path: .readthedocs.yaml
   path_schema:
     description: |
-      By default, ReadTheDocs only looks for a 
-      [`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file)) 
+      By default, ReadTheDocs only looks for a
+      [`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file))
       file in the root of the repository.
       However, you can [change this manually](https://docs.readthedocs.io/en/stable/guides/setup/monorepo.html#how-to-use-a-readthedocs-yaml-file-in-a-sub-folder)
       by setting another path on the ReadTheDocs website,
@@ -543,7 +543,7 @@ file_script_web_build:
   content: |
     SPHINX_COMMON_OPTIONS="${{ .data.sphinx_build_options }}$"
     sphinx-build -M dirhtml ${{ data_website.path.source }}$ ${{ data_website.path.build }}$ $SPHINX_COMMON_OPTIONS
-    
+
     # Create a tarball of the built website according to GitHub Pages requirements.
     # Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml
     tar \
@@ -1171,7 +1171,7 @@ devcontainer_docs:
 
 __temp__:
   docker_install: |
-    
+
     RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
     RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
       if [ -f /tmp/temp-env-files/apt.txt ]; then \
@@ -1180,4 +1180,3 @@ __temp__:
   docker_pkg_deps: |
     COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
     RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
-
