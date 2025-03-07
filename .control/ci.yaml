@@ -3,6 +3,19 @@ control:
     retention_hours:
       css_color_filter: 0
 workflow:
+  web:
+    container:
+      name: devcontainer-docs
+      path: ${{ devcontainer_docs.path }}$/devcontainer.json
+      command: ${{ devcontainer_docs.environment.website.task.build.alias }}$
+      ref: refs/heads/${{ branch.main.name }}$
+    artifact:
+      build:
+        name: Website - v{{ version }}
+        path: ${{ data_website.path.build }}$/*
+      pages:
+        name: Website - v{{ version }} - GH-Pages
+        path: ${{ data_website.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
   binder:
     path:
       config: .binder_config
