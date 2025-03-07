@@ -1,6 +1,6 @@
 name: codecov
 dependencies:
-  - rust
+  - conda-forge::rust
   - pip
   - pip:
       - codecov-cli ==10.0.1
