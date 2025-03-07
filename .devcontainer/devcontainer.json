@@ -87,7 +87,6 @@
             "dracula-theme.theme-dracula"
          ],
          "settings": {
-            "terminal.integrated.scrollback": 100000,
             "tasks": {
                "tasks": [
                   {
@@ -135,7 +134,8 @@
                   }
                ],
                "version": "2.0.0"
-            }
+            },
+            "terminal.integrated.scrollback": 100000
          }
       }
    },
@@ -143,13 +143,16 @@
       "docker-compose.yaml"
    ],
    "features": {
+      "./.devcontainer/features/conda_setup": {},
       "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
    },
    "forwardPorts": [
       "8888:8888"
    ],
    "name": "Main Development Environment",
-   "postCreateCommand": "conda config --remove channels defaults && conda config --add channels conda-forge && conda config --set channel_priority strict && conda init && echo 'source /workspace/.devcontainer/tasks.sh' >> ~/.bashrc",
+   "postCreateCommand": {
+      "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' >> ~/.bashrc"
+   },
    "service": "main",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"
