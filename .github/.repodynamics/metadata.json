@@ -4522,7 +4522,7 @@
             "../docker-compose.yaml"
          ],
          "features": {
-            "./.devcontainer/features/conda_setup": {},
+            "../features/conda_setup": {},
             "ghcr.io/devcontainers/features/common-utils:2": {},
             "ghcr.io/devcontainers/features/conda:1": {
                "addCondaForge": true,
@@ -5540,7 +5540,7 @@
             "docker-compose.yaml"
          ],
          "features": {
-            "./.devcontainer/features/conda_setup": {},
+            "./features/conda_setup": {},
             "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
          },
          "forwardPorts": [
@@ -6309,7 +6309,7 @@
          "version": "0.1.0"
       },
       "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\n# Check if any channels are set\nchannels=$(conda config --show channels 2>/dev/null | grep 'channels:')\nif [ -n \"$channels\" ]; then\n    echo \"Removing existing Conda channels...\"\n    conda config --remove-key channels\nfi\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Updating conda...\"\nconda update -n base --all -y\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIR/$(basename \"$file\").log\";\n    done;\nfi\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
-      "path": ".devcontainer/features/conda_setup"
+      "path": "features/conda_setup"
    },
    "devfeature_pixi": {
       "feature": {
@@ -6335,7 +6335,7 @@
          "version": "0.40.3"
       },
       "install": "#!/usr/bin/env bash\nset -e\ncurl -L -o /usr/local/bin/pixi -fsSL --compressed \"https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl\"\nchmod +x /usr/local/bin/pixi\npixi info\n",
-      "path": ".devcontainer/features/pixi"
+      "path": "features/pixi"
    },
    "discussion": {
       "category": {
