@@ -187,7 +187,6 @@ devcontainer_main:
           - yzane.markdown-pdf
           - bierner.markdown-mermaid
           - GraphQL.vscode-graphql
-          - Codeium.codeium
           - ms-python.pylint
           - bierner.github-markdown-preview
           - jock.svg
