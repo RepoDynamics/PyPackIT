@@ -576,7 +576,7 @@ file_script_web_livehtml:
 devcontainer_docs:
   dockerfile:
     - FROM texlive/texlive:latest
-    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir.default }}$/
+    - ${{ __temp__.dockerfile_copy_env_cmd }}$
   container:
     name: Documentation Environment
     shutdownAction: none
