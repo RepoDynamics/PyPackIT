@@ -315,12 +315,17 @@ data_css:
         filter: |
           #{{
             import pycolorit as pcit
-  
+            cache_group = "css_color_filter"
             primary_color = get("color.primary")
-            return {
-                theme: pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
-                for theme in ["light", "dark"]
-            }
+            out = {}
+            for theme in ["light", "dark"]:
+              cache_id = f"black_to_{primary_color[theme]}"
+              filter = cache_manager.get(cache_group, cache_id)
+              if not filter:
+                filter = pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
+                cache_manager.set(cache_group, cache_id, filter)
+              out[theme] = filter
+            return out
           }}#
 
   jsonschema:
