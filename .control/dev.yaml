@@ -108,7 +108,7 @@ devcontainer_main:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
     - FROM mcr.microsoft.com/devcontainers/universal:2-linux
-    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir }}$/
+    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir.default }}$/
   container:
     name: Main Development Environment
     forwardPorts:
