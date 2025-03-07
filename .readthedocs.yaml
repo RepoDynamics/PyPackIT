@@ -1,4 +1,5 @@
 version: 2
+formats: all
 build:
   os: ubuntu-22.04
   tools:
@@ -16,4 +17,3 @@ sphinx:
   configuration: docs/website/source/conf.py
   builder: dirhtml
   fail_on_warning: false
-formats: all
