@@ -1,3 +1,6 @@
+__temp__:
+  container_env_path: /usr/local/share/environments
+  dockerfile_copy_env_cmd: COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ __temp__.container_env_path }}$/
 devfeature_pixi:
   # See:
   # - https://github.com/prefix-dev/pixi-docker
@@ -55,7 +58,7 @@ devfeature_conda_setup:
       env_dir:
         type: string
         description: Absolute path to the directory containing conda environment files.
-        default: /usr/local/share/conda-envs
+        default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.conda }}$
   install: |
     #!/usr/bin/env bash
     set -eux
@@ -108,7 +111,7 @@ devcontainer_main:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
     - FROM mcr.microsoft.com/devcontainers/universal:2-linux
-    - COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ devfeature_conda_setup.feature.options.env_dir.default }}$/
+    - ${{ __temp__.dockerfile_copy_env_cmd }}$
   container:
     name: Main Development Environment
     forwardPorts:
