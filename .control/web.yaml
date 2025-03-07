@@ -508,6 +508,7 @@ file_readthedocs:
     default: .readthedocs.yaml
   content:
     version: 2
+    formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
     build: # Set the version of Python and other tools you might need
       os: ubuntu-22.04
       tools:
@@ -527,7 +528,7 @@ file_readthedocs:
       configuration: ${{ data_website.path.source }}$/conf.py
       builder: dirhtml
       fail_on_warning: false
-    formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+
   jsonschema:
     schema: !ext https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
 
@@ -588,7 +589,7 @@ devcontainer_docs:
         addCondaForge: true
       # https://github.com/devcontainers/features/tree/main/src/git
       ghcr.io/devcontainers/features/git:1: {}
-      ./${{ devfeature_conda_setup.path }}$: {}
+      ../${{ devfeature_conda_setup.path }}$: {}
     customizations:
       vscode:
         extensions:
