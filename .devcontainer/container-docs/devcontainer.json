@@ -4,22 +4,28 @@
          "extensions": [
             "James-Yu.latex-workshop",
             "ExecutableBookProject.myst-highlight"
-         ]
+         ],
+         "settings": {
+            "terminal.integrated.scrollback": 100000
+         }
       }
    },
    "dockerComposeFile": [
       "../docker-compose.yaml"
    ],
    "features": {
+      "./.devcontainer/features/conda_setup": {},
       "ghcr.io/devcontainers/features/common-utils:2": {},
       "ghcr.io/devcontainers/features/conda:1": {
          "addCondaForge": true,
          "version": "latest"
       },
-      "ghcr.io/devcontainers/features/git:1": {},
-      "../features/conda-install": {}
+      "ghcr.io/devcontainers/features/git:1": {}
    },
    "name": "Documentation Environment",
+   "postCreateCommand": {
+      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' >> ~/.bashrc"
+   },
    "service": "docs",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"
