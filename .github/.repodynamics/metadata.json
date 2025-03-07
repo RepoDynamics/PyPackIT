@@ -3546,8 +3546,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(55%) sepia(62%) saturate(5336%) hue-rotate(78deg) brightness(99%) contrast(101%)",
-                  "light": "invert(17%) sepia(51%) saturate(3084%) hue-rotate(94deg) brightness(99%) contrast(102%)"
+                  "dark": "invert(39%) sepia(94%) saturate(750%) hue-rotate(72deg) brightness(103%) contrast(107%)",
+                  "light": "invert(9%) sepia(88%) saturate(6121%) hue-rotate(102deg) brightness(101%) contrast(101%)"
                }
             }
          },
@@ -4486,7 +4486,7 @@
                      "-c",
                      "tail -f /dev/null"
                   ],
-                  "container_name": "inara",
+                  "container_name": "openjournals",
                   "entrypoint": [
                      "/bin/sh"
                   ],
@@ -4511,13 +4511,17 @@
                "extensions": [
                   "James-Yu.latex-workshop",
                   "ExecutableBookProject.myst-highlight"
-               ]
+               ],
+               "settings": {
+                  "terminal.integrated.scrollback": 100000
+               }
             }
          },
          "dockerComposeFile": [
             "../docker-compose.yaml"
          ],
          "features": {
+            "./.devcontainer/features/conda_setup": {},
             "ghcr.io/devcontainers/features/common-utils:2": {},
             "ghcr.io/devcontainers/features/conda:1": {
                "addCondaForge": true,
@@ -4526,12 +4530,16 @@
             "ghcr.io/devcontainers/features/git:1": {}
          },
          "name": "Documentation Environment",
+         "postCreateCommand": {
+            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' >> ~/.bashrc"
+         },
          "service": "docs",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
       },
       "dockerfile": [
-         "FROM texlive/texlive:latest"
+         "FROM texlive/texlive:latest",
+         "COPY .devcontainer/container-docs/environment {'type': 'string', 'description': 'Absolute path to the directory containing conda environment files.', 'default': '/usr/local/share/conda-envs'}/"
       ],
       "environment": {
          "website": {
@@ -5383,7 +5391,7 @@
          }
       },
       "path": ".devcontainer/container-docs",
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name}'"
+      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream"
    },
    "devcontainer_main": {
       "container": {
@@ -5522,7 +5530,8 @@
                         }
                      ],
                      "version": "2.0.0"
-                  }
+                  },
+                  "terminal.integrated.scrollback": 100000
                }
             }
          },
@@ -5530,21 +5539,62 @@
             "docker-compose.yaml"
          ],
          "features": {
+            "./.devcontainer/features/conda_setup": {},
             "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
          },
          "forwardPorts": [
             "8888:8888"
          ],
          "name": "Main Development Environment",
+         "postCreateCommand": {
+            "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' >> ~/.bashrc"
+         },
          "service": "main",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
       },
       "dockerfile": [
-         "FROM mcr.microsoft.com/devcontainers/universal:2-linux"
+         "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
+         "COPY .devcontainer/environment {'type': 'string', 'description': 'Absolute path to the directory containing conda environment files.', 'default': '/usr/local/share/conda-envs'}/"
       ],
       "environment": {
+         "base": {
+            "conda": {
+               "conda-build": {
+                  "description": "Tool for building conda packages.\n",
+                  "name": "conda-build",
+                  "notes": "For proper functioning, it is strongly recommended to \ninstall conda-build in the conda base environment.\nSee the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)\nfor more information.\n",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::conda-build",
+                     "name": "conda-build",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://conda.io/projects/conda-build",
+                     "package": "https://anaconda.org/conda-forge/conda-build"
+                  }
+               }
+            },
+            "name": "base",
+            "path": ".devcontainer/environment/conda/base.yaml"
+         },
          "codecov": {
+            "conda": {
+               "rust": {
+                  "name": "rust",
+                  "notes": "Required for the `codecov` package.\n",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::rust",
+                     "name": "rust",
+                     "version": ""
+                  },
+                  "url": {
+                     "package": "https://anaconda.org/conda-forge/rust"
+                  }
+               }
+            },
             "file": {
                "codecov_config": {
                   "content": {
@@ -6223,10 +6273,42 @@
             "description": "Build paper using the Open-Journals Inara service.\nFor publishing to JOSE or ReScience C (instead of JOSS),\nset the `JOURNAL` environment variable to `jose` or `resciencec`, respectively.\n",
             "name": "Build Open-Journals Paper",
             "notes": "This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.\nSee the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)\nfor more details.\n",
-            "script": "docker exec -it inara \\\n  inara -o pdf -p -v $1\n"
+            "script": "docker exec -it openjournals \\\n  inara -o pdf -p -v $1\n"
+         },
+         "jupyterlab": {
+            "alias": "jupyterlab",
+            "name": "Open JupyterLab",
+            "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
          }
       },
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name}'"
+      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream"
+   },
+   "devfeature_conda_setup": {
+      "feature": {
+         "description": "Install conda environments and setup conda configuration.",
+         "id": "conda_setup",
+         "installsAfter": [
+            "ghcr.io/devcontainers/features/common-utils",
+            "ghcr.io/devcontainers/features/conda"
+         ],
+         "name": "Conda Setup",
+         "options": {
+            "env_dir": {
+               "default": "/usr/local/share/conda-envs",
+               "description": "Absolute path to the directory containing conda environment files.",
+               "type": "string"
+            },
+            "log_dir": {
+               "default": "/var/log/conda_setup",
+               "description": "Absolute path to a directory to write log files.",
+               "type": "string"
+            }
+         },
+         "postCreateCommand": "channels=$(conda config --show channels 2>/dev/null | grep 'channels:')  && [ -n \"$channels\" ]  && echo \"Removing existing Conda channels...\"  && conda config --remove-key channels;  echo \"Adding conda-forge as the only channel...\"  && conda config --add channels conda-forge  && echo \"Setting strict channel priority...\"  && conda config --set channel_priority strict  && echo \"Verifying channels...\"  && conda config --show channels; echo \"Initializing conda...\" && conda init",
+         "version": "0.1.0"
+      },
+      "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\n# Check if any channels are set\nchannels=$(conda config --show channels 2>/dev/null | grep 'channels:')\nif [ -n \"$channels\" ]; then\n    echo \"Removing existing Conda channels...\"\n    conda config --remove-key channels\nfi\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Updating conda...\"\nconda update -n base --all -y\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIR/$(basename \"$file\").log\";\n    done;\nfi\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "path": ".devcontainer/features/conda_setup"
    },
    "devfeature_pixi": {
       "feature": {
@@ -19554,6 +19636,7 @@
             "pypkg_test_setuptools_manifest": "test/MANIFEST.in"
          },
          "devcontainer_conda": {
+            "base": ".devcontainer/environment/conda/base.yaml",
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
             "presentation": ".devcontainer/environment/conda/presentation.yaml",
@@ -19566,9 +19649,11 @@
             "devcontainer_main": ".devcontainer/Dockerfile"
          },
          "devcontainer_feature_install": {
+            "conda_setup": ".devcontainer/features/conda_setup/install.sh",
             "pixi": ".devcontainer/features/pixi/install.sh"
          },
          "devcontainer_feature_metadata": {
+            "conda_setup": ".devcontainer/features/conda_setup/devcontainer-feature.json",
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json"
          },
          "devcontainer_metadata": {
