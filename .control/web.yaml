@@ -1019,7 +1019,7 @@ devcontainer_docs:
             Library for handling Foreign Function Interface (FFI) calls.
             This is a dependency of `CairoSVG`, which is used by `sphinxcontrib-svg2pdfconverter`.
           spec:
-            version: ==3.4.4
+            version: ==3.4.6
           url:
             docs: https://sourceware.org/libffi/
             package: https://anaconda.org/conda-forge/libffi
