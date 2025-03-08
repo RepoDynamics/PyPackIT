@@ -29,7 +29,7 @@ projects to ensure their long-term sustainability and high quality, enabling sof
 rapidly implement their ideas and easily maintain their products.
 """  # noqa: RUF002
 
-__all__ = ["__version_details__", "__version__"]
+__all__ = ["__version__", "__version_details__"]
 
 __version_details__: dict[str, str] = {"version": "0.0.0"}
 """Details of the currently installed version of the package,

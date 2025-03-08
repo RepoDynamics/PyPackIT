@@ -108,7 +108,7 @@ class Hooks:
                 continue
             out[name] = {
                 "import_name": import_name,
-                "pip": {"spec": f"-e {"../" * dir_depth}{pkg_path}"},
+                "pip": {"spec": f"-e {'../' * dir_depth}{pkg_path}"},
             }
         out["jupyterlab-myst"] = {  # https://github.com/jupyter-book/jupyterlab-myst
             "name": "jupyterlab-myst",
@@ -133,7 +133,7 @@ class Hooks:
             if isinstance(scopes, str):
                 scopes = [scopes]
             scope = f"{scope_start}{scope_sep.join(scopes)}{scope_end}" if scopes else ""
-            label_suffix = f"{commit_data["type"]}{scope}"
+            label_suffix = f"{commit_data['type']}{scope}"
             out[commit_id] = {
                 "suffix": label_suffix,
                 "description": commit_data.get("type_description", ""),
@@ -158,7 +158,7 @@ class Hooks:
             conda = req.get("conda")
             if not conda:
                 continue
-            entry = {"value": f"{conda["channel"]}::{conda["spec"].strip()}"}
+            entry = {"value": f"{conda['channel']}::{conda['spec'].strip()}"}
             selector = conda.get("selector", "")
             if selector:
                 entry["selector"] = selector
@@ -277,7 +277,7 @@ class Hooks:
                         f"for page '{pages[final_key]['path']}'. "
                         "Please do not use `ccid` values that start with 'blog_'.",
                     )
-                blog_group_path = f"{pages["blog"]["path"]}/{key_singular}/{value_slug}"
+                blog_group_path = f"{pages['blog']['path']}/{key_singular}/{value_slug}"
                 pages[final_key] = {
                     "title": value,
                     "path": blog_group_path,

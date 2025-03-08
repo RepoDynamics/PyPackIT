@@ -375,7 +375,7 @@ class DependencyInstaller:
                 # bash and pwsh
                 files[source] = "\n\n".join(
                     ["set -e"]
-                    + [f"# ----- {dep["name"]} -----\n{dep["install"][source]}" for dep in dep_data]
+                    + [f"# ----- {dep['name']} -----\n{dep['install'][source]}" for dep in dep_data]
                 )
         return dependencies, files
 
@@ -646,12 +646,12 @@ def create_env_file_conda(
         lines.append(f"name: {env_name}")
     lines.append("dependencies:")
     for match_spec in sorted(match_specs):
-        lines.append(f"{" " * indent}- {match_spec}")
+        lines.append(f"{' ' * indent}- {match_spec}")
     if pip_packages:
-        lines.append(f"{" " * indent}- pip:")
+        lines.append(f"{' ' * indent}- pip:")
         for pkg in pip_packages:
-            lines.append(f"{" " * (indent * 2)}- {pkg['spec']}")
-    return f"{"\n".join(lines)}\n"
+            lines.append(f"{' ' * (indent * 2)}- {pkg['spec']}")
+    return f"{'\n'.join(lines)}\n"
 
 
 def create_env_file_pip(packages: list[dict]) -> str:
@@ -663,7 +663,7 @@ def create_env_file_pip(packages: list[dict]) -> str:
     packages:
         List of dictionaries with package details.
     """
-    return f"{"\n".join([pkg["spec"] for pkg in packages])}\n"
+    return f"{'\n'.join([pkg['spec'] for pkg in packages])}\n"
 
 
 def create_env_file_apt(packages: list[dict]) -> str:
@@ -682,7 +682,7 @@ def create_env_file_apt(packages: list[dict]) -> str:
         if "release" in pkg:
             spec += f"/{pkg['release']}"
         lines.append(spec)
-    return f"{"\n".join(lines)}\n"
+    return f"{'\n'.join(lines)}\n"
 
 
 def create_env_file_brew(packages: list[dict]) -> str:
@@ -702,7 +702,7 @@ def create_env_file_brew(packages: list[dict]) -> str:
     for section in ("tap", "brew", "cask", "mas", "whalebrew", "vscode"):
         if section in out:
             sections.append("\n".join([f"{section}: {spec}" for spec in out[section]]))
-    return f"{"\n\n".join(sections)}\n"
+    return f"{'\n\n'.join(sections)}\n"
 
 
 def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
@@ -734,7 +734,7 @@ def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
     else:
         # Format the XML string with specified indentation
         formatted_xml = parsed_xml.toprettyxml(indent=" " * indent, encoding="utf-8")
-    return f"{formatted_xml.decode("utf-8").strip()}\n"
+    return f"{formatted_xml.decode('utf-8').strip()}\n"
 
 
 def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:

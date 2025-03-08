@@ -75,12 +75,12 @@ def create_license_data():
     green = badge_data["color"]["green"]
     red = badge_data["color"]["red"]
     for license_id, component in metadata.get("license", {}).get("component").items():
-        container.append(f"## {component["name"]}")
+        container.append(f"## {component['name']}")
         badge_list = [
             {
                 "label": "SPDX License ID",
                 "args": {"message": component["id"]},
-                "alt": f"SPDX-License-ID: {component["id"]}",
+                "alt": f"SPDX-License-ID: {component['id']}",
                 "link": component["url"]["reference"],
             },
             {"label": "Type", "args": {"message": component["type"]}},
@@ -152,8 +152,8 @@ def footer_template(license_path, version):
         {
             "label": "SPDX License ID",
             "args": {"message": metadata["license"]["expression"]},
-            "title": f"SPDX License Identifier: {metadata["license"]["expression"]}",
-            "alt": f"SPDX License Identifier: {metadata["license"]["expression"]}",
+            "title": f"SPDX License Identifier: {metadata['license']['expression']}",
+            "alt": f"SPDX License Identifier: {metadata['license']['expression']}",
             "link": license_path,
         },
     ]
@@ -210,7 +210,7 @@ def comma_list_of_dependencies(
     """
 
     def add_link(dep_id: str, dep: dict) -> None:
-        names.append(f"[{dep["name"]}](#dep-{pkg}-{dep_id})")
+        names.append(f"[{dep['name']}](#dep-{pkg}-{dep_id})")
         return
 
     src = metadata.get(pkg, {}).get("dependency", {}).get(dep)

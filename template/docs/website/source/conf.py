@@ -86,7 +86,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         URL to the source file with added line numbers of the object definition, if found.
         """
         log_intro = (
-            f"Resolved source-code filepath of module `{info["module"]}` to `{module_path_abs}`"
+            f"Resolved source-code filepath of module `{info['module']}` to `{module_path_abs}`"
         )
         lines = _pysyntax.parse.object_definition_lines(
             code=filepath.read_text(), object_name=object_name
@@ -131,10 +131,10 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
     else:
         _logger.warning(
             logger_title,
-            f"Python module {info["module"]} not found at {module_path_abs}.",
+            f"Python module {info['module']} not found at {module_path_abs}.",
         )
         return None
-    url = f"https://github.dev/{_meta["repo"]["full_name"]}/blob/{_current_hash}/{filepath}"
+    url = f"https://github.dev/{_meta['repo']['full_name']}/blob/{_current_hash}/{filepath}"
     return add_obj_line_number_to_url(
         url=url, filepath=_path_root / filepath, object_name=info["fullname"]
     )

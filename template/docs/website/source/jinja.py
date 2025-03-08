@@ -57,12 +57,12 @@ def create_license_data():
     green = badge_data["color"]["green"]
     red = badge_data["color"]["red"]
     for license_id, component in metadata.get("license", {}).get("component").items():
-        container.append(f"## {component["name"]}")
+        container.append(f"## {component['name']}")
         badge_list = [
             {
                 "label": "SPDX License ID",
                 "args": {"message": component["id"]},
-                "alt": f"SPDX-License-ID: {component["id"]}",
+                "alt": f"SPDX-License-ID: {component['id']}",
                 "link": component["url"]["reference"],
             },
             {"label": "Type", "args": {"message": component["type"]}},
@@ -124,7 +124,7 @@ def footer_template(license_path, version):
         {
             "label": metadata["name"],
             "args": {"message": version or "0.0.0"},
-            "logo": f"source/{metadata["web"]["file"]["icon"]["rel_path"]}",
+            "logo": f"source/{metadata['web']['file']['icon']['rel_path']}",
             "logo_type": "file",
         },
         {
@@ -134,8 +134,8 @@ def footer_template(license_path, version):
         {
             "label": "SPDX License ID",
             "args": {"message": metadata["license"]["expression"]},
-            "title": f"SPDX License Identifier: {metadata["license"]["expression"]}",
-            "alt": f"SPDX License Identifier: {metadata["license"]["expression"]}",
+            "title": f"SPDX License Identifier: {metadata['license']['expression']}",
+            "alt": f"SPDX License Identifier: {metadata['license']['expression']}",
             "link": license_path,
         },
     ]
