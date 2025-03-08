@@ -261,7 +261,7 @@ devcontainer_main:
             Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
             in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
           type: toml
-          path: ${{ devcontainer_main }}$/config/mypy.toml
+          path: ${{ devcontainer_main.path }}$/config/mypy.toml
           content:
             tool:
               mypy:
