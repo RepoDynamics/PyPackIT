@@ -494,7 +494,6 @@ __temp__:
                   )
                 ]
             }}#
-
   pyproject:
     build-system:
       build-backend: setuptools.build_meta
@@ -588,7 +587,6 @@ __temp__:
             "distance": "{distance}",
             "commit_hash": "{revision}"
             }}
-
   pkg_license_dir_name:
     licenses: LICENSES
     copyrights: COPYRIGHTS
