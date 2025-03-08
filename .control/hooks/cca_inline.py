@@ -389,7 +389,7 @@ class Hooks:
                 out[key] = entity[key]
         return out
 
-    def validate_codecov_yaml(self, content_src: dict, content_str: str) -> None:
+    def validate_codecov_yaml(self, content_src: dict, content_str: str) -> None:  # noqa: ARG002
         """Validate the Codecov configuration file."""
         try:
             # Validate the config file
