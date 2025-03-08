@@ -124,23 +124,24 @@ data_website:
     build: ${{ .root }}$/.build
     to_root: |
       #{{ return len(get(".source").split("/")) * "../" }}#
+    logo_dir: _media/logo
   announcement:
     path: ${{ data_website.path.root }}$/announcement.html
   file:
     icon:
-      rel_path: ${{ __data__.logo_dir_path }}$/favicon.svg
+      rel_path: ${{ data_website.path.logo_dir }}$/favicon.svg
     logo_simple_light:
-      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.svg
+      rel_path: ${{ data_website.path.logo_dir }}$/simple_light.svg
     logo_simple_dark:
-      rel_path: ${{ __data__.logo_dir_path }}$/simple_dark.svg
+      rel_path: ${{ data_website.path.logo_dir }}$/simple_dark.svg
     logo_simple_raster:
-      rel_path: ${{ __data__.logo_dir_path }}$/simple_light.png
+      rel_path: ${{ data_website.path.logo_dir }}$/simple_light.png
     logo_full_light:
-      rel_path: ${{ __data__.logo_dir_path }}$/full_light.svg
+      rel_path: ${{ data_website.path.logo_dir }}$/full_light.svg
     logo_full_dark:
-      rel_path: ${{ __data__.logo_dir_path }}$/full_dark.svg
+      rel_path: ${{ data_website.path.logo_dir }}$/full_dark.svg
     logo_full_raster:
-      rel_path: ${{ __data__.logo_dir_path }}$/full_light.png
+      rel_path: ${{ data_website.path.logo_dir }}$/full_light.png
   page: '#{{ return hook.web_page() }}#'
   jsonschema:
     fill_defaults: true
@@ -167,6 +168,9 @@ data_website:
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
             to_root:
               summary: Relative path from the source directory to the root of the repository.
+              type: string
+            logo_dir:
+              summary: Path to logo directory relative to website source directory
               type: string
         page:
           summary: Paths to important pages on the website.
@@ -276,7 +280,7 @@ data_css:
         dark:
           selector: 'html[data-theme="dark"]'
           prefix: --pst-color-
-      properties: ${{ color }}$
+      properties: '#{{ return {k: v for k, v in get("data_color").items() if k != "jsonschema"} }}#'
     theme_font_sizes:
       # Font sizes for pydata-sphinx-theme.
       # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
@@ -318,7 +322,7 @@ data_css:
           #{{
             import pycolorit as pcit
             cache_group = "css_color_filter"
-            primary_color = get("color.primary")
+            primary_color = get("data_color.primary")
             out = {}
             for theme in ["light", "dark"]:
               cache_id = f"black_to_{primary_color[theme]}"
@@ -940,7 +944,7 @@ devcontainer_docs:
               ogp_enable_meta_description: true
               ogp_social_cards:
                 image: _static/simple_light.svg
-                line_color: ${{ color.primary.light }}$
+                line_color: ${{ data_color.primary.light }}$
         sphinxcontrib-bibtex:
           description: Adding BibTeX-style citations.
           spec:
