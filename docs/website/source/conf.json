@@ -38,6 +38,8 @@
       "myst_nb",
       "sphinx_design",
       "sphinx_external_toc",
+      "ablog",
+      "sphinx.ext.intersphinx",
       "sphinx_copybutton",
       "sphinxext.opengraph",
       "sphinxcontrib.bibtex",
@@ -48,9 +50,7 @@
       "sphinxcontrib.rsvgconverter",
       "sphinx_tippy",
       "notfound.extension",
-      "jsonschema_autodoc.sphinx",
-      "ablog",
-      "sphinx.ext.intersphinx"
+      "jsonschema_autodoc.sphinx"
    ],
    "external_toc_exclude_missing": false,
    "external_toc_path": ".toc.yaml",
