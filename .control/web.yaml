@@ -8,7 +8,9 @@ file_web_toc:
     [Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)
     extension to define the structure of the website.
   type: yaml
-  path: ${{ data_website.path.source }}$/.toc.yaml
+  data:
+    rel_path: .toc.yaml
+  path: ${{ data_website.path.source }}$/${{ .data.rel_path }}$
   content:
     root: index
     defaults:
@@ -613,7 +615,7 @@ devcontainer_docs:
               project: ${{ name }}$
               author: ${{ team.owner.name.full }}$
               project_copyright: ${{ copyright }}$
-              needs_sphinx: 8.1
+              needs_sphinx: '8.1'
               today_fmt: '%b %d, %Y'
               numfig: true
               numfig_secnum_depth: 3
@@ -869,7 +871,7 @@ devcontainer_docs:
             sphinx_config:
               suppress_warnings: [ etoc.toctree ]
               extensions: [ sphinx_external_toc ]
-              external_toc_path: ${{ file_web_toc.path }}$
+              external_toc_path: ${{ file_web_toc.data.rel_path }}$
               external_toc_exclude_missing: false
         ablog:
           description: Adding a news blog to the website.
@@ -882,6 +884,7 @@ devcontainer_docs:
           data:
             sphinx_config:
               # https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html
+              extensions: [ ablog, sphinx.ext.intersphinx ]
               blog_baseurl: ${{ web.url.base }}$
               blog_default_author: owner
               blog_feed_archives: true
