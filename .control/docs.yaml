@@ -951,15 +951,15 @@ __temp__:
         body:
           - - class: button
               text: "⚙️ Operating System"
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              color: ${{ __data__.badge.color.grey }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              color: ${{ data_badge.color.grey }}$
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
               separator: 1
               items:
                 - |
@@ -967,7 +967,7 @@ __temp__:
                     #{{
                       badges = []
                       oss = get("pypkg_main.os")
-                      color_green = get("__data__.badge.color.green")
+                      color_green = get("data_badge.color.green")
                       for os in oss.values():
                         supports = "any" if "cibuild" not in os else " | ".join(os["builds"])
                         badge = {
@@ -985,20 +985,20 @@ __temp__:
               service: static
               args:
                 message: "Python"
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              color: ${{ __data__.badge.color.grey }}$
-              label_color: ${{ __data__.badge.color.grey }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              color: ${{ data_badge.color.grey }}$
+              label_color: ${{ data_badge.color.grey }}$
               logo: ${{ data_website.path.source }}$/_media/logo_ext/python.svg
               logo_type: file
               logo_media_type: svg+xml
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              color: ${{ __data__.badge.color.blue }}$
-              label_color: ${{ __data__.badge.color.grey }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              color: ${{ data_badge.color.blue }}$
+              label_color: ${{ data_badge.color.grey }}$
               separator: 1
               items:
                 - label: Versions
@@ -1012,17 +1012,17 @@ __temp__:
                   color: >-
                     #{{
                       if get("pypkg_main.python.pure"):
-                        return get("__data__.badge.color.green")
-                      return get("__data__.badge.color.blue")
+                        return get("data_badge.color.green")
+                      return get("data_badge.color.blue")
                     }}#
           - |
             #{{
               deps = list(get("pypkg_main.dependency.core", {}).values())
-              style = get("__data__.badge.style")
-              height = get("__data__.badge.height")
-              green = get("__data__.badge.color.green")
-              blue = get("__data__.badge.color.blue")
-              grey = get("__data__.badge.color.grey")
+              style = get("data_badge.style")
+              height = get("data_badge.height")
+              green = get("data_badge.color.green")
+              blue = get("data_badge.color.blue")
+              grey = get("data_badge.color.grey")
               label = "📦 Dependencies"
               if not deps:
                 badge = {
@@ -1071,10 +1071,10 @@ __temp__:
             *{{
               #{{
                 interfaces = get("pypkg_main.entry")
-                style = get("__data__.badge.style")
-                height = get("__data__.badge.height")
-                blue = get("__data__.badge.color.blue")
-                grey = get("__data__.badge.color.grey")
+                style = get("data_badge.style")
+                height = get("data_badge.height")
+                blue = get("data_badge.color.blue")
+                grey = get("data_badge.color.grey")
 
                 config = {
                   "python": {
