@@ -5967,8 +5967,6 @@
                            "COM819",
                            "ISC001",
                            "ISC002",
-                           "ANN101",
-                           "ANN102"
                         ],
                         "mccabe": {
                            "max-complexity": 15
