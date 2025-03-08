@@ -560,8 +560,12 @@ devcontainer_main:
                   - T20
                 template/test/src/new_pyproject_testsuite/__main__.py:
                   - T20
+                template/test/src/new_pyproject/__init__.py:
+                  - T20
+                  - D104
                 template/test/src/new_pyproject_testsuite/__init__.py:
                   - T20
+                  - D104
               select:
                 # https://docs.astral.sh/ruff/rules
                 - F      # pyflakes
