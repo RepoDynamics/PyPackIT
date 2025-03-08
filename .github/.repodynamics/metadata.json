@@ -4566,6 +4566,10 @@
                            "news/post/*.md"
                         ],
                         "blog_title": "PyPackIT News",
+                        "extensions": [
+                           "ablog",
+                           "sphinx.ext.intersphinx"
+                        ],
                         "fontawesome_included": true,
                         "post_always_section": true,
                         "post_auto_image": 1,
@@ -4916,7 +4920,7 @@
                         "math_numfig": true,
                         "math_numsep": ".",
                         "maximum_signature_line_length": 80,
-                        "needs_sphinx": 8.1,
+                        "needs_sphinx": "8.1",
                         "nitpicky": true,
                         "numfig": true,
                         "numfig_format": {
@@ -5009,7 +5013,7 @@
                            "sphinx_external_toc"
                         ],
                         "external_toc_exclude_missing": false,
-                        "external_toc_path": "docs/website/source/.toc.yaml",
+                        "external_toc_path": ".toc.yaml",
                         "suppress_warnings": [
                            "etoc.toctree"
                         ]
@@ -5892,7 +5896,7 @@
                               }
                            ],
                            "repo": "https://github.com/astral-sh/ruff-pre-commit",
-                           "rev": "v0.9.6"
+                           "rev": "v0.9.9"
                         }
                      ]
                   },
@@ -5966,7 +5970,7 @@
                            "COM812",
                            "COM819",
                            "ISC001",
-                           "ISC002",
+                           "ISC002"
                         ],
                         "mccabe": {
                            "max-complexity": 15
@@ -5976,6 +5980,18 @@
                               "TRY003"
                            ],
                            "pkg/src/pypackit/__main__.py": [
+                              "T20"
+                           ],
+                           "template/pkg/src/new_pyproject/__main__.py": [
+                              "T20"
+                           ],
+                           "template/test/src/**": [
+                              "S101"
+                           ],
+                           "template/test/src/new_pyproject_testsuite/__init__.py": [
+                              "T20"
+                           ],
+                           "template/test/src/new_pyproject_testsuite/__main__.py": [
                               "T20"
                            ],
                            "test/src/**": [
@@ -6057,7 +6073,7 @@
                         ]
                      },
                      "output-format": "grouped",
-                     "required-version": "== 0.7.4",
+                     "required-version": "== 0.9.9",
                      "show-fixes": true,
                      "src": [
                         "pkg/src",
@@ -11808,6 +11824,8 @@
             "myst_nb",
             "sphinx_design",
             "sphinx_external_toc",
+            "ablog",
+            "sphinx.ext.intersphinx",
             "sphinx_copybutton",
             "sphinxext.opengraph",
             "sphinxcontrib.bibtex",
@@ -11821,7 +11839,7 @@
             "jsonschema_autodoc.sphinx"
          ],
          "external_toc_exclude_missing": false,
-         "external_toc_path": "docs/website/source/.toc.yaml",
+         "external_toc_path": ".toc.yaml",
          "fontawesome_included": true,
          "html_baseurl": "https://pypackit.repodynamics.com",
          "html_context": {
@@ -12001,7 +12019,7 @@
          "myst_heading_anchors": 6,
          "myst_linkify_fuzzy_links": false,
          "myst_links_external_new_tab": true,
-         "needs_sphinx": 8.1,
+         "needs_sphinx": "8.1",
          "nitpicky": true,
          "notfound_urls_prefix": "/PyPackIT/",
          "numfig": true,
@@ -12433,6 +12451,9 @@
          "prefix": "",
          "separator": "\n",
          "suffix": ""
+      },
+      "data": {
+         "rel_path": ".toc.yaml"
       },
       "description": "This file is used by the\n[Sphinx-External-TOC](https://github.com/executablebooks/sphinx-external-toc)\nextension to define the structure of the website.\n",
       "file_setting": {
