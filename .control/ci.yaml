@@ -66,8 +66,8 @@ workflow:
         url: ${{ repo.url.deployments.home }}$
       release:
         body:
-          body: ${{ __data__.changelog.body }}$
-          sections: ${{ __data__.changelog.sections }}$
+          body: ${{ __temp__.changelog.body }}$
+          sections: ${{ __temp__.changelog.sections }}$
       asset:
         template:
           name: >-
