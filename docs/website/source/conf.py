@@ -5,7 +5,6 @@ from __future__ import annotations as _annotations
 import ast as _ast
 import copy as _copy
 import json as _json
-import os as _os
 import shutil as _shutil
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
@@ -47,7 +46,7 @@ class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
 
     def get_outfilename(self, pagename: str) -> str:
         if pagename == "404":
-            return _os.path.join(self.outdir, "404.html")
+            return str(_Path(self.outdir) / "404.html")
         return super().get_outfilename(pagename=pagename)
 
 
@@ -87,7 +86,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         for node in _ast.walk(tree):
             # Check for class or function definitions
             if (
-                isinstance(node, (_ast.ClassDef, _ast.FunctionDef, _ast.AsyncFunctionDef))
+                isinstance(node, _ast.ClassDef | _ast.FunctionDef | _ast.AsyncFunctionDef)
                 and node.name == object_name
             ):
                 return node.lineno, getattr(node, "end_lineno", None)
@@ -338,7 +337,7 @@ def _merge_extra_config(
     return
 
 
-def _read_json_data(name: str, path: str | _Path, required: bool):
+def _read_json_data(name: str, path: str | _Path, *, required: bool) -> dict | None:
     """Read a JSON data file."""
     try:
         with (_path_root / path).open() as f:
@@ -451,5 +450,5 @@ _add_license()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
-# _add_api_files()
+# _add_api_files()  # noqa: ERA001
 globals().update(_globals)

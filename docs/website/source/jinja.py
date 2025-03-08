@@ -1,3 +1,5 @@
+"""Jinja2 helper functions for the website."""
+
 from __future__ import annotations
 
 import re
@@ -14,7 +16,7 @@ metadata: dict = {}
 
 
 def team_members_with_role_ids(
-    role_ids: str | Sequence[str], active_only: bool = True
+    role_ids: str | Sequence[str], *, active_only: bool = True
 ) -> list[dict]:
     """Get team members with a specific role ID.
 
@@ -50,17 +52,17 @@ def team_members_with_role_ids(
 def get_forms_by_regex(
     regex: str, form_type: Literal["issue", "discussion"] = "issue"
 ) -> list[dict]:
-    """Get issue forms (from `ccc.issue.forms`)
-    and discussion categories (from `ccc.discussion.category`)
-    matching a RegEx.
+    """Get issue forms and discussion categories matching a RegEx.
+
+    This function is used to filter issue forms and discuttsion categories
+    (from `ccc.issue.forms` and `ccc.discussion.category`, respectively)
+    based on a RegEx pattern.
     """
     out = []
     pattern = re.compile(regex)
     if form_type == "issue":
         forms = metadata.get("issue", {}).get("forms", [])
-        for form in forms:
-            if pattern.match(form["id"]):
-                out.append(form)
+        out.extend([form for form in forms if pattern.match(form["id"])])
         return out
     for category_slug, category_data in metadata.get("discussion", {}).get("category", {}).items():
         if pattern.match(category_slug):
@@ -68,7 +70,7 @@ def get_forms_by_regex(
     return out
 
 
-def create_license_data():
+def create_license_data() -> str:
     """Create data for each license component."""
     container = mdit.block_container()
     badge_data = metadata["__data__"]["badge"]
@@ -136,7 +138,7 @@ def create_license_data():
     return container.source()
 
 
-def footer_template(license_path, version):
+def footer_template(license_path: str, version: str) -> str:
     """Create badges for footer template."""
     badge_list = [
         {
@@ -171,7 +173,8 @@ def footer_template(license_path, version):
     return badges.source(target="github")
 
 
-def dependency_availability():
+def dependency_availability() -> dict:
+    """Get the availability and count of dependencies in different package repositories."""
     deps = metadata["pkg"]["dependency"]
     dep_types = ["core", "optional"]
     repos = ["pip", "conda", "apt"]
@@ -205,24 +208,28 @@ def dependency_availability():
 def comma_list_of_dependencies(
     pkg: Literal["pkg", "test"], dep: Literal["core", "optional"]
 ) -> str:
-    """Generate a Markdown string representing a comma-separated list
+    """Get a Markdown string of comma-separated dependencies for a package or test suite.
+
+    This generates a Markdown string representing a comma-separated list
     of required or optional runtime dependencies for the package or the test suite.
     """
 
-    def add_link(dep_id: str, dep: dict) -> None:
-        names.append(f"[{dep['name']}](#dep-{pkg}-{dep_id})")
+    def add_link(dep_id: str, dep_data: dict) -> None:
+        names.append(f"[{dep_data['name']}](#dep-{pkg}-{dep_id})")
         return
+
+    def sort_func(item: tuple[str, dict]) -> str:
+        return item[1]["name"]
 
     src = metadata.get(pkg, {}).get("dependency", {}).get(dep)
     if not src:
         return "---"
     names = []
-    sort_func = lambda item: item[1]["name"]
     if dep == "core":
-        for dep_id, dep in sorted(src.items(), key=sort_func):
-            add_link(dep_id, dep)
+        for dep_id, dep_data in sorted(src.items(), key=sort_func):
+            add_link(dep_id, dep_data)
     else:
         for dep_group in src.values():
-            for dep_id, dep in sorted(dep_group["package"].items(), key=sort_func):
-                add_link(dep_id, dep)
+            for dep_id, dep_data in sorted(dep_group["package"].items(), key=sort_func):
+                add_link(dep_id, dep_data)
     return ", ".join(names)
