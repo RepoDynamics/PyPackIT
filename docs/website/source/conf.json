@@ -48,10 +48,12 @@
       "sphinxcontrib.rsvgconverter",
       "sphinx_tippy",
       "notfound.extension",
-      "jsonschema_autodoc.sphinx"
+      "jsonschema_autodoc.sphinx",
+      "ablog",
+      "sphinx.ext.intersphinx"
    ],
    "external_toc_exclude_missing": false,
-   "external_toc_path": "docs/website/source/.toc.yaml",
+   "external_toc_path": ".toc.yaml",
    "fontawesome_included": true,
    "html_baseurl": "https://pypackit.repodynamics.com",
    "html_context": {
@@ -231,7 +233,7 @@
    "myst_heading_anchors": 6,
    "myst_linkify_fuzzy_links": false,
    "myst_links_external_new_tab": true,
-   "needs_sphinx": 8.1,
+   "needs_sphinx": "8.1",
    "nitpicky": true,
    "notfound_urls_prefix": "/PyPackIT/",
    "numfig": true,
