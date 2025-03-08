@@ -4,7 +4,7 @@ dependencies:
   - conda-forge::pytest-cov ==5.0.0
   - conda-forge::pytest-html ==4.1.1
   - pip
-  - python >=3.10
+  - python 3.10
   - repodynamics::pkgdata
   - repodynamics::pkgdata
   - pip:
