@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import importlib.util as _importlib_util
+import sys as _sys
+from pathlib import Path as _Path
 from typing import TYPE_CHECKING
 
 import mdit
@@ -9,10 +12,12 @@ import pylinks as pl
 import pyserials as ps
 from controlman.changelog_manager import ChangelogManager
 from loggerman import logger
+from pylinks.exception.api import WebAPIError as _WebAPIError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from pathlib import Path
+    from types import ModuleType
     from typing import Any, Literal
 
     from controlman.cache_manager import CacheManager
@@ -59,7 +64,7 @@ class Hooks:
         ccc_main: NestedDict,
         cache_manager: CacheManager,
         github_token: str | None = None,
-        **kwargs,
+        **kwargs: Any,
     ):
         self.repo_path = repo_path
         self.ccc = ccc
@@ -68,6 +73,9 @@ class Hooks:
         self.github_token = github_token
         self.get = None
         self.changelog = ChangelogManager(repo_path=self.repo_path)
+        self._kwargs = kwargs
+
+        self._binder_files = {}
         return
 
     def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> Hooks:
@@ -90,33 +98,34 @@ class Hooks:
         self.changelog(get_metadata=get_metadata)
         return self
 
-    def binder_dependencies(self) -> dict:
+    def binder_config_file(self, source: Literal["conda", "apt", "bash"]) -> str:
         """Create environment dependencies for binder."""
-        out = {}
-        for pkg_typ in ("pkg", "test"):
-            deps = self.get(f"{pkg_typ}.dependency", {})
-            out.update(deps.get("core", {}))
-            for dep_group in deps.get("optional", {}).values():
-                out.update(dep_group["package"])
-        env_path = self.get(".file.conda.path")
+        if self._binder_files:
+            return self._binder_files.get(source, "")
+        install = _import_module_from_path(self.repo_path / ".dev/install.py")
+        pyver = self.get("pypkg_main.python.version")
+        pkg_path = self.get("pypkg_main.path.root")
+        test_path = self.get("pypkg_test.path.root")
+        pkg_dep = self.get("pypkg_main.dependency")
+        env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
-        for pkg_typ in ("pkg", "test"):
-            name = self.get(f"{pkg_typ}.name")
-            import_name = self.get(f"{pkg_typ}.import_name")
-            pkg_path = self.get(f"{pkg_typ}.path.root")
-            if not import_name:
-                continue
-            out[name] = {
-                "import_name": import_name,
-                "pip": {"spec": f"-e {'../' * dir_depth}{pkg_path}"},
-            }
-        out["jupyterlab-myst"] = {  # https://github.com/jupyter-book/jupyterlab-myst
-            "name": "jupyterlab-myst",
-            "import_name": "jupyterlab_myst",
-            "pip": {"spec": "jupyterlab-myst"},
-            "conda": {"spec": "jupyterlab-myst", "channel": "conda-forge"},
-        }
-        return out
+        path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
+        pip_specs = [
+            f"-e {path_to_root}{app_path}" for app_path in (pkg_path, test_path) if app_path
+        ]
+        _, self._binder_files = install.DependencyInstaller(
+            python_version=pyver,
+            pkg_dep=pkg_dep,
+            test_dep=self.get("pypkg_test.dependency", {}),
+        ).run(
+            platform="linux-64",
+            sources=["conda", "apt", "bash"],
+            python_version=pyver["minors"][0],  # Oldest supported Python version, since repo2docker does not support brand new Python versions.
+            extra_pip_specs=pip_specs,
+        )
+        if "bash" in self._binder_files:
+            self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files['bash']}"
+        return self._binder_files.get(source, "")
 
     def commit_labels(self) -> dict:
         """Create labels for `$.label.commit.label`."""
@@ -155,10 +164,19 @@ class Hooks:
         else:
             reqs = dep_groups.values()
         for req in reqs:
-            conda = req.get("conda")
+            conda = req["install"].get("conda")
             if not conda:
                 continue
-            entry = {"value": f"{conda['channel']}::{conda['spec'].strip()}"}
+            spec = [conda["channel"]]
+            for part_name, part_prefix in (
+                ("subdir", "/"),
+                ("name", "::"),
+                ("version", " "),
+                ("build", " "),
+            ):
+                if part_name in conda:
+                    spec.append(f"{part_prefix}{conda[part_name]}")
+            entry = {"value": "".join(spec)}
             selector = conda.get("selector", "")
             if selector:
                 entry["selector"] = selector
@@ -172,7 +190,7 @@ class Hooks:
             base = "Programming Language :: Python"
             return [base] + [
                 f"{base} :: {version}"
-                for version in ["3 :: Only", *self.get("..python.version.minors")]
+                for version in ["3 :: Only", *self.get(f"{key}.python.version.minors")]
             ]
 
         def operating_system() -> list[str]:
@@ -184,9 +202,11 @@ class Hooks:
             }
             out = [
                 base.format(trove[runner_type])
-                for runner_type in {os["runner"].split("-")[0] for os in self.get("..os").values()}
+                for runner_type in {
+                    os["runner"].split("-")[0] for os in self.get(f"{key}.os").values()
+                }
             ]
-            if self.get("..python.pure"):
+            if self.get(f"{key}.python.pure"):
                 out.append(base.format("OS Independent"))
             return out
 
@@ -216,14 +236,17 @@ class Hooks:
             }
             return f"Development Status :: {code} - {code_name[code]}"
 
+        key = self.get(".__key__")
         out = programming_language() + operating_system() + [development_phase()]
-        if self.get("..typed"):
+        if self.get(f"{key}.typed"):
             out.append("Typing :: Typed")
         return sorted(out)
 
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
-        path = self.repo_path / (self.ccc["web.path.source"] or self.get("web.path.source"))
+        path = self.repo_path / (
+            self.ccc["data_website.path.source"] or self.get("data_website.path.source")
+        )
         url_home = self.get("web.url.home")
         pages = {}
         blog = {}
@@ -284,3 +307,191 @@ class Hooks:
                     "url": f"{url_home}/{blog_group_path}",
                 }
         return pages
+
+    def file_codeowners(self) -> str:
+        """Create CODEOWNERS file content."""
+        data: dict[int, dict[str, list[str]]] = {}
+        pattern_description: dict[str, str] = {}
+        team = self.get("team")
+        role = self.get("role")
+        for member in team.values():
+            for glob_def in member.get("ownership", []):
+                data.setdefault(glob_def["priority"], {}).setdefault(glob_def["glob"], []).append(
+                    member["github"]["id"]
+                )
+                if glob_def.get("description"):
+                    pattern_description[glob_def["glob"]] = glob_def["description"]
+            for member_role in member.get("role", {}):
+                for glob_def in role[member_role].get("ownership", []):
+                    data.setdefault(glob_def["priority"], {}).setdefault(
+                        glob_def["glob"], []
+                    ).append(member["github"]["id"])
+                    if glob_def.get("description"):
+                        pattern_description[glob_def["glob"]] = glob_def["description"]
+        if not data:
+            return ""
+        # Get the maximum length of patterns to align the columns when writing the file
+        max_len = max(
+            [len(glob_pattern) for priority_dic in data.values() for glob_pattern in priority_dic]
+        )
+        lines = []
+        for priority_defs in [defs for priority, defs in sorted(data.items())]:
+            for pattern, reviewers_list in sorted(priority_defs.items()):
+                comment = pattern_description.get(pattern, "")
+                lines.extend([f"# {comment_line}" for comment_line in comment.splitlines()])
+                reviewers = " ".join(
+                    [f"@{reviewer_id}" for reviewer_id in sorted(set(reviewers_list))]
+                )
+                lines.append(f"{pattern: <{max_len}}   {reviewers}{'\n' if comment else ''}")
+        return f"{'\n'.join(lines)}\n"
+
+    @staticmethod
+    def create_cff_person_or_entity(entity: dict) -> dict:
+        """Create a CFF person or entity from a control center entity."""
+        out = {}
+        if entity["name"].get("legal"):
+            # Entity
+            out["name"] = entity["name"]["legal"]
+            for in_key, out_key in (
+                ("location", "location"),
+                ("date_start", "date-start"),
+                ("date_end", "date-end"),
+            ):
+                if entity.get(in_key):
+                    out[out_key] = entity[in_key]
+        else:
+            # Person
+            name = entity["name"]
+            for in_key, out_key in (
+                ("last", "family-names"),
+                ("first", "given-names"),
+                ("particle", "name-particle"),
+                ("suffix", "name-suffix"),
+                ("affiliation", "affiliation"),
+            ):
+                if name.get(in_key):
+                    out[out_key] = name[in_key]
+        # Common
+        for contact_type, contact_key in (("orcid", "url"), ("email", "id")):
+            if entity.get(contact_type):
+                out[contact_type] = entity[contact_type][contact_key]
+        for key in (
+            "alias",
+            "website",
+            "tel",
+            "fax",
+            "address",
+            "city",
+            "region",
+            "country",
+            "post-code",
+        ):
+            if entity.get(key):
+                out[key] = entity[key]
+        return out
+
+    def validate_codecov_yaml(self, content_src: dict, content_str: str) -> None:  # noqa: ARG002
+        """Validate the Codecov configuration file."""
+        try:
+            # Validate the config file
+            # https://docs.codecov.com/docs/codecov-yaml#validate-your-repository-yaml
+            pl.http.request(
+                verb="POST",
+                url="https://codecov.io/validate",
+                data=content_str.encode(),
+            )
+        except _WebAPIError as e:
+            logger.error(
+                "CodeCov Configuration File Validation",
+                "Validation of Codecov configuration file failed.",
+                str(e),
+            )
+        return
+
+    def pyproject_dependency(self, typ: Literal["build", "core", "optional"]) -> dict | list:
+        """Create PEP 508 dependencies from a control center dependency."""
+
+        def create(pkgs: dict) -> list[str]:
+            return [
+                pkg["install"]["pip"]["spec"] for pkg in pkgs.values() if "pip" in pkg["install"]
+            ]
+
+        if typ == "optional":
+            opt_deps = {}
+            for opt_dep_group in self.get(".dependency.optional", {}).values():
+                opt_deps[opt_dep_group["name"]] = create(opt_dep_group["package"])
+            return opt_deps
+        return create(self.get(f".dependency.{typ}"))
+
+    def pyproject_entry_points(self) -> dict[str, dict[str, str]]:
+        """Create pyproject entry points from control center data."""
+        entry_points = {}
+        for entry_group in self.get(".entry.api", {}).values():
+            entry_group_out = {}
+            for entry_point in entry_group["entry"].values():
+                entry_group_out[entry_point["name"]] = entry_point["ref"]
+            entry_points[entry_group["name"]] = entry_group_out
+        return entry_points
+
+    def pyproject_scripts(self, typ: Literal["cli", "gui"]) -> dict[str, str]:
+        """Create pyproject script from control center data."""
+        scripts = {}
+        for entry in self.get(f".entry.{typ}", {}).values():
+            if entry["pypi"]:
+                scripts[entry["name"]] = entry["ref"]
+        return scripts
+
+    @staticmethod
+    def entity_in_pyproject(entity: dict) -> dict:
+        """Create a PEP 621 entity from a control center entity."""
+        out = {"name": entity["name"]["full"]}  # Name is always available
+        if entity.get("email"):
+            out["email"] = entity["email"]["id"]
+        return out
+
+
+def _import_module_from_path(path: str | _Path, name: str | None = None) -> ModuleType:
+    """Import a Python module from a local path.
+
+    Parameters
+    ----------
+    path : str | pathlib.Path
+        Local path to the module.
+        If the path corresponds to a directory,
+        the `__init__.py` file in the directory is imported.
+    name : str | None, default: None
+        Name to assign to the imported module.
+        If not provided (i.e., None), the name is determined from the path as follows:
+        - If the path corresponds to a directory, the directory name is used.
+        - If the path corresponds to a `__init__.py` file, the parent directory name is used.
+        - Otherwise, the filename is used.
+
+    Returns
+    -------
+    module : types.ModuleType
+        The imported module.
+
+    Raises
+    ------
+    pkgdata.exception.PkgDataModuleNotFoundError
+        If no module file can be found at the given path.
+    pkgdata.exception.PkgDataModuleImportError
+        If the module cannot be imported.
+
+    References
+    ----------
+    - [Python Documentation: importlib — The implementation of import: Importing a source file directly](https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly)
+    """
+    path = _Path(path).resolve()
+    if path.is_dir():
+        path = path / "__init__.py"
+    if not path.exists():
+        error_msg = f"No module file found at path: {path}"
+        raise FileNotFoundError(error_msg)
+    if name is None:
+        name = path.parent.stem if path.name == "__init__.py" else path.stem
+    spec = _importlib_util.spec_from_file_location(name=name, location=path)
+    module = _importlib_util.module_from_spec(spec)
+    _sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
