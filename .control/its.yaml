@@ -2049,12 +2049,12 @@ issue:
                   label="URL",
                   args={"message": input.url},
                   style=ccc.data_badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif %}
               {%- if input.jsonpath %}
               {{
@@ -2062,13 +2062,13 @@ issue:
                   service="static",
                   label="JSON Path",
                   args={"message": input.jsonpath},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif %}
 
               {{ input.summary }}
@@ -2109,10 +2109,10 @@ issue:
               {{
                 mdit.element.badges(
                   service="static",
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.red,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.red,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   items=[
                     {
                       "label": "⚙️ Operating Systems",
@@ -2664,11 +2664,11 @@ pull:
             args:
               message: '#{{ issue.number }}'
             link: '{{ issue.html_url }}'
-            style: ${{ __data__.badge.style }}$
-            height: ${{ __data__.badge.height }}$
-            label_color: ${{ __data__.badge.color.grey }}$
-            color: ${{ __data__.badge.color.blue }}$
-          - '{{ "&nbsp;" * ccc.__data__.badge.separator }}'
+            style: ${{ data_badge.style }}$
+            height: ${{ data_badge.height }}$
+            label_color: ${{ data_badge.color.grey }}$
+            color: ${{ data_badge.color.blue }}$
+          - '{{ "&nbsp;" * ccc.data_badge.separator }}'
           - |
             {%- for label in form.id_labels + form.labels -%}
             {{
@@ -2676,12 +2676,12 @@ pull:
                 service="static",
                 label=label.prefix,
                 args={"message": label.suffix if label.prefix else label.name},
-                style=ccc.__data__.badge.style,
+                style=ccc.data_badge.style,
                 color=label.color,
-                label_color=ccc.__data__.badge.color.grey,
-                height=ccc.__data__.badge.height,
+                label_color=ccc.data_badge.color.grey,
+                height=ccc.data_badge.height,
               ).source()
-            }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+            }}{{ "&nbsp;" * ccc.data_badge.separator }}
             {%- endfor -%}
             {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
             {{
@@ -2689,20 +2689,20 @@ pull:
                 service="static",
                 label=labels["version"][0].prefix,
                 args={"message": versions},
-                style=ccc.__data__.badge.style,
+                style=ccc.data_badge.style,
                 color=labels["version"][0].color,
-                label_color=ccc.__data__.badge.color.grey,
-                height=ccc.__data__.badge.height,
+                label_color=ccc.data_badge.color.grey,
+                height=ccc.data_badge.height,
               ).source()
             }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2714,7 +2714,7 @@ pull:
                   args:
                     message: '{{ pull_request.state }}'
                   color: >-
-                    {{ ccc.__data__.badge.color.green if pull_request.state == "open" else ccc.__data__.badge.color.red }}
+                    {{ ccc.data_badge.color.green if pull_request.state == "open" else ccc.data_badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2753,13 +2753,13 @@ pull:
                     service="static",
                     label="Website Preview",
                     args={"message": "Read The Docs"},
-                    style=ccc.__data__.badge.style,
-                    color=ccc.__data__.badge.color.blue,
-                    label_color=ccc.__data__.badge.color.grey,
-                    height=ccc.__data__.badge.height,
+                    style=ccc.data_badge.style,
+                    color=ccc.data_badge.color.blue,
+                    label_color=ccc.data_badge.color.grey,
+                    height=ccc.data_badge.height,
                     link=url,
                   ).source()
-                }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+                }}{{ "&nbsp;" * ccc.data_badge.separator }}
                 {%- endif -%}
               # ReadTheDocs website preview badge
               # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
