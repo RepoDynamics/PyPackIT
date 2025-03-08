@@ -120,6 +120,7 @@ class Hooks:
         ).run(
             platform="linux-64",
             sources=["conda", "apt", "bash"],
+            python_version=pyver["minors"][0],  # Oldest supported Python version, since repo2docker does not support brand new Python versions.
             extra_pip_specs=pip_specs,
         )
         if "bash" in self._binder_files:
