@@ -530,7 +530,6 @@ file_readthedocs:
       configuration: ${{ data_website.path.source }}$/conf.py
       builder: dirhtml
       fail_on_warning: false
-
   jsonschema:
     schema: !ext https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
 
