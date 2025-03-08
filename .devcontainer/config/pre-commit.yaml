@@ -15,11 +15,6 @@ repos:
           - pre-commit
           - manual
         verbose: true
-      - id: check-executables-have-shebangs
-        stages:
-          - pre-commit
-          - manual
-        verbose: true
       - id: check-json
         stages:
           - pre-commit
@@ -45,13 +40,6 @@ repos:
           - pre-commit
           - manual
         verbose: true
-      - id: check-yaml
-        stages:
-          - pre-commit
-          - manual
-        verbose: true
-        exclude:
-          pkg/conda\-recipe/local|pkg/conda\-recipe/global|test/conda\-recipe/local|test/conda\-recipe/global
       - id: destroyed-symlinks
         stages:
           - pre-commit
@@ -112,7 +100,7 @@ repos:
         args:
           - --verbose
           - --config
-          - .github/.ruff.toml
+          - .devcontainer/config/ruff.toml
           - --exit-non-zero-on-fix
         types_or:
           - python
@@ -125,7 +113,7 @@ repos:
           - manual
         args:
           - --config
-          - .github/.ruff.toml
+          - .devcontainer/config/ruff.toml
         types_or:
           - python
           - pyi

@@ -1,385 +1,4 @@
 {
-   "__data__": {
-      "badge": {
-         "color": {
-            "blue": "#0B3C75",
-            "green": "#00802B",
-            "grey": "#494949",
-            "orange": "#D93402",
-            "red": "#AF1F10"
-         },
-         "height": "23px",
-         "separator": 2,
-         "style": "flat-square"
-      },
-      "changelog": {
-         "body": [
-            {
-               "class": "badges",
-               "color": "#0B3C75",
-               "height": "23px",
-               "items": [
-                  {
-                     "args": {
-                        "message": "0.0.0"
-                     },
-                     "color": "rgb(60 85 0)",
-                     "color_dark": "rgb(175 138 0)",
-                     "label": "PyPackIT",
-                     "label_color": "rgb(0 85 0)",
-                     "label_color_dark": "rgb(28 170 0)",
-                     "logo": "docs/website/source/_media/logo/favicon.svg",
-                     "logo_type": "file"
-                  },
-                  {
-                     "args": {
-                        "message": "major"
-                     },
-                     "color": "#AF1F10",
-                     "label": "\ud83d\udca5\u2002Release Type"
-                  },
-                  {
-                     "args": {
-                        "message": "2025-01-21"
-                     },
-                     "label": "\ud83d\uddd3\u2002Release Date"
-                  },
-                  {
-                     "args": {
-                        "message": "10.5281/zenodo.14359839"
-                     },
-                     "color": "#1682D4",
-                     "label": "DOI",
-                     "link": "https://zenodo.org/uploads/14359839",
-                     "logo": "zenodo",
-                     "logo_color": "#1682D4"
-                  },
-                  {
-                     "args": {
-                        "message": "PyPackIT == 0.0.0"
-                     },
-                     "color": "#3775A9",
-                     "label": "pip install",
-                     "link": "https://pypi.org/project/PyPackIT",
-                     "logo": "docs/website/source/_media/logo_ext/pypi.png",
-                     "logo_media_type": "png",
-                     "logo_type": "file"
-                  },
-                  {
-                     "args": {
-                        "message": "PyPackIT == 0.0.0 -c RepoDynamics"
-                     },
-                     "color": "#44A833",
-                     "label": "conda install",
-                     "link": "https://anaconda.org/repodynamics/pypackit",
-                     "logo": "anaconda",
-                     "logo_color": "#44A833",
-                     "logo_type": "name"
-                  },
-                  {
-                     "args": {
-                        "message": "ghcr.io/repodynamics/pypackit:0.0.0"
-                     },
-                     "color": "#2496ED",
-                     "label": "docker pull",
-                     "link": "https://github.com/RepoDynamics/PyPackIT/pkgs/container/PyPackIT",
-                     "logo": "docker",
-                     "logo_color": "#2496ED",
-                     "logo_type": "name"
-                  },
-                  {
-                     "args": {
-                        "message": "ver/0.0.0"
-                     },
-                     "color": "#181717",
-                     "label": "git checkout",
-                     "link": "https://github.com/RepoDynamics/PyPackIT/releases",
-                     "logo": "github",
-                     "logo_type": "name"
-                  },
-                  {
-                     "args": {
-                        "message": "try online",
-                        "ref": "ver/0.0.0",
-                        "repo": "PyPackIT",
-                        "user": "RepoDynamics"
-                     },
-                     "color": "#579ACA",
-                     "endpoint": "github",
-                     "label": "Binder",
-                     "service": "binder"
-                  }
-               ],
-               "label_color": "#494949",
-               "separator": 2,
-               "service": "static",
-               "style": "flat-square"
-            },
-            "**Project Initialization**",
-            "This is an initial emtpy release."
-         ],
-         "sections": [
-            {
-               "body": [
-                  {
-                     "class": "badges",
-                     "color": "#0B3C75",
-                     "height": "23px",
-                     "items": [
-                        {
-                           "args": {
-                              "message": "10.5072/zenodo.141305"
-                           },
-                           "color": "#1682D4",
-                           "label": "DOI",
-                           "link": "https://sandbox.zenodo.org/uploads/141305",
-                           "logo": "zenodo",
-                           "logo_color": "#1682D4"
-                        }
-                     ],
-                     "label_color": "#494949",
-                     "separator": 2,
-                     "service": "static",
-                     "style": "flat-square"
-                  }
-               ],
-               "heading": "Latest Developmental Release"
-            },
-            {
-               "body": [
-                  [
-                     {
-                        "class": "button",
-                        "color": "#494949",
-                        "height": "23px",
-                        "style": "flat-square",
-                        "text": "\u2699\ufe0f\u2002Operating System"
-                     },
-                     "&nbsp;",
-                     {
-                        "class": "badges",
-                        "height": "23px",
-                        "items": [
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "Linux (x64)",
-                              "logo": "docs/website/source/_media/logo_ext/linux.png",
-                              "logo_color": null
-                           },
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "Linux (arm64)",
-                              "logo": "docs/website/source/_media/logo_ext/linux.png",
-                              "logo_color": null
-                           },
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "macOS (x64)",
-                              "logo": "apple",
-                              "logo_color": "#000000"
-                           },
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "macOS (arm64)",
-                              "logo": "apple",
-                              "logo_color": "#000000"
-                           },
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "Windows (x64)",
-                              "logo": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
-                              "logo_color": null
-                           }
-                        ],
-                        "label_color": "#494949",
-                        "separator": 1,
-                        "service": "static",
-                        "style": "flat-square"
-                     }
-                  ],
-                  [
-                     {
-                        "args": {
-                           "message": "Python"
-                        },
-                        "class": "badge",
-                        "color": "#494949",
-                        "height": "23px",
-                        "label_color": "#494949",
-                        "logo": "docs/website/source/_media/logo_ext/python.svg",
-                        "logo_media_type": "svg+xml",
-                        "logo_type": "file",
-                        "service": "static",
-                        "style": "flat-square"
-                     },
-                     "&nbsp;",
-                     {
-                        "class": "badges",
-                        "color": "#0B3C75",
-                        "height": "23px",
-                        "items": [
-                           {
-                              "args": {
-                                 "message": "3.10 | 3.11 | 3.12 | 3.13"
-                              },
-                              "label": "Versions"
-                           },
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "Implementation"
-                           }
-                        ],
-                        "label_color": "#494949",
-                        "separator": 1,
-                        "service": "static",
-                        "style": "flat-square"
-                     }
-                  ],
-                  [
-                     {
-                        "class": "button",
-                        "color": "#494949",
-                        "height": "23px",
-                        "style": "flat-square",
-                        "text": "\ud83d\udce6\u2002Dependencies"
-                     },
-                     "&nbsp;",
-                     {
-                        "class": "badges",
-                        "height": "23px",
-                        "items": [
-                           {
-                              "args": {
-                                 "message": "any"
-                              },
-                              "color": "#00802B",
-                              "label": "PkgData"
-                           }
-                        ],
-                        "label_color": "#494949",
-                        "separator": 1,
-                        "service": "static",
-                        "style": "flat-square"
-                     }
-                  ]
-               ],
-               "heading": "Requirements"
-            },
-            {
-               "body": [
-                  [
-                     {
-                        "class": "button",
-                        "color": "#494949",
-                        "height": "23px",
-                        "logo": "docs/website/source/_media/logo_ext/python.svg",
-                        "logo_media_type": "svg+xml",
-                        "logo_type": "file",
-                        "style": "flat-square",
-                        "text": "API"
-                     },
-                     "&nbsp;",
-                     {
-                        "class": "badges",
-                        "color": "#0B3C75",
-                        "height": "23px",
-                        "items": [
-                           {
-                              "alt": "pypackit",
-                              "args": {
-                                 "message": "pypackit"
-                              },
-                              "color": "#3776AB",
-                              "title": "Main Python API entry of the package."
-                           }
-                        ],
-                        "label": "import",
-                        "label_color": "#494949",
-                        "separator": 1,
-                        "service": "static",
-                        "style": "flat-square"
-                     }
-                  ],
-                  [
-                     {
-                        "class": "button",
-                        "color": "#494949",
-                        "height": "23px",
-                        "logo": "gnubash",
-                        "logo_color": "#4EAA25",
-                        "style": "flat-square",
-                        "text": "CLI"
-                     },
-                     "&nbsp;",
-                     {
-                        "class": "badges",
-                        "color": "#0B3C75",
-                        "height": "23px",
-                        "items": [
-                           {
-                              "alt": "PyPackIT",
-                              "args": {
-                                 "message": "PyPackIT"
-                              },
-                              "color": "#000",
-                              "title": "Main CLI entry of the package."
-                           }
-                        ],
-                        "label": "$",
-                        "label_color": "#494949",
-                        "separator": 1,
-                        "service": "static",
-                        "style": "flat-square"
-                     }
-                  ]
-               ],
-               "heading": "Interfaces"
-            }
-         ]
-      },
-      "dir_name": {
-         "copyrights": "COPYRIGHTS",
-         "licenses": "LICENSES"
-      },
-      "icon": {
-         "api": "\ud83d\udda5",
-         "change": "\ud83d\udca5",
-         "chore": "\u267b\ufe0f",
-         "ci": "\ud83e\udd16\ufe0f",
-         "cli": "\u2328\ufe0f",
-         "config": "\ud83d\udee0\ufe0f",
-         "docs": "\ud83d\udcda",
-         "feat": "\u2728",
-         "fix": "\ud83d\udc1e",
-         "gui": "\ud83d\uddb1",
-         "pkg": "\ud83d\udce6",
-         "post": "\ud83d\udceb",
-         "refactor": "\ud83e\uddf9\ufe0f",
-         "repo": "\ud83e\uddf0",
-         "setup": "\u2699\ufe0f",
-         "test": "\ud83e\uddea"
-      },
-      "logo_dir_path": "_media/logo",
-      "name_ipa": "[\u02c8pa\u026a\u02ccp\u00e6k\u026at]"
-   },
    "abstract": "PyPackIT [\u02c8pa\u026a\u02ccp\u00e6k\u026at] is a comprehensive <strong>cloud-based automation tool</strong> for production of <abbr title=\"Findable, Accessible, Interoperable, and Reusable\">FAIR</abbr> and professional applications on <strong>GitHub</strong>, in accordance with the latest software engineering best practices and standards. PyPackIT is a ready-to-use software suite that streamlines the initiation, configuration, development, publication, management, and maintenance of high-quality <strong>Python applications</strong>. By taking charge of repetitive tasks and automatically enforcing best practices throughout the software development life cycle, PyPackIT enables users to solely focus on the creative aspects of their projects, while improving quality and lowering production costs. Using latest tools and methodologies, PyPackIT offers a robust project infrastructure, including a build-ready Python <strong>package skeleton</strong>, a fully operational <strong>test suite</strong>, an automated <strong>documentation website</strong>, and a comprehensive <strong>control center</strong> according to <strong>Infrastructure-as-Code</strong> and <strong>Continuous Configuration Automation</strong> practices to enable dynamic project management and customization. PyPackIT establishes a complete <strong>cloud development</strong> environment on GitHub, integrating with its version control system, issue tracker,and pull-based model to provide a fully <strong>automated software development workflow</strong> with <strong>issue management</strong>, <strong>branching model</strong>, and <strong>versioning scheme</strong>. Leveraging <strong>GitHub Actions</strong>, PyPackIT implements a cloud-native Agile development process using <strong>Continuous software engineering</strong>, <strong>containerization</strong>, and <strong>DevOps</strong> methodologies, with a full set of <strong>Continuous Integration</strong>, Deployment, Testing, Refactoring, and Maintenance pipelines. PyPackIT is a <strong>free</strong> and <strong>open-source</strong> software suite that readily integrates with both new and existing projects to ensure their long-term sustainability and high quality, enabling software projects to rapidly implement their ideas and easily maintain their products.",
    "branch": {
       "auto": {
@@ -521,188 +140,6 @@
             },
             "require_signatures": true
          }
-      }
-   },
-   "color": {
-      "accent": {
-         "dark": "rgb(69 155 36)",
-         "light": "rgb(19 84 0)"
-      },
-      "accent-bg": {
-         "dark": "hsl(308 59 17)",
-         "light": "hsl(307 64 92)"
-      },
-      "attention": {
-         "dark": "hsl(25 100 64)",
-         "light": "hsl(24 93 50)"
-      },
-      "attention-bg": {
-         "dark": "hsl(24 96 20)",
-         "light": "hsl(29 74 89)"
-      },
-      "background": {
-         "dark": "hsl(216 20 10)",
-         "light": "hsl(0 0 100)"
-      },
-      "blockquote-notch": {
-         "dark": "hsl(215 11 65)",
-         "light": "hsl(215 12 46)"
-      },
-      "border": {
-         "dark": "hsl(216 20 35)",
-         "light": "hsl(213 11 84)"
-      },
-      "border-muted": {
-         "dark": "hsl(216 20 20)",
-         "light": "rgba(23 23 26 / 0.2)"
-      },
-      "danger": {
-         "dark": "hsl(352 66% 72)",
-         "light": "hsl(351 68 51)"
-      },
-      "danger-bg": {
-         "dark": "hsl(350 64 19)",
-         "light": "hsl(353 67 93)"
-      },
-      "dark": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(218 19 16)"
-      },
-      "dark-bg": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(218 19 16)"
-      },
-      "heading": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "info": {
-         "dark": "hsl(219 82 71)",
-         "light": "hsl(219 82 53)"
-      },
-      "info-bg": {
-         "dark": "hsl(219 88 19)",
-         "light": "hsl(219 84 93)"
-      },
-      "inline-code": {
-         "dark": "hsl(307 65 87)",
-         "light": "hsl(308 59 36)"
-      },
-      "inline-code-links": {
-         "dark": "hsl(189 54 51)",
-         "light": "hsl(189 86 23)"
-      },
-      "light": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(210 9 96)"
-      },
-      "light-bg": {
-         "dark": "hsl(210 9 67)",
-         "light": "hsl(210 9 97)"
-      },
-      "link": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "link-hover": {
-         "dark": "rgb(175 138 0)",
-         "light": "rgb(60 85 0)"
-      },
-      "muted": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(216 20 20)"
-      },
-      "muted-bg": {
-         "dark": "hsl(216 20 14)",
-         "light": "hsl(216 20 44)"
-      },
-      "on-background": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(0 0 100)"
-      },
-      "on-surface": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(218 19 16)"
-      },
-      "primary": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "primary-bg": {
-         "dark": "hsl(189 85 11)",
-         "light": "hsl(189 54 88)"
-      },
-      "secondary": {
-         "dark": "rgb(175 138 0)",
-         "light": "rgb(60 85 0)"
-      },
-      "secondary-bg": {
-         "dark": "hsl(262 58 24)",
-         "light": "hsl(267 100 89)"
-      },
-      "shadow": {
-         "dark": "rgba(0 0 0 / 0.1)",
-         "light": "rgba(0 0 0 / 0.1)"
-      },
-      "success": {
-         "dark": "hsl(149 36 54)",
-         "light": "hsl(149 100 26)"
-      },
-      "success-bg": {
-         "dark": "hsl(149 100 9)",
-         "light": "hsl(150 37 88)"
-      },
-      "surface": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table": {
-         "dark": "hsl(0 0 100)",
-         "light": "hsl(216 20 10)"
-      },
-      "table-heading-bg": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table-inner-border": {
-         "dark": "hsl(215 19 26)",
-         "light": "hsl(216 11 91)"
-      },
-      "table-outer-border": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table-row-hover-bg": {
-         "dark": "hsl(262 59 35)",
-         "light": "hsl(267 95 85)"
-      },
-      "table-row-zebra-high-bg": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(0 0 100)"
-      },
-      "table-row-zebra-low-bg": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "target": {
-         "dark": "hsl(53 93 21)",
-         "light": "hsl(37 80 77)"
-      },
-      "text-base": {
-         "dark": "hsl(208 18 84)",
-         "light": "hsl(218 19 16)"
-      },
-      "text-muted": {
-         "dark": "hsl(215 11 65)",
-         "light": "hsl(216 20 35)"
-      },
-      "warning": {
-         "dark": "hsl(25 100 64)",
-         "light": "hsl(24 93 50)"
-      },
-      "warning-bg": {
-         "dark": "hsl(24 96 20)",
-         "light": "hsl(29 74 89)"
       }
    },
    "commit": {
@@ -3329,6 +2766,1067 @@
       ]
    },
    "copyright": "\u00a9 2023\u20132025 RepoDynamics",
+   "data_badge": {
+      "color": {
+         "blue": "#0B3C75",
+         "green": "#00802B",
+         "grey": "#494949",
+         "orange": "#D93402",
+         "red": "#AF1F10"
+      },
+      "height": "23px",
+      "separator": 2,
+      "style": "flat-square"
+   },
+   "data_color": {
+      "accent": {
+         "dark": "rgb(69 155 36)",
+         "light": "rgb(19 84 0)"
+      },
+      "accent-bg": {
+         "dark": "hsl(308 59 17)",
+         "light": "hsl(307 64 92)"
+      },
+      "attention": {
+         "dark": "hsl(25 100 64)",
+         "light": "hsl(24 93 50)"
+      },
+      "attention-bg": {
+         "dark": "hsl(24 96 20)",
+         "light": "hsl(29 74 89)"
+      },
+      "background": {
+         "dark": "hsl(216 20 10)",
+         "light": "hsl(0 0 100)"
+      },
+      "blockquote-notch": {
+         "dark": "hsl(215 11 65)",
+         "light": "hsl(215 12 46)"
+      },
+      "border": {
+         "dark": "hsl(216 20 35)",
+         "light": "hsl(213 11 84)"
+      },
+      "border-muted": {
+         "dark": "hsl(216 20 20)",
+         "light": "rgba(23 23 26 / 0.2)"
+      },
+      "danger": {
+         "dark": "hsl(352 66% 72)",
+         "light": "hsl(351 68 51)"
+      },
+      "danger-bg": {
+         "dark": "hsl(350 64 19)",
+         "light": "hsl(353 67 93)"
+      },
+      "dark": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(218 19 16)"
+      },
+      "dark-bg": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(218 19 16)"
+      },
+      "heading": {
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
+      },
+      "info": {
+         "dark": "hsl(219 82 71)",
+         "light": "hsl(219 82 53)"
+      },
+      "info-bg": {
+         "dark": "hsl(219 88 19)",
+         "light": "hsl(219 84 93)"
+      },
+      "inline-code": {
+         "dark": "hsl(307 65 87)",
+         "light": "hsl(308 59 36)"
+      },
+      "inline-code-links": {
+         "dark": "hsl(189 54 51)",
+         "light": "hsl(189 86 23)"
+      },
+      "jsonschema": {
+         "fill_defaults": true,
+         "schema": {
+            "$comment": "Color names and values taken from pydata-sphinx-theme:\n- https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss\n- https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/extensions/_sphinx_design.scss\n",
+            "description": "Colors of the project's light and dark themes.\nEach color can be defined using any valid [CSS color format](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value),\nsuch as hexadecimal, RGB, HSL, or named colors.\n",
+            "properties": {
+               "accent": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(308 65 70)",
+                           "light": "hsl(308 59 48)"
+                        },
+                        "summary": "Accent color of the project."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(308 65 70)",
+                     "light": "hsl(308 59 48)"
+                  }
+               },
+               "accent-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(308 59 17)",
+                           "light": "hsl(307 64 92)"
+                        },
+                        "summary": "Accent background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(308 59 17)",
+                     "light": "hsl(307 64 92)"
+                  }
+               },
+               "attention": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.warning }}$",
+                        "summary": "Semantic attention color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.warning }}$"
+               },
+               "attention-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.warning-bg }}$",
+                        "summary": "Attention background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.warning-bg }}$"
+               },
+               "background": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(216 20 10)",
+                           "light": "hsl(0 0 100)"
+                        },
+                        "description": "In the website, this corresponds to the color of the canvas;\ni.e. the deepest layer.\n",
+                        "summary": "Background color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(216 20 10)",
+                     "light": "hsl(0 0 100)"
+                  }
+               },
+               "blockquote-notch": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(215 11 65)",
+                           "light": "hsl(215 12 46)"
+                        },
+                        "summary": "Color for block-quote notches."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(215 11 65)",
+                     "light": "hsl(215 12 46)"
+                  }
+               },
+               "border": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(216 20 35)",
+                           "light": "hsl(213 11 84)"
+                        },
+                        "summary": "Color for borders."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(216 20 35)",
+                     "light": "hsl(213 11 84)"
+                  }
+               },
+               "border-muted": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(216 20 20)",
+                           "light": "rgba(23 23 26 / 0.2)"
+                        },
+                        "summary": "Color for muted borders."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(216 20 20)",
+                     "light": "rgba(23 23 26 / 0.2)"
+                  }
+               },
+               "danger": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(352 66% 72)",
+                           "light": "hsl(351 68 51)"
+                        },
+                        "summary": "Semantic danger color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(352 66% 72)",
+                     "light": "hsl(351 68 51)"
+                  }
+               },
+               "danger-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(350 64 19)",
+                           "light": "hsl(353 67 93)"
+                        },
+                        "summary": "Danger background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(350 64 19)",
+                     "light": "hsl(353 67 93)"
+                  }
+               },
+               "dark": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(218 19 16)",
+                           "light": "hsl(218 19 16)"
+                        },
+                        "summary": "Semantic dark color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(218 19 16)",
+                     "light": "hsl(218 19 16)"
+                  }
+               },
+               "dark-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(218 19 16)",
+                           "light": "hsl(218 19 16)"
+                        },
+                        "summary": "Dark background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(218 19 16)",
+                     "light": "hsl(218 19 16)"
+                  }
+               },
+               "heading": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.text-base }}$",
+                        "description": "In the website, this is used as the color of `<h1>` to `<h6>` elements.\n",
+                        "summary": "Color for heading titles."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.text-base }}$"
+               },
+               "info": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(219 82 71)",
+                           "light": "hsl(219 82 53)"
+                        },
+                        "summary": "Semantic info color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(219 82 71)",
+                     "light": "hsl(219 82 53)"
+                  }
+               },
+               "info-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(219 88 19)",
+                           "light": "hsl(219 84 93)"
+                        },
+                        "summary": "Info background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(219 88 19)",
+                     "light": "hsl(219 84 93)"
+                  }
+               },
+               "inline-code": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(307 65 87)",
+                           "light": "hsl(308 59 36)"
+                        },
+                        "summary": "Color for inline codes."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(307 65 87)",
+                     "light": "hsl(308 59 36)"
+                  }
+               },
+               "inline-code-links": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(189 54 51)",
+                           "light": "hsl(189 86 23)"
+                        },
+                        "summary": "Color for inline code links."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(189 54 51)",
+                     "light": "hsl(189 86 23)"
+                  }
+               },
+               "light": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(210 9 96)",
+                           "light": "hsl(210 9 96)"
+                        },
+                        "summary": "Semantic light color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(210 9 96)",
+                     "light": "hsl(210 9 96)"
+                  }
+               },
+               "light-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(210 9 67)",
+                           "light": "hsl(210 9 97)"
+                        },
+                        "summary": "Light background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(210 9 67)",
+                     "light": "hsl(210 9 97)"
+                  }
+               },
+               "link": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.primary }}$",
+                        "summary": "Color for links."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.primary }}$"
+               },
+               "link-hover": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.secondary }}$",
+                        "summary": "Color for links on mouse hover."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.secondary }}$"
+               },
+               "muted": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(210 9 96)",
+                           "light": "hsl(216 20 20)"
+                        },
+                        "summary": "Semantic muted color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(210 9 96)",
+                     "light": "hsl(216 20 20)"
+                  }
+               },
+               "muted-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(216 20 14)",
+                           "light": "hsl(216 20 44)"
+                        },
+                        "summary": "Muted background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(216 20 14)",
+                     "light": "hsl(216 20 44)"
+                  }
+               },
+               "on-background": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(218 19 16)",
+                           "light": "hsl(0 0 100)"
+                        },
+                        "description": "In the website, this corresponds e.g., to the color of the header navbar,\nproviding slight contrast against the background.\n",
+                        "summary": "Color for elements directly on top of background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(218 19 16)",
+                     "light": "hsl(0 0 100)"
+                  }
+               },
+               "on-surface": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(210 9 96)",
+                           "light": "hsl(218 19 16)"
+                        },
+                        "description": "In the website, this corresponds e.g., to the color of the sidebar directives,\n",
+                        "summary": "Color for elements directly on top of surface."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(210 9 96)",
+                     "light": "hsl(218 19 16)"
+                  }
+               },
+               "primary": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(189 54 51)",
+                           "light": "hsl(189 87 30)"
+                        },
+                        "summary": "Primary color of the project."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(189 54 51)",
+                     "light": "hsl(189 87 30)"
+                  }
+               },
+               "primary-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(189 85 11)",
+                           "light": "hsl(189 54 88)"
+                        },
+                        "description": "In the website, this is sparingly used.\n",
+                        "summary": "Primary background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(189 85 11)",
+                     "light": "hsl(189 54 88)"
+                  }
+               },
+               "secondary": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(263 98 68)",
+                           "light": "hsl(262 75 58)"
+                        },
+                        "summary": "Secondary color of the project."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(263 98 68)",
+                     "light": "hsl(262 75 58)"
+                  }
+               },
+               "secondary-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(262 58 24)",
+                           "light": "hsl(267 100 89)"
+                        },
+                        "description": "In the website, this is sparingly used, e.g., for announcement banner.\n",
+                        "summary": "Secondary background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(262 58 24)",
+                     "light": "hsl(267 100 89)"
+                  }
+               },
+               "shadow": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "rgba(0 0 0 / 0.1)",
+                           "light": "rgba(0 0 0 / 0.1)"
+                        },
+                        "summary": "Color for shadows."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "rgba(0 0 0 / 0.1)",
+                     "light": "rgba(0 0 0 / 0.1)"
+                  }
+               },
+               "success": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(149 36 54)",
+                           "light": "hsl(149 100 26)"
+                        },
+                        "summary": "Semantic success color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(149 36 54)",
+                     "light": "hsl(149 100 26)"
+                  }
+               },
+               "success-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(149 100 9)",
+                           "light": "hsl(150 37 88)"
+                        },
+                        "summary": "Success background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(149 100 9)",
+                     "light": "hsl(150 37 88)"
+                  }
+               },
+               "surface": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(216 20 20)",
+                           "light": "hsl(210 9 96)"
+                        },
+                        "summary": "Surface color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(216 20 20)",
+                     "light": "hsl(210 9 96)"
+                  }
+               },
+               "table": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(0 0 100)",
+                           "light": "hsl(216 20 10)"
+                        },
+                        "summary": "Color for tables."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(0 0 100)",
+                     "light": "hsl(216 20 10)"
+                  }
+               },
+               "table-heading-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.surface }}$",
+                        "summary": "Color for table heading background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.surface }}$"
+               },
+               "table-inner-border": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(215 19 26)",
+                           "light": "hsl(216 11 91)"
+                        },
+                        "summary": "Color for table inner borders."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(215 19 26)",
+                     "light": "hsl(216 11 91)"
+                  }
+               },
+               "table-outer-border": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.surface }}$",
+                        "summary": "Color for table outer borders."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.surface }}$"
+               },
+               "table-row-hover-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(262 59 35)",
+                           "light": "hsl(267 95 85)"
+                        },
+                        "summary": "Color for table rows on mouse hover."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(262 59 35)",
+                     "light": "hsl(267 95 85)"
+                  }
+               },
+               "table-row-zebra-high-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.on-background }}$",
+                        "summary": "Color for high-contrast table rows in zebra mode."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.on-background }}$"
+               },
+               "table-row-zebra-low-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": "${{ data_color.surface }}$",
+                        "summary": "Color for low-contrast table rows in zebra mode."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": "${{ data_color.surface }}$"
+               },
+               "target": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(53 93 21)",
+                           "light": "hsl(37 80 77)"
+                        },
+                        "summary": "Color for target components."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(53 93 21)",
+                     "light": "hsl(37 80 77)"
+                  }
+               },
+               "text-base": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(208 18 84)",
+                           "light": "hsl(218 19 16)"
+                        },
+                        "summary": "Base color for texts."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(208 18 84)",
+                     "light": "hsl(218 19 16)"
+                  }
+               },
+               "text-muted": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(215 11 65)",
+                           "light": "hsl(216 20 35)"
+                        },
+                        "summary": "Color for muted texts."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(215 11 65)",
+                     "light": "hsl(216 20 35)"
+                  }
+               },
+               "warning": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(25 100 64)",
+                           "light": "hsl(24 93 50)"
+                        },
+                        "summary": "Semantic warning color."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(25 100 64)",
+                     "light": "hsl(24 93 50)"
+                  }
+               },
+               "warning-bg": {
+                  "anyOf": [
+                     {
+                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
+                        "default": {
+                           "dark": "hsl(24 96 20)",
+                           "light": "hsl(29 74 89)"
+                        },
+                        "summary": "Warning background."
+                     },
+                     {
+                        "minLength": 6,
+                        "type": "string"
+                     }
+                  ],
+                  "default": {
+                     "dark": "hsl(24 96 20)",
+                     "light": "hsl(29 74 89)"
+                  }
+               }
+            },
+            "required": [
+               "primary",
+               "secondary"
+            ],
+            "summary": "Color palette of the the project.",
+            "type": "object"
+         }
+      },
+      "light": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(210 9 96)"
+      },
+      "light-bg": {
+         "dark": "hsl(210 9 67)",
+         "light": "hsl(210 9 97)"
+      },
+      "link": {
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
+      },
+      "link-hover": {
+         "dark": "rgb(175 138 0)",
+         "light": "rgb(60 85 0)"
+      },
+      "muted": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(216 20 20)"
+      },
+      "muted-bg": {
+         "dark": "hsl(216 20 14)",
+         "light": "hsl(216 20 44)"
+      },
+      "on-background": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(0 0 100)"
+      },
+      "on-surface": {
+         "dark": "hsl(210 9 96)",
+         "light": "hsl(218 19 16)"
+      },
+      "primary": {
+         "dark": "rgb(28 170 0)",
+         "light": "rgb(0 85 0)"
+      },
+      "primary-bg": {
+         "dark": "hsl(189 85 11)",
+         "light": "hsl(189 54 88)"
+      },
+      "secondary": {
+         "dark": "rgb(175 138 0)",
+         "light": "rgb(60 85 0)"
+      },
+      "secondary-bg": {
+         "dark": "hsl(262 58 24)",
+         "light": "hsl(267 100 89)"
+      },
+      "shadow": {
+         "dark": "rgba(0 0 0 / 0.1)",
+         "light": "rgba(0 0 0 / 0.1)"
+      },
+      "success": {
+         "dark": "hsl(149 36 54)",
+         "light": "hsl(149 100 26)"
+      },
+      "success-bg": {
+         "dark": "hsl(149 100 9)",
+         "light": "hsl(150 37 88)"
+      },
+      "surface": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table": {
+         "dark": "hsl(0 0 100)",
+         "light": "hsl(216 20 10)"
+      },
+      "table-heading-bg": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table-inner-border": {
+         "dark": "hsl(215 19 26)",
+         "light": "hsl(216 11 91)"
+      },
+      "table-outer-border": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "table-row-hover-bg": {
+         "dark": "hsl(262 59 35)",
+         "light": "hsl(267 95 85)"
+      },
+      "table-row-zebra-high-bg": {
+         "dark": "hsl(218 19 16)",
+         "light": "hsl(0 0 100)"
+      },
+      "table-row-zebra-low-bg": {
+         "dark": "hsl(216 20 20)",
+         "light": "hsl(210 9 96)"
+      },
+      "target": {
+         "dark": "hsl(53 93 21)",
+         "light": "hsl(37 80 77)"
+      },
+      "text-base": {
+         "dark": "hsl(208 18 84)",
+         "light": "hsl(218 19 16)"
+      },
+      "text-muted": {
+         "dark": "hsl(215 11 65)",
+         "light": "hsl(216 20 35)"
+      },
+      "warning": {
+         "dark": "hsl(25 100 64)",
+         "light": "hsl(24 93 50)"
+      },
+      "warning-bg": {
+         "dark": "hsl(24 96 20)",
+         "light": "hsl(29 74 89)"
+      }
+   },
    "data_css": {
       "jsonschema": {
          "fill_defaults": false,
@@ -3777,6 +4275,24 @@
             }
          }
       }
+   },
+   "data_icon": {
+      "api": "\ud83d\udda5",
+      "change": "\ud83d\udca5",
+      "chore": "\u267b\ufe0f",
+      "ci": "\ud83e\udd16\ufe0f",
+      "cli": "\u2328\ufe0f",
+      "config": "\ud83d\udee0\ufe0f",
+      "docs": "\ud83d\udcda",
+      "feat": "\u2728",
+      "fix": "\ud83d\udc1e",
+      "gui": "\ud83d\uddb1",
+      "pkg": "\ud83d\udce6",
+      "post": "\ud83d\udceb",
+      "refactor": "\ud83e\uddf9\ufe0f",
+      "repo": "\ud83e\uddf0",
+      "setup": "\u2699\ufe0f",
+      "test": "\ud83e\uddea"
    },
    "data_project": {
       "dois": [
@@ -4236,6 +4752,18 @@
                                  }
                               ]
                            },
+                           "logo_dir": {
+                              "anyOf": [
+                                 {
+                                    "summary": "Path to logo directory relative to website source directory",
+                                    "type": "string"
+                                 },
+                                 {
+                                    "minLength": 6,
+                                    "type": "string"
+                                 }
+                              ]
+                           },
                            "root": {
                               "anyOf": [
                                  {
@@ -4426,6 +4954,7 @@
       },
       "path": {
          "build": "docs/website/.build",
+         "logo_dir": "_media/logo",
          "root": "docs/website",
          "source": "docs/website/source",
          "source_rel": "source",
@@ -5396,7 +5925,7 @@
          }
       },
       "path": ".devcontainer/container-docs",
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream"
+      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream -vv"
    },
    "devcontainer_main": {
       "container": {
@@ -5679,7 +6208,7 @@
          "pre_commit": {
             "conda": {
                "pre-commit": {
-                  "description": "Framework for managing and maintaining\nmulti-language hooks for formatting, linting, etc.\n",
+                  "description": "Framework for managing and maintaining\nmulti-language hooks for formatting and linting.\n",
                   "name": "pre-commit",
                   "spec": {
                      "channel": "conda-forge",
@@ -5721,14 +6250,6 @@
                                  "verbose": true
                               },
                               {
-                                 "id": "check-executables-have-shebangs",
-                                 "stages": [
-                                    "pre-commit",
-                                    "manual"
-                                 ],
-                                 "verbose": true
-                              },
-                              {
                                  "id": "check-json",
                                  "stages": [
                                     "pre-commit",
@@ -5762,15 +6283,6 @@
                               },
                               {
                                  "id": "check-xml",
-                                 "stages": [
-                                    "pre-commit",
-                                    "manual"
-                                 ],
-                                 "verbose": true
-                              },
-                              {
-                                 "exclude": "pkg/conda\\-recipe/local|pkg/conda\\-recipe/global|test/conda\\-recipe/local|test/conda\\-recipe/global",
-                                 "id": "check-yaml",
                                  "stages": [
                                     "pre-commit",
                                     "manual"
@@ -5862,7 +6374,7 @@
                                  "args": [
                                     "--verbose",
                                     "--config",
-                                    ".github/.ruff.toml",
+                                    ".devcontainer/config/ruff.toml",
                                     "--exit-non-zero-on-fix"
                                  ],
                                  "id": "ruff",
@@ -5880,7 +6392,7 @@
                               {
                                  "args": [
                                     "--config",
-                                    ".github/.ruff.toml"
+                                    ".devcontainer/config/ruff.toml"
                                  ],
                                  "id": "ruff-format",
                                  "stages": [
@@ -5924,11 +6436,11 @@
                      }
                   },
                   "name": "Pre-Commit Configuration",
-                  "path": ".github/.pre-commit-config.yaml",
+                  "path": ".devcontainer/config/pre-commit.yaml",
                   "status": "active",
                   "summary": "Pre-Commit [configuration file](https://pre-commit.com/#configuration).",
                   "type": "yaml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.github/.pre-commit-config.yaml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/pre-commit.yaml"
                },
                "ruff_config": {
                   "content": {
@@ -5982,15 +6494,15 @@
                            "pkg/src/pypackit/__main__.py": [
                               "T20"
                            ],
+                           "template/pkg/src/new_pyproject/__init__.py": [
+                              "T20",
+                              "D104"
+                           ],
                            "template/pkg/src/new_pyproject/__main__.py": [
                               "T20"
                            ],
                            "template/test/src/**": [
                               "S101"
-                           ],
-                           "template/test/src/new_pyproject/__init__.py": [
-                              "T20",
-                              "D104"
                            ],
                            "template/test/src/new_pyproject_testsuite/__init__.py": [
                               "T20",
@@ -6110,11 +6622,11 @@
                      }
                   },
                   "name": "Ruff Configuration",
-                  "path": ".github/.ruff.toml",
+                  "path": ".devcontainer/config/ruff.toml",
                   "status": "active",
                   "summary": "Ruff [configuration file](https://docs.astral.sh/ruff/settings/) in TOML format.",
                   "type": "toml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.github/.ruff.toml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/ruff.toml"
                }
             },
             "name": "pre_commit",
@@ -6249,11 +6761,11 @@
                      }
                   },
                   "name": "Mypy Configuration",
-                  "path": ".github/.mypy.toml",
+                  "path": ".devcontainer/config/mypy.toml",
                   "status": "active",
                   "summary": "Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html) in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.",
                   "type": "toml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.github/.mypy.toml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/mypy.toml"
                }
             },
             "name": "type_check",
@@ -6300,7 +6812,7 @@
             "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
          }
       },
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream"
+      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream -vv"
    },
    "devfeature_conda_setup": {
       "feature": {
@@ -6455,7 +6967,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - conda-forge::coverage ==7.6.1\n  - conda-forge::pytest ==8.3.3\n  - conda-forge::pytest-cov ==5.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python >=3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.1\n  - conda-forge::pytest ==8.3.3\n  - conda-forge::pytest-cov ==5.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
@@ -18918,7 +19430,7 @@
          },
          "template": {
             "body": [
-               "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__data__.badge.style,\n    color=label.color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__data__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}\n"
+               "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.data_badge.style,\n    color=label.color,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.data_badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}\n"
             ],
             "sections": [
                {
@@ -18937,7 +19449,7 @@
                               "args": {
                                  "message": "{{ issue.state }}"
                               },
-                              "color": "{{ ccc.__data__.badge.color.green if issue.state == \"open\" else ccc.__data__.badge.color.red }}",
+                              "color": "{{ ccc.data_badge.color.green if issue.state == \"open\" else ccc.data_badge.color.red }}",
                               "label": "State",
                               "service": "static"
                            },
@@ -19019,7 +19531,7 @@
                         "separator": 2,
                         "style": "flat-square"
                      },
-                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.red,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.data_website.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.__data__.icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
+                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.blue,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.blue,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.blue,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.blue,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.red,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.data_website.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.data_icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
                   ],
                   "heading": "User Requirements Document (URD)"
                },
@@ -19634,9 +20146,9 @@
          },
          "custom": {
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
-            "devcontainer_main_pre_commit_pre_commit_config": ".github/.pre-commit-config.yaml",
-            "devcontainer_main_pre_commit_ruff_config": ".github/.ruff.toml",
-            "devcontainer_main_type_check_mypy_config": ".github/.mypy.toml",
+            "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
+            "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
+            "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
             "file_binder_conda": ".binder_config/environment.yml",
             "file_citation_cff": "CITATION.cff",
             "file_coc": "CODE_OF_CONDUCT.md",
@@ -19882,8 +20394,8 @@
                      "service": "static",
                      "style": "flat-square"
                   },
-                  "{{ \"&nbsp;\" * ccc.__data__.badge.separator }}",
-                  "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.__data__.badge.style,\n    color=label.color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.__data__.badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n  ).source()\n}}\n"
+                  "{{ \"&nbsp;\" * ccc.data_badge.separator }}",
+                  "{%- for label in form.id_labels + form.labels -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=label.prefix,\n    args={\"message\": label.suffix if label.prefix else label.name},\n    style=ccc.data_badge.style,\n    color=label.color,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endfor -%}\n{%- set versions = labels[\"version\"] | map(attribute='suffix') | join(' | ') -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=labels[\"version\"][0].prefix,\n    args={\"message\": versions},\n    style=ccc.data_badge.style,\n    color=labels[\"version\"][0].color,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n  ).source()\n}}\n"
                ]
             ],
             "sections": [
@@ -19903,7 +20415,7 @@
                               "args": {
                                  "message": "{{ pull_request.state }}"
                               },
-                              "color": "{{ ccc.__data__.badge.color.green if pull_request.state == \"open\" else ccc.__data__.badge.color.red }}",
+                              "color": "{{ ccc.data_badge.color.green if pull_request.state == \"open\" else ccc.data_badge.color.red }}",
                               "label": "State",
                               "service": "static"
                            },
@@ -19953,7 +20465,7 @@
                {
                   "body": [
                      [
-                        "{% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}\n{% set config = ccc.tool.readthedocs.config.workflow %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.__data__.badge.style,\n    color=ccc.__data__.badge.color.blue,\n    label_color=ccc.__data__.badge.color.grey,\n    height=ccc.__data__.badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.__data__.badge.separator }}\n{%- endif -%}\n"
+                        "{% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}\n{% set config = ccc.tool.readthedocs.config.workflow %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.data_badge.style,\n    color=ccc.data_badge.color.blue,\n    label_color=ccc.data_badge.color.grey,\n    height=ccc.data_badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.data_badge.separator }}\n{%- endif -%}\n"
                      ]
                   ],
                   "heading": "Testing"
