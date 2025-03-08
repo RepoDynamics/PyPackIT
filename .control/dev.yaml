@@ -261,7 +261,7 @@ devcontainer_main:
             Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
             in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
           type: toml
-          path: .github/.mypy.toml
+          path: ${{ devcontainer_main }}$/config/mypy.toml
           content:
             tool:
               mypy:
@@ -377,7 +377,7 @@ devcontainer_main:
         pre-commit:
           description: |
             Framework for managing and maintaining
-            multi-language hooks for formatting, linting, etc.
+            multi-language hooks for formatting and linting.
           spec:
             version: ==4.1.0
           url:
@@ -390,7 +390,7 @@ devcontainer_main:
           summary: >-
             Pre-Commit [configuration file](https://pre-commit.com/#configuration).
           type: yaml
-          path: .github/.pre-commit-config.yaml
+          path: ${{ devcontainer_main.path }}$/config/pre-commit.yaml
           content:
             default_language_version:
               python: python3
@@ -405,10 +405,6 @@ devcontainer_main:
                     verbose: true
                   - id: check-case-conflict
                     # https://github.com/pre-commit/pre-commit-hooks#check-case-conflict
-                    stages: [ pre-commit, manual ]
-                    verbose: true
-                  - id: check-executables-have-shebangs
-                    # https://github.com/pre-commit/pre-commit-hooks#check-executables-have-shebangs
                     stages: [ pre-commit, manual ]
                     verbose: true
                   - id: check-json
@@ -431,18 +427,6 @@ devcontainer_main:
                     # https://github.com/pre-commit/pre-commit-hooks#check-xml
                     stages: [ pre-commit, manual ]
                     verbose: true
-                  - id: check-yaml
-                    # https://github.com/pre-commit/pre-commit-hooks#check-yaml
-                    stages: [ pre-commit, manual ]
-                    verbose: true
-                    exclude: |
-                      #{{
-                        import re
-                        conda_meta_paths = []
-                        for key in ("pypkg_main", "pypkg_test"):
-                          conda_meta_paths.extend(list(get(f"{key}.conda.recipe.path", {}).values()))
-                        return "|".join(re.escape(path) for path in conda_meta_paths)
-                      }}#
                   - id: destroyed-symlinks
                     # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#destroyed-symlinks
                     stages: [ pre-commit, manual ]
@@ -504,7 +488,7 @@ devcontainer_main:
             Ruff [configuration file](https://docs.astral.sh/ruff/settings/)
             in TOML format.
           type: toml
-          path: .github/.ruff.toml
+          path: ${{ devcontainer_main.path }}$/config/ruff.toml
           content:
             cache-dir: ${{ local.cache.path }}$/ruff
             fix: true
