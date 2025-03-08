@@ -1234,57 +1234,57 @@ label:
     color: '#A00000'
     label:
       fix:
-        suffix: ${{ __data__.icon.fix }}$ bug fix
+        suffix: ${{ data_icon.fix }}$ bug fix
         description: Fix a bug in a project component.
       feat:
-        suffix: ${{ __data__.icon.feat }}$ new feature
+        suffix: ${{ data_icon.feat }}$ new feature
         description: Add a new feature to a project component.
       change:
-        suffix: ${{ __data__.icon.change }}$ breaking change
+        suffix: ${{ data_icon.change }}$ breaking change
         description: Introduce a breaking change in a project component.
       refactor:
-        suffix: ${{ __data__.icon.refactor }}$ refactoring
+        suffix: ${{ data_icon.refactor }}$ refactoring
         description: Refactor code without affecting project interfaces.
       config:
-        suffix: ${{ __data__.icon.config }}$ configuration
+        suffix: ${{ data_icon.config }}$ configuration
         description: Change project configurations and metadata.
       ci:
-        suffix: ${{ __data__.icon.ci }}$ DevOps
+        suffix: ${{ data_icon.ci }}$ DevOps
         description: Change automated workflows and development environments.
       chore:
-        suffix: ${{ __data__.icon.chore }}$ maintenance
+        suffix: ${{ data_icon.chore }}$ maintenance
         description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
     prefix: Scope
     color: '#A00000'
     label:
       pkg:
-        suffix: ${{ __data__.icon.pkg }}$ app
+        suffix: ${{ data_icon.pkg }}$ app
         description: Related to ${{ pypkg_main.name }}$ package.
       test:
-        suffix: ${{ __data__.icon.test }}$ tests
+        suffix: ${{ data_icon.test }}$ tests
         description: Related to ${{ pypkg_test.name }}$ package.
       docs:
-        suffix: ${{ __data__.icon.docs }}$ docs
+        suffix: ${{ data_icon.docs }}$ docs
         description: Related to ${{ name }}$ documentation and website.
       repo:
-        suffix: ${{ __data__.icon.repo }}$ repo
+        suffix: ${{ data_icon.repo }}$ repo
         description: Related to ${{ repo.name }}$ repository.
   component:
     prefix: Component
     color: '#0366d6'
     label:
       api:
-        suffix: ${{ __data__.icon.api }}$ API
+        suffix: ${{ data_icon.api }}$ API
         description: Related to the Python application programming interface.
       cli:
-        suffix: ${{ __data__.icon.cli }}$ CLI
+        suffix: ${{ data_icon.cli }}$ CLI
         description: Related to the command-line interface.
       gui:
-        suffix: ${{ __data__.icon.gui }}$ GUI
+        suffix: ${{ data_icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: ${{ __data__.icon.setup }}$ Build
+        suffix: ${{ data_icon.setup }}$ Build
         description: Related to the build and installation process.
   commit:
     prefix: Commit
@@ -1655,16 +1655,16 @@ issue:
       - [ commit, '${{ ..commit }}$' ]
       - [ release, '#{{ return get(f"commit.release.{get("..commit")}").get("action", "local") }}#' ]
   __data__:
-    title_pkg: ' ${{ __data__.icon.pkg }}$ App'
-    title_doc: ' ${{ __data__.icon.docs }}$ Docs'
-    title_test: ' ${{ __data__.icon.test }}$ Tests'
-    title_api: ' ${{ __data__.icon.api }}$ API'
-    title_cli: ' ${{ __data__.icon.cli }}$ CLI'
-    title_gui: ' ${{ __data__.icon.gui }}$ GUI'
-    title_setup: ' ${{ __data__.icon.setup }}$ Setup'
-    title_bug: ' ${{ __data__.icon.fix }}$ Bug Report'
-    title_feat: ' ${{ __data__.icon.feat }}$ Feature Request'
-    title_breaking: ' ${{ __data__.icon.change }}$ Change Request'
+    title_pkg: ' ${{ data_icon.pkg }}$ App'
+    title_doc: ' ${{ data_icon.docs }}$ Docs'
+    title_test: ' ${{ data_icon.test }}$ Tests'
+    title_api: ' ${{ data_icon.api }}$ API'
+    title_cli: ' ${{ data_icon.cli }}$ CLI'
+    title_gui: ' ${{ data_icon.gui }}$ GUI'
+    title_setup: ' ${{ data_icon.setup }}$ Setup'
+    title_bug: ' ${{ data_icon.fix }}$ Bug Report'
+    title_feat: ' ${{ data_icon.feat }}$ Feature Request'
+    title_breaking: ' ${{ data_icon.change }}$ Change Request'
     heading_bug_report:
       type: markdown
       attributes:
@@ -1917,12 +1917,12 @@ issue:
               service="static",
               label=label.prefix,
               args={"message": label.suffix if label.prefix else label.name},
-              style=ccc.__data__.badge.style,
+              style=ccc.data_badge.style,
               color=label.color,
-              label_color=ccc.__data__.badge.color.grey,
-              height=ccc.__data__.badge.height,
+              label_color=ccc.data_badge.color.grey,
+              height=ccc.data_badge.height,
             ).source()
-          }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+          }}{{ "&nbsp;" * ccc.data_badge.separator }}
           {%- endfor -%}
           {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
           {{
@@ -1930,20 +1930,20 @@ issue:
               service="static",
               label=labels["version"][0].prefix,
               args={"message": versions},
-              style=ccc.__data__.badge.style,
+              style=ccc.data_badge.style,
               color=labels["version"][0].color,
-              label_color=ccc.__data__.badge.color.grey,
-              height=ccc.__data__.badge.height,
+              label_color=ccc.data_badge.color.grey,
+              height=ccc.data_badge.height,
             ).source()
           }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1955,7 +1955,7 @@ issue:
                   args:
                     message: '{{ issue.state }}'
                   color: >-
-                    {{ ccc.__data__.badge.color.green if issue.state == "open" else ccc.__data__.badge.color.red }}
+                    {{ ccc.data_badge.color.green if issue.state == "open" else ccc.data_badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -1986,10 +1986,10 @@ issue:
         - heading: User Requirements Document (URD)
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2001,19 +2001,19 @@ issue:
                   args:
                     message: '{{ form.name }}'
                   title: '{{ form.description }}'
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
                 - service: github
                   endpoint: issue_details
                   label: Submitted
                   args:
                     property: age
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
                 - service: static
                   label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
             - |
               ### Summary
 
@@ -2023,24 +2023,24 @@ issue:
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint + "." + input.endpoint},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- elif input.entrypoint -%}
               {{
                 mdit.element.badge(
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif -%}
               {%- if input.url %}
               {{
@@ -2048,7 +2048,7 @@ issue:
                   service="static",
                   label="URL",
                   args={"message": input.url},
-                  style=ccc.__data__.badge.style,
+                  style=ccc.data_badge.style,
                   color=ccc.__data__.badge.color.blue,
                   label_color=ccc.__data__.badge.color.grey,
                   height=ccc.__data__.badge.height,
@@ -2126,7 +2126,7 @@ issue:
                       "logo_media_type": "svg+xml",
                     },
                     {
-                      "label": ccc.__data__.icon.pkg + " Package Manager",
+                      "label": ccc.data_icon.pkg + " Package Manager",
                       "args": {"message": input.package_manager},
                     },
                   ]
@@ -2601,7 +2601,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.refactor }}$ Refactoring Request'
+      name: ' ${{ data_icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
       __temp__:
@@ -2617,7 +2617,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.config }}$ Configuration Request'
+      name: ' ${{ data_icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
       __temp__:
@@ -2632,7 +2632,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.ci }}$ DevOps Request'
+      name: ' ${{ data_icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
       __temp__:
@@ -2646,7 +2646,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.chore }}$ Maintenance Request'
+      name: ' ${{ data_icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __temp__:
         purpose: >-
