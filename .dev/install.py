@@ -583,6 +583,7 @@ def get_native_platform() -> PlatformName:
     See Also
     --------
     - [`Platform.current()` in `py-rattler`](https://conda.github.io/rattler/py-rattler/platform/#rattler.platform.platform.Platform.current)
+    - [Enum Platform](https://docs.rs/rattler_conda_types/latest/rattler_conda_types/enum.Platform.html)
     """
     _platform_map = {
         "freebsd13": "freebsd",
