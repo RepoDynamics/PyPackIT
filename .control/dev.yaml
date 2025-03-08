@@ -545,6 +545,8 @@ devcontainer_main:
               per-file-ignores:
                 '${{ pypkg_test.path.source }}$/**':
                   - S101
+                template/test/src/**:
+                  - S101
                 '${{ data_website.path.source }}$/conf.py':
                   - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
                 # https://docs.astral.sh/ruff/rules/#flake8-print-t20
@@ -553,6 +555,12 @@ devcontainer_main:
                 '${{ pypkg_test.path.import }}$/__main__.py':
                   - T20
                 '${{ pypkg_test.path.import }}$/__init__.py':
+                  - T20
+                template/pkg/src/new_pyproject/__main__.py:
+                  - T20
+                template/test/src/new_pyproject_testsuite/__main__.py:
+                  - T20
+                template/test/src/new_pyproject_testsuite/__init__.py:
                   - T20
               select:
                 # https://docs.astral.sh/ruff/rules
