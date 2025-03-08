@@ -542,9 +542,6 @@ devcontainer_main:
                 - COM819
                 - ISC001
                 - ISC002
-                # Deprecated rules
-                - ANN101
-                - ANN102
               per-file-ignores:
                 '${{ pypkg_test.path.source }}$/**':
                   - S101
