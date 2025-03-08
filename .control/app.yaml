@@ -383,8 +383,8 @@ copy_app_license:
       ]
     }}#
   destinations:
-    - ${{ pypkg_main.path.root }}$/${{ __data__.dir_name.licenses }}$
-    - ${{ pypkg_test.path.root }}$/${{ __data__.dir_name.licenses }}$
+    - ${{ pypkg_main.path.root }}$/${{ __temp__.pkg_license_dir_name.licenses }}$
+    - ${{ pypkg_test.path.root }}$/${{ __temp__.pkg_license_dir_name.licenses }}$
 copy_app_copyright:
   sources: |
     #{{
@@ -395,8 +395,8 @@ copy_app_copyright:
       ]
     }}#
   destinations:
-    - ${{ pypkg_main.path.root }}$/${{ __data__.dir_name.copyrights }}$
-    - ${{ pypkg_test.path.root }}$/${{ __data__.dir_name.copyrights }}$
+    - ${{ pypkg_main.path.root }}$/${{ __temp__.pkg_license_dir_name.copyrights }}$
+    - ${{ pypkg_test.path.root }}$/${{ __temp__.pkg_license_dir_name.copyrights }}$
 # Templates
 __temp__:
   conda_recipe:
@@ -468,7 +468,7 @@ __temp__:
           home: ${{ web.url.home }}$
           license: ${{ license.expression }}$
           license_file:
-            - '{{ pkg_dir }}${{ __data__.dir_name.licenses }}$/'
+            - '{{ pkg_dir }}${{ __temp__.pkg_license_dir_name.licenses }}$/'
             - |
               *{{
                 #{{
@@ -477,7 +477,7 @@ __temp__:
                     for component in get("license.component", {}).values()
                   ):
                     return []
-                  return [f'{{{{ pkg_dir }}}}{get("__data__.dir_name.copyrights")}/']
+                  return [f'{{{{ pkg_dir }}}}{get("__temp__.pkg_license_dir_name.copyrights")}/']
                 }}#
               }}*
           summary: ${{ title }}$
@@ -508,7 +508,7 @@ __temp__:
         content-type: text/markdown
       requires-python: ${{ .python.version.spec }}$
       license: ${{ license.expression }}$
-      license-files: [ '${{ __data__.dir_name.licenses }}$/*', '${{ __data__.dir_name.copyrights }}$/*' ]
+      license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
       authors: |
         #{{
           return [
@@ -588,3 +588,7 @@ __temp__:
             "distance": "{distance}",
             "commit_hash": "{revision}"
             }}
+
+  pkg_license_dir_name:
+    licenses: LICENSES
+    copyrights: COPYRIGHTS
