@@ -64,7 +64,7 @@ class Hooks:
         ccc_main: NestedDict,
         cache_manager: CacheManager,
         github_token: str | None = None,
-        **kwargs,
+        **kwargs: Any,
     ):
         self.repo_path = repo_path
         self.ccc = ccc
@@ -73,6 +73,7 @@ class Hooks:
         self.github_token = github_token
         self.get = None
         self.changelog = ChangelogManager(repo_path=self.repo_path)
+        self._kwargs = kwargs
 
         self._binder_files = {}
         return
@@ -122,7 +123,7 @@ class Hooks:
             extra_pip_specs=pip_specs,
         )
         if "bash" in self._binder_files:
-            self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files["bash"]}"
+            self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files['bash']}"
         return self._binder_files.get(source, "")
 
     def commit_labels(self) -> dict:
@@ -140,7 +141,7 @@ class Hooks:
             if isinstance(scopes, str):
                 scopes = [scopes]
             scope = f"{scope_start}{scope_sep.join(scopes)}{scope_end}" if scopes else ""
-            label_suffix = f"{commit_data["type"]}{scope}"
+            label_suffix = f"{commit_data['type']}{scope}"
             out[commit_id] = {
                 "suffix": label_suffix,
                 "description": commit_data.get("type_description", ""),
@@ -298,7 +299,7 @@ class Hooks:
                         f"for page '{pages[final_key]['path']}'. "
                         "Please do not use `ccid` values that start with 'blog_'.",
                     )
-                blog_group_path = f"{pages["blog"]["path"]}/{key_singular}/{value_slug}"
+                blog_group_path = f"{pages['blog']['path']}/{key_singular}/{value_slug}"
                 pages[final_key] = {
                     "title": value,
                     "path": blog_group_path,
@@ -319,7 +320,7 @@ class Hooks:
                 )
                 if glob_def.get("description"):
                     pattern_description[glob_def["glob"]] = glob_def["description"]
-            for member_role in member.get("role", {}).keys():
+            for member_role in member.get("role", {}):
                 for glob_def in role[member_role].get("ownership", []):
                     data.setdefault(glob_def["priority"], {}).setdefault(
                         glob_def["glob"], []
@@ -330,26 +331,21 @@ class Hooks:
             return ""
         # Get the maximum length of patterns to align the columns when writing the file
         max_len = max(
-            [
-                len(glob_pattern)
-                for priority_dic in data.values()
-                for glob_pattern in priority_dic.keys()
-            ]
+            [len(glob_pattern) for priority_dic in data.values() for glob_pattern in priority_dic]
         )
         lines = []
         for priority_defs in [defs for priority, defs in sorted(data.items())]:
             for pattern, reviewers_list in sorted(priority_defs.items()):
                 comment = pattern_description.get(pattern, "")
-                for comment_line in comment.splitlines():
-                    lines.append(f"# {comment_line}")
+                lines.extend([f"# {comment_line}" for comment_line in comment.splitlines()])
                 reviewers = " ".join(
                     [f"@{reviewer_id}" for reviewer_id in sorted(set(reviewers_list))]
                 )
-                lines.append(f"{pattern: <{max_len}}   {reviewers}{"\n" if comment else ''}")
-        return f"{"\n".join(lines)}\n"
+                lines.append(f"{pattern: <{max_len}}   {reviewers}{'\n' if comment else ''}")
+        return f"{'\n'.join(lines)}\n"
 
     @staticmethod
-    def create_cff_person_or_entity(entity: dict):
+    def create_cff_person_or_entity(entity: dict) -> dict:
         """Create a CFF person or entity from a control center entity."""
         out = {}
         if entity["name"].get("legal"):
@@ -394,6 +390,7 @@ class Hooks:
         return out
 
     def validate_codecov_yaml(self, content_src: dict, content_str: str) -> None:
+        """Validate the Codecov configuration file."""
         try:
             # Validate the config file
             # https://docs.codecov.com/docs/codecov-yaml#validate-your-repository-yaml
@@ -425,7 +422,8 @@ class Hooks:
             return opt_deps
         return create(self.get(f".dependency.{typ}"))
 
-    def pyproject_entry_points(self):
+    def pyproject_entry_points(self) -> dict[str, dict[str, str]]:
+        """Create pyproject entry points from control center data."""
         entry_points = {}
         for entry_group in self.get(".entry.api", {}).values():
             entry_group_out = {}
@@ -435,6 +433,7 @@ class Hooks:
         return entry_points
 
     def pyproject_scripts(self, typ: Literal["cli", "gui"]) -> dict[str, str]:
+        """Create pyproject script from control center data."""
         scripts = {}
         for entry in self.get(f".entry.{typ}", {}).values():
             if entry["pypi"]:
@@ -486,7 +485,8 @@ def _import_module_from_path(path: str | _Path, name: str | None = None) -> Modu
     if path.is_dir():
         path = path / "__init__.py"
     if not path.exists():
-        raise FileNotFoundError(f"No module file found at path: {path}")
+        error_msg = f"No module file found at path: {path}"
+        raise FileNotFoundError(error_msg)
     if name is None:
         name = path.parent.stem if path.name == "__init__.py" else path.stem
     spec = _importlib_util.spec_from_file_location(name=name, location=path)
