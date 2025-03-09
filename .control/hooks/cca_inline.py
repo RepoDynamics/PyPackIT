@@ -102,27 +102,25 @@ class Hooks:
         """Create environment dependencies for binder."""
         if self._binder_files:
             return self._binder_files.get(source, "")
-        install = _import_module_from_path(self.repo_path / ".dev/install.py")
-        pyver = self.get("pypkg_main.python.version")
-        pkg_path = self.get("pypkg_main.path.root")
-        test_path = self.get("pypkg_test.path.root")
-        pkg_dep = self.get("pypkg_main.dependency")
+        package_keys = ("pypkg_main", "pypkg_test")
+        package_data = {k: self.get(k) for k in package_keys}
         env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pip_specs = [
-            f"-e {path_to_root}{app_path}" for app_path in (pkg_path, test_path) if app_path
+            f"-e {path_to_root}{package_data[package_key]["path"]["root"]}" for package_key in package_keys
         ]
-        _, self._binder_files = install.DependencyInstaller(
-            python_version=pyver,
-            pkg_dep=pkg_dep,
-            test_dep=self.get("pypkg_test.dependency", {}),
-        ).run(
-            platform="linux-64",
-            sources=["conda", "apt", "bash"],
+        install = _import_module_from_path(self.repo_path / ".dev/install.py")
+        _, self._binder_files = install.DependencyInstaller(package_data).run(
+            packages=package_keys,
+            build_platform="linux-64",
+            target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
-            python_version=pyver["minors"][0],
+            python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
+            sources=["conda", "apt", "bash"],
             extra_pip_specs=pip_specs,
+            indent_json=self.get("default.file_setting.json.indent"),
+            indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
         )
         if "bash" in self._binder_files:
             self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files['bash']}"
