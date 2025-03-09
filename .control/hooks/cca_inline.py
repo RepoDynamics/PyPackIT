@@ -111,7 +111,7 @@ class Hooks:
             f"-e {path_to_root}{package_data[package_key]['path']['root']}"
             for package_key in package_keys
         ]
-        install = _import_module_from_path(self.repo_path / ".dev/install.py")
+        install = _import_module_from_path(self.repo_path / ".devcontainer/install.py")
         _, self._binder_files = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
