@@ -3,6 +3,8 @@ control:
     retention_hours:
       css_color_filter: 0
 workflow:
+  refactor:
+    pre_commit_config: ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.content }}$
   web:
     container:
       name: devcontainer-docs
