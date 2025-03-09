@@ -1,10 +1,10 @@
 dependencies:
   - conda-forge::coverage ==7.6.12
+  - conda-forge::pip
   - conda-forge::pytest ==8.3.5
   - conda-forge::pytest-cov ==6.0.0
   - conda-forge::pytest-html ==4.1.1
-  - pip
-  - python 3.10
+  - conda-forge::python 3.10
   - repodynamics::pkgdata
   - repodynamics::pkgdata
   - pip:

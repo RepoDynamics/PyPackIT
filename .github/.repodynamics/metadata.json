@@ -6485,6 +6485,9 @@
                            "pkg/src/pypackit/__main__.py": [
                               "T20"
                            ],
+                           "template/.control/hooks/cca.py": [
+                              "ARG002"
+                           ],
                            "template/pkg/src/new_pyproject/__init__.py": [
                               "T20",
                               "D104"
@@ -6958,7 +6961,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
