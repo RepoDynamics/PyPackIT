@@ -97,7 +97,8 @@ def run(  # noqa: PLR0913
     exclude_installed: bool = True,
     pip_in_conda: bool = True,
     conda_env_name: str | None = None,
-    install: bool = True,
+    install: Sequence[SourceName] | bool = True,
+    exclude_install: Sequence[SourceName] | None = None,
     output_dir: str | _Path | None = None,
     overwrite: bool = False,
     filename_conda: str = "environment.yml",
@@ -138,7 +139,18 @@ def run(  # noqa: PLR0913
         indent_yaml=indent_yaml,
     )
     if install:
-        install_files(files)
+        all_sources = ["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"]
+        if isinstance(install, bool):
+            install_sources = set(all_sources)
+        else:
+            for source in install:
+                if source not in all_sources:
+                    error_msg = f"Source {source} is not recognized."
+                    raise ValueError(error_msg)
+            install_sources = set(install)
+        if exclude_install:
+            install_sources = install_sources.intersection(set(exclude_install))
+        install_files({k: v for k, v in files.items() if k in install_sources})
     paths = {}
     if output_dir:
         paths = write_files(
@@ -763,6 +775,28 @@ def _snake_case_to_camel_case(string: str) -> str:
 
 
 def _parse_args() -> _argparse.Namespace:
+
+    def source_list(value):
+        """Ensure the input is a comma-separated list of valid choices."""
+        VALID_CHOICES = ["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"]
+        items = value.split(",")
+        invalid = [item for item in items if item not in VALID_CHOICES]
+        if invalid:
+            raise _argparse.ArgumentTypeError(
+                f"Invalid choices: {', '.join(invalid)}. Valid options: {', '.join(VALID_CHOICES)}"
+            )
+        return items
+
+    def boolean_or_source_list(value):
+        """Parse input as boolean or a list of valid choices."""
+        true_values = {"true", "yes", "1"}
+        false_values = {"false", "no", "0"}
+        if value.lower() in true_values:
+            return True
+        elif value.lower() in false_values:
+            return False
+        return source_list(value)
+
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument(
@@ -799,7 +833,19 @@ def _parse_args() -> _argparse.Namespace:
     parser.add_argument("--exclude-installed", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--pip-in-conda", action=_argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--conda-env-name", type=str, default=None)
-    parser.add_argument("--install", action=_argparse.BooleanOptionalAction, default=True)
+    parser.add_argument(
+        "--install",
+        type=boolean_or_source_list,
+        default=True,
+        help="Boolean (true/false) or a list of package managers (comma-separated): conda, pip, apt, brew, choco, winget, bash, pwsh"
+    )
+    parser.add_argument(
+        "--exclude-install",
+        nargs="*",
+        choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"],
+        default=None,
+        help="List of package managers to exclude from installation: conda, pip, apt, brew, choco, winget, bash, pwsh"
+    )
     parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--overwrite", action=_argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--filename-conda", type=str, default="environment.yml")
