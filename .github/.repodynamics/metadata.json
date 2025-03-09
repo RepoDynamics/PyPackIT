@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(47%) sepia(61%) saturate(3991%) hue-rotate(78deg) brightness(100%) contrast(101%)",
-                  "light": "invert(15%) sepia(88%) saturate(2195%) hue-rotate(100deg) brightness(101%) contrast(101%)"
+                  "dark": "invert(35%) sepia(93%) saturate(1528%) hue-rotate(78deg) brightness(104%) contrast(104%)",
+                  "light": "invert(15%) sepia(35%) saturate(6690%) hue-rotate(114deg) brightness(97%) contrast(103%)"
                }
             }
          },
@@ -6897,7 +6897,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -7046,7 +7046,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-01-21",
+         "date-released": "2025-03-09",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -10413,7 +10413,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-01-21"
+                              "message": "2025-03-09"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -20997,7 +20997,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-01-21"
+                                    "message": "2025-03-09"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -24117,7 +24117,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-01-21"
+                                    "message": "2025-03-09"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -26073,7 +26073,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-01-21"
+                                 "message": "2025-03-09"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
@@ -26662,6 +26662,195 @@
             },
             "name": "Release",
             "task_name": "Zenodo Sandbox"
+         }
+      },
+      "refactor": {
+         "pre_commit_config": {
+            "default_language_version": {
+               "python": "python3"
+            },
+            "minimum_pre_commit_version": "4.0.0",
+            "repos": [
+               {
+                  "hooks": [
+                     {
+                        "id": "check-ast",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-case-conflict",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-json",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-shebang-scripts-are-executable",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-symlinks",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-toml",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "check-xml",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "destroyed-symlinks",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "end-of-file-fixer",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "id": "fix-byte-order-marker",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "args": [
+                           "--fix",
+                           "auto"
+                        ],
+                        "id": "mixed-line-ending",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "args": [
+                           "--branch",
+                           "main",
+                           "--pattern",
+                           "release/v.*",
+                           "--pattern",
+                           "prerelease/v.*"
+                        ],
+                        "id": "no-commit-to-branch",
+                        "stages": [
+                           "pre-commit"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "args": [
+                           "--autofix",
+                           "--indent",
+                           "3"
+                        ],
+                        "id": "pretty-format-json",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "args": [
+                           "--markdown-linebreak-ext=md"
+                        ],
+                        "id": "trailing-whitespace",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "verbose": true
+                     }
+                  ],
+                  "repo": "https://github.com/pre-commit/pre-commit-hooks",
+                  "rev": "v5.0.0"
+               },
+               {
+                  "hooks": [
+                     {
+                        "args": [
+                           "--verbose",
+                           "--config",
+                           ".devcontainer/config/ruff.toml",
+                           "--exit-non-zero-on-fix"
+                        ],
+                        "id": "ruff",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "types_or": [
+                           "python",
+                           "pyi",
+                           "jupyter"
+                        ],
+                        "verbose": true
+                     },
+                     {
+                        "args": [
+                           "--config",
+                           ".devcontainer/config/ruff.toml"
+                        ],
+                        "id": "ruff-format",
+                        "stages": [
+                           "pre-commit",
+                           "manual"
+                        ],
+                        "types_or": [
+                           "python",
+                           "pyi",
+                           "jupyter"
+                        ],
+                        "verbose": true
+                     }
+                  ],
+                  "repo": "https://github.com/astral-sh/ruff-pre-commit",
+                  "rev": "v0.9.9"
+               }
+            ]
          }
       },
       "schedule": {
