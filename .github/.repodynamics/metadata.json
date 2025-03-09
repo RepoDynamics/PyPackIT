@@ -5114,7 +5114,6 @@
                      "version": "==0.11.12"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/ablog",
                      "docs": "https://ablog.readthedocs.io/",
                      "package": "https://anaconda.org/conda-forge/ablog",
                      "source": "https://github.com/sunpy/ablog"
@@ -5233,7 +5232,6 @@
                      "version": "==1.2.0"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/myst-nb",
                      "docs": "https://myst-parser.readthedocs.io/",
                      "package": "https://anaconda.org/conda-forge/myst-nb",
                      "source": "https://github.com/executablebooks/MyST-Parser"
@@ -5245,9 +5243,9 @@
                   "notes": "This is added as a dependency and not an extension\nbecause the MyST-NB extension (a superset of MyST-Parser) is used as an extension,\nwhich already includes MyST-Parser.\nHowever, here we specifically include MyST-Parser to ensure the correct version is installed.\n",
                   "spec": {
                      "channel": "conda-forge",
-                     "full": "conda-forge::myst-parser ==4.0.0",
+                     "full": "conda-forge::myst-parser ==4.0.1",
                      "name": "myst-parser",
-                     "version": "==4.0.0"
+                     "version": "==4.0.1"
                   },
                   "url": {
                      "docs": "https://myst-parser.readthedocs.io/",
@@ -5363,7 +5361,6 @@
                      "version": "==0.16.1"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/pydata-sphinx-theme",
                      "docs": "https://pydata-sphinx-theme.readthedocs.io/",
                      "package": "https://anaconda.org/conda-forge/pydata-sphinx-theme",
                      "source": "https://github.com/pydata/pydata-sphinx-theme"
@@ -5482,7 +5479,6 @@
                      "version": "==8.1.3"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/sphinx",
                      "docs": "https://www.sphinx-doc.org/",
                      "package": "https://anaconda.org/conda-forge/sphinx",
                      "source": "https://github.com/sphinx-doc/sphinx"
@@ -5505,7 +5501,6 @@
                      "version": "==0.5.2"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/sphinx-copybutton",
                      "docs": "https://sphinx-copybutton.readthedocs.io/",
                      "package": "https://anaconda.org/conda-forge/sphinx-copybutton",
                      "source": "https://github.com/executablebooks/sphinx-copybutton"
@@ -5529,7 +5524,6 @@
                      "version": "==0.6.1"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/sphinx-design",
                      "docs": "https://sphinx-design.readthedocs.io/",
                      "package": "https://anaconda.org/conda-forge/sphinx-design",
                      "source": "https://github.com/executablebooks/sphinx-design"
@@ -5557,7 +5551,6 @@
                      "version": "==1.0.1"
                   },
                   "url": {
-                     "conda": "https://anaconda.org/conda-forge/sphinx-external-toc",
                      "docs": "https://sphinx-external-toc.readthedocs.io",
                      "package": "https://anaconda.org/conda-forge/sphinx-external-toc",
                      "source": "https://github.com/executablebooks/sphinx-external-toc"
@@ -5774,7 +5767,6 @@
                "sphinx-autobuild": {
                   "description": "Automatically rebuilding the documentation when changes are made.",
                   "name": "sphinx-autobuild",
-                  "notes": "This is added to the `Makefile` of Sphinx under the `livehtml` target,\nmeaning that you can run `make livehtml` in the website directory\nto start the autobuild server.\n",
                   "spec": {
                      "full": "sphinx-autobuild ==2024.10.03",
                      "name": "sphinx-autobuild",
@@ -5818,14 +5810,13 @@
                   "description": "Handling relative links in the custom 404 page.",
                   "name": "sphinx-notfound-page",
                   "spec": {
-                     "full": "sphinx-notfound-page ==1.0.4",
+                     "full": "sphinx-notfound-page ==1.1.0",
                      "name": "sphinx-notfound-page",
-                     "version": "==1.0.4"
+                     "version": "==1.1.0"
                   },
                   "url": {
                      "docs": "https://sphinx-notfound-page.readthedocs.io/",
-                     "package": "https://pypi.org/project/sphinx-notfound-page",
-                     "pip": "https://pypi.org/project/sphinx-notfound-page/",
+                     "package": "https://pypi.org/project/sphinx-notfound-page/",
                      "source": "https://github.com/readthedocs/sphinx-notfound-page"
                   }
                },
@@ -6967,7 +6958,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - conda-forge::coverage ==7.6.1\n  - conda-forge::pytest ==8.3.3\n  - conda-forge::pytest-cov ==5.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - pip\n  - python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
@@ -10651,7 +10642,7 @@
                                        "message": "any"
                                     },
                                     "color": "#00802B",
-                                    "label": "PkgData"
+                                    "label": "pkgdata"
                                  }
                               ],
                               "label_color": "#494949",
@@ -20590,8 +20581,7 @@
       },
       "dependency": {
          "build": {
-            "builder": {
-               "import_name": "setuptools",
+            "setuptools": {
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -20607,10 +20597,9 @@
                      "version": ">=72.1.0"
                   }
                },
-               "name": "Setuptools"
+               "name": "setuptools"
             },
-            "versioning": {
-               "import_name": "versioningit",
+            "versioningit": {
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -20630,9 +20619,8 @@
             }
          },
          "core": {
-            "pkg_resources": {
+            "pkgdata": {
                "description": "Handling package resources, such as accessing data files that are\ndistributed with the package.\n",
-               "import_name": "pkgdata",
                "install": {
                   "conda": {
                      "channel": "repodynamics",
@@ -20647,7 +20635,7 @@
                      "spec": "pkgdata"
                   }
                },
-               "name": "PkgData",
+               "name": "pkgdata",
                "url": {
                   "docs": "https://pkgdata.repodynamics.com/",
                   "source": "https://github.com/repodynamics/pkgdata"
@@ -21238,7 +21226,7 @@
                                              "message": "any"
                                           },
                                           "color": "#00802B",
-                                          "label": "PkgData"
+                                          "label": "pkgdata"
                                        }
                                     ],
                                     "label_color": "#494949",
@@ -22523,16 +22511,16 @@
                                  "value": "python >=3.10"
                               },
                               {
-                                 "value": "conda-forge::pytest ==8.3.3"
+                                 "value": "conda-forge::pytest ==8.3.5"
                               },
                               {
-                                 "value": "conda-forge::pytest-cov ==5.0.0"
+                                 "value": "conda-forge::pytest-cov ==6.0.0"
                               },
                               {
                                  "value": "conda-forge::pytest-html ==4.1.1"
                               },
                               {
-                                 "value": "conda-forge::coverage ==7.6.1"
+                                 "value": "conda-forge::coverage ==7.6.12"
                               },
                               {
                                  "value": "repodynamics::pkgdata "
@@ -22585,8 +22573,7 @@
       },
       "dependency": {
          "build": {
-            "builder": {
-               "import_name": "setuptools",
+            "setuptools": {
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -22602,10 +22589,9 @@
                      "version": ">=72.1.0"
                   }
                },
-               "name": "Setuptools"
+               "name": "setuptools"
             },
-            "versioning": {
-               "import_name": "versioningit",
+            "versioningit": {
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -22627,32 +22613,30 @@
          "core": {
             "coverage": {
                "description": "Code coverage measurement for Python.",
-               "import_name": "coverage",
                "install": {
                   "conda": {
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/coverage",
                      "name": "coverage",
-                     "spec": "conda-forge::coverage ==7.6.1",
-                     "version": "==7.6.1"
+                     "spec": "conda-forge::coverage ==7.6.12",
+                     "version": "==7.6.12"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/coverage/",
                      "name": "coverage",
-                     "spec": "coverage ==7.6.1",
-                     "version": "==7.6.1"
+                     "spec": "coverage ==7.6.12",
+                     "version": "==7.6.12"
                   }
                },
-               "name": "Coverage",
+               "name": "coverage",
                "notes": "This is indirectly used by the `pytest-cov` plugin.\nHowever, we include it explicitly here to pin the version for reproducibility.\n",
                "url": {
                   "docs": "https://coverage.readthedocs.io/",
                   "source": "https://github.com/nedbat/coveragepy"
                }
             },
-            "pkg_resources": {
+            "pkgdata": {
                "description": "Handling package resources, such as accessing data files that are\ndistributed with the package.\n",
-               "import_name": "pkgdata",
                "install": {
                   "conda": {
                      "channel": "repodynamics",
@@ -22667,40 +22651,61 @@
                      "spec": "pkgdata"
                   }
                },
-               "name": "PkgData",
+               "name": "pkgdata",
                "url": {
                   "docs": "https://pkgdata.repodynamics.com/",
                   "source": "https://github.com/repodynamics/pkgdata"
                }
             },
-            "plugin_cov": {
+            "pytest": {
+               "description": "Testing framework for Python.",
+               "install": {
+                  "conda": {
+                     "channel": "conda-forge",
+                     "homepage": "https://anaconda.org/conda-forge/pytest",
+                     "name": "pytest",
+                     "spec": "conda-forge::pytest ==8.3.5",
+                     "version": "==8.3.5"
+                  },
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pytest/",
+                     "name": "pytest",
+                     "spec": "pytest ==8.3.5",
+                     "version": "==8.3.5"
+                  }
+               },
+               "name": "pytest",
+               "url": {
+                  "docs": "https://docs.pytest.org/en/stable/",
+                  "source": "https://github.com/pytest-dev/pytest"
+               }
+            },
+            "pytest-cov": {
                "description": "Pytest plugin for measuring test coverage.",
-               "import_name": "pytest_cov",
                "install": {
                   "conda": {
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/pytest-cov",
                      "name": "pytest-cov",
-                     "spec": "conda-forge::pytest-cov ==5.0.0",
-                     "version": "==5.0.0"
+                     "spec": "conda-forge::pytest-cov ==6.0.0",
+                     "version": "==6.0.0"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/pytest-cov/",
                      "name": "pytest-cov",
-                     "spec": "pytest-cov ==5.0.0",
-                     "version": "==5.0.0"
+                     "spec": "pytest-cov ==6.0.0",
+                     "version": "==6.0.0"
                   }
                },
-               "name": "Pytest-Cov",
+               "name": "pytest-cov",
                "notes": "This plugin uses the [coverage.py](https://github.com/nedbat/coveragepy) package\nto measure code coverage.\n",
                "url": {
                   "docs": "https://pytest-cov.readthedocs.io/",
                   "source": "https://github.com/pytest-dev/pytest-cov"
                }
             },
-            "plugin_html": {
+            "pytest-html": {
                "description": "Pytest plugin for generating HTML reports.",
-               "import_name": "pytest_html",
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -22716,34 +22721,10 @@
                      "version": "==4.1.1"
                   }
                },
-               "name": "Pytest-HTML",
+               "name": "pytest-html",
                "url": {
                   "docs": "https://pytest-html.readthedocs.io/",
                   "source": "https://github.com/pytest-dev/pytest-html"
-               }
-            },
-            "testing": {
-               "description": "Testing framework for Python.",
-               "import_name": "pytest",
-               "install": {
-                  "conda": {
-                     "channel": "conda-forge",
-                     "homepage": "https://anaconda.org/conda-forge/pytest",
-                     "name": "pytest",
-                     "spec": "conda-forge::pytest ==8.3.3",
-                     "version": "==8.3.3"
-                  },
-                  "pip": {
-                     "homepage": "https://pypi.org/project/pytest/",
-                     "name": "pytest",
-                     "spec": "pytest ==8.3.3",
-                     "version": "==8.3.3"
-                  }
-               },
-               "name": "Pytest",
-               "url": {
-                  "docs": "https://docs.pytest.org/en/stable/",
-                  "source": "https://github.com/pytest-dev/pytest"
                }
             }
          }
@@ -23478,7 +23459,7 @@
                                              "message": "any"
                                           },
                                           "color": "#00802B",
-                                          "label": "PkgData"
+                                          "label": "pkgdata"
                                        }
                                     ],
                                     "label_color": "#494949",
@@ -24523,10 +24504,10 @@
                "Typing :: Typed"
             ],
             "dependencies": [
-               "pytest ==8.3.3",
-               "pytest-cov ==5.0.0",
+               "pytest ==8.3.5",
+               "pytest-cov ==6.0.0",
                "pytest-html ==4.1.1",
-               "coverage ==7.6.1",
+               "coverage ==7.6.12",
                "pkgdata"
             ],
             "description": "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub",
@@ -25428,7 +25409,7 @@
                                           "message": "any"
                                        },
                                        "color": "#00802B",
-                                       "label": "PkgData"
+                                       "label": "pkgdata"
                                     }
                                  ],
                                  "label_color": "#494949",
