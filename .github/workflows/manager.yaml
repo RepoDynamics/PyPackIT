@@ -1,51 +1,6 @@
 name: '[Reusable]: Project Manager'
 on:
   workflow_call:
-#    inputs:
-#      meta-sync:
-#        type: string
-#        default: report
-#        required: false
-#        description: |
-#          The action to take when the dynamic files are out of sync with the repository meta content.
-#          Selecting 'none' will disable this action.
-#      hooks:
-#        type: string
-#        default: report
-#        required: false
-#        description: |
-#          The action to take when running the workflow hooks.
-#          Selecting 'none' will disable this action.
-#      package-build:
-#        type: boolean
-#        required: false
-#        default: false
-#        description: |
-#          Build the package and upload the builds as artifacts.
-#      package-lint:
-#        type: boolean
-#        required: false
-#        default: false
-#        description: |
-#          Run the linting workflow.
-#      package-test:
-#        type: boolean
-#        required: false
-#        default: false
-#        description: |
-#          Run the test workflow on package.
-#      website-build:
-#        type: boolean
-#        required: false
-#        default: false
-#        description: |
-#          Build the documentation with Sphinx and upload the builds as artifacts.
-#      first-major-release:
-#        type: boolean
-#        required: false
-#        default: false
-#        description: |
-#          Release the current 0.X.Y version as the first major release.
     secrets:
       repo-admin-token:
         description: Token with admin permissions to the repository.
@@ -86,7 +41,7 @@ on:
         description: Configurations for release job.
 jobs:
   manager:
-    name: 'Manager'
+    name: Manager
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -116,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: manager
     steps:
-      - name: 'Status Check'
+      - name: Status Check
         run: |
           if [ "${{ needs.manager.outputs.fail }}" = "true" ]; then
             exit 1
