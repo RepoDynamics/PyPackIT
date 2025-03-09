@@ -115,6 +115,8 @@ pypkg_main:
         - graft ${{ pypkg_main.path.import_rel }}$/data
         - include ${{ pypkg_main.path.import_rel }}$/py.typed
         - global-exclude *.py[cod] __pycache__ *.so
+  test: >-
+    #{{ return hook.pypkg_test("test") }}#
 pypkg_test:
   path:
     root: test
