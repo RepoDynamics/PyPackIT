@@ -38,6 +38,7 @@ max-complexity = 15
 "template/test/src/**" = ["S101"]
 "template/test/src/new_pyproject_testsuite/__init__.py" = ["T20", "D104"]
 "template/test/src/new_pyproject_testsuite/__main__.py" = ["T20"]
+"template/.control/hooks/cca.py" = ["ARG002"]
 "test/src/**" = ["S101"]
 "test/src/pypackit_testsuite/__init__.py" = ["T20"]
 "test/src/pypackit_testsuite/__main__.py" = ["T20"]

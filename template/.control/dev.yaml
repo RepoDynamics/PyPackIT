@@ -512,16 +512,8 @@ devcontainer_main:
                   - T20
                 '${{ pypkg_test.path.import }}$/__init__.py':
                   - T20
-                template/pkg/src/new_pyproject/__main__.py:
-                  - T20
-                template/test/src/new_pyproject_testsuite/__main__.py:
-                  - T20
-                template/pkg/src/new_pyproject/__init__.py:
-                  - T20
-                  - D104
-                template/test/src/new_pyproject_testsuite/__init__.py:
-                  - T20
-                  - D104
+                '${{ control.path }}$/hooks/cca.py':
+                  - ARG002
               select:
                 # https://docs.astral.sh/ruff/rules
                 - F      # pyflakes

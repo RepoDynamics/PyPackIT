@@ -550,6 +550,8 @@ devcontainer_main:
                 template/test/src/new_pyproject_testsuite/__init__.py:
                   - T20
                   - D104
+                template/.control/hooks/cca.py:
+                  - ARG002
               select:
                 # https://docs.astral.sh/ruff/rules
                 - F      # pyflakes

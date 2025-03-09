@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path
+    from typing import Any
 
     from controlman.cache_manager import CacheManager
     from controlman.datatype import DynamicDir, DynamicFile
@@ -53,7 +54,7 @@ class Hooks:
         ccc_main: NestedDict,
         cache_manager: CacheManager,
         github_token: str | None = None,
-        **kwargs,
+        **kwargs: Any,
     ):
         self.repo_path = repo_path
         self.ccc = ccc
