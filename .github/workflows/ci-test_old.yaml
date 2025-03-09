@@ -21,42 +21,35 @@ jobs:
       matrix:
         task: ${{ fromJSON(inputs.config).tasks }}
     runs-on: ${{ matrix.task.runner }}
-    defaults:
-      run:
-        shell: bash -el {0}
     steps:
-      - name: uname
-        run: uname -a
       - name: Repository Checkout
+        if: (fromJSON(inputs.config).test-src != 'pypi') || (fromJSON(inputs.config).pkg-src != 'pypi')
         uses: actions/checkout@v4  # https://github.com/actions/checkout
         with:
           repository: ${{ fromJSON(inputs.config).repository }}
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-tags: true
-          path: repo/
-      - name: Binary Distribution Download
-        uses: actions/download-artifact@v4
+          path: repo
+      - uses: RepoDynamics/PyTester@v1
         with:
-          name: ${{ matrix.config.artifact.wheel.merge.name }}
-          pattern: ${{ matrix.config.artifact.wheel.merge.pattern }}
-          path: dist/
-          merge-multiple: 'true'
-      - name: Miniconda Setup
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          miniforge-version: latest
-          auto-update-conda: true
-          environment-file: ${{ matrix.task.conda-env-file }}
-      - name: Environment Installation
-        run: |
-          cd repo
-          ${{ matrix.task.install-env-script }}
-      - name: Package Installation
-        run: |
-          cd dist
-          ${{ matrix.task.install-pkg-script }}
-      - name: Test
-        run: ${{ matrix.task.test-script }}
+          python-version: ${{ matrix.task.python }}
+          test-src: ${{ fromJSON(inputs.config).test-src }}
+          test-path: ${{ fromJSON(inputs.config).test-path }}
+          test-name: ${{ fromJSON(inputs.config).test-name }}
+          test-version: ${{ fromJSON(inputs.config).test-version }}
+          test-req-path: ${{ fromJSON(inputs.config).test-req-path }}
+          pkg-src: ${{ fromJSON(inputs.config).pkg-src }}
+          pkg-path: ${{ fromJSON(inputs.config).pkg-path }}
+          pkg-name: ${{ fromJSON(inputs.config).pkg-name }}
+          pkg-version: ${{ fromJSON(inputs.config).pkg-version }}
+          pkg-req-path: ${{ fromJSON(inputs.config).pkg-req-path }}
+          retries: ${{ fromJSON(inputs.config).retries }}
+          retry-sleep-seconds: ${{ fromJSON(inputs.config).retry-sleep-seconds }}
+          pyargs: ${{ fromJSON(inputs.config).pyargs }}
+          args: ${{ fromJSON(inputs.config).args }}
+          overrides: ${{ fromJSON(inputs.config).overrides }}
+      - name: uname
+        run: uname -a
       - name: Report Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
