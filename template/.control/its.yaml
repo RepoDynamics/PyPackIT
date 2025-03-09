@@ -2,10 +2,10 @@ commit:
   __data__:
     h1_pkg:
       title: Package
-      description: Changes in the ${{ pkg.name }}$ Python package.
+      description: Changes in the ${{ pypkg_main.name }}$ Python package.
     h1_test:
       title: Test Suite
-      description: Changes in the ${{ test.name }}$ Python package, i.e., ${{ pkg.name }}$'s test-suite.
+      description: Changes in the ${{ pypkg_test.name }}$ Python package, i.e., ${{ pypkg_main.name }}$'s test-suite.
     h1_docs:
       title: Documentation
       description: Changes in the project documentation materials and website.
@@ -68,10 +68,10 @@ commit:
       description: Related to the entire project.
     h2_pkg:
       title: Package
-      description: Related to the ${{ pkg.name }}$ Python package.
+      description: Related to the ${{ pypkg_main.name }}$ Python package.
     h2_test:
       title: Test Suite
-      description: Related to the ${{ test.name }}$ Python package, i.e., ${{ pkg.name }}$'s test-suite.
+      description: Related to the ${{ pypkg_test.name }}$ Python package, i.e., ${{ pypkg_main.name }}$'s test-suite.
     h2_docs:
       title: Documentation
       description: Related to the project documentation materials and website.
@@ -136,145 +136,145 @@ commit:
       scope: pkg-api
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s API.
+        Fix bugs in ${{ pypkg_main.name }}$'s API.
     pkg_cli_fix:
       type: fix
       scope: pkg-cli
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s CLI.
+        Fix bugs in ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_fix:
       type: fix
       scope: pkg-gui
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s GUI.
+        Fix bugs in ${{ pypkg_main.name }}$'s GUI.
     pkg_build_fix:
       type: fix
       scope: pkg-build
       action: patch
       type_description: >-
-        Fix bugs in ${{ pkg.name }}$'s build system.
+        Fix bugs in ${{ pypkg_main.name }}$'s build system.
     pkg_api_feat:
       type: feat
       scope: pkg-api
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s API.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s API.
     pkg_cli_feat:
       type: feat
       scope: pkg-cli
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s CLI.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_feat:
       type: feat
       scope: pkg-gui
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s GUI.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s GUI.
     pkg_build_feat:
       type: feat
       scope: pkg-build
       action: minor
       type_description: >-
-        Add backward-compatible features to ${{ pkg.name }}$'s build system.
+        Add backward-compatible features to ${{ pypkg_main.name }}$'s build system.
     pkg_api_change:
       type: change
       scope: pkg-api
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s API.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s API.
     pkg_cli_change:
       type: change
       scope: pkg-cli
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s CLI.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s CLI.
     pkg_gui_change:
       type: change
       scope: pkg-gui
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s GUI.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s GUI.
     pkg_build_change:
       type: change
       scope: pkg-build
       action: major
       type_description: >-
-        Introduce backward-incompatible changes in ${{ pkg.name }}$'s build system.
+        Introduce backward-incompatible changes in ${{ pypkg_main.name }}$'s build system.
     test_api_fix:
       type: fix
       scope: test-api
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s API.
+        Fix bugs in ${{ pypkg_test.name }}$'s API.
     test_cli_fix:
       type: fix
       scope: test-cli
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s CLI.
+        Fix bugs in ${{ pypkg_test.name }}$'s CLI.
     test_gui_fix:
       type: fix
       scope: test-gui
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s GUI.
+        Fix bugs in ${{ pypkg_test.name }}$'s GUI.
     test_build_fix:
       type: fix
       scope: test-build
       action: post
       type_description: >-
-        Fix bugs in ${{ test.name }}$'s build system.
+        Fix bugs in ${{ pypkg_test.name }}$'s build system.
     test_api_feat:
       type: feat
       scope: test-api
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s API.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s API.
     test_cli_feat:
       type: feat
       scope: test-cli
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s CLI.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s CLI.
     test_gui_feat:
       type: feat
       scope: test-gui
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s GUI.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s GUI.
     test_build_feat:
       type: feat
       scope: test-build
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ test.name }}$'s build system.
+        Add backward-compatible features to ${{ pypkg_test.name }}$'s build system.
     test_api_change:
       type: change
       scope: test-api
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s API.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s API.
     test_cli_change:
       type: change
       scope: test-cli
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s CLI.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s CLI.
     test_gui_change:
       type: change
       scope: test-gui
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s GUI.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s GUI.
     test_build_change:
       type: change
       scope: test-build
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ test.name }}$'s build system.
+        Introduce backward-incompatible changes in ${{ pypkg_test.name }}$'s build system.
     docs_fix:
       type: fix
       scope: docs
@@ -315,56 +315,56 @@ commit:
     pkg-api-remove:
       type: remove
       scope: pkg-api
-      type_description: Remove a feature from ${{ pkg.name }}$'s API.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-api-change:
       type: change
       scope: pkg-api
-      type_description: Change a feature in ${{ pkg.name }}$'s API.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-api-deprecate:
       type: deprecate
       scope: pkg-api
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s API.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-api-feat:
       type: feat
       scope: pkg-api
-      type_description: Add a feature to ${{ pkg.name }}$'s API.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-api-enhance:
       type: enhance
       scope: pkg-api
-      type_description: Enhance a feature in ${{ pkg.name }}$'s API.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-api-secure:
       type: secure
       scope: pkg-api
-      type_description: Fix a security issue in ${{ pkg.name }}$'s API.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-api-fix:
       type: fix
       scope: pkg-api
-      type_description: Fix a bug in ${{ pkg.name }}$'s API.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-api-perf:
       type: perf
       scope: pkg-api
-      type_description: Improve performance in ${{ pkg.name }}$'s API.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s API.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -372,56 +372,56 @@ commit:
     pkg-cli-remove:
       type: remove
       scope: pkg-cli
-      type_description: Remove a feature from ${{ pkg.name }}$'s CLI.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-cli-change:
       type: change
       scope: pkg-cli
-      type_description: Change a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-cli-deprecate:
       type: deprecate
       scope: pkg-cli
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-cli-feat:
       type: feat
       scope: pkg-cli
-      type_description: Add a feature to ${{ pkg.name }}$'s CLI.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-cli-enhance:
       type: enhance
       scope: pkg-cli
-      type_description: Enhance a feature in ${{ pkg.name }}$'s CLI.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-cli-secure:
       type: secure
       scope: pkg-cli
-      type_description: Fix a security issue in ${{ pkg.name }}$'s CLI.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-cli-fix:
       type: fix
       scope: pkg-cli
-      type_description: Fix a bug in ${{ pkg.name }}$'s CLI.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-cli-perf:
       type: perf
       scope: pkg-cli
-      type_description: Improve performance in ${{ pkg.name }}$'s CLI.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s CLI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -429,56 +429,56 @@ commit:
     pkg-gui-remove:
       type: remove
       scope: pkg-gui
-      type_description: Remove a feature from ${{ pkg.name }}$'s GUI.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-gui-change:
       type: change
       scope: pkg-gui
-      type_description: Change a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-gui-deprecate:
       type: deprecate
       scope: pkg-gui
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-gui-feat:
       type: feat
       scope: pkg-gui
-      type_description: Add a feature to ${{ pkg.name }}$'s GUI.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-gui-enhance:
       type: enhance
       scope: pkg-gui
-      type_description: Enhance a feature in ${{ pkg.name }}$'s GUI.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-gui-secure:
       type: secure
       scope: pkg-gui
-      type_description: Fix a security issue in ${{ pkg.name }}$'s GUI.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-gui-fix:
       type: fix
       scope: pkg-gui
-      type_description: Fix a bug in ${{ pkg.name }}$'s GUI.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-gui-perf:
       type: perf
       scope: pkg-gui
-      type_description: Improve performance in ${{ pkg.name }}$'s GUI.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s GUI.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -486,56 +486,56 @@ commit:
     pkg-build-remove:
       type: remove
       scope: pkg-build
-      type_description: Remove a feature from ${{ pkg.name }}$'s build.
+      type_description: Remove a feature from ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_remove }}$
     pkg-build-change:
       type: change
       scope: pkg-build
-      type_description: Change a feature in ${{ pkg.name }}$'s build.
+      type_description: Change a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_change }}$
     pkg-build-deprecate:
       type: deprecate
       scope: pkg-build
-      type_description: Deprecate a feature in ${{ pkg.name }}$'s build.
+      type_description: Deprecate a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     pkg-build-feat:
       type: feat
       scope: pkg-build
-      type_description: Add a feature to ${{ pkg.name }}$'s build.
+      type_description: Add a feature to ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_feat }}$
     pkg-build-enhance:
       type: enhance
       scope: pkg-build
-      type_description: Enhance a feature in ${{ pkg.name }}$'s build.
+      type_description: Enhance a feature in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_enhance }}$
     pkg-build-secure:
       type: secure
       scope: pkg-build
-      type_description: Fix a security issue in ${{ pkg.name }}$'s build.
+      type_description: Fix a security issue in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_secure }}$
     pkg-build-fix:
       type: fix
       scope: pkg-build
-      type_description: Fix a bug in ${{ pkg.name }}$'s build.
+      type_description: Fix a bug in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_fix }}$
     pkg-build-perf:
       type: perf
       scope: pkg-build
-      type_description: Improve performance in ${{ pkg.name }}$'s build.
+      type_description: Improve performance in ${{ pypkg_main.name }}$'s build.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -543,14 +543,14 @@ commit:
     pkg-code-refactor:
       type: refactor
       scope: pkg
-      type_description: Refactor code in ${{ pkg.name }}$.
+      type_description: Refactor code in ${{ pypkg_main.name }}$.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_refactor }}$
     pkg-code-style:
       type: style
       scope: pkg
-      type_description: Change text style and formatting in ${{ pkg.name }}$.
+      type_description: Change text style and formatting in ${{ pypkg_main.name }}$.
       h1: ${{ ...__data__.h1_pkg }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_style }}$
@@ -558,56 +558,56 @@ commit:
     test-api-remove:
       type: remove
       scope: test-api
-      type_description: Remove a feature from ${{ test.name }}$'s API.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-api-change:
       type: change
       scope: test-api
-      type_description: Change a feature in ${{ test.name }}$'s API.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_change }}$
     test-api-deprecate:
       type: deprecate
       scope: test-api
-      type_description: Deprecate a feature in ${{ test.name }}$'s API.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-api-feat:
       type: feat
       scope: test-api
-      type_description: Add a feature to ${{ test.name }}$'s API.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-api-enhance:
       type: enhance
       scope: test-api
-      type_description: Enhance a feature in ${{ test.name }}$'s API.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-api-secure:
       type: secure
       scope: test-api
-      type_description: Fix a security issue in ${{ test.name }}$'s API.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-api-fix:
       type: fix
       scope: test-api
-      type_description: Fix a bug in ${{ test.name }}$'s API.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-api-perf:
       type: perf
       scope: test-api
-      type_description: Improve performance in ${{ test.name }}$'s API.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s API.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_api }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -615,56 +615,56 @@ commit:
     test-cli-remove:
       type: remove
       scope: test-cli
-      type_description: Remove a feature from ${{ test.name }}$'s CLI.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-cli-change:
       type: change
       scope: test-cli
-      type_description: Change a feature in ${{ test.name }}$'s CLI.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_change }}$
     test-cli-deprecate:
       type: deprecate
       scope: test-cli
-      type_description: Deprecate a feature in ${{ test.name }}$'s CLI.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-cli-feat:
       type: feat
       scope: test-cli
-      type_description: Add a feature to ${{ test.name }}$'s CLI.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-cli-enhance:
       type: enhance
       scope: test-cli
-      type_description: Enhance a feature in ${{ test.name }}$'s CLI.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-cli-secure:
       type: secure
       scope: test-cli
-      type_description: Fix a security issue in ${{ test.name }}$'s CLI.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-cli-fix:
       type: fix
       scope: test-cli
-      type_description: Fix a bug in ${{ test.name }}$'s CLI.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-cli-perf:
       type: perf
       scope: test-cli
-      type_description: Improve performance in ${{ test.name }}$'s CLI.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s CLI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_cli }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -672,56 +672,56 @@ commit:
     test-gui-remove:
       type: remove
       scope: test-gui
-      type_description: Remove a feature from ${{ test.name }}$'s GUI.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-gui-change:
       type: change
       scope: test-gui
-      type_description: Change a feature in ${{ test.name }}$'s GUI.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_change }}$
     test-gui-deprecate:
       type: deprecate
       scope: test-gui
-      type_description: Deprecate a feature in ${{ test.name }}$'s GUI.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-gui-feat:
       type: feat
       scope: test-gui
-      type_description: Add a feature to ${{ test.name }}$'s GUI.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-gui-enhance:
       type: enhance
       scope: test-gui
-      type_description: Enhance a feature in ${{ test.name }}$'s GUI.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-gui-secure:
       type: secure
       scope: test-gui
-      type_description: Fix a security issue in ${{ test.name }}$'s GUI.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-gui-fix:
       type: fix
       scope: test-gui
-      type_description: Fix a bug in ${{ test.name }}$'s GUI.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-gui-perf:
       type: perf
       scope: test-gui
-      type_description: Improve performance in ${{ test.name }}$'s GUI.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s GUI.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_gui }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -729,56 +729,56 @@ commit:
     test-build-remove:
       type: remove
       scope: test-build
-      type_description: Remove a feature from ${{ test.name }}$'s build.
+      type_description: Remove a feature from ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_remove }}$
     test-build-change:
       type: change
       scope: test-build
-      type_description: Change a feature in ${{ test.name }}$'s build.
+      type_description: Change a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_change }}$
     test-build-deprecate:
       type: deprecate
       scope: test-build
-      type_description: Deprecate a feature in ${{ test.name }}$'s build.
+      type_description: Deprecate a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_deprecate }}$
     test-build-feat:
       type: feat
       scope: test-build
-      type_description: Add a feature to ${{ test.name }}$'s build.
+      type_description: Add a feature to ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_feat }}$
     test-build-enhance:
       type: enhance
       scope: test-build
-      type_description: Enhance a feature in ${{ test.name }}$'s build.
+      type_description: Enhance a feature in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_enhance }}$
     test-build-secure:
       type: secure
       scope: test-build
-      type_description: Fix a security issue in ${{ test.name }}$'s build.
+      type_description: Fix a security issue in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_secure }}$
     test-build-fix:
       type: fix
       scope: test-build
-      type_description: Fix a bug in ${{ test.name }}$'s build.
+      type_description: Fix a bug in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_fix }}$
     test-build-perf:
       type: perf
       scope: test-build
-      type_description: Improve performance in ${{ test.name }}$'s build.
+      type_description: Improve performance in ${{ pypkg_test.name }}$'s build.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_build }}$
       h3: ${{ ...__data__.h3_perf }}$
@@ -786,14 +786,14 @@ commit:
     test-code-refactor:
       type: refactor
       scope: test
-      type_description: Refactor code in ${{ test.name }}$.
+      type_description: Refactor code in ${{ pypkg_test.name }}$.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_refactor }}$
     test-code-style:
       type: style
       scope: test
-      type_description: Change text style and formatting in ${{ test.name }}$.
+      type_description: Change text style and formatting in ${{ pypkg_test.name }}$.
       h1: ${{ ...__data__.h1_test }}$
       h2: ${{ ...__data__.h2_code }}$
       h3: ${{ ...__data__.h3_style }}$
@@ -1234,57 +1234,57 @@ label:
     color: '#A00000'
     label:
       fix:
-        suffix: ${{ __data__.icon.fix }}$ bug fix
+        suffix: ${{ data_icon.fix }}$ bug fix
         description: Fix a bug in a project component.
       feat:
-        suffix: ${{ __data__.icon.feat }}$ new feature
+        suffix: ${{ data_icon.feat }}$ new feature
         description: Add a new feature to a project component.
       change:
-        suffix: ${{ __data__.icon.change }}$ breaking change
+        suffix: ${{ data_icon.change }}$ breaking change
         description: Introduce a breaking change in a project component.
       refactor:
-        suffix: ${{ __data__.icon.refactor }}$ refactoring
+        suffix: ${{ data_icon.refactor }}$ refactoring
         description: Refactor code without affecting project interfaces.
       config:
-        suffix: ${{ __data__.icon.config }}$ configuration
+        suffix: ${{ data_icon.config }}$ configuration
         description: Change project configurations and metadata.
       ci:
-        suffix: ${{ __data__.icon.ci }}$ DevOps
+        suffix: ${{ data_icon.ci }}$ DevOps
         description: Change automated workflows and development environments.
       chore:
-        suffix: ${{ __data__.icon.chore }}$ maintenance
+        suffix: ${{ data_icon.chore }}$ maintenance
         description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
     prefix: Scope
     color: '#A00000'
     label:
       pkg:
-        suffix: ${{ __data__.icon.pkg }}$ app
-        description: Related to ${{ pkg.name }}$ package.
+        suffix: ${{ data_icon.pkg }}$ app
+        description: Related to ${{ pypkg_main.name }}$ package.
       test:
-        suffix: ${{ __data__.icon.test }}$ tests
-        description: Related to ${{ test.name }}$ package.
+        suffix: ${{ data_icon.test }}$ tests
+        description: Related to ${{ pypkg_test.name }}$ package.
       docs:
-        suffix: ${{ __data__.icon.docs }}$ docs
+        suffix: ${{ data_icon.docs }}$ docs
         description: Related to ${{ name }}$ documentation and website.
       repo:
-        suffix: ${{ __data__.icon.repo }}$ repo
+        suffix: ${{ data_icon.repo }}$ repo
         description: Related to ${{ repo.name }}$ repository.
   component:
     prefix: Component
     color: '#0366d6'
     label:
       api:
-        suffix: ${{ __data__.icon.api }}$ API
+        suffix: ${{ data_icon.api }}$ API
         description: Related to the Python application programming interface.
       cli:
-        suffix: ${{ __data__.icon.cli }}$ CLI
+        suffix: ${{ data_icon.cli }}$ CLI
         description: Related to the command-line interface.
       gui:
-        suffix: ${{ __data__.icon.gui }}$ GUI
+        suffix: ${{ data_icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: ${{ __data__.icon.setup }}$ Build
+        suffix: ${{ data_icon.setup }}$ Build
         description: Related to the build and installation process.
   commit:
     prefix: Commit
@@ -1327,10 +1327,10 @@ issue:
   contact_links:
     - name: '🎓️  Learn More'
       about: Not sure where to start? Read our contribution guide to learn more.
-      url: ${{ web.page.contribute.url }}$
+      url: ${{ data_website.page.contribute.url }}$
     - name: '💬  Contact Us'
       about: Have another inquiry or need help? Contact us directly!
-      url: ${{ web.page.contact.url }}$
+      url: ${{ data_website.page.contact.url }}$
   __temp__:
     # Body Templates
     body_fix_api:
@@ -1655,16 +1655,16 @@ issue:
       - [ commit, '${{ ..commit }}$' ]
       - [ release, '#{{ return get(f"commit.release.{get("..commit")}").get("action", "local") }}#' ]
   __data__:
-    title_pkg: ' ${{ __data__.icon.pkg }}$ App'
-    title_doc: ' ${{ __data__.icon.docs }}$ Docs'
-    title_test: ' ${{ __data__.icon.test }}$ Tests'
-    title_api: ' ${{ __data__.icon.api }}$ API'
-    title_cli: ' ${{ __data__.icon.cli }}$ CLI'
-    title_gui: ' ${{ __data__.icon.gui }}$ GUI'
-    title_setup: ' ${{ __data__.icon.setup }}$ Setup'
-    title_bug: ' ${{ __data__.icon.fix }}$ Bug Report'
-    title_feat: ' ${{ __data__.icon.feat }}$ Feature Request'
-    title_breaking: ' ${{ __data__.icon.change }}$ Change Request'
+    title_pkg: ' ${{ data_icon.pkg }}$ App'
+    title_doc: ' ${{ data_icon.docs }}$ Docs'
+    title_test: ' ${{ data_icon.test }}$ Tests'
+    title_api: ' ${{ data_icon.api }}$ API'
+    title_cli: ' ${{ data_icon.cli }}$ CLI'
+    title_gui: ' ${{ data_icon.gui }}$ GUI'
+    title_setup: ' ${{ data_icon.setup }}$ Setup'
+    title_bug: ' ${{ data_icon.fix }}$ Bug Report'
+    title_feat: ' ${{ data_icon.feat }}$ Feature Request'
+    title_breaking: ' ${{ data_icon.change }}$ Change Request'
     heading_bug_report:
       type: markdown
       attributes:
@@ -1705,11 +1705,11 @@ issue:
           options:
             - label: >-
                 I confirm that I am following ${{ name }}$'s
-                [Contribution Guidelines](${{ web.page.contribute.url }}$).
+                [Contribution Guidelines](${{ data_website.page.contribute.url }}$).
               required: true
             - label: >-
                 I agree to follow ${{ name }}$'s
-                [Code of Conduct](${{ document.code_of_conduct.output.repo.url }}$).
+                [Code of Conduct](${{ file_coc.url }}$).
               required: true
       - type: markdown
         attributes:
@@ -1843,7 +1843,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}$">Bug Report Guidelines</a> to verify that:
+            <a href="${{ data_website.page.contribute.url }}$">Bug Report Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
@@ -1856,7 +1856,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}$">Feature Request Guidelines</a> to verify that:
+            <a href="${{ data_website.page.contribute.url }}$">Feature Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
@@ -1869,38 +1869,38 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ web.page.contribute.url }}$">Change Request Guidelines</a> to verify that:
+            <a href="${{ data_website.page.contribute.url }}$">Change Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
           - <p align="justify">The request is not implemented in the latest version of the release, and has not yet been filed.</p>
     custom_pkg_api:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
       python_api_names: ${{ project.python_api_names }}$
     custom_pkg_cli:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
       cli_names: ${{ project.cli_names }}$
     custom_pkg_gui:
-      pkg_name: ${{ pkg.name }}$
+      pkg_name: ${{ pypkg_main.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.gui_names }}$
     custom_test_api:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'API'
       pkg_entry_description: 'Python application programming interface'
       python_api_names: ${{ project.test_python_api_names }}$
     custom_test_cli:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'CLI'
       pkg_entry_description: 'command-line interface'
       cli_names: ${{ project.test_cli_names }}$
     custom_test_gui:
-      pkg_name: ${{ test.name }}$
+      pkg_name: ${{ pypkg_test.name }}$
       pkg_entry_name: 'GUI'
       pkg_entry_description: 'graphical user interface'
       gui_names: ${{ project.test_gui_names }}$
@@ -1917,12 +1917,12 @@ issue:
               service="static",
               label=label.prefix,
               args={"message": label.suffix if label.prefix else label.name},
-              style=ccc.__data__.badge.style,
+              style=ccc.data_badge.style,
               color=label.color,
-              label_color=ccc.__data__.badge.color.grey,
-              height=ccc.__data__.badge.height,
+              label_color=ccc.data_badge.color.grey,
+              height=ccc.data_badge.height,
             ).source()
-          }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+          }}{{ "&nbsp;" * ccc.data_badge.separator }}
           {%- endfor -%}
           {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
           {{
@@ -1930,20 +1930,20 @@ issue:
               service="static",
               label=labels["version"][0].prefix,
               args={"message": versions},
-              style=ccc.__data__.badge.style,
+              style=ccc.data_badge.style,
               color=labels["version"][0].color,
-              label_color=ccc.__data__.badge.color.grey,
-              height=ccc.__data__.badge.height,
+              label_color=ccc.data_badge.color.grey,
+              height=ccc.data_badge.height,
             ).source()
           }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1955,7 +1955,7 @@ issue:
                   args:
                     message: '{{ issue.state }}'
                   color: >-
-                    {{ ccc.__data__.badge.color.green if issue.state == "open" else ccc.__data__.badge.color.red }}
+                    {{ ccc.data_badge.color.green if issue.state == "open" else ccc.data_badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -1986,10 +1986,10 @@ issue:
         - heading: User Requirements Document (URD)
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2001,19 +2001,19 @@ issue:
                   args:
                     message: '{{ form.name }}'
                   title: '{{ form.description }}'
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
                 - service: github
                   endpoint: issue_details
                   label: Submitted
                   args:
                     property: age
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
                 - service: static
                   label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
-                  color: ${{ __data__.badge.color.blue }}$
+                  color: ${{ data_badge.color.blue }}$
             - |
               ### Summary
 
@@ -2023,24 +2023,24 @@ issue:
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint + "." + input.endpoint},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- elif input.entrypoint -%}
               {{
                 mdit.element.badge(
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif -%}
               {%- if input.url %}
               {{
@@ -2048,13 +2048,13 @@ issue:
                   service="static",
                   label="URL",
                   args={"message": input.url},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif %}
               {%- if input.jsonpath %}
               {{
@@ -2062,13 +2062,13 @@ issue:
                   service="static",
                   label="JSON Path",
                   args={"message": input.jsonpath},
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.blue,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.blue,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+              }}{{ "&nbsp;" * ccc.data_badge.separator }}
               {%- endif %}
 
               {{ input.summary }}
@@ -2109,10 +2109,10 @@ issue:
               {{
                 mdit.element.badges(
                   service="static",
-                  style=ccc.__data__.badge.style,
-                  color=ccc.__data__.badge.color.red,
-                  label_color=ccc.__data__.badge.color.grey,
-                  height=ccc.__data__.badge.height,
+                  style=ccc.data_badge.style,
+                  color=ccc.data_badge.color.red,
+                  label_color=ccc.data_badge.color.grey,
+                  height=ccc.data_badge.height,
                   items=[
                     {
                       "label": "⚙️ Operating Systems",
@@ -2121,12 +2121,12 @@ issue:
                     {
                       "label": "Python Versions",
                       "args": {"message": py_vers},
-                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
+                      "logo": ccc.data_website.path.source + "_media/logo_ext/python.svg",
                       "logo_type": "file",
                       "logo_media_type": "svg+xml",
                     },
                     {
-                      "label": ccc.__data__.icon.pkg + " Package Manager",
+                      "label": ccc.data_icon.pkg + " Package Manager",
                       "args": {"message": input.package_manager},
                     },
                   ]
@@ -2310,7 +2310,7 @@ issue:
       labels:
         - '*{{ issue.__temp__.labels }}*'
       name: ${{ issue.__data__.title_pkg }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
-      description: Report problems in downloading, installation, or initialization of ${{ pkg.name }}$.
+      description: Report problems in downloading, installation, or initialization of ${{ pypkg_main.name }}$.
       __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
@@ -2503,7 +2503,7 @@ issue:
       labels:
         - '*{{ issue.__temp__.labels }}*'
       name: ${{ issue.__data__.title_test }}$${{ issue.__data__.title_setup }}$${{ issue.__data__.title_bug }}$
-      description: Report problems in downloading, installation, or initialization of ${{ test.name }}$.
+      description: Report problems in downloading, installation, or initialization of ${{ pypkg_test.name }}$.
       __temp__:
         purpose: >-
           reporting a <b>non-security-related bug in ${{ name }}$'s setup process</b>,
@@ -2601,7 +2601,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.refactor }}$ Refactoring Request'
+      name: ' ${{ data_icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
       __temp__:
@@ -2617,7 +2617,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.config }}$ Configuration Request'
+      name: ' ${{ data_icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
       __temp__:
@@ -2632,7 +2632,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.ci }}$ DevOps Request'
+      name: ' ${{ data_icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
       __temp__:
@@ -2646,7 +2646,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ __data__.icon.chore }}$ Maintenance Request'
+      name: ' ${{ data_icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __temp__:
         purpose: >-
@@ -2664,11 +2664,11 @@ pull:
             args:
               message: '#{{ issue.number }}'
             link: '{{ issue.html_url }}'
-            style: ${{ __data__.badge.style }}$
-            height: ${{ __data__.badge.height }}$
-            label_color: ${{ __data__.badge.color.grey }}$
-            color: ${{ __data__.badge.color.blue }}$
-          - '{{ "&nbsp;" * ccc.__data__.badge.separator }}'
+            style: ${{ data_badge.style }}$
+            height: ${{ data_badge.height }}$
+            label_color: ${{ data_badge.color.grey }}$
+            color: ${{ data_badge.color.blue }}$
+          - '{{ "&nbsp;" * ccc.data_badge.separator }}'
           - |
             {%- for label in form.id_labels + form.labels -%}
             {{
@@ -2676,12 +2676,12 @@ pull:
                 service="static",
                 label=label.prefix,
                 args={"message": label.suffix if label.prefix else label.name},
-                style=ccc.__data__.badge.style,
+                style=ccc.data_badge.style,
                 color=label.color,
-                label_color=ccc.__data__.badge.color.grey,
-                height=ccc.__data__.badge.height,
+                label_color=ccc.data_badge.color.grey,
+                height=ccc.data_badge.height,
               ).source()
-            }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+            }}{{ "&nbsp;" * ccc.data_badge.separator }}
             {%- endfor -%}
             {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
             {{
@@ -2689,20 +2689,20 @@ pull:
                 service="static",
                 label=labels["version"][0].prefix,
                 args={"message": versions},
-                style=ccc.__data__.badge.style,
+                style=ccc.data_badge.style,
                 color=labels["version"][0].color,
-                label_color=ccc.__data__.badge.color.grey,
-                height=ccc.__data__.badge.height,
+                label_color=ccc.data_badge.color.grey,
+                height=ccc.data_badge.height,
               ).source()
             }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ __data__.badge.style }}$
-              height: ${{ __data__.badge.height }}$
-              label_color: ${{ __data__.badge.color.grey }}$
-              separator: ${{ __data__.badge.separator }}$
+              style: ${{ data_badge.style }}$
+              height: ${{ data_badge.height }}$
+              label_color: ${{ data_badge.color.grey }}$
+              separator: ${{ data_badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2714,7 +2714,7 @@ pull:
                   args:
                     message: '{{ pull_request.state }}'
                   color: >-
-                    {{ ccc.__data__.badge.color.green if pull_request.state == "open" else ccc.__data__.badge.color.red }}
+                    {{ ccc.data_badge.color.green if pull_request.state == "open" else ccc.data_badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2753,13 +2753,13 @@ pull:
                     service="static",
                     label="Website Preview",
                     args={"message": "Read The Docs"},
-                    style=ccc.__data__.badge.style,
-                    color=ccc.__data__.badge.color.blue,
-                    label_color=ccc.__data__.badge.color.grey,
-                    height=ccc.__data__.badge.height,
+                    style=ccc.data_badge.style,
+                    color=ccc.data_badge.color.blue,
+                    label_color=ccc.data_badge.color.grey,
+                    height=ccc.data_badge.height,
                     link=url,
                   ).source()
-                }}{{ "&nbsp;" * ccc.__data__.badge.separator }}
+                }}{{ "&nbsp;" * ccc.data_badge.separator }}
                 {%- endif -%}
               # ReadTheDocs website preview badge
               # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
@@ -2789,3 +2789,37 @@ pull:
       deployment:
         value: "\n\n**TBD**\n\n"
       timeline: ${{ issue.protocol.data.timeline }}$
+file_codeowners:
+  name: CODEOWNERS
+  summary: >-
+    [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file.
+  description: |
+    If present, a CODEOWNERS file is automatically maintained at the given [`path`](#ccc-code-owners-path),
+    using file ownership information defined for team members.
+    For each pull request, GitHub will then automatically add the owners of each
+    modified file in that pull request as reviewers.
+    Note that you can also assign issue-form-specific review tasks to each role
+    (cf. [`ccc.role.*.assignment.review`](#ccc-role---assignment-review)).
+
+    :::{admonition} Considerations
+    :class: important
+
+    - Code owners must have write permissions to the repository.
+    - For code owners to be automatically requested for reviews, protection rules for
+      [requiring pull request reviews](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-pull-request-reviews-before-merging)
+      must be enabled.
+    :::
+  path: .github/CODEOWNERS
+  path_schema:
+    description: |
+      The file must be named `CODEOWNERS` (case-sensitive, without extension)
+      and placed either in the `.github` directory, the `docs` directory,
+      or the root of the repository.
+    enum:
+      - CODEOWNERS
+      - .github/CODEOWNERS
+      - docs/CODEOWNERS
+    pattern: ^(?:|.github/|docs/)CODEOWNERS$
+  type: txt
+  content: >-
+    #{{ return hook.file_codeowners() }}#

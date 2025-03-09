@@ -56,31 +56,6 @@ branch:
 tag:
   version:
     prefix: ver/
-file:
-  duplicate:
-    license_texts:
-      sources: |
-        #{{
-          return [
-            component["path"]["text_plain"]
-            for component in get("license.component", {}).values()
-          ]
-        }}#
-      destinations:
-        - ${{ pkg.path.root }}$/${{ __data__.dir_name.licenses }}$
-        - ${{ test.path.root }}$/${{ __data__.dir_name.licenses }}$
-    copyright_texts:
-      sources: |
-        #{{
-          return [
-            component["path"]["header_plain"]
-            for component in get("license.component", {}).values()
-            if component["path"].get("header_plain")
-          ]
-        }}#
-      destinations:
-        - ${{ pkg.path.root }}$/${{ __data__.dir_name.copyrights }}$
-        - ${{ test.path.root }}$/${{ __data__.dir_name.copyrights }}$
 file_gitattributes:
   name: .gitattributes
   summary: Main [`.gitattributes`](https://git-scm.com/docs/gitattributes) file for the repository.
@@ -105,7 +80,7 @@ file_gitattributes:
   content: |-
     #{{
       lines = []
-      attributes = get(".config.content", [])
+      attributes = get(".data.content", [])
       max_len_pattern = max([len(list(attribute.keys())[0]) for attribute in attributes])
       max_len_attr = max(
           [max(len(attr) for attr in list(attribute.values())[0]) for attribute in attributes]
@@ -117,7 +92,7 @@ file_gitattributes:
           lines.append(f"{pattern: <{max_len_pattern}}    {attrs_str}")
       return "\n".join(lines)
     }}#
-  config:
+  data:
     content:
       # ------------------------------------------ Auto Detect -------------------------------------------
       # Auto-detect text files and perform LF normalization. This will handle all files NOT listed below.
@@ -228,32 +203,37 @@ file_gitattributes:
       # ------------------------------------------ Jupyter notebook --------------------------------------
       - "*.ipynb": [ text, eol=lf ]
     jsonschema:
-      title: .gitattributes
-      description: |
-        The data must be an array of objects, as explained below.
-      type: array
-      uniqueItems: true
-      items:
-        title: File Attributes
-        summary: Attributes for a specific filetype.
-        description: |
-          This must be a key-value pair, where the key is a path or glob pattern,
-          and the value is the attributes to set for the matched files,
-          specified as an array of strings.
-        type: object
-        minProperties: 1
-        maxProperties: 1
-        additionalProperties:
-          title: Attributes
-          summary: List of attributes to set for the matched files.
-          type: array
-          minItems: 1
-          uniqueItems: true
-          items:
-            title: Attribute
-            summary: An attribute to set for the matched files.
-            type: string
-            minLength: 1
+      schema:
+        additionalProperties: false
+        required: [ content ]
+        properties:
+          content:
+            title: .gitattributes
+            description: |
+              The data must be an array of objects, as explained below.
+            type: array
+            uniqueItems: true
+            items:
+              title: File Attributes
+              summary: Attributes for a specific filetype.
+              description: |
+                This must be a key-value pair, where the key is a path or glob pattern,
+                and the value is the attributes to set for the matched files,
+                specified as an array of strings.
+              type: object
+              minProperties: 1
+              maxProperties: 1
+              additionalProperties:
+                title: Attributes
+                summary: List of attributes to set for the matched files.
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items:
+                  title: Attribute
+                  summary: An attribute to set for the matched files.
+                  type: string
+                  minLength: 1
 file_gitignore:
   name: .gitignore
   summary: Main [`.gitignore`](https://git-scm.com/docs/gitignore) file for the repository.
@@ -269,9 +249,9 @@ file_gitignore:
   path: .gitignore
   content:
     # Project-specific files
-    - ${{ web.path.root }}$/.build/
-    - ${{ web.path.source }}$/api/*/**
-    - ${{ web.path.source }}$/about/license/*/**
+    - ${{ data_website.path.root }}$/.build/
+    - ${{ data_website.path.source }}$/api/*/**
+    - ${{ data_website.path.source }}$/about/license/*/**
     - ${{ local.cache.path }}$/**
     - '!${{ local.cache.path }}$/**/'
     - '!${{ local.cache.path }}$/**/README.md'

@@ -105,22 +105,101 @@ team:
       contact: 1
       security: 1
       coc: 1
-citation:
-  cff:
-    authors: |
+
+
+zenodo:
+  license: '#{{ return get("file_citation_cff.content.license")[0] }}#'
+  keywords: '#{{ return get("keywords") }}#'
+  related_identifiers:
+    - |
+      *{{
+        #{{
+          last_doi = changelog.last_public.get("release", {}).get("zenodo", {}).get("doi")
+          out = [
+            {
+              "identifier": doi,
+              "relation": relation,
+              "resource_type": get("..upload_type")
+            } for doi, relation in [
+              (get("zenodo.concept.doi"), "isPartOf"),
+              (last_doi, "isNewVersionOf"),
+            ] if doi
+          ]
+          return out
+        }}#
+      }}*
+  contributors: |
+    #{{
+      out = []
+      for role_type in (
+        "RightsHolder",
+        "Producer",
+        "Distributor",
+        "Sponsor",
+        "RegistrationAgency",
+        "RegistrationAuthority",
+        "HostingInstitution",
+        "Supervisor",
+        "ProjectLeader",
+        "WorkPackageLeader",
+        "ContactPerson",
+        "ProjectManager",
+        "DataManager",
+        "Editor",
+        "ResearchGroup",
+        "Researcher",
+        "DataCurator",
+        "DataCollector",
+        "ProjectMember",
+        "RelatedPerson",
+        "Other",
+      ):
+        for is_member in (True, False):
+          for contributor in changelog.current_public.contributors_with_role_types(role_type, member=is_member):
+            out.append({"id": contributor["id"], "member": is_member, "role_types": role_type})
+        for member in team_members_with_role_types(role_type, active_only=True):
+          entry = {"id": member["id"], "member": True, "role_types": role_type}
+          if entry not in out:
+            out.append(entry)
+      return out
+    }}#
+  custom:
+    code:programmingLanguage:
+      - id: python
+    code:developmentStatus:
+      id: >-
+        #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
+file_citation_cff:
+  name: CFF Citation
+  summary: >-
+    [`CITATION.cff`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files) file.
+  description: |
+    Citation file for the project
+    in the [Citation File Format](https://citation-file-format.github.io/) (CFF).
+    Current schema version is [CFF v1.2.0](https://github.com/citation-file-format/citation-file-format/blob/main/schema-guide.md).
+  type: yaml
+  path: CITATION.cff  # GitHub only supports `CITATION.cff` at root.
+  content:
+    message: Please cite ${{ name }}$ using the following references.
+    title: |-
       #{{
-        return [
-          {"id": int_author["id"], "member": True}
-          for int_author in team_members_with_role_types("Author", active_only=True)
-        ] + [
-          {"id": ext_author["id"], "member": False}
-          for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)
-        ]
+        name = get("name")
+        title = get("title")
+        return f"{name}: {title}" if title else name
       }}#
-    contacts: |
+    authors: |-
+      #{{
+        # Get all members and contributors with the role type "Author".
+        authors = team_members_with_role_types(
+          "Author", active_only=True
+        ) + changelog.current_public.contributors_with_role_types("Author", member=False)
+        # Transform each author data into a CFF person/entity object.
+        return [hook.create_cff_person_or_entity(author) for author in authors]
+      }}#
+    contact: |-
       #{{
           return [
-            member["id"] for member in team_members_with_role_types(
+            hook.create_cff_person_or_entity(member) for member in team_members_with_role_types(
               "ContactPerson",
               active_only=True,
             )
@@ -128,25 +207,24 @@ citation:
       }}#
     doi: |
       #{{
+        # Get the latest DOI from the last/current public release on Zenodo.
         curr_changelog = changelog.current_public
-        return curr_changelog.get(
-          "zenodo_sandbox" if curr_changelog.get("phase") == "dev" else "zenodo", {}
+        return curr_changelog.get("release", {}).get(
+          "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
         ).get("doi")
       }}#
     version: >-
       #{{ return changelog.current_public.get("version") }}#
-    date_released: >-
+    date-released: >-
       #{{ return changelog.current_public.get("date") }}#
     commit: >-
       #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
-    repository:
-      build: ${{ pkg.pypi.url.home }}$
     identifiers:
       - |
         *{{
           #{{
             out = []
-            concept_doi = get("var.zenodo.concept.doi")
+            concept_doi = get("zenodo.concept.doi")
             if concept_doi:
               entry = {
                 "type": "doi",
@@ -157,65 +235,106 @@ citation:
             return out
           }}#
         }}*
-  zenodo:
-    license: '#{{ return get("citation.cff.license")[0] }}#'
-    keywords: ${{ citation.cff.keywords }}$
-    related_identifiers:
-      - |
-        *{{
-          #{{
-            last_doi = changelog.last_public.get("zenodo", {}).get("doi")
-            out = [
-              {
-                "identifier": doi,
-                "relation": relation,
-                "resource_type": get("..upload_type")
-              } for doi, relation in [
-                (get("var.zenodo.concept.doi"), "isPartOf"),
-                (last_doi, "isNewVersionOf"),
-              ] if doi
-            ]
-            return out
-          }}#
-        }}*
-    contributors: |
+    license: |-
       #{{
-        out = []
-        for role_type in (
-          "RightsHolder",
-          "Producer",
-          "Distributor",
-          "Sponsor",
-          "RegistrationAgency",
-          "RegistrationAuthority",
-          "HostingInstitution",
-          "Supervisor",
-          "ProjectLeader",
-          "WorkPackageLeader",
-          "ContactPerson",
-          "ProjectManager",
-          "DataManager",
-          "Editor",
-          "ResearchGroup",
-          "Researcher",
-          "DataCurator",
-          "DataCollector",
-          "ProjectMember",
-          "RelatedPerson",
-          "Other",
-        ):
-          for is_member in (True, False):
-            for contributor in changelog.current_public.contributors_with_role_types(role_type, member=is_member):
-              out.append({"id": contributor["id"], "member": is_member, "role_types": role_type})
-          for member in team_members_with_role_types(role_type, active_only=True):
-            entry = {"id": member["id"], "member": True, "role_types": role_type}
-            if entry not in out:
-              out.append(entry)
-        return out
+        return [
+          component["id"] for component in get("license.component", {}).values()
+          if component["type"] == "license" and not component["custom"]
+        ]
       }}#
-    custom:
-      code:programmingLanguage:
-        - id: python
-      code:developmentStatus:
-        id: >-
-          #{{ return "concept" if get("version", "").startswith("0") else "active" }}#
+    url: >-
+      #{{ return get("web.url.home") or get("repo.url.home") }}#
+    type: software
+    keywords: >-
+      #{{ return get("keywords") }}#
+    abstract: >-
+      #{{ return get("abstract") }}#
+    repository-code: ${{ repo.url.home }}$
+    repository-artifact: ${{ repo.url.releases.home }}$
+    repository: null
+    cff-version: 1.2.0
+  content_setting:
+    filter:
+      remove_nulls:
+        # Remove all top-level keys with `null` values (created by templates).
+        # This removes optional values that are not set, keeping the file valid.
+        jsonpath: "$.*"
+    order:
+      - message
+      - preferred-citation
+      - doi
+      - commit
+      - version
+      - date-released
+      - license
+      - license-url
+      - url
+      - repository
+      - repository-artifact
+      - repository-code
+      - identifiers
+      - type
+      - title
+      - authors
+      - contact
+      - abstract
+      - keywords
+      - references
+      - cff-version
+  jsonschema:
+    schema: !ext https://citation-file-format.github.io/1.2.0/schema.json
+file_funding_github:
+  name: GitHub Funding
+  summary: GitHub [`FUNDING.yml`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository) file.
+  status: inactive  # Change to "active" to enable the file.
+  description: |
+    Configurations for GitHub to display a sponsor button in the repository.
+    Clicking on the button opens the ***Sponsor this project*** section,
+    where a list of links to the specified funding platforms is displayed to the user.
+  type: yaml
+  path: .github/FUNDING.yml
+  path_schema:
+    description: |
+      GitHub only recognizes this file at `.github/FUNDING.yml`.
+    pattern: ^\.github/FUNDING\.yml$
+  jsonschema:
+    schema:
+      $ref: https://jsonschemata.repodynamics.com/config/github/funding
+  content:
+    # See the schema or the GitHub documentation for the supported funding platforms.
+    github:
+      - ${{ team.owner.github.id }}$
+data_project:
+  dois: |
+    #{{
+      out = []
+      preferred = get("file_citation_cff.content.preferred_citation", {})
+      preferred_doi = preferred.get("doi")
+      name = get("name")
+      if preferred_doi:
+        description = f"{name} paper in {preferred.get("journal") or preferred.get("publisher")}"
+        out.append({"value": preferred_doi, "description": description})
+      zenodo_concept_doi = get("zenodo.concept.doi")
+      if zenodo_concept_doi:
+        description = f"{name} immutable record on Zenodo"
+        out.append({"value": zenodo_concept_doi, "description": description})
+      latest_doi = get("file_citation_cff.content.doi")
+      if latest_doi:
+        description = f"{name} latest release (v{get("file_citation_cff.content.version")})"
+        out.append({"value": latest_doi, "description": description})
+      return out
+    }}#
+  jsonschema:
+    schema:
+      properties:
+        dois:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [ value, description ]
+            properties:
+              value:
+                $ref: https://jsonschemata.repodynamics.com/id/doi
+              description:
+                $ref: https://jsonschemata.repodynamics.com/string/oneline

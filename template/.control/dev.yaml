@@ -1,0 +1,700 @@
+__temp__:
+  container_env_path: /usr/local/share/environments
+  dockerfile_copy_env_cmd: COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ __temp__.container_env_path }}$/
+devfeature_pixi:
+  # See:
+  # - https://github.com/prefix-dev/pixi-docker
+  # - https://pixi.sh/latest/ide_integration/devcontainer/
+  feature:
+    name: Pixi
+    description: Install Pixi in the development container and activate it.
+    documentationURL: https://pixi.sh/latest/ide_integration/devcontainer/
+    version: 0.40.3
+    mounts:
+      - type: volume
+        source: ${localWorkspaceFolderBasename}-pixi
+        target: ${containerWorkspaceFolder}/.pixi
+    postCreateCommand: >-
+      sudo chown $(whoami) .pixi &&
+      echo 'eval "$(pixi completion -s bash)"' >> $HOME/.bashrc &&
+      pixi install
+    options:
+      version:
+        type: string
+        description: The version of Pixi to install.
+        default: ${{ ...version }}$
+  install: |
+    #!/usr/bin/env bash
+    set -e
+    curl -L -o /usr/local/bin/pixi -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
+    chmod +x /usr/local/bin/pixi
+    pixi info
+devfeature_conda_setup:
+  feature:
+    name: Conda Setup
+    version: 0.1.0
+    description: Install conda environments and setup conda configuration.
+    installsAfter:
+      - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/conda
+    postCreateCommand: >-
+      echo "Initializing conda..."
+      && conda init;
+      echo "Removing existing Conda channels..."
+      && config --remove-key channels 2>/dev/null || true;
+      echo "Adding conda-forge as the only channel..."
+      && conda config --add channels conda-forge
+      && echo "Setting strict channel priority..."
+      && conda config --set channel_priority strict;
+      echo "Verifying channels..."
+      && conda config --show channels;
+    options:
+      log_dir:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: /var/log/conda_setup
+      env_dir:
+        type: string
+        description: Absolute path to the directory containing conda environment files.
+        default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.conda }}$
+  install: |
+    #!/usr/bin/env bash
+    set -eux
+    echo "Initializing conda..."
+    conda init
+    echo "Removing existing Conda channels..."
+    conda config --remove-key channels 2>/dev/null || true
+    echo "Adding conda-forge as the only channel..."
+    conda config --add channels conda-forge
+    echo "Setting strict channel priority..."
+    conda config --set channel_priority strict
+    echo "Verifying channels..."
+    conda config --show channels
+    echo "Updating conda..."
+    conda update -n base --all -y
+    echo "Creating log directory..."
+    mkdir -p $LOG_DIR
+    if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
+        umask 0002;
+        for file in $ENV_DIR/*.yaml; do
+            conda env update --file "$file" 2>&1 | tee "$LOG_DIR/$(basename "$file").log";
+        done;
+    fi
+    echo "Cleaning up cache..."
+    conda clean --all -y
+devcontainer:
+  docker-compose:
+    config:
+      services:
+        openjournals:
+          container_name: openjournals
+          image: openjournals/inara:latest
+          entrypoint: [ "/bin/sh" ]
+          command: [ "-c", "tail -f /dev/null" ]  # `sleep` is not available in the base image.
+          volumes:
+            - |-
+              #{{
+                docker_compose_path = get("devcontainer.docker-compose.path")
+                path_depth = len(docker_compose_path.split("/")) - 1
+                path_to_root_from_compose_file = "../" * path_depth if path_depth else "."
+                return path_to_root_from_compose_file
+              }}#:${{ devcontainer.docker-compose.config.services.openjournals.working_dir }}$
+          working_dir: /workspace
+devcontainer_main:
+  service:
+    privileged: true  # Required to use Docker in Docker.
+  dockerfile:
+    - FROM mcr.microsoft.com/devcontainers/universal:2-linux
+    - ${{ __temp__.dockerfile_copy_env_cmd }}$
+  container:
+    name: Main Development Environment
+    forwardPorts:
+      - 8888:8888  # for Jupyter Notebook
+    features:
+      ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
+      ./${{ devfeature_conda_setup.path }}$: {}
+    customizations:
+      vscode:
+        extensions:
+          - ms-python.python
+          - ms-python.vscode-pylance
+          - ms-python.debugpy
+          - ms-toolsai.jupyter
+          - ms-toolsai.jupyter-keymap
+          - ms-toolsai.jupyter-renderers
+          - ms-vscode.cpptools
+          - ritwickdey.LiveServer
+          - VisualStudioExptTeam.vscodeintellicode
+          - ms-toolsai.vscode-jupyter-cell-tags
+          - ms-toolsai.vscode-jupyter-slideshow
+          - twxs.cmake
+          - ms-vscode.cmake-tools
+          - redhat.java
+          - ms-azuretools.vscode-docker
+          - dbaeumer.vscode-eslint
+          - eamodio.gitlens
+          - ms-vscode.cpptools-extension-pack
+          - VisualStudioExptTeam.intellicode-api-usage-examples
+          - ms-vscode-remote.remote-wsl
+          - formulahendry.code-runner
+          - GitHub.copilot
+          - GitHub.copilot-chat
+          - GitHub.vscode-pull-request-github
+          - ms-vscode-remote.remote-ssh
+          - ms-vscode-remote.remote-ssh-edit
+          - ecmel.vscode-html-css
+          - formulahendry.auto-rename-tag
+          - redhat.vscode-yaml
+          - MS-vsliveshare.vsliveshare
+          - xabikos.JavaScriptSnippets
+          - ms-vscode.remote-explorer
+          - christian-kohler.path-intellisense
+          - golang.Go
+          - formulahendry.auto-close-tag
+          - bmewburn.vscode-intelephense-client
+          - streetsidesoftware.code-spell-checker
+          - donjayamanne.githistory
+          - KevinRose.vsc-python-indent
+          - njpwerner.autodocstring
+          - wholroyd.jinja
+          - jeff-hykin.better-cpp-syntax
+          - mechatroner.rainbow-csv
+          - techer.open-in-browser
+          - mhutchie.git-graph
+          - yzhang.markdown-all-in-one
+          - Zignd.html-css-class-completion
+          - DavidAnson.vscode-markdownlint
+          - aaron-bond.better-comments
+          - naumovs.color-highlight
+          - redhat.vscode-xml
+          - tomoki1207.pdf
+          - ms-vscode-remote.vscode-remote-extensionpack
+          - pranaygp.vscode-css-peek
+          - shd101wyy.markdown-preview-enhanced
+          - ms-vscode.makefile-tools
+          - GitHub.codespaces
+          - rust-lang.rust-analyzer
+          - GitHub.remotehub
+          - ms-vscode.remote-repositories
+          - GitHub.vscode-github-actions
+          - thekalinga.bootstrap4-vscode
+          - ziyasal.vscode-open-in-github
+          - ZainChen.json
+          - kisstkondoros.vscode-gutter-preview
+          - tamasfe.even-better-toml
+          - shardulm94.trailing-spaces
+          - quicktype.quicktype
+          - yzane.markdown-pdf
+          - bierner.markdown-mermaid
+          - GraphQL.vscode-graphql
+          - ms-python.pylint
+          - bierner.github-markdown-preview
+          - jock.svg
+          - charliermarsh.ruff
+          - ms-python.mypy-type-checker
+          - ms-vscode.cpptools-themes
+          - PKief.material-icon-theme
+          - vscode-icons-team.vscode-icons
+          - GitHub.github-vscode-theme
+          - zhuangtongfa.Material-theme
+          - dracula-theme.theme-dracula
+        settings:
+          terminal.integrated.scrollback: 100000
+          tasks:
+            version: 2.0.0
+            tasks:
+              - label: Build Paper (Final)
+                type: process
+                command: inara
+                args: [ "-p", "-o", "pdf", "-v", "${file}" ]
+                group:
+                  kind: build
+                  isDefault: true
+                presentation:
+                  reveal: always
+                  echo: true
+                  focus: true
+                  panel: new
+              - label: Build Paper (Draft)
+                type: process
+                command: inara
+                args: [ "-o", "pdf,contextpdf,tex,preprint,docx,html,crossref,cff", "-vv", "${file}" ]
+                group:
+                  kind: build
+                  isDefault: false
+                presentation:
+                  reveal: always
+                  echo: true
+                  focus: true
+                  panel: new
+  environment:
+    base:
+      conda:
+        conda-build:
+          description: |
+            Tool for building conda packages.
+          url:
+            docs: https://conda.io/projects/conda-build
+            package: https://anaconda.org/conda-forge/conda-build
+          notes: |
+            For proper functioning, it is strongly recommended to
+            install conda-build in the conda base environment.
+            See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
+            for more information.
+    type_check:
+      pip:
+        mypy:
+          spec:
+            version: ==1.15.0
+            extras: [ reports ]
+          url:
+            docs: https://mypy.readthedocs.io/
+            package: https://pypi.org/project/mypy/
+            source: https://github.com/python/mypy
+      data:
+        cache_path: ${{ local.cache.path }}$/mypy
+        report_path: ${{ local.report.path }}$/mypy
+      file:
+        mypy_config:
+          name: Mypy Configuration
+          summary: >-
+            Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
+            in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
+          type: toml
+          path: ${{ devcontainer_main.path }}$/config/mypy.toml
+          content:
+            tool:
+              mypy:
+                # Import discovery
+                packages: [ '${{ pypkg_main.import_name }}$' ]
+                # Configuring warnings
+                warn_return_any: true
+                # Miscellaneous strictness flags
+                strict: true
+                # Configuring error messages
+                show_error_context: true
+                show_column_numbers: true
+                show_error_code_links: true
+                pretty: true
+                color_output: true
+                # Incremental mode
+                cache_dir: ${{ devcontainer_main.environment.type_check.data.cache_path }}$
+                # Advanced options
+                show_traceback: true
+                raise_exceptions: true
+                # Report generation
+                any_exprs_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                html_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                linecount_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                linecoverage_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                lineprecision_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                txt_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                xml_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
+                # Miscellaneous
+                verbosity: 2
+    codecov:
+      conda:
+        rust:
+          notes: |
+            Required for the `codecov` package.
+      pip:
+        codecov-cli:
+          spec:
+            version: ==10.0.1
+          url:
+            docs: https://docs.codecov.com/docs/the-codecov-cli
+            package: https://pypi.org/project/codecov/
+            source: https://github.com/codecov/codecov-cli
+      file:
+        codecov_config:
+          name: Codecov Configuration
+          summary: >-
+            Codecov [configuration file](https://docs.codecov.com/docs/codecov-yaml)
+            in YAML format.
+          description: |
+            [Codecov](https://about.codecov.io/) is an online platform
+            that provides test coverage metrics for your project.
+            After [signing up on Codecov](https://docs.codecov.com/docs/quick-start),
+            these configurations will automatically control the generation of coverage reports
+            and the submission of these reports to Codecov.
+            For a full reference, see the
+            [Codecov YAML reference](https://docs.codecov.com/docs/codecovyml-reference).
+          type: yaml
+          path: .github/.codecov.yml
+          path_schema:
+            description: |
+              CodeCov only looks for a `codecov.yml` or `.codecov.yml` file
+              either in the root of the repository, or in `.github/` and `dev/` directories.
+              (cf. [CodeCov documentation](https://docs.codecov.com/docs/codecov-yaml#can-i-name-the-file-codecovyml)).
+            pattern: ^(.github/|dev/)?.?codecov.yml$
+          content:
+            coverage:
+              precision: 2
+              round: nearest
+              range: "90...100"
+              status:
+                project:
+                  default:
+                    target: 100%
+                    threshold: 5%
+            comment:
+              layout: "header, diff, flags, files"
+              require_changes: false
+              behavior: default
+          validator: validate_codecov_yaml
+    pylint:
+      conda:
+        pylint:
+          spec:
+            version: ==3.3.4
+          url:
+            docs: https://pylint.readthedocs.io/
+            package: https://anaconda.org/conda-forge/pylint
+            source: https://github.com/pylint-dev/pylint
+        pyenchant:
+          description: |
+            Spellchecking library for Python.
+            This is an optional dependency of `pylint`,
+            which is not included in the conda package.
+          spec:
+            version: ==3.2.2
+          url:
+            docs: https://pyenchant.github.io/pyenchant/
+            package: https://anaconda.org/conda-forge/pyenchant
+            source: https://github.com/pyenchant/pyenchant/
+        enchant:
+          description: |
+            Spellchecking library.
+            This is the underlying library for `pyenchant`.
+          spec:
+            version: ==2.8.2
+          url:
+            docs: https://rrthomas.github.io/enchant/
+            package: https://anaconda.org/conda-forge/enchant
+            source: https://github.com/rrthomas/enchant/
+    pre_commit:
+      conda:
+        pre-commit:
+          description: |
+            Framework for managing and maintaining
+            multi-language hooks for formatting and linting.
+          spec:
+            version: ==4.1.0
+          url:
+            docs: https://pre-commit.com/
+            package: https://anaconda.org/conda-forge/pre_commit
+            source: https://github.com/pre-commit/pre-commit
+      file:
+        pre_commit_config:
+          name: Pre-Commit Configuration
+          summary: >-
+            Pre-Commit [configuration file](https://pre-commit.com/#configuration).
+          type: yaml
+          path: ${{ devcontainer_main.path }}$/config/pre-commit.yaml
+          content:
+            default_language_version:
+              python: python3
+            minimum_pre_commit_version: 4.0.0
+            repos:
+              - repo: https://github.com/pre-commit/pre-commit-hooks
+                rev: v5.0.0
+                hooks:
+                  - id: check-ast
+                    # https://github.com/pre-commit/pre-commit-hooks#check-ast
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-case-conflict
+                    # https://github.com/pre-commit/pre-commit-hooks#check-case-conflict
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-json
+                    # https://github.com/pre-commit/pre-commit-hooks#check-json
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-shebang-scripts-are-executable
+                    # https://github.com/pre-commit/pre-commit-hooks#check-shebang-scripts-are-executable
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-symlinks
+                    # https://github.com/pre-commit/pre-commit-hooks#check-symlinks
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-toml
+                    # https://github.com/pre-commit/pre-commit-hooks#check-toml
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: check-xml
+                    # https://github.com/pre-commit/pre-commit-hooks#check-xml
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: destroyed-symlinks
+                    # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#destroyed-symlinks
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: end-of-file-fixer
+                    # https://github.com/pre-commit/pre-commit-hooks#end-of-file-fixer
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: fix-byte-order-marker
+                    # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#fix-byte-order-marker
+                    stages: [ pre-commit, manual ]
+                    verbose: true
+                  - id: mixed-line-ending
+                    # https://github.com/pre-commit/pre-commit-hooks#mixed-line-ending
+                    stages: [ pre-commit, manual ]
+                    args: [ --fix, auto ]
+                    verbose: true
+                  - id: no-commit-to-branch
+                    # https://github.com/pre-commit/pre-commit-hooks#no-commit-to-branch
+                    stages: [ pre-commit ]
+                    args:
+                      - --branch
+                      - '${{ branch.main.name }}$'
+                      - --pattern
+                      - '${{ branch.release.name }}$.*'
+                      - --pattern
+                      - '${{ branch.pre.name }}$.*'
+                    verbose: true
+                  - id: pretty-format-json
+                    # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#pretty-format-json
+                    stages: [ pre-commit, manual ]
+                    args: [ --autofix, --indent, '3' ]
+                    verbose: true
+                  - id: trailing-whitespace
+                    # https://github.com/pre-commit/pre-commit-hooks#trailing-whitespace
+                    stages: [ pre-commit, manual ]
+                    args: [ --markdown-linebreak-ext=md ]
+                    verbose: true
+              - repo: https://github.com/astral-sh/ruff-pre-commit
+                rev: v0.9.9
+                hooks:
+                  - id: ruff
+                    stages: [ pre-commit, manual ]
+                    args:
+                      - --verbose
+                      - --config
+                      - '${{ devcontainer_main.environment.pre_commit.file.ruff_config.path }}$'
+                      - --exit-non-zero-on-fix  # DO NOT CHANGE - Required for RepoDynamics CI
+                    types_or: [ python, pyi, jupyter ]
+                    verbose: true
+                  - id: ruff-format
+                    stages: [ pre-commit, manual ]
+                    args: [ --config, '${{ devcontainer_main.environment.pre_commit.file.ruff_config.path }}$' ]
+                    types_or: [ python, pyi, jupyter ]
+                    verbose: true
+        ruff_config:
+          name: Ruff Configuration
+          summary: >-
+            Ruff [configuration file](https://docs.astral.sh/ruff/settings/)
+            in TOML format.
+          type: toml
+          path: ${{ devcontainer_main.path }}$/config/ruff.toml
+          content:
+            cache-dir: ${{ local.cache.path }}$/ruff
+            fix: true
+            line-length: 100
+            output-format: grouped
+            required-version: == 0.9.9
+            show-fixes: true
+            src:
+              - '${{ pypkg_main.path.source }}$'
+              - '${{ pypkg_test.path.source }}$'
+            target-version: >-
+              #{{
+                major, minor = get("pypkg_main.python.version.minors")[0].split(".")
+                return f"py{major}{minor}"
+              }}#
+            format:
+              docstring-code-format: true
+            lint:
+              allowed-confusables: [ '–' ]
+              ignore:
+                - PLR1711  # https://docs.astral.sh/ruff/rules/useless-return/
+                # Rules conflicting with the formatter (see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
+                - W191
+                - E501
+                - E111
+                - E114
+                - E117
+                - D206
+                - D300
+                - Q000
+                - Q001
+                - Q002
+                - Q003
+                - COM812
+                - COM819
+                - ISC001
+                - ISC002
+              per-file-ignores:
+                '${{ pypkg_test.path.source }}$/**':
+                  - S101
+                template/test/src/**:
+                  - S101
+                '${{ data_website.path.source }}$/conf.py':
+                  - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
+                # https://docs.astral.sh/ruff/rules/#flake8-print-t20
+                '${{ pypkg_main.path.import }}$/__main__.py':
+                  - T20
+                '${{ pypkg_test.path.import }}$/__main__.py':
+                  - T20
+                '${{ pypkg_test.path.import }}$/__init__.py':
+                  - T20
+                template/pkg/src/new_pyproject/__main__.py:
+                  - T20
+                template/test/src/new_pyproject_testsuite/__main__.py:
+                  - T20
+                template/pkg/src/new_pyproject/__init__.py:
+                  - T20
+                  - D104
+                template/test/src/new_pyproject_testsuite/__init__.py:
+                  - T20
+                  - D104
+              select:
+                # https://docs.astral.sh/ruff/rules
+                - F      # pyflakes
+                - E      # pycodestyle error
+                - W      # pycodestyle warning
+                - C90    # mccabe
+                - I      # isort
+                - N      # pep8-naming
+                - D      # pydocstyle
+                - UP     # pyupgrade
+                - YTT    # flake8-2020
+                - ANN    # flake8-annotations
+                - ASYNC  # flake8-async
+                - S      # flake8-bandit
+                - BLE    # flake8-blind-except
+                - FBT    # flake8-boolean-trap
+                - B      # flake8-bugbear
+                - A      # flake8-builtins
+                - COM    # flake8-commas
+                - C4     # flake8-comprehensions
+                - DTZ    # flake8-datetimez
+                - T10    # flake8-debugger
+                - EM     # flake8-errmsg
+                - EXE    # flake8-executable
+                - FA     # flake8-future-annotations
+                - ISC    # flake8-implicit-str-concat
+                - ICN    # flake8-import-conventions
+                - LOG    # flake8-logging
+                - G      # flake8-logging-format
+                - PIE    # flake8-pie
+                - T20    # flake8-print
+                - PYI    # flake8-pyi
+                - PT     # flake8-pytest-style
+                - Q      # flake8-quotes
+                - RSE    # flake8-raise
+                - RET    # flake8-return
+                - SLF    # flake8-self
+                - SLOT   # flake8-slot
+                - SIM    # flake8-simplify
+                - TID    # flake8-tidy-imports
+                - TCH    # flake8-type-checking
+                - INT    # flake8-gettext
+                - ARG    # flake8-unused-arguments
+                - PTH    # flake8-use-pathlib
+                - TD     # flake8-todos
+                - FIX    # flake8-fixme
+                - ERA    # eradicate
+                - PD     # pandas-vet
+                - PGH    # pygrep-hooks
+                - PL     # pylint
+                - E      # error
+                - R      # refactor
+                - W      # warning
+                - TRY    # tryceratops
+                - FLY    # flynt
+                - NPY    # numpy
+                - PERF   # perflint
+                - FURB   # refurb
+                - RUF    # ruff-specific rules
+              flake8-annotations:
+                allow-star-arg-any: true
+                mypy-init-return: true
+                suppress-dummy-args: true
+                suppress-none-returning: true
+              flake8-comprehensions:
+                allow-dict-calls-with-keyword-arguments: true
+              flake8-type-checking:
+                quote-annotations: true
+              pydocstyle:
+                convention: numpy
+              pylint:
+                max-args: 10
+                max-public-methods: 50
+                max-returns: 10
+              mccabe:
+                max-complexity: 15
+    presentation:
+      conda:
+        jupyterlab-myst:
+          description: |
+            JupyterLab extension for rendering MyST markdown.
+          url:
+            docs: https://jupyter-book.github.io/jupyterlab-myst/
+            package: https://anaconda.org/conda-forge/jupyterlab-myst
+            source: https://github.com/jupyter-book/jupyterlab-myst
+  task:
+    jupyterlab:
+      name: Open JupyterLab
+      script: |
+        jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
+    build-oj-paper:
+      # https://github.com/openjournals/inara
+      name: Build Open-Journals Paper
+      description: |
+        Build paper using the Open-Journals Inara service.
+        For publishing to JOSE or ReScience C (instead of JOSS),
+        set the `JOURNAL` environment variable to `jose` or `resciencec`, respectively.
+      script: |
+        docker exec -it ${{ devcontainer.docker-compose.config.services.openjournals.container_name }}$ \
+          inara -o pdf -p -v $1
+      notes: |
+        This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
+        See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
+        for more details.
+#file_pixi_manifest:
+#  # https://pixi.sh/latest/reference/pixi_manifest/
+#  name: Pixi Manifest
+#  summary: |
+#    The Pixi manifest file in TOML format.
+#  type: toml
+#  path: pixi.toml
+#  content:
+#    project:
+#      name: ${{ name }}$
+#      version: '#{{ return changelog.current_public.get("version") }}#'
+#      authors: |
+#        #{{
+#          return [
+#            f"{author["name"]["full"]}{f" <{author["email"]["id"]}>" if "email" in author else ""}"
+#            for author in team_members_with_role_types("Author", active_only=True)
+#          ]
+#        }}#
+#      description: '#{{ return get("title") }}#'
+#      license: '#{{ return get("license.expression") }}#'
+#      license-file: |
+#        #{{
+#          license_components = list(get("license.component", {}).values())
+#          if not license_components:
+#            return
+#          return license_components[0]["path"]["text_plain"]
+#        }}#
+#      readme: '#{{ return get("file_readme.path") }}#'
+#      homepage: '#{{ return get("web.url.home") }}#'
+#      repository: ${{ repo.url.home }}$
+#      documentation: ${{ .homepage }}$
+#      platforms: [ "win-64", "linux-64", "osx-64", "osx-arm64" ]
+#      channels: [ "conda-forge" ]
+#    environments:
+#      prod-py312:
+#        features: []
+#        solve-group: ""
+#    feature:
+#      app:
+#        dependencies:
+#  content_setting:
+#    filter:
+#      no_value:
+#        jsonpath: $.project.*
