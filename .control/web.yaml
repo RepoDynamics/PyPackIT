@@ -872,8 +872,8 @@ devcontainer_docs:
             source: https://github.com/executablebooks/sphinx-external-toc
           data:
             sphinx_config:
-              suppress_warnings: [ etoc.toctree ]
               extensions: [ sphinx_external_toc ]
+              suppress_warnings: [ etoc.toctree ]
               external_toc_path: ${{ file_web_toc.data.rel_path }}$
               external_toc_exclude_missing: false
         ablog:
@@ -1004,7 +1004,7 @@ devcontainer_docs:
             which already includes MyST-Parser.
             However, here we specifically include MyST-Parser to ensure the correct version is installed.
           spec:
-            version: ==4.0.0
+            version: ==4.0.1
           url:
             docs: https://myst-parser.readthedocs.io/
             package: https://anaconda.org/conda-forge/myst-parser
@@ -1101,11 +1101,11 @@ devcontainer_docs:
         sphinx-notfound-page:
           description: Handling relative links in the custom 404 page.
           spec:
-            version: ==1.0.4
+            version: ==1.1.0
           url:
             docs: https://sphinx-notfound-page.readthedocs.io/
+            package: https://pypi.org/project/sphinx-notfound-page/
             source: https://github.com/readthedocs/sphinx-notfound-page
-            pip: https://pypi.org/project/sphinx-notfound-page/
           data:
             sphinx_config:
               extensions: [ notfound.extension ]
@@ -1119,10 +1119,6 @@ devcontainer_docs:
         # ---- Non-extension Dependencies ----
         sphinx-autobuild:
           description: Automatically rebuilding the documentation when changes are made.
-          notes: |
-            This is added to the `Makefile` of Sphinx under the `livehtml` target,
-            meaning that you can run `make livehtml` in the website directory
-            to start the autobuild server.
           spec:
             version: ==2024.10.03
           url:
