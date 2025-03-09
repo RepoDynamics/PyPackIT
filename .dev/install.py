@@ -7,6 +7,7 @@ from __future__ import annotations as _annotations
 
 import argparse as _argparse
 import copy as _copy
+import functools as _functools
 import json as _json
 import platform as _platform
 import struct as _struct
@@ -86,15 +87,10 @@ References
 
 
 def run(
-    filepath: str | _Path = ".github/.repodynamics/metadata.json",
-    pkg: bool = True,
-    pkg_extras: Sequence[str] | Literal["all"] | None = "all",
-    pkg_variants: dict[str, str | int | bool] | None = None,
-    test: bool = True,
-    test_extras: Sequence[str] | Literal["all"] | None = "all",
-    test_variants: dict[str, str | int | bool] | None = None,
+    packages: Sequence[str | dict],
     python_version: str | None = None,
-    platform: PlatformName | None = None,
+    build_platform: PlatformName | None = None,
+    target_platform: PlatformName | None = None,
     sources: Sequence[SourceName] | None = None,
     exclude_sources: Sequence[SourceName] | None = None,
     exclude_installed: bool = True,
@@ -114,18 +110,15 @@ def run(
     indent_json: int | None = 4,
     indent_xml: int | None = 4,
     indent_yaml: int | None = 2,
+    filepath: str | _Path = ".github/.repodynamics/metadata.json",
 ):
     """Generate and/or install package dependencies based on the given configurations."""
     dependencies, files = get_dependencies(
+        packages=packages,
         filepath=filepath,
-        pkg=pkg,
-        pkg_extras=pkg_extras,
-        pkg_variants=pkg_variants,
-        test=test,
-        test_extras=test_extras,
-        test_variants=test_variants,
         python_version=python_version,
-        platform=platform,
+        build_platform=build_platform,
+        target_platform=target_platform,
         sources=sources,
         exclude_sources=exclude_sources,
         exclude_installed=exclude_installed,
@@ -156,15 +149,10 @@ def run(
 
 
 def get_dependencies(
-    filepath: str | _Path = ".github/.repodynamics/metadata.json",
-    pkg: bool = True,
-    pkg_extras: Sequence[str] | Literal["all"] | None = "all",
-    pkg_variants: dict[str, str | int | bool] | None = None,
-    test: bool = True,
-    test_extras: Sequence[str] | Literal["all"] | None = "all",
-    test_variants: dict[str, str | int | bool] | None = None,
+    packages: Sequence[str | dict],
     python_version: str | None = None,
-    platform: PlatformName | None = None,
+    build_platform: PlatformName | None = None,
+    target_platform: PlatformName | None = None,
     sources: Sequence[SourceName] | None = None,
     exclude_sources: Sequence[SourceName] | None = None,
     exclude_installed: bool = True,
@@ -173,6 +161,7 @@ def get_dependencies(
     indent_json: int | None = 4,
     indent_xml: int | None = 4,
     indent_yaml: int | None = 2,
+    filepath: str | _Path = ".github/.repodynamics/metadata.json",
 ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
     filepath = _Path(filepath).resolve()
     if not filepath.is_file():
@@ -181,19 +170,11 @@ def get_dependencies(
         data = _json.loads(filepath.read_text())
     except _json.JSONDecodeError as e:
         raise ValueError(f"Failed to load dependencies from '{filepath}'") from e
-    return DependencyInstaller(
-        python_version=data["pypkg_main"]["python"]["version"],
-        pkg_dep=data["pypkg_main"]["dependency"],
-        test_dep=data.get("pypkg_test", {}).get("dependency", {}),
-    ).run(
-        pkg=pkg,
-        pkg_extras=pkg_extras,
-        pkg_variants=pkg_variants,
-        test=test,
-        test_extras=test_extras,
-        test_variants=test_variants,
+    return DependencyInstaller(data).run(
+        packages=packages,
         python_version=python_version,
-        platform=platform,
+        build_platform=build_platform,
+        target_platform=target_platform,
         sources=sources,
         exclude_sources=exclude_sources,
         exclude_installed=exclude_installed,
@@ -289,26 +270,16 @@ def write_files(
 class DependencyInstaller:
     """Resolve and install dependencies based on given configurations."""
 
-    def __init__(
-        self,
-        python_version: dict,
-        pkg_dep: dict,
-        test_dep: dict,
-    ):
-        self._pyver = python_version
-        self._dep = {"pkg": pkg_dep, "test": test_dep}
+    def __init__(self, data: dict):
+        self._data = data
         return
 
     def run(
         self,
-        pkg: bool = True,
-        pkg_extras: Sequence[str] | Literal["all"] | None = "all",
-        pkg_variants: dict[str, str | int | bool] | None = None,
-        test: bool = True,
-        test_extras: Sequence[str] | Literal["all"] | None = "all",
-        test_variants: dict[str, str | int | bool] | None = None,
+        packages: Sequence[str | dict],
         python_version: str | None = None,
-        platform: PlatformName | None = None,
+        build_platform: PlatformName | None = None,
+        target_platform: PlatformName | None = None,
         sources: Sequence[SourceName] | None = None,
         exclude_sources: Sequence[SourceName] | None = None,
         exclude_installed: bool = True,
@@ -320,29 +291,26 @@ class DependencyInstaller:
         indent_yaml: int | None = 2,
     ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
         """Install dependencies for the given configuration."""
-        inputs = locals()
+        resolved_packages = self._resolve_packages(packages)
+        resolved_python_version = _resolve_python_version(resolved_packages, python_version)
         dependencies = {}
-        for lib in ("pkg", "test"):
-            if not inputs[lib]:
-                continue
-            deps = self.resolve_dependencies(
-                lib=lib,
-                extras=inputs[f"{lib}_extras"],
-                platform=platform,
-                variants=inputs[f"{lib}_variants"],
+        for pkg in resolved_packages:
+            deps = _resolve_dependencies(
+                pkg=pkg["pkg"],
+                python_version=resolved_python_version,
+                extras=pkg["extras"],
+                build_platform=build_platform,
+                target_platform=target_platform,
+                variants=pkg["variants"],
                 sources=sources,
                 exclude_sources=exclude_sources,
                 exclude_installed=exclude_installed,
             )
             for source, dep_data in deps.items():
                 dependencies.setdefault(source, []).extend(dep_data)
-        if python_version:
-            if python_version not in self._pyver["minors"]:
-                raise ValueError(f"Python version '{python_version}' is not supported.")
-        else:
-            python_version = self._pyver["spec"]
+
         dependencies.setdefault("conda", []).append(
-            {"install": {"conda": {"spec": f"python {python_version}"}}}
+            {"install": {"conda": {"spec": f"conda-forge::python {resolved_python_version}"}}}
         )
         if extra_pip_specs:
             dependencies.setdefault("pip", []).extend(
@@ -352,7 +320,7 @@ class DependencyInstaller:
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
             if source == "conda":
-                files[source] = create_env_file_conda(
+                files[source] = _create_env_file_conda(
                     deps,
                     pip_packages=[dep["install"]["pip"] for dep in dependencies.get("pip", [])]
                     if pip_in_conda
@@ -362,15 +330,15 @@ class DependencyInstaller:
                 )
             elif source == "pip":
                 if not pip_in_conda:
-                    files[source] = create_env_file_pip(deps)
+                    files[source] = _create_env_file_pip(deps)
             elif source == "apt":
-                files[source] = create_env_file_apt(deps)
+                files[source] = _create_env_file_apt(deps)
             elif source == "brew":
-                files[source] = create_env_file_brew(deps)
+                files[source] = _create_env_file_brew(deps)
             elif source == "choco":
-                files[source] = create_env_file_choco(deps, indent=indent_xml)
+                files[source] = _create_env_file_choco(deps, indent=indent_xml)
             elif source == "winget":
-                files[source] = create_env_file_winget(deps, indent=indent_json)
+                files[source] = _create_env_file_winget(deps, indent=indent_json)
             else:
                 # bash and pwsh
                 files[source] = "\n\n".join(
@@ -379,179 +347,217 @@ class DependencyInstaller:
                 )
         return dependencies, files
 
-    def resolve_dependencies(
-        self,
-        lib: Literal["pkg", "test"],
-        extras: Sequence[str] | Literal["all"] | None = "all",
-        platform: PlatformName | None = None,
-        variants: dict[str, str | int | bool] | None = None,
-        sources: Sequence[SourceName] | None = None,
-        exclude_sources: Sequence[SourceName] | None = None,
-        exclude_installed: bool = True,
-    ) -> dict[SourceName, list[dict]]:
-        """Resolve dependencies for a given platform and set of variants.
+    def _resolve_packages(self, packages: Sequence[str | dict]) -> list[dict]:
+        """Resolve dependencies for the given packages."""
+        resolved_packages = []
+        for pkg_spec in packages:
+            extras = "all"
+            variants = None
+            if isinstance(pkg_spec, str):
+                lib = pkg_spec
+            else:
+                lib = pkg_spec["id"]
+                extras = pkg_spec.get("extras", extras)
+                variants = pkg_spec.get("variants", variants)
+            resolved_packages.append(
+                {"lib": f"pypkg_{lib}", "extras": extras, "variants": variants, "pkg": self._data[lib]}
+            )
+        return resolved_packages
 
-        Parameters
-        ----------
-        lib
-            Library type to get dependencies for.
-        extras
-            Optional runtime dependency groups to get in addition to core dependencies.
-        platform
-            Name of the target platform.
-            This corresponds to the conda-build subdirectory name.
-            If not provided, the current native platform is used.
-        variants
-            Dictionary of variant keys and values to resolve.
-        sources
-            List of sources to resolve dependencies from.
-            Sources are given in order of precedence.
-            If not provided, the default set of sources are
-            used for the given platform.
-        exclude_sources
-            List of sources to exclude from the resolution.
-            That is, dependencies installable from these sources
-            are not considered.
-        exclude_installed
-            Whether to exclude dependencies that are already installed.
-            This is determined by running the validator script
-            provided in the dependency data.
 
-        Returns
-        -------
+def _resolve_python_version(packages: list[dict], python_version: str | None = None) -> str:
+    """Get the Python version from the given packages."""
+    python_versions = [set(pkg["python"]["version"]["minors"]) for pkg in packages]
+    common_python_versions = list(_functools.reduce(set.intersection, python_versions))
+    if not python_version:
+        python_version = ".".join(_sys.version_info[:2])
+    if python_version not in ("latest", "earliest"):
+        if python_version not in common_python_versions:
+            raise ValueError(f"Python version '{python_version}' is not supported.")
+        return python_version
+    python_versions = sorted(common_python_versions, key=lambda x: tuple(map(int, x.split("."))))
+    return python_versions[-1] if python_version == "latest" else python_versions[0]
 
-        """
-        if not platform:
-            platform = get_native_platform()
-        selector_vars = (
-            {"build_platform": platform}
-            | {key: key in _CONDA_SUBDIR_TO_OS_ARCH[platform] for key in _CONDA_SELECTOR_VARS}
-            | self.get_variants(lib=lib, input_variants=variants)
-        )
-        if not sources:
-            sources = ["pip", "conda"]
-            if platform.startswith("linux"):
-                sources.extend(["apt", "bash", "brew"])
-            elif platform.startswith("osx"):
-                sources.extend(["brew", "bash"])
-            elif platform.startswith("win"):
-                sources.extend(["choco", "winget", "pwsh"])
-        exclude_sources = set(exclude_sources or [])
-        out = {}
-        dependencies = self.get_dependencies(lib, extras=extras)
-        for dependency in dependencies:
-            if exclude_sources and set(dependency.get("install", {}).keys()) & exclude_sources:
+
+def _resolve_dependencies(
+    pkg: dict,
+    python_version: str,
+    extras: Sequence[str] | Literal["all"] | None = "all",
+    build_platform: PlatformName | None = None,
+    target_platform: PlatformName | None = None,
+    variants: dict[str, str | int | bool] | None = None,
+    sources: Sequence[SourceName] | None = None,
+    exclude_sources: Sequence[SourceName] | None = None,
+    exclude_installed: bool = True,
+) -> dict[SourceName, list[dict]]:
+    """Resolve dependencies for a given platform and set of variants.
+
+    Parameters
+    ----------
+    pkg
+        Package to get dependencies for.
+    python_version
+        Python version to resolve dependencies for.
+    extras
+        Optional runtime dependency groups to get in addition to core dependencies.
+    build_platform
+        Name of the build platform.
+        This corresponds to the conda-build subdirectory name.
+        If not provided, the current native platform is used.
+    target_platform
+        Name of the target platform.
+        If not provided, the build platform is used.
+    variants
+        Dictionary of variant keys and values to resolve.
+    sources
+        List of sources to resolve dependencies from.
+        Sources are given in order of precedence.
+        If not provided, the default set of sources are
+        used for the given platform.
+    exclude_sources
+        List of sources to exclude from the resolution.
+        That is, dependencies installable from these sources
+        are not considered.
+    exclude_installed
+        Whether to exclude dependencies that are already installed.
+        This is determined by running the validator script
+        provided in the dependency data.
+
+    Returns
+    -------
+
+    """
+    if not build_platform:
+        build_platform = _get_native_platform()
+    if not target_platform:
+        target_platform = build_platform
+    selector_vars = (
+        {"build_platform": build_platform, "target_platform": target_platform, "py": python_version, "py3k": python_version[0] == "3", "py2k": python_version[0] == "2"}
+        | {key: key in _CONDA_SUBDIR_TO_OS_ARCH[target_platform] for key in _CONDA_SELECTOR_VARS}
+        | _resolve_variants(pkg=pkg, pyver=python_version, input_variants=variants)
+    )
+    if not sources:
+        sources = ["pip", "conda"]
+        if target_platform.startswith("linux"):
+            sources.extend(["apt", "bash", "brew"])
+        elif target_platform.startswith("osx"):
+            sources.extend(["brew", "bash"])
+        elif target_platform.startswith("win"):
+            sources.extend(["choco", "winget", "pwsh"])
+    exclude_sources = set(exclude_sources or [])
+    out = {}
+    dependencies = _collect_dependencies(pkg, extras=extras)
+    for dependency in dependencies:
+        if exclude_sources and set(dependency.get("install", {}).keys()) & exclude_sources:
+            continue
+        selector = dependency.get("selector")
+        if selector and not _evaluate_selector(selector, selector_vars):
+            continue
+        if exclude_installed and dependency.get("validator"):
+            validator_result = _subprocess.run(
+                ["python", "-c", dependency["validator"]], capture_output=True, check=False
+            )
+            if validator_result.returncode == 0:
                 continue
-            selector = dependency.get("selector")
-            if selector and not evaluate_selector(selector, selector_vars):
+        for source in sources:
+            if source in dependency["install"]:
+                out.setdefault(source, []).append(dependency)
+                break
+        else:
+            raise ValueError(
+                f"Dependency '{dependency['name']}' not installable from any source. "
+                f"Available sources are: {list(dependency['install'].keys())}"
+            )
+    return out
+
+
+def _collect_dependencies(
+    pkg: dict,
+    extras: Sequence[str] | Literal["all"] | None = "all",
+) -> list[dict]:
+    """Get a list of dependencies for the given configuration.
+
+    Parameters
+    ----------
+    pkg
+        Library type to get dependencies for.
+    extras
+        Optional runtime dependency groups to get in addition to core dependencies.
+        If `build` is True, this is ignored.
+    """
+    data = pkg["dependency"]
+    deps = list(data.get("core", {}).values())
+    if extras:
+        optional_group_keys = data.get("optional", {}).keys()
+        if extras != "all":
+            for extra in extras:
+                if extra not in optional_group_keys:
+                    raise ValueError(f"Invalid optional dependency group: {extra}")
+        for group_key, group in data.get("optional", {}).items():
+            if extras == "all" or group["name"] in extras:
+                deps.extend(list(group["package"].values()))
+    return _copy.deepcopy(deps)
+
+
+
+def _resolve_variants(
+    pkg: dict, pyver: str, input_variants: dict[str, str | int | bool] | None = None
+) -> dict:
+    """Get a full set of variant values based on input variants and project variant data."""
+    input_variants = input_variants or {}
+    pkg_var_data = pkg["dependency"].get("variant", {})
+    pkg_vars = pkg_var_data.get("variants", {})
+    pkg_zip_keys = pkg_var_data.get("zip_keys", [])
+    # Validate input variants
+    for variant_key, variant_value in input_variants.items():
+        if variant_key not in pkg_vars:
+            raise ValueError(f"Invalid variant key '{variant_key}'")
+        if variant_value not in pkg_vars[variant_key]:
+            raise ValueError(f"Invalid variant value '{variant_value}' for key '{variant_key}'")
+    for zip_keys in pkg_zip_keys:
+        input_keys = []
+        input_indices = []
+        for zip_key in zip_keys:
+            if zip_key in input_variants:
+                input_keys.append(zip_key)
+                input_indices.append(pkg_vars[zip_key].index(input_variants[zip_key]))
+        if len(input_indices) > 1 and len(set(input_indices)) != 1:
+            raise ValueError(
+                f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}"
+            )
+    output = {}
+    # Set the variant values
+    for pkg_var_key, pkg_var_items in pkg_vars.items():
+        if pkg_var_key in input_variants:
+            output[pkg_var_key] = input_variants[pkg_var_key]
+            continue
+        for zip_keys in pkg_zip_keys:
+            if pkg_var_key not in zip_keys:
                 continue
-            if exclude_installed and dependency.get("validator"):
-                validator_result = _subprocess.run(
-                    ["python", "-c", dependency["validator"]], capture_output=True, check=False
-                )
-                if validator_result.returncode == 0:
-                    continue
-            for source in sources:
-                if source in dependency["install"]:
-                    out.setdefault(source, []).append(dependency)
+            other_keys = set(zip_keys) - {pkg_var_key}
+            for other_key in other_keys:
+                if other_key in input_variants:
+                    other_value = input_variants[other_key]
+                    other_value_idx = pkg_vars[other_key].index(other_value)
+                    output[pkg_var_key] = pkg_var_items[other_value_idx]
                     break
             else:
-                raise ValueError(
-                    f"Dependency '{dependency['name']}' not installable from any source. "
-                    f"Available sources are: {list(dependency['install'].keys())}"
-                )
-        return out
-
-    def get_dependencies(
-        self,
-        lib: Literal["pkg", "test"],
-        extras: Sequence[str] | Literal["all"] | None = "all",
-    ) -> list[dict]:
-        """Get a list of dependencies for the given configuration.
-
-        Parameters
-        ----------
-        lib
-            Library type to get dependencies for.
-        extras
-            Optional runtime dependency groups to get in addition to core dependencies.
-            If `build` is True, this is ignored.
-        """
-        data = self._dep[lib]
-        deps = list(data.get("core", {}).values())
-        if extras:
-            optional_group_keys = data.get("optional", {}).keys()
-            if extras != "all":
-                for extra in extras:
-                    if extra not in optional_group_keys:
-                        raise ValueError(f"Invalid optional dependency group: {extra}")
-            for group_key, group in data.get("optional", {}).items():
-                if extras == "all" or group["name"] in extras:
-                    deps.extend(list(group["package"].values()))
-        return _copy.deepcopy(deps)
-
-    def get_variants(
-        self, lib: Literal["pkg", "test"], input_variants: dict[str, str | int | bool] | None = None
-    ) -> dict:
-        """Get a full set of variant values based on input variants and project variant data."""
-        input_variants = input_variants or {}
-        project_variant_data = self._dep[lib].get("variant", {})
-        project_variants = project_variant_data.get("variants", {})
-        project_zip_keys = project_variant_data.get("zip_keys", [])
-        # Validate input variants
-        for variant_key, variant_value in input_variants.items():
-            if variant_key not in project_variants:
-                raise ValueError(f"Invalid variant key '{variant_key}'")
-            if variant_value not in project_variants[variant_key]:
-                raise ValueError(f"Invalid variant value '{variant_value}' for key '{variant_key}'")
-        for zip_keys in project_zip_keys:
-            input_keys = []
-            input_indices = []
-            for zip_key in zip_keys:
-                if zip_key in input_variants:
-                    input_keys.append(zip_key)
-                    input_indices.append(project_variants[zip_key].index(input_variants[zip_key]))
-            if len(input_indices) > 1 and len(set(input_indices)) != 1:
-                raise ValueError(
-                    f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}"
-                )
-        output = {}
-        # Set the variant values
-        for project_variant_key, project_variant_values in project_variants.items():
-            if project_variant_key in input_variants:
-                output[project_variant_key] = input_variants[project_variant_key]
-                continue
-            for zip_keys in project_zip_keys:
-                if project_variant_key not in zip_keys:
-                    continue
-                other_keys = set(zip_keys) - {project_variant_key}
                 for other_key in other_keys:
-                    if other_key in input_variants:
-                        other_value = input_variants[other_key]
-                        other_value_idx = project_variants[other_key].index(other_value)
-                        output[project_variant_key] = project_variant_values[other_value_idx]
+                    if other_key in output:
+                        other_value = output[other_key]
+                        other_value_idx = pkg_vars[other_key].index(other_value)
+                        output[pkg_var_key] = pkg_var_items[other_value_idx]
                         break
                 else:
-                    for other_key in other_keys:
-                        if other_key in output:
-                            other_value = output[other_key]
-                            other_value_idx = project_variants[other_key].index(other_value)
-                            output[project_variant_key] = project_variant_values[other_value_idx]
-                            break
-                    else:
-                        continue
-                    break
+                    continue
                 break
-            else:
-                output[project_variant_key] = (
-                    ".".join(_sys.version_info[:2])
-                    if project_variant_key == "python"
-                    else project_variant_values[0]
-                )
-        return output
+            break
+        else:
+            output[pkg_var_key] = pyver if pkg_var_key == "python" else pkg_var_items[0]
+    return output
 
 
-def evaluate_selector(selector: str, selector_vars: dict[str, str | int | bool]) -> bool:
+def _evaluate_selector(selector: str, selector_vars: dict[str, str | int | bool]) -> bool:
     """Evaluate a preprocessing selector expression using the given variables.
 
     Parameters
@@ -569,7 +575,7 @@ def evaluate_selector(selector: str, selector_vars: dict[str, str | int | bool])
     return eval(selector, selector_vars)
 
 
-def get_native_platform() -> PlatformName:
+def _get_native_platform() -> PlatformName:
     """Get the native Conda subdirectory name on the current machine.
 
     Notes
@@ -615,7 +621,7 @@ def get_native_platform() -> PlatformName:
     return f"{platform}-{bits}"
 
 
-def create_env_file_conda(
+def _create_env_file_conda(
     packages: list[dict] | None = None,
     pip_packages: list[dict] | None = None,
     env_name: str | None = None,
@@ -640,8 +646,8 @@ def create_env_file_conda(
         If `None`, a compact format is used with no indentation or newlines.
     """
     match_specs = [pkg["spec"] for pkg in (packages or [])]
-    if not any(spec.startswith("pip ") for spec in match_specs):
-        match_specs.append("pip")
+    if not any((spec.startswith("pip ") or "::pip" in spec) for spec in match_specs):
+        match_specs.append("conda-forge::pip")
     lines = []
     if env_name:
         lines.append(f"name: {env_name}")
@@ -655,7 +661,7 @@ def create_env_file_conda(
     return f"{'\n'.join(lines)}\n"
 
 
-def create_env_file_pip(packages: list[dict]) -> str:
+def _create_env_file_pip(packages: list[dict]) -> str:
     """Create a pip
     [requirements.txt](https://pip.pypa.io/en/stable/user_guide/#requirements-files) file.
 
@@ -664,10 +670,10 @@ def create_env_file_pip(packages: list[dict]) -> str:
     packages:
         List of dictionaries with package details.
     """
-    return f"{'\n'.join([pkg['spec'] for pkg in packages])}\n"
+    return f"{'\n'.join(sorted([pkg['spec'] for pkg in packages]))}\n"
 
 
-def create_env_file_apt(packages: list[dict]) -> str:
+def _create_env_file_apt(packages: list[dict]) -> str:
     """Create a text file with a list of apt packages.
 
     Parameters
@@ -683,10 +689,10 @@ def create_env_file_apt(packages: list[dict]) -> str:
         if "release" in pkg:
             spec += f"/{pkg['release']}"
         lines.append(spec)
-    return f"{'\n'.join(lines)}\n"
+    return f"{'\n'.join(sorted(lines))}\n"
 
 
-def create_env_file_brew(packages: list[dict]) -> str:
+def _create_env_file_brew(packages: list[dict]) -> str:
     """Create a Homebrew [Brewfile](https://github.com/Homebrew/homebrew-bundle).
 
     Parameters
@@ -702,11 +708,11 @@ def create_env_file_brew(packages: list[dict]) -> str:
     sections = []
     for section in ("tap", "brew", "cask", "mas", "whalebrew", "vscode"):
         if section in out:
-            sections.append("\n".join([f"{section}: {spec}" for spec in out[section]]))
+            sections.append("\n".join([f"{section}: {spec}" for spec in sorted(out[section])]))
     return f"{'\n\n'.join(sections)}\n"
 
 
-def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
+def _create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
     """Create a Chocolatey
     [packages.config](https://docs.chocolatey.org/en-us/choco/commands/install/#packagesconfig) file.
 
@@ -725,7 +731,7 @@ def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
         package_element = _xml_ET.SubElement(root, "package")
         for key, value in pkg.items():
             if value is not None and value not in ("homepage",):
-                package_element.set(snake_case_to_camel_case(key), str(value))
+                package_element.set(_snake_case_to_camel_case(key), str(value))
     xml_str = _xml_ET.tostring(root, encoding="utf-8")
     # Format the XML string to add indentation
     parsed_xml = _xml_minidom.parseString(xml_str)
@@ -738,7 +744,7 @@ def create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
     return f"{formatted_xml.decode('utf-8').strip()}\n"
 
 
-def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
+def _create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
     """Create a winget
     [packages.json](https://github.com/microsoft/winget-cli/blob/master/schemas/JSON/packages/packages.schema.2.0.json)
     file.
@@ -756,9 +762,9 @@ def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
     """
     file = {"Sources": []}
     for pkg in packages:
-        source = {snake_case_to_camel_case(key): value for key, value in pkg["source"].items()}
+        source = {_snake_case_to_camel_case(key): value for key, value in pkg["source"].items()}
         package = {
-            snake_case_to_camel_case(key): value
+            _snake_case_to_camel_case(key): value
             for key, value in pkg.items()
             if key not in ("source", "homepage")
         }
@@ -771,13 +777,13 @@ def create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
     return f"{_json.dumps(file, sort_keys=True, indent=indent).strip()}\n"
 
 
-def snake_case_to_camel_case(string: str) -> str:
+def _snake_case_to_camel_case(string: str) -> str:
     """Convert a snake_case string to CamelCase."""
     components = string.split("_")
     return "".join([components[0]] + [x.title() for x in components[1:]])
 
 
-def parse_args():
+def _parse_args():
     def parse_extras(value):
         if value.lower() == "all":
             return "all"
@@ -785,40 +791,20 @@ def parse_args():
 
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
-    parser.add_argument("--pkg", action=_argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--pkg-extras", type=parse_extras, default="all")
     parser.add_argument(
-        "--pkg-variants", type=_json.loads, default=None, help="JSON string of package variants"
-    )
-    parser.add_argument("--test", action=_argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--test-extras", type=parse_extras, default="all")
-    parser.add_argument(
-        "--test-variants", type=_json.loads, default=None, help="JSON string of test variants"
+        "--packages", type=_json.loads, default='["main", "test"]', help="JSON string of package specifications."
     )
     parser.add_argument("--python-version", type=str, default=None)
     parser.add_argument(
-        "--platform",
+        "--build-platform",
         type=str,
-        choices=[
-            "emscripten-wasm32",
-            "linux-32",
-            "linux-64",
-            "linux-aarch64",
-            "linux-armv6l",
-            "linux-armv7l",
-            "linux-ppc64",
-            "linux-ppc64le",
-            "linux-riscv32",
-            "linux-riscv64",
-            "linux-s390x",
-            "osx-64",
-            "osx-arm64",
-            "wasi-wasm32",
-            "win-32",
-            "win-64",
-            "win-arm64",
-            "zos-z",
-        ],
+        choices=list(_CONDA_SUBDIR_TO_OS_ARCH.keys()),
+        default=None,
+    )
+    parser.add_argument(
+        "--target-platform",
+        type=str,
+        choices=list(_CONDA_SUBDIR_TO_OS_ARCH.keys()),
         default=None,
     )
     parser.add_argument(
@@ -854,5 +840,5 @@ def parse_args():
 
 
 if __name__ == "__main__":
-    args = parse_args()
+    args = _parse_args()
     run(**vars(args))
