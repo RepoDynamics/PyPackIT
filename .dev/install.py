@@ -15,7 +15,7 @@ import subprocess as _subprocess
 import sys as _sys
 import tempfile as _tempfile
 import xml.dom.minidom as _xml_minidom
-import xml.etree.ElementTree as _xml_ET
+import xml.etree.ElementTree as _ET  # noqa: N814, ICN001
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
@@ -86,8 +86,9 @@ References
 """
 
 
-def run(
+def run(  # noqa: PLR0913
     packages: Sequence[str | dict],
+    *,
     python_version: str | None = None,
     build_platform: PlatformName | None = None,
     target_platform: PlatformName | None = None,
@@ -111,11 +112,19 @@ def run(
     indent_xml: int | None = 4,
     indent_yaml: int | None = 2,
     filepath: str | _Path = ".github/.repodynamics/metadata.json",
-):
+) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], dict[SourceName, str]]:
     """Generate and/or install package dependencies based on the given configurations."""
-    dependencies, files = get_dependencies(
+    filepath = _Path(filepath).resolve()
+    if not filepath.is_file():
+        error_msg = f"Metadata file not found at '{filepath}'"
+        raise FileNotFoundError(error_msg)
+    try:
+        data = _json.loads(filepath.read_text())
+    except _json.JSONDecodeError as e:
+        error_msg = f"Failed to load dependencies from '{filepath}'"
+        raise ValueError(error_msg) from e
+    dependencies, files = DependencyInstaller(data).run(
         packages=packages,
-        filepath=filepath,
         python_version=python_version,
         build_platform=build_platform,
         target_platform=target_platform,
@@ -148,44 +157,6 @@ def run(
     return dependencies, files, paths
 
 
-def get_dependencies(
-    packages: Sequence[str | dict],
-    python_version: str | None = None,
-    build_platform: PlatformName | None = None,
-    target_platform: PlatformName | None = None,
-    sources: Sequence[SourceName] | None = None,
-    exclude_sources: Sequence[SourceName] | None = None,
-    exclude_installed: bool = True,
-    pip_in_conda: bool = True,
-    conda_env_name: str | None = None,
-    indent_json: int | None = 4,
-    indent_xml: int | None = 4,
-    indent_yaml: int | None = 2,
-    filepath: str | _Path = ".github/.repodynamics/metadata.json",
-) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
-    filepath = _Path(filepath).resolve()
-    if not filepath.is_file():
-        raise FileNotFoundError(f"Metadata file not found at '{filepath}'")
-    try:
-        data = _json.loads(filepath.read_text())
-    except _json.JSONDecodeError as e:
-        raise ValueError(f"Failed to load dependencies from '{filepath}'") from e
-    return DependencyInstaller(data).run(
-        packages=packages,
-        python_version=python_version,
-        build_platform=build_platform,
-        target_platform=target_platform,
-        sources=sources,
-        exclude_sources=exclude_sources,
-        exclude_installed=exclude_installed,
-        pip_in_conda=pip_in_conda,
-        conda_env_name=conda_env_name,
-        indent_json=indent_json,
-        indent_xml=indent_xml,
-        indent_yaml=indent_yaml,
-    )
-
-
 def install_files(
     files: dict[SourceName, str],
     cmd_bash: Sequence[str] = ("bash", "{filepath}"),
@@ -214,29 +185,30 @@ def install_files(
     inputs = locals()
 
     def _install(content: str, cmd: Sequence[str]):
-        file = _tempfile.NamedTemporaryFile(mode="w", delete=False)
-        file.write(content)
-        filepath = file.name
-        cmd_filled = [cmd_part.format(filepath=filepath) for cmd_part in cmd]
-        try:
-            _subprocess.run(cmd_filled, check=True)
-        finally:
-            _Path(filepath).unlink()
+        with _tempfile.NamedTemporaryFile(mode="w", delete=False) as file:
+            file.write(content)
+            filepath = file.name
+            cmd_filled = [cmd_part.format(filepath=filepath) for cmd_part in cmd]
+            try:
+                _subprocess.run(cmd_filled, check=True)  # noqa: S603
+            finally:
+                _Path(filepath).unlink()
         return
 
     for source in ("bash", "pwsh", "apt", "brew", "choco", "winget", "conda", "pip"):
         if source not in files:
             continue
         if source == "apt":
-            _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)
+            _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)  # noqa: S603
         else:
             _install(files[source], inputs[f"cmd_{source}"])
     return
 
 
-def write_files(
+def write_files(  # noqa: PLR0913
     files: dict[SourceName, str],
     output_dir: str | _Path,
+    *,
     overwrite: bool = False,
     filename_conda: str = "environment.yml",
     filename_pip: str = "requirements.txt",
@@ -256,7 +228,8 @@ def write_files(
         if not filepath.exists() or overwrite:
             filepath.write_text(dep_content)
         else:
-            raise FileExistsError(f"File already exists: '{filepath}'")
+            error_msg = f"File already exists: '{filepath}'"
+            raise FileExistsError(error_msg)
         return
 
     inputs = locals()
@@ -274,9 +247,10 @@ class DependencyInstaller:
         self._data = package_data
         return
 
-    def run(
+    def run(  # noqa: PLR0913
         self,
         packages: Sequence[str | dict],
+        *,
         build_platform: PlatformName | None = None,
         target_platform: PlatformName | None = None,
         python_version: str | None = None,
@@ -376,14 +350,16 @@ def _resolve_python_version(packages: list[dict], python_version: str | None = N
         python_version = ".".join(_sys.version_info[:2])
     if python_version not in ("latest", "earliest"):
         if python_version not in common_python_versions:
-            raise ValueError(f"Python version '{python_version}' is not supported.")
+            error_msg = f"Python version '{python_version}' is not supported."
+            raise ValueError(error_msg)
         return python_version
     python_versions = sorted(common_python_versions, key=lambda x: tuple(map(int, x.split("."))))
     return python_versions[-1] if python_version == "latest" else python_versions[0]
 
 
-def _resolve_dependencies(
+def _resolve_dependencies(  # noqa: PLR0912
     pkg: dict,
+    *,
     python_version: str,
     extras: Sequence[str] | Literal["all"] | None = "all",
     build_platform: PlatformName | None = None,
@@ -425,10 +401,6 @@ def _resolve_dependencies(
         Whether to exclude dependencies that are already installed.
         This is determined by running the validator script
         provided in the dependency data.
-
-    Returns
-    -------
-
     """
     if not build_platform:
         build_platform = _get_native_platform()
@@ -463,8 +435,10 @@ def _resolve_dependencies(
         if selector and not _evaluate_selector(selector, selector_vars):
             continue
         if exclude_installed and dependency.get("validator"):
-            validator_result = _subprocess.run(
-                ["python", "-c", dependency["validator"]], capture_output=True, check=False
+            validator_result = _subprocess.run(  # noqa: S603
+                ["python", "-c", dependency["validator"]],  # noqa: S607
+                capture_output=True,
+                check=False,
             )
             if validator_result.returncode == 0:
                 continue
@@ -473,10 +447,11 @@ def _resolve_dependencies(
                 out.setdefault(source, []).append(dependency)
                 break
         else:
-            raise ValueError(
+            error_msg = (
                 f"Dependency '{dependency['name']}' not installable from any source. "
                 f"Available sources are: {list(dependency['install'].keys())}"
             )
+            raise ValueError(error_msg)
     return out
 
 
@@ -501,14 +476,15 @@ def _collect_dependencies(
         if extras != "all":
             for extra in extras:
                 if extra not in optional_group_keys:
-                    raise ValueError(f"Invalid optional dependency group: {extra}")
-        for group_key, group in data.get("optional", {}).items():
+                    error_msg = f"Invalid optional dependency group: {extra}"
+                    raise ValueError(error_msg)
+        for group in data.get("optional", {}).values():
             if extras == "all" or group["name"] in extras:
                 deps.extend(list(group["package"].values()))
     return _copy.deepcopy(deps)
 
 
-def _resolve_variants(
+def _resolve_variants(  # noqa: PLR0912, C901
     pkg: dict, pyver: str, input_variants: dict[str, str | int | bool] | None = None
 ) -> dict:
     """Get a full set of variant values based on input variants and project variant data."""
@@ -519,9 +495,11 @@ def _resolve_variants(
     # Validate input variants
     for variant_key, variant_value in input_variants.items():
         if variant_key not in pkg_vars:
-            raise ValueError(f"Invalid variant key '{variant_key}'")
+            error_msg = f"Invalid variant key '{variant_key}'"
+            raise ValueError(error_msg)
         if variant_value not in pkg_vars[variant_key]:
-            raise ValueError(f"Invalid variant value '{variant_value}' for key '{variant_key}'")
+            error_msg = f"Invalid variant value '{variant_value}' for key '{variant_key}'"
+            raise ValueError(error_msg)
     for zip_keys in pkg_zip_keys:
         input_keys = []
         input_indices = []
@@ -530,9 +508,8 @@ def _resolve_variants(
                 input_keys.append(zip_key)
                 input_indices.append(pkg_vars[zip_key].index(input_variants[zip_key]))
         if len(input_indices) > 1 and len(set(input_indices)) != 1:
-            raise ValueError(
-                f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}"
-            )
+            error_msg = f"Variant keys '{input_keys}' must be zipped, but values correspond to indices {input_indices}"
+            raise ValueError(error_msg)
     output = {}
     # Set the variant values
     for pkg_var_key, pkg_var_items in pkg_vars.items():
@@ -580,7 +557,7 @@ def _evaluate_selector(selector: str, selector_vars: dict[str, str | int | bool]
     result
         Result of the selector evaluation.
     """
-    return eval(selector, selector_vars)
+    return eval(selector, selector_vars)  # noqa: S307
 
 
 def _get_native_platform() -> PlatformName:
@@ -620,7 +597,8 @@ def _get_native_platform() -> PlatformName:
     machine = _platform.machine()
     platform = _platform_map.get(_sys.platform)
     if not platform:
-        raise RuntimeError(f"Unknown current platform: {_sys.platform}")
+        error_msg = f"Unknown current platform: {_sys.platform}"
+        raise RuntimeError(error_msg)
     if machine in non_x86_machines:
         return f"{platform}-{machine}"
     if platform == "zos":
@@ -635,9 +613,7 @@ def _create_env_file_conda(
     env_name: str | None = None,
     indent: int | None = 2,
 ) -> str:
-    """Create a Conda
-    [environment.yml](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually)
-    file.
+    """Create a Conda [environment.yml](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually) file.
 
     Parameters
     ----------
@@ -660,18 +636,15 @@ def _create_env_file_conda(
     if env_name:
         lines.append(f"name: {env_name}")
     lines.append("dependencies:")
-    for match_spec in sorted(match_specs):
-        lines.append(f"{' ' * indent}- {match_spec}")
+    lines.extend([f"{' ' * indent}- {match_spec}" for match_spec in sorted(match_specs)])
     if pip_packages:
         lines.append(f"{' ' * indent}- pip:")
-        for pkg in pip_packages:
-            lines.append(f"{' ' * (indent * 2)}- {pkg['spec']}")
+        lines.extend([f"{' ' * (indent * 2)}- {pkg['spec']}" for pkg in pip_packages])
     return f"{'\n'.join(lines)}\n"
 
 
 def _create_env_file_pip(packages: list[dict]) -> str:
-    """Create a pip
-    [requirements.txt](https://pip.pypa.io/en/stable/user_guide/#requirements-files) file.
+    """Create a pip [requirements.txt](https://pip.pypa.io/en/stable/user_guide/#requirements-files) file.
 
     Parameters
     ----------
@@ -713,16 +686,16 @@ def _create_env_file_brew(packages: list[dict]) -> str:
         if "tap" in pkg:
             out.setdefault("tap", []).append(pkg["tap"])
         out.setdefault(pkg["type"], []).append(pkg["spec"])
-    sections = []
-    for section in ("tap", "brew", "cask", "mas", "whalebrew", "vscode"):
-        if section in out:
-            sections.append("\n".join([f"{section}: {spec}" for spec in sorted(out[section])]))
+    sections = [
+        "\n".join([f"{section}: {spec}" for spec in sorted(out[section])])
+        for section in ("tap", "brew", "cask", "mas", "whalebrew", "vscode")
+        if section in out
+    ]
     return f"{'\n\n'.join(sections)}\n"
 
 
 def _create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
-    """Create a Chocolatey
-    [packages.config](https://docs.chocolatey.org/en-us/choco/commands/install/#packagesconfig) file.
+    """Create a Chocolatey [packages.config](https://docs.chocolatey.org/en-us/choco/commands/install/#packagesconfig) file.
 
     Parameters
     ----------
@@ -734,15 +707,15 @@ def _create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
         Number of spaces to use for indentation.
         If `None`, a compact format is used with no indentation or newlines.
     """
-    root = _xml_ET.Element("packages")
+    root = _ET.Element("packages")
     for pkg in packages:
-        package_element = _xml_ET.SubElement(root, "package")
+        package_element = _ET.SubElement(root, "package")
         for key, value in pkg.items():
             if value is not None and value not in ("homepage",):
                 package_element.set(_snake_case_to_camel_case(key), str(value))
-    xml_str = _xml_ET.tostring(root, encoding="utf-8")
+    xml_str = _ET.tostring(root, encoding="utf-8")
     # Format the XML string to add indentation
-    parsed_xml = _xml_minidom.parseString(xml_str)
+    parsed_xml = _xml_minidom.parseString(xml_str)  # noqa: S318
     if indent is None:
         # Produce a single-line XML with no newlines or indentation
         formatted_xml = parsed_xml.toxml(encoding="utf-8")
@@ -753,9 +726,7 @@ def _create_env_file_choco(packages: list[dict], indent: int | None = 4) -> str:
 
 
 def _create_env_file_winget(packages: list[dict], indent: int | None = 4) -> str:
-    """Create a winget
-    [packages.json](https://github.com/microsoft/winget-cli/blob/master/schemas/JSON/packages/packages.schema.2.0.json)
-    file.
+    """Create a winget [packages.json](https://github.com/microsoft/winget-cli/blob/master/schemas/JSON/packages/packages.schema.2.0.json) file.
 
     Parameters
     ----------
@@ -791,12 +762,7 @@ def _snake_case_to_camel_case(string: str) -> str:
     return "".join([components[0]] + [x.title() for x in components[1:]])
 
 
-def _parse_args():
-    def parse_extras(value):
-        if value.lower() == "all":
-            return "all"
-        return value.split(",") if "," in value else [value]
-
+def _parse_args() -> _argparse.Namespace:
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument(
