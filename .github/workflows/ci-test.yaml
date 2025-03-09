@@ -25,7 +25,7 @@ jobs:
       run:
         shell: bash -el {0}
     steps:
-      - name: uname
+      - name: Platform Info
         run: uname -a
       - name: Repository Checkout
         uses: actions/checkout@v4  # https://github.com/actions/checkout
@@ -34,50 +34,62 @@ jobs:
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-tags: true
           path: repo/
+      - name: Python Setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Environment Installation
+        run: |
+          cd repo
+          ${{ matrix.task.script.install-env }}
       - name: Binary Distribution Download
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.config.artifact.wheel.merge.name }}
-          pattern: ${{ matrix.config.artifact.wheel.merge.pattern }}
           path: dist/
-          merge-multiple: 'true'
+          merge-multiple: 'false'
+      - name: Artifact Overview
+        run: find dist/
       - name: Miniconda Setup
         uses: conda-incubator/setup-miniconda@v3
         with:
           miniforge-version: latest
           auto-update-conda: true
-          environment-file: ${{ matrix.task.conda-env-file }}
-      - name: Environment Installation
-        run: |
-          cd repo
-          ${{ matrix.task.install-env-script }}
+          activate-environment: ${{ matrix.task.conda-env.name }}
+      - name: Conda Env Cache
+        id: conda-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CONDA }}/envs
+          key: >-
+            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(matrix.task.conda-env.path) }}
+      - name: Conda Env Update
+        if: steps.conda-cache.outputs.cache-hit != 'true'
+        run: >-
+          mamba env update -n ${{ matrix.task.conda-env.name }} -f ${{ matrix.task.conda-env.path }}
       - name: Package Installation
         run: |
           cd dist
-          ${{ matrix.task.install-pkg-script }}
+          ${{ matrix.task.script.install-pkg }}
       - name: Test
-        run: ${{ matrix.task.test-script }}
+        run: ${{ matrix.task.script.test }}
       - name: Report Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.task.artifact.report.name }}
-          path: report
+          path: ${{ matrix.task.artifact.report.path }}
       - name: CodeCov Upload
-        if: ${{ !cancelled() && fromJSON(inputs.config).upload-codecov }}
+        if: ${{ !cancelled() && matrix.task.codecov }}
         # https://github.com/marketplace/actions/codecov
         # https://github.com/codecov/codecov-action
-        env:
-          OS: ${{ runner.os }}
-          PYTHON: ${{ matrix.task.python }}
+        env: ${{ matrix.task.codecov.env }}
         uses: codecov/codecov-action@v4
         with:
           # TODO: Check that env_vars are correctly set. (https://github.com/codecov/codecov-action/pull/64)
-          codecov_yml_path: repo/${{ fromJSON(inputs.config).codecov-yml-path }}
-          directory: report
-          env_vars: OS,PYTHON
+          codecov_yml_path: repo/${{ fromJSON(inputs.config).codecov.codecov_yml_path }}
+          directory: ${{ matrix.task.artifact.report.path }}
+          env_vars: ${{ matrix.task.codecov.env-vars }}
           fail_ci_if_error: false
-          root_dir: repo
           use_oidc: true  # https://github.com/codecov/codecov-action/issues/1489#issuecomment-2197308411
           verbose: true
   report:
