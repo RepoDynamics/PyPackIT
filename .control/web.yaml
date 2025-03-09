@@ -610,8 +610,8 @@ devcontainer_docs:
           spec:
             version: ==8.1.3
           url:
-            conda: https://anaconda.org/conda-forge/sphinx
             docs: https://www.sphinx-doc.org/
+            package: https://anaconda.org/conda-forge/sphinx
             source: https://github.com/sphinx-doc/sphinx
           data:
             sphinx_config:
@@ -734,8 +734,8 @@ devcontainer_docs:
           spec:
             version: ==0.16.1
           url:
-            conda: https://anaconda.org/conda-forge/pydata-sphinx-theme
             docs: https://pydata-sphinx-theme.readthedocs.io/
+            package: https://anaconda.org/conda-forge/pydata-sphinx-theme
             source: https://github.com/pydata/pydata-sphinx-theme
           data:
             sphinx_config:
@@ -819,8 +819,8 @@ devcontainer_docs:
           spec:
             version: ==1.2.0
           url:
-            conda: https://anaconda.org/conda-forge/myst-nb
             docs: https://myst-parser.readthedocs.io/
+            package: https://anaconda.org/conda-forge/myst-nb
             source: https://github.com/executablebooks/MyST-Parser
           notes: |
             MyST-NB is built on top of [MyST-Parser](https://myst-parser.readthedocs.io/)
@@ -855,8 +855,8 @@ devcontainer_docs:
           spec:
             version: ==0.6.1
           url:
-            conda: https://anaconda.org/conda-forge/sphinx-design
             docs: https://sphinx-design.readthedocs.io/
+            package: https://anaconda.org/conda-forge/sphinx-design
             source: https://github.com/executablebooks/sphinx-design
           data:
             sphinx_config:
@@ -867,8 +867,8 @@ devcontainer_docs:
           spec:
             version: ==1.0.1
           url:
-            conda: https://anaconda.org/conda-forge/sphinx-external-toc
             docs: https://sphinx-external-toc.readthedocs.io
+            package: https://anaconda.org/conda-forge/sphinx-external-toc
             source: https://github.com/executablebooks/sphinx-external-toc
           data:
             sphinx_config:
@@ -881,8 +881,8 @@ devcontainer_docs:
           spec:
             version: ==0.11.12
           url:
-            conda: https://anaconda.org/conda-forge/ablog
             docs: https://ablog.readthedocs.io/
+            package: https://anaconda.org/conda-forge/ablog
             source: https://github.com/sunpy/ablog
           data:
             sphinx_config:
@@ -921,8 +921,8 @@ devcontainer_docs:
           spec:
             version: ==0.5.2
           url:
-            conda: https://anaconda.org/conda-forge/sphinx-copybutton
             docs: https://sphinx-copybutton.readthedocs.io/
+            package: https://anaconda.org/conda-forge/sphinx-copybutton
             source: https://github.com/executablebooks/sphinx-copybutton
           data:
             sphinx_config:
