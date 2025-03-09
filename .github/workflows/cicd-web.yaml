@@ -28,12 +28,13 @@ jobs:
       - name: Build
         # https://github.com/devcontainers/ci
         uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
+        env: ${{ fromJSON(inputs.config).container.env }}
         with:
           imageName: ghcr.io/${{ github.repository_owner }}/${{ fromJSON(inputs.config).container.name }}
           runCmd: ${{ fromJSON(inputs.config).container.command }}
           configFile: ${{ fromJSON(inputs.config).container.path }}
           refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
-          env: ${{ fromJSON(inputs.config).container.env }}
+          env: ${{ fromJSON(inputs.config).container.env-names }}
           inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{ fromJSON(inputs.config).container.name }}
       - name: Build Artifact Upload
