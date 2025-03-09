@@ -112,7 +112,7 @@ class Hooks:
         ]
         install = _import_module_from_path(self.repo_path / ".dev/install.py")
         _, self._binder_files = install.DependencyInstaller(package_data).run(
-            packages=package_keys,
+            packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
             target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
