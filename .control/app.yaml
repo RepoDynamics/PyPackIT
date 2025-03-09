@@ -35,18 +35,14 @@ pypkg_main:
         ref: ${{ pypkg_main.import_name }}$.__main__:main
   dependency:
     build:
-      builder:
-        name: Setuptools
-        import_name: setuptools
+      setuptools:
         install:
           pip:
             version: '>=72.1.0'
             homepage: https://pypi.org/project/setuptools/
           conda:
             homepage: https://anaconda.org/conda-forge/setuptools
-      versioning:
-        name: versioningit
-        import_name: versioningit
+      versioningit:
         install:
           pip:
             version: '>=3.1.2'
@@ -54,9 +50,7 @@ pypkg_main:
           conda:
             homepage: https://anaconda.org/conda-forge/versioningit
     core:
-      pkg_resources:
-        name: PkgData
-        import_name: pkgdata
+      pkgdata:
         description: |
           Handling package resources, such as accessing data files that are
           distributed with the package.
@@ -132,22 +126,18 @@ pypkg_test:
     # - https://pytest-with-eric.com/pytest-best-practices/pytest-plugins/
     build: ${{ pypkg_main.dependency.build }}$
     core:
-      testing:
-        name: Pytest
-        import_name: pytest
+      pytest:
         description: Testing framework for Python.
         install:
           conda:
             homepage: https://anaconda.org/conda-forge/pytest
           pip:
-            version: ==8.3.3
+            version: ==8.3.5
             homepage: https://pypi.org/project/pytest/
         url:
           docs: https://docs.pytest.org/en/stable/
           source: https://github.com/pytest-dev/pytest
-      plugin_cov:
-        name: Pytest-Cov
-        import_name: pytest_cov
+      pytest-cov:
         description: Pytest plugin for measuring test coverage.
         notes: |
           This plugin uses the [coverage.py](https://github.com/nedbat/coveragepy) package
@@ -156,14 +146,12 @@ pypkg_test:
           conda:
             homepage: https://anaconda.org/conda-forge/pytest-cov
           pip:
-            version: ==5.0.0
+            version: ==6.0.0
             homepage: https://pypi.org/project/pytest-cov/
         url:
           docs: https://pytest-cov.readthedocs.io/
           source: https://github.com/pytest-dev/pytest-cov
-      plugin_html:
-        name: Pytest-HTML
-        import_name: pytest_html
+      pytest-html:
         description: Pytest plugin for generating HTML reports.
         install:
           conda:
@@ -175,8 +163,6 @@ pypkg_test:
           docs: https://pytest-html.readthedocs.io/
           source: https://github.com/pytest-dev/pytest-html
       coverage:
-        name: Coverage
-        import_name: coverage
         description: Code coverage measurement for Python.
         notes: |
           This is indirectly used by the `pytest-cov` plugin.
@@ -185,14 +171,12 @@ pypkg_test:
           conda:
             homepage: https://anaconda.org/conda-forge/coverage
           pip:
-            version: ==7.6.1
+            version: ==7.6.12
             homepage: https://pypi.org/project/coverage/
         url:
           docs: https://coverage.readthedocs.io/
           source: https://github.com/nedbat/coveragepy
-      pkg_resources:
-        name: PkgData
-        import_name: pkgdata
+      pkgdata:
         description: |
           Handling package resources, such as accessing data files that are
           distributed with the package.
