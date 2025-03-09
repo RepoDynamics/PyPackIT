@@ -14,7 +14,6 @@ import shutil as _shutil
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import controlman.data_validator as _controlman_data_validator
 import gittidy as _git
 import pkgdata as _pkgdata
 from loggerman import logger as _logger
