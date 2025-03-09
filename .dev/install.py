@@ -270,16 +270,16 @@ def write_files(
 class DependencyInstaller:
     """Resolve and install dependencies based on given configurations."""
 
-    def __init__(self, data: dict):
-        self._data = data
+    def __init__(self, package_data: dict):
+        self._data = package_data
         return
 
     def run(
         self,
         packages: Sequence[str | dict],
-        python_version: str | None = None,
         build_platform: PlatformName | None = None,
         target_platform: PlatformName | None = None,
+        python_version: str | None = None,
         sources: Sequence[SourceName] | None = None,
         exclude_sources: Sequence[SourceName] | None = None,
         exclude_installed: bool = True,
@@ -359,8 +359,9 @@ class DependencyInstaller:
                 lib = pkg_spec["id"]
                 extras = pkg_spec.get("extras", extras)
                 variants = pkg_spec.get("variants", variants)
+            key = f"pypkg_{lib}"
             resolved_packages.append(
-                {"lib": f"pypkg_{lib}", "extras": extras, "variants": variants, "pkg": self._data[lib]}
+                {"pkg": self._data[key], "extras": extras, "variants": variants}
             )
         return resolved_packages
 
