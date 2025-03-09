@@ -292,7 +292,7 @@ class DependencyInstaller:
     ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
         """Install dependencies for the given configuration."""
         resolved_packages = self._resolve_packages(packages)
-        resolved_python_version = _resolve_python_version(resolved_packages, python_version)
+        resolved_python_version = _resolve_python_version([pkg["pkg"] for pkg in resolved_packages], python_version)
         dependencies = {}
         for pkg in resolved_packages:
             deps = _resolve_dependencies(
