@@ -1,4 +1,9 @@
-"""Configuration file for the Sphinx website builder."""
+"""Configuration file for the Sphinx website builder.
+
+References
+----------
+- [ReadTheDocs environment variables](https://docs.readthedocs.io/en/stable/reference/environment-variables.html)
+"""
 
 from __future__ import annotations as _annotations
 
