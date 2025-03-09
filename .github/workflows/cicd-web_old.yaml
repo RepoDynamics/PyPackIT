@@ -1,0 +1,81 @@
+name: '[Reusable]: Website'
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+        description: Configuration as a JSON string.
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v4  # https://github.com/actions/checkout
+        with:
+          repository: ${{ fromJSON(inputs.config).repository }}
+          ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-depth: 0
+          path: repo
+      - name: Environment Setup
+        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
+        with:
+          environment-file: repo/${{ fromJSON(inputs.config).path-env }}
+          cache-environment: true
+          cache-environment-key: sphinx-website-env
+          generate-run-shell: true
+          init-shell: bash
+          create-args: pip
+      - name: Package Installation
+        if: ${{ fromJSON(inputs.config).path-pkg != '' }}
+        shell: micromamba-shell {0}
+        run: pip install "repo/${{ fromJSON(inputs.config).path-pkg }}"
+      - name: Environment Overview
+        shell: bash -el {0}
+        run: micromamba list
+      - name: Build
+        shell: micromamba-shell {0}
+        run: |
+          make -C "repo/${{ fromJSON(inputs.config).path-web }}" BUILDDIR=${{ github.workspace }}/build clean dirhtml
+      - name: Output Structure
+        if: ${{ !cancelled() }}
+        shell: micromamba-shell {0}
+        run: |
+          mv build/dirhtml build/html
+      - name: Build Artifact Upload
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.build.name }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.build.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include-hidden }}
+          path: build/*
+      - name: GH-Pages Artifact Upload
+        if: ${{ !cancelled() && fromJSON(inputs.config).deploy }}
+        id: upload-pages
+        uses: actions/upload-pages-artifact@v3  # https://github.com/actions/upload-pages-artifact
+        with:
+          name: ${{ fromJSON(inputs.config).artifact.pages.name }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.pages.retention-days }}
+          path: build/html
+  deploy:
+    name: Deploy
+    if: fromJSON(inputs.config).deploy
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: ${{ fromJSON(inputs.config).env.name }}
+      url: ${{ fromJSON(inputs.config).env.url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: GH-Pages Configuration
+        id: configure-pages
+        uses: actions/configure-pages@v5  # https://github.com/actions/configure-pages
+      - name: GH-Pages Deployment
+        id: deploy
+        uses: actions/deploy-pages@v4  # https://github.com/actions/deploy-pages
+        with:
+          artifact_name: ${{ fromJSON(inputs.config).artifact.pages.name }}

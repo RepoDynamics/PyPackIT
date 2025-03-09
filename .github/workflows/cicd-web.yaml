@@ -12,53 +12,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repository Checkout
-        uses: actions/checkout@v4  # https://github.com/actions/checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v4
         with:
           repository: ${{ fromJSON(inputs.config).repository }}
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
-          path: repo
-      - name: Environment Setup
-        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
+      - name: GitHub Container Registry Login
+        # https://github.com/docker/login-action
+        uses: docker/login-action@v3
         with:
-          environment-file: repo/${{ fromJSON(inputs.config).path-env }}
-          cache-environment: true
-          cache-environment-key: sphinx-website-env
-          generate-run-shell: true
-          init-shell: bash
-          create-args: pip
-      - name: Package Installation
-        if: ${{ fromJSON(inputs.config).path-pkg != '' }}
-        shell: micromamba-shell {0}
-        run: pip install "repo/${{ fromJSON(inputs.config).path-pkg }}"
-      - name: Environment Overview
-        shell: bash -el {0}
-        run: micromamba list
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
       - name: Build
-        shell: micromamba-shell {0}
-        run: |
-          make -C "repo/${{ fromJSON(inputs.config).path-web }}" BUILDDIR=${{ github.workspace }}/build clean dirhtml
-      - name: Output Structure
-        if: ${{ !cancelled() }}
-        shell: micromamba-shell {0}
-        run: |
-          mv build/dirhtml build/html
+        # https://github.com/devcontainers/ci
+        uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
+        with:
+          imageName: ghcr.io/${{ github.repository_owner }}/${{ fromJSON(inputs.config).container.name }}
+          runCmd: ${{ fromJSON(inputs.config).container.command }}
+          configFile: ${{ fromJSON(inputs.config).container.path }}
+          refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
+          env: ${{ fromJSON(inputs.config).container.env }}
+          inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
+          cacheFrom: ghcr.io/${{ github.repository_owner }}/${{ fromJSON(inputs.config).container.name }}
       - name: Build Artifact Upload
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ fromJSON(inputs.config).artifact.build.name }}
           retention-days: ${{ fromJSON(inputs.config).artifact.build.retention-days }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include-hidden }}
-          path: build/*
+          path: ${{ fromJSON(inputs.config).artifact.build.path }}
       - name: GH-Pages Artifact Upload
         if: ${{ !cancelled() && fromJSON(inputs.config).deploy }}
         id: upload-pages
-        uses: actions/upload-pages-artifact@v3  # https://github.com/actions/upload-pages-artifact
+        # https://github.com/actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           name: ${{ fromJSON(inputs.config).artifact.pages.name }}
           retention-days: ${{ fromJSON(inputs.config).artifact.pages.retention-days }}
-          path: build/html
+          path: ${{ fromJSON(inputs.config).artifact.pages.path }}
   deploy:
     name: Deploy
     if: fromJSON(inputs.config).deploy
@@ -73,9 +68,11 @@ jobs:
     steps:
       - name: GH-Pages Configuration
         id: configure-pages
-        uses: actions/configure-pages@v5  # https://github.com/actions/configure-pages
+        # https://github.com/actions/configure-pages
+        uses: actions/configure-pages@v5
       - name: GH-Pages Deployment
         id: deploy
-        uses: actions/deploy-pages@v4  # https://github.com/actions/deploy-pages
+        # https://github.com/actions/deploy-pages
+        uses: actions/deploy-pages@v4
         with:
           artifact_name: ${{ fromJSON(inputs.config).artifact.pages.name }}
