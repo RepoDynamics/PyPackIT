@@ -7,14 +7,16 @@ References
 
 from __future__ import annotations as _annotations
 
+import ast as _ast
 import copy as _copy
 import json as _json
+import shutil as _shutil
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
+import controlman.data_validator as _controlman_data_validator
 import gittidy as _git
 import pkgdata as _pkgdata
-import pysyntax as _pysyntax
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
@@ -30,7 +32,10 @@ if _TYPE_CHECKING:
     from sphinx.application import Sphinx
 
 
-_METADATA_FILEPATH: str = ".github/.repodynamics/metadata.json"
+_DATA_DIR_PATH = ".github/.repodynamics"
+_METADATA_FILEPATH: str = f"{_DATA_DIR_PATH}/metadata.json"
+_CHANGELOG_FILEPATH: str = f"{_DATA_DIR_PATH}/changelog.json"
+_CONTRIBUTORS_FILEPATH: str = f"{_DATA_DIR_PATH}/contributors.json"
 _globals: dict = {}
 
 
@@ -65,6 +70,43 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
     - https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
     """
 
+    def get_obj_def_lines(filepath: _Path, object_name: str) -> tuple[int, int | None] | None:
+        """Get the line numbers of an object definition in the source file.
+
+        Parameters
+        ----------
+        filepath
+            Path to the source file.
+        object_name
+            Name of the object to find in the source file.
+
+        Returns
+        -------
+        Start and end line numbers of the object definition.
+        End line number is `None` if the object definition is a single line.
+        If the object is not found, `None` is returned.
+        """
+        source = filepath.read_text()
+        tree = _ast.parse(source, filename=filepath)
+        for node in _ast.walk(tree):
+            # Check for class or function definitions
+            if (
+                isinstance(node, _ast.ClassDef | _ast.FunctionDef | _ast.AsyncFunctionDef)
+                and node.name == object_name
+            ):
+                return node.lineno, getattr(node, "end_lineno", None)
+            # Check for variable assignments (without type annotations)
+            if isinstance(node, _ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, _ast.Name) and target.id == object_name:
+                        return node.lineno, getattr(node, "end_lineno", None)
+            # Check for variable assignments (with type annotations)
+            if isinstance(node, _ast.AnnAssign):
+                target = node.target
+                if isinstance(target, _ast.Name) and target.id == object_name:
+                    return node.lineno, getattr(node, "end_lineno", None)
+        return None
+
     def add_obj_line_number_to_url(
         url: str,
         filepath: _Path,
@@ -88,9 +130,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
         log_intro = (
             f"Resolved source-code filepath of module `{info['module']}` to `{module_path_abs}`"
         )
-        lines = _pysyntax.parse.object_definition_lines(
-            code=filepath.read_text(), object_name=object_name
-        )
+        lines = get_obj_def_lines(filepath=filepath, object_name=object_name)
         if not lines:
             _logger.warning(
                 logger_title,
@@ -121,7 +161,7 @@ def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
             _logger.pretty({"domain": domain, "info": info}),
         )
         return None
-    source_path = _Path(_meta["pkg"]["path"]["source"])
+    source_path = _Path(_meta["pypkg_main"]["path"]["source"])
     module_path = source_path / info["module"].replace(".", "/")
     module_path_abs = _path_root / module_path
     if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
@@ -152,6 +192,24 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
         f"Could not render page '{docname}' as Jinja template. "
         "Please ensure that the page content is valid."
     )
+    # Change Jinja environment markers to avoid clashes with the MyST Attributes extension
+    # as well as templating syntax in control center configurations.
+    # Refs:
+    # - Jinja: https://jinja.palletsprojects.com/en/stable/api/#jinja2.Environment
+    # - MyST: https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#attributes
+    attrs_default = {}
+    for attr, attr_new_val in (
+        ("block_start_string", "|{%"),
+        ("block_end_string", "%}|"),
+        ("variable_start_string", "|{{"),
+        ("variable_end_string", "}}|"),
+        ("comment_start_string", "|{#"),
+        ("comment_end_string", "#}|"),
+    ):
+        attr_val = getattr(app.builder.templates.environment, attr)
+        attrs_default[attr] = attr_val
+        setattr(app.builder.templates.environment, attr, attr_new_val)
+    # Run page through Jinja
     try:
         content[0] = app.builder.templates.render_string(
             content[0],
@@ -159,6 +217,10 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
         )
     except Exception as e:
         raise RuntimeError(error_msg) from e
+    # Revert Jinja environment markers to their defaults
+    # so that other templates and tools have the default markers.
+    for attr, attr_val in attrs_default.items():
+        setattr(app.builder.templates.environment, attr, attr_val)
     return
 
 
@@ -179,8 +241,8 @@ def _add_css_and_js_files() -> None:
     """Add CSS and JS files from the static directory.
 
     This function takes the first static path defined in `html_static_path`
-    (this should be the '_static' directory in the Sphinx project)
-    and recursively looks for all CSS and JS files in the directory.
+    (this should be the '_static' directory in the Sphinx project) and looks
+    for all CSS and JS files in the 'css' and 'js' subdirectories, respectively.
     It then adds these files to the Sphinx configuration in the `html_css_files`
     and `html_js_files` lists.
     Therefore, you can add new CSS and JS files to the 'css' and 'js'
@@ -231,9 +293,9 @@ def _get_path_repo_root() -> tuple[_Path, str]:
     raise RuntimeError(error_msg)
 
 
-def _add_sphinx() -> None:
+def _add_sphinx_config(config: dict) -> None:
     """Set sphinx main configurations."""
-    _globals.update(_meta["web"]["sphinx"]["config"])
+    _globals.update(config)
     return
 
 
@@ -282,101 +344,18 @@ def _merge_extra_config(
     return
 
 
-def _add_theme() -> None:
-    """Add theme configurations."""
-    theme = _meta["web"].get("theme")
-    if not theme:
-        print("No theme specified in control center metadata at 'web.theme'.")  # noqa: T201
-        return
-    error_msg_html_theme = (
-        "The key `html_theme` is already defined in the Sphinx configuration at `web.sphinx`, "
-        "but a theme is specified in the control center metadata at `web.theme`. "
-        "Please remove one of the theme configurations.",
-    )
-    if "html_theme" in _globals:
-        raise RuntimeError(error_msg_html_theme)
-    _globals["html_theme"] = _meta["web"]["theme"]["dependency"]["import_name"]
-    _merge_extra_config(
-        config=_meta["web"]["theme"].get("config", {}),
-        config_key="web.theme.config",
-        config_name="theme",
-    )
-    return
-
-
-def _add_extensions() -> None:
-    """Add extensions and their configurations."""
-    if "extensions" in _globals:
-        error_msg = (
-            "The key `extensions` is already defined in the Sphinx configuration at `web.sphinx`. "
-            "Please remove the key from the configuration.",
-        )
-        raise RuntimeError(error_msg)
-    extensions = []
-    _globals["extensions"] = extensions
-    for _ext_type, _ext_path, _exts in (
-        ("internal", "web.sphinx.extension", _meta["web"]["sphinx"].get("extension", {})),
-        ("external", "web.extension", _meta["web"].get("extension", {})),
-    ):
-        for _ext_id, _ext in _exts.items():
-            # Add extension name to `extensions`
-            _ext_import_name = _ext["dependency"]["import_name"]
-            if _ext_import_name in extensions:
-                error_msg = (
-                    f"Duplicate extension name '{_ext_import_name}' for Sphinx "
-                    f"{_ext_type} extension defined at "
-                    f"`{_ext_path}.{_ext_id}.dependency.import_name`. "
-                    "Please ensure that no two extensions have the same import name.",
-                )
-                raise RuntimeError(error_msg)
-            # Add extension configurations to global variables
-            extensions.append(_ext_import_name)
-            _merge_extra_config(
-                config=_ext.get("config", {}),
-                config_key=f"{_ext_path}.{_ext_id}.config",
-                config_name=f"{_ext_type} extension",
-            )
-    return
-
-
-def _add_ablog_blog_authors() -> None:
-    """Add ablog `blog_authors` extension configuration.
-
-    This function looks for the `blog_authors` key in the Sphinx configuration;
-    if not found, it adds the `blog_authors` key with the authors from the control center metadata.
-
-    References
-    ----------
-    - [ABlog Configuration Options](https://ablog.readthedocs.io/en/stable/manual/ablog-configuration-options.html#confval-blog_authors)
-    """
-    if "blog_authors" in _globals:
-        return
-    blog_authors = {}
-    _globals["blog_authors"] = blog_authors
-    for person_id, person in _meta["team"].items():
-        if "website" in person:
-            url = person["website"]
-        else:
-            for contact_type in ("github", "twitter", "linkedin", "researchgate", "orcid", "email"):
-                if contact_type in person:
-                    url = person[contact_type]["url"]
-                    break
-            else:
-                url = _meta["web"]["url"]["home"]
-        blog_authors[person_id] = (person["name"]["full"], url)
-    return
-
-
-def _read_metadata() -> dict[str, Any]:
-    """Read control center metadata."""
-    error_msg = (
-        f"Could not read control center metadata file at '{_METADATA_FILEPATH}'. "
-        "Please ensure that the file is a valid JSON file."
-    )
+def _read_json_data(name: str, path: str | _Path, *, required: bool) -> dict | None:
+    """Read a JSON data file."""
     try:
-        with (_path_root / _METADATA_FILEPATH).open() as f:
+        with (_path_root / path).open() as f:
             return _json.load(f)
-    except _json.JSONDecodeError as e:
+    except (_json.JSONDecodeError, FileNotFoundError) as e:
+        if not required:
+            return None
+        error_msg = (
+            f"Could not read project {name} file at '{path}'. "
+            "Please ensure that the file is a valid JSON file."
+        )
         raise RuntimeError(error_msg) from e
 
 
@@ -413,18 +392,38 @@ def _add_intersphinx_mapping():
     return
 
 
+def _add_license():
+    for license_id, component in _meta.get("license", {}).get("component", {}).items():
+        copyright_path = component["path"].get("header_plain")
+        if copyright_path:
+            copyright_abs_path = _path_root / copyright_path
+            component["header_plain"] = copyright_abs_path.read_text()
+        license_path = _path_root / component["path"]["text_plain"]
+        dest_path = _meta["web"].get("page", {}).get("license", {}).get("path")
+        if not dest_path:
+            continue
+        dest_dir = _Path(dest_path) / license_id.lower()
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        _shutil.copy2(license_path, dest_dir / "index.md")
+    return
+
+
 _logger.initialize(realtime_levels=list(range(1, 7)))
 _path_root, _path_to_root = _get_path_repo_root()
 _git_api = _git.Git(path=_path_root)
 _current_hash = _git_api.commit_hash_normal()
-_meta = _read_metadata()
-_add_sphinx()
+_meta = _read_json_data(name="metadata", path=_METADATA_FILEPATH, required=True)
+_meta["changelogs"] = _read_json_data(name="changelog", path=_CHANGELOG_FILEPATH, required=False)
+_meta["contributor"] = _read_json_data(
+    name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False
+)
+_add_sphinx_config(
+    _read_json_data(name="Sphinx config", path=_meta["file_sphinx_conf"]["path"], required=True)
+)
 _add_version()
 _add_css_and_js_files()
-_add_theme()
-_add_extensions()
-_add_ablog_blog_authors()
 _add_intersphinx_mapping()
+_add_license()
 _logger.info("Configurations", _logger.pretty(_globals))
 _add_html_context()
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))

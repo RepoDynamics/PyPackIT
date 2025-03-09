@@ -1,18 +1,22 @@
+"""Jinja2 helper functions for the website."""
+
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 import mdit
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+    from typing import Literal
 
 
 metadata: dict = {}
 
 
 def team_members_with_role_ids(
-    role_ids: str | Sequence[str], active_only: bool = True
+    role_ids: str | Sequence[str], *, active_only: bool = True
 ) -> list[dict]:
     """Get team members with a specific role ID.
 
@@ -45,12 +49,28 @@ def team_members_with_role_ids(
     ]
 
 
-def create_citation():
-    """Create citation information for the project."""
-    return
+def get_forms_by_regex(
+    regex: str, form_type: Literal["issue", "discussion"] = "issue"
+) -> list[dict]:
+    """Get issue forms and discussion categories matching a RegEx.
+
+    This function is used to filter issue forms and discuttsion categories
+    (from `ccc.issue.forms` and `ccc.discussion.category`, respectively)
+    based on a RegEx pattern.
+    """
+    out = []
+    pattern = re.compile(regex)
+    if form_type == "issue":
+        forms = metadata.get("issue", {}).get("forms", [])
+        out.extend([form for form in forms if pattern.match(form["id"])])
+        return out
+    for category_slug, category_data in metadata.get("discussion", {}).get("category", {}).items():
+        if pattern.match(category_slug):
+            out.append(category_data)
+    return out
 
 
-def create_license_data():
+def create_license_data() -> str:
     """Create data for each license component."""
     container = mdit.block_container()
     badge_data = metadata["__data__"]["badge"]
@@ -118,13 +138,13 @@ def create_license_data():
     return container.source()
 
 
-def footer_template(license_path, version):
+def footer_template(license_path: str, version: str) -> str:
     """Create badges for footer template."""
     badge_list = [
         {
             "label": metadata["name"],
             "args": {"message": version or "0.0.0"},
-            "logo": f"source/{metadata['web']['file']['icon']['rel_path']}",
+            "logo": metadata["data_website"]["file"]["icon"]["path"],
             "logo_type": "file",
         },
         {
@@ -151,3 +171,65 @@ def footer_template(license_path, version):
         label_color_dark="#555",
     )
     return badges.source(target="github")
+
+
+def dependency_availability() -> dict:
+    """Get the availability and count of dependencies in different package repositories."""
+    deps = metadata["pkg"]["dependency"]
+    dep_types = ["core", "optional"]
+    repos = ["pip", "conda", "apt"]
+    counts = {
+        dep_type: {count_type: 0 for count_type in ["total", *repos]} for dep_type in dep_types
+    }
+    for core_dep in deps.get("core", {}).values():
+        counts["core"]["total"] += 1
+        for repo in repos:
+            if repo in core_dep:
+                counts["core"][repo] += 1
+    for opt_group in deps.get("optional", {}).values():
+        for opt_dep in opt_group["package"].values():
+            counts["optional"]["total"] += 1
+            for repo in repos:
+                if repo in opt_dep:
+                    counts["optional"][repo] += 1
+    for dep_type in dep_types:
+        count_total = counts[dep_type]["total"]
+        for repo in repos:
+            count_repo = counts[dep_type][repo]
+            if count_repo == count_total:
+                counts[dep_type][repo] = "✅"
+            elif count_repo == 0:
+                counts[dep_type][repo] = "❌"
+            else:
+                counts[dep_type][repo] = f"{count_repo}/{count_total}"
+    return counts
+
+
+def comma_list_of_dependencies(
+    pkg: Literal["pkg", "test"], dep: Literal["core", "optional"]
+) -> str:
+    """Get a Markdown string of comma-separated dependencies for a package or test suite.
+
+    This generates a Markdown string representing a comma-separated list
+    of required or optional runtime dependencies for the package or the test suite.
+    """
+
+    def add_link(dep_id: str, dep_data: dict) -> None:
+        names.append(f"[{dep_data['name']}](#dep-{pkg}-{dep_id})")
+        return
+
+    def sort_func(item: tuple[str, dict]) -> str:
+        return item[1]["name"]
+
+    src = metadata.get(pkg, {}).get("dependency", {}).get(dep)
+    if not src:
+        return "---"
+    names = []
+    if dep == "core":
+        for dep_id, dep_data in sorted(src.items(), key=sort_func):
+            add_link(dep_id, dep_data)
+    else:
+        for dep_group in src.values():
+            for dep_id, dep_data in sorted(dep_group["package"].items(), key=sort_func):
+                add_link(dep_id, dep_data)
+    return ", ".join(names)
