@@ -775,28 +775,28 @@ def _snake_case_to_camel_case(string: str) -> str:
 
 
 def _parse_args() -> _argparse.Namespace:
-
-    def source_list(value):
+    def source_list(value: str) -> list[str]:
         """Ensure the input is a comma-separated list of valid choices."""
-        VALID_CHOICES = ["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"]
         items = value.split(",")
-        invalid = [item for item in items if item not in VALID_CHOICES]
+        invalid = [item for item in items if item not in valid_sources]
         if invalid:
-            raise _argparse.ArgumentTypeError(
-                f"Invalid choices: {', '.join(invalid)}. Valid options: {', '.join(VALID_CHOICES)}"
+            error_msg = (
+                f"Invalid choices: {', '.join(invalid)}. Valid options: {', '.join(valid_sources)}"
             )
+            raise _argparse.ArgumentTypeError(error_msg)
         return items
 
-    def boolean_or_source_list(value):
+    def boolean_or_source_list(value: str) -> bool | list[str]:
         """Parse input as boolean or a list of valid choices."""
         true_values = {"true", "yes", "1"}
         false_values = {"false", "no", "0"}
         if value.lower() in true_values:
             return True
-        elif value.lower() in false_values:
+        if value.lower() in false_values:
             return False
         return source_list(value)
 
+    valid_sources = ["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"]
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument(
@@ -821,7 +821,7 @@ def _parse_args() -> _argparse.Namespace:
     parser.add_argument(
         "--sources",
         nargs="*",
-        choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"],
+        choices=valid_sources,
         default=None,
     )
     parser.add_argument(
@@ -837,14 +837,14 @@ def _parse_args() -> _argparse.Namespace:
         "--install",
         type=boolean_or_source_list,
         default=True,
-        help="Boolean (true/false) or a list of package managers (comma-separated): conda, pip, apt, brew, choco, winget, bash, pwsh"
+        help="Boolean (true/false) or a list of package managers (comma-separated): conda, pip, apt, brew, choco, winget, bash, pwsh",
     )
     parser.add_argument(
         "--exclude-install",
         nargs="*",
         choices=["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"],
         default=None,
-        help="List of package managers to exclude from installation: conda, pip, apt, brew, choco, winget, bash, pwsh"
+        help="List of package managers to exclude from installation: conda, pip, apt, brew, choco, winget, bash, pwsh",
     )
     parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--overwrite", action=_argparse.BooleanOptionalAction, default=False)
