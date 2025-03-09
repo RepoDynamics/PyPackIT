@@ -108,7 +108,8 @@ class Hooks:
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pip_specs = [
-            f"-e {path_to_root}{package_data[package_key]["path"]["root"]}" for package_key in package_keys
+            f"-e {path_to_root}{package_data[package_key]['path']['root']}"
+            for package_key in package_keys
         ]
         install = _import_module_from_path(self.repo_path / ".dev/install.py")
         _, self._binder_files = install.DependencyInstaller(package_data).run(

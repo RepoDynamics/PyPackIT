@@ -292,7 +292,9 @@ class DependencyInstaller:
     ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
         """Install dependencies for the given configuration."""
         resolved_packages = self._resolve_packages(packages)
-        resolved_python_version = _resolve_python_version([pkg["pkg"] for pkg in resolved_packages], python_version)
+        resolved_python_version = _resolve_python_version(
+            [pkg["pkg"] for pkg in resolved_packages], python_version
+        )
         dependencies = {}
         for pkg in resolved_packages:
             deps = _resolve_dependencies(
@@ -433,7 +435,13 @@ def _resolve_dependencies(
     if not target_platform:
         target_platform = build_platform
     selector_vars = (
-        {"build_platform": build_platform, "target_platform": target_platform, "py": python_version, "py3k": python_version[0] == "3", "py2k": python_version[0] == "2"}
+        {
+            "build_platform": build_platform,
+            "target_platform": target_platform,
+            "py": python_version,
+            "py3k": python_version[0] == "3",
+            "py2k": python_version[0] == "2",
+        }
         | {key: key in _CONDA_SUBDIR_TO_OS_ARCH[target_platform] for key in _CONDA_SELECTOR_VARS}
         | _resolve_variants(pkg=pkg, pyver=python_version, input_variants=variants)
     )
@@ -498,7 +506,6 @@ def _collect_dependencies(
             if extras == "all" or group["name"] in extras:
                 deps.extend(list(group["package"].values()))
     return _copy.deepcopy(deps)
-
 
 
 def _resolve_variants(
@@ -793,7 +800,10 @@ def _parse_args():
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument(
-        "--packages", type=_json.loads, default='["main", "test"]', help="JSON string of package specifications."
+        "--packages",
+        type=_json.loads,
+        default='["main", "test"]',
+        help="JSON string of package specifications.",
     )
     parser.add_argument("--python-version", type=str, default=None)
     parser.add_argument(
