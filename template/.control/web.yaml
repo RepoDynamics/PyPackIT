@@ -926,8 +926,8 @@ devcontainer_docs:
           spec:
             version: ==0.5.2
           url:
-            conda: https://anaconda.org/conda-forge/sphinx-copybutton
             docs: https://sphinx-copybutton.readthedocs.io/
+            package: https://anaconda.org/conda-forge/sphinx-copybutton
             source: https://github.com/executablebooks/sphinx-copybutton
           data:
             sphinx_config:
