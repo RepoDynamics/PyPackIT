@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import importlib.util as _importlib_util
-import sys as _sys
-from pathlib import Path as _Path
 import json as _json
 import shlex as _shlex
+import sys as _sys
+from pathlib import Path as _Path
 from typing import TYPE_CHECKING
 
 import mdit
@@ -108,7 +108,7 @@ class Hooks:
             python_version: str,
             conda_env_name: str,
             source: Literal["pip", "conda"],
-        ):
+        ) -> str:
             sources = ["pip", "conda"] if source == "pip" else ["conda", "pip"]
             if build_platform.startswith("linux"):
                 sources.extend(["apt", "bash", "brew"])
@@ -131,31 +131,26 @@ class Hooks:
 
         def install_pkg_script(
             source: Literal["pip", "conda"],
-        ):
+        ) -> str:
             if source == "conda":
-                return (
-                    f"conda install -c file://./ {package_names_str}"
-                )
-            return (
-                f"pip install --no-index --find-links=./ --prefer-binary {package_names_str}"
-            )
+                return f"conda install -c file://./ {package_names_str}"
+            return f"pip install --no-index --find-links=./ --prefer-binary {package_names_str}"
 
         env_output_dir = "./_temp_test_env"
         conda_filename = "environment.yaml"
         pkg_id = self.get(".__key__").removeprefix("pypkg_")
         packages = _shlex.quote(_json.dumps([pkg_id, test_pkg_id]))
-        package_names = [
-            self.get(".name").lower(),
-            self.get(f"pypkg_{test_pkg_id}.name").lower()
-        ]
-        package_names_str = ' '.join(package_names)
+        package_names = [self.get(".name").lower(), self.get(f"pypkg_{test_pkg_id}.name").lower()]
+        package_names_str = " ".join(package_names)
         oss = self.get(".os")
         python = self.get(".python")
         out = {}
         for os in oss.values():
             for source in ("pip", "conda"):
                 for python_version in python["version"]["minors"]:
-                    conda_env_name = f"{pkg_id}-{os["platform"]}-{os["runner"]}-{source}-py{python_version}"
+                    conda_env_name = (
+                        f"{pkg_id}-{os['platform']}-{os['runner']}-{source}-py{python_version}"
+                    )
                     out[f"{os['platform']}_{os['runner']}_{source}_py{python_version}"] = {
                         "name": f"py{python_version} | {source} | {os['name']}",
                         "runner": os["runner"],
@@ -167,7 +162,7 @@ class Hooks:
                                 source=source,
                             ),
                             "install_pkg": install_pkg_script(source=source),
-                            "test": f"python -m {package_names[1]} --report ./report"
+                            "test": f"python -m {package_names[1]} --report ./report",
                         },
                         "conda_env": {
                             "name": conda_env_name,
