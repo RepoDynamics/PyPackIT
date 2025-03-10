@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util as _importlib_util
+import json as _json
+import shlex as _shlex
 import sys as _sys
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING
@@ -98,31 +100,110 @@ class Hooks:
         self.changelog(get_metadata=get_metadata)
         return self
 
+    def pypkg_test(self, test_pkg_id: str) -> dict:
+        """Create test package data."""
+
+        def install_env_script(
+            build_platform: str,
+            python_version: str,
+            conda_env_name: str,
+            source: Literal["pip", "conda"],
+        ) -> str:
+            sources = ["pip", "conda"] if source == "pip" else ["conda", "pip"]
+            if build_platform.startswith("linux"):
+                sources.extend(["apt", "bash", "brew"])
+            elif build_platform.startswith("osx"):
+                sources.extend(["brew", "bash"])
+            elif build_platform.startswith("win"):
+                sources.extend(["choco", "pwsh"])
+            return (
+                f"python ./.devcontainer/install.py "
+                f"--packages {packages} "
+                f"--build-platform {build_platform} "
+                f"--sources {' '.join(sources)} "
+                f"--python-version {python_version} "
+                f"--conda-env-name {conda_env_name} "
+                "--exclude-install conda "
+                f"--output-dir {env_output_dir} "
+                "--overwrite "
+                f"--filename-conda {conda_filename} "
+            )
+
+        def install_pkg_script(
+            source: Literal["pip", "conda"],
+        ) -> str:
+            if source == "conda":
+                return f"conda install -c file://./ {package_names_str}"
+            return f"pip install --no-index --find-links=./ --prefer-binary {package_names_str}"
+
+        env_output_dir = "./_temp_test_env"
+        conda_filename = "environment.yaml"
+        pkg_id = self.get(".__key__").removeprefix("pypkg_")
+        packages = _shlex.quote(_json.dumps([pkg_id, test_pkg_id]))
+        package_names = [self.get(".name").lower(), self.get(f"pypkg_{test_pkg_id}.name").lower()]
+        package_names_str = " ".join(package_names)
+        oss = self.get(".os")
+        python = self.get(".python")
+        out = {}
+        for os in oss.values():
+            for source in ("pip", "conda"):
+                for python_version in python["version"]["minors"]:
+                    conda_env_name = (
+                        f"{pkg_id}-{os['platform']}-{os['runner']}-{source}-py{python_version}"
+                    )
+                    out[f"{os['platform']}_{os['runner']}_{source}_py{python_version}"] = {
+                        "name": f"py{python_version} | {source} | {os['name']}",
+                        "runner": os["runner"],
+                        "script": {
+                            "install_env": install_env_script(
+                                build_platform=os["platform"],
+                                python_version=python_version,
+                                conda_env_name=conda_env_name,
+                                source=source,
+                            ),
+                            "install_pkg": install_pkg_script(source=source),
+                            "test": f"python -m {package_names[1]} --report ./report",
+                        },
+                        "conda_env": {
+                            "name": conda_env_name,
+                            "path": f"{env_output_dir}/{conda_filename}",
+                        },
+                        "codecov": {
+                            "env": {
+                                "PLATFORM": os["platform"],
+                                "RUNNER": os["runner"],
+                                "PYTHON": python_version,
+                                "PKG_MANAGER": source,
+                            }
+                        },
+                        "report_artifact_suffix": f" - {source} - {os['runner']} - {os['platform']} - py{python_version}",
+                    }
+        return out
+
     def binder_config_file(self, source: Literal["conda", "apt", "bash"]) -> str:
         """Create environment dependencies for binder."""
         if self._binder_files:
             return self._binder_files.get(source, "")
-        install = _import_module_from_path(self.repo_path / ".dev/install.py")
-        pyver = self.get("pypkg_main.python.version")
-        pkg_path = self.get("pypkg_main.path.root")
-        test_path = self.get("pypkg_test.path.root")
-        pkg_dep = self.get("pypkg_main.dependency")
+        package_keys = ("pypkg_main", "pypkg_test")
+        package_data = {k: self.get(k) for k in package_keys}
         env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pip_specs = [
-            f"-e {path_to_root}{app_path}" for app_path in (pkg_path, test_path) if app_path
+            f"-e {path_to_root}{package_data[package_key]['path']['root']}"
+            for package_key in package_keys
         ]
-        _, self._binder_files = install.DependencyInstaller(
-            python_version=pyver,
-            pkg_dep=pkg_dep,
-            test_dep=self.get("pypkg_test.dependency", {}),
-        ).run(
-            platform="linux-64",
-            sources=["conda", "apt", "bash"],
+        install = _import_module_from_path(self.repo_path / ".devcontainer/install.py")
+        _, self._binder_files = install.DependencyInstaller(package_data).run(
+            packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
+            build_platform="linux-64",
+            target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
-            python_version=pyver["minors"][0],
+            python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
+            sources=["conda", "apt", "bash"],
             extra_pip_specs=pip_specs,
+            indent_json=self.get("default.file_setting.json.indent"),
+            indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
         )
         if "bash" in self._binder_files:
             self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files['bash']}"
