@@ -25,6 +25,24 @@ jobs:
       with:
         imageName: ghcr.io/repodynamics/devcontainer-docs
         configFile: .devcontainer/container-docs/devcontainer.json
-        runCmd: sleep 1
+        runCmd: |
+          echo "PATH: $PATH"
+          echo "BASHRC: $(cat ~/.bashrc)"
+          echo "PWD: $PWD"
+          echo "HOME: $HOME"
+          echo "USER: $USER"
+          echo "UID: $UID"
+          echo "GID: $GID"
+          echo "git version: $(git --version)"
+          if [ -d "/workspace/.git" ]; then
+              echo "This is a Git repository."
+          else
+              echo "This is not a Git repository."
+          fi
+          ls -A /workspace
+          echo "git folder: $(git -C /workspace rev-parse --show-toplevel)"
+          source /workspace/.devcontainer/container-docs/tasks.sh
+          build
+
         cacheFrom: ghcr.io/repodynamics/devcontainer-docs
         push: always
