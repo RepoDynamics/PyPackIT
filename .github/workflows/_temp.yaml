@@ -29,8 +29,8 @@ jobs:
         with:
           imageName: ghcr.io/repodynamics/devcontainer-docs
           configFile: .devcontainer/container-docs/devcontainer.json
-          cacheFrom: ghcr.io/repodynamics/devcontainer-docs
+#          cacheFrom: ghcr.io/repodynamics/devcontainer-docs
           runCmd: sleep 1
           push: always
-          cacheTo: type=registry,ref=ghcr.io/repodynamics/devcontainer-docs:latest
+#          cacheTo: type=registry,ref=ghcr.io/repodynamics/devcontainer-docs:latest
           platform: linux/amd64,linux/arm64
