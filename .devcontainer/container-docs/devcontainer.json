@@ -24,7 +24,7 @@
    },
    "name": "Documentation Environment",
    "postCreateCommand": {
-      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a /etc/profile /etc/bash.bashrc"
+      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
    "service": "docs",
    "shutdownAction": "none",
