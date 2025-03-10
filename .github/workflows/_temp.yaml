@@ -19,5 +19,6 @@ jobs:
       uses: devcontainers/ci@v0.3
       with:
         imageName: ghcr.io/repodynamics/devcontainer-docs
+        configFile: .devcontainer/container-docs/devcontainer.json
         runCmd: sleep 1
         push: always
