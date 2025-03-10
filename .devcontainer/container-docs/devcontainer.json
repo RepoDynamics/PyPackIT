@@ -25,7 +25,7 @@
    },
    "name": "Documentation Environment",
    "postCreateCommand": {
-      "source_tasks": "echo '. /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
+      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
    "remoteUser": "dev",
    "service": "docs",
