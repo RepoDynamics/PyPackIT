@@ -26929,7 +26929,7 @@
             "env": {},
             "id": "docs",
             "inherit_env": false,
-            "name": "pypackit-devcontainer-docs",
+            "name": "repodynamics/pypackit-devcontainer-docs",
             "ref": "refs/heads/main"
          },
          "env": {
