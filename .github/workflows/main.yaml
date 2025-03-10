@@ -187,7 +187,7 @@ jobs:
   binder:
     name: ${{ matrix.config.name }}
     needs: [main, web, lint, test, build]
-    if: fromJSON(needs.main.outputs.binder)
+    if: ${{ !cancelled() && !failure() && fromJSON(needs.main.outputs.binder)
     strategy:
       fail-fast: false
       matrix:
