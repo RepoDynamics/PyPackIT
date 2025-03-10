@@ -44,9 +44,6 @@ jobs:
       - name: Build Preview
         if: ${{ !cancelled() }}
         run: find ${{ fromJSON(inputs.config).artifact.build.path }}
-      - name: Build Preview
-        if: ${{ !cancelled() }}
-        run: find ${{ fromJSON(inputs.config).artifact.build.path }}dirhtml
       - name: Build Artifact Upload
         if: ${{ !cancelled() }}
         # https://github.com/actions/upload-artifact
