@@ -25,6 +25,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ github.token }}
+      # TODO: Build for multiple platforms:
+      # - https://github.com/devcontainers/ci/issues/299#issuecomment-2694214792
+      # - https://github.com/actions/runner-images/issues/2875
       - name: Build
         # https://github.com/devcontainers/ci
         uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
