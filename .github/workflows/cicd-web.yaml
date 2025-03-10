@@ -55,7 +55,7 @@ jobs:
           name: ${{ fromJSON(inputs.config).artifact.build.name }}
           retention-days: ${{ fromJSON(inputs.config).artifact.build.retention-days }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include-hidden }}
-          path: ${{ fromJSON(inputs.config).artifact.build.path }}**
+          path: ${{ fromJSON(inputs.config).artifact.build.path }}
       - name: GH-Pages Artifact Upload
         if: ${{ !cancelled() && fromJSON(inputs.config).deploy }}
         id: upload-pages
