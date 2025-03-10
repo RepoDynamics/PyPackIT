@@ -4,6 +4,11 @@ on:
 jobs:
   build_devcontainer:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
