@@ -27,9 +27,6 @@
    "postCreateCommand": {
       "source_tasks": "echo '. /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
-   "postStartCommand": {
-      "source_tasks": ". /workspace/.devcontainer/container-docs/tasks.sh"
-   },
    "remoteUser": "dev",
    "service": "docs",
    "shutdownAction": "none",
