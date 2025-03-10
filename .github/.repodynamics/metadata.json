@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(47%) sepia(61%) saturate(3991%) hue-rotate(78deg) brightness(100%) contrast(101%)",
-                  "light": "invert(15%) sepia(88%) saturate(2195%) hue-rotate(100deg) brightness(101%) contrast(101%)"
+                  "dark": "invert(32%) sepia(68%) saturate(2547%) hue-rotate(80deg) brightness(114%) contrast(101%)",
+                  "light": "invert(10%) sepia(51%) saturate(7301%) hue-rotate(118deg) brightness(103%) contrast(106%)"
                }
             }
          },
@@ -6897,7 +6897,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -7046,7 +7046,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-03-09",
+         "date-released": "2025-03-10",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -10413,7 +10413,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-03-09"
+                              "message": "2025-03-10"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -20176,8 +20176,8 @@
             "website": ".devcontainer/container-docs/environment/conda/website.yaml"
          },
          "devcontainer_dockerfile": {
-            "docs": ".devcontainer/container-docs/Dockerfile",
-            "main": ".devcontainer/Dockerfile"
+            "devcontainer_docs": ".devcontainer/container-docs/Dockerfile",
+            "devcontainer_main": ".devcontainer/Dockerfile"
          },
          "devcontainer_feature_install": {
             "conda_setup": ".devcontainer/features/conda_setup/install.sh",
@@ -20188,12 +20188,12 @@
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json"
          },
          "devcontainer_metadata": {
-            "docs": ".devcontainer/container-docs/devcontainer.json",
-            "main": ".devcontainer/devcontainer.json"
+            "devcontainer_docs": ".devcontainer/container-docs/devcontainer.json",
+            "devcontainer_main": ".devcontainer/devcontainer.json"
          },
          "devcontainer_task": {
-            "docs": ".devcontainer/container-docs/tasks.sh",
-            "main": ".devcontainer/tasks.sh"
+            "devcontainer_docs": ".devcontainer/container-docs/tasks.sh",
+            "devcontainer_main": ".devcontainer/tasks.sh"
          },
          "issue_form": {
             "01_pkg_api_fix": ".github/ISSUE_TEMPLATE/01_pkg_api_fix.yaml",
@@ -20997,7 +20997,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-09"
+                                    "message": "2025-03-10"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -24117,7 +24117,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-09"
+                                    "message": "2025-03-10"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -26073,7 +26073,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-03-09"
+                                 "message": "2025-03-10"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
