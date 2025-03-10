@@ -20176,8 +20176,8 @@
             "website": ".devcontainer/container-docs/environment/conda/website.yaml"
          },
          "devcontainer_dockerfile": {
-            "devcontainer_docs": ".devcontainer/container-docs/Dockerfile",
-            "devcontainer_main": ".devcontainer/Dockerfile"
+            "docs": ".devcontainer/container-docs/Dockerfile",
+            "main": ".devcontainer/Dockerfile"
          },
          "devcontainer_feature_install": {
             "conda_setup": ".devcontainer/features/conda_setup/install.sh",
@@ -20188,12 +20188,12 @@
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json"
          },
          "devcontainer_metadata": {
-            "devcontainer_docs": ".devcontainer/container-docs/devcontainer.json",
-            "devcontainer_main": ".devcontainer/devcontainer.json"
+            "docs": ".devcontainer/container-docs/devcontainer.json",
+            "main": ".devcontainer/devcontainer.json"
          },
          "devcontainer_task": {
-            "devcontainer_docs": ".devcontainer/container-docs/tasks.sh",
-            "devcontainer_main": ".devcontainer/tasks.sh"
+            "docs": ".devcontainer/container-docs/tasks.sh",
+            "main": ".devcontainer/tasks.sh"
          },
          "issue_form": {
             "01_pkg_api_fix": ".github/ISSUE_TEMPLATE/01_pkg_api_fix.yaml",
