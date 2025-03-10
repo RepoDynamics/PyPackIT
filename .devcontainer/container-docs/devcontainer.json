@@ -28,5 +28,7 @@
    },
    "service": "docs",
    "shutdownAction": "none",
-   "workspaceFolder": "/workspace"
+   "workspaceFolder": "/workspace",
+   "remoteUser": "dev",
+   "containerUser": "dev"
 }
