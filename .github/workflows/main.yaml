@@ -129,6 +129,9 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      contents: read
+      packages: write
+      attestations: write
     uses: ./.github/workflows/cicd-web.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
