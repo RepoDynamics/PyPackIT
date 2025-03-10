@@ -73,7 +73,7 @@ def get_forms_by_regex(
 def create_license_data() -> str:
     """Create data for each license component."""
     container = mdit.block_container()
-    badge_data = metadata["__data__"]["badge"]
+    badge_data = metadata["data_badge"]
     green = badge_data["color"]["green"]
     red = badge_data["color"]["red"]
     for license_id, component in metadata.get("license", {}).get("component").items():
@@ -165,8 +165,8 @@ def footer_template(license_path: str, version: str) -> str:
         style="flat-square",
         classes=["footer-badge"],
         separator=0,
-        color=metadata["color"]["primary"]["light"],
-        color_dark=metadata["color"]["primary"]["dark"],
+        color=metadata["data_color"]["primary"]["light"],
+        color_dark=metadata["data_color"]["primary"]["dark"],
         label_color="rgb(200,200,200)",
         label_color_dark="#555",
     )
