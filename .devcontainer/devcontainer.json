@@ -150,7 +150,7 @@
    ],
    "name": "Main Development Environment",
    "postCreateCommand": {
-      "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
+      "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' | tee -a /etc/profile /etc/bash.bashrc"
    },
    "service": "main",
    "shutdownAction": "none",
