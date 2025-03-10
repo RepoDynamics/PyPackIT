@@ -36,7 +36,6 @@ jobs:
           echo "---"
           echo "git folder: $(git -C /workspace rev-parse --show-toplevel)"
           echo "---"
-          source /workspace/.devcontainer/container-docs/tasks.sh
           build
 
         cacheFrom: ghcr.io/repodynamics/devcontainer-docs
