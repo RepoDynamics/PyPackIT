@@ -26,4 +26,5 @@ jobs:
         imageName: ghcr.io/repodynamics/devcontainer-docs
         configFile: .devcontainer/container-docs/devcontainer.json
         runCmd: sleep 1
+        cacheFrom: ghcr.io/repodynamics/devcontainer-docs
         push: always
