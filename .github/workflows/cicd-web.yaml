@@ -31,7 +31,9 @@ jobs:
         env: ${{ fromJSON(inputs.config).container.env }}
         with:
           imageName: ghcr.io/${{ fromJSON(inputs.config).container.name }}
-          runCmd: ${{ fromJSON(inputs.config).container.command }}
+          runCmd: |
+            source /workspace/.devcontainer/container-docs/tasks.sh
+            ${{ fromJSON(inputs.config).container.command }}
           configFile: ${{ fromJSON(inputs.config).container.path }}
           refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
           env: ${{ fromJSON(inputs.config).container.env-names }}
