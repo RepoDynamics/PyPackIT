@@ -35,10 +35,11 @@ jobs:
 #            source /workspace/.devcontainer/container-docs/tasks.sh
 #            ${{ fromJSON(inputs.config).container.command }}
           configFile: ${{ fromJSON(inputs.config).container.path }}
-          refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
-          env: ${{ fromJSON(inputs.config).container.env-names }}
-          inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
+#          refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
+#          env: ${{ fromJSON(inputs.config).container.env-names }}
+#          inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
           cacheFrom: ghcr.io/${{ fromJSON(inputs.config).container.name }}
+          push: always
       - name: Build Artifact Upload
         if: ${{ !cancelled() }}
         # https://github.com/actions/upload-artifact
