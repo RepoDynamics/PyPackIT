@@ -148,19 +148,6 @@ jobs:
     uses: ./.github/workflows/ci-lint.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
-  test:
-    name: ${{ matrix.config.name }}
-    needs: main
-    if: fromJSON(needs.main.outputs.test)
-    permissions:
-      id-token: write
-    strategy:
-      fail-fast: false
-      matrix:
-        config: ${{ fromJSON(needs.main.outputs.test) }}
-    uses: ./.github/workflows/ci-test.yaml
-    with:
-      config: ${{ toJSON(matrix.config.job) }}
   build:
     name: ${{ matrix.config.name }}
     needs: main
@@ -170,6 +157,19 @@ jobs:
       matrix:
         config: ${{ fromJSON(needs.main.outputs.build) }}
     uses: ./.github/workflows/ci-build.yaml
+    with:
+      config: ${{ toJSON(matrix.config.job) }}
+  test:
+    name: ${{ matrix.config.name }}
+    needs: [ main, build ]
+    if: fromJSON(needs.main.outputs.test)
+    permissions:
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.main.outputs.test) }}
+    uses: ./.github/workflows/ci-test.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
   cm-anaconda:
