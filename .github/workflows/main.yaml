@@ -186,7 +186,7 @@ jobs:
       config: ${{ needs.main.outputs.cm-anaconda }}
   binder:
     name: ${{ matrix.config.name }}
-    needs: [main, web, lint, test, build]
+    needs: [main, lint, test, build]
     if: ${{ !cancelled() && !failure() && fromJSON(needs.main.outputs.binder) }}
     strategy:
       fail-fast: false
