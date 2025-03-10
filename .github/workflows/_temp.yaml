@@ -27,20 +27,15 @@ jobs:
         configFile: .devcontainer/container-docs/devcontainer.json
         runCmd: |
           echo "PATH: $PATH"
-          echo "BASHRC: $(cat ~/.bashrc)"
           echo "PWD: $PWD"
           echo "HOME: $HOME"
           echo "USER: $USER"
           echo "UID: $UID"
           echo "GID: $GID"
-          echo "git version: $(git --version)"
-          if [ -d "/workspace/.git" ]; then
-              echo "This is a Git repository."
-          else
-              echo "This is not a Git repository."
-          fi
-          ls -A /workspace
+          ls -l /workspace
+          echo "---"
           echo "git folder: $(git -C /workspace rev-parse --show-toplevel)"
+          echo "---"
           source /workspace/.devcontainer/container-docs/tasks.sh
           build
 
