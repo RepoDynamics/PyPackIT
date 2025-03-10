@@ -913,7 +913,7 @@ devcontainer_docs:
                                   break
                           else:
                               url = web_url
-                      blog_authors[person_id] = (person["name"]["full"], url)
+                      blog_authors[person_id] = [person["name"]["full"], url]
                   return blog_authors
                 }}#
         sphinx-copybutton:
