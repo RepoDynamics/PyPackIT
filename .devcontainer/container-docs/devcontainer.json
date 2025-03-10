@@ -1,4 +1,5 @@
 {
+   "containerUser": "dev",
    "customizations": {
       "vscode": {
          "extensions": [
@@ -26,9 +27,8 @@
    "postCreateCommand": {
       "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
+   "remoteUser": "dev",
    "service": "docs",
    "shutdownAction": "none",
-   "workspaceFolder": "/workspace",
-   "remoteUser": "dev",
-   "containerUser": "dev"
+   "workspaceFolder": "/workspace"
 }

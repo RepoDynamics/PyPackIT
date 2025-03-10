@@ -5036,6 +5036,7 @@
    },
    "devcontainer_docs": {
       "container": {
+         "containerUser": "dev",
          "customizations": {
             "vscode": {
                "extensions": [
@@ -5061,8 +5062,9 @@
          },
          "name": "Documentation Environment",
          "postCreateCommand": {
-            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a /etc/profile /etc/bash.bashrc"
+            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
+         "remoteUser": "dev",
          "service": "docs",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
@@ -6071,7 +6073,7 @@
          ],
          "name": "Main Development Environment",
          "postCreateCommand": {
-            "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' | tee -a /etc/profile /etc/bash.bashrc"
+            "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
          "service": "main",
          "shutdownAction": "none",
