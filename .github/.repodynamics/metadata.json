@@ -26916,7 +26916,7 @@
             "build": {
                "include_hidden": false,
                "name": "Website - v{{ version }}",
-               "path": "docs/website/.build/*"
+               "path": "docs/website/.build/"
             },
             "pages": {
                "include_hidden": false,
