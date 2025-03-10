@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
-                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
+                  "dark": "invert(32%) sepia(68%) saturate(2547%) hue-rotate(80deg) brightness(114%) contrast(101%)",
+                  "light": "invert(10%) sepia(51%) saturate(7301%) hue-rotate(118deg) brightness(103%) contrast(106%)"
                }
             }
          },
@@ -6897,7 +6897,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "release": {
             "created_at": "2023-05-21",
