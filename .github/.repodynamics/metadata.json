@@ -26914,7 +26914,7 @@
          },
          "artifact": {
             "build": {
-               "include_hidden": false,
+               "include_hidden": true,
                "name": "Website - v{{ version }}",
                "path": "docs/website/.build/"
             },
