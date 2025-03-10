@@ -22313,11 +22313,6 @@
                "GitHub Actions",
                "Bot"
             ],
-            "license": "AGPL-3.0-or-later",
-            "license-files": [
-               "LICENSES/*",
-               "COPYRIGHTS/*"
-            ],
             "maintainers": [
                {
                   "email": "armiariam@gmail.com",
@@ -25434,11 +25429,6 @@
                "FAIR Software",
                "GitHub Actions",
                "Bot"
-            ],
-            "license": "AGPL-3.0-or-later",
-            "license-files": [
-               "LICENSES/*",
-               "COPYRIGHTS/*"
             ],
             "maintainers": [
                {

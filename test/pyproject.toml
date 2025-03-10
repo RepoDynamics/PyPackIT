@@ -9,11 +9,6 @@ requires = [
 name = "PyPackIT-TestSuite"
 description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
 requires-python = ">=3.10"
-license = "AGPL-3.0-or-later"
-license-files = [
-    "LICENSES/*",
-    "COPYRIGHTS/*",
-]
 authors = [
     {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
 ]
