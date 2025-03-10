@@ -18,15 +18,6 @@ jobs:
           repository: ${{ fromJSON(inputs.config).repository }}
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
-      - name: QEMU Setup
-        uses: docker/setup-qemu-action@v3
-      - name: Docker Buildx Setup
-        uses: docker/setup-buildx-action@v3
-        with:
-          version: v0.16.1
-          platforms: linux/amd64,linux/arm64
-          install: true
-          use: true
       - name: GitHub Container Registry Login
         # https://github.com/docker/login-action
         uses: docker/login-action@v3
@@ -39,19 +30,14 @@ jobs:
         uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
         env: ${{ fromJSON(inputs.config).container.env }}
         with:
-          imageName: ghcr.io/${{ fromJSON(inputs.config).container.name }}
-#          runCmd: |
-#            source /workspace/.devcontainer/container-docs/tasks.sh
-#            ${{ fromJSON(inputs.config).container.command }}
           configFile: ${{ fromJSON(inputs.config).container.path }}
-#          refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
-#          env: ${{ fromJSON(inputs.config).container.env-names }}
-#          inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
+          imageName: ghcr.io/${{ fromJSON(inputs.config).container.name }}
           cacheFrom: ghcr.io/${{ fromJSON(inputs.config).container.name }}
-          runCmd: sleep 1
-          push: always
-          cacheTo: type=registry,ref=ghcr.io/${{ fromJSON(inputs.config).container.name }}:latest
-          platform: linux/amd64,linux/arm64
+          runCmd: ${{ fromJSON(inputs.config).container.command }}
+          refFilterForPush: ${{ fromJSON(inputs.config).container.ref }}
+          env: ${{ fromJSON(inputs.config).container.env-names }}
+          inheritEnv: ${{ toJSON(fromJSON(inputs.config).container.inherit-env) }}
+          push: filter
       - name: Build Artifact Upload
         if: ${{ !cancelled() }}
         # https://github.com/actions/upload-artifact
