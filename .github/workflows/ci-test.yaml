@@ -71,12 +71,11 @@ jobs:
           environment-file: repo/${{ matrix.task.conda_env.path }}
           cache-environment: true
           cache-environment-key: test-env
-          generate-run-shell: true
           init-shell: bash
           micromamba-version: latest
           log-level: debug
       - name: Conda Overview
-        run: mamba info
+        run: micromamba info
 #      - name: Conda Env Cache
 #        id: conda-cache
 #        uses: actions/cache@v4
@@ -100,9 +99,9 @@ jobs:
           cd dist
           ${{ matrix.task.script.install_pkg }}
       - name: Conda Env Overview
-        run: mamba list
+        run: micromamba list
       - name: Conda Env Details
-        run: mamba env export
+        run: micromamba env export
       - name: Test
         run: ${{ matrix.task.script.test }}
       - name: Report Upload
