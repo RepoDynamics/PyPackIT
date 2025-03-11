@@ -74,6 +74,10 @@ jobs:
           miniforge-version: latest
           auto-update-conda: true
           activate-environment: ${{ matrix.task.conda_env.name }}
+      - name: Conda Overview
+        run: conda info
+      - name: Mamba Overview
+        run: mamba --version
       - name: Conda Env Cache
         id: conda-cache
         uses: actions/cache@v4
