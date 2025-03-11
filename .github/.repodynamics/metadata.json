@@ -22565,7 +22565,7 @@
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22587,7 +22587,7 @@
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22609,7 +22609,7 @@
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22631,7 +22631,7 @@
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22741,7 +22741,7 @@
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22763,7 +22763,7 @@
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22785,7 +22785,7 @@
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22807,7 +22807,7 @@
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22917,7 +22917,7 @@
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22939,7 +22939,7 @@
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22961,7 +22961,7 @@
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -22983,7 +22983,7 @@
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23093,7 +23093,7 @@
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23115,7 +23115,7 @@
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23137,7 +23137,7 @@
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23159,7 +23159,7 @@
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23269,7 +23269,7 @@
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23291,7 +23291,7 @@
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23313,7 +23313,7 @@
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          },
@@ -23335,7 +23335,7 @@
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
-               "install_pkg": "pip install --no-index --find-links=./ --only-binary :all: pypackit pypackit-testsuite",
+               "install_pkg": "\nmkdir -p wheelhouse\n# Find and move all .whl files into wheelhouse\nfind . -type f -name \"*.whl\" -exec mv {} wheelhouse/ \\;\necho \"All wheel files have been moved to the wheelhouse directory.\ntree wheelhouse\npip install --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite\n",
                "test": "python -m pypackit-testsuite --report ./report"
             }
          }
