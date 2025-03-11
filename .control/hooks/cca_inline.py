@@ -133,7 +133,7 @@ class Hooks:
             source: Literal["pip", "conda"],
         ) -> str:
             if source == "conda":
-                return f"conda install -c file://./conda_channel/ {package_names_str}"
+                return f"conda install -c file:./conda_channel/ {package_names_str}"
             return rf"pip install --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}"
 
         env_output_dir = "_temp_test_env"
