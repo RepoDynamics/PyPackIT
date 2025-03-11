@@ -74,7 +74,7 @@ jobs:
         with:
           path: ${{ env.CONDA }}/envs
           key: >-
-            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(matrix.task.conda_env.path) }}
+            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(format('repo/{0}}', matrix.task.conda_env.path)) }}
       - name: Conda Env Update
         if: steps.conda-cache.outputs.cache-hit != 'true'
         run: >-
