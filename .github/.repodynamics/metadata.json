@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6899,7 +6899,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -22460,6 +22460,7 @@
       },
       "test": {
          "linux-64_ubuntu-24.04_conda_py3.10": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22473,7 +22474,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | conda | Linux (x64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.10",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22482,6 +22482,7 @@
             }
          },
          "linux-64_ubuntu-24.04_conda_py3.11": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22495,7 +22496,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | conda | Linux (x64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.11",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22504,6 +22504,7 @@
             }
          },
          "linux-64_ubuntu-24.04_conda_py3.12": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22517,7 +22518,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | conda | Linux (x64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.12",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22526,6 +22526,7 @@
             }
          },
          "linux-64_ubuntu-24.04_conda_py3.13": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22539,7 +22540,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | conda | Linux (x64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04 - linux-64 - py3.13",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22548,6 +22548,7 @@
             }
          },
          "linux-64_ubuntu-24.04_pip_py3.10": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22561,7 +22562,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | pip | Linux (x64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.10",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22570,6 +22570,7 @@
             }
          },
          "linux-64_ubuntu-24.04_pip_py3.11": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22583,7 +22584,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | pip | Linux (x64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.11",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22592,6 +22592,7 @@
             }
          },
          "linux-64_ubuntu-24.04_pip_py3.12": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22605,7 +22606,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | pip | Linux (x64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.12",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22614,6 +22614,7 @@
             }
          },
          "linux-64_ubuntu-24.04_pip_py3.13": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22627,7 +22628,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | pip | Linux (x64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04 - linux-64 - py3.13",
             "runner": "ubuntu-24.04",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22636,6 +22636,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_conda_py3.10": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22649,7 +22650,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | conda | Linux (arm64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.10",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22658,6 +22658,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_conda_py3.11": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22671,7 +22672,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | conda | Linux (arm64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.11",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22680,6 +22680,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_conda_py3.12": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22693,7 +22694,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | conda | Linux (arm64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.12",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22702,6 +22702,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_conda_py3.13": {
+            "artifact_name_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22715,7 +22716,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | conda | Linux (arm64)",
-            "report_artifact_suffix": " - conda - ubuntu-24.04-arm - linux-aarch64 - py3.13",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22724,6 +22724,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_pip_py3.10": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22737,7 +22738,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | pip | Linux (arm64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.10",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22746,6 +22746,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_pip_py3.11": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22759,7 +22760,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | pip | Linux (arm64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.11",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22768,6 +22768,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_pip_py3.12": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22781,7 +22782,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | pip | Linux (arm64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.12",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22790,6 +22790,7 @@
             }
          },
          "linux-aarch64_ubuntu-24.04-arm_pip_py3.13": {
+            "artifact_name_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22803,7 +22804,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | pip | Linux (arm64)",
-            "report_artifact_suffix": " - pip - ubuntu-24.04-arm - linux-aarch64 - py3.13",
             "runner": "ubuntu-24.04-arm",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22812,6 +22812,7 @@
             }
          },
          "osx-64_macos-13_conda_py3.10": {
+            "artifact_name_suffix": " - conda - macos-13 - osx-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22825,7 +22826,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | conda | macOS (x64)",
-            "report_artifact_suffix": " - conda - macos-13 - osx-64 - py3.10",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-conda-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22834,6 +22834,7 @@
             }
          },
          "osx-64_macos-13_conda_py3.11": {
+            "artifact_name_suffix": " - conda - macos-13 - osx-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22847,7 +22848,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | conda | macOS (x64)",
-            "report_artifact_suffix": " - conda - macos-13 - osx-64 - py3.11",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-conda-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22856,6 +22856,7 @@
             }
          },
          "osx-64_macos-13_conda_py3.12": {
+            "artifact_name_suffix": " - conda - macos-13 - osx-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22869,7 +22870,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | conda | macOS (x64)",
-            "report_artifact_suffix": " - conda - macos-13 - osx-64 - py3.12",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-conda-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22878,6 +22878,7 @@
             }
          },
          "osx-64_macos-13_conda_py3.13": {
+            "artifact_name_suffix": " - conda - macos-13 - osx-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -22891,7 +22892,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | conda | macOS (x64)",
-            "report_artifact_suffix": " - conda - macos-13 - osx-64 - py3.13",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-conda-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22900,6 +22900,7 @@
             }
          },
          "osx-64_macos-13_pip_py3.10": {
+            "artifact_name_suffix": " - pip - macos-13 - osx-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22913,7 +22914,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | pip | macOS (x64)",
-            "report_artifact_suffix": " - pip - macos-13 - osx-64 - py3.10",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-pip-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22922,6 +22922,7 @@
             }
          },
          "osx-64_macos-13_pip_py3.11": {
+            "artifact_name_suffix": " - pip - macos-13 - osx-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22935,7 +22936,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | pip | macOS (x64)",
-            "report_artifact_suffix": " - pip - macos-13 - osx-64 - py3.11",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-pip-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22944,6 +22944,7 @@
             }
          },
          "osx-64_macos-13_pip_py3.12": {
+            "artifact_name_suffix": " - pip - macos-13 - osx-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22957,7 +22958,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | pip | macOS (x64)",
-            "report_artifact_suffix": " - pip - macos-13 - osx-64 - py3.12",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-pip-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22966,6 +22966,7 @@
             }
          },
          "osx-64_macos-13_pip_py3.13": {
+            "artifact_name_suffix": " - pip - macos-13 - osx-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -22979,7 +22980,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | pip | macOS (x64)",
-            "report_artifact_suffix": " - pip - macos-13 - osx-64 - py3.13",
             "runner": "macos-13",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-pip-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -22988,6 +22988,7 @@
             }
          },
          "osx-arm64_macos-15_conda_py3.10": {
+            "artifact_name_suffix": " - conda - macos-15 - osx-arm64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23001,7 +23002,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | conda | macOS (arm64)",
-            "report_artifact_suffix": " - conda - macos-15 - osx-arm64 - py3.10",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-conda-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23010,6 +23010,7 @@
             }
          },
          "osx-arm64_macos-15_conda_py3.11": {
+            "artifact_name_suffix": " - conda - macos-15 - osx-arm64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23023,7 +23024,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | conda | macOS (arm64)",
-            "report_artifact_suffix": " - conda - macos-15 - osx-arm64 - py3.11",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-conda-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23032,6 +23032,7 @@
             }
          },
          "osx-arm64_macos-15_conda_py3.12": {
+            "artifact_name_suffix": " - conda - macos-15 - osx-arm64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23045,7 +23046,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | conda | macOS (arm64)",
-            "report_artifact_suffix": " - conda - macos-15 - osx-arm64 - py3.12",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-conda-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23054,6 +23054,7 @@
             }
          },
          "osx-arm64_macos-15_conda_py3.13": {
+            "artifact_name_suffix": " - conda - macos-15 - osx-arm64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23067,7 +23068,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | conda | macOS (arm64)",
-            "report_artifact_suffix": " - conda - macos-15 - osx-arm64 - py3.13",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-conda-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23076,6 +23076,7 @@
             }
          },
          "osx-arm64_macos-15_pip_py3.10": {
+            "artifact_name_suffix": " - pip - macos-15 - osx-arm64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23089,7 +23090,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | pip | macOS (arm64)",
-            "report_artifact_suffix": " - pip - macos-15 - osx-arm64 - py3.10",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-pip-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23098,6 +23098,7 @@
             }
          },
          "osx-arm64_macos-15_pip_py3.11": {
+            "artifact_name_suffix": " - pip - macos-15 - osx-arm64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23111,7 +23112,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | pip | macOS (arm64)",
-            "report_artifact_suffix": " - pip - macos-15 - osx-arm64 - py3.11",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-pip-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23120,6 +23120,7 @@
             }
          },
          "osx-arm64_macos-15_pip_py3.12": {
+            "artifact_name_suffix": " - pip - macos-15 - osx-arm64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23133,7 +23134,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | pip | macOS (arm64)",
-            "report_artifact_suffix": " - pip - macos-15 - osx-arm64 - py3.12",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-pip-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23142,6 +23142,7 @@
             }
          },
          "osx-arm64_macos-15_pip_py3.13": {
+            "artifact_name_suffix": " - pip - macos-15 - osx-arm64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23155,7 +23156,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | pip | macOS (arm64)",
-            "report_artifact_suffix": " - pip - macos-15 - osx-arm64 - py3.13",
             "runner": "macos-15",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-pip-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23164,6 +23164,7 @@
             }
          },
          "win-64_windows-2025_conda_py3.10": {
+            "artifact_name_suffix": " - conda - windows-2025 - win-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23177,7 +23178,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | conda | Windows (x64)",
-            "report_artifact_suffix": " - conda - windows-2025 - win-64 - py3.10",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-conda-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23186,6 +23186,7 @@
             }
          },
          "win-64_windows-2025_conda_py3.11": {
+            "artifact_name_suffix": " - conda - windows-2025 - win-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23199,7 +23200,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | conda | Windows (x64)",
-            "report_artifact_suffix": " - conda - windows-2025 - win-64 - py3.11",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-conda-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23208,6 +23208,7 @@
             }
          },
          "win-64_windows-2025_conda_py3.12": {
+            "artifact_name_suffix": " - conda - windows-2025 - win-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23221,7 +23222,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | conda | Windows (x64)",
-            "report_artifact_suffix": " - conda - windows-2025 - win-64 - py3.12",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-conda-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23230,6 +23230,7 @@
             }
          },
          "win-64_windows-2025_conda_py3.13": {
+            "artifact_name_suffix": " - conda - windows-2025 - win-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "conda",
@@ -23243,7 +23244,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | conda | Windows (x64)",
-            "report_artifact_suffix": " - conda - windows-2025 - win-64 - py3.13",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-conda-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23252,6 +23252,7 @@
             }
          },
          "win-64_windows-2025_pip_py3.10": {
+            "artifact_name_suffix": " - pip - windows-2025 - win-64 - py3.10",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23265,7 +23266,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.10 | pip | Windows (x64)",
-            "report_artifact_suffix": " - pip - windows-2025 - win-64 - py3.10",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-pip-py3.10 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23274,6 +23274,7 @@
             }
          },
          "win-64_windows-2025_pip_py3.11": {
+            "artifact_name_suffix": " - pip - windows-2025 - win-64 - py3.11",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23287,7 +23288,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.11 | pip | Windows (x64)",
-            "report_artifact_suffix": " - pip - windows-2025 - win-64 - py3.11",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-pip-py3.11 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23296,6 +23296,7 @@
             }
          },
          "win-64_windows-2025_pip_py3.12": {
+            "artifact_name_suffix": " - pip - windows-2025 - win-64 - py3.12",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23309,7 +23310,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.12 | pip | Windows (x64)",
-            "report_artifact_suffix": " - pip - windows-2025 - win-64 - py3.12",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-pip-py3.12 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -23318,6 +23318,7 @@
             }
          },
          "win-64_windows-2025_pip_py3.13": {
+            "artifact_name_suffix": " - pip - windows-2025 - win-64 - py3.13",
             "codecov": {
                "env": {
                   "PKG_MANAGER": "pip",
@@ -23331,7 +23332,6 @@
                "path": "./_temp_test_env/environment.yaml"
             },
             "name": "py3.13 | pip | Windows (x64)",
-            "report_artifact_suffix": " - pip - windows-2025 - win-64 - py3.13",
             "runner": "windows-2025",
             "script": {
                "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-pip-py3.13 --exclude-install conda --output-dir ./_temp_test_env --overwrite --filename-conda environment.yaml ",
@@ -26890,12 +26890,11 @@
                   "name": "Test Reports - {{ source }} - v{{ version }}",
                   "pattern": "Test Report -*"
                },
-               "name": "Test Report - {{ source }} - v{{ version }} - py{{ python }} - {{ os }}",
+               "name": "Test Report - ",
                "path": "report"
             }
          },
-         "name": "Test ({{ source }} - v{{ version }})",
-         "task_name": "py{{ python }} | {{ os }}"
+         "name": "Test ({{ pkg.name }} - v{{ version }})"
       },
       "web": {
          "action": {
