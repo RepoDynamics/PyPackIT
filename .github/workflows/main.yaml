@@ -162,13 +162,13 @@ jobs:
     uses: ./.github/workflows/ci-build.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
-  build-artifact:
-    name: Build Artifact Generation
+  post-build:
+    name: Post-Build
     needs: [ build ]
     uses: ./.github/workflows/ci-build-artifact.yaml
   test:
     name: ${{ matrix.config.name }}
-    needs: [ main, build-artifact ]
+    needs: [ main, post-build ]
     if: fromJSON(needs.main.outputs.test)
     permissions:
       id-token: write
