@@ -29,21 +29,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: Miniconda Setup
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          miniforge-version: latest
-          auto-update-conda: true
-          activate-environment: ${{ matrix.task.conda_env.name }}
-#      - name: Environment Setup
-#        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
+#      - name: Miniconda Setup
+#        uses: conda-incubator/setup-miniconda@v3
 #        with:
-#          environment-file: repo/${{ fromJSON(inputs.config).path-env }}
-#          cache-environment: true
-#          cache-environment-key: sphinx-website-env
-#          generate-run-shell: true
-#          init-shell: bash
-#          create-args: pip
+#          miniforge-version: latest
+#          auto-update-conda: true
+#          activate-environment: ${{ matrix.task.conda_env.name }}
       - name: Tool Setup
         run: |
           echo "::group::Install tree"
@@ -57,8 +48,6 @@ jobs:
           echo "::endgroup::"
       - name: Platform Info
         run: uname -a
-      - name: Conda Overview
-        run: conda info
       - name: Repository Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v4
@@ -75,17 +64,30 @@ jobs:
           ${{ matrix.task.script.install_env }}
       - name: Conda Env File
         run: cat repo/${{ matrix.task.conda_env.path }}
-      - name: Conda Env Cache
-        id: conda-cache
-        uses: actions/cache@v4
+      - name: Micromamba Setup
+        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
         with:
-          path: ${{ env.CONDA }}/envs
-          key: >-
-            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(format('repo/{0}', matrix.task.conda_env.path)) }}
-      - name: Conda Env Update
-        if: steps.conda-cache.outputs.cache-hit != 'true'
-        run: |
-          conda env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }} -vv
+          environment-name: ${{ matrix.task.conda_env.name }}
+          environment-file: ${{ matrix.task.conda_env.path }}
+          cache-environment: true
+          cache-environment-key: sphinx-website-env
+          generate-run-shell: true
+          init-shell: bash
+          micromamba-version: latest
+          log-level: debug
+      - name: Conda Overview
+        run: mamba info
+#      - name: Conda Env Cache
+#        id: conda-cache
+#        uses: actions/cache@v4
+#        with:
+#          path: ${{ env.CONDA }}/envs
+#          key: >-
+#            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(format('repo/{0}', matrix.task.conda_env.path)) }}
+#      - name: Conda Env Update
+#        if: steps.conda-cache.outputs.cache-hit != 'true'
+#        run: |
+#          conda env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }} -vv
       - name: Artifact Download
         uses: actions/download-artifact@v4
         with:
@@ -98,9 +100,9 @@ jobs:
           cd dist
           ${{ matrix.task.script.install_pkg }}
       - name: Conda Env Overview
-        run: conda list
+        run: mamba list
       - name: Conda Env Details
-        run: conda env export
+        run: mamba env export
       - name: Test
         run: ${{ matrix.task.script.test }}
       - name: Report Upload
