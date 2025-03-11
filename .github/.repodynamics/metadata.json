@@ -26894,6 +26894,9 @@
                "path": "report"
             }
          },
+         "codecov": {
+            "codecov_yml_path": ".github/.codecov.yml"
+         },
          "name": "Test ({{ pkg.name }} - v{{ version }})"
       },
       "web": {
