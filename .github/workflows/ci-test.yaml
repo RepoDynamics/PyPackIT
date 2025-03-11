@@ -25,39 +25,16 @@ jobs:
       run:
         shell: bash -el {0}
     steps:
-      - name: Platform Info
-        run: uname -a
       - name: Python Setup
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: Artifact Download
-        uses: actions/download-artifact@v4
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          path: dist/
-          merge-multiple: 'false'
-      - name: Install tree (macOS)
-        if: runner.os == 'macOS'
-        run: brew install tree
-      - name: Install tree (Windows)
-        if: runner.os == 'Windows'
-        run: choco install tree -y
-      - name: Artifact Overview
-        run: tree -a dist/
-      - name: Repository Checkout
-        # https://github.com/actions/checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ matrix.task.repository }}
-          ref: ${{ matrix.task.ref }}
-          fetch-tags: true
-          path: repo/
-      - name: Environment Installation
-        run: |
-          cd repo
-          ${{ matrix.task.script.install_env }}
-      - name: Repo Overview
-        run: tree -a repo/
+          miniforge-version: latest
+          auto-update-conda: true
+          activate-environment: ${{ matrix.task.conda_env.name }}
 #      - name: Environment Setup
 #        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
 #        with:
@@ -67,17 +44,37 @@ jobs:
 #          generate-run-shell: true
 #          init-shell: bash
 #          create-args: pip
-
-      - name: Miniconda Setup
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          miniforge-version: latest
-          auto-update-conda: true
-          activate-environment: ${{ matrix.task.conda_env.name }}
+      - name: Tool Setup
+        run: |
+          echo "::group::Install tree"
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+              brew install tree
+          elif [[ "${{ runner.os }}" == "Windows" ]]; then
+              choco install tree -y
+          else
+              echo "Already installed."
+          fi
+          echo "::endgroup::"
+      - name: Platform Info
+        run: uname -a
       - name: Conda Overview
         run: conda info
-      - name: Mamba Overview
-        run: mamba --version
+      - name: Repository Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.task.repository }}
+          ref: ${{ matrix.task.ref }}
+          fetch-tags: true
+          path: repo/
+      - name: Repo Overview
+        run: tree -a repo/
+      - name: Environment Installation
+        run: |
+          cd repo
+          ${{ matrix.task.script.install_env }}
+      - name: Conda Env File
+        run: cat repo/${{ matrix.task.conda_env.path }}
       - name: Conda Env Cache
         id: conda-cache
         uses: actions/cache@v4
@@ -85,16 +82,17 @@ jobs:
           path: ${{ env.CONDA }}/envs
           key: >-
             conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(format('repo/{0}', matrix.task.conda_env.path)) }}
-      - name: Conda Env File
-        run: cat repo/${{ matrix.task.conda_env.path }}
       - name: Conda Env Update
         if: steps.conda-cache.outputs.cache-hit != 'true'
         run: |
           conda env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }} -vv
-      - name: Conda Env Overview
-        run: conda list
-      - name: Conda Env Details
-        run: conda env export
+      - name: Artifact Download
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: 'false'
+      - name: Artifact Overview
+        run: tree -a dist/
       - name: Package Installation
         run: |
           cd dist
