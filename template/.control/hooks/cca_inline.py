@@ -136,7 +136,7 @@ class Hooks:
                 return f"conda install -c file://./ {package_names_str}"
             return f"pip install --no-index --find-links=./ --prefer-binary {package_names_str}"
 
-        env_output_dir = "./_temp_test_env"
+        env_output_dir = "_temp_test_env"
         conda_filename = "environment.yaml"
         pkg_id = self.get(".__key__").removeprefix("pypkg_")
         packages = _shlex.quote(_json.dumps([pkg_id, test_pkg_id]))
