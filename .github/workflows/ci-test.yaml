@@ -85,10 +85,18 @@ jobs:
         if: steps.conda-cache.outputs.cache-hit != 'true'
         run: >-
           mamba env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }}
+      - name: Conda Env Overview
+        run: conda list
+      - name: Conda Env Details
+        run: conda env export
       - name: Package Installation
         run: |
           cd dist
           ${{ matrix.task.script.install_pkg }}
+      - name: Conda Env Overview
+        run: conda list
+      - name: Conda Env Details
+        run: conda env export
       - name: Test
         run: ${{ matrix.task.script.test }}
       - name: Report Upload
