@@ -176,7 +176,7 @@ class Hooks:
                                 "PKG_MANAGER": source,
                             }
                         },
-                        "report_artifact_suffix": f" - {source} - {os['runner']} - {os['platform']} - py{python_version}",
+                        "artifact_name_suffix": f" - {source} - {os['runner']} - {os['platform']} - py{python_version}",
                     }
         return out
 
