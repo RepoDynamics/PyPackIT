@@ -133,17 +133,8 @@ class Hooks:
             source: Literal["pip", "conda"],
         ) -> str:
             if source == "conda":
-                return f"""
-conda install -c file://./ {package_names_str}
-"""
-            return rf"""
-mkdir -p wheelhouse
-# Find and move all .whl files into wheelhouse
-find . -type f -name "*.whl" -exec mv {{}} wheelhouse/ \;
-echo "All wheel files have been moved to the wheelhouse directory."
-tree wheelhouse
-pip install --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}
-"""
+                return f"conda install -c file://./conda_channel/ {package_names_str}"
+            return rf"pip install --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}"
 
         env_output_dir = "_temp_test_env"
         conda_filename = "environment.yaml"
