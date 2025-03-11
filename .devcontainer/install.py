@@ -9,6 +9,7 @@ import argparse as _argparse
 import copy as _copy
 import functools as _functools
 import json as _json
+import logging as _logging
 import platform as _platform
 import struct as _struct
 import subprocess as _subprocess
@@ -124,6 +125,7 @@ def run(  # noqa: PLR0913
     except _json.JSONDecodeError as e:
         error_msg = f"Failed to load dependencies from '{filepath}'"
         raise ValueError(error_msg) from e
+    _logger.debug("Loaded metadata from '%s'", filepath)
     dependencies, files = DependencyInstaller(data).run(
         packages=packages,
         python_version=python_version,
@@ -210,6 +212,7 @@ def install_files(
     for source in ("bash", "pwsh", "apt", "brew", "choco", "winget", "conda", "pip"):
         if source not in files:
             continue
+        _logger.info("Installing dependencies from %s", source)
         if source == "apt":
             _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)  # noqa: S603
         else:
@@ -238,6 +241,7 @@ def write_files(  # noqa: PLR0913
         out[source] = filepath
         filepath.parent.mkdir(parents=True, exist_ok=True)
         if not filepath.exists() or overwrite:
+            _logger.info("Writing %s file to %s", source, filepath)
             filepath.write_text(dep_content)
         else:
             error_msg = f"File already exists: '{filepath}'"
@@ -862,6 +866,9 @@ def _parse_args() -> _argparse.Namespace:
     return parser.parse_args()
 
 
+_logger = _logging.getLogger(__name__)
+
 if __name__ == "__main__":
+    _logging.basicConfig(level=_logging.INFO)
     args = _parse_args()
     run(**vars(args))
