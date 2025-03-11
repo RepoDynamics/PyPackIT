@@ -68,9 +68,9 @@ jobs:
         uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
         with:
           environment-name: ${{ matrix.task.conda_env.name }}
-          environment-file: ${{ matrix.task.conda_env.path }}
+          environment-file: repo/${{ matrix.task.conda_env.path }}
           cache-environment: true
-          cache-environment-key: sphinx-website-env
+          cache-environment-key: test-env
           generate-run-shell: true
           init-shell: bash
           micromamba-version: latest
