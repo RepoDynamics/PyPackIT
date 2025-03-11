@@ -288,8 +288,8 @@ pypkg_test:
               python_files: [ test_*.py, tests_*.py, '*_test.py', '*_tests.py' ]
               python_functions: [ 'test_*', 'tests_*', '*_test',  '*_tests' ]
               required_plugins:
-                - pytest-cov == 5.0.0
-                - pytest-html == 4.1.1
+                - pytest-cov ${{ pypkg_test.dependency.core.pytest-cov.install.pip.version }}$
+                - pytest-html ${{ pypkg_test.dependency.core.pytest-html.install.pip.version }}$
     coverage_config:
       name: Coverage Configuration
       summary: >-
