@@ -36,6 +36,12 @@ jobs:
         with:
           path: dist/
           merge-multiple: 'false'
+      - name: Install tree (macOS)
+        if: runner.os == 'macOS'
+        run: brew install tree
+      - name: Install tree (Windows)
+        if: runner.os == 'Windows'
+        run: choco install tree -y
       - name: Artifact Overview
         run: tree -a dist/
       - name: Repository Checkout
