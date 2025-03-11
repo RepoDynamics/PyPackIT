@@ -72,7 +72,7 @@ News = "https://pypackit.repodynamics.com/news"
 Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
 
 [project.scripts]
-PyPackIT = "pypackit.__main__:main"
+pypackit = "pypackit.__main__:main"
 
 [tool.setuptools]
 include-package-data = true

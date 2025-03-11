@@ -14,7 +14,7 @@ build:
   script: {{ PYTHON }} -m pip install {{ pkg_dir }} --no-deps --no-build-isolation -vv
   number: {{ "0" if environ.get("PKG_FULL_VERSION") else environ.get("GIT_DESCRIBE_NUMBER", 0) }}
   entry_points:
-    - PyPackIT = pypackit.__main__:main
+    - pypackit = pypackit.__main__:main
   script_env:
     - PKG_FULL_VERSION
 
@@ -35,7 +35,7 @@ test:
     - pip
   commands:
     - pip check
-    - PyPackIT --help
+    - pypackit --help
 
 about:
   home: https://pypackit.repodynamics.com

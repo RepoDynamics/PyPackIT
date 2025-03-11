@@ -10711,9 +10711,9 @@
                               "height": "23px",
                               "items": [
                                  {
-                                    "alt": "PyPackIT",
+                                    "alt": "pypackit",
                                     "args": {
-                                       "message": "PyPackIT"
+                                       "message": "pypackit"
                                     },
                                     "color": "#000",
                                     "title": "Main CLI entry of the package."
@@ -13106,7 +13106,7 @@
          },
          "custom_pkg_cli": {
             "cli_names": [
-               "PyPackIT"
+               "pypackit"
             ],
             "pkg_entry_description": "command-line interface",
             "pkg_entry_name": "CLI",
@@ -13643,7 +13643,7 @@
          {
             "__data__": {
                "cli_names": [
-                  "PyPackIT"
+                  "pypackit"
                ],
                "pkg_entry_description": "command-line interface",
                "pkg_entry_name": "CLI",
@@ -13858,7 +13858,7 @@
                      "label": "CLI Entry Point",
                      "multiple": false,
                      "options": [
-                        "PyPackIT"
+                        "pypackit"
                      ]
                   },
                   "changelog": false,
@@ -14712,7 +14712,7 @@
          {
             "__data__": {
                "cli_names": [
-                  "PyPackIT"
+                  "pypackit"
                ],
                "pkg_entry_description": "command-line interface",
                "pkg_entry_name": "CLI",
@@ -14844,7 +14844,7 @@
                      "label": "CLI Entry Point",
                      "multiple": false,
                      "options": [
-                        "PyPackIT"
+                        "pypackit"
                      ]
                   },
                   "changelog": false,
@@ -15325,7 +15325,7 @@
          {
             "__data__": {
                "cli_names": [
-                  "PyPackIT"
+                  "pypackit"
                ],
                "pkg_entry_description": "command-line interface",
                "pkg_entry_name": "CLI",
@@ -15457,7 +15457,7 @@
                      "label": "CLI Entry Point",
                      "multiple": false,
                      "options": [
-                        "PyPackIT"
+                        "pypackit"
                      ]
                   },
                   "changelog": false,
@@ -20130,7 +20130,7 @@
          "main"
       ],
       "cli_names": [
-         "PyPackIT"
+         "pypackit"
       ],
       "file": {
          "config": {
@@ -20283,7 +20283,7 @@
             "api_names": [],
             "branch": "main",
             "cli_names": [
-               "PyPackIT"
+               "pypackit"
             ],
             "gui_names": [],
             "os_names": [
@@ -20553,7 +20553,7 @@
                                  "value": "pip check"
                               },
                               {
-                                 "value": "PyPackIT --help"
+                                 "value": "pypackit --help"
                               }
                            ]
                         },
@@ -20653,7 +20653,7 @@
             "main": {
                "conda": true,
                "description": "Main CLI entry of the package.",
-               "name": "PyPackIT",
+               "name": "pypackit",
                "pypi": true,
                "ref": "pypackit.__main__:main"
             }
@@ -21295,9 +21295,9 @@
                                     "height": "23px",
                                     "items": [
                                        {
-                                          "alt": "PyPackIT",
+                                          "alt": "pypackit",
                                           "args": {
-                                             "message": "PyPackIT"
+                                             "message": "pypackit"
                                           },
                                           "color": "#000",
                                           "title": "Main CLI entry of the package."
@@ -22327,7 +22327,7 @@
             },
             "requires-python": ">=3.10",
             "scripts": {
-               "PyPackIT": "pypackit.__main__:main"
+               "pypackit": "pypackit.__main__:main"
             },
             "urls": {
                "Documentation": "https://pypackit.repodynamics.com/manual",
@@ -24410,9 +24410,9 @@
                                     "height": "23px",
                                     "items": [
                                        {
-                                          "alt": "PyPackIT",
+                                          "alt": "pypackit",
                                           "args": {
-                                             "message": "PyPackIT"
+                                             "message": "pypackit"
                                           },
                                           "color": "#000",
                                           "title": "Main CLI entry of the package."
@@ -26360,9 +26360,9 @@
                                  "height": "23px",
                                  "items": [
                                     {
-                                       "alt": "PyPackIT",
+                                       "alt": "pypackit",
                                        "args": {
-                                          "message": "PyPackIT"
+                                          "message": "pypackit"
                                        },
                                        "color": "#000",
                                        "title": "Main CLI entry of the package."

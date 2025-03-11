@@ -99,7 +99,7 @@ body:
       description: Please select the relevant CLI entry point.
       multiple: false
       options:
-        - PyPackIT
+        - pypackit
       default: 0
     validations:
       required: true
