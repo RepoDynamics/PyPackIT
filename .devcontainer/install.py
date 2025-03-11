@@ -149,7 +149,7 @@ def run(  # noqa: PLR0913
                     raise ValueError(error_msg)
             install_sources = set(install)
         if exclude_install:
-            install_sources = install_sources.intersection(set(exclude_install))
+            install_sources = install_sources - set(exclude_install)
         install_files({k: v for k, v in files.items() if k in install_sources})
     paths = {}
     if output_dir:
