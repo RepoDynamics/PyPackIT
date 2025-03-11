@@ -86,7 +86,7 @@ jobs:
       - name: Conda Env Update
         if: steps.conda-cache.outputs.cache-hit != 'true'
         run: |
-          mamba env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }}
+          mamba env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }} -vv
       - name: Conda Env Overview
         run: conda list
       - name: Conda Env Details
