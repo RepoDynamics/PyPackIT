@@ -249,7 +249,7 @@ def write_files(  # noqa: PLR0913
         return
 
     inputs = locals()
-    output_dir = _Path(output_dir)
+    output_dir = _Path(output_dir).resolve()
     out = {}
     for source, content in files.items():
         _write_file(inputs[f"filename_{source}"], dep_content=content)
