@@ -133,7 +133,7 @@ class Hooks:
             source: Literal["pip", "conda"],
         ) -> str:
             if source == "conda":
-                return f"conda install -c ./conda_channel/ {package_names_str}"
+                return f"mamba install -c ./conda_channel/ {package_names_str}"
             return f"pip uninstall -y {package_names_str}\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}"
 
         env_output_dir = "_temp_test_env"
