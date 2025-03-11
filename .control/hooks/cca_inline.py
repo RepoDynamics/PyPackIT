@@ -133,7 +133,9 @@ class Hooks:
             source: Literal["pip", "conda"],
         ) -> str:
             if source == "conda":
-                return f"conda install -c file://./ {package_names_str}"
+                return f"""
+conda install -c file://./ {package_names_str}
+"""
             return rf"""
 mkdir -p wheelhouse
 # Find and move all .whl files into wheelhouse
@@ -169,7 +171,7 @@ pip install --no-index --find-links=./wheelhouse/ --only-binary :all: {package_n
                                 source=source,
                             ),
                             "install_pkg": install_pkg_script(source=source),
-                            "test": f"python -m {package_names[1]} --report ./report",
+                            "test": f"python -m {self.get(f"pypkg_{test_pkg_id}.import_name")} --report ./report",
                         },
                         "conda_env": {
                             "name": conda_env_name,
