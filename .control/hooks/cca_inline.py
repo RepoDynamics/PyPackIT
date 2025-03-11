@@ -138,7 +138,7 @@ class Hooks:
 mkdir -p wheelhouse
 # Find and move all .whl files into wheelhouse
 find . -type f -name "*.whl" -exec mv {{}} wheelhouse/ \;
-echo "All wheel files have been moved to the wheelhouse directory.
+echo "All wheel files have been moved to the wheelhouse directory."
 tree wheelhouse
 pip install --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}
 """
