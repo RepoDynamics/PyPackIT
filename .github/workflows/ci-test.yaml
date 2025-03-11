@@ -81,9 +81,11 @@ jobs:
           path: ${{ env.CONDA }}/envs
           key: >-
             conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(format('repo/{0}', matrix.task.conda_env.path)) }}
+      - name: Conda Env File
+        run: cat repo/${{ matrix.task.conda_env.path }}
       - name: Conda Env Update
         if: steps.conda-cache.outputs.cache-hit != 'true'
-        run: >-
+        run: |
           mamba env update -n ${{ matrix.task.conda_env.name }} -f repo/${{ matrix.task.conda_env.path }}
       - name: Conda Env Overview
         run: conda list
