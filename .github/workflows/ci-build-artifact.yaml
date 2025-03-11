@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir -p "$WHEELHOUSE_DIR"
           # Find and move all .whl files into wheelhouse
-          find "$DL_DIR" -type f -name "*.whl" -exec mv {{}} "$WHEELHOUSE_DIR" \;
+          find "$DL_DIR" -type f -name "*.whl" -exec mv {} "$WHEELHOUSE_DIR" \;
       - name: Wheelhouse Overview
         run: tree -a "$WHEELHOUSE_DIR"
       - name: Wheelhouse Artifact Upload
@@ -53,6 +53,7 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
       - name: Conda Index Installation
+        # https://github.com/conda/conda-index
         run: conda install -y conda-index
       - name: Conda Channel Index
         shell: bash -el {0}
