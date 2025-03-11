@@ -162,6 +162,66 @@ jobs:
     uses: ./.github/workflows/ci-build.yaml
     with:
       config: ${{ toJSON(matrix.config.job) }}
+  build-artifact:
+    name: Build Artifact Generation
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    env:
+      DL_DIR: artifacts/
+      WHEELHOUSE_DIR: wheelhouse/
+      CONDA_CHANNEL_DIR: conda_channel/
+    steps:
+      - name: Artifact Download
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ env.DL_DIR }}
+          merge-multiple: 'false'
+      - name: Artifact Overview
+        run: tree -a "$DL_DIR"
+      - name: Wheelhouse Generation
+        run: |
+          mkdir -p "$WHEELHOUSE_DIR"
+          # Find and move all .whl files into wheelhouse
+          find "$DL_DIR" -type f -name "*.whl" -exec mv {{}} "$WHEELHOUSE_DIR" \;
+      - name: Wheelhouse Overview
+        run: tree -a "$WHEELHOUSE_DIR"
+      - name: Wheelhouse Artifact Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ env.WHEELHOUSE_DIR }}
+          name: wheelhouse
+      - name: Conda Channel Generation
+        run: |
+          rm -rf "$CONDA_CHANNEL_DIR"
+          mkdir -p "$CONDA_CHANNEL_DIR"
+          # Find and move .conda files to the correct PLATFORM subdirectories
+          find "$DL_DIR" -type f -name "*.conda" | while read -r conda_file; do
+              # Extract PLATFORM from the file path (i.e. last directory containing the .conda file)
+              platform_dir=$(echo "$conda_file" | awk -F'/' '{print $(NF-1)}')
+              # Ensure the platform directory exists under conda_channel
+              mkdir -p "$CONDA_CHANNEL_DIR/$platform_dir"
+              # Move the .conda file to the appropriate platform directory
+              mv "$conda_file" "$CONDA_CHANNEL_DIR/$platform_dir/"
+          done
+      - name: Conda Channel Overview
+        run: tree -a "$CONDA_CHANNEL_DIR"
+      - name: Miniconda Setup
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          auto-update-conda: true
+          auto-activate-base: true
+          activate-environment: ""
+      - name: Conda Channel Index
+        shell: bash -el {0}
+        run: python -m conda_index --verbose "$CONDA_CHANNEL_DIR"
+      - name: Conda Channel Overview
+        run: tree -a "$CONDA_CHANNEL_DIR"
+      - name: Conda Artifact Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ env.CONDA_CHANNEL_DIR }}
+          name: conda_channel
   test:
     name: ${{ matrix.config.name }}
     needs: [ main, build ]
