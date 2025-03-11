@@ -164,3 +164,6 @@ workflow:
           action: pull
         test:
           action: issue
+  test:
+    codecov:
+      codecov_yml_path: ${{ devcontainer_main.environment.codecov.file.codecov_config.path }}$
