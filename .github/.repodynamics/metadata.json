@@ -23746,8 +23746,8 @@
                            "*_tests"
                         ],
                         "required_plugins": [
-                           "pytest-cov == 5.0.0",
-                           "pytest-html == 4.1.1"
+                           "pytest-cov ==6.0.0",
+                           "pytest-html ==4.1.1"
                         ]
                      }
                   }

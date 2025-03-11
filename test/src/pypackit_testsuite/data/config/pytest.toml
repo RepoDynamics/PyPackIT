@@ -20,4 +20,4 @@ minversion = "8.3.3"
 python_classes = ["Test*", "*Test"]
 python_files = ["test_*.py", "tests_*.py", "*_test.py", "*_tests.py"]
 python_functions = ["test_*", "tests_*", "*_test", "*_tests"]
-required_plugins = ["pytest-cov == 5.0.0", "pytest-html == 4.1.1"]
+required_plugins = ["pytest-cov ==6.0.0", "pytest-html ==4.1.1"]
