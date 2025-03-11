@@ -102,24 +102,24 @@ jobs:
         with:
           path: ./dist/*.tar.gz
           name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention_days }}
       - name: Binary Distribution Upload
         if: ${{ !cancelled() && fromJSON(inputs.config).pkg.python.pure }}
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.whl
           name: ${{ fromJSON(inputs.config).artifact.wheel.name }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention_days }}
       - name: ReadMe Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           path: ./README.html
           name: ${{ fromJSON(inputs.config).artifact.readme.name }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention_days }}
   native:
     name: Binary Distribution | ${{ matrix.build.os.name }}
     if: ${{ !fromJSON(inputs.config).pkg.python.pure }}
@@ -151,8 +151,8 @@ jobs:
         with:
           path: ./dist
           name: ${{ matrix.artifact.wheel.name }}
-          include-hidden-files: ${{ matrix.artifact.wheel.include-hidden }}
-          retention-days: ${{ matrix.artifact.wheel.retention-days }}
+          include-hidden-files: ${{ matrix.artifact.wheel.include_hidden }}
+          retention-days: ${{ matrix.artifact.wheel.retention_days }}
   conda:
     name: Conda Distribution | ${{ matrix.task.os.name }}
     runs-on: ${{ matrix.task.os.runner }}
@@ -216,8 +216,8 @@ jobs:
         with:
           path: ./dist
           name: ${{ matrix.task.artifact.name }}
-          include-hidden-files: ${{ matrix.task.artifact.include-hidden }}
-          retention-days: ${{ matrix.task.artifact.retention-days }}
+          include-hidden-files: ${{ matrix.task.artifact.include_hidden }}
+          retention-days: ${{ matrix.task.artifact.retention_days }}
   wheel-merge:
     name: Artifact Merge
     if: ${{ !cancelled() }}
@@ -230,8 +230,8 @@ jobs:
         with:
           name: ${{ fromJSON(inputs.config).artifact.wheel.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.wheel.merge.pattern }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention_days }}
           separate-directories: 'false'
           delete-merged: 'true'
       - name: Conda Dists
@@ -240,8 +240,8 @@ jobs:
         with:
           name: ${{ fromJSON(inputs.config).artifact.conda.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.conda.merge.pattern }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.conda.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.conda.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.conda.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.conda.retention_days }}
           separate-directories: 'true'
           delete-merged: 'true'
   hash-digest:

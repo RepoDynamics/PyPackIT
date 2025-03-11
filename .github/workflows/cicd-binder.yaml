@@ -96,8 +96,8 @@ jobs:
         with:
           path: Dockerfile
           name: ${{ fromJSON(inputs.config).artifact.dockerfile.name }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.dockerfile.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.dockerfile.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.dockerfile.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.dockerfile.retention_days }}
   mybinder:
     name: mybinder.org
     needs: repo2docker

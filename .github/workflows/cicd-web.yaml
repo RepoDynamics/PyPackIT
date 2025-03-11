@@ -50,8 +50,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ fromJSON(inputs.config).artifact.build.name }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.build.retention-days }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include-hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.build.retention_days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.build.include_hidden }}
           path: ${{ fromJSON(inputs.config).artifact.build.path }}
       - name: GH-Pages Artifact Upload
         if: ${{ !cancelled() && fromJSON(inputs.config).deploy }}
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: ${{ fromJSON(inputs.config).artifact.pages.name }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.pages.retention-days }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.pages.retention_days }}
           path: ${{ fromJSON(inputs.config).artifact.pages.path }}
   deploy:
     name: Deploy

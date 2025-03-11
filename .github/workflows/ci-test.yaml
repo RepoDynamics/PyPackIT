@@ -41,7 +41,7 @@ jobs:
       - name: Environment Installation
         run: |
           cd repo
-          ${{ matrix.task.script.install-env }}
+          ${{ matrix.task.script.install_env }}
       - name: Binary Distribution Download
         uses: actions/download-artifact@v4
         with:
@@ -54,22 +54,22 @@ jobs:
         with:
           miniforge-version: latest
           auto-update-conda: true
-          activate-environment: ${{ matrix.task.conda-env.name }}
+          activate-environment: ${{ matrix.task.conda_env.name }}
       - name: Conda Env Cache
         id: conda-cache
         uses: actions/cache@v4
         with:
           path: ${{ env.CONDA }}/envs
           key: >-
-            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(matrix.task.conda-env.path) }}
+            conda-${{ runner.os }}--${{ runner.arch }}--${{ hashFiles(matrix.task.conda_env.path) }}
       - name: Conda Env Update
         if: steps.conda-cache.outputs.cache-hit != 'true'
         run: >-
-          mamba env update -n ${{ matrix.task.conda-env.name }} -f ${{ matrix.task.conda-env.path }}
+          mamba env update -n ${{ matrix.task.conda_env.name }} -f ${{ matrix.task.conda_env.path }}
       - name: Package Installation
         run: |
           cd dist
-          ${{ matrix.task.script.install-pkg }}
+          ${{ matrix.task.script.install_pkg }}
       - name: Test
         run: ${{ matrix.task.script.test }}
       - name: Report Upload
@@ -88,7 +88,7 @@ jobs:
           # TODO: Check that env_vars are correctly set. (https://github.com/codecov/codecov-action/pull/64)
           codecov_yml_path: repo/${{ fromJSON(inputs.config).codecov.codecov_yml_path }}
           directory: ${{ matrix.task.artifact.report.path }}
-          env_vars: ${{ matrix.task.codecov.env-vars }}
+          env_vars: ${{ matrix.task.codecov.env_vars }}
           fail_ci_if_error: false
           use_oidc: true  # https://github.com/codecov/codecov-action/issues/1489#issuecomment-2197308411
           verbose: true
@@ -103,7 +103,7 @@ jobs:
         with:
           name: ${{ fromJSON(inputs.config).artifact.report.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.report.merge.pattern }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.report.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.report.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.report.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.report.retention_days }}
           separate-directories: 'true'
           delete-merged: 'true'

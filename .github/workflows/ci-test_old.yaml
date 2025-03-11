@@ -84,7 +84,7 @@ jobs:
         with:
           name: ${{ fromJSON(inputs.config).artifact.report.merge.name }}
           pattern: ${{ fromJSON(inputs.config).artifact.report.merge.pattern }}
-          include-hidden-files: ${{ fromJSON(inputs.config).artifact.report.include-hidden }}
-          retention-days: ${{ fromJSON(inputs.config).artifact.report.retention-days }}
+          include-hidden-files: ${{ fromJSON(inputs.config).artifact.report.include_hidden }}
+          retention-days: ${{ fromJSON(inputs.config).artifact.report.retention_days }}
           separate-directories: 'true'
           delete-merged: 'true'
