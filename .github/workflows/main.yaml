@@ -168,7 +168,7 @@ jobs:
     uses: ./.github/workflows/ci-build-artifact.yaml
   test:
     name: ${{ matrix.config.name }}
-    needs: [ main, build ]
+    needs: [ main, build-artifact ]
     if: fromJSON(needs.main.outputs.test)
     permissions:
       id-token: write
