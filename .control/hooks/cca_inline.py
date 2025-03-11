@@ -134,7 +134,7 @@ class Hooks:
         ) -> str:
             if source == "conda":
                 return f"conda install -c file://./ {package_names_str}"
-            return f"""
+            return rf"""
 mkdir -p wheelhouse
 # Find and move all .whl files into wheelhouse
 find . -type f -name "*.whl" -exec mv {{}} wheelhouse/ \;
