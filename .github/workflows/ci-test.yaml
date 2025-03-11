@@ -28,10 +28,11 @@ jobs:
       - name: Platform Info
         run: uname -a
       - name: Repository Checkout
-        uses: actions/checkout@v4  # https://github.com/actions/checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v4
         with:
-          repository: ${{ fromJSON(inputs.config).repository }}
-          ref: ${{ fromJSON(inputs.config).ref }}
+          repository: ${{ matrix.task.repository }}
+          ref: ${{ matrix.task.ref }}
           fetch-tags: true
           path: repo/
       - name: Python Setup
@@ -49,6 +50,17 @@ jobs:
           merge-multiple: 'false'
       - name: Artifact Overview
         run: find dist/
+
+#      - name: Environment Setup
+#        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
+#        with:
+#          environment-file: repo/${{ fromJSON(inputs.config).path-env }}
+#          cache-environment: true
+#          cache-environment-key: sphinx-website-env
+#          generate-run-shell: true
+#          init-shell: bash
+#          create-args: pip
+
       - name: Miniconda Setup
         uses: conda-incubator/setup-miniconda@v3
         with:
