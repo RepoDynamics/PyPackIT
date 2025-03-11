@@ -27,6 +27,17 @@ jobs:
     steps:
       - name: Platform Info
         run: uname -a
+      - name: Python Setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Artifact Download
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: 'false'
+      - name: Artifact Overview
+        run: tree -a dist/
       - name: Repository Checkout
         # https://github.com/actions/checkout
         uses: actions/checkout@v4
@@ -35,22 +46,12 @@ jobs:
           ref: ${{ matrix.task.ref }}
           fetch-tags: true
           path: repo/
-      - name: Python Setup
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
       - name: Environment Installation
         run: |
           cd repo
           ${{ matrix.task.script.install_env }}
-      - name: Binary Distribution Download
-        uses: actions/download-artifact@v4
-        with:
-          path: dist/
-          merge-multiple: 'false'
-      - name: Artifact Overview
-        run: find dist/
-
+      - name: Repo Overview
+        run: tree -a repo/
 #      - name: Environment Setup
 #        uses: mamba-org/setup-micromamba@v2  # https://github.com/mamba-org/setup-micromamba
 #        with:
