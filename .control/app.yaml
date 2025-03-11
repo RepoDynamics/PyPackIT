@@ -30,7 +30,7 @@ pypkg_main:
   entry:
     cli:
       main:
-        name: ${{ pypkg_main.name }}$
+        name: '#{{ return get("pypkg_main.name").lower() }}#'
         description: Main CLI entry of the package.
         ref: ${{ pypkg_main.import_name }}$.__main__:main
   dependency:
