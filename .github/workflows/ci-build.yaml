@@ -168,17 +168,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ fromJSON(inputs.config).repository }}
-          fetch-depth: 0
           ref: ${{ fromJSON(inputs.config).ref }}
+          fetch-depth: 0
           path: repo
       - name: Miniconda Setup
         uses: conda-incubator/setup-miniconda@v3
         with:
+          miniforge-version: latest
+          auto-update-conda: true
+          conda-build-version: '>=25.1'
           channels: ${{ fromJSON(inputs.config).conda-channels }}
           auto-activate-base: true
           activate-environment: ""
-          miniconda-version: latest
-          conda-build-version: '>=24.11'
       - name: Environment Setup
         run: |
           mkdir dist
