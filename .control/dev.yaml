@@ -848,12 +848,10 @@ devcontainer_main:
     build-conda:
       name: Build Conda Package
       summary: Build a conda package.
-      process:
-        - ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
-        - $(${{ devcontainer_main.environment.versioning.task.version.alias }}$)
-        - $@
-
-
+      script: >-
+        ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
+        "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
+        "$@"
 #file_pixi_manifest:
 #  # https://pixi.sh/latest/reference/pixi_manifest/
 #  name: Pixi Manifest
