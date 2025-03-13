@@ -342,8 +342,9 @@ devcontainer_main:
                     ;;
             esac
             # Check if the recipe path exists and is a file
-            if [ ! -f "$recipe_path" ]; then
-                echo "Error: Recipe file '$recipe_path' does not exist." >&2
+            recipe_meta_path="$recipe_path/meta.yaml"
+            if [ ! -f "$recipe_meta_path" ]; then
+                echo "Error: Recipe metadata file does not exist at '$recipe_meta_path'." >&2
                 exit 1
             fi
             # Export package version
