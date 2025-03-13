@@ -42,7 +42,9 @@ pypkg_main:
             homepage: https://pypi.org/project/setuptools/
           conda:
             homepage: https://anaconda.org/conda-forge/setuptools
-      versioningit:
+      versioning:
+        name: versioningit
+        import_name: versioningit
         install:
           pip:
             version: '>=3.1.2'
