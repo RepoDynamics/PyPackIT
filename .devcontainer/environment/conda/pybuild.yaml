@@ -1,0 +1,7 @@
+name: pybuild
+dependencies:
+  - pip
+  - pip:
+      - build
+      - readme-renderer [md]
+      - twine

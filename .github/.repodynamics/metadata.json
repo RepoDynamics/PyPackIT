@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -4973,6 +4973,76 @@
             "sequence_indent": 4,
             "sequence_indent_offset": 2
          }
+      },
+      "task_setting": {
+         "global": {
+            "environment": {
+               "process": {
+                  "prepend": [
+                     "conda",
+                     "run",
+                     "--name",
+                     "{{ environment.name }}",
+                     "--live-stream",
+                     "-vv"
+                  ]
+               },
+               "script": {
+                  "append": "conda deactivate\n",
+                  "prepend": "conda activate '{{ environment.name }}'\n"
+               }
+            },
+            "root": {
+               "process": {
+                  "prepend": [
+                     "conda",
+                     "run",
+                     "--name",
+                     "base",
+                     "--live-stream",
+                     "-vv"
+                  ]
+               }
+            }
+         },
+         "local": {
+            "environment": {
+               "process": {
+                  "prepend": [
+                     "conda",
+                     "run",
+                     "--cwd",
+                     "{{ devcontainer.container.workspaceFolder }}",
+                     "--name",
+                     "{{ environment.name }}",
+                     "--live-stream",
+                     "-vv"
+                  ]
+               },
+               "script": {
+                  "append": "conda deactivate\ncd \"$current_dir\"\n",
+                  "prepend": "current_dir=$(pwd)\ncd '{{ devcontainer.container.workspaceFolder }}'\nconda activate '{{ environment.name }}'\n"
+               }
+            },
+            "root": {
+               "process": {
+                  "prepend": [
+                     "conda",
+                     "run",
+                     "--cwd",
+                     "{{ devcontainer.container.workspaceFolder }}",
+                     "--name",
+                     "base",
+                     "--live-stream",
+                     "-vv"
+                  ]
+               },
+               "script": {
+                  "append": "cd \"$current_dir\"\n",
+                  "prepend": "current_dir=$(pwd)\ncd '{{ devcontainer.container.workspaceFolder }}'\n"
+               }
+            }
+         }
       }
    },
    "devcontainer": {
@@ -4982,7 +5052,8 @@
             "apt": "apt.txt",
             "conda": "conda",
             "environment": "environment",
-            "tasks": "tasks.sh"
+            "tasks_global": "tasks_global.sh",
+            "tasks_local": "tasks_local.sh"
          }
       },
       "docker-compose": {
@@ -5062,7 +5133,7 @@
          },
          "name": "Documentation Environment",
          "postCreateCommand": {
-            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
+            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
          "remoteUser": "dev",
          "service": "docs",
@@ -5917,8 +5988,17 @@
             }
          }
       },
-      "path": ".devcontainer/container-docs",
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream -vv"
+      "path": {
+         "apt": ".devcontainer/container-docs/environment/apt.txt",
+         "apt_rel": "apt.txt",
+         "conda": ".devcontainer/container-docs/environment/conda",
+         "conda_rel": "conda",
+         "dockerfile": ".devcontainer/container-docs/Dockerfile",
+         "environment": ".devcontainer/container-docs/environment",
+         "root": ".devcontainer/container-docs",
+         "tasks_global": ".devcontainer/container-docs/tasks_global.sh",
+         "tasks_local": ".devcontainer/container-docs/tasks_local.sh"
+      }
    },
    "devcontainer_main": {
       "container": {
@@ -6073,7 +6153,7 @@
          ],
          "name": "Main Development Environment",
          "postCreateCommand": {
-            "source_tasks": "echo 'source /workspace/.devcontainer/tasks.sh' | tee -a ~/.bashrc ~/.bash_profile"
+            "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
          "service": "main",
          "shutdownAction": "none",
@@ -6102,8 +6182,59 @@
                   }
                }
             },
+            "file": {
+               "script_conda_build": {
+                  "content": "#!/bin/bash\nset -eux\n# Ensure at least two arguments are provided\nif [ \"$#\" -lt 2 ]; then\n    echo \"Error: Missing positional arguments.\" >&2\n    echo \"Usage: build-conda.sh <package-ID> <package-version> [extra-args...]\" >&2\n    exit 1\nfi\n# Assign recipe path\ncase \"$2\" in\n    main)\n        recipe_path=\"pkg/conda-recipe/local\"\n        ;;\n    test)\n        recipe_path=\"test/conda-recipe/local\"\n        ;;\n    *)\n        echo \"Invalid package ID. Use 'main', or 'test'.\" >&2\n        exit 1\n        ;;\nesac\n# Check if the recipe path exists and is a file\nif [ ! -f \"$recipe_path\" ]; then\n    echo \"Error: Recipe file '$recipe_path' does not exist.\" >&2\n    exit 1\nfi\n# Export package version\nexport PKG_FULL_VERSION=\"$1\"\n# Remove first two arguments, leaving only extra arguments\nshift 1\n# Ensure the output folder exists\noutput_folder=\".local/build/conda\"\nmkdir -p \"$output_folder\"\n# Build\nconda build \"$recipe_path\" \\\n  --output-folder \"$output_folder\" \\\n  --stats-file \"$output_folder/build-stats.json\" \\\n  --package-format conda \\\n  --verify \\\n  --keep-going \\\n  --debug \\\n  --no-anaconda-upload \\\n  \"$@\"\n",
+                  "content_setting": {
+                     "prefix": "",
+                     "separator": "\n",
+                     "suffix": ""
+                  },
+                  "data": {
+                     "local_channel_path": ".local/build/conda"
+                  },
+                  "description": "This script takes two required positional arguments: the package version and ID to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments.\nThese are passed directly to the `conda build` command.\n",
+                  "file_setting": {
+                     "eof_newline": true,
+                     "json": {
+                        "indent": 3
+                     },
+                     "md": {
+                        "heading_number": false,
+                        "target": "github"
+                     },
+                     "sort_keys": true,
+                     "yaml": {
+                        "block_string": true,
+                        "mapping_indent": 2,
+                        "remove_top_level_indent": true,
+                        "sequence_indent": 4,
+                        "sequence_indent_offset": 2
+                     }
+                  },
+                  "name": "Conda Package Build Script",
+                  "path": ".devcontainer/script/base/conda-build.sh",
+                  "status": "active",
+                  "summary": "Script to build a Conda package using the `conda-build` tool.",
+                  "type": "exec",
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/script/base/conda-build.sh"
+               }
+            },
             "name": "base",
-            "path": ".devcontainer/environment/conda/base.yaml"
+            "path": ".devcontainer/environment/conda/base.yaml",
+            "task": {
+               "_conda-build": {
+                  "alias": "_conda-build",
+                  "description": "This task takes one required positional argument: the package ID to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition to the package ID, the task accepts any number of extra arguments.\nThese are passed directly to the `conda build` command.\n",
+                  "name": "Build Conda Package",
+                  "process": [
+                     "bash",
+                     ".devcontainer/script/base/conda-build.sh",
+                     "$@"
+                  ],
+                  "summary": "Build a Conda package from a recipe using `conda build`."
+               }
+            }
          },
          "codecov": {
             "conda": {
@@ -6649,6 +6780,87 @@
             "name": "presentation",
             "path": ".devcontainer/environment/conda/presentation.yaml"
          },
+         "pybuild": {
+            "file": {
+               "script_pypkg_build": {
+                  "content": "set -eux\npython -m build\n",
+                  "content_setting": {
+                     "prefix": "",
+                     "separator": "\n",
+                     "suffix": ""
+                  },
+                  "file_setting": {
+                     "eof_newline": true,
+                     "json": {
+                        "indent": 3
+                     },
+                     "md": {
+                        "heading_number": false,
+                        "target": "github"
+                     },
+                     "sort_keys": true,
+                     "yaml": {
+                        "block_string": true,
+                        "mapping_indent": 2,
+                        "remove_top_level_indent": true,
+                        "sequence_indent": 4,
+                        "sequence_indent_offset": 2
+                     }
+                  },
+                  "name": "Build Python Package",
+                  "path": ".devcontainer/script/pybuild.sh",
+                  "status": "active",
+                  "summary": "Script to build a Python package using the `build` tool.",
+                  "type": "txt",
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/script/pybuild.sh"
+               }
+            },
+            "name": "pybuild",
+            "path": ".devcontainer/environment/conda/pybuild.yaml",
+            "pip": {
+               "build": {
+                  "name": "build",
+                  "spec": {
+                     "full": "build",
+                     "name": "build",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://build.pypa.io/",
+                     "package": "https://pypi.org/project/build/",
+                     "source": "https://github.com/pypa/build"
+                  }
+               },
+               "readme-renderer": {
+                  "name": "readme-renderer",
+                  "spec": {
+                     "extras": [
+                        "md"
+                     ],
+                     "full": "readme-renderer [md]",
+                     "name": "readme-renderer",
+                     "version": ""
+                  },
+                  "url": {
+                     "package": "https://pypi.org/project/readme-renderer/",
+                     "source": "https://github.com/pypa/readme_renderer"
+                  }
+               },
+               "twine": {
+                  "name": "twine",
+                  "spec": {
+                     "full": "twine",
+                     "name": "twine",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://twine.readthedocs.io/",
+                     "package": "https://pypi.org/project/twine/",
+                     "source": "https://github.com/pypa/twine"
+                  }
+               }
+            }
+         },
          "pylint": {
             "conda": {
                "enchant": {
@@ -6784,9 +6996,41 @@
                   }
                }
             }
+         },
+         "versioning": {
+            "name": "versioning",
+            "path": ".devcontainer/environment/conda/versioning.yaml",
+            "pip": {
+               "versioning": {
+                  "name": "versioning",
+                  "spec": {
+                     "full": "versioningit >=3.1.2",
+                     "name": "versioningit",
+                     "version": ">=3.1.2"
+                  }
+               }
+            },
+            "task": {
+               "version": {
+                  "alias": "version",
+                  "name": "Get Project Version",
+                  "script": "versioningit \\\n    \"pkg\" \\\n    --verbose\n",
+                  "summary": "Get the current full version of the project."
+               }
+            }
          }
       },
-      "path": ".devcontainer",
+      "path": {
+         "apt": ".devcontainer/environment/apt.txt",
+         "apt_rel": "apt.txt",
+         "conda": ".devcontainer/environment/conda",
+         "conda_rel": "conda",
+         "dockerfile": ".devcontainer/Dockerfile",
+         "environment": ".devcontainer/environment",
+         "root": ".devcontainer",
+         "tasks_global": ".devcontainer/tasks_global.sh",
+         "tasks_local": ".devcontainer/tasks_local.sh"
+      },
       "service": {
          "build": {
             "context": "../",
@@ -6795,6 +7039,12 @@
          "privileged": true
       },
       "task": {
+         "build-conda": {
+            "alias": "build-conda",
+            "name": "Build Conda Package",
+            "script": "_conda-build \"$(version)\" \"$@\"",
+            "summary": "Build a conda package."
+         },
          "build-oj-paper": {
             "alias": "build-oj-paper",
             "description": "Build paper using the Open-Journals Inara service.\nFor publishing to JOSE or ReScience C (instead of JOSS),\nset the `JOURNAL` environment variable to `jose` or `resciencec`, respectively.\n",
@@ -6807,8 +7057,7 @@
             "name": "Open JupyterLab",
             "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
          }
-      },
-      "task_in_env_prefix": "conda run --cwd '/workspace' -n {env_name} --live-stream -vv"
+      }
    },
    "devfeature_conda_setup": {
       "feature": {
@@ -6899,7 +7148,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -20116,6 +20365,9 @@
       "expression": "AGPL-3.0-or-later"
    },
    "local": {
+      "build": {
+         "path": ".local/build"
+      },
       "cache": {
          "path": ".local/cache"
       },
@@ -20141,9 +20393,11 @@
             "meta": ".github/.repodynamics/metadata.json"
          },
          "custom": {
+            "devcontainer_main_base_script_conda_build": ".devcontainer/script/base/conda-build.sh",
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
             "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
+            "devcontainer_main_pybuild_script_pypkg_build": ".devcontainer/script/pybuild.sh",
             "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
             "file_binder_conda": ".binder_config/environment.yml",
             "file_citation_cff": "CITATION.cff",
@@ -20173,8 +20427,10 @@
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
             "presentation": ".devcontainer/environment/conda/presentation.yaml",
+            "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
             "pylint": ".devcontainer/environment/conda/pylint.yaml",
             "type_check": ".devcontainer/environment/conda/type_check.yaml",
+            "versioning": ".devcontainer/environment/conda/versioning.yaml",
             "website": ".devcontainer/container-docs/environment/conda/website.yaml"
          },
          "devcontainer_dockerfile": {
@@ -20193,9 +20449,13 @@
             "docs": ".devcontainer/container-docs/devcontainer.json",
             "main": ".devcontainer/devcontainer.json"
          },
-         "devcontainer_task": {
-            "docs": ".devcontainer/container-docs/tasks.sh",
-            "main": ".devcontainer/tasks.sh"
+         "devcontainer_task_global": {
+            "docs": ".devcontainer/container-docs/tasks_global.sh",
+            "main": ".devcontainer/tasks_global.sh"
+         },
+         "devcontainer_task_local": {
+            "docs": ".devcontainer/container-docs/tasks_local.sh",
+            "main": ".devcontainer/tasks_local.sh"
          },
          "issue_form": {
             "01_pkg_api_fix": ".github/ISSUE_TEMPLATE/01_pkg_api_fix.yaml",
@@ -20604,7 +20864,8 @@
                },
                "name": "setuptools"
             },
-            "versioningit": {
+            "versioning": {
+               "import_name": "versioningit",
                "install": {
                   "conda": {
                      "channel": "conda-forge",
@@ -23478,7 +23739,8 @@
                },
                "name": "setuptools"
             },
-            "versioningit": {
+            "versioning": {
+               "import_name": "versioningit",
                "install": {
                   "conda": {
                      "channel": "conda-forge",
