@@ -411,11 +411,15 @@ devcontainer_main:
       pip:
         versioning:
           spec: |
-            #{{ 
-              return {
-                k: v for k, v in get("pypkg_main.dependency.build.versioning.install.pip").items()
-                if k not in ("homepage", "spec")
-              }
+            #{{
+              spec = get("pypkg_main.dependency.build.versioning.install.pip")
+              out = {}
+              for k, v in spec:
+                if k == "spec":
+                  out["full"] = v
+                elif k not in ("homepage",):
+                  out[k] = v
+              return out
             }}#
       task:
         version:
