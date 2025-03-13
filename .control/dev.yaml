@@ -404,7 +404,7 @@ devcontainer_main:
           spec: |
             #{{ 
               return {
-                k: v for k, v in get("pypkg_main.dependency.build.versioning.install.pip")
+                k: v for k, v in get("pypkg_main.dependency.build.versioning.install.pip").items()
                 if k not in ("homepage", "spec")
               }
             }}#
