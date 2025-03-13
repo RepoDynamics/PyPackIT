@@ -414,7 +414,7 @@ devcontainer_main:
             #{{
               spec = get("pypkg_main.dependency.build.versioning.install.pip")
               out = {}
-              for k, v in spec:
+              for k, v in spec.items():
                 if k == "spec":
                   out["full"] = v
                 elif k not in ("homepage",):
