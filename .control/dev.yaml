@@ -1,6 +1,6 @@
 __temp__:
   container_env_path: /usr/local/share/environments
-  dockerfile_copy_env_cmd: COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ __temp__.container_env_path }}$/
+  dockerfile_copy_env_cmd: COPY ${{ ..path.environment }}$ ${{ __temp__.container_env_path }}$/
 default:
   task_setting:
     local:
