@@ -1,6 +1,69 @@
 __temp__:
   container_env_path: /usr/local/share/environments
   dockerfile_copy_env_cmd: COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ __temp__.container_env_path }}$/
+default:
+  task_setting:
+    local:
+      environment:
+        process:
+          prepend:
+            - conda
+            - run
+            - --cwd
+            - '{{ devcontainer.container.workspaceFolder }}'
+            - --name
+            - '{{ environment.name }}'
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            current_dir=$(pwd)
+            cd '{{ devcontainer.container.workspaceFolder }}'
+            conda activate '{{ environment.name }}'
+          append: |
+            conda deactivate
+            cd "$current_dir"
+      root:
+        process:
+          prepend:
+            - conda
+            - run
+            - --cwd
+            - '{{ devcontainer.container.workspaceFolder }}'
+            - --name
+            - base
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            current_dir=$(pwd)
+            cd '{{ devcontainer.container.workspaceFolder }}'
+          append: |
+            cd "$current_dir"
+    global:
+      environment:
+        process:
+          prepend:
+            - conda
+            - run
+            - --name
+            - '{{ environment.name }}'
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            conda activate '{{ environment.name }}'
+          append: |
+            conda deactivate
+      root:
+        process:
+          prepend:
+            - conda
+            - run
+            - --name
+            - base
+            - --live-stream
+            - -vv
 devfeature_pixi:
   # See:
   # - https://github.com/prefix-dev/pixi-docker
@@ -241,6 +304,118 @@ devcontainer_main:
             install conda-build in the conda base environment.
             See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
             for more information.
+      file:
+        script_conda_build:
+          name: Conda Package Build Script
+          summary: Script to build a Conda package using the `conda-build` tool.
+          type: exec
+          path: ${{ devcontainer_main.path }}$/script/base/conda-build.sh
+          data:
+            local_channel_path: ${{ local.build.path }}$/conda
+          description: |
+            This script takes two required positional arguments: the package version and ID to build.
+            The package ID is the suffix of the corresponding "pypkg_" key in the configuration.
+            For example, for a package with the key "pypkg_main", the package ID is "main".
+            
+            In addition, the script accepts any number of extra arguments.
+            These are passed directly to the `conda build` command.
+          content: |
+            #!/bin/bash
+            set -eux
+            # Ensure at least two arguments are provided
+            if [ "$#" -lt 2 ]; then
+                echo "Error: Missing positional arguments." >&2
+                echo "Usage: build-conda.sh <package-ID> <package-version> [extra-args...]" >&2
+                exit 1
+            fi
+            # Assign recipe path
+            case "$2" in
+                main)
+                    recipe_path="${{ pypkg_main.conda.recipe.path.local }}$"
+                    ;;
+                test)
+                    recipe_path="${{ pypkg_test.conda.recipe.path.local }}$"
+                    ;;
+                *)
+                    echo "Invalid package ID. Use 'main', or 'test'." >&2
+                    exit 1
+                    ;;
+            esac
+            # Check if the recipe path exists and is a file
+            if [ ! -f "$recipe_path" ]; then
+                echo "Error: Recipe file '$recipe_path' does not exist." >&2
+                exit 1
+            fi
+            # Export package version
+            export PKG_FULL_VERSION="$1"
+            # Remove first two arguments, leaving only extra arguments
+            shift 1
+            # Ensure the output folder exists
+            output_folder="${{ .data.local_channel_path }}$"
+            mkdir -p "$output_folder"
+            # Build
+            conda build "$recipe_path" \
+              --output-folder "$output_folder" \
+              --stats-file "$output_folder/build-stats.json" \
+              --package-format conda \
+              --verify \
+              --keep-going \
+              --debug \
+              --no-anaconda-upload \
+              "$@"
+      task:
+        _conda-build:
+          name: Build Conda Package
+          summary: Build a Conda package from a recipe using `conda build`.
+          description: |
+            This task takes one required positional argument: the package ID to build.
+            The package ID is the suffix of the corresponding "pypkg_" key in the configuration.
+            For example, for a package with the key "pypkg_main", the package ID is "main".
+            
+            In addition to the package ID, the task accepts any number of extra arguments.
+            These are passed directly to the `conda build` command.
+          process: [ bash, '${{ devcontainer_main.environment.base.file.script_conda_build.path }}$', $@ ]
+    pybuild:
+      pip:
+        build:
+          url:
+            docs: https://build.pypa.io/
+            package: https://pypi.org/project/build/
+            source: https://github.com/pypa/build
+        twine:
+          url:
+            docs: https://twine.readthedocs.io/
+            package: https://pypi.org/project/twine/
+            source: https://github.com/pypa/twine
+        readme-renderer:
+          spec:
+            extras: [ md ]
+          url:
+            package: https://pypi.org/project/readme-renderer/
+            source: https://github.com/pypa/readme_renderer
+#      task:
+#        build-sdist:
+#          name: Build Python SDist
+#          description: Build a source distribution for a Python package.
+#          process: [ bash, '${{  }}$' ]
+    versioning:
+      pip:
+        versioning:
+          spec: |
+            #{{ 
+              return {
+                k: v for k, v in get("pypkg_main.dependency.build.versioning.install.pip")
+                if k not in ("homepage", "spec")
+              }
+            }}#
+      task:
+        version:
+          name: Get Project Version
+          summary: Get the current full version of the project.
+          script: |
+            ${{ pypkg_main.dependency.build.versioning.import_name }}$ \
+                "${{ pypkg_main.path.root }}$" \
+                --verbose
     type_check:
       pip:
         mypy:
@@ -656,6 +831,23 @@ devcontainer_main:
         This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
+
+    build-conda:
+      name: Build Conda Package
+      summary: Build a conda package.
+      process:
+        - ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
+        - $(${{ devcontainer_main.environment.versioning.task.version.alias }}$)
+        - $@
+
+file_script_pypkg_build:
+  name: Build Python Package
+  summary: Script to build a Python package using the `build` tool.
+  path: ${{ devcontainer_main.path }}$/script/pybuild.sh
+  type: txt
+  content: |
+    set -eux
+    python -m build
 #file_pixi_manifest:
 #  # https://pixi.sh/latest/reference/pixi_manifest/
 #  name: Pixi Manifest
