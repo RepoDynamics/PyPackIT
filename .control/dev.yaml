@@ -140,7 +140,7 @@ devfeature_pkg_setup:
       python_version:
         type: string
         description: Python version to use for the installation.
-        default: ${{ pypkg.python.version.minors[0] }}$
+        default: ${{ pypkg_main.python.version.minors[0] }}$
       sources:
         type: string
         description: Space-separated list of sources to install from.
