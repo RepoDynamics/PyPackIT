@@ -6182,50 +6182,11 @@
                   }
                }
             },
-            "file": {
-               "script_conda_build": {
-                  "content": "#!/bin/bash\nset -eux\n# Ensure at least two arguments are provided\nif [ \"$#\" -lt 2 ]; then\n    echo \"Error: Missing positional arguments.\" >&2\n    echo \"Usage: build-conda.sh <package-ID> <package-version> [extra-args...]\" >&2\n    exit 1\nfi\n# Assign recipe path\ncase \"$2\" in\n    main)\n        recipe_path=\"pkg/conda-recipe/local\"\n        ;;\n    test)\n        recipe_path=\"test/conda-recipe/local\"\n        ;;\n    *)\n        echo \"Invalid package ID. Use 'main', or 'test'.\" >&2\n        exit 1\n        ;;\nesac\n# Check if the recipe path exists and is a file\nif [ ! -f \"$recipe_path\" ]; then\n    echo \"Error: Recipe file '$recipe_path' does not exist.\" >&2\n    exit 1\nfi\n# Export package version\nexport PKG_FULL_VERSION=\"$1\"\n# Remove first two arguments, leaving only extra arguments\nshift 1\n# Ensure the output folder exists\noutput_folder=\".local/build/conda\"\nmkdir -p \"$output_folder\"\n# Build\nconda build \"$recipe_path\" \\\n  --output-folder \"$output_folder\" \\\n  --stats-file \"$output_folder/build-stats.json\" \\\n  --package-format conda \\\n  --verify \\\n  --keep-going \\\n  --debug \\\n  --no-anaconda-upload \\\n  \"$@\"\n",
-                  "content_setting": {
-                     "prefix": "",
-                     "separator": "\n",
-                     "suffix": ""
-                  },
-                  "data": {
-                     "local_channel_path": ".local/build/conda"
-                  },
-                  "description": "This script takes two required positional arguments: the package version and ID to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments.\nThese are passed directly to the `conda build` command.\n",
-                  "file_setting": {
-                     "eof_newline": true,
-                     "json": {
-                        "indent": 3
-                     },
-                     "md": {
-                        "heading_number": false,
-                        "target": "github"
-                     },
-                     "sort_keys": true,
-                     "yaml": {
-                        "block_string": true,
-                        "mapping_indent": 2,
-                        "remove_top_level_indent": true,
-                        "sequence_indent": 4,
-                        "sequence_indent_offset": 2
-                     }
-                  },
-                  "name": "Conda Package Build Script",
-                  "path": ".devcontainer/script/base/conda-build.sh",
-                  "status": "active",
-                  "summary": "Script to build a Conda package using the `conda-build` tool.",
-                  "type": "exec",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/script/base/conda-build.sh"
-               }
-            },
             "name": "base",
             "path": ".devcontainer/environment/conda/base.yaml",
             "task": {
                "_conda-build": {
                   "alias": "_conda-build",
-                  "description": "This task takes one required positional argument: the package ID to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition to the package ID, the task accepts any number of extra arguments.\nThese are passed directly to the `conda build` command.\n",
                   "name": "Build Conda Package",
                   "process": [
                      "python",
@@ -7041,10 +7002,13 @@
       "task": {
          "build-conda": {
             "alias": "build-conda",
+            "data": {
+               "local_channel_path": ".local/build/conda"
+            },
+            "description": "This script takes one required positional argument: the ID of the package to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments,\nwhich are passed directly to the `conda build` command.\n",
             "name": "Build Conda Package",
             "script": "_conda-build \"$(version)\" \"$@\"",
-            "summary": "Build a conda package.",
-            "data": {"local_channel_path": ".local/build/conda"}
+            "summary": "Build a conda package."
          },
          "build-oj-paper": {
             "alias": "build-oj-paper",
@@ -10137,6 +10101,9 @@
          ".local/report/**",
          "!.local/report/**/",
          "!.local/report/**/README.md",
+         ".local/build/**",
+         "!.local/build/**/",
+         "!.local/build/**/README.md",
          "__pycache__/",
          "*.py[cod]",
          "*$py.class",
@@ -20394,7 +20361,6 @@
             "meta": ".github/.repodynamics/metadata.json"
          },
          "custom": {
-            "devcontainer_main_base_script_conda_build": ".devcontainer/script/base/conda-build.sh",
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
             "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
