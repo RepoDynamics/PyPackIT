@@ -1,6 +1,9 @@
 __temp__:
   container_env_path: /usr/local/share/environments
   dockerfile_copy_env_cmd: COPY ${{ ..path.environment }}$ ${{ __temp__.container_env_path }}$/
+  dockerfile_copy_script_cmd: |
+    COPY .devcontainer/install.py ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
+    COPY .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
 default:
   task_setting:
     local:
@@ -92,6 +95,87 @@ devfeature_pixi:
     curl -L -o /usr/local/bin/pixi -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
     chmod +x /usr/local/bin/pixi
     pixi info
+devfeature_pkg_setup:
+  feature:
+    name: Package Setup
+    version: 0.1.0
+    description: Install local packages in development mode.
+    installsAfter:
+      - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/conda
+    postStartCommand:
+      install_main:
+        - conda
+        - run
+        - --name
+        - app
+        - pip
+        - install
+        - --editable
+        - ${{ pypkg_main.path.root }}$
+        - --no-deps
+      install_test:
+        - conda
+        - run
+        - --name
+        - app
+        - pip
+        - install
+        - --editable
+        - ${{ pypkg_test.path.root }}$
+        - --no-deps
+    options:
+      script_filepath:
+        type: string
+        description: Absolute path to the installation script file.
+        default: /usr/local/share/app_installation/install.py
+      metadata_filepath:
+        type: string
+        description: Absolute path to the project metadata file.
+        default: /usr/local/share/app_installation/metadata.json
+      packages:
+        type: string
+        description: Package data to install as a JSON array.
+        default: '["main", "test"]'
+      python_version:
+        type: string
+        description: Python version to use for the installation.
+        default: ${{ pypkg.python.version.minors[0] }}$
+      sources:
+        type: string
+        description: Space-separated list of sources to install from.
+        default: pip conda apt bash
+      conda_env_name:
+        type: string
+        description: Name of the conda environment to use for installation.
+        default: app
+      log_dir:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: /var/log/conda_setup
+  install: |
+    #!/usr/bin/env bash
+    set -eux
+    echo "Initializing conda..."
+    conda init
+    echo "Removing existing Conda channels..."
+    conda config --remove-key channels 2>/dev/null || true
+    echo "Adding conda-forge as the only channel..."
+    conda config --add channels conda-forge
+    echo "Setting strict channel priority..."
+    conda config --set channel_priority strict
+    echo "Verifying channels..."
+    conda config --show channels
+    echo "Creating log directory..."
+    mkdir -p $LOG_DIR
+    python "$SCRIPT_FILEPATH" \
+      --filepath "$METADATA_FILEPATH" \
+      --packages "$PACKAGES" \
+      --python-version "$PYTHON_VERSION" \
+      --sources $SOURCES \
+      --conda-env-name "$CONDA_ENV_NAME" | tee "$LOG_DIR/pkg_install.log"
+    echo "Cleaning up cache..."
+    conda clean --all -y
 devfeature_conda_setup:
   feature:
     name: Conda Setup
@@ -169,6 +253,7 @@ devcontainer_main:
   dockerfile:
     - FROM mcr.microsoft.com/devcontainers/universal:2-linux
     - ${{ __temp__.dockerfile_copy_env_cmd }}$
+    - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Main Development Environment
     forwardPorts:
@@ -176,6 +261,7 @@ devcontainer_main:
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
       ./${{ devfeature_conda_setup.path }}$: {}
+      ./${{ devfeature_pkg_setup.path }}$: {}
     postCreateCommand:
       pre_commit_install:
         - conda
