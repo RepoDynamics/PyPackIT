@@ -9,21 +9,23 @@ These are passed directly to the `conda build` command.
 """
 
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 import argparse
-import os
-import sys
-import subprocess
 import json
-from pathlib import Path
 import logging
+import os
 import shlex
+import subprocess
+import sys
+from pathlib import Path
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Literal
 
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
+
 
 def main(
     pkg_version: str,
@@ -42,16 +44,25 @@ def main(
     # Export package version
     os.environ["PKG_FULL_VERSION"] = pkg_version
     # Build command
-    build_command = [
-        "conda", "build", str(Path(recipe["path"][recipe_type]).resolve()),
-        "--output-folder", str(output_folder),
-        "--stats-file", str(output_folder / "build-stats.json"),
-        "--package-format", "conda",
-        "--verify",
-        "--keep-going",
-        "--debug",
-        "--no-anaconda-upload"
-    ] + [arg for channel in channels for arg in ("--channel", channel)] + (extra_args or [])
+    build_command = (
+        [
+            "conda",
+            "build",
+            str(Path(recipe["path"][recipe_type]).resolve()),
+            "--output-folder",
+            str(output_folder),
+            "--stats-file",
+            str(output_folder / "build-stats.json"),
+            "--package-format",
+            "conda",
+            "--verify",
+            "--keep-going",
+            "--debug",
+            "--no-anaconda-upload",
+        ]
+        + [arg for channel in channels for arg in ("--channel", channel)]
+        + (extra_args or [])
+    )
     _logger.info(f"Running Build Command: {shlex.join(build_command)}")
     # Execute the command
     subprocess.run(build_command, check=True)
@@ -78,6 +89,7 @@ def get_channels(recipe: dict) -> list[str]:
     - https://github.com/conda/conda-build/issues/5597
     - https://github.com/conda/conda/issues/988
     """
+
     def update_channel_priority(requirement: str) -> None:
         parts = requirement.split("::")
         if len(parts) > 1:
@@ -99,15 +111,19 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Conda package in the project.")
     parser.add_argument("pkg_version", help="Version number to pass to the recipe.")
-    parser.add_argument("pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files.")
+    parser.add_argument(
+        "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
+    )
     parser.add_argument(
         "recipe_type",
-        nargs='?',
+        nargs="?",
         choices=["local", "global"],
         default="local",
-        help="Type of recipe to use (default: 'local')"
+        help="Type of recipe to use (default: 'local')",
     )
-    parser.add_argument("extra_args", nargs=argparse.REMAINDER, help="Additional arguments for conda build.")
+    parser.add_argument(
+        "extra_args", nargs=argparse.REMAINDER, help="Additional arguments for conda build."
+    )
     args = vars(parser.parse_args())
     _logger.info(f"Input Arguments: {args}")
     sys.exit(main(**args))
