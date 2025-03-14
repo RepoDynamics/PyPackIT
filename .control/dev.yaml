@@ -176,6 +176,19 @@ devcontainer_main:
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
       ./${{ devfeature_conda_setup.path }}$: {}
+    postCreateCommand:
+      pre_commit_install:
+        - conda
+        - run
+        - --name
+        - ${{ devcontainer_main.environment.pre_commit.name }}$
+        - --live-stream
+        - -vv
+        - pre-commit
+        - install
+        - --install-hooks
+        - --config
+        - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
     customizations:
       vscode:
         extensions:
