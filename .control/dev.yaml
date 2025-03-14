@@ -411,6 +411,8 @@ devcontainer_main:
     pybuild:
       pip:
         build:
+          spec:
+            version: '>=1.2.2'
           url:
             docs: https://build.pypa.io/
             package: https://pypi.org/project/build/
@@ -422,6 +424,7 @@ devcontainer_main:
             source: https://github.com/pypa/twine
         readme-renderer:
           spec:
+            version: '>=44'
             extras: [ md ]
           url:
             package: https://pypi.org/project/readme-renderer/
