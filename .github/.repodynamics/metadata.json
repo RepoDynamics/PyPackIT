@@ -6228,8 +6228,8 @@
                   "description": "This task takes one required positional argument: the package ID to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition to the package ID, the task accepts any number of extra arguments.\nThese are passed directly to the `conda build` command.\n",
                   "name": "Build Conda Package",
                   "process": [
-                     "bash",
-                     ".devcontainer/script/base/conda-build.sh",
+                     "python",
+                     ".devcontainer/script/base/build-conda.py",
                      "$@"
                   ],
                   "summary": "Build a Conda package from a recipe using `conda build`."
@@ -7043,7 +7043,8 @@
             "alias": "build-conda",
             "name": "Build Conda Package",
             "script": "_conda-build \"$(version)\" \"$@\"",
-            "summary": "Build a conda package."
+            "summary": "Build a conda package.",
+            "data": {"local_channel_path": ".local/build/conda"}
          },
          "build-oj-paper": {
             "alias": "build-oj-paper",
