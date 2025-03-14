@@ -6153,6 +6153,19 @@
          ],
          "name": "Main Development Environment",
          "postCreateCommand": {
+            "pre_commit_install": [
+               "conda",
+               "run",
+               "--name",
+               "pre_commit",
+               "--live-stream",
+               "-vv",
+               "pre-commit",
+               "install",
+               "--install-hooks",
+               "--config",
+               ".devcontainer/config/pre-commit.yaml"
+            ],
             "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
          "service": "main",
