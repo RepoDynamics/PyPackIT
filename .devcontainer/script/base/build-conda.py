@@ -69,7 +69,15 @@ def get_recipe(pkg_id: str) -> dict:
 
 
 def get_channels(recipe: dict) -> list[str]:
-    """Get a list of channels used in a recipe."""
+    """Get a list of channels used in a recipe.
+
+    Notes
+    -----
+    Channels used in the recipe but not set in conda configurations
+    must be manually added, otherwise conda build cannot solve the dependencies. See:
+    - https://github.com/conda/conda-build/issues/5597
+    - https://github.com/conda/conda/issues/988
+    """
     def update_channel_priority(requirement: str) -> None:
         parts = requirement.split("::")
         if len(parts) > 1:
