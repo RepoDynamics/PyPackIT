@@ -12,7 +12,7 @@ build-conda() {
 }
 
 _conda-build() {
-    conda run --name base --live-stream -vv bash .devcontainer/script/base/conda-build.sh "$@"
+    conda run --name base --live-stream -vv python .devcontainer/script/base/build-conda.py "$@"
 }
 
 version() {
