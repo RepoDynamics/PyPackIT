@@ -63,9 +63,9 @@ def main(
         + [arg for channel in channels for arg in ("--channel", channel)]
         + (extra_args or [])
     )
-    _logger.info(f"Running Build Command: {shlex.join(build_command)}")
+    _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
-    subprocess.run(build_command, check=True)
+    subprocess.run(build_command, check=True)  # noqa: S603
     return 0
 
 
@@ -125,5 +125,5 @@ if __name__ == "__main__":
         "extra_args", nargs=argparse.REMAINDER, help="Additional arguments for conda build."
     )
     args = vars(parser.parse_args())
-    _logger.info(f"Input Arguments: {args}")
+    _logger.info("Input Arguments: %s", args)
     sys.exit(main(**args))
