@@ -6718,7 +6718,24 @@
                }
             },
             "name": "pre_commit",
-            "path": ".devcontainer/environment/conda/pre_commit.yaml"
+            "path": ".devcontainer/environment/conda/pre_commit.yaml",
+            "task": {
+               "lint": {
+                  "alias": "lint",
+                  "name": "Lint",
+                  "process": [
+                     "pre-commit",
+                     "run",
+                     "--color",
+                     "always",
+                     "--config",
+                     ".devcontainer/config/pre-commit.yaml",
+                     "show-diff-on-failure",
+                     "--verbose"
+                  ],
+                  "summary": "Run pre-commit hooks."
+               }
+            }
          },
          "presentation": {
             "conda": {
