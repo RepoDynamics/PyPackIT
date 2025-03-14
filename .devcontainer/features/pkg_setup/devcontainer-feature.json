@@ -1,0 +1,71 @@
+{
+   "description": "Install local packages in development mode.",
+   "id": "pkg_setup",
+   "installsAfter": [
+      "ghcr.io/devcontainers/features/common-utils",
+      "ghcr.io/devcontainers/features/conda"
+   ],
+   "name": "Package Setup",
+   "options": {
+      "conda_env_name": {
+         "default": "app",
+         "description": "Name of the conda environment to use for installation.",
+         "type": "string"
+      },
+      "log_dir": {
+         "default": "/var/log/conda_setup",
+         "description": "Absolute path to a directory to write log files.",
+         "type": "string"
+      },
+      "metadata_filepath": {
+         "default": "/usr/local/share/app_installation/metadata.json",
+         "description": "Absolute path to the project metadata file.",
+         "type": "string"
+      },
+      "packages": {
+         "default": "[\"main\", \"test\"]",
+         "description": "Package data to install as a JSON array.",
+         "type": "string"
+      },
+      "python_version": {
+         "default": "3.10",
+         "description": "Python version to use for the installation.",
+         "type": "string"
+      },
+      "script_filepath": {
+         "default": "/usr/local/share/app_installation/install.py",
+         "description": "Absolute path to the installation script file.",
+         "type": "string"
+      },
+      "sources": {
+         "default": "pip conda apt bash",
+         "description": "Space-separated list of sources to install from.",
+         "type": "string"
+      }
+   },
+   "postStartCommand": {
+      "install_main": [
+         "conda",
+         "run",
+         "--name",
+         "app",
+         "pip",
+         "install",
+         "--editable",
+         "pkg",
+         "--no-deps"
+      ],
+      "install_test": [
+         "conda",
+         "run",
+         "--name",
+         "app",
+         "pip",
+         "install",
+         "--editable",
+         "test",
+         "--no-deps"
+      ]
+   },
+   "version": "0.1.0"
+}

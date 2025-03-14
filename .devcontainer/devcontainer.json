@@ -143,6 +143,7 @@
    ],
    "features": {
       "./features/conda_setup": {},
+      "./features/pkg_setup": {},
       "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
    },
    "forwardPorts": [

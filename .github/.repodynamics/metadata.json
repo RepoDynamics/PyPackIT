@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6146,6 +6146,7 @@
          ],
          "features": {
             "./features/conda_setup": {},
+            "./features/pkg_setup": {},
             "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
          },
          "forwardPorts": [
@@ -6174,7 +6175,8 @@
       },
       "dockerfile": [
          "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
-         "COPY .devcontainer/environment /usr/local/share/environments/"
+         "COPY .devcontainer/environment /usr/local/share/environments/",
+         "COPY .devcontainer/install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
       ],
       "environment": {
          "base": {
@@ -7107,6 +7109,81 @@
       "install": "#!/usr/bin/env bash\nset -e\ncurl -L -o /usr/local/bin/pixi -fsSL --compressed \"https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl\"\nchmod +x /usr/local/bin/pixi\npixi info\n",
       "path": "features/pixi"
    },
+   "devfeature_pkg_setup": {
+      "feature": {
+         "description": "Install local packages in development mode.",
+         "id": "pkg_setup",
+         "installsAfter": [
+            "ghcr.io/devcontainers/features/common-utils",
+            "ghcr.io/devcontainers/features/conda"
+         ],
+         "name": "Package Setup",
+         "options": {
+            "conda_env_name": {
+               "default": "app",
+               "description": "Name of the conda environment to use for installation.",
+               "type": "string"
+            },
+            "log_dir": {
+               "default": "/var/log/conda_setup",
+               "description": "Absolute path to a directory to write log files.",
+               "type": "string"
+            },
+            "metadata_filepath": {
+               "default": "/usr/local/share/app_installation/metadata.json",
+               "description": "Absolute path to the project metadata file.",
+               "type": "string"
+            },
+            "packages": {
+               "default": "[\"main\", \"test\"]",
+               "description": "Package data to install as a JSON array.",
+               "type": "string"
+            },
+            "python_version": {
+               "default": "3.10",
+               "description": "Python version to use for the installation.",
+               "type": "string"
+            },
+            "script_filepath": {
+               "default": "/usr/local/share/app_installation/install.py",
+               "description": "Absolute path to the installation script file.",
+               "type": "string"
+            },
+            "sources": {
+               "default": "pip conda apt bash",
+               "description": "Space-separated list of sources to install from.",
+               "type": "string"
+            }
+         },
+         "postStartCommand": {
+            "install_main": [
+               "conda",
+               "run",
+               "--name",
+               "app",
+               "pip",
+               "install",
+               "--editable",
+               "pkg",
+               "--no-deps"
+            ],
+            "install_test": [
+               "conda",
+               "run",
+               "--name",
+               "app",
+               "pip",
+               "install",
+               "--editable",
+               "test",
+               "--no-deps"
+            ]
+         },
+         "version": "0.1.0"
+      },
+      "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\npython \"$SCRIPT_FILEPATH\" \\\n  --filepath \"$METADATA_FILEPATH\" \\\n  --packages \"$PACKAGES\" \\\n  --python-version \"$PYTHON_VERSION\" \\\n  --sources $SOURCES \\\n  --conda-env-name \"$CONDA_ENV_NAME\" | tee \"$LOG_DIR/pkg_install.log\"\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "path": "features/pkg_setup"
+   },
    "discussion": {
       "category": {
          "branding": {
@@ -7143,7 +7220,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -20436,11 +20513,13 @@
          },
          "devcontainer_feature_install": {
             "conda_setup": ".devcontainer/features/conda_setup/install.sh",
-            "pixi": ".devcontainer/features/pixi/install.sh"
+            "pixi": ".devcontainer/features/pixi/install.sh",
+            "pkg_setup": ".devcontainer/features/pkg_setup/install.sh"
          },
          "devcontainer_feature_metadata": {
             "conda_setup": ".devcontainer/features/conda_setup/devcontainer-feature.json",
-            "pixi": ".devcontainer/features/pixi/devcontainer-feature.json"
+            "pixi": ".devcontainer/features/pixi/devcontainer-feature.json",
+            "pkg_setup": ".devcontainer/features/pkg_setup/devcontainer-feature.json"
          },
          "devcontainer_metadata": {
             "docs": ".devcontainer/container-docs/devcontainer.json",
