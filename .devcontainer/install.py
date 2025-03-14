@@ -870,5 +870,6 @@ _logger = _logging.getLogger(__name__)
 
 if __name__ == "__main__":
     _logging.basicConfig(level=_logging.INFO)
-    args = _parse_args()
-    run(**vars(args))
+    args = vars(_parse_args())
+    _logger.info("Running with arguments: %s", args)
+    run(**args)
