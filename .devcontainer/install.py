@@ -363,7 +363,7 @@ def _resolve_python_version(packages: list[dict], python_version: str | None = N
     python_versions = [set(pkg["python"]["version"]["minors"]) for pkg in packages]
     common_python_versions = list(_functools.reduce(set.intersection, python_versions))
     if not python_version:
-        python_version = ".".join(_sys.version_info[:2])
+        python_version = ".".join(map(str, _sys.version_info[:2]))
     if python_version not in ("latest", "earliest"):
         if python_version not in common_python_versions:
             error_msg = f"Python version '{python_version}' is not supported."
