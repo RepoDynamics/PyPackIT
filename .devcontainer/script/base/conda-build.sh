@@ -20,14 +20,14 @@ case "$2" in
         ;;
 esac
 # Check if the recipe path exists and is a file
-if [ ! -f "$recipe_path" ]; then
+if [ ! -f "$recipe_path/meta.yaml" ]; then
     echo "Error: Recipe file '$recipe_path' does not exist." >&2
     exit 1
 fi
 # Export package version
 export PKG_FULL_VERSION="$1"
 # Remove first two arguments, leaving only extra arguments
-shift 1
+shift 2
 # Ensure the output folder exists
 output_folder=".local/build/conda"
 mkdir -p "$output_folder"
