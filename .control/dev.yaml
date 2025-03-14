@@ -350,7 +350,7 @@ devcontainer_main:
             # Export package version
             export PKG_FULL_VERSION="$1"
             # Remove first two arguments, leaving only extra arguments
-            shift 1
+            shift 2
             # Ensure the output folder exists
             output_folder="${{ .data.local_channel_path }}$"
             mkdir -p "$output_folder"
