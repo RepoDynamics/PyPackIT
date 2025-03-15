@@ -218,7 +218,9 @@ def install_files(
             else:
                 filepath = _Path(temp_dir) / filename[source]
                 filepath.write_text(files[source])
-                cmd_filled = [cmd_part.format(filepath=str(filepath)) for cmd_part in inputs[f"cmd_{source}"]]
+                cmd_filled = [
+                    cmd_part.format(filepath=str(filepath)) for cmd_part in inputs[f"cmd_{source}"]
+                ]
                 _subprocess.run(cmd_filled, check=True)  # noqa: S603
     return
 

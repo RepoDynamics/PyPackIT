@@ -161,7 +161,7 @@ devfeature_pkg_setup:
     LOG_FILE="${LOG_DIR}/install.log"
     # Redirect stdout and stderr to a file
     exec > >(tee -a "$LOG_FILE") 2>&1
-    
+
     echo "Initializing conda..."
     conda init
     echo "Removing existing Conda channels..."
@@ -253,7 +253,7 @@ devfeature_apt_setup:
   install: |
     #!/usr/bin/env bash
     set -eux
-    
+
 
 devcontainer:
   docker-compose:
