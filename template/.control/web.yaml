@@ -524,7 +524,7 @@ file_readthedocs:
 file_script_web_build:
   name: Website Build Script
   summary: Script to build the website using Sphinx.
-  path: ${{ devcontainer_docs.path }}$/script/website/build.sh
+  path: ${{ devcontainer_docs.path.root }}$/script/website/build.sh
   type: txt
   data:
     tar_path: ${{ data_website.path.build }}$/website.tar
@@ -552,7 +552,7 @@ file_script_web_build:
 file_script_web_livehtml:
   name: Website Live Preview Script
   summary: Script to start a live preview server for the website.
-  path: ${{ devcontainer_docs.path }}$/script/website/livehtml.sh
+  path: ${{ devcontainer_docs.path.root }}$/script/website/livehtml.sh
   type: txt
   content: |
     sphinx-autobuild \
@@ -580,6 +580,8 @@ devcontainer_docs:
       # https://github.com/devcontainers/features/tree/main/src/git
       ghcr.io/devcontainers/features/git:1: {}
       ../${{ devfeature_conda_setup.path }}$: {}
+    remoteUser: dev
+    containerUser: dev
     customizations:
       vscode:
         extensions:
@@ -1183,15 +1185,3 @@ devcontainer_docs:
             Start a live preview server for the website.
             This will automatically rebuild the website when changes are made.
           process: [ bash, '${{ file_script_web_livehtml.path }}$' ]
-
-__temp__:
-  docker_install: |
-
-    RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
-    RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
-      if [ -f /tmp/temp-env-files/apt.txt ]; then \
-        apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
-      fi && rm -rf /var/lib/apt/lists/*
-  docker_pkg_deps: |
-    COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
-    RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
