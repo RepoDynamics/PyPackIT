@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-set -eux
+set -euxo pipefail
+mkdir -p $LOG_DIR
+LOG_FILE="${LOG_DIR}/install.log"
+# Redirect stdout and stderr to a file
+exec > >(tee -a "$LOG_FILE") 2>&1
+
 echo "Initializing conda..."
 conda init
 echo "Removing existing Conda channels..."
@@ -11,12 +16,11 @@ conda config --set channel_priority strict
 echo "Verifying channels..."
 conda config --show channels
 echo "Creating log directory..."
-mkdir -p $LOG_DIR
 python "$SCRIPT_FILEPATH" \
+  --packages '["main", "test"]' \
   --filepath "$METADATA_FILEPATH" \
-  --packages "$PACKAGES" \
   --python-version "$PYTHON_VERSION" \
   --sources $SOURCES \
-  --conda-env-name "$CONDA_ENV_NAME" | tee "$LOG_DIR/pkg_install.log"
+  --conda-env-name "$CONDA_ENV_NAME"
 echo "Cleaning up cache..."
 conda clean --all -y
