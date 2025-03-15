@@ -133,10 +133,11 @@ devfeature_pkg_setup:
         type: string
         description: Absolute path to the project metadata file.
         default: /usr/local/share/app_installation/metadata.json
-#      packages:
-#        type: string
-#        description: Package data to install as a JSON array.
-#        default: '["main", "test"]'
+      packages:
+        # TODO: fix quoting problem
+        type: string
+        description: Package data to install as a JSON array.
+        default: '["main", "test"]'
       python_version:
         type: string
         description: Python version to use for the installation.
@@ -541,6 +542,18 @@ devcontainer_main:
                 xml_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
                 # Miscellaneous
                 verbosity: 2
+      task:
+        typecheck:
+          name: Type Check
+          summary: Run type checking with Mypy.
+          process:
+            - mypy
+            - --package ${{ pypkg_main.import_name }}$
+            - --package ${{ pypkg_test.import_name }}$
+            - --python-executable /opt/conda/envs/${{ devfeature_pkg_setup.feature.options.conda_env_name }}$/bin/python
+            - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
+            - --install-types
+            - --non-interactive
     codecov:
       conda:
         rust:
