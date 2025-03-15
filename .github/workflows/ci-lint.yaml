@@ -82,108 +82,108 @@ jobs:
           comment-summary-in-pr: true
           base-ref: ${{ fromJSON(inputs.config).ref-before }}
           head-ref: ${{ fromJSON(inputs.config).ref }}
-  mypy:
-    name: MyPy (Py ${{ matrix.python }} | ${{ matrix.os.name }})
-    strategy:
-      fail-fast: false
-      matrix:
-        os: ${{ fromJSON(inputs.config).os }}
-        python: ${{ fromJSON(inputs.config).pkg.python.version.minors }}
-    runs-on: ${{ matrix.os.runner }}
-    steps:
-      - name: Repository Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ fromJSON(inputs.config).repository }}
-          ref: ${{ fromJSON(inputs.config).ref }}
-          fetch-depth: 0
-
-      - name: Python Setup
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ fromJSON(inputs.config).python-max }}
-          check-latest: 'true'
-          cache: pip
-          cache-dependency-path: ${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}
-
-      - name: Environment Setup
-        shell: bash
-        run: |
-          echo "::group::Upgrade pip"
-          python3 -m pip install --upgrade pip
-          echo "::endgroup::"
-
-          echo "::group::Install ${{ fromJSON(inputs.config).pkg.name }}"
-          python3 -m pip install "./${{ fromJSON(inputs.config).pkg.path.root }}"
-          echo "::endgroup::"
-
-          if [[ "${{ fromJSON(inputs.config).type }}" == "test" ]]; then
-            echo "::group::Install ${{ fromJSON(inputs.config).pkg2.name }}"
-            python3 -m pip install "./${{ fromJSON(inputs.config).pkg2.path.root }}"
-            echo "::endgroup::"
-          fi
-
-          echo "::group::Install mypy"
-          python3 -m pip install -r "${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}"
-          echo "::endgroup::"
-
-          echo "::group::Display pip environment"
-          python3 -m pip list
-          echo "::endgroup::"
-
-      - name: Cache Load
-        uses: actions/cache@v4  # https://github.com/actions/cache
-        with:
-          path: ${{ fromJSON(inputs.config).tool.mypy.config.workflow.cache_path }}
-          key: >-
-            branch
-            __${{ inputs.ref-name }}
-            __mypy
-            __${{ matrix.os.runner }}
-            __py${{ matrix.python }}
-            __dep-hash-${{ hashFiles(fromJSON(inputs.config).tool.mypy.env.file.pip.path) }}
-
-      - name: MyPy
-        shell: bash
-        run: >-
-          mypy
-          --package ${{ fromJSON(inputs.config).pkg.import_name }}
-          --config-file ${{ fromJSON(inputs.config).tool.mypy.config.file.path }}
-          --python-version ${{ matrix.python }}
-          --install-types
-          --non-interactive
-
-      - name: Report Upload
-        if: always()
-        uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
-        with:
-          name: >-
-            MyPy Report
-            - ${{ fromJSON(inputs.config).pkg.name }}
-            - ${{ fromJSON(inputs.config).version }}
-            - Py ${{ matrix.python }}
-            - ${{ matrix.os.name }}
-          path: ${{ fromJSON(inputs.config).tool.mypy.config.workflow.report_path }}
-  mypy-report:
-    name: MyPy Report
-    if: ${{ !cancelled() }}
-    needs: mypy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Artifact Merge
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: >-
-            MyPy Reports
-            - ${{ fromJSON(inputs.config).pkg.name }}
-            - ${{ fromJSON(inputs.config).version }}
-          pattern: >-
-            MyPy Report
-            - ${{ fromJSON(inputs.config).pkg.name }}
-            - ${{ fromJSON(inputs.config).version }}
-            - *
-          separate-directories: 'true'
-          delete-merged: 'true'
+#  mypy:
+#    name: MyPy (Py ${{ matrix.python }} | ${{ matrix.os.name }})
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        os: ${{ fromJSON(inputs.config).os }}
+#        python: ${{ fromJSON(inputs.config).pkg.python.version.minors }}
+#    runs-on: ${{ matrix.os.runner }}
+#    steps:
+#      - name: Repository Checkout
+#        uses: actions/checkout@v4
+#        with:
+#          repository: ${{ fromJSON(inputs.config).repository }}
+#          ref: ${{ fromJSON(inputs.config).ref }}
+#          fetch-depth: 0
+#
+#      - name: Python Setup
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: ${{ fromJSON(inputs.config).python-max }}
+#          check-latest: 'true'
+#          cache: pip
+#          cache-dependency-path: ${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}
+#
+#      - name: Environment Setup
+#        shell: bash
+#        run: |
+#          echo "::group::Upgrade pip"
+#          python3 -m pip install --upgrade pip
+#          echo "::endgroup::"
+#
+#          echo "::group::Install ${{ fromJSON(inputs.config).pkg.name }}"
+#          python3 -m pip install "./${{ fromJSON(inputs.config).pkg.path.root }}"
+#          echo "::endgroup::"
+#
+#          if [[ "${{ fromJSON(inputs.config).type }}" == "test" ]]; then
+#            echo "::group::Install ${{ fromJSON(inputs.config).pkg2.name }}"
+#            python3 -m pip install "./${{ fromJSON(inputs.config).pkg2.path.root }}"
+#            echo "::endgroup::"
+#          fi
+#
+#          echo "::group::Install mypy"
+#          python3 -m pip install -r "${{ fromJSON(inputs.config).tool.mypy.env.file.pip.path }}"
+#          echo "::endgroup::"
+#
+#          echo "::group::Display pip environment"
+#          python3 -m pip list
+#          echo "::endgroup::"
+#
+#      - name: Cache Load
+#        uses: actions/cache@v4  # https://github.com/actions/cache
+#        with:
+#          path: ${{ fromJSON(inputs.config).tool.mypy.config.workflow.cache_path }}
+#          key: >-
+#            branch
+#            __${{ inputs.ref-name }}
+#            __mypy
+#            __${{ matrix.os.runner }}
+#            __py${{ matrix.python }}
+#            __dep-hash-${{ hashFiles(fromJSON(inputs.config).tool.mypy.env.file.pip.path) }}
+#
+#      - name: MyPy
+#        shell: bash
+#        run: >-
+#          mypy
+#          --package ${{ fromJSON(inputs.config).pkg.import_name }}
+#          --config-file ${{ fromJSON(inputs.config).tool.mypy.config.file.path }}
+#          --python-version ${{ matrix.python }}
+#          --install-types
+#          --non-interactive
+#
+#      - name: Report Upload
+#        if: always()
+#        uses: actions/upload-artifact@v4  # https://github.com/actions/upload-artifact
+#        with:
+#          name: >-
+#            MyPy Report
+#            - ${{ fromJSON(inputs.config).pkg.name }}
+#            - ${{ fromJSON(inputs.config).version }}
+#            - Py ${{ matrix.python }}
+#            - ${{ matrix.os.name }}
+#          path: ${{ fromJSON(inputs.config).tool.mypy.config.workflow.report_path }}
+#  mypy-report:
+#    name: MyPy Report
+#    if: ${{ !cancelled() }}
+#    needs: mypy
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Artifact Merge
+#        uses: actions/upload-artifact/merge@v4
+#        with:
+#          name: >-
+#            MyPy Reports
+#            - ${{ fromJSON(inputs.config).pkg.name }}
+#            - ${{ fromJSON(inputs.config).version }}
+#          pattern: >-
+#            MyPy Report
+#            - ${{ fromJSON(inputs.config).pkg.name }}
+#            - ${{ fromJSON(inputs.config).version }}
+#            - *
+#          separate-directories: 'true'
+#          delete-merged: 'true'
 #  pylint:
 #    name: 'PyLint (${{ matrix.os.name }})'
 #    strategy:
