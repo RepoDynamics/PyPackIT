@@ -6147,6 +6147,9 @@
          "features": {
             "./features/conda_setup": {},
             "./features/pkg_setup": {},
+            "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
+               "packages": ""
+            },
             "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
          },
          "forwardPorts": [
@@ -6179,6 +6182,27 @@
          "COPY .devcontainer/install.py .github/.repodynamics/metadata.json /usr/local/share/app_installation/install.py\n"
       ],
       "environment": {
+         "anaconda": {
+            "conda": {
+               "anaconda-client": {
+                  "description": "Client for uploading packages and managing channels in Anaconda.\n",
+                  "name": "anaconda-client",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::anaconda-client >=1.13",
+                     "name": "anaconda-client",
+                     "version": ">=1.13"
+                  },
+                  "url": {
+                     "docs": "https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client",
+                     "package": "https://anaconda.org/conda-forge/anaconda-client",
+                     "source": "https://github.com/anaconda/anaconda-client"
+                  }
+               }
+            },
+            "name": "anaconda",
+            "path": ".devcontainer/environment/conda/anaconda.yaml"
+         },
          "base": {
             "conda": {
                "conda-build": {
@@ -7071,31 +7095,6 @@
             "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
          }
       }
-   },
-   "devfeature_apt_setup": {
-      "feature": {
-         "description": "Install APT packages with apt-get",
-         "id": "apt_setup",
-         "installsAfter": [
-            "ghcr.io/devcontainers/features/common-utils"
-         ],
-         "name": "APT Setup",
-         "options": {
-            "filepaths": {
-               "default": "/usr/local/share/environments/apt.txt",
-               "description": "Newline-separaed list of absolute paths to text files containing apt package specifications.",
-               "type": "string"
-            },
-            "log_dir": {
-               "default": "/var/log/conda_setup",
-               "description": "Absolute path to a directory to write log files.",
-               "type": "string"
-            }
-         },
-         "version": "0.1.0"
-      },
-      "install": "#!/usr/bin/env bash\nset -eux\nRUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi\nRUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \\\n  if [ -f /tmp/temp-env-files/apt.txt ]; then \\\n    apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \\\n  fi && rm -rf /var/lib/apt/lists/*\n",
-      "path": "features/apt_setup"
    },
    "devfeature_conda_setup": {
       "feature": {
@@ -20538,6 +20537,7 @@
             "pypkg_test_setuptools_manifest": "test/MANIFEST.in"
          },
          "devcontainer_conda": {
+            "anaconda": ".devcontainer/environment/conda/anaconda.yaml",
             "base": ".devcontainer/environment/conda/base.yaml",
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
@@ -20553,13 +20553,11 @@
             "main": ".devcontainer/Dockerfile"
          },
          "devcontainer_feature_install": {
-            "apt_setup": ".devcontainer/features/apt_setup/install.sh",
             "conda_setup": ".devcontainer/features/conda_setup/install.sh",
             "pixi": ".devcontainer/features/pixi/install.sh",
             "pkg_setup": ".devcontainer/features/pkg_setup/install.sh"
          },
          "devcontainer_feature_metadata": {
-            "apt_setup": ".devcontainer/features/apt_setup/devcontainer-feature.json",
             "conda_setup": ".devcontainer/features/conda_setup/devcontainer-feature.json",
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json",
             "pkg_setup": ".devcontainer/features/pkg_setup/devcontainer-feature.json"
