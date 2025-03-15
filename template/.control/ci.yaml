@@ -3,16 +3,17 @@ control:
     retention_hours:
       css_color_filter: 0
 workflow:
+  refactor:
+    pre_commit_config: ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.content }}$
   web:
     container:
-      name: devcontainer-docs
-      path: ${{ devcontainer_docs.path }}$/devcontainer.json
+      id: docs
       command: ${{ devcontainer_docs.environment.website.task.build.alias }}$
-      ref: refs/heads/${{ branch.main.name }}$
     artifact:
       build:
         name: Website - v{{ version }}
-        path: ${{ data_website.path.build }}$/*
+        path: ${{ data_website.path.build }}$
+        include_hidden: true
       pages:
         name: Website - v{{ version }} - GH-Pages
         path: ${{ data_website.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
@@ -154,3 +155,6 @@ workflow:
           action: pull
         test:
           action: issue
+  test:
+    codecov:
+      codecov_yml_path: ${{ devcontainer_main.environment.codecov.file.codecov_config.path }}$
