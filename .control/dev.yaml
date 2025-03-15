@@ -133,10 +133,10 @@ devfeature_pkg_setup:
         type: string
         description: Absolute path to the project metadata file.
         default: /usr/local/share/app_installation/metadata.json
-      packages:
-        type: string
-        description: Package data to install as a JSON array.
-        default: '["main", "test"]'
+#      packages:
+#        type: string
+#        description: Package data to install as a JSON array.
+#        default: '["main", "test"]'
       python_version:
         type: string
         description: Python version to use for the installation.
@@ -155,7 +155,12 @@ devfeature_pkg_setup:
         default: /var/log/conda_setup
   install: |
     #!/usr/bin/env bash
-    set -eux
+    set -euxo pipefail
+    mkdir -p $LOG_DIR
+    LOG_FILE="${LOG_DIR}/install.log"
+    # Redirect stdout and stderr to a file
+    exec > >(tee -a "$LOG_FILE") 2>&1
+    
     echo "Initializing conda..."
     conda init
     echo "Removing existing Conda channels..."
@@ -167,13 +172,12 @@ devfeature_pkg_setup:
     echo "Verifying channels..."
     conda config --show channels
     echo "Creating log directory..."
-    mkdir -p $LOG_DIR
     python "$SCRIPT_FILEPATH" \
+      --packages '["main", "test"]' \
       --filepath "$METADATA_FILEPATH" \
-      --packages "$PACKAGES" \
       --python-version "$PYTHON_VERSION" \
       --sources $SOURCES \
-      --conda-env-name "$CONDA_ENV_NAME" | tee "$LOG_DIR/pkg_install.log"
+      --conda-env-name "$CONDA_ENV_NAME"
     echo "Cleaning up cache..."
     conda clean --all -y
 devfeature_conda_setup:
@@ -229,6 +233,27 @@ devfeature_conda_setup:
     fi
     echo "Cleaning up cache..."
     conda clean --all -y
+devfeature_apt_setup:
+  feature:
+    name: APT Setup
+    version: 0.1.0
+    description: Install APT packages with apt-get
+    installsAfter:
+      - ghcr.io/devcontainers/features/common-utils
+    options:
+      log_dir:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: /var/log/conda_setup
+      filepaths:
+        type: string
+        description: Newline-separaed list of absolute paths to text files containing apt package specifications.
+        default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.apt }}$
+  install: |
+    #!/usr/bin/env bash
+    set -eux
+    
+
 devcontainer:
   docker-compose:
     config:
