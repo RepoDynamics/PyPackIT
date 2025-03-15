@@ -27,6 +27,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - name: Miniconda Setup
+        # https://github.com/conda-incubator/setup-miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: true
