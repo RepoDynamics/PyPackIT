@@ -198,25 +198,28 @@ def install_files(
     """Install dependencies from the given files."""
     inputs = locals()
 
-    def _install(content: str, cmd: Sequence[str]):
-        with _tempfile.NamedTemporaryFile(mode="w", delete=False) as file:
-            file.write(content)
-            filepath = file.name
-            cmd_filled = [cmd_part.format(filepath=filepath) for cmd_part in cmd]
-            try:
+    filename = {
+        "conda": "environment.yml",
+        "pip": "requirements.txt",
+        "apt": "apt.txt",
+        "brew": "Brewfile",
+        "choco": "packages.config",
+        "winget": "packages.json",
+        "bash": "install.sh",
+        "pwsh": "install.ps1",
+    }
+    with _tempfile.TemporaryDirectory() as temp_dir:
+        for source in ("bash", "pwsh", "apt", "brew", "choco", "winget", "conda", "pip"):
+            if source not in files:
+                continue
+            _logger.info("Installing dependencies from %s", source)
+            if source == "apt":
+                _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)  # noqa: S603
+            else:
+                filepath = _Path(temp_dir) / filename[source]
+                filepath.write_text(files[source])
+                cmd_filled = [cmd_part.format(filepath=str(filepath)) for cmd_part in inputs[f"cmd_{source}"]]
                 _subprocess.run(cmd_filled, check=True)  # noqa: S603
-            finally:
-                _Path(filepath).unlink()
-        return
-
-    for source in ("bash", "pwsh", "apt", "brew", "choco", "winget", "conda", "pip"):
-        if source not in files:
-            continue
-        _logger.info("Installing dependencies from %s", source)
-        if source == "apt":
-            _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)  # noqa: S603
-        else:
-            _install(files[source], inputs[f"cmd_{source}"])
     return
 
 
