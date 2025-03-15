@@ -777,9 +777,9 @@ devcontainer_docs:
                       #{{
                         doi = get("zenodo.concept.doi")
                         entry = {
-                          "name": "Zenodo Record"
-                          "icon": "fa-solid fa-z"
-                          "url": f"https://doi.org/{doi}"
+                          "name": "Zenodo Record",
+                          "icon": "fa-solid fa-z",
+                          "url": f"https://doi.org/{doi}",
                         }
                         return [entry] if doi else []
                       }}#
