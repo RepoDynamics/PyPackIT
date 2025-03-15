@@ -22,11 +22,6 @@
          "description": "Absolute path to the project metadata file.",
          "type": "string"
       },
-      "packages": {
-         "default": "[\"main\", \"test\"]",
-         "description": "Package data to install as a JSON array.",
-         "type": "string"
-      },
       "python_version": {
          "default": "3.10",
          "description": "Python version to use for the installation.",
