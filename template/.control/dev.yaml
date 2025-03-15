@@ -2,8 +2,7 @@ __temp__:
   container_env_path: /usr/local/share/environments
   dockerfile_copy_env_cmd: COPY ${{ ..path.environment }}$ ${{ __temp__.container_env_path }}$/
   dockerfile_copy_script_cmd: |
-    COPY .devcontainer/install.py ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
-    COPY .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
+    COPY .devcontainer/install.py .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
 default:
   task_setting:
     local:
@@ -237,6 +236,12 @@ devcontainer_main:
       - 8888:8888  # for Jupyter Notebook
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
+      # https://github.com/devcontainers-extra/features/tree/main/src/apt-get-packages
+      ghcr.io/devcontainers-extra/features/apt-get-packages:1:
+        packages: |-
+          #{{
+            return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_main.apt", {}).values()])
+          }}#
       ./${{ devfeature_conda_setup.path }}$: {}
       ./${{ devfeature_pkg_setup.path }}$: {}
     postCreateCommand:
@@ -487,6 +492,7 @@ devcontainer_main:
             - mypy
             - --package ${{ pypkg_main.import_name }}$
             - --package ${{ pypkg_test.import_name }}$
+            # https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
             - --python-executable /opt/conda/envs/${{ devfeature_pkg_setup.feature.options.conda_env_name }}$/bin/python
             - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
             - --install-types
@@ -839,6 +845,17 @@ devcontainer_main:
             docs: https://jupyter-book.github.io/jupyterlab-myst/
             package: https://anaconda.org/conda-forge/jupyterlab-myst
             source: https://github.com/jupyter-book/jupyterlab-myst
+    anaconda:
+      conda:
+        anaconda-client:
+          description: |
+            Client for uploading packages and managing channels in Anaconda.
+          spec:
+            version: '>=1.13'
+          url:
+            docs: https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client
+            package: https://anaconda.org/conda-forge/anaconda-client
+            source: https://github.com/anaconda/anaconda-client
   task:
     jupyterlab:
       name: Open JupyterLab
