@@ -903,7 +903,7 @@ devcontainer_main:
             - always
             - --config
             - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
-            - show-diff-on-failure
+            - --show-diff-on-failure
             - --verbose
     presentation:
       conda:
