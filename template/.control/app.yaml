@@ -5,24 +5,24 @@ pypkg_main:
       runner: ubuntu-24.04
       data:
         logo: ${{ data_website.path.source }}$/_media/logo_ext/linux.png
-    linux-arm64:
+    linux-aarch64:
       name: Linux (arm64)
       runner: ubuntu-24.04-arm
       data:
         logo: ${{ ...linux-64.data.logo }}$
-    macos-64:
+    osx-64:
       name: macOS (x64)
       runner: macos-13
       data:
         logo: apple
         logo_color: '#000000'
-    macos-arm64:
+    osx-arm64:
       name: macOS (arm64)
       runner: macos-15
       data:
         logo: apple
         logo_color: '#000000'
-    windows-64:
+    win-64:
       name: Windows (x64)
       runner: windows-2025
       data:
@@ -30,7 +30,7 @@ pypkg_main:
   entry:
     cli:
       main:
-        name: ${{ pypkg_main.name }}$
+        name: '#{{ return get("pypkg_main.name").lower() }}#'
         description: Main CLI entry of the package.
         ref: ${{ pypkg_main.import_name }}$.__main__:main
   dependency:
@@ -42,7 +42,9 @@ pypkg_main:
             homepage: https://pypi.org/project/setuptools/
           conda:
             homepage: https://anaconda.org/conda-forge/setuptools
-      versioningit:
+      versioning:
+        name: versioningit
+        import_name: versioningit
         install:
           pip:
             version: '>=3.1.2'
@@ -115,6 +117,8 @@ pypkg_main:
         - graft ${{ pypkg_main.path.import_rel }}$/data
         - include ${{ pypkg_main.path.import_rel }}$/py.typed
         - global-exclude *.py[cod] __pycache__ *.so
+  test: >-
+    #{{ return hook.pypkg_test("test") }}#
 pypkg_test:
   path:
     root: test
@@ -286,8 +290,8 @@ pypkg_test:
               python_files: [ test_*.py, tests_*.py, '*_test.py', '*_tests.py' ]
               python_functions: [ 'test_*', 'tests_*', '*_test',  '*_tests' ]
               required_plugins:
-                - pytest-cov == 5.0.0
-                - pytest-html == 4.1.1
+                - pytest-cov ${{ pypkg_test.dependency.core.pytest-cov.install.pip.version }}$
+                - pytest-html ${{ pypkg_test.dependency.core.pytest-html.install.pip.version }}$
     coverage_config:
       name: Coverage Configuration
       summary: >-
@@ -490,8 +494,11 @@ __temp__:
         file: README.md
         content-type: text/markdown
       requires-python: ${{ .python.version.spec }}$
-      license: ${{ license.expression }}$
-      license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
+      license:
+        text: ${{ license.expression }}$
+      # TODO: uncomment after setuptools adds support for PEP 639: https://github.com/pypa/setuptools/pull/4829
+#      license: ${{ license.expression }}$
+#      license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
       authors: |
         #{{
           return [
@@ -541,6 +548,7 @@ __temp__:
             where: [ '${{ .path.source_rel }}$' ]
             namespaces: true
         include-package-data: true
+        license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
         cmdclass:
           build_py: versioningit.cmdclass.build_py
           sdist: versioningit.cmdclass.sdist
