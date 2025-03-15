@@ -1,6 +1,158 @@
 __temp__:
   container_env_path: /usr/local/share/environments
-  dockerfile_copy_env_cmd: COPY ${{ ..path }}$/${{ devcontainer.containers.rel_path.environment }}$ ${{ __temp__.container_env_path }}$/
+  dockerfile_copy_env_cmd: COPY ${{ ..path.environment }}$ ${{ __temp__.container_env_path }}$/
+  dockerfile_copy_script_cmd: |
+    COPY .devcontainer/install.py ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
+    COPY .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
+default:
+  task_setting:
+    local:
+      environment:
+        process:
+          prepend:
+            - conda
+            - run
+            - --cwd
+            - '{{ devcontainer.container.workspaceFolder }}'
+            - --name
+            - '{{ environment.name }}'
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            current_dir=$(pwd)
+            cd '{{ devcontainer.container.workspaceFolder }}'
+            conda activate '{{ environment.name }}'
+          append: |
+            conda deactivate
+            cd "$current_dir"
+      root:
+        process:
+          prepend:
+            - conda
+            - run
+            - --cwd
+            - '{{ devcontainer.container.workspaceFolder }}'
+            - --name
+            - base
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            current_dir=$(pwd)
+            cd '{{ devcontainer.container.workspaceFolder }}'
+          append: |
+            cd "$current_dir"
+    global:
+      environment:
+        process:
+          prepend:
+            - conda
+            - run
+            - --name
+            - '{{ environment.name }}'
+            - --live-stream
+            - -vv
+        script:
+          prepend: |
+            conda activate '{{ environment.name }}'
+          append: |
+            conda deactivate
+      root:
+        process:
+          prepend:
+            - conda
+            - run
+            - --name
+            - base
+            - --live-stream
+            - -vv
+devfeature_pkg_setup:
+  feature:
+    name: Package Setup
+    version: 0.1.0
+    description: Install local packages in development mode.
+    installsAfter:
+      - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/conda
+    postStartCommand:
+      install_main:
+        - conda
+        - run
+        - --name
+        - app
+        - pip
+        - install
+        - --editable
+        - ${{ pypkg_main.path.root }}$
+        - --no-deps
+      install_test:
+        - conda
+        - run
+        - --name
+        - app
+        - pip
+        - install
+        - --editable
+        - ${{ pypkg_test.path.root }}$
+        - --no-deps
+    options:
+      script_filepath:
+        type: string
+        description: Absolute path to the installation script file.
+        default: /usr/local/share/app_installation/install.py
+      metadata_filepath:
+        type: string
+        description: Absolute path to the project metadata file.
+        default: /usr/local/share/app_installation/metadata.json
+      packages:
+        # TODO: fix quoting problem
+        type: string
+        description: Package data to install as a JSON array.
+        default: '["main", "test"]'
+      python_version:
+        type: string
+        description: Python version to use for the installation.
+        default: ${{ pypkg_main.python.version.minors[0] }}$
+      sources:
+        type: string
+        description: Space-separated list of sources to install from.
+        default: pip conda apt bash
+      conda_env_name:
+        type: string
+        description: Name of the conda environment to use for installation.
+        default: app
+      log_dir:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: /var/log/conda_setup
+  install: |
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    mkdir -p $LOG_DIR
+    LOG_FILE="${LOG_DIR}/install.log"
+    # Redirect stdout and stderr to a file
+    exec > >(tee -a "$LOG_FILE") 2>&1
+
+    echo "Initializing conda..."
+    conda init
+    echo "Removing existing Conda channels..."
+    conda config --remove-key channels 2>/dev/null || true
+    echo "Adding conda-forge as the only channel..."
+    conda config --add channels conda-forge
+    echo "Setting strict channel priority..."
+    conda config --set channel_priority strict
+    echo "Verifying channels..."
+    conda config --show channels
+    echo "Creating log directory..."
+    python "$SCRIPT_FILEPATH" \
+      --packages '["main", "test"]' \
+      --filepath "$METADATA_FILEPATH" \
+      --python-version "$PYTHON_VERSION" \
+      --sources $SOURCES \
+      --conda-env-name "$CONDA_ENV_NAME"
+    echo "Cleaning up cache..."
+    conda clean --all -y
 devfeature_conda_setup:
   feature:
     name: Conda Setup
@@ -78,6 +230,7 @@ devcontainer_main:
   dockerfile:
     - FROM mcr.microsoft.com/devcontainers/universal:2-linux
     - ${{ __temp__.dockerfile_copy_env_cmd }}$
+    - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Main Development Environment
     forwardPorts:
@@ -85,6 +238,20 @@ devcontainer_main:
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
       ./${{ devfeature_conda_setup.path }}$: {}
+      ./${{ devfeature_pkg_setup.path }}$: {}
+    postCreateCommand:
+      pre_commit_install:
+        - conda
+        - run
+        - --name
+        - ${{ devcontainer_main.environment.pre_commit.name }}$
+        - --live-stream
+        - -vv
+        - pre-commit
+        - install
+        - --install-hooks
+        - --config
+        - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
     customizations:
       vscode:
         extensions:
@@ -213,6 +380,54 @@ devcontainer_main:
             install conda-build in the conda base environment.
             See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
             for more information.
+      task:
+        _conda-build:
+          name: Build Conda Package
+          summary: Build a Conda package from a recipe using `conda build`.
+          process: [ python, .devcontainer/script/base/build-conda.py, $@ ]
+    pybuild:
+      pip:
+        build:
+          spec:
+            version: '>=1.2.2'
+          url:
+            docs: https://build.pypa.io/
+            package: https://pypi.org/project/build/
+            source: https://github.com/pypa/build
+        twine:
+          url:
+            docs: https://twine.readthedocs.io/
+            package: https://pypi.org/project/twine/
+            source: https://github.com/pypa/twine
+        readme-renderer:
+          spec:
+            version: '>=44'
+            extras: [ md ]
+          url:
+            package: https://pypi.org/project/readme-renderer/
+            source: https://github.com/pypa/readme_renderer
+    versioning:
+      pip:
+        versioning:
+          spec: |
+            #{{
+              spec = get("pypkg_main.dependency.build.versioning.install.pip")
+              out = {}
+              for k, v in spec.items():
+                if k == "spec":
+                  out["full"] = v
+                elif k not in ("homepage",):
+                  out[k] = v
+              return out
+            }}#
+      task:
+        version:
+          name: Get Project Version
+          summary: Get the current full version of the project.
+          script: |
+            ${{ pypkg_main.dependency.build.versioning.import_name }}$ \
+                "${{ pypkg_main.path.root }}$" \
+                --verbose
     type_check:
       pip:
         mypy:
@@ -233,7 +448,7 @@ devcontainer_main:
             Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
             in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
           type: toml
-          path: ${{ devcontainer_main.path }}$/config/mypy.toml
+          path: ${{ devcontainer_main.path.root }}$/config/mypy.toml
           content:
             tool:
               mypy:
@@ -264,6 +479,18 @@ devcontainer_main:
                 xml_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
                 # Miscellaneous
                 verbosity: 2
+      task:
+        typecheck:
+          name: Type Check
+          summary: Run type checking with Mypy.
+          process:
+            - mypy
+            - --package ${{ pypkg_main.import_name }}$
+            - --package ${{ pypkg_test.import_name }}$
+            - --python-executable /opt/conda/envs/${{ devfeature_pkg_setup.feature.options.conda_env_name }}$/bin/python
+            - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
+            - --install-types
+            - --non-interactive
     codecov:
       conda:
         rust:
@@ -362,7 +589,7 @@ devcontainer_main:
           summary: >-
             Pre-Commit [configuration file](https://pre-commit.com/#configuration).
           type: yaml
-          path: ${{ devcontainer_main.path }}$/config/pre-commit.yaml
+          path: ${{ devcontainer_main.path.root }}$/config/pre-commit.yaml
           content:
             default_language_version:
               python: python3
@@ -460,7 +687,7 @@ devcontainer_main:
             Ruff [configuration file](https://docs.astral.sh/ruff/settings/)
             in TOML format.
           type: toml
-          path: ${{ devcontainer_main.path }}$/config/ruff.toml
+          path: ${{ devcontainer_main.path.root }}$/config/ruff.toml
           content:
             cache-dir: ${{ local.cache.path }}$/ruff
             fix: true
@@ -590,6 +817,19 @@ devcontainer_main:
                 max-returns: 10
               mccabe:
                 max-complexity: 15
+      task:
+        lint:
+          name: Lint
+          summary: Run pre-commit hooks.
+          process:
+            - pre-commit
+            - run
+            - --color
+            - always
+            - --config
+            - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
+            - show-diff-on-failure
+            - --verbose
     presentation:
       conda:
         jupyterlab-myst:
@@ -618,3 +858,20 @@ devcontainer_main:
         This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
+
+    build-conda:
+      name: Build Conda Package
+      summary: Build a conda package.
+      description: |
+        This script takes one required positional argument: the ID of the package to build.
+        The package ID is the suffix of the corresponding "pypkg_" key in the configuration.
+        For example, for a package with the key "pypkg_main", the package ID is "main".
+
+        In addition, the script accepts any number of extra arguments,
+        which are passed directly to the `conda build` command.
+      data:
+        local_channel_path: ${{ local.build.path }}$/conda
+      script: >-
+        ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
+        "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
+        "$@"
