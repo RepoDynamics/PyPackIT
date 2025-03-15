@@ -233,30 +233,6 @@ devfeature_conda_setup:
     fi
     echo "Cleaning up cache..."
     conda clean --all -y
-devfeature_apt_setup:
-  feature:
-    name: APT Setup
-    version: 0.1.0
-    description: Install APT packages with apt-get
-    installsAfter:
-      - ghcr.io/devcontainers/features/common-utils
-    options:
-      log_dir:
-        type: string
-        description: Absolute path to a directory to write log files.
-        default: /var/log/conda_setup
-      filepaths:
-        type: string
-        description: Newline-separaed list of absolute paths to text files containing apt package specifications.
-        default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.apt }}$
-  install: |
-    #!/usr/bin/env bash
-    set -eux
-    RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
-    RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
-      if [ -f /tmp/temp-env-files/apt.txt ]; then \
-        apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
-      fi && rm -rf /var/lib/apt/lists/*
 devcontainer:
   docker-compose:
     config:
@@ -288,6 +264,12 @@ devcontainer_main:
       - 8888:8888  # for Jupyter Notebook
     features:
       ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
+      # https://github.com/devcontainers-extra/features/tree/main/src/apt-get-packages
+      ghcr.io/devcontainers-extra/features/apt-get-packages:1:
+        packages: |-
+          #{{
+            return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_main.apt", {}).values()])
+          }}#
       ./${{ devfeature_conda_setup.path }}$: {}
       ./${{ devfeature_pkg_setup.path }}$: {}
     postCreateCommand:
@@ -552,6 +534,7 @@ devcontainer_main:
             - mypy
             - --package ${{ pypkg_main.import_name }}$
             - --package ${{ pypkg_test.import_name }}$
+            # https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
             - --python-executable /opt/conda/envs/${{ devfeature_pkg_setup.feature.options.conda_env_name }}$/bin/python
             - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
             - --install-types
@@ -914,6 +897,17 @@ devcontainer_main:
             docs: https://jupyter-book.github.io/jupyterlab-myst/
             package: https://anaconda.org/conda-forge/jupyterlab-myst
             source: https://github.com/jupyter-book/jupyterlab-myst
+    anaconda:
+      conda:
+        anaconda-client:
+          description: |
+            Client for uploading packages and managing channels in Anaconda.
+          spec:
+            version: '>=1.13'
+          url:
+            docs: https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client
+            package: https://anaconda.org/conda-forge/anaconda-client
+            source: https://github.com/anaconda/anaconda-client
   task:
     jupyterlab:
       name: Open JupyterLab
