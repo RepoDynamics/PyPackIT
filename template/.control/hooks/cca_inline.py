@@ -133,8 +133,8 @@ class Hooks:
             source: Literal["pip", "conda"],
         ) -> str:
             if source == "conda":
-                return f"conda install -c file://./ {package_names_str}"
-            return f"pip install --no-index --find-links=./ --prefer-binary {package_names_str}"
+                return f"micromamba install -c ./conda_channel/ {package_names_str}"
+            return f"pip uninstall -y {package_names_str}\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: {package_names_str}"
 
         env_output_dir = "_temp_test_env"
         conda_filename = "environment.yaml"
@@ -162,7 +162,7 @@ class Hooks:
                                 source=source,
                             ),
                             "install_pkg": install_pkg_script(source=source),
-                            "test": f"python -m {package_names[1]} --report ./report",
+                            "test": f"python -m {self.get(f'pypkg_{test_pkg_id}.import_name')} --report ./report",
                         },
                         "conda_env": {
                             "name": conda_env_name,
