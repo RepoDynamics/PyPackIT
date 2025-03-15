@@ -40,5 +40,5 @@ typecheck() {
 }
 
 lint() {
-    conda run --cwd /workspace --name pre_commit --live-stream -vv pre-commit run --color always --config .devcontainer/config/pre-commit.yaml show-diff-on-failure --verbose
+    conda run --cwd /workspace --name pre_commit --live-stream -vv pre-commit run --color always --config .devcontainer/config/pre-commit.yaml --show-diff-on-failure --verbose
 }
