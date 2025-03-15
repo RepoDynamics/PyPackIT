@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6176,7 +6176,7 @@
       "dockerfile": [
          "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
          "COPY .devcontainer/environment /usr/local/share/environments/",
-         "COPY .devcontainer/install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
+         "COPY .devcontainer/install.py .github/.repodynamics/metadata.json /usr/local/share/app_installation/install.py\n"
       ],
       "environment": {
          "base": {
@@ -6745,7 +6745,7 @@
                      "always",
                      "--config",
                      ".devcontainer/config/pre-commit.yaml",
-                     "show-diff-on-failure",
+                     "--show-diff-on-failure",
                      "--verbose"
                   ],
                   "summary": "Run pre-commit hooks."
@@ -7094,7 +7094,7 @@
          },
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -eux\n",
+      "install": "#!/usr/bin/env bash\nset -eux\nRUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi\nRUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \\\n  if [ -f /tmp/temp-env-files/apt.txt ]; then \\\n    apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \\\n  fi && rm -rf /var/lib/apt/lists/*\n",
       "path": "features/apt_setup"
    },
    "devfeature_conda_setup": {
@@ -7261,7 +7261,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -22693,6 +22693,9 @@
                "GitHub Actions",
                "Bot"
             ],
+            "license": {
+               "text": "AGPL-3.0-or-later"
+            },
             "maintainers": [
                {
                   "email": "armiariam@gmail.com",
@@ -22725,6 +22728,10 @@
                   "sdist": "versioningit.cmdclass.sdist"
                },
                "include-package-data": true,
+               "license-files": [
+                  "LICENSES/*",
+                  "COPYRIGHTS/*"
+               ],
                "packages": {
                   "find": {
                      "namespaces": true,
@@ -25811,6 +25818,9 @@
                "GitHub Actions",
                "Bot"
             ],
+            "license": {
+               "text": "AGPL-3.0-or-later"
+            },
             "maintainers": [
                {
                   "email": "armiariam@gmail.com",
@@ -25843,6 +25853,10 @@
                   "sdist": "versioningit.cmdclass.sdist"
                },
                "include-package-data": true,
+               "license-files": [
+                  "LICENSES/*",
+                  "COPYRIGHTS/*"
+               ],
                "packages": {
                   "find": {
                      "namespaces": true,

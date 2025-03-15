@@ -67,6 +67,9 @@ dynamic = [
 file = "README.md"
 content-type = "text/markdown"
 
+[project.license]
+text = "AGPL-3.0-or-later"
+
 [project.urls]
 Homepage = "https://pypackit.repodynamics.com"
 Documentation = "https://pypackit.repodynamics.com/manual"
@@ -80,6 +83,7 @@ PyPackIT-TestSuite = "pypackit_testsuite.__main__:main"
 
 [tool.setuptools]
 include-package-data = true
+license-files = ["LICENSES/*", "COPYRIGHTS/*"]
 [tool.setuptools.packages.find]
 where = ["src"]
 namespaces = true

@@ -28,5 +28,5 @@ typecheck() {
 }
 
 lint() {
-    conda run --name pre_commit --live-stream -vv pre-commit run --color always --config .devcontainer/config/pre-commit.yaml show-diff-on-failure --verbose
+    conda run --name pre_commit --live-stream -vv pre-commit run --color always --config .devcontainer/config/pre-commit.yaml --show-diff-on-failure --verbose
 }
