@@ -1172,15 +1172,3 @@ devcontainer_docs:
             Start a live preview server for the website.
             This will automatically rebuild the website when changes are made.
           process: [ bash, '${{ file_script_web_livehtml.path }}$' ]
-
-__temp__:
-  docker_install: |
-
-    RUN if [ -f /tmp/temp-env-files/bash.sh ]; then bash /tmp/temp-env-files/bash.sh; fi
-    RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
-      if [ -f /tmp/temp-env-files/apt.txt ]; then \
-        apt-get -y install --no-install-recommends $(xargs < /tmp/temp-env-files/apt.txt); \
-      fi && rm -rf /var/lib/apt/lists/*
-  docker_pkg_deps: |
-    COPY install.py .github/.repodynamics/metadata.json /tmp/temp-install-files/
-    RUN python /tmp/temp-install-files/install.py --filepath /tmp/temp-install-files/metadata.json
