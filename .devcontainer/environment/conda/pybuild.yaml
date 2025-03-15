@@ -2,6 +2,6 @@ name: pybuild
 dependencies:
   - pip
   - pip:
-      - build
-      - readme-renderer [md]
+      - build >=1.2.2
+      - readme-renderer [md] >=44
       - twine
