@@ -148,7 +148,7 @@ jobs:
           imageName: ghcr.io/repodynamics/pypackit-devcontainer-main
           cacheFrom: ghcr.io/repodynamics/pypackit-devcontainer-main
           runCmd: |
-            conda create -n repodynamics-proman python pip
+            conda create -n repodynamics-proman python pip -y
             conda activate repodynamics-proman
             pip install git+https://github.com/repodynamics/proman.git@v1#egg=proman&subdirectory=pkg
             python -m proman
@@ -162,6 +162,11 @@ jobs:
             RD_PROMAN__PATH_REPO_HEAD
           inheritEnv: false
           push: filter
+      - name: Report Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: uploads
+          name: Workflow Results
   status:
     name: Status
     runs-on: ubuntu-latest
