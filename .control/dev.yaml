@@ -631,6 +631,12 @@ devcontainer_main:
             docs: https://pre-commit.com/
             package: https://anaconda.org/conda-forge/pre_commit
             source: https://github.com/pre-commit/pre-commit
+      pip:
+        loggerman: {}
+        mdit: {}
+        pyshellman: {}
+        ansi-sgr: {}
+        gittidy: {}
       file:
         pre_commit_config:
           name: Pre-Commit Configuration
@@ -729,6 +735,18 @@ devcontainer_main:
                     args: [ --config, '${{ devcontainer_main.environment.pre_commit.file.ruff_config.path }}$' ]
                     types_or: [ python, pyi, jupyter ]
                     verbose: true
+        pre_commit_config_ci:
+          name: Pre-Commit Configuration for CI
+          summary: >-
+            Pre-Commit [configuration file](https://pre-commit.com/#configuration)
+            for use in CI pipeline.
+          type: yaml
+          path: ${{ devcontainer_main.path.root }}$/config/pre-commit-ci.yaml
+          content: |-
+            #{{
+              local_config = get("devcontainer_main.environment.pre_commit.file.pre_commit_config.content")
+              return local_config | {"exclude": r"^\.github/workflows/[^/]+\.(?i:ya?ml)$"}
+            }}#
         ruff_config:
           name: Ruff Configuration
           summary: >-
@@ -880,14 +898,20 @@ devcontainer_main:
           name: Lint
           summary: Run pre-commit hooks.
           process:
-            - pre-commit
-            - run
-            - --color
-            - always
+            - python
+            - .devcontainer/script/pre_commit.py
             - --config
             - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
-            - --show-diff-on-failure
-            - --verbose
+            - $@
+        lint-ci:
+          name: CI Lint
+          summary: Run pre-commit hooks in CI.
+          process:
+            - python
+            - .devcontainer/script/pre_commit.py
+            - --config
+            - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config_ci.path }}$
+            - $@
     presentation:
       conda:
         jupyterlab-myst:
