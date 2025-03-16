@@ -2,11 +2,7 @@ docs/website/.build/
 docs/website/source/api/*/**
 docs/website/source/about/license/*/**
 .local/cache/**
-!.local/cache/**/
-!.local/cache/**/README.md
 .local/report/**
-!.local/report/**/
-!.local/report/**/README.md
 .local/temp/**
 __pycache__/
 *.py[cod]
