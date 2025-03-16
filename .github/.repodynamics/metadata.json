@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
-                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
+                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
+                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
                }
             }
          },
@@ -7537,7 +7537,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-04"
+            "updated_at": "2023-07-05"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -7686,7 +7686,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-03-15",
+         "date-released": "2025-03-16",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -10520,11 +10520,7 @@
          "docs/website/source/api/*/**",
          "docs/website/source/about/license/*/**",
          ".local/cache/**",
-         "!.local/cache/**/",
-         "!.local/cache/**/README.md",
          ".local/report/**",
-         "!.local/report/**/",
-         "!.local/report/**/README.md",
          ".local/temp/**",
          "__pycache__/",
          "*.py[cod]",
@@ -11054,7 +11050,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-03-15"
+                              "message": "2025-03-16"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -21653,7 +21649,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-15"
+                                    "message": "2025-03-16"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -24776,7 +24772,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-15"
+                                    "message": "2025-03-16"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -26734,7 +26730,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-03-15"
+                                 "message": "2025-03-16"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
