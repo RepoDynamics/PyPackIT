@@ -126,7 +126,7 @@ jobs:
   web:
     name: ${{ matrix.config.name }}
     needs: main
-    if: fromJSON(needs.main.outputs.web)
+    if: ${{ !cancelled() && fromJSON(needs.main.outputs.web) }}
     strategy:
       fail-fast: false
       matrix:
@@ -143,7 +143,7 @@ jobs:
   lint:
     name: ${{ matrix.config.name }}
     needs: main
-    if: fromJSON(needs.main.outputs.lint)
+    if: ${{ !cancelled() && fromJSON(needs.main.outputs.lint) }}
     permissions:
       pull-requests: write
       security-events: write
@@ -159,7 +159,7 @@ jobs:
   build:
     name: ${{ matrix.config.name }}
     needs: main
-    if: fromJSON(needs.main.outputs.build)
+    if: ${{ !cancelled() && fromJSON(needs.main.outputs.build) }}
     strategy:
       fail-fast: false
       matrix:
