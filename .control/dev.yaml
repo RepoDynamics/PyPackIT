@@ -638,6 +638,11 @@ devcontainer_main:
         pyshellman: {}
         ansi-sgr: {}
         gittidy: {}
+      variable:
+        cache_dir:
+          summary: Directory to store the cache for pre-commit hooks.
+          key: PRE_COMMIT_HOME
+          value: ${{ local.cache.path }}$/pre-commit
       file:
         pre_commit_config:
           name: Pre-Commit Configuration
