@@ -69,7 +69,7 @@ jobs:
           fetch-depth: 0
       - name: Local Path Determination
         id: meta
-        shell: python
+        shell: bash
         env:
           RELPATH_REPO_BASE: rd_proman_repo_base
         run: |
