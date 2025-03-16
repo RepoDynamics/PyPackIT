@@ -258,9 +258,7 @@ file_gitignore:
     - ${{ local.report.path }}$/**
     - '!${{ local.report.path }}$/**/'
     - '!${{ local.report.path }}$/**/README.md'
-    - ${{ local.build.path }}$/**
-    - '!${{ local.build.path }}$/**/'
-    - '!${{ local.build.path }}$/**/README.md'
+    - ${{ local.temp.path }}$/**
     # Byte-compiled / optimized / DLL files
     - __pycache__/
     - "*.py[cod]"

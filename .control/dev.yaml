@@ -969,7 +969,7 @@ devcontainer_main:
         In addition, the script accepts any number of extra arguments,
         which are passed directly to the `conda build` command.
       data:
-        local_channel_path: ${{ local.build.path }}$/conda
+        local_channel_path: ${{ local.temp.path }}$/conda
       script: >-
         ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
         "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
