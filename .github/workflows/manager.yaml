@@ -54,10 +54,6 @@ jobs:
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
       publish-anaconda: ${{ steps.proman.outputs.publish-anaconda }}
       release: ${{ steps.proman.outputs.release }}
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     steps:
       - name: Head Repository Checkout
         # https://github.com/actions/checkout
