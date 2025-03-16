@@ -117,7 +117,7 @@ jobs:
         if: ${{ steps.meta.outputs.path_cache }}
         uses: actions/cache@v4
         with:
-          path: ${{ steps.cache.outputs.path_cache }}
+          path: ${{ steps.meta.outputs.path_cache }}
           key: ref--${{ github.ref }}--proman
       - name: GitHub Container Registry Login
         # https://github.com/docker/login-action
