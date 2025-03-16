@@ -7,9 +7,7 @@ docs/website/source/about/license/*/**
 .local/report/**
 !.local/report/**/
 !.local/report/**/README.md
-.local/build/**
-!.local/build/**/
-!.local/build/**/README.md
+.local/temp/**
 __pycache__/
 *.py[cod]
 *$py.class

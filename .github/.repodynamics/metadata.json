@@ -7352,7 +7352,7 @@
          "build-conda": {
             "alias": "build-conda",
             "data": {
-               "local_channel_path": ".local/build/conda"
+               "local_channel_path": ".local/temp/conda"
             },
             "description": "This script takes one required positional argument: the ID of the package to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments,\nwhich are passed directly to the `conda build` command.\n",
             "name": "Build Conda Package",
@@ -10525,9 +10525,7 @@
          ".local/report/**",
          "!.local/report/**/",
          "!.local/report/**/README.md",
-         ".local/build/**",
-         "!.local/build/**/",
-         "!.local/build/**/README.md",
+         ".local/temp/**",
          "__pycache__/",
          "*.py[cod]",
          "*$py.class",
@@ -20757,14 +20755,14 @@
       "expression": "AGPL-3.0-or-later"
    },
    "local": {
-      "build": {
-         "path": ".local/build"
-      },
       "cache": {
          "path": ".local/cache"
       },
       "report": {
          "path": ".local/report"
+      },
+      "temp": {
+         "path": ".local/temp"
       }
    },
    "name": "PyPackIT",
