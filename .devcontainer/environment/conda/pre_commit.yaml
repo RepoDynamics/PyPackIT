@@ -1,3 +1,10 @@
 name: pre_commit
 dependencies:
   - conda-forge::pre-commit ==4.1.0
+  - pip
+  - pip:
+      - ansi-sgr
+      - gittidy
+      - loggerman
+      - mdit
+      - pyshellman

@@ -1,0 +1,122 @@
+default_language_version:
+  python: python3
+minimum_pre_commit_version: 4.0.0
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-case-conflict
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-json
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-shebang-scripts-are-executable
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-symlinks
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-toml
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: check-xml
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: destroyed-symlinks
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: end-of-file-fixer
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: fix-byte-order-marker
+        stages:
+          - pre-commit
+          - manual
+        verbose: true
+      - id: mixed-line-ending
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --fix
+          - auto
+        verbose: true
+      - id: no-commit-to-branch
+        stages:
+          - pre-commit
+        args:
+          - --branch
+          - main
+          - --pattern
+          - release/v.*
+          - --pattern
+          - prerelease/v.*
+        verbose: true
+      - id: pretty-format-json
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --autofix
+          - --indent
+          - '3'
+        verbose: true
+      - id: trailing-whitespace
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --markdown-linebreak-ext=md
+        verbose: true
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.9
+    hooks:
+      - id: ruff
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --verbose
+          - --config
+          - .devcontainer/config/ruff.toml
+          - --exit-non-zero-on-fix
+        types_or:
+          - python
+          - pyi
+          - jupyter
+        verbose: true
+      - id: ruff-format
+        stages:
+          - pre-commit
+          - manual
+        args:
+          - --config
+          - .devcontainer/config/ruff.toml
+        types_or:
+          - python
+          - pyi
+          - jupyter
+        verbose: true
+exclude: ^\.github/workflows/[^/]+\.(?i:ya?ml)$

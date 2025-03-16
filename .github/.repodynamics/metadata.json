@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6566,6 +6566,225 @@
                   "type": "yaml",
                   "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/pre-commit.yaml"
                },
+               "pre_commit_config_ci": {
+                  "content": {
+                     "default_language_version": {
+                        "python": "python3"
+                     },
+                     "exclude": "^\\.github/workflows/[^/]+\\.(?i:ya?ml)$",
+                     "minimum_pre_commit_version": "4.0.0",
+                     "repos": [
+                        {
+                           "hooks": [
+                              {
+                                 "id": "check-ast",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-case-conflict",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-json",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-shebang-scripts-are-executable",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-symlinks",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-toml",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "check-xml",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "destroyed-symlinks",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "end-of-file-fixer",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "id": "fix-byte-order-marker",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "args": [
+                                    "--fix",
+                                    "auto"
+                                 ],
+                                 "id": "mixed-line-ending",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "args": [
+                                    "--branch",
+                                    "main",
+                                    "--pattern",
+                                    "release/v.*",
+                                    "--pattern",
+                                    "prerelease/v.*"
+                                 ],
+                                 "id": "no-commit-to-branch",
+                                 "stages": [
+                                    "pre-commit"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "args": [
+                                    "--autofix",
+                                    "--indent",
+                                    "3"
+                                 ],
+                                 "id": "pretty-format-json",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "args": [
+                                    "--markdown-linebreak-ext=md"
+                                 ],
+                                 "id": "trailing-whitespace",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "verbose": true
+                              }
+                           ],
+                           "repo": "https://github.com/pre-commit/pre-commit-hooks",
+                           "rev": "v5.0.0"
+                        },
+                        {
+                           "hooks": [
+                              {
+                                 "args": [
+                                    "--verbose",
+                                    "--config",
+                                    ".devcontainer/config/ruff.toml",
+                                    "--exit-non-zero-on-fix"
+                                 ],
+                                 "id": "ruff",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "types_or": [
+                                    "python",
+                                    "pyi",
+                                    "jupyter"
+                                 ],
+                                 "verbose": true
+                              },
+                              {
+                                 "args": [
+                                    "--config",
+                                    ".devcontainer/config/ruff.toml"
+                                 ],
+                                 "id": "ruff-format",
+                                 "stages": [
+                                    "pre-commit",
+                                    "manual"
+                                 ],
+                                 "types_or": [
+                                    "python",
+                                    "pyi",
+                                    "jupyter"
+                                 ],
+                                 "verbose": true
+                              }
+                           ],
+                           "repo": "https://github.com/astral-sh/ruff-pre-commit",
+                           "rev": "v0.9.9"
+                        }
+                     ]
+                  },
+                  "content_setting": {
+                     "prefix": "",
+                     "separator": "\n",
+                     "suffix": ""
+                  },
+                  "file_setting": {
+                     "eof_newline": true,
+                     "json": {
+                        "indent": 3
+                     },
+                     "md": {
+                        "heading_number": false,
+                        "target": "github"
+                     },
+                     "sort_keys": true,
+                     "yaml": {
+                        "block_string": true,
+                        "mapping_indent": 2,
+                        "remove_top_level_indent": true,
+                        "sequence_indent": 4,
+                        "sequence_indent_offset": 2
+                     }
+                  },
+                  "name": "Pre-Commit Configuration for CI",
+                  "path": ".devcontainer/config/pre-commit-ci.yaml",
+                  "status": "active",
+                  "summary": "Pre-Commit [configuration file](https://pre-commit.com/#configuration) for use in CI pipeline.",
+                  "type": "yaml",
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/pre-commit-ci.yaml"
+               },
                "ruff_config": {
                   "content": {
                      "cache-dir": ".local/cache/ruff",
@@ -6758,21 +6977,72 @@
             },
             "name": "pre_commit",
             "path": ".devcontainer/environment/conda/pre_commit.yaml",
+            "pip": {
+               "ansi-sgr": {
+                  "name": "ansi-sgr",
+                  "spec": {
+                     "full": "ansi-sgr",
+                     "name": "ansi-sgr",
+                     "version": ""
+                  }
+               },
+               "gittidy": {
+                  "name": "gittidy",
+                  "spec": {
+                     "full": "gittidy",
+                     "name": "gittidy",
+                     "version": ""
+                  }
+               },
+               "loggerman": {
+                  "name": "loggerman",
+                  "spec": {
+                     "full": "loggerman",
+                     "name": "loggerman",
+                     "version": ""
+                  }
+               },
+               "mdit": {
+                  "name": "mdit",
+                  "spec": {
+                     "full": "mdit",
+                     "name": "mdit",
+                     "version": ""
+                  }
+               },
+               "pyshellman": {
+                  "name": "pyshellman",
+                  "spec": {
+                     "full": "pyshellman",
+                     "name": "pyshellman",
+                     "version": ""
+                  }
+               }
+            },
             "task": {
                "lint": {
                   "alias": "lint",
                   "name": "Lint",
                   "process": [
-                     "pre-commit",
-                     "run",
-                     "--color",
-                     "always",
+                     "python",
+                     ".devcontainer/script/pre_commit.py",
                      "--config",
                      ".devcontainer/config/pre-commit.yaml",
-                     "--show-diff-on-failure",
-                     "--verbose"
+                     "$@"
                   ],
                   "summary": "Run pre-commit hooks."
+               },
+               "lint-ci": {
+                  "alias": "lint-ci",
+                  "name": "CI Lint",
+                  "process": [
+                     "python",
+                     ".devcontainer/script/pre_commit.py",
+                     "--config",
+                     ".devcontainer/config/pre-commit-ci.yaml",
+                     "$@"
+                  ],
+                  "summary": "Run pre-commit hooks in CI."
                }
             }
          },
@@ -7260,7 +7530,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -20510,6 +20780,7 @@
          "custom": {
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
             "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
+            "devcontainer_main_pre_commit_pre_commit_config_ci": ".devcontainer/config/pre-commit-ci.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
             "devcontainer_main_pybuild_script_pypkg_build": ".devcontainer/script/pybuild.sh",
             "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
