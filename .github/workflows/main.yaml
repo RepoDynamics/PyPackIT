@@ -111,12 +111,14 @@ jobs:
       )
     uses: ./.github/workflows/manager.yaml
     permissions:
-      contents: write
       issues: write
       pull-requests: write
+      # Required for pushing Docker images to ghcr.io.
+      # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-docker-images#publishing-images-to-github-packages
+      contents: write
       packages: write
-      id-token: write
       attestations: write
+      id-token: write
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       zenodo-token: ${{ secrets.ZENODO_TOKEN }}
