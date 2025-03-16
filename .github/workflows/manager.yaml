@@ -1,0 +1,165 @@
+name: '[Reusable]: Project Manager'
+on:
+  workflow_call:
+    secrets:
+      repo-admin-token:
+        description: Token with admin permissions to the repository.
+        required: false
+      zenodo-token:
+        description: Token for Zenodo API.
+        required: false
+      zenodo-sandbox-token:
+        description: Token for Zenodo Sandbox API.
+        required: false
+    outputs:
+      web:
+        value: ${{ jobs.manager.outputs.web }}
+        description: Configurations for website job.
+      lint:
+        value: ${{ jobs.manager.outputs.lint }}
+        description: Configurations for lint job.
+      test:
+        value: ${{ jobs.manager.outputs.test }}
+        description: Configurations for test job.
+      build:
+        value: ${{ jobs.manager.outputs.build }}
+        description: Configurations for build job.
+      binder:
+        value: ${{ jobs.manager.outputs.binder }}
+        description: Configurations for binder job.
+      publish-testpypi:
+        value: ${{ jobs.manager.outputs.publish-testpypi }}
+        description: Configurations for publish-testpypi job.
+      publish-pypi:
+        value: ${{ jobs.manager.outputs.publish-pypi }}
+        description: Configurations for publish-pypi job.
+      publish-anaconda:
+        value: ${{ jobs.manager.outputs.publish-anaconda }}
+        description: Configurations for publish-anaconda job.
+      release:
+        value: ${{ jobs.manager.outputs.release }}
+        description: Configurations for release job.
+jobs:
+  manager:
+    name: Manager
+    runs-on: ubuntu-latest
+    outputs:
+      fail: ${{ steps.proman.outputs.fail }}
+      web: ${{ steps.proman.outputs.web }}
+      lint: ${{ steps.proman.outputs.lint }}
+      test: ${{ steps.proman.outputs.test }}
+      build: ${{ steps.proman.outputs.build }}
+      binder: ${{ steps.proman.outputs.binder }}
+      publish-testpypi: ${{ steps.proman.outputs.publish-testpypi }}
+      publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
+      publish-anaconda: ${{ steps.proman.outputs.publish-anaconda }}
+      release: ${{ steps.proman.outputs.release }}
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Head Repository Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ inputs.admin-token || github.token }}
+          repository: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name) || github.repository }}
+          ref: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.ref) || github.ref }}
+          fetch-depth: 0
+      - name: Local Path Determination
+        id: meta
+        shell: python
+        env:
+          RELPATH_REPO_BASE: rd_proman_repo_base
+        run: |
+          METADATA_FILEPATH=".github/.repodynamics/metadata.json"
+          PATH_REPO_BASE=".local/temp/${RELPATH_REPO_BASE}"
+          
+          echo "path_repo_base=$PATH_REPO_BASE" >> "$GITHUB_OUTPUT"
+          
+          if [[ ! -f "$METADATA_FILEPATH" ]]; then
+            echo "Error: Metadata file not found."
+            exit 0
+          fi
+          
+          METADATA_CONTENT=$(cat "$METADATA_FILEPATH" 2>/dev/null)
+          if [[ $? -ne 0 ]]; then
+            echo "Error: Unable to read metadata file."
+            exit 0
+          fi
+          
+          TEMP_DIRPATH=$(jq -r '.local.temp.path' <<< "$METADATA_CONTENT" 2>/dev/null)
+          if [[ -n "$TEMP_DIRPATH" && "$TEMP_DIRPATH" != "null" ]]; then
+            PATH_REPO_BASE="${TEMP_DIRPATH}/${RELPATH_REPO_BASE}"
+            echo "Base repo directory set to ${PATH_REPO_BASE}"
+            echo "path_repo_base=$PATH_REPO_BASE" >> "$GITHUB_OUTPUT"
+          else
+            echo "Error: 'local.temp.path' not found in metadata."
+          fi
+          
+          PATH_CACHE=$(jq -r '.local.cache.path' <<< "$METADATA_CONTENT" 2>/dev/null)
+          if [[ -n "$PATH_CACHE" && "$PATH_CACHE" != "null" ]]; then
+            echo "Cache directory set to $PATH_CACHE"
+            echo "path_cache=$PATH_CACHE" >> "$GITHUB_OUTPUT"
+          else
+            echo "Error: 'local.cache.path' not found in metadata."
+          fi
+      - name: Base Repository Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ inputs.admin-token || github.token }}
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          path: ${{ steps.meta.outputs.path_repo_base }}
+      - name: Cache Load
+        if: ${{ steps.meta.outputs.path_cache }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.cache.outputs.path_cache }}
+          key: ref--${{ github.ref }}--proman
+      - name: GitHub Container Registry Login
+        # https://github.com/docker/login-action
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+      # TODO: Build for multiple platforms:
+      # - https://github.com/devcontainers/ci/issues/299#issuecomment-2694214792
+      # - https://github.com/actions/runner-images/issues/2875
+      - name: Main
+        # https://github.com/devcontainers/ci
+        uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
+        env:
+          RD_PROMAN__ADMIN_TOKEN: ${{ secrets.repo-admin-token }}
+          RD_PROMAN__ZENODO_TOKEN: ${{ secrets.zenodo-token }}
+          RD_PROMAN__ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
+          RD_PROMAN__GITHUB_CONTEXT: ${{ toJSON(github) }}
+          RD_PROMAN__PATH_REPO_BASE: repo_base
+          RD_PROMAN__PATH_REPO_HEAD: repo_head
+        with:
+          configFile: .devcontainer/devcontainer.json
+          imageName: ghcr.io/repodynamics/pypackit-devcontainer-main
+          cacheFrom: ghcr.io/repodynamics/pypackit-devcontainer-main
+          runCmd: |
+            conda create -n repodynamics-proman python pip
+            conda activate repodynamics-proman
+            pip install git+https://github.com/repodynamics/proman.git@v1#egg=proman&subdirectory=pkg
+            python -m proman
+          refFilterForPush: ${{ github.ref }}
+          inheritEnv: true
+          push: filter
+  status:
+    name: Status
+    runs-on: ubuntu-latest
+    needs: manager
+    steps:
+      - name: Status Check
+        run: |
+          if [ "${{ needs.manager.outputs.fail }}" = "true" ]; then
+            exit 1
+          else
+            exit 0
+          fi
