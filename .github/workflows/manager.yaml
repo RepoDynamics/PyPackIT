@@ -137,19 +137,28 @@ jobs:
           RD_PROMAN__ZENODO_TOKEN: ${{ secrets.zenodo-token }}
           RD_PROMAN__ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
           RD_PROMAN__GITHUB_CONTEXT: ${{ toJSON(github) }}
-          RD_PROMAN__PATH_REPO_BASE: repo_base
-          RD_PROMAN__PATH_REPO_HEAD: repo_head
+          RD_PROMAN__PATH_REPO_BASE: ${{ steps.meta.outputs.path_repo_base }}
+          RD_PROMAN__PATH_REPO_HEAD: "./"
         with:
           configFile: .devcontainer/devcontainer.json
           imageName: ghcr.io/repodynamics/pypackit-devcontainer-main
           cacheFrom: ghcr.io/repodynamics/pypackit-devcontainer-main
           runCmd: |
-            conda create -n repodynamics-proman python pip
-            conda activate repodynamics-proman
-            pip install git+https://github.com/repodynamics/proman.git@v1#egg=proman&subdirectory=pkg
-            python -m proman
+            pwd
+            find .
+#            conda create -n repodynamics-proman python pip
+#            conda activate repodynamics-proman
+#            pip install git+https://github.com/repodynamics/proman.git@v1#egg=proman&subdirectory=pkg
+#            python -m proman
           refFilterForPush: ${{ github.ref }}
-          inheritEnv: true
+          env: |
+            RD_PROMAN__ADMIN_TOKEN
+            RD_PROMAN__ZENODO_TOKEN
+            RD_PROMAN__ZENODO_SANDBOX_TOKEN
+            RD_PROMAN__GITHUB_CONTEXT
+            RD_PROMAN__PATH_REPO_BASE
+            RD_PROMAN__PATH_REPO_HEAD
+          inheritEnv: false
           push: filter
   status:
     name: Status
