@@ -148,9 +148,13 @@ jobs:
           imageName: ghcr.io/repodynamics/pypackit-devcontainer-main
           cacheFrom: ghcr.io/repodynamics/pypackit-devcontainer-main
           runCmd: |
+            echo ::group::Conda Env
+            conda env list
+            echo ::endgroup::
+            conda init
             conda create -n repodynamics-proman python pip -y
             conda activate repodynamics-proman
-            pip install git+https://github.com/repodynamics/proman.git@v1#egg=proman&subdirectory=pkg
+            pip install ProMan@git+https://github.com/repodynamics/proman.git@v1#subdirectory=pkg
             python -m proman
           refFilterForPush: ${{ github.ref }}
           env: |
