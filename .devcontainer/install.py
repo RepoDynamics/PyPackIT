@@ -1,6 +1,3 @@
-# PyPackIT © 2023–2024 RepoDynamics
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 """Generate and/or install package dependencies."""
 
 from __future__ import annotations as _annotations
