@@ -7044,6 +7044,13 @@
                   ],
                   "summary": "Run pre-commit hooks in CI."
                }
+            },
+            "variable": {
+               "cache_dir": {
+                  "key": "PRE_COMMIT_HOME",
+                  "summary": "Directory to store the cache for pre-commit hooks.",
+                  "value": ".local/cache/pre-commit"
+               }
             }
          },
          "presentation": {

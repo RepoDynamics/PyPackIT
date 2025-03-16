@@ -8,3 +8,5 @@ dependencies:
       - loggerman
       - mdit
       - pyshellman
+variables:
+  PRE_COMMIT_HOME: .local/cache/pre-commit
