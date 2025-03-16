@@ -114,6 +114,9 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      packages: write
+      id-token: write
+      attestations: write
     secrets:
       repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       zenodo-token: ${{ secrets.ZENODO_TOKEN }}
