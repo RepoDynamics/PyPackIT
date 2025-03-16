@@ -136,6 +136,7 @@ jobs:
       - name: Main
         # https://github.com/devcontainers/ci
         uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # https://github.com/devcontainers/ci/releases/tag/v0.3.1900000417
+        id: proman
         env:
           RD_PROMAN__ADMIN_TOKEN: ${{ secrets.repo-admin-token }}
           RD_PROMAN__ZENODO_TOKEN: ${{ secrets.zenodo-token }}
@@ -151,8 +152,8 @@ jobs:
             echo ::group::Conda Env
             conda env list
             echo ::endgroup::
-            conda init
             conda create -n repodynamics-proman python pip -y
+            conda init
             conda activate repodynamics-proman
             pip install ProMan@git+https://github.com/repodynamics/proman.git@v1#subdirectory=pkg
             python -m proman
