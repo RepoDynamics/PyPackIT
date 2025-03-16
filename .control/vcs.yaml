@@ -253,11 +253,7 @@ file_gitignore:
     - ${{ data_website.path.source }}$/api/*/**
     - ${{ data_website.path.source }}$/about/license/*/**
     - ${{ local.cache.path }}$/**
-    - '!${{ local.cache.path }}$/**/'
-    - '!${{ local.cache.path }}$/**/README.md'
     - ${{ local.report.path }}$/**
-    - '!${{ local.report.path }}$/**/'
-    - '!${{ local.report.path }}$/**/README.md'
     - ${{ local.temp.path }}$/**
     # Byte-compiled / optimized / DLL files
     - __pycache__/
