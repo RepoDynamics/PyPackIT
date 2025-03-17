@@ -90,7 +90,12 @@ def hash_files(filepaths: list[str]) -> str:
 
 
 if __name__ == "__main__":
+    action_logger = actionman.log.Logger()
     inputs = actionman.env_var.read("ACTION_INPUTS", dict)
     outputs = main(**{k: v for k, v in inputs.items() if k not in ("load_cache",)})
+    action_logger.group(
+        json.dumps(outputs, indent=3, sort_keys=True),
+        title="script outputs",
+    )
     for key, value in outputs.items():
         actionman.step_output.write(key, value)
