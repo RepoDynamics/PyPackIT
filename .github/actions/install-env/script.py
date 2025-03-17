@@ -34,7 +34,7 @@ def main(
         local_dirpath = repo_path / metadata["local"][local_dir]["path"]
         out[f"{local_dir}_dirpath"] = str(local_dirpath)
         local_dirpath.mkdir(parents=True, exist_ok=True)
-
+    print("DEVCONTAINER_KEYS:", devcontainer_keys)
     for top_key, top_value in metadata.items():
         print(top_key)
         if (not top_key.startswith("devcontainer_")) or (
