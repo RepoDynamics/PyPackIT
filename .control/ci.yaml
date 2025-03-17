@@ -27,7 +27,7 @@ pypkg_ci:
       controlman:
         install:
           pip:
-            version: '== 0.0.0.dev446'
+            version: '== 0.0.0.dev447'
             homepage: https://pypi.org/project/controlman
         url:
           docs: https://controlman.repodynamics.com
