@@ -7111,9 +7111,9 @@
                "controlman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "controlman == 0.0.0.dev446",
+                     "full": "controlman == 0.0.0.dev447",
                      "name": "controlman",
-                     "version": "== 0.0.0.dev446"
+                     "version": "== 0.0.0.dev447"
                   }
                },
                "conventionalcommits": {
@@ -21342,8 +21342,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/controlman",
                      "name": "controlman",
-                     "spec": "controlman == 0.0.0.dev446",
-                     "version": "== 0.0.0.dev446"
+                     "spec": "controlman == 0.0.0.dev447",
+                     "version": "== 0.0.0.dev447"
                   }
                },
                "name": "controlman",
@@ -21668,7 +21668,7 @@
                "rich >=13.5,<14",
                "jinja2 >=3,<4",
                "actionman ==0.0.0.dev24",
-               "controlman == 0.0.0.dev446",
+               "controlman == 0.0.0.dev447",
                "conventionalcommits == 0.0.0.dev65",
                "github-contexts == 0.0.0.dev21",
                "loggerman == 0.0.0.dev93",
