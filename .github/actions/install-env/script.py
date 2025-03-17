@@ -34,15 +34,13 @@ def main(
         local_dirpath = repo_path / metadata["local"][local_dir]["path"]
         out[f"{local_dir}_dirpath"] = str(local_dirpath)
         local_dirpath.mkdir(parents=True, exist_ok=True)
-    print("DEVCONTAINER_KEYS:", devcontainer_keys)
+
     for top_key, top_value in metadata.items():
-        print(top_key)
+
         if (not top_key.startswith("devcontainer_")) or (
             devcontainer_keys and top_key.removeprefix("devcontainer_") not in devcontainer_keys
         ):
             continue
-        print("PASSED!!!!!")
-        print(top_value.keys())
         devcontainer = top_value
         if "apt" in devcontainer:
             out["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
@@ -101,4 +99,6 @@ if __name__ == "__main__":
         title="script outputs",
     )
     for key, value in outputs.items():
+        if key in ("env_filepaths", "apt_filepaths", "task_filepaths", "env_names"):
+            value = "\n".join(value)
         actionman.step_output.write(key, value)
