@@ -5,9 +5,6 @@ requires = [
 ]
 
 [project]
-name = "ProMan"
-version = "0.1.0"
-requires-python = ">=3.10"
 dependencies = [
     "rich >=13.5,<14",
     "jinja2 >=3,<4",
@@ -29,10 +26,13 @@ dependencies = [
     "ansi-sgr == 0.0.0.dev10",
     "pycolorit == 0.0.0.dev11",
 ]
+name = "ProMan"
+requires-python = ">=3.10"
+version = "0.1.0"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src"]
 namespace = true
+where = ["src"]

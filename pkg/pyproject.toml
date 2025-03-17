@@ -6,14 +6,30 @@ requires = [
 ]
 
 [project]
-name = "PyPackIT"
-description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
-requires-python = ">=3.10"
 authors = [
     {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
 ]
-maintainers = [
-    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
+classifiers = [
+    "Natural Language :: English",
+    "Development Status :: 1 - Planning",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pkgdata",
+]
+description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
+dynamic = [
+    "version",
 ]
 keywords = [
     "Automation",
@@ -37,74 +53,59 @@ keywords = [
     "GitHub Actions",
     "Bot",
 ]
-classifiers = [
-    "Natural Language :: English",
-    "Development Status :: 1 - Planning",
-    "Operating System :: MacOS",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: OS Independent",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Typing :: Typed",
+maintainers = [
+    {name = "Armin Ariamajd", email = "armiariam@gmail.com"},
 ]
-dependencies = [
-    "pkgdata",
-]
-dynamic = [
-    "version",
-]
-
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
+name = "PyPackIT"
+requires-python = ">=3.10"
 
 [project.license]
 text = "AGPL-3.0-or-later"
 
-[project.urls]
-Homepage = "https://pypackit.repodynamics.com"
-Documentation = "https://pypackit.repodynamics.com/manual"
-Source = "https://github.com/RepoDynamics/PyPackIT"
-Download = "https://github.com/RepoDynamics/PyPackIT/releases"
-News = "https://pypackit.repodynamics.com/news"
-Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
+[project.readme]
+content-type = "text/markdown"
+file = "README.md"
 
 [project.scripts]
 pypackit = "pypackit.__main__:main"
 
+[project.urls]
+Documentation = "https://pypackit.repodynamics.com/manual"
+Download = "https://github.com/RepoDynamics/PyPackIT/releases"
+Homepage = "https://pypackit.repodynamics.com"
+Issue-Tracker = "https://github.com/RepoDynamics/PyPackIT/issues"
+News = "https://pypackit.repodynamics.com/news"
+Source = "https://github.com/RepoDynamics/PyPackIT"
+
 [tool.setuptools]
 include-package-data = true
 license-files = ["LICENSES/*", "COPYRIGHTS/*"]
-[tool.setuptools.packages.find]
-where = ["src"]
-namespaces = true
 
 [tool.setuptools.cmdclass]
 build_py = "versioningit.cmdclass.build_py"
 sdist = "versioningit.cmdclass.sdist"
 
-[tool.versioningit.vcs]
-method = "git"
-match = ["ver/[0-9]*.[0-9]*.[0-9]*"]
-default-tag = "ver/0.0.0"
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.versioningit.format]
+dirty = "{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty"
+distance = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}"
+distance-dirty = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty"
+
+[tool.versioningit.onbuild]
+build-file = "pypackit/__init__.py"
+method = "replace-version"
+regex = "^__version_details__: dict\\[str, str\\] = (?P<version>.*)"
+replacement = "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}"
+require-match = true
+source-file = "src/pypackit/__init__.py"
 
 [tool.versioningit.tag2version]
 rmprefix = "ver/"
 
-[tool.versioningit.format]
-distance = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}"
-dirty = "{base_version}+0.{committer_date:%Y.%m.%d}.{rev}.dirty"
-distance-dirty = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty"
-
-[tool.versioningit.onbuild]
-method = "replace-version"
-regex = "^__version_details__: dict\\[str, str\\] = (?P<version>.*)"
-require-match = true
-source-file = "src/pypackit/__init__.py"
-build-file = "pypackit/__init__.py"
-replacement = "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}"
+[tool.versioningit.vcs]
+default-tag = "ver/0.0.0"
+match = ["ver/[0-9]*.[0-9]*.[0-9]*"]
+method = "git"
