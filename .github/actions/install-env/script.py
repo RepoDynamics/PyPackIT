@@ -37,7 +37,7 @@ def main(
 
     for top_key, top_value in metadata.items():
         print(top_key)
-        if not top_key.startswith("devcontainer_") or (
+        if (not top_key.startswith("devcontainer_")) or (
             devcontainer_keys and top_key.removeprefix("devcontainer_") not in devcontainer_keys
         ):
             continue
