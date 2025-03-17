@@ -81,6 +81,12 @@ jobs:
         with:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
+          activate_env: proman
+      - name: ProMan
+        id: proman
+        shell: bash el {0}
+        run: |
+          python -m proman
       - name: Report Upload
         uses: actions/upload-artifact@v4
         with:
