@@ -38,7 +38,7 @@ pypkg_main:
       setuptools:
         install:
           pip:
-            version: '>=72.1.0'
+            version: '>=72.1.0,<73'
             homepage: https://pypi.org/project/setuptools/
           conda:
             homepage: https://anaconda.org/conda-forge/setuptools
@@ -47,7 +47,7 @@ pypkg_main:
         import_name: versioningit
         install:
           pip:
-            version: '>=3.1.2'
+            version: '>=3.1.2,<4'
             homepage: https://pypi.org/project/versioningit/
           conda:
             homepage: https://anaconda.org/conda-forge/versioningit
