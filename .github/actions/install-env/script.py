@@ -11,7 +11,6 @@ import actionman
 def main(
     repo_path: str | Path,
     devcontainer_keys: list[str] | str | None = None,
-    activate_env: str | None = None,
 ) -> dict[str, str]:
     repo_path = Path(repo_path).resolve()
     if devcontainer_keys and isinstance(devcontainer_keys, str):
@@ -25,7 +24,6 @@ def main(
     out = {
         "apt_filepaths": [],
         "task_filepaths": [],
-        "activate_env": activate_env,
         "env_hash": None,
         "env_filepaths": [],
         "env_names": [],
@@ -47,8 +45,6 @@ def main(
         if "task" in devcontainer:
             out["task_filepaths"].append(str(repo_path / devcontainer["path"]["tasks_global"]))
         for env in devcontainer.get("environment", {}).values():
-            if not out["activate_env"]:
-                out["activate_env"] = env["name"]
             out["env_filepaths"].append(str(repo_path / env["path"]))
             out["env_names"].append(env["name"])
     out["env_hash"] = hash_files(out["env_filepaths"])

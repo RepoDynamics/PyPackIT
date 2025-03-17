@@ -13,7 +13,7 @@ inputs:
   activate_env:
     description: Name of a Conda environment to activate on all shells.
     required: false
-    default: ""
+    default: base
   load_cache:
     description: Load the local cache directory for the branch.
     required: false
@@ -83,7 +83,11 @@ runs:
         miniforge-version: latest
         channels: conda-forge
         auto-update-conda: true
-        activate-environment: ${{ steps.script.outputs.activate_env }}
+        activate-environment: ${{ 
+          (steps.script.outputs.activate_env != 'base' && steps.script.outputs.activate_env)
+          || ''
+        }}
+        auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
     - name: Conda Cache
       id: conda-cache
       uses: actions/cache@v4
