@@ -170,7 +170,7 @@ pypkg_ci:
           find:
             where:
               - ${{ pypkg_ci.path.source_rel }}$
-            namespace: true
+            namespaces: true
 control:
   cache:
     retention_hours:
