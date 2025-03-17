@@ -40,6 +40,8 @@ def main(
             devcontainer_keys and top_key.removeprefix("devcontainer_") not in devcontainer_keys
         ):
             continue
+        print(top_key)
+        print(top_value.keys())
         devcontainer = top_value
         if "apt" in devcontainer:
             out["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
