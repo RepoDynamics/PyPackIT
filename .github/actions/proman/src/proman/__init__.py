@@ -25,15 +25,15 @@ def run():
         _EventType.SCHEDULE: _handler.ScheduleEventHandler,
         _EventType.WORKFLOW_DISPATCH: _handler.WorkflowDispatchEventHandler,
     }
-    path_repo_base = _actionman.env_var.read(name="RD_PROMAN__PATH_REPO_BASE", typ=str)
-    path_repo_head = _actionman.env_var.read(name="RD_PROMAN__PATH_REPO_HEAD", typ=str)
+    path_repo_base = _actionman.env_var.read(name="PATH_REPO_BASE", typ=str)
+    path_repo_head = _actionman.env_var.read(name="PATH_REPO_HEAD", typ=str)
     admin_token = Token(
-        _actionman.env_var.read(name="RD_PROMAN__ADMIN_TOKEN", typ=str), name="GitHub Admin"
+        _actionman.env_var.read(name="GITHUB_ADMIN_TOKEN", typ=str), name="GitHub Admin"
     )
-    zenodo_token = Token(_actionman.env_var.read(name="RD_PROMAN__ZENODO_TOKEN", typ=str), name="Zenodo")
-    zenodo_sandbox_token = Token(_actionman.env_var.read(name="RD_PROMAN__ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox")
+    zenodo_token = Token(_actionman.env_var.read(name="ZENODO_TOKEN", typ=str), name="Zenodo")
+    zenodo_sandbox_token = Token(_actionman.env_var.read(name="ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox")
     github_context = _github_contexts.github.create(
-        context=_actionman.env_var.read(name="RD_PROMAN__GITHUB_CONTEXT", typ=dict)
+        context=_actionman.env_var.read(name="GITHUB_CONTEXT", typ=dict)
     )
     reporter = Reporter(github_context=github_context)
     output_writer = OutputManager()
