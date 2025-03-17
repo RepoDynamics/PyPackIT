@@ -1,3 +1,174 @@
+pypkg_ci:
+  name: ProMan
+  path:
+    root: .github/actions/proman
+  os: ${{ pypkg_main.os }}$
+  python:
+    version:
+      spec: '>=3.10'
+  dependency:
+    core:
+      rich:
+        install:
+          pip:
+            version: '>=13.5,<14'
+      jinja2:
+        install:
+          pip:
+            version: '>=3,<4'
+      actionman:
+        install:
+          pip:
+            version: '==0.0.0.dev24'
+            homepage: https://pypi.org/project/actionman
+        url:
+          docs: https://actionman.repodynamics.com
+          source: https://github.com/repodynamics/actionman
+      controlman:
+        install:
+          pip:
+            version: '== 0.0.0.dev446'
+            homepage: https://pypi.org/project/controlman
+        url:
+          docs: https://controlman.repodynamics.com
+          source: https://github.com/repodynamics/controlman
+      conventionalcommits:
+        install:
+          pip:
+            version: '== 0.0.0.dev65'
+            homepage: https://pypi.org/project/conventionalcommits
+        url:
+          docs: https://conventionalcommits.repodynamics.com
+          source: https://github.com/repodynamics/conventionalcommits
+      github-contexts:
+        install:
+          pip:
+            version: '== 0.0.0.dev21'
+            homepage: https://pypi.org/project/github-contexts
+        url:
+          docs: https://github-contexts.repodynamics.com
+          source: https://github.com/repodynamics/github-contexts
+      loggerman:
+        install:
+          pip:
+            version: '== 0.0.0.dev93'
+            homepage: https://pypi.org/project/loggerman
+        url:
+          docs: https://loggerman.repodynamics.com
+          source: https://github.com/repodynamics/loggerman
+      mdit:
+        install:
+          pip:
+            version: '== 0.0.0.dev63'
+            homepage: https://pypi.org/project/mdit
+        url:
+          docs: https://mdit.repodynamics.com
+          source: https://github.com/repodynamics/mdit
+      htmp:
+        install:
+          pip:
+            version: '== 0.0.0.dev5'
+            homepage: https://pypi.org/project/htmp
+        url:
+          docs: https://htmp.repodynamics.com
+          source: https://github.com/repodynamics/htmp
+      pylinks:
+        install:
+          pip:
+            version: '== 0.0.0.dev76'
+            homepage: https://pypi.org/project/pylinks
+        url:
+          docs: https://pylinks.repodynamics.com
+          source: https://github.com/repodynamics/pylinks
+      pysyntax:
+        install:
+          pip:
+            version: '== 0.0.0.dev6'
+            homepage: https://pypi.org/project/pysyntax
+        url:
+          docs: https://pysyntax.repodynamics.com
+          source: https://github.com/repodynamics/pysyntax
+      versionman:
+        install:
+          pip:
+            version: '== 0.0.0.dev250'
+            homepage: https://pypi.org/project/versionman
+        url:
+          docs: https://versionman.repodynamics.com
+          source: https://github.com/repodynamics/versionman
+      gittidy:
+        install:
+          pip:
+            version: '== 0.0.0.dev91'
+            homepage: https://pypi.org/project/gittidy
+        url:
+          docs: https://gittidy.repodynamics.com
+          source: https://github.com/repodynamics/gittidy
+      pkgdata:
+        install:
+          pip:
+            version: '== 0.0.0.dev5'
+            homepage: https://pypi.org/project/pkgdata
+        url:
+          docs: https://pkgdata.repodynamics.com
+          source: https://github.com/repodynamics/pkgdata
+      pyshellman:
+        install:
+          pip:
+            version: '== 0.0.0.dev53'
+            homepage: https://pypi.org/project/pyshellman
+        url:
+          docs: https://pyshellman.repodynamics.com
+          source: https://github.com/repodynamics/pyshellman
+      pyserials:
+        install:
+          pip:
+            version: '== 0.0.0.dev66'
+            homepage: https://pypi.org/project/pyserials
+        url:
+          docs: https://pyserials.repodynamics.com
+          source: https://github.com/repodynamics/pyserials
+      fileex:
+        install:
+          pip:
+            version: '== 0.0.0.dev1'
+            homepage: https://pypi.org/project/fileex
+        url:
+          docs: https://fileex.repodynamics.com
+          source: https://github.com/repodynamics/fileex
+      ansi-sgr:
+        install:
+          pip:
+            version: '== 0.0.0.dev10'
+            homepage: https://pypi.org/project/ansi-sgr
+        url:
+          docs: https://ansi-sgr.repodynamics.com
+          source: https://github.com/repodynamics/ansi-sgr
+      pycolorit:
+        install:
+          pip:
+            version: '== 0.0.0.dev11'
+            homepage: https://pypi.org/project/pycolorit
+        url:
+          docs: https://pycolorit.repodynamics.com
+          source: https://github.com/repodynamics/pycolorit
+  pyproject:
+    build-system:
+      build-backend: setuptools.build_meta
+      requires:
+        - setuptools >=72.1.0,<73
+    project:
+      name: ${{ pypkg_ci.name }}$
+      requires-python: ${{ pypkg_ci.python.version.spec }}$
+      version: 0.1.0
+    tool:
+      setuptools:
+        include-package-data: true
+        packages:
+          find:
+            where:
+              - ${{ pypkg_ci.path.source_rel }}$
+            namespace: true
 control:
   cache:
     retention_hours:
