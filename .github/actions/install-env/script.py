@@ -14,7 +14,7 @@ def main(
     activate_env: str | None = None,
 ) -> dict[str, str]:
     repo_path = Path(repo_path).resolve()
-    if isinstance(devcontainer_keys, str):
+    if devcontainer_keys and isinstance(devcontainer_keys, str):
         devcontainer_keys = devcontainer_keys.split(",")
 
     metadata_filepath = repo_path / ".github/.repodynamics/metadata.json"
