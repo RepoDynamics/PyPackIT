@@ -18,6 +18,13 @@ inputs:
     description: Load the local cache directory for the branch.
     required: false
     default: 'true'
+outputs:
+  temp_dirpath:
+    value: ${{ steps.script.outputs.temp_dirpath }}
+    description: Path to the temporary directory in the branch.
+  report_dirpath:
+    value: ${{ steps.script.outputs.report_dirpath }}
+    description: Path to the report directory in the branch.
 runs:
   using: composite
   steps:
