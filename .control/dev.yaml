@@ -938,6 +938,29 @@ devcontainer_main:
             docs: https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client
             package: https://anaconda.org/conda-forge/anaconda-client
             source: https://github.com/anaconda/anaconda-client
+    proman:
+      conda: |
+        #{{
+          out = {"python": {"spec": {"version": get("pypkg_ci.python.version.spec")}}}
+          for dep_key, dep in get("pypkg_ci.dependency.core", {}).items():
+            install = dep["install"].get("conda")
+            if install:
+              spec = {k: v, for k, v in install.items() if k not in ("selector", "homepage", "spec")}
+              spec["full"] = install["spec"]
+              out[dep_key] = {"spec": spec}
+          return out
+        }}#
+      pip: |
+        #{{
+          out = {}
+          for dep_key, dep in get("pypkg_ci.dependency.core", {}).items():
+            install = dep["install"].get("pip")
+            if install:
+              spec = {k: v, for k, v in install.items() if k not in ("homepage", "spec")}
+              spec["full"] = install["spec"]
+              out[dep_key] = {"spec": spec}
+          return out
+        }}#
   task:
     jupyterlab:
       name: Open JupyterLab
