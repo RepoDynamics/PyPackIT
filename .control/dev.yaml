@@ -941,9 +941,10 @@ devcontainer_main:
     proman:
       conda: |
         #{{
+          py_ver = get("pypkg_ci.python.version.spec")
           out = {
             "python": {
-              "spec": {"version": get("pypkg_ci.python.version.spec"), "channel": "conda-forge"},
+              "spec": {"version": py_ver, "channel": "conda-forge", "full": f"conda-forge::python {py_ver}"},
               "url": {"package": "https://anaconda.org/conda-forge/python"},
             }
           }
