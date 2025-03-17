@@ -20,8 +20,8 @@ requirements:
   host:
     - python >=3.10
     - pip
-    - conda-forge::setuptools >=72.1.0
-    - conda-forge::versioningit >=3.1.2
+    - conda-forge::setuptools >=72.1.0,<73
+    - conda-forge::versioningit >=3.1.2,<4
   run:
     - python >=3.10
     - repodynamics::pkgdata
