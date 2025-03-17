@@ -1,0 +1,45 @@
+
+[build-system]
+requires = ["setuptools>=61.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+
+# ----------------------------------------- setuptools -------------------------------------------
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+
+# ----------------------------------------- Project Metadata -------------------------------------
+#
+[project]
+version = "0.0.0.dev193"
+name = "ProMan"
+dependencies = [
+    "pre-commit == 4.0.1",
+    "rich >= 13.5",
+    "versioningit >= 3.1.2, < 4",
+    "Jinja2 >= 3, < 4",
+    "ActionMan == 0.0.0.dev24",
+    "ControlMan == 0.0.0.dev446",
+    "ConventionalCommits == 0.0.0.dev65",
+    "GitHub-Contexts == 0.0.0.dev21",
+    "LoggerMan == 0.0.0.dev93",
+    "MDit == 0.0.0.dev63",
+    "HTMP == 0.0.0.dev5",
+    "PyLinks == 0.0.0.dev76",
+    "PySyntax == 0.0.0.dev6",
+    "VersionMan == 0.0.0.dev250",
+    "GitTidy == 0.0.0.dev91",
+    "PkgData == 0.0.0.dev5",
+    "PyShellMan == 0.0.0.dev53",
+    "PySerials == 0.0.0.dev66",
+    "FileEx == 0.0.0.dev1",
+    "ANSI-SGR == 0.0.0.dev10",
+    "PyColorIT == 0.0.0.dev11",
+]
+requires-python = ">=3.10"

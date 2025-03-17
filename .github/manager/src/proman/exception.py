@@ -1,0 +1,2 @@
+class ProManException(Exception):
+    pass
