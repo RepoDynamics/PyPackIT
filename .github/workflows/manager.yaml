@@ -42,7 +42,6 @@ on:
 jobs:
   manager:
     name: Manager
-    runs-on: ubuntu-latest
     outputs:
       fail: ${{ steps.proman.outputs.fail }}
       web: ${{ steps.proman.outputs.web }}
@@ -54,9 +53,13 @@ jobs:
       publish-pypi: ${{ steps.proman.outputs.publish-pypi }}
       publish-anaconda: ${{ steps.proman.outputs.publish-anaconda }}
       release: ${{ steps.proman.outputs.release }}
+    runs-on: ubuntu-latest
     env:
       PATH_REPO_BASE: repo_base
       PATH_REPO_HEAD: repo_head
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
       - name: Base Repository Checkout
         uses: actions/checkout@v4
@@ -83,11 +86,9 @@ jobs:
           load_cache: 'true'
           activate_env: proman
       - name: ProMan Setup
-        shell: bash el {0}
         run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
       - name: ProMan
         id: proman
-        shell: bash el {0}
         env:
           GITHUB_ADMIN_TOKEN: ${{ inputs.admin-token }}
           ZENODO_TOKEN: ${{ inputs.zenodo-token }}
