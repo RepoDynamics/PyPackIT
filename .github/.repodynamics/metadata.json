@@ -21694,7 +21694,7 @@
                "include-package-data": true,
                "packages": {
                   "find": {
-                     "namespace": true,
+                     "namespaces": true,
                      "where": [
                         "src"
                      ]

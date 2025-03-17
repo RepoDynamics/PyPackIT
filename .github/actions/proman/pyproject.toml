@@ -34,5 +34,5 @@ version = "0.1.0"
 include-package-data = true
 
 [tool.setuptools.packages.find]
-namespace = true
+namespaces = true
 where = ["src"]
