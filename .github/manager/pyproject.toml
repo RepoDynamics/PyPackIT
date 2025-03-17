@@ -20,9 +20,7 @@ namespaces = true
 version = "0.0.0.dev193"
 name = "ProMan"
 dependencies = [
-    "pre-commit == 4.0.1",
     "rich >= 13.5",
-    "versioningit >= 3.1.2, < 4",
     "Jinja2 >= 3, < 4",
     "ActionMan == 0.0.0.dev24",
     "ControlMan == 0.0.0.dev446",
