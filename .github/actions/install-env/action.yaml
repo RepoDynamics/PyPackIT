@@ -84,12 +84,16 @@ runs:
           conda env update -vv --file "$env_filepath"
         done <<< "$ENV_FILEPATHS"
     - name: Conda Info
+      shell: bash -el {0}
       run: conda info
     - name: Conda Config
+      shell: bash -el {0}
       run: conda config --show
     - name: Conda Env List
+      shell: bash -el {0}
       run: conda env list
     - name: Conda List
+      shell: bash -el {0}
       env:
         ENV_NAMES: ${{ steps.script.outputs.env_names }}
       run: |
