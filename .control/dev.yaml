@@ -941,7 +941,12 @@ devcontainer_main:
     proman:
       conda: |
         #{{
-          out = {"python": {"spec": {"version": get("pypkg_ci.python.version.spec")}}}
+          out = {
+            "python": {
+              "spec": {"version": get("pypkg_ci.python.version.spec"), "channel": "conda-forge"},
+              "url": {"package": "https://anaconda.org/conda-forge/python"},
+            }
+          }
           for dep_key, dep in get("pypkg_ci.dependency.core", {}).items():
             install = dep["install"].get("conda")
             if install:
