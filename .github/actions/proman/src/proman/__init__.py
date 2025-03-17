@@ -53,7 +53,7 @@ def run():
             ).run()
         except _exception.ProManException:
             _logger.section_end(target_level=current_log_section_level)
-            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer)
+            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
             return
         except Exception as e:
             traceback = _logger.traceback()
@@ -75,7 +75,7 @@ def run():
                 ),
             )
             _logger.section_end(target_level=current_log_section_level)
-            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer)
+            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
             return
     else:
         supported_events = mdit.inline_container(
@@ -92,13 +92,13 @@ def run():
             supported_events,
         )
         reporter.add("main", status="skip", summary=summary)
-    _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer)
+    _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
     return
 
 
 @_logger.sectioner("Output Generation")
-def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter, output_writer: OutputManager):
-    output = output_writer.generate(failed=reporter.failed)
+def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter, output_writer: OutputManager, repo_path: str):
+    output, report_path = output_writer.generate(failed=reporter.failed)
     _write_step_outputs(output)
 
     report_gha, report_full = reporter.generate()
@@ -116,7 +116,7 @@ def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter
         f"{github_context.repository_name}-workflow-run"
         f"-{github_context.run_id}-{github_context.run_attempt}.{{}}.html"
     )
-    dir_path = Path("uploads")
+    dir_path = Path(repo_path) / report_path / "proman"
     dir_path.mkdir()
     with open(dir_path / filename.format("report"), "w") as f:
         f.write(report_full)
