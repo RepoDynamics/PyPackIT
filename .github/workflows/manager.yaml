@@ -75,11 +75,11 @@ jobs:
           ref: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.ref) || github.ref }}
           path: ${{ env.PATH_REPO_HEAD }}
           fetch-depth: 0
-#      - name: Environment Setup
-#        uses: ${{ env.PATH_REPO_HEAD }}/.github/actions/install-env
-#        with:
-#          repo_path: ${{ env.PATH_REPO_HEAD }}
-#          load_cache: 'true'
+      - name: Environment Setup
+        uses: ./${{ env.PATH_REPO_HEAD }}/.github/actions/install-env
+        with:
+          repo_path: ${{ env.PATH_REPO_HEAD }}
+          load_cache: 'true'
       - name: Report Upload
         uses: actions/upload-artifact@v4
         with:
