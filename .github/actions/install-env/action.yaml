@@ -1,0 +1,98 @@
+name: Install Environment
+description: |
+  Replicate a devcontainer environment for the repository.
+inputs:
+  repo_path:
+    description: Path to the root of the repository.
+    required: false
+    default: .
+  devcontainer_keys:
+    description: Comma-separated list of devcontainer IDs to replicate.
+    required: false
+    default: ""
+  activate_env:
+    description: Name of a Conda environment to activate on all shells.
+    required: false
+    default: ""
+  load_cache:
+    description: Load the local cache directory for the branch.
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - name: Python Setup
+      # https://github.com/actions/setup-python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '>=3.10'
+        check-latest: 'true'
+        cache: pip
+        cache-dependency-path: ${{ github.action_path }}/requirements.txt
+    - name: Environment Setup
+      shell: bash
+      run: |
+        echo "::group::Requirements Installation"
+        python -m pip install -r "${{ github.action_path }}/requirements.txt"
+        echo "::endgroup::"
+        echo "::group::Environment Overview"
+        pip list
+        echo "::endgroup::"
+    - name: Metadata Processing
+      id: script
+      shell: bash
+      env:
+        ACTION_INPUTS: ${{ toJSON(inputs) }}
+      run: python "${{ github.action_path }}/script.py"
+    - name: Cache Load
+      if: inputs.load_cache == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.script.outputs.cache_dirpath }}
+        key: >-
+          local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
+    - name: Task Sourcing
+      shell: bash
+      env:
+        TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
+      run: |
+        while IFS= read -r task_filepath; do
+          echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
+        done <<< "$TASK_FILEPATHS"
+    - name: Conda Setup
+      # https://github.com/conda-incubator/setup-miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniforge-version: latest
+        channels: conda-forge
+        auto-update-conda: true
+        activate-environment: ${{ steps.script.outputs.activate_env }}
+    - name: Conda Cache
+      id: conda-cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.CONDA }}/envs
+        key: >-
+          conda--${{ runner.os }}--${{ runner.arch }}--${{ steps.script.outputs.env_hash }}
+    - name: Conda Install
+      if: steps.conda-cache.outputs.cache-hit != 'true'
+      shell: bash -el {0}
+      env:
+        ENV_FILEPATHS: ${{ steps.script.outputs.env_filepaths }}
+      run: |
+        while IFS= read -r env_filepath; do
+          conda env update -vv --file "$env_filepath"
+        done <<< "$ENV_FILEPATHS"
+    - name: Conda Info
+      run: conda info
+    - name: Conda Config
+      run: conda config --show
+    - name: Conda Env List
+      run: conda env list
+    - name: Conda List
+      env:
+        ENV_NAMES: ${{ steps.script.outputs.env_names }}
+      run: |
+        while IFS= read -r env_name; do
+          conda list --name "$env_name"
+        done <<< "$ENV_NAMES"
