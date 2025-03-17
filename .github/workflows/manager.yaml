@@ -76,7 +76,7 @@ jobs:
           path: ${{ env.PATH_REPO_HEAD }}
           fetch-depth: 0
       - name: Environment Setup
-        uses: repo_head/.github/actions/install-env
+        uses: ./repo_head/.github/actions/install-env
         with:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
