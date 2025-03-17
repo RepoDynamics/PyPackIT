@@ -21,6 +21,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Action Path
+      id: path
+      shell: bash
+      run: |
+        ACTION_PATH="${{ github.action_path }}/.github/actions/install-env"
+        echo "action_path=$(realpath --no-symlinks "$ACTION_PATH")" >> "$GITHUB_OUTPUT"
     - name: Python Setup
       # https://github.com/actions/setup-python
       uses: actions/setup-python@v5
@@ -28,12 +34,12 @@ runs:
         python-version: '>=3.10'
         check-latest: 'true'
         cache: pip
-        cache-dependency-path: ${{ github.action_path }}/requirements.txt
+        cache-dependency-path: ${{ steps.path.outputs.action_path }}/requirements.txt
     - name: Environment Setup
       shell: bash
       run: |
         echo "::group::Requirements Installation"
-        python -m pip install -r "${{ github.action_path }}/requirements.txt"
+        python -m pip install -r "${{ steps.path.outputs.action_path }}/requirements.txt"
         echo "::endgroup::"
         echo "::group::Environment Overview"
         pip list
