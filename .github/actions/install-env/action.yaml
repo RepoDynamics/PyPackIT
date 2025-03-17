@@ -25,6 +25,7 @@ runs:
       id: path
       shell: bash
       run: |
+        # Get the absolute path to the action directory.
         echo "action_path=$(realpath --no-symlinks "${{ github.action_path }}")" >> "$GITHUB_OUTPUT"
     - name: Python Setup
       # https://github.com/actions/setup-python
@@ -37,10 +38,11 @@ runs:
     - name: Environment Setup
       shell: bash
       run: |
-        echo "::group::Requirements Installation"
+        # Install action requirements
+        echo "::group::pip install"
         python -m pip install -r "${{ steps.path.outputs.action_path }}/requirements.txt"
         echo "::endgroup::"
-        echo "::group::Environment Overview"
+        echo "::group::pip list"
         pip list
         echo "::endgroup::"
     - name: Metadata Processing
@@ -48,7 +50,9 @@ runs:
       shell: bash
       env:
         ACTION_INPUTS: ${{ toJSON(inputs) }}
-      run: python "${{ github.action_path }}/script.py"
+      run: |
+        # Process metadata.
+        python "${{ github.action_path }}/script.py"
     - name: Cache Load
       if: inputs.load_cache == 'true'
       uses: actions/cache@v4
@@ -61,6 +65,7 @@ runs:
       env:
         TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
       run: |
+        # Source task scripts.
         while IFS= read -r task_filepath; do
           echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
         done <<< "$TASK_FILEPATHS"
@@ -83,25 +88,26 @@ runs:
       if: steps.conda-cache.outputs.cache-hit != 'true'
       shell: bash -el {0}
       env:
+        ENV_NAMES: ${{ steps.script.outputs.env_names }}
         ENV_FILEPATHS: ${{ steps.script.outputs.env_filepaths }}
       run: |
+        # Install Conda environments.
         while IFS= read -r env_filepath; do
+          echo "::group::conda env update $env_filepath"
           conda env update -vv --file "$env_filepath"
+          echo "::endgroup::"
         done <<< "$ENV_FILEPATHS"
-    - name: Conda Info
-      shell: bash -el {0}
-      run: conda info
-    - name: Conda Config
-      shell: bash -el {0}
-      run: conda config --show
-    - name: Conda Env List
-      shell: bash -el {0}
-      run: conda env list
-    - name: Conda List
-      shell: bash -el {0}
-      env:
-        ENV_NAMES: ${{ steps.script.outputs.env_names }}
-      run: |
+        echo "::group::conda info"
+        conda info
+        echo "::endgroup::"
+        echo "::group::conda config"
+        conda config --show
+        echo "::endgroup::"
+        echo "::group::conda env list"
+        conda env list
+        echo "::endgroup::"
         while IFS= read -r env_name; do
+          echo "::group::conda list $env_name"
           conda list --name "$env_name"
+          echo "::endgroup::"
         done <<< "$ENV_NAMES"

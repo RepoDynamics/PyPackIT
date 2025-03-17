@@ -11,7 +11,7 @@ import actionman
 def main(
     repo_path: str | Path,
     devcontainer_keys: list[str] | str | None = None,
-    activate_env: str | None = None
+    activate_env: str | None = None,
 ) -> dict[str, str]:
     repo_path = Path(repo_path).resolve()
     if isinstance(devcontainer_keys, str):
@@ -91,6 +91,6 @@ def hash_files(filepaths: list[str]) -> str:
 
 if __name__ == "__main__":
     inputs = actionman.env_var.read("ACTION_INPUTS", dict)
-    outputs = main(**inputs)
+    outputs = main(**{k: v for k, v in inputs.items() if k not in ("load_cache",)})
     for key, value in outputs.items():
         actionman.step_output.write(key, value)
