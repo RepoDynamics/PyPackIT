@@ -76,6 +76,7 @@ jobs:
           path: ${{ env.PATH_REPO_HEAD }}
           fetch-depth: 0
       - name: Environment Setup
+        id: setup
         uses: ./repo_head/.github/actions/install-env
         with:
           repo_path: ${{ env.PATH_REPO_HEAD }}
@@ -83,7 +84,7 @@ jobs:
       - name: Report Upload
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.script.outputs.report_dirpath }}
+          path: ${{ steps.setup.outputs.report_dirpath }}
           name: Reports
   status:
     name: Status
