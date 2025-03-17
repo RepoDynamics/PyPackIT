@@ -36,11 +36,12 @@ def main(
         local_dirpath.mkdir(parents=True, exist_ok=True)
 
     for top_key, top_value in metadata.items():
+        print(top_key)
         if not top_key.startswith("devcontainer_") or (
             devcontainer_keys and top_key.removeprefix("devcontainer_") not in devcontainer_keys
         ):
             continue
-        print(top_key)
+        print("PASSED!!!!!")
         print(top_value.keys())
         devcontainer = top_value
         if "apt" in devcontainer:
