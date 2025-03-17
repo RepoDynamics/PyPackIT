@@ -120,7 +120,7 @@ jobs:
       attestations: write
       id-token: write
     secrets:
-      repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+      github-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}
       zenodo-token: ${{ secrets.ZENODO_TOKEN }}
       zenodo-sandbox-token: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
   web:

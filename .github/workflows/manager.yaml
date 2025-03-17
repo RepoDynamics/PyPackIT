@@ -2,7 +2,7 @@ name: '[Reusable]: Project Manager'
 on:
   workflow_call:
     secrets:
-      repo-admin-token:
+      github-admin-token:
         description: Token with admin permissions to the repository.
         required: false
       zenodo-token:
@@ -90,9 +90,9 @@ jobs:
       - name: ProMan
         id: proman
         env:
-          GITHUB_ADMIN_TOKEN: ${{ inputs.admin-token }}
-          ZENODO_TOKEN: ${{ inputs.zenodo-token }}
-          ZENODO_SANDBOX_TOKEN: ${{ inputs.zenodo-sandbox-token }}
+          GITHUB_ADMIN_TOKEN: ${{ secrets.github-admin-token }}
+          ZENODO_TOKEN: ${{ secrets.zenodo-token }}
+          ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: |
           python -m proman
