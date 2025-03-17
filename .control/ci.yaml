@@ -159,8 +159,10 @@ pypkg_ci:
         - setuptools >=72.1.0,<73
     project:
       name: ${{ pypkg_ci.name }}$
-      requires-python: ${{ pypkg_ci.python.version.spec }}$
       version: 0.1.0
+      requires-python: ${{ pypkg_ci.python.version.spec }}$
+      dependencies: >-
+        #{{ return hook.pyproject_dependency("core", pkg="ci") }}#
     tool:
       setuptools:
         include-package-data: true
