@@ -1,1 +1,1 @@
-from proman.runner import change_detector, refactor
+from proman.runner import change_detector

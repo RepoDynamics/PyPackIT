@@ -355,12 +355,13 @@ class EventHandler:
                     stage="all",
                     amend=(action is InitCheckAction.AMEND),
                 )
-                commit_hash = self.run_refactor(
-                    branch_manager=new_branch_manager,
-                    action=InitCheckAction.AMEND,
-                    ref_range=(commit_hash_before, commit_hash_after),
-                    internal=True,
-                ) or commit_hash_after
+                commit_hash = commit_hash_after
+                # commit_hash = self.run_refactor(
+                #     branch_manager=new_branch_manager,
+                #     action=InitCheckAction.AMEND,
+                #     ref_range=(commit_hash_before, commit_hash_after),
+                #     internal=True,
+                # ) or commit_hash_after
                 description = "These were synced and changes were applied to "
                 if pr_branch:
                     new_branch_manager.git.push(target="origin", set_upstream=True)
