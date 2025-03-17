@@ -2,4 +2,4 @@ name: versioning
 dependencies:
   - pip
   - pip:
-      - versioningit >=3.1.2
+      - versioningit >=3.1.2,<4
