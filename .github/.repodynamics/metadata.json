@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -7074,6 +7074,178 @@
             "name": "presentation",
             "path": ".devcontainer/environment/conda/presentation.yaml"
          },
+         "proman": {
+            "conda": {
+               "python": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::python >=3.10",
+                     "name": "#{{\n  import re\n  dep_name = get(\"..name\")\n  name_normalized = re.sub(r\"[^a-zA-Z0-9._-]\", \"-\", dep_name).lower()\n  return re.sub(r\"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$\", \"\", name_normalized)\n}}#\n",
+                     "version": ">=3.10"
+                  },
+                  "url": {
+                     "package": "https://anaconda.org/conda-forge/python"
+                  }
+               }
+            },
+            "name": "proman",
+            "path": ".devcontainer/environment/conda/proman.yaml",
+            "pip": {
+               "actionman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "actionman ==0.0.0.dev24",
+                     "name": "actionman",
+                     "version": "==0.0.0.dev24"
+                  }
+               },
+               "ansi-sgr": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "ansi-sgr == 0.0.0.dev10",
+                     "name": "ansi-sgr",
+                     "version": "== 0.0.0.dev10"
+                  }
+               },
+               "controlman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "controlman == 0.0.0.dev446",
+                     "name": "controlman",
+                     "version": "== 0.0.0.dev446"
+                  }
+               },
+               "conventionalcommits": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "conventionalcommits == 0.0.0.dev65",
+                     "name": "conventionalcommits",
+                     "version": "== 0.0.0.dev65"
+                  }
+               },
+               "fileex": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "fileex == 0.0.0.dev1",
+                     "name": "fileex",
+                     "version": "== 0.0.0.dev1"
+                  }
+               },
+               "github-contexts": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "github-contexts == 0.0.0.dev21",
+                     "name": "github-contexts",
+                     "version": "== 0.0.0.dev21"
+                  }
+               },
+               "gittidy": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "gittidy == 0.0.0.dev91",
+                     "name": "gittidy",
+                     "version": "== 0.0.0.dev91"
+                  }
+               },
+               "htmp": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "htmp == 0.0.0.dev5",
+                     "name": "htmp",
+                     "version": "== 0.0.0.dev5"
+                  }
+               },
+               "jinja2": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "jinja2 >=3,<4",
+                     "name": "jinja2",
+                     "version": ">=3,<4"
+                  }
+               },
+               "loggerman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "loggerman == 0.0.0.dev93",
+                     "name": "loggerman",
+                     "version": "== 0.0.0.dev93"
+                  }
+               },
+               "mdit": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "mdit == 0.0.0.dev63",
+                     "name": "mdit",
+                     "version": "== 0.0.0.dev63"
+                  }
+               },
+               "pkgdata": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pkgdata == 0.0.0.dev5",
+                     "name": "pkgdata",
+                     "version": "== 0.0.0.dev5"
+                  }
+               },
+               "pycolorit": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pycolorit == 0.0.0.dev11",
+                     "name": "pycolorit",
+                     "version": "== 0.0.0.dev11"
+                  }
+               },
+               "pylinks": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pylinks == 0.0.0.dev76",
+                     "name": "pylinks",
+                     "version": "== 0.0.0.dev76"
+                  }
+               },
+               "pyserials": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pyserials == 0.0.0.dev66",
+                     "name": "pyserials",
+                     "version": "== 0.0.0.dev66"
+                  }
+               },
+               "pyshellman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pyshellman == 0.0.0.dev53",
+                     "name": "pyshellman",
+                     "version": "== 0.0.0.dev53"
+                  }
+               },
+               "pysyntax": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pysyntax == 0.0.0.dev6",
+                     "name": "pysyntax",
+                     "version": "== 0.0.0.dev6"
+                  }
+               },
+               "rich": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "rich >=13.5,<14",
+                     "name": "rich",
+                     "version": ">=13.5,<14"
+                  }
+               },
+               "versionman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "versionman == 0.0.0.dev250",
+                     "name": "versionman",
+                     "version": "== 0.0.0.dev250"
+                  }
+               }
+            }
+         },
          "pybuild": {
             "file": {
                "script_pypkg_build": {
@@ -7314,9 +7486,9 @@
                "versioning": {
                   "name": "versioning",
                   "spec": {
-                     "full": "versioningit >=3.1.2",
+                     "full": "versioningit >=3.1.2,<4",
                      "name": "versioningit",
-                     "version": ">=3.1.2"
+                     "version": ">=3.1.2,<4"
                   }
                }
             },
@@ -7537,7 +7709,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -20814,6 +20986,7 @@
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
             "presentation": ".devcontainer/environment/conda/presentation.yaml",
+            "proman": ".devcontainer/environment/conda/proman.yaml",
             "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
             "pylint": ".devcontainer/environment/conda/pylint.yaml",
             "type_check": ".devcontainer/environment/conda/type_check.yaml",
@@ -20870,6 +21043,8 @@
             "27_chore": ".github/ISSUE_TEMPLATE/27_chore.yaml"
          },
          "pkg_config": {
+            "pypkg_ci_pyproject": ".github/actions/proman/pyproject.toml",
+            "pypkg_ci_typing": ".github/actions/proman/src/proman/py.typed",
             "pypkg_main_conda_recipe_meta_global": "pkg/conda-recipe/global/meta.yaml",
             "pypkg_main_conda_recipe_meta_local": "pkg/conda-recipe/local/meta.yaml",
             "pypkg_main_pyproject": "pkg/pyproject.toml",
@@ -21129,6 +21304,464 @@
          }
       }
    },
+   "pypkg_ci": {
+      "dependency": {
+         "core": {
+            "actionman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/actionman",
+                     "name": "actionman",
+                     "spec": "actionman ==0.0.0.dev24",
+                     "version": "==0.0.0.dev24"
+                  }
+               },
+               "name": "actionman",
+               "url": {
+                  "docs": "https://actionman.repodynamics.com",
+                  "source": "https://github.com/repodynamics/actionman"
+               }
+            },
+            "ansi-sgr": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/ansi-sgr",
+                     "name": "ansi-sgr",
+                     "spec": "ansi-sgr == 0.0.0.dev10",
+                     "version": "== 0.0.0.dev10"
+                  }
+               },
+               "name": "ansi-sgr",
+               "url": {
+                  "docs": "https://ansi-sgr.repodynamics.com",
+                  "source": "https://github.com/repodynamics/ansi-sgr"
+               }
+            },
+            "controlman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/controlman",
+                     "name": "controlman",
+                     "spec": "controlman == 0.0.0.dev446",
+                     "version": "== 0.0.0.dev446"
+                  }
+               },
+               "name": "controlman",
+               "url": {
+                  "docs": "https://controlman.repodynamics.com",
+                  "source": "https://github.com/repodynamics/controlman"
+               }
+            },
+            "conventionalcommits": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/conventionalcommits",
+                     "name": "conventionalcommits",
+                     "spec": "conventionalcommits == 0.0.0.dev65",
+                     "version": "== 0.0.0.dev65"
+                  }
+               },
+               "name": "conventionalcommits",
+               "url": {
+                  "docs": "https://conventionalcommits.repodynamics.com",
+                  "source": "https://github.com/repodynamics/conventionalcommits"
+               }
+            },
+            "fileex": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/fileex",
+                     "name": "fileex",
+                     "spec": "fileex == 0.0.0.dev1",
+                     "version": "== 0.0.0.dev1"
+                  }
+               },
+               "name": "fileex",
+               "url": {
+                  "docs": "https://fileex.repodynamics.com",
+                  "source": "https://github.com/repodynamics/fileex"
+               }
+            },
+            "github-contexts": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/github-contexts",
+                     "name": "github-contexts",
+                     "spec": "github-contexts == 0.0.0.dev21",
+                     "version": "== 0.0.0.dev21"
+                  }
+               },
+               "name": "github-contexts",
+               "url": {
+                  "docs": "https://github-contexts.repodynamics.com",
+                  "source": "https://github.com/repodynamics/github-contexts"
+               }
+            },
+            "gittidy": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/gittidy",
+                     "name": "gittidy",
+                     "spec": "gittidy == 0.0.0.dev91",
+                     "version": "== 0.0.0.dev91"
+                  }
+               },
+               "name": "gittidy",
+               "url": {
+                  "docs": "https://gittidy.repodynamics.com",
+                  "source": "https://github.com/repodynamics/gittidy"
+               }
+            },
+            "htmp": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/htmp",
+                     "name": "htmp",
+                     "spec": "htmp == 0.0.0.dev5",
+                     "version": "== 0.0.0.dev5"
+                  }
+               },
+               "name": "htmp",
+               "url": {
+                  "docs": "https://htmp.repodynamics.com",
+                  "source": "https://github.com/repodynamics/htmp"
+               }
+            },
+            "jinja2": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/jinja2",
+                     "name": "jinja2",
+                     "spec": "jinja2 >=3,<4",
+                     "version": ">=3,<4"
+                  }
+               },
+               "name": "jinja2"
+            },
+            "loggerman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/loggerman",
+                     "name": "loggerman",
+                     "spec": "loggerman == 0.0.0.dev93",
+                     "version": "== 0.0.0.dev93"
+                  }
+               },
+               "name": "loggerman",
+               "url": {
+                  "docs": "https://loggerman.repodynamics.com",
+                  "source": "https://github.com/repodynamics/loggerman"
+               }
+            },
+            "mdit": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/mdit",
+                     "name": "mdit",
+                     "spec": "mdit == 0.0.0.dev63",
+                     "version": "== 0.0.0.dev63"
+                  }
+               },
+               "name": "mdit",
+               "url": {
+                  "docs": "https://mdit.repodynamics.com",
+                  "source": "https://github.com/repodynamics/mdit"
+               }
+            },
+            "pkgdata": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pkgdata",
+                     "name": "pkgdata",
+                     "spec": "pkgdata == 0.0.0.dev5",
+                     "version": "== 0.0.0.dev5"
+                  }
+               },
+               "name": "pkgdata",
+               "url": {
+                  "docs": "https://pkgdata.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pkgdata"
+               }
+            },
+            "pycolorit": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pycolorit",
+                     "name": "pycolorit",
+                     "spec": "pycolorit == 0.0.0.dev11",
+                     "version": "== 0.0.0.dev11"
+                  }
+               },
+               "name": "pycolorit",
+               "url": {
+                  "docs": "https://pycolorit.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pycolorit"
+               }
+            },
+            "pylinks": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pylinks",
+                     "name": "pylinks",
+                     "spec": "pylinks == 0.0.0.dev76",
+                     "version": "== 0.0.0.dev76"
+                  }
+               },
+               "name": "pylinks",
+               "url": {
+                  "docs": "https://pylinks.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pylinks"
+               }
+            },
+            "pyserials": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pyserials",
+                     "name": "pyserials",
+                     "spec": "pyserials == 0.0.0.dev66",
+                     "version": "== 0.0.0.dev66"
+                  }
+               },
+               "name": "pyserials",
+               "url": {
+                  "docs": "https://pyserials.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pyserials"
+               }
+            },
+            "pyshellman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pyshellman",
+                     "name": "pyshellman",
+                     "spec": "pyshellman == 0.0.0.dev53",
+                     "version": "== 0.0.0.dev53"
+                  }
+               },
+               "name": "pyshellman",
+               "url": {
+                  "docs": "https://pyshellman.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pyshellman"
+               }
+            },
+            "pysyntax": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pysyntax",
+                     "name": "pysyntax",
+                     "spec": "pysyntax == 0.0.0.dev6",
+                     "version": "== 0.0.0.dev6"
+                  }
+               },
+               "name": "pysyntax",
+               "url": {
+                  "docs": "https://pysyntax.repodynamics.com",
+                  "source": "https://github.com/repodynamics/pysyntax"
+               }
+            },
+            "rich": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/rich",
+                     "name": "rich",
+                     "spec": "rich >=13.5,<14",
+                     "version": ">=13.5,<14"
+                  }
+               },
+               "name": "rich"
+            },
+            "versionman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/versionman",
+                     "name": "versionman",
+                     "spec": "versionman == 0.0.0.dev250",
+                     "version": "== 0.0.0.dev250"
+                  }
+               },
+               "name": "versionman",
+               "url": {
+                  "docs": "https://versionman.repodynamics.com",
+                  "source": "https://github.com/repodynamics/versionman"
+               }
+            }
+         }
+      },
+      "entry": {
+         "python": {
+            "main": {
+               "conda": true,
+               "description": "Main Python API entry of the package.",
+               "name": "proman",
+               "pypi": true,
+               "ref": "proman:__init__"
+            }
+         }
+      },
+      "import_name": "proman",
+      "name": "ProMan",
+      "os": {
+         "linux-64": {
+            "data": {
+               "logo": "docs/website/source/_media/logo_ext/linux.png"
+            },
+            "name": "Linux (x64)",
+            "platform": "linux-64",
+            "runner": "ubuntu-24.04"
+         },
+         "linux-aarch64": {
+            "data": {
+               "logo": "docs/website/source/_media/logo_ext/linux.png"
+            },
+            "name": "Linux (arm64)",
+            "platform": "linux-aarch64",
+            "runner": "ubuntu-24.04-arm"
+         },
+         "osx-64": {
+            "data": {
+               "logo": "apple",
+               "logo_color": "#000000"
+            },
+            "name": "macOS (x64)",
+            "platform": "osx-64",
+            "runner": "macos-13"
+         },
+         "osx-arm64": {
+            "data": {
+               "logo": "apple",
+               "logo_color": "#000000"
+            },
+            "name": "macOS (arm64)",
+            "platform": "osx-arm64",
+            "runner": "macos-15"
+         },
+         "win-64": {
+            "data": {
+               "logo": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+            },
+            "name": "Windows (x64)",
+            "platform": "win-64",
+            "runner": "windows-2025"
+         }
+      },
+      "path": {
+         "import": ".github/actions/proman/src/proman",
+         "import_rel": "src/proman",
+         "root": ".github/actions/proman",
+         "source": ".github/actions/proman/src",
+         "source_rel": "src"
+      },
+      "pypi": {
+         "publishable": true,
+         "url": {
+            "home": "https://pypi.org/project/ProMan"
+         }
+      },
+      "pyproject": {
+         "build-system": {
+            "build-backend": "setuptools.build_meta",
+            "requires": [
+               "setuptools >=72.1.0,<73"
+            ]
+         },
+         "project": {
+            "dependencies": [
+               "rich >=13.5,<14",
+               "jinja2 >=3,<4",
+               "actionman ==0.0.0.dev24",
+               "controlman == 0.0.0.dev446",
+               "conventionalcommits == 0.0.0.dev65",
+               "github-contexts == 0.0.0.dev21",
+               "loggerman == 0.0.0.dev93",
+               "mdit == 0.0.0.dev63",
+               "htmp == 0.0.0.dev5",
+               "pylinks == 0.0.0.dev76",
+               "pysyntax == 0.0.0.dev6",
+               "versionman == 0.0.0.dev250",
+               "gittidy == 0.0.0.dev91",
+               "pkgdata == 0.0.0.dev5",
+               "pyshellman == 0.0.0.dev53",
+               "pyserials == 0.0.0.dev66",
+               "fileex == 0.0.0.dev1",
+               "ansi-sgr == 0.0.0.dev10",
+               "pycolorit == 0.0.0.dev11"
+            ],
+            "name": "ProMan",
+            "requires-python": ">=3.10",
+            "version": "0.1.0"
+         },
+         "tool": {
+            "setuptools": {
+               "include-package-data": true,
+               "packages": {
+                  "find": {
+                     "namespace": true,
+                     "where": [
+                        "src"
+                     ]
+                  }
+               }
+            }
+         }
+      },
+      "python": {
+         "implementation": "cpython",
+         "pure": true,
+         "version": {
+            "micros": [
+               "3.10.0",
+               "3.10.1",
+               "3.10.2",
+               "3.10.3",
+               "3.10.4",
+               "3.10.5",
+               "3.10.6",
+               "3.10.7",
+               "3.10.8",
+               "3.10.9",
+               "3.10.10",
+               "3.10.11",
+               "3.10.12",
+               "3.10.13",
+               "3.10.14",
+               "3.10.15",
+               "3.10.16",
+               "3.11.0",
+               "3.11.1",
+               "3.11.2",
+               "3.11.3",
+               "3.11.4",
+               "3.11.5",
+               "3.11.6",
+               "3.11.7",
+               "3.11.8",
+               "3.11.9",
+               "3.11.10",
+               "3.11.11",
+               "3.12.0",
+               "3.12.1",
+               "3.12.2",
+               "3.12.3",
+               "3.12.4",
+               "3.12.5",
+               "3.12.6",
+               "3.12.7",
+               "3.12.8",
+               "3.12.9",
+               "3.13.0",
+               "3.13.1",
+               "3.13.2"
+            ],
+            "minors": [
+               "3.10",
+               "3.11",
+               "3.12",
+               "3.13"
+            ],
+            "spec": ">=3.10"
+         }
+      },
+      "typed": true
+   },
    "pypkg_main": {
       "conda": {
          "publishable": true,
@@ -21172,10 +21805,10 @@
                                  "value": "pip"
                               },
                               {
-                                 "value": "conda-forge::setuptools >=72.1.0"
+                                 "value": "conda-forge::setuptools >=72.1.0,<73"
                               },
                               {
-                                 "value": "conda-forge::versioningit >=3.1.2"
+                                 "value": "conda-forge::versioningit >=3.1.2,<4"
                               }
                            ]
                         },
@@ -21241,14 +21874,14 @@
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/setuptools",
                      "name": "setuptools",
-                     "spec": "conda-forge::setuptools >=72.1.0",
-                     "version": ">=72.1.0"
+                     "spec": "conda-forge::setuptools >=72.1.0,<73",
+                     "version": ">=72.1.0,<73"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/setuptools/",
                      "name": "setuptools",
-                     "spec": "setuptools >=72.1.0",
-                     "version": ">=72.1.0"
+                     "spec": "setuptools >=72.1.0,<73",
+                     "version": ">=72.1.0,<73"
                   }
                },
                "name": "setuptools"
@@ -21260,14 +21893,14 @@
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/versioningit",
                      "name": "versioningit",
-                     "spec": "conda-forge::versioningit >=3.1.2",
-                     "version": ">=3.1.2"
+                     "spec": "conda-forge::versioningit >=3.1.2,<4",
+                     "version": ">=3.1.2,<4"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/versioningit/",
                      "name": "versioningit",
-                     "spec": "versioningit >=3.1.2",
-                     "version": ">=3.1.2"
+                     "spec": "versioningit >=3.1.2,<4",
+                     "version": ">=3.1.2,<4"
                   }
                },
                "name": "versioningit"
@@ -22906,8 +23539,8 @@
          "build-system": {
             "build-backend": "setuptools.build_meta",
             "requires": [
-               "setuptools >=72.1.0",
-               "versioningit >=3.1.2"
+               "setuptools >=72.1.0,<73",
+               "versioningit >=3.1.2,<4"
             ]
          },
          "project": {
@@ -24042,10 +24675,10 @@
                                  "value": "pip"
                               },
                               {
-                                 "value": "conda-forge::setuptools >=72.1.0"
+                                 "value": "conda-forge::setuptools >=72.1.0,<73"
                               },
                               {
-                                 "value": "conda-forge::versioningit >=3.1.2"
+                                 "value": "conda-forge::versioningit >=3.1.2,<4"
                               }
                            ]
                         },
@@ -24123,14 +24756,14 @@
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/setuptools",
                      "name": "setuptools",
-                     "spec": "conda-forge::setuptools >=72.1.0",
-                     "version": ">=72.1.0"
+                     "spec": "conda-forge::setuptools >=72.1.0,<73",
+                     "version": ">=72.1.0,<73"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/setuptools/",
                      "name": "setuptools",
-                     "spec": "setuptools >=72.1.0",
-                     "version": ">=72.1.0"
+                     "spec": "setuptools >=72.1.0,<73",
+                     "version": ">=72.1.0,<73"
                   }
                },
                "name": "setuptools"
@@ -24142,14 +24775,14 @@
                      "channel": "conda-forge",
                      "homepage": "https://anaconda.org/conda-forge/versioningit",
                      "name": "versioningit",
-                     "spec": "conda-forge::versioningit >=3.1.2",
-                     "version": ">=3.1.2"
+                     "spec": "conda-forge::versioningit >=3.1.2,<4",
+                     "version": ">=3.1.2,<4"
                   },
                   "pip": {
                      "homepage": "https://pypi.org/project/versioningit/",
                      "name": "versioningit",
-                     "spec": "versioningit >=3.1.2",
-                     "version": ">=3.1.2"
+                     "spec": "versioningit >=3.1.2,<4",
+                     "version": ">=3.1.2,<4"
                   }
                },
                "name": "versioningit"
@@ -26027,8 +26660,8 @@
          "build-system": {
             "build-backend": "setuptools.build_meta",
             "requires": [
-               "setuptools >=72.1.0",
-               "versioningit >=3.1.2"
+               "setuptools >=72.1.0,<73",
+               "versioningit >=3.1.2,<4"
             ]
          },
          "project": {
