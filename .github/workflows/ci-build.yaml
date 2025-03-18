@@ -73,8 +73,8 @@ jobs:
           retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention_days }}
   native:
     name: Binary Distribution | ${{ matrix.build.os.name }}
-    if: ${{ !fromJSON(inputs.config).pkg.python.pure }}
-    runs-on: ${{ matrix.runner }}
+    if: ${{ !fromJSON(inputs.config).pure_python }}
+    runs-on: ${{ matrix.build.runner }}
     strategy:
       fail-fast: false
       matrix:
@@ -92,18 +92,18 @@ jobs:
         # https://github.com/pypa/cibuildwheel
         uses: pypa/cibuildwheel@v2.22
         with:
-          package-dir: ./repo/${{ fromJSON(inputs.config).pkg.path.root }}
+          package-dir: ./repo/${{ fromJSON(inputs.config).pkg_path }}
           output-dir: ./dist
         env:
-          CIBW_BUILD: ${{ matrix.python }}-${{ matrix.platform }}
+          CIBW_BUILD: ${{ matrix.build.python }}-${{ matrix.build.platform }}
           CIBW_BUILD_VERBOSITY: 2
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
           path: ./dist
-          name: ${{ matrix.artifact.wheel.name }}
-          include-hidden-files: ${{ matrix.artifact.wheel.include_hidden }}
-          retention-days: ${{ matrix.artifact.wheel.retention_days }}
+          name: ${{ matrix.build.artifact.wheel.name }}
+          include-hidden-files: ${{ matrix.buildartifact.wheel.include_hidden }}
+          retention-days: ${{ matrix.build.artifact.wheel.retention_days }}
   conda:
     name: Conda Distribution | ${{ matrix.task.os.name }}
     runs-on: ${{ matrix.task.os.runner }}
