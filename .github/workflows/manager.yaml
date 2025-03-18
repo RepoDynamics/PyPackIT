@@ -87,6 +87,15 @@ jobs:
           activate_env: proman
       - name: ProMan Setup
         run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
+      - name: Bashrc
+        shell: bash
+        run: |
+          echo ::group::bashrc
+          cat ~/.bashrc
+          echo ::endgroup::
+          echo ::group::bash_profile
+          cat ~/.bash_profile
+          echo ::endgroup::
       - name: ProMan
         id: proman
         env:
