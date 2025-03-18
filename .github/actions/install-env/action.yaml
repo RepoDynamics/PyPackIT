@@ -54,7 +54,7 @@ runs:
         echo "::endgroup::"
     - name: Metadata Processing
       id: script
-      shell: bash -el {0}
+      shell: bash
       env:
         ACTION_INPUTS: ${{ toJSON(inputs) }}
       run: |
@@ -67,16 +67,6 @@ runs:
         path: ${{ steps.script.outputs.cache_dirpath }}
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
-    - name: Debug
-      shell: bash
-      run: |
-        echo ::group::❌❌Debug
-        echo "HOME: $HOME"
-        echo "USER: $USER"
-        ls -la ~
-        cat ~/.bashrc || echo "No .bashrc file found"
-        cat ~/.bash_profile || echo "No .bash_profile file found"
-        echo ::endgroup::
     - name: Conda Setup
       # https://github.com/conda-incubator/setup-miniconda
       uses: conda-incubator/setup-miniconda@v3
@@ -88,16 +78,6 @@ runs:
         activate-environment: >-
           ${{ (inputs.activate_env != 'base' && inputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
-    - name: Debug
-      shell: bash
-      run: |
-        echo ::group::❌❌Debug
-        echo "HOME: $HOME"
-        echo "USER: $USER"
-        ls -la ~
-        cat ~/.bashrc || echo "No .bashrc file found"
-        cat ~/.bash_profile || echo "No .bash_profile file found"
-        echo ::endgroup::
     - name: Conda Cache
       id: conda-cache
       uses: actions/cache@v4
@@ -107,7 +87,7 @@ runs:
           conda--${{ runner.os }}--${{ runner.arch }}--${{ steps.script.outputs.env_hash }}
     - name: Conda Install
       if: steps.conda-cache.outputs.cache-hit != 'true'
-      shell: bash -el {0}
+      shell: bash
       env:
         ENV_NAMES: ${{ steps.script.outputs.env_names }}
         ENV_FILEPATHS: ${{ steps.script.outputs.env_filepaths }}
@@ -118,6 +98,9 @@ runs:
           conda env update -vv --file "$env_filepath"
           echo "::endgroup::"
         done <<< "$ENV_FILEPATHS"
+    - name: Conda Info
+      shell: bash -el {0}
+      run: |
         echo "::group::conda info"
         conda info
         echo "::endgroup::"
@@ -136,19 +119,12 @@ runs:
       shell: bash
       env:
         TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
+      # Setup-miniconda removes ~/.bashrc and ~/.bash_profile
+      # and instead adds ~/.profile, which is sourced on all shells.
+      # - https://github.com/conda-incubator/setup-miniconda/issues/151
+      # - https://github.com/conda-incubator/setup-miniconda/issues/172
       run: |
         # Source task scripts.
         while IFS= read -r task_filepath; do
           printf '\nsource "%s"\n' "$task_filepath" | tee -a ~/.profile
         done <<< "$TASK_FILEPATHS"
-    - name: Debug
-      shell: bash -el {0}
-      run: |
-        echo ::group::❌❌Debug
-        echo "HOME: $HOME"
-        echo "USER: $USER"
-        ls -la ~
-        cat ~/.bashrc || echo "No .bashrc file found"
-        cat ~/.bash_profile || echo "No .bash_profile file found"
-        cat ~/.profile || echo "No .bash_profile file found"
-        echo ::endgroup::
