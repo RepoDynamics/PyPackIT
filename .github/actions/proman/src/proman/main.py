@@ -449,7 +449,7 @@ class EventHandler:
             branch_manager.branch.checkout_to_auto(branch=pr_branch)
         try:
             shell_output = self._shell_runner_head.run(
-                ["bash", "-c", "source ~/.bashrc && lint-ci"]
+                ["bash", "-c", "source ~/.profile && lint-ci"]
             )
             # hooks_output = runner.refactor.run(
             #     git=branch_manager.git,
