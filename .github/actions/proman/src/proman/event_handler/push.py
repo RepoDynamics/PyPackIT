@@ -136,7 +136,7 @@ class PushEventHandler(EventHandler):
             )
             _fileex.directory.delete_contents(
                 path=self._path_head / ".devcontainer",
-                exclude=["install.py", "build-conda.py", "pre_commit.py"],
+                exclude=["install.py", "build_conda.py", "build_python.py", "pre_commit.py"],
             )
             move_and_merge_directories(self._path_head / "template", self._path_head)
             self._git_head.commit(
