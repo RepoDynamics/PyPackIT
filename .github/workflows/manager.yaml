@@ -85,32 +85,32 @@ jobs:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
           activate_env: proman
-#      - name: ProMan Setup
-#        run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
-#      - name: ProMan
-#        id: proman
-#        env:
-#          GITHUB_ADMIN_TOKEN: ${{ secrets.github-admin-token }}
-#          ZENODO_TOKEN: ${{ secrets.zenodo-token }}
-#          ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
-#          GITHUB_CONTEXT: ${{ toJSON(github) }}
-#        run: |
-#          python -m proman
-#      - name: Report Upload
-#        uses: actions/upload-artifact@v4
-#        with:
-#          path: ${{ steps.setup.outputs.report_dirpath }}
-#          name: Reports
-#  status:
-#    name: Status
-#    runs-on: ubuntu-latest
-#    needs: manager
-#    steps:
-#      - name: Status Check
-#        run: |
-#          if [ "${{ needs.manager.outputs.fail }}" = "true" ]; then
-#            exit 1
-#          else
-#            exit 0
-#          fi
+      - name: ProMan Setup
+        run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
+      - name: ProMan
+        id: proman
+        env:
+          GITHUB_ADMIN_TOKEN: ${{ secrets.github-admin-token }}
+          ZENODO_TOKEN: ${{ secrets.zenodo-token }}
+          ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: |
+          python -m proman
+      - name: Report Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ steps.setup.outputs.report_dirpath }}
+          name: Reports
+  status:
+    name: Status
+    runs-on: ubuntu-latest
+    needs: manager
+    steps:
+      - name: Status Check
+        run: |
+          if [ "${{ needs.manager.outputs.fail }}" = "true" ]; then
+            exit 1
+          else
+            exit 0
+          fi
 
