@@ -42,7 +42,7 @@ def main(
         devcontainer = top_value
         if "apt" in devcontainer:
             out["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
-        if "task" in devcontainer:
+        if "task" in devcontainer or any("task" in env for env in devcontainer.get("environment", {}).values()):
             out["task_filepaths"].append(str(repo_path / devcontainer["path"]["tasks_global"]))
         for env in devcontainer.get("environment", {}).values():
             out["env_filepaths"].append(str(repo_path / env["path"]))
