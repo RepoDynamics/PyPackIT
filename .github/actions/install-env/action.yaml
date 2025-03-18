@@ -89,7 +89,6 @@ runs:
       if: steps.conda-cache.outputs.cache-hit != 'true'
       shell: bash
       env:
-        ENV_NAMES: ${{ steps.script.outputs.env_names }}
         ENV_FILEPATHS: ${{ steps.script.outputs.env_filepaths }}
       run: |
         # Install Conda environments.
@@ -100,6 +99,8 @@ runs:
         done <<< "$ENV_FILEPATHS"
     - name: Conda Info
       shell: bash -el {0}
+      env:
+        ENV_NAMES: ${{ steps.script.outputs.env_names }}
       run: |
         echo "::group::conda info"
         conda info
