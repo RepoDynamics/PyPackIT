@@ -290,6 +290,9 @@ class OutputManager:
         build_config = self._main_manager.data[f"workflow.build"]
         # for typ in ("pkg", "test"):
         python_build_command = self._branch_manager.data["devcontainer_main.environment.pybuild.task.build-python.alias"]
+        readme_render_command = self._branch_manager.data[
+            "devcontainer_main.environment.pybuild.task.render-readme.alias"
+        ]
         for key, value in self._branch_manager.data.items():
             if not key.startswith("pypkg_"):
                 continue
@@ -303,7 +306,8 @@ class OutputManager:
                 "pkg_id": pkg_id,
                 "pure_python": pure_python,
                 "build_command": f"{python_build_command} {pkg_id} {"--sdist" if pure_python else ""}",
-                "pkg": value,
+                "render_command": readme_render_command if value["pyproject"]["project"].get("readme") else "",
+                "pkg_path": value["path"]["root"],
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
             }
