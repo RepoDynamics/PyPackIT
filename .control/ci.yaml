@@ -11,15 +11,15 @@ pypkg_ci:
       rich:
         install:
           pip:
-            version: '>=13.5,<14'
+            version: ==13.9.4
       jinja2:
         install:
           pip:
-            version: '>=3,<4'
+            version: ==3.1.6
       actionman:
         install:
           pip:
-            version: '==0.0.0.dev24'
+            version: ==0.1.0
             homepage: https://pypi.org/project/actionman
         url:
           docs: https://actionman.repodynamics.com
@@ -27,7 +27,7 @@ pypkg_ci:
       controlman:
         install:
           pip:
-            version: '== 0.0.0.dev447'
+            version: ==0.1.0
             homepage: https://pypi.org/project/controlman
         url:
           docs: https://controlman.repodynamics.com
@@ -35,7 +35,7 @@ pypkg_ci:
       conventionalcommits:
         install:
           pip:
-            version: '== 0.0.0.dev65'
+            version: ==0.1.0
             homepage: https://pypi.org/project/conventionalcommits
         url:
           docs: https://conventionalcommits.repodynamics.com
@@ -43,7 +43,7 @@ pypkg_ci:
       github-contexts:
         install:
           pip:
-            version: '== 0.0.0.dev21'
+            version: ==0.1.0
             homepage: https://pypi.org/project/github-contexts
         url:
           docs: https://github-contexts.repodynamics.com
@@ -51,7 +51,7 @@ pypkg_ci:
       loggerman:
         install:
           pip:
-            version: '== 0.0.0.dev93'
+            version: ==0.1.0
             homepage: https://pypi.org/project/loggerman
         url:
           docs: https://loggerman.repodynamics.com
@@ -59,7 +59,7 @@ pypkg_ci:
       mdit:
         install:
           pip:
-            version: '== 0.0.0.dev63'
+            version: ==0.1.0
             homepage: https://pypi.org/project/mdit
         url:
           docs: https://mdit.repodynamics.com
@@ -67,7 +67,7 @@ pypkg_ci:
       htmp:
         install:
           pip:
-            version: '== 0.0.0.dev5'
+            version: ==0.1.0
             homepage: https://pypi.org/project/htmp
         url:
           docs: https://htmp.repodynamics.com
@@ -75,7 +75,7 @@ pypkg_ci:
       pylinks:
         install:
           pip:
-            version: '== 0.0.0.dev76'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pylinks
         url:
           docs: https://pylinks.repodynamics.com
@@ -83,7 +83,7 @@ pypkg_ci:
       pysyntax:
         install:
           pip:
-            version: '== 0.0.0.dev6'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pysyntax
         url:
           docs: https://pysyntax.repodynamics.com
@@ -91,7 +91,7 @@ pypkg_ci:
       versionman:
         install:
           pip:
-            version: '== 0.0.0.dev250'
+            version: ==0.1.0
             homepage: https://pypi.org/project/versionman
         url:
           docs: https://versionman.repodynamics.com
@@ -99,7 +99,7 @@ pypkg_ci:
       gittidy:
         install:
           pip:
-            version: '== 0.0.0.dev91'
+            version: ==0.1.0
             homepage: https://pypi.org/project/gittidy
         url:
           docs: https://gittidy.repodynamics.com
@@ -107,7 +107,7 @@ pypkg_ci:
       pkgdata:
         install:
           pip:
-            version: '== 0.0.0.dev5'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pkgdata
         url:
           docs: https://pkgdata.repodynamics.com
@@ -115,7 +115,7 @@ pypkg_ci:
       pyshellman:
         install:
           pip:
-            version: '== 0.0.0.dev53'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pyshellman
         url:
           docs: https://pyshellman.repodynamics.com
@@ -123,7 +123,7 @@ pypkg_ci:
       pyserials:
         install:
           pip:
-            version: '== 0.0.0.dev66'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pyserials
         url:
           docs: https://pyserials.repodynamics.com
@@ -131,7 +131,7 @@ pypkg_ci:
       fileex:
         install:
           pip:
-            version: '== 0.0.0.dev1'
+            version: ==0.1.0
             homepage: https://pypi.org/project/fileex
         url:
           docs: https://fileex.repodynamics.com
@@ -139,7 +139,7 @@ pypkg_ci:
       ansi-sgr:
         install:
           pip:
-            version: '== 0.0.0.dev10'
+            version: ==0.1.0
             homepage: https://pypi.org/project/ansi-sgr
         url:
           docs: https://ansi-sgr.repodynamics.com
@@ -147,7 +147,7 @@ pypkg_ci:
       pycolorit:
         install:
           pip:
-            version: '== 0.0.0.dev11'
+            version: ==0.1.0
             homepage: https://pypi.org/project/pycolorit
         url:
           docs: https://pycolorit.repodynamics.com

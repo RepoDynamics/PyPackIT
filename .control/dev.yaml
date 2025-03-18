@@ -641,11 +641,21 @@ devcontainer_main:
             package: https://anaconda.org/conda-forge/pre_commit
             source: https://github.com/pre-commit/pre-commit
       pip:
-        loggerman: {}
-        mdit: {}
-        pyshellman: {}
-        ansi-sgr: {}
-        gittidy: {}
+        loggerman:
+          spec:
+            version: ==0.1.0
+        mdit:
+          spec:
+            version: ==0.1.0
+        pyshellman:
+          spec:
+            version: ==0.1.0
+        ansi-sgr:
+          spec:
+            version: ==0.1.0
+        gittidy:
+          spec:
+            version: ==0.1.0
       variable:
         cache_dir:
           summary: Directory to store the cache for pre-commit hooks.
