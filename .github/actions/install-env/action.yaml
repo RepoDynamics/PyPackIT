@@ -76,12 +76,15 @@ runs:
         while IFS= read -r task_filepath; do
           echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
         done <<< "$TASK_FILEPATHS"
-        # Show bashrc
-        echo ::group::bashrc
-        cat ~/.bashrc
-        echo ::endgroup::
-        echo ::group::bashrc
-        cat ~/.bash_profile
+    - name: Debug
+      shell: bash -el {0}
+      run: |
+        echo ::group::❌❌Debug
+        echo "HOME: $HOME"
+        echo "USER: $USER"
+        ls -la ~
+        cat ~/.bashrc || echo "No .bashrc file found"
+        cat ~/.bash_profile || echo "No .bash_profile file found"
         echo ::endgroup::
     - name: Conda Setup
       # https://github.com/conda-incubator/setup-miniconda
@@ -93,6 +96,16 @@ runs:
         activate-environment: >-
           ${{ (inputs.activate_env != 'base' && inputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
+    - name: Debug
+      shell: bash -el {0}
+      run: |
+        echo ::group::❌❌Debug
+        echo "HOME: $HOME"
+        echo "USER: $USER"
+        ls -la ~
+        cat ~/.bashrc || echo "No .bashrc file found"
+        cat ~/.bash_profile || echo "No .bash_profile file found"
+        echo ::endgroup::
     - name: Conda Cache
       id: conda-cache
       uses: actions/cache@v4
@@ -127,3 +140,13 @@ runs:
           conda list --name "$env_name"
           echo "::endgroup::"
         done <<< "$ENV_NAMES"
+    - name: Debug
+      shell: bash -el {0}
+      run: |
+        echo ::group::❌❌Debug
+        echo "HOME: $HOME"
+        echo "USER: $USER"
+        ls -la ~
+        cat ~/.bashrc || echo "No .bashrc file found"
+        cat ~/.bash_profile || echo "No .bash_profile file found"
+        echo ::endgroup::
