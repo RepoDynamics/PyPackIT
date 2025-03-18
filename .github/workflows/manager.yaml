@@ -103,15 +103,19 @@ jobs:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
           activate_env: proman
-      - name: Bashrc
-        shell: bash
+      - name: Debug
+        shell: bash -el {0}
         run: |
-          echo ::group::bashrc
-          cat ~/.bashrc
+          
+          echo "HOME: $HOME"
+          echo "USER: $USER"
+          ls -la ~
+          echo ::group::❌❌Debug
+          cat ~/.bashrc || echo "No .bashrc file found"
+          cat ~/.bash_profile || echo "No .bash_profile file found"
           echo ::endgroup::
-          echo ::group::bash_profile
-          cat ~/.bash_profile
-          echo ::endgroup::
+          cat ~/.profile || echo "No .profile file found"
+
       - name: ProMan Setup
         run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
       - name: ProMan
@@ -121,15 +125,7 @@ jobs:
           ZENODO_TOKEN: ${{ secrets.zenodo-token }}
           ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: |
-          # Show bashrc
-          echo ::group::bashrc
-          cat ~/.bashrc
-          echo ::endgroup::
-          echo ::group::bashrc
-          cat ~/.bash_profile
-          echo ::endgroup::
-          python -m proman
+        run: python -m proman
       - name: Report Upload
         uses: actions/upload-artifact@v4
         with:
