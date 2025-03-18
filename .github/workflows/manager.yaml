@@ -95,6 +95,13 @@ jobs:
           ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: |
+          # Show bashrc
+          echo ::group::bashrc
+          cat ~/.bashrc
+          echo ::endgroup::
+          echo ::group::bashrc
+          cat ~/.bash_profile
+          echo ::endgroup::
           python -m proman
       - name: Report Upload
         uses: actions/upload-artifact@v4
