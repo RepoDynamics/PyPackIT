@@ -5,3 +5,5 @@ dependencies:
       - build >=1.2.2
       - readme-renderer [md] >=44
       - twine
+variables:
+  VERSIONINGIT_LOG_LEVEL: DEBUG

@@ -6981,41 +6981,41 @@
                "ansi-sgr": {
                   "name": "ansi-sgr",
                   "spec": {
-                     "full": "ansi-sgr",
+                     "full": "ansi-sgr ==0.1.0",
                      "name": "ansi-sgr",
-                     "version": ""
+                     "version": "==0.1.0"
                   }
                },
                "gittidy": {
                   "name": "gittidy",
                   "spec": {
-                     "full": "gittidy",
+                     "full": "gittidy ==0.1.0",
                      "name": "gittidy",
-                     "version": ""
+                     "version": "==0.1.0"
                   }
                },
                "loggerman": {
                   "name": "loggerman",
                   "spec": {
-                     "full": "loggerman",
+                     "full": "loggerman ==0.1.0",
                      "name": "loggerman",
-                     "version": ""
+                     "version": "==0.1.0"
                   }
                },
                "mdit": {
                   "name": "mdit",
                   "spec": {
-                     "full": "mdit",
+                     "full": "mdit ==0.1.0",
                      "name": "mdit",
-                     "version": ""
+                     "version": "==0.1.0"
                   }
                },
                "pyshellman": {
                   "name": "pyshellman",
                   "spec": {
-                     "full": "pyshellman",
+                     "full": "pyshellman ==0.1.0",
                      "name": "pyshellman",
-                     "version": ""
+                     "version": "==0.1.0"
                   }
                }
             },
@@ -7095,153 +7095,153 @@
                "actionman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "actionman ==0.0.0.dev24",
+                     "full": "actionman ==0.1.0",
                      "name": "actionman",
-                     "version": "==0.0.0.dev24"
+                     "version": "==0.1.0"
                   }
                },
                "ansi-sgr": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "ansi-sgr == 0.0.0.dev10",
+                     "full": "ansi-sgr ==0.1.0",
                      "name": "ansi-sgr",
-                     "version": "== 0.0.0.dev10"
+                     "version": "==0.1.0"
                   }
                },
                "controlman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "controlman == 0.0.0.dev447",
+                     "full": "controlman ==0.1.0",
                      "name": "controlman",
-                     "version": "== 0.0.0.dev447"
+                     "version": "==0.1.0"
                   }
                },
                "conventionalcommits": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "conventionalcommits == 0.0.0.dev65",
+                     "full": "conventionalcommits ==0.1.0",
                      "name": "conventionalcommits",
-                     "version": "== 0.0.0.dev65"
+                     "version": "==0.1.0"
                   }
                },
                "fileex": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "fileex == 0.0.0.dev1",
+                     "full": "fileex ==0.1.0",
                      "name": "fileex",
-                     "version": "== 0.0.0.dev1"
+                     "version": "==0.1.0"
                   }
                },
                "github-contexts": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "github-contexts == 0.0.0.dev21",
+                     "full": "github-contexts ==0.1.0",
                      "name": "github-contexts",
-                     "version": "== 0.0.0.dev21"
+                     "version": "==0.1.0"
                   }
                },
                "gittidy": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "gittidy == 0.0.0.dev91",
+                     "full": "gittidy ==0.1.0",
                      "name": "gittidy",
-                     "version": "== 0.0.0.dev91"
+                     "version": "==0.1.0"
                   }
                },
                "htmp": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "htmp == 0.0.0.dev5",
+                     "full": "htmp ==0.1.0",
                      "name": "htmp",
-                     "version": "== 0.0.0.dev5"
+                     "version": "==0.1.0"
                   }
                },
                "jinja2": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "jinja2 >=3,<4",
+                     "full": "jinja2 ==3.1.6",
                      "name": "jinja2",
-                     "version": ">=3,<4"
+                     "version": "==3.1.6"
                   }
                },
                "loggerman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "loggerman == 0.0.0.dev93",
+                     "full": "loggerman ==0.1.0",
                      "name": "loggerman",
-                     "version": "== 0.0.0.dev93"
+                     "version": "==0.1.0"
                   }
                },
                "mdit": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "mdit == 0.0.0.dev63",
+                     "full": "mdit ==0.1.0",
                      "name": "mdit",
-                     "version": "== 0.0.0.dev63"
+                     "version": "==0.1.0"
                   }
                },
                "pkgdata": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pkgdata == 0.0.0.dev5",
+                     "full": "pkgdata ==0.1.0",
                      "name": "pkgdata",
-                     "version": "== 0.0.0.dev5"
+                     "version": "==0.1.0"
                   }
                },
                "pycolorit": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pycolorit == 0.0.0.dev11",
+                     "full": "pycolorit ==0.1.0",
                      "name": "pycolorit",
-                     "version": "== 0.0.0.dev11"
+                     "version": "==0.1.0"
                   }
                },
                "pylinks": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pylinks == 0.0.0.dev76",
+                     "full": "pylinks ==0.1.0",
                      "name": "pylinks",
-                     "version": "== 0.0.0.dev76"
+                     "version": "==0.1.0"
                   }
                },
                "pyserials": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pyserials == 0.0.0.dev66",
+                     "full": "pyserials ==0.1.0",
                      "name": "pyserials",
-                     "version": "== 0.0.0.dev66"
+                     "version": "==0.1.0"
                   }
                },
                "pyshellman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pyshellman == 0.0.0.dev53",
+                     "full": "pyshellman ==0.1.0",
                      "name": "pyshellman",
-                     "version": "== 0.0.0.dev53"
+                     "version": "==0.1.0"
                   }
                },
                "pysyntax": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pysyntax == 0.0.0.dev6",
+                     "full": "pysyntax ==0.1.0",
                      "name": "pysyntax",
-                     "version": "== 0.0.0.dev6"
+                     "version": "==0.1.0"
                   }
                },
                "rich": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "rich >=13.5,<14",
+                     "full": "rich ==13.9.4",
                      "name": "rich",
-                     "version": ">=13.5,<14"
+                     "version": "==13.9.4"
                   }
                },
                "versionman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "versionman == 0.0.0.dev250",
+                     "full": "versionman ==0.1.0",
                      "name": "versionman",
-                     "version": "== 0.0.0.dev250"
+                     "version": "==0.1.0"
                   }
                }
             }
@@ -7324,6 +7324,14 @@
                      "package": "https://pypi.org/project/twine/",
                      "source": "https://github.com/pypa/twine"
                   }
+               }
+            },
+            "variable": {
+               "log_level": {
+                  "description": "See the [versioningit documentation](https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable)\nfor more information.\n",
+                  "key": "VERSIONINGIT_LOG_LEVEL",
+                  "summary": "Log level for the versioningit tool during build.",
+                  "value": "DEBUG"
                }
             }
          },
@@ -21312,8 +21320,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/actionman",
                      "name": "actionman",
-                     "spec": "actionman ==0.0.0.dev24",
-                     "version": "==0.0.0.dev24"
+                     "spec": "actionman ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "actionman",
@@ -21327,8 +21335,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/ansi-sgr",
                      "name": "ansi-sgr",
-                     "spec": "ansi-sgr == 0.0.0.dev10",
-                     "version": "== 0.0.0.dev10"
+                     "spec": "ansi-sgr ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "ansi-sgr",
@@ -21342,8 +21350,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/controlman",
                      "name": "controlman",
-                     "spec": "controlman == 0.0.0.dev447",
-                     "version": "== 0.0.0.dev447"
+                     "spec": "controlman ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "controlman",
@@ -21357,8 +21365,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/conventionalcommits",
                      "name": "conventionalcommits",
-                     "spec": "conventionalcommits == 0.0.0.dev65",
-                     "version": "== 0.0.0.dev65"
+                     "spec": "conventionalcommits ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "conventionalcommits",
@@ -21372,8 +21380,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/fileex",
                      "name": "fileex",
-                     "spec": "fileex == 0.0.0.dev1",
-                     "version": "== 0.0.0.dev1"
+                     "spec": "fileex ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "fileex",
@@ -21387,8 +21395,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/github-contexts",
                      "name": "github-contexts",
-                     "spec": "github-contexts == 0.0.0.dev21",
-                     "version": "== 0.0.0.dev21"
+                     "spec": "github-contexts ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "github-contexts",
@@ -21402,8 +21410,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/gittidy",
                      "name": "gittidy",
-                     "spec": "gittidy == 0.0.0.dev91",
-                     "version": "== 0.0.0.dev91"
+                     "spec": "gittidy ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "gittidy",
@@ -21417,8 +21425,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/htmp",
                      "name": "htmp",
-                     "spec": "htmp == 0.0.0.dev5",
-                     "version": "== 0.0.0.dev5"
+                     "spec": "htmp ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "htmp",
@@ -21432,8 +21440,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/jinja2",
                      "name": "jinja2",
-                     "spec": "jinja2 >=3,<4",
-                     "version": ">=3,<4"
+                     "spec": "jinja2 ==3.1.6",
+                     "version": "==3.1.6"
                   }
                },
                "name": "jinja2"
@@ -21443,8 +21451,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/loggerman",
                      "name": "loggerman",
-                     "spec": "loggerman == 0.0.0.dev93",
-                     "version": "== 0.0.0.dev93"
+                     "spec": "loggerman ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "loggerman",
@@ -21458,8 +21466,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/mdit",
                      "name": "mdit",
-                     "spec": "mdit == 0.0.0.dev63",
-                     "version": "== 0.0.0.dev63"
+                     "spec": "mdit ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "mdit",
@@ -21473,8 +21481,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pkgdata",
                      "name": "pkgdata",
-                     "spec": "pkgdata == 0.0.0.dev5",
-                     "version": "== 0.0.0.dev5"
+                     "spec": "pkgdata ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pkgdata",
@@ -21488,8 +21496,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pycolorit",
                      "name": "pycolorit",
-                     "spec": "pycolorit == 0.0.0.dev11",
-                     "version": "== 0.0.0.dev11"
+                     "spec": "pycolorit ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pycolorit",
@@ -21503,8 +21511,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pylinks",
                      "name": "pylinks",
-                     "spec": "pylinks == 0.0.0.dev76",
-                     "version": "== 0.0.0.dev76"
+                     "spec": "pylinks ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pylinks",
@@ -21518,8 +21526,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pyserials",
                      "name": "pyserials",
-                     "spec": "pyserials == 0.0.0.dev66",
-                     "version": "== 0.0.0.dev66"
+                     "spec": "pyserials ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pyserials",
@@ -21533,8 +21541,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pyshellman",
                      "name": "pyshellman",
-                     "spec": "pyshellman == 0.0.0.dev53",
-                     "version": "== 0.0.0.dev53"
+                     "spec": "pyshellman ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pyshellman",
@@ -21548,8 +21556,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pysyntax",
                      "name": "pysyntax",
-                     "spec": "pysyntax == 0.0.0.dev6",
-                     "version": "== 0.0.0.dev6"
+                     "spec": "pysyntax ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "pysyntax",
@@ -21563,8 +21571,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/rich",
                      "name": "rich",
-                     "spec": "rich >=13.5,<14",
-                     "version": ">=13.5,<14"
+                     "spec": "rich ==13.9.4",
+                     "version": "==13.9.4"
                   }
                },
                "name": "rich"
@@ -21574,8 +21582,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/versionman",
                      "name": "versionman",
-                     "spec": "versionman == 0.0.0.dev250",
-                     "version": "== 0.0.0.dev250"
+                     "spec": "versionman ==0.1.0",
+                     "version": "==0.1.0"
                   }
                },
                "name": "versionman",
@@ -21665,25 +21673,25 @@
          },
          "project": {
             "dependencies": [
-               "rich >=13.5,<14",
-               "jinja2 >=3,<4",
-               "actionman ==0.0.0.dev24",
-               "controlman == 0.0.0.dev447",
-               "conventionalcommits == 0.0.0.dev65",
-               "github-contexts == 0.0.0.dev21",
-               "loggerman == 0.0.0.dev93",
-               "mdit == 0.0.0.dev63",
-               "htmp == 0.0.0.dev5",
-               "pylinks == 0.0.0.dev76",
-               "pysyntax == 0.0.0.dev6",
-               "versionman == 0.0.0.dev250",
-               "gittidy == 0.0.0.dev91",
-               "pkgdata == 0.0.0.dev5",
-               "pyshellman == 0.0.0.dev53",
-               "pyserials == 0.0.0.dev66",
-               "fileex == 0.0.0.dev1",
-               "ansi-sgr == 0.0.0.dev10",
-               "pycolorit == 0.0.0.dev11"
+               "rich ==13.9.4",
+               "jinja2 ==3.1.6",
+               "actionman ==0.1.0",
+               "controlman ==0.1.0",
+               "conventionalcommits ==0.1.0",
+               "github-contexts ==0.1.0",
+               "loggerman ==0.1.0",
+               "mdit ==0.1.0",
+               "htmp ==0.1.0",
+               "pylinks ==0.1.0",
+               "pysyntax ==0.1.0",
+               "versionman ==0.1.0",
+               "gittidy ==0.1.0",
+               "pkgdata ==0.1.0",
+               "pyshellman ==0.1.0",
+               "pyserials ==0.1.0",
+               "fileex ==0.1.0",
+               "ansi-sgr ==0.1.0",
+               "pycolorit ==0.1.0"
             ],
             "name": "ProMan",
             "requires-python": ">=3.10",

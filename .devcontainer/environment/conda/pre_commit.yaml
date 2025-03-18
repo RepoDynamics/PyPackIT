@@ -3,10 +3,10 @@ dependencies:
   - conda-forge::pre-commit ==4.1.0
   - pip
   - pip:
-      - ansi-sgr
-      - gittidy
-      - loggerman
-      - mdit
-      - pyshellman
+      - ansi-sgr ==0.1.0
+      - gittidy ==0.1.0
+      - loggerman ==0.1.0
+      - mdit ==0.1.0
+      - pyshellman ==0.1.0
 variables:
   PRE_COMMIT_HOME: .local/cache/pre-commit
