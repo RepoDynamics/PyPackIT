@@ -103,9 +103,10 @@ jobs:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
           activate_env: proman
-#      - name: Debug0
-#        shell: bash -el {0}
-#        run: lint-ci
+      - name: Debug0
+        shell: bash -el {0}
+        run: |
+          python -c "import subprocess; subprocess.run(["bash", "-c", "version"])"
       - name: Debug
         shell: bash -el {0}
         run: |
