@@ -107,6 +107,10 @@ jobs:
         shell: bash -el {0}
         run: |
           python -c "import subprocess; subprocess.run(['bash', '-c', 'version'])"
+          python -c "import subprocess; subprocess.run('bash -c version', shell=True)"
+          python -c "import subprocess; subprocess.run('version', shell=True)"
+          python -c "import subprocess; subprocess.run('source ~/.profile && version')"
+
       - name: Debug
         shell: bash -el {0}
         run: |
