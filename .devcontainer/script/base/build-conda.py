@@ -32,7 +32,7 @@ def main(
     pkg_id: str,
     recipe_type: Literal["global", "local"] = "local",
     extra_args: list[str] | None = None,
-) -> int:
+) -> Path:
     """Generate and run conda build command."""
     recipe = get_recipe(pkg_id=pkg_id)
     channels = get_channels(recipe)
@@ -65,8 +65,8 @@ def main(
     )
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
-    subprocess.run(build_command, check=True)  # noqa: S603
-    return 0
+    subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
+    return output_folder
 
 
 def get_recipe(pkg_id: str) -> dict:
@@ -126,4 +126,6 @@ if __name__ == "__main__":
     )
     args = vars(parser.parse_args())
     _logger.info("Input Arguments: %s", args)
-    sys.exit(main(**args))
+    local_channel_path = main(**args)
+    print(local_channel_path)
+    sys.exit()

@@ -176,11 +176,14 @@ jobs:
         with:
           load_cache: 'false'
       - name: Build
-        run: build-conda ${{ fromJSON(inputs.config).pkg_id }}
+        id: build
+        run: |
+          output_channel_path=$(build-conda ${{ fromJSON(inputs.config).pkg_id }})
+          echo "output_channel_path=$output_channel_path" >> "$GITHUB_OUTPUT"
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ fromJSON(inputs.config).conda_channel_path }}
+          path: ${{ steps.build.outputs.output_channel_path }}
           name: ${{ matrix.task.artifact.name }}
           include-hidden-files: ${{ matrix.task.artifact.include_hidden }}
           retention-days: ${{ matrix.task.artifact.retention_days }}
