@@ -172,7 +172,7 @@ jobs:
           fetch-depth: 0
       - name: Environment Setup
         id: setup
-        uses: ./repo_head/.github/actions/install-env
+        uses: ./.github/actions/install-env
         with:
           load_cache: 'false'
       - name: Build
