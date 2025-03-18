@@ -418,7 +418,9 @@ devcontainer_main:
         _conda-build:
           name: Build Conda Package
           summary: Build a Conda package from a recipe using `conda build`.
-          process: [ python, .devcontainer/script/build_conda.py, $@ ]
+          data:
+            output_path: ${{ local.temp.path }}$/build-conda
+          process: [ python, .devcontainer/script/build_conda.py, '${{ ..data.output_path }}$', $@ ]
     pybuild:
       task:
         build-python:
@@ -426,7 +428,13 @@ devcontainer_main:
           description: Build a distribution for a Python package.
           data:
             output_path: ${{ local.temp.path }}$/build-python
-          process: [ python, .devcontainer/script/build_python.py, $@ ]
+          process: [ python, .devcontainer/script/build_python.py, '${{ ..data.output_path }}$', $@ ]
+        render-readme:
+          name: Render README
+          description: Render a Python package's README file to HTML.
+          data:
+            output_path: ${{ local.temp.path }}$/readme-pypi
+          process: [ python, .devcontainer/script/render_readme.py, '${{ ..data.output_path }}$', $@ ]
       pip:
         build:
           spec:
@@ -1007,8 +1015,6 @@ devcontainer_main:
 
         In addition, the script accepts any number of extra arguments,
         which are passed directly to the `conda build` command.
-      data:
-        output_path: ${{ local.temp.path }}$/build-conda
       script: >-
         ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
         "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
