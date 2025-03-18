@@ -289,16 +289,20 @@ class OutputManager:
         build_jobs = {}
         build_config = self._main_manager.data[f"workflow.build"]
         # for typ in ("pkg", "test"):
+        python_build_command = self._branch_manager.data["devcontainer_main.environment.pybuild.task.build-python.alias"]
         for key, value in self._branch_manager.data.items():
             if not key.startswith("pypkg_"):
                 continue
             if not (publish_pypi or publish_testpypi or publish_anaconda) and build_config["action"] == "disabled":
                 continue
+            pkg_id = key.removeprefix("pypkg_")
+            pure_python = value["python"]["pure"]
             build_job = {
                 "repository": self._repository,
                 "ref": self._ref_name,
-                "pkg_id": key.removeprefix("pypkg_"),
-                "conda_channel_path": self._branch_manager.data["devcontainer_main"]["task"]["build-conda"]["data"]["local_channel_path"],
+                "pkg_id": pkg_id,
+                "pure_python": pure_python,
+                "build_command": f"{python_build_command} {pkg_id} {"--sdist" if pure_python else ""}",
                 "pkg": value,
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
