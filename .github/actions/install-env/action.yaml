@@ -67,6 +67,23 @@ runs:
         path: ${{ steps.script.outputs.cache_dirpath }}
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
+    - name: APT Install
+      # TODO: add caching
+      # - https://github.com/awalsh128/cache-apt-pkgs-action
+      # - https://stackoverflow.com/questions/59269850/caching-apt-packages-in-github-actions-workflow/60920684#60920684
+      if: runner.os == 'Linux' && steps.script.outputs.apt_filepaths
+      env:
+        APT_FILEPATHS: ${{ steps.script.outputs.apt_filepaths }}
+      shell: bash
+      run: |
+        # Install APT packages
+        echo "::group::apt-get update"
+        sudo apt-get update
+        echo ::endgroup::
+        packages=$(cat $APT_FILEPATHS | xargs -d '\n' echo | tr '\n' ' ')
+        echo "::group::apt-get install"
+        sudo apt-get -y install --no-install-recommends $packages
+        echo ::endgroup::
     - name: Conda Setup
       # https://github.com/conda-incubator/setup-miniconda
       uses: conda-incubator/setup-miniconda@v3
@@ -117,6 +134,7 @@ runs:
           echo "::endgroup::"
         done <<< "$ENV_NAMES"
     - name: Task Sourcing
+      if: steps.script.outputs.task_filepaths
       shell: bash
       env:
         TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
