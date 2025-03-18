@@ -1004,7 +1004,6 @@ devcontainer_main:
         This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
-
     build-conda:
       name: Build Conda Package
       summary: Build a conda package.
