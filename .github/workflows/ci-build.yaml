@@ -21,6 +21,9 @@ jobs:
   pure:
     name: ${{ fromJSON(inputs.config).pure_python && 'Source & Binary Distributions' || 'Source Distribution' }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v4
@@ -34,7 +37,6 @@ jobs:
         with:
           load_cache: 'false'
       - name: Build
-        shell: bash
         id: build
         run: |
           output_path=$(${{ fromJSON(inputs.config).build_command }})
@@ -43,7 +45,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.build.outputs.output_path }}/*.tar.gz
+          path: ${{ steps.build.outputs.output_path }}/**/*.tar.gz
           name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention_days }}
@@ -51,7 +53,7 @@ jobs:
         if: ${{ !cancelled() && fromJSON(inputs.config).pure_python }}
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.build.outputs.output_path }}/*.whl
+          path: ${{ steps.build.outputs.output_path }}/**/*.whl
           name: ${{ fromJSON(inputs.config).artifact.wheel.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention_days }}
@@ -59,7 +61,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.build.outputs.output_path }}/*.html
+          path: ${{ steps.build.outputs.output_path }}/**/*.html
           name: ${{ fromJSON(inputs.config).artifact.readme.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention_days }}
