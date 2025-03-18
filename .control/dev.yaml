@@ -418,8 +418,15 @@ devcontainer_main:
         _conda-build:
           name: Build Conda Package
           summary: Build a Conda package from a recipe using `conda build`.
-          process: [ python, .devcontainer/script/base/build-conda.py, $@ ]
+          process: [ python, .devcontainer/script/base/build_conda.py, $@ ]
     pybuild:
+      task:
+        build-python:
+          name: Build Python Package
+          description: Build a distribution for a Python package.
+          data:
+            output_path: ${{ local.temp.path }}$/build-python
+          process: [ python, .devcontainer/script/build_python.py, $@ ]
       pip:
         build:
           spec:
@@ -440,15 +447,6 @@ devcontainer_main:
           url:
             package: https://pypi.org/project/readme-renderer/
             source: https://github.com/pypa/readme_renderer
-      file:
-        script_pypkg_build:
-          name: Build Python Package
-          summary: Script to build a Python package using the `build` tool.
-          path: ${{ devcontainer_main.path.root }}$/script/pybuild.sh
-          type: txt
-          content: |
-            set -eux
-            python -m build
       variable:
         log_level:
           summary: Log level for the versioningit tool during build.
@@ -457,11 +455,6 @@ devcontainer_main:
             for more information.
           key: VERSIONINGIT_LOG_LEVEL
           value: DEBUG
-#      task:
-#        build-sdist:
-#          name: Build Python SDist
-#          description: Build a source distribution for a Python package.
-#          process: [ bash, '${{  }}$' ]
     versioning:
       pip:
         versioning:
@@ -1015,7 +1008,7 @@ devcontainer_main:
         In addition, the script accepts any number of extra arguments,
         which are passed directly to the `conda build` command.
       data:
-        local_channel_path: ${{ local.temp.path }}$/conda
+        output_path: ${{ local.temp.path }}$/build-conda
       script: >-
         ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
         "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
