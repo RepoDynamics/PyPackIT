@@ -67,15 +67,6 @@ runs:
         path: ${{ steps.script.outputs.cache_dirpath }}
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
-    - name: Task Sourcing
-      shell: bash
-      env:
-        TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
-      run: |
-        # Source task scripts.
-        while IFS= read -r task_filepath; do
-          echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
-        done <<< "$TASK_FILEPATHS"
     - name: Debug
       shell: bash
       run: |
@@ -141,6 +132,15 @@ runs:
           conda list --name "$env_name"
           echo "::endgroup::"
         done <<< "$ENV_NAMES"
+    - name: Task Sourcing
+      shell: bash
+      env:
+        TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
+      run: |
+        # Source task scripts.
+        while IFS= read -r task_filepath; do
+          echo 'source "'"$task_filepath"'"' | tee -a ~/.profile
+        done <<< "$TASK_FILEPATHS"
     - name: Debug
       shell: bash -el {0}
       run: |
