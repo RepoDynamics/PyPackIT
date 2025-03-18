@@ -38,7 +38,7 @@ def main(
     channels = get_channels(recipe)
     # Ensure the output folder exists
     output_folder = Path(
-        _METADATA["devcontainer_main"]["task"]["build-conda"]["data"]["local_channel_path"]
+        _METADATA["devcontainer_main"]["task"]["build-conda"]["data"]["output_path"]
     ).resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     # Export package version
