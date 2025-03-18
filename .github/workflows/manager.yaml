@@ -61,15 +61,6 @@ jobs:
       run:
         shell: bash -el {0}
     steps:
-      - name: Bashrc
-        shell: bash
-        run: |
-          echo ::group::bashrc
-          cat ~/.bashrc
-          echo ::endgroup::
-          echo ::group::bash_profile
-          cat ~/.bash_profile
-          echo ::endgroup::
       - name: Base Repository Checkout
         uses: actions/checkout@v4
         with:
@@ -87,15 +78,6 @@ jobs:
           ref: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.ref) || github.ref }}
           path: ${{ env.PATH_REPO_HEAD }}
           fetch-depth: 0
-      - name: Bashrc
-        shell: bash
-        run: |
-          echo ::group::bashrc
-          cat ~/.bashrc
-          echo ::endgroup::
-          echo ::group::bash_profile
-          cat ~/.bash_profile
-          echo ::endgroup::
       - name: Environment Setup
         id: setup
         uses: ./repo_head/.github/actions/install-env
@@ -103,27 +85,6 @@ jobs:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
           activate_env: proman
-      - name: Debug0
-        shell: bash -el {0}
-        run: |
-          python -c "import subprocess; subprocess.run(['bash', '-c', 'version'])"
-          python -c "import subprocess; subprocess.run('bash -c version', shell=True)"
-          python -c "import subprocess; subprocess.run('version', shell=True)"
-          python -c "import subprocess; subprocess.run('source ~/.profile && version')"
-
-      - name: Debug
-        shell: bash -el {0}
-        run: |
-          
-          echo "HOME: $HOME"
-          echo "USER: $USER"
-          ls -la ~
-          echo ::group::❌❌Debug
-          cat ~/.bashrc || echo "No .bashrc file found"
-          cat ~/.bash_profile || echo "No .bash_profile file found"
-          echo ::endgroup::
-          cat ~/.profile || echo "No .profile file found"
-
       - name: ProMan Setup
         run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
       - name: ProMan
