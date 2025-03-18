@@ -76,6 +76,13 @@ runs:
         while IFS= read -r task_filepath; do
           echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
         done <<< "$TASK_FILEPATHS"
+        # Show bashrc
+        echo ::group::bashrc
+        cat ~/.bashrc
+        echo ::endgroup::
+        echo ::group::bashrc
+        cat ~/.bash_profile
+        echo ::endgroup::
     - name: Conda Setup
       # https://github.com/conda-incubator/setup-miniconda
       uses: conda-incubator/setup-miniconda@v3
