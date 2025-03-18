@@ -389,7 +389,7 @@ devcontainer_main:
         _conda-build:
           name: Build Conda Package
           summary: Build a Conda package from a recipe using `conda build`.
-          process: [ python, .devcontainer/script/base/build-conda.py, $@ ]
+          process: [ python, .devcontainer/script/base/build_conda.py, $@ ]
     pybuild:
       pip:
         build:
@@ -887,7 +887,7 @@ devcontainer_main:
         In addition, the script accepts any number of extra arguments,
         which are passed directly to the `conda build` command.
       data:
-        local_channel_path: ${{ local.temp.path }}$/conda
+        output_path: ${{ local.temp.path }}$/conda
       script: >-
         ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
         "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
