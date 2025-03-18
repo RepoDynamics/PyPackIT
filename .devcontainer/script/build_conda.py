@@ -30,6 +30,7 @@ _logger = logging.getLogger(__name__)
 def main(
     pkg_version: str,
     pkg_id: str,
+    out_dir: str | Path,
     recipe_type: Literal["global", "local"] = "local",
     extra_args: list[str] | None = None,
 ) -> Path:
@@ -37,10 +38,8 @@ def main(
     recipe = get_recipe(pkg_id=pkg_id)
     channels = get_channels(recipe)
     # Ensure the output folder exists
-    output_folder = Path(
-        _METADATA["devcontainer_main"]["task"]["build-conda"]["data"]["output_path"]
-    ).resolve()
-    output_folder.mkdir(parents=True, exist_ok=True)
+    output_dir = Path(out_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
     # Export package version
     os.environ["PKG_FULL_VERSION"] = pkg_version
     # Build command
@@ -50,9 +49,9 @@ def main(
             "build",
             str(Path(recipe["path"][recipe_type]).resolve()),
             "--output-folder",
-            str(output_folder),
+            str(output_dir),
             "--stats-file",
-            str(output_folder / "build-stats.json"),
+            str(output_dir / "build-stats.json"),
             "--package-format",
             "conda",
             "--verify",
@@ -66,7 +65,7 @@ def main(
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
     subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
-    return output_folder
+    return output_dir
 
 
 def get_recipe(pkg_id: str) -> dict:
@@ -110,6 +109,9 @@ def get_channels(recipe: dict) -> list[str]:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Conda package in the project.")
+    parser.add_argument(
+        "out_dir", help="Output directory to write the rendered README file."
+    )
     parser.add_argument("pkg_version", help="Version number to pass to the recipe.")
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
