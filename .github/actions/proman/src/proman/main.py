@@ -449,7 +449,7 @@ class EventHandler:
             branch_manager.branch.checkout_to_auto(branch=pr_branch)
         try:
             shell_output = self._shell_runner_head.run(
-                ["bash", "-c", "lint-ci"]
+                ["bash", "-c", "source ~/.bash_profile && lint-ci"]
             )
             # hooks_output = runner.refactor.run(
             #     git=branch_manager.git,
@@ -486,7 +486,8 @@ class EventHandler:
             target = f"branch <code>{pr_branch}</code> and a pull request ({link}) was created"
             hooks_output["summary"] += summary_addon_template.format(target=target)
         if action in [InitCheckAction.COMMIT, InitCheckAction.AMEND] and modified:
-            commit_hash = hooks_output["commit_hash"]
+            commit_hash = branch_manager.git.commit(message=str(commit_msg))
+            # commit_hash = hooks_output["commit_hash"]
             link = htmp.element.a(commit_hash[:7], href=str(self._gh_link.commit(commit_hash)))
             target = "the current branch " + (
                 f"in a new commit (hash: {link})"
@@ -499,8 +500,8 @@ class EventHandler:
                 name="hooks",
                 status="fail" if not passed or (action == InitCheckAction.PULL and modified) else "pass",
                 summary=hooks_output["summary"],
-                body=hooks_output["body"],
-                section=hooks_output["section"],
+                body=hooks_output["description"],
+                # section=hooks_output["section"],
             )
         return commit_hash
 
