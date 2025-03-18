@@ -92,6 +92,7 @@ runs:
         channels: conda-forge
         conda-remove-defaults: true
         auto-update-conda: true
+        conda-build-version: '>=25.1.2'
         activate-environment: >-
           ${{ (inputs.activate_env != 'base' && inputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
