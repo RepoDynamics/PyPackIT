@@ -83,10 +83,8 @@ runs:
         miniforge-version: latest
         channels: conda-forge
         auto-update-conda: true
-        activate-environment: ${{ 
-          (steps.script.outputs.activate_env != 'base' && steps.script.outputs.activate_env)
-          || ''
-        }}
+        activate-environment: >-
+          ${{ (steps.script.outputs.activate_env != 'base' && steps.script.outputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
     - name: Conda Cache
       id: conda-cache
