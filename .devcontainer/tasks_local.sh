@@ -21,7 +21,7 @@ build-conda() {
 }
 
 _conda-build() {
-    conda run --cwd /workspace --name base --live-stream -vv python .devcontainer/script/base/build_conda.py "$@"
+    conda run --cwd /workspace --name base --live-stream -vv python .devcontainer/script/build_conda.py "$@"
 }
 
 build-python() {

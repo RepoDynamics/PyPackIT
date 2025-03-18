@@ -418,7 +418,7 @@ devcontainer_main:
         _conda-build:
           name: Build Conda Package
           summary: Build a Conda package from a recipe using `conda build`.
-          process: [ python, .devcontainer/script/base/build_conda.py, $@ ]
+          process: [ python, .devcontainer/script/build_conda.py, $@ ]
     pybuild:
       task:
         build-python:

@@ -6229,7 +6229,7 @@
                   "name": "Build Conda Package",
                   "process": [
                      "python",
-                     ".devcontainer/script/base/build_conda.py",
+                     ".devcontainer/script/build_conda.py",
                      "$@"
                   ],
                   "summary": "Build a Conda package from a recipe using `conda build`."
