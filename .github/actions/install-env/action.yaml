@@ -30,7 +30,7 @@ runs:
   steps:
     - name: Action Path
       id: path
-      shell: bash
+      shell: bash -el {0}
       run: |
         # Get the absolute path to the action directory.
         echo "action_path=$(realpath --no-symlinks "${{ github.action_path }}")" >> "$GITHUB_OUTPUT"
@@ -43,7 +43,7 @@ runs:
         cache: pip
         cache-dependency-path: ${{ steps.path.outputs.action_path }}/requirements.txt
     - name: Environment Setup
-      shell: bash
+      shell: bash -el {0}
       run: |
         # Install action requirements
         echo "::group::pip install"
@@ -54,7 +54,7 @@ runs:
         echo "::endgroup::"
     - name: Metadata Processing
       id: script
-      shell: bash
+      shell: bash -el {0}
       env:
         ACTION_INPUTS: ${{ toJSON(inputs) }}
       run: |
@@ -68,7 +68,7 @@ runs:
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
     - name: Task Sourcing
-      shell: bash
+      shell: bash -el {0}
       env:
         TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
       run: |
