@@ -94,7 +94,6 @@ runs:
         channels: conda-forge
         conda-remove-defaults: true
         auto-update-conda: true
-        remove-profiles: false
         activate-environment: >-
           ${{ (inputs.activate_env != 'base' && inputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
@@ -151,4 +150,5 @@ runs:
         ls -la ~
         cat ~/.bashrc || echo "No .bashrc file found"
         cat ~/.bash_profile || echo "No .bash_profile file found"
+        cat ~/.profile || echo "No .bash_profile file found"
         echo ::endgroup::
