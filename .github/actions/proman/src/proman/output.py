@@ -286,24 +286,6 @@ class OutputManager:
                     builds.append(out)
             return builds
 
-        def conda_channels(pkg: dict) -> str:
-
-            def update_channel_priority(requirement: str):
-                parts = requirement.split("::")
-                if len(parts) > 1:
-                    channel = parts[0]
-                    channel_priority[channel] = channel_priority.get(channel, 0) + 1
-                return
-
-            meta = pkg.get("conda", {}).get("recipe", {}).get("meta", {}).get("values", {})
-            channel_priority = {}
-            for key in ("host", "run", "run_constrained"):
-                for req in meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", []):
-                    update_channel_priority(req["value"])
-            for req in meta.get("test", {}).get("values", {}).get("requires", {}).get("values", []):
-                update_channel_priority(req["value"])
-            return ",".join(sorted(channel_priority, key=channel_priority.get, reverse=True))
-
         build_jobs = {}
         build_config = self._main_manager.data[f"workflow.build"]
         # for typ in ("pkg", "test"):
@@ -315,11 +297,11 @@ class OutputManager:
             build_job = {
                 "repository": self._repository,
                 "ref": self._ref_name,
+                "pkg_id": key.removeprefix("pypkg_"),
+                "conda_channel_path": self._branch_manager["devcontainer_main"]["task"]["build-conda"]["data"]["local_channel_path"]
                 "pkg": value,
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
-                "conda-channels": conda_channels(value),
-                "conda-recipe-path": value.get("conda", {}).get("recipe", {}).get("path", {}).get("local"),
             }
             build_job["artifact"] = self._create_workflow_artifact_config(
                 build_config["artifact"],

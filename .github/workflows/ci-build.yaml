@@ -170,52 +170,17 @@ jobs:
           repository: ${{ fromJSON(inputs.config).repository }}
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
-          path: repo
-      - name: Miniconda Setup
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          miniforge-version: latest
-          auto-update-conda: true
-          conda-build-version: '>=25.1'
-          channels: ${{ fromJSON(inputs.config).conda-channels }}
-          auto-activate-base: true
-          activate-environment: ""
       - name: Environment Setup
-        run: |
-          mkdir dist
-          echo "::group::Requirements Installation"
-          conda install versioningit
-          echo "::endgroup::"
-          echo "::group::Environment Overview"
-          conda list
-          echo "::endgroup::"
-          echo "::group::Conda Info"
-          conda info
-          echo "::endgroup::"
-      - name: Versioning
-        id: version
-        env:
-          PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
-        run: |
-          VERSION=$(versioningit $PKG_PATH --verbose)
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        id: setup
+        uses: ./repo_head/.github/actions/install-env
+        with:
+          load_cache: 'false'
       - name: Build
-        env:
-          PKG_FULL_VERSION: ${{ steps.version.outputs.version }}
-        run: >-
-          conda build repo/${{ fromJSON(inputs.config).conda-recipe-path }}
-          --python ${{ matrix.task.python }}
-          --package-format conda
-          --output-folder dist
-          --stats-file dist/build-stats.json
-          --verify
-          --keep-going
-          --debug
-          --no-anaconda-upload
+        run: build-conda ${{ fromJSON(inputs.config).pkg_id }}
       - name: Build Upload
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist
+          path: ${{ fromJSON(inputs.config).conda_channel_path }}
           name: ${{ matrix.task.artifact.name }}
           include-hidden-files: ${{ matrix.task.artifact.include_hidden }}
           retention-days: ${{ matrix.task.artifact.retention_days }}
