@@ -41,6 +41,12 @@ jobs:
         run: |
           output_path=$(${{ fromJSON(inputs.config).build_command }})
           echo "output_path=$output_path" >> "$GITHUB_OUTPUT"
+      - name: README Render
+        if: fromJSON(inputs.config).readme_command
+        id: render
+        run: |
+          output_path=$(${{ fromJSON(inputs.config).readme_command }})
+          echo "output_path=$output_path" >> "$GITHUB_OUTPUT"
       - name: Source Distribution Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -58,10 +64,10 @@ jobs:
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention_days }}
       - name: ReadMe Upload
-        if: ${{ !cancelled() }}
+        if: fromJSON(inputs.config).readme_command
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.build.outputs.output_path }}/**/*.html
+          path: ${{ steps.render.outputs.output_path }}
           name: ${{ fromJSON(inputs.config).artifact.readme.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention_days }}
