@@ -16,6 +16,7 @@ import pkgdata
 import controlman
 import gittidy
 from versionman.pep440_semver import PEP440SemVer
+import pyshellman
 
 from proman import runner
 from proman.dtype import RepoFileType, InitCheckAction
@@ -157,6 +158,7 @@ class EventHandler:
         self._git_base, self._git_head = init_git_api()
         self._path_base = self._git_base.repo_path
         self._path_head = self._git_head.repo_path
+        self._shell_runner_head = pyshellman.Runner(cwd=self._path_head, logger=logger)
         self._jinja_env_vars = {
             "event": self.gh_context.event_name.value,
             "action": self.gh_context.event.action.value if "action" in self.gh_context.event else "",
@@ -415,24 +417,24 @@ class EventHandler:
                 summary="Hooks are disabled for this event type.",
             )
             return
-        config = branch_manager.data["workflow.refactor.pre_commit_config"]
-        logger.info(
-            "Pre-commit Config",
-            str(config)
-        )
-        if not config:
-            if not internal:
-                oneliner = "Hooks are enabled but no pre-commit config set in <code>$.workflow.refactor.pre_commit_config</code>."
-                logger.error(
-                    "Pre-commit Config",
-                    oneliner
-                )
-                self.reporter.add(
-                    name="hooks",
-                    status="fail",
-                    summary=oneliner,
-                )
-            return None
+        # config = branch_manager.data["workflow.refactor.pre_commit_config"]
+        # logger.info(
+        #     "Pre-commit Config",
+        #     str(config)
+        # )
+        # if not config:
+        #     if not internal:
+        #         oneliner = "Hooks are enabled but no pre-commit config set in <code>$.workflow.refactor.pre_commit_config</code>."
+        #         logger.error(
+        #             "Pre-commit Config",
+        #             oneliner
+        #         )
+        #         self.reporter.add(
+        #             name="hooks",
+        #             status="fail",
+        #             summary=oneliner,
+        #         )
+        #     return None
         input_action = (
             action
             if action in [InitCheckAction.REPORT, InitCheckAction.AMEND, InitCheckAction.COMMIT]
@@ -446,14 +448,17 @@ class EventHandler:
             pr_branch = self.manager.branch.new_auto(auto_type="refactor")
             branch_manager.branch.checkout_to_auto(branch=pr_branch)
         try:
-            hooks_output = runner.refactor.run(
-                git=branch_manager.git,
-                ref_range=ref_range,
-                action=input_action.value,
-                commit_message=str(commit_msg),
-                config=config,
-                reporter=self.reporter,
+            shell_output = self._shell_runner_head.run(
+                ["bash", "-i", "-c", "lint-ci"]
             )
+            # hooks_output = runner.refactor.run(
+            #     git=branch_manager.git,
+            #     ref_range=ref_range,
+            #     action=input_action.value,
+            #     commit_message=str(commit_msg),
+            #     config=config,
+            #     reporter=self.reporter,
+            # )
         except Exception as e:
             self._reporter.add(
                 name="hooks",
@@ -462,6 +467,7 @@ class EventHandler:
                 body=str(e),
             )
             raise ProManException()
+        hooks_output = _ps.read.json_from_string(shell_output.out)
         passed = hooks_output["passed"]
         modified = hooks_output["modified"]
         commit_hash = None

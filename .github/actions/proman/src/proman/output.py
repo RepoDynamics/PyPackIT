@@ -177,10 +177,11 @@ class OutputManager:
                 "version": self.version,
             }
         }
-        out["name"] = self._fill_jinja(
-            job_config["name"],
-            env_vars=out["job"] | self._jinja_env_vars,
-        )
+        out["name"] = "Lint"
+        # out["name"] = self._fill_jinja(
+        #     job_config["name"],
+        #     env_vars=out["job"] | self._jinja_env_vars,
+        # )
         self._out_lint.append(out)
         return
 
