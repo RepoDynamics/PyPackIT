@@ -6,6 +6,7 @@ import argparse
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING
+import json
 
 import ansi_sgr as sgr
 import mdit
@@ -421,4 +422,4 @@ if __name__ == "__main__":
         all_files=args.all_files,
         ref_range=(args.from_ref, args.to_ref) if args.from_ref else None,
     )
-    logger.info("Output", out)
+    print(json.dumps(out, indent=3), flush=True)
