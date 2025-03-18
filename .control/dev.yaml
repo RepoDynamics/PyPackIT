@@ -449,6 +449,14 @@ devcontainer_main:
           content: |
             set -eux
             python -m build
+      variable:
+        log_level:
+          summary: Log level for the versioningit tool during build.
+          description: |
+            See the [versioningit documentation](https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable)
+            for more information.
+          key: VERSIONINGIT_LOG_LEVEL
+          value: DEBUG
 #      task:
 #        build-sdist:
 #          name: Build Python SDist
