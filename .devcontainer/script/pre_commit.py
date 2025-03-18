@@ -139,7 +139,6 @@ class PreCommitHooks:
             "Skipped": "muted",
             "Modified": "warning",
         }
-        self._commit_hash: str = ""
         return
 
     def run(self) -> dict:
@@ -285,9 +284,8 @@ class PreCommitHooks:
             "passed": passed,
             "modified": modified,
             "summary": summary,
-            "body": body,
+            "description": body,
             "section": [output["report"] for output in outputs],
-            "commit_hash": self._commit_hash,
         }
 
 
@@ -422,4 +420,6 @@ if __name__ == "__main__":
         all_files=args.all_files,
         ref_range=(args.from_ref, args.to_ref) if args.from_ref else None,
     )
+    out.pop("section")
+    out["description"] = out["description"].source(target="github", filters=["short, github"])
     print(json.dumps(out, indent=3), flush=True)
