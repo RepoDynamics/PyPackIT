@@ -12,11 +12,15 @@ build-conda() {
 }
 
 _conda-build() {
-    conda run --name base --live-stream -vv python .devcontainer/script/build_conda.py "$@"
+    conda run --name base --live-stream -vv python .devcontainer/script/build_conda.py .local/temp/build-conda "$@"
 }
 
 build-python() {
-    conda run --name pybuild --live-stream -vv python .devcontainer/script/build_python.py "$@"
+    conda run --name pybuild --live-stream -vv python .devcontainer/script/build_python.py .local/temp/build-python "$@"
+}
+
+render-readme() {
+    conda run --name pybuild --live-stream -vv python .devcontainer/script/render_readme.py .local/temp/readme-pypi "$@"
 }
 
 version() {

@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6226,10 +6226,14 @@
             "task": {
                "_conda-build": {
                   "alias": "_conda-build",
+                  "data": {
+                     "output_path": ".local/temp/build-conda"
+                  },
                   "name": "Build Conda Package",
                   "process": [
                      "python",
                      ".devcontainer/script/build_conda.py",
+                     ".local/temp/build-conda",
                      "$@"
                   ],
                   "summary": "Build a Conda package from a recipe using `conda build`."
@@ -7303,6 +7307,21 @@
                   "process": [
                      "python",
                      ".devcontainer/script/build_python.py",
+                     ".local/temp/build-python",
+                     "$@"
+                  ]
+               },
+               "render-readme": {
+                  "alias": "render-readme",
+                  "data": {
+                     "output_path": ".local/temp/readme-pypi"
+                  },
+                  "description": "Render a Python package's README file to HTML.",
+                  "name": "Render README",
+                  "process": [
+                     "python",
+                     ".devcontainer/script/render_readme.py",
+                     ".local/temp/readme-pypi",
                      "$@"
                   ]
                }
@@ -7512,9 +7531,6 @@
       "task": {
          "build-conda": {
             "alias": "build-conda",
-            "data": {
-               "output_path": ".local/temp/build-conda"
-            },
             "description": "This script takes one required positional argument: the ID of the package to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments,\nwhich are passed directly to the `conda build` command.\n",
             "name": "Build Conda Package",
             "script": "_conda-build \"$(version)\" \"$@\"",
@@ -7698,7 +7714,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
