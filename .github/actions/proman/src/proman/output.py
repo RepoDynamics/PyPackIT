@@ -298,7 +298,7 @@ class OutputManager:
                 "repository": self._repository,
                 "ref": self._ref_name,
                 "pkg_id": key.removeprefix("pypkg_"),
-                "conda_channel_path": self._branch_manager["devcontainer_main"]["task"]["build-conda"]["data"]["local_channel_path"],
+                "conda_channel_path": self._branch_manager.data["devcontainer_main"]["task"]["build-conda"]["data"]["local_channel_path"],
                 "pkg": value,
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
