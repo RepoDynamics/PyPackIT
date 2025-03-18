@@ -37,7 +37,7 @@ def main(
     # Ensure the output folder exists
     output_folder = Path(
         _METADATA["devcontainer_main"]["environment"]["pybuild"]["task"]["build-python"]["data"]["output_path"]
-    ).resolve()
+    ).resolve() / pkg["import_name"]
     output_folder.mkdir(parents=True, exist_ok=True)
     # Build command
     build_command = (
@@ -75,7 +75,7 @@ def main(
     # Refs:
     #    https://twine.readthedocs.io/en/stable/#twine-check
     #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-    subprocess.run(["twine", "check", str(output_folder / "*")], check=True, stdout=sys.stderr)  # noqa: S603
+    subprocess.run(["twine", "check", str(output_folder / "*.{whl,tar.gz}")], check=True, stdout=sys.stderr)  # noqa: S603
     return output_folder
 
 
@@ -90,6 +90,6 @@ if __name__ == "__main__":
     )
     args = vars(parser.parse_args())
     _logger.info("Input Arguments: %s", args)
-    local_channel_path = main(**args)
-    print(local_channel_path)
+    output_path = main(**args)
+    print(output_path)
     sys.exit()
