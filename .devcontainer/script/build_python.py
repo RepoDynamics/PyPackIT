@@ -29,16 +29,15 @@ _logger = logging.getLogger(__name__)
 
 def main(
     pkg_id: str,
+    out_dir: str | Path,
     extra_args: list[str] | None = None,
 ) -> Path:
     """Generate and run conda build command."""
     pkg = _METADATA[f"pypkg_{pkg_id}"]
     pkg_path = Path(pkg["path"]["root"]).resolve()
     # Ensure the output folder exists
-    output_folder = Path(
-        _METADATA["devcontainer_main"]["environment"]["pybuild"]["task"]["build-python"]["data"]["output_path"]
-    ).resolve() / pkg["import_name"]
-    output_folder.mkdir(parents=True, exist_ok=True)
+    output_dir = Path(out_dir).resolve() / pkg["import_name"]
+    output_dir.mkdir(parents=True, exist_ok=True)
     # Build command
     build_command = (
         [
@@ -47,24 +46,13 @@ def main(
             "build",
             str(pkg_path),
             "--outdir",
-            str(output_folder),
+            str(output_dir),
             "--verbose",
         ] + (extra_args or [])
     )
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
     subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
-    # Run readme-renderer
-    readme_relpath = pkg["pyproject"]["project"].get("readme")
-    if isinstance(readme_relpath, dict):
-        readme_relpath = readme_relpath.get("file")
-    if readme_relpath:
-        readme_path = pkg_path / readme_relpath
-        subprocess.run(
-            ["python", "-m", "readme_renderer", str(readme_path), "--output", str(output_folder / "README.html")],
-            check=True,
-            stdout=sys.stderr
-        )  # noqa: S603
     # Run twine check
     # Note:
     #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
@@ -75,13 +63,16 @@ def main(
     # Refs:
     #    https://twine.readthedocs.io/en/stable/#twine-check
     #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-    subprocess.run(["twine", "check", str(output_folder / "*.{whl,tar.gz}")], check=True, stdout=sys.stderr)  # noqa: S603
-    return output_folder
+    subprocess.run(["twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)  # noqa: S603
+    return output_dir
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Python package in the project.")
+    parser.add_argument(
+        "out_dir", help="Output directory to write the rendered README file."
+    )
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
     )
