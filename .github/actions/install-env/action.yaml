@@ -139,7 +139,7 @@ runs:
       run: |
         # Source task scripts.
         while IFS= read -r task_filepath; do
-          echo 'source "'"$task_filepath"'"' | tee -a ~/.profile
+          printf '\nsource "%s"\n' "$task_filepath" | tee -a ~/.profile
         done <<< "$TASK_FILEPATHS"
     - name: Debug
       shell: bash -el {0}
