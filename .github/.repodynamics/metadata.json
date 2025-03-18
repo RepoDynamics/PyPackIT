@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6229,7 +6229,7 @@
                   "name": "Build Conda Package",
                   "process": [
                      "python",
-                     ".devcontainer/script/base/build-conda.py",
+                     ".devcontainer/script/base/build_conda.py",
                      "$@"
                   ],
                   "summary": "Build a Conda package from a recipe using `conda build`."
@@ -7247,40 +7247,6 @@
             }
          },
          "pybuild": {
-            "file": {
-               "script_pypkg_build": {
-                  "content": "set -eux\npython -m build\n",
-                  "content_setting": {
-                     "prefix": "",
-                     "separator": "\n",
-                     "suffix": ""
-                  },
-                  "file_setting": {
-                     "eof_newline": true,
-                     "json": {
-                        "indent": 3
-                     },
-                     "md": {
-                        "heading_number": false,
-                        "target": "github"
-                     },
-                     "sort_keys": true,
-                     "yaml": {
-                        "block_string": true,
-                        "mapping_indent": 2,
-                        "remove_top_level_indent": true,
-                        "sequence_indent": 4,
-                        "sequence_indent_offset": 2
-                     }
-                  },
-                  "name": "Build Python Package",
-                  "path": ".devcontainer/script/pybuild.sh",
-                  "status": "active",
-                  "summary": "Script to build a Python package using the `build` tool.",
-                  "type": "txt",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/script/pybuild.sh"
-               }
-            },
             "name": "pybuild",
             "path": ".devcontainer/environment/conda/pybuild.yaml",
             "pip": {
@@ -7324,6 +7290,21 @@
                      "package": "https://pypi.org/project/twine/",
                      "source": "https://github.com/pypa/twine"
                   }
+               }
+            },
+            "task": {
+               "build-python": {
+                  "alias": "build-python",
+                  "data": {
+                     "output_path": ".local/temp/build-python"
+                  },
+                  "description": "Build a distribution for a Python package.",
+                  "name": "Build Python Package",
+                  "process": [
+                     "python",
+                     ".devcontainer/script/build_python.py",
+                     "$@"
+                  ]
                }
             },
             "variable": {
@@ -7532,7 +7513,7 @@
          "build-conda": {
             "alias": "build-conda",
             "data": {
-               "local_channel_path": ".local/temp/conda"
+               "output_path": ".local/temp/build-conda"
             },
             "description": "This script takes one required positional argument: the ID of the package to build.\nThe package ID is the suffix of the corresponding \"pypkg_\" key in the configuration.\nFor example, for a package with the key \"pypkg_main\", the package ID is \"main\".\n\nIn addition, the script accepts any number of extra arguments,\nwhich are passed directly to the `conda build` command.\n",
             "name": "Build Conda Package",
@@ -7717,7 +7698,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -20963,7 +20944,6 @@
             "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
             "devcontainer_main_pre_commit_pre_commit_config_ci": ".devcontainer/config/pre-commit-ci.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
-            "devcontainer_main_pybuild_script_pypkg_build": ".devcontainer/script/pybuild.sh",
             "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
             "file_binder_conda": ".binder_config/environment.yml",
             "file_citation_cff": "CITATION.cff",
