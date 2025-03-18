@@ -19,7 +19,7 @@ on:
         value: ${{ jobs.hash-digest.outputs.hashes }}
 jobs:
   pure:
-    name: ${{ fromJSON(inputs.config).pkg.python.pure && 'Pure Python' || 'Source Distribution' }}
+    name: ${{ fromJSON(inputs.config).pure_python && 'Source & Binary Distributions' || 'Source Distribution' }}
     runs-on: ubuntu-latest
     steps:
       - name: Repository Checkout
@@ -28,87 +28,30 @@ jobs:
           repository: ${{ fromJSON(inputs.config).repository }}
           ref: ${{ fromJSON(inputs.config).ref }}
           fetch-depth: 0
-          path: repo
-      - name: Python Setup
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
       - name: Environment Setup
-        shell: bash
-        run: |
-          echo "::group::Requirements Installation"
-          python -m pip install --upgrade pip build twine versioningit readme-renderer[md]
-          echo "::endgroup::"
-          echo "::group::Environment Overview"
-          python3 -c "import sys; print(sys.version)"
-          python3 -m pip list
-          echo "::endgroup::"
+        id: setup
+        uses: ./.github/actions/install-env
+        with:
+          load_cache: 'false'
       - name: Build
         shell: bash
         id: build
-        env:
-          PURE_PYTHON: ${{ fromJSON(inputs.config).pkg.python.pure }}
-          PKG_PATH: repo/${{ fromJSON(inputs.config).pkg.path.root }}
-          VERSIONINGIT_LOG_LEVEL: DEBUG  # https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable
         run: |
-          echo "::group::Latest Git Tag"
-          git -C repo describe || true
-          echo "::endgroup::"
-
-          echo "::group::Versioning"
-          VERSION=$(versioningit $PKG_PATH --verbose)
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "::endgroup::"
-
-          echo "::group::Package Directory Overview"
-          ls -la "$PKG_PATH"
-          echo "::endgroup::"
-
-          echo "::group::Package Files Overview"
-          find "$PKG_PATH" -ls
-          echo "::endgroup::"
-
-          if $PURE_PYTHON; then
-            echo "::group::Source & Build Distribution"
-            python -m build $PKG_PATH --outdir ./dist --verbose
-            echo "::endgroup::"
-          else
-            echo "::group::Source Distribution"
-            python -m build $PKG_PATH --outdir ./dist --sdist --verbose
-            echo "::endgroup::"
-          fi
-      - name: PyPI README Check
-        if: fromJSON(inputs.config).pkg.readme
-        # Note:
-        #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
-        #    reStructuredText (reST) READMEs; it always passes for Markdown content
-        #    (cf. `twine.commands.check._RENDERERS` (https://github.com/pypa/twine/blob/4f7cd66fa1ceba7f8de5230d3d4ebea0787f17e5/twine/commands/check.py#L32-L37))
-        #    and thus cannot be used to validate Markdown.
-        #    It is used here only to check the existence of the README file in the built distributions.
-        # Refs:
-        #    https://twine.readthedocs.io/en/stable/#twine-check
-        #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-        run: twine check ./dist/*
-      - name: PyPI README Render
-        if: fromJSON(inputs.config).pkg.readme.file
-        shell: bash
-        run: >-
-          python -m readme_renderer
-          'repo/${{ fromJSON(inputs.config).pkg.readme.file }}'
-          --output ./README.html
+          output_path=$(${{ fromJSON(inputs.config).build_command }})
+          echo "output_path=$output_path" >> "$GITHUB_OUTPUT"
       - name: Source Distribution Upload
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/*.tar.gz
+          path: ${{ steps.build.outputs.output_path }}/*.tar.gz
           name: ${{ fromJSON(inputs.config).artifact.sdist.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.sdist.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.sdist.retention_days }}
       - name: Binary Distribution Upload
-        if: ${{ !cancelled() && fromJSON(inputs.config).pkg.python.pure }}
+        if: ${{ !cancelled() && fromJSON(inputs.config).pure_python }}
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/*.whl
+          path: ${{ steps.build.outputs.output_path }}/*.whl
           name: ${{ fromJSON(inputs.config).artifact.wheel.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.wheel.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.wheel.retention_days }}
@@ -116,7 +59,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          path: ./README.html
+          path: ${{ steps.build.outputs.output_path }}/*.html
           name: ${{ fromJSON(inputs.config).artifact.readme.name }}
           include-hidden-files: ${{ fromJSON(inputs.config).artifact.readme.include_hidden }}
           retention-days: ${{ fromJSON(inputs.config).artifact.readme.retention_days }}
@@ -177,8 +120,10 @@ jobs:
           load_cache: 'false'
       - name: Build
         id: build
+        env:
+          PKG_ID: ${{ fromJSON(inputs.config).pkg_id }}
         run: |
-          output_channel_path=$(build-conda ${{ fromJSON(inputs.config).pkg_id }})
+          output_channel_path=$(build-conda $PKG_ID)
           echo "output_channel_path=$output_channel_path" >> "$GITHUB_OUTPUT"
       - name: Build Upload
         uses: actions/upload-artifact@v4
