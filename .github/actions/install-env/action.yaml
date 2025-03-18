@@ -30,7 +30,7 @@ runs:
   steps:
     - name: Action Path
       id: path
-      shell: bash -el {0}
+      shell: bash
       run: |
         # Get the absolute path to the action directory.
         echo "action_path=$(realpath --no-symlinks "${{ github.action_path }}")" >> "$GITHUB_OUTPUT"
@@ -43,7 +43,7 @@ runs:
         cache: pip
         cache-dependency-path: ${{ steps.path.outputs.action_path }}/requirements.txt
     - name: Environment Setup
-      shell: bash -el {0}
+      shell: bash
       run: |
         # Install action requirements
         echo "::group::pip install"
@@ -68,7 +68,7 @@ runs:
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
     - name: Task Sourcing
-      shell: bash -el {0}
+      shell: bash
       env:
         TASK_FILEPATHS: ${{ steps.script.outputs.task_filepaths }}
       run: |
@@ -77,7 +77,7 @@ runs:
           echo 'source "'"$task_filepath"'"' | tee -a ~/.bashrc ~/.bash_profile
         done <<< "$TASK_FILEPATHS"
     - name: Debug
-      shell: bash -el {0}
+      shell: bash
       run: |
         echo ::group::❌❌Debug
         echo "HOME: $HOME"
@@ -99,7 +99,7 @@ runs:
           ${{ (inputs.activate_env != 'base' && inputs.activate_env) || '' }}
         auto-activate-base: ${{ steps.script.outputs.activate_env == 'base' }}
     - name: Debug
-      shell: bash -el {0}
+      shell: bash
       run: |
         echo ::group::❌❌Debug
         echo "HOME: $HOME"
