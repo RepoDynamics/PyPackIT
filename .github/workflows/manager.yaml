@@ -61,6 +61,15 @@ jobs:
       run:
         shell: bash -el {0}
     steps:
+      - name: Bashrc
+        shell: bash
+        run: |
+          echo ::group::bashrc
+          cat ~/.bashrc
+          echo ::endgroup::
+          echo ::group::bash_profile
+          cat ~/.bash_profile
+          echo ::endgroup::
       - name: Base Repository Checkout
         uses: actions/checkout@v4
         with:
@@ -78,15 +87,6 @@ jobs:
           ref: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.ref) || github.ref }}
           path: ${{ env.PATH_REPO_HEAD }}
           fetch-depth: 0
-      - name: Environment Setup
-        id: setup
-        uses: ./repo_head/.github/actions/install-env
-        with:
-          repo_path: ${{ env.PATH_REPO_HEAD }}
-          load_cache: 'true'
-          activate_env: proman
-      - name: ProMan Setup
-        run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
       - name: Bashrc
         shell: bash
         run: |
@@ -96,6 +96,24 @@ jobs:
           echo ::group::bash_profile
           cat ~/.bash_profile
           echo ::endgroup::
+      - name: Environment Setup
+        id: setup
+        uses: ./repo_head/.github/actions/install-env
+        with:
+          repo_path: ${{ env.PATH_REPO_HEAD }}
+          load_cache: 'true'
+          activate_env: proman
+      - name: Bashrc
+        shell: bash
+        run: |
+          echo ::group::bashrc
+          cat ~/.bashrc
+          echo ::endgroup::
+          echo ::group::bash_profile
+          cat ~/.bash_profile
+          echo ::endgroup::
+      - name: ProMan Setup
+        run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
       - name: ProMan
         id: proman
         env:
