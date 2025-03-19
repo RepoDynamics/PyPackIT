@@ -109,6 +109,8 @@ devfeature_pkg_setup:
         - run
         - --name
         - app
+        - --live-stream
+        - -vv
         - pip
         - install
         - --editable
@@ -119,6 +121,8 @@ devfeature_pkg_setup:
         - run
         - --name
         - app
+        - --live-stream
+        - -vv
         - pip
         - install
         - --editable
@@ -286,6 +290,19 @@ devcontainer_main:
         - --install-hooks
         - --config
         - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
+    postStartCommand:
+      pypackit_install:
+        - conda
+        - run
+        - --name
+        - ${{ devcontainer_main.environment.pypackit.name }}$
+        - --live-stream
+        - -vv
+        - pip
+        - install
+        - --editable
+        - ${{ pypkg_ci.path.root }}$
+        - --no-deps
     customizations:
       vscode:
         extensions:
@@ -957,7 +974,9 @@ devcontainer_main:
             docs: https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client
             package: https://anaconda.org/conda-forge/anaconda-client
             source: https://github.com/anaconda/anaconda-client
-    proman:
+    pypackit:
+      task:
+
       conda: |
         #{{
           py_ver = get("pypkg_ci.python.version.spec")
