@@ -834,6 +834,10 @@ devcontainer_main:
                 - ISC001
                 - ISC002
               per-file-ignores:
+                .devcontainer/script/**:
+                  - T201
+                  - S603
+                  - S607
                 '${{ pypkg_test.path.source }}$/**':
                   - S101
                 template/test/src/**:
