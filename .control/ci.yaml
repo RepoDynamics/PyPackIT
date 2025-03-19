@@ -187,7 +187,7 @@ pypkg_ci:
       versionman:
         install:
           pip:
-            version: ==0.1.0
+            version: ==0.1.1
             homepage: https://pypi.org/project/versionman
         url:
           docs: https://versionman.repodynamics.com
