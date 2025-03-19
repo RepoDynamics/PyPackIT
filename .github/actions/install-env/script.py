@@ -1,3 +1,5 @@
+"""Run the installation script."""
+
 from __future__ import annotations
 
 import hashlib
@@ -12,13 +14,15 @@ def main(
     repo_path: str | Path,
     devcontainer_keys: list[str] | str | None = None,
 ) -> dict[str, str]:
+    """Run the action script."""
     repo_path = Path(repo_path).resolve()
     if devcontainer_keys and isinstance(devcontainer_keys, str):
         devcontainer_keys = devcontainer_keys.split(",")
 
     metadata_filepath = repo_path / ".github/.repodynamics/metadata.json"
     if not metadata_filepath.is_file():
-        raise FileNotFoundError(f"Metadata file not found: {metadata_filepath}")
+        err_msg = f"Metadata file not found: {metadata_filepath}"
+        raise FileNotFoundError(err_msg)
     metadata = json.loads(metadata_filepath.read_text())
 
     out = {
@@ -75,7 +79,8 @@ def hash_files(filepaths: list[str]) -> str:
     for filepath_str in filepaths:
         filepath = Path(filepath_str)
         if not filepath.is_file():
-            raise FileNotFoundError(f"File not found: {filepath}")
+            err_msg = f"File not found: {filepath}"
+            raise FileNotFoundError(err_msg)
         hash_obj = hashlib.sha256()
         with filepath.open("rb") as f:
             # Read in chunks to handle large files efficiently
@@ -100,6 +105,9 @@ if __name__ == "__main__":
         title="script outputs",
     )
     for key, value in outputs.items():
-        if key in ("env_filepaths", "apt_filepaths", "task_filepaths", "env_names"):
-            value = "\n".join(value)
+        out_val = (
+            "\n".join(value)
+            if key in ("env_filepaths", "apt_filepaths", "task_filepaths", "env_names")
+            else value
+        )
         actionman.step_output.write(key, value)
