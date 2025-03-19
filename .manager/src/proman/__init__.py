@@ -7,6 +7,7 @@ import github_contexts as _github_contexts
 from github_contexts.github.enum import EventType as _EventType
 from loggerman import logger as _logger
 import mdit
+import pyserials as ps
 
 from proman import exception as _exception, event_handler as _handler
 from proman.output import OutputManager
@@ -114,14 +115,20 @@ def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter
     )
     filename = (
         f"{github_context.repository_name}-workflow-run"
-        f"-{github_context.run_id}-{github_context.run_attempt}.{{}}.html"
+        f"-{github_context.run_id}-{github_context.run_attempt}.{{}}.{{}}"
     )
     dir_path = Path(repo_path) / report_path / "proman"
     dir_path.mkdir()
-    with open(dir_path / filename.format("report"), "w") as f:
-        f.write(report_full)
-    with open(dir_path / filename.format("log"), "w") as f:
-        f.write(log_html)
+
+    output_str = ps.write.to_json_string(output, sort_keys=True, indent=3)
+
+    for file_data, file_suffix, file_ext in (
+        (output_str, "output", "json"),
+        (report_full, "report", "html"),
+        (log_html, "log", "html"),
+    ):
+        file = dir_path / filename.format(file_suffix, file_ext)
+        file.write_text(file_data)
     return
 
 
