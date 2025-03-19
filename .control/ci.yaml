@@ -192,8 +192,6 @@ pypkg_ci:
         url:
           docs: https://versionman.repodynamics.com
           source: https://github.com/repodynamics/versionman
-
-
   pyproject:
     build-system:
       build-backend: setuptools.build_meta
