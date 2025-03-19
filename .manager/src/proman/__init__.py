@@ -99,19 +99,19 @@ def run():
 
 @_logger.sectioner("Output Generation")
 def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter, output_writer: OutputManager, repo_path: str):
-    output, report_path = output_writer.generate(failed=reporter.failed)
-    _write_step_outputs(output)
+    workflow_output, report_path = output_writer.generate(failed=reporter.failed)
+    _write_step_outputs(workflow_output)
 
     report_gha, report_full = reporter.generate()
     _write_step_summary(report_gha)
 
     log = _logger.report
-    target_config, output = make_sphinx_target_config()
+    target_config, sphinx_output = make_sphinx_target_config()
     log.target_configs["sphinx"] = target_config
     log_html = log.render(target="sphinx")
     _logger.info(
         "Log Generation Logs",
-        mdit.element.rich(Text.from_ansi(output.getvalue())),
+        mdit.element.rich(Text.from_ansi(sphinx_output.getvalue())),
     )
     filename = (
         f"{github_context.repository_name}-workflow-run"
@@ -120,7 +120,7 @@ def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter
     dir_path = Path(repo_path) / report_path / "proman"
     dir_path.mkdir()
 
-    output_str = ps.write.to_json_string(output, sort_keys=True, indent=3, default=str)
+    output_str = ps.write.to_json_string(workflow_output, sort_keys=True, indent=3, default=str)
 
     for file_data, file_suffix, file_ext in (
         (output_str, "output", "json"),
