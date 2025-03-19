@@ -4,7 +4,7 @@ import mdit as _mdit
 import pyserials as _ps
 from loggerman import logger as _logger
 
-from controlman.exception import ControlManException as _ControlManException
+from controlman.exception.base import ControlManException as _ControlManException
 
 
 class RemoteGitHubRepoNotFoundError(_ControlManException):
