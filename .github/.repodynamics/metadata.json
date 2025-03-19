@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(42%) sepia(100%) saturate(798%) hue-rotate(75deg) brightness(92%) contrast(103%)",
+                  "light": "invert(18%) sepia(28%) saturate(5193%) hue-rotate(101deg) brightness(100%) contrast(104%)"
                }
             }
          },
@@ -7385,9 +7385,9 @@
                "pycolorit": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "pycolorit ==0.1.0",
+                     "full": "pycolorit ==0.1.1",
                      "name": "pycolorit",
-                     "version": "==0.1.0"
+                     "version": "==0.1.1"
                   }
                },
                "pylinks": {
@@ -7808,7 +7808,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -21643,8 +21643,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/pycolorit",
                      "name": "pycolorit",
-                     "spec": "pycolorit ==0.1.0",
-                     "version": "==0.1.0"
+                     "spec": "pycolorit ==0.1.1",
+                     "version": "==0.1.1"
                   }
                },
                "name": "pycolorit",
@@ -21870,7 +21870,7 @@
                "mdit ==0.1.0",
                "packaging ==24.2",
                "pkgdata ==0.1.0",
-               "pycolorit ==0.1.0",
+               "pycolorit ==0.1.1",
                "pylinks ==0.1.0",
                "pyserials ==0.1.0",
                "pyshellman ==0.1.0",

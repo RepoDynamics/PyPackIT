@@ -23,7 +23,7 @@ dependencies = [
     "mdit ==0.1.0",
     "packaging ==24.2",
     "pkgdata ==0.1.0",
-    "pycolorit ==0.1.0",
+    "pycolorit ==0.1.1",
     "pylinks ==0.1.0",
     "pyserials ==0.1.0",
     "pyshellman ==0.1.0",
