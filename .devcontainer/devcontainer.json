@@ -134,7 +134,7 @@
                ],
                "version": "2.0.0"
             },
-            "terminal.integrated.scrollback": 100000
+            "terminal.integrated.scrollback": 1000000
          }
       }
    },

@@ -2,7 +2,7 @@ cache-dir = ".local/cache/ruff"
 fix = true
 line-length = 100
 output-format = "grouped"
-required-version = "== 0.9.9"
+required-version = ">=0.11,<0.12"
 show-fixes = true
 src = ["pkg/src", "test/src"]
 target-version = "py310"
