@@ -815,6 +815,8 @@ devcontainer_main:
               docstring-code-format: true
             lint:
               allowed-confusables: [ '–' ]
+              exclude:
+                - .manager/**/*.py
               ignore:
                 - PLR1711  # https://docs.astral.sh/ruff/rules/useless-return/
                 # Rules conflicting with the formatter (see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
@@ -835,6 +837,10 @@ devcontainer_main:
                 - ISC002
               per-file-ignores:
                 .devcontainer/script/**:
+                  - T201
+                  - S603
+                  - S607
+                .github/**:
                   - T201
                   - S603
                   - S607
