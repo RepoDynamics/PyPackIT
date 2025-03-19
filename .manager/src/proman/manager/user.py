@@ -1,24 +1,24 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import re
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import pyserials as ps
-from controlman import data_helper
 import pylinks
+from controlman import data_helper
 
 from proman.dstruct import User
 from proman.manager.contributor import ContributorManager
 
 if _TYPE_CHECKING:
     from typing import Literal
+
     from github_contexts.github.payload.object.issue import Issue
     from github_contexts.github.payload.object.pull_request import PullRequest
+
     from proman.manager import Manager
 
 
 class UserManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         self._gh_api = pylinks.api.github(token=self._manager.gh_context.token)
@@ -45,14 +45,16 @@ class UserManager:
                 member=bool(self._manager.data["team"].get(entity_id)),
                 data=entity,
             )
-        elif entity_id["member"]:
+        if entity_id["member"]:
             return self.from_member_id(entity_id["id"])
         return self.from_contributor_id(entity_id["id"])
 
     def from_member_id(self, member_id: str) -> User:
         member = self._manager.data["team"].get(member_id)
         if not member:
-            raise ValueError(f"No member data found in the data branch or main data for member ID {member_id}.")
+            raise ValueError(
+                f"No member data found in the data branch or main data for member ID {member_id}."
+            )
         return User(
             id=member_id,
             member=True,
@@ -63,7 +65,8 @@ class UserManager:
         contributor = self._contributors.get(contributor_id)
         if not contributor:
             raise ValueError(
-                f"No member data found in the data branch or main data for contributor ID {contributor_id}.")
+                f"No member data found in the data branch or main data for contributor ID {contributor_id}."
+            )
         return User(
             id=contributor_id,
             member=False,
@@ -71,9 +74,7 @@ class UserManager:
         )
 
     def from_issue_form_id(
-        self,
-        issue_form_id: str,
-        assignment: Literal["issue", "pull", "review"]
+        self, issue_form_id: str, assignment: Literal["issue", "pull", "review"]
     ) -> list[User]:
         out = []
         for member_id, member in self._manager.data["team"].items():
@@ -107,7 +108,7 @@ class UserManager:
             entity={"github": {"rest_id": github_id}},
             github_api=self._gh_api,
             cache_manager=self._manager.cache,
-            )[0]
+        )[0]
         user = User(id=github_id, member=False, data=data)
         if add_to_contributors:
             self._contributors.add(user=user)
@@ -128,7 +129,7 @@ class UserManager:
             entity={"github": {"id": username}},
             github_api=self._gh_api,
             cache_manager=self._manager.cache,
-            )[0]
+        )[0]
         user = User(id=data["github"]["rest_id"], member=False, data=data)
         if add_to_contributors:
             self._contributors.add(user=user)
@@ -141,15 +142,21 @@ class UserManager:
         add_to_contributors: bool = False,
     ):
         for member_id, member_data in self._manager.data["team"].items():
-            if member_data["name"]["full"] == name and member_data.get("email", {}).get("id") == email:
+            if (
+                member_data["name"]["full"] == name
+                and member_data.get("email", {}).get("id") == email
+            ):
                 return User(id=member_id, member=True, data=member_data)
         for contributor_id, contributor_data in self._contributors.items():
-            if contributor_data["name"]["full"] == name and contributor_data.get("email", {}).get("id") == email:
+            if (
+                contributor_data["name"]["full"] == name
+                and contributor_data.get("email", {}).get("id") == email
+            ):
                 return User(id=contributor_id, member=False, data=contributor_data)
         user = User(
             id=f"{name}_{email}",
             member=False,
-            data={"name": {"full": name}, "email": {"id": email, "url": f"mailto:{email}"}}
+            data={"name": {"full": name}, "email": {"id": email, "url": f"mailto:{email}"}},
         )
         if add_to_contributors:
             self._contributors.add(user=user)

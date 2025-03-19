@@ -11,11 +11,11 @@ from proman.main import EventHandler
 if TYPE_CHECKING:
     from github_contexts.github.payload import PullRequestPayload
     from github_contexts.github.payload.object import PullRequest
+
     from proman.dstruct import Branch
 
 
 class PullRequestTargetEventHandler(EventHandler):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.payload: PullRequestPayload = self.gh_context.event
@@ -30,14 +30,14 @@ class PullRequestTargetEventHandler(EventHandler):
 
     def run(self):
         if self.payload.internal:
-            return
+            return None
         action = self.payload.action
         if action != _gh_context.enum.ActionType.OPENED:
             self.reporter.error_unsupported_triggering_action()
-            return
+            return None
         if self.branch_head.type is BranchType.DEV:
             return self.opened_head_dev()
-        return
+        return None
 
     def run_assigned(self):
         return

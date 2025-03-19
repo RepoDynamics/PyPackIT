@@ -19,7 +19,7 @@ properties:
     summary: Features to add to the dev container.
     description: |
       A list of [available features](https://containers.dev/features) can be found on the Dev Containers website.
-      Official features can be found in the 
+      Official features can be found in the
       [Dev Containers GitHub repository](https://github.com/devcontainers/features/tree/main/src).
     additionalProperties: true
   overrideFeatureInstallOrder:
@@ -624,10 +624,10 @@ properties:
                 summary: >-
                   [Tasks](https://code.visualstudio.com/docs/editor/tasks) configurations.
                 description: |
-                  This corresponds to the [`tasks.json`](https://code.visualstudio.com/docs/editor/tasks-appendix) 
+                  This corresponds to the [`tasks.json`](https://code.visualstudio.com/docs/editor/tasks-appendix)
                   configuration file in VS Code.
                   You can also use [variables](https://code.visualstudio.com/docs/editor/variables-reference)
-                  in the `command`, `args` and `options` 
+                  in the `command`, `args` and `options`
                   [fields](https://code.visualstudio.com/docs/editor/tasks#_variable-substitution).
                   Note that support for including tasks directly in the `devcontainer.json` file
                   might [change](https://github.com/microsoft/vscode-remote-release/issues/9951)

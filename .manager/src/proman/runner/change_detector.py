@@ -1,24 +1,22 @@
 from __future__ import annotations
-import re
-from typing import TYPE_CHECKING
-from pathlib import Path
 
-from controlman import const
+import re
+from pathlib import Path
+from typing import TYPE_CHECKING
+
 import htmp
 import mdit
+from controlman import const
 
 from proman.dtype import FileChangeType, RepoFileType
 
 if TYPE_CHECKING:
     from pyserials import NestedDict
+
     from proman.report import Reporter
 
 
-def run(
-    data: NestedDict,
-    changes: dict,
-    reporter: Reporter
-) -> dict[str, bool]:
+def run(data: NestedDict, changes: dict, reporter: Reporter) -> dict[str, bool]:
     change_type_map = {
         "added": FileChangeType.ADDED,
         "deleted": FileChangeType.REMOVED,
@@ -61,7 +59,7 @@ def _make_filetype_patterns(data: NestedDict):
         (RepoFileType.CONFIG, "Citation", const.FILEPATH_CITATION_CONFIG),
     ]
     paths_start = [
-        (RepoFileType.CC, "Custom Hook", f"{data["control.path"]}/{const.DIRNAME_CC_HOOK}/"),
+        (RepoFileType.CC, "Custom Hook", f"{data['control.path']}/{const.DIRNAME_CC_HOOK}/"),
     ]
     for key in ("pkg", "test"):
         key_data = data[key]
@@ -72,7 +70,11 @@ def _make_filetype_patterns(data: NestedDict):
         filetype = RepoFileType.PKG_CONFIG if key == "pkg" else RepoFileType.TEST_CONFIG
         paths_abs.extend(
             [
-                (filetype, "Typing Marker", f"{path_import}/{const.FILENAME_PACKAGE_TYPING_MARKER}"),
+                (
+                    filetype,
+                    "Typing Marker",
+                    f"{path_import}/{const.FILENAME_PACKAGE_TYPING_MARKER}",
+                ),
                 (filetype, "Manifest", f"{path_root}/{const.FILENAME_PACKAGE_MANIFEST}"),
                 (filetype, "PyProject", f"{path_root}/{const.FILENAME_PKG_PYPROJECT}"),
             ]
@@ -91,26 +93,60 @@ def _make_filetype_patterns(data: NestedDict):
             ]
         )
     if data["theme.path"]:
-        paths_start.append((RepoFileType.THEME, "–", f'{data["theme.path"]}/'))
+        paths_start.append((RepoFileType.THEME, "–", f"{data['theme.path']}/"))
     paths_regex = [
-        (RepoFileType.CC, "Source", re.compile(rf"^{re.escape(data["control.path"])}/[^/]+\.(?i:y?aml)$")),
-        (RepoFileType.ISSUE_FORM, None, re.compile(r"^\.github/ISSUE_TEMPLATE/(?!config\.ya?ml$)[^/]+\.(?i:y?aml)$")),
-        (RepoFileType.ISSUE_TEMPLATE, None, re.compile(r"^\.github/ISSUE_TEMPLATE/[^/]+\.(?i:md)$")),
-        (RepoFileType.CONFIG, "Issue Template Chooser", re.compile(r"^\.github/ISSUE_TEMPLATE/config\.(?i:y?aml)$")),
-        (RepoFileType.PULL_TEMPLATE, None,
-         re.compile(r"^(?:|\.github/|docs/)PULL_REQUEST_TEMPLATE/[^/]+(?:\.(txt|md|rst))?$")),
-        (RepoFileType.PULL_TEMPLATE, "default",
-         re.compile(r"^(?:|\.github/|docs/)pull_request_template(?:\.(txt|md|rst))?$")),
-        (RepoFileType.DISCUSSION_FORM, None, re.compile(r"^\.github/DISCUSSION_TEMPLATE/[^/]+\.(?i:y?aml)$")),
+        (
+            RepoFileType.CC,
+            "Source",
+            re.compile(rf"^{re.escape(data['control.path'])}/[^/]+\.(?i:y?aml)$"),
+        ),
+        (
+            RepoFileType.ISSUE_FORM,
+            None,
+            re.compile(r"^\.github/ISSUE_TEMPLATE/(?!config\.ya?ml$)[^/]+\.(?i:y?aml)$"),
+        ),
+        (
+            RepoFileType.ISSUE_TEMPLATE,
+            None,
+            re.compile(r"^\.github/ISSUE_TEMPLATE/[^/]+\.(?i:md)$"),
+        ),
+        (
+            RepoFileType.CONFIG,
+            "Issue Template Chooser",
+            re.compile(r"^\.github/ISSUE_TEMPLATE/config\.(?i:y?aml)$"),
+        ),
+        (
+            RepoFileType.PULL_TEMPLATE,
+            None,
+            re.compile(r"^(?:|\.github/|docs/)PULL_REQUEST_TEMPLATE/[^/]+(?:\.(txt|md|rst))?$"),
+        ),
+        (
+            RepoFileType.PULL_TEMPLATE,
+            "default",
+            re.compile(r"^(?:|\.github/|docs/)pull_request_template(?:\.(txt|md|rst))?$"),
+        ),
+        (
+            RepoFileType.DISCUSSION_FORM,
+            None,
+            re.compile(r"^\.github/DISCUSSION_TEMPLATE/[^/]+\.(?i:y?aml)$"),
+        ),
         (RepoFileType.CONFIG, "Code Owners", re.compile(r"^(?:|\.github/|docs/)CODEOWNERS$")),
         (RepoFileType.CONFIG, "License", re.compile(r"^LICENSE(?:\.(txt|md|rst))?$")),
         (RepoFileType.CONFIG, "Funding", re.compile(r"^\.github/FUNDING\.(?i:y?aml)$")),
-        (RepoFileType.README, "main", re.compile(r"^(?:|\.github/|docs/)README(?:\.(txt|md|rst|html))?$")),
+        (
+            RepoFileType.README,
+            "main",
+            re.compile(r"^(?:|\.github/|docs/)README(?:\.(txt|md|rst|html))?$"),
+        ),
         (RepoFileType.README, "–", re.compile(r"/README(?i:\.(txt|md|rst|html))?$")),
-        (RepoFileType.HEALTH, None, re.compile(
-            r"^(?:|\.github/|docs/)(?:(?i:CONTRIBUTING)|GOVERNANCE|SECURITY|SUPPORT|CODE_OF_CONDUCT)(?i:\.(txt|md|rst))?$")),
+        (
+            RepoFileType.HEALTH,
+            None,
+            re.compile(
+                r"^(?:|\.github/|docs/)(?:(?i:CONTRIBUTING)|GOVERNANCE|SECURITY|SUPPORT|CODE_OF_CONDUCT)(?i:\.(txt|md|rst))?$"
+            ),
+        ),
         (RepoFileType.WORKFLOW, None, re.compile(r"^\.github/workflows/[^/]+\.(?i:y?aml)$")),
-
     ]
     return paths_abs, paths_start, paths_regex
 
@@ -119,7 +155,7 @@ def _determine_filetype(
     path: str,
     paths_abs: list[tuple[RepoFileType, str, str]],
     paths_start: list[tuple[RepoFileType, str, str]],
-    paths_regex: list[tuple[RepoFileType, str, re.Pattern]]
+    paths_regex: list[tuple[RepoFileType, str, re.Pattern]],
 ) -> tuple[RepoFileType, str | None]:
     for filetype, subtype, abs_path in paths_abs:
         if path == abs_path:
@@ -143,12 +179,15 @@ def _get_dynamic_file_paths(data: NestedDict) -> list[str]:
 def _generate_report(full_info: list):
     changed_filetypes = {}
     rows = [["Type", "Subtype", "Change", "Dynamic", "Path"]]
-    for typ, subtype, change_type, is_dynamic, path in sorted(full_info, key=lambda x: (x[0].value, x[1] or "")):
+    for typ, subtype, change_type, is_dynamic, path in sorted(
+        full_info, key=lambda x: (x[0].value, x[1] or "")
+    ):
         changed_filetypes.setdefault(typ, []).append(change_type)
         if is_dynamic:
             changed_filetypes.setdefault(RepoFileType.DYNAMIC, []).append(change_type)
-        dynamic = htmp.element.span('✅' if is_dynamic else '❌',
-                                    title='Dynamic' if is_dynamic else 'Static')
+        dynamic = htmp.element.span(
+            "✅" if is_dynamic else "❌", title="Dynamic" if is_dynamic else "Static"
+        )
         change_sig = change_type.value
         change = htmp.element.span(change_sig.emoji, title=change_sig.title)
         subtype = subtype or Path(path).stem
@@ -190,13 +229,18 @@ def _get_changed_project_components(changed_filetypes):
         return any(filetype in changed_filetypes for filetype in filetypes)
 
     return {
-        "dynamic": any(filetype in changed_filetypes for filetype in (RepoFileType.CC, RepoFileType.DYNAMIC)),
+        "dynamic": any(
+            filetype in changed_filetypes for filetype in (RepoFileType.CC, RepoFileType.DYNAMIC)
+        ),
         "pkg": decide([RepoFileType.PKG_SOURCE, RepoFileType.PKG_CONFIG]),
         "test": decide([RepoFileType.TEST_SOURCE, RepoFileType.TEST_CONFIG]),
         "web": decide(
             [
-                RepoFileType.CC, RepoFileType.WEB_CONFIG, RepoFileType.WEB_SOURCE,
-                RepoFileType.THEME, RepoFileType.PKG_SOURCE,
+                RepoFileType.CC,
+                RepoFileType.WEB_CONFIG,
+                RepoFileType.WEB_SOURCE,
+                RepoFileType.THEME,
+                RepoFileType.PKG_SOURCE,
             ]
-        )
+        ),
     }

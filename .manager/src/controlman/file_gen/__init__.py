@@ -2,7 +2,8 @@ from pathlib import Path as _Path
 
 import pyserials as _ps
 
-from controlman import datatype as _dtype, const as _const
+from controlman import const as _const
+from controlman import datatype as _dtype
 from controlman.file_gen.config import ConfigFileGenerator as _ConfigFileGenerator
 from controlman.file_gen.forms import FormGenerator as _FormGenerator
 from controlman.file_gen.python import PythonPackageFileGenerator as _PythonPackageFileGenerator
@@ -47,7 +48,9 @@ def generate(
         ):
             type_dict = data_entry.setdefault(generated_file.type.value[0], {})
             if generated_file.subtype[0] in type_dict:
-                raise RuntimeError(f"Duplicate dynamic file type and subtype: {generated_file.type.value[0]} {generated_file.subtype[0]}")
+                raise RuntimeError(
+                    f"Duplicate dynamic file type and subtype: {generated_file.type.value[0]} {generated_file.subtype[0]}"
+                )
             type_dict[generated_file.subtype[0]] = generated_file.path
     data["project.file"] = data_entry
     metadata_file = _dtype.DynamicFile(
@@ -73,7 +76,11 @@ def _compare_file(file: _dtype.DynamicFile, repo_path: _Path) -> _dtype.DynamicF
         path_before_exists = False
 
     if file.content is None:
-        typ = _dtype.DynamicFileChangeType.REMOVED if path_before_exists else _dtype.DynamicFileChangeType.DISABLED
+        typ = (
+            _dtype.DynamicFileChangeType.REMOVED
+            if path_before_exists
+            else _dtype.DynamicFileChangeType.DISABLED
+        )
     elif not file.path:
         typ = _dtype.DynamicFileChangeType.DISABLED
     elif not path_before_exists:

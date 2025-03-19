@@ -4,18 +4,16 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 from github_contexts import github as gh_context
 from loggerman import logger
-import mdit
 
-from proman.dtype import LabelType, IssueStatus
+from proman.dtype import IssueStatus, LabelType
 from proman.main import EventHandler
 from proman.manager.protocol import ProtocolManager
 
 if _TYPE_CHECKING:
-    from proman.dstruct import Label, Branch, Version, IssueForm
+    from proman.dstruct import Branch, IssueForm, Label, Version
 
 
 class IssuesEventHandler(EventHandler):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.payload: gh_context.payload.IssuesPayload = self.gh_context.event
@@ -37,7 +35,9 @@ class IssuesEventHandler(EventHandler):
             return self._run_opened()
         self.issue_form = self.manager.issue.form_from_id_labels(self.issue.label_names)
         self.labels = self.manager.label.resolve_labels(self.issue.label_names)
-        self.manager.protocol.load_from_issue(issue=self.issue, issue_form=self.issue_form, labels=self.labels)
+        self.manager.protocol.load_from_issue(
+            issue=self.issue, issue_form=self.issue_form, labels=self.labels
+        )
         if action == gh_context.enum.ActionType.LABELED:
             return self._run_labeled()
         if action == gh_context.enum.ActionType.ASSIGNED:
@@ -46,7 +46,7 @@ class IssuesEventHandler(EventHandler):
             return self._run_assignment(assigned=False)
         self.manager.protocol.add_event()
         self.manager.protocol.update_on_github()
-        return
+        return None
 
     def _run_opened(self):
         self.reporter.event(f"Issue #{self.issue.number} opened")
@@ -54,38 +54,25 @@ class IssuesEventHandler(EventHandler):
             issue=self.issue, issue_form=self.issue_form
         )
         api_response_label = self._gh_api.issue_labels_set(
-            self.issue.number,
-            [label_obj.name for label_obj in labels]
+            self.issue.number, [label_obj.name for label_obj in labels]
         )
         logger.info(
-            "Issue Labels Update",
-            self.reporter.api_response_code_block(api_response_label)
+            "Issue Labels Update", self.reporter.api_response_code_block(api_response_label)
         )
         api_response_assign = self._gh_api.issue_add_assignees(
-            number=self.issue.number, assignees=[assignee["github"]["id"] for assignee in self.issue_form.issue_assignees]
+            number=self.issue.number,
+            assignees=[assignee["github"]["id"] for assignee in self.issue_form.issue_assignees],
         )
-        logger.info(
-            "Issue Assignment",
-            self.reporter.api_response_code_block(api_response_assign)
-        )
+        logger.info("Issue Assignment", self.reporter.api_response_code_block(api_response_assign))
         protocol = self.manager.protocol.generate()
         if self.manager.data["doc.protocol.as_comment"]:
             response = self._gh_api.issue_update(number=self.issue.number, body=body_processed)
-            logger.info(
-                "Issue Body Update",
-                logger.pretty(response)
-            )
+            logger.info("Issue Body Update", logger.pretty(response))
             response = self._gh_api.issue_comment_create(number=self.issue.number, body=protocol)
-            logger.info(
-                "Dev Protocol Comment",
-                logger.pretty(response)
-            )
+            logger.info("Dev Protocol Comment", logger.pretty(response))
         else:
             response = self._gh_api.issue_update(number=self.issue.number, body=protocol)
-            logger.info(
-                "Issue Body Update",
-                logger.pretty(response)
-            )
+            logger.info("Issue Body Update", logger.pretty(response))
         return
 
     def _run_labeled(self):
@@ -103,14 +90,15 @@ class IssuesEventHandler(EventHandler):
             new_status_label=label,
         )
         if label.id in [IssueStatus.REJECTED, IssueStatus.DUPLICATE, IssueStatus.INVALID]:
-            self._gh_api.issue_update(number=self.issue.number, state="closed", state_reason="not_planned")
+            self._gh_api.issue_update(
+                number=self.issue.number, state="closed", state_reason="not_planned"
+            )
         elif label.id is IssueStatus.IMPLEMENTATION:
             self._run_labeled_status_implementation()
         self.manager.protocol.update_on_github()
         return
 
     def _run_labeled_status_implementation(self):
-
         def get_base_branches() -> list[tuple[Branch, list[Label]]]:
             base_branches_and_labels = []
             common_labels = []
@@ -130,17 +118,14 @@ class IssuesEventHandler(EventHandler):
             return base_branches_and_labels
 
         def create_head_branch(base: Branch) -> tuple[Branch, Version]:
-            head = self.manager.branch.new_dev(
-                issue_nr=self.issue.number, target=base.name
-            )
+            head = self.manager.branch.new_dev(issue_nr=self.issue.number, target=base.name)
             api_response = self._gh_api_admin.branch_create_linked(
                 issue_id=self.issue.node_id,
                 base_sha=base.sha,
                 name=head.name,
             )
             logger.success(
-                "Head Branch Creation",
-                self.reporter.api_response_code_block(api_response)
+                "Head Branch Creation", self.reporter.api_response_code_block(api_response)
             )
             self._git_base.fetch_remote_branches_by_name(branch_names=head.name)
             self._git_base.checkout(head.name)
@@ -161,24 +146,23 @@ class IssuesEventHandler(EventHandler):
             )
             logger.success(
                 f"Pull Request Creation ({head.name} -> {base.name})",
-                self.reporter.api_response_code_block(api_response_pull)
+                self.reporter.api_response_code_block(api_response_pull),
             )
             api_response_labels = self._gh_api.issue_labels_set(
-                number=api_response_pull["number"],
-                labels=[label.name for label in labels]
+                number=api_response_pull["number"], labels=[label.name for label in labels]
             )
             logger.success(
                 f"Pull Request Labels Update ({head.name} -> {base.name})",
-                self.reporter.api_response_code_block(api_response_labels)
+                self.reporter.api_response_code_block(api_response_labels),
             )
             if self.issue_form.pull_assignees:
                 api_response_assignment = self._gh_api.issue_add_assignees(
                     number=api_response_pull["number"],
-                    assignees=[user["github"]["id"] for user in self.issue_form.pull_assignees]
+                    assignees=[user["github"]["id"] for user in self.issue_form.pull_assignees],
                 )
                 logger.info(
                     "Pull Request Assignment",
-                    self.reporter.api_response_code_block(api_response_assignment)
+                    self.reporter.api_response_code_block(api_response_assignment),
                 )
             else:
                 logger.info("Pull Request Assignment", "No assignees found for pull request.")
@@ -204,9 +188,11 @@ class IssuesEventHandler(EventHandler):
             head_branch, base_version = create_head_branch(base=base_branch)
             pull = create_pull(head=head_branch, base=base_branch, labels=labels)
             pull_requests.append(pull)
-            head_manager = self.manager_from_metadata_file(repo="base") if (
-                base_branch.name != self.payload.repository.default_branch
-            ) else self.manager
+            head_manager = (
+                self.manager_from_metadata_file(repo="base")
+                if (base_branch.name != self.payload.repository.default_branch)
+                else self.manager
+            )
             target_version = head_manager.release.next_version(
                 base_version=base_version,
                 issue_num=self.issue.number,
@@ -233,11 +219,11 @@ class IssuesEventHandler(EventHandler):
                             "head": head_branch,
                             "base": base_branch,
                             "pull_request": pull,
-                            "changelog": head_manager.changelog.current
+                            "changelog": head_manager.changelog.current,
                         },
                     )
                 ),
-                amend=True
+                amend=True,
             )
             self._git_base.push(force_with_lease=True)
         self.manager.protocol.add_env_var(pull_requests=pull_requests)

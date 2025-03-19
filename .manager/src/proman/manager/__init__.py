@@ -1,17 +1,17 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import copy
-
-import jinja2
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman
+import jinja2
 from controlman import date
 from controlman.cache_manager import CacheManager
 from loggerman import logger
 
 from proman.exception import ProManException
-#from proman.manager.announcement import AnnouncementManager
+
+# from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
 from proman.manager.changelog import ChangelogManager
 from proman.manager.commit import CommitManager
@@ -27,15 +27,15 @@ if _TYPE_CHECKING:
     from github_contexts import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
-    from pyserials.nested_dict import NestedDict
     from pylinks.api.github import Repo as GitHubRepoAPI
     from pylinks.site.github import Repo as GitHubLink
+    from pyserials.nested_dict import NestedDict
+
+    from proman.dstruct import Token, User
     from proman.report import Reporter
-    from proman.dstruct import User, Token
 
 
 class Manager:
-
     def __init__(
         self,
         data: NestedDict,
@@ -73,7 +73,9 @@ class Manager:
         self._user_manager = UserManager(self)
         self._repo_manager = RepoManager(self)
         self._variable_manager = VariableManager(self)
-        self._release_manager = ReleaseManager(self) # must be after self._variable_manager as ZenodoManager needs it at init
+        self._release_manager = ReleaseManager(
+            self
+        )  # must be after self._variable_manager as ZenodoManager needs it at init
         return
 
     @property
@@ -167,9 +169,7 @@ class Manager:
         return issue_copy
 
     def add_pull_request_jinja_env_var(
-        self,
-        pull: PullRequest | dict,
-        author: User | None = None
+        self, pull: PullRequest | dict, author: User | None = None
     ) -> PullRequest | dict:
         pull = copy.deepcopy(pull)
         pull["user"] = author or self.user.from_issue_author(pull)
@@ -183,8 +183,9 @@ class Manager:
             self.jinja_env_vars | {"now": date.from_now()} | (env_vars or {})
         )
 
-    def fill_jinja_templates(self, templates: dict | list | str, jsonpath: str, env_vars: dict | None = None) -> dict:
-
+    def fill_jinja_templates(
+        self, templates: dict | list | str, jsonpath: str, env_vars: dict | None = None
+    ) -> dict:
         def recursive_fill(template, path):
             if isinstance(template, dict):
                 filled = {}
@@ -205,7 +206,7 @@ class Manager:
                     logger.critical(
                         "Jinja Templating",
                         f"Failed to render Jinja template at '{path}': {e}",
-                        logger.traceback()
+                        logger.traceback(),
                     )
                     self.reporter.add(
                         name="main",

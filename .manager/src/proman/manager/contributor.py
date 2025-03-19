@@ -1,21 +1,20 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import copy
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman
 import pyserials as ps
 from loggerman import logger
 
-
 if _TYPE_CHECKING:
     from pathlib import Path
-    from proman.manager import Manager
+
     from proman.dstruct import User
+    from proman.manager import Manager
 
 
 class BareContributorManager(ps.PropertyDict):
-
     def __init__(self, repo_path: Path):
         log_title = "Contributors Load"
         self._filepath = repo_path / controlman.const.FILEPATH_CONTRIBUTORS
@@ -24,13 +23,13 @@ class BareContributorManager(ps.PropertyDict):
             logger.success(
                 log_title,
                 f"Loaded contributors from file '{controlman.const.FILEPATH_CONTRIBUTORS}':",
-                logger.data_block(contributors)
+                logger.data_block(contributors),
             )
         else:
             contributors = {}
             logger.info(
                 log_title,
-                f"No contributors file found at '{controlman.const.FILEPATH_CONTRIBUTORS}'."
+                f"No contributors file found at '{controlman.const.FILEPATH_CONTRIBUTORS}'.",
             )
         super().__init__(contributors)
         self._read = copy.deepcopy(contributors)
@@ -38,8 +37,7 @@ class BareContributorManager(ps.PropertyDict):
 
     def add(self, user: User) -> dict:
         contributor_id = (
-            user.get("github", {}).get("rest_id")
-            or f"{user.name.full}_{user.email.id}"
+            user.get("github", {}).get("rest_id") or f"{user.name.full}_{user.email.id}"
         )
         contributor_entry = self.setdefault(contributor_id, {})
         ps.update.recursive_update(contributor_entry, user.as_dict)
@@ -50,13 +48,12 @@ class BareContributorManager(ps.PropertyDict):
             return False
         self._filepath.write_text(
             ps.write.to_json_string(self.as_dict, sort_keys=True, indent=3).strip() + "\n",
-            newline="\n"
+            newline="\n",
         )
         return True
 
 
 class ContributorManager(BareContributorManager):
-
     def __init__(self, manager: Manager):
         self._manager = manager
         super().__init__(self._manager.git.repo_path)

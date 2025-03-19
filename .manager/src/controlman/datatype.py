@@ -1,5 +1,5 @@
-from typing import NamedTuple as _NamedTuple
 from enum import Enum as _Enum
+from typing import NamedTuple as _NamedTuple
 
 
 class DynamicFileType(_Enum):
@@ -9,8 +9,14 @@ class DynamicFileType(_Enum):
     DEVCONTAINER_CONDA = ("devcontainer_conda", "Devcontainer Conda Environment")
     DEVCONTAINER_TASK_LOCAL = ("devcontainer_task_local", "Devcontainer Bash Tasks (Local)")
     DEVCONTAINER_TASK_GLOBAL = ("devcontainer_task_global", "Devcontainer Bash Tasks (Global)")
-    DEVCONTAINER_FEATURE_METADATA = ("devcontainer_feature_metadata", "Devcontainer Feature Metadata")
-    DEVCONTAINER_FEATURE_INSTALL = ("devcontainer_feature_install", "Devcontainer Feature Install Script")
+    DEVCONTAINER_FEATURE_METADATA = (
+        "devcontainer_feature_metadata",
+        "Devcontainer Feature Metadata",
+    )
+    DEVCONTAINER_FEATURE_INSTALL = (
+        "devcontainer_feature_install",
+        "Devcontainer Feature Install Script",
+    )
     CUSTOM = ("custom", "Custom")
     CONFIG = ("config", "Configuration")
     TOOL_ENV_CONDA = ("tool_env_conda", "Tool Conda Environment")

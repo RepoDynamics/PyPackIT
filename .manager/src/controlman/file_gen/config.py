@@ -1,23 +1,23 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
-from pathlib import Path as _Path
-from xml.etree import ElementTree as _ElementTree
 import copy as _copy
 import os as _os
 import re as _re
 import shlex as _shlex
+from pathlib import Path as _Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
+from xml.etree import ElementTree as _ElementTree
 
-from loggerman import logger
 import pyserials as _ps
 from licenseman.spdx import license_text as _license_text
 
-from controlman.datatype import DynamicFile, DynamicFileType, DynamicFileChangeType
-from controlman.file_gen import unit as _unit
 from controlman import const as _const
+from controlman.datatype import DynamicFile, DynamicFileChangeType, DynamicFileType
+from controlman.file_gen import unit as _unit
 
 if _TYPE_CHECKING:
     from typing import Literal
+
 
 class ConfigFileGenerator:
     def __init__(
@@ -58,7 +58,9 @@ class ConfigFileGenerator:
                     if not (path and (text or xml)):
                         continue
                     if not text:
-                        config_component = component_data.get(f"{part}_config", {}).get(output_type, {})
+                        config_component = component_data.get(f"{part}_config", {}).get(
+                            output_type, {}
+                        )
                         config_default = self._data[f"license.config.{part}.{output_type}"] or {}
                         _ps.update.recursive_update(
                             source=config_component,
@@ -66,17 +68,22 @@ class ConfigFileGenerator:
                             type_mismatch="skip",
                         )
                         xml_elem = _ElementTree.fromstring(xml)
-                        text = _license_text.SPDXLicenseTextPlain(xml_elem).generate(**config_component)
-                    subtype_type = "license" if component_data["type"] == "license" else "license_exception"
+                        text = _license_text.SPDXLicenseTextPlain(xml_elem).generate(
+                            **config_component
+                        )
+                    subtype_type = (
+                        "license" if component_data["type"] == "license" else "license_exception"
+                    )
                     subtype = f"{subtype_type}_{component_id}_{output_type}_{part}"
                     file = DynamicFile(
                         type=DynamicFileType.CONFIG,
                         subtype=(subtype, subtype_type.replace("_", " ").title()),
                         content=text,
                         path=path,
-                        path_before=self._data_before.get(
-                            "license.component", {}
-                        ).get(component_id, {}).get("path", {}).get(f"{part}_{output_type}")
+                        path_before=self._data_before.get("license.component", {})
+                        .get(component_id, {})
+                        .get("path", {})
+                        .get(f"{part}_{output_type}"),
                     )
                     files.append(file)
         return files
@@ -96,7 +103,9 @@ class ConfigFileGenerator:
         config = {"blank_issues_enabled": issues["blank_enabled"]}
         if issues.get("contact_links"):
             config["contact_links"] = issues["contact_links"]
-        file_content = _ps.write.to_yaml_string(data=config, end_of_file_newline=True) if config else ""
+        file_content = (
+            _ps.write.to_yaml_string(data=config, end_of_file_newline=True) if config else ""
+        )
         return [DynamicFile(content=file_content, **generate_file)]
 
     def dynamic_file(self, key: str, file: dict, file_before: dict | None):
@@ -148,14 +157,18 @@ class ConfigFileGenerator:
         out = []
         for key, value in self._data.items():
             if key.startswith("file_"):
-                out.append(self.dynamic_file(key=key, file=value, file_before=self._data_before[key]))
+                out.append(
+                    self.dynamic_file(key=key, file=value, file_before=self._data_before[key])
+                )
             elif key.startswith("devcontainer_"):
                 for file_key, file in value.get("file", {}).items():
                     out.append(
                         self.dynamic_file(
                             key=f"{key}_{file_key}",
                             file=file,
-                            file_before=self._data_before.get(key, {}).get("file", {}).get(file_key),
+                            file_before=self._data_before.get(key, {})
+                            .get("file", {})
+                            .get(file_key),
                         )
                     )
                 for env_key, env in value.get("environment", {}).items():
@@ -164,7 +177,11 @@ class ConfigFileGenerator:
                             self.dynamic_file(
                                 key=f"{key}_{env_key}_{file_key}",
                                 file=file,
-                                file_before=self._data_before.get(key, {}).get("environment", {}).get(env_key, {}).get("file", {}).get(file_key),
+                                file_before=self._data_before.get(key, {})
+                                .get("environment", {})
+                                .get(env_key, {})
+                                .get("file", {})
+                                .get(file_key),
                             )
                         )
             elif key.startswith("pypkg_"):
@@ -173,13 +190,14 @@ class ConfigFileGenerator:
                         self.dynamic_file(
                             key=f"{key}_{file_key}",
                             file=file,
-                            file_before=self._data_before.get(key, {}).get("file", {}).get(file_key),
+                            file_before=self._data_before.get(key, {})
+                            .get("file", {})
+                            .get(file_key),
                         )
                     )
         return out
 
     def devcontainers(self) -> list[DynamicFile]:
-
         def create_docker_compose():
             path_depth = len(docker_compose_path.split("/")) - 1
             path_to_root_from_compose_file = "../" * path_depth if path_depth else "."
@@ -188,7 +206,9 @@ class ConfigFileGenerator:
             for container_id, container in devcontainers.items():
                 service_name = container["container"]["service"]
                 if service_name in services:
-                    raise ValueError(f"Service '{service_name}' for devcontainer '{container_id}' already exists in docker-compose file.")
+                    raise ValueError(
+                        f"Service '{service_name}' for devcontainer '{container_id}' already exists in docker-compose file."
+                    )
                 service = container.get("service", {})
                 # service["image"] = f"devcontainer_{container_id}"
                 service.setdefault("build", {}).update(
@@ -201,7 +221,7 @@ class ConfigFileGenerator:
                     "container_name": service_name,
                     "volumes": [
                         # Mount the root folder that contains .git
-                        f"{path_to_root_from_compose_file}:{container["container"]["workspaceFolder"]}:cached"
+                        f"{path_to_root_from_compose_file}:{container['container']['workspaceFolder']}:cached"
                     ],
                     # Override default command so things don't shut down after the process ends.
                     "command": "sleep infinity",
@@ -213,9 +233,11 @@ class ConfigFileGenerator:
                     file_type="yaml",
                     content=config,
                     **self._data["default"]["file_setting"]["yaml"],
-                ) if services else "",
+                )
+                if services
+                else "",
                 path=docker_compose_path,
-                path_before=self._data_before[f"devcontainer.docker-compose.path"],
+                path_before=self._data_before["devcontainer.docker-compose.path"],
             )
             out.append(docker_compose_file)
             return
@@ -228,9 +250,7 @@ class ConfigFileGenerator:
             ]
 
         def resolve_task_settings(
-            devcontainer: dict,
-            typ: Literal["local", "global"],
-            environment: dict | None = None
+            devcontainer: dict, typ: Literal["local", "global"], environment: dict | None = None
         ):
             typ2 = "environment" if environment else "root"
             jsonpath = f"default.task_setting.{typ}.{typ2}"
@@ -238,7 +258,7 @@ class ConfigFileGenerator:
             settings_filled = _unit.fill_jinja_templates(
                 templates=settings,
                 jsonpath=jsonpath,
-                env_vars={"devcontainer": devcontainer, "environment": environment or {}}
+                env_vars={"devcontainer": devcontainer, "environment": environment or {}},
             )
             out = _copy.deepcopy(devcontainer.get("task_setting", {}).get(typ, {}).get(typ2, {}))
             _ps.update.recursive_update(
@@ -255,7 +275,7 @@ class ConfigFileGenerator:
                 lines.extend([(f"{indent}{line}" if line else "") for line in content.splitlines()])
                 return
 
-            lines = [f"{task["alias"]}() {{"]
+            lines = [f"{task['alias']}() {{"]
             indent = 4 * " "
             if "script" in task:
                 settings = task_setting.get("script", {})
@@ -273,10 +293,10 @@ class ConfigFileGenerator:
             return "\n".join(lines)
 
         unquoted_task_process_patterns = _re.compile(
-            r'^\$(\d+|\*|@)$'  # Matches $1, $2, ..., $@, $*
-            r'|^\$\{[^}]+\}$'  # Matches ${VAR}, ${ARRAY[@]}, ${1}, etc.
-            r'|^\$\w+$'  # Matches $VAR
-            r'|^\$\(.+\)$'  # Matches $(command)
+            r"^\$(\d+|\*|@)$"  # Matches $1, $2, ..., $@, $*
+            r"|^\$\{[^}]+\}$"  # Matches ${VAR}, ${ARRAY[@]}, ${1}, etc.
+            r"|^\$\w+$"  # Matches $VAR
+            r"|^\$\(.+\)$"  # Matches $(command)
         )
 
         out = []
@@ -284,7 +304,8 @@ class ConfigFileGenerator:
         docker_compose_path = docker_compose_data["path"]
         devcontainers = {
             k.removeprefix("devcontainer_"): v
-            for k, v in self._data.items() if k.startswith("devcontainer_")
+            for k, v in self._data.items()
+            if k.startswith("devcontainer_")
         }
         create_docker_compose()
 
@@ -297,12 +318,12 @@ class ConfigFileGenerator:
                     file_type="txt",
                     content=container["dockerfile"],
                 ),
-                path=f"{container["path"]["dockerfile"]}",
-                path_before=f"{container_before.get("path", {}).get("dockerfile")}",
+                path=f"{container['path']['dockerfile']}",
+                path_before=f"{container_before.get('path', {}).get('dockerfile')}",
             )
             out.append(dockerfile)
             # devcontainer.json file
-            container_path = f"{container["path"]["root"]}/devcontainer.json"
+            container_path = f"{container['path']['root']}/devcontainer.json"
             container["container"].setdefault("dockerComposeFile", []).append(
                 _os.path.relpath(docker_compose_path, _os.path.dirname(container_path))
             )
@@ -326,9 +347,11 @@ class ConfigFileGenerator:
                 content=_unit.create_dynamic_file(
                     file_type="txt",
                     content=[pkg["spec"]["full"] for pkg in container["apt"].values()],
-                ) if container.get("apt") else None,
-                path=f"{container["path"]["apt"]}",
-                path_before=f"{container_before.get("path", {}).get("apt")}",
+                )
+                if container.get("apt")
+                else None,
+                path=f"{container['path']['apt']}",
+                path_before=f"{container_before.get('path', {}).get('apt')}",
             )
             out.append(apt_file)
             # conda environment files
@@ -353,7 +376,7 @@ class ConfigFileGenerator:
             # bash task file
             tasks = {"local": [], "global": []}
             for task in container.get("task", {}).values():
-                for typ in tasks.keys():
+                for typ in tasks:
                     tasks[typ].append(
                         create_task_function(
                             task=task,
@@ -362,14 +385,16 @@ class ConfigFileGenerator:
                     )
             for environment in container.get("environment", {}).values():
                 for task in environment.get("task", {}).values():
-                    for typ in tasks.keys():
+                    for typ in tasks:
                         tasks[typ].append(
                             create_task_function(
                                 task=task,
-                                task_setting=resolve_task_settings(devcontainer=container, typ=typ, environment=environment),
+                                task_setting=resolve_task_settings(
+                                    devcontainer=container, typ=typ, environment=environment
+                                ),
                             )
                         )
-            for typ in tasks.keys():
+            for typ in tasks:
                 task_file = DynamicFile(
                     type=DynamicFileType[f"DEVCONTAINER_TASK_{typ.upper()}"],
                     subtype=(container_id, container.get("name", container_id)),
@@ -377,9 +402,11 @@ class ConfigFileGenerator:
                         file_type="txt",
                         content=tasks[typ],
                         content_item_separator="\n\n",
-                    ) if tasks[typ] else None,
-                    path=f"{container["path"][f"tasks_{typ}"]}",
-                    path_before=f"{container_before.get("path", {}).get(f"tasks_{typ}")}",
+                    )
+                    if tasks[typ]
+                    else None,
+                    path=f"{container['path'][f'tasks_{typ}']}",
+                    path_before=f"{container_before.get('path', {}).get(f'tasks_{typ}')}",
                 )
                 out.append(task_file)
         return out
@@ -389,9 +416,9 @@ class ConfigFileGenerator:
         for key, feat in self._data.items():
             if not key.startswith("devfeature_"):
                 continue
-            path = f".devcontainer/{feat["path"]}"
+            path = f".devcontainer/{feat['path']}"
             feat_before = self._data_before.get(key, {})
-            path_before = f".devcontainer/{feat_before["path"]}" if feat_before else None
+            path_before = f".devcontainer/{feat_before['path']}" if feat_before else None
             metadata = feat["feature"]
             feature_file = DynamicFile(
                 type=DynamicFileType.DEVCONTAINER_FEATURE_METADATA,

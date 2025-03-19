@@ -1,26 +1,28 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import re
+from typing import TYPE_CHECKING
 
-from loggerman import logger
 import mdit
 import pyserials as ps
+from loggerman import logger
 
+from proman.dstruct import MainTasklistEntry, SubTasklistEntry, Tasklist
 from proman.dtype import IssueStatus, LabelType
-from proman.dstruct import Tasklist, MainTasklistEntry, SubTasklistEntry
 from proman.exception import ProManException
 
 if TYPE_CHECKING:
-    from typing import Sequence, Literal
+    from collections.abc import Sequence
+    from typing import Literal
+
     from github_contexts.github.payload.object.issue import Issue
     from github_contexts.github.payload.object.pull_request import PullRequest
-    from proman.manager import Manager
+
     from proman.dstruct import IssueForm, Label
+    from proman.manager import Manager
 
 
 class ProtocolManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         self._protocol = ""
@@ -41,7 +43,7 @@ class ProtocolManager:
         config_resolved = self._manager.fill_jinja_templates(
             self._protocol_config,
             jsonpath="protocol.config",
-            env_vars=self._env_vars | {"data": self._protocol_data}
+            env_vars=self._env_vars | {"data": self._protocol_data},
         )
         return config_resolved
 
@@ -65,7 +67,8 @@ class ProtocolManager:
                 )
                 existing_data = self._protocol_data[data_id]
                 self._protocol_data[data_id] = (
-                    f"{existing_data}{template_resolved}" if data["template_type"] == "append"
+                    f"{existing_data}{template_resolved}"
+                    if data["template_type"] == "append"
                     else f"{template_resolved}{existing_data}"
                 )
         return
@@ -75,7 +78,9 @@ class ProtocolManager:
         status_label: Label | None = None,
         pull_requests: list[dict] | None = None,
     ):
-        env_vars = {key: value for key, value in locals().items() if key != "self" and value is not None}
+        env_vars = {
+            key: value for key, value in locals().items() if key != "self" and value is not None
+        }
         self._env_vars.update(env_vars)
         return
 
@@ -94,7 +99,6 @@ class ProtocolManager:
         )
 
     def generate(self) -> str:
-
         def make_config() -> str:
             config_str = ps.write.to_yaml_string(self._protocol_config).strip()
             return self._wrap_in_markers(config_str, self._config["config"])
@@ -125,7 +129,7 @@ class ProtocolManager:
 
             def write(entry_list: Sequence[MainTasklistEntry | SubTasklistEntry], level=0):
                 for entry in entry_list:
-                    check = 'X' if entry.complete else ' '
+                    check = "X" if entry.complete else " "
                     string.append(f"{' ' * level * 2}- [{check}] {entry.summary.strip()}")
                     if entry.body:
                         for line in entry.body.splitlines():
@@ -149,15 +153,19 @@ class ProtocolManager:
                 "config": make_config(),
                 "data": make_data(),
                 "inputs": make_inputs(),
-                "tasklist": make_tasklist()
-            }
+                "tasklist": make_tasklist(),
+            },
         )
         return output
 
-    def initialize_issue(self, issue: Issue, issue_form: IssueForm) -> tuple[dict, str, list[Label]]:
+    def initialize_issue(
+        self, issue: Issue, issue_form: IssueForm
+    ) -> tuple[dict, str, list[Label]]:
         self._config = self._manager.data["issue.protocol"]
         self._issue_inputs.update(self._extract_issue_ticket_inputs(issue.body, issue_form.body))
-        labels, status_label = self._make_auto_labels_from_issue_ticket_inputs(issue_form=issue_form)
+        labels, status_label = self._make_auto_labels_from_issue_ticket_inputs(
+            issue_form=issue_form
+        )
         self._env_vars.update(
             {
                 "form": issue_form,
@@ -167,11 +175,15 @@ class ProtocolManager:
         )
         self._protocol_config.update(self._config["config"].get("default", {}))
         for data_id, data in self._config.get("data", {}).items():
-            self._protocol_data[data_id] = self._resolve_to_str(data["value"], jsonpath=f"issue.protocol.data.{data_id}")
+            self._protocol_data[data_id] = self._resolve_to_str(
+                data["value"], jsonpath=f"issue.protocol.data.{data_id}"
+            )
         self.add_event(env_vars={"action": "opened"})
         for assignee in issue_form.issue_assignees:
             self.add_event(env_vars={"action": "assigned", "assignee": assignee})
-        all_labels = [label for label_list in labels.values() for label in label_list] + [status_label]
+        all_labels = [label for label_list in labels.values() for label in label_list] + [
+            status_label
+        ]
         for label in all_labels:
             self.add_event(env_vars={"action": "labeled", "label": label})
 
@@ -205,7 +217,9 @@ class ProtocolManager:
                 status_label = label
             else:
                 labels_env.setdefault(label.category.value, []).append(label)
-        tasklist_str = self._resolve_to_str(self._config["tasklist"]["value"], jsonpath=f"pull.protocol.tasklist.value")
+        tasklist_str = self._resolve_to_str(
+            self._config["tasklist"]["value"], jsonpath="pull.protocol.tasklist.value"
+        )
         self._env_vars.update(
             {
                 "event": "pull_request",
@@ -215,12 +229,14 @@ class ProtocolManager:
                 "issue": issue,
                 "labels": labels_env,
                 "status_label": status_label,
-                "tasklist": self._wrap_in_markers(tasklist_str, marker=self._config["tasklist"])
+                "tasklist": self._wrap_in_markers(tasklist_str, marker=self._config["tasklist"]),
             }
         )
         self._protocol_config.update(self._config["config"].get("default", {}))
         for data_id, data in self._config.get("data", {}).items():
-            self._protocol_data[data_id] = self._resolve_to_str(data["value"], jsonpath=f"pull.protocol.data.{data_id}")
+            self._protocol_data[data_id] = self._resolve_to_str(
+                data["value"], jsonpath=f"pull.protocol.data.{data_id}"
+            )
         self.add_event(env_vars={"action": "opened"})
         for assignee in issue_form.pull_assignees:
             self.add_event(env_vars={"action": "assigned", "assignee": assignee})
@@ -228,12 +244,16 @@ class ProtocolManager:
             self.add_event(env_vars={"action": "labeled", "label": label})
         return
 
-    def load_from_issue(self, issue: Issue, issue_form: IssueForm, labels: dict[LabelType, list[Label]]):
+    def load_from_issue(
+        self, issue: Issue, issue_form: IssueForm, labels: dict[LabelType, list[Label]]
+    ):
         self._config = self._manager.data["issue.protocol"]
         self._env_vars.update({"form": issue_form})
         self._add_labels_env_var(labels)
         if self._config["as_comment"]:
-            comments = self._manager.gh_api_actions.issue_comments(number=issue.number, max_count=10)
+            comments = self._manager.gh_api_actions.issue_comments(
+                number=issue.number, max_count=10
+            )
             protocol_comment = comments[0]
             self._protocol_comment_id = protocol_comment.get("id")
             protocol = protocol_comment.get("body")
@@ -244,12 +264,8 @@ class ProtocolManager:
             "Issue Protocol Load",
             mdit.element.code_block(protocol, language="markdown", caption="Protocol"),
         )
-        self._issue_inputs.update(
-            self._extract_yaml(protocol, marker=self._config["inputs"])
-        )
-        self._protocol_config.update(
-            self._extract_yaml(protocol, marker=self._config["config"])
-        )
+        self._issue_inputs.update(self._extract_yaml(protocol, marker=self._config["inputs"]))
+        self._protocol_config.update(self._extract_yaml(protocol, marker=self._config["config"]))
         for data_id, data in self._config.get("data", {}).items():
             self._protocol_data[data_id] = self._extract_marker_wrapped(text=protocol, marker=data)
         return
@@ -259,9 +275,13 @@ class ProtocolManager:
         protocol = pull.body
         return
 
-    def _resolve_to_str(self, value: str | dict | list, jsonpath: str, env_vars: dict | None = None):
+    def _resolve_to_str(
+        self, value: str | dict | list, jsonpath: str, env_vars: dict | None = None
+    ):
         env_vars = env_vars or {}
-        value_filled = self._manager.fill_jinja_templates(value, jsonpath=jsonpath, env_vars=self._env_vars | env_vars)
+        value_filled = self._manager.fill_jinja_templates(
+            value, jsonpath=jsonpath, env_vars=self._env_vars | env_vars
+        )
         if isinstance(value, str):
             return value_filled
         return mdit.generate(value_filled).source(target="github")
@@ -288,33 +308,36 @@ class ProtocolManager:
             A list of dictionaries, each representing a subtask entry, if any.
             Each dictionary has the same keys as the parent dictionary.
         """
-
         log_title = "Tasklist Extraction"
 
-        def extract(tasklist_string: str, level: int = 0) -> list[MainTasklistEntry] | list[SubTasklistEntry]:
+        def extract(
+            tasklist_string: str, level: int = 0
+        ) -> list[MainTasklistEntry] | list[SubTasklistEntry]:
             # Regular expression pattern to match each task item
-            task_pattern = rf'{" " * level * 2}- \[(X| )\] (.+?)(?=\n{" " * level * 2}- \[|\Z)'
+            task_pattern = rf"{' ' * level * 2}- \[(X| )\] (.+?)(?=\n{' ' * level * 2}- \[|\Z)"
             # Find all matches
             matches = re.findall(task_pattern, tasklist_string, flags=re.DOTALL)
             # Process each match into the required dictionary format
             tasklist_entries = []
             for match in matches:
                 complete, summary_and_desc = match
-                summary_and_body_split = summary_and_desc.split('\n', 1)
+                summary_and_body_split = summary_and_desc.split("\n", 1)
                 summary = summary_and_body_split[0].strip()
-                body = summary_and_body_split[1] if len(summary_and_body_split) > 1 else ''
+                body = summary_and_body_split[1] if len(summary_and_body_split) > 1 else ""
                 if body:
-                    sublist_pattern = r'^( *- \[(?:X| )\])'
+                    sublist_pattern = r"^( *- \[(?:X| )\])"
                     parts = re.split(sublist_pattern, body, maxsplit=1, flags=re.MULTILINE)
                     body = parts[0]
                     if len(parts) > 1:
-                        sublist_str = ''.join(parts[1:])
+                        sublist_str = "".join(parts[1:])
                         sublist = extract(sublist_str, level + 1)
                     else:
                         sublist = []
                 else:
                     sublist = []
-                body = "\n".join([line.removeprefix(" " * (level + 1) * 2) for line in body.splitlines()])
+                body = "\n".join(
+                    [line.removeprefix(" " * (level + 1) * 2) for line in body.splitlines()]
+                )
                 task_is_complete = complete or (
                     sublist and all(subtask.complete for subtask in sublist)
                 )
@@ -339,7 +362,9 @@ class ProtocolManager:
                     )
             return tasklist_entries
 
-        tasklist_str = self._extract_marker_wrapped(text=protocol, marker=self._config["tasklist"]).strip()
+        tasklist_str = self._extract_marker_wrapped(
+            text=protocol, marker=self._config["tasklist"]
+        ).strip()
         body_md = mdit.element.code_block(protocol, language="markdown", caption="Protocol")
         if not tasklist_str:
             logger.warning(
@@ -347,21 +372,21 @@ class ProtocolManager:
                 "No tasklist found in the protocol.",
                 body_md,
             )
-            return
+            return None
         tasklist = Tasklist(extract(tasklist_str))
         logger.success(
             log_title,
             "Extracted tasklist from the document.",
             mdit.element.code_block(
-                ps.write.to_yaml_string(tasklist.as_list),
-                language="yaml",
-                caption="Tasklist"
+                ps.write.to_yaml_string(tasklist.as_list), language="yaml", caption="Tasklist"
             ),
             body_md,
         )
         return tasklist
 
-    def _make_auto_labels_from_issue_ticket_inputs(self, issue_form: IssueForm) -> tuple[dict[str, list[Label]], Label]:
+    def _make_auto_labels_from_issue_ticket_inputs(
+        self, issue_form: IssueForm
+    ) -> tuple[dict[str, list[Label]], Label]:
         version_labels = []
         branch_labels = []
         if "version" in self._issue_inputs:
@@ -387,15 +412,13 @@ class ProtocolManager:
         return labels, status_label
 
     def _add_labels_env_var(self, labels: dict[LabelType, list[Label]]):
-        labels_out = {
-            k.value: v for k, v in labels.items() if k is not LabelType.STATUS
-        }
+        labels_out = {k.value: v for k, v in labels.items() if k is not LabelType.STATUS}
         self._env_vars["labels"] = labels_out
         self._env_vars["status_label"] = labels.get(LabelType.STATUS, [None])[0]
         return
 
     def _extract_marker_wrapped(self, text: str, marker: dict):
-        pattern = rf"{re.escape(marker["start"].lstrip())}(.*?){re.escape(marker["end"].rstrip())}"
+        pattern = rf"{re.escape(marker['start'].lstrip())}(.*?){re.escape(marker['end'].rstrip())}"
         match = re.search(pattern, text, flags=re.DOTALL)
         data = match.group(1) if match else ""
         logger.info(
@@ -407,11 +430,10 @@ class ProtocolManager:
 
     @staticmethod
     def _wrap_in_markers(entry: str, marker: dict[str, str]):
-        return f"{marker["start"]}{entry}{marker["end"]}"
+        return f"{marker['start']}{entry}{marker['end']}"
 
     @staticmethod
     def _extract_issue_ticket_inputs(body: str, body_elems: list[dict]) -> dict[str, str | list]:
-
         def create_pattern(parts_):
             pattern_sections = []
             for idx, part in enumerate(parts_):
@@ -457,14 +479,14 @@ class ProtocolManager:
             if elem_id:
                 settings[elem_id] = elem
         pattern = create_pattern(parts)
-        compiled_pattern = re.compile(pattern, re.S)
+        compiled_pattern = re.compile(pattern, re.DOTALL)
         # Search for the pattern in the markdown
         logger.debug("Issue body", mdit.element.code_block(body))
         match = re.search(compiled_pattern, body)
         if not match:
             logger.critical(
                 "Issue Body Pattern Matching",
-                "Could not match the issue body to pattern defined in control center settings."
+                "Could not match the issue body to pattern defined in control center settings.",
             )
             raise ProManException()
         # Create a dictionary with titles as keys and matched content as values

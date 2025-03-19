@@ -1,13 +1,11 @@
 from pathlib import Path
 
 
-
 class AnnouncementManager:
-
     def read_announcement_file(self, base: bool, data: _ps.NestedDict) -> str | None:
         filepath = data["announcement.path"]
         if not filepath:
-            return
+            return None
         path_root = self._path_base if base else self._path_head
         fullpath = path_root / filepath
         return fullpath.read_text() if fullpath.is_file() else None
@@ -22,9 +20,6 @@ class AnnouncementManager:
         with open(path_root / announcement_data["path"], "w") as f:
             f.write(announcement)
         return
-
-
-
 
     def __init__(
         self,
@@ -85,8 +80,8 @@ class AnnouncementManager:
                 oneliner = "No announcement to remove❗"
                 details_list.extend(
                     [
-                        f"🚫 The 'null' string was passed to delete the current announcement, "
-                        f"but the announcement file is already empty.",
+                        "🚫 The 'null' string was passed to delete the current announcement, "
+                        "but the announcement file is already empty.",
                         html.details(content=old_md, summary="📝 Last Removal Commit Details"),
                     ]
                 )
@@ -95,10 +90,14 @@ class AnnouncementManager:
                 details_list.extend(
                     [
                         "🚫 The provided announcement was the same as the existing one.",
-                        html.details(content=old_md, summary="📝 Current Announcement Commit Details"),
+                        html.details(
+                            content=old_md, summary="📝 Current Announcement Commit Details"
+                        ),
                     ]
                 )
-            self.add_summary(name=name, status="skip", oneliner=oneliner, details=html.ul(details_list))
+            self.add_summary(
+                name=name, status="skip", oneliner=oneliner, details=html.ul(details_list)
+            )
             return
         self._write(announcement)
         new_html = html.details(
@@ -110,7 +109,7 @@ class AnnouncementManager:
             oneliner = "Announcement was manually removed 🗑"
             details_list.extend(
                 [
-                    f"✅ The announcement was manually removed.",
+                    "✅ The announcement was manually removed.",
                     html.details(content=old_md, summary="📝 Removed Announcement Details"),
                 ]
             )
@@ -118,14 +117,14 @@ class AnnouncementManager:
             commit_body = f"Removed announcement:\n\n{old_announcement}"
         elif not old_announcement:
             oneliner = "A new announcement was manually added 📣"
-            details_list.extend([f"✅ A new announcement was manually added.", new_html])
+            details_list.extend(["✅ A new announcement was manually added.", new_html])
             commit_title = "Manually add new announcement"
             commit_body = announcement
         else:
             oneliner = "Announcement was manually updated 📝"
             details_list.extend(
                 [
-                    f"✅ The announcement was manually updated.",
+                    "✅ The announcement was manually updated.",
                     new_html,
                     html.details(content=old_md, summary="📝 Old Announcement Details"),
                 ]
@@ -150,7 +149,9 @@ class AnnouncementManager:
         change_title: str,
         change_body: str,
     ):
-        changelog_id = self._metadata["commit"]["primary"]["website"]["announcement"].get("changelog_id")
+        changelog_id = self._metadata["commit"]["primary"]["website"]["announcement"].get(
+            "changelog_id"
+        )
         if changelog_id:
             changelog_manager = ChangelogManager(
                 changelog_metadata=self._metadata["changelog"],

@@ -1,7 +1,6 @@
 import pkgdata as _pkgdata
 import pyserials as _ps
 
-
 _data_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "_data"
 
 

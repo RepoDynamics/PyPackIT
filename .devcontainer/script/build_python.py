@@ -13,15 +13,10 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import shlex
 import subprocess
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from typing import Literal
 
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
@@ -39,17 +34,15 @@ def main(
     output_dir = Path(out_dir).resolve() / pkg["import_name"]
     output_dir.mkdir(parents=True, exist_ok=True)
     # Build command
-    build_command = (
-        [
-            "python",
-            "-m",
-            "build",
-            str(pkg_path),
-            "--outdir",
-            str(output_dir),
-            "--verbose",
-        ] + (extra_args or [])
-    )
+    build_command = [
+        "python",
+        "-m",
+        "build",
+        str(pkg_path),
+        "--outdir",
+        str(output_dir),
+        "--verbose",
+    ] + (extra_args or [])
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
     subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
@@ -70,9 +63,7 @@ def main(
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Python package in the project.")
-    parser.add_argument(
-        "out_dir", help="Output directory to write the rendered README file."
-    )
+    parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
     )

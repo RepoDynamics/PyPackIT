@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from pathlib import Path
 import hashlib
 import json
 import subprocess
+from pathlib import Path
 
 import actionman
 
@@ -34,7 +34,6 @@ def main(
         local_dirpath.mkdir(parents=True, exist_ok=True)
 
     for top_key, top_value in metadata.items():
-
         if (not top_key.startswith("devcontainer_")) or (
             devcontainer_keys and top_key.removeprefix("devcontainer_") not in devcontainer_keys
         ):
@@ -42,7 +41,9 @@ def main(
         devcontainer = top_value
         if "apt" in devcontainer:
             out["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
-        if "task" in devcontainer or any("task" in env for env in devcontainer.get("environment", {}).values()):
+        if "task" in devcontainer or any(
+            "task" in env for env in devcontainer.get("environment", {}).values()
+        ):
             out["task_filepaths"].append(str(repo_path / devcontainer["path"]["tasks_global"]))
         for env in devcontainer.get("environment", {}).values():
             out["env_filepaths"].append(str(repo_path / env["path"]))
@@ -50,7 +51,11 @@ def main(
     out["env_hash"] = hash_files(out["env_filepaths"])
 
     out["branch_name"] = subprocess.run(
-        ["git", "branch", "--show-current"], cwd=repo_path, capture_output=True, text=True, check=True
+        ["git", "branch", "--show-current"],
+        cwd=repo_path,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout.strip()
     return out
 

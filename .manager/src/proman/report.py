@@ -2,29 +2,32 @@ import functools
 import io
 from typing import Literal
 
-from github_contexts import github as _gh_context
-import mdit
 import htmp
-from loggerman import logger, style
+import mdit
 import pyserials as ps
-from mdit.target.rich import HeadingConfig, PanelConfig, StyleConfig, InlineHeadingConfig, RuleConfig
+from github_contexts import github as _gh_context
+from loggerman import logger, style
+from mdit.target.rich import (
+    HeadingConfig,
+    InlineHeadingConfig,
+    PanelConfig,
+    RuleConfig,
+    StyleConfig,
+)
 from rich.text import Text
-
 
 from proman.dtype import _TitledEmoji
 from proman.exception import ProManException
 
-
 EMOJI = {
-        "pass": _TitledEmoji("Passed", "✅"),
-        "skip": _TitledEmoji("Skipped", "⏭️"),
-        "fail": _TitledEmoji("Failed", "❌"),
-        "warning": _TitledEmoji("Passed with Warning", "⚠️"),
-    }
+    "pass": _TitledEmoji("Passed", "✅"),
+    "skip": _TitledEmoji("Skipped", "⏭️"),
+    "fail": _TitledEmoji("Failed", "❌"),
+    "warning": _TitledEmoji("Passed with Warning", "⚠️"),
+}
 
 
 class Reporter:
-
     def __init__(self, github_context: _gh_context.GitHubContext):
         self._context = github_context
         self._event_description: str = ""
@@ -52,7 +55,7 @@ class Reporter:
         self,
         name: str,
         status: Literal["pass", "fail", "skip", "warning"] | None = None,
-        summary= None,
+        summary=None,
         body=None,
         section=None,
         section_is_container=False,
@@ -107,7 +110,9 @@ class Reporter:
             section=section,
             target_configs_md={"sphinx": target_config},
         )
-        gha_summary = report.source(target="github", filters=["short, github"], separate_sections=False)
+        gha_summary = report.source(
+            target="github", filters=["short, github"], separate_sections=False
+        )
         full_summary = report.render(target="sphinx", filters=["full"], separate_sections=False)
         logger.info(
             "Report Generation Logs",
@@ -120,7 +125,7 @@ class Reporter:
         return mdit.element.code_block(
             ps.write.to_yaml_string(response_data),
             language="yaml",
-            caption=f"{api_name} API Response"
+            caption=f"{api_name} API Response",
         )
 
     def _generate_summary(self) -> tuple[mdit.element.InlineImage, mdit.element.Table]:
@@ -150,7 +155,7 @@ class Reporter:
         )
         if failed:
             workflow_status = "fail"
-            color="rgb(200, 0, 0)"
+            color = "rgb(200, 0, 0)"
         elif skipped:
             workflow_status = "skip"
             color = "rgb(0, 0, 200)"
@@ -220,7 +225,7 @@ class Reporter:
             if not (data["body"] or data["section"]):
                 continue
             section_full = mdit.document(
-                heading=data['name'],
+                heading=data["name"],
                 body=data["body"],
                 section=data["section"],
             )
@@ -327,7 +332,7 @@ def initialize_logger(
                     ),
                 )
             )
-        }
+        },
     )
 
 
@@ -340,12 +345,12 @@ def make_sphinx_target_config():
             warning=output,
             config={
                 "extensions": [
-                    'myst_nb',
-                    'sphinx_design',
-                    'sphinx_togglebutton',
-                    'sphinx_copybutton',
-                    'sphinxcontrib.mermaid',
-                    'sphinx_tippy',
+                    "myst_nb",
+                    "sphinx_design",
+                    "sphinx_togglebutton",
+                    "sphinx_copybutton",
+                    "sphinxcontrib.mermaid",
+                    "sphinx_tippy",
                 ],
                 "myst_enable_extensions": [
                     "amsmath",
@@ -369,7 +374,7 @@ def make_sphinx_target_config():
                     "pygments_dark_style": "monokai",
                 },
                 "html_title": "ProMan Report",
-            }
+            },
         )
     )
     return target_config, output

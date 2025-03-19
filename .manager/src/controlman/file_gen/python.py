@@ -1,18 +1,16 @@
 """Python Package File Generator"""
 
-from typing import Literal
+import copy
+import re as _re
 import textwrap
 from pathlib import Path as _Path
-import re as _re
-import copy
 
 import pyserials as _ps
 import pysyntax as _pysyntax
-from loggerman import logger
 
 import controlman
-from controlman.datatype import DynamicFileType, DynamicFile
 from controlman import const as _const
+from controlman.datatype import DynamicFile, DynamicFileType
 
 
 class PythonPackageFileGenerator:
@@ -47,14 +45,11 @@ class PythonPackageFileGenerator:
         self._path_import = self._path_src / self._pkg["import_name"]
         if self._data_before[f"{typ}.path"]:
             self._path_root_before = _Path(self._data_before[f"{typ}.path.root"])
-            self._path_src_before = self._path_root_before / self._data_before[f"{typ}.path.source_rel"]
+            self._path_src_before = (
+                self._path_root_before / self._data_before[f"{typ}.path.source_rel"]
+            )
             self._path_import_before = self._path_src_before / self._pkg_before["import_name"]
-        return (
-            self.pyproject()
-            + self.python_files()
-            + self.typing_marker()
-            + self.conda()
-        )
+        return self.pyproject() + self.python_files() + self.typing_marker() + self.conda()
 
     def is_disabled(self, key: str):
         return not any(key in source for source in [self._pkg, self._pkg_before])
@@ -67,10 +62,13 @@ class PythonPackageFileGenerator:
             subtype=(f"{self._type}_typing", f"{self._type} Typing Marker"),
             content=(
                 "# PEP 561 marker file. See https://peps.python.org/pep-0561/\n"
-                if self._pkg["typed"] else None
+                if self._pkg["typed"]
+                else None
             ),
             path=f"{self._pkg['path.import']}/{_const.FILENAME_PACKAGE_TYPING_MARKER}",
-            path_before=f"{self._pkg_before['path.import']}/{_const.FILENAME_PACKAGE_TYPING_MARKER}" if self._pkg_before['path.import'] else None,
+            path_before=f"{self._pkg_before['path.import']}/{_const.FILENAME_PACKAGE_TYPING_MARKER}"
+            if self._pkg_before["path.import"]
+            else None,
         )
         return [file]
 
@@ -95,9 +93,12 @@ class PythonPackageFileGenerator:
             ).generate()
             file = DynamicFile(
                 type=DynamicFileType.PKG_CONFIG,
-                subtype=(f"{self._type}_conda_recipe_meta_{typ}", f"{self._type} Conda Recipe {typ.title()} Metadata"),
+                subtype=(
+                    f"{self._type}_conda_recipe_meta_{typ}",
+                    f"{self._type} Conda Recipe {typ.title()} Metadata",
+                ),
                 content=meta,
-                path=f"{self._pkg[f"conda.recipe.path.{typ}"]}/meta.yaml",
+                path=f"{self._pkg[f'conda.recipe.path.{typ}']}/meta.yaml",
                 path_before=f"{self._pkg_before[f'conda.recipe.path.{typ}']}/meta.yaml",
             )
             out.append(file)
@@ -108,23 +109,31 @@ class PythonPackageFileGenerator:
         # Generate import name mapping for dependencies
         core_dep_before = self._pkg_before.get("dependency", {}).get("core", {})
         for core_dep_name, core_dep in self._pkg.get("dependency", {}).get("core", {}).items():
-            if core_dep_name in core_dep_before and all(
-                "import_name" in dep for dep in (core_dep, core_dep_before[core_dep_name])
-            ) and (
-                core_dep["import_name"] != core_dep_before[core_dep_name]["import_name"]
+            if (
+                core_dep_name in core_dep_before
+                and all("import_name" in dep for dep in (core_dep, core_dep_before[core_dep_name]))
+                and (core_dep["import_name"] != core_dep_before[core_dep_name]["import_name"])
             ):
                 mapping[core_dep_before[core_dep_name]["import_name"]] = core_dep["import_name"]
         optional_dep_before = {}
-        for opt_dep_group_before in self._pkg_before.get("dependency", {}).get("optional", {}).values():
+        for opt_dep_group_before in (
+            self._pkg_before.get("dependency", {}).get("optional", {}).values()
+        ):
             optional_dep_before |= opt_dep_group_before["package"]
-        for opt_dep_name, opt_dep_group in self._pkg.get("dependency", {}).get("optional", {}).items():
+        for opt_dep_name, opt_dep_group in (
+            self._pkg.get("dependency", {}).get("optional", {}).items()
+        ):
             for opt_dep_name, opt_dep in opt_dep_group["package"].items():
-                if opt_dep_name in optional_dep_before and all(
-                    "import_name" in dep for dep in (opt_dep, optional_dep_before[opt_dep_name])
-                ) and (
-                    opt_dep["import_name"] != optional_dep_before[opt_dep_name]["import_name"]
+                if (
+                    opt_dep_name in optional_dep_before
+                    and all(
+                        "import_name" in dep for dep in (opt_dep, optional_dep_before[opt_dep_name])
+                    )
+                    and (opt_dep["import_name"] != optional_dep_before[opt_dep_name]["import_name"])
                 ):
-                    mapping[optional_dep_before[opt_dep_name]["import_name"]] = opt_dep["import_name"]
+                    mapping[optional_dep_before[opt_dep_name]["import_name"]] = opt_dep[
+                        "import_name"
+                    ]
         # Generate import name mapping for internal packages
         for key, pkg in self._data.items():
             if not key.startswith("pypkg_"):
@@ -150,7 +159,11 @@ class PythonPackageFileGenerator:
             if filepath in path_to_globs_map:
                 for config_id, file_config in path_to_globs_map[filepath]:
                     if "docstring" in file_config:
-                        docstring_before = self._pkg_before.get("source_file", {}).get(config_id, {}).get("docstring")
+                        docstring_before = (
+                            self._pkg_before.get("source_file", {})
+                            .get(config_id, {})
+                            .get("docstring")
+                        )
                         if docstring_before != file_config["docstring"]:
                             file_content = self._update_docstring(
                                 file_content,
@@ -158,7 +171,11 @@ class PythonPackageFileGenerator:
                                 docstring_before,
                             )
                     if "header_comments" in file_config:
-                        header_commens_before = self._pkg_before.get("source_file", {}).get(config_id, {}).get("header_comments")
+                        header_commens_before = (
+                            self._pkg_before.get("source_file", {})
+                            .get(config_id, {})
+                            .get("header_comments")
+                        )
                         if header_commens_before != file_config["header_comments"]:
                             file_content = self._update_header_comments(
                                 file_content,
@@ -167,7 +184,9 @@ class PythonPackageFileGenerator:
                             )
             subtype = filepath.relative_to(self._path_repo / self._path_src)
             subtype_display = str(subtype.with_suffix("")).replace("/", ".")
-            fullpath_import_before = self._path_repo / (self._path_import_before or self._path_import)
+            fullpath_import_before = self._path_repo / (
+                self._path_import_before or self._path_import
+            )
             out.append(
                 DynamicFile(
                     type=DynamicFileType.PKG_SOURCE,
@@ -180,15 +199,18 @@ class PythonPackageFileGenerator:
         return out
 
     def _update_docstring(self, file_content: str, template: dict, template_before: dict) -> str:
-
         def get_wrapped_docstring(templ: dict) -> str:
             max_line_length = templ.get("max_line_length")
             if not max_line_length:
                 return templ["content"]
             lines = []
             for line in templ["content"].splitlines():
-                line_parts = textwrap.wrap(line, width=max_line_length, subsequent_indent=self._get_whitespace(line, leading=True))
-                lines.append('') if not line_parts else lines.extend(line_parts)
+                line_parts = textwrap.wrap(
+                    line,
+                    width=max_line_length,
+                    subsequent_indent=self._get_whitespace(line, leading=True),
+                )
+                lines.append("") if not line_parts else lines.extend(line_parts)
             wrapped_docstring = "\n".join(lines)
             return f"{wrapped_docstring}{self._get_whitespace(templ['content'], leading=False)}"
 
@@ -210,8 +232,9 @@ class PythonPackageFileGenerator:
                 docstring_replacement = f"{docstring_replacement}{docstring_text}"
         return _pysyntax.modify.docstring(file_content, docstring_replacement)
 
-    def _update_header_comments(self, file_content: str, template: dict, template_before: dict) -> str:
-
+    def _update_header_comments(
+        self, file_content: str, template: dict, template_before: dict
+    ) -> str:
         def get_wrapped_header_comments(templ: dict) -> str:
             max_line_length = templ.get("max_line_length")
             lines = []
@@ -222,9 +245,9 @@ class PythonPackageFileGenerator:
                     continue
                 if current_newlines:
                     if current_newlines == 2:
-                        lines.append('#')
+                        lines.append("#")
                     elif current_newlines > 2:
-                        lines.append('')
+                        lines.append("")
                     current_newlines = 0
                 if max_line_length:
                     line_indent = self._get_whitespace(line, leading=True)
@@ -232,7 +255,7 @@ class PythonPackageFileGenerator:
                         line,
                         width=max_line_length,
                         initial_indent=f"# {line_indent}",
-                        subsequent_indent=f"# {line_indent}{templ['line_continuation_indent'] * " "}",
+                        subsequent_indent=f"# {line_indent}{templ['line_continuation_indent'] * ' '}",
                     )
                 else:
                     line_parts = [f"# {line}"]
@@ -246,16 +269,26 @@ class PythonPackageFileGenerator:
             header_comments_replacement = header_comments_text
         elif not template_before:
             if template["mode"] == "prepend":
-                header_comments_replacement = f"{header_comments_text}{newlines}{header_comments_before.strip()}"
+                header_comments_replacement = (
+                    f"{header_comments_text}{newlines}{header_comments_before.strip()}"
+                )
             else:
-                header_comments_replacement = f"{header_comments_before.strip()}{newlines}{header_comments_text}"
+                header_comments_replacement = (
+                    f"{header_comments_before.strip()}{newlines}{header_comments_text}"
+                )
         else:
             template_before_wrapped = get_wrapped_header_comments(template_before)
-            header_comments_replacement = header_comments_before.replace(template_before_wrapped, "", 1)
+            header_comments_replacement = header_comments_before.replace(
+                template_before_wrapped, "", 1
+            )
             if template["mode"] == "prepend":
-                header_comments_replacement = f"{header_comments_text}{newlines}{header_comments_replacement.strip()}"
+                header_comments_replacement = (
+                    f"{header_comments_text}{newlines}{header_comments_replacement.strip()}"
+                )
             else:
-                header_comments_replacement = f"{header_comments_replacement.strip()}{newlines}{header_comments_text}"
+                header_comments_replacement = (
+                    f"{header_comments_replacement.strip()}{newlines}{header_comments_text}"
+                )
         return _pysyntax.modify.header_comments(file_content, header_comments_replacement)
 
     def pyproject(self) -> list[DynamicFile]:
@@ -287,7 +320,9 @@ class PythonPackageFileGenerator:
             subtype=(f"{self._type}_pyproject", f"{self._type.upper()} PyProject"),
             content=file_content,
             path=str(self._path_root / _const.FILENAME_PKG_PYPROJECT),
-            path_before=str(self._path_root_before / _const.FILENAME_PKG_PYPROJECT) if self._path_root_before else None,
+            path_before=str(self._path_root_before / _const.FILENAME_PKG_PYPROJECT)
+            if self._path_root_before
+            else None,
         )
         return [file]
 
@@ -310,8 +345,14 @@ class PythonPackageFileGenerator:
 
 
 class CondaRecipeGenerator:
-
-    def __init__(self, meta: dict, pkg: dict, data: _ps.NestedDict, recipe_dir_path: str, changelog: dict | None = None):
+    def __init__(
+        self,
+        meta: dict,
+        pkg: dict,
+        data: _ps.NestedDict,
+        recipe_dir_path: str,
+        changelog: dict | None = None,
+    ):
         self._path = recipe_dir_path
         self._meta_full = meta
         self._meta = meta["values"]
@@ -343,7 +384,8 @@ class CondaRecipeGenerator:
 
     def _make_header(self) -> str:
         version = (
-            f'"{self._changelog["version"]}"' if self._changelog
+            f'"{self._changelog["version"]}"'
+            if self._changelog
             else f'environ.get("{self._full_ver_env_var_name}", environ.get("GIT_DESCRIBE_TAG", "0.0.0")).removeprefix("{self._data["tag.version.prefix"]}")'
         )
         headers = [
@@ -356,7 +398,7 @@ class CondaRecipeGenerator:
 
     @staticmethod
     def _make_package() -> str:
-        pkg =  {
+        pkg = {
             "name": "{{ name | lower }}",
             "version": "{{ version }}",
         }
@@ -369,7 +411,7 @@ class CondaRecipeGenerator:
             for file in files:
                 if file["name"].endswith(".tar.gz"):
                     source = {
-                        "url": f"https://pypi.org/packages/source/{{{{ name[0]|lower }}}}/{file["name"]}",
+                        "url": f"https://pypi.org/packages/source/{{{{ name[0]|lower }}}}/{file['name']}",
                         "sha256": file["sha256"],
                         "sha1": file["sha1"],
                         "md5": file["md5"],
@@ -380,7 +422,6 @@ class CondaRecipeGenerator:
         return _ps.write.to_yaml_string({"source": source}, end_of_file_newline=False)
 
     def _make_build(self):
-
         def add_noarch():
             if self._pkg["python"]["pure"]:
                 lines.append("noarch: python")
@@ -392,20 +433,20 @@ class CondaRecipeGenerator:
             return
 
         def add_number():
-            number = "0" if self._changelog else f'{{{{ "0" if environ.get("{self._full_ver_env_var_name}") else environ.get("GIT_DESCRIBE_NUMBER", 0) }}}}'
+            number = (
+                "0"
+                if self._changelog
+                else f'{{{{ "0" if environ.get("{self._full_ver_env_var_name}") else environ.get("GIT_DESCRIBE_NUMBER", 0) }}}}'
+            )
             lines.append(f"number: {number}")
             return
 
         def add_string():
             if self._changelog:
                 return
-            lines.extend(
-                self._make_multi_key_entry(key="string", data=build)
-            )
+            lines.extend(self._make_multi_key_entry(key="string", data=build))
             for key in ("force_use_keys", "force_ignore_keys"):
-                lines.extend(
-                    self._make_yaml_array(key=key, data=build)
-                )
+                lines.extend(self._make_yaml_array(key=key, data=build))
             return
 
         def add_entry_points():
@@ -418,7 +459,7 @@ class CondaRecipeGenerator:
                         if not conda_selector:
                             continue
                         selector = "" if conda_selector is True else f"  # [{conda_selector}]"
-                        out.append(f"  - {entry["name"]} = {entry["ref"]}{selector}")
+                        out.append(f"  - {entry['name']} = {entry['ref']}{selector}")
             if not out:
                 return
             lines.append("entry_points:")
@@ -441,7 +482,7 @@ class CondaRecipeGenerator:
                 self._make_yaml_array(
                     key="script_env",
                     data=build,
-                    add_items=[f"- {self._full_ver_env_var_name}"] if not self._changelog else None
+                    add_items=[f"- {self._full_ver_env_var_name}"] if not self._changelog else None,
                 )
             )
             return
@@ -487,7 +528,7 @@ class CondaRecipeGenerator:
             ("pin_depends", "multi"),
             ("overlinking_ignore_patterns", "array"),
             ("missing_dso_whitelist", "array"),
-            ("runpath_whitelist", "array")
+            ("runpath_whitelist", "array"),
         ):
             if typ == "multi":
                 lines.extend(self._make_multi_key_entry(key=key, data=build))
@@ -503,7 +544,9 @@ class CondaRecipeGenerator:
         lines = []
         for key in ("build", "host", "run", "run_constrained"):
             lines.extend(self._make_yaml_array(key=key, data=reqs))
-        final_lines = self._make_yaml_mapping(key="requirements", lines=lines, data=self._meta["requirements"])
+        final_lines = self._make_yaml_mapping(
+            key="requirements", lines=lines, data=self._meta["requirements"]
+        )
         return "\n".join(final_lines).strip()
 
     def _make_test(self):
@@ -525,9 +568,9 @@ class CondaRecipeGenerator:
                     "{{",
                     "  load_file_regex(",
                     f'    load_file=pkg_dir ~ "{readme["file"]}",',
-                    f'    regex_pattern="(?s)^(.*)$",',
+                    '    regex_pattern="(?s)^(.*)$",',
                     '  )[1] | default("") | indent(width=4)',
-                    "}}"
+                    "}}",
                 )
             )
         return _ps.write.to_yaml_string(data={"about": about}, end_of_file_newline=False)
@@ -538,14 +581,16 @@ class CondaRecipeGenerator:
         entries = data[key]
         out = []
         for entry in entries:
-            out.append(f"{key}: {entry["value"]}{self._make_selector(entry)}")
+            out.append(f"{key}: {entry['value']}{self._make_selector(entry)}")
         return out
 
-    def _make_yaml_array(self, key: str, data: dict, add_items: list[str] | None = None) -> list[str]:
+    def _make_yaml_array(
+        self, key: str, data: dict, add_items: list[str] | None = None
+    ) -> list[str]:
         lines = []
         array = data.get(key, {})
         for value in array.get("values", []):
-            lines.append(f"- {value["value"]}{self._make_selector(value)}")
+            lines.append(f"- {value['value']}{self._make_selector(value)}")
         lines.extend(add_items or [])
         all_lines = self._prepend_and_append(lines, array)
         if not all_lines:

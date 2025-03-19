@@ -11,7 +11,7 @@ properties:
   spec:
     summary: Specifications for the `pip` package manager.
     description: |
-      These configurations define an 
+      These configurations define an
       [abstract requirement](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/)
       and correspond to a
       [PEP 508](https://peps.python.org/pep-0508/)-compliant
@@ -46,7 +46,7 @@ properties:
           #{{ return get("..conda.version", "") }}#
       extras:
         summary: >-
-          List of 
+          List of
           [extras](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras)
           to install with the package.
         type: array

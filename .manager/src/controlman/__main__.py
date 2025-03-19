@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import argparse
 import sys
-
 from pathlib import Path
+
 from loggerman import logger
 
 import controlman
@@ -45,7 +45,7 @@ def cca_run(
             future_versions=branch_version,
             control_center_path=control_center,
             validate=validate,
-            github_token=token
+            github_token=token,
         )
     with logger.sectioning("CCA"):
         try:
@@ -61,31 +61,36 @@ def cca_run(
 
 
 def cca():
-    parser = argparse.ArgumentParser(description="Run Continuous Configuration Automation on the repository.")
+    parser = argparse.ArgumentParser(
+        description="Run Continuous Configuration Automation on the repository."
+    )
     parser.add_argument("-r", "--repo", type=str, help="Path to the repository.")
-    parser.add_argument("-t", "--token", type=str, help="GitHub token for accessing the repository.")
     parser.add_argument(
-        "-b", "--branch-version",
+        "-t", "--token", type=str, help="GitHub token for accessing the repository."
+    )
+    parser.add_argument(
+        "-b",
+        "--branch-version",
         type=str,
         nargs="*",
         metavar="BRANCH=VERSION",
         help="Branch-to-version mappings (e.g., -b main=1.0.0 dev=2.0.0).",
     )
     parser.add_argument(
-        "-c", "--control-center",
+        "-c",
+        "--control-center",
         type=str,
-        help="Path to the control center directory containing configuration files."
+        help="Path to the control center directory containing configuration files.",
     )
     parser.add_argument(
-        "-d", "--dry-run",
-        action="store_true",
-        help="If set, changes are not applied."
+        "-d", "--dry-run", action="store_true", help="If set, changes are not applied."
     )
     parser.add_argument(
-        "-n", "--no-validate",
+        "-n",
+        "--no-validate",
         action="store_false",
         dest="validate",
-        help="Disable validation of the metadata.json file against the schema."
+        help="Disable validation of the metadata.json file against the schema.",
     )
 
     args = parser.parse_args()
@@ -94,5 +99,6 @@ def cca():
             args.branch_version = dict(pair.split("=", 1) for pair in args.branch_version)
         except ValueError:
             parser.error(
-                "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0).")
+                "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
+            )
     return sys.exit(cca_run(**vars(args)))

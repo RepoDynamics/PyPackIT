@@ -40,7 +40,7 @@ properties:
       to the file. These are not written to the output file,
       but are stored in the metadata file and can be used
       for documentation or other purposes.
-      
+
       This is also useful when you want to generate content
       in a custom format. In this case, the `content` field
       can contain Python templates that use the configurations

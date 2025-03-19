@@ -2,16 +2,18 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from loggerman import logger
 import pylinks as pl
+from loggerman import logger
 
 from proman.manager.release.asset import create_releaseman_intput
 
 if _TYPE_CHECKING:
     from typing import Literal
+
     from versionman.pep440_semver import PEP440SemVer
-    from proman.manager.user import User
+
     from proman.manager import Manager
+    from proman.manager.user import User
 
 
 class ZenodoManager:
@@ -38,7 +40,7 @@ class ZenodoManager:
         "WorkPackageLeader",
         "Other",
     ]
-    
+
     def __init__(self, manager: Manager):
         self._manager = manager
         self._api = {
@@ -62,7 +64,7 @@ class ZenodoManager:
         main_draft_data, sandbox_draft_data, vars_updated, changelog_updated
         """
         main_draft_data = self.get_or_make_draft(sandbox=False)
-        sandbox_draft_data  = self.get_or_make_draft(sandbox=True)
+        sandbox_draft_data = self.get_or_make_draft(sandbox=True)
         return main_draft_data, sandbox_draft_data
 
     def get_or_make_draft(self, sandbox: bool) -> dict | None:
@@ -80,37 +82,43 @@ class ZenodoManager:
         draft_data, vars_updated, changelog_updated
         """
         title = f"{self._platform_name(sandbox)} Draft"
-        if not self._has_token[sandbox] or self._workflow_config(sandbox=sandbox).get("action") != "auto":
+        if (
+            not self._has_token[sandbox]
+            or self._workflow_config(sandbox=sandbox).get("action") != "auto"
+        ):
             return None
-        record = self._changelog.current.get("dev", {}).get("zenodo_sandbox") if sandbox else self._changelog.current.get("zenodo")
+        record = (
+            self._changelog.current.get("dev", {}).get("zenodo_sandbox")
+            if sandbox
+            else self._changelog.current.get("zenodo")
+        )
         if record and record["draft"]:
             logger.success(
                 f"{title} Retrieval",
                 "Retrieved current draft from changelog:",
-                logger.data_block(record)
+                logger.data_block(record),
             )
             return record
-        else:
-            logger.info(
-                f"{title} Retrieval",
-                "No draft found in the current changelog:",
-                logger.data_block(self._changelog.current)
-            )
+        logger.info(
+            f"{title} Retrieval",
+            "No draft found in the current changelog:",
+            logger.data_block(self._changelog.current),
+        )
         api = self._api[sandbox]
-        concept_record = self._varman.setdefault(self._var_key(sandbox), {}).setdefault("concept", {})
+        concept_record = self._varman.setdefault(self._var_key(sandbox), {}).setdefault(
+            "concept", {}
+        )
         if concept_record.get("id"):
             if concept_record.get("draft"):
                 depo_id = int(concept_record["id"]) + 1
                 logger.success(
                     f"{title} Creation",
-                    f"Selected open draft defined in variables file wih deposition ID {depo_id}"
+                    f"Selected open draft defined in variables file wih deposition ID {depo_id}",
                 )
             else:
                 deposition = api.deposition_new_version(deposition_id=int(concept_record["id"]) + 1)
                 logger.success(
-                    f"{title} Creation",
-                    "Created new version draft:",
-                    logger.data_block(deposition)
+                    f"{title} Creation", "Created new version draft:", logger.data_block(deposition)
                 )
                 depo_id = deposition["id"]
             draft = {
@@ -122,16 +130,15 @@ class ZenodoManager:
             return draft
         deposition = api.deposition_create()
         logger.success(
-            f"{title} Concept Creation",
-            "Created new concept draft:",
-            logger.data_block(deposition)
+            f"{title} Concept Creation", "Created new concept draft:", logger.data_block(deposition)
         )
         concept, draft = [
             {
                 "id": int(_id),
                 "doi": self._doi(_id, sandbox=sandbox),
                 "draft": True,
-            } for _id in (deposition["conceptrecid"], deposition["id"])
+            }
+            for _id in (deposition["conceptrecid"], deposition["id"])
         ]
         concept_record.update(concept)
         self._changelog.update_zenodo(sandbox=sandbox, **draft)
@@ -163,25 +170,29 @@ class ZenodoManager:
                     sandbox=sandbox,
                     version=version,
                 )
-                asset_key = f"workflow.publish.zenodo{"_sandbox" if sandbox else ""}.asset"
+                asset_key = f"workflow.publish.zenodo{'_sandbox' if sandbox else ''}.asset"
                 outputs.append(
                     self._make_output(
                         deposition_id=draft_id,
                         asset_config=self._manager.fill_jinja_templates(
                             self._manager.data[asset_key],
                             jsonpath=asset_key,
-                            env_vars={"version": version}
+                            env_vars={"version": version},
                         ),
-                        publish=publish
+                        publish=publish,
                     )
                 )
             else:
                 outputs.append(None)
         return outputs[0], outputs[1]
 
-    def _update_metadata(self, deposition_id: str | int, sandbox: bool, version: PEP440SemVer | str):
+    def _update_metadata(
+        self, deposition_id: str | int, sandbox: bool, version: PEP440SemVer | str
+    ):
         metadata = self._create_metadata(version=version)
-        return self._upload_metadata(deposition_id=deposition_id, metadata=metadata, sandbox=sandbox)
+        return self._upload_metadata(
+            deposition_id=deposition_id, metadata=metadata, sandbox=sandbox
+        )
 
     def _create_metadata(self, version: PEP440SemVer | str) -> dict:
         # https://developers.zenodo.org/#deposit-metadata
@@ -196,7 +207,6 @@ class ZenodoManager:
             return out
 
         def create_contributor(entry: str | dict):
-
             def add_from_role_types(role_types: list[str]):
                 output_contributors = []
                 for role_type in role_types:
@@ -204,7 +214,7 @@ class ZenodoManager:
                         logger.error(
                             "Zenodo Contributors Metadata",
                             f"The role type '{role_type}' defined for contributor '{entry}' is invalid. "
-                            "The entry will not be included in metadata."
+                            "The entry will not be included in metadata.",
                         )
                     contributor_entry = person | {"type": role_type}
                     if contributor_entry not in output_contributors:
@@ -213,18 +223,21 @@ class ZenodoManager:
 
             def add_from_role_ids(person_role_ids: list[str]):
                 role_types = [
-                    self._manager.data["role"][person_role_id]["type"] for person_role_id in person_role_ids
+                    self._manager.data["role"][person_role_id]["type"]
+                    for person_role_id in person_role_ids
                 ]
                 return add_from_role_types(role_types)
 
             user = self._manager.user.from_id(entry)
             person = create_person(user=user)
-            if isinstance(entry, str) or not any(key in entry for key in ("role_ids", "role_types")):
+            if isinstance(entry, str) or not any(
+                key in entry for key in ("role_ids", "role_types")
+            ):
                 role_ids = user.get("role", {}).keys()
                 if not role_ids:
                     logger.error(
                         "Zenodo Contributors Metadata",
-                        f"Contributor '{entry}' has no defined roles and will not be included in metadata."
+                        f"Contributor '{entry}' has no defined roles and will not be included in metadata.",
                     )
                     return []
                 return add_from_role_ids(role_ids)
@@ -245,9 +258,7 @@ class ZenodoManager:
             return outputs
 
         metadata_raw = self._manager.data["zenodo"]
-        metadata = {
-            k: v for k, v in metadata_raw.items() if v
-        }
+        metadata = {k: v for k, v in metadata_raw.items() if v}
         metadata["creators"] = [
             create_person(user=self._manager.user.from_id(entity_id))
             for entity_id in metadata["creators"]
@@ -261,7 +272,9 @@ class ZenodoManager:
         if "notes" in metadata:
             metadata["notes"] = self._manager.fill_jinja_template(metadata["notes"])
         if "communities" in metadata:
-            metadata["communities"] = [{"identifier": identifier} for identifier in metadata["communities"]]
+            metadata["communities"] = [
+                {"identifier": identifier} for identifier in metadata["communities"]
+            ]
         if "grants" in metadata:
             metadata["grants"] = [{"id": grant["id"]} for grant in metadata["grants"]]
         metadata |= {
@@ -273,23 +286,21 @@ class ZenodoManager:
     def _upload_metadata(self, deposition_id: str | int, metadata: dict, sandbox: bool):
         log_title = f"{self._platform_name(sandbox)} Draft Metadata Update"
         try:
-            response = self._api[sandbox].deposition_update(deposition_id=deposition_id, metadata=metadata)
-        except Exception as e:
+            response = self._api[sandbox].deposition_update(
+                deposition_id=deposition_id, metadata=metadata
+            )
+        except Exception:
             logger.error(
                 log_title,
                 "Failed to update metadata for deposition:",
                 logger.traceback(),
             )
             return
-        logger.success(
-            log_title,
-            "Updated metadata for deposition:",
-            logger.data_block(response)
-        )
+        logger.success(log_title, "Updated metadata for deposition:", logger.data_block(response))
         return
 
     def _workflow_config(self, sandbox: bool):
-        return self._manager.data[f"workflow.publish.{"zenodo_sandbox" if sandbox else "zenodo"}"]
+        return self._manager.data[f"workflow.publish.{'zenodo_sandbox' if sandbox else 'zenodo'}"]
 
     @staticmethod
     def _make_output(deposition_id: str | int, asset_config: dict, publish: bool):

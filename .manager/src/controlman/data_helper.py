@@ -2,17 +2,18 @@
 
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import re as _re
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from loggerman import logger as _logger
 import pylinks as _pl
 import pyserials as _ps
+from loggerman import logger as _logger
 
 from controlman import data_validator as _validator
 
 if _TYPE_CHECKING:
-    from typing import Sequence, Callable
+    from collections.abc import Callable, Sequence
+
     from controlman.cache_manager import CacheManager
 
 
@@ -51,9 +52,15 @@ def team_members_with_role_types(
                     max_priority = max(max_priority, member_priority)
         if max_priority > 0:
             out.append(
-                (member_data | {"id": member_id}, max_priority, member_data["name"]["full_inverted"])
+                (
+                    member_data | {"id": member_id},
+                    max_priority,
+                    member_data["name"]["full_inverted"],
+                )
             )
-    return [member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]
+    return [
+        member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+    ]
 
 
 def team_members_with_role_ids(
@@ -88,7 +95,9 @@ def team_members_with_role_ids(
                     (member_data | {"id": member_id}, role_ids.index(role_id), member_priority)
                 )
                 break
-    return [member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]
+    return [
+        member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+    ]
 
 
 def team_members_without_role_types(
@@ -144,7 +153,6 @@ def fill_entity(
     """Fill all missing information in an `entity` object."""
 
     def _get_github_user(username: str | None = None, user_id: str | None = None) -> dict:
-
         def add_social(name, user, url):
             socials[name] = {"id": user, "url": url}
             return
@@ -163,18 +171,18 @@ def fill_entity(
         user_info["socials"] = socials
         for account in social_accounts_info:
             for provider, base_pattern, id_pattern in (
-                ("orcid", r'orcid.org/', r'([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]{1})(.*)'),
-                ("researchgate", r'researchgate.net/profile/', r'([a-zA-Z0-9_-]+)(.*)'),
-                ("linkedin", r'linkedin.com/in/', r'([a-zA-Z0-9_-]+)(.*)'),
-                ("twitter", r'twitter.com/', r'([a-zA-Z0-9_-]+)(.*)'),
-                ("twitter", r'x.com/', r'([a-zA-Z0-9_-]+)(.*)'),
+                ("orcid", r"orcid.org/", r"([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]{1})(.*)"),
+                ("researchgate", r"researchgate.net/profile/", r"([a-zA-Z0-9_-]+)(.*)"),
+                ("linkedin", r"linkedin.com/in/", r"([a-zA-Z0-9_-]+)(.*)"),
+                ("twitter", r"twitter.com/", r"([a-zA-Z0-9_-]+)(.*)"),
+                ("twitter", r"x.com/", r"([a-zA-Z0-9_-]+)(.*)"),
             ):
                 match = _re.search(rf"{base_pattern}{id_pattern}", account["url"])
                 if match:
                     add_social(
                         provider,
                         match.group(1),
-                        f"https://{base_pattern}{match.group(1)}{match.group(2)}"
+                        f"https://{base_pattern}{match.group(1)}{match.group(2)}",
                     )
                     break
             else:
@@ -183,7 +191,7 @@ def fill_entity(
                 else:
                     generics = socials.setdefault("generics", [])
                     generics.append(account["url"])
-                    _logger.info(f"Unknown account", account['url'])
+                    _logger.info("Unknown account", account["url"])
         if cache_manager:
             cache_manager.set("user", user_info["id"], user_info)
         return user_info
@@ -213,7 +221,7 @@ def fill_entity(
         if not user.get("name"):
             _logger.warning(
                 f"GitHub user {username} has no name",
-                f"Setting entity to legal person",
+                "Setting entity to legal person",
             )
             return {"legal": username}
         if user["type"] != "User":
@@ -246,7 +254,7 @@ def fill_entity(
             ("bio", "bio"),
             ("avatar", "avatar_url"),
             ("website", "blog"),
-            ("city", "location")
+            ("city", "location"),
         ):
             if not entity.get(key_self) and github_user_info.get(key_gh):
                 entity[key_self] = github_user_info[key_gh]
@@ -254,18 +262,14 @@ def fill_entity(
             email = entity.setdefault("email", {})
             email["id"] = github_user_info["email"]
         for social_name, social_data in github_user_info["socials"].items():
-            if social_name in ("orcid", "researchgate", "linkedin", "twitter") and social_name not in entity:
+            if (
+                social_name in ("orcid", "researchgate", "linkedin", "twitter")
+                and social_name not in entity
+            ):
                 entity[social_name] = social_data
     if "orcid" in entity and entity["orcid"].get("get_pubs"):
         entity["orcid"]["pubs"] = get_orcid_publications(orcid_id=entity["orcid"]["user"])
-    _validator.validate(
-        data=entity,
-        schema = "entity",
-        before_substitution = True
-    )
+    _validator.validate(data=entity, schema="entity", before_substitution=True)
     entity_ = _ps.NestedDict(entity)
     entity_.fill()
     return entity_(), github_user_info
-
-
-

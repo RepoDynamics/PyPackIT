@@ -1,7 +1,7 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import re
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 from loggerman import logger
 
@@ -13,17 +13,16 @@ if _TYPE_CHECKING:
 
 
 class IssueManager:
-    
     def __init__(self, manager: Manager):
         self._manager = manager
         return
-    
+
     def form_from_id(self, form_id: str) -> IssueForm:
         for issue_form in self._manager.data["issue.forms"]:
             if issue_form["id"] == form_id:
                 return self._make_issue_form(issue_form)
         raise ValueError(f"Could not find issue form with ID '{form_id}'.")
-    
+
     def form_from_id_labels(self, label_names: list[str]) -> IssueForm:
         for issue_form_data in self._manager.data["issue.forms"]:
             issue_form = self._make_issue_form(issue_form_data)
@@ -33,17 +32,16 @@ class IssueManager:
 
     def form_from_issue_body(self, issue_body: str) -> IssueForm:
         ids = [form["id"] for form in self._manager.data["issue.forms"]]
-        id_pattern = '|'.join(map(re.escape, ids))
+        id_pattern = "|".join(map(re.escape, ids))
         pattern = rf"<!-- ISSUE-ID: ({id_pattern}) -->"
         match = re.search(pattern, issue_body)
         if not match:
             logger.critical(
-                "Issue ID Extraction",
-                "Could not match the issue ID in the issue body."
+                "Issue ID Extraction", "Could not match the issue ID in the issue body."
             )
             raise ProManException()
         return self.form_from_id(match.group(1))
-    
+
     def _make_issue_form(self, issue_form: dict) -> IssueForm:
         id_labels = [
             self._manager.label.from_id(group_id, label_id)
@@ -76,7 +74,9 @@ class IssueManager:
                 "review_assignee": None,
                 "commit_author": None,
                 "commit_committer": None,
-            } | self._manager.data.get("issue.form.role", {}) | issue_form.get("role", {}),
+            }
+            | self._manager.data.get("issue.form.role", {})
+            | issue_form.get("role", {}),
             name=issue_form["name"],
             description=issue_form["description"],
             projects=issue_form.get("projects", []),

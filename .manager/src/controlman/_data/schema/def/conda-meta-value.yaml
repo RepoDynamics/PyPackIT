@@ -3,7 +3,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Conda Meta Value
 description: |
   A value in a conda recipe metadata file.
-  
+
   Since values can be repeated with different selectors,
   this is an array. Note that if only one variant has a selector,
   then all entries must have a selector, and at most only one selector

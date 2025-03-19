@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from enum import Enum
+from typing import TYPE_CHECKING
 
-from loggerman import logger
 import controlman
+from loggerman import logger
 
+from proman.dtype import InitCheckAction
 from proman.main import EventHandler
 from proman.manager.changelog import ChangelogManager
-from proman.dtype import InitCheckAction
 
 if TYPE_CHECKING:
     from github_contexts.github.payload import WorkflowDispatchPayload
@@ -42,7 +42,6 @@ _INPUT_TYPE = {
 
 
 class WorkflowDispatchEventHandler(EventHandler):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._payload: WorkflowDispatchPayload = self.gh_context.event
@@ -74,7 +73,7 @@ class WorkflowDispatchEventHandler(EventHandler):
             if self.gh_context.ref_is_main:
                 return self._release_first_major_version()
             logger.critical("Cannot create first major release: not on main branch")
-            return
+            return None
         return self._action_default()
 
     def _action_default(self):
@@ -95,7 +94,9 @@ class WorkflowDispatchEventHandler(EventHandler):
             action=controlman.datatype.InitCheckAction.COMMIT,
             cc_manager=cc_manager,
             base=False,
-            branch=controlman.datatype.Branch(type=controlman.datatype.BranchType.MAIN, name=self.gh_context.ref_name)
+            branch=controlman.datatype.Branch(
+                type=controlman.datatype.BranchType.MAIN, name=self.gh_context.ref_name
+            ),
         )
         changelog_manager = ChangelogManager(
             changelog_metadata=self._ccm_main["changelog"],
@@ -128,7 +129,6 @@ class WorkflowDispatchEventHandler(EventHandler):
             package_publish_testpypi=True,
             package_publish_pypi=True,
             package_release=True,
-            website_url=self._ccm_main["url"]["website"]["base"]
+            website_url=self._ccm_main["url"]["website"]["base"],
         )
         return
-

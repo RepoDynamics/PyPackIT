@@ -10,11 +10,9 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import shlex
 import subprocess
 import sys
 from pathlib import Path
-
 
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
@@ -31,23 +29,21 @@ def main(pkg_id: str, out_dir: str | Path) -> Path | None:
         return None
     readme_path = Path(pkg["path"]["root"]).resolve() / readme_relpath
     # Ensure the output folder exists
-    output_file = Path(out_dir).resolve() / f"{pkg["import_name"]}.html"
+    output_file = Path(out_dir).resolve() / f"{pkg['import_name']}.html"
     output_file.parent.mkdir(parents=True, exist_ok=True)
     # Run readme-renderer
     subprocess.run(
         ["python", "-m", "readme_renderer", str(readme_path), "--output", str(output_file)],
         check=True,
-        stdout=sys.stderr
-    )  # noqa: S603
+        stdout=sys.stderr,
+    )
     return output_file
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Python package in the project.")
-    parser.add_argument(
-        "out_dir", help="Output directory to write the rendered README file."
-    )
+    parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
     )

@@ -1,6 +1,5 @@
 import datetime as _dt
 
-
 OUTPUT_FORMAT = "%Y-%m-%d"
 
 
@@ -11,8 +10,10 @@ def from_now() -> _dt.datetime:
 def from_internal(date: str) -> _dt.datetime:
     return _dt.datetime.strptime(date, OUTPUT_FORMAT).astimezone(_dt.UTC)
 
+
 def from_iso(date: str) -> _dt.datetime:
     return _dt.datetime.fromisoformat(date).astimezone(_dt.UTC)
+
 
 def from_github(date: str) -> _dt.datetime:
     return _dt.datetime.strptime(date, "%Y-%m-%dT%H:%M:%SZ").astimezone(_dt.UTC)

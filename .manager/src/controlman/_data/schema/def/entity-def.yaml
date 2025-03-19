@@ -3,7 +3,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Entity Definition
 description: |
   Definition of a natural or legal person.
-  
+
   If [`github.user`](#ccdef-entity-def-github-user) is provided, any of the following keys that is not explicitly provided
   will be automatically filled with information retrieved from the
   [GitHub API](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user), if available
@@ -148,9 +148,9 @@ properties:
             legal = get(".legal")
             if legal:
               return legal
-            
+
             particle = get(".particle")
-            full = f"{particle} " if particle else "" 
+            full = f"{particle} " if particle else ""
             full += f"{get(".last")}, {get(".first")}"
             suffix = get(".suffix")
             if suffix:

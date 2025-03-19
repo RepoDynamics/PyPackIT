@@ -29,7 +29,7 @@ properties:
   fill_defaults:
     summary: Whether to fill missing properties with default values.
     description: |
-      If set to `true`, missing properties in the content 
+      If set to `true`, missing properties in the content
       will be filled with default values provided in the schema.
     type: boolean
     default: false

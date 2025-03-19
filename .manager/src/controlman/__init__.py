@@ -8,13 +8,11 @@ from pathlib import Path as _Path
 import pyserials as _ps
 from gittidy import Git as _Git
 
-
-from controlman import const, exception
+from controlman import _file_util, const, exception
 from controlman import data_validator as _data_validator
-from controlman import _file_util
+from controlman import date as _date
 from controlman import exception as _exception
 from controlman.center_manager import CenterManager
-from controlman import date as _date
 
 
 def manager(
@@ -144,7 +142,9 @@ def read_contributors(
         try:
             data = _ps.read.json_from_file(path=fullpath)
         except _ps.exception.read.PySerialsReadException as e:
-            raise _exception.load.ControlManInvalidMetadataError(cause=e, filepath=fullpath) from None
+            raise _exception.load.ControlManInvalidMetadataError(
+                cause=e, filepath=fullpath
+            ) from None
     else:
         data = {}
     _data_validator.validate(data=data, schema="contributors")
@@ -160,7 +160,9 @@ def read_variables(
         try:
             data = _ps.read.json_from_file(path=fullpath)
         except _ps.exception.read.PySerialsReadException as e:
-            raise _exception.load.ControlManInvalidMetadataError(cause=e, filepath=fullpath) from None
+            raise _exception.load.ControlManInvalidMetadataError(
+                cause=e, filepath=fullpath
+            ) from None
     else:
         data = {}
     _data_validator.validate(data=data, schema="variables")

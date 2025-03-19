@@ -1,26 +1,28 @@
-from typing import Literal as _Literal
-from pathlib import Path as _Path
 import copy
 import re as _re
+from pathlib import Path as _Path
+from typing import Literal as _Literal
 
-import trove_classifiers as _trove_classifiers
 import jsonschema as _jsonschema
-import referencing as _referencing
-from referencing import jsonschema as _referencing_jsonschema
 import jsonschemata as _js
 import pkgdata as _pkgdata
 import pyserials as _ps
-from mdit.data import schema as _mdit_schema
+import referencing as _referencing
+import trove_classifiers as _trove_classifiers
 from loggerman import logger as _logger
+from mdit.data import schema as _mdit_schema
+from referencing import jsonschema as _referencing_jsonschema
 
-from controlman import exception as _exception, const as _const
-
+from controlman import const as _const
+from controlman import exception as _exception
 
 _schema_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "_data" / "schema"
 
 
 def get_schema(
-    schema: _Literal["main", "local", "cache", "entity", "variables", "changelog", "contributors"] = "main",
+    schema: _Literal[
+        "main", "local", "cache", "entity", "variables", "changelog", "contributors"
+    ] = "main",
 ) -> dict:
     """Validate data against a schema."""
     relpath = "def/entity-def.yaml" if schema == "entity" else f"{schema}.yaml"
@@ -30,7 +32,9 @@ def get_schema(
 
 def validate(
     data: dict,
-    schema: _Literal["main", "local", "cache", "entity", "variables", "changelog", "contributors"] = "main",
+    schema: _Literal[
+        "main", "local", "cache", "entity", "variables", "changelog", "contributors"
+    ] = "main",
     source: _Literal["source", "compiled"] = "compiled",
     before_substitution: bool = False,
     fill_defaults: bool = True,
@@ -67,7 +71,7 @@ def validate(
 
 
 def validate_user_schema(
-    data: dict | list | str | int | float | bool,
+    data: dict | list | str | float | bool,
     schema: dict,
     before_substitution: bool,
     fill_defaults: bool,
@@ -133,9 +137,21 @@ class DataValidator:
 
         def verify_reference(ref: dict, ref_key: str):
             entity_list_keys = [
-                "authors", "contacts", "editors", "editors-series", "recipients", "senders", "translators"
+                "authors",
+                "contacts",
+                "editors",
+                "editors-series",
+                "recipients",
+                "senders",
+                "translators",
             ]
-            entity_keys = ["conference", "database-provider", "institution", "location", "publisher"]
+            entity_keys = [
+                "conference",
+                "database-provider",
+                "institution",
+                "location",
+                "publisher",
+            ]
             for entity_key in entity_keys:
                 entity = ref.get(entity_key)
                 if isinstance(entity, str) and entity not in self._data["team"]:
@@ -191,8 +207,7 @@ class DataValidator:
         for dirpath_key in (
             "control.path",
             "local.cache.path",
-            "local.report.path"
-            "pkg.path.root",
+            "local.report.pathpkg.path.root",
             "test.path.root",
             "web.path.root",
         ):
@@ -200,7 +215,7 @@ class DataValidator:
                 path_keys.append(dirpath_key)
                 paths.append(_Path(self._data[dirpath_key]))
         for idx, path in enumerate(paths):
-            for idx2, path2 in enumerate(paths[idx + 1:]):
+            for idx2, path2 in enumerate(paths[idx + 1 :]):
                 if path.is_relative_to(path2):
                     main_path = path2
                     rel_path = path
@@ -264,7 +279,7 @@ class DataValidator:
             branch_keys.append(branch_key)
             branch_names.append(branch_data["name"])
         for idx, branch_name in enumerate(branch_names):
-            for idx2, branch_name2 in enumerate(branch_names[idx + 1:]):
+            for idx2, branch_name2 in enumerate(branch_names[idx + 1 :]):
                 if branch_name.startswith(branch_name2) or branch_name2.startswith(branch_name):
                     raise _exception.load.ControlManSchemaValidationError(
                         source=self._source,
@@ -412,7 +427,7 @@ class DataValidator:
                 element_labels.append(elem["attributes"]["label"])
             if not any(element_id in ("version", "branch") for element_id in element_ids):
                 _logger.critical(
-                    f"Missing issue-form body-element: version or branch",
+                    "Missing issue-form body-element: version or branch",
                     f"The issue-form number {form_idx} is missing a body-element "
                     f"with ID 'version' or 'branch'.",
                 )
@@ -483,7 +498,7 @@ class DataValidator:
         if len(labels) > 1000:
             _logger.critical(
                 f"Too many labels: {len(labels)}",
-                f"The maximum number of labels allowed by GitHub is 1000.",
+                "The maximum number of labels allowed by GitHub is 1000.",
             )
         for label_id, label_data in self._data["label"]["group"].items():
             suffixes = []
@@ -527,7 +542,6 @@ def modify_schema(schema: dict) -> dict:
 
 
 def _make_registry():
-
     def make_resource(
         schema: dict, spec: _referencing.Specification = _referencing_jsonschema.DRAFT202012
     ) -> _referencing.Resource:
@@ -540,7 +554,9 @@ def _make_registry():
         _js.edit.required_last(schema_dict)
         _add_custom_keys(schema_dict)
         resources.append(make_resource(schema_dict))
-    registry_after, _ = _mdit_schema.make_registry(dynamic=False, crawl=True, add_resources=resources)
+    registry_after, _ = _mdit_schema.make_registry(
+        dynamic=False, crawl=True, add_resources=resources
+    )
     resources_before = []
     for registry_schema_id in registry_after:
         registry_schema_dict = registry_after[registry_schema_id].contents
@@ -548,14 +564,15 @@ def _make_registry():
         _add_custom_keys(registry_schema_dict)
         registry_schema_spec = registry_after[registry_schema_id]._specification
         registry_schema_dict_before = modify_schema(copy.deepcopy(registry_schema_dict))
-        resources_before.append(make_resource(registry_schema_dict_before, spec=registry_schema_spec))
+        resources_before.append(
+            make_resource(registry_schema_dict_before, spec=registry_schema_spec)
+        )
 
     registry_before = resources_before @ _referencing.Registry()
     return registry_before, registry_after
 
 
 def get_registry():
-
     def make_resource(
         schema: dict, spec: _referencing.Specification = _referencing_jsonschema.DRAFT202012
     ) -> _referencing.Resource:
@@ -574,6 +591,7 @@ def _add_custom_keys(schema: dict):
         if "additionalProperties" in subschema:
             return not bool(subschema["additionalProperties"])
         return True
+
     _js.edit.add_property(schema, _const.CUSTOM_KEY, {}, conditioner=conditioner)
     for key in _const.RELATIVE_TEMPLATE_KEYS:
         _js.edit.add_property(schema, key, {}, conditioner=conditioner)

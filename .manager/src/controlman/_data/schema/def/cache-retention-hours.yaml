@@ -3,7 +3,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Cache Retention Hours
 description: |
   Number of hours to keep different cached data.
-  
+
   After the specified duration,
   the cached data is considered stale
   and will be automatically synced with the source.
@@ -17,7 +17,7 @@ properties:
   extension:
     description: |
       Configuration extensions retrieved from external URLs.
-      
+
       These are extended data in control center configuration files
       defined with the `!ext` tag.
     default: 0
@@ -26,7 +26,7 @@ properties:
     title: Repository
     description: |
       Repository data retrieved from GitHub API.
-      
+
       This includes general repository settings,
       as well as details about discussion categories,
       which are used for the website's blog.
@@ -35,7 +35,7 @@ properties:
   user:
     description: |
       Team member data retrieved from GitHub API.
-      
+
       This includes name, email, avatar, bio, and other profile information.
     default: 24
     $ref: https://jsonschemata.repodynamics.com/number/non-negative
@@ -43,7 +43,7 @@ properties:
     title: ORCiD
     description: |
       Publications data retrieved from ORCID API.
-      
+
       This includes a list of all publication DOIs associated with an ORCID ID.
     default: 240
     $ref: https://jsonschemata.repodynamics.com/number/non-negative
@@ -51,14 +51,14 @@ properties:
     title: DOI
     description: |
       Publication data retrieved from DOI API.
-      
+
       This corresponds to citation details associated with a specific DOI.
     default: 1000
     $ref: https://jsonschemata.repodynamics.com/number/non-negative
   python:
     description: |
       Python version data retrieved from the Python GitHub repository.
-      
+
       This is a list of currently available Python versions,
       used to update workflow configurations such as CI/CD/CT pipelines.
     default: 500

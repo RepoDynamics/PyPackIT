@@ -1,19 +1,14 @@
-from typing import Generator
 import re
 
 import conventional_commits.message
-from github_contexts import GitHubContext
-from github_contexts.github.payload.schedule import SchedulePayload
-from loggerman import logger
 import pyshellman
-import controlman
-from proman.dtype import BranchType, InitCheckAction
+from github_contexts.github.payload.schedule import SchedulePayload
 
+from proman.dtype import InitCheckAction
 from proman.main import EventHandler
 
 
 class ScheduleEventHandler(EventHandler):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._payload: SchedulePayload = self.gh_context.event
@@ -39,7 +34,7 @@ class ScheduleEventHandler(EventHandler):
                             for schedule in self._data_main["workflow"]["schedule"].values()
                         ]
                     ),
-                ]
+                ],
             )
             return
         self.reporter.event(f"Scheduled workflow `{schedule_id}`")
@@ -72,14 +67,10 @@ class ScheduleEventHandler(EventHandler):
                 self._git_base.push()
             latest_hash = self._git_base.commit_hash_normal()
             if "website" in job:
-                self._output_manager._set_web(
-
-                )
-
+                self._output_manager._set_web()
 
             self._output_manager.set(
                 data_branch=self._data_branch,
-
                 ref=latest_hash or sha,
                 ref_before=sha,
                 version=self._get_latest_version(base=False),
@@ -90,8 +81,6 @@ class ScheduleEventHandler(EventHandler):
                 package_test_source="PyPI",
                 package_build=True,
             )
-
-
 
         return
 
@@ -120,12 +109,12 @@ class ScheduleEventHandler(EventHandler):
                 oneliner="Announcement file does not exist❗",
                 details=html.ul(
                     [
-                        f"❎ No changes were made.",
-                        f"🚫 The announcement file was not found.",
+                        "❎ No changes were made.",
+                        "🚫 The announcement file was not found.",
                     ]
                 ),
             )
-            return
+            return None
         (commit_date_relative, commit_date_absolute, commit_date_epoch, commit_details) = (
             self._git_head.log(
                 number=1,
@@ -152,14 +141,13 @@ class ScheduleEventHandler(EventHandler):
                 oneliner="📭 No announcement to check.",
                 details=html.ul(
                     [
-                        f"❎ No changes were made."
-                        f"📭 The announcement file is empty.\n",
+                        "❎ No changes were made.📭 The announcement file is empty.\n",
                         f"📅 The last announcement was removed {commit_date_relative} on {commit_date_absolute}.\n",
                         last_commit_details_html,
                     ]
                 ),
             )
-            return
+            return None
         current_date_epoch = int(pyshellman.run(["date", "-u", "+%s"]).output)
         elapsed_seconds = current_date_epoch - int(commit_date_epoch)
         elapsed_days = elapsed_seconds / (24 * 60 * 60)
@@ -192,7 +180,7 @@ class ScheduleEventHandler(EventHandler):
                     ]
                 ),
             )
-            return
+            return None
         # Remove the expired announcement
         removed_announcement_html = html.details(
             content=md.code_block(current_announcement, "html"),

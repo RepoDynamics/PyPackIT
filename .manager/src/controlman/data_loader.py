@@ -1,23 +1,18 @@
 from pathlib import Path as _Path
 
-import ruamel.yaml as _yaml
-
-import pyserials as _ps
+import mdit as _mdit
 import pylinks as _pl
+import pyserials as _ps
+import ruamel.yaml as _yaml
+from loggerman import logger as _logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from controlman.exception import load as _exception
-from controlman.cache_manager import CacheManager as _CacheManager
 from controlman import const as _const
-import mdit as _mdit
-from loggerman import logger as _logger
+from controlman.cache_manager import CacheManager as _CacheManager
+from controlman.exception import load as _exception
 
 
-def load(
-    path_cc: _Path,
-    cache_manager: _CacheManager | None = None
-) -> dict:
-
+def load(path_cc: _Path, cache_manager: _CacheManager | None = None) -> dict:
     def _load_file(filepath: _Path):
         file_content = filepath.read_text().strip()
         if not file_content:
@@ -51,7 +46,9 @@ def load(
                 addon=data,
             )
         except _ps.exception.update.PySerialsUpdateRecursiveDataError as e:
-            raise _exception.ControlManDuplicateConfigFileDataError(filepath=filepath, cause=e) from None
+            raise _exception.ControlManDuplicateConfigFileDataError(
+                filepath=filepath, cause=e
+            ) from None
         # log_admonitions = []
         # for key, title in (
         #     ("added", "Added"),
@@ -79,8 +76,12 @@ def load(
 
     full_data = {}
     hook_dir = path_cc / _const.DIRNAME_CC_HOOK
-    for path in sorted(path_cc.rglob('*'), key=lambda p: (p.parts, p)):
-        if hook_dir not in path.parents and path.is_file() and path.suffix.lower() in ['.yaml', '.yml']:
+    for path in sorted(path_cc.rglob("*"), key=lambda p: (p.parts, p)):
+        if (
+            hook_dir not in path.parents
+            and path.is_file()
+            and path.suffix.lower() in [".yaml", ".yml"]
+        ):
             with _logger.sectioning(_mdit.element.code_span(str(path.relative_to(path_cc)))):
                 _load_file(filepath=path)
     return full_data
@@ -89,12 +90,10 @@ def load(
 def _create_external_tag_constructor(
     filepath: _Path,
     file_content: str,
-    tag_name: str = u"!ext",
-    cache_manager: _CacheManager | None = None
+    tag_name: str = "!ext",
+    cache_manager: _CacheManager | None = None,
 ):
-
     def load_external_data(loader: _yaml.SafeConstructor, node: _yaml.ScalarNode):
-
         tag_value = loader.construct_scalar(node)
         if not tag_value:
             raise _exception.ControlManEmptyTagInConfigFileError(
@@ -106,8 +105,8 @@ def _create_external_tag_constructor(
             cached_data = cache_manager.get(typ="extension", key=tag_value)
             if cached_data:
                 return cached_data
-        url, *jsonpath_expr = tag_value.split(' ', 1)
-        file_ext = url.split('.')[-1].lower()
+        url, *jsonpath_expr = tag_value.split(" ", 1)
+        file_ext = url.split(".")[-1].lower()
         try:
             data_raw_whole = _pl.http.request(
                 url=url,
@@ -140,9 +139,10 @@ def _create_external_tag_constructor(
                     data=data,
                     template=jsonpath_expr,
                 )
-            except Exception as e:
+            except Exception:
                 raise ValueError(
-                    f"No match found for JSONPath '{jsonpath_expr}' in the JSON data from '{url}'")
+                    f"No match found for JSONPath '{jsonpath_expr}' in the JSON data from '{url}'"
+                )
         if cache_manager:
             cache_manager.set(typ="extension", key=tag_value, value=data)
         return data

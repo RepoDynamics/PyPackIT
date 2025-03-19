@@ -2,21 +2,22 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from loggerman import logger
-import pyserials as ps
 import mdit
+import pyserials as ps
+from loggerman import logger
 
-from proman.dstruct import VersionTag, Version
 from proman import const
-
+from proman.dstruct import Version, VersionTag
 
 if TYPE_CHECKING:
     from typing import Literal
-    from proman.manager import Manager
+
     from versionman.pep440_semver import PEP440SemVer
 
-class OutputManager:
+    from proman.manager import Manager
 
+
+class OutputManager:
     def __init__(self):
         self._main_manager: Manager = None
         self._branch_manager: Manager = None
@@ -62,10 +63,7 @@ class OutputManager:
         zenodo_config: dict | None = None,
         zenodo_sandbox_config: dict | None = None,
     ):
-        logger.info(
-            "Output Set",
-            logger.pretty(locals())
-        )
+        logger.info("Output Set", logger.pretty(locals()))
         self._main_manager = main_manager
         self._branch_manager = branch_manager
         self._version = version
@@ -85,11 +83,19 @@ class OutputManager:
         if package_test:
             for key, val in self._branch_manager.data.items():
                 if key.startswith("pypkg_") and "test" in val:
-                    test_out = self._create_output_package_test(pkg_id=key, source=package_test_source)
+                    test_out = self._create_output_package_test(
+                        pkg_id=key, source=package_test_source
+                    )
                     self._out_test.append(test_out)
         if binder_build or binder_deploy:
             self._set_binder(deploy=binder_deploy)
-        if package_build or package_test or package_publish_testpypi or package_publish_pypi or package_publish_anaconda:
+        if (
+            package_build
+            or package_test
+            or package_publish_testpypi
+            or package_publish_pypi
+            or package_publish_anaconda
+        ):
             self.set_package_build_and_publish(
                 publish_testpypi=package_publish_testpypi,
                 publish_pypi=package_publish_pypi,
@@ -151,7 +157,7 @@ class OutputManager:
                 "artifact": self._create_workflow_artifact_config(job_config["artifact"]),
                 "deploy": deploy,
                 "env": job_config["env"],
-            }
+            },
         }
         self._out_web.append(out)
         return
@@ -159,7 +165,7 @@ class OutputManager:
     def _set_lint(self, component: Literal["pkg", "test"]):
         # if component not in self._branch_manager.data:
         #     return
-        job_config = self._main_manager.data[f"workflow.lint"]
+        job_config = self._main_manager.data["workflow.lint"]
         if not job_config or job_config["action"] == "disabled":
             return
         out = {
@@ -187,8 +193,14 @@ class OutputManager:
 
     def _set_binder(self, deploy: bool):
         job_config = self._main_manager.data["workflow.binder"]
-        if not job_config or (not deploy and job_config["action"]["build"] == "disabled") or (
-            deploy and job_config["action"]["deploy"] == "disabled" and job_config["action"]["build"] == "disabled"
+        if (
+            not job_config
+            or (not deploy and job_config["action"]["build"] == "disabled")
+            or (
+                deploy
+                and job_config["action"]["deploy"] == "disabled"
+                and job_config["action"]["build"] == "disabled"
+            )
         ):
             return
         args = []
@@ -214,8 +226,8 @@ class OutputManager:
                 "dockerfile-append": "",
                 "test-script": job_config.get("image", {}).get("test_script", ""),
                 "push": str(deploy and job_config["action"]["deploy"] != "disabled"),
-                "attest": isinstance(self._version, VersionTag)
-            }
+                "attest": isinstance(self._version, VersionTag),
+            },
         }
         self._out_binder.append(out)
         return
@@ -227,7 +239,6 @@ class OutputManager:
         publish_anaconda: bool = False,
         anaconda_label: str = "dev",
     ):
-
         def ci_builds(pkg: dict) -> list[dict]:
             builds = []
             for os in pkg["os"].values():
@@ -252,13 +263,12 @@ class OutputManager:
             return builds
 
         def conda_builds(pkg: dict) -> list[dict]:
-
             def get_noarch_os():
                 for runner_prefix in ("ubuntu", "macos", "windows"):
                     for os in pkg["os"].values():
                         if os["runner"].startswith(runner_prefix):
                             return os
-                return
+                return None
 
             if pkg["python"]["pure"]:
                 noarch_build = {
@@ -287,16 +297,21 @@ class OutputManager:
             return builds
 
         build_jobs = {}
-        build_config = self._main_manager.data[f"workflow.build"]
+        build_config = self._main_manager.data["workflow.build"]
         # for typ in ("pkg", "test"):
-        python_build_command = self._branch_manager.data["devcontainer_main.environment.pybuild.task.build-python.alias"]
+        python_build_command = self._branch_manager.data[
+            "devcontainer_main.environment.pybuild.task.build-python.alias"
+        ]
         readme_render_command = self._branch_manager.data[
             "devcontainer_main.environment.pybuild.task.render-readme.alias"
         ]
         for key, value in self._branch_manager.data.items():
             if not key.startswith("pypkg_"):
                 continue
-            if not (publish_pypi or publish_testpypi or publish_anaconda) and build_config["action"] == "disabled":
+            if (
+                not (publish_pypi or publish_testpypi or publish_anaconda)
+                and build_config["action"] == "disabled"
+            ):
                 continue
             pkg_id = key.removeprefix("pypkg_")
             pure_python = value["python"]["pure"]
@@ -305,8 +320,10 @@ class OutputManager:
                 "ref": self._ref_name,
                 "pkg_id": pkg_id,
                 "pure_python": pure_python,
-                "build_command": f"{python_build_command} {pkg_id} {"--sdist" if not pure_python else ""}",
-                "readme_command": f"{readme_render_command} {pkg_id}" if value["pyproject"]["project"].get("readme") else "",
+                "build_command": f"{python_build_command} {pkg_id} {'--sdist' if not pure_python else ''}",
+                "readme_command": f"{readme_render_command} {pkg_id}"
+                if value["pyproject"]["project"].get("readme")
+                else "",
                 "pkg_path": value["path"]["root"],
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
@@ -326,8 +343,13 @@ class OutputManager:
             self._out_build.append(out)
             build_jobs[key] = build_job
 
-        for target, do_publish, in (
-            ("testpypi", publish_testpypi), ("pypi", publish_pypi), ("anaconda", publish_anaconda)
+        for (
+            target,
+            do_publish,
+        ) in (
+            ("testpypi", publish_testpypi),
+            ("pypi", publish_pypi),
+            ("anaconda", publish_anaconda),
         ):
             if not do_publish:
                 continue
@@ -338,8 +360,10 @@ class OutputManager:
                 "name": self._fill_jinja(job_config["name"]),
                 "job": {
                     "publish": [],
-                    "test": self._create_output_package_test(source=target, flatten_name=True) if self._branch_manager.data["test"] else False,
-                }
+                    "test": self._create_output_package_test(source=target, flatten_name=True)
+                    if self._branch_manager.data["test"]
+                    else False,
+                },
             }
             for typ, build in build_jobs.items():
                 # TODO: Move toggle to pypkg objects
@@ -351,7 +375,9 @@ class OutputManager:
                         env_vars=build | {"pkg": value},
                     ),
                     "env": {
-                        "name": self._fill_jinja(job_config["env"]["name"], env_vars=build | {"pkg": value}),
+                        "name": self._fill_jinja(
+                            job_config["env"]["name"], env_vars=build | {"pkg": value}
+                        ),
                         "url": self._fill_jinja(
                             job_config["env"]["url"],
                             env_vars=build | {"pkg": value},
@@ -370,7 +396,10 @@ class OutputManager:
                     publish_job["version"] = self.version
                     pkg_name = self._branch_manager.data[f"{typ}.name"].lower()
                     publish_out["job"].setdefault("finalize", []).append(
-                        {"label": anaconda_label, "spec": f"{channel}/{pkg_name}/{self.version or "0.0.0"}"}
+                        {
+                            "label": anaconda_label,
+                            "spec": f"{channel}/{pkg_name}/{self.version or '0.0.0'}",
+                        }
                     )
                 publish_out["job"]["publish"].append(publish_job)
             if publish_out["job"]["publish"]:
@@ -386,7 +415,11 @@ class OutputManager:
         for config, key, has_token in (
             (config_github, "github", True),
             (config_zenodo, "zenodo", bool(self._branch_manager.zenodo_token)),
-            (config_zenodo_sandbox, "zenodo_sandbox", bool(self._branch_manager.zenodo_sandbox_token))
+            (
+                config_zenodo_sandbox,
+                "zenodo_sandbox",
+                bool(self._branch_manager.zenodo_sandbox_token),
+            ),
         ):
             job_config = self._branch_manager.data[f"workflow.publish.{key}"]
             if not job_config or job_config["action"] == "disabled" or not has_token:
@@ -397,8 +430,8 @@ class OutputManager:
                     "ref": self._ref,
                     "repo-path": const.OUTPUT_RELEASE_REPO_PATH,
                     "artifact-path": const.OUTPUT_RELEASE_ARTIFACT_PATH,
-                    "tasks": []
-                }
+                    "tasks": [],
+                },
             }
             out["job"]["tasks"].append(
                 {
@@ -424,7 +457,10 @@ class OutputManager:
         source = source.lower()
         env_vars = {
             "source": {
-                "github": "GitHub", "pypi": "PyPI", "testpypi": "TestPyPI", "anaconda": "Anaconda"
+                "github": "GitHub",
+                "pypi": "PyPI",
+                "testpypi": "TestPyPI",
+                "anaconda": "Anaconda",
             }[source]
         }
         job_config = self._main_manager.data["workflow.test"]
@@ -438,22 +474,28 @@ class OutputManager:
                 "test-path": self._branch_manager.data["test.path.root"],
                 "test-name": self._branch_manager.data["test.import_name"],
                 "test-version": self.version,
-                "test-req-path": self._branch_manager.data["test.dependency.env.pip.path"] if source == "testpypi" else "",
+                "test-req-path": self._branch_manager.data["test.dependency.env.pip.path"]
+                if source == "testpypi"
+                else "",
                 "pkg-src": source,
                 "pkg-path": self._branch_manager.data["pkg.path.root"],
                 "pkg-name": self._branch_manager.data["pkg.name"],
                 "pkg-version": self.version,
-                "pkg-req-path": self._branch_manager.data["pkg.dependency.env.pip.path"] if source == "testpypi" else "",
+                "pkg-req-path": self._branch_manager.data["pkg.dependency.env.pip.path"]
+                if source == "testpypi"
+                else "",
                 "pyargs": ps.write.to_json_string(pyargs) if pyargs else "",
                 "args": ps.write.to_json_string(args) if args else "",
                 "overrides": ps.write.to_json_string(overrides) if overrides else "",
                 "codecov-yml-path": self._branch_manager.data["tool.codecov.config.file.path"],
                 "upload-codecov": True,
-                "artifact": self._create_workflow_artifact_merge_config(job_config["artifact"], env_vars),
+                "artifact": self._create_workflow_artifact_merge_config(
+                    job_config["artifact"], env_vars
+                ),
                 "retries": "60",
                 "retry-sleep-seconds": "15",
-                "tasks": []
-            }
+                "tasks": [],
+            },
         }
         for os in self._branch_manager.data["pkg.os"].values():
             for python_version in self._branch_manager.data["pkg.python.version.minors"]:
@@ -467,7 +509,9 @@ class OutputManager:
                     task_name = f"{job_name}: {task_name}"
                 task |= {
                     "name": task_name,
-                    "artifact": self._create_workflow_artifact_config(job_config["artifact"], task_env_vars),
+                    "artifact": self._create_workflow_artifact_config(
+                        job_config["artifact"], task_env_vars
+                    ),
                 }
                 out["job"]["tasks"].append(task)
         return out
@@ -482,23 +526,30 @@ class OutputManager:
         source = source.lower()
         env_vars = {
             "source": {
-                "github": "GitHub", "pypi": "PyPI", "testpypi": "TestPyPI", "anaconda": "Anaconda"
+                "github": "GitHub",
+                "pypi": "PyPI",
+                "testpypi": "TestPyPI",
+                "anaconda": "Anaconda",
             }[source],
-            "pkg": pkg
+            "pkg": pkg,
         }
         job_config = self._main_manager.data["workflow.test"]
         job_name = self._fill_jinja(job_config["name"], env_vars)
         out = {
             "name": job_name,
             "job": {
-                "artifact": self._create_workflow_artifact_merge_config(job_config["artifact"], env_vars),
+                "artifact": self._create_workflow_artifact_merge_config(
+                    job_config["artifact"], env_vars
+                ),
                 "codecov": job_config.get("codecov", False),
                 "tasks": [],
-            }
+            },
         }
         report_artifact_name_prefix = job_config["artifact"]["report"]["name"]
         for test in self._branch_manager.data[pkg_id]["test"].values():
-            job_config["artifact"]["report"]["name"] = report_artifact_name_prefix + test["artifact_name_suffix"]
+            job_config["artifact"]["report"]["name"] = (
+                report_artifact_name_prefix + test["artifact_name_suffix"]
+            )
             task = {
                 "name": test["name"],
                 "runner": test["runner"],
@@ -523,17 +574,16 @@ class OutputManager:
             for k, v in artifact.items()
         }
 
-    def _create_workflow_artifact_merge_config(self, artifact: dict, jinja_env_vars: dict | None = None) -> dict | bool:
+    def _create_workflow_artifact_merge_config(
+        self, artifact: dict, jinja_env_vars: dict | None = None
+    ) -> dict | bool:
         return {
             k: self._create_workflow_artifact_merge_config_single(v, jinja_env_vars)
             for k, v in artifact.items()
         }
 
     def _create_workflow_artifact_config_single(
-        self,
-        artifact: dict,
-        jinja_env_vars: dict | None = None,
-        include_merge: bool = False
+        self, artifact: dict, jinja_env_vars: dict | None = None, include_merge: bool = False
     ) -> dict:
         out = {
             "name": self._fill_jinja(artifact["name"], jinja_env_vars),
@@ -545,7 +595,9 @@ class OutputManager:
             out["merge"] = self._create_merge(artifact, jinja_env_vars)
         return out
 
-    def _create_workflow_artifact_merge_config_single(self, artifact: dict, jinja_env_vars: dict) -> dict | bool:
+    def _create_workflow_artifact_merge_config_single(
+        self, artifact: dict, jinja_env_vars: dict
+    ) -> dict | bool:
         return {
             "merge": self._create_merge(artifact, jinja_env_vars),
             "include_hidden": str(artifact.get("include_hidden", "false")),
@@ -553,24 +605,31 @@ class OutputManager:
         }
 
     def _create_merge(self, artifact: dict, jinja_env_vars: dict) -> dict | bool:
-        return {
-            "name": self._fill_jinja(artifact["merge"]["name"], jinja_env_vars),
-            "pattern": self._fill_jinja(artifact["merge"]["pattern"], jinja_env_vars),
-        } if "merge" in artifact else False
+        return (
+            {
+                "name": self._fill_jinja(artifact["merge"]["name"], jinja_env_vars),
+                "pattern": self._fill_jinja(artifact["merge"]["pattern"], jinja_env_vars),
+            }
+            if "merge" in artifact
+            else False
+        )
 
     def _fill_jinja(self, template: str, env_vars: dict | None = None) -> str:
-        return self._branch_manager.fill_jinja_template(template, env_vars= self._jinja_env_vars | (env_vars or {}))
+        return self._branch_manager.fill_jinja_template(
+            template, env_vars=self._jinja_env_vars | (env_vars or {})
+        )
 
     def _process_devcontainer(self, container: dict):
         devcontainer = self._main_manager.data[f"devcontainer_{container['id']}"]
-        devcontainer_path = devcontainer['path']
+        devcontainer_path = devcontainer["path"]
         workspace_path = devcontainer["container"]["workspaceFolder"]
-        tasks_script_path = f"{workspace_path}/{devcontainer_path["tasks_local"]}"
+        tasks_script_path = f"{workspace_path}/{devcontainer_path['tasks_local']}"
         return {
             k.replace("_", "-"): v
-            for k, v in container.items() if k in ("name", "env", "inherit_env", "ref")
+            for k, v in container.items()
+            if k in ("name", "env", "inherit_env", "ref")
         } | {
-            "path": f"{devcontainer_path["root"]}/devcontainer.json",
+            "path": f"{devcontainer_path['root']}/devcontainer.json",
             # The bashrc file is not executed in non-interactive shells,
             # so we need to source the tasks script again.
             # - https://stackoverflow.com/questions/55206227/why-bashrc-is-not-executed-when-run-docker-container

@@ -1,15 +1,18 @@
-import mdit as _mdit
 import htmp as _htmp
+import mdit as _mdit
+
+from controlman.datatype import (
+    DynamicDir as _DynamicDir,
+)
+from controlman.datatype import (
+    DynamicFile as _GeneratedFile,
+)
 from controlman.datatype import (
     DynamicFileChangeType,
-    DynamicDirType,
-    DynamicFile as _GeneratedFile,
-    DynamicDir as _DynamicDir,
 )
 
 
 class ControlCenterReporter:
-
     def __init__(
         self,
         metadata: list[tuple[str, DynamicFileChangeType]],
@@ -21,25 +24,35 @@ class ControlCenterReporter:
         self.dirs = dirs
         self.has_changed_metadata = bool(self.metadata)
         self.changed_files = [
-            file for file in self.files if file.change not in (
-                DynamicFileChangeType.DISABLED, DynamicFileChangeType.UNCHANGED, DynamicFileChangeType.INACTIVE
+            file
+            for file in self.files
+            if file.change
+            not in (
+                DynamicFileChangeType.DISABLED,
+                DynamicFileChangeType.UNCHANGED,
+                DynamicFileChangeType.INACTIVE,
             )
         ]
         self.changed_dirs = [
-            dir_ for dir_ in self.dirs if dir_.change not in (
-                DynamicFileChangeType.DISABLED, DynamicFileChangeType.UNCHANGED, DynamicFileChangeType.INACTIVE
+            dir_
+            for dir_ in self.dirs
+            if dir_.change
+            not in (
+                DynamicFileChangeType.DISABLED,
+                DynamicFileChangeType.UNCHANGED,
+                DynamicFileChangeType.INACTIVE,
             )
         ]
         self.has_changed_files = bool(self.changed_files)
         self.has_changed_dirs = bool(self.changed_dirs)
-        self.has_changes = self.has_changed_metadata or self.has_changed_files or self.has_changed_dirs
+        self.has_changes = (
+            self.has_changed_metadata or self.has_changed_files or self.has_changed_dirs
+        )
         return
 
     def report(self) -> _mdit.Document:
         if not self.has_changes:
-            content = (
-                "All dynamic content were in sync with control center configurations. No changes were made."
-            )
+            content = "All dynamic content were in sync with control center configurations. No changes were made."
             return self._create_document(content=content)
         changed_categories = []
         section = {}
@@ -74,12 +87,12 @@ class ControlCenterReporter:
             rows.append(
                 [
                     _mdit.element.code_span(changed_key),
-                    _htmp.element.span(change.emoji, {"title": change.title})
+                    _htmp.element.span(change.emoji, {"title": change.title}),
                 ]
             )
         table = _mdit.element.table(
             rows,
-            caption=f"ℹ️ Changes in the project's metadata.",
+            caption="ℹ️ Changes in the project's metadata.",
             align_table="center",
             align_columns=["left", "center"],
             num_rows_header=1,
@@ -106,14 +119,14 @@ class ControlCenterReporter:
                     file.subtype[1],
                     _htmp.element.span(change.emoji, {"title": change.title}),
                     _mdit.element.code_span(file.path),
-                    _mdit.element.code_span(file.path_before) if file.path_before else "—"
+                    _mdit.element.code_span(file.path_before) if file.path_before else "—",
                 ]
             )
         if not rows:
-            return
+            return None
         table = _mdit.element.table(
             rows,
-            caption=f"📝 Changes in the project's dynamic files.",
+            caption="📝 Changes in the project's dynamic files.",
             align_table="center",
             align_columns=["left", "left", "center", "left", "left"],
             num_rows_header=1,
@@ -140,10 +153,10 @@ class ControlCenterReporter:
                 ]
             )
         if not rows:
-            return
+            return None
         table = _mdit.element.table(
             rows,
-            caption=f"🗂 Changes in the project's dynamic directories.",
+            caption="🗂 Changes in the project's dynamic directories.",
             align_table="center",
             align_columns=["left", "left", "center", "left", "left"],
             num_rows_header=1,
@@ -161,4 +174,4 @@ class ControlCenterReporter:
             return l[0]
         if len(l) == 2:
             return f"{l[0]} and {l[1]}"
-        return f"{", ".join(l[:-1])}, and {l[-1]}"
+        return f"{', '.join(l[:-1])}, and {l[-1]}"

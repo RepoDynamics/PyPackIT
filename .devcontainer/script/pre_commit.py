@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING
-import json
 
 import ansi_sgr as sgr
 import mdit

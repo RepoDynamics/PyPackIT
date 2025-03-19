@@ -32,9 +32,13 @@ def create_releaseman_intput(
     def make_files(asset_files: list[dict[str, str]]) -> list[dict[str, str]]:
         files = []
         for file in asset_files:
-            dir_path = const.OUTPUT_RELEASE_ARTIFACT_PATH if file["artifact"] else const.OUTPUT_RELEASE_REPO_PATH
+            dir_path = (
+                const.OUTPUT_RELEASE_ARTIFACT_PATH
+                if file["artifact"]
+                else const.OUTPUT_RELEASE_REPO_PATH
+            )
             out = {
-                "source": f"{dir_path}/{file["source"]}",
+                "source": f"{dir_path}/{file['source']}",
                 "destination": file["destination"],
             }
             pattern = file.get("pattern")
@@ -49,8 +53,8 @@ def create_releaseman_intput(
 
     out_assets = []
     for asset in asset_config.values():
-        asset_out = {
-            key: asset[key] for key in top_level_keys if asset.get(key)
-        } | {"files": make_files(asset["files"])}
+        asset_out = {key: asset[key] for key in top_level_keys if asset.get(key)} | {
+            "files": make_files(asset["files"])
+        }
         out_assets.append(asset_out)
     return out_assets

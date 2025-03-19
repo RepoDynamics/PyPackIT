@@ -1,30 +1,33 @@
-from pathlib import Path as _Path
 import datetime as _datetime
+from pathlib import Path as _Path
 
-
-from loggerman import logger as _logger
-import pyserials as _ps
 import mdit as _mdit
+import pyserials as _ps
+from loggerman import logger as _logger
 
-from controlman import exception as _exception, const as _const
+from controlman import const as _const
 from controlman import data_validator as _data_validator
 from controlman import date
+from controlman import exception as _exception
+
 
 class CacheManager:
-
     def __init__(
         self,
         path_local_cache: _Path | str | None = None,
         retention_hours: dict[str, float] | None = None,
     ):
-
         def log_msg_new_cache(reason: str | None = None, traceback: bool = False):
-            msg = _mdit.inline_container(
-                "The provided filepath ",
-                _mdit.element.code_span(str(self._path)),
-                f" for control center cache {reason}. ",
-                "Initialized a new cache.",
-            ) if reason else "No filepath provided for control center cache. Initialized a new cache."
+            msg = (
+                _mdit.inline_container(
+                    "The provided filepath ",
+                    _mdit.element.code_span(str(self._path)),
+                    f" for control center cache {reason}. ",
+                    "Initialized a new cache.",
+                )
+                if reason
+                else "No filepath provided for control center cache. Initialized a new cache."
+            )
             log_content = [msg]
             if traceback:
                 log_content.append(_logger.traceback())
@@ -37,13 +40,17 @@ class CacheManager:
         self._retention_hours = retention_hours or {}
 
         if path_local_cache:
-            self._path = _Path(path_local_cache).resolve() / _const.DIRNAME_LOCAL_REPODYNAMICS / _const.FILENAME_METADATA_CACHE
+            self._path = (
+                _Path(path_local_cache).resolve()
+                / _const.DIRNAME_LOCAL_REPODYNAMICS
+                / _const.FILENAME_METADATA_CACHE
+            )
             if not self._path.is_file():
                 log_msg_new_cache("does not exist")
             else:
                 try:
                     self._cache = _ps.read.yaml_from_file(path=self._path)
-                except _ps.exception.read.PySerialsReadException as e:
+                except _ps.exception.read.PySerialsReadException:
                     log_msg_new_cache("is corrupted", traceback=True)
                 try:
                     _data_validator.validate(
@@ -58,7 +65,7 @@ class CacheManager:
                         _mdit.inline_container(
                             "Loaded control center cache from ",
                             _mdit.element.code_span(str(self._path)),
-                        )
+                        ),
                     )
         else:
             self._path = None
@@ -75,40 +82,37 @@ class CacheManager:
                 _mdit.inline_container(
                     "Retention hours not defined for cache type ",
                     _mdit.element.code_span(typ),
-                    ". Skipped cache retrieval."
-                )
+                    ". Skipped cache retrieval.",
+                ),
             )
-            return
+            return None
         item = self._cache.get(typ, {}).get(key)
         if not item:
             _logger.info(log_title, "Item not found.")
-            return
+            return None
         timestamp = item.get("timestamp")
         if timestamp and self._is_expired(typ, timestamp):
             _logger.info(
                 log_title,
-                f"Item expired.\n- Timestamp: {timestamp}\n- Retention Hours: {self._retention_hours}"
+                f"Item expired.\n- Timestamp: {timestamp}\n- Retention Hours: {self._retention_hours}",
             )
-            return
+            return None
         _logger.info(
             log_title,
             "Item found.",
-            _mdit.element.code_block(_ps.write.to_yaml_string(item["data"]), language="yaml")
+            _mdit.element.code_block(_ps.write.to_yaml_string(item["data"]), language="yaml"),
         )
         return item["data"]
 
-    def set(self, typ: str, key: str, value: dict | list | str | int | float | bool):
+    def set(self, typ: str, key: str, value: dict | list | str | float | bool):
         new_item = {
             "timestamp": date.to_iso(date.from_now()),
             "data": value,
         }
         self._cache.setdefault(typ, {})[key] = new_item
         _logger.info(
-            _mdit.inline_container(
-            "Cache Set for ",
-                _mdit.element.code_span(f"{typ}.{key}")
-            ),
-            _mdit.element.code_block(_ps.write.to_yaml_string(value), language="yaml")
+            _mdit.inline_container("Cache Set for ", _mdit.element.code_span(f"{typ}.{key}")),
+            _mdit.element.code_block(_ps.write.to_yaml_string(value), language="yaml"),
         )
         return
 
@@ -125,12 +129,11 @@ class CacheManager:
                 _mdit.inline_container(
                     "Saved control center cache to ",
                     _mdit.element.code_span(str(self._path)),
-                )
+                ),
             )
         else:
             _logger.warning(
-                log_title,
-                "No filepath provided for control center cache. Skipped saving cache."
+                log_title, "No filepath provided for control center cache. Skipped saving cache."
             )
         return
 

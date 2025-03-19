@@ -490,13 +490,16 @@ class Hooks:
             )
         return
 
-    def pyproject_dependency(self, typ: Literal["build", "core", "optional"], pkg: str | None = None) -> dict | list:
+    def pyproject_dependency(
+        self, typ: Literal["build", "core", "optional"], pkg: str | None = None
+    ) -> dict | list:
         """Create PEP 508 dependencies from a control center dependency."""
 
         def create(pkgs: dict) -> list[str]:
             return [
                 pkg["install"]["pip"]["spec"] for pkg in pkgs.values() if "pip" in pkg["install"]
             ]
+
         base_path = f"pypkg_{pkg}" if pkg else ""
         if typ == "optional":
             opt_deps = {}

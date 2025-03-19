@@ -109,9 +109,7 @@ def get_channels(recipe: dict) -> list[str]:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="Build a Conda package in the project.")
-    parser.add_argument(
-        "out_dir", help="Output directory to write the rendered README file."
-    )
+    parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
     parser.add_argument("pkg_version", help="Version number to pass to the recipe.")
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."

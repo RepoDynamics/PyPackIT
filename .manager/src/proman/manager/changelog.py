@@ -3,26 +3,24 @@ from __future__ import annotations as _annotations
 import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from loggerman import logger
-import pyserials as ps
 import controlman
-from controlman import data_validator
-from controlman import date
-
+import pyserials as ps
+from controlman import data_validator, date
 from github_contexts.github.payload.object import Issue
+from loggerman import logger
 
+from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType
-from proman.dstruct import VersionTag, Version
 
 if _TYPE_CHECKING:
-    from github_contexts.github.payload.object import PullRequest, Milestone
+    from github_contexts.github.payload.object import Milestone, PullRequest
     from versionman.pep440_semver import PEP440SemVer
+
+    from proman.dstruct import IssueForm, Label, Tasklist
     from proman.manager import Manager, ProtocolManager
-    from proman.dstruct import IssueForm, Tasklist, Label
 
 
 class ChangelogManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         log_title = "Changelog Load"
@@ -32,7 +30,7 @@ class ChangelogManager:
         logger.success(
             log_title,
             f"Loaded changelog from file '{controlman.const.FILEPATH_CHANGELOG}':",
-            logger.data_block(self._changelog)
+            logger.data_block(self._changelog),
         )
         data_validator.validate(self._changelog, schema="changelog")
         if self._changelog[0].get("phase") != "dev":
@@ -113,9 +111,7 @@ class ChangelogManager:
 
     def update_pull_reviewers(self, pull: PullRequest, issue_form: IssueForm):
         for reviewer in pull.requested_reviewers:
-            user = self._manager.user.get_from_github_rest_id(
-                reviewer.id, add_to_contributors=True
-            )
+            user = self._manager.user.get_from_github_rest_id(reviewer.id, add_to_contributors=True)
             for predefined_reviewer in issue_form.review_assignees:
                 if predefined_reviewer == user:
                     roles = predefined_reviewer.current_role
@@ -135,9 +131,12 @@ class ChangelogManager:
 
     def update_contributor(self, id: str, member: bool, roles: dict[str, int]):
         category = "member" if member else "collaborator"
-        contributor_roles = self.current.setdefault(
-            "contributor", {}
-        ).setdefault(category, {}).setdefault(id, {}).setdefault("role", {})
+        contributor_roles = (
+            self.current.setdefault("contributor", {})
+            .setdefault(category, {})
+            .setdefault(id, {})
+            .setdefault("role", {})
+        )
         for role_id, role_priority in roles.items():
             if role_id not in contributor_roles:
                 contributor_roles[role_id] = role_priority
@@ -147,7 +146,9 @@ class ChangelogManager:
         self.current["date"] = date.to_internal(date.from_now())
         return
 
-    def _update_contributors_with_assignees(self, issue: Issue | PullRequest, issue_form: IssueForm):
+    def _update_contributors_with_assignees(
+        self, issue: Issue | PullRequest, issue_form: IssueForm
+    ):
         assignee_gh_ids = []
         if issue.assignee:
             assignee_gh_ids.append(issue.assignee.id)
@@ -159,7 +160,11 @@ class ChangelogManager:
             user = self._manager.user.get_from_github_rest_id(
                 assignee_gh_id, add_to_contributors=True
             )
-            predefined_assignees = issue_form.issue_assignees if isinstance(issue, Issue) else issue_form.pull_assignees
+            predefined_assignees = (
+                issue_form.issue_assignees
+                if isinstance(issue, Issue)
+                else issue_form.pull_assignees
+            )
             for predefined_assignee in predefined_assignees:
                 if predefined_assignee == user:
                     roles = predefined_assignee.current_role
@@ -188,13 +193,15 @@ class ChangelogManager:
         }
         for datum_id, datum in self._manager.data["issue.protocol.data"].items():
             if datum.get("changelog"):
-                entry.setdefault("protocol", {}).setdefault("data", {})[datum_id] = protocol.data.get(datum_id)
+                entry.setdefault("protocol", {}).setdefault("data", {})[datum_id] = (
+                    protocol.data.get(datum_id)
+                )
         for body_elem in issue_form.body:
             if body_elem.get("changelog"):
                 elem_id = body_elem.get("id")
                 if elem_id:
-                    entry.setdefault("protocol", {}).setdefault("input", {})[elem_id] = protocol.input.get(
-                        elem_id
+                    entry.setdefault("protocol", {}).setdefault("input", {})[elem_id] = (
+                        protocol.input.get(elem_id)
                     )
         self.current["issue"] = entry
         return
@@ -234,7 +241,7 @@ class ChangelogManager:
             "version": str(version.public),
             "distance": version.distance,
             "sha": version.sha,
-            "date": date.to_internal(version.date)
+            "date": date.to_internal(version.date),
         }
         return
 
@@ -296,8 +303,11 @@ class ChangelogManager:
         return
 
     def update_release_zenodo_draft_status(self, sandbox: bool, draft: bool = False):
-        release_data = self.current.get("dev", {}).get("zenodo_sandbox", {}) if sandbox else self.current.get(
-            "zenodo")
+        release_data = (
+            self.current.get("dev", {}).get("zenodo_sandbox", {})
+            if sandbox
+            else self.current.get("zenodo")
+        )
         release_data["draft"] = draft
         return
 
@@ -306,7 +316,7 @@ class ChangelogManager:
             self.current["version"] = str(version.version)
             self.current["tag"] = str(version)
             return
-        elif isinstance(version, Version) and not version.is_local:
+        if isinstance(version, Version) and not version.is_local:
             tag_prefix = self._manager.data["tag.version.prefix"]
             self.current["tag"] = f"{tag_prefix}{version}"
         self.current["version"] = str(version)
@@ -325,7 +335,7 @@ class ChangelogManager:
             return False
         self._filepath.write_text(
             ps.write.to_json_string(self._changelog, sort_keys=True, indent=3).strip() + "\n",
-            newline="\n"
+            newline="\n",
         )
         return True
 

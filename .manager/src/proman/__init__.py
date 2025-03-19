@@ -1,18 +1,18 @@
 from pathlib import Path
 
-from rich.text import Text
-
 import actionman as _actionman
 import github_contexts as _github_contexts
-from github_contexts.github.enum import EventType as _EventType
-from loggerman import logger as _logger
 import mdit
 import pyserials as ps
+from github_contexts.github.enum import EventType as _EventType
+from loggerman import logger as _logger
+from rich.text import Text
 
-from proman import exception as _exception, event_handler as _handler
+from proman import event_handler as _handler
+from proman import exception as _exception
+from proman.dstruct import Token
 from proman.output import OutputManager
 from proman.report import Reporter, make_sphinx_target_config
-from proman.dstruct import Token
 
 
 def run():
@@ -32,7 +32,9 @@ def run():
         _actionman.env_var.read(name="GITHUB_ADMIN_TOKEN", typ=str), name="GitHub Admin"
     )
     zenodo_token = Token(_actionman.env_var.read(name="ZENODO_TOKEN", typ=str), name="Zenodo")
-    zenodo_sandbox_token = Token(_actionman.env_var.read(name="ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox")
+    zenodo_sandbox_token = Token(
+        _actionman.env_var.read(name="ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox"
+    )
     github_context = _github_contexts.github.create(
         context=_actionman.env_var.read(name="GITHUB_CONTEXT", typ=dict)
     )
@@ -54,7 +56,12 @@ def run():
             ).run()
         except _exception.ProManException:
             _logger.section_end(target_level=current_log_section_level)
-            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
+            _finalize(
+                github_context=github_context,
+                reporter=reporter,
+                output_writer=output_writer,
+                repo_path=path_repo_head,
+            )
             return
         except Exception as e:
             traceback = _logger.traceback()
@@ -76,11 +83,16 @@ def run():
                 ),
             )
             _logger.section_end(target_level=current_log_section_level)
-            _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
+            _finalize(
+                github_context=github_context,
+                reporter=reporter,
+                output_writer=output_writer,
+                repo_path=path_repo_head,
+            )
             return
     else:
         supported_events = mdit.inline_container(
-            *(mdit.element.code_span(enum.value) for enum in event_to_handler.keys()),
+            *(mdit.element.code_span(enum.value) for enum in event_to_handler),
             separator=", ",
         )
         event_description = mdit.inline_container(
@@ -93,12 +105,22 @@ def run():
             supported_events,
         )
         reporter.add("main", status="skip", summary=summary)
-    _finalize(github_context=github_context, reporter=reporter, output_writer=output_writer, repo_path=path_repo_head)
+    _finalize(
+        github_context=github_context,
+        reporter=reporter,
+        output_writer=output_writer,
+        repo_path=path_repo_head,
+    )
     return
 
 
 @_logger.sectioner("Output Generation")
-def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter, output_writer: OutputManager, repo_path: str):
+def _finalize(
+    github_context: _github_contexts.GitHubContext,
+    reporter: Reporter,
+    output_writer: OutputManager,
+    repo_path: str,
+):
     workflow_output, report_path = output_writer.generate(failed=reporter.failed)
     _write_step_outputs(workflow_output)
 

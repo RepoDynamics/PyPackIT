@@ -33,4 +33,3 @@ properties:
           description: |
             Line selector to add to the array element.
           $ref: https://jsonschemata.repodynamics.com/string/oneline
-

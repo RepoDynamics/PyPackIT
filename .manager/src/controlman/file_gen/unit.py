@@ -1,21 +1,22 @@
 from __future__ import annotations as _annotations
 
 import copy
-from typing import TYPE_CHECKING as _TYPE_CHECKING
-import xml.etree.ElementTree as _xml_ET
-import xml.dom.minidom as _xml_minidom
-from pathlib import Path as _Path
 import os as _os
+import xml.dom.minidom as _xml_minidom
+import xml.etree.ElementTree as _xml_ET
+from pathlib import Path as _Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
+import jinja2 as _jinja
 import jsonpath_ng as _jpath
 import mdit as _mdit
-import pyserials as _ps
 import pylinks as _pl
-import jinja2 as _jinja
+import pyserials as _ps
 from loggerman import logger as _logger
 
 if _TYPE_CHECKING:
-    from typing import Literal, Callable, Any, Sequence
+    from collections.abc import Callable, Sequence
+    from typing import Any, Literal
 
 
 def create_env_file_conda(
@@ -82,7 +83,10 @@ def create_environment_files(
     pip_full : bool
         Whether the pip requirements file contains all dependencies.
     """
-    def make_env_file(manager: Literal["apt", "brew", "conda", "pip", "pwsh"], deps: list[str]) -> str:
+
+    def make_env_file(
+        manager: Literal["apt", "brew", "conda", "pip", "pwsh"], deps: list[str]
+    ) -> str:
         if manager == "conda":
             env = {"dependencies": deps}
             if env_name:
@@ -99,7 +103,8 @@ def create_environment_files(
             "conda": [f"python {python_version_spec}".strip()],
             "pip": [],
             "pwsh": [],
-        } for availability_type in availability_types
+        }
+        for availability_type in availability_types
     }
     pip_but_not_conda = []
 
@@ -113,12 +118,14 @@ def create_environment_files(
                 #   https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually
                 # Selectors are not yet available for environment files:
                 #   https://github.com/conda/conda/issues/8089
-                f"{dependency["conda"]["channel"]}::{dependency["conda"]["spec"]}"
-                if "conda" in dependency else None
+                f"{dependency['conda']['channel']}::{dependency['conda']['spec']}"
+                if "conda" in dependency
+                else None
             ),
             "pip": (
-                f"{dependency["pip"]["spec"].strip()}{f"; {dependency["pip"]["selector"].strip()}" if "selector" in dependency["pip"] else ""}"
-                if "pip" in dependency else None
+                f"{dependency['pip']['spec'].strip()}{f'; {dependency["pip"]["selector"].strip()}' if 'selector' in dependency['pip'] else ''}"
+                if "pip" in dependency
+                else None
             ),
             "pwsh": dependency.get("pwsh", {}).get("spec"),
         }
@@ -148,9 +155,11 @@ def create_environment_files(
         type_env_files = env_files.setdefault(availability_type, {})
         for manager in ("apt", "brew", "conda", "pip", "pwsh"):
             deps_ = deps[availability_type][manager]
-            type_env_files[manager] = "" if not deps_ or (
-                manager == "conda" and len(deps_) == 1
-            ) else make_env_file(manager=manager, deps=deps_)
+            type_env_files[manager] = (
+                ""
+                if not deps_ or (manager == "conda" and len(deps_) == 1)
+                else make_env_file(manager=manager, deps=deps_)
+            )
     return env_files
 
 
@@ -169,7 +178,7 @@ def create_dynamic_file(
     sequence_indent: int = 4,
     sequence_indent_offset: int = 2,
     block_string: bool = True,
-    remove_top_level_indent: bool = True
+    remove_top_level_indent: bool = True,
 ) -> str:
     if filters and isinstance(content, (list, dict)):
         has_non_inplace = False
@@ -188,14 +197,13 @@ def create_dynamic_file(
     if order:
         key_priority = {key: index for index, key in enumerate(order)}
         sorted_items = sorted(
-            content.items(),
-            key=lambda item: key_priority.get(item[0], len(order))
+            content.items(), key=lambda item: key_priority.get(item[0], len(order))
         )
         content = dict(sorted_items)
     if file_type in ("txt", "exec"):
         if isinstance(content, str):
             return content
-        elif isinstance(content, (list, dict)):
+        if isinstance(content, (list, dict)):
             return content_item_separator.join(
                 f"{content_item_prefix}{content_item}{content_item_suffix}"
                 for content_item in (content if isinstance(content, list) else content.values())
@@ -232,8 +240,9 @@ def create_md_content(file: dict, repo_path: str | _Path) -> str:
     return doc_str
 
 
-def fill_jinja_templates(templates: dict | list | str, jsonpath: str, env_vars: dict | None = None) -> dict:
-
+def fill_jinja_templates(
+    templates: dict | list | str, jsonpath: str, env_vars: dict | None = None
+) -> dict:
     def recursive_fill(template, path):
         if isinstance(template, dict):
             filled = {}
@@ -254,14 +263,13 @@ def fill_jinja_templates(templates: dict | list | str, jsonpath: str, env_vars: 
                 _logger.critical(
                     "Jinja Templating",
                     f"Failed to render Jinja template at '{path}': {e}",
-                    _logger.traceback()
+                    _logger.traceback(),
                 )
                 raise ValueError(f"Failed to render Jinja template at '{path}'") from e
             return filled
         return template
 
     return recursive_fill(templates, jsonpath)
-
 
 
 def create_chocolatey_packages_config(packages: list[dict], indent: int | None = 4) -> str:
@@ -284,7 +292,7 @@ def create_chocolatey_packages_config(packages: list[dict], indent: int | None =
         for key, value in pkg.items():
             if value is not None:
                 package_element.set(_pl.string.snake_to_camel(key), str(value))
-    xml_str = _xml_ET.tostring(root, encoding='utf-8')
+    xml_str = _xml_ET.tostring(root, encoding="utf-8")
     # Format the XML string to add indentation
     parsed_xml = _xml_minidom.parseString(xml_str)
     if indent is None:
@@ -312,7 +320,9 @@ def create_winget_packages_json(packages: list[dict], indent: int | None = 4) ->
     file = {"Sources": []}
     for pkg in packages:
         source = {_pl.string.snake_to_camel(key): value for key, value in pkg["source"].items()}
-        package = {_pl.string.snake_to_camel(key): value for key, value in pkg.items() if key != "source"}
+        package = {
+            _pl.string.snake_to_camel(key): value for key, value in pkg.items() if key != "source"
+        }
         for src in file["Sources"]:
             if src["SourceDetails"] == source:
                 src["Packages"].append(package)
@@ -342,11 +352,8 @@ def create_homebrew_brewfile(packages: list[dict]) -> str:
     return "\n\n".join(sections)
 
 
-
-
 def create_pep508_dependency_specifier(pkg: dict) -> str:
-    """Create a PEP 508 dependency specifier string from a dictionary of dependency details.
-    """
+    """Create a PEP 508 dependency specifier string from a dictionary of dependency details."""
     spec = [pkg["name"]]
     if "extras" in pkg:
         spec.append(f"[{','.join(pkg['extras'])}]")
@@ -355,4 +362,3 @@ def create_pep508_dependency_specifier(pkg: dict) -> str:
     if "marker" in pkg:
         spec.append(f"; {pkg['marker']}")
     return " ".join(spec)
-

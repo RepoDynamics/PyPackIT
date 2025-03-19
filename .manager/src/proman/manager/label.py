@@ -2,12 +2,11 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import pyserials as _ps
 from loggerman import logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from proman.dtype import LabelType
 from proman.dstruct import Label
+from proman.dtype import LabelType
 
 if _TYPE_CHECKING:
     from proman.dtype import IssueStatus
@@ -15,7 +14,6 @@ if _TYPE_CHECKING:
 
 
 class LabelManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         self._label_name_to_obj: dict[str, Label] = {}
@@ -122,17 +120,18 @@ class LabelManager:
             else:
                 for label_id, label_data in group_data.get("label", {}).items():
                     label = Label(
-                        category=LabelType(group_id) if group_id in (
-                            "status", "version", "branch"
-                        ) else LabelType.CUSTOM_GROUP,
+                        category=LabelType(group_id)
+                        if group_id in ("status", "version", "branch")
+                        else LabelType.CUSTOM_GROUP,
                         name=label_data["name"],
                         group_id=group_id,
                         id=label_id,
                         prefix=group_data["prefix"],
                         suffix=label_data["suffix"],
-                        description=label_data.get("description", group_data.get("description", "")),
+                        description=label_data.get(
+                            "description", group_data.get("description", "")
+                        ),
                         color=label_data.get("color") or group_data.get("color", ""),
                     )
                     name_to_obj[label_data["name"]] = id_to_obj[(group_id, label_id)] = label
         return name_to_obj, id_to_obj
-

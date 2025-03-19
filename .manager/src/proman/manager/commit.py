@@ -1,32 +1,38 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 from functools import partial
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import conventional_commits
 from conventional_commits import ConventionalCommitMessage
 from loggerman import logger as _logger
 
-from proman.dtype import ReleaseAction
 from proman.dstruct import Commit
+from proman.dtype import ReleaseAction
 
 if _TYPE_CHECKING:
-    from proman.manager import Manager
     from gittidy import Git
+
+    from proman.manager import Manager
 
 
 class CommitManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         self._msg_parser = conventional_commits.create_parser(
             type_regex=self._manager.data["commit.config.regex.validator.type"],
             scope_regex=self._manager.data["commit.config.regex.validator.scope"],
             description_regex=self._manager.data["commit.config.regex.validator.description"],
-            scope_start_separator_regex=self._manager.data["commit.config.regex.separator.scope_start"],
+            scope_start_separator_regex=self._manager.data[
+                "commit.config.regex.separator.scope_start"
+            ],
             scope_end_separator_regex=self._manager.data["commit.config.regex.separator.scope_end"],
-            scope_items_separator_regex=self._manager.data["commit.config.regex.separator.scope_items"],
-            description_separator_regex=self._manager.data["commit.config.regex.separator.description"],
+            scope_items_separator_regex=self._manager.data[
+                "commit.config.regex.separator.scope_items"
+            ],
+            description_separator_regex=self._manager.data[
+                "commit.config.regex.separator.description"
+            ],
             body_separator_regex=self._manager.data["commit.config.regex.separator.body"],
             footer_separator_regex=self._manager.data["commit.config.regex.separator.footer"],
         )
@@ -45,25 +51,22 @@ class CommitManager:
         return
 
     def create_from_msg(self, message: str) -> Commit:
-
         def get_dev_id(conv_msg: ConventionalCommitMessage):
             def get_scope(data: dict):
                 scope = data.get("scope", tuple())
                 return {scope} if isinstance(scope, str) else set(scope)
 
             for commit_id, commit_data in self._manager.data["commit.dev"].items():
-                if commit_data["type"] == conv_msg.type and get_scope(commit_data) == set(msg.scope):
+                if commit_data["type"] == conv_msg.type and get_scope(commit_data) == set(
+                    msg.scope
+                ):
                     return commit_id
-            return
+            return None
 
         try:
             msg = self._msg_parser.parse(message)
             _logger.info(
-                "Commit Parse",
-                "Plain message:",
-                repr(message),
-                "Parsed message:",
-                repr(msg)
+                "Commit Parse", "Plain message:", repr(message), "Parsed message:", repr(msg)
             )
             return Commit(
                 writer=self._msg_writer,
@@ -72,7 +75,7 @@ class CommitManager:
                 description=msg.description,
                 body=msg.body,
                 footer=msg.footer,
-                dev_id=get_dev_id(msg)
+                dev_id=get_dev_id(msg),
             )
         except Exception as e:
             _logger.warning(
@@ -100,14 +103,14 @@ class CommitManager:
             type=commit_data["type"],
             description=commit_data["description"],
             scope=scope,
-            body=f"{commit_data.get("body", "").strip()}\n[skip ci]".strip(),
+            body=f"{commit_data.get('body', '').strip()}\n[skip ci]".strip(),
             footer=commit_data.get("footer"),
             type_description=commit_data.get("type_description"),
             jinja_env_vars=self._manager.jinja_env_vars | (env_vars or {}),
         )
 
     def create_release(self, id: str, env_vars: dict | None = None) -> Commit:
-        commit_data = self._manager.data[f"commit.release"][id]
+        commit_data = self._manager.data["commit.release"][id]
         return Commit(
             writer=self._msg_writer,
             type=commit_data["type"],
@@ -127,7 +130,8 @@ class CommitManager:
     ) -> list[Commit]:
         git = git or self._manager.git
         commits = git.get_commits(
-            revision_range or f"{self._manager.gh_context.hash_before}..{self._manager.gh_context.hash_after}"
+            revision_range
+            or f"{self._manager.gh_context.hash_before}..{self._manager.gh_context.hash_after}"
         )
         return [self.create_from_msg(commit["msg"]) for commit in commits]
 
@@ -150,6 +154,7 @@ class CommitManager:
                 email=user["email"],
                 add_to_contributors=add_to_contributors,
             )
+
         if not head_manager:
             head_manager = self._manager
         commits = []

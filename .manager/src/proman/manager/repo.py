@@ -1,25 +1,24 @@
 from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import pyserials as _ps
-from pylinks.exception.api import WebAPIError
-
-from loggerman import logger
 import mdit
 import pycolorit as _pcit
+import pyserials as _ps
+from loggerman import logger
+from pylinks.exception.api import WebAPIError
 
 from proman.dtype import LabelType as _LabelType
 
 if _TYPE_CHECKING:
     from typing import Literal
 
-    from proman.dtype import IssueStatus
     from proman.dstruct import Label
+    from proman.dtype import IssueStatus
     from proman.manager import Manager
 
 
 class RepoManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         return
@@ -49,12 +48,25 @@ class RepoManager:
         -----
         - The GitHub API Token must have write access to 'Administration' scope.
         """
-        self._manager.gh_api_admin.actions_permissions_workflow_default_set(can_approve_pull_requests=True)
+        self._manager.gh_api_admin.actions_permissions_workflow_default_set(
+            can_approve_pull_requests=True
+        )
         repo_config = {
-            k: v for k, v in self._manager.data.get("repo", {}).items() if k not in (
-                "topics", "gitattributes", "gitignore",
-                "id", "node_id", "name", "full_name",
-                "created_at", "default_branch", "url", "owner",
+            k: v
+            for k, v in self._manager.data.get("repo", {}).items()
+            if k
+            not in (
+                "topics",
+                "gitattributes",
+                "gitignore",
+                "id",
+                "node_id",
+                "name",
+                "full_name",
+                "created_at",
+                "default_branch",
+                "url",
+                "owner",
             )
         }
         if repo_config:
@@ -66,7 +78,7 @@ class RepoManager:
                     content=_ps.write.to_yaml_string(results),
                     language="yaml",
                     caption="Settings",
-                )
+                ),
             )
         topics = self._manager.data["repo.topics"]
         if topics is not None:
@@ -78,7 +90,7 @@ class RepoManager:
                     content=_ps.write.to_yaml_string(topics),
                     language="yaml",
                     caption="Topics",
-                )
+                ),
             )
         return
 
@@ -98,7 +110,7 @@ class RepoManager:
                     content=_ps.write.to_yaml_string(results),
                     language="yaml",
                     caption="GitHub Pages Details",
-                )
+                ),
             )
         return
 
@@ -110,7 +122,11 @@ class RepoManager:
         - The GitHub API Token must have write access to 'Pages' scope.
         """
         self.activate_gh_pages()
-        cname = self._manager.data.get("web.url.custom.name", "").removeprefix("https://").removeprefix("http://")
+        cname = (
+            self._manager.data.get("web.url.custom.name", "")
+            .removeprefix("https://")
+            .removeprefix("http://")
+        )
         try:
             self._manager.gh_api_admin.pages_update(
                 cname=cname,
@@ -121,30 +137,32 @@ class RepoManager:
                 mdit.inline_container(
                     "Updated custom domain for GitHub Pages to ",
                     mdit.element.code_span(cname),
-                )
+                ),
             )
         except WebAPIError as e:
             if cname:
                 logger.error(
                     "GitHub Pages Custom Domain",
-                    f"Failed to update custom domain for GitHub Pages",
-                    logger.traceback(e)
+                    "Failed to update custom domain for GitHub Pages",
+                    logger.traceback(e),
                 )
         if cname:
             try:
-                self._manager.gh_api_admin.pages_update(https_enforced=self._manager.data["web.url.custom.enforce_https"])
+                self._manager.gh_api_admin.pages_update(
+                    https_enforced=self._manager.data["web.url.custom.enforce_https"]
+                )
                 logger.success(
                     "GitHub Pages HTTPS Enforcement",
                     mdit.inline_container(
                         "Updated HTTPS enforcement for GitHub Pages to ",
                         mdit.element.code_span(self._manager.data["web.url.custom.enforce_https"]),
-                    )
+                    ),
                 )
             except WebAPIError as e:
                 logger.error(
                     "GitHub Pages HTTPS Enforcement",
-                    f"Failed to update HTTPS enforcement for GitHub Pages",
-                    logger.traceback(e)
+                    "Failed to update HTTPS enforcement for GitHub Pages",
+                    logger.traceback(e),
                 )
         return
 
@@ -159,7 +177,9 @@ class RepoManager:
             self._make_labels_table(current_labels, "Deleted Labels"),
         )
         for label in self._manager.label.name_to_obj_map.values():
-            self._manager.gh_api_actions.label_create(name=label.name, description=label.description, color=label.color)
+            self._manager.gh_api_actions.label_create(
+                name=label.name, description=label.description, color=label.color
+            )
         logger.success(
             "Created Labels",
             "Following labels have been created:",
@@ -169,8 +189,9 @@ class RepoManager:
 
     @logger.sectioner("Labels")
     def update_labels(self, manager_before: Manager) -> None:
-
-        def format_labels(labels: dict[str, Label]) -> tuple[
+        def format_labels(
+            labels: dict[str, Label],
+        ) -> tuple[
             dict[tuple[_LabelType, str, str | IssueStatus], Label],
             dict[tuple[_LabelType, str, str | IssueStatus], Label],
             dict[tuple[_LabelType, str, str | IssueStatus], Label],
@@ -201,7 +222,7 @@ class RepoManager:
         ids_old = set(labels_old.keys())
         ids_new = set(labels_new.keys())
 
-        current_label_names = [label['name'] for label in self._manager.gh_api_actions.labels]
+        current_label_names = [label["name"] for label in self._manager.gh_api_actions.labels]
 
         # Update labels that are in both old and new settings,
         # when their label data has changed in new settings.
@@ -215,11 +236,7 @@ class RepoManager:
                 )
                 continue
             if old_label != new_label:
-                logger.info(
-                    "Relabel",
-                    logger.pretty(old_label),
-                    logger.pretty(new_label)
-                )
+                logger.info("Relabel", logger.pretty(old_label), logger.pretty(new_label))
                 self._manager.gh_api_actions.label_update(
                     name=old_label.name,
                     new_name=new_label.name,
@@ -230,7 +247,9 @@ class RepoManager:
         ids_added = ids_new - ids_old
         for id_added in ids_added:
             label = labels_new[id_added]
-            self._manager.gh_api_actions.label_create(name=label.name, color=label.color, description=label.description)
+            self._manager.gh_api_actions.label_create(
+                name=label.name, color=label.color, description=label.description
+            )
         # Delete old non-auto-group (i.e., not version or branch) labels
         ids_old_rest = set(labels_old_rest.keys())
         ids_new_rest = set(labels_new_rest.keys())
@@ -239,8 +258,16 @@ class RepoManager:
             self._manager.gh_api_actions.label_delete(labels_old_rest[id_deleted].name)
         # Update old branch and version labels
         for label_data_new, label_data_old, labels_old in (
-            (self._manager.data["label.branch"], manager_before.data["label.branch"], labels_old_branch),
-            (self._manager.data["label.version"], manager_before.data["label.version"], labels_old_ver),
+            (
+                self._manager.data["label.branch"],
+                manager_before.data["label.branch"],
+                labels_old_branch,
+            ),
+            (
+                self._manager.data["label.version"],
+                manager_before.data["label.version"],
+                labels_old_ver,
+            ),
         ):
             if label_data_new != label_data_old:
                 for label_old in labels_old.values():
@@ -248,7 +275,7 @@ class RepoManager:
                     self._manager.gh_api_actions.label_update(
                         name=label_old.name,
                         new_name=f"{label_data_new['prefix']}{label_old_suffix}",
-                        color= _pcit.color.css(label_data_new["color"]).css_hex().removeprefix("#"),
+                        color=_pcit.color.css(label_data_new["color"]).css_hex().removeprefix("#"),
                         description=label_data_new["description"],
                     )
         return
@@ -266,8 +293,7 @@ class RepoManager:
         current_default_branch_name = self._manager.gh_context.event.repository.default_branch
         if new_default_branch_name != current_default_branch_name:
             self._manager.gh_api_actions.branch_rename(
-                old_name=current_default_branch_name,
-                new_name=new_default_branch_name
+                old_name=current_default_branch_name, new_name=new_default_branch_name
             )
             old_to_new_map[current_default_branch_name] = new_default_branch_name
         branches = self._manager.gh_api_actions.branches
@@ -280,7 +306,9 @@ class RepoManager:
             for branch_name in branch_names:
                 if branch_name.startswith(old_prefix):
                     new_branch_name = f"{new_prefix}{branch_name.removeprefix(old_prefix)}"
-                    self._manager.gh_api_actions.branch_rename(old_name=branch_name, new_name=new_branch_name)
+                    self._manager.gh_api_actions.branch_rename(
+                        old_name=branch_name, new_name=new_branch_name
+                    )
                     old_to_new_map[branch_name] = new_branch_name
         return old_to_new_map
 
@@ -294,16 +322,16 @@ class RepoManager:
             "repository_writer": (4, "RepositoryRole"),
         }
         bypass_actor_type = {
-            "organization_admin": 'OrganizationAdmin',
-            "repository_role": 'RepositoryRole',
-            "team": 'Team',
-            "integration": 'Integration',
+            "organization_admin": "OrganizationAdmin",
+            "repository_role": "RepositoryRole",
+            "team": "Team",
+            "integration": "Integration",
         }
         bypass_actor_mode = {"always": True, "pull_request": False}
 
         def apply(
             name: str,
-            target: Literal['branch', 'tag'],
+            target: Literal["branch", "tag"],
             pattern: list[str],
             ruleset: dict,
         ) -> None:
@@ -323,30 +351,34 @@ class RepoManager:
                     to_append.append(context["integration_id"])
                 required_status_checks.append(tuple(to_append))
             args = {
-                'name': name,
-                'target': target,
-                'enforcement': ruleset["enforcement"],
-                'bypass_actors': bypass_actors,
-                'ref_name_include': pattern,
-                'creation': ruleset["protect_creation"],
-                'update': "protect_modification" in ruleset,
-                'update_allows_fetch_and_merge': ruleset.get("protect_modification", {}).get("allow_fetch_and_merge"),
-                'deletion': ruleset["protect_deletion"],
-                'required_linear_history': ruleset["require_linear_history"],
-                'required_deployment_environments': ruleset.get("required_deployment_environments", []),
-                'required_signatures': ruleset["require_signatures"],
-                'required_pull_request': bool(pr),
-                'dismiss_stale_reviews_on_push': pr.get("dismiss_stale_reviews_on_push"),
-                'require_code_owner_review': pr.get("require_code_owner_review"),
-                'require_last_push_approval': pr.get("require_last_push_approval"),
-                'required_approving_review_count': pr.get("required_approving_review_count"),
-                'required_review_thread_resolution': pr.get("require_review_thread_resolution"),
-                'required_status_checks': required_status_checks,
-                'strict_required_status_checks_policy': status_check.get("strict"),
-                'non_fast_forward': ruleset["protect_force_push"],
+                "name": name,
+                "target": target,
+                "enforcement": ruleset["enforcement"],
+                "bypass_actors": bypass_actors,
+                "ref_name_include": pattern,
+                "creation": ruleset["protect_creation"],
+                "update": "protect_modification" in ruleset,
+                "update_allows_fetch_and_merge": ruleset.get("protect_modification", {}).get(
+                    "allow_fetch_and_merge"
+                ),
+                "deletion": ruleset["protect_deletion"],
+                "required_linear_history": ruleset["require_linear_history"],
+                "required_deployment_environments": ruleset.get(
+                    "required_deployment_environments", []
+                ),
+                "required_signatures": ruleset["require_signatures"],
+                "required_pull_request": bool(pr),
+                "dismiss_stale_reviews_on_push": pr.get("dismiss_stale_reviews_on_push"),
+                "require_code_owner_review": pr.get("require_code_owner_review"),
+                "require_last_push_approval": pr.get("require_last_push_approval"),
+                "required_approving_review_count": pr.get("required_approving_review_count"),
+                "required_review_thread_resolution": pr.get("require_review_thread_resolution"),
+                "required_status_checks": required_status_checks,
+                "strict_required_status_checks_policy": status_check.get("strict"),
+                "non_fast_forward": ruleset["protect_force_push"],
             }
             for existing_ruleset in existing_rulesets:
-                if existing_ruleset['name'] == name:
+                if existing_ruleset["name"] == name:
                     args["ruleset_id"] = existing_ruleset["id"]
                     args["require_status_checks"] = bool(status_check)
                     new_ruleset = self._manager.gh_api_admin.ruleset_update(**args)
@@ -357,7 +389,7 @@ class RepoManager:
                             content=_ps.write.to_yaml_string(new_ruleset),
                             language="yaml",
                             caption="New Ruleset",
-                        )
+                        ),
                     )
                     return
             new_ruleset = self._manager.gh_api_admin.ruleset_create(**args)
@@ -368,7 +400,7 @@ class RepoManager:
                     content=_ps.write.to_yaml_string(new_ruleset),
                     language="yaml",
                     caption="New Ruleset",
-                )
+                ),
             )
             return
 
@@ -380,7 +412,7 @@ class RepoManager:
             ruleset_name = "Branch: main" if branch_key == "main" else f"Branch Group: {branch_key}"
             if not branch_ruleset:
                 for existing_ruleset in existing_rulesets:
-                    if existing_ruleset['name'] == ruleset_name:
+                    if existing_ruleset["name"] == ruleset_name:
                         self._manager.gh_api_admin.ruleset_delete(ruleset_id=existing_ruleset["id"])
                         logger.success(
                             "Ruleset Deletion",
@@ -389,8 +421,12 @@ class RepoManager:
                 continue
             apply(
                 name=ruleset_name,
-                target='branch',
-                pattern=["~DEFAULT_BRANCH" if branch_key == "main" else f"refs/heads/{branch_name}**/**/*"],
+                target="branch",
+                pattern=[
+                    "~DEFAULT_BRANCH"
+                    if branch_key == "main"
+                    else f"refs/heads/{branch_name}**/**/*"
+                ],
                 ruleset=branch_ruleset,
             )
         return

@@ -1,17 +1,16 @@
 import re as _re
 
 import jinja2 as _jinja2
-from gittidy import Git as _Git
-from versionman import pep440_semver as _ver
-from loggerman import logger as _logger
 import pyserials as _ps
+from gittidy import Git as _Git
+from loggerman import logger as _logger
+from versionman import pep440_semver as _ver
 
 import controlman as _controlman
 from controlman import exception as _exception
 
 
 class RepoDataGenerator:
-
     def __init__(
         self,
         data: _ps.NestedDict,
@@ -55,7 +54,9 @@ class RepoDataGenerator:
                     version_tag_prefix=ver_tag_prefix,
                 )
             if not ver:
-                _logger.warning(f"Failed to get latest version from branch '{branch}'; skipping branch.")
+                _logger.warning(
+                    f"Failed to get latest version from branch '{branch}'; skipping branch."
+                )
                 continue
             if branch == curr_branch:
                 branch_metadata = self._data
@@ -66,7 +67,9 @@ class RepoDataGenerator:
                 try:
                     branch_metadata = _controlman.from_json_file(repo_path=self._git.repo_path)
                 except _exception.ControlManException as e:
-                    _logger.warning(f"Failed to read metadata from branch '{branch}'; skipping branch.")
+                    _logger.warning(
+                        f"Failed to read metadata from branch '{branch}'; skipping branch."
+                    )
                     _logger.debug("Error Details", e)
                     continue
             if branch == main_branch:
@@ -81,9 +84,9 @@ class RepoDataGenerator:
             pkg_info = branch_metadata["pypkg_main"]
             if pkg_info:
                 package_managers = [
-                    package_man_name for platform_name, package_man_name in (
-                        ("pypi", "pip"), ("conda", "conda")
-                    ) if platform_name in pkg_info
+                    package_man_name
+                    for platform_name, package_man_name in (("pypi", "pip"), ("conda", "conda"))
+                    if platform_name in pkg_info
                 ]
                 if branch == curr_branch:
                     branch_metadata.fill("pypkg_main.entry")
@@ -93,28 +96,34 @@ class RepoDataGenerator:
                     "os_names": [os["name"] for os in branch_metadata["pypkg_main.os"].values()],
                     "package_managers": package_managers,
                     "python_api_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_main.entry.python", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_main.entry.python", {}).values()
                     ],
                     "test_python_api_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_test.entry.python", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_test.entry.python", {}).values()
                     ],
                     "cli_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_main.entry.cli", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_main.entry.cli", {}).values()
                     ],
                     "test_cli_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_test.entry.cli", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_test.entry.cli", {}).values()
                     ],
                     "gui_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_main.entry.gui", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_main.entry.gui", {}).values()
                     ],
                     "test_gui_names": [
-                        script["name"] for script in branch_metadata.get("pypkg_test.entry.gui", {}).values()
+                        script["name"]
+                        for script in branch_metadata.get("pypkg_test.entry.gui", {}).values()
                     ],
                     "api_names": [
                         script["name"]
                         for group in branch_metadata.get("pypkg_main.entry.api", {}).values()
                         for script in group["entry"].values()
-                    ]
+                    ],
                 }
             release_info[str(ver)] = version_info
         self._git.checkout(curr_branch)
@@ -130,7 +139,9 @@ class RepoDataGenerator:
             if key != "version":
                 out[key] = sorted(
                     set(val),
-                    key=lambda x: x if key not in ("python_versions", "versions") else _ver.PEP440SemVer(f"{x}.0" if key == "python_versions" else x),
+                    key=lambda x: x
+                    if key not in ("python_versions", "versions")
+                    else _ver.PEP440SemVer(f"{x}.0" if key == "python_versions" else x),
                     reverse=key in ("python_versions", "versions"),
                 )
         for key, title in (
@@ -153,7 +164,7 @@ class RepoDataGenerator:
                 continue
             entries = self._data.get(f"project.{release_key}", [])
             labels = label_data["label"] = {}
-            prefix = label_data['prefix']
+            prefix = label_data["prefix"]
             separator = label_data["separator"]
             for entry in entries:
                 labels[entry] = {

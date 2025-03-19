@@ -3,7 +3,6 @@
 These include paths to files and directories in the user repository.
 """
 
-
 # ControlMan Constants
 DIRPATH_CC_DEFAULT = ".control"
 
@@ -34,7 +33,7 @@ FUNCNAME_CC_HOOK_OUTPUT = "output_generation"
 FUNCNAME_CC_HOOK_SYNC = "synchronization"
 FUNCNAME_CC_HOOK_FINAL = "finalization"
 
-CC_EXTENSION_TAG = u"!ext"
+CC_EXTENSION_TAG = "!ext"
 
 RELATIVE_TEMPLATE_KEYS = ["__temp__"]
 CUSTOM_KEY = "__data__"

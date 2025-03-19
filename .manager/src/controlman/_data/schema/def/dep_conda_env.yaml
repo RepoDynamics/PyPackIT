@@ -16,7 +16,7 @@ properties:
       See the [API documentation](https://docs.conda.io/projects/conda/en/stable/dev-guide/api/conda/models/match_spec/index.html#conda.models.match_spec.MatchSpec)
       and [source code](https://github.com/conda/conda/blob/dda2e4d262384aabd0def1959250000d1ace6ca6/conda/models/match_spec.py#L85)
       for the `MatchSpec` class in `conda`, [pixi](https://pixi.sh/latest/reference/pixi_manifest/#the-dependencies-tables)
-      and [rattler-build](https://docs.rs/rattler_conda_types/latest/rattler_conda_types/struct.MatchSpec.html). 
+      and [rattler-build](https://docs.rs/rattler_conda_types/latest/rattler_conda_types/struct.MatchSpec.html).
       The available specifications are
       also explained in [Package search as install specifications](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/pkg-search.html).
     type: object

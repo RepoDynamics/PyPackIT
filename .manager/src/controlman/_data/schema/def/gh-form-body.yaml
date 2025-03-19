@@ -5,7 +5,7 @@ description: |
   Definition of the elements in the discussion form, according to GitHub's
   [syntax for GitHub's form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema),
   which is shared between issue forms and discussion category forms.
-  
+
   Each form must have a body, defined as an array of form elements for requesting user input.
   Each form element itself is defined as a set of key-value pairs
   that determine the type of the element, the properties of the element,

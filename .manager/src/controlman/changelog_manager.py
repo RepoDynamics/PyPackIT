@@ -6,16 +6,13 @@ import pyserials as _ps
 
 import controlman
 from controlman import const
-from controlman import exception as _exception
-
 
 if TYPE_CHECKING:
-    from typing import Callable, Sequence
+    from collections.abc import Callable, Sequence
     from pathlib import Path
 
 
 class ChangelogManager:
-
     def __init__(self, repo_path: Path):
         self._get_metadata = None
         self._path_changelog = repo_path / const.FILEPATH_CHANGELOG
@@ -48,13 +45,14 @@ class ChangelogManager:
         for changelog in self._changelogs:
             if changelog["type"] != "local":
                 if seen_public:
-                    return Changelog(changelog, contrib=self._contrib, get_metadata=self._get_metadata)
+                    return Changelog(
+                        changelog, contrib=self._contrib, get_metadata=self._get_metadata
+                    )
                 seen_public = True
         return Changelog({}, contrib=self._contrib, get_metadata=self._get_metadata)
 
 
 class Changelog(_ps.PropertyDict):
-
     def __init__(self, changelog: dict, get_metadata: Callable, contrib: dict | None):
         super().__init__(data=changelog)
         self._get_metadata = get_metadata
@@ -62,9 +60,7 @@ class Changelog(_ps.PropertyDict):
         return
 
     def contributors_with_role_types(
-        self,
-        role_types: str | Sequence[str],
-        member: bool | None = None
+        self, role_types: str | Sequence[str], member: bool | None = None
     ) -> list[dict]:
         contrib = self._data.get("contributor")
         if not contrib:
@@ -99,7 +95,7 @@ class Changelog(_ps.PropertyDict):
                         (
                             entity | {"id": contributor_id, "member": is_member},
                             max_priority,
-                            entity["name"]["full_inverted"]
+                            entity["name"]["full_inverted"],
                         )
                     )
         return [entity for entity, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]

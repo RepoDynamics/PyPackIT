@@ -1,25 +1,28 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING, NamedTuple as _NamedTuple
 from dataclasses import dataclass as _dataclass
+from typing import TYPE_CHECKING as _TYPE_CHECKING
+from typing import NamedTuple as _NamedTuple
 
 import jinja2
-
+import pycolorit as _pcit
+from controlman import date
 from github_contexts.property_dict import PropertyDict
 from loggerman import logger as _logger
 from versionman.pep440_semver import PEP440SemVer
-import pycolorit as _pcit
 
+from proman.dtype import BranchType, IssueStatus, LabelType
 from proman.exception import ProManException
-from proman.dtype import IssueStatus, LabelType, BranchType
-from controlman import date
 
 if _TYPE_CHECKING:
-    from typing import Sequence, Callable
+    from collections.abc import Callable, Sequence
     from datetime import datetime
+
     from conventional_commits import ConventionalCommitMessage
-    from pylinks.site.github import Repo as GitHubRepoLinker, Branch as GitHubBranchLinker
+    from pylinks.site.github import Branch as GitHubBranchLinker
+    from pylinks.site.github import Repo as GitHubRepoLinker
     from pylinks.url import URL
+
     from proman.dtype import ReleaseAction
 
 
@@ -67,7 +70,6 @@ class Version:
         if self.is_local:
             return f"{self.public}+{self.distance}"
         return str(self.public)
-
 
     @property
     def is_local(self) -> bool:
@@ -157,7 +159,6 @@ class Branch(_NamedTuple):
 
 
 class Commit:
-
     def __init__(
         self,
         writer: Callable[..., ConventionalCommitMessage],
@@ -193,20 +194,25 @@ class Commit:
         return str(self.conv_msg)
 
     def __repr__(self):
-        parts = ["Commit("] + [
-            f"  {name} = {val}," for name, val in (
-                ("type", self.type),
-                ("scope", self.scope),
-                ("description", self.description),
-                ("body", self.body),
-                ("footer", self.footer),
-                ("action", self.action),
-                ("sha", self.sha),
-                ("authors", self.authors),
-                ("committer", self.committer),
-                ("jinja_env_vars", self.jinja_env_vars),
-            )
-        ] + [")"]
+        parts = (
+            ["Commit("]
+            + [
+                f"  {name} = {val},"
+                for name, val in (
+                    ("type", self.type),
+                    ("scope", self.scope),
+                    ("description", self.description),
+                    ("body", self.body),
+                    ("footer", self.footer),
+                    ("action", self.action),
+                    ("sha", self.sha),
+                    ("authors", self.authors),
+                    ("committer", self.committer),
+                    ("jinja_env_vars", self.jinja_env_vars),
+                )
+            ]
+            + [")"]
+        )
         return "\n".join(parts)
 
     @property
@@ -225,11 +231,14 @@ class Commit:
             return self.description
         return self.conv_msg.summary
 
-    def _fill_jinja_templates(self, templates: dict | list | str, env_vars: dict | None = None) -> dict | list | str:
-
+    def _fill_jinja_templates(
+        self, templates: dict | list | str, env_vars: dict | None = None
+    ) -> dict | list | str:
         def recursive_fill(template):
             if isinstance(template, dict):
-                return {recursive_fill(key): recursive_fill(value) for key, value in template.items()}
+                return {
+                    recursive_fill(key): recursive_fill(value) for key, value in template.items()
+                }
             if isinstance(template, list):
                 return [recursive_fill(value) for value in template]
             if isinstance(template, str):
@@ -242,7 +251,6 @@ class Commit:
 
 
 class CommitFooter:
-
     def __init__(self, data):
         self._data = data or {}
         return
@@ -268,7 +276,9 @@ class CommitFooter:
         return self._data.get("publish-zenodo-sandbox")
 
     @property
-    def publish_pypi(self,) -> bool | None:
+    def publish_pypi(
+        self,
+    ) -> bool | None:
         return self._data.get("publish-pypi")
 
     @property
@@ -284,7 +294,7 @@ class CommitFooter:
             except Exception as e:
                 _logger.critical(f"Invalid version string '{version}' in commit footer: {e}")
                 raise ProManException()
-        return
+        return None
 
     def __getitem__(self, key):
         return self._data[key]
@@ -348,6 +358,7 @@ class Label:
         Only available if `category` is not `LabelType.BRANCH`, `LabelType.VERSION`, or `LabelType.UNKNOWN`.
         For `LabelType.STATUS`, it is a `IssueStatus` enum.
     """
+
     category: LabelType
     name: str
     group_id: str = ""
@@ -361,19 +372,20 @@ class Label:
         if self.category == LabelType.STATUS and not isinstance(self.id, IssueStatus):
             object.__setattr__(self, "id", IssueStatus(self.id))
         if self.color:
-            object.__setattr__(self, "color", _pcit.color.css(self.color).css_hex().removeprefix("#"))
+            object.__setattr__(
+                self, "color", _pcit.color.css(self.color).css_hex().removeprefix("#")
+            )
         return
 
 
 class User(PropertyDict):
-
     def __init__(
         self,
         id: str | int,
         member: bool,
         data: dict,
         github_association: str | None = None,
-        current_role: dict[str, int] | None = None
+        current_role: dict[str, int] | None = None,
     ):
         self.id = id
         self.member = member
@@ -404,7 +416,6 @@ class User(PropertyDict):
 
 
 class Tasklist:
-
     def __init__(self, tasks: list[MainTasklistEntry]):
         self.tasks = tasks
         return
@@ -419,7 +430,6 @@ class Tasklist:
 
 
 class TasklistEntry:
-
     def __init__(
         self,
         body: str,
@@ -449,12 +459,11 @@ class TasklistEntry:
         return {
             "body": self.body,
             "complete": self.complete,
-            "subtasks": [subtask.as_dict for subtask in self.subtasks]
+            "subtasks": [subtask.as_dict for subtask in self.subtasks],
         }
 
 
 class MainTasklistEntry(TasklistEntry):
-
     def __init__(
         self,
         commit: Commit,
@@ -483,7 +492,6 @@ class MainTasklistEntry(TasklistEntry):
 
 
 class SubTasklistEntry(TasklistEntry):
-
     def __init__(
         self,
         description: str,

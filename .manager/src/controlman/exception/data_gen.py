@@ -1,8 +1,8 @@
 from pathlib import Path as _Path
 
 import mdit as _mdit
-from loggerman import logger as _logger
 import pyserials as _ps
+from loggerman import logger as _logger
 
 from controlman.exception import ControlManException as _ControlManException
 
@@ -19,7 +19,7 @@ class RemoteGitHubRepoNotFoundError(_ControlManException):
         problem = _mdit.inline_container(
             "The Git repository ",
             _mdit.element.code_span(repo_path.stem),
-            " has no remote set for push to origin."
+            " has no remote set for push to origin.",
         )
         remotes_code_block = _mdit.element.code_block(
             content=_ps.write.to_yaml_string(remotes),
@@ -73,13 +73,13 @@ class ControlManWebsiteError(_ControlManException):
 class ControlManHookError(_ControlManException):
     """Exception raised when issues are encountered with the hook manager."""
 
-    def __init__(self, details, hook_name: str | None = None, problem = None):
+    def __init__(self, details, hook_name: str | None = None, problem=None):
         intro = _mdit.inline_container(
             "Failed to ",
-            "initialize user hooks." if hook_name is None else _mdit.inline_container(
-                "execute user hook ",
-                _mdit.element.code_span(hook_name),
-                "."
+            "initialize user hooks."
+            if hook_name is None
+            else _mdit.inline_container(
+                "execute user hook ", _mdit.element.code_span(hook_name), "."
             ),
         )
         body = {"intro": intro, "problem": problem} if problem else {"intro": intro}
@@ -91,7 +91,7 @@ class ControlManHookError(_ControlManException):
                     heading="Error Details",
                     body=details,
                 )
-            }
+            },
         )
         super().__init__(report)
         return

@@ -21,7 +21,7 @@ patternProperties:
     $ref: https://controlman.repodynamics.com/schema/dynamic-data
   ^devfeature_:
     summary: >-
-      Definition of a local 
+      Definition of a local
       [Development Container Feature](https://containers.dev/implementors/features/).
     description: |
       Each feature must at least define a `devcontainer-feature.json` metadata file and
@@ -37,8 +37,8 @@ patternProperties:
       feature:
         summary: Feature metadata.
         description: |
-          These correspond to the content of the 
-          [`devcontainer-feature.json`](https://containers.dev/implementors/features/#devcontainer-feature-json-properties) 
+          These correspond to the content of the
+          [`devcontainer-feature.json`](https://containers.dev/implementors/features/#devcontainer-feature-json-properties)
           file as defined in its [reference schema](https://github.com/devcontainers/spec/blob/main/schemas/devContainerFeature.schema.json).
         type: object
         additionalProperties: false
@@ -464,7 +464,7 @@ patternProperties:
           destinations:
             - path/to/backup/file.txt
         ```
-      - Duplicate a file at `path/to/file.txt` to both 
+      - Duplicate a file at `path/to/file.txt` to both
         `path/to/backup1/backup_file.txt` and `path/to/backup2/backup_file.txt`:
         ```yaml
         backup_files:
@@ -528,14 +528,14 @@ properties:
       and other project components**, which generally have stricter naming requirements.
       While these names can be separately set to custom values,
       it is recommended to allow the project name to be derived from the repository name (see default),
-      and other names from the project name. 
-      
+      and other names from the project name.
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, `name` is used to derive names for project's distribution packages and artifacts,
       and to dynamically reference the project name in various places
-      like repository and package metadata, license, citation, and other documentation files. 
+      like repository and package metadata, license, citation, and other documentation files.
       :::
     default_description: |
       If not provided (recommended), the default value is the following Python template,
@@ -557,14 +557,14 @@ properties:
     summary: Title or motto of the project.
     description: |
       It must be a one-line string, i.e., newlines are not allowed.
-      
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, `title` is used in various places including
       the project's [citation](#ccc-citation-title),
       [package](#ccc-pkg-description) and [repository](#ccc-repo-description) metadata,
-      as well as documentation and website content and metadata. 
+      as well as documentation and website content and metadata.
       :::
     examples:
       - Effortless Scientific Computation and Data Analysis in Python
@@ -581,7 +581,7 @@ properties:
 
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, `abstract` is automatically added to the project's [`citation`](#ccc-citation-abstract) data,
       and displayed on the repository's README file,
       on the homepage of the project's website,
@@ -598,20 +598,20 @@ properties:
         et netus et malesuada fames ac turpis egestas.
         Sed feugiat sem nec felis luctus vehicula.
         Nam sit amet commodo lacus, sed varius sem. Vivamus at urna auctor,
-        tristique erat a, iaculis nulla. Integer eget tincidunt justo. 
-        Phasellus sit amet massa et leo porta mollis. 
-        Ut venenatis magna orci, in pellentesque dui convallis non. 
-        Etiam aliquam ante eu iaculis fermentum. 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Nullam tristique efficitur lorem, semper sollicitudin mauris aliquet vel. 
-        Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+        tristique erat a, iaculis nulla. Integer eget tincidunt justo.
+        Phasellus sit amet massa et leo porta mollis.
+        Ut venenatis magna orci, in pellentesque dui convallis non.
+        Etiam aliquam ante eu iaculis fermentum.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam tristique efficitur lorem, semper sollicitudin mauris aliquet vel.
+        Interdum et malesuada fames ac ante ipsum primis in faucibus.
         Cras eros risus, viverra ut lectus nec, lobortis rhoncus felis.
   keywords:
     summary: Keywords categorizing the project.
     description: |
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, keywords are automatically added to project [citation data](#ccc-citation-keywords),
       [GitHub repository](#ccc-repo-topics), and [package metadata](#ccc-pkg-keywords),
       helping to make the project easier to discover on various platforms.
@@ -627,10 +627,10 @@ properties:
     summary: Key features of the project.
     description: |
       It must be an array of objects, each with `title` and `description` keys.
-      
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, project highlights are included
       in main README files and on the project's homepage.
       :::
@@ -674,10 +674,10 @@ properties:
       :heading-level: 2
       :::
       Using the [System Package Data Exchange](https://spdx.org/) (SPDX) license standard,
-      define the project's license by providing its 
+      define the project's license by providing its
       [SPDX license expression](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/)
       under the [`expression`](#ccc-license-expression) key.
-      
+
       :::{rubric} License Components
       :heading-level: 2
       :::
@@ -688,7 +688,7 @@ properties:
       All other standard components are automatically retrieved from the SPDX database
       and added to the `component` object under their respective
       [SPDX license ID](https://spdx.dev/learn/handling-license-info/).
-      
+
       :::{rubric} License Customization
       :heading-level: 2
       :::
@@ -696,10 +696,10 @@ properties:
       via the [`config`](#ccc-license-config) key, with options
       to replace license placeholder values with project metadata
       and control document formatting.
-      
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       Available data for each component defined in the [license expression](#ccc-license-expression)
       is automatically retrieved from the SPDX database, and customized with project metadata
       according to the [specified configurations](#ccc-license-config).
@@ -708,17 +708,17 @@ properties:
       The default filepaths follow the [requirements for
       GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
       to recognize and display them on the repository.
-      
-      By default, the license is also incorporated into several other project components: 
+
+      By default, the license is also incorporated into several other project components:
       - License files are added to all releases.
       - License identifiers are added to all package metadata.
       - Full license and copyright information are featured on the documentation website.
       - A copyright notice and [SPDX short-form identifier](https://spdx.dev/learn/handling-license-info/) is included in all source files.
       :::
-      
+
       :::{admonition} Open Source Licenses
       :class: dropdown seealso
-      
+
       For more information about open-source licenses, see:
       - [SPDX License List](https://spdx.org/licenses/)
       - [Open Source Initiative](https://opensource.org/license)
@@ -794,7 +794,7 @@ properties:
             - `BSD-2-Clause`: [BSD 2-Clause "Simplified" License](https://spdx.org/licenses/BSD-2-Clause.html)
             - `MPL-2.0`: [Mozilla Public License 2.0](https://spdx.org/licenses/MPL-2.0.html)
             - `Unlicense`: [The Unlicense](https://spdx.org/licenses/Unlicense.html)
-            
+
             For example, to use the [GNU Affero General Public License v3.0 or later](https://spdx.org/licenses/AGPL-3.0-or-later.html):
           - |
             [Composite licenses](https://spdx.github.io/spdx-spec/v3.0.1/annexes/spdx-license-expressions/#composite-license-expressions)
@@ -803,7 +803,7 @@ properties:
             - `AND`: Requires compliance with both licenses.
             - `WITH`: Defines an [exception](https://spdx.org/licenses/exceptions-index.html) to the license.
             - `(` and `)`: Grouping of expressions.
-            
+
             For example, to allow either the `MIT` or the `GPL-3.0-or-later` license to be used:
           - 'To allow either the `LGPL-2.1-only`, `MIT`, or `BSD-3-Clause` license to be used:'
           - 'To require compliance with both the `LGPL-2.1-only` and `MIT` licenses:'
@@ -850,7 +850,7 @@ properties:
           $ref: https://controlman.repodynamics.com/schema/license-component
       config:
         summary: Configurations for output license documents.
-        description: |          
+        description: |
           These are general configurations that apply to all license components.
           They include license customization and formatting options.
         type: object
@@ -869,12 +869,12 @@ properties:
   copyright:
     $ref: https://jsonschemata.repodynamics.com/string/oneline
     summary: Copyright notice of the project.
-    description: |      
+    description: |
       It must be a one-line string.
-      
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
+
       By default, the copyright notice is included in several places,
       such as license texts,
       the [main docstring](#ccc-pkg-file---init---py-docstring) of the package,
@@ -883,7 +883,7 @@ properties:
     default: |
       #{{
         from controlman import date
-        
+
         start_year = date.from_internal(get("repo.created_at")).year
         current_year = date.from_now().year
         period = f"{start_year}–{current_year}" if start_year < current_year else current_year
@@ -893,12 +893,12 @@ properties:
       The below default Python template sets `copyright` to
       `© {period} {owner}`, where `{owner}` is the repository owner's name
       and period is calculated as follows:
-      - If repository creation year is the same as the current year, 
+      - If repository creation year is the same as the current year,
         the period is set to the current year, e.g., `2024`.
       - Otherwise, the period is set to the repository creation year and the current year, e.g., `2024–2026`.
   language:
     summary: Natural language of the project.
-    description: |      
+    description: |
       It must be defined by an
       [ISO 639-3](https://iso639-3.sil.org/code_tables/639/data) (preferred)
       or [ISO 639-2](https://www.loc.gov/standards/iso639-2/php/code_list.php)
@@ -936,13 +936,13 @@ properties:
       where the key is an ID for the role.
       The ID can then be referenced in other configurations,
       such as [team member roles](#ccdef-entity-def-role).
-      
+
       :::{admonition} Usage
       :class: dropdown note toggle-shown
-      
-      Roles can define tasks (e.g., 
+
+      Roles can define tasks (e.g.,
       issue triage, development, pull request review, discussion moderation)
-      and file ownership for different parts of the project.    
+      and file ownership for different parts of the project.
       Each team member can then be assigned any number of roles,
       facilitating the management of a dynamic governance model.
       :::
@@ -950,7 +950,7 @@ properties:
     additionalProperties:
       title: Role
       summary: Definition of a role in the project.
-      description: |  
+      description: |
         Each role must have a [`title`](#ccc-role---title), [`description`](#ccc-role---description),
         [`abbreviation`](#ccc-role---abbreviation), and [`type`](#ccc-role---type).
         It can optionally include [assignments](#ccc-role---assignment) and
@@ -987,7 +987,7 @@ properties:
             and are identical to
             [Zenodo's contributor types](https://help.zenodo.org/docs/deposit/describe-records/contributors/),
             with the exception that an additional `Author` role is added here.
-            
+
             :::{admonition} Usage
             :class: dropdown note toggle-shown
 
@@ -1030,10 +1030,10 @@ properties:
               summary: Issues assigned to the role.
               description: |
                 This must be a RegEx pattern matching one or several [issue form IDs](#ccc-issue-forms).
-                
+
                 :::{admonition} Usage
                 :class: dropdown note toggle-shown
-  
+
                 When a new issue is opened,
                 the corresponding issue form ID is matched against this RegEx.
                 In case of a match, all members with this role are automatically assigned to the issue ticket.
@@ -1041,12 +1041,12 @@ properties:
               type: string
             pull:
               summary: Pull requests assigned to the role.
-              description: |  
+              description: |
                 This must be a RegEx pattern matching one or several [issue form IDs](#ccc-issue-forms).
 
                 :::{admonition} Usage
                 :class: dropdown note toggle-shown
-  
+
                 When a new pull request is opened,
                 the corresponding issue form ID is matched against this RegEx.
                 In case of a match, all members with this role
@@ -1060,7 +1060,7 @@ properties:
 
                 :::{admonition} Usage
                 :class: dropdown note toggle-shown
-  
+
                 When a pull request is marked ready for review,
                 the corresponding issue form ID is matched against this RegEx.
                 In case of a match, all members with this role
@@ -1075,7 +1075,7 @@ properties:
 
                 :::{admonition} Usage
                 :class: dropdown note toggle-shown
-  
+
                 When a new discussion is opened,
                 the corresponding category slug is matched against this RegEx.
                 In case of a match, all members with this role
@@ -1108,7 +1108,7 @@ properties:
         description: |
           The [`github`](#ccdefs-entity-def-github) key is always automatically
           filled with information from the GitHub API.
-          Any other keys that are not provided are also 
+          Any other keys that are not provided are also
           automatically filled, as along as they have a corresponding information
           in the GitHub API (cf. [Entity Definition](#ccdef-entity-def)).
         $ref: https://controlman.repodynamics.com/schema/entity-def
@@ -2032,7 +2032,7 @@ properties:
       templates used to automatically maintain issue ticket forms,
       and settings for the project's [issue template chooser]()https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser),
       which is automatically maintained via the `.github/ISSUE_TEMPLATE/config.yaml` configuration file.
-      
+
       # GitHub Issues Settings
       This directory contains templates and configurations used when an issue is opened in the repository.
 
@@ -2140,7 +2140,7 @@ properties:
                 |{{ ccc.name }}| first determines the corresponding issue of the branch from the branch name,
                 and then ascertains the corresponding primary commit type from the issue's primary type label,
                 in order to decide which actions to perform on the release branch.
-                
+
                 If two or more forms are assigned the same [primary type](#primary-type),
                 they must each define a unique subtype.
                 The subtype must match the key of one of the [subtype labels](../label/index.md#subtypes).
@@ -2263,14 +2263,14 @@ properties:
           Different [pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
           can only be accessed via [query parameters](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
           . Otherwise, the main template directly under [./github] is used.
-          
+
           For example, to use a template file named `my_custom_template.md`, add the following query string at the end of the
           URL: `?template=my_custom_template.md`. A full URL may e.g. look like this:
           `https://github.com/my-username/my-repo/compare/main...my-branch?template=my_custom_template.md`.
-          
+
           - Pull request template filenames are not case-sensitive, and can have an extension such as `.md` or `.txt`.
           - The YAML syntax used for issue forms is not supported for pull requests templates.
-          
+
           By default, the template defined at [./github/pull_request_template.md](./github/pull_request_template.md)
           is used when opening a pull request. To use the extra templates in this directory,
           the `template` [query parameter](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/using-query-parameters-to-create-a-pull-request)
@@ -2330,14 +2330,14 @@ properties:
             name:
               summary: Name of the discussion category.
               description: |
-                This is automatically fetched from the 
+                This is automatically fetched from the
                 [GitHub API](https://docs.github.com/en/graphql/reference/objects#discussioncategory).
               type: string
             id:
               title: ID
               summary: Node ID of the `DiscussionCategory` object in the GitHub API.
               description: |
-                This is automatically fetched from the 
+                This is automatically fetched from the
                 [GitHub API](https://docs.github.com/en/graphql/reference/objects#discussioncategory).
               type: string
             emoji:
@@ -2362,15 +2362,15 @@ properties:
                 Form definition for a specific discussion category, according to GitHub's
                 [syntax for discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/syntax-for-discussion-category-forms),
                 which is a subset of the [syntax for issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms).
-                
+
                 Each YAML file defines a form for a specific discussion category, indicated by the
                 filename, which must correspond with the slug for one of the discussion categories.
                 For example, the template for the "New Announcements" category should be stored in
                 `.github/DISCUSSION_TEMPLATE/new-announcements.yml`.
-                
+
                 To be recognized by GitHub, discussion category forms must be stored in the directory `/.github/DISCUSSION_TEMPLATE/`
                 (i.e. this directory).
-                
+
                 Each YAML file defines a form for a specific discussion category, indicated by the
                 filename, which must correspond with the slug for one of the discussion categories.
                 For example, the template for the "New Announcements" category should be stored in `.github/DISCUSSION_TEMPLATE/new-announcements.yml`.
@@ -2475,7 +2475,7 @@ properties:
         summary: A short project description (cf. [`title`](#ccc-title)).
         description: |
           This is displayed on the GitHub repository's homepage,
-          and is added to repository metadata to improve 
+          and is added to repository metadata to improve
           project findability and visibility.
         type: [ string, 'null' ]
         default: |
@@ -2918,7 +2918,7 @@ properties:
   # CI
   devcontainer:
     description: |
-      For more information, see the 
+      For more information, see the
       [VS Code DevContainer documentation](https://code.visualstudio.com/docs/devcontainers/containers),
       [GitHub Codespaces documentation](https://docs.github.com/en/codespaces).
       See [devcontainers repositories](https://github.com/orgs/devcontainers/repositories)
@@ -2952,7 +2952,7 @@ properties:
               The file is automatically generated based on the configurations defined here.
               See [Compose file reference](https://docs.docker.com/reference/compose-file/)
               for more information on the `docker-compose` file format.
-              The full schema can be found at 
+              The full schema can be found at
               [compose-spec GitHub repository](https://github.com/compose-spec/compose-spec/blob/main/schema/compose-spec.json).
             type: object
             properties:
@@ -2965,7 +2965,7 @@ properties:
                   For each container at `$.devcontainer_*`, a service is automatically created
                   with the service name taken from the container's `devcontainer.content.service` key.
                   The `build` and `volumes` keys are automatically set based on the container's configurations.
-                  You can overwrite or add more configurations to each service 
+                  You can overwrite or add more configurations to each service
                   by defining them in the container's `service` key.
                 patternProperties:
                   ^[a-zA-Z0-9._-]+$: {}
@@ -3035,21 +3035,21 @@ properties:
           :::{admonition} Not Extensible
           :class: attention
 
-          These configurations are not extensible, 
-          as they are used to define extensions and their caching settings. 
+          These configurations are not extensible,
+          as they are used to define extensions and their caching settings.
           :::
 
           :::{admonition} Local Override
           :class: tip dropdown
 
           When working with a local clone of the repository on your computer,
-          you can override these configurations 
+          you can override these configurations
           by creating a `.local_cc_config.yaml` file with the same syntax
           in the root of the repository.
           This file is automatically added to the `.gitignore` file
-          and thus will not be tracked by Git 
+          and thus will not be tracked by Git
           or pushed to the remote repository.
-          This allows you to maintain a local caching configuration 
+          This allows you to maintain a local caching configuration
           without affecting the remote repository.
           :::
         type: object

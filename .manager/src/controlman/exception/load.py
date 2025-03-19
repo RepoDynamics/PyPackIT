@@ -1,14 +1,15 @@
 from __future__ import annotations as _annotations
 
-from typing import Literal as _Literal, TYPE_CHECKING as _TYPE_CHECKING
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
+from typing import Literal as _Literal
 
-import pyserials as _ps
 import mdit as _mdit
+import pyserials as _ps
 import ruamel.yaml as _yaml
+from loggerman import logger as _logger
 
 from controlman.exception import ControlManException as _ControlManException
-from loggerman import logger as _logger
 
 if _TYPE_CHECKING:
     from pylinks.exception.api import WebAPIError
@@ -91,7 +92,9 @@ class ControlManDuplicateConfigFileDataError(ControlManConfigFileReadException):
             " at ",
             _mdit.element.code_span(cause.path),
             " already exists in another configuration file",
-            "." if cause.problem_type == "duplicate" else _mdit.inline_container(
+            "."
+            if cause.problem_type == "duplicate"
+            else _mdit.inline_container(
                 " with type ", _mdit.element.code_span(cause.type_data.__name__), "."
             ),
         )
@@ -215,8 +218,12 @@ class ControlManInvalidMetadataError(ControlManDataReadException):
                 _mdit.inline_container(
                     " from commit hash ",
                     _mdit.element.code_span(str(commit_hash)),
-                ) if commit_hash else "",
-            ) if filepath else "from input string",
+                )
+                if commit_hash
+                else "",
+            )
+            if filepath
+            else "from input string",
             ".",
         )
         super().__init__(
@@ -244,7 +251,9 @@ class ControlManSchemaValidationError(ControlManDataReadException):
         intro = _mdit.inline_container(
             "Control center configurations are " if source == "source" else "Project metadata is ",
             "invalid against the schema",
-            "." if not json_path else _mdit.inline_container(
+            "."
+            if not json_path
+            else _mdit.inline_container(
                 " at path ",
                 _mdit.element.code_span(f"$.{json_path}"),
                 ".",

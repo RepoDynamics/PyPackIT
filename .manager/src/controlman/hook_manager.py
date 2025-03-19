@@ -1,22 +1,23 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from loggerman import logger as _logger
-import pyshellman
-import pkgdata as _pkgdata
 import mdit as _mdit
+import pkgdata as _pkgdata
+import pyshellman
+from loggerman import logger as _logger
 
-from controlman import const as _const, exception as _exception
+from controlman import const as _const
+from controlman import exception as _exception
 
 if _TYPE_CHECKING:
     from pyserials.nested_dict import NestedDict
+
     from controlman.cache_manager import CacheManager
 
 
 class HookManager:
-
     def __init__(
         self,
         dir_path: _Path,
@@ -29,7 +30,6 @@ class HookManager:
         module_name_inline: str = _const.FILENAME_CC_HOOK_INLINE,
         filename_env: str = _const.FILENAME_CC_HOOK_REQUIREMENTS,
     ):
-
         def load_module(module_filename: str):
             module_filepath = dir_path / module_filename
             module_filepath_md = _mdit.element.code_span(str(module_filepath))
@@ -43,14 +43,12 @@ class HookManager:
                         ".",
                     ),
                 )
-                return
+                return None
             try:
                 module = _pkgdata.import_module_from_path(path=module_filepath)
-            except _pkgdata.exception.PkgDataModuleImportError as e:
+            except _pkgdata.exception.PkgDataModuleImportError:
                 msg = _mdit.inline_container(
-                    f"Failed to import the {module_name} hooks module at ",
-                    module_filepath_md,
-                    "."
+                    f"Failed to import the {module_name} hooks module at ", module_filepath_md, "."
                 )
                 error_traceback = _mdit.element.admonition(
                     title="Error Traceback",
@@ -142,9 +140,7 @@ class HookManager:
             _logger.info(
                 log_title,
                 _mdit.inline_container(
-                    "No CCA hook module found. Skipping hook ",
-                    _mdit.element.code_span(method),
-                    "."
+                    "No CCA hook module found. Skipping hook ", _mdit.element.code_span(method), "."
                 ),
             )
             return
@@ -155,7 +151,7 @@ class HookManager:
                 _mdit.inline_container(
                     "No CCA hook found for stage ",
                     _mdit.element.code_span(method),
-                    ". Skipping hook."
+                    ". Skipping hook.",
                 ),
             )
             return
@@ -171,9 +167,7 @@ class HookManager:
             _logger.critical(
                 log_title,
                 _mdit.inline_container(
-                    "Failed to execute user hook ",
-                    _mdit.element.code_span(method),
-                    "."
+                    "Failed to execute user hook ", _mdit.element.code_span(method), "."
                 ),
                 error_traceback,
             )
@@ -184,9 +178,7 @@ class HookManager:
         _logger.success(
             log_title,
             _mdit.inline_container(
-                "Successfully executed user hook ",
-                _mdit.element.code_span(method),
-                "."
+                "Successfully executed user hook ", _mdit.element.code_span(method), "."
             ),
         )
         return

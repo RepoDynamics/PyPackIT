@@ -8,7 +8,7 @@ description: |
   are only relevant for the package,
   and are automatically reused for the test suite,
   as they must be identical.
-  
+
   :::{admonition} Usage
   :class: dropdown note
   Among others, these settings are used to automatically generate
@@ -91,7 +91,7 @@ properties:
     default_description: |
       By default, the distribution package [name](#cccdef-pkg-name)
       is converted to a valid Python identifier according to
-      [Python rules](https://docs.python.org/3/reference/lexical_analysis.html#identifiers). 
+      [Python rules](https://docs.python.org/3/reference/lexical_analysis.html#identifiers).
       This is done by lowercasing the name,
       replacing all characters that are not ASCII alphanumeric or underscore with an underscore,
       and removing all leading digits.
@@ -145,7 +145,7 @@ properties:
       title: OS/Platform
       summary: Configurations for a supported OS/platform.
       description: |
-        A platform must define a 
+        A platform must define a
         [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners).
       type: object
       additionalProperties: false
@@ -179,8 +179,8 @@ properties:
             - zos-z
         runner:
           summary: >-
-            Name of the 
-            [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories) 
+            Name of the
+            [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories)
             for this platform.
           type: string
           examples:
@@ -240,10 +240,10 @@ properties:
               [version specifier](https://packaging.python.org/en/latest/specifications/version-specifiers/#id5),
               describing the Python version requirements for the project.
               It is only required for the package, and is automatically reused for the test suite.
-              
+
               :::{admonition} Best Practices
               :class: dropdown tip
-              
+
               It is [highly recommended](https://github.com/pypa/packaging.python.org/pull/1274)
               to only define a lower bound for the Python version,
               and to [avoid upper-capping](https://discuss.python.org/t/requires-python-upper-limits/12663/76?page=2).
@@ -431,7 +431,7 @@ properties:
           variants:
             summary: Variant definitions.
             description: |
-              For each variant, add a key-value pair 
+              For each variant, add a key-value pair
               with the value being a sequence of possible variants for the key.
             type: object
             additionalProperties:
@@ -469,7 +469,7 @@ properties:
     description: |
       Conda recipe settings.
       See [Conda-Build documentation](# https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html).
-      
+
       Conda packages are built with [conda-build](https://docs.conda.io/projects/conda-build/),
       using instructions that are mostly defined in a single YAML file named
       [meta.yaml](https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html).

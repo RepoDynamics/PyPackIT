@@ -1,12 +1,12 @@
-from pathlib import Path as _Path
 import copy as _copy
+from pathlib import Path as _Path
 
 import pyserials as _ps
-from controlman.exception.load import ControlManSchemaValidationError
 from loggerman import logger
 
-from controlman.datatype import DynamicFileType, DynamicFile
 from controlman import const as _const
+from controlman.datatype import DynamicFile, DynamicFileType
+from controlman.exception.load import ControlManSchemaValidationError
 
 
 class FormGenerator:
@@ -42,19 +42,25 @@ class FormGenerator:
                     elem["attributes"]["options"][0]["label"] += f"<!-- ISSUE-ID: {form['id']} -->"
                     marker_added = True
                 form_output["body"].append(
-                    {key: val for key, val in elem.items() if key in _const.ISSUE_FORM_BODY_TOP_LEVEL_KEYS}
+                    {
+                        key: val
+                        for key, val in elem.items()
+                        if key in _const.ISSUE_FORM_BODY_TOP_LEVEL_KEYS
+                    }
                 )
             if not marker_added:
                 logger.critical(
                     "Issue Form Marker",
-                    f"No marker added to issue form with ID: {form["id"]}.",
+                    f"No marker added to issue form with ID: {form['id']}.",
                 )
                 raise ControlManSchemaValidationError(
                     source="compiled",
-                    problem=f"Issue form {form["id"]} does not have a 'checkboxes' element; no marker could be added.",
+                    problem=f"Issue form {form['id']} does not have a 'checkboxes' element; no marker could be added.",
                     json_path=f"issue.forms[{form_idx}].body",
                 )
-            file_content = _ps.write.to_yaml_string(data=_copy.deepcopy(form_output), end_of_file_newline=True)
+            file_content = _ps.write.to_yaml_string(
+                data=_copy.deepcopy(form_output), end_of_file_newline=True
+            )
             filename = f"{form_idx + 1:02}_{form['id']}.yaml"
             path = f"{_const.DIRPATH_ISSUES}/{filename}"
             out.append(
@@ -113,7 +119,11 @@ class FormGenerator:
         paths = []
         templates = self._data.get("pull.template", {})
         for name, file_content in templates.items():
-            path = _const.FILEPATH_PULL_TEMPLATE_MAIN if name == "default" else f"{_const.DIRPATH_PULL_TEMPLATES}/{name}.md"
+            path = (
+                _const.FILEPATH_PULL_TEMPLATE_MAIN
+                if name == "default"
+                else f"{_const.DIRPATH_PULL_TEMPLATES}/{name}.md"
+            )
             out.append(
                 DynamicFile(
                     type=DynamicFileType.PULL_TEMPLATE,

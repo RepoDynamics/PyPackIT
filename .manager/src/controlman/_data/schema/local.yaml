@@ -8,8 +8,8 @@ description: |
   by adding a local configuration file at `.github/.repodynamics/local.yaml`.
   When present, the configurations in this file override the corresponding
   control center configurations.
-  
-  Note that this file is automatically added to the `.gitignore` file 
+
+  Note that this file is automatically added to the `.gitignore` file
   and thus will not be pushed to the remote repository.
 type: object
 additionalProperties: false

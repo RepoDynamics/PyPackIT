@@ -2,16 +2,16 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from proman.dstruct import VersionTag, Version
-from proman.dtype import BranchType
 from versionman.pep440_semver import PEP440SemVer
+
+from proman.dstruct import Version, VersionTag
+from proman.dtype import BranchType
 
 if _TYPE_CHECKING:
     from proman.manager import Manager
 
 
 class BinderReleaseManager:
-    
     def __init__(self, manager: Manager):
         self._manager = manager
         self._job = self._manager.data.get("workflow.binder", {})
@@ -25,11 +25,7 @@ class BinderReleaseManager:
         if not binder_directory:
             return False
         image_tag = self._image_tags.get(
-            "version_major",
-            self._image_tags.get(
-                "transient",
-                self._image_tags.get("latest")
-            )
+            "version_major", self._image_tags.get("transient", self._image_tags.get("latest"))
         )
         content = f"FROM {self.image_name}:{image_tag}\n"
         dockerfile_path = self._manager.git.repo_path / binder_directory / "Dockerfile"
@@ -52,7 +48,9 @@ class BinderReleaseManager:
 
     @property
     def image_name(self) -> str:
-        return "/".join(self._job["index"][key] for key in ("registry", "namespace", "name")).lower()
+        return "/".join(
+            self._job["index"][key] for key in ("registry", "namespace", "name")
+        ).lower()
 
     @property
     def image_tags(self) -> list[str]:
@@ -66,10 +64,12 @@ class BinderReleaseManager:
         self,
         version: Version | VersionTag | PEP440SemVer,
         branch_type: BranchType,
-        pr_number: int | str | None = None
+        pr_number: int | str | None = None,
     ):
-        pep_semver = version.version if isinstance(version, VersionTag) else (
-            version.public if isinstance(version, Version) else version
+        pep_semver = (
+            version.version
+            if isinstance(version, VersionTag)
+            else (version.public if isinstance(version, Version) else version)
         )
         tags = {}
         cache_tags = []

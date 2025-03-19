@@ -1,18 +1,20 @@
 """Event handler for comments on issues and pull requests."""
+
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 from functools import partial
+from typing import TYPE_CHECKING
 
 import github_contexts
-from loggerman import logger
-from proman.dtype import BranchType
 import pysyntax
+from loggerman import logger
 
-from proman.dtype import RepoDynamicsBotCommand
+from proman.dtype import BranchType, RepoDynamicsBotCommand
 from proman.main import EventHandler
 
 if TYPE_CHECKING:
-    from typing import Callable
+    from collections.abc import Callable
+
     from github_contexts.github.payload import IssueCommentPayload
 
 
@@ -32,7 +34,7 @@ class IssueCommentEventHandler(EventHandler):
             "pull": {
                 RepoDynamicsBotCommand.CREATE_DEV_BRANCH: self._create_dev_branch,
             },
-            "issue": {}
+            "issue": {},
         }
         return
 
@@ -77,7 +79,7 @@ class IssueCommentEventHandler(EventHandler):
         if len(tasklist) < task_nr:
             logger.critical(
                 "Invalid task number",
-                f"No task {task_nr} in tasklist; it has only {len(tasklist)} entries."
+                f"No task {task_nr} in tasklist; it has only {len(tasklist)} entries.",
             )
             return
         self._git_base.fetch_remote_branches_by_name(branch_names=head_branch.name)
@@ -116,33 +118,35 @@ class IssueCommentEventHandler(EventHandler):
         body = self._comment.body
         if not body.startswith("@RepoDynamicsBot"):
             logger.info("Comment is not a command as it does not start with '@RepoDynamicsBot'.")
-            return
+            return None
         author_association = github_contexts.github.enum.AuthorAssociation
         if self._comment.author_association not in (
-            author_association.OWNER, author_association.MEMBER, author_association.CONTRIBUTOR
+            author_association.OWNER,
+            author_association.MEMBER,
+            author_association.CONTRIBUTOR,
         ):
             logger.info("Ignore command", "Comment author is not an owner, member, or contributor.")
-            return
+            return None
         command_str = body.removeprefix("@RepoDynamicsBot").strip()
         try:
             command_name, kwargs = pysyntax.parse.function_call(command_str)
         except Exception as e:
             logger.critical("Failed to parse command.", e)
-            return
+            return None
         try:
             command_type = RepoDynamicsBotCommand(command_name)
         except ValueError:
             logger.critical("Invalid command name", command_name)
-            return
+            return None
         is_pull = self._payload.is_on_pull
         command_runner_map = self._command_runner["pull" if is_pull else "issue"]
         if command_type not in command_runner_map:
             event_name = "pull request" if is_pull else "issue"
             logger.critical(
                 f"Unsupported command for {event_name} comments",
-                f"Command {command_type.value} is not supported for {event_name} comments."
+                f"Command {command_type.value} is not supported for {event_name} comments.",
             )
-            return
+            return None
         logger.info("Command", command_type.value)
         logger.debug(code_title="Arguments", code=kwargs)
         return partial(command_runner_map[command_type], kwargs)

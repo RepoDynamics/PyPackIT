@@ -3,9 +3,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Dynamic Data
 summary: Definition of custom configurations and metadata.
 description: |
-  You can define any number of key-value pairs 
+  You can define any number of key-value pairs
   to store custom configurations and metadata.
-  There is a special key `jsonschema` 
+  There is a special key `jsonschema`
   that can be used to define a JSON schema for the content.
 type: object
 additionalProperties: true

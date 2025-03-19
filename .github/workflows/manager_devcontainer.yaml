@@ -79,20 +79,20 @@ jobs:
         run: |
           METADATA_FILEPATH=".github/.repodynamics/metadata.json"
           PATH_REPO_BASE=".local/temp/${RELPATH_REPO_BASE}"
-          
+
           echo "path_repo_base=$PATH_REPO_BASE" >> "$GITHUB_OUTPUT"
-          
+
           if [[ ! -f "$METADATA_FILEPATH" ]]; then
             echo "Error: Metadata file not found."
             exit 0
           fi
-          
+
           METADATA_CONTENT=$(cat "$METADATA_FILEPATH" 2>/dev/null)
           if [[ $? -ne 0 ]]; then
             echo "Error: Unable to read metadata file."
             exit 0
           fi
-          
+
           TEMP_DIRPATH=$(jq -r '.local.temp.path' <<< "$METADATA_CONTENT" 2>/dev/null)
           if [[ -n "$TEMP_DIRPATH" && "$TEMP_DIRPATH" != "null" ]]; then
             PATH_REPO_BASE="${TEMP_DIRPATH}/${RELPATH_REPO_BASE}"
@@ -101,7 +101,7 @@ jobs:
           else
             echo "Error: 'local.temp.path' not found in metadata."
           fi
-          
+
           PATH_CACHE=$(jq -r '.local.cache.path' <<< "$METADATA_CONTENT" 2>/dev/null)
           if [[ -n "$PATH_CACHE" && "$PATH_CACHE" != "null" ]]; then
             echo "Cache directory set to $PATH_CACHE"

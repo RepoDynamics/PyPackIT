@@ -1,4 +1,5 @@
 from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 from loggerman import logger
@@ -8,16 +9,19 @@ from proman.dtype import BranchType
 
 if _TYPE_CHECKING:
     from typing import Literal
-    from proman.manager import Manager
+
     from github_contexts.github.payload.object.head_base import HeadBase
+
+    from proman.manager import Manager
 
 
 class BranchManager:
-
     def __init__(self, manager: Manager):
         self._manager = manager
         self._current_auto_base_branch: Branch | None = None
-        self._remote_data = {branch["name"]: branch for branch in self._manager.gh_api_actions.branches}
+        self._remote_data = {
+            branch["name"]: branch for branch in self._manager.gh_api_actions.branches
+        }
         return
 
     def _make(self, type: BranchType, prefix: str, name: str | None = None, **kwargs):
@@ -29,7 +33,7 @@ class BranchManager:
             protected=remote.get("protected"),
             protection=remote.get("protection"),
             linker=self._manager.gh_link,
-            **kwargs
+            **kwargs,
         )
 
     def from_current_git_branch(self):
@@ -48,7 +52,7 @@ class BranchManager:
             separator=b.separator,
             sha=branch["sha"],
             protected=b.protected,
-            protection=b.protection
+            protection=b.protection,
         )
 
     def from_name(self, branch_name: str | None = None) -> Branch:
@@ -59,7 +63,11 @@ class BranchManager:
         for branch_type, branch_data in self._manager.data["branch"].items():
             if branch_name.startswith(branch_data["name"]):
                 branch_type = BranchType(branch_type)
-                args = {"type": branch_type, "prefix": branch_data["name"], "separator": branch_data["name_separator"]}
+                args = {
+                    "type": branch_type,
+                    "prefix": branch_data["name"],
+                    "separator": branch_data["name_separator"],
+                }
                 suffix_raw = branch_name.removeprefix(branch_data["name"])
                 if branch_type is BranchType.RELEASE:
                     args["version"] = int(suffix_raw)
@@ -110,7 +118,9 @@ class BranchManager:
             separator=data["name_separator"],
         )
 
-    def new_auto(self, auto_type: Literal["refactor", "config_sync"], target: str | Branch | None = None) -> Branch:
+    def new_auto(
+        self, auto_type: Literal["refactor", "config_sync"], target: str | Branch | None = None
+    ) -> Branch:
         """Generate the name of the auto-update branch for a given type and base branch."""
         if not isinstance(target, Branch):
             target = self.from_name(target)
@@ -129,7 +139,7 @@ class BranchManager:
         self._manager.git.checkout(branch=branch.name, reset=True)
         logger.info(
             "Auto-Update Branch",
-            f"Switched to branch '{branch.name}' and reset it to '{branch.target.name}'."
+            f"Switched to branch '{branch.name}' and reset it to '{branch.target.name}'.",
         )
         return
 
@@ -139,7 +149,7 @@ class BranchManager:
             self._manager.git.stash_pop()
             logger.info(
                 "Auto-Update Branch",
-                f"Switched back to branch '{self._current_auto_base_branch.name}'."
+                f"Switched back to branch '{self._current_auto_base_branch.name}'.",
             )
             self._current_auto_base_branch = None
         return

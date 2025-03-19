@@ -1,7 +1,8 @@
 from __future__ import annotations as _annotations
 
 from enum import Enum as _Enum
-from typing import NamedTuple as _NamedTuple, TYPE_CHECKING as _TYPE_CHECKING
+from typing import TYPE_CHECKING as _TYPE_CHECKING
+from typing import NamedTuple as _NamedTuple
 
 if _TYPE_CHECKING:
     from typing import Literal
@@ -159,7 +160,7 @@ class IssueStatus(_Enum):
             return "b"
         if self is IssueStatus.DEPLOY_RC:
             return "rc"
-        return
+        return None
 
     def __gt__(self, other):
         if isinstance(other, str):

@@ -1,21 +1,20 @@
 from __future__ import annotations as _annotations
 
 import os
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 from pathlib import Path
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from loggerman import logger
 import mdit
+from loggerman import logger
 
 from proman.manager.release.asset import create_releaseman_intput
 
 if _TYPE_CHECKING:
-    from proman.manager import Manager
     from proman.dstruct import VersionTag
+    from proman.manager import Manager
 
 
 class GitHubReleaseManager:
-    
     def __init__(self, manager: Manager):
         self._manager = manager
         return
@@ -33,11 +32,7 @@ class GitHubReleaseManager:
             draft=True,
             prerelease=True,
         )
-        logger.success(
-            "GitHub Release Draft",
-            "Created new release draft:",
-            str(response)
-        )
+        logger.success("GitHub Release Draft", "Created new release draft:", str(response))
         out = {k: v for k, v in response.items() if k in ("id", "node_id")}
         self._manager.changelog.update_github(**out)
         return out
@@ -60,10 +55,7 @@ class GitHubReleaseManager:
             body=self._body,
             prerelease=self._is_pre(tag),
         )
-        logger.success(
-            "GitHub Release Update",
-            str(update_response)
-        )
+        logger.success("GitHub Release Update", str(update_response))
         if publish:
             if self._is_pre(tag):
                 make_latest = False
@@ -78,8 +70,12 @@ class GitHubReleaseManager:
             release_id=release_id,
             publish=publish and not config["release"]["draft"],
             asset_config=self._manager.fill_jinja_templates(
-                config["asset"], jsonpath="workflow.publish.github.asset", env_vars={"version": tag.version}
-            ) if "asset" in config else None,
+                config["asset"],
+                jsonpath="workflow.publish.github.asset",
+                env_vars={"version": tag.version},
+            )
+            if "asset" in config
+            else None,
             make_latest=make_latest,
             discussion_category_name=config["release"].get("discussion_category_name"),
         )
@@ -91,8 +87,7 @@ class GitHubReleaseManager:
             release_id = draft["id"]
         self._manager.gh_api_actions.release_delete(release_id=release_id)
         logger.success(
-            "GitHub Release Draft Deletion",
-            f"Deleted draft for release ID {release_id}"
+            "GitHub Release Draft Deletion", f"Deleted draft for release ID {release_id}"
         )
         return
 
@@ -133,7 +128,9 @@ class GitHubReleaseManager:
             "release_id": release_id,
             "draft": not publish,
             "delete_assets": "all",
-            "assets": create_releaseman_intput(asset_config=asset_config, target="github") if asset_config else None,
+            "assets": create_releaseman_intput(asset_config=asset_config, target="github")
+            if asset_config
+            else None,
             "discussion_category_name": discussion_category_name,
         }
         if make_latest is None:

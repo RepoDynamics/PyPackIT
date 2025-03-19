@@ -3,42 +3,44 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-import datetime
 
-from loggerman import logger
-import htmp
-import mdit
-import pylinks
-from pylinks.exception.api import WebAPIError as _WebAPIError
-import pyserials as _ps
-from github_contexts.github import enum as _ghc_enum
-import pkgdata
 import controlman
 import gittidy
-from versionman.pep440_semver import PEP440SemVer
+import htmp
+import mdit
+import pkgdata
+import pylinks
+import pyserials as _ps
 import pyshellman
+from github_contexts.github import enum as _ghc_enum
+from loggerman import logger
+from pylinks.exception.api import WebAPIError as _WebAPIError
+from versionman.pep440_semver import PEP440SemVer
 
-from proman import runner
-from proman.dtype import RepoFileType, InitCheckAction
+from proman import manager, runner
 from proman.dstruct import Branch
+from proman.dtype import InitCheckAction, RepoFileType
 from proman.exception import ProManException
-from proman import manager
 
 if TYPE_CHECKING:
     from typing import Literal
+
     from github_contexts import GitHubContext
     from pylinks.api.github import Repo as GitHubRepoAPI
     from pylinks.site.github import Repo as GitHubRepoLink
-    from pyserials import NestedDict
+
     from proman.dstruct import Token, User
     from proman.manager import Manager
     from proman.output import OutputManager
     from proman.report import Reporter
 
-class EventHandler:
 
-    _REPODYNAMICS_BOT_USER = ("RepoDynamicsBot", "146771514+RepoDynamicsBot@users.noreply.github.com")
-    #TODO: make authenticated
+class EventHandler:
+    _REPODYNAMICS_BOT_USER = (
+        "RepoDynamicsBot",
+        "146771514+RepoDynamicsBot@users.noreply.github.com",
+    )
+    # TODO: make authenticated
     # Refs:
     # - https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits
     # - https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
@@ -62,7 +64,6 @@ class EventHandler:
         path_repo_base: str,
         path_repo_head: str,
     ):
-
         @logger.sectioner("GitHub API Initialization")
         def init_github_api() -> tuple[GitHubRepoAPI, GitHubRepoAPI, GitHubRepoLink, bool]:
             repo_user = self.gh_context.repository_owner
@@ -103,9 +104,7 @@ class EventHandler:
                     details = e.report.body
                     details.extend(*e.report.section["details"].content.body.elements())
                     logger.critical(
-                        log_title,
-                        "Failed to verify the provided admin token.",
-                        details
+                        log_title, "Failed to verify the provided admin token.", details
                     )
                     reporter.add(
                         name="main",
@@ -114,7 +113,7 @@ class EventHandler:
                         section=mdit.document(
                             heading="Admin Token Verification",
                             body=details.elements(),
-                        )
+                        ),
                     )
                     raise ProManException()
                 has_admin_token = True
@@ -131,7 +130,10 @@ class EventHandler:
                 with logger.sectioning(title):
                     git_api = gittidy.Git(
                         path=path,
-                        user=(self.gh_context.event.sender.login, self.gh_context.event.sender.github_email),
+                        user=(
+                            self.gh_context.event.sender.login,
+                            self.gh_context.event.sender.github_email,
+                        ),
                         user_scope="global",
                         committer=self._REPODYNAMICS_BOT_USER,
                         committer_scope="local",
@@ -161,7 +163,9 @@ class EventHandler:
         self._shell_runner_head = pyshellman.Runner(cwd=self._path_head, logger=logger)
         self._jinja_env_vars = {
             "event": self.gh_context.event_name.value,
-            "action": self.gh_context.event.action.value if "action" in self.gh_context.event else "",
+            "action": self.gh_context.event.action.value
+            if "action" in self.gh_context.event
+            else "",
             "context": self.gh_context,
             "payload": self.gh_context.event,
             "mdit": mdit,
@@ -250,11 +254,15 @@ class EventHandler:
         else:
             new_manager = branch_manager
             commit_hash_cca = None
-        commit_hash_refactor = self.run_refactor(
-            branch_manager=new_manager,
-            action=action,
-            ref_range=(self.gh_context.hash_before, self.gh_context.hash_after),
-        ) if new_manager.data["workflow.refactor.pre_commit_config"] else None
+        commit_hash_refactor = (
+            self.run_refactor(
+                branch_manager=new_manager,
+                action=action,
+                ref_range=(self.gh_context.hash_before, self.gh_context.hash_after),
+            )
+            if new_manager.data["workflow.refactor.pre_commit_config"]
+            else None
+        )
         if commit_hash_refactor or commit_hash_cca:
             with logger.sectioning("Repository Update"):
                 new_manager.git.push()
@@ -266,7 +274,8 @@ class EventHandler:
             "package_build": changes["pkg"],
             "package_lint": changes["pkg"],
             "test_lint": changes["test"],
-            "package_publish_testpypi": (changes["pkg"] or changes["test"]) and testpypi_publishable,
+            "package_publish_testpypi": (changes["pkg"] or changes["test"])
+            and testpypi_publishable,
         }
         logger.info(
             "Job Runs",
@@ -308,7 +317,7 @@ class EventHandler:
                 summary="CCA is disabled for this event.",
             )
             logger.info("CCA Disabled", "CCA is disabled for this event.")
-            return
+            return None
         git = branch_manager.git if branch_manager else self._git_head
         try:
             cc_manager = controlman.manager(
@@ -335,8 +344,7 @@ class EventHandler:
         commit_hash = None
         report = cc_reporter.report()
         new_branch_manager = self.manager_from_loaded_data(
-            data=cc_manager.generate_data(),
-            git_api=git
+            data=cc_manager.generate_data(), git_api=git
         )
         if not self.manager:
             self.manager = new_branch_manager
@@ -348,9 +356,11 @@ class EventHandler:
                     pr_branch = self.manager.branch.new_auto(auto_type="config_sync")
                     new_branch_manager.branch.checkout_to_auto(branch=pr_branch)
                 cc_manager.apply_changes()
-                commit_msg = self.manager.commit.create_auto(id="config_sync") if action in [
-                    InitCheckAction.COMMIT, InitCheckAction.PULL
-                ] else ""
+                commit_msg = (
+                    self.manager.commit.create_auto(id="config_sync")
+                    if action in [InitCheckAction.COMMIT, InitCheckAction.PULL]
+                    else ""
+                )
                 commit_hash_before = new_branch_manager.git.commit_hash_normal()
                 commit_hash_after = new_branch_manager.git.commit(
                     message=str(commit_msg) if action is not InitCheckAction.AMEND else "",
@@ -373,13 +383,11 @@ class EventHandler:
                         base=pr_branch.target.name,
                         title=commit_msg.description,
                         body=report.source(
-                            target="github",
-                            filters=["short, github"],
-                            separate_sections=False
+                            target="github", filters=["short, github"], separate_sections=False
                         ),
                     )
                     commit_hash = None
-                    link = f'[#{pull_data["number"]}]({pull_data["url"]})'
+                    link = f"[#{pull_data['number']}]({pull_data['url']})"
                     description += f"branch {htmp.element.code(pr_branch.name)} in PR {link}."
                 else:
                     link = f"[`{commit_hash[:7]}`]({self._gh_link.commit(commit_hash)})"
@@ -391,11 +399,10 @@ class EventHandler:
                 summary += f" {description}"
         self.reporter.add(
             name="cca",
-            status="fail" if cc_reporter.has_changes and action in [
-                InitCheckAction.FAIL,
-                InitCheckAction.REPORT,
-                InitCheckAction.PULL
-            ] else "pass",
+            status="fail"
+            if cc_reporter.has_changes
+            and action in [InitCheckAction.FAIL, InitCheckAction.REPORT, InitCheckAction.PULL]
+            else "pass",
             summary=summary,
             section=report.section,
             section_is_container=True,
@@ -416,7 +423,7 @@ class EventHandler:
                 status="skip",
                 summary="Hooks are disabled for this event type.",
             )
-            return
+            return None
         # config = branch_manager.data["workflow.refactor.pre_commit_config"]
         # logger.info(
         #     "Pre-commit Config",
@@ -438,11 +445,15 @@ class EventHandler:
         input_action = (
             action
             if action in [InitCheckAction.REPORT, InitCheckAction.AMEND, InitCheckAction.COMMIT]
-            else (InitCheckAction.REPORT if action == InitCheckAction.FAIL else InitCheckAction.COMMIT)
+            else (
+                InitCheckAction.REPORT if action == InitCheckAction.FAIL else InitCheckAction.COMMIT
+            )
         )
-        commit_msg = self.manager.commit.create_auto("refactor") if action in [
-            InitCheckAction.COMMIT, InitCheckAction.PULL
-        ] else ""
+        commit_msg = (
+            self.manager.commit.create_auto("refactor")
+            if action in [InitCheckAction.COMMIT, InitCheckAction.PULL]
+            else ""
+        )
         pr_branch: Branch | None = None
         if action == InitCheckAction.PULL:
             pr_branch = self.manager.branch.new_auto(auto_type="refactor")
@@ -472,7 +483,9 @@ class EventHandler:
         modified = hooks_output["modified"]
         commit_hash = None
         # Push/amend/pull if changes are made and action is not 'fail' or 'report'
-        summary_addon_template = " The modifications made during the first run were applied to {target}."
+        summary_addon_template = (
+            " The modifications made during the first run were applied to {target}."
+        )
         if pr_branch and modified:
             branch_manager.git.push(target="origin", set_upstream=True)
             pull_data = self._gh_api_admin.pull_create(
@@ -498,7 +511,9 @@ class EventHandler:
         if not internal:
             self.reporter.add(
                 name="hooks",
-                status="fail" if not passed or (action == InitCheckAction.PULL and modified) else "pass",
+                status="fail"
+                if not passed or (action == InitCheckAction.PULL and modified)
+                else "pass",
                 summary=hooks_output["summary"],
                 body=hooks_output["description"],
                 # section=hooks_output["section"],
@@ -507,9 +522,11 @@ class EventHandler:
 
     @property
     def payload_sender(self) -> User | None:
-        return self.manager.user.get_from_github_rest_id(
-            self.gh_context.event.sender.id
-        ) if self.gh_context.event.sender else None
+        return (
+            self.manager.user.get_from_github_rest_id(self.gh_context.event.sender.id)
+            if self.gh_context.event.sender
+            else None
+        )
 
     @property
     def current_proman_version(self) -> str:

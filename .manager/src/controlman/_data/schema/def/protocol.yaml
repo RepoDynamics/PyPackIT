@@ -17,14 +17,14 @@ properties:
       start:
         default: |
           <details id="config"><summary>Config</summary>
-          
+
           ```yaml
         $ref: https://jsonschemata.repodynamics.com/string/nonempty
       end:
         default: |
-          
+
           ```
-          
+
           </details>
         $ref: https://jsonschemata.repodynamics.com/string/nonempty
       default:
