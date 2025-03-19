@@ -7863,7 +7863,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-03-18",
+         "date-released": "2025-03-19",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -11227,7 +11227,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-03-18"
+                              "message": "2025-03-19"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -22286,7 +22286,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-18"
+                                    "message": "2025-03-19"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -25409,7 +25409,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-03-18"
+                                    "message": "2025-03-19"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -27367,7 +27367,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-03-18"
+                                 "message": "2025-03-19"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
