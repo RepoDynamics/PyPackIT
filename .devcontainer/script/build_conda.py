@@ -64,7 +64,7 @@ def main(
     )
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
-    subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
+    subprocess.run(build_command, check=True, stdout=sys.stderr)
     return output_dir
 
 

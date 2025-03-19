@@ -45,7 +45,7 @@ def main(
     ] + (extra_args or [])
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
-    subprocess.run(build_command, check=True, stdout=sys.stderr)  # noqa: S603
+    subprocess.run(build_command, check=True, stdout=sys.stderr)
     # Run twine check
     # Note:
     #    `twine check` (https://twine.readthedocs.io/en/stable/#twine-check) only works for
@@ -56,7 +56,7 @@ def main(
     # Refs:
     #    https://twine.readthedocs.io/en/stable/#twine-check
     #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-    subprocess.run(["twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)  # noqa: S603
+    subprocess.run(["twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)
     return output_dir
 
 
