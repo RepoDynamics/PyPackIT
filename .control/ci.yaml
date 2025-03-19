@@ -203,6 +203,8 @@ pypkg_ci:
       requires-python: ${{ pypkg_ci.python.version.spec }}$
       dependencies: >-
         #{{ return hook.pyproject_dependency("core", pkg="ci") }}#
+      scripts:
+        cca: controlman.__main__:cca
     tool:
       setuptools:
         include-package-data: true
