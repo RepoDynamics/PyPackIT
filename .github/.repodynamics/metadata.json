@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -7112,19 +7112,19 @@
                      "version": "==0.1.0"
                   }
                },
-               "controlman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "controlman ==0.1.0",
-                     "name": "controlman",
-                     "version": "==0.1.0"
-                  }
-               },
                "conventionalcommits": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
                      "full": "conventionalcommits ==0.1.0",
                      "name": "conventionalcommits",
+                     "version": "==0.1.0"
+                  }
+               },
+               "exceptionman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "exceptionman ==0.1.0",
+                     "name": "exceptionman",
                      "version": "==0.1.0"
                   }
                },
@@ -7168,6 +7168,38 @@
                      "version": "==3.1.6"
                   }
                },
+               "jsonpath-ng": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "jsonpath-ng ==1.7.0",
+                     "name": "jsonpath-ng",
+                     "version": "==1.7.0"
+                  }
+               },
+               "jsonschema": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "jsonschema ==4.23.0",
+                     "name": "jsonschema",
+                     "version": "==4.23.0"
+                  }
+               },
+               "jsonschemata": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "jsonschemata ==0.1.0",
+                     "name": "jsonschemata",
+                     "version": "==0.1.0"
+                  }
+               },
+               "licenseman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "licenseman ==0.1.0",
+                     "name": "licenseman",
+                     "version": "==0.1.0"
+                  }
+               },
                "loggerman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
@@ -7182,6 +7214,14 @@
                      "full": "mdit ==0.1.0",
                      "name": "mdit",
                      "version": "==0.1.0"
+                  }
+               },
+               "packaging": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "packaging ==24.2",
+                     "name": "packaging",
+                     "version": "==24.2"
                   }
                },
                "pkgdata": {
@@ -7232,12 +7272,36 @@
                      "version": "==0.1.0"
                   }
                },
+               "referencing": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "referencing ==0.36.2",
+                     "name": "referencing",
+                     "version": "==0.36.2"
+                  }
+               },
                "rich": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
                      "full": "rich ==13.9.4",
                      "name": "rich",
                      "version": "==13.9.4"
+                  }
+               },
+               "ruamel.yaml": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "ruamel.yaml ==0.18.10",
+                     "name": "ruamel.yaml",
+                     "version": "==0.18.10"
+                  }
+               },
+               "trove-classifiers": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "trove-classifiers >=2025.3.13.13",
+                     "name": "trove-classifiers",
+                     "version": ">=2025.3.13.13"
                   }
                },
                "versionman": {
@@ -7714,7 +7778,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -21047,8 +21111,8 @@
             "27_chore": ".github/ISSUE_TEMPLATE/27_chore.yaml"
          },
          "pkg_config": {
-            "pypkg_ci_pyproject": ".github/actions/proman/pyproject.toml",
-            "pypkg_ci_typing": ".github/actions/proman/src/proman/py.typed",
+            "pypkg_ci_pyproject": ".manager/pyproject.toml",
+            "pypkg_ci_typing": ".manager/src/pypackit/py.typed",
             "pypkg_main_conda_recipe_meta_global": "pkg/conda-recipe/global/meta.yaml",
             "pypkg_main_conda_recipe_meta_local": "pkg/conda-recipe/local/meta.yaml",
             "pypkg_main_pyproject": "pkg/pyproject.toml",
@@ -21341,21 +21405,6 @@
                   "source": "https://github.com/repodynamics/ansi-sgr"
                }
             },
-            "controlman": {
-               "install": {
-                  "pip": {
-                     "homepage": "https://pypi.org/project/controlman",
-                     "name": "controlman",
-                     "spec": "controlman ==0.1.0",
-                     "version": "==0.1.0"
-                  }
-               },
-               "name": "controlman",
-               "url": {
-                  "docs": "https://controlman.repodynamics.com",
-                  "source": "https://github.com/repodynamics/controlman"
-               }
-            },
             "conventionalcommits": {
                "install": {
                   "pip": {
@@ -21369,6 +21418,20 @@
                "url": {
                   "docs": "https://conventionalcommits.repodynamics.com",
                   "source": "https://github.com/repodynamics/conventionalcommits"
+               }
+            },
+            "exceptionman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/exceptionman",
+                     "name": "exceptionman",
+                     "spec": "exceptionman ==0.1.0",
+                     "version": "==0.1.0"
+                  }
+               },
+               "name": "exceptionman",
+               "url": {
+                  "docs": "https://exceptionman.repodynamics.com"
                }
             },
             "fileex": {
@@ -21442,6 +21505,53 @@
                },
                "name": "jinja2"
             },
+            "jsonpath-ng": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/jsonpath-ng",
+                     "name": "jsonpath-ng",
+                     "spec": "jsonpath-ng ==1.7.0",
+                     "version": "==1.7.0"
+                  }
+               },
+               "name": "jsonpath-ng"
+            },
+            "jsonschema": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/jsonschema",
+                     "name": "jsonschema",
+                     "spec": "jsonschema ==4.23.0",
+                     "version": "==4.23.0"
+                  }
+               },
+               "name": "jsonschema"
+            },
+            "jsonschemata": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/jsonschemata",
+                     "name": "jsonschemata",
+                     "spec": "jsonschemata ==0.1.0",
+                     "version": "==0.1.0"
+                  }
+               },
+               "name": "jsonschemata"
+            },
+            "licenseman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/licenseman",
+                     "name": "licenseman",
+                     "spec": "licenseman ==0.1.0",
+                     "version": "==0.1.0"
+                  }
+               },
+               "name": "licenseman",
+               "url": {
+                  "docs": "https://licenseman.repodynamics.com"
+               }
+            },
             "loggerman": {
                "install": {
                   "pip": {
@@ -21471,6 +21581,17 @@
                   "docs": "https://mdit.repodynamics.com",
                   "source": "https://github.com/repodynamics/mdit"
                }
+            },
+            "packaging": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/packaging",
+                     "name": "packaging",
+                     "spec": "packaging ==24.2",
+                     "version": "==24.2"
+                  }
+               },
+               "name": "packaging"
             },
             "pkgdata": {
                "install": {
@@ -21562,6 +21683,17 @@
                   "source": "https://github.com/repodynamics/pysyntax"
                }
             },
+            "referencing": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/referencing",
+                     "name": "referencing",
+                     "spec": "referencing ==0.36.2",
+                     "version": "==0.36.2"
+                  }
+               },
+               "name": "referencing"
+            },
             "rich": {
                "install": {
                   "pip": {
@@ -21572,6 +21704,28 @@
                   }
                },
                "name": "rich"
+            },
+            "ruamel.yaml": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/ruamel.yaml/",
+                     "name": "ruamel.yaml",
+                     "spec": "ruamel.yaml ==0.18.10",
+                     "version": "==0.18.10"
+                  }
+               },
+               "name": "ruamel.yaml"
+            },
+            "trove-classifiers": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/trove-classifiers",
+                     "name": "trove-classifiers",
+                     "spec": "trove-classifiers >=2025.3.13.13",
+                     "version": ">=2025.3.13.13"
+                  }
+               },
+               "name": "trove-classifiers"
             },
             "versionman": {
                "install": {
@@ -21595,14 +21749,14 @@
             "main": {
                "conda": true,
                "description": "Main Python API entry of the package.",
-               "name": "proman",
+               "name": "pypackit",
                "pypi": true,
-               "ref": "proman:__init__"
+               "ref": "pypackit:__init__"
             }
          }
       },
-      "import_name": "proman",
-      "name": "ProMan",
+      "import_name": "pypackit",
+      "name": "PyPackIT",
       "os": {
          "linux-64": {
             "data": {
@@ -21648,16 +21802,16 @@
          }
       },
       "path": {
-         "import": ".github/actions/proman/src/proman",
-         "import_rel": "src/proman",
-         "root": ".github/actions/proman",
-         "source": ".github/actions/proman/src",
+         "import": ".manager/src/pypackit",
+         "import_rel": "src/pypackit",
+         "root": ".manager",
+         "source": ".manager/src",
          "source_rel": "src"
       },
       "pypi": {
          "publishable": true,
          "url": {
-            "home": "https://pypi.org/project/ProMan"
+            "home": "https://pypi.org/project/PyPackIT"
          }
       },
       "pyproject": {
@@ -21669,27 +21823,35 @@
          },
          "project": {
             "dependencies": [
-               "rich ==13.9.4",
-               "jinja2 ==3.1.6",
                "actionman ==0.1.0",
-               "controlman ==0.1.0",
+               "ansi-sgr ==0.1.0",
                "conventionalcommits ==0.1.0",
+               "exceptionman ==0.1.0",
+               "fileex ==0.1.0",
                "github-contexts ==0.1.0",
+               "gittidy ==0.1.0",
+               "htmp ==0.1.0",
+               "jinja2 ==3.1.6",
+               "jsonpath-ng ==1.7.0",
+               "jsonschema ==4.23.0",
+               "jsonschemata ==0.1.0",
+               "licenseman ==0.1.0",
                "loggerman ==0.1.0",
                "mdit ==0.1.0",
-               "htmp ==0.1.0",
-               "pylinks ==0.1.0",
-               "pysyntax ==0.1.0",
-               "versionman ==0.1.0",
-               "gittidy ==0.1.0",
+               "packaging ==24.2",
                "pkgdata ==0.1.0",
-               "pyshellman ==0.1.0",
+               "pycolorit ==0.1.0",
+               "pylinks ==0.1.0",
                "pyserials ==0.1.0",
-               "fileex ==0.1.0",
-               "ansi-sgr ==0.1.0",
-               "pycolorit ==0.1.0"
+               "pyshellman ==0.1.0",
+               "pysyntax ==0.1.0",
+               "referencing ==0.36.2",
+               "ruamel.yaml ==0.18.10",
+               "rich ==13.9.4",
+               "trove-classifiers >=2025.3.13.13",
+               "versionman ==0.1.0"
             ],
-            "name": "ProMan",
+            "name": "PyPackIT",
             "requires-python": ">=3.10",
             "version": "0.1.0"
          },
