@@ -319,7 +319,7 @@ class OutputManager:
             out = {
                 "name": self._fill_jinja(
                     build_config["name"],
-                    env_vars=build_job,
+                    env_vars=build_job | {"pkg": value},
                 ),
                 "job": build_job,
             }
