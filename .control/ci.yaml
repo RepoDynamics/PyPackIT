@@ -1,21 +1,13 @@
 pypkg_ci:
-  name: ProMan
+  name: PyPackIT
   path:
-    root: .github/actions/proman
+    root: .manager
   os: ${{ pypkg_main.os }}$
   python:
     version:
       spec: '>=3.10'
   dependency:
     core:
-      rich:
-        install:
-          pip:
-            version: ==13.9.4
-      jinja2:
-        install:
-          pip:
-            version: ==3.1.6
       actionman:
         install:
           pip:
@@ -24,14 +16,14 @@ pypkg_ci:
         url:
           docs: https://actionman.repodynamics.com
           source: https://github.com/repodynamics/actionman
-      controlman:
+      ansi-sgr:
         install:
           pip:
             version: ==0.1.0
-            homepage: https://pypi.org/project/controlman
+            homepage: https://pypi.org/project/ansi-sgr
         url:
-          docs: https://controlman.repodynamics.com
-          source: https://github.com/repodynamics/controlman
+          docs: https://ansi-sgr.repodynamics.com
+          source: https://github.com/repodynamics/ansi-sgr
       conventionalcommits:
         install:
           pip:
@@ -40,6 +32,22 @@ pypkg_ci:
         url:
           docs: https://conventionalcommits.repodynamics.com
           source: https://github.com/repodynamics/conventionalcommits
+      exceptionman:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/exceptionman
+        url:
+          docs: https://exceptionman.repodynamics.com
+          source:
+      fileex:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/fileex
+        url:
+          docs: https://fileex.repodynamics.com
+          source: https://github.com/repodynamics/fileex
       github-contexts:
         install:
           pip:
@@ -48,6 +56,47 @@ pypkg_ci:
         url:
           docs: https://github-contexts.repodynamics.com
           source: https://github.com/repodynamics/github-contexts
+      gittidy:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/gittidy
+        url:
+          docs: https://gittidy.repodynamics.com
+          source: https://github.com/repodynamics/gittidy
+      htmp:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/htmp
+        url:
+          docs: https://htmp.repodynamics.com
+          source: https://github.com/repodynamics/htmp
+      jinja2:
+        install:
+          pip:
+            version: ==3.1.6
+      jsonpath-ng:
+        install:
+          pip:
+            version: ==1.7.0
+            homepage: https://pypi.org/project/jsonpath-ng
+      jsonschema:
+        install:
+          pip:
+            version: ==4.23.0
+      jsonschemata:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/jsonschemata
+      licenseman:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/licenseman
+        url:
+          docs: https://licenseman.repodynamics.com
       loggerman:
         install:
           pip:
@@ -64,46 +113,11 @@ pypkg_ci:
         url:
           docs: https://mdit.repodynamics.com
           source: https://github.com/repodynamics/mdit
-      htmp:
+      packaging:
         install:
           pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/htmp
-        url:
-          docs: https://htmp.repodynamics.com
-          source: https://github.com/repodynamics/htmp
-      pylinks:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/pylinks
-        url:
-          docs: https://pylinks.repodynamics.com
-          source: https://github.com/repodynamics/pylinks
-      pysyntax:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/pysyntax
-        url:
-          docs: https://pysyntax.repodynamics.com
-          source: https://github.com/repodynamics/pysyntax
-      versionman:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/versionman
-        url:
-          docs: https://versionman.repodynamics.com
-          source: https://github.com/repodynamics/versionman
-      gittidy:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/gittidy
-        url:
-          docs: https://gittidy.repodynamics.com
-          source: https://github.com/repodynamics/gittidy
+            version: ==24.2
+            homepage: https://pypi.org/project/packaging
       pkgdata:
         install:
           pip:
@@ -112,38 +126,6 @@ pypkg_ci:
         url:
           docs: https://pkgdata.repodynamics.com
           source: https://github.com/repodynamics/pkgdata
-      pyshellman:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/pyshellman
-        url:
-          docs: https://pyshellman.repodynamics.com
-          source: https://github.com/repodynamics/pyshellman
-      pyserials:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/pyserials
-        url:
-          docs: https://pyserials.repodynamics.com
-          source: https://github.com/repodynamics/pyserials
-      fileex:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/fileex
-        url:
-          docs: https://fileex.repodynamics.com
-          source: https://github.com/repodynamics/fileex
-      ansi-sgr:
-        install:
-          pip:
-            version: ==0.1.0
-            homepage: https://pypi.org/project/ansi-sgr
-        url:
-          docs: https://ansi-sgr.repodynamics.com
-          source: https://github.com/repodynamics/ansi-sgr
       pycolorit:
         install:
           pip:
@@ -152,6 +134,67 @@ pypkg_ci:
         url:
           docs: https://pycolorit.repodynamics.com
           source: https://github.com/repodynamics/pycolorit
+      pylinks:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/pylinks
+        url:
+          docs: https://pylinks.repodynamics.com
+          source: https://github.com/repodynamics/pylinks
+      pyserials:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/pyserials
+        url:
+          docs: https://pyserials.repodynamics.com
+          source: https://github.com/repodynamics/pyserials
+      pyshellman:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/pyshellman
+        url:
+          docs: https://pyshellman.repodynamics.com
+          source: https://github.com/repodynamics/pyshellman
+      pysyntax:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/pysyntax
+        url:
+          docs: https://pysyntax.repodynamics.com
+          source: https://github.com/repodynamics/pysyntax
+      referencing:
+        install:
+          pip:
+            version: ==0.36.2
+            homepage: https://pypi.org/project/referencing
+      ruamel.yaml:
+        install:
+          pip:
+            version: ==0.18.10
+            homepage: https://pypi.org/project/ruamel.yaml/
+      rich:
+        install:
+          pip:
+            version: ==13.9.4
+      trove-classifiers:
+        install:
+          pip:
+            version: '>=2025.3.13.13'
+            homepage: https://pypi.org/project/trove-classifiers
+      versionman:
+        install:
+          pip:
+            version: ==0.1.0
+            homepage: https://pypi.org/project/versionman
+        url:
+          docs: https://versionman.repodynamics.com
+          source: https://github.com/repodynamics/versionman
+
+
   pyproject:
     build-system:
       build-backend: setuptools.build_meta
