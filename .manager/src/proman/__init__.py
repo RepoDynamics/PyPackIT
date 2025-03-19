@@ -120,7 +120,7 @@ def _finalize(github_context: _github_contexts.GitHubContext, reporter: Reporter
     dir_path = Path(repo_path) / report_path / "proman"
     dir_path.mkdir()
 
-    output_str = ps.write.to_json_string(output, sort_keys=True, indent=3)
+    output_str = ps.write.to_json_string(output, sort_keys=True, indent=3, default=str)
 
     for file_data, file_suffix, file_ext in (
         (output_str, "output", "json"),
