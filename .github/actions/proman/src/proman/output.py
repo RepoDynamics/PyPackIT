@@ -306,7 +306,7 @@ class OutputManager:
                 "pkg_id": pkg_id,
                 "pure_python": pure_python,
                 "build_command": f"{python_build_command} {pkg_id} {"--sdist" if not pure_python else ""}",
-                "readme_command": readme_render_command if value["pyproject"]["project"].get("readme") else "",
+                "readme_command": f"{readme_render_command} {pkg_id}" if value["pyproject"]["project"].get("readme") else "",
                 "pkg_path": value["path"]["root"],
                 "ci-builds": ci_builds(value) or False,
                 "conda-builds": conda_builds(value),
