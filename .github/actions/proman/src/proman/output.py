@@ -348,13 +348,13 @@ class OutputManager:
                 publish_job = {
                     "name": self._fill_jinja(
                         job_config["task_name"],
-                        env_vars=build,
+                        env_vars=build | {"pkg": value},
                     ),
                     "env": {
-                        "name": self._fill_jinja(job_config["env"]["name"], env_vars=build),
+                        "name": self._fill_jinja(job_config["env"]["name"], env_vars=build | {"pkg": value}),
                         "url": self._fill_jinja(
                             job_config["env"]["url"],
-                            env_vars=build,
+                            env_vars=build | {"pkg": value},
                         ),
                     },
                     "artifact": build["artifact"],
