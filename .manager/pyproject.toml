@@ -32,7 +32,7 @@ dependencies = [
     "ruamel.yaml ==0.18.10",
     "rich ==13.9.4",
     "trove-classifiers >=2025.3.13.13",
-    "versionman ==0.1.0",
+    "versionman ==0.1.1",
 ]
 name = "PyPackIT"
 requires-python = ">=3.10"
