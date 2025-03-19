@@ -39,7 +39,6 @@ pypkg_ci:
             homepage: https://pypi.org/project/exceptionman
         url:
           docs: https://exceptionman.repodynamics.com
-          source:
       fileex:
         install:
           pip:
