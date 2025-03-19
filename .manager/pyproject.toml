@@ -38,6 +38,9 @@ name = "PyPackIT"
 requires-python = ">=3.10"
 version = "0.1.0"
 
+[project.scripts]
+cca = "controlman.__main__:cca"
+
 [tool.setuptools]
 include-package-data = true
 

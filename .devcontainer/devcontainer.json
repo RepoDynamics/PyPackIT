@@ -169,6 +169,21 @@
       ],
       "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
+   "postStartCommand": {
+      "pypackit_install": [
+         "conda",
+         "run",
+         "--name",
+         "pypackit",
+         "--live-stream",
+         "-vv",
+         "pip",
+         "install",
+         "--editable",
+         ".manager",
+         "--no-deps"
+      ]
+   },
    "service": "main",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"

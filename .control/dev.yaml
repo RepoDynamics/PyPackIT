@@ -976,7 +976,10 @@ devcontainer_main:
             source: https://github.com/anaconda/anaconda-client
     pypackit:
       task:
-
+        cca:
+          name: Continuous Configuration Automation
+          summary: Run CCA on the repository.
+          process: [ cca, $@ ]
       conda: |
         #{{
           py_ver = get("pypkg_ci.python.version.spec")

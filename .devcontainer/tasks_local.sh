@@ -54,3 +54,7 @@ lint() {
 lint-ci() {
     conda run --cwd /workspace --name pre_commit --live-stream -vv python .devcontainer/script/pre_commit.py --config .devcontainer/config/pre-commit-ci.yaml "$@"
 }
+
+cca() {
+    conda run --cwd /workspace --name pypackit --live-stream -vv cca "$@"
+}

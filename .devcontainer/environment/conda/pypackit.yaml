@@ -1,4 +1,4 @@
-name: proman
+name: pypackit
 dependencies:
   - conda-forge::python >=3.10
   - pip

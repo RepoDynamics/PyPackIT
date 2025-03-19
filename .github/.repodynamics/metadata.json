@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(38%) sepia(81%) saturate(1197%) hue-rotate(77deg) brightness(100%) contrast(101%)",
-                  "light": "invert(17%) sepia(46%) saturate(4126%) hue-rotate(98deg) brightness(95%) contrast(101%)"
+                  "dark": "invert(48%) sepia(78%) saturate(2973%) hue-rotate(78deg) brightness(96%) contrast(101%)",
+                  "light": "invert(20%) sepia(32%) saturate(3738%) hue-rotate(92deg) brightness(95%) contrast(103%)"
                }
             }
          },
@@ -6172,6 +6172,21 @@
             ],
             "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
+         "postStartCommand": {
+            "pypackit_install": [
+               "conda",
+               "run",
+               "--name",
+               "pypackit",
+               "--live-stream",
+               "-vv",
+               "pip",
+               "install",
+               "--editable",
+               ".manager",
+               "--no-deps"
+            ]
+         },
          "service": "main",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
@@ -7078,7 +7093,142 @@
             "name": "presentation",
             "path": ".devcontainer/environment/conda/presentation.yaml"
          },
-         "proman": {
+         "pybuild": {
+            "name": "pybuild",
+            "path": ".devcontainer/environment/conda/pybuild.yaml",
+            "pip": {
+               "build": {
+                  "name": "build",
+                  "spec": {
+                     "full": "build >=1.2.2",
+                     "name": "build",
+                     "version": ">=1.2.2"
+                  },
+                  "url": {
+                     "docs": "https://build.pypa.io/",
+                     "package": "https://pypi.org/project/build/",
+                     "source": "https://github.com/pypa/build"
+                  }
+               },
+               "readme-renderer": {
+                  "name": "readme-renderer",
+                  "spec": {
+                     "extras": [
+                        "md"
+                     ],
+                     "full": "readme-renderer [md] >=44",
+                     "name": "readme-renderer",
+                     "version": ">=44"
+                  },
+                  "url": {
+                     "package": "https://pypi.org/project/readme-renderer/",
+                     "source": "https://github.com/pypa/readme_renderer"
+                  }
+               },
+               "twine": {
+                  "name": "twine",
+                  "spec": {
+                     "full": "twine",
+                     "name": "twine",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://twine.readthedocs.io/",
+                     "package": "https://pypi.org/project/twine/",
+                     "source": "https://github.com/pypa/twine"
+                  }
+               }
+            },
+            "task": {
+               "build-python": {
+                  "alias": "build-python",
+                  "data": {
+                     "output_path": ".local/temp/build-python"
+                  },
+                  "description": "Build a distribution for a Python package.",
+                  "name": "Build Python Package",
+                  "process": [
+                     "python",
+                     ".devcontainer/script/build_python.py",
+                     ".local/temp/build-python",
+                     "$@"
+                  ]
+               },
+               "render-readme": {
+                  "alias": "render-readme",
+                  "data": {
+                     "output_path": ".local/temp/readme-pypi"
+                  },
+                  "description": "Render a Python package's README file to HTML.",
+                  "name": "Render README",
+                  "process": [
+                     "python",
+                     ".devcontainer/script/render_readme.py",
+                     ".local/temp/readme-pypi",
+                     "$@"
+                  ]
+               }
+            },
+            "variable": {
+               "log_level": {
+                  "description": "See the [versioningit documentation](https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable)\nfor more information.\n",
+                  "key": "VERSIONINGIT_LOG_LEVEL",
+                  "summary": "Log level for the versioningit tool during build.",
+                  "value": "DEBUG"
+               }
+            }
+         },
+         "pylint": {
+            "conda": {
+               "enchant": {
+                  "description": "Spellchecking library.\nThis is the underlying library for `pyenchant`.\n",
+                  "name": "enchant",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::enchant ==2.8.2",
+                     "name": "enchant",
+                     "version": "==2.8.2"
+                  },
+                  "url": {
+                     "docs": "https://rrthomas.github.io/enchant/",
+                     "package": "https://anaconda.org/conda-forge/enchant",
+                     "source": "https://github.com/rrthomas/enchant/"
+                  }
+               },
+               "pyenchant": {
+                  "description": "Spellchecking library for Python.\nThis is an optional dependency of `pylint`,\nwhich is not included in the conda package.\n",
+                  "name": "pyenchant",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::pyenchant ==3.2.2",
+                     "name": "pyenchant",
+                     "version": "==3.2.2"
+                  },
+                  "url": {
+                     "docs": "https://pyenchant.github.io/pyenchant/",
+                     "package": "https://anaconda.org/conda-forge/pyenchant",
+                     "source": "https://github.com/pyenchant/pyenchant/"
+                  }
+               },
+               "pylint": {
+                  "name": "pylint",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::pylint ==3.3.4",
+                     "name": "pylint",
+                     "version": "==3.3.4"
+                  },
+                  "url": {
+                     "docs": "https://pylint.readthedocs.io/",
+                     "package": "https://anaconda.org/conda-forge/pylint",
+                     "source": "https://github.com/pylint-dev/pylint"
+                  }
+               }
+            },
+            "name": "pylint",
+            "path": ".devcontainer/environment/conda/pylint.yaml"
+         },
+         "pypackit": {
             "conda": {
                "python": {
                   "name": "${{ .__key__ }}$",
@@ -7093,8 +7243,8 @@
                   }
                }
             },
-            "name": "proman",
-            "path": ".devcontainer/environment/conda/proman.yaml",
+            "name": "pypackit",
+            "path": ".devcontainer/environment/conda/pypackit.yaml",
             "pip": {
                "actionman": {
                   "name": "${{ .__key__ }}$",
@@ -7312,142 +7462,18 @@
                      "version": "==0.1.1"
                   }
                }
-            }
-         },
-         "pybuild": {
-            "name": "pybuild",
-            "path": ".devcontainer/environment/conda/pybuild.yaml",
-            "pip": {
-               "build": {
-                  "name": "build",
-                  "spec": {
-                     "full": "build >=1.2.2",
-                     "name": "build",
-                     "version": ">=1.2.2"
-                  },
-                  "url": {
-                     "docs": "https://build.pypa.io/",
-                     "package": "https://pypi.org/project/build/",
-                     "source": "https://github.com/pypa/build"
-                  }
-               },
-               "readme-renderer": {
-                  "name": "readme-renderer",
-                  "spec": {
-                     "extras": [
-                        "md"
-                     ],
-                     "full": "readme-renderer [md] >=44",
-                     "name": "readme-renderer",
-                     "version": ">=44"
-                  },
-                  "url": {
-                     "package": "https://pypi.org/project/readme-renderer/",
-                     "source": "https://github.com/pypa/readme_renderer"
-                  }
-               },
-               "twine": {
-                  "name": "twine",
-                  "spec": {
-                     "full": "twine",
-                     "name": "twine",
-                     "version": ""
-                  },
-                  "url": {
-                     "docs": "https://twine.readthedocs.io/",
-                     "package": "https://pypi.org/project/twine/",
-                     "source": "https://github.com/pypa/twine"
-                  }
-               }
             },
             "task": {
-               "build-python": {
-                  "alias": "build-python",
-                  "data": {
-                     "output_path": ".local/temp/build-python"
-                  },
-                  "description": "Build a distribution for a Python package.",
-                  "name": "Build Python Package",
+               "cca": {
+                  "alias": "cca",
+                  "name": "Continuous Configuration Automation",
                   "process": [
-                     "python",
-                     ".devcontainer/script/build_python.py",
-                     ".local/temp/build-python",
+                     "cca",
                      "$@"
-                  ]
-               },
-               "render-readme": {
-                  "alias": "render-readme",
-                  "data": {
-                     "output_path": ".local/temp/readme-pypi"
-                  },
-                  "description": "Render a Python package's README file to HTML.",
-                  "name": "Render README",
-                  "process": [
-                     "python",
-                     ".devcontainer/script/render_readme.py",
-                     ".local/temp/readme-pypi",
-                     "$@"
-                  ]
-               }
-            },
-            "variable": {
-               "log_level": {
-                  "description": "See the [versioningit documentation](https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable)\nfor more information.\n",
-                  "key": "VERSIONINGIT_LOG_LEVEL",
-                  "summary": "Log level for the versioningit tool during build.",
-                  "value": "DEBUG"
+                  ],
+                  "summary": "Run CCA on the repository."
                }
             }
-         },
-         "pylint": {
-            "conda": {
-               "enchant": {
-                  "description": "Spellchecking library.\nThis is the underlying library for `pyenchant`.\n",
-                  "name": "enchant",
-                  "spec": {
-                     "channel": "conda-forge",
-                     "full": "conda-forge::enchant ==2.8.2",
-                     "name": "enchant",
-                     "version": "==2.8.2"
-                  },
-                  "url": {
-                     "docs": "https://rrthomas.github.io/enchant/",
-                     "package": "https://anaconda.org/conda-forge/enchant",
-                     "source": "https://github.com/rrthomas/enchant/"
-                  }
-               },
-               "pyenchant": {
-                  "description": "Spellchecking library for Python.\nThis is an optional dependency of `pylint`,\nwhich is not included in the conda package.\n",
-                  "name": "pyenchant",
-                  "spec": {
-                     "channel": "conda-forge",
-                     "full": "conda-forge::pyenchant ==3.2.2",
-                     "name": "pyenchant",
-                     "version": "==3.2.2"
-                  },
-                  "url": {
-                     "docs": "https://pyenchant.github.io/pyenchant/",
-                     "package": "https://anaconda.org/conda-forge/pyenchant",
-                     "source": "https://github.com/pyenchant/pyenchant/"
-                  }
-               },
-               "pylint": {
-                  "name": "pylint",
-                  "spec": {
-                     "channel": "conda-forge",
-                     "full": "conda-forge::pylint ==3.3.4",
-                     "name": "pylint",
-                     "version": "==3.3.4"
-                  },
-                  "url": {
-                     "docs": "https://pylint.readthedocs.io/",
-                     "package": "https://anaconda.org/conda-forge/pylint",
-                     "source": "https://github.com/pylint-dev/pylint"
-                  }
-               }
-            },
-            "name": "pylint",
-            "path": ".devcontainer/environment/conda/pylint.yaml"
          },
          "type_check": {
             "data": {
@@ -7719,6 +7745,8 @@
                "run",
                "--name",
                "app",
+               "--live-stream",
+               "-vv",
                "pip",
                "install",
                "--editable",
@@ -7730,6 +7758,8 @@
                "run",
                "--name",
                "app",
+               "--live-stream",
+               "-vv",
                "pip",
                "install",
                "--editable",
@@ -7778,7 +7808,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -21054,9 +21084,9 @@
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
             "presentation": ".devcontainer/environment/conda/presentation.yaml",
-            "proman": ".devcontainer/environment/conda/proman.yaml",
             "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
             "pylint": ".devcontainer/environment/conda/pylint.yaml",
+            "pypackit": ".devcontainer/environment/conda/pypackit.yaml",
             "type_check": ".devcontainer/environment/conda/type_check.yaml",
             "versioning": ".devcontainer/environment/conda/versioning.yaml",
             "website": ".devcontainer/container-docs/environment/conda/website.yaml"
@@ -21853,6 +21883,9 @@
             ],
             "name": "PyPackIT",
             "requires-python": ">=3.10",
+            "scripts": {
+               "cca": "controlman.__main__:cca"
+            },
             "version": "0.1.0"
          },
          "tool": {
