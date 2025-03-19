@@ -6816,6 +6816,9 @@
                         "allowed-confusables": [
                            "\u2013"
                         ],
+                        "exclude": [
+                           ".manager/**/*.py"
+                        ],
                         "flake8-annotations": {
                            "allow-star-arg-any": true,
                            "mypy-init-return": true,
@@ -6851,6 +6854,11 @@
                         },
                         "per-file-ignores": {
                            ".devcontainer/script/**": [
+                              "T201",
+                              "S603",
+                              "S607"
+                           ],
+                           ".github/**": [
                               "T201",
                               "S603",
                               "S607"
