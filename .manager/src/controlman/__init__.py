@@ -17,10 +17,6 @@ from controlman.center_manager import CenterManager
 from controlman import date as _date
 
 
-# TODO: Remove after adding versioningit
-__release__ = "1.0"
-
-
 def manager(
     repo: _Git | _Path | str,
     data_before: _ps.NestedDict | None = None,
