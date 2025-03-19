@@ -85,8 +85,8 @@ jobs:
           repo_path: ${{ env.PATH_REPO_HEAD }}
           load_cache: 'true'
           activate_env: proman
-      - name: ProMan Setup
-        run: pip install ${{ env.PATH_REPO_HEAD }}/.github/actions/proman --no-deps
+      - name: PyPackIT Setup
+        run: pip install ${{ env.PATH_REPO_HEAD }}/.manager --no-deps
       - name: ProMan
         id: proman
         env:
