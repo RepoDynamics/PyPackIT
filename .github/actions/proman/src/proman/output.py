@@ -313,7 +313,7 @@ class OutputManager:
             }
             build_job["artifact"] = self._create_workflow_artifact_config(
                 build_config["artifact"],
-                jinja_env_vars=build_job | {"platform": "any", "python": "3"},
+                jinja_env_vars=build_job | {"platform": "any", "python": "3", "pkg": value},
                 include_merge=True,
             )
             out = {
