@@ -1,0 +1,36 @@
+$id: https://controlman.repodynamics.com/schema/workflow-artifact
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Artifact
+description: Configurations for a GitHub Actions artifact.
+type: object
+required: [ name ]
+additionalProperties: false
+properties:
+  name:
+    description: Name of the artifact.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  path:
+    summary: Path or glob pattern to files to include in the artifact.
+    type: string
+  merge:
+    description: |
+      Configurations for merging this artifact into another.
+    type: object
+    additionalProperties: false
+    required: [ name, pattern ]
+    properties:
+      name:
+        description: Name of the merged artifact.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+      pattern:
+        description: Pattern to match the artifacts to merge.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+  retention_days:
+    description: Number of days to retain the artifact.
+    type: integer
+    minimum: 1
+    maximum: 90
+  include_hidden:
+    description: Whether to include hidden files in the artifact.
+    type: boolean
+    default: false

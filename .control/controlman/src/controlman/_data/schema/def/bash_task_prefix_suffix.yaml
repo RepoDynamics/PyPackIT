@@ -1,0 +1,26 @@
+$id: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Bash Task Prefix and Suffix
+additionalProperties: false
+type: object
+properties:
+  process:
+    type: object
+    additionalProperties: false
+    properties:
+      prepend:
+        type: array
+        items:
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+      append:
+        type: array
+        items:
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+  script:
+    type: object
+    additionalProperties: false
+    properties:
+      prepend:
+        type: string
+      append:
+        type: string

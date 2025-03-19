@@ -1,0 +1,23 @@
+$id: https://controlman.repodynamics.com/schema/variables
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Variables
+description: Project's variables.
+type: object
+default: { }
+additionalProperties: false
+required: [ zenodo, zenodo_sandbox ]
+properties:
+  zenodo:
+    default:
+      concept:
+        doi: null
+        draft: false
+        id: 0
+    $ref: https://controlman.repodynamics.com/schema/variable-zenodo
+  zenodo_sandbox:
+    default:
+      concept:
+        doi: null
+        draft: false
+        id: 0
+    $ref: https://controlman.repodynamics.com/schema/variable-zenodo

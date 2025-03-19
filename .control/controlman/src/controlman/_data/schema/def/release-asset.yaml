@@ -1,0 +1,56 @@
+$id: https://controlman.repodynamics.com/schema/release-asset
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Release Asset
+description: Configurations for a release asset, e.g., for GitHub Releases or Zenodo.
+type: object
+required: [ files ]
+oneOf:
+  - required: [ format ]
+  - required: [ media_type ]
+properties:
+  name:
+    description: File name of the asset.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  label:
+    description: |
+      Label of the asset. This is only applicable to GitHub Releases assets.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  files:
+    description: |
+      Files to include in the asset.
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [ source, destination, artifact ]
+      properties:
+        source:
+          description: Path to search for the files to include.
+          type: string
+          default: '.'
+        pattern:
+          description: |
+            RegEx pattern to match against filepaths in source.
+          type: string
+        destination:
+          description: |
+            Path in the asset archive to place the files in.
+          type: string
+          default: '.'
+        artifact:
+          description: |
+            Whether source is a workflow artifact instead of a file in the repository.
+          type: boolean
+          default: false
+  format:
+    description: |
+      Archive format to create. If not specified,
+      then the asset can only define a single file at the root,
+      and `media_type` must be defined.
+    type: string
+    enum: [ zip, tar, tar.gz, tar.bz2, tar.xz, gz, bz2, xz ]
+  media_type:
+    description: |
+      Media type of the asset file, when `format` is not specified,
+      i.e., when the asset is a single non-archived file.
+    type: string

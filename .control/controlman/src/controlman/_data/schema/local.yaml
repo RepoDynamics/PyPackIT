@@ -1,0 +1,23 @@
+$id: https://controlman.repodynamics.com/schema/local
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Local Configurations
+summary: Configuration overrides for development on local machines.
+description: |
+  When working with a local clone of the repository,
+  some control center configurations can be overridden
+  by adding a local configuration file at `.github/.repodynamics/local.yaml`.
+  When present, the configurations in this file override the corresponding
+  control center configurations.
+  
+  Note that this file is automatically added to the `.gitignore` file 
+  and thus will not be pushed to the remote repository.
+type: object
+additionalProperties: false
+properties:
+  retention_hours:
+    summary: Number of hours to keep cached data.
+    description: |
+      After the specified duration,
+      the cached data is considered stale
+      and will be automatically synced with the source.
+    $ref: https://controlman.repodynamics.com/schema/cache-retention-hours

@@ -1,0 +1,11 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-file-setting-json
+$schema: https://json-schema.org/draft/2020-12/schema
+title: JSON File Settings
+summary: Configuration for output files in JSON format.
+type: object
+additionalProperties: false
+default: { }
+properties:
+  indent:
+    type: [ integer, 'null' ]
+    default: 3

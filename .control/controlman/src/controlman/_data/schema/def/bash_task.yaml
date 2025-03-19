@@ -1,0 +1,46 @@
+$id: https://controlman.repodynamics.com/schema/bash-task
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Bash Task
+type: object
+additionalProperties: false
+required: [ alias ]
+oneOf:
+  - required: [ script ]
+  - required: [ process ]
+properties:
+  script:
+    summary: Bash script to execute.
+    type: string
+  process:
+    summary: Process to execute.
+    type: array
+    items:
+      type: string
+  alias:
+    summary: Shell alias for the task.
+    type: string
+    minLength: 1
+    pattern: ^[a-zA-Z0-9_-]+$
+    default: ${{ .__key__ }}$
+  data:
+    summary: Definition of data for the task.
+    description: |
+      You can use this to add labels, tags, or other metadata
+      to the task.
+      This is also useful when you want to generate the script
+      in a custom format. In this case, the `script` field
+      can contain Python templates that use the configurations
+      defined here to generate the content.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+  name:
+    summary: Name of the task.
+    type: string
+  summary:
+    summary: A short description of the file.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  description:
+    summary: Description of the task.
+    type: string
+  notes:
+    description: Additional notes related to the task.
+    type: string

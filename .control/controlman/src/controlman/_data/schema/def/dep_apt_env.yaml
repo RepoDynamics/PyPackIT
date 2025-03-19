@@ -1,0 +1,64 @@
+$id: https://controlman.repodynamics.com/schema/dependency-apt-env
+$schema: https://json-schema.org/draft/2020-12/schema
+title: APT Environment Dependency
+summary: Declaration of a Debian APT package dependency for an environment.
+allOf:
+  - $ref: https://controlman.repodynamics.com/schema/dependency-base
+type: object
+required: [ spec ]
+unevaluatedProperties: false
+properties:
+  spec:
+    summary: Specifications for the `apt-get` package manager.
+    type: object
+    required: [ name ]
+    properties:
+      name:
+        summary: Name of the package.
+        description: |
+          This is the name of the package as it is known in the APT repository.
+        default: |
+          #{{
+            import re
+            dep_name = get("..name")
+            name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+            return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+          }}#
+      version:
+        type: string
+        summary: Version of the package.
+        examples:
+          - "1.21.2"
+      release:
+        summary: |
+          OS distribution release of the package version.
+        type: string
+        examples:
+          - jammy
+          - focal
+          - bookworm
+      full:
+        summary: Full match specification.
+        readOnly: true
+        type: string
+        default: |-
+          #{{
+            spec = [get("..name")]
+            for part_name, part_prefix in (
+              ("version", "="), ("release", "/")
+            ):
+                part = get(f"..{part_name}")
+                if part:
+                    spec.append(f"{part_prefix}{part}")
+            return "".join(spec)
+          }}#
+  url:
+    title: URL
+    description: URLs to resources related to the module.
+    type: object
+    default: { }
+    properties:
+      package:
+        summary: URL of the APT package homepage.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+        default: https://packages.debian.org/${{ ..spec.name }}$

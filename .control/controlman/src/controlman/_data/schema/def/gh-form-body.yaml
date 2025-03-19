@@ -1,0 +1,55 @@
+$id: https://controlman.repodynamics.com/schema/gh-form-body
+$schema: https://json-schema.org/draft/2020-12/schema
+title: GitHub Form Body (Augmented)
+description: |
+  Definition of the elements in the discussion form, according to GitHub's
+  [syntax for GitHub's form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema),
+  which is shared between issue forms and discussion category forms.
+  
+  Each form must have a body, defined as an array of form elements for requesting user input.
+  Each form element itself is defined as a set of key-value pairs
+  that determine the type of the element, the properties of the element,
+  and the constraints you want to apply to the element.
+  The rules and syntax are identical to that of the
+  [GitHub's form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema),
+  with several additional options and constraints:
+
+  - Each form must have a `dropdown` element whose `id` is set to either `version` or `branch`,
+    and whose `options` are an array of all the supported package versions (for version)
+    or active release branches (for branch) in the repository.
+    The `options` can be defined dynamically, by setting it equal to
+    `${‎{ package.releases.package_versions }}$` (for version) or
+    `${‎{ package.releases.branch_names }}$` (for branch).
+    It makes sense to add version to forms that concern an issue with the package,
+    and branch to forms for package-independent issues.
+    When branch is set, |{{ ccc.name }}| parses the the user input
+    and automatically adds the corresponding [branch labels](../label/index.md#branches)
+    to each issue that is created using the form.
+    Similarly, when version is set, |{{ ccc.name }}| determines the branch
+    hosting each selected version, and automatically adds both
+    [version labels](../label/index.md#versions) and branch labels to each issue.
+    During the triage process, the maintainers can add or remove version/branch labels
+    as needed; for example, the user may have selected only one version where they encountered the issue,
+    but during the triage process, the maintainers may determine that the issue affects multiple versions.
+    Subsequently, when the issue is labeled as [in development](../label/index.md#statuses),
+    |{{ ccc.name }}| automatically creates a new development branch from each branch that is labeled.
+  - The value of the `label` key for each element that defines it (i.e., all but the `markdown` element)
+    must be unique across all form elements.
+    This is needed for the [post-processing](#post-processing) step,
+    since the `label` is the only way to identify each element in the issue body after it has been created.
+  - You can specify an additional [`pre_process`](#pre-processing) key for each element.
+allOf:
+  - $ref: https://jsonschemata.repodynamics.com/config/github/form/body
+  - items:
+      properties:
+        active:
+          description: |
+            Whether this body element is currently active.
+          type: boolean
+          default: true
+        changelog:
+          description: |
+            Whether to add this input to the changelog.
+            Only applicable to issue forms.
+          type: boolean
+          default: false

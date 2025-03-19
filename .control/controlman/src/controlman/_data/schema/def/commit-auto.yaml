@@ -1,0 +1,25 @@
+$id: https://controlman.repodynamics.com/schema/commit-auto
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Automatic Commit
+description: |
+  Configurations for an automatic commit.
+type: object
+required: [ description ]
+#unevaluatedProperties: false
+properties:
+  description:
+    description: |
+      A [Conventional Commits](https://www.conventionalcommits.org/)-like
+      description for the commit message.
+    default: '{{ pull_request.title }}'
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  body:
+    description: |
+      Commit message body.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  footer:
+    description: |
+      Commit message footer.
+    type: object
+allOf:
+  - $ref: https://controlman.repodynamics.com/schema/commit

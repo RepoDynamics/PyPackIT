@@ -1,0 +1,14 @@
+$id: https://controlman.repodynamics.com/schema/themed-color
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Themed Color
+description: A set of two colors for light and dark themes.
+type: object
+additionalProperties: false
+required: [ light ]
+properties:
+  light:
+    description: Color of the element for light themes.
+    $ref: https://jsonschemata.repodynamics.com/color/css
+  dark:
+    description: Color of the element for dark themes.
+    $ref: https://jsonschemata.repodynamics.com/color/css

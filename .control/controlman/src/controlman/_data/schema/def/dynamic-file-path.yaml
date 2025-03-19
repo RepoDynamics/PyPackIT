@@ -1,0 +1,13 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-file-path
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Dynamic Filepath
+summary: Path to the output dynamic file.
+description: |
+  Changing the path will automatically remove the file from the old path
+  and add the (updated) file to the new path during the next synchronization.
+$ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+examples:
+  - .github/my-tool-config.yaml
+  - .devcontainer/devcontainer.json
+  - docs/requirements.txt
+  - Dockerfile

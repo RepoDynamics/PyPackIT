@@ -1,0 +1,40 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-file-setting-md
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Markdown File Settings
+summary: Configuration for output files in Markdown format.
+type: object
+additionalProperties: false
+default: { }
+properties:
+  target:
+    summary: Target output format.
+    default: github
+    oneOf:
+      - type: string
+      - type: object
+  filters:
+    summary: Filters to apply to document content for this output.
+    description: |
+      When filters are specified, document components are
+      included in the output only if
+      - they have no conditions defined, or
+      - at least one of the defined conditions matches one of the filters.
+
+      :::{admonition} Usage
+      :class: dropdown note toggle-shown
+
+      Filters can be used to dynamically generate similar versions
+      of a document from the same source. For example,
+      you may want to output both a short version and a long version for a document.
+      To do so, you can e.g., add "short" and "long" conditions to the respective
+      document content. Then, for the long version, define no filters
+      to include all content in the output. For the short version,
+      add "short" as a filter, so that only components with a "short" condition are included.
+      :::
+    type: array
+    items:
+      type: string
+  heading_number:
+    summary: Whether to explicitly add heading numbers to each heading.
+    type: boolean
+    default: false

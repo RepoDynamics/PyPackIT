@@ -1,0 +1,11 @@
+$id: https://controlman.repodynamics.com/schema/contributors
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Contributors
+description: |
+  External contributors to the project.
+  
+  This corresponds to the [`contributors.json`] file in the project,
+  which is automatically maintained.
+type: object
+additionalProperties:
+  $ref: https://controlman.repodynamics.com/schema/entity-def

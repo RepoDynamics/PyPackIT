@@ -1,0 +1,52 @@
+$id: https://controlman.repodynamics.com/schema/code-owner
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Code Owner
+summary: Code owner definitions for different parts of the project.
+type: array
+minItems: 1
+uniqueItems: true
+examples:
+  - - glob: "*"
+      priority: 1
+      description: Default owner of all unassigned files.
+    - glob: "/.github/"
+      priority: 2
+      description: Default owner of all files in the `.github` directory.
+items:
+  title: Glob Definition
+  summary: Definition of a glob pattern for the owner.
+  type: object
+  additionalProperties: false
+  required: [ glob, priority ]
+  properties:
+    glob:
+      summary: Glob pattern to match the files.
+      examples:
+        - "*"
+        - "/*"
+        - "/.github/"
+      $ref: https://jsonschemata.repodynamics.com/string/nonempty
+    priority:
+      summary: Priority of the glob pattern.
+      description: |
+        When multiple patterns match a file,
+        the owners of the pattern with the highest priority are [assigned
+        as reviewers](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#example-of-a-codeowners-file)
+        to corresponding pull requests.
+      examples:
+        - 1
+        - 2
+        - 3
+        - 10
+        - 20
+        - 30
+        - 100
+        - 200
+        - 300
+        - 1000
+        - 2000
+        - 3000
+      $ref: https://jsonschemata.repodynamics.com/number/non-negative
+    description:
+      summary: Description of the path or glob pattern.
+      $ref: https://jsonschemata.repodynamics.com/string/nonempty

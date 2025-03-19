@@ -1,0 +1,36 @@
+$id: https://controlman.repodynamics.com/schema/conda-meta-array
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Conda Meta Array
+description: |
+  An array of values in a conda recipe metadata file.
+type: object
+minProperties: 1
+additionalProperties: false
+properties:
+  prepend:
+    description: |
+      Jinja template to add before any fixed array elements.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  append:
+    description: |
+      Jinja template to add after all fixed array elements.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  values:
+    description: |
+      Fixed array elements.
+    type: array
+    items:
+      title: Array element
+      type: object
+      required: [ value ]
+      additionalProperties: false
+      properties:
+        value:
+          description: |
+            Value of the array element.
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+        selector:
+          description: |
+            Line selector to add to the array element.
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+

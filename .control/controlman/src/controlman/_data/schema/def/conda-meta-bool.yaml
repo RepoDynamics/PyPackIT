@@ -1,0 +1,26 @@
+$id: https://controlman.repodynamics.com/schema/conda-meta-bool
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Conda Meta Boolean
+description: |
+  A boolean value in a conda recipe metadata file.
+  
+  Since values can be repeated with different selectors,
+  this is an array. Note that if only one variant has a selector,
+  then all entries must have a selector, and at most only one selector
+  must evaluate to False at all times. Otherwise,
+  two or more keys with the same name will remain in the metadata file,
+  which will raise an error during build.
+type: array
+items:
+  type: object
+  required: [ value ]
+  additionalProperties: false
+  properties:
+    value:
+      description: |
+        The boolean value.
+      type: boolean
+    selector:
+      description: |
+        Line selector to add to the array element.
+      $ref: https://jsonschemata.repodynamics.com/string/oneline

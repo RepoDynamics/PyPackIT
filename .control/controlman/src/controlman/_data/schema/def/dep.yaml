@@ -1,0 +1,30 @@
+$id: https://controlman.repodynamics.com/schema/dependency-base
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Dependency
+summary: Declaration of a dependency.
+type: object
+properties:
+  name:
+    description: Name of the dependency.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+    default: ${{ .__key__ }}$
+  description:
+    description: A description for the dependecy.
+    type: string
+  data:
+    summary: Configurations for the dependency.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+  url:
+    title: URL
+    description: URLs to resources related to the module.
+    type: object
+    properties:
+      docs:
+        description: URL of the module documentation.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+      source:
+        description: URL of the source code.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  notes:
+    description: Additional notes related to the module.
+    type: string

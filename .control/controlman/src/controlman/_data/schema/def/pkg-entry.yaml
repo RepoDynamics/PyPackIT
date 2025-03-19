@@ -1,0 +1,34 @@
+$id: https://controlman.repodynamics.com/schema/pkg-entry
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Package Entry Points
+description: |
+  Entry points for the package.
+type: object
+additionalProperties:
+  type: object
+  additionalProperties: false
+  required: [ name, ref, description ]
+  properties:
+    name:
+      type: string
+    description:
+      type: string
+    ref:
+      type: string
+    pypi:
+      type: boolean
+      default: true
+    conda:
+      oneOf:
+        - type: boolean
+        - $ref: https://jsonschemata.repodynamics.com/string/oneline
+      default: true
+examples:
+  - main:
+      name: ${{ pkg.import_name }}$
+      description: Main CLI entry of the package.
+      ref: "${{ pkg.import_name }}$:__main__"
+  - gui_main:
+      name: entry_point_1
+      description: Main GUI entry of the package.
+      ref: "${{ pkg.import_name }}$:gui"

@@ -1,0 +1,197 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-file
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Dynamic File
+summary: Configurations for generating and maintaining a dynamic file.
+description: |
+  Dynamically define the content and output path of a file.
+type: object
+additionalProperties: false
+required: [ status, name, summary, type, path, content ]
+properties:
+  status:
+    summary: Sync status of the file.
+    description: |
+      Use this to toggle synchronization or to delete the file,
+      without removing the configuration.
+    type: string
+    enum: [ active, inactive, delete ]
+    default: >-
+      #{{ return 'active' if get('.content') else 'delete' }}#
+  name:
+    summary: Display name of the file.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+    description: |
+      This is **not** the filename,
+      but a display name for documentation.
+    examples:
+      - MyTool Configuration File
+      - SomeData Data File
+      - SomeCool Source File
+  summary:
+    summary: A short description of the file.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  description:
+    summary: A detailed description of the file.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  data:
+    summary: Definition of data for the file.
+    description: |
+      You can use this to add labels, tags, or other metadata
+      to the file. These are not written to the output file,
+      but are stored in the metadata file and can be used
+      for documentation or other purposes.
+      
+      This is also useful when you want to generate content
+      in a custom format. In this case, the `content` field
+      can contain Python templates that use the configurations
+      defined here to generate the content.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+  type:
+    summary: Format of the dynamic file.
+    description: |
+      If `txt` or `exec` is selected, the content will be written to the given file as is.
+      For other types, the content will be written in the specified format.
+    type: string
+    enum: [ yaml, json, toml, md, txt, exec ]
+  path:
+    summary: Path to write the output file.
+    description: |
+      For multi-file Markdown documents, this is the path to the document index file.
+      Other files and directories will be added to the same directory as the index file.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+  path_schema:
+    summary: JSON schema for the path.
+    type: object
+    description: |
+      This is used to validate the path before writing the file.
+      If the path does not match the schema, an error will be raised.
+    examples:
+      - enum: [ CODEOWNERS, .github/CODEOWNERS, docs/CODEOWNERS ]
+      - pattern: ^(?:|.github/|docs/)CODEOWNERS$
+  content:
+    summary: Content of the file.
+    description: |
+      The content will be written to the given filepath in the format specified by `type`.
+    type: [ string, array, object ]
+  content_setting:
+    type: object
+    additionalProperties: false
+    default: { }
+    properties:
+      filter:
+        summary: Filters to apply to values.
+        description: |
+          This is only used when the content is a sequence or mapping.
+          In this case, you can define a JSONPath to match paths within
+          the content, and a filter function to remove paths based on their value.
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties: false
+          required: [ jsonpath, function ]
+          properties:
+            jsonpath:
+              title: JSONPath
+              summary: JSONPath expression matching paths to filter.
+              $ref: https://jsonschemata.repodynamics.com/string/oneline
+            function:
+              summary: Python lambda expression to use as filter.
+              description: |
+                The lambda expression must define a single parameter,
+                which receives the value at each path matched by the JSONPath expression.
+                It must then return a boolean, indicating whether to remove (True)
+                the path.
+              default: 'lambda value: value is None'
+              default_description: |
+                The default lambda expression removes values that are `None`:
+              examples:
+                - 'lambda value: value is None'
+              examples_description:
+                - 'Remove `None` values:'
+            inplace:
+              summary: Whether to apply the filter inplace.
+              description: |
+                When set to `True` the content in `metadata.json`
+                will match the content of the file, as the filters
+                are applied before writing the metadata file.
+                Otherwise (when set to `False`), the filters
+                are only applied to the output file, but not
+                to `content` in the` metadata.json` file.
+              type: boolean
+              default: true
+      separator:
+        summary: Custom string to use as separator between content.
+        description: |
+          This is only used when the output filetype is plain text,
+          and the content is a sequence or a mapping. In such cases,
+          this separator is used to join the sequence elements or mapping values, respectively.
+        type: string
+        default: "\n"
+      prefix:
+        summary: Custom string to prepend to all content items.
+        description: |
+          This is only used when the output filetype is plain text,
+          and the content is a sequence or a mapping. In such cases,
+          this prefix is prepended to the beginning of each sequence element or mapping value, respectively.
+        type: string
+        default: ""
+      suffix:
+        summary: Custom string to append to all content items.
+        description: |
+          This is only used when the output filetype is plain text,
+          and the content is a sequence or a mapping. In such cases,
+          this suffix is appended to the end of each sequence element or mapping value, respectively.
+        type: string
+        default: ""
+      order:
+        summary: Order of top-level keys in the output file.
+        description: |
+          By default, keys are sorted alphabetically.
+          Here you can specify a custom order instead.
+          Note that any keys not mentioned here will be appended at the end.
+        type: array
+        uniqueItems: true
+  file_setting:
+    type: object
+    additionalProperties: false
+    default: { }
+    properties:
+      eof_newline:
+        summary: Whether to add a newline at the end of the file.
+        type: boolean
+        default: true
+      sort_keys:
+        summary: Whether to sort keys in the output file.
+        type: boolean
+        default: true
+      json:
+        default: { }
+        $ref: https://controlman.repodynamics.com/schema/dynamic-file-setting-json
+      yaml:
+        default: { }
+        $ref: https://controlman.repodynamics.com/schema/dynamic-file-setting-yaml
+      md:
+        default: { }
+        $ref: https://controlman.repodynamics.com/schema/dynamic-file-setting-md
+  jsonschema:
+    summary: JSON schema for the content.
+    $ref: https://controlman.repodynamics.com/schema/jsonschema
+    description: |
+      This is used to validate the content before writing it to the file.
+      If the content does not match the schema, an error will be raised.
+      Only used when the content is not plain text.
+  validator:
+    summary: Custom validation function for the content.
+    type: string
+    examples:
+      - my_validation_function
+  notes:
+    summary: Additional notes related to the file.
+    type: string
+  url:
+    title: URL
+    summary: URL of the file on GitHub.
+    default: ${{ repo.url.blob }}$/${{ .path }}$
+    examples:
+      - "https://github.com/RepoDynamics/PyPackIT/blob/main/README.md"
+    $ref: https://jsonschemata.repodynamics.com/url/https

@@ -1,0 +1,35 @@
+$id: https://controlman.repodynamics.com/schema/jsonschema
+$schema: https://json-schema.org/draft/2020-12/schema
+title: JSON Schema
+summary: Definition of a JSON Schema.
+description: |
+  A custom JSON schema to validate custom configurations.
+type: object
+additionalProperties: false
+required: [ schema, fill_defaults ]
+properties:
+  schema:
+    summary: JSON Schema.
+    description: |
+      This is the JSON schema definition to validate the content.
+    type: object
+    examples:
+      - $id: https://mysite.com/schema/my-schema
+        $schema: https://json-schema.org/draft/2020-12/schema
+        title: My Custom Schema
+        description: This is a custom schema for my custom configurations.
+        type: object
+        additionalProperties: false
+        minProperties: 1
+        properties:
+          my_property:
+            description: My custom property.
+            type: string
+            default: "my_default_value"
+  fill_defaults:
+    summary: Whether to fill missing properties with default values.
+    description: |
+      If set to `true`, missing properties in the content 
+      will be filled with default values provided in the schema.
+    type: boolean
+    default: false

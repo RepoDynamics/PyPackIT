@@ -1,0 +1,103 @@
+$id: https://controlman.repodynamics.com/schema/protocol
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Protocol
+description: |
+  Configurations for an issue/PR protocol.
+type: object
+default: { }
+additionalProperties: false
+required: [ config, template, tasklist ]
+properties:
+  config:
+    type: object
+    default: { }
+    additionalProperties: false
+    required: [ start, end ]
+    properties:
+      start:
+        default: |
+          <details id="config"><summary>Config</summary>
+          
+          ```yaml
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      end:
+        default: |
+          
+          ```
+          
+          </details>
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      default:
+        type: object
+        additionalProperties: false
+        properties:
+          pr_title:
+            type: string
+  inputs:
+    type: object
+    default: { }
+    additionalProperties: false
+    required: [ start, end ]
+    properties:
+      start:
+        default: "<!-- BEGIN: inputs\n"
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      end:
+        default: "\nEND: inputs -->"
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  data:
+    type: object
+    additionalProperties:
+      title: Datum
+      description: Development protocol data.
+      type: object
+      additionalProperties: false
+      required: [ value ]
+      properties:
+        start:
+          default: '<!-- BEGIN: data.${{ .__key__ }}$ -->'
+          $ref: https://jsonschemata.repodynamics.com/string/nonempty
+        end:
+          default: '<!-- END: data.${{ .__key__ }}$ -->'
+          $ref: https://jsonschemata.repodynamics.com/string/nonempty
+        value:
+          type: string
+          default: ''
+        template:
+          type: string
+        template_type:
+          type: string
+          enum: [ prepend, append ]
+          default: append
+        changelog:
+          description: |
+            Whether to add this data to the changelog.
+            The default is false.
+          type: boolean
+  tasklist:
+    type: object
+    default: {}
+    additionalProperties: false
+    properties:
+      start:
+        default: "<!-- BEGIN: tasklist -->\n\n"
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      end:
+        default: "\n\n<!-- END: tasklist -->"
+        $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      value:
+        type: string
+        default: |
+          - [ ] commit-type: Summary of task 1.
+            Description of task 1.
+            - [ ] Summary of subtask 1.1.
+              Description of subtask 1.1.
+          - [ ] commit-type(scope): Summary of task 2.
+            Description of task 2.
+  template:
+    oneOf:
+      - type: string
+      - type: object
+  as_comment:
+    type: boolean
+    default: false

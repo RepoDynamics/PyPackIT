@@ -1,0 +1,10 @@
+$id: https://controlman.repodynamics.com/schema/bash-task-setting
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Bash Task Setting
+additionalProperties: false
+type: object
+properties:
+  local:
+    $ref: https://controlman.repodynamics.com/schema/bash-task-setting-details
+  global:
+    $ref: https://controlman.repodynamics.com/schema/bash-task-setting-details

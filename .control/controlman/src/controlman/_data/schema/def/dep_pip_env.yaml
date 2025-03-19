@@ -1,0 +1,83 @@
+$id: https://controlman.repodynamics.com/schema/dependency-pip-env
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Pip Environment Dependency
+summary: Declaration of a pip package dependency for an environment.
+allOf:
+  - $ref: https://controlman.repodynamics.com/schema/dependency-base
+type: object
+required: [ spec ]
+unevaluatedProperties: false
+properties:
+  spec:
+    summary: Specifications for the `pip` package manager.
+    description: |
+      These configurations define an 
+      [abstract requirement](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/)
+      and correspond to a
+      [PEP 508](https://peps.python.org/pep-0508/)-compliant
+      [dependency specifier](https://packaging.python.org/en/latest/specifications/dependency-specifiers/)
+      (cf. [requirement specifier](https://pip.pypa.io/en/stable/reference/requirement-specifiers/)).
+    type: object
+    default: { }
+    required: [ name, full ]
+    properties:
+      name:
+        summary: Name of the package.
+        description: |
+          This is the name of the package as it is known in the PyPI repository.
+        default: |
+          #{{
+            import re
+            dep_name = get("..name")
+            name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+            return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+          }}#
+      version:
+        type: string
+        summary: >-
+          [Version specifier](https://packaging.python.org/en/latest/specifications/version-specifiers/)
+          of the dependency.
+        description: |
+          This corresponds to a [PEP 440](https://peps.python.org/pep-0440/)-compliant
+          [version Specifiers](https://packaging.python.org/en/latest/specifications/version-specifiers/#id5).
+        examples:
+          - ">=1.21.2"
+        default: >-
+          #{{ return get("..conda.version", "") }}#
+      extras:
+        summary: >-
+          List of 
+          [extras](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras)
+          to install with the package.
+        type: array
+        items:
+          type: string
+      marker:
+        summary: >-
+          [Environment marker](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#environment-markers)
+          to apply to the dependency.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+      full:
+        summary: Full dependency specifier.
+        readOnly: true
+        type: string
+        default: |-
+          #{{
+            spec = [get(".name")]
+            if extras := get(".extras"):
+                spec.append(f"[{','.join(extras)}]")
+            if version := get(".version"):
+                spec.append(version)
+            if marker := get(".marker"):
+                spec.append(f"; {marker}")
+            return " ".join(spec)
+          }}#
+  url:
+    title: URL
+    description: URLs to resources related to the module.
+    type: object
+    properties:
+      package:
+        summary: URL of the pip package homepage.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+        default: https://pypi.org/project/${{ ..spec.name }}$

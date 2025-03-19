@@ -1,0 +1,26 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-file-setting-yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+title: YAML File Settings
+summary: Configuration for output files in YAML format.
+type: object
+additionalProperties: false
+default: { }
+properties:
+  mapping_indent:
+    type: integer
+    minimum: 2
+    default: 2
+  sequence_indent:
+    type: integer
+    minimum: 2
+    default: 4
+  sequence_indent_offset:
+    type: integer
+    minimum: 0
+    default: 2
+  block_string:
+    type: boolean
+    default: true
+  remove_top_level_indent:
+    type: boolean
+    default: true

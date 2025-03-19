@@ -1,0 +1,22 @@
+$id: https://controlman.repodynamics.com/schema/label-id
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Label ID
+description: |
+  A reference to a label defined in [`$.label`](#ccc-label).
+  This is a 2-tuple of Group ID and Label ID.
+examples_description: |
+  For example to reference the triage status label,
+  which is defined in [`$.label.status.label.triage`](#ccc-label-status-label-triage),
+  the label ID would be:
+  ```yaml
+  ['status', 'triage']
+  ```
+type: array
+items: false
+prefixItems:
+  - title: Group ID
+    description: Group ID of the label.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  - title: Label ID
+    description: Label ID of the label.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline

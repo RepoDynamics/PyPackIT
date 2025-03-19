@@ -1,0 +1,22 @@
+$id: https://controlman.repodynamics.com/schema/cache
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Cache
+description: |
+  Cached data from web APIs and other online sources.
+type: object
+additionalProperties:
+  title: Cache Category
+  description: A group of thematically related cached data.
+  type: object
+  additionalProperties:
+    title: Cached Datapoint
+    description: |
+      A specific cached data within the group.
+    type: object
+    required: [ timestamp, data ]
+    properties:
+      timestamp:
+        description: Timestamp of the last update.
+        type: string
+      data:
+        description: Cached data.

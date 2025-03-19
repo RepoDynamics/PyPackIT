@@ -1,0 +1,22 @@
+$id: https://controlman.repodynamics.com/schema/conda-meta-object
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Conda Meta Object
+description: |
+  An object (a.k.a., mapping, dictionary)
+  in a conda recipe metadata file.
+type: object
+minProperties: 1
+additionalProperties: false
+properties:
+  prepend:
+    description: |
+      Jinja template to add before any fixed array elements.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  append:
+    description: |
+      Jinja template to add after all fixed array elements.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  values:
+    description: |
+      The mapping key-value pairs.
+    type: object

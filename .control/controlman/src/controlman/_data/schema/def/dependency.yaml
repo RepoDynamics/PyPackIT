@@ -1,0 +1,431 @@
+$id: https://controlman.repodynamics.com/schema/dependency
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Dependency
+summary: Declaration of a software dependency.
+description: |    
+  A dependency is a software binary or library that is required
+  to run, build, test, or develop the project. 
+  Dependencies can be installed using package managers or custom scripts.
+type: object
+required: [ name, install ]
+properties:
+  import_name:
+    description: |
+      The name or command used to import/invoke the package.
+    type: string
+    pattern: '^[a-zA-Z0-9_\.-]*$'
+  name:
+    description: Name of the module.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+    default: ${{ .__key__ }}$
+  description:
+    description: A description for the module.
+    type: string
+  url:
+    title: URL
+    description: URLs to resources related to the module.
+    type: object
+    additionalProperties:
+      title: Additional URLs
+      description: |
+        URLs to resources other than the ones explicitly specified.
+      type: object
+      required: [ title, url ]
+      properties:
+        title:
+          description: Title of the URL.
+          type: string
+        description:
+          description: Description of the URL.
+          type: string
+        url:
+          title: URL
+          description: The URL.
+          $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+    properties:
+      docs:
+        description: URL of the module documentation.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+      source:
+        description: URL of the source code.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  intersphinx_mapping:
+    description: Intersphinx mapping definition of the module.
+    type: object
+    additionalProperties: false
+    properties:
+      key:
+        type: string
+      target:
+        type: string
+        format: uri
+      inventory:
+        type: array
+        items:
+          type: string
+        minItems: 1
+    required: [ target ]
+  notes:
+    description: Additional notes related to the module.
+    type: string
+  install:
+    summary: Installation specifications for the package.
+    type: object
+    additionalProperties: false
+    minProperties: 1
+    properties:
+      conda:
+        summary: >-
+          [Match specifications](https://docs.conda.io/projects/conda-build/en/latest/resources/package-spec.html#package-match-specifications)
+          for the `conda` package manager.
+        description: |
+          See the [API documentation](https://docs.conda.io/projects/conda/en/stable/dev-guide/api/conda/models/match_spec/index.html#conda.models.match_spec.MatchSpec)
+          and [source code](https://github.com/conda/conda/blob/dda2e4d262384aabd0def1959250000d1ace6ca6/conda/models/match_spec.py#L85)
+          for the `MatchSpec` class in `conda`, [pixi](https://pixi.sh/latest/reference/pixi_manifest/#the-dependencies-tables)
+          and [rattler-build](https://docs.rs/rattler_conda_types/latest/rattler_conda_types/struct.MatchSpec.html). 
+          The available specifications are
+          also explained in [Package search as install specifications](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/pkg-search.html).
+        type: object
+        required: [ name, channel ]
+        properties:
+          name:
+            summary: Package name.
+            description: |
+              This is the exact name of the package as it is known in the conda repository.
+            default: |
+              #{{
+                import re
+                dep_name = get("...name")
+                name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+                return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+              }}#
+          channel:
+            description: Anaconda channel where the package is available.
+            type: string
+            default: conda-forge
+            examples:
+              - anaconda
+              - my-channel
+          version:
+            summary: Package version.
+            examples:
+              - ">=1.21.2"
+            type: string
+            default: >-
+              #{{ return get("..pip.version", "") }}#
+          build:
+            summary: |
+              Build string according to
+              [Conda Build](https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications).
+            type: string
+          subdir:
+            summary: Subdirectory of the package.
+            type: string
+          selector:
+            description: |
+              Line selector to apply to the dependency.
+            $ref: https://jsonschemata.repodynamics.com/string/oneline
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+            default: https://anaconda.org/${{ .channel }}$/${{ .name }}$
+          spec:
+            summary: Full match specification.
+            readOnly: true
+            type: string
+            default: |-
+              #{{
+                spec = [get(".channel")]
+                for part_name, part_prefix in (
+                  ("subdir", "/"), ("name", "::"), ("version", " "), ("build", " ")
+                ):
+                    part = get(f".{part_name}")
+                    if part:
+                        spec.append(f"{part_prefix}{part}")
+                return "".join(spec)
+              }}#
+      pip:
+        title: pip
+        summary: Specifications for the `pip` package manager.
+        description: |
+          These configurations define an 
+          [abstract requirement](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/)
+          and correspond to a
+          [PEP 508](https://peps.python.org/pep-0508/)-compliant
+          [dependency specifier](https://packaging.python.org/en/latest/specifications/dependency-specifiers/)
+          (cf. [requirement specifier](https://pip.pypa.io/en/stable/reference/requirement-specifiers/)).
+        type: object
+        required: [ name ]
+        properties:
+          name:
+            summary: Name of the package.
+            description: |
+              This is the name of the package as it is known in the PyPI repository.
+            default: |
+              #{{
+                import re
+                dep_name = get("...name")
+                name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+                return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+              }}#
+          version:
+            type: string
+            summary: >-
+              [Version specifier](https://packaging.python.org/en/latest/specifications/version-specifiers/)
+              of the dependency.
+            description: |
+              This corresponds to a [PEP 440](https://peps.python.org/pep-0440/)-compliant
+              [version Specifiers](https://packaging.python.org/en/latest/specifications/version-specifiers/#id5).
+            examples:
+              - ">=1.21.2"
+          extras:
+            summary: >-
+              List of 
+              [extras](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras)
+              to install with the package.
+            type: array
+            items:
+              type: string
+          marker:
+            summary: >-
+              [Environment marker](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#environment-markers)
+              to apply to the dependency.
+            $ref: https://jsonschemata.repodynamics.com/string/oneline
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+            default: https://pypi.org/project/${{ .name }}$
+          spec:
+            summary: Full dependency specifier.
+            readOnly: true
+            type: string
+            default: |-
+              #{{
+                spec = [get(".name")]
+                if extras := get(".extras"):
+                    spec.append(f"[{','.join(extras)}]")
+                if version := get(".version"):
+                    spec.append(version)
+                if marker := get(".marker"):
+                    spec.append(f"; {marker}")
+                return " ".join(spec)
+              }}#
+      apt:
+        summary: Specifications for the `apt-get` package manager.
+        type: object
+        required: [ name ]
+        properties:
+          name:
+            summary: Name of the package.
+            description: |
+              This is the name of the package as it is known in the APT repository.
+            default: |
+              #{{
+                import re
+                dep_name = get("...name")
+                name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+                return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+              }}#
+          version:
+            type: string
+            summary: Version of the package.
+            examples:
+              - "1.21.2"
+          release:
+            summary: |
+              OS distribution release of the package version.
+            type: string
+            examples:
+              - jammy
+              - focal
+              - bookworm
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+            default: https://packages.debian.org/${{ .name }}$
+      brew:
+        summary: Specifications for the [Homebrew](https://brew.sh/) (`brew`) package manager.
+        description: |
+          This configurations correspond to an entry in a
+          [`Brewfile`](https://github.com/Homebrew/homebrew-bundle)
+          file, which is used to install packages with `brew`, 
+          using the [`bundle`](https://docs.brew.sh/Manpage#bundle-subcommand) command.
+        type: object
+        required: [ type, spec ]
+        properties:
+          tap:
+            summary: Tap to use for the package.
+            description: |
+              A tap is a repository of formulae that extends Homebrew.
+              For more information, see the
+              [Taps](https://docs.brew.sh/Taps) section of the Homebrew documentation.
+            type: string
+            examples:
+              - >-
+                "homebrew/cask"
+              - >-
+                "user/tap-repo", "https://user@bitbucket.org/user/homebrew-tap-repo.git"
+              - >-
+                "user/tap-repo", "https://user@bitbucket.org/user/homebrew-tap-repo.git", force_auto_update: true
+          type:
+            summary: Type of the package.
+            description: |
+              The type of the package, which determines how it is installed.
+            type: string
+            enum:
+              - brew
+              - cask
+              - mas
+              - whalebrew
+              - vscode
+            default: brew
+          spec:
+            summary: Specification for the package.
+            description: |
+              The specification for the package, which determines how it is installed.
+            type: string
+            examples:
+              - >-
+                "imagemagick"
+              - >-
+                "denji/nginx/nginx-full", link: :overwrite, args: ["with-rmtp"], restart_service: :always
+              - >-
+                "gnupg" if OS.mac?
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+            default: >-
+              https://formulae.brew.sh/#{{
+                typ = get(".type")
+                return {"brew": "formula"}.get(typ, typ) 
+              }}#/${{ ...name }}$
+      choco:
+        summary: Specifications for the [Chocolately](https://chocolatey.org) (`choco`) package manager.
+        description: |
+          This configurations correspond to an entry in a
+          [`Packages.config`](https://docs.chocolatey.org/en-us/choco/commands/install/#packagesconfig)
+          file. All *camelCase* keys in `Packages.config` are converted to *snake_case* here.
+          Note that some options are not documented in the official documentation:
+            - https://github.com/chocolatey/docs/issues/403
+            - https://github.com/chocolatey/choco/issues/2600
+          For a full list of options, see the 
+          [source code](https://github.com/chocolatey/choco/blob/develop/src/chocolatey/infrastructure.app/configuration/PackagesConfigFilePackageSetting.cs).
+        type: object
+        required: [ id ]
+        properties:
+          id:
+            summary: Package name.
+            type: string
+          version:
+            summary: Package version.
+            description: |
+              Note that `choco` does not support version specifiers
+              in the same way as `pip` or `conda`.
+              The version must therefore be an exact match.
+            type: string
+            examples:
+              - 1.0.0
+              - 2.4
+          source:
+            summary: Alternative source for the package.
+            type: string
+            examples:
+              - ruby
+              - cygwin
+              - python
+              - windowsfeatures
+          install_arguments:
+            summary: Arguments to pass to the installer.
+            type: string
+          package_parameters:
+            summary: Additional parameters to pass to the package.
+            type: string
+          ignore_dependencies:
+            summary: Ignore dependencies.
+            type: boolean
+          force:
+            summary: Force installation.
+            type: boolean
+          force_x86:
+            summary: Force 32-bit installation.
+            type: boolean
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+      winget:
+        summary: >-
+          Specifications for the 
+          [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+          package manager.
+        description: |
+          This configurations correspond to an entry in a
+          [`packages.json`](https://learn.microsoft.com/en-us/windows/package-manager/winget/export#json-schema)
+          file, which is used to install packages with `winget`, 
+          using the [`import`](https://learn.microsoft.com/en-us/windows/package-manager/winget/import) command. 
+          All *camelCase* keys in `packages.json` are converted to *snake_case* here.
+          For a full list of options, see the 
+          [JSON Schema](https://github.com/microsoft/winget-cli/blob/master/schemas/JSON/packages/packages.schema.2.0.json).
+        type: object
+        required: [ source, package_identifier ]
+        properties:
+          source:
+            summary: Details about the source of the package.
+            type: object
+            required:
+              - name
+              - identifier
+              - argument
+              - type
+            additionalProperties: true
+            properties:
+              name:
+                summary: Name of the source.
+                type: string
+              identifier:
+                summary: Identifier for the source.
+                type: string
+              argument:
+                summary: Argument used to install the source.
+                type: string
+              type:
+                summary: Type of the source.
+                type: string
+          package_identifier:
+            description: Package ID
+            type: string
+          version:
+            description: Package version
+            type: string
+          channel:
+            description: Package channel
+            type: string
+          scope:
+            description: Required package scope
+            type: string
+            enum:
+              - user
+              - machine
+            default: user
+          homepage:
+            summary: URL of the package homepage.
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+            default: >-
+              https://formulae.brew.sh/#{{
+                typ = get(".type")
+                return {"brew": "formula"}.get(typ, typ) 
+              }}#/${{ ...name }}$
+      bash:
+        summary: Custom bash script to install the package.
+        type: string
+      pwsh:
+        summary: Custom PowerShell script to install the package.
+        type: string
+  selector:
+    summary: Selector to apply to the dependency.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  validator:
+    summary: Dependency installation validator.
+    description: |
+      This must be a Python script that validates the installation of the dependency
+      by raising an exception if the dependency is not installed.
+    type: string

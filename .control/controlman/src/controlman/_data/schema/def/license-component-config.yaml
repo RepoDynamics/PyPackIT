@@ -1,0 +1,73 @@
+$id: https://controlman.repodynamics.com/schema/license-component-config
+$schema: https://json-schema.org/draft/2020-12/schema
+title: License Config
+type: object
+properties:
+  plain:
+    type: object
+    default: { }
+    properties:
+      title:
+        type: [ boolean, string ]
+        default: true
+      copyright_notice:
+        type: [ boolean, string ]
+        default: ${{ copyright }}$
+      optionals:
+        type: [ boolean, array ]
+      alts:
+        type: object
+        default:
+          copyright: ${{ copyright }}$
+          author: ${{ team.owner.name.full }}$
+          softwareName: ${{ name }}$
+          description: ${{ title | $.name }}$
+          contributor: ${{ team.owner.name.full }}$
+          copyrightHolderAsIs: ${{ team.owner.name.full }}$
+          initialDeveloper: ${{ team.owner.name.full }}$
+          copyrightHolderLiability: ${{ team.owner.name.full }}$
+          version: >-
+            #{{ return changelog.current_public.get("version", "0.0.0") }}#
+          copyrightHolder0: ${{ team.owner.name.full }}$
+          copyrightHolder1: ${{ team.owner.name.full }}$
+          copyrightHolder2: ${{ team.owner.name.full }}$
+          copyrightHolder3: ${{ team.owner.name.full }}$
+          creator: ${{ team.owner.name.full }}$
+          owner: ${{ team.owner.name.full }}$
+          maintainer: ${{ team.owner.name.full }}$
+          organization: ${{ team.owner.name.full }}$
+          email: ${{ team.owner.email.url }}$
+          softwareVersion: >-
+            #{{ return changelog.current_public.get("version", "0.0.0") }}#
+        additionalProperties:
+          type: string
+      line_length:
+        $ref: https://jsonschemata.repodynamics.com/number/non-negative
+        default: 88
+      list_indent:
+        $ref: https://jsonschemata.repodynamics.com/number/non-negative
+        default: 0
+      item_indent:
+        $ref: https://jsonschemata.repodynamics.com/number/non-negative
+        default: 1
+      item_spacing:
+        $ref: https://jsonschemata.repodynamics.com/number/non-negative
+        default: 1
+      bullet:
+        type: [ 'null', integer, string ]
+        default: 1
+      title_centered:
+        type: boolean
+        default: false
+      title_underline:
+        type: string
+        default: '='
+      title_underline_full:
+        type: boolean
+        default: false
+      subtitle_underline:
+        type: string
+        default: '-'
+      line_breaks:
+        type: integer
+        default: 2

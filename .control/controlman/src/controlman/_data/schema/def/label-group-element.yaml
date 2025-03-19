@@ -1,0 +1,28 @@
+$id: https://controlman.repodynamics.com/schema/label-group-element
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Label Group Element
+description: |
+  Configurations for an element of a group of GitHub labels.
+type: object
+additionalProperties: false
+required: [ suffix, name ]
+properties:
+  suffix:
+    description: Suffix of the label name.
+    type: string
+    examples:
+      - 'major-release'
+      - 'triage'
+  description:
+    description: Description of the label.
+    $ref: https://jsonschemata.repodynamics.com/config/github/label/description
+  name:
+    description: |
+      Full name of the label.
+      This is automatically generated from the prefix and suffix.
+    default: '${{ ...prefix }}$${{ ...separator }}$${{ .suffix }}$'
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  color:
+    description: |
+      Color of the label.
+    $ref: https://jsonschemata.repodynamics.com/color/css

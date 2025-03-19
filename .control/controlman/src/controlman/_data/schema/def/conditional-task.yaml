@@ -1,0 +1,46 @@
+$id: https://controlman.repodynamics.com/schema/conditional-task
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Conditional Task
+type: object
+additionalProperties:
+  type: object
+  unevaluatedProperties: false
+  required: [ condition, action ]
+  properties:
+    condition:
+      type: string
+    action:
+      type: string
+      enum: [ assign, comment ]
+  allOf:
+    - if:
+        properties:
+          action:
+            const: assign
+      then:
+        title: Assignment
+        description: |
+          Assign issues/PRs to GitHub users.
+        required: [ assignees ]
+        properties:
+          issue_numbers:
+            type: array
+            items:
+              type: string
+          assignees:
+            type: array
+            items:
+              type: string
+    - if:
+        properties:
+          action:
+            const: comment
+      then:
+        required: [ issue_numbers, comment ]
+        properties:
+          issue_numbers:
+            type: array
+            items:
+              type: string
+          comment:
+            type: string

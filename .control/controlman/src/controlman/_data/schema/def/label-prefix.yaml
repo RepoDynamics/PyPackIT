@@ -1,0 +1,8 @@
+$id: https://controlman.repodynamics.com/schema/label-prefix
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Label Prefix
+description: Name prefix of all labels in a group.
+type: string
+examples:
+  - 'Version: '
+  - 'Branch-'

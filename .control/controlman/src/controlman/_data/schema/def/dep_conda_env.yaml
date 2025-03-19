@@ -1,0 +1,83 @@
+$id: https://controlman.repodynamics.com/schema/dependency-conda-env
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Conda Environment Dependency
+summary: Declaration of a conda package dependency for an environment.
+allOf:
+  - $ref: https://controlman.repodynamics.com/schema/dependency-base
+type: object
+required: [ spec ]
+unevaluatedProperties: false
+properties:
+  spec:
+    summary: >-
+      [Match specifications](https://docs.conda.io/projects/conda-build/en/latest/resources/package-spec.html#package-match-specifications)
+      for the `conda` package manager.
+    description: |
+      See the [API documentation](https://docs.conda.io/projects/conda/en/stable/dev-guide/api/conda/models/match_spec/index.html#conda.models.match_spec.MatchSpec)
+      and [source code](https://github.com/conda/conda/blob/dda2e4d262384aabd0def1959250000d1ace6ca6/conda/models/match_spec.py#L85)
+      for the `MatchSpec` class in `conda`, [pixi](https://pixi.sh/latest/reference/pixi_manifest/#the-dependencies-tables)
+      and [rattler-build](https://docs.rs/rattler_conda_types/latest/rattler_conda_types/struct.MatchSpec.html). 
+      The available specifications are
+      also explained in [Package search as install specifications](https://docs.conda.io/projects/conda/en/stable/user-guide/concepts/pkg-search.html).
+    type: object
+    required: [ name, channel, full ]
+    default: {}
+    properties:
+      name:
+        summary: Package name.
+        description: |
+          This is the exact name of the package as it is known in the conda repository.
+        default: |
+          #{{
+            import re
+            dep_name = get("..name")
+            name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
+            return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
+          }}#
+      channel:
+        description: Anaconda channel where the package is available.
+        type: string
+        default: conda-forge
+        examples:
+          - anaconda
+          - my-channel
+      version:
+        summary: Package version.
+        examples:
+          - ">=1.21.2"
+        type: string
+        default: >-
+          #{{ return get("..pip.version", "") }}#
+      build:
+        summary: |
+          Build string according to
+          [Conda Build](https://conda.io/projects/conda-build/en/stable/resources/package-spec.html#package-match-specifications).
+        type: string
+      subdir:
+        summary: Subdirectory of the package.
+        type: string
+      full:
+        summary: Full match specification.
+        readOnly: true
+        type: string
+        default: |-
+          #{{
+            spec = [get(".channel")]
+            for part_name, part_prefix in (
+              ("subdir", "/"), ("name", "::"), ("version", " "), ("build", " ")
+            ):
+                part = get(f".{part_name}")
+                if part:
+                    spec.append(f"{part_prefix}{part}")
+            return "".join(spec)
+          }}#
+  url:
+    title: URL
+    description: URLs to resources related to the module.
+    type: object
+    default: { }
+    properties:
+      package:
+        summary: URL of the conda package homepage.
+        $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+        default: https://anaconda.org/${{ ..spec.channel }}$/${{ ..spec.name }}$

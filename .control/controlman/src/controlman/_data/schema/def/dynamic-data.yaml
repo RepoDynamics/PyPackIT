@@ -1,0 +1,18 @@
+$id: https://controlman.repodynamics.com/schema/dynamic-data
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Dynamic Data
+summary: Definition of custom configurations and metadata.
+description: |
+  You can define any number of key-value pairs 
+  to store custom configurations and metadata.
+  There is a special key `jsonschema` 
+  that can be used to define a JSON schema for the content.
+type: object
+additionalProperties: true
+properties:
+  jsonschema:
+    summary: JSON schema for the configuration.
+    description: |
+      This is used to validate the configuration content.
+      If the content does not match the schema, an error will be raised.
+    $ref: https://controlman.repodynamics.com/schema/jsonschema

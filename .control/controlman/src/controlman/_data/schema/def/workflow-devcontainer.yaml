@@ -1,0 +1,31 @@
+$id: https://controlman.repodynamics.com/schema/workflow-devcontainer
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Workflow Devcontainer
+summary: Specification of a development container to use in a CI pipeline.
+type: object
+default: { }
+required: [ id, command, env, inherit_env, name, ref ]
+additionalProperties: false
+properties:
+  id:
+    type: string
+  command:
+    summary: Command to execute in the container.
+    type: string
+  env:
+    summary: Environment variables to set in the container.
+    type: object
+    default: { }
+  inherit_env:
+    summary: Inherit environment variables from the host.
+    type: boolean
+    default: false
+  name:
+    summary: A name for the image created from the container.
+    type: string
+    default: >-
+      #{{ return f"{get('repo.owner')}/{slugify(get('name'))}-devcontainer-{get('.id').replace('_', '-')}".lower() }}#
+  ref:
+    summary: Git reference to trigger image push.
+    type: string
+    default: refs/heads/${{ repo.default_branch }}$

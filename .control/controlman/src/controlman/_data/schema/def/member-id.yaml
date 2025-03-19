@@ -1,0 +1,7 @@
+$id: https://controlman.repodynamics.com/schema/member-id
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Team Member ID
+description: |
+  A key defined in [`$.team`](#ccc-team).
+type: string
+minLength: 1

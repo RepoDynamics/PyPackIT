@@ -1,0 +1,18 @@
+$id: https://controlman.repodynamics.com/schema/workflow-publish-zenodo
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Zenodo Publish Workflow
+description: Workflow configurations for publishing on Zenodo (Sandbox) repositories.
+type: object
+unevaluatedProperties: false
+required: [ asset, action ]
+allOf:
+  - $ref: https://controlman.repodynamics.com/schema/workflow-publish
+properties:
+  asset:
+    type: object
+    additionalProperties:
+      $ref: https://controlman.repodynamics.com/schema/release-asset
+  action:
+    type: string
+    enum: [ auto, disabled ]
+    default: auto

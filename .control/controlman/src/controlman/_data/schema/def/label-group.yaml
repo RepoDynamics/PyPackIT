@@ -1,0 +1,30 @@
+$id: https://controlman.repodynamics.com/schema/label-group
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Label Group
+description: |
+  Definition of a group of GitHub labels.
+type: object
+additionalProperties: false
+required: [ prefix, color ]
+properties:
+  prefix:
+    description: Prefix to add to all label names.
+    $ref: https://controlman.repodynamics.com/schema/label-prefix
+  separator:
+    description: Separator between label name prefix and suffix.
+    type: string
+    default: ": "
+  color:
+    description: Color of all labels in the group.
+    $ref: https://jsonschemata.repodynamics.com/color/hex-string
+  description:
+    description: Default description of all labels in the group.
+    $ref: https://jsonschemata.repodynamics.com/config/github/label/description
+  label:
+    title: Labels
+    description: Configurations for each label in the group.
+    type: object
+    additionalProperties:
+      title: Label
+      description: Configurations for a label in the group.
+      $ref: https://controlman.repodynamics.com/schema/label-group-element

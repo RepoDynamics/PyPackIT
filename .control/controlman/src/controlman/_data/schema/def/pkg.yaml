@@ -1,0 +1,813 @@
+$id: https://controlman.repodynamics.com/schema/pkg
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Package
+description: |
+  Configurations for a Python package.
+  This corresponds to data for both the project's Python package and test suite.
+  However, some fields (e.g., OS and Python version requirements)
+  are only relevant for the package,
+  and are automatically reused for the test suite,
+  as they must be identical.
+  
+  :::{admonition} Usage
+  :class: dropdown note
+  Among others, these settings are used to automatically generate
+  [PEP 621](https://peps.python.org/pep-0621/) compliant
+  [`pyproject.toml`](https://packaging.python.org/en/latest/specifications/pyproject-toml)
+  files for the package and test suite, which contain all metadata and specifications
+  required for building, packaging, and distributing them.
+  :::
+type: object
+additionalProperties: false
+required: [ path, name, import_name, os, python ]
+properties:
+  name:
+    description: |
+      Name of the Python distribution package.
+
+      For consistency, it is strongly recommended to
+      **choose a project name that is most similar to a valid package name**,
+      and leave the package name to be automatically generated.
+      For example, you can name your project `My Project`,
+      and the package name will be `My-Project`.
+
+      ::::{admonition} PyPA Naming Rules
+      :class: dropdown attention
+
+      According to [Python Packaging Authority (PyPA)](https://packaging.python.org/en/latest/specifications/name-normalization/),
+      the package name must consist only of ASCII alphanumeric characters,
+      hyphens, underscores, and periods.
+      Additionally, it must start and end with an alphanumeric character.
+      PyPA then normalizes the package name by lowercasing the non-normalized name,
+      and replacing all runs of consecutive hyphens, underscores, and periods with a single hyphen.
+
+      :::{code-block} python
+      :class: dropdown
+      :caption: Name Normalization Function
+
+      import re
+
+      def normalize_package_name(non_normalized_package_name: str) -> str:
+          """Normalize a package name according to PyPA specifications."""
+          normalized_package_name = re.sub(
+             r'[._-]+', '-', non_normalized_package_name.lower()
+          )
+          return normalized_package_name
+      :::
+
+      This means that, for example, all following names are equivalent and can be used interchangeably
+      (although they are displayed as-is on PyPI):
+      - `my-project` (normalized form)
+      - `my_project`
+      - `my.project`
+      - `My--Project`
+      - `mY-._.-ProjEcT`
+      ::::
+    default_description: |
+      By default, the project name is converted to a valid non-normalized package name
+      according to PyPA rules. This is done by replacing all characters that are not
+      ASCII alphanumeric, hyphens, underscores, or periods with a hyphen,
+      and removing all leading and trailing hyphens.
+    type: string
+    pattern: ^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$
+    default: |
+      #{{
+        import re
+        project_name = get("name")
+        project_name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", project_name)
+        return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", project_name_normalized)
+      }}#
+  import_name:
+    description: |
+      Name of the top-level Python import package.
+
+      For consistency, it is strongly recommended to
+      **choose a package name that is most similar to a valid import name**,
+      and leave the import name to be automatically generated.
+      For example, you can name your package `My-Package`,
+      and the import name will be `my_package`.
+    type: string
+    pattern: ^[a-zA-Z_]|[a-zA-Z_][a-zA-Z0-9_]*$
+    default_description: |
+      By default, the distribution package [name](#cccdef-pkg-name)
+      is converted to a valid Python identifier according to
+      [Python rules](https://docs.python.org/3/reference/lexical_analysis.html#identifiers). 
+      This is done by lowercasing the name,
+      replacing all characters that are not ASCII alphanumeric or underscore with an underscore,
+      and removing all leading digits.
+    default: |
+      #{{
+        import re
+
+        pkg_name = get(".name")
+        import_name_raw = re.sub(r"[^a-zA-Z0-9]", "_", pkg_name.lower())
+        return re.sub(r"^[0-9]+", "", import_name_raw)
+      }}#
+  path:
+    description: |
+      Local paths to package resources.
+    type: object
+    default: { }
+    additionalProperties: false
+    required: [ root, source, source_rel, import ]
+    properties:
+      root:
+        description: |
+          Path to package root directory relative to the repository root.
+        $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+        default: pkg
+      source_rel:
+        description: Path to package source directory relative to the package root directory.
+        $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+        default: src
+      source:
+        description: Path to package source directory relative to the repository root.
+        $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+        default: ${{ .root }}$/${{ .source_rel }}$
+      import_rel:
+        description: Path to package top-level import directory relative to the package source directory.
+        type: string
+        default: ${{ .source_rel }}$/${{ ..import_name }}$
+      import:
+        description: Path to package top-level import directory relative to the repository root.
+        type: string
+        default: ${{ .source }}$/${{ ..import_name }}$
+  typed:
+    description: Whether the package is typed
+    type: boolean
+    default: true
+  os:
+    title: OS
+    summary: Supported platforms and operating systems.
+    type: object
+    minProperties: 1
+    additionalProperties:
+      title: OS/Platform
+      summary: Configurations for a supported OS/platform.
+      description: |
+        A platform must define a 
+        [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners).
+      type: object
+      additionalProperties: false
+      required: [ name, platform, runner ]
+      properties:
+        name:
+          description: Display name of the OS.
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+        platform:
+          summary: Name of the platform for the runner.
+          type: string
+          default: ${{ .__key__ }}$
+          enum:
+            - emscripten-wasm32
+            - linux-32
+            - linux-64
+            - linux-aarch64
+            - linux-armv6l
+            - linux-armv7l
+            - linux-ppc64
+            - linux-ppc64le
+            - linux-riscv32
+            - linux-riscv64
+            - linux-s390x
+            - osx-64
+            - osx-arm64
+            - wasi-wasm32
+            - win-32
+            - win-64
+            - win-arm64
+            - zos-z
+        runner:
+          summary: >-
+            Name of the 
+            [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories) 
+            for this platform.
+          type: string
+          examples:
+            - ubuntu-latest
+            - ubuntu-24.04
+            - ubuntu-22.04
+            - ubuntu-20.04
+            - macos-latest
+            - macos-15
+            - macos-14
+            - macos-13
+            - macos-12
+            - windows-latest
+            - windows-2022
+            - windows-2019
+        builds:
+          description: |
+            List of [cibuildwheel build identifiers](https://cibuildwheel.readthedocs.io/en/stable/options/#build-skip)
+            to build on the corresponding GitHub Actions runner.
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            examples:
+              - cp313-macosx_x86_64
+              - cp312-win_arm64
+              - cp312-manylinux_i686
+        data:
+          summary: Additional data for the platform.
+          type: object
+  python:
+    title: Python configurations for the package.
+    description: |
+      This is only required for the package, and is automatically reused for the test suite.
+    type: object
+    default: { }
+    required: [ version ]
+    properties:
+      version:
+        title: Python version requirements.
+        description: |
+          You only need to provide `spec`, which is the version specifier.
+          All other fields are automatically generated by retrieving all
+          release Python versions from the Python repository through GitHub API,
+          and filtering them based on the provided version specifier.
+        type: object
+        default: { }
+        required: [ spec ]
+        additionalProperties: false
+        properties:
+          spec:
+            title: Python version specifier.
+            description: |
+              This corresponds to the [`requires-python`](https://packaging.python.org/en/latest/specifications/pyproject-toml/#requires-python)
+              field in the `pyproject.toml` file, and must be a valid
+              [version specifier](https://packaging.python.org/en/latest/specifications/version-specifiers/#id5),
+              describing the Python version requirements for the project.
+              It is only required for the package, and is automatically reused for the test suite.
+              
+              :::{admonition} Best Practices
+              :class: dropdown tip
+              
+              It is [highly recommended](https://github.com/pypa/packaging.python.org/pull/1274)
+              to only define a lower bound for the Python version,
+              and to [avoid upper-capping](https://discuss.python.org/t/requires-python-upper-limits/12663/76?page=2).
+              We recommend following the
+              [NumPy Enhancement Proposal (NEP) 29](https://numpy.org/neps/nep-0029-deprecation_policy.html)
+              and always supporting three previous minor versions.
+              :::
+            type: string
+            default: '>=3.10'
+            examples:
+              - '>=3.9'
+              - '>=3.10'
+          micros:
+            title: Currently supported micro versions.
+            description: |
+              This is an automatically generated array
+              containing all currently supported version of Python
+              in the format `major.minor.micro`.
+            type: array
+            uniqueItems: true
+            items:
+              title: Micro version string.
+              type: string
+              pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$
+          minors:
+            title: Currently supported minor versions.
+            description: |
+              This is an automatically generated array
+              containing all currently supported version of Python
+              in the format `major.minor`.
+            type: array
+            uniqueItems: true
+            items:
+              title: Minor version string.
+              type: string
+              pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)$
+      pure:
+        type: boolean
+        default: |
+          #{{ return not any("builds" in os for os in get("..os").values()) }}#
+      implementation:
+        type: string
+        enum:
+          - cpython
+          - pypy
+          - ironpython
+          - jython
+          - micropython
+          - stackless
+        default: cpython
+  entry:
+    type: object
+    default: { }
+    properties:
+      python:
+        title: Python API
+        description: Python API entry points for the project
+        default:
+          main:
+            name: ${{ ....import_name }}$
+            description: Main Python API entry of the package.
+            ref: '${{ ....import_name }}$:__init__'
+        $ref: https://controlman.repodynamics.com/schema/pkg-entry
+      cli:
+        description: Scripts for the project
+        $ref: https://controlman.repodynamics.com/schema/pkg-entry
+      gui:
+        description: GUI Scripts for the project
+        $ref: https://controlman.repodynamics.com/schema/pkg-entry
+      api:
+        examples:
+          - - group_1:
+                description: ""
+                entry_points:
+                  entry_point_1:
+                    ref: "my_package:main"
+                    description: ""
+                  entry_point_2:
+                    ref: "my_package:main"
+                    description: ""
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties: false
+          required: [ name, description, entry ]
+          properties:
+            name:
+              title: Group name
+              type: string
+            description:
+              type: string
+            entry:
+              $ref: https://controlman.repodynamics.com/schema/pkg-entry
+  dependency:
+    type: object
+    properties:
+      build:
+        description: Build dependencies.
+        type: object
+        additionalProperties:
+          $ref: https://controlman.repodynamics.com/schema/dependency
+      core:
+        title: Package core dependencies.
+        type: object
+        additionalProperties:
+          $ref: https://controlman.repodynamics.com/schema/dependency
+      optional:
+        title: Optional Dependencies
+        description: Optional dependencies for the project
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties: false
+          required: [ name, description, package, env ]
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            package:
+              type: object
+              additionalProperties:
+                $ref: https://controlman.repodynamics.com/schema/dependency
+#      group:
+#        summary: Compatibility definitions for optional dependency groups.
+#        description: |
+#          Define compatibility between optional dependency groups.
+#        type: object
+#        additionalProperties:
+#          type: object
+#          additionalProperties: false
+#          required: [ name, description, optionals, compatible ]
+#          properties:
+#            name:
+#              type: string
+#            description:
+#              type: string
+#            optionals:
+#              summary: Included optional groups.
+#              type: array
+#              items:
+#                type: string
+#            compatible:
+#              summary: Whether the optional groups are compatible (True) or not (False).
+#              type: boolean
+      variant:
+        summary: Build and dependency variants.
+        description: |
+          Variants of the package with different dependencies.
+        type: object
+        properties:
+          zip_keys:
+            summary: Variant keys to couple.
+            description: |
+              See [Coupling keys](https://docs.conda.io/projects/conda-build/en/latest/resources/variants.html#coupling-keys)
+              in `conda-build` and [Zip keys](https://rattler.build/latest/variants/#zip-keys)
+              in `rattler-build` documentation.
+            type: array
+            uniqueItems: true
+            items:
+              title: Coupled Keys
+              summary: A set of coupled variant keys.
+              description: |
+                These must be keys of the variant dictionary.
+                Note that all corresponding variant values must be sequences of the same length.
+              type: array
+              uniqueItems: true
+              minItems: 2
+              items:
+                type: string
+          pin_run_as_build:
+            summary: Package versions that must match during build and run.
+            description: |
+              See [Customizing compatibility](https://docs.conda.io/projects/conda-build/en/latest/resources/variants.html#customizing-compatibility)
+              in `conda-build` and [Pin run as build](https://rattler.build/latest/variants/#pin-run-as-build)
+              in `rattler-build` documentation.
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                min_pin:
+                  type: string
+                max_pin:
+                  type: string
+          variants:
+            summary: Variant definitions.
+            description: |
+              For each variant, add a key-value pair 
+              with the value being a sequence of possible variants for the key.
+            type: object
+            additionalProperties:
+              title: Variant
+              summary: Definition of
+              type: array
+              minItems: 2
+              items:
+                type: [ string, integer, boolean ]
+  pyproject:
+    summary: Configurations for the `pyproject.toml` file.
+    $ref: https://jsonschemata.repodynamics.com/config/python/pyproject
+  pypi:
+    title: URLs of the project's PyPI package.
+    type: object
+    default: { }
+    properties:
+      publishable:
+        type: boolean
+        default: |
+          #{{
+            return all("pip" in dep["install"] for dep in get("..dependency.core").values())
+          }}#
+      url:
+        title: URLs of the package on PyPI.
+        type: object
+        default: { }
+        properties:
+          home:
+            title: Homepage URL of the PyPI package.
+            default: https://pypi.org/project/${{ ...name }}$
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  conda:
+    title: Conda Recipe
+    description: |
+      Conda recipe settings.
+      See [Conda-Build documentation](# https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html).
+      
+      Conda packages are built with [conda-build](https://docs.conda.io/projects/conda-build/),
+      using instructions that are mostly defined in a single YAML file named
+      [meta.yaml](https://conda.io/projects/conda-build/en/stable/resources/define-metadata.html).
+      The YAML file can be created [from scratch](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs.html)
+      , or with help of other utilities, such as [conda skeleton](https://docs.conda.io/projects/conda-build/en/stable/user-guide/tutorials/build-pkgs-skeleton.html)
+      . After build, the package distribution can be
+      [uploaded](https://docs.anaconda.com/free/anacondaorg/user-guide/tasks/work-with-packages/#uploading-packages)
+      on an Anaconda channel. While this may be done on a [personal channel](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/create-custom-channels.html)
+      , this complicates the installation process for users as they now have to specify the channel as well.
+      A more convenient alternative is to publish the package on the [conda-forge](https://conda-forge.org/) channel.
+      This requires following the [instructions](https://conda-forge.org/docs/maintainer/adding_pkgs.html).
+    type: object
+    properties:
+      publishable:
+        type: boolean
+        default: |
+          #{{
+            return all("conda" in dep["install"] for dep in get("..dependency.core").values())
+          }}#
+      recipe:
+        title: Conda Recipe
+        description: |
+          Configurations for a conda recipe.
+        type: object
+        additionalProperties: false
+        required: [ meta ]
+        properties:
+          path:
+            type: object
+            properties:
+              global:
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+              local:
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          meta:
+            description: |
+              Build recipe metadata file [`meta.yaml`](https://docs.conda.io/projects/conda-build/en/stable/resources/define-metadata.html).
+            allOf:
+              - $ref: https://controlman.repodynamics.com/schema/conda-meta-object
+              - properties:
+                  values:
+                    additionalProperties: false
+                    properties:
+                      build:
+                        description: |
+                          Following keys are set automatically and must not be set:
+                          - number
+                          - entry_points
+                        allOf:
+                          - $ref: https://controlman.repodynamics.com/schema/conda-meta-object
+                          - properties:
+                              values:
+                                additionalProperties: false
+                                properties:
+                                  condition:
+                                    description: |
+                                      Condition for build.
+                                      This is equivalent to the selector
+                                      for `skip`, i.e., it is used to generate
+                                      `skip: True  # [condition]`.
+                                    $ref: https://jsonschemata.repodynamics.com/string/oneline
+                                    examples:
+                                      - py<35
+                                      - not win
+                                      - not win or py<35
+                                  script:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-value
+                                  string:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-value
+                                  force_use_keys:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  force_ignore_keys:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  osx_is_app:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-bool
+                                  python_site_packages_path:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-value
+                                  track_features:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  preserve_egg_dir:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-value
+                                  skip_compile_pyc:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  no_link:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  rpaths:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  always_include_files:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  binary_relocation:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-bool
+                                  detect_binary_files_with_prefix:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-bool
+                                  binary_has_prefix_files:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  has_prefix_files:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  ignore_prefix_files:
+                                    oneOf:
+                                      - $ref: https://controlman.repodynamics.com/schema/conda-meta-bool
+                                      - $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  include_recipe:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-bool
+                                  script_env:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  run_exports:
+                                    allOf:
+                                      - $ref: https://controlman.repodynamics.com/schema/conda-meta-object
+                                      - properties:
+                                          values:
+                                            additionalProperties: false
+                                            properties:
+                                              strong:
+                                                $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                              weak:
+                                                $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  ignore_run_exports:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  ignore_run_exports_from:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  pin_depends:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-value
+                                  overlinking_ignore_patterns:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  missing_dso_whitelist:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  runpath_whitelist:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                      requirements:
+                        allOf:
+                          - $ref: https://controlman.repodynamics.com/schema/conda-meta-object
+                          - properties:
+                              values:
+                                additionalProperties: false
+                                properties:
+                                  build:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  host:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  run:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  run_constrained:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                      test:
+                        allOf:
+                          - $ref: https://controlman.repodynamics.com/schema/conda-meta-object
+                          - properties:
+                              values:
+                                additionalProperties: false
+                                properties:
+                                  files:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  source_files:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  requires:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  commands:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  imports:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                                  downstreams:
+                                    $ref: https://controlman.repodynamics.com/schema/conda-meta-array
+                      about:
+                        type: object
+                        description: |
+                          Note that `description` is automatically added.
+                        required: [ license ]
+                        additionalProperties: false
+                        properties:
+                          home:
+                            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+                          license:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          license_file:
+                            oneOf:
+                              - $ref: https://jsonschemata.repodynamics.com/array/unique-strings
+                              - $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          license_family:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          license_url:
+                            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+                          summary:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          dev_url:
+                            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+                          doc_url:
+                            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+                          doc_source_url:
+                            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+                          prelink_message:
+                            oneOf:
+                              - $ref: https://jsonschemata.repodynamics.com/array/unique-strings
+                              - $ref: https://jsonschemata.repodynamics.com/string/oneline
+                      app:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          entry:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          icon:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          summary:
+                            $ref: https://jsonschemata.repodynamics.com/string/oneline
+                          own_environment:
+                            type: string
+                            enum: [ True, False ]
+                      extra:
+                        type: object
+                        properties:
+                          recipe-maintainers:
+                            $ref: https://jsonschemata.repodynamics.com/array/unique-strings
+      url:
+        title: URLs of the package on Conda.
+        type: object
+        default: { }
+        properties:
+          home:
+            title: Homepage URL of the Conda package.
+            default: |
+              #{{
+                pkg_name = get("...name")
+                if get("workflow.publish.conda-forge"):
+                  channel = "conda-forge"
+                else:
+                  anaconda = get("workflow.publish.anaconda")
+                  channel = anaconda["index"]["channel"]
+                return f"https://anaconda.org/{channel}/{pkg_name}".lower()
+              }}#
+            $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  source_file:
+    type: object
+    additionalProperties:
+      summary: Configurations for Python source files.
+      description: |
+        Configurations for a set of Python source files defined by a glob pattern.
+      type: object
+      additionalProperties: false
+      required: [ glob ]
+      anyOf:
+        - required: [ docstring ]
+        - required: [ header_comments ]
+      properties:
+        glob:
+          description: |
+            Glob pattern to match source files.
+            The pattern is relative to the [import package directory](#cccdef-pkg-path-import).
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
+        docstring:
+          description: |
+            Docstring configurations for the source files.
+          type: object
+          additionalProperties: false
+          required: [ mode, content ]
+          properties:
+            content:
+              description: |
+                Content of the docstring.
+              type: string
+            mode:
+              description: |
+                Mode of the docstring.
+              type: string
+              enum: [ append, prepend, replace ]
+              default: append
+            max_line_length:
+              description: |
+                Maximum line length of the docstring.
+              type: integer
+              minimum: 0
+        header_comments:
+          description: |
+            Header comments for the source files.
+          type: object
+          additionalProperties: false
+          required: [ mode, content ]
+          properties:
+            mode:
+              description: |
+                Mode of the header comments.
+              type: string
+              enum: [ append, prepend, replace ]
+              default: append
+            content:
+              description: |
+                Content of the header comments.
+              type: string
+            max_line_length:
+              description: |
+                Maximum line length of the comments.
+              type: integer
+              minimum: 0
+            line_continuation_indent:
+              description: |
+                Indentation of line continuation.
+              type: integer
+              minimum: 0
+              default: 0
+            empty_lines:
+              description: |
+                Number of empty lines between comments.
+              type: integer
+              minimum: 0
+              default: 1
+  file:
+    summary: Dynamic files related to the package.
+    type: object
+    additionalProperties:
+      $ref: https://controlman.repodynamics.com/schema/dynamic-file
+  test:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ${{ .__key__ }}$
+        runner:
+          type: string
+        script:
+          type: object
+          properties:
+            install_env:
+              type: string
+            install_pkg:
+              type: string
+            test:
+              type: string
+        conda_env:
+          type: object
+          properties:
+            name:
+              type: string
+            path:
+              type: string
+        codecov:
+          type: object
+          properties:
+            env:
+              type: object
+        artifact_name_suffix:
+          type: string

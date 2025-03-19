@@ -1,0 +1,21 @@
+$id: https://controlman.repodynamics.com/schema/workflow-publish
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Publish Workflow
+description: Workflow configurations for publishing.
+type: object
+required: [ name, task_name, env ]
+properties:
+  name:
+    description: |
+      Name of the GitHub workflow.
+      Note that each workflow must have a unique name,
+      other than 'github', 'zenodo', and 'zenodo_sandbox', which share a name.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  task_name:
+    description: |
+      Name of the GitHub workflow task, i.e.,
+      the sub-job for this specific publication.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+    default: '{{ pkg.name }} v{{ version }}'
+  env:
+    $ref: https://controlman.repodynamics.com/schema/workflow-env

@@ -1,0 +1,210 @@
+$id: https://controlman.repodynamics.com/schema/license-component
+$schema: https://json-schema.org/draft/2020-12/schema
+title: License Component
+type: object
+required: [ path ]
+properties:
+  type:
+    description: |
+      Type of the component, i.e., either `license` or `exception`.
+    type: string
+    enum: [ license, exception ]
+    readOnly: true
+  custom:
+    description: |
+      Whether the component is a user-defined license or exception.
+    type: boolean
+    readOnly: true
+  path:
+    description: |
+      Path to the repository's [`LICENSE`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository)
+      file. To be [recognized by GitHub](https://github.blog/changelog/2022-05-26-easily-discover-and-navigate-to-multiple-licenses-in-repositories/),
+      the license file must be named `OFL`, `PATENTS`, `LICENSE`, or `COPYING`,
+      placed in the root of the repository.
+      The latter two names can have a hyphenated suffix, e.g., `LICENSE-MIT` or `COPYING-AGPL-3.0`.
+      The file can also have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+      However, only one period is allowed in the filename,
+      i.e., if the suffix contains a period, the file cannot have an extension.
+      Therefore, all input paths are automatically normalized
+      by replacing all but the last period with a hyphen.
+    type: object
+    additionalProperties: false
+    default: { }
+    required: [ text_plain ]
+    properties:
+      text_plain:
+        title: Plain Text
+        description: |
+          Path to write the plain text license file.
+        type: string
+        pattern: ^(OFL|PATENTS|((LICENSE|COPYING)(-[a-zA-Z0-9-.]+)?))(?i:.(txt|md|rst))?$
+        default: LICENSE-${{ .id }}$.md
+        examples:
+          - OFL
+          - PATENTS
+          - LICENSE
+          - COPYING
+          - OFL.txt
+          - PATENTS.md
+          - LICENSE.rst
+          - COPYING-AGPL-3.0
+          - LICENSE-MIT
+          - LICENSE-MIT.md
+      header_plain:
+        title: Plain Header
+        description: |
+          Path to write the plain text license header file, if any.
+        type: string
+        default: COPYING-${{ .id }}$.md
+  id:
+    title: ID
+    description: |
+      Identifier of the license or exception.
+    type: string
+    readOnly: true
+  name:
+    title: Name
+    description: |
+      Full name of the license.
+      For custom licenses, this field is required.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+    examples:
+      - GNU Affero General Public License v3.0 or later
+      - MIT License
+      - BSD 3-Clause License
+  reference_num:
+    title: Reference Number
+    description: |
+      Reference number of the license.
+      This is automatically filled when a supported `id` is selected.
+    oneOf:
+      - $ref: https://jsonschemata.repodynamics.com/number/non-negative
+      - type: 'null'
+  osi_approved:
+    title: OSI Approved
+    description: |
+      Whether the license is approved by the
+      [Open Source Initiative](https://opensource.org/).
+      This is automatically filled when a supported `id` is selected.
+    type: boolean
+  fsf_libre:
+    title: FSF Libre
+    description: |
+      Whether the license is approved by the
+      [Free Software Foundation](https://www.fsf.org/).
+      This is automatically filled when a supported `id` is selected.
+    type: boolean
+  url:
+    type: object
+    properties:
+      reference:
+        title: URL
+        description: |
+          URL to the license's reference page.
+        examples:
+          - "https://opensource.org/licenses/agpl-3.0"
+        $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+      json:
+        title: URL
+        description: |
+          URL to the license's JSON file.
+        examples:
+          - "https://spdx.org/licenses/AGPL-3.0.json"
+        $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+      repo_text_plain:
+        title: URL
+        description: |
+          URL to the repository's license file.
+        default: ${{ repo.url.blob }}$/${{ .path.text_plain }}$
+        examples:
+          - "https://github.com/RepoDynamics/PyPackIT/blob/main/LICENSE"
+        $ref: https://jsonschemata.repodynamics.com/url/https
+      repo_header_plain:
+        title: URL
+        description: |
+          URL to the repository's license header file.
+        default: ${{ repo.url.blob }}$/${{ .path.header_plain }}$
+      cross_refs:
+        type: array
+        items:
+          $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  version_added:
+    type: string
+  deprecated:
+    type: boolean
+  version_deprecated:
+    type: string
+  obsoleted_by:
+    type: array
+  alts:
+    type: object
+  optionals:
+    type: array
+  comments:
+    type: string
+  trove_classifier:
+    title: Trove Classifier
+    description: |
+      [Trove classifier](https://pypi.org/classifiers/) of the license.
+      This is automatically filled when a supported `id` is selected.
+
+      :::{admonition} Usage
+      :class: dropdown note
+
+      The classifier is automatically added to [package metadata](#ccc-pkg-classifiers)
+      to help PyPI better categorize your package,
+      so that users can find your package when searching for packages with a specific license.
+      :::
+    type: string
+    pattern: "^License :: "
+    examples:
+      - 'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)'
+      - 'License :: OSI Approved :: MIT License'
+      - 'License :: OSI Approved :: BSD License'
+  text_xml:
+    title: XML Text
+    description: |
+      XML text of the license.
+      This is automatically filled when a supported `id` is selected.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  text_plain:
+    title: Full Text
+    description: |
+      Full text of the license.
+      This is automatically filled when a supported `id` is selected.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  text_md:
+    title: Markdown Text
+    description: |
+      Markdown text of the license.
+      This is automatically filled when a supported `id` is selected.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  header_xml:
+    title: XML Header
+    description: |
+      XML header of the license.
+      This is automatically filled when a supported `id` is selected.
+    type: string
+  header_plain:
+    title: Notice
+    description: |
+      Short text of the license.
+      This is automatically filled when a supported `id` is selected.
+
+      :::{admonition} Usage
+      :class: dropdown note
+
+      By default, the notice is added to the
+      [main docstring](#ccc-pkg-file---init---py-docstring) of the package.
+      :::
+    type: string
+  header_md:
+    title: Markdown Header
+    description: |
+      Markdown header of the license.
+      This is automatically filled when a supported `id` is selected.
+    type: string
+  text_config:
+    $ref: https://controlman.repodynamics.com/schema/license-component-config
+  header_config:
+    $ref: https://controlman.repodynamics.com/schema/license-component-config

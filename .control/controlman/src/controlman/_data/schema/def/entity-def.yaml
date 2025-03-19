@@ -1,0 +1,621 @@
+$id: https://controlman.repodynamics.com/schema/entity-def
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Entity Definition
+description: |
+  Definition of a natural or legal person.
+  
+  If [`github.user`](#ccdef-entity-def-github-user) is provided, any of the following keys that is not explicitly provided
+  will be automatically filled with information retrieved from the
+  [GitHub API](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user), if available
+  (cf. [Personalizing your profile on GitHub](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile)):
+  - [`name`](#ccdef-entity-def-name)
+  - [`bio`](#ccdef-entity-def-bio)
+  - [`affiliation`](#ccdef-entity-def-affiliation)
+  - [`avatar`](#ccdef-entity-def-avatar)
+  - [`email`](#ccdef-entity-def-email)
+  - [`website`](#ccdef-entity-def-website)
+  - [`orcid`](#ccdef-entity-def-orcid)
+  - [`researchgate`](#ccdef-entity-def-researchgate)
+  - [`linkedin`](#ccdef-entity-def-linkedin)
+  - [`twitter`](#ccdef-entity-def-twitter)
+  - [`city`](#ccdef-entity-def-city)
+  - [`github.rest_id`](#ccdef-entity-def-github-rest_id)
+  - [`github.node_id`](#ccdef-entity-def-github-node_id)
+  - [`github.url`](#ccdef-entity-def-github-url)
+type: object
+additionalProperties: false
+properties:
+  active:
+    description: |
+      Whether the entity is currently active in the project.
+    type: boolean
+    default: true
+  github:
+    title: GitHub
+    description: GitHub account information of the entity.
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: ID
+        description: Username.
+        $ref: https://jsonschemata.repodynamics.com/id/github/user
+      rest_id:
+        title: REST ID
+        description: REST-API user ID.
+        $ref: https://jsonschemata.repodynamics.com/id/github/rest
+      node_id:
+        title: Node ID
+        description: GraphQL-API node ID.
+        $ref: https://jsonschemata.repodynamics.com/id/github/node
+      url:
+        title: URL
+        description: Account URL.
+        $ref: https://jsonschemata.repodynamics.com/url/github/user
+  name:
+    description: |
+      The entity's name.
+      If the entity is a legal person, only provide `legal`.
+      Otherwise, `first` and `last` must be provided at least.
+
+      If not provided, `github` must be provided.
+      In that case, user information is automatically fetched from
+      [GitHub API](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user)
+      to determine the name as follows:
+      1. If the user has no `name` set in their GitHub profile,
+         a legal entity is created with `name.legal` set to the GitHub username.
+         This emits a warning log in the workflow.
+      2. The value of `type` in API response is checked;
+         if it is `Organization`, a legal entity is created with
+         `name.legal` set to the value of `name` in the API response.
+      3. `name` is split by the first space character.
+         If this results in other than two parts,
+         a legal entity is created with `name.legal` set to the value of `name`.
+         This emits a warning log in the workflow.
+      4. If `name` has only two parts, a natural person is created with `name.first` and `name.last`
+         set to the first and last parts of `name`, respectively.
+    type: object
+    additionalProperties: false
+    oneOf:
+      - required: [ first, last ]
+      - required: [ legal ]
+    properties:
+      legal:
+        title: Legal Name
+        description: The entity's name, when it is not a natural person.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+      first:
+        title: First Name
+        description: The person's first name.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+      last:
+        title: Last Name
+        description: The person's last name.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+      particle:
+        title: Name Particle
+        description: |
+          The person's name particle, e.g., a nobiliary particle or a preposition
+          meaning 'of' or 'from' (for example 'von' in 'Alexander von Humboldt').
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+        examples:
+          - von
+      suffix:
+        title: Name Suffix
+        description: |
+          The person's name-suffix, e.g. 'Jr.' for Sammy Davis Jr. or 'III'
+          for Frank Edwin Wright III.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+        examples:
+          - Jr.
+          - III
+      full:
+        title: Full Name
+        description: |
+          The person's full name.
+          If not provided, it is automatically set to
+          `first particle last, suffix`
+          (`particle ` and `, suffix` are only added when provided)
+          for natural persons, and to `legal` for legal persons.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+        default: |
+          #{{
+            legal = get(".legal")
+            if legal:
+              return legal
+            full = get(".first")
+            particle = get(".particle")
+            if particle:
+              full += f" {particle}"
+            full += f" {get(".last")}"
+            suffix = get(".suffix")
+            if suffix:
+              full += f", {suffix}"
+            return full
+          }}#
+      full_inverted:
+        title: Full Name Inverted
+        description: |
+          The person's full name in inverted order.
+          If not provided, it is automatically set to
+          `particle last, first, suffix`
+          (`particle ` and `, suffix` are only added when provided)
+          for natural persons, and to `legal` for legal persons.
+        $ref: https://jsonschemata.repodynamics.com/string/oneline
+        default: |
+          #{{
+            legal = get(".legal")
+            if legal:
+              return legal
+            
+            particle = get(".particle")
+            full = f"{particle} " if particle else "" 
+            full += f"{get(".last")}, {get(".first")}"
+            suffix = get(".suffix")
+            if suffix:
+              full += f", {suffix}"
+            return full
+          }}#
+  role:
+    description: Roles of the entity and their priorities.
+    $ref: https://controlman.repodynamics.com/schema/role-priority
+  ownership:
+    summary: Ownership of different parts of the project.
+    $ref: https://controlman.repodynamics.com/schema/code-owner
+  affiliation:
+    title: Affiliation
+    description: |
+      The entity's affiliation.
+      If not provided while `github` is provided,
+      it is automatically set to the value of `company` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  bio:
+    title: Bio
+    description: |
+      A short biography of the entity.
+      If not provided while `github` is provided,
+      it is automatically set to the value of `bio` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  alias:
+    title: Alias
+    description: The entity's alias.
+    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+  avatar:
+    title: Avatar
+    description: |
+      The entity's avatar URL.
+      If not provided while `github` is provided,
+      it is automatically set to the value of `avatar_html` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  email:
+    title: Email Account
+    description: |
+      The entity's contact email.
+      If not provided while `github` is provided,
+      `email.user` is automatically set to the value of `email` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: ID
+        description: Email Address
+        $ref: https://jsonschemata.repodynamics.com/id/email
+      url:
+        title: URL
+        description: A `mailto` URI for the email address.
+        default: 'mailto:${{ .id }}$'
+        $ref: https://jsonschemata.repodynamics.com/uri/mailto
+    examples:
+      - id: info@repodynamic.com
+      - id: info@repodynamics.com
+        url: 'mailto:info@repodynamics.com?subject=A%20default%20subject'
+  website:
+    title: Website
+    description: |
+      The entity's website address.
+      If not provided while `github` is provided,
+      it is automatically set to the value of `blog` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    $ref: https://jsonschemata.repodynamics.com/url/http-ftp-sftp
+  orcid:
+    title: ORCID account information.
+    description: |
+      The entity's [ORCID](https://orcid.org) account information.
+      If not provided while `github` is provided,
+      the GitHub user's [social accounts](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#adding-links-to-your-social-accounts)
+      are fetched from the
+      [GitHub API](https://docs.github.com/en/rest/users/social-accounts?apiVersion=2022-11-28#list-social-accounts-for-a-user).
+      If an ORCID URL is found, `orcid` is automatically set.
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: ORCID ID
+        $ref: https://jsonschemata.repodynamics.com/id/orcid
+      url:
+        title: ORCID account URL
+        description: |
+          This is automatically set to `https://orcid.org/{user}`.
+        default: 'https://orcid.org/${{ .id }}$'
+        $ref: https://jsonschemata.repodynamics.com/url/orcid/user
+  gnd:
+    title: GND ID
+    description: |
+      The entity's Integrated Authority File [GND](https://gnd.network/) ID information.
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: GND ID
+        type: string
+  researchgate:
+    title: ResearchGate
+    description: |
+      The entity's ResearchGate account information.
+      If not provided while `github` is provided,
+      the GitHub user's [social accounts](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#adding-links-to-your-social-accounts)
+      are fetched from the
+      [GitHub API](https://docs.github.com/en/rest/users/social-accounts?apiVersion=2022-11-28#list-social-accounts-for-a-user).
+      If a ResearchGate URL is found, `researchgate` is automatically set.
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: ResearchGate ID
+        $ref: https://jsonschemata.repodynamics.com/id/researchgate
+      url:
+        title: ResearchGate account URL
+        default: 'https://researchgate.net/profile/${{ .id }}$'
+        $ref: https://jsonschemata.repodynamics.com/url/researchgate/user
+  linkedin:
+    title: LinkedIn Account
+    description: |
+      The entity's LinkedIn account information.
+      If not provided while `github` is provided,
+      the GitHub user's [social accounts](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#adding-links-to-your-social-accounts)
+      are fetched from the
+      [GitHub API](https://docs.github.com/en/rest/users/social-accounts?apiVersion=2022-11-28#list-social-accounts-for-a-user).
+      If a LinkedIn URL is found, `linkedin` is automatically set.
+    type: object
+    additionalProperties: false
+    required: [ id ]
+    properties:
+      id:
+        title: LinkedIn ID
+        type: string
+        $ref: https://jsonschemata.repodynamics.com/id/linkedin
+      url:
+        title: LinkedIn URL
+        default: 'https://linkedin.com/in/${{ .id }}$'
+        $ref: https://jsonschemata.repodynamics.com/url/linkedin/user
+  twitter:
+    title: Twitter account
+    description: |
+      The entity's Twitter account information.
+      If not provided while `github` is provided,
+      the GitHub user's [social accounts](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#adding-links-to-your-social-accounts)
+      are fetched from the
+      [GitHub API](https://docs.github.com/en/rest/users/social-accounts?apiVersion=2022-11-28#list-social-accounts-for-a-user).
+      If a Twitter URL is found, `twitter` is automatically set.
+    type: object
+    additionalProperties: false
+    properties:
+      id:
+        title: Twitter ID
+        $ref: https://jsonschemata.repodynamics.com/id/twitter
+      url:
+        title: Twitter account URL
+        default: 'https://twitter.com/${{ .id }}$'
+        $ref: https://jsonschemata.repodynamics.com/url/twitter/user
+    required: [ id ]
+  address:
+    title: Address
+    description: The entity's address.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  city:
+    title: City
+    description: |
+      The entity's city.
+      If not provided while `github` is provided,
+      it is automatically set to the value of `location` in the
+      [GitHub API response](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user).
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  region:
+    title: Region
+    description: The entity's region.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  country:
+    title: Country
+    description: |
+      The entity's country, defined as an
+      [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1) country code.
+    type: string
+    enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AX
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BL
+      - BM
+      - BN
+      - BO
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CW
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GB
+      - GD
+      - GE
+      - GF
+      - GG
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IM
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JE
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - NO
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZW
+  post-code:
+    description: The entity's post code.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  tel:
+    description: The entity's telephone number.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  fax:
+    description: The entity's fax number.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  location:
+    title: Location
+    description: |
+      The entity's location, e.g., when the entity is a conference.
+      This is only used when the entity is a legal person,
+      i.e., when `name.legal` is set.
+    $ref: https://jsonschemata.repodynamics.com/string/oneline
+  date_start:
+    title: Start Date
+    description: |
+      The entity's starting date, e.g., when the entity is a conference.
+      This is only used when the entity is a legal person,
+      i.e., when `name.legal` is set.
+    $ref: https://jsonschemata.repodynamics.com/date/yyyy-mm-dd
+  date_end:
+    title: End Date
+    $ref: https://jsonschemata.repodynamics.com/date/yyyy-mm-dd
+    description: |
+      The entity's ending date, e.g., when the entity is a conference.
+      This is only used when the entity is a legal person,
+      i.e., when `name.legal` is set.
