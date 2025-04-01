@@ -204,7 +204,7 @@ pypkg_ci:
       dependencies: >-
         #{{ return hook.pyproject_dependency("core", pkg="ci") }}#
       scripts:
-        cca: controlman.__main__:cca
+        project: pypackit.__main__:cli
     tool:
       setuptools:
         include-package-data: true
