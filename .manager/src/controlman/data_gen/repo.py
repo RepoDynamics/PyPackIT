@@ -42,95 +42,97 @@ class RepoDataGenerator:
         release_info: dict = {}
         curr_branch_latest_version = None
         self._git.stash()
-        for branch in branches:
-            if not (branch.startswith(allowed_prefixes) or branch == main_branch):
-                continue
-            self._git.checkout(branch)
-            if self._future_versions.get(branch):
-                ver = _ver.PEP440SemVer(str(self._future_versions[branch]))
-            else:
-                ver = _ver.latest_version_from_tags(
-                    tags=self._git.get_tags(),
-                    version_tag_prefix=ver_tag_prefix,
-                )
-            if not ver:
-                if branch == main_branch:
-                    ver = _ver.PEP440SemVer("0.0.0")
+        try:
+            for branch in branches:
+                if not (branch.startswith(allowed_prefixes) or branch == main_branch):
+                    continue
+                self._git.checkout(branch)
+                if self._future_versions.get(branch):
+                    ver = _ver.PEP440SemVer(str(self._future_versions[branch]))
                 else:
-                    _logger.warning(
-                        f"Failed to get latest version from branch '{branch}'; skipping branch."
+                    ver = _ver.latest_version_from_tags(
+                        tags=self._git.get_tags(),
+                        version_tag_prefix=ver_tag_prefix,
                     )
-                    continue
-            if branch == curr_branch:
-                branch_metadata = self._data
-                curr_branch_latest_version = ver
-            elif branch == main_branch:
-                branch_metadata = self._data_main
-            else:
-                try:
-                    branch_metadata = _controlman.from_json_file(repo_path=self._git.repo_path)
-                except _exception.ControlManException as e:
-                    _logger.warning(
-                        f"Failed to read metadata from branch '{branch}'; skipping branch."
-                    )
-                    _logger.debug("Error Details", e)
-                    continue
-            if branch == main_branch:
-                branch_name = self._data.fill("branch.main.name")
-            elif branch.startswith(release_prefix):
-                new_prefix = self._data.fill("branch.release.name")
-                branch_name = f"{new_prefix}{branch.removeprefix(release_prefix)}"
-            else:
-                new_prefix = self._data.fill("branch.pre.name")
-                branch_name = f"{new_prefix}{branch.removeprefix(pre_release_prefix)}"
-            version_info = {"branch": branch_name}
-            pkg_info = branch_metadata["pypkg_main"]
-            if pkg_info:
-                package_managers = [
-                    package_man_name
-                    for platform_name, package_man_name in (("pypi", "pip"), ("conda", "conda"))
-                    if platform_name in pkg_info
-                ]
+                if not ver:
+                    if branch == main_branch:
+                        ver = _ver.PEP440SemVer("0.0.0")
+                    else:
+                        _logger.warning(
+                            f"Failed to get latest version from branch '{branch}'; skipping branch."
+                        )
+                        continue
                 if branch == curr_branch:
-                    branch_metadata.fill("pypkg_main.entry")
-                    branch_metadata.fill("pypkg_test.entry")
-                version_info |= {
-                    "python_versions": branch_metadata["pypkg_main.python.version.minors"],
-                    "os_names": [os["name"] for os in branch_metadata["pypkg_main.os"].values()],
-                    "package_managers": package_managers,
-                    "python_api_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_main.entry.python", {}).values()
-                    ],
-                    "test_python_api_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_test.entry.python", {}).values()
-                    ],
-                    "cli_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_main.entry.cli", {}).values()
-                    ],
-                    "test_cli_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_test.entry.cli", {}).values()
-                    ],
-                    "gui_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_main.entry.gui", {}).values()
-                    ],
-                    "test_gui_names": [
-                        script["name"]
-                        for script in branch_metadata.get("pypkg_test.entry.gui", {}).values()
-                    ],
-                    "api_names": [
-                        script["name"]
-                        for group in branch_metadata.get("pypkg_main.entry.api", {}).values()
-                        for script in group["entry"].values()
-                    ],
-                }
-            release_info[str(ver)] = version_info
-        self._git.checkout(curr_branch)
-        self._git.stash_pop()
+                    branch_metadata = self._data
+                    curr_branch_latest_version = ver
+                elif branch == main_branch:
+                    branch_metadata = self._data_main
+                else:
+                    try:
+                        branch_metadata = _controlman.from_json_file(repo_path=self._git.repo_path)
+                    except _exception.ControlManException as e:
+                        _logger.warning(
+                            f"Failed to read metadata from branch '{branch}'; skipping branch."
+                        )
+                        _logger.debug("Error Details", e)
+                        continue
+                if branch == main_branch:
+                    branch_name = self._data.fill("branch.main.name")
+                elif branch.startswith(release_prefix):
+                    new_prefix = self._data.fill("branch.release.name")
+                    branch_name = f"{new_prefix}{branch.removeprefix(release_prefix)}"
+                else:
+                    new_prefix = self._data.fill("branch.pre.name")
+                    branch_name = f"{new_prefix}{branch.removeprefix(pre_release_prefix)}"
+                version_info = {"branch": branch_name}
+                pkg_info = branch_metadata["pypkg_main"]
+                if pkg_info:
+                    package_managers = [
+                        package_man_name
+                        for platform_name, package_man_name in (("pypi", "pip"), ("conda", "conda"))
+                        if platform_name in pkg_info
+                    ]
+                    if branch == curr_branch:
+                        branch_metadata.fill("pypkg_main.entry")
+                        branch_metadata.fill("pypkg_test.entry")
+                    version_info |= {
+                        "python_versions": branch_metadata["pypkg_main.python.version.minors"],
+                        "os_names": [os["name"] for os in branch_metadata["pypkg_main.os"].values()],
+                        "package_managers": package_managers,
+                        "python_api_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_main.entry.python", {}).values()
+                        ],
+                        "test_python_api_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_test.entry.python", {}).values()
+                        ],
+                        "cli_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_main.entry.cli", {}).values()
+                        ],
+                        "test_cli_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_test.entry.cli", {}).values()
+                        ],
+                        "gui_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_main.entry.gui", {}).values()
+                        ],
+                        "test_gui_names": [
+                            script["name"]
+                            for script in branch_metadata.get("pypkg_test.entry.gui", {}).values()
+                        ],
+                        "api_names": [
+                            script["name"]
+                            for group in branch_metadata.get("pypkg_main.entry.api", {}).values()
+                            for script in group["entry"].values()
+                        ],
+                    }
+                release_info[str(ver)] = version_info
+        finally:
+            self._git.checkout(curr_branch)
+            self._git.stash_pop()
         out = {"version": release_info, "versions": [], "branches": [], "interfaces": []}
         for version, version_info in release_info.items():
             out["versions"].append(version)
