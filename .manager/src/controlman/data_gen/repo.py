@@ -54,10 +54,13 @@ class RepoDataGenerator:
                     version_tag_prefix=ver_tag_prefix,
                 )
             if not ver:
-                _logger.warning(
-                    f"Failed to get latest version from branch '{branch}'; skipping branch."
-                )
-                continue
+                if branch == main_branch:
+                    ver = _ver.PEP440SemVer("0.0.0")
+                else:
+                    _logger.warning(
+                        f"Failed to get latest version from branch '{branch}'; skipping branch."
+                    )
+                    continue
             if branch == curr_branch:
                 branch_metadata = self._data
                 curr_branch_latest_version = ver
