@@ -305,15 +305,14 @@ class OutputManager:
         readme_render_command = self._branch_manager.data[
             "devcontainer_main.environment.pybuild.task.render-readme.alias"
         ]
-        for key, value in self._branch_manager.data.items():
-            if not key.startswith("pypkg_"):
-                continue
+        for pkg_id in ("main", "test"):
             if (
                 not (publish_pypi or publish_testpypi or publish_anaconda)
                 and build_config["action"] == "disabled"
             ):
                 continue
-            pkg_id = key.removeprefix("pypkg_")
+            key =  f"pypkg_{pkg_id}"
+            value = self._branch_manager.data[key]
             pure_python = value["python"]["pure"]
             build_job = {
                 "repository": self._repository,
