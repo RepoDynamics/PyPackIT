@@ -242,6 +242,8 @@ team:
   aariam:
     github:
       id: AAriam
+    email:
+      id: armiariam@gmail.com
     role:
       manager: 1
       author: 1
