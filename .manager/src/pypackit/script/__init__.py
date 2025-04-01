@@ -1,6 +1,6 @@
-from pypackit.script import cca, pre_commit
+from pypackit.script import cca, lint
 
 __all__ = [
     "cca",
-    "pre_commit",
+    "lint",
 ]
