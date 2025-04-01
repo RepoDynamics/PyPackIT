@@ -6024,12 +6024,10 @@
                   "eamodio.gitlens",
                   "ms-vscode.cpptools-extension-pack",
                   "VisualStudioExptTeam.intellicode-api-usage-examples",
-                  "ms-vscode-remote.remote-wsl",
                   "formulahendry.code-runner",
                   "GitHub.copilot",
                   "GitHub.copilot-chat",
                   "GitHub.vscode-pull-request-github",
-                  "ms-vscode-remote.remote-ssh",
                   "ms-vscode-remote.remote-ssh-edit",
                   "ecmel.vscode-html-css",
                   "formulahendry.auto-rename-tag",
@@ -6057,7 +6055,6 @@
                   "naumovs.color-highlight",
                   "redhat.vscode-xml",
                   "tomoki1207.pdf",
-                  "ms-vscode-remote.vscode-remote-extensionpack",
                   "pranaygp.vscode-css-peek",
                   "shd101wyy.markdown-preview-enhanced",
                   "ms-vscode.makefile-tools",
@@ -6081,12 +6078,7 @@
                   "jock.svg",
                   "charliermarsh.ruff",
                   "ms-python.mypy-type-checker",
-                  "ms-vscode.cpptools-themes",
-                  "PKief.material-icon-theme",
-                  "vscode-icons-team.vscode-icons",
-                  "GitHub.github-vscode-theme",
-                  "zhuangtongfa.Material-theme",
-                  "dracula-theme.theme-dracula"
+                  "graphql.vscode-graphql-syntax"
                ],
                "settings": {
                   "tasks": {
