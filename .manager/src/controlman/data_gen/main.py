@@ -223,7 +223,7 @@ class MainDataGenerator:
             )
             return
         discussions_info = self._gh_api_repo.discussion_categories()
-        self._cache.set("repo", "discussions_categories", discussions_info)
+        self._cache.set("repo", "discussion_categories", discussions_info)
         discussion = self._data.setdefault("discussion.category", {})
         for category in discussions_info:
             category_obj = discussion.setdefault(category["slug"], {})
