@@ -650,22 +650,6 @@ devcontainer_main:
             docs: https://pre-commit.com/
             package: https://anaconda.org/conda-forge/pre_commit
             source: https://github.com/pre-commit/pre-commit
-      pip:
-        loggerman:
-          spec:
-            version: ==0.1.0
-        mdit:
-          spec:
-            version: ==0.1.0
-        pyshellman:
-          spec:
-            version: ==0.1.0
-        ansi-sgr:
-          spec:
-            version: ==0.1.0
-        gittidy:
-          spec:
-            version: ==0.1.0
       variable:
         cache_dir:
           summary: Directory to store the cache for pre-commit hooks.
@@ -978,10 +962,10 @@ devcontainer_main:
             source: https://github.com/anaconda/anaconda-client
     pypackit:
       task:
-        cca:
-          name: Continuous Configuration Automation
-          summary: Run CCA on the repository.
-          process: [ project, cca, $@ ]
+        project:
+          name: Project Management
+          summary: Main project management CLI.
+          process: [ project, $@ ]
       conda: |
         #{{
           py_ver = get("pypkg_ci.python.version.spec")
