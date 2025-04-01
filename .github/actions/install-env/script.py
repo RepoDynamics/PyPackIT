@@ -110,4 +110,4 @@ if __name__ == "__main__":
             if key in ("env_filepaths", "apt_filepaths", "task_filepaths", "env_names")
             else value
         )
-        actionman.step_output.write(key, value)
+        actionman.step_output.write(key, out_val)
