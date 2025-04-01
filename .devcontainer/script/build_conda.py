@@ -97,7 +97,7 @@ def get_channels(recipe: dict) -> list[str]:
         return
 
     meta = recipe.get("meta", {}).get("values", {})
-    channel_priority = {}
+    channel_priority: dict[str, int] = {}
     for key in ("host", "run", "run_constrained"):
         for req in meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", []):
             update_channel_priority(req["value"])
