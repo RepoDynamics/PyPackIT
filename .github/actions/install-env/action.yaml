@@ -76,7 +76,6 @@ runs:
         APT_FILEPATHS: ${{ steps.script.outputs.apt_filepaths }}
       shell: bash
       run: |
-        echo "APT FILEPATHS::: `${{ steps.script.outputs.apt_filepaths }}`"
         # Install APT packages
         echo "::group::apt-get update"
         sudo apt-get update
