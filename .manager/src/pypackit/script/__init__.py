@@ -1,3 +1,6 @@
-from pypackit.script import cca
+from pypackit.script import cca, pre_commit
 
-__all__ = ["cca"]
+__all__ = [
+    "cca",
+    "pre_commit",
+]
