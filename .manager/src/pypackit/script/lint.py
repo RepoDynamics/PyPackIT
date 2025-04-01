@@ -48,7 +48,7 @@ class PreCommitHooks:
 
     def __init__(
         self,
-        config: str,
+        config: Path | str,
         *,
         action: Literal["report", "run", "validate"] = "run",
         hook_id: str | None = None,
