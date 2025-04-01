@@ -4045,8 +4045,8 @@
             },
             "properties": {
                "filter": {
-                  "dark": "invert(41%) sepia(94%) saturate(1043%) hue-rotate(77deg) brightness(94%) contrast(101%)",
-                  "light": "invert(18%) sepia(59%) saturate(2563%) hue-rotate(102deg) brightness(98%) contrast(109%)"
+                  "dark": "invert(42%) sepia(100%) saturate(798%) hue-rotate(75deg) brightness(92%) contrast(103%)",
+                  "light": "invert(18%) sepia(28%) saturate(5193%) hue-rotate(101deg) brightness(100%) contrast(104%)"
                }
             }
          },
@@ -21889,7 +21889,7 @@
             "name": "PyPackIT",
             "requires-python": ">=3.10",
             "scripts": {
-               "cca": "controlman.__main__:cca"
+               "project": "pypackit.__main__:cli"
             },
             "version": "0.1.0"
          },
