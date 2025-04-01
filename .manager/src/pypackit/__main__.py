@@ -15,6 +15,7 @@ def cli():
 
     args = parser.parse_args()
     input_script_name = args.command.replace("-", "_")
+    delattr(args, "command")
     input_script = getattr(script, input_script_name)
     input_script.run_cli(parser, args)
     return
