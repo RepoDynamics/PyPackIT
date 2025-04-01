@@ -21,7 +21,7 @@ _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 
 
 def run(
-    config: str,
+    config: str | Path,
     *,
     action: Literal["report", "run", "validate"] = "run",
     hook_id: str | None = None,
@@ -109,7 +109,7 @@ class PreCommitHooks:
                 "run",
                 hook_id,
                 "--config",
-                config,
+                str(config),
                 "--color=always",
                 "--show-diff-on-failure",
                 "--verbose",
