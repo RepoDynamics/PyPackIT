@@ -17,7 +17,7 @@ from loggerman import logger
 if TYPE_CHECKING:
     from typing import Literal
 
-_CMD_PREFIX = ["conda", "run", "--name", "pypackit", "--live-stream", "-vv"]
+_CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 
 
 def run(
@@ -104,8 +104,7 @@ class PreCommitHooks:
         self._hook_stage = hook_stage
 
         self._command = _CMD_PREFIX + [
-            part
-            for part in [
+            part for part in [
                 "pre-commit",
                 "run",
                 hook_id,
@@ -407,7 +406,11 @@ def cli_parser(subparsers: argparse._SubParsersAction | None = None) -> argparse
         default="run",
         help="Required positional argument.",
     )
-    parser.add_argument("-c", "--config", help="Path to the pre-commit configuration file.")
+    parser.add_argument(
+        "-c", "--config",
+        help="Path to the pre-commit configuration file.",
+        default=".devcontainer/config/pre-commit.yaml",
+        )
 
     hook_group = parser.add_mutually_exclusive_group()
     hook_group.add_argument("-i", "--hook-id", help="Only run the hook with the given ID.")
