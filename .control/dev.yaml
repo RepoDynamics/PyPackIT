@@ -981,7 +981,7 @@ devcontainer_main:
         cca:
           name: Continuous Configuration Automation
           summary: Run CCA on the repository.
-          process: [ cca, $@ ]
+          process: [ project, cca, $@ ]
       conda: |
         #{{
           py_ver = get("pypkg_ci.python.version.spec")
