@@ -7,6 +7,7 @@ from pathlib import Path
 from loggerman import logger
 
 import controlman
+from controlman.exception import ControlManException
 
 
 def run(
@@ -76,7 +77,7 @@ def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
     try:
         report = run(**vars(args)).report()
         exit_code = 0
-    except Exception as e:
+    except ControlManException as e:
         report = e.report
         exit_code = 1
     report_str = report.render()
