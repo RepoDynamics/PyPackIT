@@ -17,6 +17,8 @@ from loggerman import logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 from versionman.pep440_semver import PEP440SemVer
 
+from pypackit import script as _script
+
 from proman import manager, runner
 from proman.dstruct import Branch
 from proman.dtype import InitCheckAction, RepoFileType
@@ -442,13 +444,11 @@ class EventHandler:
         #             summary=oneliner,
         #         )
         #     return None
-        input_action = (
-            action
-            if action in [InitCheckAction.REPORT, InitCheckAction.AMEND, InitCheckAction.COMMIT]
-            else (
-                InitCheckAction.REPORT if action == InitCheckAction.FAIL else InitCheckAction.COMMIT
-            )
-        )
+        if action in  [InitCheckAction.FAIL, InitCheckAction.REPORT]:
+            input_action = "report"
+        elif action in [InitCheckAction.COMMIT, InitCheckAction.AMEND, InitCheckAction.PULL]:
+            input_action = "validate"
+
         commit_msg = (
             self.manager.commit.create_auto("refactor")
             if action in [InitCheckAction.COMMIT, InitCheckAction.PULL]
@@ -459,17 +459,12 @@ class EventHandler:
             pr_branch = self.manager.branch.new_auto(auto_type="refactor")
             branch_manager.branch.checkout_to_auto(branch=pr_branch)
         try:
-            shell_output = self._shell_runner_head.run(
-                ["bash", "-c", "source ~/.profile && lint-ci"]
+            hooks_output = _script.lint.run(
+                config=self._path_head / ".devcontainer/config/pre-commit-ci.yaml",
+                action=input_action,
+                hook_stage="manual",
+                ref_range=ref_range,
             )
-            # hooks_output = runner.refactor.run(
-            #     git=branch_manager.git,
-            #     ref_range=ref_range,
-            #     action=input_action.value,
-            #     commit_message=str(commit_msg),
-            #     config=config,
-            #     reporter=self.reporter,
-            # )
         except Exception as e:
             self._reporter.add(
                 name="hooks",
@@ -478,7 +473,6 @@ class EventHandler:
                 body=str(e),
             )
             raise ProManException()
-        hooks_output = _ps.read.json_from_string(shell_output.out)
         passed = hooks_output["passed"]
         modified = hooks_output["modified"]
         commit_hash = None
@@ -516,7 +510,7 @@ class EventHandler:
                 else "pass",
                 summary=hooks_output["summary"],
                 body=hooks_output["description"],
-                # section=hooks_output["section"],
+                section=hooks_output["section"],
             )
         return commit_hash
 
