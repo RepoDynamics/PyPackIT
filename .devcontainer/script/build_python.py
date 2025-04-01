@@ -27,7 +27,7 @@ def main(
     out_dir: str | Path,
     extra_args: list[str] | None = None,
 ) -> Path:
-    """Generate and run conda build command."""
+    """Generate and run build command."""
     pkg = _METADATA[f"pypkg_{pkg_id}"]
     pkg_path = Path(pkg["path"]["root"]).resolve()
     # Ensure the output folder exists
