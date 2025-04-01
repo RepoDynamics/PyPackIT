@@ -82,7 +82,7 @@ class PreCommitHooks:
             )
             raise ValueError(err_msg)
         version_result = _pyshellman.run(
-            command=["pre-commit", "--version"],
+            command=[*_CMD_PREFIX, "pre-commit", "--version"],
             raise_execution=False,
             raise_exit_code=False,
             raise_stderr=False,
