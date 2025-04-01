@@ -17,6 +17,8 @@ from loggerman import logger
 if TYPE_CHECKING:
     from typing import Literal
 
+_CMD_PREFIX = ["conda", "run", "--name", "pypackit", "--live-stream", "-vv"]
+
 
 def run(
     config: str,
@@ -101,7 +103,7 @@ class PreCommitHooks:
         self._hook_id = hook_id
         self._hook_stage = hook_stage
 
-        self._command = [
+        self._command = _CMD_PREFIX + [
             part
             for part in [
                 "pre-commit",
