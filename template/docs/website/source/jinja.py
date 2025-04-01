@@ -178,9 +178,7 @@ def dependency_availability() -> dict:
     deps = metadata["pkg"]["dependency"]
     dep_types = ["core", "optional"]
     repos = ["pip", "conda", "apt"]
-    counts = {
-        dep_type: {count_type: 0 for count_type in ["total", *repos]} for dep_type in dep_types
-    }
+    counts = {dep_type: dict.fromkeys(["total", *repos], 0) for dep_type in dep_types}
     for core_dep in deps.get("core", {}).values():
         counts["core"]["total"] += 1
         for repo in repos:

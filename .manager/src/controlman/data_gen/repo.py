@@ -97,15 +97,21 @@ class RepoDataGenerator:
                         branch_metadata.fill("pypkg_test.entry")
                     version_info |= {
                         "python_versions": branch_metadata["pypkg_main.python.version.minors"],
-                        "os_names": [os["name"] for os in branch_metadata["pypkg_main.os"].values()],
+                        "os_names": [
+                            os["name"] for os in branch_metadata["pypkg_main.os"].values()
+                        ],
                         "package_managers": package_managers,
                         "python_api_names": [
                             script["name"]
-                            for script in branch_metadata.get("pypkg_main.entry.python", {}).values()
+                            for script in branch_metadata.get(
+                                "pypkg_main.entry.python", {}
+                            ).values()
                         ],
                         "test_python_api_names": [
                             script["name"]
-                            for script in branch_metadata.get("pypkg_test.entry.python", {}).values()
+                            for script in branch_metadata.get(
+                                "pypkg_test.entry.python", {}
+                            ).values()
                         ],
                         "cli_names": [
                             script["name"]
