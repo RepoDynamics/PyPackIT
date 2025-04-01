@@ -8,6 +8,7 @@ import pylinks as _pylinks
 import pyserials as _ps
 from gittidy import Git as _Git
 from loggerman import logger as _logger
+import pyshellman as _pyshellman
 from versionman.pep440_semver import PEP440SemVer as _PEP440SemVer
 
 from controlman import const
@@ -47,8 +48,8 @@ class CenterManager:
         self._path_cc = cc_path
         self._data_before: _ps.NestedDict = data_before
         self._data_main: _ps.NestedDict = data_main
-        self._github_token = github_token
-        self._github_api = _pylinks.api.github(token=github_token)
+        self._github_token = github_token or self._get_gh_token()
+        self._github_api = _pylinks.api.github(token=self._github_token)
         self._future_vers = future_versions or {}
 
         self._path_root = self._git.repo_path
@@ -89,6 +90,16 @@ class CenterManager:
         self._dirs_to_apply: list[tuple[str, str, DynamicFileChangeType]] = []
         self._changes: list[tuple[str, DynamicFileChangeType]] = []
         return
+
+    @staticmethod
+    def _get_gh_token() -> str | None:
+        return _pyshellman.run(
+            command=["gh", "auth", "token"],
+            logger=_logger,
+            raise_execution=False,
+            raise_exit_code=False,
+            raise_stderr=False,
+        ).out
 
     def load(self) -> _ps.NestedDict:
         if self._data_raw:
