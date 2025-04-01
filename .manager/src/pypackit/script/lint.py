@@ -169,7 +169,9 @@ class PreCommitHooks:
             log_level_exit_code="error" if validation_run else "notice",
         )
         if result.err:
-            raise_error(sgr.remove_sequence(result.err))
+            err_lines = [line for line in sgr.remove_sequence(result.err.strip()).splitlines() if line and not line.startswith("ERROR conda.cli.main_run")]
+            if err_lines:
+                raise_error("\n".join(err_lines))
         out_plain = sgr.remove_sequence(result.out)
         for line in out_plain.splitlines():
             for prefix in ("An error has occurred", "An unexpected error has occurred", "[ERROR]"):
