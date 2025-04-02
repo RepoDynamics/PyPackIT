@@ -6,6 +6,119 @@ pypkg_ci:
   python:
     version:
       spec: '>=3.10'
+  entry:
+    cli:
+      main:
+        name: project
+        description: Main command line interface for PyPackIT.
+        ref: pypackit.__main__:cli
+        parser:
+          kwargs:
+            description: Project Manager CLI
+          arguments:
+            - args: [ --repo ]
+              kwargs:
+                type: str
+                help: Local path to the repository root directory.
+          subparser:
+            id: main
+            kwargs:
+              dest: command
+              required: true
+            parsers:
+              - id: cca
+                args: [ cca ]
+                kwargs:
+                  help: Run Continuous Configuration Automation on the repository.
+                arguments:
+                  - args: [ -t, --token ]
+                    kwargs:
+                      type: str
+                      help: GitHub token for accessing the repository.
+                  - args: [ -b, --branch-version ]
+                    kwargs:
+                      help: Branch version to use for the repository.
+                      type: str
+                      nargs: "*"
+                      metavar: BRNACH=VERSION
+                  - args: [ -c, --control-center ]
+                    kwargs:
+                      help: Path to the control center directory containing configuration files.
+                      type: str
+                  - args: [ -d, --dry-run ]
+                    kwargs:
+                      help: Perform a dry run without making any changes.
+                      action: store_true
+                  - args: [ -n, --no-validate ]
+                    kwargs:
+                      help: Skip validation of the metadata.json file.
+                      dest: validate
+                      action: store_false
+              - id: lint
+                args: [ lint ]
+                kwargs:
+                  help: Run linters on the repository.
+                arguments:
+                  - args: [ -x, --action ]
+                    kwargs:
+                      help: Lint mode.
+                      type: str
+                      choices: [ report, run, validate ]
+                      default: run
+                  - args: [ -c, --config ]
+                    kwargs:
+                      help: Path to the pre-commit configuration file.
+                      type: str
+                      default: .pre-commit-config.yaml
+                  - args: [ -r2, --to-ref ]
+                    kwargs:
+                      help: Run on files changed until the given git ref. This must be accompanied by --from-ref.
+                mutually_exclusive:
+                  - id: hook
+                    arguments:
+                      - args: [ -i, --hook-id ]
+                        kwargs:
+                          help: Specific hook ID to run. This will only run the specified hook.
+                          type: str
+                      - args: [ -s, --hook-stage ]
+                        kwargs:
+                          help: Specific hook stage to run. This will only run hooks in the specified stage.
+                          type: str
+                  - id: file
+                    arguments:
+                      - args: [ -a, --all-files ]
+                        kwargs:
+                          help: Run on all files in the repository.
+                          action: store_true
+                      - args: [ -f, --files ]
+                        kwargs:
+                          help: Run on specific files.
+                          nargs: "+"
+                      - args: [ -r1, --from-ref ]
+                        kwargs:
+                          help: Run on files changed since the given git ref. This must be accompanied by --to-ref.
+              - id: version
+                args: [ version ]
+                kwargs:
+                  help: Print the current version of the project.
+              - id: build
+                args: [ build ]
+                kwargs:
+                  help: Build project components.
+                subparser:
+                  id: build
+                  kwargs:
+                    dest: build
+                    required: true
+                  parsers:
+                    - id: conda
+                      args: [ conda ]
+                      kwargs:
+                        help: Build a conda package in the project.
+                      arguments:
+                        - args: [ -p, --pkg ]
+                          kwargs:
+                            help: Package ID, i.e., the `pypkg_` key suffix in configuration files.
   dependency:
     core:
       actionman:
