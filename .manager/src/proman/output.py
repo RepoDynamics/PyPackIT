@@ -311,7 +311,7 @@ class OutputManager:
                 and build_config["action"] == "disabled"
             ):
                 continue
-            key =  f"pypkg_{pkg_id}"
+            key = f"pypkg_{pkg_id}"
             value = self._branch_manager.data[key]
             pure_python = value["python"]["pure"]
             build_job = {
