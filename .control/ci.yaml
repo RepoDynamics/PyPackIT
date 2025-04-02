@@ -68,6 +68,8 @@ pypkg_ci:
                 args: [ lint ]
                 kwargs:
                   help: Run pre-commit hooks on the repository.
+                defaults:
+                  endpoint: lint.run_cli
                 arguments:
                   - args: [ -x, --action ]
                     kwargs:
@@ -79,10 +81,13 @@ pypkg_ci:
                     kwargs:
                       help: Path to the pre-commit configuration file.
                       type: str
-                      default: .pre-commit-config.yaml
+                      default: .devcontainer/config/pre-commit.yaml
                   - args: [ -r2, --to-ref ]
                     kwargs:
                       help: Run on files changed until the given git ref. This must be accompanied by --from-ref.
+                    post_process: |
+                      if (args.from_ref and not args.to_ref) or (args.to_ref and not args.from_ref):
+                          parser.error("Both --from-ref and --to-ref must be provided together.")
                 mutually_exclusive:
                   - id: hook
                     arguments:
