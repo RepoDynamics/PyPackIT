@@ -30,6 +30,8 @@ pypkg_ci:
                 args: [ cca ]
                 kwargs:
                   help: Run Continuous Configuration Automation on the repository.
+                defaults:
+                  endpoint: cca.run_cli
                 arguments:
                   - args: [ -t, --token ]
                     kwargs:
@@ -37,10 +39,18 @@ pypkg_ci:
                       help: GitHub token for accessing the repository.
                   - args: [ -b, --branch-version ]
                     kwargs:
-                      help: Branch version to use for the repository.
+                      help: Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.
                       type: str
                       nargs: "*"
                       metavar: BRNACH=VERSION
+                    post_process: |
+                      if args.branch_version:
+                          try:
+                              args.branch_version = dict(pair.split("=", 1) for pair in args.branch_version)
+                          except ValueError:
+                              parser.error(
+                                  "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
+                              )
                   - args: [ -c, --control-center ]
                     kwargs:
                       help: Path to the control center directory containing configuration files.
