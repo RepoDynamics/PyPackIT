@@ -375,6 +375,14 @@ class PythonPackageFileGenerator:
         def add_argument(parser_name, data: dict):
             for argument in data.get("arguments", []):
                 lines.append(f"{parser_name}.add_argument({func_sig(argument)})")
+                if "post_process" in argument:
+                    post_process_lines.extend(argument["post_process"].splitlines())
+            return
+
+        def add_defaults(parser_name, data: dict):
+            kwargs = [f'{key}="{value}"' for key, value in data.get("defaults", {}).items()]
+            if kwargs:
+                lines.append(f"{parser_name}.set_defaults({', '.join(kwargs)})")
             return
 
         def add_subparser(parser_name, data: dict):
@@ -391,19 +399,22 @@ class PythonPackageFileGenerator:
                 subparser_name = f"subparser_{subparser['id']}"
                 lines.append(f"{subparser_name} = {subparser_gen_name}.add_parser({func_sig(subparser)})")
                 add_argument(subparser_name, subparser)
+                add_defaults(subparser_name, subparser)
                 add_subparser(subparser_name, subparser)
             return
 
         def func_sig(data: dict) -> str:
             return ", ".join(
                 [f'"{arg}"' for arg in data.get("args", [])]
-                + [f'{key}={value}' if key in ("type", ) else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()]
+                + [f'{key}={value}' if key in ("type", "required", "choices") or not isinstance(value, str) else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()]
             )
 
         lines = [f"parser = argparse.ArgumentParser({func_sig(data)})"]
+        post_process_lines = ["# Process inputs", "args = parser.parse_args()"]
         add_argument("parser", data)
+        add_defaults("parser", data)
         add_subparser("parser", data)
-        return "\n".join(lines)
+        return "\n".join(lines + post_process_lines)
 
 
 class CondaRecipeGenerator:
