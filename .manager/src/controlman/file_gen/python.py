@@ -62,7 +62,7 @@ class PythonPackageFileGenerator:
                 parser = entry.get("parser")
                 if not parser:
                     continue
-                filepath = (self._path_root / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
+                filepath = (self._path_src / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
                 file_content = filepath.read_text()
                 parser_content = self.make_parser(data=parser)
                 new_content = _unit.insert_in_file(
@@ -74,8 +74,8 @@ class PythonPackageFileGenerator:
                     type=DynamicFileType.PKG_SOURCE,
                     subtype=(f"{self._type}_{entry_type}", f"{self._type} {entry_type.upper()}"),
                     content=new_content,
-                    path=filepath,
-                    path_before=filepath,
+                    path=str(filepath),
+                    path_before=str(filepath),
                 )
                 files.append(file)
         return files
@@ -395,14 +395,9 @@ class PythonPackageFileGenerator:
             return
 
         def func_sig(data: dict) -> str:
-            return f"({args(data)}, {kwargs(data)})"
-
-        def args(data: dict) -> str:
-            return ", ".join(f'"{arg}"' for arg in data["args"])
-
-        def kwargs(data: dict) -> str:
             return ", ".join(
-                f'{key}={value}' if key in ("type", ) else f'{key}="{value}"' for key, value in data["kwargs"].items()
+                [f'"{arg}"' for arg in data.get("args", [])]
+                + [f'{key}={value}' if key in ("type", ) else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()]
             )
 
         lines = [f"parser = argparse.ArgumentParser({func_sig(data)})"]
