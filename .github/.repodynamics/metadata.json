@@ -7001,32 +7001,6 @@
             },
             "name": "pre_commit",
             "path": ".devcontainer/environment/conda/pre_commit.yaml",
-            "task": {
-               "lint": {
-                  "alias": "lint",
-                  "name": "Lint",
-                  "process": [
-                     "python",
-                     ".devcontainer/script/pre_commit.py",
-                     "--config",
-                     ".devcontainer/config/pre-commit.yaml",
-                     "$@"
-                  ],
-                  "summary": "Run pre-commit hooks."
-               },
-               "lint-ci": {
-                  "alias": "lint-ci",
-                  "name": "CI Lint",
-                  "process": [
-                     "python",
-                     ".devcontainer/script/pre_commit.py",
-                     "--config",
-                     ".devcontainer/config/pre-commit-ci.yaml",
-                     "$@"
-                  ],
-                  "summary": "Run pre-commit hooks in CI."
-               }
-            },
             "variable": {
                "cache_dir": {
                   "key": "PRE_COMMIT_HOME",
@@ -10834,7 +10808,8 @@
          "*/_version.py",
          ".vscode/",
          ".idea/",
-         ".DS_Store"
+         ".DS_Store",
+         ".Trash-1000/"
       ],
       "content_setting": {
          "prefix": "",
@@ -21125,7 +21100,8 @@
             "pypackit_testsuite/__main__.py": "test/src/pypackit_testsuite/__main__.py",
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
-            "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py"
+            "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
+            "pypkg_ci_cli": ".manager/src/pypackit/__main__.py"
          }
       },
       "gui_names": [],
@@ -21738,6 +21714,264 @@
          }
       },
       "entry": {
+         "cli": {
+            "main": {
+               "conda": true,
+               "description": "Main command line interface for PyPackIT.",
+               "name": "project",
+               "parser": {
+                  "arguments": [
+                     {
+                        "args": [
+                           "--repo"
+                        ],
+                        "kwargs": {
+                           "help": "Local path to the repository root directory.",
+                           "type": "str"
+                        }
+                     }
+                  ],
+                  "insert": {
+                     "prefix": "    ",
+                     "regex_after": "\\n[ ]*# end auto-generated parser",
+                     "regex_before": "# begin auto-generated parser\\n"
+                  },
+                  "kwargs": {
+                     "description": "Project Manager CLI"
+                  },
+                  "subparser": {
+                     "id": "main",
+                     "kwargs": {
+                        "dest": "command",
+                        "required": true
+                     },
+                     "parsers": [
+                        {
+                           "args": [
+                              "cca"
+                           ],
+                           "arguments": [
+                              {
+                                 "args": [
+                                    "-t",
+                                    "--token"
+                                 ],
+                                 "kwargs": {
+                                    "help": "GitHub token for accessing the repository.",
+                                    "type": "str"
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-b",
+                                    "--branch-version"
+                                 ],
+                                 "kwargs": {
+                                    "help": "Branch version to use for the repository.",
+                                    "metavar": "BRNACH=VERSION",
+                                    "nargs": "*",
+                                    "type": "str"
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-c",
+                                    "--control-center"
+                                 ],
+                                 "kwargs": {
+                                    "help": "Path to the control center directory containing configuration files.",
+                                    "type": "str"
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-d",
+                                    "--dry-run"
+                                 ],
+                                 "kwargs": {
+                                    "action": "store_true",
+                                    "help": "Perform a dry run without making any changes."
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-n",
+                                    "--no-validate"
+                                 ],
+                                 "kwargs": {
+                                    "action": "store_false",
+                                    "dest": "validate",
+                                    "help": "Skip validation of the metadata.json file."
+                                 }
+                              }
+                           ],
+                           "id": "cca",
+                           "kwargs": {
+                              "help": "Run Continuous Configuration Automation on the repository."
+                           }
+                        },
+                        {
+                           "args": [
+                              "lint"
+                           ],
+                           "arguments": [
+                              {
+                                 "args": [
+                                    "-x",
+                                    "--action"
+                                 ],
+                                 "kwargs": {
+                                    "choices": [
+                                       "report",
+                                       "run",
+                                       "validate"
+                                    ],
+                                    "default": "run",
+                                    "help": "Lint mode.",
+                                    "type": "str"
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-c",
+                                    "--config"
+                                 ],
+                                 "kwargs": {
+                                    "default": ".pre-commit-config.yaml",
+                                    "help": "Path to the pre-commit configuration file.",
+                                    "type": "str"
+                                 }
+                              },
+                              {
+                                 "args": [
+                                    "-r2",
+                                    "--to-ref"
+                                 ],
+                                 "kwargs": {
+                                    "help": "Run on files changed until the given git ref. This must be accompanied by --from-ref."
+                                 }
+                              }
+                           ],
+                           "id": "lint",
+                           "kwargs": {
+                              "help": "Run linters on the repository."
+                           },
+                           "mutually_exclusive": [
+                              {
+                                 "arguments": [
+                                    {
+                                       "args": [
+                                          "-i",
+                                          "--hook-id"
+                                       ],
+                                       "kwargs": {
+                                          "help": "Specific hook ID to run. This will only run the specified hook.",
+                                          "type": "str"
+                                       }
+                                    },
+                                    {
+                                       "args": [
+                                          "-s",
+                                          "--hook-stage"
+                                       ],
+                                       "kwargs": {
+                                          "help": "Specific hook stage to run. This will only run hooks in the specified stage.",
+                                          "type": "str"
+                                       }
+                                    }
+                                 ],
+                                 "id": "hook"
+                              },
+                              {
+                                 "arguments": [
+                                    {
+                                       "args": [
+                                          "-a",
+                                          "--all-files"
+                                       ],
+                                       "kwargs": {
+                                          "action": "store_true",
+                                          "help": "Run on all files in the repository."
+                                       }
+                                    },
+                                    {
+                                       "args": [
+                                          "-f",
+                                          "--files"
+                                       ],
+                                       "kwargs": {
+                                          "help": "Run on specific files.",
+                                          "nargs": "+"
+                                       }
+                                    },
+                                    {
+                                       "args": [
+                                          "-r1",
+                                          "--from-ref"
+                                       ],
+                                       "kwargs": {
+                                          "help": "Run on files changed since the given git ref. This must be accompanied by --to-ref."
+                                       }
+                                    }
+                                 ],
+                                 "id": "file"
+                              }
+                           ]
+                        },
+                        {
+                           "args": [
+                              "version"
+                           ],
+                           "id": "version",
+                           "kwargs": {
+                              "help": "Print the current version of the project."
+                           }
+                        },
+                        {
+                           "args": [
+                              "build"
+                           ],
+                           "id": "build",
+                           "kwargs": {
+                              "help": "Build project components."
+                           },
+                           "subparser": {
+                              "id": "build",
+                              "kwargs": {
+                                 "dest": "build",
+                                 "required": true
+                              },
+                              "parsers": [
+                                 {
+                                    "args": [
+                                       "conda"
+                                    ],
+                                    "arguments": [
+                                       {
+                                          "args": [
+                                             "-p",
+                                             "--pkg"
+                                          ],
+                                          "kwargs": {
+                                             "help": "Package ID, i.e., the `pypkg_` key suffix in configuration files."
+                                          }
+                                       }
+                                    ],
+                                    "id": "conda",
+                                    "kwargs": {
+                                       "help": "Build a conda package in the project."
+                                    }
+                                 }
+                              ]
+                           }
+                        }
+                     ]
+                  }
+               },
+               "pypi": true,
+               "ref": "pypackit.__main__:cli"
+            }
+         },
          "python": {
             "main": {
                "conda": true,
