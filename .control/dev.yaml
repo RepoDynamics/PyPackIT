@@ -423,13 +423,6 @@ devcontainer_main:
             install conda-build in the conda base environment.
             See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
             for more information.
-      task:
-        _conda-build:
-          name: Build Conda Package
-          summary: Build a Conda package from a recipe using `conda build`.
-          data:
-            output_path: ${{ local.temp.path }}$/build-conda
-          process: [ python, .devcontainer/script/build_conda.py, '${{ ..data.output_path }}$', $@ ]
     pybuild:
       task:
         build-python:
@@ -994,20 +987,6 @@ devcontainer_main:
         This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
-    build-conda:
-      name: Build Conda Package
-      summary: Build a conda package.
-      description: |
-        This script takes one required positional argument: the ID of the package to build.
-        The package ID is the suffix of the corresponding "pypkg_" key in the configuration.
-        For example, for a package with the key "pypkg_main", the package ID is "main".
-
-        In addition, the script accepts any number of extra arguments,
-        which are passed directly to the `conda build` command.
-      script: >-
-        ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
-        "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
-        "$@"
 #file_pixi_manifest:
 #  # https://pixi.sh/latest/reference/pixi_manifest/
 #  name: Pixi Manifest
