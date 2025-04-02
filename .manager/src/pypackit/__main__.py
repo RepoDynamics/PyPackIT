@@ -6,20 +6,49 @@ from pypackit import script
 
 
 def cli():
-    # begin auto-generated code
+    def get_endpoint(endpoint_name: str):
+        def get_recursive(parts, current_object):
+            if len(parts) == 1:
+                return getattr(current_object, parts[0])
+            else:
+                return get_recursive(parts[1:], getattr(current_object, parts[0]))
+        parts = endpoint_name.split(".")
+        return get_recursive(parts, script)
 
-    # end auto-generated code
     logger.initialize(realtime_levels=list(range(7)))
+    # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
-    subparsers = parser.add_subparsers(dest="command", required=True)
-    for script_name in script.__all__:
-        script_module = getattr(script, script_name)
-        script_module.cli_parser(subparsers)
-
+    parser.add_argument("--repo", type=str, help="Local path to the repository root directory.")
+    # Sub-parsers for parser
+    subparsers_main = parser.add_subparsers(dest="command", required=True)
+    subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")
+    subparser_cca.add_argument("-t", "--token", type=str, help="GitHub token for accessing the repository.")
+    subparser_cca.add_argument("-b", "--branch-version", help="Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.", type=str, nargs="*", metavar="BRNACH=VERSION")
+    subparser_cca.add_argument("-c", "--control-center", help="Path to the control center directory containing configuration files.", type=str)
+    subparser_cca.add_argument("-d", "--dry-run", help="Perform a dry run without making any changes.", action="store_true")
+    subparser_cca.add_argument("-n", "--no-validate", help="Skip validation of the metadata.json file.", dest="validate", action="store_false")
+    subparser_cca.set_defaults(endpoint="cca.run_cli")
+    subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
+    subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices="['report', 'run', 'validate']", default="run")
+    subparser_lint.add_argument("-c", "--config", help="Path to the pre-commit configuration file.", type=str, default=".pre-commit-config.yaml")
+    subparser_lint.add_argument("-r2", "--to-ref", help="Run on files changed until the given git ref. This must be accompanied by --from-ref.")
+    subparser_version = subparsers_main.add_parser("version", help="Print the current version of the project.")
+    subparser_build = subparsers_main.add_parser("build", help="Build project components.")
+    # Sub-parsers for subparser_build
+    subparsers_build = subparser_build.add_subparsers(dest="build", required=True)
+    subparser_conda = subparsers_build.add_parser("conda", help="Build a conda package in the project.")
+    subparser_conda.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.")
+    # Process inputs
     args = parser.parse_args()
+    if args.branch_version:
+        try:
+            args.branch_version = dict(pair.split("=", 1) for pair in args.branch_version)
+        except ValueError:
+            parser.error(
+                "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
+            )
+    # end auto-generated parser
     logger.debug("Input Arguments", args)
-    input_script_name = args.command.replace("-", "_")
-    delattr(args, "command")
-    input_script = getattr(script, input_script_name)
-    input_script.run_cli(parser, args)
+    endpoint = get_endpoint(args.endpoint)
+    endpoint(args)
     return
