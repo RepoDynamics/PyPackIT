@@ -6,6 +6,9 @@ from pypackit import script
 
 
 def cli():
+    # begin auto-generated code
+
+    # end auto-generated code
     logger.initialize(realtime_levels=list(range(7)))
     parser = argparse.ArgumentParser(description="Project Manager CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
