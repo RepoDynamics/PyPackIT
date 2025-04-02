@@ -368,3 +368,5 @@ file_gitignore:
     - .idea/
     # MacOS system files
     - .DS_Store
+    # Unix
+    - .Trash-1000/
