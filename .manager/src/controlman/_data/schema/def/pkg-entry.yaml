@@ -23,6 +23,21 @@ additionalProperties:
         - type: boolean
         - $ref: https://jsonschemata.repodynamics.com/string/oneline
       default: true
+    parser:
+      type: object
+      properties:
+        insert:
+          type: object
+          properties:
+            regex_before:
+              type: string
+              default: '# begin auto-generated parser\n'
+            regex_after:
+              type: string
+              default: '\n[ ]*# end auto-generated parser'
+            prefix:
+              type: string
+              default: '    '
 examples:
   - main:
       name: ${{ pkg.import_name }}$
