@@ -56,6 +56,7 @@ def run(
 
 def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
     """Run the CLI for Continuous Configuration Automation.
+    
     Parameters
     ----------
     parser : argparse.ArgumentParser
