@@ -7,14 +7,6 @@ build-oj-paper() {
       inara -o pdf -p -v $1
 }
 
-build-conda() {
-    _conda-build "$(version)" "$@"
-}
-
-_conda-build() {
-    conda run --name base --live-stream -vv python .devcontainer/script/build_conda.py .local/temp/build-conda "$@"
-}
-
 build-python() {
     conda run --name pybuild --live-stream -vv python .devcontainer/script/build_python.py .local/temp/build-python "$@"
 }

@@ -13,17 +13,6 @@ build-oj-paper() {
     cd "$current_dir"
 }
 
-build-conda() {
-    current_dir=$(pwd)
-    cd '/workspace'
-    _conda-build "$(version)" "$@"
-    cd "$current_dir"
-}
-
-_conda-build() {
-    conda run --cwd /workspace --name base --live-stream -vv python .devcontainer/script/build_conda.py .local/temp/build-conda "$@"
-}
-
 build-python() {
     conda run --cwd /workspace --name pybuild --live-stream -vv python .devcontainer/script/build_python.py .local/temp/build-python "$@"
 }

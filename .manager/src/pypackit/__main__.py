@@ -29,24 +29,39 @@ def cli():
     subparser_cca.add_argument("-n", "--no-validate", help="Skip validation of the metadata.json file.", dest="validate", action="store_false")
     subparser_cca.set_defaults(endpoint="cca.run_cli")
     subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
-    subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices="['report', 'run', 'validate']", default="run")
-    subparser_lint.add_argument("-c", "--config", help="Path to the pre-commit configuration file.", type=str, default=".pre-commit-config.yaml")
+    subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices=['report', 'run', 'validate'], default="run")
+    subparser_lint.add_argument("-c", "--config", help="Path to the pre-commit configuration file.", type=str, default=".devcontainer/config/pre-commit.yaml")
     subparser_lint.add_argument("-r2", "--to-ref", help="Run on files changed until the given git ref. This must be accompanied by --from-ref.")
+    subparser_lint_mutually_exclusive_hook = subparser_lint.add_mutually_exclusive_group()
+    subparser_lint_mutually_exclusive_hook.add_argument("-i", "--hook-id", help="Specific hook ID to run. This will only run the specified hook.", type=str)
+    subparser_lint_mutually_exclusive_hook.add_argument("-s", "--hook-stage", help="Specific hook stage to run. This will only run hooks in the specified stage.", type=str)
+    subparser_lint_mutually_exclusive_file = subparser_lint.add_mutually_exclusive_group()
+    subparser_lint_mutually_exclusive_file.add_argument("-a", "--all-files", help="Run on all files in the repository.", action="store_true")
+    subparser_lint_mutually_exclusive_file.add_argument("-f", "--files", help="Run on specific files.", nargs="+")
+    subparser_lint_mutually_exclusive_file.add_argument("-r1", "--from-ref", help="Run on files changed since the given git ref. This must be accompanied by --to-ref.")
+    subparser_lint.set_defaults(endpoint="lint.run_cli")
     subparser_version = subparsers_main.add_parser("version", help="Print the current version of the project.")
     subparser_build = subparsers_main.add_parser("build", help="Build project components.")
     # Sub-parsers for subparser_build
     subparsers_build = subparser_build.add_subparsers(dest="build", required=True)
     subparser_conda = subparsers_build.add_parser("conda", help="Build a conda package in the project.")
-    subparser_conda.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.")
+    subparser_conda.add_argument("args", help="Additional arguments to pass to the conda build command.", nargs="*")
+    subparser_conda.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
+    subparser_conda.add_argument("-o", "--output", help="Path to the local conda channel directory.", type=str, default=".local/temp/conda-channel")
+    subparser_conda.add_argument("-r", "--recipe", help="Type of recipe to build.", type=str, choices=['local', 'global'], default="local")
     # Process inputs
     args = parser.parse_args()
-    if args.branch_version:
-        try:
-            args.branch_version = dict(pair.split("=", 1) for pair in args.branch_version)
-        except ValueError:
-            parser.error(
-                "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
-            )
+    if args.command == "cca":
+        if args.branch_version:
+            try:
+                args.branch_version = dict(pair.split("=", 1) for pair in args.branch_version)
+            except ValueError:
+                parser.error(
+                    "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
+                )
+    if args.command == "lint":
+        if (args.from_ref and not args.to_ref) or (args.to_ref and not args.from_ref):
+            parser.error("Both --from-ref and --to-ref must be provided together.")
     # end auto-generated parser
     logger.debug("Input Arguments", args)
     endpoint = get_endpoint(args.endpoint)
