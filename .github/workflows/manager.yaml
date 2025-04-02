@@ -12,6 +12,9 @@ on:
         description: Token for Zenodo Sandbox API.
         required: false
     outputs:
+      cm-anaconda:
+        value: ${{ jobs.manager.outputs.cm-anaconda }}
+        description: Configurations for cm-anaconda job.
       web:
         value: ${{ jobs.manager.outputs.web }}
         description: Configurations for website job.
@@ -44,6 +47,7 @@ jobs:
     name: Manager
     outputs:
       fail: ${{ steps.proman.outputs.fail }}
+      cm-anaconda: ${{ steps.proman.outputs.cm-anaconda }}
       web: ${{ steps.proman.outputs.web }}
       lint: ${{ steps.proman.outputs.lint }}
       test: ${{ steps.proman.outputs.test }}
