@@ -36,18 +36,3 @@ def run() -> str:
 def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
     print(run())
     return 0
-
-
-def cli_parser(subparsers: argparse._SubParsersAction | None = None) -> argparse.ArgumentParser:
-    description = "Get current project version."
-    if subparsers:
-        parser = subparsers.add_parser("version", help=description)
-    else:
-        parser = argparse.ArgumentParser(description=description)
-    return parser
-
-
-if __name__ == "__main__":
-    logger.initialize(realtime_levels=list(range(1, 7)))
-    parser = cli_parser()
-    run_cli(parser, parser.parse_args())

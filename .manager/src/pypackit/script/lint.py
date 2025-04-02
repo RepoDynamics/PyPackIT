@@ -388,8 +388,6 @@ class PreCommitHooks:
 
 
 def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
-    if (args.from_ref and not args.to_ref) or (args.to_ref and not args.from_ref):
-        parser.error("Both --from-ref and --to-ref must be provided together.")
     out = run(
         config=args.config,
         action=args.action,
@@ -403,46 +401,3 @@ def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
     out["description"] = out["description"].source(target="github", filters=["short, github"])
     print(json.dumps(out, indent=3), flush=True)
     return
-
-
-def cli_parser(subparsers: argparse._SubParsersAction | None = None) -> argparse.ArgumentParser:
-    description = "Run pre-commit hooks."
-    if subparsers:
-        parser = subparsers.add_parser("lint", help=description)
-    else:
-        parser = argparse.ArgumentParser(description=description)
-
-    parser.add_argument(
-        "-x",
-        "--action",
-        choices=["report", "run", "validate"],
-        default="run",
-        help="Required positional argument.",
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Path to the pre-commit configuration file.",
-        default=".devcontainer/config/pre-commit.yaml",
-    )
-
-    hook_group = parser.add_mutually_exclusive_group()
-    hook_group.add_argument("-i", "--hook-id", help="Only run the hook with the given ID.")
-    hook_group.add_argument("-s", "--hook-stage", help="Only run hooks of the given stage.")
-
-    file_group = parser.add_mutually_exclusive_group()
-    file_group.add_argument("-a", "--all-files", action="store_true", help="Run on all files.")
-    file_group.add_argument("-f", "--files", nargs="+", help="Run on specific filepaths.")
-    file_group.add_argument(
-        "-r1",
-        "--from-ref",
-        help="Run on files changed since the given git ref. This must be accompanied by --to-ref.",
-    )
-    parser.add_argument("-r2", "--to-ref", help="Run on files changed up to the given git ref.")
-    return parser
-
-
-if __name__ == "__main__":
-    logger.initialize(realtime_levels=list(range(1, 7)))
-    parser = cli_parser()
-    run_cli(parser, parser.parse_args())
