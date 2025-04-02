@@ -2,6 +2,7 @@ from __future__ import annotations as _annotations
 
 import copy
 import os as _os
+import re
 import xml.dom.minidom as _xml_minidom
 import xml.etree.ElementTree as _xml_ET
 from pathlib import Path as _Path
@@ -17,6 +18,69 @@ from loggerman import logger as _logger
 if _TYPE_CHECKING:
     from collections.abc import Callable, Sequence
     from typing import Any, Literal
+
+
+def insert_in_file(
+    file_content: str,
+    content: str,
+    regex_before: str,
+    regex_after: str,
+    prefix: str = "",
+    prefix_first: str | None = None,
+    prefix_last: str | None = None,
+):
+    """Insert content into a file between two regex patterns.
+
+    Parameters
+    ----------
+    filepath : str | Path
+        Path to the file where the content will be inserted.
+    content : str
+        Content to be inserted.
+    regex_before : str
+        Regex pattern to match the start of the insertion point.
+    regex_after : str
+        Regex pattern to match the end of the insertion point.
+    prefix : str, optional
+        Prefix to be added to each other line of the inserted content.
+    prefix_first : str, optional
+        Prefix to be added to the first line of the inserted content.
+    prefix_last : str, optional
+        Prefix to be added to the last line of the inserted content.
+    """
+    # file_content = _Path(filepath).read_text()
+    # Compile the regex patterns
+    pattern_before = re.compile(regex_before)
+    pattern_after = re.compile(regex_after)
+
+    # Find the insertion points
+    match_before = pattern_before.search(file_content)
+    match_after = pattern_after.search(file_content)
+
+    if not match_before or not match_after:
+        raise ValueError("Regex patterns did not match any content in the file.")
+
+    # Ensure the order of the matches
+    if match_before.end() > match_after.start():
+        raise ValueError("The 'regex_before' match occurs after the 'regex_after' match.")
+
+    # Split the file content into parts
+    before_content = file_content[: match_before.end()]
+    after_content = file_content[match_after.start() :]
+
+    # Prepare the content to insert
+    lines = content.splitlines()
+    prefix_first = prefix_first if prefix_first is not None else prefix
+    prefix_last = prefix_last if prefix_last is not None else prefix
+    if lines:
+        lines[0] = prefix_first + lines[0]
+    if len(lines) > 1:
+        lines[-1] = prefix_last + lines[-1]
+    if len(lines) > 2:
+        lines[1:-1] = [prefix + line for line in lines[1:-1]]
+    formatted_content = "\n".join(lines)
+    return f"{before_content}{formatted_content}{after_content}"
+    
 
 
 def create_env_file_conda(
