@@ -214,16 +214,15 @@ class MainDataGenerator:
 
     def _discussion_categories(self):
         discussions_info = self._cache.get("repo", "discussion_categories")
-        if discussions_info:
-            return
-        if not self._gh_api.authenticated:
-            _logger.notice(
-                "GitHub Discussion Categories",
-                "GitHub token not provided. Cannot get discussions categories.",
-            )
-            return
-        discussions_info = self._gh_api_repo.discussion_categories()
-        self._cache.set("repo", "discussion_categories", discussions_info)
+        if not discussions_info:
+            if not self._gh_api.authenticated:
+                _logger.notice(
+                    "GitHub Discussion Categories",
+                    "GitHub token not provided. Cannot get discussions categories.",
+                )
+                return
+            discussions_info = self._gh_api_repo.discussion_categories()
+            self._cache.set("repo", "discussion_categories", discussions_info)
         discussion = self._data.setdefault("discussion.category", {})
         for category in discussions_info:
             category_obj = discussion.setdefault(category["slug"], {})
