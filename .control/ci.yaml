@@ -131,9 +131,25 @@ pypkg_ci:
                       kwargs:
                         help: Build a conda package in the project.
                       arguments:
+                        - args: [ args ]
+                          kwargs:
+                            help: Additional arguments to pass to the conda build command.
+                            nargs: "*"
                         - args: [ -p, --pkg ]
                           kwargs:
                             help: Package ID, i.e., the `pypkg_` key suffix in configuration files.
+                            default: main
+                        - args: [ -o, --output ]
+                          kwargs:
+                            help: Path to the local conda channel directory.
+                            type: str
+                            default: ${{ local.temp.path }}$/conda-channel
+                        - args: [ -r, --recipe ]
+                          kwargs:
+                            help: Type of recipe to build.
+                            type: str
+                            choices: [ local, global ]
+                            default: local
   dependency:
     core:
       actionman:
