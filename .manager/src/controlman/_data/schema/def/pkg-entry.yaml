@@ -28,6 +28,7 @@ additionalProperties:
       properties:
         insert:
           type: object
+          default: { }
           properties:
             regex_before:
               type: string
