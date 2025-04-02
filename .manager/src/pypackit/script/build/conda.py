@@ -20,6 +20,8 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import pypackit.script.version as _script_version
+
 if TYPE_CHECKING:
     from typing import Literal
 
@@ -27,8 +29,7 @@ _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
 
 
-def main(
-    pkg_version: str,
+def run(
     pkg_id: str,
     out_dir: str | Path,
     recipe_type: Literal["global", "local"] = "local",
@@ -41,6 +42,7 @@ def main(
     output_dir = Path(out_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     # Export package version
+    pkg_version = _script_version.run()
     os.environ["PKG_FULL_VERSION"] = pkg_version
     # Build command
     build_command = (
@@ -66,6 +68,25 @@ def main(
     # Execute the command
     subprocess.run(build_command, check=True, stdout=sys.stderr)
     return output_dir
+
+
+def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
+    """Run the CLI.
+
+    Parameters
+    ----------
+    parser : argparse.ArgumentParser
+        The argument parser to use for parsing command line arguments.
+    args : argparse.Namespace, optional
+        The parsed arguments. If None, the arguments are parsed from sys.argv.
+    Returns
+    -------
+    int
+        The exit code of the program.
+    """
+    local_channel_path = run(**vars(args))
+    print(local_channel_path)
+    return 0
 
 
 def get_recipe(pkg_id: str) -> dict:
@@ -106,11 +127,14 @@ def get_channels(recipe: dict) -> list[str]:
     return sorted(channel_priority, key=channel_priority.get, reverse=True)
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(description="Build a Conda package in the project.")
+def cli_parser(subparsers: argparse._SubParsersAction | None = None) -> argparse.ArgumentParser:
+    description = "Build a Conda package in the project."
+    if subparsers:
+        parser = subparsers.add_parser("cca", help=description)
+    else:
+        parser = argparse.ArgumentParser(description=description)
+
     parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
-    parser.add_argument("pkg_version", help="Version number to pass to the recipe.")
     parser.add_argument(
         "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
     )
@@ -124,8 +148,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "extra_args", nargs=argparse.REMAINDER, help="Additional arguments for conda build."
     )
-    args = vars(parser.parse_args())
-    _logger.info("Input Arguments: %s", args)
-    local_channel_path = main(**args)
-    print(local_channel_path)
-    sys.exit()
+    return parser
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    parser = cli_parser()
+    run_cli(parser, parser.parse_args())
+
