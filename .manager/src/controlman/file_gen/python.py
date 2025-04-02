@@ -11,6 +11,7 @@ import pysyntax as _pysyntax
 import controlman
 from controlman import const as _const
 from controlman.datatype import DynamicFile, DynamicFileType
+from controlman.file_gen import unit as _unit
 
 
 class PythonPackageFileGenerator:
@@ -49,10 +50,35 @@ class PythonPackageFileGenerator:
                 self._path_root_before / self._data_before[f"{typ}.path.source_rel"]
             )
             self._path_import_before = self._path_src_before / self._pkg_before["import_name"]
-        return self.pyproject() + self.python_files() + self.typing_marker() + self.conda()
+        return self.pyproject() + self.python_files() + self.typing_marker() + self.conda() + self.entry()
 
     def is_disabled(self, key: str):
         return not any(key in source for source in [self._pkg, self._pkg_before])
+
+    def entry(self) -> list[DynamicFile]:
+        files = []
+        for entry_type in ("cli", "gui"):
+            for entry in self._pkg.get("entry", {}).get(entry_type, {}).values():
+                parser = entry.get("parser")
+                if not parser:
+                    continue
+                filepath = (self._path_root / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
+                file_content = filepath.read_text()
+                parser_content = self.make_parser(data=parser)
+                new_content = _unit.insert_in_file(
+                    file_content=file_content,
+                    content=parser_content,
+                    **parser["insert"],
+                )
+                file = DynamicFile(
+                    type=DynamicFileType.PKG_SOURCE,
+                    subtype=(f"{self._type}_{entry_type}", f"{self._type} {entry_type.upper()}"),
+                    content=new_content,
+                    path=filepath,
+                    path_before=filepath,
+                )
+                files.append(file)
+        return files
 
     def typing_marker(self) -> list[DynamicFile]:
         if self.is_disabled("typed"):
@@ -342,6 +368,47 @@ class PythonPackageFileGenerator:
     def _get_whitespace(string: str, leading: bool) -> str:
         match = _re.match(r"^\s*", string) if leading else _re.search(r"\s*$", string)
         return match.group() if match else ""
+
+    @staticmethod
+    def make_parser(data: dict):
+
+        def add_argument(parser_name, data: dict):
+            for argument in data.get("arguments", []):
+                lines.append(f"{parser_name}.add_argument({func_sig(argument)})")
+            return
+
+        def add_subparser(parser_name, data: dict):
+            if "subparser" not in data:
+                return
+            subparser_gen_name = f"subparsers_{data['subparser']['id']}"
+            lines.extend(
+                [
+                    f"# Sub-parsers for {parser_name}",
+                    f"{subparser_gen_name} = {parser_name}.add_subparsers({func_sig(data['subparser'])})",
+                ]
+            )
+            for subparser in data["subparser"]["parsers"]:
+                subparser_name = f"subparser_{subparser['id']}"
+                lines.append(f"{subparser_name} = {subparser_gen_name}.add_parser({func_sig(subparser)})")
+                add_argument(subparser_name, subparser)
+                add_subparser(subparser_name, subparser)
+            return
+
+        def func_sig(data: dict) -> str:
+            return f"({args(data)}, {kwargs(data)})"
+
+        def args(data: dict) -> str:
+            return ", ".join(f'"{arg}"' for arg in data["args"])
+
+        def kwargs(data: dict) -> str:
+            return ", ".join(
+                f'{key}={value}' if key in ("type", ) else f'{key}="{value}"' for key, value in data["kwargs"].items()
+            )
+
+        lines = [f"parser = argparse.ArgumentParser({func_sig(data)})"]
+        add_argument("parser", data)
+        add_subparser("parser", data)
+        return "\n".join(lines)
 
 
 class CondaRecipeGenerator:
