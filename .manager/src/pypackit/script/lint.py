@@ -99,12 +99,21 @@ class PreCommitHooks:
 
         self._from_ref = ref_range[0] if ref_range else None
         self._to_ref = ref_range[1] if ref_range else None
-        self._files = files
+        if files:
+            self._files = files
+        elif self._from_ref:
+            files = self._git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
+            self._files = [
+                filename
+                for change_type in ("added", "modified", "copied_modified", "renamed_modified")
+                for filename in files.get(change_type, [])
+            ]
         self._hook_id = hook_id
         self._hook_stage = hook_stage
 
         self._command = _CMD_PREFIX + [
-            part for part in [
+            part
+            for part in [
                 "pre-commit",
                 "run",
                 hook_id,
@@ -116,12 +125,8 @@ class PreCommitHooks:
                 "--hook-stage" if hook_stage else None,
                 hook_stage,
                 "--all-files" if all_files else None,
-                "--files" if files else None,
-                *(files or []),
-                "--from-ref" if ref_range else None,
-                self._from_ref,
-                "--to-ref" if ref_range else None,
-                self._to_ref,
+                "--files" if self._files else None,
+                *(self._files or []),
             ]
             if part
         ]
@@ -169,7 +174,11 @@ class PreCommitHooks:
             log_level_exit_code="error" if validation_run else "notice",
         )
         if result.err:
-            err_lines = [line for line in sgr.remove_sequence(result.err.strip()).splitlines() if line and not line.startswith("ERROR conda.cli.main_run")]
+            err_lines = [
+                line
+                for line in sgr.remove_sequence(result.err.strip()).splitlines()
+                if line and not line.startswith("ERROR conda.cli.main_run")
+            ]
             if err_lines:
                 raise_error("\n".join(err_lines))
         out_plain = sgr.remove_sequence(result.out)
@@ -331,7 +340,9 @@ class PreCommitHooks:
             details_cleaned = details.replace(info_text, "").strip()
             lines = details_cleaned.splitlines()
             diff_line_indices = [
-                idx for idx, line in enumerate(lines) if line.strip() == "All changes made by hooks:"
+                idx
+                for idx, line in enumerate(lines)
+                if line.strip() == "All changes made by hooks:"
             ]
             if not diff_line_indices:
                 return details_cleaned, ""
@@ -409,10 +420,11 @@ def cli_parser(subparsers: argparse._SubParsersAction | None = None) -> argparse
         help="Required positional argument.",
     )
     parser.add_argument(
-        "-c", "--config",
+        "-c",
+        "--config",
         help="Path to the pre-commit configuration file.",
         default=".devcontainer/config/pre-commit.yaml",
-        )
+    )
 
     hook_group = parser.add_mutually_exclusive_group()
     hook_group.add_argument("-i", "--hook-id", help="Only run the hook with the given ID.")
@@ -434,4 +446,3 @@ if __name__ == "__main__":
     logger.initialize(realtime_levels=list(range(1, 7)))
     parser = cli_parser()
     run_cli(parser, parser.parse_args())
-
