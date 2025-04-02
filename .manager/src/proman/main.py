@@ -460,7 +460,7 @@ class EventHandler:
             branch_manager.branch.checkout_to_auto(branch=pr_branch)
         try:
             hooks_output = _script.lint.run(
-                config=self._path_head / ".devcontainer/config/pre-commit-ci.yaml",
+                config=branch_manager.git.repo_path / ".devcontainer/config/pre-commit-ci.yaml",
                 action=input_action,
                 hook_stage="manual",
                 ref_range=ref_range,
