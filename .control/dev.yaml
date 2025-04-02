@@ -921,25 +921,6 @@ devcontainer_main:
                 max-returns: 10
               mccabe:
                 max-complexity: 15
-      task:
-        lint:
-          name: Lint
-          summary: Run pre-commit hooks.
-          process:
-            - python
-            - .devcontainer/script/pre_commit.py
-            - --config
-            - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
-            - $@
-        lint-ci:
-          name: CI Lint
-          summary: Run pre-commit hooks in CI.
-          process:
-            - python
-            - .devcontainer/script/pre_commit.py
-            - --config
-            - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config_ci.path }}$
-            - $@
     presentation:
       conda:
         jupyterlab-myst:
