@@ -444,7 +444,7 @@ class EventHandler:
         #             summary=oneliner,
         #         )
         #     return None
-        if action in  [InitCheckAction.FAIL, InitCheckAction.REPORT]:
+        if action in [InitCheckAction.FAIL, InitCheckAction.REPORT]:
             input_action = "report"
         elif action in [InitCheckAction.COMMIT, InitCheckAction.AMEND, InitCheckAction.PULL]:
             input_action = "validate"
