@@ -67,7 +67,7 @@ pypkg_ci:
               - id: lint
                 args: [ lint ]
                 kwargs:
-                  help: Run linters on the repository.
+                  help: Run pre-commit hooks on the repository.
                 arguments:
                   - args: [ -x, --action ]
                     kwargs:
