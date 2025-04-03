@@ -50,7 +50,13 @@ class PythonPackageFileGenerator:
                 self._path_root_before / self._data_before[f"{typ}.path.source_rel"]
             )
             self._path_import_before = self._path_src_before / self._pkg_before["import_name"]
-        return self.pyproject() + self.python_files() + self.typing_marker() + self.conda() + self.entry()
+        return (
+            self.pyproject()
+            + self.python_files()
+            + self.typing_marker()
+            + self.conda()
+            + self.entry()
+        )
 
     def is_disabled(self, key: str):
         return not any(key in source for source in [self._pkg, self._pkg_before])
@@ -62,7 +68,11 @@ class PythonPackageFileGenerator:
                 parser = entry.get("parser")
                 if not parser:
                     continue
-                filepath = (self._path_repo / self._path_src / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
+                filepath = (
+                    self._path_repo
+                    / self._path_src
+                    / "/".join(entry["ref"].split(":")[0].split("."))
+                ).with_suffix(".py")
                 file_content = filepath.read_text()
                 parser_content = self.make_parser(data=parser)
                 new_content = _unit.insert_in_file(
@@ -371,19 +381,20 @@ class PythonPackageFileGenerator:
 
     @staticmethod
     def make_parser(data: dict):
-
         def add_argument(parser_name, data: dict, parser_dest: dict[str, str]):
             for argument in data.get("arguments", []):
                 lines.append(f"{parser_name}.add_argument({func_sig(argument)})")
                 if "post_process" in argument:
                     if parser_dest:
                         post_process_lines.append(
-                            f"if {" and ".join(f'args.{k} == "{v}"' for k, v in parser_dest.items())}:"
+                            f"if {' and '.join(f'args.{k} == "{v}"' for k, v in parser_dest.items())}:"
                         )
                         indent = 4 * " "
                     else:
                         indent = ""
-                    post_process_lines.extend([f"{indent}{line}" for line in argument["post_process"].splitlines()])
+                    post_process_lines.extend(
+                        [f"{indent}{line}" for line in argument["post_process"].splitlines()]
+                    )
             return
 
         def add_defaults(parser_name, data: dict):
@@ -397,7 +408,9 @@ class PythonPackageFileGenerator:
                 return
             for group in data["mutually_exclusive"]:
                 group_name = f"{parser_name}_mutually_exclusive_{group['id']}"
-                lines.append(f"{group_name} = {parser_name}.add_mutually_exclusive_group({func_sig(group)})")
+                lines.append(
+                    f"{group_name} = {parser_name}.add_mutually_exclusive_group({func_sig(group)})"
+                )
                 add_argument(group_name, group, parser_dest)
             return
 
@@ -415,7 +428,9 @@ class PythonPackageFileGenerator:
             for subparser in data["subparser"]["parsers"]:
                 new_parser_dest = parser_dest | {dest_key: subparser["args"][0]}
                 subparser_name = f"subparser_{subparser['id']}"
-                lines.append(f"{subparser_name} = {subparser_gen_name}.add_parser({func_sig(subparser)})")
+                lines.append(
+                    f"{subparser_name} = {subparser_gen_name}.add_parser({func_sig(subparser)})"
+                )
                 add_argument(subparser_name, subparser, new_parser_dest)
                 add_mutually_exclusive(subparser_name, subparser, new_parser_dest)
                 add_defaults(subparser_name, subparser)
@@ -426,8 +441,12 @@ class PythonPackageFileGenerator:
             return ", ".join(
                 [f'"{arg}"' for arg in data.get("args", [])]
                 + [
-                    f'{key}={value}' if not isinstance(value, str) or key in ("type", "required", "choices") or (key == "nargs" and value.startswith("argparse"))
-                    else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()
+                    f"{key}={value}"
+                    if not isinstance(value, str)
+                    or key in ("type", "required", "choices")
+                    or (key == "nargs" and value.startswith("argparse"))
+                    else f'{key}="{value}"'
+                    for key, value in data.get("kwargs", {}).items()
                 ]
             )
 
