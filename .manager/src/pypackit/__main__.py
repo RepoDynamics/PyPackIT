@@ -18,7 +18,7 @@ def cli():
     logger.initialize(realtime_levels=list(range(7)))
     # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
-    parser.add_argument("--repo", type=str, help="Local path to the repository root directory.")
+    parser.add_argument("--repo", type=str, help="Local path to the repository root directory.", default="./")
     # Sub-parsers for parser
     subparsers_main = parser.add_subparsers(dest="command", required=True)
     subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")
@@ -65,6 +65,13 @@ def cli():
     subparser_pypi.set_defaults(endpoint="render.pypi.run_cli")
     # Process inputs
     args = parser.parse_args()
+    import json
+    from pathlib import Path
+    setattr(
+        args,
+        "metadata",
+        json.loads((Path(args.repo).resolve() / ".github/.repodynamics/metadata.json").read_text())
+    )
     if args.command == "cca":
         if args.branch_version:
             try:
