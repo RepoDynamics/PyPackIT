@@ -93,8 +93,8 @@ def run(
             update_channel_priority(req["value"])
         return sorted(channel_priority, key=channel_priority.get, reverse=True)
 
-    recipe = get_recipe(pkg_id=pkg)
-    channels = get_channels(recipe)
+    recipe_data = get_recipe(pkg_id=pkg)
+    channels = get_channels(recipe_data)
     # Ensure the output folder exists
     output_dir = Path(output).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -107,7 +107,7 @@ def run(
             *_CMD_PREFIX,
             "conda",
             "build",
-            str(Path(recipe["path"][recipe]).resolve()),
+            str(Path(recipe_data["path"][recipe]).resolve()),
             "--output-folder",
             str(output_dir),
             "--stats-file",
