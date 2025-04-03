@@ -41,6 +41,7 @@ def cli():
     subparser_lint_mutually_exclusive_file.add_argument("-r1", "--from-ref", help="Run on files changed since the given git ref. This must be accompanied by --to-ref.")
     subparser_lint.set_defaults(endpoint="lint.run_cli")
     subparser_version = subparsers_main.add_parser("version", help="Print the current version of the project.")
+    subparser_version.set_defaults(endpoint="version.run_cli")
     subparser_build = subparsers_main.add_parser("build", help="Build project components.")
     # Sub-parsers for subparser_build
     subparsers_build = subparser_build.add_subparsers(dest="build", required=True)
@@ -49,10 +50,19 @@ def cli():
     subparser_conda.add_argument("-o", "--output", help="Path to the local conda channel directory.", type=str, default=".local/temp/conda-channel")
     subparser_conda.add_argument("-r", "--recipe", help="Type of recipe to build.", type=str, choices=['local', 'global'], default="local")
     subparser_conda.add_argument("--args", help="Additional arguments to pass to the conda build command.", nargs=argparse.REMAINDER)
+    subparser_conda.set_defaults(endpoint="build.conda.run_cli")
     subparser_python = subparsers_build.add_parser("python", help="Build a Python package in the project.")
     subparser_python.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
     subparser_python.add_argument("-o", "--output", help="Path to the local PyPI channel directory.", type=str, default=".local/temp/wheelhouse")
     subparser_python.add_argument("--args", help="Additional arguments to pass to the Python build command.", nargs=argparse.REMAINDER)
+    subparser_python.set_defaults(endpoint="build.python.run_cli")
+    subparser_render = subparsers_main.add_parser("render", help="Render documents in the project.")
+    # Sub-parsers for subparser_render
+    subparsers_render = subparser_render.add_subparsers(dest="render", required=True)
+    subparser_pypi = subparsers_render.add_parser("pypi", help="Render package README file for PyPI.")
+    subparser_pypi.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
+    subparser_pypi.add_argument("-o", "--output", help="Output directory to write the rendered HTML file.", type=str, default=".local/temp/readme-pypi")
+    subparser_pypi.set_defaults(endpoint="render.pypi.run_cli")
     # Process inputs
     args = parser.parse_args()
     if args.command == "cca":

@@ -7060,36 +7060,6 @@
                   }
                }
             },
-            "task": {
-               "build-python": {
-                  "alias": "build-python",
-                  "data": {
-                     "output_path": ".local/temp/build-python"
-                  },
-                  "description": "Build a distribution for a Python package.",
-                  "name": "Build Python Package",
-                  "process": [
-                     "python",
-                     ".devcontainer/script/build_python.py",
-                     ".local/temp/build-python",
-                     "$@"
-                  ]
-               },
-               "render-readme": {
-                  "alias": "render-readme",
-                  "data": {
-                     "output_path": ".local/temp/readme-pypi"
-                  },
-                  "description": "Render a Python package's README file to HTML.",
-                  "name": "Render README",
-                  "process": [
-                     "python",
-                     ".devcontainer/script/render_readme.py",
-                     ".local/temp/readme-pypi",
-                     "$@"
-                  ]
-               }
-            },
             "variable": {
                "log_level": {
                   "description": "See the [versioningit documentation](https://versioningit.readthedocs.io/en/stable/configuration.html#log-level-environment-variable)\nfor more information.\n",
@@ -7509,14 +7479,6 @@
                      "name": "versioningit",
                      "version": ">=3.1.2,<4"
                   }
-               }
-            },
-            "task": {
-               "version": {
-                  "alias": "version",
-                  "name": "Get Project Version",
-                  "script": "versioningit \\\n    \"pkg\" \\\n    --verbose\n",
-                  "summary": "Get the current full version of the project."
                }
             }
          }
@@ -21907,6 +21869,9 @@
                            "args": [
                               "version"
                            ],
+                           "defaults": {
+                              "endpoint": "version.run_cli"
+                           },
                            "id": "version",
                            "kwargs": {
                               "help": "Print the current version of the project."
@@ -21978,6 +21943,9 @@
                                           }
                                        }
                                     ],
+                                    "defaults": {
+                                       "endpoint": "build.conda.run_cli"
+                                    },
                                     "id": "conda",
                                     "kwargs": {
                                        "help": "Build a conda package in the project."
@@ -22019,9 +21987,65 @@
                                           }
                                        }
                                     ],
+                                    "defaults": {
+                                       "endpoint": "build.python.run_cli"
+                                    },
                                     "id": "python",
                                     "kwargs": {
                                        "help": "Build a Python package in the project."
+                                    }
+                                 }
+                              ]
+                           }
+                        },
+                        {
+                           "args": [
+                              "render"
+                           ],
+                           "id": "render",
+                           "kwargs": {
+                              "help": "Render documents in the project."
+                           },
+                           "subparser": {
+                              "id": "render",
+                              "kwargs": {
+                                 "dest": "render",
+                                 "required": true
+                              },
+                              "parsers": [
+                                 {
+                                    "args": [
+                                       "pypi"
+                                    ],
+                                    "arguments": [
+                                       {
+                                          "args": [
+                                             "-p",
+                                             "--pkg"
+                                          ],
+                                          "kwargs": {
+                                             "default": "main",
+                                             "help": "Package ID, i.e., the `pypkg_` key suffix in configuration files."
+                                          }
+                                       },
+                                       {
+                                          "args": [
+                                             "-o",
+                                             "--output"
+                                          ],
+                                          "kwargs": {
+                                             "default": ".local/temp/readme-pypi",
+                                             "help": "Output directory to write the rendered HTML file.",
+                                             "type": "str"
+                                          }
+                                       }
+                                    ],
+                                    "defaults": {
+                                       "endpoint": "render.pypi.run_cli"
+                                    },
+                                    "id": "pypi",
+                                    "kwargs": {
+                                       "help": "Render package README file for PyPI."
                                     }
                                  }
                               ]
