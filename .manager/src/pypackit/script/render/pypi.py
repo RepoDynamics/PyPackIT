@@ -15,41 +15,40 @@ import sys
 from pathlib import Path
 
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
+_CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
-def main(pkg_id: str, out_dir: str | Path) -> Path | None:
+def run(pkg: str, output: str | Path) -> Path | None:
     """Generate and run readme_renderer command."""
-    pkg = _METADATA[f"pypkg_{pkg_id}"]
+    pkg = _METADATA[f"pypkg_{pkg}"]
     readme_relpath = pkg["pyproject"]["project"].get("readme")
     if isinstance(readme_relpath, dict):
         readme_relpath = readme_relpath.get("file")
     if not readme_relpath:
-        _logger.info("No README file found for package %s", pkg_id)
+        _logger.info("No README file found for package %s", pkg)
         return None
     readme_path = Path(pkg["path"]["root"]).resolve() / readme_relpath
     # Ensure the output folder exists
-    output_file = Path(out_dir).resolve() / f"{pkg['import_name']}.html"
+    output_file = Path(output).resolve() / f"{pkg['import_name']}.html"
     output_file.parent.mkdir(parents=True, exist_ok=True)
     # Run readme-renderer
     subprocess.run(
-        ["python", "-m", "readme_renderer", str(readme_path), "--output", str(output_file)],
+        [*_CMD_PREFIX, "python", "-m", "readme_renderer", str(readme_path), "--output", str(output_file)],
         check=True,
         stdout=sys.stderr,
     )
     return output_file
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(description="Build a Python package in the project.")
-    parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
-    parser.add_argument(
-        "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
+def run_cli(args: argparse.Namespace) -> None:
+    """Run the script from the command line."""
+
+    output_path = run(
+        pkg=args.pkg,
+        output=args.output,
     )
-    args = vars(parser.parse_args())
-    _logger.info("Input Arguments: %s", args)
-    output_path = main(**args)
     if output_path:
         print(output_path)
     sys.exit()
+    return
