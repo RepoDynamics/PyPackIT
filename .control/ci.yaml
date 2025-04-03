@@ -20,6 +20,13 @@ pypkg_ci:
               kwargs:
                 type: str
                 help: Local path to the repository root directory.
+                default: "./"
+              post_process: |
+                setattr(
+                    args,
+                    "metadata",
+                    json.loads((Path(args.repo).resolve() / ".github/.repodynamics/metadata.json").read_text())
+                )
           subparser:
             id: main
             kwargs:
