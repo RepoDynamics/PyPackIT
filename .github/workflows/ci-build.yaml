@@ -39,6 +39,7 @@ jobs:
       - name: Build
         id: build
         run: |
+          project --help
           output_path=$(${{ fromJSON(inputs.config).build_command }})
           echo "output_path=$output_path" >> "$GITHUB_OUTPUT"
       - name: README Render
