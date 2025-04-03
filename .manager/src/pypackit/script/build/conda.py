@@ -33,6 +33,7 @@ def run(
     pkg: str,
     metadata: dict,
     output: str | Path,
+    repo: str | Path = "./",
     recipe: Literal["global", "local"] = "local",
     args: list[str] | None = None,
 ) -> Path:
@@ -95,7 +96,7 @@ def run(
     output_dir = Path(output).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     # Export package version
-    pkg_version = _script_version.run()
+    pkg_version = _script_version.run(metadata=metadata, repo=repo)
     os.environ["PKG_FULL_VERSION"] = pkg_version
     # Build command
     build_command = (
@@ -139,6 +140,7 @@ def run_cli(args: argparse.Namespace) -> int:
     local_channel_path = run(
         pkg=args.pkg,
         metadata=args.metadata,
+        repo=args.repo,
         output=args.output,
         recipe=args.recipe,
         args=args.args,
