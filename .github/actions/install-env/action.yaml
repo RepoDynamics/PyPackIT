@@ -115,6 +115,10 @@ runs:
           conda env update -vv --file "$env_filepath"
           echo "::endgroup::"
         done <<< "$ENV_FILEPATHS"
+    - name: Project Manager Install
+      run: |
+        conda activate pypackit
+        pip install ${{ inputs.repo_path }}/.manager --no-deps
     - name: Conda Info
       shell: bash -el {0}
       env:
