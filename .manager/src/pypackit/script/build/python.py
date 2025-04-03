@@ -19,17 +19,17 @@ import sys
 from pathlib import Path
 
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
-_METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
 
 
 def run(
     pkg: str,
+    metadata: dict,
     output: str | Path,
     args: list[str] | None = None,
 ) -> Path:
     """Generate and run build command."""
-    pkg = _METADATA[f"pypkg_{pkg}"]
+    pkg = metadata[f"pypkg_{pkg}"]
     pkg_path = Path(pkg["path"]["root"]).resolve()
     # Ensure the output folder exists
     output_dir = Path(output).resolve()
@@ -77,6 +77,7 @@ def run_cli(args: argparse.Namespace) -> None:
     """
     output_path = run(
         pkg=args.pkg,
+        metadata=args.metadata,
         output=args.output,
         args=args.args,
     )
