@@ -36,16 +36,6 @@ jobs:
         uses: ./.github/actions/install-env
         with:
           load_cache: 'false'
-      - name: TEST
-        run: |
-          conda run --name pypackit --live-stream -vv python -m pypackit --help
-          x=$(conda run --name pypackit --live-stream -vv python -m pypackit --help)
-          echo "X is $x"
-      - name: TEST2
-        run: |
-          test-ci
-          x=$(test-ci)
-          echo "X is $x"
       - name: Build
         id: build
         run: |

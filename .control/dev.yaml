@@ -948,10 +948,6 @@ devcontainer_main:
           return out
         }}#
   task:
-    test-ci:
-      name: Test
-      script: |
-        conda run --name pypackit --live-stream -vv python -m pypackit --help
     jupyterlab:
       name: Open JupyterLab
       script: |
