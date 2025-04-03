@@ -131,7 +131,7 @@ jobs:
         env:
           PKG_ID: ${{ fromJSON(inputs.config).pkg_id }}
         run: |
-          output_channel_path=$(build-conda $PKG_ID)
+          output_channel_path=$(${{ fromJSON(inputs.config).build_command_conda }})
           echo "output_channel_path=$output_channel_path" >> "$GITHUB_OUTPUT"
       - name: Build Upload
         uses: actions/upload-artifact@v4
