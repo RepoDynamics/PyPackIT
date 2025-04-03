@@ -1,3 +1,10 @@
+test-ci() {
+    current_dir=$(pwd)
+    cd '/workspace'
+    echo "TEST OK!"
+    cd "$current_dir"
+}
+
 jupyterlab() {
     current_dir=$(pwd)
     cd '/workspace'

@@ -1,3 +1,7 @@
+test-ci() {
+    echo "TEST OK!"
+}
+
 jupyterlab() {
     jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
 }
