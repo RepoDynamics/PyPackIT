@@ -425,7 +425,10 @@ class PythonPackageFileGenerator:
         def func_sig(data: dict) -> str:
             return ", ".join(
                 [f'"{arg}"' for arg in data.get("args", [])]
-                + [f'{key}={value}' if key in ("type", "required", "choices") or not isinstance(value, str) else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()]
+                + [
+                    f'{key}={value}' if not isinstance(value, str) or key in ("type", "required", "choices") or (key == "nargs" and value.startswith("argparse"))
+                    else f'{key}="{value}"' for key, value in data.get("kwargs", {}).items()
+                ]
             )
 
         lines = [f"parser = argparse.ArgumentParser({func_sig(data)})"]
