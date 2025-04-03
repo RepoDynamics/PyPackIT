@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from typing import Literal
 
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
+_CMD_PREFIX = ["conda", "run", "--name", "base", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
@@ -63,6 +64,7 @@ def run(
     # Build command
     build_command = (
         [
+            *_CMD_PREFIX,
             "conda",
             "build",
             str(Path(recipe["path"][recipe]).resolve()),
