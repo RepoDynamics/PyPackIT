@@ -116,6 +116,7 @@ runs:
           echo "::endgroup::"
         done <<< "$ENV_FILEPATHS"
     - name: Project Manager Install
+      shell: bash -el {0}
       run: |
         conda activate pypackit
         pip install ${{ inputs.repo_path }}/.manager --no-deps
