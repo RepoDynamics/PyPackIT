@@ -16,23 +16,25 @@ if TYPE_CHECKING:
     from typing import Literal
 
 _CMD_PREFIX = ["conda", "run", "--name", "versioning", "--live-stream", "-vv"]
-_METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
-_CMD = [
-    _METADATA["pypkg_main"]["dependency"]["build"]["versioning"]["import_name"],
-    _METADATA["pypkg_main"]["path"]["root"],
-    "--verbose"
-]
 
 
-def run() -> str:
+def run(metadata: dict, repo: str = "./") -> str:
     """Get the current project version."""
+    cmd = [
+        metadata["pypkg_main"]["dependency"]["build"]["versioning"]["import_name"],
+        str(Path(repo).resolve() / metadata["pypkg_main"]["path"]["root"]),
+        "--verbose"
+    ]
     version = _pyshellman.run(
-        command=[*_CMD_PREFIX, *_CMD],
+        command=[
+            *_CMD_PREFIX, *cmd
+        ],
         text_output=True,
     )
     return version.out
 
 
-def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
-    print(run())
+def run_cli(args: argparse.Namespace) -> int:
+    version = run(metadata=args.metadata, repo=args.repo)
+    print(version)
     return 0
