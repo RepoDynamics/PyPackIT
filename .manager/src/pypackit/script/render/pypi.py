@@ -14,14 +14,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-_METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
-def run(pkg: str, output: str | Path) -> Path | None:
+def run(pkg: str, metadata: dict, output: str | Path) -> Path | None:
     """Generate and run readme_renderer command."""
-    pkg = _METADATA[f"pypkg_{pkg}"]
+    pkg = metadata[f"pypkg_{pkg}"]
     readme_relpath = pkg["pyproject"]["project"].get("readme")
     if isinstance(readme_relpath, dict):
         readme_relpath = readme_relpath.get("file")
@@ -46,6 +45,7 @@ def run_cli(args: argparse.Namespace) -> None:
 
     output_path = run(
         pkg=args.pkg,
+        metadata=args.metadata,
         output=args.output,
     )
     if output_path:
