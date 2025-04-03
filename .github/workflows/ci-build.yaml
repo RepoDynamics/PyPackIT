@@ -36,10 +36,14 @@ jobs:
         uses: ./.github/actions/install-env
         with:
           load_cache: 'false'
+      - name: TEST
+        run: |
+          test-ci
+          x=$(test-ci)
+          echo "X is $x"
       - name: Build
         id: build
         run: |
-          project --help
           output_path=$(${{ fromJSON(inputs.config).build_command }})
           echo "output_path=$output_path" >> "$GITHUB_OUTPUT"
       - name: README Render

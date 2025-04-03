@@ -948,6 +948,10 @@ devcontainer_main:
           return out
         }}#
   task:
+    test-ci:
+      name: Test
+      script: |
+        echo "TEST OK!"
     jupyterlab:
       name: Open JupyterLab
       script: |
