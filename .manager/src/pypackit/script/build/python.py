@@ -32,7 +32,7 @@ def run(
     pkg = _METADATA[f"pypkg_{pkg}"]
     pkg_path = Path(pkg["path"]["root"]).resolve()
     # Ensure the output folder exists
-    output_dir = Path(output).resolve() / pkg["import_name"]
+    output_dir = Path(output).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     # Build command
     build_command = [
