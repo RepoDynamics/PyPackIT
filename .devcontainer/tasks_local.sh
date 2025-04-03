@@ -1,10 +1,3 @@
-test-ci() {
-    current_dir=$(pwd)
-    cd '/workspace'
-    conda run --name pypackit --live-stream -vv python -m pypackit --help
-    cd "$current_dir"
-}
-
 jupyterlab() {
     current_dir=$(pwd)
     cd '/workspace'

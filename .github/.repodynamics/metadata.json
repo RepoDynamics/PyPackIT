@@ -7513,11 +7513,6 @@
             "alias": "jupyterlab",
             "name": "Open JupyterLab",
             "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
-         },
-         "test-ci": {
-            "alias": "test-ci",
-            "name": "Test",
-            "script": "conda run --name pypackit --live-stream -vv python -m pypackit --help\n"
          }
       }
    },

@@ -1,7 +1,3 @@
-test-ci() {
-    conda run --name pypackit --live-stream -vv python -m pypackit --help
-}
-
 jupyterlab() {
     jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
 }
