@@ -951,7 +951,7 @@ devcontainer_main:
     test-ci:
       name: Test
       script: |
-        echo "TEST OK!"
+        conda run --name pypackit --live-stream -vv python -m pypackit --help
     jupyterlab:
       name: Open JupyterLab
       script: |
