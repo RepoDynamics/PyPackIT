@@ -424,19 +424,6 @@ devcontainer_main:
             See the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html)
             for more information.
     pybuild:
-      task:
-        build-python:
-          name: Build Python Package
-          description: Build a distribution for a Python package.
-          data:
-            output_path: ${{ local.temp.path }}$/build-python
-          process: [ python, .devcontainer/script/build_python.py, '${{ ..data.output_path }}$', $@ ]
-        render-readme:
-          name: Render README
-          description: Render a Python package's README file to HTML.
-          data:
-            output_path: ${{ local.temp.path }}$/readme-pypi
-          process: [ python, .devcontainer/script/render_readme.py, '${{ ..data.output_path }}$', $@ ]
       pip:
         build:
           spec:
@@ -479,14 +466,6 @@ devcontainer_main:
                   out[k] = v
               return out
             }}#
-      task:
-        version:
-          name: Get Project Version
-          summary: Get the current full version of the project.
-          script: |
-            ${{ pypkg_main.dependency.build.versioning.import_name }}$ \
-                "${{ pypkg_main.path.root }}$" \
-                --verbose
     type_check:
       pip:
         mypy:
