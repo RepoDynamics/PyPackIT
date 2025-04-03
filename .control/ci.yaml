@@ -116,6 +116,8 @@ pypkg_ci:
                 args: [ version ]
                 kwargs:
                   help: Print the current version of the project.
+                defaults:
+                  endpoint: version.run_cli
               - id: build
                 args: [ build ]
                 kwargs:
@@ -130,6 +132,8 @@ pypkg_ci:
                       args: [ conda ]
                       kwargs:
                         help: Build a conda package in the project.
+                      defaults:
+                        endpoint: build.conda.run_cli
                       arguments:
                         - args: [ -p, --pkg ]
                           kwargs:
@@ -154,6 +158,8 @@ pypkg_ci:
                       args: [ python ]
                       kwargs:
                         help: Build a Python package in the project.
+                      defaults:
+                        endpoint: build.python.run_cli
                       arguments:
                         - args: [ -p, --pkg ]
                           kwargs:
