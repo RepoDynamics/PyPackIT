@@ -7833,7 +7833,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-04-02",
+         "date-released": "2025-04-03",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -11198,7 +11198,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-04-02"
+                              "message": "2025-04-03"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -21040,7 +21040,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": ".manager/src/pypackit/__main__.py"
+            "pypkg_ci_cli": "/home/runner/work/PyPackIT/PyPackIT/repo_base/.manager/src/pypackit/__main__.py"
          }
       },
       "gui_names": [],
@@ -21669,7 +21669,7 @@
                            "help": "Local path to the repository root directory.",
                            "type": "str"
                         },
-                        "post_process": "setattr(\n    args,\n    \"metadata\",\n    json.loads((Path(args.repo).resolve() / \".github/.repodynamics/metadata.json\").read_text())\n)\n"
+                        "post_process": "import json\nfrom pathlib import Path\nsetattr(\n    args,\n    \"metadata\",\n    json.loads((Path(args.repo).resolve() / \".github/.repodynamics/metadata.json\").read_text())\n)\n"
                      }
                   ],
                   "insert": {
@@ -22766,7 +22766,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-02"
+                                    "message": "2025-04-03"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -25889,7 +25889,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-02"
+                                    "message": "2025-04-03"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -27847,7 +27847,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-04-02"
+                                 "message": "2025-04-03"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
