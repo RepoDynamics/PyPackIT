@@ -21934,15 +21934,6 @@
                                     "arguments": [
                                        {
                                           "args": [
-                                             "args"
-                                          ],
-                                          "kwargs": {
-                                             "help": "Additional arguments to pass to the conda build command.",
-                                             "nargs": "*"
-                                          }
-                                       },
-                                       {
-                                          "args": [
                                              "-p",
                                              "--pkg"
                                           ],
@@ -21976,11 +21967,61 @@
                                              "help": "Type of recipe to build.",
                                              "type": "str"
                                           }
+                                       },
+                                       {
+                                          "args": [
+                                             "--args"
+                                          ],
+                                          "kwargs": {
+                                             "help": "Additional arguments to pass to the conda build command.",
+                                             "nargs": "argparse.REMAINDER"
+                                          }
                                        }
                                     ],
                                     "id": "conda",
                                     "kwargs": {
                                        "help": "Build a conda package in the project."
+                                    }
+                                 },
+                                 {
+                                    "args": [
+                                       "python"
+                                    ],
+                                    "arguments": [
+                                       {
+                                          "args": [
+                                             "-p",
+                                             "--pkg"
+                                          ],
+                                          "kwargs": {
+                                             "default": "main",
+                                             "help": "Package ID, i.e., the `pypkg_` key suffix in configuration files."
+                                          }
+                                       },
+                                       {
+                                          "args": [
+                                             "-o",
+                                             "--output"
+                                          ],
+                                          "kwargs": {
+                                             "default": ".local/temp/wheelhouse",
+                                             "help": "Path to the local PyPI channel directory.",
+                                             "type": "str"
+                                          }
+                                       },
+                                       {
+                                          "args": [
+                                             "--args"
+                                          ],
+                                          "kwargs": {
+                                             "help": "Additional arguments to pass to the Python build command.",
+                                             "nargs": "argparse.REMAINDER"
+                                          }
+                                       }
+                                    ],
+                                    "id": "python",
+                                    "kwargs": {
+                                       "help": "Build a Python package in the project."
                                     }
                                  }
                               ]

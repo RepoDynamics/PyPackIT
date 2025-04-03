@@ -45,10 +45,14 @@ def cli():
     # Sub-parsers for subparser_build
     subparsers_build = subparser_build.add_subparsers(dest="build", required=True)
     subparser_conda = subparsers_build.add_parser("conda", help="Build a conda package in the project.")
-    subparser_conda.add_argument("args", help="Additional arguments to pass to the conda build command.", nargs="*")
     subparser_conda.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
     subparser_conda.add_argument("-o", "--output", help="Path to the local conda channel directory.", type=str, default=".local/temp/conda-channel")
     subparser_conda.add_argument("-r", "--recipe", help="Type of recipe to build.", type=str, choices=['local', 'global'], default="local")
+    subparser_conda.add_argument("--args", help="Additional arguments to pass to the conda build command.", nargs=argparse.REMAINDER)
+    subparser_python = subparsers_build.add_parser("python", help="Build a Python package in the project.")
+    subparser_python.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
+    subparser_python.add_argument("-o", "--output", help="Path to the local PyPI channel directory.", type=str, default=".local/temp/wheelhouse")
+    subparser_python.add_argument("--args", help="Additional arguments to pass to the Python build command.", nargs=argparse.REMAINDER)
     # Process inputs
     args = parser.parse_args()
     if args.command == "cca":
