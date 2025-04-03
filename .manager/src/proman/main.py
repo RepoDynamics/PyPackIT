@@ -521,7 +521,3 @@ class EventHandler:
             if self.gh_context.event.sender
             else None
         )
-
-    @property
-    def current_proman_version(self) -> str:
-        return pkgdata.get_version_from_caller()
