@@ -299,12 +299,7 @@ class OutputManager:
         build_jobs = {}
         build_config = self._main_manager.data["workflow.build"]
         # for typ in ("pkg", "test"):
-        python_build_command = self._branch_manager.data[
-            "devcontainer_main.environment.pybuild.task.build-python.alias"
-        ]
-        readme_render_command = self._branch_manager.data[
-            "devcontainer_main.environment.pybuild.task.render-readme.alias"
-        ]
+        project_command_alias = self._branch_manager.data["devcontainer_main.environment.pypackit.task.project.alias"]
         for pkg_id in ("main", "test"):
             if (
                 not (publish_pypi or publish_testpypi or publish_anaconda)
@@ -319,8 +314,9 @@ class OutputManager:
                 "ref": self._ref_name,
                 "pkg_id": pkg_id,
                 "pure_python": pure_python,
-                "build_command": f"{python_build_command} {pkg_id} {'--sdist' if not pure_python else ''}",
-                "readme_command": f"{readme_render_command} {pkg_id}"
+                "build_command": f"{project_command_alias} build python --pkg {pkg_id} {'--sdist' if not pure_python else ''}",
+                "build_command_conda": f"{project_command_alias} build conda --pkg {pkg_id}",
+                "readme_command": f"{project_command_alias} render pypi --pkg {pkg_id}"
                 if value["pyproject"]["project"].get("readme")
                 else "",
                 "pkg_path": value["path"]["root"],
