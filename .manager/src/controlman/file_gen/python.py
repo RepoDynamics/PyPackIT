@@ -62,7 +62,7 @@ class PythonPackageFileGenerator:
                 parser = entry.get("parser")
                 if not parser:
                     continue
-                filepath = (self._path_src / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
+                filepath = (self._path_repo / self._path_src / "/".join(entry["ref"].split(":")[0].split("."))).with_suffix(".py")
                 file_content = filepath.read_text()
                 parser_content = self.make_parser(data=parser)
                 new_content = _unit.insert_in_file(
