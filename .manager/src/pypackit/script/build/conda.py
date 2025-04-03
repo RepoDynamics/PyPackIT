@@ -54,6 +54,7 @@ def run(
     -------
     Path to the local conda channel.
     """
+
     def get_recipe(pkg_id: str) -> dict:
         """Get the conda recipe of a package."""
         key = f"pypkg_{pkg_id}"
@@ -84,7 +85,9 @@ def run(
         meta = recipe.get("meta", {}).get("values", {})
         channel_priority: dict[str, int] = {}
         for key in ("host", "run", "run_constrained"):
-            for req in meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", []):
+            for req in (
+                meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", [])
+            ):
                 update_channel_priority(req["value"])
         for req in meta.get("test", {}).get("values", {}).get("requires", {}).get("values", []):
             update_channel_priority(req["value"])
