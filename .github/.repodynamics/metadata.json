@@ -7517,7 +7517,7 @@
          "test-ci": {
             "alias": "test-ci",
             "name": "Test",
-            "script": "echo \"TEST OK!\"\n"
+            "script": "conda run --name pypackit --live-stream -vv python -m pypackit --help\n"
          }
       }
    },

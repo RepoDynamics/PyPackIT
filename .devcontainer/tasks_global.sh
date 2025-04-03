@@ -1,5 +1,5 @@
 test-ci() {
-    echo "TEST OK!"
+    conda run --name pypackit --live-stream -vv python -m pypackit --help
 }
 
 jupyterlab() {

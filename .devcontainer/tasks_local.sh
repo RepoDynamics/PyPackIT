@@ -1,7 +1,7 @@
 test-ci() {
     current_dir=$(pwd)
     cd '/workspace'
-    echo "TEST OK!"
+    conda run --name pypackit --live-stream -vv python -m pypackit --help
     cd "$current_dir"
 }
 
