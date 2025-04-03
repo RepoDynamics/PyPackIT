@@ -21665,9 +21665,11 @@
                            "--repo"
                         ],
                         "kwargs": {
+                           "default": "./",
                            "help": "Local path to the repository root directory.",
                            "type": "str"
-                        }
+                        },
+                        "post_process": "setattr(\n    args,\n    \"metadata\",\n    json.loads((Path(args.repo).resolve() / \".github/.repodynamics/metadata.json\").read_text())\n)\n"
                      }
                   ],
                   "insert": {
