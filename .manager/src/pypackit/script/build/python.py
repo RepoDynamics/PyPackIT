@@ -18,23 +18,25 @@ import subprocess
 import sys
 from pathlib import Path
 
+_CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 _METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _logger = logging.getLogger(__name__)
 
 
-def main(
-    pkg_id: str,
-    out_dir: str | Path,
-    extra_args: list[str] | None = None,
+def run(
+    pkg: str,
+    output: str | Path,
+    args: list[str] | None = None,
 ) -> Path:
     """Generate and run build command."""
-    pkg = _METADATA[f"pypkg_{pkg_id}"]
+    pkg = _METADATA[f"pypkg_{pkg}"]
     pkg_path = Path(pkg["path"]["root"]).resolve()
     # Ensure the output folder exists
-    output_dir = Path(out_dir).resolve() / pkg["import_name"]
+    output_dir = Path(output).resolve() / pkg["import_name"]
     output_dir.mkdir(parents=True, exist_ok=True)
     # Build command
     build_command = [
+        *_CMD_PREFIX,
         "python",
         "-m",
         "build",
@@ -42,7 +44,7 @@ def main(
         "--outdir",
         str(output_dir),
         "--verbose",
-    ] + (extra_args or [])
+    ] + (args or [])
     _logger.info("Running Build Command: %s", shlex.join(build_command))
     # Execute the command
     subprocess.run(build_command, check=True, stdout=sys.stderr)
@@ -56,22 +58,27 @@ def main(
     # Refs:
     #    https://twine.readthedocs.io/en/stable/#twine-check
     #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-    subprocess.run(["twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)
+    subprocess.run([*_CMD_PREFIX, "twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)
     return output_dir
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(description="Build a Python package in the project.")
-    parser.add_argument("out_dir", help="Output directory to write the rendered README file.")
-    parser.add_argument(
-        "pkg_id", help="Package ID, i.e., the 'pypkg_' key suffix in configuration files."
+def run_cli(args: argparse.Namespace) -> None:
+    """Run the CLI.
+
+    Parameters
+    ----------
+    args : argparse.Namespace, optional
+        The parsed arguments. If None, the arguments are parsed from sys.argv.
+
+    Returns
+    -------
+    int
+        The exit code of the program.
+    """
+    output_path = run(
+        pkg=args.pkg,
+        output=args.output,
+        args=args.args,
     )
-    parser.add_argument(
-        "extra_args", nargs=argparse.REMAINDER, help="Additional arguments for conda build."
-    )
-    args = vars(parser.parse_args())
-    _logger.info("Input Arguments: %s", args)
-    output_path = main(**args)
     print(output_path)
-    sys.exit()
+    return sys.exit()
