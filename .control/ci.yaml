@@ -131,10 +131,6 @@ pypkg_ci:
                       kwargs:
                         help: Build a conda package in the project.
                       arguments:
-                        - args: [ args ]
-                          kwargs:
-                            help: Additional arguments to pass to the conda build command.
-                            nargs: "*"
                         - args: [ -p, --pkg ]
                           kwargs:
                             help: Package ID, i.e., the `pypkg_` key suffix in configuration files.
@@ -150,6 +146,28 @@ pypkg_ci:
                             type: str
                             choices: [ local, global ]
                             default: local
+                        - args: [ --args ]
+                          kwargs:
+                            help: Additional arguments to pass to the conda build command.
+                            nargs: argparse.REMAINDER
+                    - id: python
+                      args: [ python ]
+                      kwargs:
+                        help: Build a Python package in the project.
+                      arguments:
+                        - args: [ -p, --pkg ]
+                          kwargs:
+                            help: Package ID, i.e., the `pypkg_` key suffix in configuration files.
+                            default: main
+                        - args: [ -o, --output ]
+                          kwargs:
+                            help: Path to the local PyPI channel directory.
+                            type: str
+                            default: ${{ local.temp.path }}$/wheelhouse
+                        - args: [ --args ]
+                          kwargs:
+                            help: Additional arguments to pass to the Python build command.
+                            nargs: argparse.REMAINDER
   dependency:
     core:
       actionman:
