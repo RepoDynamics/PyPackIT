@@ -88,3 +88,7 @@ def cli():
     endpoint = get_endpoint(args.endpoint)
     endpoint(args)
     return
+
+
+if __name__ == "__main__":
+    cli()
