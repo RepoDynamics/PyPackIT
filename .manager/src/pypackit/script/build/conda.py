@@ -25,13 +25,13 @@ import pypackit.script.version as _script_version
 if TYPE_CHECKING:
     from typing import Literal
 
-_METADATA = json.loads(Path(".github/.repodynamics/metadata.json").read_text())
 _CMD_PREFIX = ["conda", "run", "--name", "base", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
 def run(
     pkg: str,
+    metadata: dict,
     output: str | Path,
     recipe: Literal["global", "local"] = "local",
     args: list[str] | None = None,
@@ -53,6 +53,42 @@ def run(
     -------
     Path to the local conda channel.
     """
+    def get_recipe(pkg_id: str) -> dict:
+        """Get the conda recipe of a package."""
+        key = f"pypkg_{pkg_id}"
+        recipe = metadata.get(key, {}).get("conda", {}).get("recipe")
+        if not recipe:
+            error_msg = f"No conda recipe found in metadata at '{key}.conda.recipe'."
+            raise ValueError(error_msg)
+        return recipe
+
+    def get_channels(recipe: dict) -> list[str]:
+        """Get a list of channels used in a recipe.
+
+        Notes
+        -----
+        Channels used in the recipe but not set in conda configurations
+        must be manually added, otherwise conda build cannot solve the dependencies. See:
+        - https://github.com/conda/conda-build/issues/5597
+        - https://github.com/conda/conda/issues/988
+        """
+
+        def update_channel_priority(requirement: str) -> None:
+            parts = requirement.split("::")
+            if len(parts) > 1:
+                channel = parts[0]
+                channel_priority[channel] = channel_priority.get(channel, 0) + 1
+            return
+
+        meta = recipe.get("meta", {}).get("values", {})
+        channel_priority: dict[str, int] = {}
+        for key in ("host", "run", "run_constrained"):
+            for req in meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", []):
+                update_channel_priority(req["value"])
+        for req in meta.get("test", {}).get("values", {}).get("requires", {}).get("values", []):
+            update_channel_priority(req["value"])
+        return sorted(channel_priority, key=channel_priority.get, reverse=True)
+
     recipe = get_recipe(pkg_id=pkg)
     channels = get_channels(recipe)
     # Ensure the output folder exists
@@ -102,47 +138,10 @@ def run_cli(args: argparse.Namespace) -> int:
     """
     local_channel_path = run(
         pkg=args.pkg,
+        metadata=args.metadata,
         output=args.output,
         recipe=args.recipe,
         args=args.args,
     )
     print(local_channel_path)
     return 0
-
-
-def get_recipe(pkg_id: str) -> dict:
-    """Get the conda recipe of a package."""
-    key = f"pypkg_{pkg_id}"
-    recipe = _METADATA.get(key, {}).get("conda", {}).get("recipe")
-    if not recipe:
-        error_msg = f"No conda recipe found in metadata at '{key}.conda.recipe'."
-        raise ValueError(error_msg)
-    return recipe
-
-
-def get_channels(recipe: dict) -> list[str]:
-    """Get a list of channels used in a recipe.
-
-    Notes
-    -----
-    Channels used in the recipe but not set in conda configurations
-    must be manually added, otherwise conda build cannot solve the dependencies. See:
-    - https://github.com/conda/conda-build/issues/5597
-    - https://github.com/conda/conda/issues/988
-    """
-
-    def update_channel_priority(requirement: str) -> None:
-        parts = requirement.split("::")
-        if len(parts) > 1:
-            channel = parts[0]
-            channel_priority[channel] = channel_priority.get(channel, 0) + 1
-        return
-
-    meta = recipe.get("meta", {}).get("values", {})
-    channel_priority: dict[str, int] = {}
-    for key in ("host", "run", "run_constrained"):
-        for req in meta.get("requirements", {}).get("values", {}).get(key, {}).get("values", []):
-            update_channel_priority(req["value"])
-    for req in meta.get("test", {}).get("values", {}).get("requires", {}).get("values", []):
-        update_channel_priority(req["value"])
-    return sorted(channel_priority, key=channel_priority.get, reverse=True)
