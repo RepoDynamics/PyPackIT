@@ -1,8 +1,9 @@
-from pypackit.script import build, cca, lint, version
+from pypackit.script import build, cca, lint, render, version
 
 __all__ = [
     "build",
     "cca",
     "lint",
-    "version"
+    "render",
+    "version",
 ]
