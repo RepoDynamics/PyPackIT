@@ -8,7 +8,7 @@ from pathlib import Path as _Path
 import pyserials as _ps
 from gittidy import Git as _Git
 
-from controlman import _file_util, const, exception
+from controlman import const, exception
 from controlman import data_validator as _data_validator
 from controlman import date as _date
 from controlman import exception as _exception
