@@ -133,7 +133,7 @@ class PushEventHandler(EventHandler):
             )
             move_and_merge_directories(self._path_head / "template", self._path_head)
             self._git_head.commit(
-                message=f"init: Create repository from RepoDynamics template v{self.current_proman_version}.",
+                message=f"init: Create repository from PyPackIT template.",
                 amend=True,
                 stage="all",
             )
