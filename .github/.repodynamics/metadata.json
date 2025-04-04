@@ -7833,7 +7833,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-04-03",
+         "date-released": "2025-04-04",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -11198,7 +11198,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-04-03"
+                              "message": "2025-04-04"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -21040,7 +21040,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": "/workspace/.manager/src/proman/__main__.py"
+            "pypkg_ci_cli": "/home/runner/work/PyPackIT/PyPackIT/repo_base/.manager/src/proman/__main__.py"
          }
       },
       "gui_names": [],
@@ -22181,7 +22181,7 @@
             "name": "ProMan",
             "requires-python": ">=3.10",
             "scripts": {
-               "project": "proman.__main__:cli"
+               "proman": "proman.__main__:cli"
             },
             "version": "0.1.0"
          },
@@ -22778,7 +22778,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-03"
+                                    "message": "2025-04-04"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -25901,7 +25901,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-03"
+                                    "message": "2025-04-04"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -27859,7 +27859,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-04-03"
+                                 "message": "2025-04-04"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
