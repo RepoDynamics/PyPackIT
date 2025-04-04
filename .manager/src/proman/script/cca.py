@@ -1,13 +1,16 @@
 from __future__ import annotations
 
-import argparse
 import sys
+from typing import TYPE_CHECKING
 from pathlib import Path
 
 from loggerman import logger
 
 import controlman
 from controlman.exception import ControlManException
+
+if TYPE_CHECKING:
+    import argparse
 
 
 def run(
