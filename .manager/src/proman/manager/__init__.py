@@ -1,7 +1,7 @@
-from __future__ import annotations as _annotations
+from __future__ import annotations
 
 import copy
-from typing import TYPE_CHECKING as _TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import controlman
 import jinja2
@@ -23,7 +23,7 @@ from proman.manager.repo import RepoManager
 from proman.manager.user import UserManager
 from proman.manager.variable import VariableManager
 
-if _TYPE_CHECKING:
+if TYPE_CHECKING:
     from github_contexts import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
@@ -33,6 +33,74 @@ if _TYPE_CHECKING:
 
     from proman.dstruct import Token, User
     from proman.report import Reporter
+
+
+def from_metadata_json(
+    git_api: Git,
+    jinja_env_vars: dict,
+    github_context: GitHubContext,
+    github_api_actions: GitHubRepoAPI,
+    github_api_admin: GitHubRepoAPI,
+    github_link: GitHubLink,
+    reporter: Reporter,
+    zenodo_token: Token,
+    zenodo_sandbox_token: Token,
+    commit_hash: str | None = None,
+) -> Manager:
+    branch_name = git_api.current_branch_name()
+    address = f"from the {branch_name} branch of the {repo} repository"
+    log_title = f"Metadata Load ({branch_name})"
+    err_msg = f"Failed to load metadata file {address}."
+    try:
+        if commit_hash:
+            data = controlman.from_json_file_at_commit(
+                git_manager=git_api,
+                commit_hash=commit_hash,
+            )
+        else:
+            data = controlman.from_json_file(repo_path=git_api.repo_path)
+        logger.success(
+            log_title,
+            f"Metadata loaded successfully {address}.",
+        )
+        return Manager(
+            data=data,
+            git_api=git_api,
+            jinja_env_vars=jinja_env_vars,
+            github_context=github_context,
+            github_api_actions=github_api_actions,
+            github_api_admin=github_api_admin,
+            github_link=github_link,
+            zenodo_token=zenodo_token,
+            zenodo_sandbox_token=zenodo_sandbox_token,
+            reporter=reporter,
+        )
+    except controlman.exception.load.ControlManInvalidMetadataError as e:
+        logger.critical(
+            log_title,
+            err_msg,
+            e.report.body["problem"].content,
+        )
+        reporter.add(
+            name="main",
+            status="fail",
+            summary=f"Failed to load metadata {address}.",
+            section="",
+        )
+        raise ProManException()
+    except controlman.exception.load.ControlManSchemaValidationError as e:
+        logger.critical(
+            log_title,
+            err_msg,
+            e.report.body["problem"].content,
+        )
+        reporter.add(
+            name="main",
+            status="fail",
+            summary=f"Failed to load metadata {address}.",
+            section="",
+        )
+        raise ProManException()
 
 
 class Manager:
@@ -222,71 +290,3 @@ class Manager:
     @staticmethod
     def normalize_github_date(date_str: str) -> str:
         return date.to_internal(date.from_github(date_str))
-
-
-def from_metadata_json(
-    git_api: Git,
-    jinja_env_vars: dict,
-    github_context: GitHubContext,
-    github_api_actions: GitHubRepoAPI,
-    github_api_admin: GitHubRepoAPI,
-    github_link: GitHubLink,
-    reporter: Reporter,
-    zenodo_token: Token,
-    zenodo_sandbox_token: Token,
-    commit_hash: str | None = None,
-) -> Manager:
-    branch_name = git_api.current_branch_name()
-    address = f"from the {branch_name} branch of the {repo} repository"
-    log_title = f"Metadata Load ({branch_name})"
-    err_msg = f"Failed to load metadata file {address}."
-    try:
-        if commit_hash:
-            data = controlman.from_json_file_at_commit(
-                git_manager=git_api,
-                commit_hash=commit_hash,
-            )
-        else:
-            data = controlman.from_json_file(repo_path=git_api.repo_path)
-        logger.success(
-            log_title,
-            f"Metadata loaded successfully {address}.",
-        )
-        return Manager(
-            data=data,
-            git_api=git_api,
-            jinja_env_vars=jinja_env_vars,
-            github_context=github_context,
-            github_api_actions=github_api_actions,
-            github_api_admin=github_api_admin,
-            github_link=github_link,
-            zenodo_token=zenodo_token,
-            zenodo_sandbox_token=zenodo_sandbox_token,
-            reporter=reporter,
-        )
-    except controlman.exception.load.ControlManInvalidMetadataError as e:
-        logger.critical(
-            log_title,
-            err_msg,
-            e.report.body["problem"].content,
-        )
-        reporter.add(
-            name="main",
-            status="fail",
-            summary=f"Failed to load metadata {address}.",
-            section="",
-        )
-        raise ProManException()
-    except controlman.exception.load.ControlManSchemaValidationError as e:
-        logger.critical(
-            log_title,
-            err_msg,
-            e.report.body["problem"].content,
-        )
-        reporter.add(
-            name="main",
-            status="fail",
-            summary=f"Failed to load metadata {address}.",
-            section="",
-        )
-        raise ProManException()
