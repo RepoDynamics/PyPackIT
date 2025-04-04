@@ -918,7 +918,7 @@ devcontainer_main:
         project:
           name: Project Management
           summary: Main project management CLI.
-          process: [ project, $@ ]
+          process: [ proman, $@ ]
       conda: |
         #{{
           py_ver = get("pypkg_ci.python.version.spec")
