@@ -413,7 +413,7 @@ pypkg_ci:
       dependencies: >-
         #{{ return hook.pyproject_dependency("core", pkg="ci") }}#
       scripts:
-        project: proman.__main__:cli
+        proman: proman.__main__:cli
     tool:
       setuptools:
         include-package-data: true
