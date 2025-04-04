@@ -17,7 +17,7 @@ from loggerman import logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 from versionman.pep440_semver import PEP440SemVer
 
-from pypackit import script as _script
+from proman import script as _script
 
 from proman import manager, runner
 from proman.dstruct import Branch
