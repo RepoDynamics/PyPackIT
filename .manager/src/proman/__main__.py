@@ -65,6 +65,8 @@ def cli():
     subparser_pypi.add_argument("-p", "--pkg", help="Package ID, i.e., the `pypkg_` key suffix in configuration files.", default="main")
     subparser_pypi.add_argument("-o", "--output", help="Output directory to write the rendered HTML file.", type=str, default=".local/temp/readme-pypi")
     subparser_pypi.set_defaults(endpoint="render.pypi.run_cli")
+    subparser_gha = subparsers_main.add_parser("gha", help="Run CI/CD pipelines in GitHub Actions.")
+    subparser_gha.set_defaults(endpoint="gha.run_cli")
     # Process inputs
     args = parser.parse_args()
     import json

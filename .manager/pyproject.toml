@@ -34,12 +34,12 @@ dependencies = [
     "trove-classifiers >=2025.3.13.13",
     "versionman ==0.1.1",
 ]
-name = "PyPackIT"
+name = "ProMan"
 requires-python = ">=3.10"
 version = "0.1.0"
 
 [project.scripts]
-project = "pypackit.__main__:cli"
+project = "proman.__main__:cli"
 
 [tool.setuptools]
 include-package-data = true

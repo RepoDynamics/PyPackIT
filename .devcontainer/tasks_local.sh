@@ -18,5 +18,5 @@ typecheck() {
 }
 
 project() {
-    conda run --cwd /workspace --name pypackit --live-stream -vv project "$@"
+    conda run --cwd /workspace --name pypackit --live-stream -vv proman "$@"
 }

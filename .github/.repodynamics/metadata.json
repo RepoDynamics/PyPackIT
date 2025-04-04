@@ -7359,7 +7359,7 @@
                   "alias": "project",
                   "name": "Project Management",
                   "process": [
-                     "project",
+                     "proman",
                      "$@"
                   ],
                   "summary": "Main project management CLI."
@@ -21019,7 +21019,7 @@
          },
          "pkg_config": {
             "pypkg_ci_pyproject": ".manager/pyproject.toml",
-            "pypkg_ci_typing": ".manager/src/pypackit/py.typed",
+            "pypkg_ci_typing": ".manager/src/proman/py.typed",
             "pypkg_main_conda_recipe_meta_global": "pkg/conda-recipe/global/meta.yaml",
             "pypkg_main_conda_recipe_meta_local": "pkg/conda-recipe/local/meta.yaml",
             "pypkg_main_pyproject": "pkg/pyproject.toml",
@@ -21040,7 +21040,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": "/home/runner/work/PyPackIT/PyPackIT/repo_base/.manager/src/pypackit/__main__.py"
+            "pypkg_ci_cli": "/workspace/.manager/src/proman/__main__.py"
          }
       },
       "gui_names": [],
@@ -21657,7 +21657,7 @@
             "main": {
                "conda": true,
                "description": "Main command line interface for PyPackIT.",
-               "name": "project",
+               "name": "proman",
                "parser": {
                   "arguments": [
                      {
@@ -22052,26 +22052,38 @@
                                  }
                               ]
                            }
+                        },
+                        {
+                           "args": [
+                              "gha"
+                           ],
+                           "defaults": {
+                              "endpoint": "gha.run_cli"
+                           },
+                           "id": "gha",
+                           "kwargs": {
+                              "help": "Run CI/CD pipelines in GitHub Actions."
+                           }
                         }
                      ]
                   }
                },
                "pypi": true,
-               "ref": "pypackit.__main__:cli"
+               "ref": "proman.__main__:cli"
             }
          },
          "python": {
             "main": {
                "conda": true,
                "description": "Main Python API entry of the package.",
-               "name": "pypackit",
+               "name": "proman",
                "pypi": true,
-               "ref": "pypackit:__init__"
+               "ref": "proman:__init__"
             }
          }
       },
-      "import_name": "pypackit",
-      "name": "PyPackIT",
+      "import_name": "proman",
+      "name": "ProMan",
       "os": {
          "linux-64": {
             "data": {
@@ -22117,8 +22129,8 @@
          }
       },
       "path": {
-         "import": ".manager/src/pypackit",
-         "import_rel": "src/pypackit",
+         "import": ".manager/src/proman",
+         "import_rel": "src/proman",
          "root": ".manager",
          "source": ".manager/src",
          "source_rel": "src"
@@ -22126,7 +22138,7 @@
       "pypi": {
          "publishable": true,
          "url": {
-            "home": "https://pypi.org/project/PyPackIT"
+            "home": "https://pypi.org/project/ProMan"
          }
       },
       "pyproject": {
@@ -22166,10 +22178,10 @@
                "trove-classifiers >=2025.3.13.13",
                "versionman ==0.1.1"
             ],
-            "name": "PyPackIT",
+            "name": "ProMan",
             "requires-python": ">=3.10",
             "scripts": {
-               "project": "pypackit.__main__:cli"
+               "project": "proman.__main__:cli"
             },
             "version": "0.1.0"
          },
