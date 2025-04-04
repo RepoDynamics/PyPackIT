@@ -304,14 +304,6 @@ class EventHandler:
         action: InitCheckAction,
         future_versions: dict[str, str | PEP440SemVer] | None = None,
     ) -> tuple[Manager, str | None]:
-        if action == InitCheckAction.NONE:
-            self.reporter.add(
-                name="cca",
-                status="skip",
-                summary="CCA is disabled for this event.",
-            )
-            logger.info("CCA Disabled", "CCA is disabled for this event.")
-            return None
         git = branch_manager.git if branch_manager else self._git_head
         try:
             cc_manager = controlman.manager(
