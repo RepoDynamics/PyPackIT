@@ -1,5 +1,5 @@
 pypkg_ci:
-  name: PyPackIT
+  name: ProMan
   path:
     root: .manager
   os: ${{ pypkg_main.os }}$
@@ -9,9 +9,9 @@ pypkg_ci:
   entry:
     cli:
       main:
-        name: project
+        name: proman
         description: Main command line interface for PyPackIT.
-        ref: pypackit.__main__:cli
+        ref: proman.__main__:cli
         parser:
           kwargs:
             description: Project Manager CLI
@@ -209,6 +209,12 @@ pypkg_ci:
                             help: Output directory to write the rendered HTML file.
                             type: str
                             default: ${{ local.temp.path }}$/readme-pypi
+              - id: gha
+                args: [ gha ]
+                kwargs:
+                  help: Run CI/CD pipelines in GitHub Actions.
+                defaults:
+                  endpoint: gha.run_cli
   dependency:
     core:
       actionman:
@@ -407,7 +413,7 @@ pypkg_ci:
       dependencies: >-
         #{{ return hook.pyproject_dependency("core", pkg="ci") }}#
       scripts:
-        project: pypackit.__main__:cli
+        project: proman.__main__:cli
     tool:
       setuptools:
         include-package-data: true
