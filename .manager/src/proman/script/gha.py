@@ -147,6 +147,7 @@ def run_cli(args: argparse.Namespace):
     )
     return
 
+
 @_logger.sectioner("Output Generation")
 def _finalize(
     github_context: _github_contexts.GitHubContext,
