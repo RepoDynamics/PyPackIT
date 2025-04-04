@@ -3,12 +3,12 @@ dependencies:
   - conda-forge::python >=3.10
   - pip
   - pip:
-      - actionman ==0.1.0
+      - actionman ==0.1.1
       - ansi-sgr ==0.1.0
       - conventionalcommits ==0.1.0
       - exceptionman ==0.1.0
       - fileex ==0.1.0
-      - github-contexts ==0.1.0
+      - github-contexts ==0.1.1
       - gittidy ==0.1.0
       - htmp ==0.1.0
       - jinja2 ==3.1.6

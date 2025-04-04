@@ -106,6 +106,7 @@ def _parse_args() -> argparse.Namespace:
     # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
     parser.add_argument("--repo", type=str, help="Local path to the repository root directory.", default="./")
+    parser.add_argument("--remove-tokens", help="Remove all tokens read from the environment.", action="store_true")
     # Sub-parsers for parser
     subparsers_main = parser.add_subparsers(dest="command", required=True)
     subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")

@@ -7140,9 +7140,9 @@
                "actionman": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "actionman ==0.1.0",
+                     "full": "actionman ==0.1.1",
                      "name": "actionman",
-                     "version": "==0.1.0"
+                     "version": "==0.1.1"
                   }
                },
                "ansi-sgr": {
@@ -7180,9 +7180,9 @@
                "github-contexts": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "github-contexts ==0.1.0",
+                     "full": "github-contexts ==0.1.1",
                      "name": "github-contexts",
-                     "version": "==0.1.0"
+                     "version": "==0.1.1"
                   }
                },
                "gittidy": {
@@ -21040,7 +21040,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": "/home/runner/work/PyPackIT/PyPackIT/repo_base/.manager/src/proman/__main__.py"
+            "pypkg_ci_cli": "/workspace/.manager/src/proman/__main__.py"
          }
       },
       "gui_names": [],
@@ -21288,8 +21288,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/actionman",
                      "name": "actionman",
-                     "spec": "actionman ==0.1.0",
-                     "version": "==0.1.0"
+                     "spec": "actionman ==0.1.1",
+                     "version": "==0.1.1"
                   }
                },
                "name": "actionman",
@@ -21362,8 +21362,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/github-contexts",
                      "name": "github-contexts",
-                     "spec": "github-contexts ==0.1.0",
-                     "version": "==0.1.0"
+                     "spec": "github-contexts ==0.1.1",
+                     "version": "==0.1.1"
                   }
                },
                "name": "github-contexts",
@@ -21670,6 +21670,15 @@
                            "type": "str"
                         },
                         "post_process": "import json\nfrom pathlib import Path\nsetattr(\n    args,\n    \"metadata\",\n    json.loads((Path(args.repo).resolve() / \".github/.repodynamics/metadata.json\").read_text())\n)\n"
+                     },
+                     {
+                        "args": [
+                           "--remove-tokens"
+                        ],
+                        "kwargs": {
+                           "action": "store_true",
+                           "help": "Remove all tokens read from the environment."
+                        }
                      }
                   ],
                   "insert": {
@@ -21695,7 +21704,7 @@
                               {
                                  "args": [
                                     "-t",
-                                    "--token"
+                                    "--github-token"
                                  ],
                                  "kwargs": {
                                     "help": "GitHub token for accessing the repository.",
@@ -22150,12 +22159,12 @@
          },
          "project": {
             "dependencies": [
-               "actionman ==0.1.0",
+               "actionman ==0.1.1",
                "ansi-sgr ==0.1.0",
                "conventionalcommits ==0.1.0",
                "exceptionman ==0.1.0",
                "fileex ==0.1.0",
-               "github-contexts ==0.1.0",
+               "github-contexts ==0.1.1",
                "gittidy ==0.1.0",
                "htmp ==0.1.0",
                "jinja2 ==3.1.6",
