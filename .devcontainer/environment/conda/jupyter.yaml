@@ -1,0 +1,6 @@
+name: jupyter
+dependencies:
+  - conda-forge::jupyterlab
+  - conda-forge::jupyterlab-git
+  - conda-forge::jupyterlab-myst
+  - conda-forge::nb_conda_kernels

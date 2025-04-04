@@ -6324,6 +6324,78 @@
                }
             }
          },
+         "jupyter": {
+            "conda": {
+               "jupyterlab": {
+                  "description": "JupyterLab is a web-based interactive development environment for Jupyter notebooks,\ncode, and data.\n",
+                  "name": "jupyterlab",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::jupyterlab",
+                     "name": "jupyterlab",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://jupyterlab.readthedocs.io",
+                     "package": "https://anaconda.org/conda-forge/jupyterlab",
+                     "source": "https://github.com/jupyterlab/jupyterlab"
+                  }
+               },
+               "jupyterlab-git": {
+                  "description": "Git extension for JupyterLab.\n",
+                  "name": "jupyterlab-git",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::jupyterlab-git",
+                     "name": "jupyterlab-git",
+                     "version": ""
+                  },
+                  "url": {
+                     "package": "https://anaconda.org/conda-forge/jupyterlab-git",
+                     "source": "https://github.com/jupyterlab/jupyterlab-git"
+                  }
+               },
+               "jupyterlab-myst": {
+                  "description": "JupyterLab extension for rendering MyST markdown.\n",
+                  "name": "jupyterlab-myst",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::jupyterlab-myst",
+                     "name": "jupyterlab-myst",
+                     "version": ""
+                  },
+                  "url": {
+                     "docs": "https://jupyter-book.github.io/jupyterlab-myst/",
+                     "package": "https://anaconda.org/conda-forge/jupyterlab-myst",
+                     "source": "https://github.com/jupyter-book/jupyterlab-myst"
+                  }
+               },
+               "nb_conda_kernels": {
+                  "description": "Package for managing conda environment-based kernels inside of Jupyter.\n",
+                  "name": "nb_conda_kernels",
+                  "notes": "Each conda environment that has `ipykernel` installed \nwill be available as a kernel in Jupyter.\n",
+                  "spec": {
+                     "channel": "conda-forge",
+                     "full": "conda-forge::nb_conda_kernels",
+                     "name": "nb_conda_kernels",
+                     "version": ""
+                  },
+                  "url": {
+                     "package": "https://anaconda.org/conda-forge/nb_conda_kernels",
+                     "source": "https://github.com/anaconda/nb_conda_kernels"
+                  }
+               }
+            },
+            "name": "jupyter",
+            "path": ".devcontainer/environment/conda/jupyter.yaml",
+            "task": {
+               "jupyterlab": {
+                  "alias": "jupyterlab",
+                  "name": "Open JupyterLab",
+                  "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
+               }
+            }
+         },
          "pre_commit": {
             "conda": {
                "pre-commit": {
@@ -6993,27 +7065,6 @@
                }
             }
          },
-         "presentation": {
-            "conda": {
-               "jupyterlab-myst": {
-                  "description": "JupyterLab extension for rendering MyST markdown.\n",
-                  "name": "jupyterlab-myst",
-                  "spec": {
-                     "channel": "conda-forge",
-                     "full": "conda-forge::jupyterlab-myst",
-                     "name": "jupyterlab-myst",
-                     "version": ""
-                  },
-                  "url": {
-                     "docs": "https://jupyter-book.github.io/jupyterlab-myst/",
-                     "package": "https://anaconda.org/conda-forge/jupyterlab-myst",
-                     "source": "https://github.com/jupyter-book/jupyterlab-myst"
-                  }
-               }
-            },
-            "name": "presentation",
-            "path": ".devcontainer/environment/conda/presentation.yaml"
-         },
          "pybuild": {
             "name": "pybuild",
             "path": ".devcontainer/environment/conda/pybuild.yaml",
@@ -7508,11 +7559,6 @@
             "name": "Build Open-Journals Paper",
             "notes": "This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.\nSee the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)\nfor more details.\n",
             "script": "docker exec -it openjournals \\\n  inara -o pdf -p -v $1\n"
-         },
-         "jupyterlab": {
-            "alias": "jupyterlab",
-            "name": "Open JupyterLab",
-            "script": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''\n"
          }
       }
    },
@@ -20959,8 +21005,8 @@
             "anaconda": ".devcontainer/environment/conda/anaconda.yaml",
             "base": ".devcontainer/environment/conda/base.yaml",
             "codecov": ".devcontainer/environment/conda/codecov.yaml",
+            "jupyter": ".devcontainer/environment/conda/jupyter.yaml",
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
-            "presentation": ".devcontainer/environment/conda/presentation.yaml",
             "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
             "pylint": ".devcontainer/environment/conda/pylint.yaml",
             "pypackit": ".devcontainer/environment/conda/pypackit.yaml",
