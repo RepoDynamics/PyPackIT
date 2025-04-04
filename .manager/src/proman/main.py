@@ -191,14 +191,6 @@ class EventHandler:
         return self._output_manager
 
     @property
-    def gh_api(self) -> GitHubRepoAPI:
-        return self._gh_api
-
-    @property
-    def gh_api_admin(self) -> GitHubRepoAPI:
-        return self._gh_api_admin
-
-    @property
     def jinja_env_vars(self) -> dict:
         return self._jinja_env_vars
 
