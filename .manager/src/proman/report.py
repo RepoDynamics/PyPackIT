@@ -234,7 +234,7 @@ class Reporter:
 
 
 def initialize_logger(
-    title_number: int | list[int],
+    title_number: int | list[int] = 1,
 ):
     logger.initialize(
         realtime_levels=list(range(1, 7)),
