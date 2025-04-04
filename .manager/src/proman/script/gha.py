@@ -50,9 +50,9 @@ def run(
                 github_context=github_context,
                 reporter=reporter,
                 output_writer=output_writer,
-                admin_token=admin_token,
-                zenodo_token=zenodo_token,
-                zenodo_sandbox_token=zenodo_sandbox_token,
+                admin_token=token_github,
+                zenodo_token=token_zenodo,
+                zenodo_sandbox_token=token_zenodo_sandbox,
                 path_repo_base=path_repo_base,
                 path_repo_head=path_repo_head,
             ).run()
