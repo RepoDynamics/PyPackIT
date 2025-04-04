@@ -893,8 +893,27 @@ devcontainer_main:
                 max-returns: 10
               mccabe:
                 max-complexity: 15
-    presentation:
+    jupyter:
+      task:
+        jupyterlab:
+          name: Open JupyterLab
+          script: |
+            jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
       conda:
+        jupyterlab:
+          description: |
+            JupyterLab is a web-based interactive development environment for Jupyter notebooks,
+            code, and data.
+          url:
+            docs: https://jupyterlab.readthedocs.io
+            package: https://anaconda.org/conda-forge/jupyterlab
+            source: https://github.com/jupyterlab/jupyterlab
+        jupyterlab-git:
+          description: |
+            Git extension for JupyterLab.
+          url:
+            package: https://anaconda.org/conda-forge/jupyterlab-git
+            source: https://github.com/jupyterlab/jupyterlab-git
         jupyterlab-myst:
           description: |
             JupyterLab extension for rendering MyST markdown.
@@ -902,6 +921,15 @@ devcontainer_main:
             docs: https://jupyter-book.github.io/jupyterlab-myst/
             package: https://anaconda.org/conda-forge/jupyterlab-myst
             source: https://github.com/jupyter-book/jupyterlab-myst
+        nb_conda_kernels:
+          description: |
+            Package for managing conda environment-based kernels inside of Jupyter.
+          notes: |
+            Each conda environment that has `ipykernel` installed 
+            will be available as a kernel in Jupyter.
+          url:
+            package: https://anaconda.org/conda-forge/nb_conda_kernels
+            source: https://github.com/anaconda/nb_conda_kernels
     anaconda:
       conda:
         anaconda-client:
@@ -948,10 +976,6 @@ devcontainer_main:
           return out
         }}#
   task:
-    jupyterlab:
-      name: Open JupyterLab
-      script: |
-        jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
     build-oj-paper:
       # https://github.com/openjournals/inara
       name: Build Open-Journals Paper
