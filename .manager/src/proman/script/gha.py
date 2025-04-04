@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import actionman as _actionman
 import github_contexts as _github_contexts
@@ -14,8 +17,18 @@ from proman.dstruct import Token
 from proman.output import OutputManager
 from proman.report import Reporter, make_sphinx_target_config
 
+if TYPE_CHECKING:
+    import argparse
 
-def run():
+
+def run(
+    path_repo_base: str | Path,
+    path_repo_head: str | Path,
+    token_github: str,
+    token_zenodo: str,
+    token_zenodo_sandbox: str,
+    github_context: _github_contexts.GitHubContext,
+):
     _logger.section("Execution")
     event_to_handler = {
         _EventType.ISSUES: _handler.IssuesEventHandler,
@@ -26,18 +39,7 @@ def run():
         _EventType.SCHEDULE: _handler.ScheduleEventHandler,
         _EventType.WORKFLOW_DISPATCH: _handler.WorkflowDispatchEventHandler,
     }
-    path_repo_base = _actionman.env_var.read(name="PATH_REPO_BASE", typ=str)
-    path_repo_head = _actionman.env_var.read(name="PATH_REPO_HEAD", typ=str)
-    admin_token = Token(
-        _actionman.env_var.read(name="GITHUB_ADMIN_TOKEN", typ=str), name="GitHub Admin"
-    )
-    zenodo_token = Token(_actionman.env_var.read(name="ZENODO_TOKEN", typ=str), name="Zenodo")
-    zenodo_sandbox_token = Token(
-        _actionman.env_var.read(name="ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox"
-    )
-    github_context = _github_contexts.github.create(
-        context=_actionman.env_var.read(name="GITHUB_CONTEXT", typ=dict)
-    )
+
     reporter = Reporter(github_context=github_context)
     output_writer = OutputManager()
     handler_class = event_to_handler.get(github_context.event_name)
@@ -113,6 +115,37 @@ def run():
     )
     return
 
+
+def run_cli(args: argparse.Namespace):
+    """Run the CLI.
+
+    Parameters
+    ----------
+    args : argparse.Namespace, optional
+        The parsed arguments. If None, the arguments are parsed from sys.argv.
+    """
+    path_repo_base = _actionman.env_var.read(name="PATH_REPO_BASE", typ=str)
+    path_repo_head = _actionman.env_var.read(name="PATH_REPO_HEAD", typ=str)
+    admin_token = Token(
+        _actionman.env_var.read(name="GITHUB_ADMIN_TOKEN", typ=str), name="GitHub Admin"
+    )
+    zenodo_token = Token(_actionman.env_var.read(name="ZENODO_TOKEN", typ=str), name="Zenodo")
+    zenodo_sandbox_token = Token(
+        _actionman.env_var.read(name="ZENODO_SANDBOX_TOKEN", typ=str), name="Zenodo Sandbox"
+    )
+    github_context = _github_contexts.github.create(
+        context=_actionman.env_var.read(name="GITHUB_CONTEXT", typ=dict)
+    )
+
+    run(
+        path_repo_base=path_repo_base,
+        path_repo_head=path_repo_head,
+        token_github=admin_token,
+        token_zenodo=zenodo_token,
+        token_zenodo_sandbox=zenodo_sandbox_token,
+        github_context=github_context,
+    )
+    return
 
 @_logger.sectioner("Output Generation")
 def _finalize(
