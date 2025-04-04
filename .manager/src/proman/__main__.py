@@ -18,6 +18,7 @@ def cli():
         return get_recursive(parts, script)
 
     initialize_logger()
+
     # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
     parser.add_argument("--repo", type=str, help="Local path to the repository root directory.", default="./")
@@ -88,6 +89,7 @@ def cli():
         if (args.from_ref and not args.to_ref) or (args.to_ref and not args.from_ref):
             parser.error("Both --from-ref and --to-ref must be provided together.")
     # end auto-generated parser
+
     logger.debug("Input Arguments", args)
     endpoint = get_endpoint(args.endpoint)
     endpoint(args)
