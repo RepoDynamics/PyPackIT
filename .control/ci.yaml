@@ -29,6 +29,10 @@ pypkg_ci:
                     "metadata",
                     json.loads((Path(args.repo).resolve() / ".github/.repodynamics/metadata.json").read_text())
                 )
+            - args: [ --remove-tokens ]
+              kwargs:
+                help: Remove all tokens read from the environment.
+                action: store_true
           subparser:
             id: main
             kwargs:
@@ -42,7 +46,7 @@ pypkg_ci:
                 defaults:
                   endpoint: cca.run_cli
                 arguments:
-                  - args: [ -t, --token ]
+                  - args: [ -t, --github-token ]
                     kwargs:
                       type: str
                       help: GitHub token for accessing the repository.
@@ -220,7 +224,7 @@ pypkg_ci:
       actionman:
         install:
           pip:
-            version: ==0.1.0
+            version: ==0.1.1
             homepage: https://pypi.org/project/actionman
         url:
           docs: https://actionman.repodynamics.com
@@ -259,7 +263,7 @@ pypkg_ci:
       github-contexts:
         install:
           pip:
-            version: ==0.1.0
+            version: ==0.1.1
             homepage: https://pypi.org/project/github-contexts
         url:
           docs: https://github-contexts.repodynamics.com
