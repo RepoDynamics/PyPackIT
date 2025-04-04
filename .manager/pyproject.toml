@@ -39,7 +39,7 @@ requires-python = ">=3.10"
 version = "0.1.0"
 
 [project.scripts]
-project = "proman.__main__:cli"
+proman = "proman.__main__:cli"
 
 [tool.setuptools]
 include-package-data = true
