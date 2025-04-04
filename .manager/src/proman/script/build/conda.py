@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-import pypackit.script.version as _script_version
+import proman.script.version as _script_version
 
 if TYPE_CHECKING:
     from typing import Literal

@@ -1,4 +1,4 @@
-from pypackit.script import build, cca, lint, render, version
+from proman.script import build, cca, lint, render, version
 
 __all__ = [
     "build",

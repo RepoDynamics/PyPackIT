@@ -2,7 +2,7 @@ import argparse
 
 from loggerman import logger
 
-from pypackit import script
+from proman import script
 
 
 def cli():
