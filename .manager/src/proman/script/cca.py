@@ -72,7 +72,7 @@ def run_cli(args: argparse.Namespace) -> int:
     try:
         report = run(
             repo=args.repo,
-            token=args.token,
+            token=args.github_token,
             branch_version=args.branch_version,
             control_center=args.control_center,
             dry_run=args.dry_run,
