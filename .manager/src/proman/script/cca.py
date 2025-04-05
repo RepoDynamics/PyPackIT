@@ -83,4 +83,7 @@ def run_cli(args: argparse.Namespace) -> int:
         report = e.report
         exit_code = 1
     report_str = report.render()
+    report_path = Path(args.repo) / ".local" / "report" / "cca" / "report.html"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(report_str)
     return sys.exit(exit_code)
