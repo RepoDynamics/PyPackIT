@@ -479,63 +479,87 @@ devcontainer_main:
   container:
     name: Main Development Environment
     remoteUser: codespace
-    containerUser: codespace
+    containerUser: ${{ .remoteUser }}$
     forwardPorts:
       - 8888:8888  # for Jupyter Notebook
+      - ${{ .features.'ghcr.io/devcontainers/features/desktop-lite:1'.webPort }}$
+    portsAttributes:
+      ${{ .features.'ghcr.io/devcontainers/features/desktop-lite:1'.webPort }}$:
+        label: Desktop Lite
     features:
       # https://github.com/devcontainers/features/tree/main/src/common-utils
       ghcr.io/devcontainers/features/common-utils:2:
         installZsh: true
-        configureZshAsDefaultShell: false
+        configureZshAsDefaultShell: true
         installOhMyZsh: true
         installOhMyZshConfig: true
         upgradePackages: true
-        username: codespace
+        username: ${{ devcontainer_main.container.containerUser }}$
         userUid: "1000"
         userGid: "1000"
       # https://github.com/devcontainers/features/tree/main/src/conda
       ghcr.io/devcontainers/features/conda:1:
         version: latest
         addCondaForge: true
-      # https://github.com/devcontainers/features/tree/main/src/node
-      ghcr.io/devcontainers/features/node:1:
-        version: "22"
-        additionalVersions: "20"
-      # https://github.com/devcontainers/features/tree/main/src/sshd
-      ghcr.io/devcontainers/features/sshd:1:
+      # https://github.com/devcontainers/features/tree/main/src/desktop-lite
+      ghcr.io/devcontainers/features/desktop-lite:1:
         version: latest
-      # https://github.com/devcontainers/features/tree/main/src/git
-      ghcr.io/devcontainers/features/git:1:
+        password: noPassword
+        webPort: "6080"
+        vncPort: "5901"
+      # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
+      ghcr.io/devcontainers/features/docker-outside-of-docker:1:
+        # Note: This feature is incompatible with the Docker-in-Docker feature
+        # - https://github.com/devcontainers/features/issues/742#issuecomment-1793019485
         version: latest
-        ppa: false
       # https://github.com/devcontainers/features/tree/main/src/git-lfs
       ghcr.io/devcontainers/features/git-lfs:1:
         version: latest
         autoPull: true
+      # https://github.com/devcontainers/features/tree/main/src/git
+      ghcr.io/devcontainers/features/git:1:
+        version: latest
+        ppa: false
       # https://github.com/devcontainers/features/tree/main/src/github-cli
       ghcr.io/devcontainers/features/github-cli:1:
         version: latest
+      # https://github.com/devcontainers/features/tree/main/src/node
+      ghcr.io/devcontainers/features/node:1:
+        version: latest
+        nodeGypDependencies: true
+        nvmInstallPath: /usr/local/share/nvm
+        pnpmVersion: latest
+        nvmVersion: latest
+        installYarnUsingApt: true
       # https://github.com/devcontainers/features/tree/main/src/oryx
       ghcr.io/devcontainers/features/oryx:1: {}
-      # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
-      # Note: This feature is incompatible with the Docker-in-Docker feature
-      # - https://github.com/devcontainers/features/issues/742#issuecomment-1793019485
-      ghcr.io/devcontainers/features/docker-outside-of-docker:1: {}
+      # https://github.com/devcontainers/features/tree/main/src/ruby
+      ghcr.io/devcontainers/features/ruby:1:
+        version: latest
+      # https://github.com/devcontainers/features/tree/main/src/rust
+      ghcr.io/devcontainers/features/rust:1:
+        version: latest
+        profile: minimal
+      # https://github.com/devcontainers/features/tree/main/src/sshd
+      ghcr.io/devcontainers/features/sshd:1:
+        version: latest
       # https://github.com/devcontainers-extra/features/tree/main/src/apt-get-packages
       ghcr.io/devcontainers-extra/features/apt-get-packages:1:
         packages: |-
           #{{
             return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_main.apt", {}).values()])
           }}#
-      ./${{ devfeature_user_setup.path }}$: "latest"
+      # Local features
+      ./${{ devfeature_user_setup.path }}$: {}
       ./${{ devfeature_conda_setup.path }}$: {}
       ./${{ devfeature_pkg_setup.path }}$: {}
     overrideFeatureInstallOrder:
       - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/desktop-lite:1
       - ghcr.io/devcontainers/features/git
       - ghcr.io/devcontainers/features/node
       - ghcr.io/devcontainers/features/conda
-      - ghcr.io/devcontainers/features/python
+      - ghcr.io/devcontainers/features/ruby
       - ghcr.io/devcontainers/features/sshd
       - ghcr.io/devcontainers/features/git-lfs
       - ghcr.io/devcontainers/features/github-cli
@@ -545,6 +569,9 @@ devcontainer_main:
       - ghcr.io/devcontainers-extra/features/apt-get-packages
       - ./${{ devfeature_conda_setup.path }}$
       - ./${{ devfeature_pkg_setup.path }}$
+    remoteEnv:
+      # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker#1-use-the-localworkspacefolder-as-environment-variable-in-your-code
+      LOCAL_WORKSPACE_FOLDER: "${localWorkspaceFolder}"
     postCreateCommand:
       pre_commit_install:
         - conda
@@ -649,6 +676,13 @@ devcontainer_main:
           - ms-python.mypy-type-checker
           - graphql.vscode-graphql-syntax
         settings:
+          jupyter.kernels.filter:
+            - path: /opt/conda/bin/python
+              type: pythonEnvironment
+            - path: /opt/conda/envs/app/bin/python
+              type: pythonEnvironment
+          lldb.executable: /usr/bin/lldb
+          python.defaultInterpreterPath: /opt/conda/envs/app/bin/python
           terminal.integrated.scrollback: 1000000
           tasks:
             version: 2.0.0
@@ -1193,8 +1227,12 @@ devcontainer_main:
           description: |
             Package for managing conda environment-based kernels inside of Jupyter.
           notes: |
-            Each conda environment that has `ipykernel` installed 
+            Each conda environment that has `ipykernel` installed
             will be available as a kernel in Jupyter.
+            See also:
+            - https://github.com/jupyterlab/jupyterlab/issues/12544#issuecomment-1125754909
+            - https://ipython.readthedocs.io/en/stable/install/kernel_install.html#kernels-for-different-environments
+            - https://stackoverflow.com/questions/53004311/how-to-add-conda-environment-to-jupyter-lab
           url:
             package: https://anaconda.org/conda-forge/nb_conda_kernels
             source: https://github.com/anaconda/nb_conda_kernels
