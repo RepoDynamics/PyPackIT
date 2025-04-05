@@ -27,3 +27,43 @@ Currently, selectors are not supported in environment files:
 
 Creating environments from pyproject.toml is not supported either:
 - https://github.com/conda/conda/issues/10633
+
+
+## Add configuration files (dotfiles) to devcontainers
+
+This can either be done directly by including the files
+in the repository and copying to the container during build,
+or by creating a dotfiles repository so that each person
+can load their own dotfiles. We probably want to do a
+combination of both, so that required configurations
+are set by the repository, and then each user can
+load their own optional configs like themes, secrets, etc.
+
+### Jupyter config
+
+See:
+- https://github.com/anaconda/nb_conda_kernels?tab=readme-ov-file#use-with-nbconvert-voila-papermill
+- https://github.com/jupyterlab/jupyterlab-github?tab=readme-ov-file#3-enabling-and-configuring-the-server-extension
+- https://stackoverflow.com/questions/48950670/jupyterlab-user-settings-file
+
+#### Default theme
+
+Add the following JSON
+```json
+{
+    "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Dark"
+    }
+}
+```
+to the following path:
+```bash
+"$JUPYTERLAB_DIR/settings/overrides.json"
+```
+where `$JUPYTERLAB_DIR` (not available by default!) is by default set to `<sys-prefix>/share/jupyter/lab`, where where `<sys-prefix>` is the site-specific directory prefix of the current Python environment, e.g., `/opt/conda/envs/my-jupyter-env`.
+
+see:
+- https://jupyterlab.readthedocs.io/en/stable/user/directories.html#overrides-json
+- https://stackoverflow.com/a/70485739/14923024
+
+- 
