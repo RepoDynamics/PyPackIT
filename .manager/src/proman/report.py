@@ -237,7 +237,7 @@ def initialize_logger(
     title_number: int | list[int] = 1,
 ):
     logger.initialize(
-        realtime_levels=list(range(1, 7)),
+        realtime_levels=list(range(7)),
         github_debug=True,
         title_number=title_number,
         level_style_debug=style.log_level(
