@@ -3,4 +3,6 @@ dependencies:
   - conda-forge::jupyterlab
   - conda-forge::jupyterlab-git
   - conda-forge::jupyterlab-myst
+  - conda-forge::ipywidgets
   - conda-forge::nb_conda_kernels
+  - conda-forge::qtconsole

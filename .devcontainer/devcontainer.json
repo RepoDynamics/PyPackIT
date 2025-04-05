@@ -79,6 +79,18 @@
             "graphql.vscode-graphql-syntax"
          ],
          "settings": {
+            "jupyter.kernels.filter": [
+               {
+                  "path": "/opt/conda/bin/python",
+                  "type": "pythonEnvironment"
+               },
+               {
+                  "path": "/opt/conda/envs/app/bin/python",
+                  "type": "pythonEnvironment"
+               }
+            ],
+            "lldb.executable": "/usr/bin/lldb",
+            "python.defaultInterpreterPath": "/opt/conda/envs/app/bin/python",
             "tasks": {
                "tasks": [
                   {
@@ -137,12 +149,12 @@
    "features": {
       "./features/conda_setup": {},
       "./features/pkg_setup": {},
-      "./features/setup-user": "latest",
+      "./features/setup-user": {},
       "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
          "packages": ""
       },
       "ghcr.io/devcontainers/features/common-utils:2": {
-         "configureZshAsDefaultShell": false,
+         "configureZshAsDefaultShell": true,
          "installOhMyZsh": true,
          "installOhMyZshConfig": true,
          "installZsh": true,
@@ -155,7 +167,15 @@
          "addCondaForge": true,
          "version": "latest"
       },
-      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+      "ghcr.io/devcontainers/features/desktop-lite:1": {
+         "password": "noPassword",
+         "version": "latest",
+         "vncPort": "5901",
+         "webPort": "6080"
+      },
+      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+         "version": "latest"
+      },
       "ghcr.io/devcontainers/features/git-lfs:1": {
          "autoPull": true,
          "version": "latest"
@@ -168,24 +188,38 @@
          "version": "latest"
       },
       "ghcr.io/devcontainers/features/node:1": {
-         "additionalVersions": "20",
-         "version": "22"
+         "installYarnUsingApt": true,
+         "nodeGypDependencies": true,
+         "nvmInstallPath": "/usr/local/share/nvm",
+         "nvmVersion": "latest",
+         "pnpmVersion": "latest",
+         "version": "latest"
       },
       "ghcr.io/devcontainers/features/oryx:1": {},
+      "ghcr.io/devcontainers/features/ruby:1": {
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/rust:1": {
+         "profile": "minimal",
+         "version": "latest"
+      },
       "ghcr.io/devcontainers/features/sshd:1": {
          "version": "latest"
       }
    },
    "forwardPorts": [
-      "8888:8888"
+      8888,
+      6080,
+      5901
    ],
    "name": "Main Development Environment",
    "overrideFeatureInstallOrder": [
       "ghcr.io/devcontainers/features/common-utils",
+      "ghcr.io/devcontainers/features/desktop-lite:1",
       "ghcr.io/devcontainers/features/git",
       "ghcr.io/devcontainers/features/node",
       "ghcr.io/devcontainers/features/conda",
-      "ghcr.io/devcontainers/features/python",
+      "ghcr.io/devcontainers/features/ruby",
       "ghcr.io/devcontainers/features/sshd",
       "ghcr.io/devcontainers/features/git-lfs",
       "ghcr.io/devcontainers/features/github-cli",
@@ -196,6 +230,26 @@
       "./features/conda_setup",
       "./features/pkg_setup"
    ],
+   "portsAttributes": {
+      "5901": {
+         "elevateIfNeeded": true,
+         "label": "Desktop Lite (VNC)",
+         "onAutoForward": "notify",
+         "requireLocalPort": false
+      },
+      "6080": {
+         "elevateIfNeeded": true,
+         "label": "Desktop Lite (web)",
+         "onAutoForward": "openBrowserOnce",
+         "requireLocalPort": false
+      },
+      "8888": {
+         "elevateIfNeeded": true,
+         "label": "Jupyter",
+         "onAutoForward": "openBrowserOnce",
+         "requireLocalPort": false
+      }
+   },
    "postCreateCommand": {
       "pre_commit_install": [
          "conda",
@@ -226,6 +280,9 @@
          ".manager",
          "--no-deps"
       ]
+   },
+   "remoteEnv": {
+      "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
    },
    "remoteUser": "codespace",
    "service": "main",
