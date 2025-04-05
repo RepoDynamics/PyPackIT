@@ -6002,6 +6002,7 @@
    },
    "devcontainer_main": {
       "container": {
+         "containerUser": "codespace",
          "customizations": {
             "vscode": {
                "extensions": [
@@ -6139,15 +6140,65 @@
          "features": {
             "./features/conda_setup": {},
             "./features/pkg_setup": {},
+            "./features/setup-user": "latest",
             "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
                "packages": ""
             },
-            "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+            "ghcr.io/devcontainers/features/common-utils:2": {
+               "configureZshAsDefaultShell": false,
+               "installOhMyZsh": true,
+               "installOhMyZshConfig": true,
+               "installZsh": true,
+               "upgradePackages": true,
+               "userGid": "1000",
+               "userUid": "1000",
+               "username": "codespace"
+            },
+            "ghcr.io/devcontainers/features/conda:1": {
+               "addCondaForge": true,
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+            "ghcr.io/devcontainers/features/git-lfs:1": {
+               "autoPull": true,
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/git:1": {
+               "ppa": false,
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/github-cli:1": {
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/node:1": {
+               "additionalVersions": "20",
+               "version": "22"
+            },
+            "ghcr.io/devcontainers/features/oryx:1": {},
+            "ghcr.io/devcontainers/features/sshd:1": {
+               "version": "latest"
+            }
          },
          "forwardPorts": [
             "8888:8888"
          ],
          "name": "Main Development Environment",
+         "overrideFeatureInstallOrder": [
+            "ghcr.io/devcontainers/features/common-utils",
+            "ghcr.io/devcontainers/features/git",
+            "ghcr.io/devcontainers/features/node",
+            "ghcr.io/devcontainers/features/conda",
+            "ghcr.io/devcontainers/features/python",
+            "ghcr.io/devcontainers/features/sshd",
+            "ghcr.io/devcontainers/features/git-lfs",
+            "ghcr.io/devcontainers/features/github-cli",
+            "ghcr.io/devcontainers/features/docker-outside-of-docker",
+            "ghcr.io/devcontainers/features/oryx",
+            "./features/setup-user",
+            "ghcr.io/devcontainers-extra/features/apt-get-packages",
+            "./features/conda_setup",
+            "./features/pkg_setup"
+         ],
          "postCreateCommand": {
             "pre_commit_install": [
                "conda",
@@ -6179,12 +6230,15 @@
                "--no-deps"
             ]
          },
+         "remoteUser": "codespace",
          "service": "main",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
       },
       "dockerfile": [
-         "FROM mcr.microsoft.com/devcontainers/universal:2-linux",
+         "FROM ubuntu:noble",
+         "RUN if id \"ubuntu\" &>/dev/null; then \\\n        echo \"Deleting user 'ubuntu'\" && userdel -f -r ubuntu || echo \"Failed to delete ubuntu user.\"; \\\n    else \\\n        echo \"User 'ubuntu' does not exist.\"; \\\n    fi\n",
+         "RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \\\n    # Restore man command\n    && yes | unminimize 2>&1\n\nENV LANG=\"C.UTF-8\"\n\n# Install basic build tools\nRUN apt-get update \\\n    && apt-get upgrade -y \\\n    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \\\n        make \\\n        unzip \\\n        # The tools in this package are used when installing packages for Python\n        build-essential \\\n        swig3.0 \\\n        # Required for Microsoft SQL Server\n        unixodbc-dev \\\n        # Required for PostgreSQL\n        libpq-dev \\\n        # Required for mysqlclient\n        default-libmysqlclient-dev \\\n        # Required for ts\n        moreutils \\\n        rsync \\\n        zip \\\n        libgdiplus \\\n        jq \\\n        # By default pip is not available in the buildpacks image\n        python3-pip-whl \\\n        python3-pip \\\n        #.NET Core related pre-requisites\n        libc6 \\\n        libgcc1 \\\n        libgssapi-krb5-2 \\\n        libncurses6 \\\n        liblttng-ust1 \\\n        libssl-dev \\\n        libstdc++6 \\\n        zlib1g \\\n        libuuid1 \\\n        libunwind8 \\\n        sqlite3 \\\n        libsqlite3-dev \\\n        software-properties-common \\\n        tk-dev \\\n        uuid-dev \\\n        curl \\\n        gettext \\\n        inotify-tools \\\n    && rm -rf /var/lib/apt/lists/* \\\n    # This is the folder containing 'links' to benv and build script generator\n    && apt-get update \\\n    && apt-get upgrade -y \\\n    && add-apt-repository universe \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Verify expected build and debug tools are present\nRUN apt-get update \\\n    && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \\\n    # Install tools and shells not in common script\n    && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev \\\n    # Install additional tools (useful for 'puppeteer' project)\n    && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \\\n                                                  libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \\\n    # Clean up\n    && apt-get autoremove -y && apt-get clean -y \\\n\n# Default to bash shell (other shells available at /usr/bin/fish and /usr/bin/zsh)\nENV SHELL=/bin/bash \\\n    DOCKER_BUILDKIT=1\n\n# Install and setup fish\nRUN apt-get install -yq fish \\\n    && FISH_PROMPT=\"function fish_prompt\\n    set_color green\\n    echo -n (whoami)\\n    set_color normal\\n    echo -n \\\":\\\"\\n    set_color blue\\n    echo -n (pwd)\\n    set_color normal\\n    echo -n \\\"> \\\"\\nend\\n\" \\\n    && printf \"$FISH_PROMPT\" >> /etc/fish/functions/fish_prompt.fish \\\n    && printf \"if type code-insiders > /dev/null 2>&1; and not type code > /dev/null 2>&1\\n  alias code=code-insiders\\nend\" >> /etc/fish/conf.d/code_alias.fish\n\n# Remove scripts now that we're done with them\nRUN apt-get clean -y\n\nCMD [ \"sleep\", \"infinity\" ]\n",
          "COPY .devcontainer/environment /usr/local/share/environments/",
          "COPY .devcontainer/install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
       ],
@@ -7694,72 +7748,35 @@
       "install": "#!/usr/bin/env bash\nset -euxo pipefail\nmkdir -p $LOG_DIR\nLOG_FILE=\"${LOG_DIR}/install.log\"\n# Redirect stdout and stderr to a file\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\necho \"Initializing conda...\"\nconda init\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Creating log directory...\"\npython \"$SCRIPT_FILEPATH\" \\\n  --packages '[\"main\", \"test\"]' \\\n  --filepath \"$METADATA_FILEPATH\" \\\n  --python-version \"$PYTHON_VERSION\" \\\n  --sources $SOURCES \\\n  --conda-env-name \"$CONDA_ENV_NAME\"\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/pkg_setup"
    },
-   "discussion": {
-      "category": {
-         "branding": {
-            "created_at": "2023-07-05",
-            "description": "",
-            "emoji": "#\ufe0f\u20e3",
-            "id": "DIC_kwDOJi8gRs4CXrl6",
-            "is_answerable": false,
-            "name": "Branding",
-            "updated_at": "2023-07-05"
+   "devfeature_user_setup": {
+      "feature": {
+         "containerEnv": {
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+            "GOROOT": "/usr/local/go",
+            "HUGO_ROOT": "/home/codespace/.hugo",
+            "JAVA_ROOT": "/home/codespace/java",
+            "JUPYTERLAB_PATH": "/home/codespace/.local/bin",
+            "MAVEN_ROOT": "/home/codespace/.maven",
+            "NODE_ROOT": "/home/codespace/nvm",
+            "NPM_GLOBAL": "/home/codespace/.npm-global",
+            "NUGET_XMLDOC_MODE": "skip",
+            "NVS_HOME": "/home/codespace/.nvs",
+            "ORYX_ENV_TYPE": "vsonline-present",
+            "PATH": "/home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}",
+            "PHP_ROOT": "/home/codespace/.php",
+            "PYTHONIOENCODING": "UTF-8",
+            "PYTHON_ROOT": "/home/codespace/.python",
+            "RAILS_DEVELOPMENT_HOSTS": ".githubpreview.dev,.preview.app.github.dev,.app.github.dev",
+            "RUBY_HOME": "/usr/local/rvm/rubies/default",
+            "RUBY_ROOT": "/home/codespace/.ruby",
+            "RVM_PATH": "/usr/local/rvm"
          },
-         "bug-report": {
-            "created_at": "2023-07-08",
-            "description": "Report a potential bug or problem you encountered while using the application.",
-            "emoji": "#\ufe0f\u20e3",
-            "id": "DIC_kwDOJi8gRs4CXwlw",
-            "is_answerable": false,
-            "name": "Bug Report",
-            "updated_at": "2023-07-08"
-         },
-         "installation": {
-            "created_at": "2023-05-21",
-            "description": "Ask questions about the installation process.",
-            "emoji": "\ud83d\ude4f",
-            "id": "DIC_kwDOJi8gRs4CWomv",
-            "is_answerable": true,
-            "name": "Installation",
-            "updated_at": "2023-07-03"
-         },
-         "new-features": {
-            "created_at": "2023-05-21",
-            "description": "Share ideas for new features",
-            "emoji": "\ud83d\udca1",
-            "id": "DIC_kwDOJi8gRs4CWomw",
-            "is_answerable": false,
-            "name": "New Features",
-            "updated_at": "2023-07-05"
-         },
-         "release": {
-            "created_at": "2023-05-21",
-            "description": "New release announcements",
-            "emoji": "\ud83d\udce3",
-            "id": "DIC_kwDOJi8gRs4CWomt",
-            "is_answerable": false,
-            "name": "Release",
-            "updated_at": "2023-08-04"
-         },
-         "testimonials": {
-            "created_at": "2025-01-09",
-            "description": "Write a testimonial for PyPackIT and share your experience with others.",
-            "emoji": "\ud83d\udcdd",
-            "id": "DIC_kwDOJi8gRs4Cl3_R",
-            "is_answerable": false,
-            "name": "Testimonials",
-            "updated_at": "2025-01-09"
-         },
-         "usage": {
-            "created_at": "2023-07-03",
-            "description": "Ask questions about the application and its usage/behavior.",
-            "emoji": "#\ufe0f\u20e3",
-            "id": "DIC_kwDOJi8gRs4CXp_t",
-            "is_answerable": true,
-            "name": "Usage",
-            "updated_at": "2023-07-08"
-         }
-      }
+         "id": "setup-user",
+         "name": "Setup user configs",
+         "version": "0.1.0"
+      },
+      "install": "#!/usr/bin/env bash\n\nUSERNAME=${USERNAME:-\"codespace\"}\n\nset -eux\n\nif [ \"$(id -u)\" -ne 0 ]; then\n    echo -e 'Script must be run as root. Use sudo, su, or add \"USER root\" to your Dockerfile before running this script.'\n    exit 1\nfi\n\n# Ensure that login shells get the correct path if the user updated the PATH using ENV.\nrm -f /etc/profile.d/00-restore-env.sh\necho \"export PATH=${PATH//$(sh -lc 'echo $PATH')/\\$PATH}\" > /etc/profile.d/00-restore-env.sh\nchmod +x /etc/profile.d/00-restore-env.sh\n\nexport DEBIAN_FRONTEND=noninteractive\n\nsudo_if() {\n    COMMAND=\"$*\"\n    if [ \"$(id -u)\" -eq 0 ] && [ \"$USERNAME\" != \"root\" ]; then\n        su - \"$USERNAME\" -c \"$COMMAND\"\n    else\n        \"$COMMAND\"\n    fi\n}\n\n# Enables the oryx tool to generate manifest-dir which is needed for running the postcreate tool\nDEBIAN_FLAVOR=\"focal-scm\"\nmkdir -p /opt/oryx && echo \"vso-focal\" > /opt/oryx/.imagetype\necho \"DEBIAN|${DEBIAN_FLAVOR}\" | tr '[a-z]' '[A-Z]' > /opt/oryx/.ostype\n\n# Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.\nln -snf /usr/local/oryx/* /opt/oryx\n\n# For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.\n# This ensures that whatever platfornm versions oryx detects and installs are set as root.\nNODE_PATH=\"/home/codespace/nvm/current\"\nln -snf /usr/local/share/nvm /home/codespace\n\nPHP_PATH=\"/home/${USERNAME}/.php/current\"\nmkdir -p /home/${USERNAME}/.php\nln -snf /usr/local/php/current $PHP_PATH\n\nPYTHON_PATH=\"/home/${USERNAME}/.python/current\"\nmkdir -p /home/${USERNAME}/.python\nln -snf /usr/local/python/current $PYTHON_PATH\nln -snf /usr/local/python /opt/python\n\nJAVA_PATH=\"/home/codespace/java/current\"\nln -snf /usr/local/sdkman/candidates/java /home/codespace\n\nRUBY_PATH=\"/home/${USERNAME}/.ruby/current\"\nmkdir -p /home/${USERNAME}/.ruby\nln -snf /usr/local/rvm/rubies/default $RUBY_PATH\n\nDOTNET_PATH=\"/home/${USERNAME}/.dotnet\"\n\n# Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825\nchown -R \"${USERNAME}:${USERNAME}\" /usr/share/dotnet\nchmod g+r+w+s /usr/share/dotnet\nchmod -R g+r+w /usr/share/dotnet\n\nln -snf /usr/share/dotnet $DOTNET_PATH\nmkdir -p /opt/dotnet/lts\ncp -R /usr/share/dotnet/dotnet /opt/dotnet/lts\ncp -R /usr/share/dotnet/LICENSE.txt /opt/dotnet/lts\ncp -R /usr/share/dotnet/ThirdPartyNotices.txt /opt/dotnet/lts\n\nMAVEN_PATH=\"/home/${USERNAME}/.maven/current\"\nmkdir -p /home/${USERNAME}/.maven\nln -snf /usr/local/sdkman/candidates/maven/current $MAVEN_PATH\n\nHUGO_ROOT=\"/home/${USERNAME}/.hugo/current\"\nmkdir -p /home/${USERNAME}/.hugo\nln -snf /usr/local/hugo $HUGO_ROOT\n\nHOME_DIR=\"/home/${USERNAME}/\"\nchown -R ${USERNAME}:${USERNAME} ${HOME_DIR}\nchmod -R g+r+w \"${HOME_DIR}\"\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s\n\nOPT_DIR=\"/opt/\"\nchown -R ${USERNAME}:oryx ${OPT_DIR}\nchmod -R g+r+w \"${OPT_DIR}\"\nfind \"${OPT_DIR}\" -type d | xargs -n 1 chmod g+s\n\necho \"Defaults secure_path=\\\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\\\"\" >> /etc/sudoers.d/$USERNAME\n\n# Temporary: Due to GHSA-c2qf-rxjj-qqgw\nbash -c \". /usr/local/share/nvm/nvm.sh && nvm use 22\"\nbash -c \"npm -g install -g npm@9.8.1\"\nbash -c \". /usr/local/share/nvm/nvm.sh && nvm use stable\"\n\necho \"Done!\"\n",
+      "path": "features/setup-user"
    },
    "file_binder_apt": {
       "content": "",
@@ -12175,57 +12192,7 @@
                                  "color": "#0B3C75",
                                  "endpoint": "discussion_search_hits",
                                  "height": "23px",
-                                 "items": [
-                                    {
-                                       "args": {
-                                          "query": "category:\"Branding\""
-                                       },
-                                       "label": "#\ufe0f\u20e3\u2002Branding",
-                                       "title": ""
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"Bug Report\""
-                                       },
-                                       "label": "#\ufe0f\u20e3\u2002Bug Report",
-                                       "title": "Report a potential bug or problem you encountered while using the application."
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"Installation\""
-                                       },
-                                       "label": "\ud83d\ude4f\u2002Installation",
-                                       "title": "Ask questions about the installation process."
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"New Features\""
-                                       },
-                                       "label": "\ud83d\udca1\u2002New Features",
-                                       "title": "Share ideas for new features"
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"Release\""
-                                       },
-                                       "label": "\ud83d\udce3\u2002Release",
-                                       "title": "New release announcements"
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"Testimonials\""
-                                       },
-                                       "label": "\ud83d\udcdd\u2002Testimonials",
-                                       "title": "Write a testimonial for PyPackIT and share your experience with others."
-                                    },
-                                    {
-                                       "args": {
-                                          "query": "category:\"Usage\""
-                                       },
-                                       "label": "#\ufe0f\u20e3\u2002Usage",
-                                       "title": "Ask questions about the application and its usage/behavior."
-                                    }
-                                 ],
+                                 "items": [],
                                  "separator": 2,
                                  "service": "github",
                                  "style": "flat-square"
@@ -21021,12 +20988,14 @@
          "devcontainer_feature_install": {
             "conda_setup": ".devcontainer/features/conda_setup/install.sh",
             "pixi": ".devcontainer/features/pixi/install.sh",
-            "pkg_setup": ".devcontainer/features/pkg_setup/install.sh"
+            "pkg_setup": ".devcontainer/features/pkg_setup/install.sh",
+            "setup-user": ".devcontainer/features/setup-user/install.sh"
          },
          "devcontainer_feature_metadata": {
             "conda_setup": ".devcontainer/features/conda_setup/devcontainer-feature.json",
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json",
-            "pkg_setup": ".devcontainer/features/pkg_setup/devcontainer-feature.json"
+            "pkg_setup": ".devcontainer/features/pkg_setup/devcontainer-feature.json",
+            "setup-user": ".devcontainer/features/setup-user/devcontainer-feature.json"
          },
          "devcontainer_metadata": {
             "docs": ".devcontainer/container-docs/devcontainer.json",
@@ -23764,57 +23733,7 @@
                                        "color": "#0B3C75",
                                        "endpoint": "discussion_search_hits",
                                        "height": "23px",
-                                       "items": [
-                                          {
-                                             "args": {
-                                                "query": "category:\"Branding\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Branding",
-                                             "title": ""
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Bug Report\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Bug Report",
-                                             "title": "Report a potential bug or problem you encountered while using the application."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Installation\""
-                                             },
-                                             "label": "\ud83d\ude4f\u2002Installation",
-                                             "title": "Ask questions about the installation process."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"New Features\""
-                                             },
-                                             "label": "\ud83d\udca1\u2002New Features",
-                                             "title": "Share ideas for new features"
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Release\""
-                                             },
-                                             "label": "\ud83d\udce3\u2002Release",
-                                             "title": "New release announcements"
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Testimonials\""
-                                             },
-                                             "label": "\ud83d\udcdd\u2002Testimonials",
-                                             "title": "Write a testimonial for PyPackIT and share your experience with others."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Usage\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Usage",
-                                             "title": "Ask questions about the application and its usage/behavior."
-                                          }
-                                       ],
+                                       "items": [],
                                        "separator": 2,
                                        "service": "github",
                                        "style": "flat-square"
@@ -26887,57 +26806,7 @@
                                        "color": "#0B3C75",
                                        "endpoint": "discussion_search_hits",
                                        "height": "23px",
-                                       "items": [
-                                          {
-                                             "args": {
-                                                "query": "category:\"Branding\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Branding",
-                                             "title": ""
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Bug Report\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Bug Report",
-                                             "title": "Report a potential bug or problem you encountered while using the application."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Installation\""
-                                             },
-                                             "label": "\ud83d\ude4f\u2002Installation",
-                                             "title": "Ask questions about the installation process."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"New Features\""
-                                             },
-                                             "label": "\ud83d\udca1\u2002New Features",
-                                             "title": "Share ideas for new features"
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Release\""
-                                             },
-                                             "label": "\ud83d\udce3\u2002Release",
-                                             "title": "New release announcements"
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Testimonials\""
-                                             },
-                                             "label": "\ud83d\udcdd\u2002Testimonials",
-                                             "title": "Write a testimonial for PyPackIT and share your experience with others."
-                                          },
-                                          {
-                                             "args": {
-                                                "query": "category:\"Usage\""
-                                             },
-                                             "label": "#\ufe0f\u20e3\u2002Usage",
-                                             "title": "Ask questions about the application and its usage/behavior."
-                                          }
-                                       ],
+                                       "items": [],
                                        "separator": 2,
                                        "service": "github",
                                        "style": "flat-square"
@@ -27486,15 +27355,7 @@
          },
          "discussions": {
             "home": "https://github.com/RepoDynamics/PyPackIT/discussions",
-            "new": {
-               "branding": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=branding",
-               "bug-report": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=bug-report",
-               "installation": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=installation",
-               "new-features": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=new-features",
-               "release": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=release",
-               "testimonials": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=testimonials",
-               "usage": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=usage"
-            }
+            "new": {}
          },
          "home": "https://github.com/RepoDynamics/PyPackIT",
          "issues": {

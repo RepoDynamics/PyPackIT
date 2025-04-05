@@ -1,4 +1,5 @@
 {
+   "containerUser": "codespace",
    "customizations": {
       "vscode": {
          "extensions": [
@@ -136,15 +137,65 @@
    "features": {
       "./features/conda_setup": {},
       "./features/pkg_setup": {},
+      "./features/setup-user": "latest",
       "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
          "packages": ""
       },
-      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+      "ghcr.io/devcontainers/features/common-utils:2": {
+         "configureZshAsDefaultShell": false,
+         "installOhMyZsh": true,
+         "installOhMyZshConfig": true,
+         "installZsh": true,
+         "upgradePackages": true,
+         "userGid": "1000",
+         "userUid": "1000",
+         "username": "codespace"
+      },
+      "ghcr.io/devcontainers/features/conda:1": {
+         "addCondaForge": true,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+      "ghcr.io/devcontainers/features/git-lfs:1": {
+         "autoPull": true,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/git:1": {
+         "ppa": false,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/github-cli:1": {
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/node:1": {
+         "additionalVersions": "20",
+         "version": "22"
+      },
+      "ghcr.io/devcontainers/features/oryx:1": {},
+      "ghcr.io/devcontainers/features/sshd:1": {
+         "version": "latest"
+      }
    },
    "forwardPorts": [
       "8888:8888"
    ],
    "name": "Main Development Environment",
+   "overrideFeatureInstallOrder": [
+      "ghcr.io/devcontainers/features/common-utils",
+      "ghcr.io/devcontainers/features/git",
+      "ghcr.io/devcontainers/features/node",
+      "ghcr.io/devcontainers/features/conda",
+      "ghcr.io/devcontainers/features/python",
+      "ghcr.io/devcontainers/features/sshd",
+      "ghcr.io/devcontainers/features/git-lfs",
+      "ghcr.io/devcontainers/features/github-cli",
+      "ghcr.io/devcontainers/features/docker-outside-of-docker",
+      "ghcr.io/devcontainers/features/oryx",
+      "./features/setup-user",
+      "ghcr.io/devcontainers-extra/features/apt-get-packages",
+      "./features/conda_setup",
+      "./features/pkg_setup"
+   ],
    "postCreateCommand": {
       "pre_commit_install": [
          "conda",
@@ -176,6 +227,7 @@
          "--no-deps"
       ]
    },
+   "remoteUser": "codespace",
    "service": "main",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"
