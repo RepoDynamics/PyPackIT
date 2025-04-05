@@ -4,6 +4,11 @@ __temp__:
   dockerfile_copy_script_cmd: |
     COPY .devcontainer/install.py ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
     COPY .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
+  port:
+    desktop_lite:
+      web: 6080
+      vnc: 5901
+    jupyter: 8888
 default:
   task_setting:
     local:
@@ -481,11 +486,21 @@ devcontainer_main:
     remoteUser: codespace
     containerUser: ${{ .remoteUser }}$
     forwardPorts:
-      - 8888:8888  # for Jupyter Notebook
-      - ${{ .features.'ghcr.io/devcontainers/features/desktop-lite:1'.webPort }}$
+      - ${{ __temp__.port.jupyter }}$
+      - ${{ __temp__.port.desktop_lite.web }}$
+      - ${{ __temp__.port.desktop_lite.vnc }}$
     portsAttributes:
-      ${{ .features.'ghcr.io/devcontainers/features/desktop-lite:1'.webPort }}$:
-        label: Desktop Lite
+      '#{{ return str(get("__temp__.port.desktop_lite.web")) }}#':
+        label: Desktop Lite (web)
+        onAutoForward: openBrowserOnce
+        elevateIfNeeded: true
+      '#{{ return str(get("__temp__.port.desktop_lite.vnc")) }}#':
+        label: Desktop Lite (VNC)
+        elevateIfNeeded: true
+      '#{{ return str(get("__temp__.port.jupyter")) }}#':
+        label: Jupyter
+        onAutoForward: openBrowserOnce
+        elevateIfNeeded: true
     features:
       # https://github.com/devcontainers/features/tree/main/src/common-utils
       ghcr.io/devcontainers/features/common-utils:2:
@@ -505,8 +520,8 @@ devcontainer_main:
       ghcr.io/devcontainers/features/desktop-lite:1:
         version: latest
         password: noPassword
-        webPort: "6080"
-        vncPort: "5901"
+        webPort: '#{{ return str(get("__temp__.port.desktop_lite.web")) }}#'
+        vncPort: '#{{ return str(get("__temp__.port.desktop_lite.vnc")) }}#'
       # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
       ghcr.io/devcontainers/features/docker-outside-of-docker:1:
         # Note: This feature is incompatible with the Docker-in-Docker feature
@@ -1223,6 +1238,13 @@ devcontainer_main:
             docs: https://jupyter-book.github.io/jupyterlab-myst/
             package: https://anaconda.org/conda-forge/jupyterlab-myst
             source: https://github.com/jupyter-book/jupyterlab-myst
+        ipywidgets:
+          description: |
+            Interactive widgets for the Jupyter notebook.
+          url:
+            docs: https://ipywidgets.readthedocs.io
+            package: https://anaconda.org/conda-forge/ipywidgets
+            source: https://github.com/jupyter-widgets/ipywidgets
         nb_conda_kernels:
           description: |
             Package for managing conda environment-based kernels inside of Jupyter.
@@ -1236,6 +1258,13 @@ devcontainer_main:
           url:
             package: https://anaconda.org/conda-forge/nb_conda_kernels
             source: https://github.com/anaconda/nb_conda_kernels
+        qtconsole:
+          description: |
+            Jupyter QtConsole is a terminal-based console for Jupyter.
+          url:
+            docs: https://qtconsole.readthedocs.io
+            package: https://anaconda.org/conda-forge/qtconsole
+            source: https://github.com/jupyter/qtconsole
     anaconda:
       conda:
         anaconda-client:
