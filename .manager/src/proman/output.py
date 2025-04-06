@@ -409,11 +409,11 @@ class OutputManager:
     ):
         for config, key, has_token in (
             (config_github, "github", True),
-            (config_zenodo, "zenodo", bool(self._branch_manager.zenodo_token)),
+            (config_zenodo, "zenodo", bool(self._branch_manager.token.zenodo)),
             (
                 config_zenodo_sandbox,
                 "zenodo_sandbox",
-                bool(self._branch_manager.zenodo_sandbox_token),
+                bool(self._branch_manager.token.zenodo_sandbox),
             ),
         ):
             job_config = self._branch_manager.data[f"workflow.publish.{key}"]
