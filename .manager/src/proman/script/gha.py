@@ -72,7 +72,7 @@ def run(
                 f"Unexpected Error: {error_name}",
                 traceback,
             )
-            reporter.add(
+            reporter.update(
                 "main",
                 status="fail",
                 summary=f"An unexpected error occurred: `{error_name}`",
@@ -101,12 +101,12 @@ def run(
             "Unsupported triggering event ",
             mdit.element.code_span(github_context.event_name.value),
         )
-        reporter.event(event_description)
+        reporter.update_event_summary(event_description)
         summary = mdit.inline_container(
             "Unsupported triggering event. Supported events are: ",
             supported_events,
         )
-        reporter.add("main", status="skip", summary=summary)
+        reporter.update("main", status="skip", summary=summary)
     _finalize(
         github_context=github_context,
         reporter=reporter,

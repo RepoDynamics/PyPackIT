@@ -20,9 +20,9 @@ class ScheduleEventHandler(EventHandler):
             if schedule["cron"] == cron:
                 break
         else:
-            self.reporter.event("Unknown scheduled workflow")
-            self.reporter.add(
-                name="event",
+            self.reporter.update_event_summary("Unknown scheduled workflow")
+            self.reporter.update(
+                "event",
                 status="fail",
                 summary="Unknown cron expression for scheduled workflow.",
                 body=[
@@ -37,7 +37,7 @@ class ScheduleEventHandler(EventHandler):
                 ],
             )
             return
-        self.reporter.event(f"Scheduled workflow `{schedule_id}`")
+        self.reporter.update_event_summary(f"Scheduled workflow `{schedule_id}`")
         job = schedule["job"]
         for branch_name in self._get_target_branches(schedule):
             self._git_base.checkout(branch=branch_name)

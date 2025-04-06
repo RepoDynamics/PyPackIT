@@ -36,51 +36,45 @@ class PushEventHandler(EventHandler):
     @logger.sectioner("Push Handler Execution")
     def run(self):
         if self.gh_context.ref_type is not _gh_context.enum.RefType.BRANCH:
-            self.reporter.event(f"Push to tag `{self.gh_context.ref_name}`")
-            self.reporter.add(
-                name="event", status="skip", summary="Push to tags does not trigger the workflow."
+            self.reporter.update_event_summary(
+                f"Push to tag `{self.gh_context.ref_name}`. Push to tags does not trigger the workflow.",
+                status="skip",
             )
             return None
         action = self.payload.action
         if action not in (_gh_context.enum.ActionType.CREATED, _gh_context.enum.ActionType.EDITED):
-            self.reporter.event(f"Deletion of branch `{self.gh_context.ref_name}`")
-            self.reporter.add(
-                name="event",
+            self.reporter.update_event_summary(
+                f"Deletion of branch `{self.gh_context.ref_name}`. Branch deletion does not trigger the workflow.",
                 status="skip",
-                summary="Branch deletion does not trigger the workflow.",
             )
             return None
         is_main = self.gh_context.ref_is_main
         has_tags = bool(self._git_head.get_tags())
         if action is _gh_context.enum.ActionType.CREATED:
             if not is_main:
-                self.reporter.event(f"Creation of branch `{self.gh_context.ref_name}`")
-                self.reporter.add(
-                    name="event",
+                self.reporter.update_event_summary(
+                    f"Creation of branch `{self.gh_context.ref_name}`. Branch creation does not trigger the workflow.",
                     status="skip",
-                    summary="Branch creation does not trigger the workflow.",
                 )
                 return None
             if not has_tags:
-                self.reporter.event("Repository creation")
+                self.reporter.update_event_summary("Repository creation")
                 return self._run_repository_creation()
-            self.reporter.event(f"Creation of default branch `{self.gh_context.ref_name}`")
-            self.reporter.add(
-                name="event",
-                status="skip",
-                summary="Default branch created while a git tag is present. "
+            self.reporter.update_event_summary(
+                f"Creation of default branch `{self.gh_context.ref_name}`. "
+                "Default branch created while a git tag is present. "
                 "This is likely a result of renaming the default branch.",
+                status="skip",
             )
             return None
         # Branch edited
         if self.gh_context.event.repository.fork:
             return self._run_branch_edited_fork()
         if not is_main:
-            self.reporter.event(f"Modification of branch `{self.gh_context.ref_name}`")
-            self.reporter.add(
-                name="event",
+            self.reporter.update_event_summary(
+                f"Modification of branch `{self.gh_context.ref_name}`"
+                "Modification of non-default branches does not trigger the workflow.",
                 status="skip",
-                summary="Modification of non-default branches does not trigger the workflow.",
             )
             return None
         # Main branch edited
@@ -150,8 +144,8 @@ class PushEventHandler(EventHandler):
         with logger.sectioning("Repository Update"):
             main_manager.git.push(force_with_lease=True)
         main_manager.repo.reset_labels()
-        self.reporter.add(
-            name="event",
+        self.reporter.update(
+            "event",
             status="pass",
             summary="Repository created from RepoDynamics template.",
         )
@@ -160,7 +154,7 @@ class PushEventHandler(EventHandler):
     def _run_init(self):
         user_input = self.head_commit_msg.footer
         init = user_input.initialize_project
-        self.reporter.event("Project initialization" if init else "Repository initialization phase")
+        self.reporter.update_event_summary("Project initialization" if init else "Repository initialization phase")
         version = user_input.version or PEP440SemVer(self.manager.changelog.current["version"])
         version_tag = self.manager.release.create_version_tag(version)
         self.manager.changelog.update_version(version_tag)
@@ -279,7 +273,7 @@ class PushEventHandler(EventHandler):
         return
 
     def _run_branch_edited_fork(self):
-        self.reporter.event("CI on fork")
+        self.reporter.update_event_summary("CI on fork")
         branch_manager = self.manager_from_metadata_file(repo="head")
         new_manager, job_runs, latest_hash = self.run_sync_fix(
             branch_manager=branch_manager,
@@ -302,7 +296,7 @@ class PushEventHandler(EventHandler):
         return
 
     def _run_branch_edited_main_normal(self):
-        self.reporter.event("Push to main branch")
+        self.reporter.update_event_summary("Push to main branch")
         new_manager, _ = self.run_cca(
             branch_manager=self.manager,
             action=InitCheckAction.COMMIT,

@@ -49,7 +49,7 @@ class IssuesEventHandler(EventHandler):
         return None
 
     def _run_opened(self):
-        self.reporter.event(f"Issue #{self.issue.number} opened")
+        self.reporter.update_event_summary(f"Issue #{self.issue.number} opened")
         issue_inputs, body_processed, labels = self.manager.protocol.initialize_issue(
             issue=self.issue, issue_form=self.issue_form
         )
@@ -79,7 +79,7 @@ class IssuesEventHandler(EventHandler):
         label = self.manager.label.resolve_label(self.payload.label.name)
         self.manager.protocol.add_event(env_vars={"label": label})
         if label.category is not LabelType.STATUS:
-            self.reporter.event(f"Issue #{self.issue.number} labeled `{label.name}`")
+            self.reporter.update_event_summary(f"Issue #{self.issue.number} labeled `{label.name}`")
             self.manager.protocol.update_on_github()
             return
         self.manager.protocol.add_env_var(status_label=label)
@@ -232,7 +232,7 @@ class IssuesEventHandler(EventHandler):
     def _run_assignment(self, assigned: bool):
         assignee = self.manager.user.get_from_github_rest_id(self.payload.assignee.id)
         action_desc = "assigned to" if assigned else "unassigned from"
-        self.reporter.event(f"Issue #{self.issue.number} {action_desc} {assignee['github']['id']}")
+        self.reporter.update_event_summary(f"Issue #{self.issue.number} {action_desc} {assignee['github']['id']}")
         self.manager.protocol.add_event(env_vars={"assignee": assignee})
         self.manager.protocol.update_on_github()
         return

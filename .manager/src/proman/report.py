@@ -28,81 +28,145 @@ EMOJI = {
 
 
 class Reporter:
-    def __init__(self, github_context: _gh_context.GitHubContext):
-        self._context = github_context
-        self._event_description: str = ""
-        self._info = {
-            "main": {"name": "Main"},
-            "event": {"name": "Event"},
-            "file_change": {"name": "File Changes"},
-            "cca": {"name": "CCA"},
-            "hooks": {"name": "Hooks"},
-        }
-        for val in self._info.values():
-            val["status"] = None
-            val["summary"] = None
-            val["body"] = mdit.block_container()
-            val["section"] = mdit.section_container()
-        self._context_summary = self._generate_context_summary()
+    _process_name = {
+        "main": "Main",
+        "event": "Event",
+        "file_change": "File Changes",
+        "cca": "CCA",
+        "hooks": "Hooks",
+    }
+    def __init__(self, github_context: _gh_context.GitHubContext | None = None):
+        self._summary_table: dict[str, SummaryTableEntry] = {}
+        self._sections: dict[str, Section] = {}
+        self._generate_event_context(github_context=github_context)
         return
 
-    def event(self, description):
-        self._event_description = description
-        logger.info("Event Description", description)
-        return
-
-    def add(
+    def update(
         self,
-        name: str,
+        process_id: str,
         status: Literal["pass", "fail", "skip", "warning"] | None = None,
-        summary=None,
+        summary: str | None = None,
         body=None,
         section=None,
-        section_is_container=False,
+        section_is_container: bool = False,
+    ) -> None:
+        """Update the entry for a given process ID.
+
+        Parameters
+        ----------
+        process_id
+            ID of the process to update.
+        status
+            Status to set for the process. If None, the status will not be updated.
+        summary
+            Summary to add for the process. If None, the summary will not be updated.
+        body
+            Body content to add to the section. If None, the body will not be updated.
+        section
+            Section content to add to the section. If None, the section will not be updated.
+        section_is_container
+            Whether the section is a container or not. Default is False.
+        """
+        self.update_summary(process_id=process_id, status=status, summary=summary)
+        self.update_section(
+            process_id=process_id,
+            body=body,
+            section=section,
+            section_is_container=section_is_container,
+        )
+        return
+
+    def update_summary(
+        self,
+        process_id: str,
+        status: Literal["pass", "fail", "skip", "warning"] | None = None,
+        summary: str | None = None,
+    ) -> None:
+        """Update the summary table entry for a given process ID.
+
+        Parameters
+        ----------
+        process_id
+            ID of the process to update.
+        status
+            Status to set for the process. If None, the status will not be updated.
+        summary
+            Summary to add for the process. If None, the summary will not be updated.
+        """
+        self._summary_table.setdefault(
+            process_id,
+            SummaryTableEntry(self._process_name[process_id]),
+        ).update(status=status, summary=summary)
+        return
+
+    def update_section(
+        self,
+        process_id: str,
+        body=None,
+        section=None,
+        section_is_container: bool = False,
+    ) -> None:
+        """Update the section entry for a given process ID.
+
+        Parameters
+        ----------
+        process_id
+            ID of the process to update.
+        body
+            Body content to add to the section. If None, the body will not be updated.
+        section
+            Section content to add to the section. If None, the section will not be updated.
+        section_is_container
+            Whether the section is a container or not. Default is False.
+        """
+        self._sections.setdefault(
+            process_id,
+            Section(self._process_name[process_id]),
+        ).update(body=body, section=section, section_is_container=section_is_container)
+        return
+
+    def update_event_summary(
+        self,
+        summary: str | None = None,
+        status: Literal["pass", "fail", "skip", "warning"] | None = None,
     ):
-        data = self._info[name]
-        if status:
-            data["status"] = status
-        if summary:
-            data["summary"] = summary
-        if body:
-            data["body"].extend(body)
-        if section:
-            if section_is_container:
-                for content, conditions in section.values():
-                    data["section"].append(content, conditions=conditions)
-            else:
-                data["section"].extend(section)
+        """Update the event summary.
+
+        Parameters
+        ----------
+        status
+            Status to set for the event. If None, the status will not be updated.
+        summary
+            Summary to add for the event. If None, the summary will not be updated.
+        """
+        self.update_summary(process_id="event", status=status, summary=summary)
         return
 
     def error_unsupported_triggering_action(self):
-        event_name = self._context.event_name.value
-        action_name = self._context.event.action.value
-        action_err_msg = f"Unsupported triggering action for '{event_name}' event"
-        action_err_details = (
-            f"The workflow was triggered by an event of type '{event_name}', "
-            f"but the triggering action '{action_name}' is not supported."
-        )
-        self.add(
-            name="main",
+        action_err_msg = f"Unsupported triggering action for event type."
+        self.update(
+            "main",
             status="fail",
             summary=action_err_msg,
-            body=action_err_details,
         )
-        logger.critical(action_err_msg, action_err_details)
         raise ProManException()
 
+    @staticmethod
+    def api_response_code_block(response_data, api_name: str = "GitHub") -> mdit.element.CodeBlock:
+        return mdit.element.code_block(
+            ps.write.to_yaml_string(response_data),
+            language="yaml",
+            caption=f"{api_name} API Response",
+        )
+
     @property
-    def failed(self):
-        return any(data["status"] == "fail" for data in self._info.values())
+    def failed(self) -> bool:
+        """Check if any of the processes failed."""
+        return any(entry.status == "fail" for entry in self._summary.values())
 
     def generate(self) -> tuple[str, str]:
-        status_badge, summary_table = self._generate_summary()
-        body = mdit.block_container(status_badge)
-        if self._event_description:
-            body.append(mdit.element.field_list_item("Event Description", self._event_description))
-        body.extend(summary_table, self._context_summary)
-        section = self._generate_sections()
+        body = mdit.block_container(*self._generate_summary())
+        section = {section_id: section.document for section_id, section in self._sections.items()}
         target_config, output = make_sphinx_target_config()
         report = mdit.document(
             heading="Workflow Summary",
@@ -120,42 +184,31 @@ class Reporter:
         )
         return gha_summary, full_summary
 
-    @staticmethod
-    def api_response_code_block(response_data, api_name: str = "GitHub") -> mdit.element.CodeBlock:
-        return mdit.element.code_block(
-            ps.write.to_yaml_string(response_data),
-            language="yaml",
-            caption=f"{api_name} API Response",
-        )
-
     def _generate_summary(self) -> tuple[mdit.element.InlineImage, mdit.element.Table]:
         failed = False
+        warning = False
         skipped = False
-        table_rows = [["Pipeline", "Status", "Summary"]]
-        for pipeline in self._info.values():
-            status = pipeline["status"]
-            if not status:
-                continue
+        table_rows = [["Process", "Status", "Summary"]]
+        for pipeline in self._summary_table.values():
+            status = pipeline.current_status
             if status == "fail":
                 failed = True
+            elif status == "warning":
+                warning = True
             elif status == "skip":
                 skipped = True
-            status_emoji = EMOJI[status]
-            row = [
-                pipeline["name"],
-                htmp.element.span(status_emoji.emoji, title=status_emoji.title),
-                pipeline["summary"],
-            ]
-            table_rows.append(row)
+            table_rows.append(pipeline.row)
         table = mdit.element.table(
             rows=table_rows,
-            caption="Pipeline Summary",
             num_rows_header=1,
             align_table="center",
         )
         if failed:
             workflow_status = "fail"
             color = "rgb(200, 0, 0)"
+        elif warning:
+            workflow_status = "warning"
+            color = "rgb(255, 200, 0)"
         elif skipped:
             workflow_status = "skip"
             color = "rgb(0, 0, 200)"
@@ -169,68 +222,157 @@ class Reporter:
             label="Status",
             style="for-the-badge",
             color=color,
+            align="center",
         )
         return status_badge, table
 
-    def _generate_context(self) -> list[mdit.element.DropDown]:
-        output = []
-        for data, summary, icon in (
-            (self._context, "GitHub Context", "🎬"),
-            (self._context.event, "Event Payload", "📥"),
-        ):
-            code = mdit.element.code_block(ps.write.to_yaml_string(data.as_dict), language="yaml")
-            dropdown = mdit.element.dropdown(
-                title=summary,
-                body=code,
-                color="info",
-                icon=icon,
+    def _generate_event_context(self, github_context: _gh_context.GitHubContext | None = None) -> None:
+        if github_context:
+            body = []
+            event_type = github_context.event_name.value
+            if hasattr(github_context, "action"):
+                event_type += f" {github_context.event.action.value}"
+            field_list = mdit.element.field_list(
+                [
+                    ("Event Type", event_type),
+                    ("Ref Type", github_context.ref_type.value),
+                    ("Ref", github_context.ref),
+                    ("SHA", github_context.sha),
+                    ("Actor", github_context.actor),
+                    ("Triggering Actor", github_context.triggering_actor),
+                    ("Run ID", github_context.run_id),
+                    ("Run Number", github_context.run_number),
+                    ("Run Attempt", github_context.run_attempt),
+                    ("Workflow Ref", github_context.workflow_ref),
+                ]
             )
-            output.append(dropdown)
-        return output
-
-    def _generate_context_summary(self) -> mdit.element.Admonition:
-        event_type = self._context.event_name.value
-        if hasattr(self._context.event, "action"):
-            event_type += f" {self._context.event.action.value}"
-        field_list = mdit.element.field_list(
-            [
-                ("Event Type", event_type),
-                ("Ref Type", self._context.ref_type.value),
-                ("Ref", self._context.ref),
-                ("SHA", self._context.sha),
-                ("Actor", self._context.actor),
-                ("Triggering Actor", self._context.triggering_actor),
-                ("Run ID", self._context.run_id),
-                ("Run Number", self._context.run_number),
-                ("Run Attempt", self._context.run_attempt),
-                ("Workflow Ref", self._context.workflow_ref),
-            ]
-        )
-        logger.info("Context Summary", field_list)
-        dropdown = mdit.element.admonition(
-            title="Context Summary",
-            body=field_list,
-            dropdown=True,
-            opened=True,
-            emoji="🎬",
-        )
-        return dropdown
-
-    def _generate_sections(self) -> dict[str, mdit.Document]:
-        sections = {}
-        for section_id, data in self._info.items():
-            if section_id == "event":
-                for context_dropdown in self._generate_context():
-                    data["body"].append(context_dropdown, conditions=["full"])
-            if not (data["body"] or data["section"]):
-                continue
-            section_full = mdit.document(
-                heading=data["name"],
-                body=data["body"],
-                section=data["section"],
+            logger.info("Context Summary", field_list)
+            dropdown = mdit.element.admonition(
+                title="Context Summary",
+                body=field_list,
+                dropdown=True,
+                opened=True,
+                emoji="🎬",
             )
-            sections[section_id] = section_full
-        return sections
+            body.append(dropdown)
+            for data, summary, icon in (
+                (github_context, "GitHub Context", "🎬"),
+                (github_context.event, "Event Payload", "📥"),
+            ):
+                code = mdit.element.code_block(ps.write.to_yaml_string(data.as_dict), language="yaml")
+                dropdown = mdit.element.dropdown(
+                    title=summary,
+                    body=code,
+                    color="info",
+                    icon=icon,
+                )
+                body.append((dropdown, "full"))
+            self.update_section(
+                "event",
+                body=body,
+            )
+        return
+
+
+class SummaryTableEntry:
+    _status_weight = {
+        None: 0,
+        "skip": 1,
+        "pass": 2,
+        "warning": 3,
+        "fail": 4,
+    }
+    _status_log_level = {
+        None: "info",
+        "skip": "debug",
+        "pass": "success",
+        "warning": "warning",
+        "fail": "error",
+    }
+    def __init__(
+        self,
+        name: str,
+        status: Literal["skip", "pass", "warning", "fail"] | None = None,
+        summary: str | None = None,
+    ):
+        self._name = name
+        self._status = None
+        self._summary = []
+        self.update(
+            status=status,
+            summary=summary,
+        )
+        return
+
+    def update(
+        self,
+        status: Literal["skip", "pass", "warning", "fail"] | None = None,
+        summary: str = ""
+    ):
+        if self._status_weight[status] >= self._status_weight[self._status]:
+            self._status = status
+        if summary:
+            self._summary.append(summary)
+        logger.log(
+            self._status_log_level[status],
+            self._name,
+            summary,
+        )
+        return
+
+    @property
+    def current_status(self) -> Literal["skip", "pass", "warning", "fail"]:
+        """Get the current status of the entry.
+
+        This will return 'pass' if the status is None.
+        """
+        return self._status or "pass"
+
+    @property
+    def row(self) -> list[str]:
+        status_emoji = EMOJI[self.current_status]
+        return [
+            self._name,
+            htmp.element.span(status_emoji.emoji, title=status_emoji.title),
+            " ".join(self._summary),
+        ]
+
+
+class Section:
+    def __init__(self, name: str, body=None, section=None, section_is_container: bool = False):
+        self._name = name
+        self._body = mdit.block_container()
+        self._section = mdit.section_container()
+        self.update(
+            body=body,
+            section=section,
+            section_is_container=section_is_container,
+        )
+        return
+
+    def update(
+        self,
+        body=None,
+        section=None,
+        section_is_container: bool = False,
+    ) -> None:
+        if body:
+            self._body.extend(body)
+        if section:
+            if section_is_container:
+                for content, conditions in section.values():
+                    self._section.append(content, conditions=conditions)
+            else:
+                self._section.extend(section)
+        return
+
+    @property
+    def document(self) -> mdit.Document:
+        return mdit.document(
+            heading=self._name,
+            body=self._body,
+            section=self._section,
+        )
 
 
 def initialize_logger(

@@ -81,8 +81,8 @@ def from_metadata_json(
             err_msg,
             e.report.body["problem"].content,
         )
-        reporter.add(
-            name="main",
+        reporter.update(
+            "main",
             status="fail",
             summary=f"Failed to load metadata {address}.",
             section="",
@@ -94,8 +94,8 @@ def from_metadata_json(
             err_msg,
             e.report.body["problem"].content,
         )
-        reporter.add(
-            name="main",
+        reporter.update(
+            "main",
             status="fail",
             summary=f"Failed to load metadata {address}.",
             section="",
@@ -276,8 +276,8 @@ class Manager:
                         f"Failed to render Jinja template at '{path}': {e}",
                         logger.traceback(),
                     )
-                    self.reporter.add(
-                        name="main",
+                    self.reporter.update(
+                        "main",
                         status="fail",
                         summary=f"Failed to render Jinja template at '{path}'.",
                     )

@@ -93,8 +93,8 @@ class EventHandler:
                         log_title,
                         "No admin token provided.",
                     )
-                    reporter.add(
-                        name="main",
+                    reporter.update(
+                        "main",
                         status="fail",
                         summary="No admin token provided.",
                     )
@@ -108,8 +108,8 @@ class EventHandler:
                     logger.critical(
                         log_title, "Failed to verify the provided admin token.", details
                     )
-                    reporter.add(
-                        name="main",
+                    reporter.update(
+                        "main",
                         status="fail",
                         summary="Failed to verify the provided admin token.",
                         section=mdit.document(
@@ -316,8 +316,8 @@ class EventHandler:
             )
             cc_reporter = cc_manager.report()
         except controlman.exception.ControlManException as e:
-            self.reporter.add(
-                name="cca",
+            self.reporter.update(
+                "cca",
                 status="fail",
                 summary=e.report.body["intro"].content,
                 body=e.report.body,
@@ -383,8 +383,8 @@ class EventHandler:
                         else f"by amending the latest commit (new hash: {link})."
                     )
                 summary += f" {description}"
-        self.reporter.add(
-            name="cca",
+        self.reporter.update(
+            "cca",
             status="fail"
             if cc_reporter.has_changes
             and action in [InitCheckAction.FAIL, InitCheckAction.REPORT, InitCheckAction.PULL]
@@ -404,8 +404,8 @@ class EventHandler:
         internal: bool = False,
     ) -> str | None:
         if action == InitCheckAction.NONE:
-            self.reporter.add(
-                name="hooks",
+            self.reporter.update(
+                "hooks",
                 status="skip",
                 summary="Hooks are disabled for this event type.",
             )
@@ -450,8 +450,8 @@ class EventHandler:
                 ref_range=ref_range,
             )
         except Exception as e:
-            self._reporter.add(
-                name="hooks",
+            self._reporter.update(
+                "hooks",
                 status="fail",
                 summary="An unexpected error occurred.",
                 body=str(e),
@@ -487,8 +487,8 @@ class EventHandler:
             )
             hooks_output["summary"] += summary_addon_template.format(target=target)
         if not internal:
-            self.reporter.add(
-                name="hooks",
+            self.reporter.update(
+                "hooks",
                 status="fail"
                 if not passed or (action == InitCheckAction.PULL and modified)
                 else "pass",

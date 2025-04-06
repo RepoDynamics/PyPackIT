@@ -323,7 +323,7 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
         return
 
     def _run_merge_dev_to_release(self):
-        self.reporter.event(
+        self.reporter.update_event_summary(
             f"Merge development branch '{self.branch_head.name}' "
             f"to release branch '{self.branch_base.name}'"
         )
@@ -738,8 +738,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
                 f"are not allowed for {'internal' if self.payload.internal else 'external'} pull requests."
             )
             logger.error("Unsupported PR Head Branch", err_msg, err_details)
-            self.reporter.add(
-                name="event",
+            self.reporter.update(
+                "event",
                 status="skip",
                 summary=err_msg,
                 body=err_details,
@@ -753,8 +753,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
                 f"are not allowed for {'internal' if self.payload.internal else 'external'} pull requests."
             )
             logger.error("Unsupported PR Base Branch", err_msg, err_details)
-            self.reporter.add(
-                name="event",
+            self.reporter.update(
+                "event",
                 status="skip",
                 summary=err_msg,
                 body=err_details,
@@ -807,8 +807,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
             err_msg,
             err_details,
         )
-        self.reporter.add(
-            name="event",
+        self.reporter.update(
+            "event",
             status="skip",
             summary=err_msg,
             body=err_details,
@@ -827,8 +827,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
             err_msg,
             err_details,
         )
-        self.reporter.add(
-            name="event",
+        self.reporter.update(
+            "event",
             status="skip",
             summary=err_msg,
             body=err_details,
@@ -846,8 +846,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
             err_msg,
             err_details,
         )
-        self.reporter.add(
-            name="event",
+        self.reporter.update(
+            "event",
             status="skip",
             summary=err_msg,
             body=err_details,
@@ -866,8 +866,8 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
             err_msg,
             err_details,
         )
-        self.reporter.add(
-            name="event",
+        self.reporter.update(
+            "event",
             status="skip",
             summary=err_msg,
             body=err_details,
