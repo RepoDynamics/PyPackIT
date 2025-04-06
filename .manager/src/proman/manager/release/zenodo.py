@@ -44,12 +44,12 @@ class ZenodoManager:
     def __init__(self, manager: Manager):
         self._manager = manager
         self._api = {
-            True: pl.api.zenodo(token=self._manager.zenodo_sandbox_token.get(), sandbox=True),
-            False: pl.api.zenodo(token=self._manager.zenodo_token.get(), sandbox=False),
+            True: pl.api.zenodo(token=self._manager.token.zenodo_sandbox.get(), sandbox=True),
+            False: pl.api.zenodo(token=self._manager.token.zenodo.get(), sandbox=False),
         }
         self._has_token = {
-            True: bool(self._manager.zenodo_sandbox_token),
-            False: bool(self._manager.zenodo_token),
+            True: bool(self._manager.token.zenodo_sandbox),
+            False: bool(self._manager.token.zenodo),
         }
         self._varman = self._manager.variable
         self._changelog = self._manager.changelog
