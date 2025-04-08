@@ -4,6 +4,7 @@ import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman
+import controlman.exception as _exception
 import pyserials as ps
 from controlman import data_validator
 from loggerman import logger
@@ -20,7 +21,12 @@ class VariableManager(ps.PropertyDict):
         log_title = "Variables Load"
         self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_VARIABLES
         if self._filepath.exists():
-            var = ps.read.json_from_file(self._filepath)
+            try:
+                var = ps.read.json_from_file(self._filepath)
+            except ps.exception.read.PySerialsReadException as e:
+                raise _exception.load.ControlManInvalidMetadataError(
+                    cause=e, filepath=self._filepath
+                ) from None
             logger.success(
                 log_title,
                 f"Loaded variables from file '{controlman.const.FILEPATH_VARIABLES}':",
