@@ -14,10 +14,11 @@ if _TYPE_CHECKING:
     from proman.manager import Manager
 
 
-class BareVariableManager(ps.PropertyDict):
-    def __init__(self, repo_path: Path):
+class VariableManager(ps.PropertyDict):
+    def __init__(self, manager: Manager):
+        self._manager = manager
         log_title = "Variables Load"
-        self._filepath = repo_path / controlman.const.FILEPATH_VARIABLES
+        self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_VARIABLES
         if self._filepath.exists():
             var = ps.read.json_from_file(self._filepath)
             logger.success(
@@ -35,6 +36,13 @@ class BareVariableManager(ps.PropertyDict):
         super().__init__(var)
         return
 
+    def commit_changes(self, amend: bool = False) -> str | None:
+        written = self.write_file()
+        if not written:
+            return None
+        commit = self._manager.commit.create_auto(id="vars_sync")
+        return self._manager.git.commit(message=str(commit.conv_msg), amend=amend)
+
     def write_file(self) -> bool:
         if self.as_dict == self._read_var:
             return False
@@ -43,17 +51,3 @@ class BareVariableManager(ps.PropertyDict):
             newline="\n",
         )
         return True
-
-
-class VariableManager(BareVariableManager):
-    def __init__(self, manager: Manager):
-        self._manager = manager
-        super().__init__(self._manager.git.repo_path)
-        return
-
-    def commit_changes(self, amend: bool = False) -> str | None:
-        written = self.write_file()
-        if not written:
-            return None
-        commit = self._manager.commit.create_auto(id="vars_sync")
-        return self._manager.git.commit(message=str(commit.conv_msg), amend=amend)
