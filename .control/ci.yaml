@@ -271,7 +271,7 @@ pypkg_ci:
       gittidy:
         install:
           pip:
-            version: ==0.1.0
+            version: ==0.2.2
             homepage: https://pypi.org/project/gittidy
         url:
           docs: https://gittidy.repodynamics.com
