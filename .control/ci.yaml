@@ -21,14 +21,6 @@ pypkg_ci:
                 type: str
                 help: Local path to the repository root directory.
                 default: "./"
-              post_process: |
-                import json
-                from pathlib import Path
-                setattr(
-                    args,
-                    "metadata",
-                    json.loads((Path(args.repo).resolve() / ".github/.repodynamics/metadata.json").read_text())
-                )
             - args: [ --remove-tokens ]
               kwargs:
                 help: Remove all tokens read from the environment.
@@ -219,6 +211,11 @@ pypkg_ci:
                   help: Run CI/CD pipelines in GitHub Actions.
                 defaults:
                   endpoint: gha.run_cli
+                arguments:
+                  - args: [ --repo-upstream ]
+                    kwargs:
+                      help: Local path to the upstream repository's root directory.
+                      required: true
   dependency:
     core:
       actionman:
