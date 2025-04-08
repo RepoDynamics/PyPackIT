@@ -96,7 +96,7 @@ jobs:
           ZENODO_TOKEN: ${{ secrets.zenodo-token }}
           ZENODO_SANDBOX_TOKEN: ${{ secrets.zenodo-sandbox-token }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: project --remove-tokens --repo ${{ env.PATH_REPO_HEAD }} gha
+        run: project --remove-tokens --repo ${{ env.PATH_REPO_HEAD }} gha --repo-upstream ${{ env.PATH_REPO_BASE }}
       - name: Report Upload
         uses: actions/upload-artifact@v4
         with:
