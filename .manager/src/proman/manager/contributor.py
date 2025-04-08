@@ -4,6 +4,8 @@ import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import controlman
+from controlman import exception as _exception
+from controlman import data_validator
 import pyserials as ps
 from loggerman import logger
 
@@ -20,7 +22,12 @@ class ContributorManager(ps.PropertyDict):
         log_title = "Contributors Load"
         self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_CONTRIBUTORS
         if self._filepath.exists():
-            contributors = ps.read.json_from_file(self._filepath)
+            try:
+                contributors = ps.read.json_from_file(self._filepath)
+            except ps.exception.read.PySerialsReadException as e:
+                raise _exception.load.ControlManInvalidMetadataError(
+                    cause=e, filepath=self._filepath
+                ) from None
             logger.success(
                 log_title,
                 f"Loaded contributors from file '{controlman.const.FILEPATH_CONTRIBUTORS}':",
@@ -34,6 +41,7 @@ class ContributorManager(ps.PropertyDict):
             )
         super().__init__(contributors)
         self._read = copy.deepcopy(contributors)
+        data_validator.validate(data=contributors, schema="contributors")
         return
 
     def add(self, user: User) -> dict:
