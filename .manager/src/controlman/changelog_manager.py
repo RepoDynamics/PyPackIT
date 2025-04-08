@@ -10,14 +10,14 @@ from controlman import const
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
     from pathlib import Path
+    from proman.manager import Manager
 
 
 class ChangelogManager:
-    def __init__(self, repo_path: Path):
+    def __init__(self, manager: Manager):
         self._get_metadata = None
-        self._path_changelog = repo_path / const.FILEPATH_CHANGELOG
-        self._changelogs = controlman.read_changelog(repo_path=repo_path)
-        self._contrib = controlman.read_contributors(repo_path=repo_path)
+        self._changelogs = manager.changelog.full
+        self._contrib = manager.user.contributors
         return
 
     def __call__(self, get_metadata: Callable):
