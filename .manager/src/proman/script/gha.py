@@ -8,7 +8,7 @@ import github_contexts as _github_contexts
 import mdit
 import pyserials as ps
 from github_contexts.github.enum import EventType as _EventType
-from loggerman import logger as _logger
+from loggerman import logger
 from rich.text import Text
 
 from proman import event_handler as _handler
@@ -29,7 +29,7 @@ def run(
     token_zenodo_sandbox: str,
     github_context: _github_contexts.GitHubContext,
 ):
-    _logger.section("Execution")
+    logger.section("Execution")
     event_to_handler = {
         _EventType.ISSUES: _handler.IssuesEventHandler,
         _EventType.ISSUE_COMMENT: _handler.IssueCommentEventHandler,
@@ -43,7 +43,6 @@ def run(
     reporter = Reporter(github_context=github_context)
     output_writer = OutputManager()
     handler_class = event_to_handler.get(github_context.event_name)
-    current_log_section_level = _logger.current_section_level
     if handler_class:
         try:
             handler_class(
@@ -57,7 +56,7 @@ def run(
                 path_repo_head=path_repo_head,
             ).run()
         except _exception.ProManException:
-            _logger.section_end(target_level=current_log_section_level)
+            logger.section_end(target_level=current_log_section_level)
             _finalize(
                 github_context=github_context,
                 reporter=reporter,
@@ -66,9 +65,9 @@ def run(
             )
             return
         except Exception as e:
-            traceback = _logger.traceback()
+            traceback = logger.traceback()
             error_name = e.__class__.__name__
-            _logger.critical(
+            logger.critical(
                 f"Unexpected Error: {error_name}",
                 traceback,
             )
@@ -84,7 +83,7 @@ def run(
                     opened=True,
                 ),
             )
-            _logger.section_end(target_level=current_log_section_level)
+            logger.section_end(target_level=current_log_section_level)
             _finalize(
                 github_context=github_context,
                 reporter=reporter,
@@ -161,11 +160,11 @@ def _finalize(
     report_gha, report_full = reporter.generate()
     _write_step_summary(report_gha)
 
-    log = _logger.report
+    log = logger.report
     target_config, sphinx_output = make_sphinx_target_config()
     log.target_configs["sphinx"] = target_config
     log_html = log.render(target="sphinx")
-    _logger.info(
+    logger.info(
         "Log Generation Logs",
         mdit.element.rich(Text.from_ansi(sphinx_output.getvalue())),
     )
@@ -199,11 +198,11 @@ def _write_step_outputs(kwargs: dict) -> None:
                 caption=f"{output_name} [{type(value).__name__}]",
             )
         )
-    _logger.debug("GHA Step Outputs", *log_outputs)
+    logger.debug("GHA Step Outputs", *log_outputs)
     return
 
 
 def _write_step_summary(content: str) -> None:
-    _logger.debug("GHA Summary Output", mdit.element.code_block(content))
+    logger.debug("GHA Summary Output", mdit.element.code_block(content))
     _actionman.step_summary.write(content)
     return
