@@ -1,26 +1,32 @@
 """Python Package File Generator"""
 
+from __future__ import annotations
+
 import copy
 import re as _re
 import textwrap
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING
 
 import pyserials as _ps
 import pysyntax as _pysyntax
 
-import controlman
 from controlman import const as _const
 from controlman.datatype import DynamicFile, DynamicFileType
 from controlman.file_gen import unit as _unit
 
+if TYPE_CHECKING:
+    from proman.manager import Manager
 
 class PythonPackageFileGenerator:
     def __init__(
         self,
+        manager: Manager,
         data: _ps.NestedDict,
         data_before: _ps.NestedDict,
         repo_path: _Path,
     ):
+        self._manager = manager
         self._data = data
         self._data_before = data_before
         self._path_repo = repo_path
@@ -34,7 +40,6 @@ class PythonPackageFileGenerator:
         self._path_root_before: _Path | None = None
         self._path_src_before: _Path | None = None
         self._path_import_before: _Path | None = None
-        self._contributors = controlman.read_contributors(self._path_repo)
         return
 
     def generate(self, typ: str) -> list[DynamicFile]:
@@ -110,7 +115,7 @@ class PythonPackageFileGenerator:
 
     def conda(self):
         out = []
-        changelogs = controlman.read_changelog(repo_path=self._path_repo)
+        changelogs = self._manager.changelog.full
         for _changelog in changelogs:
             if _changelog["type"] != "local":
                 changelog = _changelog
