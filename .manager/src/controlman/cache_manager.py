@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 import datetime as _datetime
 from pathlib import Path as _Path
 
@@ -10,13 +13,12 @@ from controlman import data_validator as _data_validator
 from controlman import date
 from controlman import exception as _exception
 
+if TYPE_CHECKING:
+    from proman.manager import Manager
+
 
 class CacheManager:
-    def __init__(
-        self,
-        path_local_cache: _Path | str | None = None,
-        retention_hours: dict[str, float] | None = None,
-    ):
+    def __init__(self, manager: Manager):
         def log_msg_new_cache(reason: str | None = None, traceback: bool = False):
             msg = (
                 _mdit.inline_container(
@@ -34,42 +36,58 @@ class CacheManager:
             _logger.warning(log_title, *log_content, stack_up=1)
             return
 
-        log_title = "Cache Initialization"
-
+        self._manager = manager
+        self._path = None
         self._cache = {}
-        self._retention_hours = retention_hours or {}
+        self._retention_hours = self._manager.data.get("control.cache.retention_hours", {})
 
-        if path_local_cache:
-            self._path = (
-                _Path(path_local_cache).resolve()
-                / _const.DIRNAME_LOCAL_REPODYNAMICS
-                / _const.FILENAME_METADATA_CACHE
+        log_title = "Cache Initialization"
+        relpath_local_cache = self._manager.data.get("local.cache.path")
+        if not relpath_local_cache:
+            log_msg_new_cache("is not defined")
+            return
+        path_local_cache = self._manager.git.repo_path / relpath_local_cache
+
+        self._path = (
+            path_local_cache
+            / _const.DIRNAME_LOCAL_REPODYNAMICS
+            / _const.FILENAME_METADATA_CACHE
+        )
+        if not self._path.is_file():
+            log_msg_new_cache("does not exist")
+            return
+        try:
+            self._cache = _ps.read.yaml_from_file(path=self._path)
+        except _ps.exception.read.PySerialsReadException:
+            log_msg_new_cache("is corrupted", traceback=True)
+        try:
+            _data_validator.validate(
+                data=self._cache,
+                schema="cache",
             )
-            if not self._path.is_file():
-                log_msg_new_cache("does not exist")
-            else:
+        except _exception.ControlManException:
+            log_msg_new_cache("is invalid", traceback=True)
+            return
+
+        _logger.success(
+            log_title,
+            _mdit.inline_container(
+                "Loaded control center cache from ",
+                _mdit.element.code_span(str(self._path)),
+            ),
+        )
+
+        path_local_config = path_local_cache / _const.FILENAME_LOCAL_CONFIG
+        if path_local_config.is_file():
+            with _logger.sectioning("Local Cache Configuration"):
                 try:
-                    self._cache = _ps.read.yaml_from_file(path=self._path)
-                except _ps.exception.read.PySerialsReadException:
-                    log_msg_new_cache("is corrupted", traceback=True)
-                try:
-                    _data_validator.validate(
-                        data=self._cache,
-                        schema="cache",
-                    )
-                except _exception.ControlManException:
-                    log_msg_new_cache("is invalid", traceback=True)
-                else:
-                    _logger.success(
-                        log_title,
-                        _mdit.inline_container(
-                            "Loaded control center cache from ",
-                            _mdit.element.code_span(str(self._path)),
-                        ),
-                    )
-        else:
-            self._path = None
-            log_msg_new_cache()
+                    local_config = _ps.read.yaml_from_file(path=path_local_config, safe=True)
+                except _ps.exception.read.PySerialsInvalidDataError as e:
+                    raise _exception.load.ControlManInvalidConfigFileDataError(
+                        cause=e
+                    ) from None
+                _data_validator.validate(data=local_config, schema="local")
+                self._retention_hours = local_config.get("retention_hours", self._retention_hours)
         return
 
     def get(self, typ: str, key: str):
