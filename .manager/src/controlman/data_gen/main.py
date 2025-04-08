@@ -8,32 +8,20 @@ from licenseman import spdx as _spdx
 from loggerman import logger as _logger
 from packaging import specifiers as _specifiers
 
-import controlman
 from controlman import data_helper as _helper
 from controlman import date
 from controlman import exception as _exception
 
 if _TYPE_CHECKING:
-    from gittidy import Git
-    from pylinks.api import GitHub
     from pyserials.nested_dict import NestedDict
 
-    from controlman.cache_manager import CacheManager
+    from proman.manager import Manager
 
 
 class MainDataGenerator:
-    def __init__(
-        self,
-        data: NestedDict,
-        cache_manager: CacheManager,
-        git_manager: Git,
-        github_api: GitHub,
-    ):
+    def __init__(self, data: NestedDict, manager: Manager):
+        self._manager = manager
         self._data = data
-        self._git = git_manager
-        self._cache = cache_manager
-        self._gh_api = github_api
-        self._gh_api_repo = None
         return
 
     def generate(self) -> None:
@@ -46,20 +34,11 @@ class MainDataGenerator:
         return
 
     def _repo(self) -> None:
-        repo_address = self._git.get_remote_repo_name(
-            remote_name="origin", remote_purpose="push", fallback_name=False, fallback_purpose=False
-        )
-        if not repo_address:
-            raise _exception.data_gen.RemoteGitHubRepoNotFoundError(
-                repo_path=self._git.repo_path,
-                remotes=self._git.get_remotes(),
-            )
-        username, repo_name = repo_address
-        self._gh_api_repo = self._gh_api.user(username).repo(repo_name)
-        repo_info = self._gh_api.user(username).repo(repo_name).info
+        repo_info = self._manager.gh_api_actions.info
+        repo_fullname = f"{self._manager.gh_api_actions.username}/{self._manager.gh_api_actions.name}"
         log_info = _mdit.inline_container(
             "Retrieved data for repository ",
-            _mdit.element.code_span(f"{username}/{repo_name}"),
+            _mdit.element.code_span(repo_fullname),
             ".",
         )
         if "source" in repo_info:
@@ -99,8 +78,8 @@ class MainDataGenerator:
         for person_id in self._data["team"].keys():
             _helper.fill_entity(
                 entity=self._data[f"team.{person_id}"],
-                github_api=self._gh_api,
-                cache_manager=self._cache,
+                github_api=self._manager.gh_api_bare,
+                cache_manager=self._manager.cache,
             )
         return
 
@@ -167,12 +146,12 @@ class MainDataGenerator:
                 path_header = normalize_license_filename(
                     user_data_path.get("header_plain", f"COPYRIGHT-{spdx_id}.md")
                 )
-                source_data = self._cache.get("license", spdx_id)
+                source_data = self._manager.cache.get("license", spdx_id)
                 if source_data:
                     licence = class_(source_data)
                 else:
                     licence = func(spdx_id)
-                    self._cache.set("license", spdx_id, licence.raw_data)
+                    self._manager.cache.set("license", spdx_id, licence.raw_data)
                 header_xml = (licence.header_xml_str or "") if spdx_typ == "license" else ""
                 out_data = {
                     "type": spdx_typ,
@@ -213,16 +192,16 @@ class MainDataGenerator:
         return
 
     def _discussion_categories(self):
-        discussions_info = self._cache.get("repo", "discussion_categories")
+        discussions_info = self._manager.cache.get("repo", "discussion_categories")
         if not discussions_info:
-            if not self._gh_api.authenticated:
+            if not self._manager.gh_api_bare.authenticated:
                 _logger.notice(
                     "GitHub Discussion Categories",
                     "GitHub token not provided. Cannot get discussions categories.",
                 )
                 return
-            discussions_info = self._gh_api_repo.discussion_categories()
-            self._cache.set("repo", "discussion_categories", discussions_info)
+            discussions_info = self._manager.gh_api_actions.discussion_categories()
+            self._manager.cache.set("repo", "discussion_categories", discussions_info)
         discussion = self._data.setdefault("discussion.category", {})
         for category in discussions_info:
             category_obj = discussion.setdefault(category["slug"], {})
@@ -239,11 +218,11 @@ class MainDataGenerator:
 
     def _package_python_versions(self) -> None:
         def get_python_releases():
-            release_versions = self._cache.get("python", "releases")
+            release_versions = self._manager.cache.get("python", "releases")
             if release_versions:
                 return release_versions
             release_versions = (
-                self._gh_api.user("python").repo("cpython").semantic_versions(tag_prefix="v")
+                self._manager.gh_api_bare.user("python").repo("cpython").semantic_versions(tag_prefix="v")
             )
             live_versions = []
             for version in release_versions:
@@ -254,7 +233,7 @@ class MainDataGenerator:
                     continue
                 live_versions.append(version)
             live_versions = sorted(live_versions, key=lambda x: tuple(map(int, x.split("."))))
-            self._cache.set("python", "releases", live_versions)
+            self._manager.cache.set("python", "releases", live_versions)
             return live_versions
 
         current_python_versions = get_python_releases()
@@ -311,7 +290,7 @@ class MainDataGenerator:
         return
 
     def _vars(self):
-        var = controlman.read_variables(repo_path=self._git.repo_path)
+        var = self._manager.variable
         zenodo = self._data["zenodo"]
         if zenodo:
             if not zenodo.get("concept"):
