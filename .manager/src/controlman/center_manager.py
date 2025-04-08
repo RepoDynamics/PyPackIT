@@ -92,7 +92,7 @@ class CenterManager:
             _data_validator.validate(data=full_data, source="source", before_substitution=True)
         with _logger.sectioning("CCA Load Validation Hooks"):
             self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD_VALID, data=full_data)
-        changelog_manager = ChangelogManager(repo_path=self._git.repo_path)
+        changelog_manager = ChangelogManager(manager=manager)
         code_context_call = {"changelog": changelog_manager}
         full_data["changelogs"] = changelog_manager.changelogs
         full_data["contributor"] = changelog_manager.contributor
@@ -142,11 +142,8 @@ class CenterManager:
         self.load()
         with _logger.sectioning("Dynamic Data Generation"):
             data = _data_gen.generate(
-                git_manager=self._git,
-                cache_manager=self._manager.cache,
-                github_api=self._github_api,
                 data=self._data_raw,
-                data_before=self._data_before,
+                manager=self._manager,
                 data_main=self._data_main,
                 future_versions=self._future_vers,
             )
@@ -199,6 +196,7 @@ class CenterManager:
         self.generate_data()
         with _logger.sectioning("Dynamic File Generation"):
             self._files = _file_gen.generate(
+                manager=self._manager,
                 data=self._data,
                 data_before=self._data_before,
                 repo_path=self._path_root,
