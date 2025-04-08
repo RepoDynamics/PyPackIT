@@ -290,7 +290,7 @@ class RepoManager:
         """
         old_to_new_map = {}
         new_default_branch_name = self._manager.data["branch.main.name"]
-        current_default_branch_name = self._manager.gh_context.event.repository.default_branch
+        current_default_branch_name = self._manager.branch.default_branch_name
         if new_default_branch_name != current_default_branch_name:
             self._manager.gh_api_actions.branch_rename(
                 old_name=current_default_branch_name, new_name=new_default_branch_name
