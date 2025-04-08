@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from pathlib import Path as _Path
 
 import mdit as _mdit
@@ -8,11 +11,13 @@ from loggerman import logger as _logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
 from controlman import const as _const
-from controlman.cache_manager import CacheManager as _CacheManager
 from controlman.exception import load as _exception
 
+if TYPE_CHECKING:
+    from controlman.cache_manager import CacheManager
 
-def load(path_cc: _Path, cache_manager: _CacheManager | None = None) -> dict:
+
+def load(path_cc: _Path, cache_manager: CacheManager | None = None) -> dict:
     def _load_file(filepath: _Path):
         file_content = filepath.read_text().strip()
         if not file_content:
@@ -91,7 +96,7 @@ def _create_external_tag_constructor(
     filepath: _Path,
     file_content: str,
     tag_name: str = "!ext",
-    cache_manager: _CacheManager | None = None,
+    cache_manager: CacheManager | None = None,
 ):
     def load_external_data(loader: _yaml.SafeConstructor, node: _yaml.ScalarNode):
         tag_value = loader.construct_scalar(node)
