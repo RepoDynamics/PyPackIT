@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import functools as _functools
 import re as _re
 import shutil as _shutil
 import stat as _stat
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING
 
 import pylinks as _pylinks
 import pyserials as _ps
@@ -17,7 +20,6 @@ from controlman import data_helper as _helper
 from controlman import data_loader as _data_loader
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
-from controlman.cache_manager import CacheManager
 from controlman.changelog_manager import ChangelogManager
 from controlman.datatype import (
     DynamicDir as _DynamicDir,
@@ -29,56 +31,41 @@ from controlman.datatype import (
 from controlman.datatype import (
     DynamicFile as _GeneratedFile,
 )
-from controlman.exception import load as _load_exception
 from controlman.hook_manager import HookManager as _HookManager
 from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
+
+if TYPE_CHECKING:
+    from proman.manager import Manager
 
 
 class CenterManager:
     def __init__(
         self,
-        git_manager: _Git,
+        manager: Manager,
         cc_path: _Path,
         data_before: _ps.NestedDict,
         data_main: _ps.NestedDict,
-        github_token: str | None = None,
         future_versions: dict[str, str | _PEP440SemVer] | None = None,
     ):
-        self._git: _Git = git_manager
+        self._manager = manager
+        self._git: _Git = self._manager.git
+
         self._path_cc = cc_path
         self._data_before: _ps.NestedDict = data_before
         self._data_main: _ps.NestedDict = data_main
-        self._github_token = github_token or self._get_gh_token()
-        self._github_api = _pylinks.api.github(token=self._github_token)
+        self._github_token = self._manager.token.github.get()
+        self._github_api = self._manager.gh_api_bare
         self._future_vers = future_versions or {}
 
         self._path_root = self._git.repo_path
-        relpath_local_cache = self._data_before.get("local.cache.path")
-        path_local_cache = None
-        retention_hours = self._data_before.get("control.cache.retention_hours", {})
-        if relpath_local_cache:
-            path_local_cache = self._path_root / relpath_local_cache
-            path_local_config = path_local_cache / const.FILENAME_LOCAL_CONFIG
-            if path_local_config.is_file():
-                with _logger.sectioning("Local Cache Configuration"):
-                    try:
-                        local_config = _ps.read.yaml_from_file(path=path_local_config, safe=True)
-                    except _ps.exception.read.PySerialsInvalidDataError as e:
-                        raise _load_exception.ControlManInvalidConfigFileDataError(
-                            cause=e
-                        ) from None
-                    _data_validator.validate(data=local_config, schema="local")
-                    retention_hours = local_config.get("retention_hours", {})
-        self._cache_manager: CacheManager = CacheManager(
-            path_local_cache=path_local_cache,
-            retention_hours=retention_hours,
-        )
+
+
         self._hook_manager = _HookManager(
             dir_path=self._path_cc / const.DIRNAME_CC_HOOK,
             repo_path=self._git.repo_path,
             ccc=self._data_before,
             ccc_main=self._data_main,
-            cache_manager=self._cache_manager,
+            cache_manager=self._manager.cache,
             github_token=self._github_token,
         )
         with _logger.sectioning("CCA Initialization Hooks"):
@@ -91,23 +78,13 @@ class CenterManager:
         self._changes: list[tuple[str, DynamicFileChangeType]] = []
         return
 
-    @staticmethod
-    def _get_gh_token() -> str | None:
-        return _pyshellman.run(
-            command=["gh", "auth", "token"],
-            logger=_logger,
-            raise_execution=False,
-            raise_exit_code=False,
-            raise_stderr=False,
-        ).out
-
     def load(self) -> _ps.NestedDict:
         if self._data_raw:
             return self._data_raw
         with _logger.sectioning("Config Files Load"):
             full_data = _data_loader.load(
                 path_cc=self._path_cc,
-                cache_manager=self._cache_manager,
+                cache_manager=self._manager.cache,
             )
         with _logger.sectioning("CCA Load Hooks"):
             self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD, data=full_data)
@@ -125,7 +102,7 @@ class CenterManager:
                 repo_path=self._git.repo_path,
                 ccc=self._data_before,
                 ccc_main=self._data_main,
-                cache_manager=self._cache_manager,
+                cache_manager=self._manager.cache,
                 github_token=self._github_token,
             )
 
@@ -138,12 +115,12 @@ class CenterManager:
                 "repo_path": self._path_root,
                 "ccc_main": self._data_main,
                 "ccc": self._data_before,
-                "cache_manager": self._cache_manager,
+                "cache_manager": self._manager.cache,
                 "slugify": _pylinks.string.to_slug,
                 "fill_entity": _functools.partial(
                     _helper.fill_entity,
                     github_api=self._github_api,
-                    cache_manager=self._cache_manager,
+                    cache_manager=self._manager.cache,
                 ),
             },
             code_context_partial={
@@ -166,7 +143,7 @@ class CenterManager:
         with _logger.sectioning("Dynamic Data Generation"):
             data = _data_gen.generate(
                 git_manager=self._git,
-                cache_manager=self._cache_manager,
+                cache_manager=self._manager.cache,
                 github_api=self._github_api,
                 data=self._data_raw,
                 data_before=self._data_before,
@@ -213,7 +190,7 @@ class CenterManager:
                 data,
             )
         self._data = data
-        self._cache_manager.save()
+        self._manager.cache.save()
         return self._data
 
     def generate_files(self) -> list[_GeneratedFile]:
