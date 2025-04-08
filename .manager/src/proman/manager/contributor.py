@@ -14,10 +14,11 @@ if _TYPE_CHECKING:
     from proman.manager import Manager
 
 
-class BareContributorManager(ps.PropertyDict):
-    def __init__(self, repo_path: Path):
+class ContributorManager(ps.PropertyDict):
+    def __init__(self, manager: Manager):
+        self._manager = manager
         log_title = "Contributors Load"
-        self._filepath = repo_path / controlman.const.FILEPATH_CONTRIBUTORS
+        self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_CONTRIBUTORS
         if self._filepath.exists():
             contributors = ps.read.json_from_file(self._filepath)
             logger.success(
@@ -43,6 +44,13 @@ class BareContributorManager(ps.PropertyDict):
         ps.update.recursive_update(contributor_entry, user.as_dict)
         return contributor_entry
 
+    def commit_changes(self, amend: bool = False) -> str | None:
+        written = self.write_file()
+        if not written:
+            return None
+        commit = self._manager.commit.create_auto(id="contrib_sync")
+        return self._manager.git.commit(message=str(commit.conv_msg), amend=amend)
+
     def write_file(self) -> bool:
         if self.as_dict == self._read:
             return False
@@ -51,17 +59,3 @@ class BareContributorManager(ps.PropertyDict):
             newline="\n",
         )
         return True
-
-
-class ContributorManager(BareContributorManager):
-    def __init__(self, manager: Manager):
-        self._manager = manager
-        super().__init__(self._manager.git.repo_path)
-        return
-
-    def commit_changes(self, amend: bool = False) -> str | None:
-        written = self.write_file()
-        if not written:
-            return None
-        commit = self._manager.commit.create_auto(id="contrib_sync")
-        return self._manager.git.commit(message=str(commit.conv_msg), amend=amend)
