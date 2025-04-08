@@ -21,7 +21,6 @@ if _TYPE_CHECKING:
 class UserManager:
     def __init__(self, manager: Manager):
         self._manager = manager
-        self._gh_api = pylinks.api.github(token=self._manager.gh_context.token)
         self._contributors = ContributorManager(manager=self._manager)
         return
 
@@ -106,7 +105,7 @@ class UserManager:
             return User(id=github_id, member=False, data=self._contributors[github_id])
         data = data_helper.fill_entity(
             entity={"github": {"rest_id": github_id}},
-            github_api=self._gh_api,
+            github_api=self._manager.gh_api_bare,
             cache_manager=self._manager.cache,
         )[0]
         user = User(id=github_id, member=False, data=data)
@@ -127,7 +126,7 @@ class UserManager:
                 return User(id=contributor_id, member=False, data=contributor_data)
         data = data_helper.fill_entity(
             entity={"github": {"id": username}},
-            github_api=self._gh_api,
+            github_api=self._manager.gh_api_bare,
             cache_manager=self._manager.cache,
         )[0]
         user = User(id=data["github"]["rest_id"], member=False, data=data)
