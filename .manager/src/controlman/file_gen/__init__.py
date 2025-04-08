@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from pathlib import Path as _Path
+from typing import TYPE_CHECKING
 
 import pyserials as _ps
 
@@ -8,9 +11,13 @@ from controlman.file_gen.config import ConfigFileGenerator as _ConfigFileGenerat
 from controlman.file_gen.forms import FormGenerator as _FormGenerator
 from controlman.file_gen.python import PythonPackageFileGenerator as _PythonPackageFileGenerator
 
+if TYPE_CHECKING:
+    from proman.manager import Manager
+
 
 def generate(
     data: _ps.NestedDict,
+    manager: Manager
     data_before: _ps.NestedDict,
     repo_path: _Path,
 ) -> list[_dtype.DynamicFile]:
@@ -29,6 +36,7 @@ def generate(
     for key, value in data.items():
         if key.startswith("pypkg_"):
             package_files = _PythonPackageFileGenerator(
+                manager=manager,
                 data=data,
                 data_before=data_before,
                 repo_path=repo_path,
