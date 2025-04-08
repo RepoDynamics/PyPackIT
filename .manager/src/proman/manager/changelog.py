@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 import controlman
 import pyserials as ps
 from controlman import data_validator, date
+from controlman import exception as _exception
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
 
@@ -25,7 +26,10 @@ class ChangelogManager:
         self._manager = manager
         log_title = "Changelog Load"
         self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_CHANGELOG
-        self._changelog = ps.read.json_from_file(self._filepath)
+        try:
+            self._changelog = ps.read.json_from_file(self._filepath)
+        except ps.exception.read.PySerialsReadException as e:
+            raise _exception.load.ControlManInvalidMetadataError(cause=e, filepath=self._filepath) from None
         self._read = copy.deepcopy(self._changelog)
         logger.success(
             log_title,
