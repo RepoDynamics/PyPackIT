@@ -19,13 +19,28 @@ class BranchManager:
     def __init__(self, manager: Manager):
         self._manager = manager
         self._current_auto_base_branch: Branch | None = None
-        self._remote_data = {
-            branch["name"]: branch for branch in self._manager.gh_api_actions.branches
-        }
+        self._remote_data: dict[str, dict] = None
+        self._default_branch_name: str = None
         return
 
+    @property
+    def remote_data(self) -> dict[str, dict]:
+        """GitHub API response for branches."""
+        if not self._remote_data:
+            self._remote_data = {
+                branch["name"]: branch for branch in self._manager.gh_api_actions.branches
+            }
+        return self._remote_data
+
+    @property
+    def default_branch_name(self) -> str:
+        """Default branch name."""
+        if not self._default_branch_name:
+            self._default_branch_name = self._manager.git.get_remote_default_branch()
+        return self._default_branch_name
+
     def _make(self, type: BranchType, prefix: str, name: str | None = None, **kwargs):
-        remote = self._remote_data.get(name, {})
+        remote = self.remote_data.get(name, {})
         return Branch(
             type=type,
             prefix=prefix,
@@ -58,7 +73,7 @@ class BranchManager:
     def from_name(self, branch_name: str | None = None) -> Branch:
         if not branch_name:
             branch_name = self._manager.git.current_branch_name()
-        if branch_name == self._manager.gh_context.event.repository.default_branch:
+        if branch_name == self.default_branch_name:
             return self._make(type=BranchType.MAIN, prefix=branch_name, name=branch_name)
         for branch_type, branch_data in self._manager.data["branch"].items():
             if branch_name.startswith(branch_data["name"]):
