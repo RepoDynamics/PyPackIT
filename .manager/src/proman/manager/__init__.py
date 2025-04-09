@@ -49,8 +49,8 @@ def create(
     reporter: Reporter | None = None,
     jinja_env_vars: dict | None = None,
     repo_path: str | Path | None = None,
-    commit_hash: str | None = None,
-    metadata_filepath: str = const.FILEPATH_METADATA,
+    metadata_ref: str | None = None,
+    metadata_filepath: str | None = None,
     validate_metadata: bool = True,
 ) -> Manager:
     token_manager = token_manager or _create_token_manager()
@@ -60,7 +60,7 @@ def create(
     git_api = create_git_api(repo_path=repo_path)
     project_metadata = load_metadata(
         repo=git_api,
-        commit_hash=commit_hash,
+        ref=metadata_ref,
         validate=validate_metadata,
         filepath=metadata_filepath,
         reporter=reporter,
@@ -90,9 +90,9 @@ def create(
 
 def load_metadata(
     repo: str | Path | Git,
-    commit_hash: str | None = None,
+    ref: str | None = None,
+    filepath: str | None = None,
     validate: bool = True,
-    filepath: str = const.FILEPATH_METADATA,
     reporter: Reporter | None = None,
 ) -> ps.NestedDict:
     """Load project metadata from the metadata JSON file.
@@ -101,8 +101,8 @@ def load_metadata(
     ----------
     repo
         Git instance or path to the repository root.
-    commit_hash
-        Commit hash to load the metadata from.
+    ref
+        Git reference to load the metadata from.
         If not provided, the latest commit on the current branch is used.
     validate
         Whether to validate read data against the schema.
@@ -116,25 +116,26 @@ def load_metadata(
     controlman.exception.ControlManFileReadError
         If the file cannot be read.
     """
+    filepath = filepath or const.FILEPATH_METADATA
     git_api = create_git_api(repo_path=repo) if isinstance(repo, str | Path) else repo
     reporter = reporter or Reporter()
     log_title = "Metadata Load"
-    if commit_hash:
-        log_ref = commit_hash
-        data_str = git_api.file_at_hash(
-            commit_hash=commit_hash,
+    if ref:
+        log_ref = ref
+        data_str = git_api.file_at_ref(
+            ref=ref,
             path=filepath,
         )
         try:
             project_metadata = ps.read.json_from_string(data=data_str)
         except ps.exception.read.PySerialsReadException as e:
             raise controlman_exception.load.ControlManInvalidMetadataError(
-                cause=e, filepath=filepath, commit_hash=commit_hash
+                cause=e, filepath=filepath, commit_hash=ref
             ) from None
     else:
-        commit_hash = git_api.commit_hash_normal()
+        ref = git_api.commit_hash_normal()
         branch_name = git_api.current_branch_name()
-        log_ref = f"HEAD of {branch_name} (commit {commit_hash})"
+        log_ref = f"HEAD of {branch_name} (commit {ref})"
         fullpath = git_api.repo_path / filepath
         try:
             project_metadata = ps.read.json_from_file(path=fullpath)
