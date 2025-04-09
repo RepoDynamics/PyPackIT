@@ -98,11 +98,9 @@ class ControlCenterManager:
         inline_hooks = self._hook_manager.inline_hooks
         if inline_hooks:
             code_context_call["hook"] = inline_hooks.Hooks(
-                repo_path=self._git.repo_path,
+                manager=self._manager,
                 ccc=self._data_before,
                 ccc_main=self._data_main,
-                cache_manager=self._manager.cache,
-                github_token=self._github_token,
             )
 
         def get_prefix(get, prefix: str):
