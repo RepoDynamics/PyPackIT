@@ -7364,9 +7364,9 @@
                "fileex": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "fileex ==0.1.0",
+                     "full": "fileex ==0.2.0",
                      "name": "fileex",
-                     "version": "==0.1.0"
+                     "version": "==0.2.0"
                   }
                },
                "github-contexts": {
@@ -7380,9 +7380,9 @@
                "gittidy": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "gittidy ==0.2.2",
+                     "full": "gittidy ==0.3.0",
                      "name": "gittidy",
-                     "version": "==0.2.2"
+                     "version": "==0.3.0"
                   }
                },
                "htmp": {
@@ -21566,8 +21566,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/fileex",
                      "name": "fileex",
-                     "spec": "fileex ==0.1.0",
-                     "version": "==0.1.0"
+                     "spec": "fileex ==0.2.0",
+                     "version": "==0.2.0"
                   }
                },
                "name": "fileex",
@@ -21596,8 +21596,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/gittidy",
                      "name": "gittidy",
-                     "spec": "gittidy ==0.2.2",
-                     "version": "==0.2.2"
+                     "spec": "gittidy ==0.3.0",
+                     "version": "==0.3.0"
                   }
                },
                "name": "gittidy",
@@ -21885,7 +21885,39 @@
                         ],
                         "kwargs": {
                            "default": "./",
-                           "help": "Local path to the repository root directory."
+                           "help": "Local path to the repository's root directory."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--repo-upstream"
+                        ],
+                        "kwargs": {
+                           "help": "Local path to the upstream repository's root directory."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--metadata-ref"
+                        ],
+                        "kwargs": {
+                           "help": "Git reference to read the metadata.json file from."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--metadata-filepath"
+                        ],
+                        "kwargs": {
+                           "help": "Relative path to the metadata.json file."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--main-metadata-filepath"
+                        ],
+                        "kwargs": {
+                           "help": "Relative path to the metadata.json file in the default branch."
                         }
                      },
                      {
@@ -22290,17 +22322,6 @@
                            "args": [
                               "gha"
                            ],
-                           "arguments": [
-                              {
-                                 "args": [
-                                    "--repo-upstream"
-                                 ],
-                                 "kwargs": {
-                                    "help": "Local path to the upstream repository's root directory.",
-                                    "required": true
-                                 }
-                              }
-                           ],
                            "defaults": {
                               "endpoint": "gha.run_cli"
                            },
@@ -22398,9 +22419,9 @@
                "ansi-sgr ==0.1.0",
                "conventionalcommits ==0.1.0",
                "exceptionman ==0.1.0",
-               "fileex ==0.1.0",
+               "fileex ==0.2.0",
                "github-contexts ==0.1.1",
-               "gittidy ==0.2.2",
+               "gittidy ==0.3.0",
                "htmp ==0.1.0",
                "jinja2 ==3.1.6",
                "jsonpath-ng ==1.7.0",

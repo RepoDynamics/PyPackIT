@@ -86,7 +86,11 @@ def _parse_args() -> argparse.Namespace:
     """
     # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
-    parser.add_argument("--repo", help="Local path to the repository root directory.", default="./")
+    parser.add_argument("--repo", help="Local path to the repository's root directory.", default="./")
+    parser.add_argument("--repo-upstream", help="Local path to the upstream repository's root directory.")
+    parser.add_argument("--metadata-ref", help="Git reference to read the metadata.json file from.")
+    parser.add_argument("--metadata-filepath", help="Relative path to the metadata.json file.")
+    parser.add_argument("--main-metadata-filepath", help="Relative path to the metadata.json file in the default branch.")
     parser.add_argument("--github-token", help="GitHub token for accessing the repository.")
     parser.add_argument("--remove-tokens", help="Remove all tokens read from the environment.", action="store_true")
     parser.add_argument("--no-validation", help="Skip validation of the metadata.json file.", dest="validate_metadata", action="store_false")
@@ -134,7 +138,6 @@ def _parse_args() -> argparse.Namespace:
     subparser_pypi.add_argument("-o", "--output", help="Output directory to write the rendered HTML file.", type=str, default=".local/temp/readme-pypi")
     subparser_pypi.set_defaults(endpoint="render.pypi.run_cli")
     subparser_gha = subparsers_main.add_parser("gha", help="Run CI/CD pipelines in GitHub Actions.")
-    subparser_gha.add_argument("--repo-upstream", help="Local path to the upstream repository's root directory.", required=True)
     subparser_gha.set_defaults(endpoint="gha.run_cli")
     # Process inputs
     args = parser.parse_args()
