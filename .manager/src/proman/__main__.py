@@ -18,6 +18,7 @@ def cli():
         reporter=reporter,
         repo_path=kwargs["repo"],
         commit_hash=kwargs.get("commit_hash"),
+        validate_metadata=kwargs.get("validate_metadata", True),
     )
     endpoint = _get_endpoint(kwargs.pop("endpoint"))
     endpoint(kwargs | {"manager": manager})
@@ -68,16 +69,17 @@ def _parse_args() -> argparse.Namespace:
     """
     # begin auto-generated parser
     parser = argparse.ArgumentParser(description="Project Manager CLI")
-    parser.add_argument("--repo", type=str, help="Local path to the repository root directory.", default="./")
+    parser.add_argument("--repo", help="Local path to the repository root directory.", default="./")
+    parser.add_argument("--github-token", help="GitHub token for accessing the repository.")
     parser.add_argument("--remove-tokens", help="Remove all tokens read from the environment.", action="store_true")
+    parser.add_argument("--no-validation", action="store_false", dest="validate_metadata")
     # Sub-parsers for parser
     subparsers_main = parser.add_subparsers(dest="command", required=True)
     subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")
-    subparser_cca.add_argument("-t", "--github-token", type=str, help="GitHub token for accessing the repository.")
     subparser_cca.add_argument("-b", "--branch-version", help="Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.", type=str, nargs="*", metavar="BRNACH=VERSION")
-    subparser_cca.add_argument("-c", "--control-center", help="Path to the control center directory containing configuration files.", type=str)
+    subparser_cca.add_argument("-p", "--control-center", help="Path to the control center directory containing configuration files.", type=str)
     subparser_cca.add_argument("-d", "--dry-run", help="Perform a dry run without making any changes.", action="store_true")
-    subparser_cca.add_argument("-n", "--no-validate", help="Skip validation of the metadata.json file.", dest="validate", action="store_false")
+    subparser_cca.add_argument("-c", "--clean-state", help="Skip validation of the metadata.json file.", action="store_true")
     subparser_cca.set_defaults(endpoint="cca.run_cli")
     subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
     subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices=['report', 'run', 'validate'], default="run")
