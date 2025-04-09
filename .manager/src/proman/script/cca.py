@@ -1,8 +1,10 @@
+"""Continuous Configuration Automation (CCA) script."""
+
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from loggerman import logger
 
@@ -10,26 +12,21 @@ import controlman
 from controlman.exception import ControlManException
 
 if TYPE_CHECKING:
-    import argparse
+    from proman.manager import Manager
 
 
 def run(
     *,
-    repo: str | None = None,
-    token: str | None = None,
+    manager: Manager,
     branch_version: dict[str, str] | None = None,
     control_center: str | None = None,
     dry_run: bool = False,
-    validate: bool = True,
+    clean_state: bool = False,
 ):
     """Run Continuous Configuration Automation on the repository.
 
     Parameters
     ----------
-    repo : str
-        Path to the repository.
-    token : str, optional
-        GitHub token for accessing the repository.
     branch_version : dict[str, str], optional
         Mapping of branch names to version numbers to override the version from git tags.
     control_center : str, optional
@@ -38,17 +35,15 @@ def run(
         thus everything is synchronized without access to a prior state.
     dry_run : bool, optional
         If True, changes are not applied.
-    validate : bool, optional
-        Validate the metadata.json file against the schema.
+    clean_state
+        Ignore the metadata.json file and start from a clean state.
     """
     logger.section("CCA")
     with logger.sectioning("Initialization"):
-        center_manager = controlman.manager(
-            repo=repo or Path.cwd(),
+        center_manager = manager.control_center(
             future_versions=branch_version,
             control_center_path=control_center,
-            validate=validate,
-            github_token=token,
+            clean_state=clean_state,
         )
     with logger.sectioning("Execution"):
         reporter = center_manager.report()
@@ -57,33 +52,26 @@ def run(
     return reporter
 
 
-def run_cli(args: argparse.Namespace) -> int:
-    """Run the CLI for Continuous Configuration Automation.
+def run_cli(kwargs: dict) -> None:
+    """Run the CLI.
 
     Parameters
     ----------
-    args : argparse.Namespace, optional
-        The parsed arguments. If None, the arguments are parsed from sys.argv.
-    Returns
-    -------
-    int
-        The exit code of the program.
+    kwargs
+        Input arguments for the CLI.
     """
     try:
         report = run(
-            repo=args.repo,
-            token=args.github_token,
-            branch_version=args.branch_version,
-            control_center=args.control_center,
-            dry_run=args.dry_run,
-            validate=args.validate,
+            manager=kwargs["manager"],
+            branch_version=kwargs["branch_version"],
+            control_center=kwargs["control_center"],
+            dry_run=kwargs["dry_run"],
+            clean_state=kwargs["clean_state"],
         ).report()
-        exit_code = 0
     except ControlManException as e:
         report = e.report
-        exit_code = 1
     report_str = report.render()
-    report_path = Path(args.repo) / ".local" / "report" / "cca" / "report.html"
+    report_path = Path(kwargs["repo"]) / ".local" / "report" / "cca" / "report.html"
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(report_str)
-    return sys.exit(exit_code)
+    return
