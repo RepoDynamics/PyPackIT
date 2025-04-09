@@ -2,14 +2,23 @@ from __future__ import annotations
 
 import copy
 from typing import TYPE_CHECKING
+from pathlib import Path
 
 import controlman
+import gittidy
 import jinja2
 from controlman import date
+from controlman import const
+import controlman.exception as controlman_exception
 from controlman.cache_manager import CacheManager
+from controlman import data_validator as _data_validator
 from loggerman import logger
+import pylinks
+import pyserials as ps
 
 from proman.exception import ProManException
+from proman.report import Reporter
+from proman.token_manager import create as _create_token_manager
 
 # from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
@@ -24,114 +33,178 @@ from proman.manager.user import UserManager
 from proman.manager.variable import VariableManager
 
 if TYPE_CHECKING:
-    from github_contexts import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
-    from pylinks.api.github import Repo as GitHubRepoAPI
+    from pylinks.api.github import Repo as GitHubRepoAPI, GitHub as GitHubBareAPI
     from pylinks.site.github import Repo as GitHubLink
     from pyserials.nested_dict import NestedDict
 
-    from proman.dstruct import Token, User
-    from proman.report import Reporter
+    from proman.dstruct import User
+    from proman.token_manager import TokenManager
 
 
-def from_metadata_json(
-    git_api: Git,
-    jinja_env_vars: dict,
-    github_context: GitHubContext,
-    github_api_actions: GitHubRepoAPI,
-    github_api_admin: GitHubRepoAPI,
-    github_link: GitHubLink,
-    reporter: Reporter,
-    zenodo_token: Token,
-    zenodo_sandbox_token: Token,
+def create(
+    token_manager: TokenManager | None = None,
+    reporter: Reporter | None = None,
+    jinja_env_vars: dict | None = None,
+    repo_path: str | Path | None = None,
     commit_hash: str | None = None,
+    metadata_filepath: str = const.FILEPATH_METADATA,
+    validate_metadata: bool = True,
 ) -> Manager:
-    branch_name = git_api.current_branch_name()
-    address = f"from the {branch_name} branch of the {repo} repository"
-    log_title = f"Metadata Load ({branch_name})"
-    err_msg = f"Failed to load metadata file {address}."
-    try:
-        if commit_hash:
-            data = controlman.from_json_file_at_commit(
-                git_manager=git_api,
-                commit_hash=commit_hash,
+    token_manager = token_manager or _create_token_manager()
+    reporter = reporter or Reporter()
+    jinja_env_vars = jinja_env_vars or {}
+
+    git_api = create_git_api(repo_path=repo_path)
+    project_metadata = load_metadata(
+        repo=git_api,
+        commit_hash=commit_hash,
+        validate=validate_metadata,
+        filepath=metadata_filepath,
+        reporter=reporter,
+    )
+    repo_address = git_api.get_remote_repo_name(
+        remote_name="origin", remote_purpose="push", fallback_name=False, fallback_purpose=False
+    )
+    if not repo_address:
+        raise controlman_exception.data_gen.RemoteGitHubRepoNotFoundError(
+            repo_path=git_api.repo_path,
+            remotes=git_api.get_remotes(),
+        )
+    repo_owner, repo_name = repo_address
+    github_api_bare = pylinks.api.github(token=token_manager.github.get())
+    return Manager(
+        project_metadata=project_metadata,
+        token_manager=token_manager,
+        git_api=git_api,
+        github_api_actions=github_api_bare.user(repo_owner).repo(repo_name),
+        github_api_admin=pylinks.api.github(token=token_manager.github_admin.get()).user(repo_owner).repo(repo_name),
+        github_api_bare=github_api_bare,
+        github_link=pylinks.site.github.user(repo_owner).repo(repo_name),
+        reporter=reporter,
+        jinja_env_vars=jinja_env_vars,
+    )
+
+
+def load_metadata(
+    repo: str | Path | Git,
+    commit_hash: str | None = None,
+    validate: bool = True,
+    filepath: str = const.FILEPATH_METADATA,
+    reporter: Reporter | None = None,
+) -> ps.NestedDict:
+    """Load project metadata from the metadata JSON file.
+
+    Parameters
+    ----------
+    repo
+        Git instance or path to the repository root.
+    commit_hash
+        Commit hash to load the metadata from.
+        If not provided, the latest commit on the current branch is used.
+    validate
+        Whether to validate read data against the schema.
+    filepath
+        Relative path to the JSON file in the repository.
+    reporter
+        Reporter instance to report the status of the operation.
+
+    Raises
+    ------
+    controlman.exception.ControlManFileReadError
+        If the file cannot be read.
+    """
+    git_api = create_git_api(repo_path=repo) if isinstance(repo, str | Path) else repo
+    reporter = reporter or Reporter()
+    log_title = "Metadata Load"
+    if commit_hash:
+        log_ref = commit_hash
+        data_str = git_api.file_at_hash(
+            commit_hash=commit_hash,
+            path=filepath,
+        )
+        try:
+            project_metadata = ps.read.json_from_string(data=data_str)
+        except ps.exception.read.PySerialsReadException as e:
+            raise controlman_exception.load.ControlManInvalidMetadataError(
+                cause=e, filepath=filepath, commit_hash=commit_hash
+            ) from None
+    else:
+        commit_hash = git_api.current_commit_hash()
+        branch_name = git_api.current_branch_name()
+        log_ref = f"HEAD of {branch_name} (commit {commit_hash})"
+        fullpath = git_api.repo_path / filepath
+        try:
+            project_metadata = ps.read.json_from_file(path=fullpath)
+        except ps.exception.read.PySerialsReadException as e:
+            raise controlman_exception.load.ControlManInvalidMetadataError(
+                cause=e, filepath=fullpath
+            ) from None
+
+    err_msg = f"Failed to load metadata file from {log_ref}."
+    logger.success(
+        log_title,
+        f"Metadata loaded successfully from {log_ref}.",
+    )
+    if validate:
+        try:
+            _data_validator.validate(data=project_metadata, fill_defaults=False)
+        except controlman.exception.load.ControlManInvalidMetadataError as e:
+            logger.critical(
+                log_title,
+                err_msg,
+                e.report.body["problem"].content,
             )
-        else:
-            data = controlman.from_json_file(repo_path=git_api.repo_path)
-        logger.success(
-            log_title,
-            f"Metadata loaded successfully {address}.",
-        )
-        return Manager(
-            data=data,
-            git_api=git_api,
-            jinja_env_vars=jinja_env_vars,
-            github_context=github_context,
-            github_api_actions=github_api_actions,
-            github_api_admin=github_api_admin,
-            github_link=github_link,
-            zenodo_token=zenodo_token,
-            zenodo_sandbox_token=zenodo_sandbox_token,
-            reporter=reporter,
-        )
-    except controlman.exception.load.ControlManInvalidMetadataError as e:
-        logger.critical(
-            log_title,
-            err_msg,
-            e.report.body["problem"].content,
-        )
-        reporter.update(
-            "main",
-            status="fail",
-            summary=f"Failed to load metadata {address}.",
-            section="",
-        )
-        raise ProManException()
-    except controlman.exception.load.ControlManSchemaValidationError as e:
-        logger.critical(
-            log_title,
-            err_msg,
-            e.report.body["problem"].content,
-        )
-        reporter.update(
-            "main",
-            status="fail",
-            summary=f"Failed to load metadata {address}.",
-            section="",
-        )
-        raise ProManException()
+            reporter.update(
+                "main",
+                status="fail",
+                summary=f"Failed to load metadata from {log_ref}.",
+            )
+            raise ProManException()
+        except controlman.exception.load.ControlManSchemaValidationError as e:
+            logger.critical(
+                log_title,
+                err_msg,
+                e.report.body["problem"].content,
+            )
+            reporter.update(
+                "main",
+                status="fail",
+                summary=f"Failed to load metadata from {log_ref}.",
+            )
+            raise ProManException()
+    return ps.NestedDict(project_metadata)
+
+
+def create_git_api(repo_path: str | Path | None = None) -> Git:
+    repo_path = Path(repo_path).resolve() if repo_path else Path.cwd()
+    return gittidy.Git(path=repo_path, logger=logger)
 
 
 class Manager:
     def __init__(
         self,
-        data: NestedDict,
+        project_metadata: NestedDict,
+        token_manager: TokenManager,
         git_api: Git,
-        jinja_env_vars: dict,
-        github_context: GitHubContext,
         github_api_actions: GitHubRepoAPI,
         github_api_admin: GitHubRepoAPI,
+        github_api_bare: GitHubBareAPI,
         github_link: GitHubLink,
-        zenodo_token: Token,
-        zenodo_sandbox_token: Token,
         reporter: Reporter,
+        jinja_env_vars: dict,
     ):
-        self._data = data
-        self._git = git_api
-        self._jinja_env_vars = jinja_env_vars
-        self._gh_context = github_context
+        self._meta = project_metadata
+        self._token_manager = token_manager
+        self._git_api = git_api
         self._gh_api_actions = github_api_actions
         self._gh_api_admin = github_api_admin
+        self._gh_api_bare = github_api_bare
         self._gh_link = github_link
-        self._zenodo_token = zenodo_token
-        self._zenodo_sandbox_token = zenodo_sandbox_token
         self._reporter = reporter
-
-        self._cache_manager = CacheManager(
-            path_local_cache=self._git.repo_path / data["local.cache.path"],
-            retention_hours=data["control.cache.retention_hours"],
-        )
+        self._jinja_env_vars = jinja_env_vars
+        self._cache_manager = CacheManager(self)
         self._branch_manager = BranchManager(self)
         self._changelog_manager = ChangelogManager(self)
         self._commit_manager = CommitManager(self)
@@ -146,25 +219,47 @@ class Manager:
         )  # must be after self._variable_manager as ZenodoManager needs it at init
         return
 
+    def control_center(
+        self,
+        data_main: ps.NestedDict | None = None,
+        future_versions: dict[str, str] | None = None,
+        control_center_path: str | None = None,
+        clean_state: bool = False,
+    ):
+        if not control_center_path:
+            control_center_path = self.data.get("control.path")
+        if not control_center_path:
+            raise ValueError("Control center path not provided.")
+        control_center_path = self.git.repo_path / control_center_path
+        if not control_center_path.is_dir():
+            raise ValueError(f"Invalid control center path '{control_center_path}'")
+        return CenterManager(
+            manager=self,
+            cc_path=control_center_path,
+            data_main=data_main,
+            future_versions=future_versions,
+            clean_state=clean_state,
+        )
+
     @property
     def reporter(self) -> Reporter:
         return self._reporter
 
     @property
     def data(self) -> NestedDict:
-        return self._data
+        return self._meta
 
     @property
     def git(self) -> Git:
-        return self._git
+        return self._git_api
 
     @property
     def jinja_env_vars(self) -> dict:
         return self._jinja_env_vars
 
     @property
-    def gh_context(self) -> GitHubContext:
-        return self._gh_context
+    def gh_api_bare(self) -> GitHubBareAPI:
+        return self._gh_api_bare
 
     @property
     def gh_api_actions(self) -> GitHubRepoAPI:
@@ -215,20 +310,16 @@ class Manager:
         return self._repo_manager
 
     @property
+    def token(self) -> TokenManager:
+        return self._token_manager
+
+    @property
     def user(self) -> UserManager:
         return self._user_manager
 
     @property
     def variable(self) -> VariableManager:
         return self._variable_manager
-
-    @property
-    def zenodo_token(self) -> Token:
-        return self._zenodo_token
-
-    @property
-    def zenodo_sandbox_token(self) -> Token:
-        return self._zenodo_sandbox_token
 
     def add_issue_jinja_env_var(self, issue: Issue):
         issue_copy = copy.deepcopy(issue)
