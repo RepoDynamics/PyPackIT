@@ -14,7 +14,7 @@ from controlman import const as _const
 from controlman.exception import load as _exception
 
 if TYPE_CHECKING:
-    from controlman.cache_manager import CacheManager
+    from proman.manager.cache import CacheManager
 
 
 def load(path_cc: _Path, cache_manager: CacheManager | None = None) -> dict:

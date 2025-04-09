@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import datetime as _datetime
-from pathlib import Path as _Path
 
 import mdit as _mdit
 import pyserials as _ps

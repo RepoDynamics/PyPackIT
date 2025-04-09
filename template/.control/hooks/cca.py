@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from pathlib import Path
     from typing import Any
 
-    from controlman.cache_manager import CacheManager
+    from proman.manager.cache import CacheManager
     from controlman.datatype import DynamicDir, DynamicFile
     from pyserials import NestedDict
 

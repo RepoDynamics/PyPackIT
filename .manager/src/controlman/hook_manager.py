@@ -14,7 +14,7 @@ from controlman import exception as _exception
 if _TYPE_CHECKING:
     from pyserials.nested_dict import NestedDict
 
-    from controlman.cache_manager import CacheManager
+    from proman.manager.cache import CacheManager
 
 
 class HookManager:

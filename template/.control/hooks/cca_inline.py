@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from types import ModuleType
     from typing import Any, Literal
 
-    from controlman.cache_manager import CacheManager
+    from proman.manager.cache import CacheManager
     from pyserials import NestedDict
 
 

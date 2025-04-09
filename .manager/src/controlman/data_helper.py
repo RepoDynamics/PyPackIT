@@ -14,7 +14,7 @@ from controlman import data_validator as _validator
 if _TYPE_CHECKING:
     from collections.abc import Callable, Sequence
 
-    from controlman.cache_manager import CacheManager
+    from proman.manager.cache import CacheManager
 
 
 def team_members_with_role_types(
