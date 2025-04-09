@@ -131,7 +131,7 @@ def load_metadata(
                 cause=e, filepath=filepath, commit_hash=commit_hash
             ) from None
     else:
-        commit_hash = git_api.current_commit_hash()
+        commit_hash = git_api.commit_hash_normal()
         branch_name = git_api.current_branch_name()
         log_ref = f"HEAD of {branch_name} (commit {commit_hash})"
         fullpath = git_api.repo_path / filepath
