@@ -14,6 +14,7 @@ from proman.report import initialize_logger
 if TYPE_CHECKING:
     from proman.token_manager import TokenManager
 
+
 def cli():
     initialize_logger()
     kwargs, token_manager = _read_args()
