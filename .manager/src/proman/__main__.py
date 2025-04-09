@@ -98,6 +98,7 @@ def _parse_args() -> argparse.Namespace:
     # Sub-parsers for parser
     subparsers_main = parser.add_subparsers(dest="command", required=True)
     subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")
+    subparser_cca.add_argument("-x", "--action", type=str, choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'], default="apply")
     subparser_cca.add_argument("-b", "--branch-version", help="Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.", type=str, nargs="*", metavar="BRNACH=VERSION")
     subparser_cca.add_argument("-p", "--control-center", help="Path to the control center directory containing configuration files.", type=str)
     subparser_cca.add_argument("-d", "--dry-run", help="Perform a dry run without making any changes.", action="store_true")
