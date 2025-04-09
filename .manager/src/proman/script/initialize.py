@@ -35,7 +35,7 @@ def run(
         action=InitCheckAction.AMEND,
         future_versions={self.gh_context.event.repository.default_branch: "0.0.0"},
     )
-    self.run_refactor(
+    script.lint.run(
         branch_manager=main_manager,
         action=InitCheckAction.AMEND,
         ref_range=None,
