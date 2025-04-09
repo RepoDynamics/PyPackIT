@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import json
+from typing import TYPE_CHECKING
 
 import actionman
 from loggerman import logger
@@ -8,24 +11,38 @@ import proman
 from proman import script, report
 from proman.report import initialize_logger
 
+if TYPE_CHECKING:
+    from proman.token_manager import TokenManager
 
 def cli():
     initialize_logger()
     kwargs, token_manager = _read_args()
     reporter = report.Reporter(github_context=kwargs.get("github_context"))
+    jinja_env_vars = {}
     manager = proman.manager(
         token_manager=token_manager,
         reporter=reporter,
+        jinja_env_vars=jinja_env_vars,
         repo_path=kwargs["repo"],
-        commit_hash=kwargs.get("commit_hash"),
+        metadata_ref=kwargs.get("metadata_ref"),
+        metadata_filepath=kwargs.get("metadata_filepath"),
+        validate_metadata=kwargs.get("validate_metadata", True),
+    )
+    main_manager = proman.manager(
+        token_manager=token_manager,
+        reporter=reporter,
+        jinja_env_vars=jinja_env_vars,
+        repo_path=kwargs.get("repo_upstream", kwargs["repo"]),
+        metadata_ref=manager.branch.default_branch_name,
+        metadata_filepath=kwargs.get("main_metadata_filepath"),
         validate_metadata=kwargs.get("validate_metadata", True),
     )
     endpoint = _get_endpoint(kwargs.pop("endpoint"))
-    endpoint(kwargs | {"manager": manager})
+    endpoint(kwargs | {"manager": manager, "main_manager": main_manager})
     return
 
 
-def _read_args() -> argparse.Namespace:
+def _read_args() -> tuple[dict, TokenManager]:
     """Read inputs and return them as a namespace object."""
     args = _parse_args()
     github_context = json.loads(
