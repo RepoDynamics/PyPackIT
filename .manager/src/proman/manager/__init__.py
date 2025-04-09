@@ -58,6 +58,7 @@ def create(
     jinja_env_vars = jinja_env_vars or {}
 
     git_api = create_git_api(repo_path=repo_path)
+    git_api.fetch_remote_branches_by_pattern()
     project_metadata = load_metadata(
         repo=git_api,
         ref=metadata_ref,
