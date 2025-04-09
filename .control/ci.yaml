@@ -18,13 +18,20 @@ pypkg_ci:
           arguments:
             - args: [ --repo ]
               kwargs:
-                type: str
                 help: Local path to the repository root directory.
                 default: "./"
+            - args: [ --github-token ]
+              kwargs:
+                help: GitHub token for accessing the repository.
             - args: [ --remove-tokens ]
               kwargs:
                 help: Remove all tokens read from the environment.
                 action: store_true
+            - args: [ --no-validation ]
+              kwargs:
+                help: Skip validation of the metadata.json file.
+                dest: validate_metadata
+                action: store_false
           subparser:
             id: main
             kwargs:
@@ -38,10 +45,6 @@ pypkg_ci:
                 defaults:
                   endpoint: cca.run_cli
                 arguments:
-                  - args: [ -t, --github-token ]
-                    kwargs:
-                      type: str
-                      help: GitHub token for accessing the repository.
                   - args: [ -b, --branch-version ]
                     kwargs:
                       help: Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.
@@ -56,7 +59,7 @@ pypkg_ci:
                               parser.error(
                                   "--branch-version must be in the format BRANCH=VERSION (e.g., -b main=1.0.0 dev=2.0.0)."
                               )
-                  - args: [ -c, --control-center ]
+                  - args: [ -p, --control-center ]
                     kwargs:
                       help: Path to the control center directory containing configuration files.
                       type: str
@@ -64,11 +67,10 @@ pypkg_ci:
                     kwargs:
                       help: Perform a dry run without making any changes.
                       action: store_true
-                  - args: [ -n, --no-validate ]
+                  - args: [ -c, --clean_state ]
                     kwargs:
-                      help: Skip validation of the metadata.json file.
-                      dest: validate
-                      action: store_false
+                      help: Ignore the metadata.json file and start from scratch.
+                      action: store_true
               - id: lint
                 args: [ lint ]
                 kwargs:
