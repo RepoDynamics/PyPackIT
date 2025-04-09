@@ -22,8 +22,9 @@ if TYPE_CHECKING:
     from types import ModuleType
     from typing import Any, Literal
 
-    from controlman.cache_manager import CacheManager
     from pyserials import NestedDict
+
+    from proman.manager import Manager
 
 
 class Hooks:
@@ -61,21 +62,17 @@ class Hooks:
 
     def __init__(
         self,
-        repo_path: Path,
+        manager: Manager,
         ccc: NestedDict,
         ccc_main: NestedDict,
-        cache_manager: CacheManager,
-        github_token: str | None = None,
-        **kwargs: Any,
     ):
-        self.repo_path = repo_path
+        self.manager = manager
+        self.repo_path = self.manager.git.repo_path
         self.ccc = ccc
         self.ccc_main = ccc_main
-        self.cache_manager = cache_manager
-        self.github_token = github_token
+        self.cache_manager = self.manager.cache
         self.get = None
-        self.changelog = ChangelogManager(repo_path=self.repo_path)
-        self._kwargs = kwargs
+        self.changelog = ChangelogManager(manager=self.manager)
 
         self._binder_files = {}
         return
