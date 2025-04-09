@@ -25,7 +25,7 @@ def generate(
         curr_branch, other_branches = manager.git.get_all_branch_names()
         main_branch = data["repo.default_branch"]
         if curr_branch == main_branch:
-            data_main = data_before or data
+            data_main = manager.data or data
         else:
             manager.git.fetch_remote_branches_by_name(main_branch)
             manager.git.stash()
@@ -33,7 +33,7 @@ def generate(
             if (manager.git.repo_path / _const.FILEPATH_METADATA).is_file():
                 data_main = _controlman.from_json_file(repo_path=manager.git.repo_path)
             else:
-                data_main = data_before or data
+                data_main = manager.data or data
             manager.git.checkout(curr_branch)
             manager.git.stash_pop()
     _RepoDataGenerator(
