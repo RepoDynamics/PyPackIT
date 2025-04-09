@@ -7380,9 +7380,9 @@
                "gittidy": {
                   "name": "${{ .__key__ }}$",
                   "spec": {
-                     "full": "gittidy ==0.1.0",
+                     "full": "gittidy ==0.2.2",
                      "name": "gittidy",
-                     "version": "==0.1.0"
+                     "version": "==0.2.2"
                   }
                },
                "htmp": {
@@ -7862,8 +7862,75 @@
          "name": "Setup user configs",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\n\nUSERNAME=${USERNAME:-\"codespace\"}\n\nset -eux\n\nif [ \"$(id -u)\" -ne 0 ]; then\n    echo -e 'Script must be run as root. Use sudo, su, or add \"USER root\" to your Dockerfile before running this script.'\n    exit 1\nfi\n\n# Ensure that login shells get the correct path if the user updated the PATH using ENV.\nrm -f /etc/profile.d/00-restore-env.sh\necho \"export PATH=${PATH//$(sh -lc 'echo $PATH')/\\$PATH}\" > /etc/profile.d/00-restore-env.sh\nchmod +x /etc/profile.d/00-restore-env.sh\n\nexport DEBIAN_FRONTEND=noninteractive\n\nsudo_if() {\n    COMMAND=\"$*\"\n    if [ \"$(id -u)\" -eq 0 ] && [ \"$USERNAME\" != \"root\" ]; then\n        su - \"$USERNAME\" -c \"$COMMAND\"\n    else\n        \"$COMMAND\"\n    fi\n}\n\n# Enables the oryx tool to generate manifest-dir which is needed for running the postcreate tool\nDEBIAN_FLAVOR=\"focal-scm\"\nmkdir -p /opt/oryx && echo \"vso-focal\" > /opt/oryx/.imagetype\necho \"DEBIAN|${DEBIAN_FLAVOR}\" | tr '[a-z]' '[A-Z]' > /opt/oryx/.ostype\n\n# Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.\nln -snf /usr/local/oryx/* /opt/oryx\n\n# For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.\n# This ensures that whatever platfornm versions oryx detects and installs are set as root.\nNODE_PATH=\"/home/codespace/nvm/current\"\nln -snf /usr/local/share/nvm /home/codespace\n\nPHP_PATH=\"/home/${USERNAME}/.php/current\"\nmkdir -p /home/${USERNAME}/.php\nln -snf /usr/local/php/current $PHP_PATH\n\nPYTHON_PATH=\"/home/${USERNAME}/.python/current\"\nmkdir -p /home/${USERNAME}/.python\nln -snf /usr/local/python/current $PYTHON_PATH\nln -snf /usr/local/python /opt/python\n\nJAVA_PATH=\"/home/codespace/java/current\"\nln -snf /usr/local/sdkman/candidates/java /home/codespace\n\nRUBY_PATH=\"/home/${USERNAME}/.ruby/current\"\nmkdir -p /home/${USERNAME}/.ruby\nln -snf /usr/local/rvm/rubies/default $RUBY_PATH\n\nDOTNET_PATH=\"/home/${USERNAME}/.dotnet\"\n\n# Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825\nchown -R \"${USERNAME}:${USERNAME}\" /usr/share/dotnet\nchmod g+r+w+s /usr/share/dotnet\nchmod -R g+r+w /usr/share/dotnet\n\nln -snf /usr/share/dotnet $DOTNET_PATH\nmkdir -p /opt/dotnet/lts\ncp -R /usr/share/dotnet/dotnet /opt/dotnet/lts\ncp -R /usr/share/dotnet/LICENSE.txt /opt/dotnet/lts\ncp -R /usr/share/dotnet/ThirdPartyNotices.txt /opt/dotnet/lts\n\nMAVEN_PATH=\"/home/${USERNAME}/.maven/current\"\nmkdir -p /home/${USERNAME}/.maven\nln -snf /usr/local/sdkman/candidates/maven/current $MAVEN_PATH\n\nHUGO_ROOT=\"/home/${USERNAME}/.hugo/current\"\nmkdir -p /home/${USERNAME}/.hugo\nln -snf /usr/local/hugo $HUGO_ROOT\n\nHOME_DIR=\"/home/${USERNAME}/\"\nchown -R ${USERNAME}:${USERNAME} ${HOME_DIR}\nchmod -R g+r+w \"${HOME_DIR}\"\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s\n\nOPT_DIR=\"/opt/\"\nchown -R ${USERNAME}:oryx ${OPT_DIR}\nchmod -R g+r+w \"${OPT_DIR}\"\nfind \"${OPT_DIR}\" -type d | xargs -n 1 chmod g+s\n\necho \"Defaults secure_path=\\\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\\\"\" >> /etc/sudoers.d/$USERNAME\n\n# Temporary: Due to GHSA-c2qf-rxjj-qqgw\nbash -c \". /usr/local/share/nvm/nvm.sh && nvm use 22\"\nbash -c \"npm -g install -g npm@9.8.1\"\nbash -c \". /usr/local/share/nvm/nvm.sh && nvm use stable\"\n\necho \"Done!\"\n",
+      "install": "#!/usr/bin/env bash\n\nUSERNAME=${USERNAME:-\"codespace\"}\n\nset -eux\n\nif [ \"$(id -u)\" -ne 0 ]; then\n    echo -e 'Script must be run as root. Use sudo, su, or add \"USER root\" to your Dockerfile before running this script.'\n    exit 1\nfi\n\n# Ensure that login shells get the correct path if the user updated the PATH using ENV.\nrm -f /etc/profile.d/00-restore-env.sh\necho \"export PATH=${PATH//$(sh -lc 'echo $PATH')/\\$PATH}\" > /etc/profile.d/00-restore-env.sh\nchmod +x /etc/profile.d/00-restore-env.sh\n\nexport DEBIAN_FRONTEND=noninteractive\n\nsudo_if() {\n    COMMAND=\"$*\"\n    if [ \"$(id -u)\" -eq 0 ] && [ \"$USERNAME\" != \"root\" ]; then\n        su - \"$USERNAME\" -c \"$COMMAND\"\n    else\n        \"$COMMAND\"\n    fi\n}\n\n# Enables the oryx tool to generate manifest-dir which is needed for running the postcreate tool\nDEBIAN_FLAVOR=\"focal-scm\"\nmkdir -p /opt/oryx && echo \"vso-focal\" > /opt/oryx/.imagetype\necho \"DEBIAN|${DEBIAN_FLAVOR}\" | tr '[a-z]' '[A-Z]' > /opt/oryx/.ostype\n\n# Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.\nln -snf /usr/local/oryx/* /opt/oryx\n\n# For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.\n# This ensures that whatever platfornm versions oryx detects and installs are set as root.\nNODE_PATH=\"/home/codespace/nvm/current\"\nln -snf /usr/local/share/nvm /home/codespace\n\nPHP_PATH=\"/home/${USERNAME}/.php/current\"\nmkdir -p /home/${USERNAME}/.php\nln -snf /usr/local/php/current $PHP_PATH\n\nPYTHON_PATH=\"/home/${USERNAME}/.python/current\"\nmkdir -p /home/${USERNAME}/.python\nln -snf /usr/local/python/current $PYTHON_PATH\nln -snf /usr/local/python /opt/python\n\nJAVA_PATH=\"/home/codespace/java/current\"\nln -snf /usr/local/sdkman/candidates/java /home/codespace\n\nRUBY_PATH=\"/home/${USERNAME}/.ruby/current\"\nmkdir -p /home/${USERNAME}/.ruby\nln -snf /usr/local/rvm/rubies/default $RUBY_PATH\n\nDOTNET_PATH=\"/home/${USERNAME}/.dotnet\"\n\n# Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825\nchown -R \"${USERNAME}:${USERNAME}\" /usr/share/dotnet\nchmod g+r+w+s /usr/share/dotnet\nchmod -R g+r+w /usr/share/dotnet\n\nln -snf /usr/share/dotnet $DOTNET_PATH\nmkdir -p /opt/dotnet/lts\ncp -R /usr/share/dotnet/dotnet /opt/dotnet/lts\ncp -R /usr/share/dotnet/LICENSE.txt /opt/dotnet/lts\ncp -R /usr/share/dotnet/ThirdPartyNotices.txt /opt/dotnet/lts\n\nMAVEN_PATH=\"/home/${USERNAME}/.maven/current\"\nmkdir -p /home/${USERNAME}/.maven\nln -snf /usr/local/sdkman/candidates/maven/current $MAVEN_PATH\n\nHUGO_ROOT=\"/home/${USERNAME}/.hugo/current\"\nmkdir -p /home/${USERNAME}/.hugo\nln -snf /usr/local/hugo $HUGO_ROOT\n\nHOME_DIR=\"/home/${USERNAME}/\"\nchown -R ${USERNAME}:${USERNAME} ${HOME_DIR}\nchmod -R g+r+w \"${HOME_DIR}\"\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s\n\nOPT_DIR=\"/opt/\"\nchown -R ${USERNAME}:oryx ${OPT_DIR}\nchmod -R g+r+w \"${OPT_DIR}\"\nfind \"${OPT_DIR}\" -type d | xargs -n 1 chmod g+s\n\necho \"Defaults secure_path=\\\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\\\"\" >> /etc/sudoers.d/$USERNAME\n\necho \"Done!\"\n",
       "path": "features/setup-user"
+   },
+   "discussion": {
+      "category": {
+         "branding": {
+            "created_at": "2023-07-05",
+            "description": "",
+            "emoji": "#\ufe0f\u20e3",
+            "id": "DIC_kwDOJi8gRs4CXrl6",
+            "is_answerable": false,
+            "name": "Branding",
+            "updated_at": "2023-07-05"
+         },
+         "bug-report": {
+            "created_at": "2023-07-08",
+            "description": "Report a potential bug or problem you encountered while using the application.",
+            "emoji": "#\ufe0f\u20e3",
+            "id": "DIC_kwDOJi8gRs4CXwlw",
+            "is_answerable": false,
+            "name": "Bug Report",
+            "updated_at": "2023-07-08"
+         },
+         "installation": {
+            "created_at": "2023-05-21",
+            "description": "Ask questions about the installation process.",
+            "emoji": "\ud83d\ude4f",
+            "id": "DIC_kwDOJi8gRs4CWomv",
+            "is_answerable": true,
+            "name": "Installation",
+            "updated_at": "2023-07-03"
+         },
+         "new-features": {
+            "created_at": "2023-05-21",
+            "description": "Share ideas for new features",
+            "emoji": "\ud83d\udca1",
+            "id": "DIC_kwDOJi8gRs4CWomw",
+            "is_answerable": false,
+            "name": "New Features",
+            "updated_at": "2023-07-05"
+         },
+         "release": {
+            "created_at": "2023-05-21",
+            "description": "New release announcements",
+            "emoji": "\ud83d\udce3",
+            "id": "DIC_kwDOJi8gRs4CWomt",
+            "is_answerable": false,
+            "name": "Release",
+            "updated_at": "2023-08-04"
+         },
+         "testimonials": {
+            "created_at": "2025-01-09",
+            "description": "Write a testimonial for PyPackIT and share your experience with others.",
+            "emoji": "\ud83d\udcdd",
+            "id": "DIC_kwDOJi8gRs4Cl3_R",
+            "is_answerable": false,
+            "name": "Testimonials",
+            "updated_at": "2025-01-09"
+         },
+         "usage": {
+            "created_at": "2023-07-03",
+            "description": "Ask questions about the application and its usage/behavior.",
+            "emoji": "#\ufe0f\u20e3",
+            "id": "DIC_kwDOJi8gRs4CXp_t",
+            "is_answerable": true,
+            "name": "Usage",
+            "updated_at": "2023-07-08"
+         }
+      }
    },
    "file_binder_apt": {
       "content": "",
@@ -12279,7 +12346,57 @@
                                  "color": "#0B3C75",
                                  "endpoint": "discussion_search_hits",
                                  "height": "23px",
-                                 "items": [],
+                                 "items": [
+                                    {
+                                       "args": {
+                                          "query": "category:\"Branding\""
+                                       },
+                                       "label": "#\ufe0f\u20e3\u2002Branding",
+                                       "title": ""
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"Bug Report\""
+                                       },
+                                       "label": "#\ufe0f\u20e3\u2002Bug Report",
+                                       "title": "Report a potential bug or problem you encountered while using the application."
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"Installation\""
+                                       },
+                                       "label": "\ud83d\ude4f\u2002Installation",
+                                       "title": "Ask questions about the installation process."
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"New Features\""
+                                       },
+                                       "label": "\ud83d\udca1\u2002New Features",
+                                       "title": "Share ideas for new features"
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"Release\""
+                                       },
+                                       "label": "\ud83d\udce3\u2002Release",
+                                       "title": "New release announcements"
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"Testimonials\""
+                                       },
+                                       "label": "\ud83d\udcdd\u2002Testimonials",
+                                       "title": "Write a testimonial for PyPackIT and share your experience with others."
+                                    },
+                                    {
+                                       "args": {
+                                          "query": "category:\"Usage\""
+                                       },
+                                       "label": "#\ufe0f\u20e3\u2002Usage",
+                                       "title": "Ask questions about the application and its usage/behavior."
+                                    }
+                                 ],
                                  "separator": 2,
                                  "service": "github",
                                  "style": "flat-square"
@@ -21479,8 +21596,8 @@
                   "pip": {
                      "homepage": "https://pypi.org/project/gittidy",
                      "name": "gittidy",
-                     "spec": "gittidy ==0.1.0",
-                     "version": "==0.1.0"
+                     "spec": "gittidy ==0.2.2",
+                     "version": "==0.2.2"
                   }
                },
                "name": "gittidy",
@@ -21768,10 +21885,16 @@
                         ],
                         "kwargs": {
                            "default": "./",
-                           "help": "Local path to the repository root directory.",
-                           "type": "str"
-                        },
-                        "post_process": "import json\nfrom pathlib import Path\nsetattr(\n    args,\n    \"metadata\",\n    json.loads((Path(args.repo).resolve() / \".github/.repodynamics/metadata.json\").read_text())\n)\n"
+                           "help": "Local path to the repository root directory."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--github-token"
+                        ],
+                        "kwargs": {
+                           "help": "GitHub token for accessing the repository."
+                        }
                      },
                      {
                         "args": [
@@ -21780,6 +21903,16 @@
                         "kwargs": {
                            "action": "store_true",
                            "help": "Remove all tokens read from the environment."
+                        }
+                     },
+                     {
+                        "args": [
+                           "--no-validation"
+                        ],
+                        "kwargs": {
+                           "action": "store_false",
+                           "dest": "validate_metadata",
+                           "help": "Skip validation of the metadata.json file."
                         }
                      }
                   ],
@@ -21805,16 +21938,6 @@
                            "arguments": [
                               {
                                  "args": [
-                                    "-t",
-                                    "--github-token"
-                                 ],
-                                 "kwargs": {
-                                    "help": "GitHub token for accessing the repository.",
-                                    "type": "str"
-                                 }
-                              },
-                              {
-                                 "args": [
                                     "-b",
                                     "--branch-version"
                                  ],
@@ -21828,7 +21951,7 @@
                               },
                               {
                                  "args": [
-                                    "-c",
+                                    "-p",
                                     "--control-center"
                                  ],
                                  "kwargs": {
@@ -21848,13 +21971,12 @@
                               },
                               {
                                  "args": [
-                                    "-n",
-                                    "--no-validate"
+                                    "-c",
+                                    "--clean-state"
                                  ],
                                  "kwargs": {
-                                    "action": "store_false",
-                                    "dest": "validate",
-                                    "help": "Skip validation of the metadata.json file."
+                                    "action": "store_true",
+                                    "help": "Ignore the metadata.json file and start from scratch."
                                  }
                               }
                            ],
@@ -22168,6 +22290,17 @@
                            "args": [
                               "gha"
                            ],
+                           "arguments": [
+                              {
+                                 "args": [
+                                    "--repo-upstream"
+                                 ],
+                                 "kwargs": {
+                                    "help": "Local path to the upstream repository's root directory.",
+                                    "required": true
+                                 }
+                              }
+                           ],
                            "defaults": {
                               "endpoint": "gha.run_cli"
                            },
@@ -22267,7 +22400,7 @@
                "exceptionman ==0.1.0",
                "fileex ==0.1.0",
                "github-contexts ==0.1.1",
-               "gittidy ==0.1.0",
+               "gittidy ==0.2.2",
                "htmp ==0.1.0",
                "jinja2 ==3.1.6",
                "jsonpath-ng ==1.7.0",
@@ -23820,7 +23953,57 @@
                                        "color": "#0B3C75",
                                        "endpoint": "discussion_search_hits",
                                        "height": "23px",
-                                       "items": [],
+                                       "items": [
+                                          {
+                                             "args": {
+                                                "query": "category:\"Branding\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Branding",
+                                             "title": ""
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Bug Report\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Bug Report",
+                                             "title": "Report a potential bug or problem you encountered while using the application."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Installation\""
+                                             },
+                                             "label": "\ud83d\ude4f\u2002Installation",
+                                             "title": "Ask questions about the installation process."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"New Features\""
+                                             },
+                                             "label": "\ud83d\udca1\u2002New Features",
+                                             "title": "Share ideas for new features"
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Release\""
+                                             },
+                                             "label": "\ud83d\udce3\u2002Release",
+                                             "title": "New release announcements"
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Testimonials\""
+                                             },
+                                             "label": "\ud83d\udcdd\u2002Testimonials",
+                                             "title": "Write a testimonial for PyPackIT and share your experience with others."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Usage\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Usage",
+                                             "title": "Ask questions about the application and its usage/behavior."
+                                          }
+                                       ],
                                        "separator": 2,
                                        "service": "github",
                                        "style": "flat-square"
@@ -26893,7 +27076,57 @@
                                        "color": "#0B3C75",
                                        "endpoint": "discussion_search_hits",
                                        "height": "23px",
-                                       "items": [],
+                                       "items": [
+                                          {
+                                             "args": {
+                                                "query": "category:\"Branding\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Branding",
+                                             "title": ""
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Bug Report\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Bug Report",
+                                             "title": "Report a potential bug or problem you encountered while using the application."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Installation\""
+                                             },
+                                             "label": "\ud83d\ude4f\u2002Installation",
+                                             "title": "Ask questions about the installation process."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"New Features\""
+                                             },
+                                             "label": "\ud83d\udca1\u2002New Features",
+                                             "title": "Share ideas for new features"
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Release\""
+                                             },
+                                             "label": "\ud83d\udce3\u2002Release",
+                                             "title": "New release announcements"
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Testimonials\""
+                                             },
+                                             "label": "\ud83d\udcdd\u2002Testimonials",
+                                             "title": "Write a testimonial for PyPackIT and share your experience with others."
+                                          },
+                                          {
+                                             "args": {
+                                                "query": "category:\"Usage\""
+                                             },
+                                             "label": "#\ufe0f\u20e3\u2002Usage",
+                                             "title": "Ask questions about the application and its usage/behavior."
+                                          }
+                                       ],
                                        "separator": 2,
                                        "service": "github",
                                        "style": "flat-square"
@@ -27442,7 +27675,15 @@
          },
          "discussions": {
             "home": "https://github.com/RepoDynamics/PyPackIT/discussions",
-            "new": {}
+            "new": {
+               "branding": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=branding",
+               "bug-report": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=bug-report",
+               "installation": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=installation",
+               "new-features": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=new-features",
+               "release": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=release",
+               "testimonials": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=testimonials",
+               "usage": "https://github.com/RepoDynamics/PyPackIT/discussions/new?category=usage"
+            }
          },
          "home": "https://github.com/RepoDynamics/PyPackIT",
          "issues": {
