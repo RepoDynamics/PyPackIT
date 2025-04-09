@@ -18,8 +18,20 @@ pypkg_ci:
           arguments:
             - args: [ --repo ]
               kwargs:
-                help: Local path to the repository root directory.
+                help: Local path to the repository's root directory.
                 default: "./"
+            - args: [ --repo-upstream ]
+              kwargs:
+                help: Local path to the upstream repository's root directory.
+            - args: [ --metadata-ref ]
+              kwargs:
+                help: Git reference to read the metadata.json file from.
+            - args: [ --metadata-filepath ]
+              kwargs:
+                help: Relative path to the metadata.json file.
+            - args: [ --main-metadata-filepath ]
+              kwargs:
+                help: Relative path to the metadata.json file in the default branch.
             - args: [ --github-token ]
               kwargs:
                 help: GitHub token for accessing the repository.
@@ -213,11 +225,6 @@ pypkg_ci:
                   help: Run CI/CD pipelines in GitHub Actions.
                 defaults:
                   endpoint: gha.run_cli
-                arguments:
-                  - args: [ --repo-upstream ]
-                    kwargs:
-                      help: Local path to the upstream repository's root directory.
-                      required: true
   dependency:
     core:
       actionman:
@@ -270,7 +277,7 @@ pypkg_ci:
       gittidy:
         install:
           pip:
-            version: ==0.2.2
+            version: ==0.3.0
             homepage: https://pypi.org/project/gittidy
         url:
           docs: https://gittidy.repodynamics.com
