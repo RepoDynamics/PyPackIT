@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 from loggerman import logger
 
-import controlman
 from controlman.exception import ControlManException
 
 if TYPE_CHECKING:
     from proman.manager import Manager
 
 
+@logger.sectioner("Continuous Configuration Automation")
 def run(
     *,
-    manager: Manager,
+    branch_manager: Manager,
+    main_manager: Manager,
     branch_version: dict[str, str] | None = None,
     control_center: str | None = None,
     dry_run: bool = False,
@@ -38,15 +38,19 @@ def run(
     clean_state
         Ignore the metadata.json file and start from a clean state.
     """
-    logger.section("CCA")
     with logger.sectioning("Initialization"):
-        center_manager = manager.control_center(
+        center_manager = branch_manager.control_center(
+            data_main=main_manager.data,
             future_versions=branch_version,
             control_center_path=control_center,
             clean_state=clean_state,
         )
     with logger.sectioning("Execution"):
         reporter = center_manager.report()
+
+
+
+
     if not dry_run:
         center_manager.apply_changes()
     return reporter
@@ -62,7 +66,8 @@ def run_cli(kwargs: dict) -> None:
     """
     try:
         report = run(
-            manager=kwargs["manager"],
+            branch_manager=kwargs["manager"],
+            main_manager=kwargs["main_manager"],
             branch_version=kwargs["branch_version"],
             control_center=kwargs["control_center"],
             dry_run=kwargs["dry_run"],
