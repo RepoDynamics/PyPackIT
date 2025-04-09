@@ -67,7 +67,7 @@ pypkg_ci:
                     kwargs:
                       help: Perform a dry run without making any changes.
                       action: store_true
-                  - args: [ -c, --clean_state ]
+                  - args: [ -c, --clean-state ]
                     kwargs:
                       help: Ignore the metadata.json file and start from scratch.
                       action: store_true
