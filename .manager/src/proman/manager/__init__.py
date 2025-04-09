@@ -8,7 +8,7 @@ import controlman
 import gittidy
 import jinja2
 from controlman import date
-from controlman import const
+from proman import const
 import controlman.exception as controlman_exception
 from controlman import data_validator as _data_validator
 from loggerman import logger

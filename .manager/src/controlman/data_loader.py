@@ -10,7 +10,7 @@ import ruamel.yaml as _yaml
 from loggerman import logger as _logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from controlman import const as _const
+from proman import const as _const
 from controlman.exception import load as _exception
 
 if TYPE_CHECKING:

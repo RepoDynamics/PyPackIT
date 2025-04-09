@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import pyserials as _ps
 
 import controlman
-from controlman import const
+from proman import const
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence

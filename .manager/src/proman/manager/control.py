@@ -14,7 +14,7 @@ from loggerman import logger as _logger
 import pyshellman as _pyshellman
 from versionman.pep440_semver import PEP440SemVer as _PEP440SemVer
 
-from controlman import const
+from proman import const
 from controlman import data_gen as _data_gen
 from controlman import data_helper as _helper
 from controlman import data_loader as _data_loader

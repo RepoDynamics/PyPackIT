@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import pyserials as _ps
 
-from controlman import const as _const
+from proman import const as _const
 from proman import dtype as _dtype
 from controlman.file_gen.config import ConfigFileGenerator as _ConfigFileGenerator
 from controlman.file_gen.forms import FormGenerator as _FormGenerator

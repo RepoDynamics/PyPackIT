@@ -9,6 +9,8 @@ import pyserials as ps
 from controlman import data_validator
 from loggerman import logger
 
+from proman import const
+
 if _TYPE_CHECKING:
     from pathlib import Path
 
@@ -19,7 +21,7 @@ class VariableManager(ps.PropertyDict):
     def __init__(self, manager: Manager):
         self._manager = manager
         log_title = "Variables Load"
-        self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_VARIABLES
+        self._filepath = self._manager.git.repo_path / const.FILEPATH_VARIABLES
         if self._filepath.exists():
             try:
                 var = ps.read.json_from_file(self._filepath)
@@ -29,13 +31,13 @@ class VariableManager(ps.PropertyDict):
                 ) from None
             logger.success(
                 log_title,
-                f"Loaded variables from file '{controlman.const.FILEPATH_VARIABLES}':",
+                f"Loaded variables from file '{const.FILEPATH_VARIABLES}':",
                 logger.data_block(var),
             )
         else:
             var = {}
             logger.info(
-                log_title, f"No variables file found at '{controlman.const.FILEPATH_VARIABLES}'."
+                log_title, f"No variables file found at '{const.FILEPATH_VARIABLES}'."
             )
         self._read_var = copy.deepcopy(var)
         data_validator.validate(var, schema="variables")

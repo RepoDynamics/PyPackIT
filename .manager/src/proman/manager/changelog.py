@@ -10,6 +10,7 @@ from controlman import exception as _exception
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
 
+from proman import const
 from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType
 
@@ -25,7 +26,7 @@ class ChangelogManager:
     def __init__(self, manager: Manager):
         self._manager = manager
         log_title = "Changelog Load"
-        self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_CHANGELOG
+        self._filepath = self._manager.git.repo_path / const.FILEPATH_CHANGELOG
         try:
             self._changelog = ps.read.json_from_file(self._filepath)
         except ps.exception.read.PySerialsReadException as e:
@@ -33,7 +34,7 @@ class ChangelogManager:
         self._read = copy.deepcopy(self._changelog)
         logger.success(
             log_title,
-            f"Loaded changelog from file '{controlman.const.FILEPATH_CHANGELOG}':",
+            f"Loaded changelog from file '{const.FILEPATH_CHANGELOG}':",
             logger.data_block(self._changelog),
         )
         data_validator.validate(self._changelog, schema="changelog")

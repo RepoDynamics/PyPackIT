@@ -9,6 +9,8 @@ from controlman import data_validator
 import pyserials as ps
 from loggerman import logger
 
+from proman import const
+
 if _TYPE_CHECKING:
     from pathlib import Path
 
@@ -20,7 +22,7 @@ class ContributorManager(ps.PropertyDict):
     def __init__(self, manager: Manager):
         self._manager = manager
         log_title = "Contributors Load"
-        self._filepath = self._manager.git.repo_path / controlman.const.FILEPATH_CONTRIBUTORS
+        self._filepath = self._manager.git.repo_path / const.FILEPATH_CONTRIBUTORS
         if self._filepath.exists():
             try:
                 contributors = ps.read.json_from_file(self._filepath)
@@ -30,14 +32,14 @@ class ContributorManager(ps.PropertyDict):
                 ) from None
             logger.success(
                 log_title,
-                f"Loaded contributors from file '{controlman.const.FILEPATH_CONTRIBUTORS}':",
+                f"Loaded contributors from file '{const.FILEPATH_CONTRIBUTORS}':",
                 logger.data_block(contributors),
             )
         else:
             contributors = {}
             logger.info(
                 log_title,
-                f"No contributors file found at '{controlman.const.FILEPATH_CONTRIBUTORS}'.",
+                f"No contributors file found at '{const.FILEPATH_CONTRIBUTORS}'.",
             )
         super().__init__(contributors)
         self._read = copy.deepcopy(contributors)

@@ -11,7 +11,7 @@ from xml.etree import ElementTree as _ElementTree
 import pyserials as _ps
 from licenseman.spdx import license_text as _license_text
 
-from controlman import const as _const
+from proman import const as _const
 from proman.dtype import DynamicFile, DynamicFileChangeType, DynamicFileType
 from controlman.file_gen import unit as _unit
 

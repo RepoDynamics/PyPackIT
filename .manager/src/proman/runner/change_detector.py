@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import htmp
 import mdit
-from controlman import const
+from proman import const
 
 from proman.dtype import FileChangeType, RepoFileType
 
