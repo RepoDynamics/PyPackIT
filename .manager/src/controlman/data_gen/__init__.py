@@ -2,8 +2,6 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import controlman as _controlman
-from controlman import const as _const
 from controlman import data_validator as _data_validator
 from controlman.data_gen.main import MainDataGenerator as _MainDataGenerator
 from controlman.data_gen.repo import RepoDataGenerator as _RepoDataGenerator
@@ -21,21 +19,6 @@ def generate(
     future_versions: dict[str, str],
 ) -> NestedDict:
     _MainDataGenerator(data=data, manager=manager).generate()
-    if not data_main:
-        curr_branch, other_branches = manager.git.get_all_branch_names()
-        main_branch = data["repo.default_branch"]
-        if curr_branch == main_branch:
-            data_main = manager.data or data
-        else:
-            manager.git.fetch_remote_branches_by_name(main_branch)
-            manager.git.stash()
-            manager.git.checkout(main_branch)
-            if (manager.git.repo_path / _const.FILEPATH_METADATA).is_file():
-                data_main = _controlman.from_json_file(repo_path=manager.git.repo_path)
-            else:
-                data_main = manager.data or data
-            manager.git.checkout(curr_branch)
-            manager.git.stash_pop()
     _RepoDataGenerator(
         data=data,
         git_manager=manager.git,
