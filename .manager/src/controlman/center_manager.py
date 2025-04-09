@@ -43,22 +43,21 @@ class CenterManager:
         self,
         manager: Manager,
         cc_path: _Path,
-        data_before: _ps.NestedDict,
-        data_main: _ps.NestedDict,
+        data_main: _ps.NestedDict | None = None,
         future_versions: dict[str, str | _PEP440SemVer] | None = None,
+        clean_state: bool = False,
     ):
         self._manager = manager
         self._git: _Git = self._manager.git
 
         self._path_cc = cc_path
-        self._data_before: _ps.NestedDict = data_before
-        self._data_main: _ps.NestedDict = data_main
+        self._data_before: _ps.NestedDict = _ps.NestedDict() if clean_state else self._manager.data
+        self._data_main: _ps.NestedDict = data_main or _ps.NestedDict()
         self._github_token = self._manager.token.github.get()
         self._github_api = self._manager.gh_api_bare
         self._future_vers = future_versions or {}
 
         self._path_root = self._git.repo_path
-
 
         self._hook_manager = _HookManager(
             dir_path=self._path_cc / const.DIRNAME_CC_HOOK,
@@ -92,7 +91,7 @@ class CenterManager:
             _data_validator.validate(data=full_data, source="source", before_substitution=True)
         with _logger.sectioning("CCA Load Validation Hooks"):
             self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD_VALID, data=full_data)
-        changelog_manager = ChangelogManager(manager=manager)
+        changelog_manager = ChangelogManager(manager=self._manager)
         code_context_call = {"changelog": changelog_manager}
         full_data["changelogs"] = changelog_manager.changelogs
         full_data["contributor"] = changelog_manager.contributor
