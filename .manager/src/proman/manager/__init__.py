@@ -24,6 +24,7 @@ from proman.token_manager import create as _create_token_manager
 from proman.manager.branch import BranchManager
 from proman.manager.changelog import ChangelogManager
 from proman.manager.commit import CommitManager
+from proman.manager.control import ControlCenterManager
 from proman.manager.issue import IssueManager
 from proman.manager.label import LabelManager
 from proman.manager.protocol import ProtocolManager
@@ -233,7 +234,7 @@ class Manager:
         control_center_path = self.git.repo_path / control_center_path
         if not control_center_path.is_dir():
             raise ValueError(f"Invalid control center path '{control_center_path}'")
-        return CenterManager(
+        return ControlCenterManager(
             manager=self,
             cc_path=control_center_path,
             data_main=data_main,
