@@ -254,7 +254,7 @@ pypkg_ci:
       fileex:
         install:
           pip:
-            version: ==0.1.0
+            version: ==0.2.0
             homepage: https://pypi.org/project/fileex
         url:
           docs: https://fileex.repodynamics.com
