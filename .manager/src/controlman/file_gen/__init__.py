@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 def generate(
     data: _ps.NestedDict,
-    manager: Manager
+    manager: Manager,
     data_before: _ps.NestedDict,
     repo_path: _Path,
 ) -> list[_dtype.DynamicFile]:
