@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 
 
+@logger.sectioner("Continuous Refactoring")
 def run(
     config: str | Path,
     *,
