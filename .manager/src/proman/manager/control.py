@@ -94,7 +94,7 @@ class ControlCenterManager:
         changelog_manager = ChangelogManager(manager=self._manager)
         code_context_call = {"changelog": changelog_manager}
         full_data["changelogs"] = changelog_manager.changelogs
-        full_data["contributor"] = changelog_manager.contributor
+        full_data["contributor"] = changelog_manager.contributor.as_dict
         inline_hooks = self._hook_manager.inline_hooks
         if inline_hooks:
             code_context_call["hook"] = inline_hooks.Hooks(
