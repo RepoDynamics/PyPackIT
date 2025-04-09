@@ -43,7 +43,7 @@ class ControlCenterManager:
         self,
         manager: Manager,
         cc_path: _Path,
-        data_main: _ps.NestedDict | None = None,
+        data_main: _ps.NestedDict,
         future_versions: dict[str, str | _PEP440SemVer] | None = None,
         clean_state: bool = False,
     ):
@@ -52,7 +52,7 @@ class ControlCenterManager:
 
         self._path_cc = cc_path
         self._data_before: _ps.NestedDict = _ps.NestedDict() if clean_state else self._manager.data
-        self._data_main: _ps.NestedDict = data_main or _ps.NestedDict()
+        self._data_main: _ps.NestedDict = data_main
         self._github_token = self._manager.token.github.get()
         self._github_api = self._manager.gh_api_bare
         self._future_vers = future_versions or {}
