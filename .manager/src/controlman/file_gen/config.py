@@ -12,7 +12,7 @@ import pyserials as _ps
 from licenseman.spdx import license_text as _license_text
 
 from controlman import const as _const
-from controlman.datatype import DynamicFile, DynamicFileChangeType, DynamicFileType
+from proman.dtype import DynamicFile, DynamicFileChangeType, DynamicFileType
 from controlman.file_gen import unit as _unit
 
 if _TYPE_CHECKING:

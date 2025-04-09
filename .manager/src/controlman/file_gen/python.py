@@ -12,7 +12,7 @@ import pyserials as _ps
 import pysyntax as _pysyntax
 
 from controlman import const as _const
-from controlman.datatype import DynamicFile, DynamicFileType
+from proman.dtype import DynamicFile, DynamicFileType
 from controlman.file_gen import unit as _unit
 
 if TYPE_CHECKING:

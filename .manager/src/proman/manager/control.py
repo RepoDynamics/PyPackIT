@@ -21,14 +21,14 @@ from controlman import data_loader as _data_loader
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
-from controlman.datatype import (
+from proman.dtype import (
     DynamicDir as _DynamicDir,
 )
-from controlman.datatype import (
+from proman.dtype import (
     DynamicDirType,
     DynamicFileChangeType,
 )
-from controlman.datatype import (
+from proman.dtype import (
     DynamicFile as _GeneratedFile,
 )
 from controlman.hook_manager import HookManager as _HookManager

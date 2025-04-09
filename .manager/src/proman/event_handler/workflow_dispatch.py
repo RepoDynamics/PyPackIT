@@ -91,11 +91,11 @@ class WorkflowDispatchEventHandler(EventHandler):
         self._ccm_main = cc_manager.generate_data()
         hash_before = self._git_head.commit_hash_normal()
         self.run_cca(
-            action=controlman.datatype.InitCheckAction.COMMIT,
+            action=proman.dtype.InitCheckAction.COMMIT,
             cc_manager=cc_manager,
             base=False,
-            branch=controlman.datatype.Branch(
-                type=controlman.datatype.BranchType.MAIN, name=self.gh_context.ref_name
+            branch=proman.dtype.Branch(
+                type=proman.dtype.BranchType.MAIN, name=self.gh_context.ref_name
             ),
         )
         changelog_manager = ChangelogManager(

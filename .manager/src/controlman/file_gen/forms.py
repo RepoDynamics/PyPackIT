@@ -5,7 +5,7 @@ import pyserials as _ps
 from loggerman import logger
 
 from controlman import const as _const
-from controlman.datatype import DynamicFile, DynamicFileType
+from proman.dtype import DynamicFile, DynamicFileType
 from controlman.exception.load import ControlManSchemaValidationError
 
 

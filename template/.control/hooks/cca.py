@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from proman.manager.cache import CacheManager
-    from controlman.datatype import DynamicDir, DynamicFile
+    from proman.dtype import DynamicDir, DynamicFile
     from pyserials import NestedDict
 
 

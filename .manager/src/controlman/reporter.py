@@ -1,13 +1,13 @@
 import htmp as _htmp
 import mdit as _mdit
 
-from controlman.datatype import (
+from proman.dtype import (
     DynamicDir as _DynamicDir,
 )
-from controlman.datatype import (
+from proman.dtype import (
     DynamicFile as _GeneratedFile,
 )
-from controlman.datatype import (
+from proman.dtype import (
     DynamicFileChangeType,
 )
 
