@@ -38,7 +38,7 @@ if TYPE_CHECKING:
     from proman.manager import Manager
 
 
-class CenterManager:
+class ControlCenterManager:
     def __init__(
         self,
         manager: Manager,
