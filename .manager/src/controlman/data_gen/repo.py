@@ -15,7 +15,7 @@ class RepoDataGenerator:
         self,
         data: _ps.NestedDict,
         git_manager: _Git,
-        data_main: _ps.NestedDict | None = None,
+        data_main: _ps.NestedDict,
         future_versions: dict[str, str | _ver.PEP440SemVer] | None = None,
     ):
         self._data = data
