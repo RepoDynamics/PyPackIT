@@ -57,6 +57,11 @@ pypkg_ci:
                 defaults:
                   endpoint: cca.run_cli
                 arguments:
+                  - args: [ -x, --action ]
+                    kwargs:
+                      help: Action to perform.
+                      choices: [ report, apply, pull, merge, commit, amend ]
+                      default: apply
                   - args: [ -b, --branch-version ]
                     kwargs:
                       help: Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.
@@ -75,10 +80,6 @@ pypkg_ci:
                     kwargs:
                       help: Path to the control center directory containing configuration files.
                       type: str
-                  - args: [ -d, --dry-run ]
-                    kwargs:
-                      help: Perform a dry run without making any changes.
-                      action: store_true
                   - args: [ -c, --clean-state ]
                     kwargs:
                       help: Ignore the metadata.json file and start from scratch.
