@@ -4,96 +4,59 @@ import json
 import actionman
 from loggerman import logger
 
-from proman import script
+import proman
+from proman import script, report
 from proman.report import initialize_logger
 
 
 def cli():
-    def get_endpoint(endpoint_name: str):
-        def get_recursive(parts, current_object):
-            if len(parts) == 1:
-                return getattr(current_object, parts[0])
-            else:
-                return get_recursive(parts[1:], getattr(current_object, parts[0]))
-
-        parts = endpoint_name.split(".")
-        return get_recursive(parts, script)
-
     initialize_logger()
-    args = _read_args()
-    logger.debug("Input Arguments", args)
-    endpoint = get_endpoint(args.endpoint)
-    endpoint(args)
+    kwargs, token_manager = _read_args()
+    reporter = report.Reporter(github_context=kwargs.get("github_context"))
+    manager = proman.manager(
+        token_manager=token_manager,
+        reporter=reporter,
+        repo_path=kwargs["repo"],
+        commit_hash=kwargs.get("commit_hash"),
+    )
+    endpoint = _get_endpoint(kwargs.pop("endpoint"))
+    endpoint(kwargs | {"manager": manager})
     return
 
 
 def _read_args() -> argparse.Namespace:
     """Read inputs and return them as a namespace object."""
     args = _parse_args()
-    _set_github_context(args)
-    _set_github_token(args)
-    _set_github_admin_token(args)
-    _set_zenodo_token(args)
-    _set_zenodo_sandbox_token(args)
-    return args
-
-
-def _set_github_context(args: argparse.Namespace) -> None:
-    args.github_context = json.loads(
+    github_context = json.loads(
         args.github_context
-    ) if "github_context" in args else actionman.env_var.read("GITHUB_CONTEXT", typ=dict, remove=args.remove_tokens)
-    if args.github_context:
-        github_token = args.github_context.pop("token")
+    ) if "github_context" in args else actionman.env_var.read(
+        "GITHUB_CONTEXT", typ=dict, remove=args.remove_tokens
+    )
+    if github_context:
+        github_token = github_context.pop("token")
+        args.github_context = github_context
         if github_token:
             args.github_token = github_token
-    return
+    kwargs = vars(args)
+    token_manager = proman.token_manager(
+        github=kwargs.pop("github_token", None),
+        github_admin=kwargs.pop("github_admin_token", None),
+        zenodo=kwargs.pop("zenodo_token", None),
+        zenodo_sandbox=kwargs.pop("zenodo_sandbox_token", None),
+        remove_from_env=args.remove_tokens,
+    )
+    logger.debug("Input Arguments", kwargs | {"token_manager": token_manager})
+    return kwargs, token_manager
 
 
-def _set_github_token(args: argparse.Namespace) -> None:
-    if "github_token" in args:
-        return
-    for env_var_name in ("GITHUB_TOKEN", "GITHUB_ADMIN_TOKEN"):
-        token = actionman.env_var.read(env_var_name, typ=str, remove=args.remove_tokens)
-        if token:
-            args.github_token = token
-            return
-    token = _pyshellman.run(
-        command=["gh", "auth", "token"],
-        logger=logger,
-        raise_execution=False,
-        raise_exit_code=False,
-        raise_stderr=False,
-    ).out
-    if token:
-        args.github_token = token
-    return
+def _get_endpoint(endpoint_name: str):
+    def get_recursive(parts, current_object):
+        if len(parts) == 1:
+            return getattr(current_object, parts[0])
+        return get_recursive(parts[1:], getattr(current_object, parts[0]))
 
-
-def _set_github_admin_token(args: argparse.Namespace) -> None:
-    if "github_admin_token" in args:
-        return
-    for env_var_name in ("GITHUB_ADMIN_TOKEN", ):
-        token = actionman.env_var.read(env_var_name, typ=str, remove=args.remove_tokens)
-        if token:
-            args.github_admin_token = token
-            return
-    if "github_token" in args:
-        args.github_admin_token = args.github_token
-    return
-
-
-def _set_zenodo_token(args: argparse.Namespace) -> None:
-    if "zenodo_token" in args:
-        return
-    args.zenodo_token = actionman.env_var.read("ZENODO_TOKEN", typ=str, remove=args.remove_tokens)
-    return
-
-
-def _set_zenodo_sandbox_token(args: argparse.Namespace) -> None:
-    if "zenodo_sandbox_token" in args:
-        return
-    args.zenodo_sandbox_token = actionman.env_var.read("ZENODO_SANDBOX_TOKEN", typ=str, remove=args.remove_tokens)
-    return
+    parts = endpoint_name.split(".")
+    return get_recursive(parts, script)
 
 
 def _parse_args() -> argparse.Namespace:
@@ -155,13 +118,6 @@ def _parse_args() -> argparse.Namespace:
     subparser_gha.set_defaults(endpoint="gha.run_cli")
     # Process inputs
     args = parser.parse_args()
-    import json
-    from pathlib import Path
-    setattr(
-        args,
-        "metadata",
-        json.loads((Path(args.repo).resolve() / ".github/.repodynamics/metadata.json").read_text())
-    )
     if args.command == "cca":
         if args.branch_version:
             try:
