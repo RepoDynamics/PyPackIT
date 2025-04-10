@@ -9,7 +9,7 @@ dependencies:
       - exceptionman ==0.1.0
       - fileex ==0.2.0
       - github-contexts ==0.1.1
-      - gittidy ==0.3.0
+      - gittidy ==0.3.1
       - htmp ==0.1.0
       - jinja2 ==3.1.6
       - jsonpath-ng ==1.7.0
