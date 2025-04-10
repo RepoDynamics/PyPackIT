@@ -114,6 +114,35 @@ def _get_endpoint(endpoint_name: str) -> Callable[[dict], None]:
     return get_recursive(parts, script)
 
 
+def _finalize(
+    manager: Manager,
+    branch: str,
+    commit_hash: str,
+    endpoint: str,
+) -> None:
+    report_html = manager.reporter.generate()
+
+    log = logger.report
+    target_config, sphinx_output = report.make_sphinx_target_config()
+    log.target_configs["sphinx"] = target_config
+    log_html = log.render(target="sphinx")
+    logger.info(
+        "Log Generation Logs",
+        mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
+    )
+
+    filename = f"{date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
+    dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
+    dir_path.mkdir(parents=True, exist_ok=True)
+    for file_type, content in {
+        "report": report_html,
+        "log": log_html,
+    }.items():
+        file = dir_path / filename.format(file_type)
+        file.write_text(content)
+    return
+
+
 def _parse_args() -> argparse.Namespace:
     """Generate the command line interface for the project manager and parse input arguments.
 
@@ -191,35 +220,6 @@ def _parse_args() -> argparse.Namespace:
             parser.error("Both --from-ref and --to-ref must be provided together.")
     # end auto-generated parser
     return args
-
-
-def _finalize(
-    manager: Manager,
-    branch: str,
-    commit_hash: str,
-    endpoint: str,
-) -> None:
-    report_html = manager.reporter.generate()
-
-    log = logger.report
-    target_config, sphinx_output = report.make_sphinx_target_config()
-    log.target_configs["sphinx"] = target_config
-    log_html = log.render(target="sphinx")
-    logger.info(
-        "Log Generation Logs",
-        mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
-    )
-
-    filename = f"{date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
-    dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
-    dir_path.mkdir(parents=True, exist_ok=True)
-    for file_type, content in {
-        "report": report_html,
-        "log": log_html,
-    }.items():
-        file = dir_path / filename.format(file_type)
-        file.write_text(content)
-    return
 
 
 if __name__ == "__main__":
