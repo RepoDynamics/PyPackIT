@@ -164,7 +164,7 @@ class Reporter:
         """Check if any of the processes failed."""
         return any(entry.status == "fail" for entry in self._summary.values())
 
-    def generate(self) -> tuple[str, str]:
+    def generate(self, gha: bool = False) -> str:
         body = mdit.block_container(*self._generate_summary())
         section = {section_id: section.document for section_id, section in self._sections.items()}
         target_config, output = make_sphinx_target_config()
@@ -174,15 +174,16 @@ class Reporter:
             section=section,
             target_configs_md={"sphinx": target_config},
         )
-        gha_summary = report.source(
-            target="github", filters=["short, github"], separate_sections=False
-        )
+        if gha:
+            return report.source(
+                target="github", filters=["short, github"], separate_sections=False
+            )
         full_summary = report.render(target="sphinx", filters=["full"], separate_sections=False)
         logger.info(
             "Report Generation Logs",
             mdit.element.rich(Text.from_ansi(output.getvalue())),
         )
-        return gha_summary, full_summary
+        return full_summary
 
     def _generate_summary(self) -> tuple[mdit.element.InlineImage, mdit.element.Table]:
         failed = False
