@@ -44,8 +44,7 @@ def cli():
     )
     current_branch = manager.git.current_branch_name()
     current_hash = manager.git.commit_hash_normal()
-    endpoint_name = kwargs.pop("endpoint")
-    endpoint = _get_endpoint(endpoint_name=endpoint_name)
+    endpoint = _get_endpoint(endpoint_name=kwargs.pop("endpoint"))
     current_log_section_level = logger.current_section_level
     try:
         endpoint(kwargs | {"manager": manager})
@@ -75,7 +74,7 @@ def cli():
         manager=manager,
         branch=current_branch,
         commit_hash=current_hash,
-        endpoint=endpoint_name,
+        endpoint=kwargs["command"],
         )
     return
 
@@ -213,7 +212,7 @@ def _finalize(
 
     filename = f"{date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
     dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
-    dir_path.mkdir()
+    dir_path.mkdir(parents=True, exist_ok=True)
     for file_type, content in {
         "report": report_html,
         "log": log_html,
