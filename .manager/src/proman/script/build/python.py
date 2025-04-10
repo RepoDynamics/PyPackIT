@@ -10,8 +10,6 @@ These are passed directly to the `build` command.
 
 from __future__ import annotations
 
-import argparse
-import json
 import logging
 import shlex
 import subprocess
@@ -62,24 +60,13 @@ def run(
     return output_dir
 
 
-def run_cli(args: argparse.Namespace) -> None:
-    """Run the CLI.
-
-    Parameters
-    ----------
-    args : argparse.Namespace, optional
-        The parsed arguments. If None, the arguments are parsed from sys.argv.
-
-    Returns
-    -------
-    int
-        The exit code of the program.
-    """
+def run_cli(args: dict) -> None:
+    """Run from CLI."""
     output_path = run(
-        pkg=args.pkg,
-        metadata=args.metadata,
-        output=args.output,
-        args=args.args,
+        pkg=args["pkg"],
+        metadata=args["metadata"],
+        output=args["output"],
+        args=args["args"],
     )
     print(output_path)
-    return sys.exit()
+    return
