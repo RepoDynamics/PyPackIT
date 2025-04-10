@@ -131,6 +131,26 @@ def create(
     )
 
 
+def update(
+    manager: Manager,
+    project_metadata: NestedDict,
+) -> Manager:
+    """Create a new Manager instance with updated project metadata."""
+    return Manager(
+        project_metadata=project_metadata,
+        token_manager=manager.token,
+        git_api=manager.git,
+        github_api_actions=manager.gh_api_actions,
+        github_api_admin=manager.gh_api_admin,
+        github_api_bare=manager.gh_api_bare,
+        github_link=manager.gh_link,
+        reporter=manager.reporter,
+        jinja_env_vars=manager.jinja_env_vars,
+        github_context=manager.gh_context,
+        main_manager=manager.main_manager,
+    )
+
+
 def load_metadata(
     repo: str | Path | Git,
     ref: str | None = None,
