@@ -28,6 +28,7 @@ from proman.manager.commit import CommitManager
 from proman.manager.control import ControlCenterManager
 from proman.manager.issue import IssueManager
 from proman.manager.label import LabelManager
+from proman.manager.output import OutputManager
 from proman.manager.protocol import ProtocolManager
 from proman.manager.release import ReleaseManager
 from proman.manager.repo import RepoManager
@@ -258,6 +259,7 @@ class Manager:
         self._commit_manager = CommitManager(self)
         self._issue_manager = IssueManager(self)
         self._label_manager = LabelManager(self)
+        self._output_manager = OutputManager(self)
         self._protocol_manager = ProtocolManager(self)
         self._user_manager = UserManager(self)
         self._repo_manager = RepoManager(self)
@@ -351,6 +353,10 @@ class Manager:
     @property
     def label(self) -> LabelManager:
         return self._label_manager
+
+    @property
+    def output(self) -> OutputManager:
+        return self._output_manager
 
     @property
     def protocol(self) -> ProtocolManager:

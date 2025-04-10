@@ -18,9 +18,10 @@ if TYPE_CHECKING:
 
 
 class OutputManager:
-    def __init__(self):
-        self._main_manager: Manager = None
-        self._branch_manager: Manager = None
+    def __init__(self, manager: Manager):
+        self._branch_manager = manager
+        self._main_manager = manager.main
+
         self._repository: str = ""
         self._ref: str = ""
         self._ref_name: str = ""
@@ -40,8 +41,6 @@ class OutputManager:
 
     def set(
         self,
-        main_manager: Manager,
-        branch_manager: Manager,
         version: VersionTag | Version | PEP440SemVer,
         repository: str,
         ref: str | None = None,
@@ -64,8 +63,6 @@ class OutputManager:
         zenodo_sandbox_config: dict | None = None,
     ):
         logger.info("Output Set", logger.pretty(locals()))
-        self._main_manager = main_manager
-        self._branch_manager = branch_manager
         self._version = version
         self._repository = repository
         self._ref = ref or self._branch_manager.git.commit_hash_normal()
