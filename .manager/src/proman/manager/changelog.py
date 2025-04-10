@@ -3,9 +3,8 @@ from __future__ import annotations as _annotations
 import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import controlman
 import pyserials as ps
-from controlman import data_validator, date
+from controlman import data_validator
 from controlman import exception as _exception
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
@@ -13,6 +12,7 @@ from loggerman import logger
 from proman import const
 from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType
+from proman.util import date
 
 if _TYPE_CHECKING:
     from github_contexts.github.payload.object import Milestone, PullRequest
