@@ -12,8 +12,6 @@ import github_contexts
 
 import proman
 from proman.exception import ProManException
-from proman import script, report
-from proman.util import date
 
 
 if TYPE_CHECKING:
@@ -23,14 +21,14 @@ if TYPE_CHECKING:
 
 
 def cli():
-    report.initialize_logger()
+    proman.report.initialize_logger()
     kwargs, token_manager = _read_args()
     gh_context = kwargs.get("github_context")
-    reporter = report.Reporter(github_context=gh_context)
+    reporter = proman.report.Reporter(github_context=gh_context)
     jinja_env_vars = {
         "mdit": mdit,
     }
-    manager = proman.manager(
+    manager = proman.manager.create(
         token_manager=token_manager,
         reporter=reporter,
         jinja_env_vars=jinja_env_vars,
@@ -111,7 +109,7 @@ def _get_endpoint(endpoint_name: str) -> Callable[[dict], None]:
         return get_recursive(parts[1:], getattr(current_object, parts[0]))
 
     parts = endpoint_name.split(".")
-    return get_recursive(parts, script)
+    return get_recursive(parts, proman.script)
 
 
 def _finalize(
@@ -123,7 +121,7 @@ def _finalize(
     report_html = manager.reporter.generate()
 
     log = logger.report
-    target_config, sphinx_output = report.make_sphinx_target_config()
+    target_config, sphinx_output = proman.report.make_sphinx_target_config()
     log.target_configs["sphinx"] = target_config
     log_html = log.render(target="sphinx")
     logger.info(
@@ -131,7 +129,7 @@ def _finalize(
         mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
     )
 
-    filename = f"{date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
+    filename = f"{proman.util.date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
     dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
     dir_path.mkdir(parents=True, exist_ok=True)
     for file_type, content in {
