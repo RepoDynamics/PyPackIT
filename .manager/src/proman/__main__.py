@@ -6,20 +6,27 @@ from typing import TYPE_CHECKING
 
 import actionman
 from loggerman import logger
+import mdit
+import rich.text
+import github_contexts
 
 import proman
+from proman.exception import ProManException
 from proman import script, report
-from proman.report import initialize_logger
+
 
 if TYPE_CHECKING:
     from proman.token_manager import TokenManager
 
 
 def cli():
-    initialize_logger()
+    report.initialize_logger()
     kwargs, token_manager = _read_args()
-    reporter = report.Reporter(github_context=kwargs.get("github_context"))
-    jinja_env_vars = {}
+    gh_context = kwargs.get("github_context")
+    reporter = report.Reporter(github_context=gh_context)
+    jinja_env_vars = {
+        "mdit": mdit,
+    }
     manager = proman.manager(
         token_manager=token_manager,
         reporter=reporter,
@@ -27,19 +34,43 @@ def cli():
         repo_path=kwargs["repo"],
         metadata_ref=kwargs.get("metadata_ref"),
         metadata_filepath=kwargs.get("metadata_filepath"),
+        repo_path_main=kwargs.get("repo_upstream"),
+        metadata_filepath_main=kwargs.get("main_metadata_filepath"),
         validate_metadata=kwargs.get("validate_metadata", True),
-    )
-    main_manager = proman.manager(
-        token_manager=token_manager,
-        reporter=reporter,
-        jinja_env_vars=jinja_env_vars,
-        repo_path=kwargs.get("repo_upstream", kwargs["repo"]),
-        metadata_ref=manager.branch.default_branch_name,
-        metadata_filepath=kwargs.get("main_metadata_filepath"),
-        validate_metadata=kwargs.get("validate_metadata", True),
+        github_context=gh_context,
     )
     endpoint = _get_endpoint(kwargs.pop("endpoint"))
-    endpoint(kwargs | {"manager": manager, "main_manager": main_manager})
+    current_log_section_level = logger.current_section_level
+    try:
+        endpoint(kwargs | {"manager": manager})
+    except ProManException:
+        pass
+    except Exception as e:
+        traceback = logger.traceback()
+        error_name = e.__class__.__name__
+        logger.critical(
+            f"Unexpected Error: {error_name}",
+            traceback,
+        )
+        reporter.update(
+            "main",
+            status="fail",
+            summary=f"An unexpected error occurred: `{error_name}`",
+            body=mdit.element.admonition(
+                title=error_name,
+                body=traceback,
+                type="error",
+                dropdown=True,
+                opened=True,
+            ),
+        )
+    logger.section_end(target_level=current_log_section_level)
+    _finalize(
+        github_context=github_context,
+        reporter=reporter,
+        output_writer=output_writer,
+        repo_path=path_repo_head,
+    )
     return
 
 
@@ -53,7 +84,7 @@ def _read_args() -> tuple[dict, TokenManager]:
     )
     if github_context:
         github_token = github_context.pop("token")
-        args.github_context = github_context
+        args.github_context = github_contexts.github.create(github_context)
         if github_token:
             args.github_token = github_token
     kwargs = vars(args)
@@ -64,7 +95,7 @@ def _read_args() -> tuple[dict, TokenManager]:
         zenodo_sandbox=kwargs.pop("zenodo_sandbox_token", None),
         remove_from_env=args.remove_tokens,
     )
-    logger.debug("Input Arguments", kwargs | {"token_manager": token_manager})
+    logger.debug("Input Arguments", logger.pretty(kwargs | {"token_manager": token_manager}))
     return kwargs, token_manager
 
 
@@ -98,10 +129,9 @@ def _parse_args() -> argparse.Namespace:
     # Sub-parsers for parser
     subparsers_main = parser.add_subparsers(dest="command", required=True)
     subparser_cca = subparsers_main.add_parser("cca", help="Run Continuous Configuration Automation on the repository.")
-    subparser_cca.add_argument("-x", "--action", type=str, choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'], default="apply")
+    subparser_cca.add_argument("-x", "--action", help="Action to perform.", choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'], default="apply")
     subparser_cca.add_argument("-b", "--branch-version", help="Branch-name to version mappings (e.g., -b main=0.0.0 dev=1.0.0a1) to use instead of git tags.", type=str, nargs="*", metavar="BRNACH=VERSION")
     subparser_cca.add_argument("-p", "--control-center", help="Path to the control center directory containing configuration files.", type=str)
-    subparser_cca.add_argument("-d", "--dry-run", help="Perform a dry run without making any changes.", action="store_true")
     subparser_cca.add_argument("-c", "--clean-state", help="Ignore the metadata.json file and start from scratch.", action="store_true")
     subparser_cca.set_defaults(endpoint="cca.run_cli")
     subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
@@ -156,6 +186,29 @@ def _parse_args() -> argparse.Namespace:
             parser.error("Both --from-ref and --to-ref must be provided together.")
     # end auto-generated parser
     return args
+
+
+def _finalize(
+    reporter: report.Reporter
+):
+    report_html = reporter.generate()
+
+    log = logger.report
+    target_config, sphinx_output = report.make_sphinx_target_config()
+    log.target_configs["sphinx"] = target_config
+    log_html = log.render(target="sphinx")
+    logger.info(
+        "Log Generation Logs",
+        mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
+    )
+
+    filename = (
+        f"{github_context.repository_name}-workflow-run"
+        f"-{github_context.run_id}-{github_context.run_attempt}.{{}}.{{}}"
+    )
+    dir_path = Path(repo_path) / report_path / "proman"
+    dir_path.mkdir()
+    return
 
 
 if __name__ == "__main__":
