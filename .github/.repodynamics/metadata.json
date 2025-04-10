@@ -21970,6 +21970,24 @@
                            "arguments": [
                               {
                                  "args": [
+                                    "-x",
+                                    "--action"
+                                 ],
+                                 "kwargs": {
+                                    "choices": [
+                                       "report",
+                                       "apply",
+                                       "pull",
+                                       "merge",
+                                       "commit",
+                                       "amend"
+                                    ],
+                                    "default": "apply",
+                                    "help": "Action to perform."
+                                 }
+                              },
+                              {
+                                 "args": [
                                     "-b",
                                     "--branch-version"
                                  ],
@@ -21989,16 +22007,6 @@
                                  "kwargs": {
                                     "help": "Path to the control center directory containing configuration files.",
                                     "type": "str"
-                                 }
-                              },
-                              {
-                                 "args": [
-                                    "-d",
-                                    "--dry-run"
-                                 ],
-                                 "kwargs": {
-                                    "action": "store_true",
-                                    "help": "Perform a dry run without making any changes."
                                  }
                               },
                               {
