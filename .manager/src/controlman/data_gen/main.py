@@ -9,7 +9,7 @@ from loggerman import logger as _logger
 from packaging import specifiers as _specifiers
 
 from controlman import data_helper as _helper
-from controlman import date
+from proman.util import date
 from controlman import exception as _exception
 
 if _TYPE_CHECKING:

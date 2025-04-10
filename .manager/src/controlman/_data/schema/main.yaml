@@ -882,7 +882,7 @@ properties:
       :::
     default: |
       #{{
-        from controlman import date
+        from proman.util import date
 
         start_year = date.from_internal(get("repo.created_at")).year
         current_year = date.from_now().year

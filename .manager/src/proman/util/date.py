@@ -33,3 +33,7 @@ def to_iso(date: _dt.datetime) -> str:
 
 def to_posix(date: _dt.datetime) -> int:
     return int(date.timestamp())
+
+
+def from_github_to_internal(date: str) -> str:
+    return to_internal(from_github(date))

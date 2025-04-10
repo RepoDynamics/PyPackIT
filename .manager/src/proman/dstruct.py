@@ -6,7 +6,7 @@ from typing import NamedTuple as _NamedTuple
 
 import jinja2
 import pycolorit as _pcit
-from controlman import date
+from proman.util import date
 from github_contexts.property_dict import PropertyDict
 from loggerman import logger as _logger
 from versionman.pep440_semver import PEP440SemVer

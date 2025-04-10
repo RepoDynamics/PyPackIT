@@ -9,7 +9,7 @@ from loggerman import logger as _logger
 
 from proman import const as _const
 from controlman import data_validator as _data_validator
-from controlman import date
+from proman.util import date
 from controlman import exception as _exception
 
 if TYPE_CHECKING:

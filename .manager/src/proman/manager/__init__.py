@@ -8,7 +8,7 @@ import controlman
 import gittidy
 import jinja2
 import github_contexts
-from controlman import date
+from proman.util import date
 from proman import const
 import controlman.exception as controlman_exception
 from controlman import data_validator as _data_validator
@@ -438,7 +438,3 @@ class Manager:
             return template
 
         return recursive_fill(templates, jsonpath)
-
-    @staticmethod
-    def normalize_github_date(date_str: str) -> str:
-        return date.to_internal(date.from_github(date_str))
