@@ -7,6 +7,7 @@ from pathlib import Path
 import controlman
 import gittidy
 import jinja2
+import github_contexts
 from controlman import date
 from proman import const
 import controlman.exception as controlman_exception
@@ -34,6 +35,7 @@ from proman.manager.user import UserManager
 from proman.manager.variable import VariableManager
 
 if TYPE_CHECKING:
+    from github_contexts.github import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
     from pylinks.api.github import Repo as GitHubRepoAPI, GitHub as GitHubBareAPI
@@ -48,17 +50,21 @@ def create(
     token_manager: TokenManager | None = None,
     reporter: Reporter | None = None,
     jinja_env_vars: dict | None = None,
+    github_context: dict | GitHubContext | None = None,
     repo_path: str | Path | None = None,
     metadata_ref: str | None = None,
     metadata_filepath: str | None = None,
+    repo_path_main: str | Path | None = None,
+    metadata_filepath_main: str | None = None,
     validate_metadata: bool = True,
 ) -> Manager:
     token_manager = token_manager or _create_token_manager()
     reporter = reporter or Reporter()
     jinja_env_vars = jinja_env_vars or {}
-
+    if isinstance(github_context, dict):
+        github_context = github_contexts.github.create(github_context)
     git_api = create_git_api(repo_path=repo_path)
-    git_api.fetch_remote_branches_by_pattern()
+    git_api_main = create_git_api(repo_path=repo_path_main) if repo_path_main else git_api
     project_metadata = load_metadata(
         repo=git_api,
         ref=metadata_ref,
@@ -66,26 +72,61 @@ def create(
         filepath=metadata_filepath,
         reporter=reporter,
     )
-    repo_address = git_api.get_remote_repo_name(
-        remote_name="origin", remote_purpose="push", fallback_name=False, fallback_purpose=False
-    )
-    if not repo_address:
-        raise controlman_exception.data_gen.RemoteGitHubRepoNotFoundError(
-            repo_path=git_api.repo_path,
-            remotes=git_api.get_remotes(),
-        )
-    repo_owner, repo_name = repo_address
     github_api_bare = pylinks.api.github(token=token_manager.github.get())
+    if github_context:
+        default_branch = github_context.event.repository.default_branch
+        repo_owner = github_context.repository_owner
+        repo_name = github_context.repository_name
+    else:
+        default_branch = git_api_main.get_remote_default_branch()
+        repo_address = git_api_main.get_remote_repo_name(
+            remote_name="origin", remote_purpose="push", fallback_name=False, fallback_purpose=False
+        )
+        if not repo_address:
+            raise controlman_exception.data_gen.RemoteGitHubRepoNotFoundError(
+                repo_path=git_api.repo_path,
+                remotes=git_api.get_remotes(),
+            )
+        repo_owner, repo_name = repo_address
+    github_api_actions = github_api_bare.user(repo_owner).repo(repo_name)
+    github_api_admin = pylinks.api.github(token=token_manager.github_admin.get()).user(repo_owner).repo(repo_name)
+    github_link = pylinks.site.github.user(repo_owner).repo(repo_name)
+
+    main_ref = git_api_main.commit_hash(default_branch)
+    current_ref = git_api.commit_hash(metadata_ref or "HEAD")
+    ref_is_main = current_ref == main_ref
+    main_metadata = project_metadata if ref_is_main else load_metadata(
+        repo=git_api_main,
+        ref=main_ref,
+        validate=validate_metadata,
+        filepath=metadata_filepath_main,
+        reporter=reporter,
+    )
+    main_manager = Manager(
+        project_metadata=main_metadata,
+        token_manager=token_manager,
+        git_api=git_api_main,
+        github_api_actions=github_api_actions,
+        github_api_admin=github_api_admin,
+        github_api_bare=github_api_bare,
+        github_link=github_link,
+        reporter=reporter,
+        jinja_env_vars=jinja_env_vars,
+        github_context=github_context,
+        main_manager=None,
+    )
     return Manager(
         project_metadata=project_metadata,
         token_manager=token_manager,
         git_api=git_api,
-        github_api_actions=github_api_bare.user(repo_owner).repo(repo_name),
-        github_api_admin=pylinks.api.github(token=token_manager.github_admin.get()).user(repo_owner).repo(repo_name),
+        github_api_actions=github_api_actions,
+        github_api_admin=github_api_admin,
         github_api_bare=github_api_bare,
-        github_link=pylinks.site.github.user(repo_owner).repo(repo_name),
+        github_link=github_link,
         reporter=reporter,
         jinja_env_vars=jinja_env_vars,
+        github_context=github_context,
+        main_manager=main_manager,
     )
 
 
@@ -197,6 +238,8 @@ class Manager:
         github_link: GitHubLink,
         reporter: Reporter,
         jinja_env_vars: dict,
+        github_context: GitHubContext | None = None,
+        main_manager: Manager | None = None,
     ):
         self._meta = project_metadata
         self._token_manager = token_manager
@@ -207,6 +250,8 @@ class Manager:
         self._gh_link = github_link
         self._reporter = reporter
         self._jinja_env_vars = jinja_env_vars
+        self._github_context = github_context
+        self._main_manager = main_manager or self
         self._cache_manager = CacheManager(self)
         self._branch_manager = BranchManager(self)
         self._changelog_manager = ChangelogManager(self)
@@ -224,7 +269,6 @@ class Manager:
 
     def control_center(
         self,
-        data_main: ps.NestedDict | None = None,
         future_versions: dict[str, str] | None = None,
         control_center_path: str | None = None,
         clean_state: bool = False,
@@ -239,10 +283,14 @@ class Manager:
         return ControlCenterManager(
             manager=self,
             cc_path=control_center_path,
-            data_main=data_main,
+            data_main=self.main.data,
             future_versions=future_versions,
             clean_state=clean_state,
         )
+
+    @property
+    def main(self) -> Manager:
+        return self._main_manager
 
     @property
     def reporter(self) -> Reporter:
@@ -271,6 +319,10 @@ class Manager:
     @property
     def gh_api_admin(self) -> GitHubRepoAPI:
         return self._gh_api_admin
+
+    @property
+    def gh_context(self) -> GitHubContext | None:
+        return self._github_context
 
     @property
     def gh_link(self) -> GitHubLink:
