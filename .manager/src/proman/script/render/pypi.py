@@ -7,27 +7,30 @@ For example, for a package with the key "pypkg_main", the package ID is "main".
 
 from __future__ import annotations
 
-import argparse
-import json
-import logging
+from typing import TYPE_CHECKING
 import subprocess
 import sys
 from pathlib import Path
 
+from loggerman import logger
+
+if TYPE_CHECKING:
+    from proman.manager import Manager
+
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
-_logger = logging.getLogger(__name__)
 
 
-def run(pkg: str, metadata: dict, output: str | Path) -> Path | None:
+
+def run(pkg: str, manager: Manager, output: str | Path) -> Path | None:
     """Generate and run readme_renderer command."""
-    pkg = metadata[f"pypkg_{pkg}"]
+    pkg = manager.data[f"pypkg_{pkg}"]
     readme_relpath = pkg["pyproject"]["project"].get("readme")
     if isinstance(readme_relpath, dict):
         readme_relpath = readme_relpath.get("file")
     if not readme_relpath:
-        _logger.info("No README file found for package %s", pkg)
+        logger.info(f"No README file found for package {pkg}")
         return None
-    readme_path = Path(pkg["path"]["root"]).resolve() / readme_relpath
+    readme_path = manager.git.repo_path / pkg["path"]["root"] / readme_relpath
     # Ensure the output folder exists
     output_file = Path(output).resolve() / f"{pkg['import_name']}.html"
     output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -40,15 +43,13 @@ def run(pkg: str, metadata: dict, output: str | Path) -> Path | None:
     return output_file
 
 
-def run_cli(args: argparse.Namespace) -> None:
-    """Run the script from the command line."""
-
+def run_cli(args: dict) -> None:
+    """Run from CLI."""
     output_path = run(
-        pkg=args.pkg,
-        metadata=args.metadata,
-        output=args.output,
+        pkg=args["pkg"],
+        metadata=args["manager"],
+        output=args["output"],
     )
     if output_path:
         print(output_path)
-    sys.exit()
     return
