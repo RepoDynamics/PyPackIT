@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
 from pathlib import Path
@@ -388,15 +387,16 @@ class PreCommitHooks:
         return results, git_diff
 
 
-def run_cli(parser: argparse.ArgumentParser, args: argparse.Namespace) -> int:
+def run_cli(args: dict) -> None:
+    """Run from CLI."""
     out = run(
-        config=args.config,
-        action=args.action,
-        hook_id=args.hook_id,
-        hook_stage=args.hook_stage,
-        files=args.files,
-        all_files=args.all_files,
-        ref_range=(args.from_ref, args.to_ref) if args.from_ref else None,
+        config=args["config"],
+        action=args["action"],
+        hook_id=args["hook_id"],
+        hook_stage=args["hook_stage"],
+        files=args["files"],
+        all_files=args["all_files"],
+        ref_range=(args["from_ref"], args["to_ref"]) if args["from_ref"] else None,
     )
     out.pop("section")
     out["description"] = out["description"].source(target="github", filters=["short, github"])
