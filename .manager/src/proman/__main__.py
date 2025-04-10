@@ -13,9 +13,12 @@ import github_contexts
 import proman
 from proman.exception import ProManException
 from proman import script, report
+from proman.util import date
 
 
 if TYPE_CHECKING:
+    from typing import Callable
+    from proman.manager import Manager
     from proman.token_manager import TokenManager
 
 
@@ -39,7 +42,10 @@ def cli():
         validate_metadata=kwargs.get("validate_metadata", True),
         github_context=gh_context,
     )
-    endpoint = _get_endpoint(kwargs.pop("endpoint"))
+    current_branch = manager.git.current_branch_name()
+    current_hash = manager.git.commit_hash_normal()
+    endpoint_name = kwargs.pop("endpoint")
+    endpoint = _get_endpoint(endpoint_name=endpoint_name)
     current_log_section_level = logger.current_section_level
     try:
         endpoint(kwargs | {"manager": manager})
@@ -66,11 +72,11 @@ def cli():
         )
     logger.section_end(target_level=current_log_section_level)
     _finalize(
-        github_context=github_context,
-        reporter=reporter,
-        output_writer=output_writer,
-        repo_path=path_repo_head,
-    )
+        manager=manager,
+        branch=current_branch,
+        commit_hash=current_hash,
+        endpoint=endpoint_name,
+        )
     return
 
 
@@ -99,7 +105,7 @@ def _read_args() -> tuple[dict, TokenManager]:
     return kwargs, token_manager
 
 
-def _get_endpoint(endpoint_name: str):
+def _get_endpoint(endpoint_name: str) -> Callable[[dict], None]:
     def get_recursive(parts, current_object):
         if len(parts) == 1:
             return getattr(current_object, parts[0])
@@ -189,9 +195,12 @@ def _parse_args() -> argparse.Namespace:
 
 
 def _finalize(
-    reporter: report.Reporter
-):
-    report_html = reporter.generate()
+    manager: Manager,
+    branch: str,
+    commit_hash: str,
+    endpoint: str,
+) -> None:
+    report_html = manager.reporter.generate()
 
     log = logger.report
     target_config, sphinx_output = report.make_sphinx_target_config()
@@ -202,12 +211,15 @@ def _finalize(
         mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
     )
 
-    filename = (
-        f"{github_context.repository_name}-workflow-run"
-        f"-{github_context.run_id}-{github_context.run_attempt}.{{}}.{{}}"
-    )
-    dir_path = Path(repo_path) / report_path / "proman"
+    filename = f"{date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
+    dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
     dir_path.mkdir()
+    for file_type, content in {
+        "report": report_html,
+        "log": log_html,
+    }.items():
+        file = dir_path / filename.format(file_type)
+        file.write_text(content)
     return
 
 
