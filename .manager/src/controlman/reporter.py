@@ -33,6 +33,16 @@ class ControlCenterReporter:
                 DynamicFileChangeType.INACTIVE,
             )
         ]
+        self.modified_files = [
+            file
+            for file in self.files
+            if file.change
+            in (
+                DynamicFileChangeType.ADDED,
+                DynamicFileChangeType.MODIFIED,
+                DynamicFileChangeType.MOVED_MODIFIED,
+            )
+        ]
         self.changed_dirs = [
             dir_
             for dir_ in self.dirs
