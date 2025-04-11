@@ -168,7 +168,7 @@ class IssuesEventHandler(EventHandler):
                 logger.info("Pull Request Assignment", "No assignees found for pull request.")
             pull = self.manager.add_pull_request_jinja_env_var(
                 pull=api_response_pull,
-                author=self.payload_sender,
+                author=self.manager.user.from_payload_sender(),
             )
             self.manager.protocol.add_event(
                 env_vars={"event": "pull_request", "action": "opened"},
