@@ -25,13 +25,9 @@ def cli():
     kwargs, token_manager = _read_args()
     gh_context = kwargs.get("github_context")
     reporter = proman.report.Reporter(github_context=gh_context)
-    jinja_env_vars = {
-        "mdit": mdit,
-    }
     manager = proman.manager.create(
         token_manager=token_manager,
         reporter=reporter,
-        jinja_env_vars=jinja_env_vars,
         repo_path=kwargs["repo"],
         metadata_ref=kwargs.get("metadata_ref"),
         metadata_filepath=kwargs.get("metadata_filepath"),
