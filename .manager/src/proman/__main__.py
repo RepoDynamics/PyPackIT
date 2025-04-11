@@ -163,7 +163,7 @@ def _parse_args() -> argparse.Namespace:
     subparser_cca.add_argument("-c", "--clean-state", help="Ignore the metadata.json file and start from scratch.", action="store_true")
     subparser_cca.set_defaults(endpoint="cca.run_cli")
     subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
-    subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices=['report', 'run', 'validate'], default="run")
+    subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'], default="apply")
     subparser_lint.add_argument("-r2", "--to-ref", help="Run on files changed until the given git ref. This must be accompanied by --from-ref.")
     subparser_lint_mutually_exclusive_hook = subparser_lint.add_mutually_exclusive_group()
     subparser_lint_mutually_exclusive_hook.add_argument("-i", "--hook-id", help="Specific hook ID to run. This will only run the specified hook.", type=str)
