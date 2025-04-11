@@ -16,6 +16,27 @@ if TYPE_CHECKING:
     from proman.report import Reporter
 
 
+@logger.sectioner("File Change Detection")
+def run_change_detection(
+    self,
+    branch_manager: Manager,
+    ref_range: tuple[str, str] | None = None,
+) -> dict[str, bool]:
+    if not ref_range:
+        ref_range = (self.gh_context.hash_before, self.gh_context.hash_after)
+    changes = self._git_head.changed_files(ref_start=ref_range[0], ref_end=ref_range[1])
+    changed_components = runner.change_detector.run(
+        data=branch_manager.data,
+        changes=changes,
+        reporter=self.reporter,
+    )
+    logger.info(
+        "Changed Project Components",
+        str(changed_components),
+    )
+    return changed_components
+
+
 def run(data: NestedDict, changes: dict, reporter: Reporter) -> dict[str, bool]:
     change_type_map = {
         "added": FileChangeType.ADDED,
