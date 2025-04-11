@@ -30,11 +30,7 @@ def run(manager: Manager):
     }
     handler_class = event_to_handler.get(manager.gh_context.event_name)
     if handler_class:
-        try:
-            handler_class(manager=manager).run()
-        except Exception as e:
-            _finalize(manager=manager, fail=True)
-            raise e
+        handler_class(manager=manager).run()
     else:
         supported_events = mdit.inline_container(
             *(mdit.element.code_span(enum.value) for enum in event_to_handler),
@@ -50,7 +46,6 @@ def run(manager: Manager):
             supported_events,
         )
         manager.reporter.update("main", status="skip", summary=summary)
-    _finalize(manager=manager)
     return
 
 
@@ -159,45 +154,3 @@ def _check_github_api(manager: Manager) -> None:
             "Admin token verified successfully.",
         )
     return api_admin, api_actions, link_gen, has_admin_token
-
-
-@logger.sectioner("Output Generation")
-def _finalize(manager: Manager, fail: bool | None = None) -> None:
-    workflow_output = manager.output.generate(failed=fail)
-    _write_step_outputs(workflow_output)
-
-    report_gha = manager.reporter.generate(gha=True)
-    _write_step_summary(report_gha)
-
-    filename = (
-        f"{manager.gh_context.repository_name}-workflow-run"
-        f"-{manager.gh_context.run_id}-{manager.gh_context.run_attempt}.{{}}.{{}}"
-    )
-    dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / "gha"
-    dir_path.mkdir(parents=True, exist_ok=True)
-
-    output_str = ps.write.to_json_string(workflow_output, sort_keys=True, indent=3, default=str)
-    file = dir_path / filename.format("output", "json")
-    file.write_text(output_str)
-    return
-
-
-def _write_step_outputs(kwargs: dict) -> None:
-    log_outputs = []
-    for name, value in kwargs.items():
-        output_name = name.lower().replace("_", "-")
-        written_output = actionman.step_output.write(name=output_name, value=value)
-        log_outputs.append(
-            mdit.element.code_block(
-                written_output,
-                caption=f"{output_name} [{type(value).__name__}]",
-            )
-        )
-    logger.debug("GHA Step Outputs", *log_outputs)
-    return
-
-
-def _write_step_summary(content: str) -> None:
-    logger.debug("GHA Summary Output", mdit.element.code_block(content))
-    actionman.step_summary.write(content)
-    return

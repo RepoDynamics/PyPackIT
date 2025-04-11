@@ -9,6 +9,7 @@ from loggerman import logger
 import mdit
 import rich.text
 import github_contexts
+import pyserials
 
 import proman
 from proman.exception import ProManException
@@ -111,6 +112,7 @@ def _get_endpoint(endpoint_name: str) -> Callable[[dict], None]:
     return get_recursive(parts, proman.script)
 
 
+@logger.sectioner("Output Generation")
 def _finalize(
     manager: Manager,
     branch: str,
@@ -139,6 +141,42 @@ def _finalize(
     }.items():
         file = dir_path / filename.format(file_type)
         file.write_text(content)
+
+    if endpoint == "gha":
+        workflow_output = manager.output.generate()
+        _write_step_outputs(workflow_output)
+
+        report_gha = manager.reporter.generate(gha=True)
+        _write_step_summary(report_gha)
+
+        filename = (
+            f"{manager.gh_context.repository_name}-workflow-run"
+            f"-{manager.gh_context.run_id}-{manager.gh_context.run_attempt}.{{}}.{{}}"
+        )
+        output_str = pyserials.write.to_json_string(workflow_output, sort_keys=True, indent=3, default=str)
+        file = dir_path / filename.format("output", "json")
+        file.write_text(output_str)
+    return
+
+
+def _write_step_outputs(kwargs: dict) -> None:
+    log_outputs = []
+    for name, value in kwargs.items():
+        output_name = name.lower().replace("_", "-")
+        written_output = actionman.step_output.write(name=output_name, value=value)
+        log_outputs.append(
+            mdit.element.code_block(
+                written_output,
+                caption=f"{output_name} [{type(value).__name__}]",
+            )
+        )
+    logger.debug("GHA Step Outputs", *log_outputs)
+    return
+
+
+def _write_step_summary(content: str) -> None:
+    logger.debug("GHA Summary Output", mdit.element.code_block(content))
+    actionman.step_summary.write(content)
     return
 
 
