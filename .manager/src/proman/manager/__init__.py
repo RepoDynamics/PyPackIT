@@ -7,6 +7,7 @@ from pathlib import Path
 import controlman
 import gittidy
 import jinja2
+import mdit
 import github_contexts
 from proman.util import date
 from proman import const
@@ -61,7 +62,6 @@ def create(
 ) -> Manager:
     token_manager = token_manager or _create_token_manager()
     reporter = reporter or Reporter()
-    jinja_env_vars = jinja_env_vars or {}
     if isinstance(github_context, dict):
         github_context = github_contexts.github.create(github_context)
     git_api = create_git_api(repo_path=repo_path)
@@ -103,6 +103,22 @@ def create(
         filepath=metadata_filepath_main,
         reporter=reporter,
     )
+    default_jinja_env_vars = {
+        "mdit": mdit,
+        "ccc": main_metadata,
+    }
+    if github_context:
+        default_jinja_env_vars.update(
+            {
+                "event": github_context.event_name.value,
+                "action": github_context.event.action.value
+                if "action" in github_context.event
+                else "",
+                "context": github_context,
+                "payload": github_context.event,
+            }
+        )
+    full_jinja_env_vars = default_jinja_env_vars | (jinja_env_vars or {})
     main_manager = Manager(
         project_metadata=main_metadata,
         token_manager=token_manager,
@@ -112,10 +128,12 @@ def create(
         github_api_bare=github_api_bare,
         github_link=github_link,
         reporter=reporter,
-        jinja_env_vars=jinja_env_vars,
+        jinja_env_vars=full_jinja_env_vars,
         github_context=github_context,
         main_manager=None,
     )
+    if github_context:
+        main_manager.jinja_env_vars["sender"] = main_manager.user.from_payload_sender()
     return Manager(
         project_metadata=project_metadata,
         token_manager=token_manager,
@@ -125,7 +143,7 @@ def create(
         github_api_bare=github_api_bare,
         github_link=github_link,
         reporter=reporter,
-        jinja_env_vars=jinja_env_vars,
+        jinja_env_vars=full_jinja_env_vars,
         github_context=github_context,
         main_manager=main_manager,
     )
@@ -147,7 +165,7 @@ def update(
         reporter=manager.reporter,
         jinja_env_vars=manager.jinja_env_vars,
         github_context=manager.gh_context,
-        main_manager=manager.main_manager,
+        main_manager=manager.main,
     )
 
 
