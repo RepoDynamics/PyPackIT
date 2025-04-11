@@ -2,45 +2,117 @@
 
 from __future__ import annotations
 
-import json
 import re
-from pathlib import Path
 from typing import TYPE_CHECKING
 
-import ansi_sgr as sgr
+import ansi_sgr
 import mdit
-import pyshellman as _pyshellman
-from gittidy import Git
+import htmp
+import pyshellman
 from loggerman import logger
+
+from proman.exception import ProManException
 
 if TYPE_CHECKING:
     from typing import Literal
+    from proman.manager import Manager
 
 _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 
 
 @logger.sectioner("Continuous Refactoring")
 def run(
-    config: str | Path,
     *,
+    manager: Manager,
     action: Literal["report", "run", "validate"] = "run",
     hook_id: str | None = None,
     hook_stage: str | None = None,
     files: list[str] | None = None,
     all_files: bool = False,
     ref_range: tuple[str, str] | None = None,
-) -> dict:
+) -> tuple[dict, str | None]:
     """Run pre-commit hooks and generate report."""
-    hook_runner = PreCommitHooks(
-        config=config,
-        action=action,
-        hook_id=hook_id,
-        hook_stage=hook_stage,
-        files=files,
-        all_files=all_files,
-        ref_range=ref_range,
+
+    pr_branch = None
+    if action in ["pull", "merge"]:
+        # Create a new branch for PR
+        pr_branch = manager.branch.new_auto(auto_type="refactor")
+        manager.branch.checkout_to_auto(branch=pr_branch)
+
+    try:
+        result = PreCommitHooks(
+            manager=manager,
+            action=action,
+            hook_id=hook_id,
+            hook_stage=hook_stage,
+            files=files,
+            all_files=all_files,
+            ref_range=ref_range,
+        ).run()
+    except Exception as e:
+        manager.reporter.update(
+            "hooks",
+            status="fail",
+            summary="An unexpected error occurred.",
+            body=str(e),
+        )
+        raise ProManException() from e
+
+    summary = result["summary"]
+
+    commit_hash = None
+    if result["modified"] and action != "report":
+        # Apply and optionally push/pull changes
+        summary += " The modifications were applied to"
+
+        if action == "apply":
+                summary += " the current branch without committing."
+        elif action in ["pull", "merge", "commit", "amend"]:
+            # Commit changes
+            commit_msg = (
+                manager.commit.create_auto(id="refactor")
+                if action in ["pull", "merge", "commit"]
+                else ""
+            )
+            commit_hash = manager.git.commit(
+                message=str(commit_msg) if action != "amend" else "",
+                stage="all",
+                amend=action == "amend",
+            )
+        if action in ["commit", "amend"]:
+            # Add commit summary
+            link = f"[`{commit_hash[:7]}`]({manager.gh_link.commit(commit_hash)})"
+            summary += " the current branch " + (
+                f"in commit {link}."
+                if action == "commit"
+                else f"by amending the latest commit (new hash: {link})."
+            )
+        elif pr_branch:
+            # Create PR
+            commit_hash = None
+            manager.git.push(target="origin", set_upstream=True)
+            manager.branch.checkout_from_auto()
+            pull_data = manager.gh_api_admin.pull_create(
+                head=pr_branch.name,
+                base=pr_branch.target.name,
+                title=commit_msg.description,
+                body=commit_msg.body,
+            )
+            link = f"[#{pull_data['number']}]({pull_data['url']})"
+            summary += f" branch {htmp.element.code(pr_branch.name)} in PR {link}."
+            if action == "merge":
+                # TODO: Merge the PR
+                pass
+    manager.reporter.update(
+        "hooks",
+        status="fail"
+        if not result["passed"] or (result["modified"] and action in ["report", "pull"])
+        else "pass",
+        summary=summary,
+        body=result["description"],
+        section=result["section"],
     )
-    return hook_runner.run()
+    return result, commit_hash
 
 
 class PreCommitHooks:
@@ -48,9 +120,9 @@ class PreCommitHooks:
 
     def __init__(
         self,
-        config: Path | str,
         *,
-        action: Literal["report", "run", "validate"] = "run",
+        manager: Manager,
+        action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
         hook_id: str | None = None,
         hook_stage: str | None = None,
         files: list[str] | None = None,
@@ -62,7 +134,7 @@ class PreCommitHooks:
             f"Running Pre-Commit hooks in '{action}' mode.",
             f"Ref Range: {ref_range}",
         )
-        if action not in ["report", "run", "validate"]:
+        if action not in ['report', 'apply', 'pull', 'merge', 'commit', 'amend']:
             err_msg = f"Invalid action '{action}'."
             raise ValueError(err_msg)
         if hook_id and hook_stage:
@@ -81,7 +153,7 @@ class PreCommitHooks:
                 f"Argument 'ref_range' must be a list or tuple of two strings, but got {ref_range}."
             )
             raise ValueError(err_msg)
-        version_result = _pyshellman.run(
+        version_result = pyshellman.run(
             command=[*_CMD_PREFIX, "pre-commit", "--version"],
             raise_execution=False,
             raise_exit_code=False,
@@ -93,16 +165,14 @@ class PreCommitHooks:
             "Pre-Commit: Check Version",
             version_result.report(),
         )
-        self._git = Git(path=Path(config).parent, logger=logger)
+        self._manager = manager
         self._action = action
-        self._path_root = self._git.repo_path
-
         self._from_ref = ref_range[0] if ref_range else None
         self._to_ref = ref_range[1] if ref_range else None
         if files:
             self._files = files
         elif self._from_ref:
-            files = self._git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
+            files = self._manager.git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
             self._files = [
                 filename
                 for change_type in ("added", "modified", "copied_modified", "renamed_modified")
@@ -110,7 +180,7 @@ class PreCommitHooks:
             ]
         self._hook_id = hook_id
         self._hook_stage = hook_stage
-
+        config_path = self._manager.git.repo_path / self._manager.data["devcontainer_main.environment.pre_commit.file.pre_commit_config.path"]
         self._command = _CMD_PREFIX + [
             part
             for part in [
@@ -118,7 +188,7 @@ class PreCommitHooks:
                 "run",
                 hook_id,
                 "--config",
-                str(config),
+                str(config_path),
                 "--color=always",
                 "--show-diff-on-failure",
                 "--verbose",
@@ -131,9 +201,9 @@ class PreCommitHooks:
             if part
         ]
 
-        self._shell_runner = _pyshellman.Runner(
+        self._shell_runner = pyshellman.Runner(
             pre_command=self._command,
-            cwd=self._path_root,
+            cwd=self._manager.git.repo_path,
             raise_exit_code=False,
             logger=logger,
             stack_up=1,
@@ -151,12 +221,11 @@ class PreCommitHooks:
         """Run pre-commit hooks and generate report."""
         logger.info("Run Mode", self._action)
         if self._action == "report":
-            self._git.stash(include="all")
-        output_first = self._run_hooks(validation_run=self._action != "validate")
+            self._manager.git.stash(include="all")
+        output_first = self._run_hooks(validation_run=False)
         if self._action == "report":
-            self._git.discard_changes()
-            self._git.stash_pop()
-        if self._action != "validate":
+            self._manager.git.discard_changes()
+            self._manager.git.stash_pop()
             return self._create_summary(output_validation=output_first)
         if output_first["passed"] or not output_first["modified"]:
             return self._create_summary(output_fix=output_first)
@@ -176,12 +245,12 @@ class PreCommitHooks:
         if result.err:
             err_lines = [
                 line
-                for line in sgr.remove_sequence(result.err.strip()).splitlines()
+                for line in ansi_sgr.remove_sequence(result.err.strip()).splitlines()
                 if line and not line.startswith("ERROR conda.cli.main_run")
             ]
             if err_lines:
                 raise_error("\n".join(err_lines))
-        out_plain = sgr.remove_sequence(result.out)
+        out_plain = ansi_sgr.remove_sequence(result.out)
         for line in out_plain.splitlines():
             for prefix in ("An error has occurred", "An unexpected error has occurred", "[ERROR]"):
                 if line.startswith(prefix):
@@ -389,8 +458,8 @@ class PreCommitHooks:
 
 def run_cli(args: dict) -> None:
     """Run from CLI."""
-    out = run(
-        config=args["config"],
+    run(
+        manager=args["manager"],
         action=args["action"],
         hook_id=args["hook_id"],
         hook_stage=args["hook_stage"],
@@ -398,7 +467,4 @@ def run_cli(args: dict) -> None:
         all_files=args["all_files"],
         ref_range=(args["from_ref"], args["to_ref"]) if args["from_ref"] else None,
     )
-    out.pop("section")
-    out["description"] = out["description"].source(target="github", filters=["short, github"])
-    print(json.dumps(out, indent=3), flush=True)
     return
