@@ -173,7 +173,7 @@ def _finalize(manager: Manager) -> None:
         f"-{manager.gh_context.run_id}-{manager.gh_context.run_attempt}.{{}}.{{}}"
     )
     dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / "gha"
-    dir_path.mkdir()
+    dir_path.mkdir(parents=True, exist_ok=True)
 
     output_str = ps.write.to_json_string(workflow_output, sort_keys=True, indent=3, default=str)
     file = dir_path / filename.format("output", "json")
