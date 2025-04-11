@@ -163,7 +163,7 @@ class Reporter:
     @property
     def failed(self) -> bool:
         """Check if any of the processes failed."""
-        return any(entry.status == "fail" for entry in self._summary.values())
+        return any(entry.current_status == "fail" for entry in self._summary_table.values())
 
     def generate(self, gha: bool = False) -> str:
         body = mdit.block_container(*self._generate_summary())
