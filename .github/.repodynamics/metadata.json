@@ -22041,11 +22041,14 @@
                                  "kwargs": {
                                     "choices": [
                                        "report",
-                                       "run",
-                                       "validate"
+                                       "apply",
+                                       "pull",
+                                       "merge",
+                                       "commit",
+                                       "amend"
                                     ],
-                                    "default": "run",
-                                    "help": "Lint mode.",
+                                    "default": "apply",
+                                    "help": "Action to perform.",
                                     "type": "str"
                                  }
                               },
