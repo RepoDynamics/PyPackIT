@@ -176,3 +176,10 @@ class UserManager:
             data=user.as_dict,
             github_association=issue.get("author_association"),
         )
+
+    def from_payload_sender(self) -> User | None:
+        return (
+            self.get_from_github_rest_id(self._manager.gh_context.event.sender.id)
+            if self._manager.gh_context.event.sender
+            else None
+        )
