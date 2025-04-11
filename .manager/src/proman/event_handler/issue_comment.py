@@ -10,7 +10,6 @@ import pysyntax
 from loggerman import logger
 
 from proman.dtype import BranchType, RepoDynamicsBotCommand
-from proman.main import EventHandler
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -18,7 +17,7 @@ if TYPE_CHECKING:
     from github_contexts.github.payload import IssueCommentPayload
 
 
-class IssueCommentEventHandler(EventHandler):
+class IssueCommentEventHandler:
     """Event handler for the `issue_comment` event type.
 
     This event is triggered when a comment on an issue or pull request
@@ -26,7 +25,6 @@ class IssueCommentEventHandler(EventHandler):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self._payload: IssueCommentPayload = self.gh_context.event
         self._comment = self._payload.comment
         self._issue = self._payload.issue

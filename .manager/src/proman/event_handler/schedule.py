@@ -5,12 +5,10 @@ import pyshellman
 from github_contexts.github.payload.schedule import SchedulePayload
 
 from proman.dtype import InitCheckAction
-from proman.main import EventHandler
 
 
-class ScheduleEventHandler(EventHandler):
+class ScheduleEventHandler:
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self._payload: SchedulePayload = self.gh_context.event
         return
 

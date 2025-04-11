@@ -6,16 +6,14 @@ from github_contexts import github as gh_context
 from loggerman import logger
 
 from proman.dtype import IssueStatus, LabelType
-from proman.main import EventHandler
 from proman.manager.protocol import ProtocolManager
 
 if _TYPE_CHECKING:
     from proman.dstruct import Branch, IssueForm, Label, Version
 
 
-class IssuesEventHandler(EventHandler):
+class IssuesEventHandler:
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self.payload: gh_context.payload.IssuesPayload = self.gh_context.event
         self.issue = self.payload.issue
         issue = self.manager.add_issue_jinja_env_var(self.issue)

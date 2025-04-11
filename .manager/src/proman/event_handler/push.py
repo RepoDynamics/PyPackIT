@@ -10,14 +10,13 @@ from loggerman import logger
 from versionman.pep440_semver import PEP440SemVer
 
 from proman.dtype import BranchType, InitCheckAction
-from proman.main import EventHandler
 from proman import script
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 
-class PushEventHandler(EventHandler):
+class PushEventHandler:
     """Push event handler.
 
     This handler is responsible for the setup process of new and existing repositories.
@@ -25,7 +24,6 @@ class PushEventHandler(EventHandler):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self.payload: _gh_context.payload.PushPayload = self.gh_context.event
         self.head_commit = self.gh_context.event.head_commit
         if self.manager and self.head_commit:

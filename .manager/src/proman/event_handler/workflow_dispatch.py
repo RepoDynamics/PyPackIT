@@ -7,7 +7,6 @@ import controlman
 from loggerman import logger
 
 from proman.dtype import InitCheckAction
-from proman.main import EventHandler
 from proman.manager.changelog import ChangelogManager
 
 if TYPE_CHECKING:
@@ -41,9 +40,8 @@ _INPUT_TYPE = {
 }
 
 
-class WorkflowDispatchEventHandler(EventHandler):
+class WorkflowDispatchEventHandler:
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self._payload: WorkflowDispatchPayload = self.gh_context.event
         self._inputs = {}
         for k, v in self._payload.inputs.items():

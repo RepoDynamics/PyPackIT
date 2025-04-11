@@ -6,7 +6,6 @@ from github_contexts import github as _gh_context
 from loggerman import logger
 
 from proman.dtype import BranchType
-from proman.main import EventHandler
 
 if TYPE_CHECKING:
     from github_contexts.github.payload import PullRequestPayload
@@ -15,9 +14,8 @@ if TYPE_CHECKING:
     from proman.dstruct import Branch
 
 
-class PullRequestTargetEventHandler(EventHandler):
+class PullRequestTargetEventHandler:
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self.payload: PullRequestPayload = self.gh_context.event
         self.pull: PullRequest = self.payload.pull_request
         pull_internalized = self.manager.add_pull_request_jinja_env_var(self.pull)
