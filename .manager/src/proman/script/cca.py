@@ -79,13 +79,12 @@ def run(
                 new_manager.branch.checkout_to_auto(branch=pr_branch)
             # Apply changes to the branch
             center_manager.apply_changes()
-            # commit_hash = self.run_refactor(
-            #     branch_manager=new_branch_manager,
-            #     action=InitCheckAction.AMEND,
-            #     ref_range=(commit_hash_before, commit_hash_after),
-            #     internal=True,
-            # ) or commit_hash_after
-
+            proman.script.lint.run(
+                manager=new_manager,
+                action="apply",
+                hook_stage="manual",
+                files=[file.path for file in reporter.modified_files],
+            )
             if action == "apply":
                 summary += " the current branch without committing."
             elif action in ["pull", "merge", "commit", "amend"]:
