@@ -2,16 +2,16 @@
 
 from __future__ import annotations as _annotations
 
-import shutil
+
 from typing import TYPE_CHECKING
 
-import fileex as _fileex
 from github_contexts import github as _gh_context
 from loggerman import logger
 from versionman.pep440_semver import PEP440SemVer
 
 from proman.dtype import BranchType, InitCheckAction
 from proman.main import EventHandler
+from proman import script
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -84,67 +84,16 @@ class PushEventHandler(EventHandler):
         return self._run_branch_edited_main_normal()
 
     def _run_repository_creation(self):
-        def move_and_merge_directories(src: Path, dest: Path):
-            """
-            Moves the source directory into the destination directory.
-            All files and subdirectories from src will be moved to dest.
-            Existing files in dest will be overwritten.
-
-            Parameters
-            ----------
-                src (str): Path to the source directory.
-                dest (str): Path to the destination directory.
-            """
-            for item in src.iterdir():
-                dest_item = dest / item.name
-                if item.is_dir():
-                    if dest_item.exists():
-                        # Merge the subdirectory
-                        move_and_merge_directories(item, dest_item)
-                    else:
-                        shutil.move(str(item), str(dest_item))  # Move the whole directory
-                else:
-                    # Move or overwrite the file
-                    if dest_item.exists():
-                        dest_item.unlink()  # Remove the existing file
-                    shutil.move(str(item), str(dest_item))
-            # Remove the source directory if it's empty
-            src.rmdir()
-            return
-
-        with logger.sectioning("Repository Preparation"):
-            _fileex.directory.delete_contents(
-                path=self._path_head,
-                exclude=[".git", ".github", "template", ".devcontainer"],
-            )
-            _fileex.directory.delete_contents(
-                path=self._path_head / ".github",
-                exclude=["workflows"],
-            )
-            _fileex.directory.delete_contents(
-                path=self._path_head / ".devcontainer",
-                exclude=["install.py", "build_conda.py", "build_python.py", "pre_commit.py"],
-            )
-            move_and_merge_directories(self._path_head / "template", self._path_head)
-            self._git_head.commit(
-                message=f"init: Create repository from PyPackIT template.",
-                amend=True,
-                stage="all",
-            )
-        main_manager, _ = self.run_cca(
-            branch_manager=None,
-            action=InitCheckAction.AMEND,
-            future_versions={self.gh_context.event.repository.default_branch: "0.0.0"},
-        )
-        self.run_refactor(
-            branch_manager=main_manager,
-            action=InitCheckAction.AMEND,
-            ref_range=None,
+        manager = script.initialize.run(manager=self.manager)
+        manager.git.commit(
+            message=f"init: Create repository from PyPackIT template.",
+            amend=True,
+            stage="all",
         )
         with logger.sectioning("Repository Update"):
-            main_manager.git.push(force_with_lease=True)
-        main_manager.repo.reset_labels()
-        self.reporter.update(
+            manager.git.push(force_with_lease=True)
+        manager.repo.reset_labels()
+        manager.reporter.update(
             "event",
             status="pass",
             summary="Repository created from RepoDynamics template.",
