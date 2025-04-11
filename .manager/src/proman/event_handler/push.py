@@ -216,13 +216,13 @@ class PushEventHandler:
     def _squash(self):
         # Ref: https://blog.avneesh.tech/how-to-delete-all-commit-history-in-github
         #      https://stackoverflow.com/questions/55325930/git-how-to-squash-all-commits-on-master-branch
-        self._git_base.checkout("temp", orphan=True)
-        self._git_base.commit(
+        self.manager.git.checkout("temp", orphan=True)
+        self.manager.git.commit(
             message=f"{self.head_commit_msg.conv_msg.footerless.strip()}\n[skip ci]".strip()
         )
-        self._git_base.branch_delete(self.gh_context.ref_name, force=True)
-        self._git_base.branch_rename(self.gh_context.ref_name, force=True)
-        self._git_base.push(target="origin", ref=self.gh_context.ref_name, force_with_lease=True)
+        self.manager.git.branch_delete(self.gh_context.ref_name, force=True)
+        self.manager.git.branch_rename(self.gh_context.ref_name, force=True)
+        self.manager.git.push(target="origin", ref=self.gh_context.ref_name, force_with_lease=True)
         return
 
     def _run_branch_edited_fork(self):
