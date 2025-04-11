@@ -78,13 +78,16 @@ def _set_git_api(manager: Manager) -> None:
     # - https://sourceforge.net/projects/gpgosx/
     # - https://www.gnupg.org/download/
 
-
     apis = [("Target Repository", manager.git)]
     if manager.main.git.repo_path != manager.git.repo_path:
         apis.append(("Upstream Repository", manager.main.git))
     for title, git_api in apis:
         for user_type, name, email in (
-            ("author", manager.gh_context.event.sender.login, manager.gh_context.event.sender.github_email),
+            (
+                "author",
+                manager.gh_context.event.sender.login,
+                manager.gh_context.event.sender.github_email,
+            ),
             ("committer", *REPODYNAMICS_BOT_USER),
         ):
             git_api.set_user(
@@ -99,14 +102,15 @@ def _set_git_api(manager: Manager) -> None:
             )
     return
 
+
 @logger.sectioner("GitHub API Verification")
 def _check_github_api(manager: Manager) -> None:
     in_repo_creation_event = (
-            self.gh_context.event_name is _ghc_enum.EventType.PUSH
-            and self.gh_context.ref_type is _ghc_enum.RefType.BRANCH
-            and self.gh_context.event.action is _ghc_enum.ActionType.CREATED
-            and self.gh_context.ref_is_main
-        )
+        self.gh_context.event_name is _ghc_enum.EventType.PUSH
+        and self.gh_context.ref_type is _ghc_enum.RefType.BRANCH
+        and self.gh_context.event.action is _ghc_enum.ActionType.CREATED
+        and self.gh_context.ref_is_main
+    )
     log_title = "Admin Token Verification"
     if not admin_token:
         has_admin_token = False
@@ -137,9 +141,7 @@ def _check_github_api(manager: Manager) -> None:
         except _WebAPIError as e:
             details = e.report.body
             details.extend(*e.report.section["details"].content.body.elements())
-            logger.critical(
-                log_title, "Failed to verify the provided admin token.", details
-            )
+            logger.critical(log_title, "Failed to verify the provided admin token.", details)
             reporter.update(
                 "main",
                 status="fail",

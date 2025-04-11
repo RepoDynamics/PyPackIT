@@ -35,7 +35,9 @@ class MainDataGenerator:
 
     def _repo(self) -> None:
         repo_info = self._manager.gh_api_actions.info
-        repo_fullname = f"{self._manager.gh_api_actions.username}/{self._manager.gh_api_actions.name}"
+        repo_fullname = (
+            f"{self._manager.gh_api_actions.username}/{self._manager.gh_api_actions.name}"
+        )
         log_info = _mdit.inline_container(
             "Retrieved data for repository ",
             _mdit.element.code_span(repo_fullname),
@@ -222,7 +224,9 @@ class MainDataGenerator:
             if release_versions:
                 return release_versions
             release_versions = (
-                self._manager.gh_api_bare.user("python").repo("cpython").semantic_versions(tag_prefix="v")
+                self._manager.gh_api_bare.user("python")
+                .repo("cpython")
+                .semantic_versions(tag_prefix="v")
             )
             live_versions = []
             for version in release_versions:

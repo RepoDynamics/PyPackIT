@@ -90,18 +90,24 @@ def create(
             )
         repo_owner, repo_name = repo_address
     github_api_actions = github_api_bare.user(repo_owner).repo(repo_name)
-    github_api_admin = pylinks.api.github(token=token_manager.github_admin.get()).user(repo_owner).repo(repo_name)
+    github_api_admin = (
+        pylinks.api.github(token=token_manager.github_admin.get()).user(repo_owner).repo(repo_name)
+    )
     github_link = pylinks.site.github.user(repo_owner).repo(repo_name)
 
     main_ref = git_api_main.commit_hash(default_branch)
     current_ref = git_api.commit_hash(metadata_ref or "HEAD")
     ref_is_main = current_ref == main_ref
-    main_metadata = project_metadata if ref_is_main else load_metadata(
-        repo=git_api_main,
-        ref=main_ref,
-        validate=validate_metadata,
-        filepath=metadata_filepath_main,
-        reporter=reporter,
+    main_metadata = (
+        project_metadata
+        if ref_is_main
+        else load_metadata(
+            repo=git_api_main,
+            ref=main_ref,
+            validate=validate_metadata,
+            filepath=metadata_filepath_main,
+            reporter=reporter,
+        )
     )
     default_jinja_env_vars = {
         "mdit": mdit,

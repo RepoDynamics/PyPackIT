@@ -19,12 +19,10 @@ def run(manager: Manager) -> str:
     cmd = [
         manager.data["pypkg_main.dependency.build.versioning.import_name"],
         str(manager.git.repo_path / manager.data["pypkg_main.path.root"]),
-        "--verbose"
+        "--verbose",
     ]
     version = pyshellman.run(
-        command=[
-            *_CMD_PREFIX, *cmd
-        ],
+        command=[*_CMD_PREFIX, *cmd],
         text_output=True,
         logger=logger,
     )

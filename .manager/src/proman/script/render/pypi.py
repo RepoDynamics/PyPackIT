@@ -20,7 +20,6 @@ if TYPE_CHECKING:
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 
 
-
 def run(pkg: str, manager: Manager, output: str | Path) -> Path | None:
     """Generate and run readme_renderer command."""
     pkg = manager.data[f"pypkg_{pkg}"]
@@ -36,7 +35,15 @@ def run(pkg: str, manager: Manager, output: str | Path) -> Path | None:
     output_file.parent.mkdir(parents=True, exist_ok=True)
     # Run readme-renderer
     subprocess.run(
-        [*_CMD_PREFIX, "python", "-m", "readme_renderer", str(readme_path), "--output", str(output_file)],
+        [
+            *_CMD_PREFIX,
+            "python",
+            "-m",
+            "readme_renderer",
+            str(readme_path),
+            "--output",
+            str(output_file),
+        ],
         check=True,
         stdout=sys.stderr,
     )

@@ -18,6 +18,7 @@ from controlman.file_gen import unit as _unit
 if TYPE_CHECKING:
     from proman.manager import Manager
 
+
 class PythonPackageFileGenerator:
     def __init__(
         self,

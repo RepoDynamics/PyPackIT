@@ -101,7 +101,9 @@ class PushEventHandler:
     def _run_init(self):
         user_input = self.head_commit_msg.footer
         init = user_input.initialize_project
-        self.reporter.update_event_summary("Project initialization" if init else "Repository initialization phase")
+        self.reporter.update_event_summary(
+            "Project initialization" if init else "Repository initialization phase"
+        )
         version = user_input.version or PEP440SemVer(self.manager.changelog.current["version"])
         version_tag = self.manager.release.create_version_tag(version)
         self.manager.changelog.update_version(version_tag)

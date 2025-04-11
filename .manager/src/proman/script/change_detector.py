@@ -17,50 +17,49 @@ if TYPE_CHECKING:
 
 
 def run_sync_fix(
-        self,
-        branch_manager: Manager,
-        action: InitCheckAction,
-        future_versions: dict | None = None,
-        testpypi_publishable: bool = False,
-    ) -> tuple[Manager, dict[str, bool], str]:
-        changes = self.run_change_detection(branch_manager=branch_manager)
-        if "dynamic" in changes:
-            new_manager, commit_hash_cca = self.run_cca(
-                branch_manager=branch_manager,
-                action=action,
-                future_versions=future_versions,
-            )
-        else:
-            new_manager = branch_manager
-            commit_hash_cca = None
-        commit_hash_refactor = (
-            self.run_refactor(
-                branch_manager=new_manager,
-                action=action,
-                ref_range=(self.gh_context.hash_before, self.gh_context.hash_after),
-            )
-            if new_manager.data["workflow.refactor.pre_commit_config"]
-            else None
+    self,
+    branch_manager: Manager,
+    action: InitCheckAction,
+    future_versions: dict | None = None,
+    testpypi_publishable: bool = False,
+) -> tuple[Manager, dict[str, bool], str]:
+    changes = self.run_change_detection(branch_manager=branch_manager)
+    if "dynamic" in changes:
+        new_manager, commit_hash_cca = self.run_cca(
+            branch_manager=branch_manager,
+            action=action,
+            future_versions=future_versions,
         )
-        if commit_hash_refactor or commit_hash_cca:
-            with logger.sectioning("Repository Update"):
-                new_manager.git.push()
-        latest_hash = commit_hash_refactor or commit_hash_cca or self.gh_context.hash_after
-        job_runs = {
-            "cca": any(filetype in changes for filetype in (RepoFileType.CC, RepoFileType.DYNAMIC)),
-            "web_build": changes["web"],
-            "package_test": changes["pkg"] or changes["test"],
-            "package_build": changes["pkg"],
-            "package_lint": changes["pkg"],
-            "test_lint": changes["test"],
-            "package_publish_testpypi": (changes["pkg"] or changes["test"])
-            and testpypi_publishable,
-        }
-        logger.info(
-            "Job Runs",
-            str(job_runs),
+    else:
+        new_manager = branch_manager
+        commit_hash_cca = None
+    commit_hash_refactor = (
+        self.run_refactor(
+            branch_manager=new_manager,
+            action=action,
+            ref_range=(self.gh_context.hash_before, self.gh_context.hash_after),
         )
-        return new_manager, job_runs, latest_hash
+        if new_manager.data["workflow.refactor.pre_commit_config"]
+        else None
+    )
+    if commit_hash_refactor or commit_hash_cca:
+        with logger.sectioning("Repository Update"):
+            new_manager.git.push()
+    latest_hash = commit_hash_refactor or commit_hash_cca or self.gh_context.hash_after
+    job_runs = {
+        "cca": any(filetype in changes for filetype in (RepoFileType.CC, RepoFileType.DYNAMIC)),
+        "web_build": changes["web"],
+        "package_test": changes["pkg"] or changes["test"],
+        "package_build": changes["pkg"],
+        "package_lint": changes["pkg"],
+        "test_lint": changes["test"],
+        "package_publish_testpypi": (changes["pkg"] or changes["test"]) and testpypi_publishable,
+    }
+    logger.info(
+        "Job Runs",
+        str(job_runs),
+    )
+    return new_manager, job_runs, latest_hash
 
 
 @logger.sectioner("File Change Detection")

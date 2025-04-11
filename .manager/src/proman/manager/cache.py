@@ -48,9 +48,7 @@ class CacheManager:
         path_local_cache = self._manager.git.repo_path / relpath_local_cache
 
         self._path = (
-            path_local_cache
-            / _const.DIRNAME_LOCAL_REPODYNAMICS
-            / _const.FILENAME_METADATA_CACHE
+            path_local_cache / _const.DIRNAME_LOCAL_REPODYNAMICS / _const.FILENAME_METADATA_CACHE
         )
         if not self._path.is_file():
             log_msg_new_cache("does not exist")
@@ -82,9 +80,7 @@ class CacheManager:
                 try:
                     local_config = _ps.read.yaml_from_file(path=path_local_config, safe=True)
                 except _ps.exception.read.PySerialsInvalidDataError as e:
-                    raise _exception.load.ControlManInvalidConfigFileDataError(
-                        cause=e
-                    ) from None
+                    raise _exception.load.ControlManInvalidConfigFileDataError(cause=e) from None
                 _data_validator.validate(data=local_config, schema="local")
                 self._retention_hours = local_config.get("retention_hours", self._retention_hours)
         return

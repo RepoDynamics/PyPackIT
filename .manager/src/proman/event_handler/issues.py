@@ -230,7 +230,9 @@ class IssuesEventHandler:
     def _run_assignment(self, assigned: bool):
         assignee = self.manager.user.get_from_github_rest_id(self.payload.assignee.id)
         action_desc = "assigned to" if assigned else "unassigned from"
-        self.reporter.update_event_summary(f"Issue #{self.issue.number} {action_desc} {assignee['github']['id']}")
+        self.reporter.update_event_summary(
+            f"Issue #{self.issue.number} {action_desc} {assignee['github']['id']}"
+        )
         self.manager.protocol.add_event(env_vars={"assignee": assignee})
         self.manager.protocol.update_on_github()
         return

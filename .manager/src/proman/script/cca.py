@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 def run(
     *,
     manager: Manager,
-    action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
+    action: Literal["report", "apply", "pull", "merge", "commit", "amend"] = "apply",
     control_center: str | None = None,
     clean_state: bool = False,
     branch_version: dict[str, str] | None = None,
@@ -65,7 +65,7 @@ def run(
     summary = report.body["summary"].content
     new_manager = proman.manager.update(
         manager=manager, project_metadata=center_manager.generate_data()
-        )
+    )
 
     commit_hash = None
     if reporter.has_changes and action != "report":
@@ -128,10 +128,7 @@ def run(
                     pass
     new_manager.reporter.update(
         "cca",
-        status="fail"
-        if reporter.has_changes
-        and action in ["report", "pull"]
-        else "pass",
+        status="fail" if reporter.has_changes and action in ["report", "pull"] else "pass",
         summary=summary,
         section=report.section,
         section_is_container=True,

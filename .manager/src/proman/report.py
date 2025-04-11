@@ -35,6 +35,7 @@ class Reporter:
         "cca": "CCA",
         "hooks": "Hooks",
     }
+
     def __init__(self, github_context: _gh_context.GitHubContext | None = None):
         self._summary_table: dict[str, SummaryTableEntry] = {}
         self._sections: dict[str, Section] = {}
@@ -227,7 +228,9 @@ class Reporter:
         )
         return status_badge, table
 
-    def _generate_event_context(self, github_context: _gh_context.GitHubContext | None = None) -> None:
+    def _generate_event_context(
+        self, github_context: _gh_context.GitHubContext | None = None
+    ) -> None:
         if github_context:
             body = []
             event_type = github_context.event_name.value
@@ -260,7 +263,9 @@ class Reporter:
                 (github_context, "GitHub Context", "🎬"),
                 (github_context.event, "Event Payload", "📥"),
             ):
-                code = mdit.element.code_block(ps.write.to_yaml_string(data.as_dict), language="yaml")
+                code = mdit.element.code_block(
+                    ps.write.to_yaml_string(data.as_dict), language="yaml"
+                )
                 dropdown = mdit.element.dropdown(
                     title=summary,
                     body=code,
@@ -290,6 +295,7 @@ class SummaryTableEntry:
         "warning": "warning",
         "fail": "error",
     }
+
     def __init__(
         self,
         name: str,
@@ -306,9 +312,7 @@ class SummaryTableEntry:
         return
 
     def update(
-        self,
-        status: Literal["skip", "pass", "warning", "fail"] | None = None,
-        summary: str = ""
+        self, status: Literal["skip", "pass", "warning", "fail"] | None = None, summary: str = ""
     ):
         if self._status_weight[status] >= self._status_weight[self._status]:
             self._status = status

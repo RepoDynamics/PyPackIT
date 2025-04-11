@@ -56,7 +56,9 @@ def run(
     # Refs:
     #    https://twine.readthedocs.io/en/stable/#twine-check
     #    https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/#validating-restructuredtext-markup
-    subprocess.run([*_CMD_PREFIX, "twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr)
+    subprocess.run(
+        [*_CMD_PREFIX, "twine", "check", str(output_dir / "*")], check=True, stdout=sys.stderr
+    )
     return output_dir
 
 

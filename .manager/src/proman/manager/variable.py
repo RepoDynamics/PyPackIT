@@ -36,9 +36,7 @@ class VariableManager(ps.PropertyDict):
             )
         else:
             var = {}
-            logger.info(
-                log_title, f"No variables file found at '{const.FILEPATH_VARIABLES}'."
-            )
+            logger.info(log_title, f"No variables file found at '{const.FILEPATH_VARIABLES}'.")
         self._read_var = copy.deepcopy(var)
         data_validator.validate(var, schema="variables")
         super().__init__(var)

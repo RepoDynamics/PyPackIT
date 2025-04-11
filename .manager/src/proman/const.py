@@ -3,7 +3,6 @@
 These include paths to files and directories in the user repository.
 """
 
-
 OUTPUT_RELEASE_REPO_PATH = "repo"
 OUTPUT_RELEASE_ARTIFACT_PATH = "artifacts"
 

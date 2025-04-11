@@ -80,7 +80,6 @@ def insert_in_file(
         lines[1:-1] = [prefix + line for line in lines[1:-1]]
     formatted_content = "\n".join(lines)
     return f"{before_content}{formatted_content}{after_content}"
-    
 
 
 def create_env_file_conda(

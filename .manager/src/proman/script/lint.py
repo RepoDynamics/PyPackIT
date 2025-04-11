@@ -24,7 +24,7 @@ _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 def run(
     *,
     manager: Manager,
-    action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
+    action: Literal["report", "apply", "pull", "merge", "commit", "amend"] = "apply",
     hook_id: str | None = None,
     hook_stage: str | None = None,
     files: list[str] | None = None,
@@ -56,7 +56,7 @@ def run(
         summary += " The modifications were applied to"
 
         if action == "apply":
-                summary += " the current branch without committing."
+            summary += " the current branch without committing."
         elif action in ["pull", "merge", "commit", "amend"]:
             # Commit changes
             commit_msg = (
@@ -112,7 +112,7 @@ class PreCommitHooks:
         self,
         *,
         manager: Manager,
-        action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
+        action: Literal["report", "apply", "pull", "merge", "commit", "amend"] = "apply",
         hook_id: str | None = None,
         hook_stage: str | None = None,
         files: list[str] | None = None,
@@ -124,7 +124,7 @@ class PreCommitHooks:
             f"Running Pre-Commit hooks in '{action}' mode.",
             f"Ref Range: {ref_range}",
         )
-        if action not in ['report', 'apply', 'pull', 'merge', 'commit', 'amend']:
+        if action not in ["report", "apply", "pull", "merge", "commit", "amend"]:
             err_msg = f"Invalid action '{action}'."
             raise ValueError(err_msg)
         if hook_id and hook_stage:
@@ -162,7 +162,9 @@ class PreCommitHooks:
         if files:
             self._files = files
         elif self._from_ref:
-            changed_files = self._manager.git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
+            changed_files = self._manager.git.changed_files(
+                ref_start=self._from_ref, ref_end=self._to_ref
+            )
             self._files = [
                 filename
                 for change_type in ("added", "modified", "copied_modified", "renamed_modified")
@@ -172,7 +174,12 @@ class PreCommitHooks:
             self._files = None
         self._hook_id = hook_id
         self._hook_stage = hook_stage
-        config_path = self._manager.git.repo_path / self._manager.data["devcontainer_main.environment.pre_commit.file.pre_commit_config.path"]
+        config_path = (
+            self._manager.git.repo_path
+            / self._manager.data[
+                "devcontainer_main.environment.pre_commit.file.pre_commit_config.path"
+            ]
+        )
         self._command = _CMD_PREFIX + [
             part
             for part in [

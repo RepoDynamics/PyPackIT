@@ -18,13 +18,11 @@ from pylinks.exception.api import WebAPIError as _WebAPIError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from pathlib import Path
     from types import ModuleType
     from typing import Any, Literal
 
-    from pyserials import NestedDict
-
     from proman.manager import Manager
+    from pyserials import NestedDict
 
 
 class Hooks:

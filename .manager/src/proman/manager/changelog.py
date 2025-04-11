@@ -30,7 +30,9 @@ class ChangelogManager:
         try:
             self._changelog = ps.read.json_from_file(self._filepath)
         except ps.exception.read.PySerialsReadException as e:
-            raise _exception.load.ControlManInvalidMetadataError(cause=e, filepath=self._filepath) from None
+            raise _exception.load.ControlManInvalidMetadataError(
+                cause=e, filepath=self._filepath
+            ) from None
         self._read = copy.deepcopy(self._changelog)
         logger.success(
             log_title,

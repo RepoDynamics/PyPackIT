@@ -41,6 +41,7 @@ def create(
         but requires the caller to set the token in the environment again
         if it is needed later.
     """
+
     def set_github() -> str | None:
         if github:
             return github
@@ -60,7 +61,7 @@ def create(
     def set_github_admin() -> str | None:
         if github_admin:
             return github_admin
-        for env_var_name in ("GITHUB_ADMIN_TOKEN", ):
+        for env_var_name in ("GITHUB_ADMIN_TOKEN",):
             token = actionman.env_var.read(env_var_name, typ=str, remove=remove_from_env)
             if token:
                 return token
@@ -70,7 +71,6 @@ def create(
         if zenodo:
             return zenodo
         return actionman.env_var.read("ZENODO_TOKEN", typ=str, remove=remove_from_env)
-
 
     def set_zenodo_sandbox() -> str | None:
         if zenodo_sandbox:
