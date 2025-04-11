@@ -10,7 +10,6 @@ These are passed directly to the `conda build` command.
 
 from __future__ import annotations
 
-import argparse
 import logging
 import os
 import shlex
@@ -23,16 +22,16 @@ import proman.script.version as _script_version
 
 if TYPE_CHECKING:
     from typing import Literal
+    from proman.manager import Manager
 
 _CMD_PREFIX = ["conda", "run", "--name", "base", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
 def run(
+    manager: Manager,
     pkg: str,
-    metadata: dict,
     output: str | Path,
-    repo: str | Path = "./",
     recipe: Literal["global", "local"] = "local",
     args: list[str] | None = None,
 ) -> Path:
@@ -57,7 +56,7 @@ def run(
     def get_recipe(pkg_id: str) -> dict:
         """Get the conda recipe of a package."""
         key = f"pypkg_{pkg_id}"
-        recipe = metadata.get(key, {}).get("conda", {}).get("recipe")
+        recipe = manager.data.get(f"{key}.conda.recipe")
         if not recipe:
             error_msg = f"No conda recipe found in metadata at '{key}.conda.recipe'."
             raise ValueError(error_msg)
@@ -95,10 +94,10 @@ def run(
     recipe_data = get_recipe(pkg_id=pkg)
     channels = get_channels(recipe_data)
     # Ensure the output folder exists
-    output_dir = Path(output).resolve()
+    output_dir = manager.git.repo_path / output
     output_dir.mkdir(parents=True, exist_ok=True)
     # Export package version
-    pkg_version = _script_version.run(metadata=metadata, repo=repo)
+    pkg_version = _script_version.run(manager=manager)
     os.environ["PKG_FULL_VERSION"] = pkg_version
     # Build command
     build_command = (
@@ -106,7 +105,7 @@ def run(
             *_CMD_PREFIX,
             "conda",
             "build",
-            str(Path(recipe_data["path"][recipe]).resolve()),
+            str(manager.git.repo_path / recipe_data["path"][recipe]),
             "--output-folder",
             str(output_dir),
             "--stats-file",
@@ -130,12 +129,11 @@ def run(
 def run_cli(args: dict) -> None:
     """Run from CLI."""
     local_channel_path = run(
+        manager=args["manager"],
         pkg=args["pkg"],
-        metadata=args["metadata"],
-        repo=args["repo"],
         output=args["output"],
         recipe=args["recipe"],
         args=args["args"],
     )
     print(local_channel_path)
-    return 0
+    return
