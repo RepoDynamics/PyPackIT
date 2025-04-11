@@ -168,7 +168,6 @@ def _parse_args() -> argparse.Namespace:
     subparser_cca.set_defaults(endpoint="cca.run_cli")
     subparser_lint = subparsers_main.add_parser("lint", help="Run pre-commit hooks on the repository.")
     subparser_lint.add_argument("-x", "--action", help="Lint mode.", type=str, choices=['report', 'run', 'validate'], default="run")
-    subparser_lint.add_argument("-c", "--config", help="Path to the pre-commit configuration file.", type=str, default=".devcontainer/config/pre-commit.yaml")
     subparser_lint.add_argument("-r2", "--to-ref", help="Run on files changed until the given git ref. This must be accompanied by --from-ref.")
     subparser_lint_mutually_exclusive_hook = subparser_lint.add_mutually_exclusive_group()
     subparser_lint_mutually_exclusive_hook.add_argument("-i", "--hook-id", help="Specific hook ID to run. This will only run the specified hook.", type=str)
