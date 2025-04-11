@@ -106,7 +106,8 @@ class OutputManager:
             )
         return
 
-    def generate(self, failed: bool) -> tuple[dict, str]:
+    def generate(self, failed: bool | None = None) -> dict:
+        failed = failed if failed is not None else self._branch_manager.reporter.failed
         if failed:
             # Just to be safe, disable publish/deploy/release jobs if fail is True
             for web_config in self._out_web:
@@ -133,7 +134,7 @@ class OutputManager:
             "Action Outputs",
             mdit.element.code_block(output_yaml, language="yaml"),
         )
-        return output, self._branch_manager.data["local"]["report"]["path"]
+        return output
 
     @property
     def version(self) -> str:
