@@ -344,10 +344,8 @@ class PreCommitHooks:
         summary_result = f"{result_emoji} {result_keyword}"  # noqa: RUF001
         if modified:
             summary_result += " (modified files)"
-        action_emoji = {"report": "📄", "run": "💾", "validate": "📌"}[self._action]
-        action_title = {"report": "Dry Run & Report", "run": "Run", "validate": "Run & Validate"}[
-            self._action
-        ]
+        action_emoji = "📄" if self._action == "report" else "💾"
+        action_title = "Dry Run" if self._action == "report" else "Apply & Validate"
         scope = (
             f"From ref. <code>{self._from_ref}</code> to ref. <code>{self._to_ref}</code>"
             if self._from_ref
