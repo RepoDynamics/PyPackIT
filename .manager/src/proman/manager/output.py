@@ -42,7 +42,7 @@ class OutputManager:
     def set(
         self,
         version: VersionTag | Version | PEP440SemVer,
-        repository: str,
+        repository: str | None = None,
         ref: str | None = None,
         ref_name: str | None = None,
         ref_before: str | None = None,
