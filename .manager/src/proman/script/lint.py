@@ -24,7 +24,7 @@ _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
 def run(
     *,
     manager: Manager,
-    action: Literal["report", "run", "validate"] = "run",
+    action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
     hook_id: str | None = None,
     hook_stage: str | None = None,
     files: list[str] | None = None,
