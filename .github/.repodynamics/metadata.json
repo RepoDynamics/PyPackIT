@@ -21259,7 +21259,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": "/home/runner/work/PyPackIT/PyPackIT/repo_head/.manager/src/proman/__main__.py"
+            "pypkg_ci_cli": ".manager/src/proman/__main__.py"
          }
       },
       "gui_names": [],
