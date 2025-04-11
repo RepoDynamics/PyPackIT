@@ -74,12 +74,13 @@ class PythonPackageFileGenerator:
                 parser = entry.get("parser")
                 if not parser:
                     continue
-                filepath = (
+                filepath_abs = (
                     self._path_repo
                     / self._path_src
                     / "/".join(entry["ref"].split(":")[0].split("."))
                 ).with_suffix(".py")
-                file_content = filepath.read_text()
+                filepath_rel = filepath_abs.relative_to(self._path_repo)
+                file_content = filepath_abs.read_text()
                 parser_content = self.make_parser(data=parser)
                 new_content = _unit.insert_in_file(
                     file_content=file_content,
@@ -90,8 +91,8 @@ class PythonPackageFileGenerator:
                     type=DynamicFileType.PKG_SOURCE,
                     subtype=(f"{self._type}_{entry_type}", f"{self._type} {entry_type.upper()}"),
                     content=new_content,
-                    path=str(filepath),
-                    path_before=str(filepath),
+                    path=str(filepath_rel),
+                    path_before=str(filepath_rel),
                 )
                 files.append(file)
         return files
