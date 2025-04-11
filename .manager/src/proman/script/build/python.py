@@ -10,27 +10,31 @@ These are passed directly to the `build` command.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import logging
 import shlex
 import subprocess
 import sys
 from pathlib import Path
 
+if TYPE_CHECKING:
+    from proman.manager import Manager
+
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 _logger = logging.getLogger(__name__)
 
 
 def run(
+    manager: Manager,
     pkg: str,
-    metadata: dict,
     output: str | Path,
     args: list[str] | None = None,
 ) -> Path:
     """Generate and run build command."""
-    pkg = metadata[f"pypkg_{pkg}"]
-    pkg_path = Path(pkg["path"]["root"]).resolve()
+    pkg = manager.data[f"pypkg_{pkg}"]
+    pkg_path = manager.git.repo_path / pkg["path"]["root"]
     # Ensure the output folder exists
-    output_dir = Path(output).resolve()
+    output_dir = manager.git.repo_path / output
     output_dir.mkdir(parents=True, exist_ok=True)
     # Build command
     build_command = [
@@ -65,8 +69,8 @@ def run(
 def run_cli(args: dict) -> None:
     """Run from CLI."""
     output_path = run(
+        manager=args["manager"],
         pkg=args["pkg"],
-        metadata=args["metadata"],
         output=args["output"],
         args=args["args"],
     )
