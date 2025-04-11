@@ -63,7 +63,10 @@ def cli():
                 opened=True,
             ),
         )
-    logger.section_end(target_level=current_log_section_level)
+    try:
+        logger.section_end(target_level=current_log_section_level)
+    except Exception:
+        pass
     _finalize(
         manager=manager,
         branch=current_branch,
