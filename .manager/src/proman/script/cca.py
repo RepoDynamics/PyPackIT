@@ -2,25 +2,28 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING
 
+import htmp
 from loggerman import logger
 
 from controlman.exception import ControlManException
 
+import proman
+from proman.exception import ProManException
+
 if TYPE_CHECKING:
+    from typing import Literal
     from proman.manager import Manager
 
 
 @logger.sectioner("Continuous Configuration Automation")
 def run(
     *,
-    branch_manager: Manager,
-    main_manager: Manager,
+    manager: Manager,
     branch_version: dict[str, str] | None = None,
     control_center: str | None = None,
-    dry_run: bool = False,
+    action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
     clean_state: bool = False,
 ):
     """Run Continuous Configuration Automation on the repository.
@@ -38,45 +41,111 @@ def run(
     clean_state
         Ignore the metadata.json file and start from a clean state.
     """
-    with logger.sectioning("Initialization"):
-        center_manager = branch_manager.control_center(
-            data_main=main_manager.data,
-            future_versions=branch_version,
-            control_center_path=control_center,
-            clean_state=clean_state,
+    try:
+        with logger.sectioning("Initialization"):
+            center_manager = manager.control_center(
+                future_versions=branch_version,
+                control_center_path=control_center,
+                clean_state=clean_state,
+            )
+        with logger.sectioning("Execution"):
+            reporter = center_manager.report()
+    except ControlManException as e:
+        manager.reporter.update(
+            "cca",
+            status="fail",
+            summary=e.report.body["intro"].content,
+            body=e.report.body,
+            section=e.report.section,
+            section_is_container=True,
         )
-    with logger.sectioning("Execution"):
-        reporter = center_manager.report()
+        raise ProManException()
 
+    report = reporter.report()
+    summary = report.body["summary"].content
+    new_manager = proman.manager.update(
+        manager=manager, project_metadata=center_manager.generate_data()
+        )
 
+    commit_hash = None
+    if reporter.has_changes and action != "report":
+        # Apply and optionally push/pull changes
+        summary += " These were synced and changes were applied to"
+        with logger.sectioning("Synchronization"):
+            pr_branch = None
+            if action in ["pull", "merge"]:
+                # Create new branch for PR
+                pr_branch = new_manager.branch.new_auto(auto_type="config_sync")
+                new_manager.branch.checkout_to_auto(branch=pr_branch)
+            # Apply changes to the branch
+            center_manager.apply_changes()
+            # commit_hash = self.run_refactor(
+            #     branch_manager=new_branch_manager,
+            #     action=InitCheckAction.AMEND,
+            #     ref_range=(commit_hash_before, commit_hash_after),
+            #     internal=True,
+            # ) or commit_hash_after
 
-
-    if not dry_run:
-        center_manager.apply_changes()
-    return reporter
+            if action == "apply":
+                summary += " the current branch without committing."
+            elif action in ["pull", "merge", "commit", "amend"]:
+                # Commit changes
+                commit_msg = (
+                    new_manager.commit.create_auto(id="config_sync")
+                    if action in ["pull", "merge", "commit"]
+                    else ""
+                )
+                commit_hash = new_manager.git.commit(
+                    message=str(commit_msg) if action != "amend" else "",
+                    stage="all",
+                    amend=action == "amend",
+                )
+            if action in ["commit", "amend"]:
+                # Add commit summary
+                link = f"[`{commit_hash[:7]}`]({new_manager.gh_link.commit(commit_hash)})"
+                summary += " the current branch " + (
+                    f"in commit {link}."
+                    if action == "commit"
+                    else f"by amending the latest commit (new hash: {link})."
+                )
+            elif pr_branch:
+                # Create PR
+                commit_hash = None
+                new_manager.git.push(target="origin", set_upstream=True)
+                new_manager.branch.checkout_from_auto()
+                pull_data = new_manager.gh_api_admin.pull_create(
+                    head=pr_branch.name,
+                    base=pr_branch.target.name,
+                    title=commit_msg.description,
+                    body=report.source(
+                        target="github", filters=["short, github"], separate_sections=False
+                    ),
+                )
+                link = f"[#{pull_data['number']}]({pull_data['url']})"
+                summary += f" branch {htmp.element.code(pr_branch.name)} in PR {link}."
+                if action == "merge":
+                    # TODO: Merge the PR
+                    pass
+    new_manager.reporter.update(
+        "cca",
+        status="fail"
+        if reporter.has_changes
+        and action in ["report", "pull"]
+        else "pass",
+        summary=summary,
+        section=report.section,
+        section_is_container=True,
+    )
+    return new_manager, reporter, commit_hash
 
 
 def run_cli(kwargs: dict) -> None:
-    """Run the CLI.
-
-    Parameters
-    ----------
-    kwargs
-        Input arguments for the CLI.
-    """
-    try:
-        report = run(
-            branch_manager=kwargs["manager"],
-            main_manager=kwargs["main_manager"],
-            branch_version=kwargs["branch_version"],
-            control_center=kwargs["control_center"],
-            dry_run=kwargs["dry_run"],
-            clean_state=kwargs["clean_state"],
-        ).report()
-    except ControlManException as e:
-        report = e.report
-    report_str = report.render()
-    report_path = Path(kwargs["repo"]) / ".local" / "report" / "cca" / "report.html"
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(report_str)
+    """Run from CLI."""
+    run(
+        manager=kwargs["manager"],
+        branch_version=kwargs["branch_version"],
+        control_center=kwargs["control_center"],
+        action=kwargs["action"],
+        clean_state=kwargs["clean_state"],
+    )
     return
