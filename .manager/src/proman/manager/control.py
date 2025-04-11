@@ -7,10 +7,11 @@ import stat as _stat
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING
 
-import pylinks as _pylinks
+import pylinks
 import pyserials as _ps
 from loggerman import logger as _logger
-
+import mdit as _mdit
+from pylinks.exception.api import WebAPIError as _WebAPIError
 
 from proman import const
 from controlman.data_generator import DataGenerator
@@ -19,6 +20,7 @@ from controlman import data_loader as _data_loader
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
+from controlman.exception import load as _exception
 from proman.dtype import (
     DynamicDir as _DynamicDir,
 )
@@ -33,8 +35,10 @@ from controlman.hook_manager import HookManager as _HookManager
 from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
 
 if TYPE_CHECKING:
+    import ruamel.yaml
     from versionman.pep440_semver import PEP440SemVer
     from proman.manager import Manager
+    from proman.manager.cache import CacheManager
 
 
 class ControlCenterManager:
@@ -75,38 +79,111 @@ class ControlCenterManager:
         return
 
     def load(self) -> _ps.NestedDict:
+        def _load_file(filepath: _Path):
+            file_content = filepath.read_text().strip()
+            if not file_content:
+                _logger.notice(
+                    "Empty Configuration File",
+                    _mdit.inline_container(
+                        "The control center configuration file at ",
+                        _mdit.element.code_span(str(filepath)),
+                        " is empty.",
+                    ),
+                )
+                return
+            try:
+                data = _ps.read.yaml_from_file(
+                    path=filepath,
+                    safe=True,
+                    constructors={
+                        const.CC_EXTENSION_TAG: self._create_external_tag_constructor(
+                            tag_name=const.CC_EXTENSION_TAG,
+                            cache_manager=self._manager.cache,
+                            filepath=filepath,
+                            file_content=file_content,
+                        )
+                    },
+                )
+            except _ps.exception.read.PySerialsInvalidDataError as e:
+                raise _exception.ControlManInvalidConfigFileDataError(cause=e) from None
+            try:
+                log = _ps.update.recursive_update(
+                    source=self._data_raw,
+                    addon=data,
+                )
+            except _ps.exception.update.PySerialsUpdateRecursiveDataError as e:
+                raise _exception.ControlManDuplicateConfigFileDataError(
+                    filepath=filepath, cause=e
+                ) from None
+            # log_admonitions = []
+            # for key, title in (
+            #     ("added", "Added"),
+            #     ("list_appended", "Appended List"),
+            #     ("skipped", "Skipped"),
+            # ):
+            #     if not log[key]:
+            #         continue
+            #     key_list = _mdit.element.unordered_list(
+            #         [_mdit.element.code_span(item) for item in sorted(log[key])]
+            #     )
+            #     log_admonitions.append(
+            #         _mdit.element.admonition(
+            #             title=f"{title} Keys",
+            #             body=key_list,
+            #             dropdown=True,
+            #         )
+            #     )
+            _logger.success(
+                "Loaded Configurations",
+                _logger.data_block({k: [str(v) for v in value] for k, value in log.items()}),
+                # _mdit.block_container(*log_admonitions),
+            )
+            return
         if self._data_raw:
             return self._data_raw
         with _logger.sectioning("Config Files Load"):
-            full_data = _data_loader.load(
-                path_cc=self._path_cc,
-                cache_manager=self._manager.cache,
-            )
+            self._data_raw = {}
+            hook_dir = self._path_cc / const.DIRNAME_CC_HOOK
+            for path in sorted(self._path_cc.rglob("*"), key=lambda p: (p.parts, p)):
+                if (
+                    hook_dir not in path.parents
+                    and path.is_file()
+                    and path.suffix.lower() in [".yaml", ".yml"]
+                ):
+                    with _logger.sectioning(_mdit.element.code_span(str(path.relative_to(self._path_cc)))):
+                        _load_file(filepath=path)
         with _logger.sectioning("CCA Load Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD, data=full_data)
+            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD, data=self._data_raw)
         with _logger.sectioning("Post-Load Data Validation"):
-            _data_validator.validate(data=full_data, source="source", before_substitution=True)
+            _data_validator.validate(data=self._data_raw, source="source", before_substitution=True)
         with _logger.sectioning("CCA Load Validation Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD_VALID, data=full_data)
+            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD_VALID, data=self._data_raw)
+        return self._data_raw
+
+    def generate_data(self) -> _ps.NestedDict:
+        if self._data:
+            return self._data
+        self.load()
+        data = copy.deepcopy(self._data_raw)
         changelog_manager = ChangelogManager(manager=self._manager)
         code_context_call = {"changelog": changelog_manager}
-        full_data["changelogs"] = changelog_manager.changelogs
-        full_data["contributor"] = changelog_manager.contributor.as_dict
+        data["changelogs"] = changelog_manager.changelogs
+        data["contributor"] = changelog_manager.contributor.as_dict
         inline_hooks = self._hook_manager.inline_hooks
         if inline_hooks:
             code_context_call["hook"] = inline_hooks.Hooks(manager=self._manager)
 
         def get_prefix(get, prefix: str):
-            return [get(key) for key in full_data.keys() if key.startswith(prefix)]
+            return [get(key) for key in data.keys() if key.startswith(prefix)]
 
-        self._data_raw = _ps.NestedDict(
-            full_data,
+        data = _ps.NestedDict(
+            data,
             code_context={
                 "repo_path": self._path_root,
                 "ccc_main": self._manager.main.data,
                 "ccc": self._data_before,
                 "cache_manager": self._manager.cache,
-                "slugify": _pylinks.string.to_slug,
+                "slugify": pylinks.string.to_slug,
                 "fill_entity": _functools.partial(
                     _helper.fill_entity,
                     github_api=self._github_api,
@@ -123,13 +200,7 @@ class ControlCenterManager:
             relative_template_keys=const.RELATIVE_TEMPLATE_KEYS,
             relative_key_key="__key__",
         )
-        return self._data_raw
 
-    def generate_data(self) -> _ps.NestedDict:
-        if self._data:
-            return self._data
-        self.load()
-        data = copy.deepcopy(self._data_raw)
         with _logger.sectioning("Dynamic Data Generation"):
             DataGenerator(
                 data=data,
@@ -423,3 +494,66 @@ class ControlCenterManager:
             path_exists = (self._path_root / path).is_dir()
             status = DynamicFileChangeType.UNCHANGED if path_exists else DynamicFileChangeType.ADDED
         return status
+
+    @staticmethod
+    def _create_external_tag_constructor(
+        filepath: _Path,
+        file_content: str,
+        tag_name: str = "!ext",
+        cache_manager: CacheManager | None = None,
+    ):
+        def load_external_data(loader: ruamel.yaml.SafeConstructor, node: ruamel.yaml.ScalarNode):
+            tag_value = loader.construct_scalar(node)
+            if not tag_value:
+                raise _exception.ControlManEmptyTagInConfigFileError(
+                    filepath=filepath,
+                    data=file_content,
+                    node=node,
+                )
+            if cache_manager:
+                cached_data = cache_manager.get(typ="extension", key=tag_value)
+                if cached_data:
+                    return cached_data
+            url, *jsonpath_expr = tag_value.split(" ", 1)
+            file_ext = url.split(".")[-1].lower()
+            try:
+                data_raw_whole = pylinks.http.request(
+                    url=url,
+                    verb="GET",
+                    response_type="str",
+                )
+            except _WebAPIError as e:
+                raise _exception.ControlManUnreachableTagInConfigFileError(
+                    filepath=filepath,
+                    data=file_content,
+                    node=node,
+                    url=url,
+                    cause=e,
+                ) from None
+            if file_ext == "json":
+                data = _ps.read.json_from_string(data=data_raw_whole, strict=False)
+            elif file_ext in ("yaml", "yml"):
+                data = _ps.read.yaml_from_string(
+                    data=data_raw_whole,
+                    safe=True,
+                    constructors={tag_name: load_external_data},
+                )
+            elif file_ext == "toml":
+                data = _ps.read.toml_from_string(data=data_raw_whole, as_dict=True)
+            else:
+                raise ValueError(f"Invalid file extension {file_ext} for URL {url}")
+            if jsonpath_expr:
+                try:
+                    data = _ps.update.TemplateFiller().fill(
+                        data=data,
+                        template=jsonpath_expr,
+                    )
+                except Exception:
+                    raise ValueError(
+                        f"No match found for JSONPath '{jsonpath_expr}' in the JSON data from '{url}'"
+                    )
+            if cache_manager:
+                cache_manager.set(typ="extension", key=tag_value, value=data)
+            return data
+
+        return load_external_data
