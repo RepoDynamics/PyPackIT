@@ -91,7 +91,7 @@ def _read_args() -> tuple[dict, TokenManager]:
         if github_token:
             args.github_token = github_token
     kwargs = vars(args)
-    token_manager = proman.token_manager(
+    token_manager = proman.token_manager.create(
         github=kwargs.pop("github_token", None),
         github_admin=kwargs.pop("github_admin_token", None),
         zenodo=kwargs.pop("zenodo_token", None),
