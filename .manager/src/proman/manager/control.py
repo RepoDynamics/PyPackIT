@@ -22,16 +22,7 @@ from controlman.exception import load as _exception
 from controlman.hook_manager import HookManager as _HookManager
 from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
 from proman import const
-from proman.dtype import (
-    DynamicDir as _DynamicDir,
-)
-from proman.dtype import (
-    DynamicDirType,
-    DynamicFileChangeType,
-)
-from proman.dtype import (
-    DynamicFile as _GeneratedFile,
-)
+from proman.dtype import DynamicDir, DynamicDirType, DynamicFileChangeType, DynamicFile
 
 if TYPE_CHECKING:
     import ruamel.yaml
@@ -72,8 +63,8 @@ class ControlCenterManager:
             self._hook_manager.generate(const.FUNCNAME_CC_HOOK_INIT)
         self._data_raw: _ps.NestedDict | None = None
         self._data: _ps.NestedDict | None = None
-        self._files: list[_GeneratedFile] = []
-        self._dirs: list[_DynamicDir] = []
+        self._files: list[DynamicFile] = []
+        self._dirs: list[DynamicDir] = []
         self._dirs_to_apply: list[tuple[str, str, DynamicFileChangeType]] = []
         self._changes: list[tuple[str, DynamicFileChangeType]] = []
         return
@@ -253,7 +244,7 @@ class ControlCenterManager:
         self._manager.cache.save()
         return self._data
 
-    def generate_files(self) -> list[_GeneratedFile]:
+    def generate_files(self) -> list[DynamicFile]:
         if self._files:
             return self._files
         self.generate_data()
@@ -412,7 +403,7 @@ class ControlCenterManager:
         for path_key in ("control",):
             path, path_before, status = self._compare_dir(f"{path_key}.path")
             dirs.append(
-                _DynamicDir(
+                DynamicDir(
                     type=DynamicDirType[path_key.upper()],
                     path=path,
                     path_before=path_before,
@@ -427,7 +418,7 @@ class ControlCenterManager:
 
             root_path, root_path_before, root_status = self._compare_dir(f"{path_key}.path.root")
             dirs.append(
-                _DynamicDir(
+                DynamicDir(
                     type=DynamicDirType.PKG_ROOT,
                     path=root_path,
                     path_before=root_path_before,
@@ -442,7 +433,7 @@ class ControlCenterManager:
                 )
             )
             dirs.append(
-                _DynamicDir(
+                DynamicDir(
                     type=DynamicDirType.PKG_SRC,
                     path=source_path,
                     path_before=source_path_before_real,
@@ -460,7 +451,7 @@ class ControlCenterManager:
                 )
             )
             dirs.append(
-                _DynamicDir(
+                DynamicDir(
                     type=DynamicDirType.PKG_IMPORT,
                     path=import_path,
                     path_before=import_path_before_real,
