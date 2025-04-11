@@ -333,7 +333,6 @@ class Manager:
         return ControlCenterManager(
             manager=self,
             cc_path=control_center_path,
-            data_main=self.main.data,
             future_versions=future_versions,
             clean_state=clean_state,
         )
