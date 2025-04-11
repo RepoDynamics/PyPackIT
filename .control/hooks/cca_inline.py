@@ -58,16 +58,11 @@ class Hooks:
         that may add additional input argument.
     """
 
-    def __init__(
-        self,
-        manager: Manager,
-        ccc: NestedDict,
-        ccc_main: NestedDict,
-    ):
+    def __init__(self, manager: Manager):
         self.manager = manager
         self.repo_path = self.manager.git.repo_path
-        self.ccc = ccc
-        self.ccc_main = ccc_main
+        self.ccc = self.manager.data
+        self.ccc_main = self.manager.main.data
         self.cache_manager = self.manager.cache
         self.get = None
         self.changelog = ChangelogManager(manager=self.manager)
