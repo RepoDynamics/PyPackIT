@@ -119,29 +119,8 @@ def _finalize(
     commit_hash: str,
     endpoint: str,
 ) -> None:
-    report_html = manager.reporter.generate()
-
-    log = logger.report
-    target_config, sphinx_output = proman.report.make_sphinx_target_config()
-    log.target_configs["sphinx"] = target_config
-    log_html = log.render(target="sphinx")
-    logger.info(
-        "Log Generation Logs",
-        mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
-    )
-
-    filename = (
-        f"{proman.util.date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
-    )
     dir_path = manager.git.repo_path / manager.data["local"]["report"]["path"] / "proman" / endpoint
     dir_path.mkdir(parents=True, exist_ok=True)
-    for file_type, content in {
-        "report": report_html,
-        "log": log_html,
-    }.items():
-        file = dir_path / filename.format(file_type)
-        file.write_text(content)
-
     if endpoint == "gha":
         workflow_output = manager.output.generate()
         _write_step_outputs(workflow_output)
@@ -156,6 +135,27 @@ def _finalize(
         output_str = pyserials.write.to_json_string(workflow_output, sort_keys=True, indent=3, default=str)
         file = dir_path / filename.format("output", "json")
         file.write_text(output_str)
+
+    report_html = manager.reporter.generate()
+
+    log = logger.report
+    target_config, sphinx_output = proman.report.make_sphinx_target_config()
+    log.target_configs["sphinx"] = target_config
+    log_html = log.render(target="sphinx")
+    logger.info(
+        "Log Generation Logs",
+        mdit.element.rich(rich.text.Text.from_ansi(sphinx_output.getvalue())),
+    )
+
+    filename = (
+        f"{proman.util.date.from_now_to_internal(time=True)}--{branch}--{commit_hash}--{{}}.html"
+    )
+    for file_type, content in {
+        "report": report_html,
+        "log": log_html,
+    }.items():
+        file = dir_path / filename.format(file_type)
+        file.write_text(content)
     return
 
 
