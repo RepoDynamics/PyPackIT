@@ -93,10 +93,10 @@ pypkg_ci:
                 arguments:
                   - args: [ -x, --action ]
                     kwargs:
-                      help: Lint mode.
+                      help: Action to perform.
                       type: str
-                      choices: [ report, run, validate ]
-                      default: run
+                      choices: [ report, apply, pull, merge, commit, amend ]
+                      default: apply
                   - args: [ -r2, --to-ref ]
                     kwargs:
                       help: Run on files changed until the given git ref. This must be accompanied by --from-ref.
