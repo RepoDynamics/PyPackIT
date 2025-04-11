@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import functools as _functools
+import copy
 import re as _re
 import shutil as _shutil
 import stat as _stat
@@ -15,7 +16,7 @@ import pyshellman as _pyshellman
 from versionman.pep440_semver import PEP440SemVer as _PEP440SemVer
 
 from proman import const
-from controlman import data_gen as _data_gen
+from controlman.data_generator import DataGenerator
 from controlman import data_helper as _helper
 from controlman import data_loader as _data_loader
 from controlman import data_validator as _data_validator
@@ -137,13 +138,14 @@ class ControlCenterManager:
         if self._data:
             return self._data
         self.load()
+        data = copy.deepcopy(self._data_raw)
         with _logger.sectioning("Dynamic Data Generation"):
-            data = _data_gen.generate(
-                data=self._data_raw,
+            DataGenerator(
+                data=data,
                 manager=self._manager,
                 data_main=self._data_main,
                 future_versions=self._future_vers,
-            )
+            ).generate()
         with _logger.sectioning("CCA Augmentation Hooks"):
             self._hook_manager.generate(
                 const.FUNCNAME_CC_HOOK_AUGMENT,
@@ -155,7 +157,6 @@ class ControlCenterManager:
             # value based on `team.owner.email.id`. But since `team.owner` is generated
             # dynamically, the default value for `team.owner.email.url` is not set in the initial validation.
             _data_validator.validate(data=data(), source="source", before_substitution=True)
-        _data_gen.validate_user_schema(data, before_substitution=True)
         with _logger.sectioning("CCA Augmentation Validation Hooks"):
             self._hook_manager.generate(
                 const.FUNCNAME_CC_HOOK_AUGMENT_VALID,
