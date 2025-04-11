@@ -142,12 +142,13 @@ class PushEventHandler:
             action="commit",
             branch_version={self.gh_context.ref_name: version},
         )
-        new_manager.release.binder.set_image_tag(
+        self.manager.update_data(new_manager.data)
+        self.manager.release.binder.set_image_tag(
             version=version_tag if init else version_tag.version, branch_type=BranchType.MAIN
         )
-        new_manager.release.binder.commit_changes()
+        self.manager.release.binder.commit_changes()
         script.lint.run(
-            manager=new_manager,
+            manager=self.manager,
             action="commit",
             hook_stage="manual",
             ref_range=(
@@ -159,16 +160,16 @@ class PushEventHandler:
         if init:
             if gh_draft:
                 if self.head_commit_msg.footer.publish_github is False:
-                    new_manager.release.github.delete_draft(release_id=gh_draft["id"])
+                    self.manager.release.github.delete_draft(release_id=gh_draft["id"])
                 else:
-                    gh_release_output = new_manager.release.github.update_draft(
+                    gh_release_output = self.manager.release.github.update_draft(
                         tag=version_tag,
                         on_main=True,
                         publish=True,
                         release_id=gh_draft["id"],
                     )
             if zenodo_draft or zenodo_sandbox_draft:
-                zenodo_output, zenodo_sandbox_output = new_manager.release.zenodo.update_drafts(
+                zenodo_output, zenodo_sandbox_output = self.manager.release.zenodo.update_drafts(
                     version=version,
                     publish_main=self.head_commit_msg.footer.publish_zenodo is not False,
                     publish_sandbox=self.head_commit_msg.footer.publish_zenodo_sandbox is not False,
@@ -178,23 +179,23 @@ class PushEventHandler:
             if self.head_commit_msg.footer.squash is not False:
                 self._squash()
             else:
-                new_manager.git.push()
-            new_manager.release.tag_version(version=version)
+                self.manager.git.push()
+            self.manager.release.tag_version(version=version)
         else:
             if gh_draft:
-                gh_release_output = new_manager.release.github.update_draft(
+                gh_release_output = self.manager.release.github.update_draft(
                     tag=version_tag, on_main=True
                 )
             if zenodo_draft or zenodo_sandbox_draft:
-                zenodo_output, zenodo_sandbox_output = new_manager.release.zenodo.update_drafts(
+                zenodo_output, zenodo_sandbox_output = self.manager.release.zenodo.update_drafts(
                     version=version
                 )
-            new_manager.git.push()
+            self.manager.git.push()
 
-        new_manager.repo.update_all(
+        self.manager.repo.update_all(
             manager_before=self.manager, update_rulesets=init, reset_labels=True
         )
-        new_manager.output.set(
+        self.manager.output.set(
             version=version_tag if init else version_tag.version,
             website_deploy=True,
             package_lint=True,
