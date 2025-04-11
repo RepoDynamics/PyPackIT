@@ -144,7 +144,7 @@ class Reporter:
         return
 
     def error_unsupported_triggering_action(self):
-        action_err_msg = f"Unsupported triggering action for event type."
+        action_err_msg = "Unsupported triggering action for event type."
         self.update(
             "main",
             status="fail",

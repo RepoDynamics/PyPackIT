@@ -4,11 +4,11 @@ import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import pyserials as ps
-from controlman import data_validator
-from controlman import exception as _exception
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
 
+from controlman import data_validator
+from controlman import exception as _exception
 from proman import const
 from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType

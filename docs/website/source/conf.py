@@ -14,12 +14,13 @@ import shutil as _shutil
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import controlman.data_validator as _controlman_data_validator
 import gittidy as _git
 import pkgdata as _pkgdata
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
 from versionman import pep440_semver as _semver
+
+import controlman.data_validator as _controlman_data_validator
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping

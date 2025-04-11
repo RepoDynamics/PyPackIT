@@ -6,13 +6,13 @@ from typing import NamedTuple as _NamedTuple
 
 import jinja2
 import pycolorit as _pcit
-from proman.util import date
 from github_contexts.property_dict import PropertyDict
 from loggerman import logger as _logger
 from versionman.pep440_semver import PEP440SemVer
 
 from proman.dtype import BranchType, IssueStatus, LabelType
 from proman.exception import ProManException
+from proman.util import date
 
 if _TYPE_CHECKING:
     from collections.abc import Callable, Sequence

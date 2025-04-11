@@ -4,9 +4,9 @@ from pathlib import Path as _Path
 import pyserials as _ps
 from loggerman import logger
 
+from controlman.exception.load import ControlManSchemaValidationError
 from proman import const as _const
 from proman.dtype import DynamicFile, DynamicFileType
-from controlman.exception.load import ControlManSchemaValidationError
 
 
 class FormGenerator:

@@ -22,6 +22,7 @@ import proman.script.version as _script_version
 
 if TYPE_CHECKING:
     from typing import Literal
+
     from proman.manager import Manager
 
 _CMD_PREFIX = ["conda", "run", "--name", "base", "--live-stream", "-vv"]

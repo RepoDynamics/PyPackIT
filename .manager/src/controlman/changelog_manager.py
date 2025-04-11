@@ -4,12 +4,9 @@ from typing import TYPE_CHECKING
 
 import pyserials as _ps
 
-import controlman
-from proman import const
-
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
-    from pathlib import Path
+
     from proman.manager import Manager
 
 

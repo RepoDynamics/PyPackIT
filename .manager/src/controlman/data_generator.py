@@ -1,7 +1,7 @@
 from __future__ import annotations as _annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
 import re as _re
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 import jinja2 as _jinja2
 import mdit as _mdit
@@ -12,12 +12,13 @@ from packaging import specifiers as _specifiers
 from versionman import pep440_semver as _ver
 
 from controlman import data_helper as _helper
-from proman.util import date
 from controlman import exception as _exception
+from proman.util import date
 
 if _TYPE_CHECKING:
     from pyserials.nested_dict import NestedDict
     from versionman.pep440_semver import PEP440SemVer
+
     from proman.manager import Manager
 
 

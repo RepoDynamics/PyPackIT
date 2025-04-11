@@ -2,19 +2,19 @@
 
 from __future__ import annotations as _annotations
 
-
 from typing import TYPE_CHECKING
 
 from github_contexts import github as _gh_context
 from loggerman import logger
 from versionman.pep440_semver import PEP440SemVer
 
-from proman.dtype import BranchType, InitCheckAction
 from proman import script
+from proman.dtype import BranchType, InitCheckAction
 
 if TYPE_CHECKING:
     from github_contexts.github import GitHubContext
     from github_contexts.github.payload import PushPayload
+
     from proman.manager import Manager
 
 
@@ -89,7 +89,7 @@ class PushEventHandler:
     def _run_repository_creation(self):
         manager = script.initialize.run(manager=self.manager)
         manager.git.commit(
-            message=f"init: Create repository from PyPackIT template.",
+            message="init: Create repository from PyPackIT template.",
             amend=True,
             stage="all",
         )

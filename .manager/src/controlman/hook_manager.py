@@ -8,8 +8,8 @@ import pkgdata as _pkgdata
 import pyshellman
 from loggerman import logger as _logger
 
-from proman import const as _const
 from controlman import exception as _exception
+from proman import const as _const
 
 if _TYPE_CHECKING:
     from pyserials.nested_dict import NestedDict

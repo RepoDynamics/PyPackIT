@@ -13,8 +13,8 @@ from loggerman import logger as _logger
 from mdit.data import schema as _mdit_schema
 from referencing import jsonschema as _referencing_jsonschema
 
-from proman import const as _const
 from controlman import exception as _exception
+from proman import const as _const
 
 _schema_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "_data" / "schema"
 

@@ -2,13 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import actionman
-
 import mdit
-import pyserials as ps
 from github_contexts.github.enum import EventType
 from loggerman import logger
-
 
 from proman import event_handler as handler
 

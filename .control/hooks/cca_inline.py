@@ -12,9 +12,10 @@ from typing import TYPE_CHECKING
 import mdit
 import pylinks as pl
 import pyserials as ps
-from controlman.changelog_manager import ChangelogManager
 from loggerman import logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
+
+from controlman.changelog_manager import ChangelogManager
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -22,7 +23,6 @@ if TYPE_CHECKING:
     from typing import Any, Literal
 
     from proman.manager import Manager
-    from pyserials import NestedDict
 
 
 class Hooks:

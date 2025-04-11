@@ -6,15 +6,14 @@ import re
 from typing import TYPE_CHECKING
 
 import ansi_sgr
-import mdit
 import htmp
+import mdit
 import pyshellman
 from loggerman import logger
 
-from proman.exception import ProManException
-
 if TYPE_CHECKING:
     from typing import Literal
+
     from proman.manager import Manager
 
 _CMD_PREFIX = ["conda", "run", "--name", "pre_commit", "--live-stream", "-vv"]
@@ -32,7 +31,6 @@ def run(
     ref_range: tuple[str, str] | None = None,
 ) -> tuple[dict, str | None]:
     """Run pre-commit hooks and generate report."""
-
     pr_branch = None
     if action in ["pull", "merge"]:
         # Create a new branch for PR

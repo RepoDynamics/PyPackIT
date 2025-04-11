@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import datetime as _datetime
+from typing import TYPE_CHECKING
 
 import mdit as _mdit
 import pyserials as _ps
 from loggerman import logger as _logger
 
-from proman import const as _const
 from controlman import data_validator as _data_validator
-from proman.util import date
 from controlman import exception as _exception
+from proman import const as _const
+from proman.util import date
 
 if TYPE_CHECKING:
     from proman.manager import Manager

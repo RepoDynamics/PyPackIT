@@ -3,17 +3,14 @@ from __future__ import annotations as _annotations
 import copy
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import controlman
-import controlman.exception as _exception
 import pyserials as ps
-from controlman import data_validator
 from loggerman import logger
 
+import controlman.exception as _exception
+from controlman import data_validator
 from proman import const
 
 if _TYPE_CHECKING:
-    from pathlib import Path
-
     from proman.manager import Manager
 
 

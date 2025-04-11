@@ -3,9 +3,7 @@ from __future__ import annotations as _annotations
 import re
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import pylinks
 from controlman import data_helper
-
 from proman.dstruct import User
 from proman.manager.contributor import ContributorManager
 

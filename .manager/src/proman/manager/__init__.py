@@ -1,25 +1,22 @@
 from __future__ import annotations
 
 import copy
-from typing import TYPE_CHECKING
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-import controlman
+import github_contexts
 import gittidy
 import jinja2
 import mdit
-import github_contexts
-from proman.util import date
-from proman import const
-import controlman.exception as controlman_exception
-from controlman import data_validator as _data_validator
-from loggerman import logger
 import pylinks
 import pyserials as ps
+from loggerman import logger
 
+import controlman
+import controlman.exception as controlman_exception
+from controlman import data_validator as _data_validator
+from proman import const
 from proman.exception import ProManException
-from proman.report import Reporter
-from proman.token_manager import create as _create_token_manager
 
 # from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
@@ -35,12 +32,16 @@ from proman.manager.release import ReleaseManager
 from proman.manager.repo import RepoManager
 from proman.manager.user import UserManager
 from proman.manager.variable import VariableManager
+from proman.report import Reporter
+from proman.token_manager import create as _create_token_manager
+from proman.util import date
 
 if TYPE_CHECKING:
     from github_contexts.github import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
-    from pylinks.api.github import Repo as GitHubRepoAPI, GitHub as GitHubBareAPI
+    from pylinks.api.github import GitHub as GitHubBareAPI
+    from pylinks.api.github import Repo as GitHubRepoAPI
     from pylinks.site.github import Repo as GitHubLink
     from pyserials.nested_dict import NestedDict
 

@@ -10,12 +10,12 @@ These are passed directly to the `build` command.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import logging
 import shlex
 import subprocess
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from proman.manager import Manager

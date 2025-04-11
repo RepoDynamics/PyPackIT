@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING
 import htmp
 from loggerman import logger
 
-from controlman.exception import ControlManException
-
 import proman
+from controlman.exception import ControlManException
 from proman.exception import ProManException
 
 if TYPE_CHECKING:
     from typing import Literal
+
     from proman.manager import Manager
 
 

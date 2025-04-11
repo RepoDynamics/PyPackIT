@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from loggerman import logger
 import pyshellman
+from loggerman import logger
 
 if TYPE_CHECKING:
     from proman.manager import Manager

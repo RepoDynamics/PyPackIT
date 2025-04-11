@@ -7,10 +7,10 @@ For example, for a package with the key "pypkg_main", the package ID is "main".
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import subprocess
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from loggerman import logger
 

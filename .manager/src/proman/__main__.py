@@ -5,18 +5,18 @@ import json
 from typing import TYPE_CHECKING
 
 import actionman
-from loggerman import logger
-import mdit
-import rich.text
 import github_contexts
+import mdit
 import pyserials
+import rich.text
+from loggerman import logger
 
 import proman
 from proman.exception import ProManException
 
-
 if TYPE_CHECKING:
-    from typing import Callable
+    from collections.abc import Callable
+
     from proman.manager import Manager
     from proman.token_manager import TokenManager
 

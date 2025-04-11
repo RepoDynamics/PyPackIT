@@ -8,9 +8,10 @@ if TYPE_CHECKING:
     from pathlib import Path
     from typing import Any
 
+    from pyserials import NestedDict
+
     from proman.dtype import DynamicDir, DynamicFile
     from proman.manager.cache import CacheManager
-    from pyserials import NestedDict
 
 
 class Hooks:

@@ -1,25 +1,27 @@
 from __future__ import annotations
 
-import functools as _functools
 import copy
+import functools as _functools
 import shutil as _shutil
 import stat as _stat
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING
 
+import mdit as _mdit
 import pylinks
 import pyserials as _ps
 from loggerman import logger as _logger
-import mdit as _mdit
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from proman import const
-from controlman.data_generator import DataGenerator
 from controlman import data_helper as _helper
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
+from controlman.data_generator import DataGenerator
 from controlman.exception import load as _exception
+from controlman.hook_manager import HookManager as _HookManager
+from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
+from proman import const
 from proman.dtype import (
     DynamicDir as _DynamicDir,
 )
@@ -30,12 +32,11 @@ from proman.dtype import (
 from proman.dtype import (
     DynamicFile as _GeneratedFile,
 )
-from controlman.hook_manager import HookManager as _HookManager
-from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
 
 if TYPE_CHECKING:
     import ruamel.yaml
     from versionman.pep440_semver import PEP440SemVer
+
     from proman.manager import Manager
     from proman.manager.cache import CacheManager
 
@@ -138,6 +139,7 @@ class ControlCenterManager:
                 # _mdit.block_container(*log_admonitions),
             )
             return
+
         if self._data_raw:
             return self._data_raw
         with _logger.sectioning("Config Files Load"):
@@ -149,7 +151,9 @@ class ControlCenterManager:
                     and path.is_file()
                     and path.suffix.lower() in [".yaml", ".yml"]
                 ):
-                    with _logger.sectioning(_mdit.element.code_span(str(path.relative_to(self._path_cc)))):
+                    with _logger.sectioning(
+                        _mdit.element.code_span(str(path.relative_to(self._path_cc)))
+                    ):
                         _load_file(filepath=path)
         with _logger.sectioning("CCA Load Hooks"):
             self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD, data=self._data_raw)

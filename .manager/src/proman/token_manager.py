@@ -3,13 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import actionman
-from loggerman import logger
 import pyshellman
+from loggerman import logger
 
 from proman.dstruct import Token
 
-
-__all__ = ["create", "TokenManager"]
+__all__ = ["TokenManager", "create"]
 
 
 def create(
