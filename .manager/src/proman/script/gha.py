@@ -32,8 +32,9 @@ def run(manager: Manager):
     if handler_class:
         try:
             handler_class(manager=manager).run()
-        except Exception:
-            pass
+        except Exception as e:
+            _finalize(manager=manager, fail=True)
+            raise e
     else:
         supported_events = mdit.inline_container(
             *(mdit.element.code_span(enum.value) for enum in event_to_handler),
@@ -161,8 +162,8 @@ def _check_github_api(manager: Manager) -> None:
 
 
 @logger.sectioner("Output Generation")
-def _finalize(manager: Manager) -> None:
-    workflow_output = manager.output.generate()
+def _finalize(manager: Manager, fail: bool | None = None) -> None:
+    workflow_output = manager.output.generate(failed=fail)
     _write_step_outputs(workflow_output)
 
     report_gha = manager.reporter.generate(gha=True)
