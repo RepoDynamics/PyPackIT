@@ -16,7 +16,6 @@ from pylinks.exception.api import WebAPIError as _WebAPIError
 from proman import const
 from controlman.data_generator import DataGenerator
 from controlman import data_helper as _helper
-from controlman import data_loader as _data_loader
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
