@@ -313,6 +313,10 @@ class Manager:
         )  # must be after self._variable_manager as ZenodoManager needs it at init
         return
 
+    def update_data(self, data: NestedDict):
+        self._meta = data
+        return
+
     def control_center(
         self,
         future_versions: dict[str, str] | None = None,
