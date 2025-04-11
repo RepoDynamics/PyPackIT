@@ -64,10 +64,10 @@ class OutputManager:
     ):
         logger.info("Output Set", logger.pretty(locals()))
         self._version = version
-        self._repository = repository
+        self._repository = repository or self._branch_manager.gh_context.target_repo_fullname
         self._ref = ref or self._branch_manager.git.commit_hash_normal()
         self._ref_name = ref_name or self._branch_manager.git.current_branch_name()
-        self._ref_before = ref_before
+        self._ref_before = ref_before or self._branch_manager.gh_context.hash_before
         self._jinja_env_vars = {
             "version": version.version if isinstance(version, VersionTag) else version,
             "branch": self._ref_name,
