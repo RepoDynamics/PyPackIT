@@ -44,7 +44,6 @@ class ControlCenterManager:
         self,
         manager: Manager,
         cc_path: _Path,
-        data_main: _ps.NestedDict,
         future_versions: dict[str, str | _PEP440SemVer] | None = None,
         clean_state: bool = False,
     ):
@@ -53,7 +52,6 @@ class ControlCenterManager:
 
         self._path_cc = cc_path
         self._data_before: _ps.NestedDict = _ps.NestedDict() if clean_state else self._manager.data
-        self._data_main: _ps.NestedDict = data_main
         self._github_token = self._manager.token.github.get()
         self._github_api = self._manager.gh_api_bare
         self._future_vers = future_versions or {}
@@ -64,7 +62,7 @@ class ControlCenterManager:
             dir_path=self._path_cc / const.DIRNAME_CC_HOOK,
             repo_path=self._git.repo_path,
             ccc=self._data_before,
-            ccc_main=self._data_main,
+            ccc_main=self._manager.main.data,
             cache_manager=self._manager.cache,
             github_token=self._github_token,
         )
@@ -98,11 +96,7 @@ class ControlCenterManager:
         full_data["contributor"] = changelog_manager.contributor.as_dict
         inline_hooks = self._hook_manager.inline_hooks
         if inline_hooks:
-            code_context_call["hook"] = inline_hooks.Hooks(
-                manager=self._manager,
-                ccc=self._data_before,
-                ccc_main=self._data_main,
-            )
+            code_context_call["hook"] = inline_hooks.Hooks(manager=self._manager)
 
         def get_prefix(get, prefix: str):
             return [get(key) for key in full_data.keys() if key.startswith(prefix)]
@@ -111,7 +105,7 @@ class ControlCenterManager:
             full_data,
             code_context={
                 "repo_path": self._path_root,
-                "ccc_main": self._data_main,
+                "ccc_main": self._manager.main.data,
                 "ccc": self._data_before,
                 "cache_manager": self._manager.cache,
                 "slugify": _pylinks.string.to_slug,
@@ -143,7 +137,7 @@ class ControlCenterManager:
             DataGenerator(
                 data=data,
                 manager=self._manager,
-                data_main=self._data_main,
+                data_main=self._manager.main.data,
                 future_versions=self._future_vers,
             ).generate()
         with _logger.sectioning("CCA Augmentation Hooks"):
