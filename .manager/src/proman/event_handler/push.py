@@ -13,7 +13,9 @@ from proman.dtype import BranchType, InitCheckAction
 from proman import script
 
 if TYPE_CHECKING:
-    from pathlib import Path
+    from github_contexts.github import GitHubContext
+    from github_contexts.github.payload import PushPayload
+    from proman.manager import Manager
 
 
 class PushEventHandler:
@@ -23,9 +25,12 @@ class PushEventHandler:
     It also runs Continuous pipelines on forked repositories.
     """
 
-    def __init__(self, **kwargs):
-        self.payload: _gh_context.payload.PushPayload = self.gh_context.event
-        self.head_commit = self.gh_context.event.head_commit
+    def __init__(self, manager: Manager):
+        self.manager = manager
+        self.reporter = self.manager.reporter
+        self.gh_context: GitHubContext = self.manager.gh_context
+        self.payload: PushPayload = self.gh_context.event
+        self.head_commit = self.payload.head_commit
         if self.manager and self.head_commit:
             self.head_commit_msg = self.manager.commit.create_from_msg(self.head_commit.message)
             logger.info("Head Commit", repr(self.head_commit_msg))
@@ -47,7 +52,7 @@ class PushEventHandler:
             )
             return None
         is_main = self.gh_context.ref_is_main
-        has_tags = bool(self._git_head.get_tags())
+        has_tags = bool(self.manager.git.get_tags())
         if action is _gh_context.enum.ActionType.CREATED:
             if not is_main:
                 self.reporter.update_event_summary(
@@ -132,24 +137,24 @@ class PushEventHandler:
 
         hash_vars = self.manager.variable.commit_changes()
         hash_changelog = self.manager.changelog.commit_changes()
-        new_manager, _ = self.run_cca(
-            branch_manager=self.manager,
-            action=InitCheckAction.COMMIT,
-            future_versions={self.gh_context.ref_name: version},
+        new_manager, _, _ = script.cca.run(
+            manager=self.manager,
+            action="commit",
+            branch_version={self.gh_context.ref_name: version},
         )
         new_manager.release.binder.set_image_tag(
             version=version_tag if init else version_tag.version, branch_type=BranchType.MAIN
         )
         new_manager.release.binder.commit_changes()
-        self.jinja_env_vars["ccc"] = new_manager.data
-        self.run_refactor(
-            branch_manager=new_manager,
-            action=InitCheckAction.COMMIT,
+        script.lint.run(
+            manager=new_manager,
+            action="commit",
+            hook_stage="manual",
             ref_range=(
                 self.gh_context.hash_before,
                 hash_changelog or hash_vars or self.gh_context.hash_after,
             ),
-        ) if new_manager.data["workflow.refactor.pre_commit_config"] else None
+        )
         gh_release_output = zenodo_output = zenodo_sandbox_output = None
         if init:
             if gh_draft:
@@ -189,9 +194,7 @@ class PushEventHandler:
         new_manager.repo.update_all(
             manager_before=self.manager, update_rulesets=init, reset_labels=True
         )
-        self._output_manager.set(
-            main_manager=new_manager,
-            branch_manager=new_manager,
+        new_manager.output.set(
             version=version_tag if init else version_tag.version,
             website_deploy=True,
             package_lint=True,
