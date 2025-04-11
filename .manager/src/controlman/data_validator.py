@@ -70,38 +70,6 @@ def validate(
     return
 
 
-def validate_user_schema(
-    data: dict | list | str | float | bool,
-    schema: dict,
-    before_substitution: bool,
-    fill_defaults: bool,
-) -> None:
-    """Validate data against a schema."""
-    _js.edit.required_last(schema)
-    if before_substitution:
-        schema = modify_schema(schema)["anyOf"][0]
-    try:
-        _ps.validate.jsonschema(
-            data=data,
-            schema=schema,
-            validator=_jsonschema.Draft202012Validator,
-            registry=_registry_before if before_substitution else _registry_after,
-            fill_defaults=fill_defaults,
-            iter_errors=True,
-        )
-    except _ps.exception.validate.PySerialsJsonSchemaValidationError as e:
-        raise _exception.load.ControlManSchemaValidationError(
-            source="source",
-            before_substitution=before_substitution,
-            cause=e,
-        ) from None
-    _logger.success(
-        "Validated User Schema",
-        "The data has been successfully validated against the schema.",
-    )
-    return
-
-
 class DataValidator:
     def __init__(self, data: dict, source: _Literal["source", "compiled"] = "compiled"):
         self._data = _ps.nested_dict.NestedDict(data)
