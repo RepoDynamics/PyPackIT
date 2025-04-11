@@ -39,25 +39,15 @@ def run(
         pr_branch = manager.branch.new_auto(auto_type="refactor")
         manager.branch.checkout_to_auto(branch=pr_branch)
 
-    try:
-        result = PreCommitHooks(
-            manager=manager,
-            action=action,
-            hook_id=hook_id,
-            hook_stage=hook_stage,
-            files=files,
-            all_files=all_files,
-            ref_range=ref_range,
-        ).run()
-    except Exception as e:
-        manager.reporter.update(
-            "hooks",
-            status="fail",
-            summary="An unexpected error occurred.",
-            body=str(e),
-        )
-        raise ProManException() from e
-
+    result = PreCommitHooks(
+        manager=manager,
+        action=action,
+        hook_id=hook_id,
+        hook_stage=hook_stage,
+        files=files,
+        all_files=all_files,
+        ref_range=ref_range,
+    ).run()
     summary = result["summary"]
 
     commit_hash = None
@@ -178,6 +168,8 @@ class PreCommitHooks:
                 for change_type in ("added", "modified", "copied_modified", "renamed_modified")
                 for filename in changed_files.get(change_type, [])
             ]
+        else:
+            self._files = None
         self._hook_id = hook_id
         self._hook_stage = hook_stage
         config_path = self._manager.git.repo_path / self._manager.data["devcontainer_main.environment.pre_commit.file.pre_commit_config.path"]
