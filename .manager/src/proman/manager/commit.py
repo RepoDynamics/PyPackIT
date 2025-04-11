@@ -19,7 +19,12 @@ if _TYPE_CHECKING:
 class CommitManager:
     def __init__(self, manager: Manager):
         self._manager = manager
-        self._msg_parser = conventional_commits.create_parser(
+        return
+
+    @property
+    def msg_parser(self) -> conventional_commits.ConventionalCommitParser:
+        """Parser for commit messages."""
+        return conventional_commits.create_parser(
             type_regex=self._manager.data["commit.config.regex.validator.type"],
             scope_regex=self._manager.data["commit.config.regex.validator.scope"],
             description_regex=self._manager.data["commit.config.regex.validator.description"],
@@ -36,7 +41,10 @@ class CommitManager:
             body_separator_regex=self._manager.data["commit.config.regex.separator.body"],
             footer_separator_regex=self._manager.data["commit.config.regex.separator.footer"],
         )
-        self._msg_writer = partial(
+
+    @property
+    def msg_writer(self) -> conventional_commits.ConventionalCommitWriter:
+        return partial(
             conventional_commits.create,
             scope_start=self._manager.data["commit.config.scope_start"],
             scope_separator=self._manager.data["commit.config.scope_separator"],
@@ -48,7 +56,6 @@ class CommitManager:
             scope_regex=self._manager.data["commit.config.regex.validator.scope"],
             description_regex=self._manager.data["commit.config.regex.validator.description"],
         )
-        return
 
     def create_from_msg(self, message: str) -> Commit:
         def get_dev_id(conv_msg: ConventionalCommitMessage):
@@ -64,12 +71,12 @@ class CommitManager:
             return None
 
         try:
-            msg = self._msg_parser.parse(message)
+            msg = self.msg_parser.parse(message)
             _logger.info(
                 "Commit Parse", "Plain message:", repr(message), "Parsed message:", repr(msg)
             )
             return Commit(
-                writer=self._msg_writer,
+                writer=self.msg_writer,
                 type=msg.type,
                 scope=msg.scope,
                 description=msg.description,
@@ -87,7 +94,7 @@ class CommitManager:
             description = parts[0]
             body = parts[1] if len(parts) > 1 else ""
             return Commit(
-                writer=self._msg_writer,
+                writer=self.msg_writer,
                 description=description,
                 body=body,
             )
@@ -99,7 +106,7 @@ class CommitManager:
         if isinstance(scope, str):
             scope = (scope,)
         return Commit(
-            writer=self._msg_writer,
+            writer=self.msg_writer,
             type=commit_data["type"],
             description=commit_data["description"],
             scope=scope,
@@ -112,7 +119,7 @@ class CommitManager:
     def create_release(self, id: str, env_vars: dict | None = None) -> Commit:
         commit_data = self._manager.data["commit.release"][id]
         return Commit(
-            writer=self._msg_writer,
+            writer=self.msg_writer,
             type=commit_data["type"],
             description=commit_data["description"],
             scope=commit_data.get("scope"),
