@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import functools as _functools
 import copy
-import re as _re
 import shutil as _shutil
 import stat as _stat
 from pathlib import Path as _Path
@@ -10,10 +9,8 @@ from typing import TYPE_CHECKING
 
 import pylinks as _pylinks
 import pyserials as _ps
-from gittidy import Git as _Git
 from loggerman import logger as _logger
-import pyshellman as _pyshellman
-from versionman.pep440_semver import PEP440SemVer as _PEP440SemVer
+
 
 from proman import const
 from controlman.data_generator import DataGenerator
@@ -36,6 +33,7 @@ from controlman.hook_manager import HookManager as _HookManager
 from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
 
 if TYPE_CHECKING:
+    from versionman.pep440_semver import PEP440SemVer
     from proman.manager import Manager
 
 
@@ -44,11 +42,11 @@ class ControlCenterManager:
         self,
         manager: Manager,
         cc_path: _Path,
-        future_versions: dict[str, str | _PEP440SemVer] | None = None,
+        future_versions: dict[str, str | PEP440SemVer] | None = None,
         clean_state: bool = False,
     ):
         self._manager = manager
-        self._git: _Git = self._manager.git
+        self._git = self._manager.git
 
         self._path_cc = cc_path
         self._data_before: _ps.NestedDict = _ps.NestedDict() if clean_state else self._manager.data
@@ -124,7 +122,6 @@ class ControlCenterManager:
             code_context_call=code_context_call,
             relative_template_keys=const.RELATIVE_TEMPLATE_KEYS,
             relative_key_key="__key__",
-            skip_key_func=_skip_key_func,
         )
         return self._data_raw
 
@@ -426,62 +423,3 @@ class ControlCenterManager:
             path_exists = (self._path_root / path).is_dir()
             status = DynamicFileChangeType.UNCHANGED if path_exists else DynamicFileChangeType.ADDED
         return status
-
-
-def _skip_key_func(key_parts: list[str]) -> bool:
-    if not key_parts:
-        return False
-
-    key_parts = list(reversed(key_parts))
-
-    # Define valid prefixes as sequences of fields
-    valid_prefixes = [
-        [_re.compile(r"data_.*"), "jsonschema", "schema"],
-        [_re.compile(r"file_.*"), "data", "jsonschema", "schema"],
-        [
-            _re.compile(r"devcontainer_.*"),
-            "file",
-            _re.compile(r".*"),
-            "data",
-            "jsonschema",
-            "schema",
-        ],
-        [
-            _re.compile(r"devcontainer_.*"),
-            "apt",
-            _re.compile(r".*"),
-            "data",
-            "jsonschema",
-            "schema",
-        ],
-        [
-            _re.compile(r"devcontainer_.*"),
-            "environment",
-            _re.compile(r".*"),
-            _re.compile(r"conda|pip|file"),
-            _re.compile(r".*"),
-            "data",
-            "jsonschema",
-            "schema",
-        ],
-        [_re.compile(r"pypkg_.*"), "file", _re.compile(r".*"), "data", "jsonschema", "schema"],
-    ]
-
-    # Check if the path matches any of the valid prefixes
-    prefix_len = 0
-    for prefix in valid_prefixes:
-        if len(key_parts) >= len(prefix) and all(
-            (isinstance(p, str) and p == key_parts[i])
-            or (isinstance(p, _re.Pattern) and p.match(key_parts[i]))
-            for i, p in enumerate(prefix)
-        ):
-            prefix_len = len(prefix)
-            break
-    else:
-        return False
-
-    # Check if "default" appears but not immediately after "properties"
-    for i in range(prefix_len, len(key_parts)):
-        if key_parts[i] == "default" and key_parts[i - 1] != "properties":
-            return True
-    return False
