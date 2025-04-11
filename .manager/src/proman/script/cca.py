@@ -21,10 +21,10 @@ if TYPE_CHECKING:
 def run(
     *,
     manager: Manager,
-    branch_version: dict[str, str] | None = None,
-    control_center: str | None = None,
     action: Literal['report', 'apply', 'pull', 'merge', 'commit', 'amend'] = "apply",
+    control_center: str | None = None,
     clean_state: bool = False,
+    branch_version: dict[str, str] | None = None,
 ):
     """Run Continuous Configuration Automation on the repository.
 
