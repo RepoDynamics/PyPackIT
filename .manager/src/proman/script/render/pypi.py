@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 _CMD_PREFIX = ["conda", "run", "--name", "pybuild", "--live-stream", "-vv"]
 
 
-def run(pkg: str, manager: Manager, output: str | Path) -> Path | None:
+def run(manager: Manager, pkg: str, output: str | Path) -> Path | None:
     """Generate and run readme_renderer command."""
     pkg = manager.data[f"pypkg_{pkg}"]
     readme_relpath = pkg["pyproject"]["project"].get("readme")
@@ -53,8 +53,8 @@ def run(pkg: str, manager: Manager, output: str | Path) -> Path | None:
 def run_cli(args: dict) -> None:
     """Run from CLI."""
     output_path = run(
+        manager=args["manager"],
         pkg=args["pkg"],
-        metadata=args["manager"],
         output=args["output"],
     )
     if output_path:
