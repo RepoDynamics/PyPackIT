@@ -125,21 +125,28 @@ class CommitManager:
 
     def from_git(
         self,
-        revision_range: str | None = None,
+        revision_range: str,
         git: Git | None = None,
     ) -> list[Commit]:
+        """Get commits within a revision range in the git repository.
+
+        Parameters
+        ----------
+        revision_range
+            Range to get commits from.
+            For example: f"{gh_context.hash_before}..{gh_context.hash_after}", "HEAD~5..HEAD", "main..feature-branch"
+        git
+            Git API instance to use. Uses the git instance from the manager by default.
+        """
         git = git or self._manager.git
-        commits = git.get_commits(
-            revision_range
-            or f"{self._manager.gh_context.hash_before}..{self._manager.gh_context.hash_after}"
-        )
+        commits = git.get_commits(revision_range)
         return [self.create_from_msg(commit["msg"]) for commit in commits]
 
     def from_pull_request(
         self,
         pull_nr: int | str,
+        revision_range: str,
         head_manager: Manager | None = None,
-        revision_range: str | None = None,
         add_to_contributors: bool = True,
     ) -> list[Commit]:
         def make_user(user: dict):
