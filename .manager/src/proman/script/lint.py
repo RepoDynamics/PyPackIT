@@ -172,11 +172,11 @@ class PreCommitHooks:
         if files:
             self._files = files
         elif self._from_ref:
-            files = self._manager.git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
+            changed_files = self._manager.git.changed_files(ref_start=self._from_ref, ref_end=self._to_ref)
             self._files = [
                 filename
                 for change_type in ("added", "modified", "copied_modified", "renamed_modified")
-                for filename in files.get(change_type, [])
+                for filename in changed_files.get(change_type, [])
             ]
         self._hook_id = hook_id
         self._hook_stage = hook_stage
