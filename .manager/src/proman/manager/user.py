@@ -3,7 +3,11 @@ from __future__ import annotations as _annotations
 import re
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-from controlman import data_helper
+from loggerman import logger
+import pylinks
+import pyserials
+
+import controlman.data_validator as _validator
 from proman.dstruct import User
 from proman.manager.contributor import ContributorManager
 
@@ -101,10 +105,8 @@ class UserManager:
                 return User(id=member_id, member=True, data=member_data)
         if github_id in self._contributors:
             return User(id=github_id, member=False, data=self._contributors[github_id])
-        data = data_helper.fill_entity(
+        data = self.fill_entity(
             entity={"github": {"rest_id": github_id}},
-            github_api=self._manager.gh_api_bare,
-            cache_manager=self._manager.cache,
         )[0]
         user = User(id=github_id, member=False, data=data)
         if add_to_contributors:
@@ -122,10 +124,8 @@ class UserManager:
         for contributor_id, contributor_data in self._contributors.items():
             if contributor_data.get("github", {}).get("id") == username:
                 return User(id=contributor_id, member=False, data=contributor_data)
-        data = data_helper.fill_entity(
+        data = self.fill_entity(
             entity={"github": {"id": username}},
-            github_api=self._manager.gh_api_bare,
-            cache_manager=self._manager.cache,
         )[0]
         user = User(id=data["github"]["rest_id"], member=False, data=data)
         if add_to_contributors:
@@ -181,3 +181,131 @@ class UserManager:
             if self._manager.gh_context.event.sender
             else None
         )
+
+    def fill_entity(
+        self,
+        entity: dict,
+    ) -> tuple[dict, dict | None]:
+        """Fill all missing information in an `entity` object."""
+
+        def _get_github_user(username: str | None = None, user_id: str | None = None) -> dict:
+            def add_social(name, user, url):
+                socials[name] = {"id": user, "url": url}
+                return
+
+            user_info = {}
+            if user_id and self._manager.cache:
+                user_info = self._manager.cache.get("user", user_id)
+            if user_info:
+                return user_info
+            user = self._manager.gh_api_bare.user_from_id(user_id) if user_id else self._manager.gh_api_bare.user(username)
+            user_info = user.info
+            if user_info["blog"] and "://" not in user_info["blog"]:
+                user_info["blog"] = f"https://{user_info['blog']}"
+            social_accounts_info = user.social_accounts
+            socials = {}
+            user_info["socials"] = socials
+            for account in social_accounts_info:
+                for provider, base_pattern, id_pattern in (
+                    ("orcid", r"orcid.org/", r"([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]{1})(.*)"),
+                    ("researchgate", r"researchgate.net/profile/", r"([a-zA-Z0-9_-]+)(.*)"),
+                    ("linkedin", r"linkedin.com/in/", r"([a-zA-Z0-9_-]+)(.*)"),
+                    ("twitter", r"twitter.com/", r"([a-zA-Z0-9_-]+)(.*)"),
+                    ("twitter", r"x.com/", r"([a-zA-Z0-9_-]+)(.*)"),
+                ):
+                    match = re.search(rf"{base_pattern}{id_pattern}", account["url"])
+                    if match:
+                        add_social(
+                            provider,
+                            match.group(1),
+                            f"https://{base_pattern}{match.group(1)}{match.group(2)}",
+                        )
+                        break
+                else:
+                    if account["provider"] != "generic":
+                        add_social(account["provider"], None, account["url"])
+                    else:
+                        generics = socials.setdefault("generics", [])
+                        generics.append(account["url"])
+                        logger.info("Unknown account", account["url"])
+            if self._manager.cache:
+                self._manager.cache.set("user", user_info["id"], user_info)
+            return user_info
+
+        def get_orcid_publications(orcid_id: str) -> list[dict]:
+            dois = []
+            if self._manager.cache:
+                dois = self._manager.cache.get("orcid", orcid_id)
+            if not dois:
+                dois = pylinks.api.orcid(orcid_id=orcid_id).doi
+                if self._manager.cache:
+                    self._manager.cache.set("orcid", orcid_id, dois)
+            publications = []
+            for doi in dois:
+                publication_data = {}
+                if self._manager.cache:
+                    publication_data = self._manager.cache.get("doi", doi)
+                if not publication_data:
+                    publication_data = pylinks.api.doi(doi=doi).curated
+                    if self._manager.cache:
+                        self._manager.cache.set("doi", doi, publication_data)
+                publications.append(publication_data)
+            return sorted(publications, key=lambda i: i["date_tuple"], reverse=True)
+
+        def make_name(user: dict):
+            username = user["login"]
+            if not user.get("name"):
+                logger.warning(
+                    f"GitHub user {username} has no name",
+                    "Setting entity to legal person",
+                )
+                return {"legal": username}
+            if user["type"] != "User":
+                return {"legal": user["name"]}
+            name_parts = user["name"].split(" ")
+            if len(name_parts) != 2:
+                logger.warning(
+                    f"GitHub user {user} has a non-standard name",
+                    f"Setting entity to legal person with name '{user['name']}'.",
+                )
+                return {"legal": user["name"]}
+            return {"first": name_parts[0], "last": name_parts[1]}
+
+        gh_id = entity.get("github", {}).get("rest_id")
+        gh_username = entity.get("github", {}).get("id")
+        github_user_info = None
+        if gh_id or gh_username:
+            github_user_info = _get_github_user(username=gh_username, user_id=gh_id)
+            for key_self, key_gh in (
+                ("id", "login"),
+                ("rest_id", "id"),
+                ("node_id", "node_id"),
+                ("url", "html_url"),
+            ):
+                entity["github"][key_self] = github_user_info[key_gh]
+            if "name" not in entity:
+                entity["name"] = make_name(github_user_info)
+            for key_self, key_gh in (
+                ("affiliation", "company"),
+                ("bio", "bio"),
+                ("avatar", "avatar_url"),
+                ("website", "blog"),
+                ("city", "location"),
+            ):
+                if not entity.get(key_self) and github_user_info.get(key_gh):
+                    entity[key_self] = github_user_info[key_gh]
+            if not entity.get("email", {}).get("id") and github_user_info.get("email"):
+                email = entity.setdefault("email", {})
+                email["id"] = github_user_info["email"]
+            for social_name, social_data in github_user_info["socials"].items():
+                if (
+                    social_name in ("orcid", "researchgate", "linkedin", "twitter")
+                    and social_name not in entity
+                ):
+                    entity[social_name] = social_data
+        if "orcid" in entity and entity["orcid"].get("get_pubs"):
+            entity["orcid"]["pubs"] = get_orcid_publications(orcid_id=entity["orcid"]["user"])
+        _validator.validate(data=entity, schema="entity", before_substitution=True)
+        entity_ = pyserials.NestedDict(entity)
+        entity_.fill()
+        return entity_(), github_user_info

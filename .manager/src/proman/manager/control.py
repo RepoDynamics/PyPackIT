@@ -173,16 +173,12 @@ class ControlCenterManager:
         data = _ps.NestedDict(
             data,
             code_context={
+                "manager": self._manager,
                 "repo_path": self._path_root,
                 "ccc_main": self._manager.main.data,
                 "ccc": self._data_before,
                 "cache_manager": self._manager.cache,
                 "slugify": pylinks.string.to_slug,
-                "fill_entity": _functools.partial(
-                    _helper.fill_entity,
-                    github_api=self._github_api,
-                    cache_manager=self._manager.cache,
-                ),
             },
             code_context_partial={
                 "team_members_with_role_types": _helper.team_members_with_role_types,

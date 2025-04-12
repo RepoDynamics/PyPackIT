@@ -93,7 +93,7 @@ class DataGenerator:
     def _team(self) -> None:
         self._data.fill("team")
         for person_id in self._data["team"].keys():
-            _helper.fill_entity(
+            self._manager.user.fill_entity(
                 entity=self._data[f"team.{person_id}"],
                 github_api=self._manager.gh_api_bare,
                 cache_manager=self._manager.cache,
