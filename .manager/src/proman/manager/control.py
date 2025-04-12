@@ -17,8 +17,8 @@ from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
 from controlman.data_generator import DataGenerator
+from controlman.data_generator_inline import InlineDataGenerator
 from controlman.exception import load as _exception
-from controlman.hook_manager import HookManager as _HookManager
 from controlman.reporter import ControlCenterReporter as _ControlCenterReporter
 from proman import const
 from proman.dtype import DynamicDir, DynamicDirType, DynamicFileChangeType, DynamicFile
@@ -50,16 +50,6 @@ class ControlCenterManager:
 
         self._path_root = self._git.repo_path
 
-        self._hook_manager = _HookManager(
-            dir_path=self._path_cc / const.DIRNAME_CC_HOOK,
-            repo_path=self._git.repo_path,
-            ccc=self._data_before,
-            ccc_main=self._manager.main.data,
-            cache_manager=self._manager.cache,
-            github_token=self._github_token,
-        )
-        with _logger.sectioning("CCA Initialization Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_INIT)
         self._data_raw: _ps.NestedDict | None = None
         self._data: _ps.NestedDict | None = None
         self._files: list[DynamicFile] = []
@@ -145,12 +135,8 @@ class ControlCenterManager:
                         _mdit.element.code_span(str(path.relative_to(self._path_cc)))
                     ):
                         _load_file(filepath=path)
-        with _logger.sectioning("CCA Load Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD, data=self._data_raw)
         with _logger.sectioning("Post-Load Data Validation"):
             _data_validator.validate(data=self._data_raw, source="source", before_substitution=True)
-        with _logger.sectioning("CCA Load Validation Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_LOAD_VALID, data=self._data_raw)
         return self._data_raw
 
     def generate_data(self) -> _ps.NestedDict:
@@ -162,9 +148,7 @@ class ControlCenterManager:
         code_context_call = {"changelog": changelog_manager}
         data["changelogs"] = changelog_manager.changelogs
         data["contributor"] = changelog_manager.contributor.as_dict
-        inline_hooks = self._hook_manager.inline_hooks
-        if inline_hooks:
-            code_context_call["hook"] = inline_hooks.Hooks(manager=self._manager)
+        code_context_call["hook"] = InlineDataGenerator(manager=self._manager)
 
         def get_prefix(get, prefix: str):
             return [get(key) for key in data.keys() if key.startswith(prefix)]
@@ -194,22 +178,12 @@ class ControlCenterManager:
                 data_main=self._manager.main.data,
                 future_versions=self._future_vers,
             ).generate()
-        with _logger.sectioning("CCA Augmentation Hooks"):
-            self._hook_manager.generate(
-                const.FUNCNAME_CC_HOOK_AUGMENT,
-                data,
-            )
         with _logger.sectioning("Post-Generation Data Validation"):
             # Validate again to fill default values that depend on generated data
             # Example: A key may be referencing `team.owner.email.url`, which has a default
             # value based on `team.owner.email.id`. But since `team.owner` is generated
             # dynamically, the default value for `team.owner.email.url` is not set in the initial validation.
             _data_validator.validate(data=data(), source="source", before_substitution=True)
-        with _logger.sectioning("CCA Augmentation Validation Hooks"):
-            self._hook_manager.generate(
-                const.FUNCNAME_CC_HOOK_AUGMENT_VALID,
-                data,
-            )
         with _logger.sectioning("Template Resolution"):
             data.fill()
             _logger.success(
@@ -219,19 +193,9 @@ class ControlCenterManager:
             data.pop("var")
             data.pop("changelogs")
             data.pop("contributor")
-        with _logger.sectioning("CCA Templating Hooks"):
-            self._hook_manager.generate(
-                const.FUNCNAME_CC_HOOK_TEMPLATE,
-                data,
-            )
         data = _ps.NestedDict(_ps.update.remove_keys(data(), const.RELATIVE_TEMPLATE_KEYS))
         with _logger.sectioning("Final Data Validation"):
             _data_validator.validate(data=data(), source="source")
-        with _logger.sectioning("CCA Templating Validation Hooks"):
-            self._hook_manager.generate(
-                const.FUNCNAME_CC_HOOK_TEMPLATE_VALID,
-                data,
-            )
         self._data = data
         self._manager.cache.save()
         return self._data
@@ -262,13 +226,6 @@ class ControlCenterManager:
                 all_paths.append((changed_key, DynamicFileChangeType[change_type.upper()]))
         self._changes = all_paths
         dirs = self._compare_dirs()
-        with _logger.sectioning("CCA Output Generation Hooks"):
-            self._hook_manager.generate(
-                const.FUNCNAME_CC_HOOK_OUTPUT,
-                data=self._data,
-                files=self._files,
-                dirs=dirs,
-            )
         return self._changes, files, dirs
 
     def report(self) -> _ControlCenterReporter:
@@ -317,8 +274,6 @@ class ControlCenterManager:
                         filepath_abs.stat().st_mode | _stat.S_IXUSR | _stat.S_IXGRP | _stat.S_IXOTH
                     )
         self._apply_duplicates()
-        with _logger.sectioning("CCA Synchronization Hooks"):
-            self._hook_manager.generate(const.FUNCNAME_CC_HOOK_SYNC)
         return
 
     def _apply_duplicates(self):

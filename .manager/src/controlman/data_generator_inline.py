@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 
     from proman.manager import Manager
 
-class Hooks:
+class InlineDataGenerator:
     """Inline Hooks.
 
     During control center synchronization events,
