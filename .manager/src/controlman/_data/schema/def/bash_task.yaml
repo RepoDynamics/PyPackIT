@@ -31,7 +31,7 @@ properties:
       in a custom format. In this case, the `script` field
       can contain Python templates that use the configurations
       defined here to generate the content.
-    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+    type: object
   name:
     summary: Name of the task.
     type: string

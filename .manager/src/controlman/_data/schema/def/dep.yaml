@@ -13,7 +13,7 @@ properties:
     type: string
   data:
     summary: Configurations for the dependency.
-    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+    type: object
   url:
     title: URL
     description: URLs to resources related to the module.

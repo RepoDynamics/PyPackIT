@@ -15,10 +15,6 @@ patternProperties:
     title: Dynamic File
     summary: Configurations for creating and maintaining a dynamic file in the repository.
     $ref: https://controlman.repodynamics.com/schema/dynamic-file
-  ^data_:
-    title: Dynamic Data
-    summary: Custom configurations and metadata.
-    $ref: https://controlman.repodynamics.com/schema/dynamic-data
   ^devfeature_:
     summary: >-
       Definition of a local

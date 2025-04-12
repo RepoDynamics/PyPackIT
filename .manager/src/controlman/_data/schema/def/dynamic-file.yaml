@@ -45,7 +45,7 @@ properties:
       in a custom format. In this case, the `content` field
       can contain Python templates that use the configurations
       defined here to generate the content.
-    $ref: https://controlman.repodynamics.com/schema/dynamic-data
+    type: object
   type:
     summary: Format of the dynamic file.
     description: |
