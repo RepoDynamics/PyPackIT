@@ -1,13 +1,14 @@
-data_badge:
-  color:
-    grey: "#494949"
-    blue: "#0B3C75"
-    green: "#00802B"
-    orange: "#D93402"
-    red: "#AF1F10"
-  style: flat-square
-  height: 23px
-  separator: 2
+theme:
+  badge:
+    color:
+      grey: "#494949"
+      blue: "#0B3C75"
+      green: "#00802B"
+      orange: "#D93402"
+      red: "#AF1F10"
+    style: flat-square
+    height: 23px
+    separator: 2
 data_color:
   primary:
     light: rgb(0 85 0)

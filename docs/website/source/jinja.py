@@ -73,7 +73,7 @@ def get_forms_by_regex(
 def create_license_data() -> str:
     """Create data for each license component."""
     container = mdit.block_container()
-    badge_data = metadata["data_badge"]
+    badge_data = metadata["theme"]["badge"]
     green = badge_data["color"]["green"]
     red = badge_data["color"]["red"]
     for license_id, component in metadata.get("license", {}).get("component").items():

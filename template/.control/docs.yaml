@@ -61,27 +61,27 @@ file_readme:
           label: Keywords
           args:
             message: ${{ keywords[0] }}$
-          style: ${{ data_badge.style }}$
-          height: ${{ data_badge.height }}$
-          color: ${{ data_badge.color.blue }}$
-          label_color: ${{ data_badge.color.grey }}$
+          style: ${{ theme.badge.style }}$
+          height: ${{ theme.badge.height }}$
+          color: ${{ theme.badge.color.blue }}$
+          label_color: ${{ theme.badge.color.grey }}$
         - '&nbsp;'
         - class: buttons
           items: ${{ keywords[1:] }}$
-          style: ${{ data_badge.style }}$
-          height: ${{ data_badge.height }}$
-          color: ${{ data_badge.color.blue }}$
+          style: ${{ theme.badge.style }}$
+          height: ${{ theme.badge.height }}$
+          color: ${{ theme.badge.color.blue }}$
       - class: paragraph
         content: ${{ abstract }}$
         attrs:
           align: justify
       - class: badges
         service: static
-        style: ${{ data_badge.style }}$
-        height: ${{ data_badge.height }}$
-        color: ${{ data_badge.color.blue }}$
-        label_color: ${{ data_badge.color.grey }}$
-        separator: ${{ data_badge.separator }}$
+        style: ${{ theme.badge.style }}$
+        height: ${{ theme.badge.height }}$
+        color: ${{ theme.badge.color.blue }}$
+        label_color: ${{ theme.badge.color.grey }}$
+        separator: ${{ theme.badge.separator }}$
         items:
           - |
             *{{
@@ -156,7 +156,7 @@ file_readme:
               repo: ${{ repo.name }}$
               ref: ${{ repo.default_branch }}$
             color: "#579ACA"
-            label_color: ${{ data_badge.color.grey }}$
+            label_color: ${{ theme.badge.color.grey }}$
     sections:
       - heading: Highlights
         body:
@@ -184,10 +184,10 @@ file_readme:
             rows:
               - - <b>Project</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    color: ${{ data_badge.color.blue }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    color: ${{ theme.badge.color.blue }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: github
                     args:
                       user: ${{ repo.owner }}$
@@ -210,9 +210,9 @@ file_readme:
               - - <b>Health</b>
                 - - class: badges
                     service: github
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    separator: ${{ theme.badge.separator }}$
                     args:
                       user: ${{ repo.owner }}$
                       repo: ${{ repo.name }}$
@@ -249,9 +249,9 @@ file_readme:
               - - <b>Standards</b>
                 - - class: badges
                     service: static
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    separator: ${{ theme.badge.separator }}$
                     items:
                       - label: Testing
                         args:
@@ -300,9 +300,9 @@ file_readme:
                             return []
                           badges = {
                             "class": "badges",
-                            "style": get("data_badge.style"),
-                            "height": get("data_badge.height"),
-                            "color": get("data_badge.color.blue"),
+                            "style": get("theme.badge.style"),
+                            "height": get("theme.badge.height"),
+                            "color": get("theme.badge.color.blue"),
                             "separator": 1,
                             "service": "pypi",
                             "endpoint": "downloads",
@@ -320,7 +320,7 @@ file_readme:
                               },
                             ] + [{"args": {"period": period}} for period in ("m", "w", "d")]
                           }
-                          return [badges, "&nbsp;" * get("data_badge.separator")]
+                          return [badges, "&nbsp;" * get("theme.badge.separator")]
                         }}#
                       }}*
                     - |
@@ -331,9 +331,9 @@ file_readme:
                             return []
                           badge = {
                             "class": "badge",
-                            "style": get("data_badge.style"),
-                            "height": get("data_badge.height"),
-                            "color": get("data_badge.color.blue"),
+                            "style": get("theme.badge.style"),
+                            "height": get("theme.badge.height"),
+                            "color": get("theme.badge.color.blue"),
                             "service": "conda",
                             "endpoint": "downloads",
                             "args": {"channel": conda.get("index", {}).get("channel", "conda-forge").lower(), "package": get("pypkg_main.name").lower()},
@@ -341,13 +341,13 @@ file_readme:
                             "logo": "anaconda",
                             "logo_color": "#44A833",
                           }
-                          return [badge, "&nbsp;" * get("data_badge.separator")]
+                          return [badge, "&nbsp;" * get("theme.badge.separator")]
                         }}#
                       }}*
                     - class: badge
-                      style: ${{ data_badge.style }}$
-                      height: ${{ data_badge.height }}$
-                      color: ${{ data_badge.color.blue }}$
+                      style: ${{ theme.badge.style }}$
+                      height: ${{ theme.badge.height }}$
+                      color: ${{ theme.badge.color.blue }}$
                       service: github
                       endpoint: downloads_all_releases
                       label: GitHub
@@ -356,10 +356,10 @@ file_readme:
                         repo: ${{ repo.name }}$
               - - <b>Users</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    color: ${{ data_badge.color.blue }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    color: ${{ theme.badge.color.blue }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: librariesio
                     args:
                       platform: pypi
@@ -385,11 +385,11 @@ file_readme:
                     ]
                     repo_owner = get("repo.owner")
                     repo_name = get("repo.name")
-                    color_open = get("data_badge.color.red")
-                    color_closed = get("data_badge.color.green")
-                    style = get("data_badge.style")
-                    height = get("data_badge.height")
-                    separator = get("data_badge.separator")
+                    color_open = get("theme.badge.color.red")
+                    color_closed = get("theme.badge.color.green")
+                    style = get("theme.badge.style")
+                    height = get("theme.badge.height")
+                    separator = get("theme.badge.separator")
                     for title, issue_kind in (
                       ("Issues", "issues"),
                       ("PRs", "pulls"),
@@ -416,10 +416,10 @@ file_readme:
                 }}*
               - - <b>Commits</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    color: ${{ data_badge.color.blue }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    color: ${{ theme.badge.color.blue }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: github
                     endpoint: commit_activity
                     args:
@@ -447,10 +447,10 @@ file_readme:
                         label: Last
               - - <b>Discussions</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    color: ${{ data_badge.color.blue }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    color: ${{ theme.badge.color.blue }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: github
                     endpoint: discussion_search_hits
                     args:
@@ -471,10 +471,10 @@ file_readme:
                         }}*
               - - <b>Community</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    color: ${{ data_badge.color.blue }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    color: ${{ theme.badge.color.blue }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: github
                     args:
                       user: ${{ repo.owner }}$
@@ -486,9 +486,9 @@ file_readme:
                       - endpoint: watchers
               - - <b>DevOps</b>
                 - - class: badges
-                    style: ${{ data_badge.style }}$
-                    height: ${{ data_badge.height }}$
-                    separator: ${{ data_badge.separator }}$
+                    style: ${{ theme.badge.style }}$
+                    height: ${{ theme.badge.height }}$
+                    separator: ${{ theme.badge.separator }}$
                     service: github
                     args:
                       user: ${{ repo.owner }}$
@@ -755,11 +755,11 @@ __temp__:
     body:
       - class: badges
         service: static
-        style: ${{ data_badge.style }}$
-        height: ${{ data_badge.height }}$
-        color: ${{ data_badge.color.blue }}$
-        label_color: ${{ data_badge.color.grey }}$
-        separator: ${{ data_badge.separator }}$
+        style: ${{ theme.badge.style }}$
+        height: ${{ theme.badge.height }}$
+        color: ${{ theme.badge.color.blue }}$
+        label_color: ${{ theme.badge.color.grey }}$
+        separator: ${{ theme.badge.separator }}$
         items:
           - label: ${{ pypkg_main.name }}$
             args:
@@ -795,7 +795,7 @@ __temp__:
                   "patch": "green",
                   "post": "blue"
                 }[release_type]
-                return get(f"data_badge.color.{color_name}")
+                return get(f"theme.badge.color.{color_name}")
               }}#
           - label: 🗓 Release Date
             args:
@@ -936,11 +936,11 @@ __temp__:
             badges = {
               "class": "badges",
               "service": "static",
-              "style": get("data_badge.style"),
-              "height": get("data_badge.height"),
-              "color": get("data_badge.color.blue"),
-              "label_color": get("data_badge.color.grey"),
-              "separator": get("data_badge.separator"),
+              "style": get("theme.badge.style"),
+              "height": get("theme.badge.height"),
+              "color": get("theme.badge.color.blue"),
+              "label_color": get("theme.badge.color.grey"),
+              "separator": get("theme.badge.separator"),
               "items": badge_items
             }
             section = {
@@ -954,15 +954,15 @@ __temp__:
         body:
           - - class: button
               text: "⚙️ Operating System"
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              color: ${{ data_badge.color.grey }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.grey }}$
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              label_color: ${{ data_badge.color.grey }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              label_color: ${{ theme.badge.color.grey }}$
               separator: 1
               items:
                 - |
@@ -970,7 +970,7 @@ __temp__:
                     #{{
                       badges = []
                       oss = get("pypkg_main.os")
-                      color_green = get("data_badge.color.green")
+                      color_green = get("theme.badge.color.green")
                       for os in oss.values():
                         supports = "any" if "cibuild" not in os else " | ".join(os["builds"])
                         badge = {
@@ -988,20 +988,20 @@ __temp__:
               service: static
               args:
                 message: "Python"
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              color: ${{ data_badge.color.grey }}$
-              label_color: ${{ data_badge.color.grey }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.grey }}$
+              label_color: ${{ theme.badge.color.grey }}$
               logo: ${{ data_website.path.source }}$/_media/logo_ext/python.svg
               logo_type: file
               logo_media_type: svg+xml
             - '&nbsp;'
             - class: badges
               service: static
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              color: ${{ data_badge.color.blue }}$
-              label_color: ${{ data_badge.color.grey }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.blue }}$
+              label_color: ${{ theme.badge.color.grey }}$
               separator: 1
               items:
                 - label: Versions
@@ -1015,17 +1015,17 @@ __temp__:
                   color: >-
                     #{{
                       if get("pypkg_main.python.pure"):
-                        return get("data_badge.color.green")
-                      return get("data_badge.color.blue")
+                        return get("theme.badge.color.green")
+                      return get("theme.badge.color.blue")
                     }}#
           - |
             #{{
               deps = list(get("pypkg_main.dependency.core", {}).values())
-              style = get("data_badge.style")
-              height = get("data_badge.height")
-              green = get("data_badge.color.green")
-              blue = get("data_badge.color.blue")
-              grey = get("data_badge.color.grey")
+              style = get("theme.badge.style")
+              height = get("theme.badge.height")
+              green = get("theme.badge.color.green")
+              blue = get("theme.badge.color.blue")
+              grey = get("theme.badge.color.grey")
               label = "📦 Dependencies"
               if not deps:
                 badge = {
@@ -1074,10 +1074,10 @@ __temp__:
             *{{
               #{{
                 interfaces = get("pypkg_main.entry")
-                style = get("data_badge.style")
-                height = get("data_badge.height")
-                blue = get("data_badge.color.blue")
-                grey = get("data_badge.color.grey")
+                style = get("theme.badge.style")
+                height = get("theme.badge.height")
+                blue = get("theme.badge.color.blue")
+                grey = get("theme.badge.color.grey")
 
                 config = {
                   "python": {

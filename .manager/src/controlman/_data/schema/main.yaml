@@ -1589,6 +1589,20 @@ properties:
             examples:
               - ${{ web.url.base }}$/some/path
             $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+  theme:
+    type: object
+    properties:
+      badge:
+        type: object
+        properties:
+          color:
+            type: object
+          style:
+            type: string
+          height:
+            type: string
+          separator:
+            type: integer
   # ITS
   commit:
     summary: Configurations for different commit types.

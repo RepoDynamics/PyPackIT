@@ -1917,12 +1917,12 @@ issue:
               service="static",
               label=label.prefix,
               args={"message": label.suffix if label.prefix else label.name},
-              style=ccc.data_badge.style,
+              style=ccc.theme.badge.style,
               color=label.color,
-              label_color=ccc.data_badge.color.grey,
-              height=ccc.data_badge.height,
+              label_color=ccc.theme.badge.color.grey,
+              height=ccc.theme.badge.height,
             ).source()
-          }}{{ "&nbsp;" * ccc.data_badge.separator }}
+          }}{{ "&nbsp;" * ccc.theme.badge.separator }}
           {%- endfor -%}
           {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
           {{
@@ -1930,20 +1930,20 @@ issue:
               service="static",
               label=labels["version"][0].prefix,
               args={"message": versions},
-              style=ccc.data_badge.style,
+              style=ccc.theme.badge.style,
               color=labels["version"][0].color,
-              label_color=ccc.data_badge.color.grey,
-              height=ccc.data_badge.height,
+              label_color=ccc.theme.badge.color.grey,
+              height=ccc.theme.badge.height,
             ).source()
           }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              label_color: ${{ data_badge.color.grey }}$
-              separator: ${{ data_badge.separator }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              separator: ${{ theme.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -1955,7 +1955,7 @@ issue:
                   args:
                     message: '{{ issue.state }}'
                   color: >-
-                    {{ ccc.data_badge.color.green if issue.state == "open" else ccc.data_badge.color.red }}
+                    {{ ccc.theme.badge.color.green if issue.state == "open" else ccc.theme.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -1986,10 +1986,10 @@ issue:
         - heading: User Requirements Document (URD)
           body:
             - class: badges
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              label_color: ${{ data_badge.color.grey }}$
-              separator: ${{ data_badge.separator }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              separator: ${{ theme.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2001,19 +2001,19 @@ issue:
                   args:
                     message: '{{ form.name }}'
                   title: '{{ form.description }}'
-                  color: ${{ data_badge.color.blue }}$
+                  color: ${{ theme.badge.color.blue }}$
                 - service: github
                   endpoint: issue_details
                   label: Submitted
                   args:
                     property: age
-                  color: ${{ data_badge.color.blue }}$
+                  color: ${{ theme.badge.color.blue }}$
                 - service: static
                   label: Submitted By
                   args:
                     message: '{{ issue.user.name.full }}'
                   link: '{{ issue.user.github.url }}'
-                  color: ${{ data_badge.color.blue }}$
+                  color: ${{ theme.badge.color.blue }}$
             - |
               ### Summary
 
@@ -2023,24 +2023,24 @@ issue:
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint + "." + input.endpoint},
-                  style=ccc.data_badge.style,
-                  color=ccc.data_badge.color.blue,
-                  label_color=ccc.data_badge.color.grey,
-                  height=ccc.data_badge.height,
+                  style=ccc.theme.badge.style,
+                  color=ccc.theme.badge.color.blue,
+                  label_color=ccc.theme.badge.color.grey,
+                  height=ccc.theme.badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.data_badge.separator }}
+              }}{{ "&nbsp;" * ccc.theme.badge.separator }}
               {%- elif input.entrypoint -%}
               {{
                 mdit.element.badge(
                   service="static",
                   label="Endpoint",
                   args={"message": input.entrypoint},
-                  style=ccc.data_badge.style,
-                  color=ccc.data_badge.color.blue,
-                  label_color=ccc.data_badge.color.grey,
-                  height=ccc.data_badge.height,
+                  style=ccc.theme.badge.style,
+                  color=ccc.theme.badge.color.blue,
+                  label_color=ccc.theme.badge.color.grey,
+                  height=ccc.theme.badge.height,
                 ).source()
-              }}{{ "&nbsp;" * ccc.data_badge.separator }}
+              }}{{ "&nbsp;" * ccc.theme.badge.separator }}
               {%- endif -%}
               {%- if input.url %}
               {{
@@ -2048,13 +2048,13 @@ issue:
                   service="static",
                   label="URL",
                   args={"message": input.url},
-                  style=ccc.data_badge.style,
-                  color=ccc.data_badge.color.blue,
-                  label_color=ccc.data_badge.color.grey,
-                  height=ccc.data_badge.height,
+                  style=ccc.theme.badge.style,
+                  color=ccc.theme.badge.color.blue,
+                  label_color=ccc.theme.badge.color.grey,
+                  height=ccc.theme.badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.data_badge.separator }}
+              }}{{ "&nbsp;" * ccc.theme.badge.separator }}
               {%- endif %}
               {%- if input.jsonpath %}
               {{
@@ -2062,13 +2062,13 @@ issue:
                   service="static",
                   label="JSON Path",
                   args={"message": input.jsonpath},
-                  style=ccc.data_badge.style,
-                  color=ccc.data_badge.color.blue,
-                  label_color=ccc.data_badge.color.grey,
-                  height=ccc.data_badge.height,
+                  style=ccc.theme.badge.style,
+                  color=ccc.theme.badge.color.blue,
+                  label_color=ccc.theme.badge.color.grey,
+                  height=ccc.theme.badge.height,
                   link=input.url,
                 ).source()
-              }}{{ "&nbsp;" * ccc.data_badge.separator }}
+              }}{{ "&nbsp;" * ccc.theme.badge.separator }}
               {%- endif %}
 
               {{ input.summary }}
@@ -2109,10 +2109,10 @@ issue:
               {{
                 mdit.element.badges(
                   service="static",
-                  style=ccc.data_badge.style,
-                  color=ccc.data_badge.color.red,
-                  label_color=ccc.data_badge.color.grey,
-                  height=ccc.data_badge.height,
+                  style=ccc.theme.badge.style,
+                  color=ccc.theme.badge.color.red,
+                  label_color=ccc.theme.badge.color.grey,
+                  height=ccc.theme.badge.height,
                   items=[
                     {
                       "label": "⚙️ Operating Systems",
@@ -2664,11 +2664,11 @@ pull:
             args:
               message: '#{{ issue.number }}'
             link: '{{ issue.html_url }}'
-            style: ${{ data_badge.style }}$
-            height: ${{ data_badge.height }}$
-            label_color: ${{ data_badge.color.grey }}$
-            color: ${{ data_badge.color.blue }}$
-          - '{{ "&nbsp;" * ccc.data_badge.separator }}'
+            style: ${{ theme.badge.style }}$
+            height: ${{ theme.badge.height }}$
+            label_color: ${{ theme.badge.color.grey }}$
+            color: ${{ theme.badge.color.blue }}$
+          - '{{ "&nbsp;" * ccc.theme.badge.separator }}'
           - |
             {%- for label in form.id_labels + form.labels -%}
             {{
@@ -2676,12 +2676,12 @@ pull:
                 service="static",
                 label=label.prefix,
                 args={"message": label.suffix if label.prefix else label.name},
-                style=ccc.data_badge.style,
+                style=ccc.theme.badge.style,
                 color=label.color,
-                label_color=ccc.data_badge.color.grey,
-                height=ccc.data_badge.height,
+                label_color=ccc.theme.badge.color.grey,
+                height=ccc.theme.badge.height,
               ).source()
-            }}{{ "&nbsp;" * ccc.data_badge.separator }}
+            }}{{ "&nbsp;" * ccc.theme.badge.separator }}
             {%- endfor -%}
             {%- set versions = labels["version"] | map(attribute='suffix') | join(' | ') -%}
             {{
@@ -2689,20 +2689,20 @@ pull:
                 service="static",
                 label=labels["version"][0].prefix,
                 args={"message": versions},
-                style=ccc.data_badge.style,
+                style=ccc.theme.badge.style,
                 color=labels["version"][0].color,
-                label_color=ccc.data_badge.color.grey,
-                height=ccc.data_badge.height,
+                label_color=ccc.theme.badge.color.grey,
+                height=ccc.theme.badge.height,
               ).source()
             }}
       sections:
         - heading: Status
           body:
             - class: badges
-              style: ${{ data_badge.style }}$
-              height: ${{ data_badge.height }}$
-              label_color: ${{ data_badge.color.grey }}$
-              separator: ${{ data_badge.separator }}$
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              separator: ${{ theme.badge.separator }}$
               args:
                 user: ${{ repo.owner }}$
                 repo: ${{ repo.name }}$
@@ -2714,7 +2714,7 @@ pull:
                   args:
                     message: '{{ pull_request.state }}'
                   color: >-
-                    {{ ccc.data_badge.color.green if pull_request.state == "open" else ccc.data_badge.color.red }}
+                    {{ ccc.theme.badge.color.green if pull_request.state == "open" else ccc.theme.badge.color.red }}
                 - service: static
                   label: Last Status
                   args:
@@ -2753,13 +2753,13 @@ pull:
                     service="static",
                     label="Website Preview",
                     args={"message": "Read The Docs"},
-                    style=ccc.data_badge.style,
-                    color=ccc.data_badge.color.blue,
-                    label_color=ccc.data_badge.color.grey,
-                    height=ccc.data_badge.height,
+                    style=ccc.theme.badge.style,
+                    color=ccc.theme.badge.color.blue,
+                    label_color=ccc.theme.badge.color.grey,
+                    height=ccc.theme.badge.height,
                     link=url,
                   ).source()
-                }}{{ "&nbsp;" * ccc.data_badge.separator }}
+                }}{{ "&nbsp;" * ccc.theme.badge.separator }}
                 {%- endif -%}
               # ReadTheDocs website preview badge
               # Note: Enable "Preview Documentation from Pull Requests" in ReadtheDocs project at https://docs.readthedocs.io/en/latest/pull-requests.html
