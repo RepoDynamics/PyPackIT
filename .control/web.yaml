@@ -204,6 +204,13 @@ web:
     to_root: |
       #{{ return len(get(".source").split("/")) * "../" }}#
     logo_dir: _media/logo
+  readthedocs:
+    name: ${{ repo.name }}$
+    platform: community
+    version_scheme:
+      single_version: false
+      translation: false
+    language: en
   url:
     custom:
       name: pypackit.repodynamics.com
@@ -232,49 +239,6 @@ file_sphinx_conf:
     schema:
       $ref: https://jsonschemata.repodynamics.com/config/sphinx
 
-data_readthedocs:
-  name: ${{ repo.name }}$
-  platform: community
-  version_scheme:
-    single_version: false
-    translation: false
-  language: en
-  jsonschema:
-    schema:
-      summary: Workflow configurations for the ReadTheDocs website.
-      description: |
-        These are used to create website preview links for pull requests.
-      type: object
-      additionalProperties: false
-      required: [ name, platform, version_scheme, language ]
-      properties:
-        name:
-          summary: Name of the project on ReadTheDocs.
-          description: |
-            This is the slug name of the project.
-          type: string
-        platform:
-          summary: ReadTheDocs hosting platform type.
-          type: string
-          enum: [ community, business ]
-        version_scheme:
-          summary: Versioning scheme of the website.
-          description: |
-            See [ReadTheDocs documentation](https://docs.readthedocs.io/en/stable/versioning-schemes.html)
-            for more information.
-          type: object
-          additionalProperties: false
-          required: [ single_version, translation ]
-          properties:
-            single_version:
-              summary: Whether the website has a single version (vs. multiple versions).
-              type: boolean
-            translation:
-              summary: Whether the website supports multiple languages.
-              type: boolean
-        language:
-          summary: Language of the website.
-          type: string
 file_readthedocs:
   name: ReadTheDocs Configuration
   summary: >-
