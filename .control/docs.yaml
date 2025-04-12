@@ -378,9 +378,9 @@ file_readme:
                     label_data = [("Total", None)] + [
                       (badge_label, get(f"label.type.label.{label_type}.name"))
                       for badge_label, label_type in (
-                        (f"{get(f"data_icon.fix")} Bug Fixes", "fix"),
-                        (f"{get(f"data_icon.feat")} New Features", "feat"),
-                        (f"{get(f"data_icon.change")} Breaking Changes", "change"),
+                        (f"{get(f"theme.icon.fix")} Bug Fixes", "fix"),
+                        (f"{get(f"theme.icon.feat")} New Features", "feat"),
+                        (f"{get(f"theme.icon.change")} Breaking Changes", "change"),
                       )
                     ]
                     repo_owner = get("repo.owner")
@@ -777,7 +777,7 @@ __temp__:
                   "patch": "fix",
                   "post": "post"
                 }[release_type]
-                icon = get(f"data_icon.{icon_type}")
+                icon = get(f"theme.icon.{icon_type}")
                 return f"{icon} Release Type"
               }}#
             args:
@@ -1089,7 +1089,7 @@ __temp__:
                     "logo_color": "#4EAA25",
                   },
                   "gui": {
-                    "text": f"{get("data_icon.gui")} GUI"
+                    "text": f"{get("theme.icon.gui")} GUI"
                   },
                 }
                 item_color = {

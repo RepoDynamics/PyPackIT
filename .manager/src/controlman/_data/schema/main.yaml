@@ -1603,6 +1603,10 @@ properties:
             type: string
           separator:
             type: integer
+      icon:
+        type: object
+        additionalProperties:
+          type: string
   # ITS
   commit:
     summary: Configurations for different commit types.

@@ -1234,57 +1234,57 @@ label:
     color: '#A00000'
     label:
       fix:
-        suffix: ${{ data_icon.fix }}$ bug fix
+        suffix: ${{ theme.icon.fix }}$ bug fix
         description: Fix a bug in a project component.
       feat:
-        suffix: ${{ data_icon.feat }}$ new feature
+        suffix: ${{ theme.icon.feat }}$ new feature
         description: Add a new feature to a project component.
       change:
-        suffix: ${{ data_icon.change }}$ breaking change
+        suffix: ${{ theme.icon.change }}$ breaking change
         description: Introduce a breaking change in a project component.
       refactor:
-        suffix: ${{ data_icon.refactor }}$ refactoring
+        suffix: ${{ theme.icon.refactor }}$ refactoring
         description: Refactor code without affecting project interfaces.
       config:
-        suffix: ${{ data_icon.config }}$ configuration
+        suffix: ${{ theme.icon.config }}$ configuration
         description: Change project configurations and metadata.
       ci:
-        suffix: ${{ data_icon.ci }}$ DevOps
+        suffix: ${{ theme.icon.ci }}$ DevOps
         description: Change automated workflows and development environments.
       chore:
-        suffix: ${{ data_icon.chore }}$ maintenance
+        suffix: ${{ theme.icon.chore }}$ maintenance
         description: Perform housekeeping tasks unrelated to project interfaces.
   scope:
     prefix: Scope
     color: '#A00000'
     label:
       pkg:
-        suffix: ${{ data_icon.pkg }}$ app
+        suffix: ${{ theme.icon.pkg }}$ app
         description: Related to ${{ pypkg_main.name }}$ package.
       test:
-        suffix: ${{ data_icon.test }}$ tests
+        suffix: ${{ theme.icon.test }}$ tests
         description: Related to ${{ pypkg_test.name }}$ package.
       docs:
-        suffix: ${{ data_icon.docs }}$ docs
+        suffix: ${{ theme.icon.docs }}$ docs
         description: Related to ${{ name }}$ documentation and website.
       repo:
-        suffix: ${{ data_icon.repo }}$ repo
+        suffix: ${{ theme.icon.repo }}$ repo
         description: Related to ${{ repo.name }}$ repository.
   component:
     prefix: Component
     color: '#0366d6'
     label:
       api:
-        suffix: ${{ data_icon.api }}$ API
+        suffix: ${{ theme.icon.api }}$ API
         description: Related to the Python application programming interface.
       cli:
-        suffix: ${{ data_icon.cli }}$ CLI
+        suffix: ${{ theme.icon.cli }}$ CLI
         description: Related to the command-line interface.
       gui:
-        suffix: ${{ data_icon.gui }}$ GUI
+        suffix: ${{ theme.icon.gui }}$ GUI
         description: Related to the graphical user interface.
       build:
-        suffix: ${{ data_icon.setup }}$ Build
+        suffix: ${{ theme.icon.setup }}$ Build
         description: Related to the build and installation process.
   commit:
     prefix: Commit
@@ -1655,16 +1655,16 @@ issue:
       - [ commit, '${{ ..commit }}$' ]
       - [ release, '#{{ return get(f"commit.release.{get("..commit")}").get("action", "local") }}#' ]
   __data__:
-    title_pkg: ' ${{ data_icon.pkg }}$ App'
-    title_doc: ' ${{ data_icon.docs }}$ Docs'
-    title_test: ' ${{ data_icon.test }}$ Tests'
-    title_api: ' ${{ data_icon.api }}$ API'
-    title_cli: ' ${{ data_icon.cli }}$ CLI'
-    title_gui: ' ${{ data_icon.gui }}$ GUI'
-    title_setup: ' ${{ data_icon.setup }}$ Setup'
-    title_bug: ' ${{ data_icon.fix }}$ Bug Report'
-    title_feat: ' ${{ data_icon.feat }}$ Feature Request'
-    title_breaking: ' ${{ data_icon.change }}$ Change Request'
+    title_pkg: ' ${{ theme.icon.pkg }}$ App'
+    title_doc: ' ${{ theme.icon.docs }}$ Docs'
+    title_test: ' ${{ theme.icon.test }}$ Tests'
+    title_api: ' ${{ theme.icon.api }}$ API'
+    title_cli: ' ${{ theme.icon.cli }}$ CLI'
+    title_gui: ' ${{ theme.icon.gui }}$ GUI'
+    title_setup: ' ${{ theme.icon.setup }}$ Setup'
+    title_bug: ' ${{ theme.icon.fix }}$ Bug Report'
+    title_feat: ' ${{ theme.icon.feat }}$ Feature Request'
+    title_breaking: ' ${{ theme.icon.change }}$ Change Request'
     heading_bug_report:
       type: markdown
       attributes:
@@ -2126,7 +2126,7 @@ issue:
                       "logo_media_type": "svg+xml",
                     },
                     {
-                      "label": ccc.data_icon.pkg + " Package Manager",
+                      "label": ccc.theme.icon.pkg + " Package Manager",
                       "args": {"message": input.package_manager},
                     },
                   ]
@@ -2601,7 +2601,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ data_icon.refactor }}$ Refactoring Request'
+      name: ' ${{ theme.icon.refactor }}$ Refactoring Request'
       description: >-
         Request code formatting and refactoring in ${{ name }}$'s source files.
       __temp__:
@@ -2617,7 +2617,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ data_icon.config }}$ Configuration Request'
+      name: ' ${{ theme.icon.config }}$ Configuration Request'
       description: >-
         Request a change in ${{ name }}$'s metadata and settings.
       __temp__:
@@ -2632,7 +2632,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ data_icon.ci }}$ DevOps Request'
+      name: ' ${{ theme.icon.ci }}$ DevOps Request'
       description: >-
         Request a change in ${{ name }}$'s automated workflows and development environment.
       __temp__:
@@ -2646,7 +2646,7 @@ issue:
       labels:
         - [ scope, repo ]
         - '*{{ issue.__temp__.labels }}*'
-      name: ' ${{ data_icon.chore }}$ Maintenance Request'
+      name: ' ${{ theme.icon.chore }}$ Maintenance Request'
       description: Request a maintenance job in ${{ name }}$.
       __temp__:
         purpose: >-
