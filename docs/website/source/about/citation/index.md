@@ -1,13 +1,13 @@
 # Citation
 
-|{% if 'citation' not in ccc or 'dois' not in ccc.citation %}|
+|{% if 'dois' not in ccc %}|
 
 |{{ ccc.name }}| has currently no available citation data.
 Please contact us if you need to cite |{{ ccc.name }}| in your work.
 
 |{% else %}|
 
-|{% set suffix = 's' if ccc.citation.dois | length > 1 else '' %}|
+|{% set suffix = 's' if ccc.dois | length > 1 else '' %}|
 
 Please cite |{{ ccc.name }}| in your work
 using the following reference|{{ suffix }}|:
@@ -29,9 +29,9 @@ You can then either [copy](#help-copy-button) the updated plain text above,
 or the corresponding HTML code below.
 Alternatively, select the BibTeX, RIS, or CiteProc JSON tabs
 to copy the reference|{{ suffix }}| in the desired citation database file format.
-The reference|{{ suffix }}| correspond|{{ 's' if ccc.citation.dois | length < 2 else '' }}| to:
+The reference|{{ suffix }}| correspond|{{ 's' if ccc.dois | length < 2 else '' }}| to:
 
-|{% for doi in ccc.citation.dois -%}|
+|{% for doi in ccc.dois -%}|
 - |{{ doi.description }}|
 |{% endfor %}|
 

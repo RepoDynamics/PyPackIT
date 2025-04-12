@@ -447,8 +447,7 @@ file_funding_github:
     # See the schema or the GitHub documentation for the supported funding platforms.
     github:
       - ${{ team.owner.github.id }}$
-data_project:
-  dois: |
+dois: |
     #{{
       out = []
       preferred = get("file_citation_cff.content.preferred_citation", {})
@@ -467,17 +466,3 @@ data_project:
         out.append({"value": latest_doi, "description": description})
       return out
     }}#
-  jsonschema:
-    schema:
-      properties:
-        dois:
-          type: array
-          items:
-            type: object
-            additionalProperties: false
-            required: [ value, description ]
-            properties:
-              value:
-                $ref: https://jsonschemata.repodynamics.com/id/doi
-              description:
-                $ref: https://jsonschemata.repodynamics.com/string/oneline

@@ -1505,6 +1505,17 @@ properties:
               const: restricted
         then:
           required: [ access_conditions ]
+  dois:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [ value, description ]
+      properties:
+        value:
+          $ref: https://jsonschemata.repodynamics.com/id/doi
+        description:
+          $ref: https://jsonschemata.repodynamics.com/string/oneline
   web:
     title: Website
     summary: Configurations for the project's website.

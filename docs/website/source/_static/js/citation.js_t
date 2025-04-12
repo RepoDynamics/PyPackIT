@@ -3,7 +3,7 @@
 This script performs the following tasks:
 
 - When the citation page is first loaded, it calls the DOI API to generate
-  BibTex, RIS, CiteProc, and HTML outputs for all DOIs in `ccc.citation.dois`.
+  BibTex, RIS, CiteProc, and HTML outputs for all DOIs in `ccc.dois`.
 - It also populates the citation style dropdown menu
   with available options read from a remote JSON file.
 - Every time the user selects a citation style from the menu,
@@ -13,13 +13,13 @@ This script performs the following tasks:
 Notes
 -----
 The script uses Jinja templating to fetch the DOIs from the control center configurations
-during build. If no DOI is available in `ccc.citation.dois` then the entire script is omitted.
+during build. If no DOI is available in `ccc.dois` then the entire script is omitted.
 */
 
 
-{% if ccc.citation is defined and ccc.citation.dois %}
+{% if ccc.dois is defined %}
 
-const dois = {{ ccc.citation.dois | tojson }}.map(obj => obj.value);
+const dois = {{ ccc.dois | tojson }}.map(obj => obj.value);
 
 function escapeHTML(html) {
     // Escape HTML entities for displaying raw HTML.
@@ -214,6 +214,6 @@ window.addEventListener('load', loadOptions);
 // No citation data available
 {% else %}
 
-console.warn('Citation data is not available in `ccc.citation.dois`.');
+console.warn('Citation data is not available in `ccc.dois`.');
 
 {% endif %}
