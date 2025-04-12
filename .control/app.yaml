@@ -476,7 +476,7 @@ __temp__:
           recipe-maintainers: |
             #{{
                 return [
-                  member["github"]["id"] for member in team_members_with_role_types(
+                  member["github"]["id"] for member in hook.members_with_role_types(
                     "ProjectManager",
                     active_only=True,
                   )
@@ -504,7 +504,7 @@ __temp__:
           return [
             hook.entity_in_pyproject(author)
             for author in (
-              team_members_with_role_types("Author", active_only=True)
+              hook.members_with_role_types("Author", active_only=True)
               + changelog.current_public.contributors_with_role_types("Author", member=False)
             )
           ]
@@ -513,7 +513,7 @@ __temp__:
         #{{
           return [
             hook.entity_in_pyproject(maintainer)
-            for maintainer in team_members_with_role_types(
+            for maintainer in hook.members_with_role_types(
               ["ContactPerson", "ProjectManager", "DataManager", "ProjectLeader", "Supervisor"],
               active_only=True,
             )

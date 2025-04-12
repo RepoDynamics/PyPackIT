@@ -1153,7 +1153,7 @@ properties:
           #{{
             return [
               {"id": int_author["id"], "member": True}
-              for int_author in team_members_with_role_types("Author", active_only=True)
+              for int_author in hook.members_with_role_types("Author", active_only=True)
             ] + [
               {"id": ext_author["id"], "member": False}
               for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)

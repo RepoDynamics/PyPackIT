@@ -627,14 +627,14 @@ file_coc:
     class: covenant_code_of_conduct
     contact_name: |
       #{{
-        return team_members_with_role_ids(
+        return hook.members_with_role_ids(
           "coc",
           active_only=True,
         )[0]["email"]["id"]
       }}#
     contact_url: |
       #{{
-        return team_members_with_role_ids(
+        return hook.members_with_role_ids(
           "coc",
           active_only=True,
         )[0]["email"]["url"]

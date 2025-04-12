@@ -13,7 +13,6 @@ import pyserials as _ps
 from loggerman import logger as _logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from controlman import data_helper as _helper
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
 from controlman.changelog_manager import ChangelogManager
@@ -181,9 +180,6 @@ class ControlCenterManager:
                 "slugify": pylinks.string.to_slug,
             },
             code_context_partial={
-                "team_members_with_role_types": _helper.team_members_with_role_types,
-                "team_members_without_role_types": _helper.team_members_without_role_types,
-                "team_members_with_role_ids": _helper.team_members_with_role_ids,
                 "get_prefix": get_prefix,
             },
             code_context_call=code_context_call,
