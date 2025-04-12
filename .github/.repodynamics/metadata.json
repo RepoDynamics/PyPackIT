@@ -2769,14 +2769,18 @@
    "default": {
       "file_setting": {
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "task_setting": {
@@ -4194,7 +4198,9 @@
                   "file_setting": {
                      "eof_newline": true,
                      "json": {
-                        "indent": 3
+                        "end_of_file_newline": true,
+                        "indent": 3,
+                        "sort_keys": true
                      },
                      "md": {
                         "heading_number": false,
@@ -4203,10 +4209,12 @@
                      "sort_keys": true,
                      "yaml": {
                         "block_string": true,
+                        "end_of_file_newline": true,
                         "mapping_indent": 2,
                         "remove_top_level_indent": true,
                         "sequence_indent": 4,
-                        "sequence_indent_offset": 2
+                        "sequence_indent_offset": 2,
+                        "sort_keys": true
                      }
                   },
                   "name": "Codecov Configuration",
@@ -4557,7 +4565,9 @@
                   "file_setting": {
                      "eof_newline": true,
                      "json": {
-                        "indent": 3
+                        "end_of_file_newline": true,
+                        "indent": 3,
+                        "sort_keys": true
                      },
                      "md": {
                         "heading_number": false,
@@ -4566,10 +4576,12 @@
                      "sort_keys": true,
                      "yaml": {
                         "block_string": true,
+                        "end_of_file_newline": true,
                         "mapping_indent": 2,
                         "remove_top_level_indent": true,
                         "sequence_indent": 4,
-                        "sequence_indent_offset": 2
+                        "sequence_indent_offset": 2,
+                        "sort_keys": true
                      }
                   },
                   "name": "Pre-Commit Configuration",
@@ -4776,7 +4788,9 @@
                   "file_setting": {
                      "eof_newline": true,
                      "json": {
-                        "indent": 3
+                        "end_of_file_newline": true,
+                        "indent": 3,
+                        "sort_keys": true
                      },
                      "md": {
                         "heading_number": false,
@@ -4785,10 +4799,12 @@
                      "sort_keys": true,
                      "yaml": {
                         "block_string": true,
+                        "end_of_file_newline": true,
                         "mapping_indent": 2,
                         "remove_top_level_indent": true,
                         "sequence_indent": 4,
-                        "sequence_indent_offset": 2
+                        "sequence_indent_offset": 2,
+                        "sort_keys": true
                      }
                   },
                   "name": "Pre-Commit Configuration for CI",
@@ -4978,7 +4994,9 @@
                   "file_setting": {
                      "eof_newline": true,
                      "json": {
-                        "indent": 3
+                        "end_of_file_newline": true,
+                        "indent": 3,
+                        "sort_keys": true
                      },
                      "md": {
                         "heading_number": false,
@@ -4987,10 +5005,12 @@
                      "sort_keys": true,
                      "yaml": {
                         "block_string": true,
+                        "end_of_file_newline": true,
                         "mapping_indent": 2,
                         "remove_top_level_indent": true,
                         "sequence_indent": 4,
-                        "sequence_indent_offset": 2
+                        "sequence_indent_offset": 2,
+                        "sort_keys": true
                      }
                   },
                   "name": "Ruff Configuration",
@@ -5405,7 +5425,9 @@
                   "file_setting": {
                      "eof_newline": true,
                      "json": {
-                        "indent": 3
+                        "end_of_file_newline": true,
+                        "indent": 3,
+                        "sort_keys": true
                      },
                      "md": {
                         "heading_number": false,
@@ -5414,10 +5436,12 @@
                      "sort_keys": true,
                      "yaml": {
                         "block_string": true,
+                        "end_of_file_newline": true,
                         "mapping_indent": 2,
                         "remove_top_level_indent": true,
                         "sequence_indent": 4,
-                        "sequence_indent_offset": 2
+                        "sequence_indent_offset": 2,
+                        "sort_keys": true
                      }
                   },
                   "name": "Mypy Configuration",
@@ -5753,7 +5777,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -5762,10 +5788,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Binder APT Environment File",
@@ -5785,7 +5813,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -5794,10 +5824,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Binder Conda Environment File",
@@ -5817,7 +5849,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -5826,10 +5860,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Binder Post Build Environment File",
@@ -5941,7 +5977,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -5950,10 +5988,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "jsonschema": {
@@ -7862,7 +7902,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -7871,10 +7913,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Code of Conduct",
@@ -7906,7 +7950,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -7915,10 +7961,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "CODEOWNERS",
@@ -8015,7 +8063,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -8024,10 +8074,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Contribution Guide",
@@ -8063,7 +8115,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -8072,10 +8126,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "jsonschema": {
@@ -8150,7 +8206,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -8159,10 +8217,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Governance",
@@ -9645,7 +9705,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -9654,10 +9716,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Repository README",
@@ -9677,564 +9741,6 @@
       "type": "md",
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/README.md"
    },
-   "file_readthedocs": {
-      "content": {
-         "build": {
-            "jobs": {
-               "post_checkout": [
-                  "git fetch --unshallow"
-               ]
-            },
-            "os": "ubuntu-22.04",
-            "tools": {
-               "python": "mambaforge-4.10"
-            }
-         },
-         "conda": {
-            "environment": ".devcontainer/container-docs/environment/conda/website.yaml"
-         },
-         "formats": "all",
-         "python": {
-            "install": [
-               {
-                  "method": "pip",
-                  "path": "pkg"
-               }
-            ]
-         },
-         "sphinx": {
-            "builder": "dirhtml",
-            "configuration": "docs/website/source/conf.py",
-            "fail_on_warning": false
-         },
-         "version": 2
-      },
-      "content_setting": {
-         "prefix": "",
-         "separator": "\n",
-         "suffix": ""
-      },
-      "file_setting": {
-         "eof_newline": true,
-         "json": {
-            "indent": 3
-         },
-         "md": {
-            "heading_number": false,
-            "target": "github"
-         },
-         "sort_keys": true,
-         "yaml": {
-            "block_string": true,
-            "mapping_indent": 2,
-            "remove_top_level_indent": true,
-            "sequence_indent": 4,
-            "sequence_indent_offset": 2
-         }
-      },
-      "jsonschema": {
-         "fill_defaults": false,
-         "schema": {
-            "$comment": "https://docs.readthedocs.io/en/stable/config-file/index.html",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "additionalProperties": false,
-            "description": "Read the Docs configuration file.",
-            "properties": {
-               "build": {
-                  "additionalProperties": false,
-                  "description": "Configuration for the documentation build process.",
-                  "properties": {
-                     "apt_packages": {
-                        "default": [],
-                        "description": "List of packages to be installed with apt-get.",
-                        "items": {
-                           "title": "APT Package",
-                           "type": "string"
-                        },
-                        "title": "APT Packages",
-                        "type": "array"
-                     },
-                     "commands": {
-                        "description": "Override the whole build process with custom commands. When using this option, none of the commands from build.jobs will be executed.",
-                        "items": {
-                           "title": "Custom commands",
-                           "type": "string"
-                        },
-                        "title": "Build commands",
-                        "type": "array"
-                     },
-                     "jobs": {
-                        "additionalProperties": false,
-                        "description": "Run custom commands at any point in the build process",
-                        "properties": {
-                           "build": {
-                              "additionalProperties": false,
-                              "description": "Override the default build process.",
-                              "properties": {
-                                 "epub": {
-                                    "items": {
-                                       "title": "Custom commands",
-                                       "type": "string"
-                                    },
-                                    "type": "array"
-                                 },
-                                 "html": {
-                                    "items": {
-                                       "title": "Custom commands",
-                                       "type": "string"
-                                    },
-                                    "type": "array"
-                                 },
-                                 "htmlzip": {
-                                    "items": {
-                                       "title": "Custom commands",
-                                       "type": "string"
-                                    },
-                                    "type": "array"
-                                 },
-                                 "pdf": {
-                                    "items": {
-                                       "title": "Custom commands",
-                                       "type": "string"
-                                    },
-                                    "type": "array"
-                                 }
-                              },
-                              "type": "object"
-                           },
-                           "create_environment": {
-                              "description": "Override the default environment creation process.",
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "install": {
-                              "description": "Override the default installation process.",
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "post_build": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "post_checkout": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "post_create_environment": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "post_install": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "post_system_dependencies": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "pre_build": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "pre_create_environment": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "pre_install": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           "pre_system_dependencies": {
-                              "items": {
-                                 "title": "Custom commands",
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           }
-                        },
-                        "title": "Build jobs",
-                        "type": "object"
-                     },
-                     "os": {
-                        "description": "Operating system to be used in the build.",
-                        "enum": [
-                           "ubuntu-20.04",
-                           "ubuntu-22.04",
-                           "ubuntu-24.04",
-                           "ubuntu-lts-latest"
-                        ],
-                        "title": "Operating System"
-                     },
-                     "tools": {
-                        "additionalProperties": false,
-                        "description": "Tools and their version to be used in the build.",
-                        "minProperties": 1,
-                        "properties": {
-                           "golang": {
-                              "enum": [
-                                 "1.17",
-                                 "1.18",
-                                 "1.19",
-                                 "1.20",
-                                 "1.21",
-                                 "1.22",
-                                 "1.23",
-                                 "latest"
-                              ]
-                           },
-                           "nodejs": {
-                              "enum": [
-                                 "14",
-                                 "16",
-                                 "18",
-                                 "19",
-                                 "20",
-                                 "22",
-                                 "23",
-                                 "latest"
-                              ]
-                           },
-                           "python": {
-                              "enum": [
-                                 "2.7",
-                                 "3",
-                                 "3.6",
-                                 "3.7",
-                                 "3.8",
-                                 "3.9",
-                                 "3.10",
-                                 "3.11",
-                                 "3.12",
-                                 "3.13",
-                                 "latest",
-                                 "miniconda3-4.7",
-                                 "miniconda3-3.12-24.1",
-                                 "miniconda3-3.12-24.9",
-                                 "miniconda-latest",
-                                 "mambaforge-4.10",
-                                 "mambaforge-22.9",
-                                 "mambaforge-23.11",
-                                 "mambaforge-latest"
-                              ]
-                           },
-                           "ruby": {
-                              "enum": [
-                                 "3.3",
-                                 "latest"
-                              ]
-                           },
-                           "rust": {
-                              "enum": [
-                                 "1.55",
-                                 "1.61",
-                                 "1.64",
-                                 "1.70",
-                                 "1.75",
-                                 "1.78",
-                                 "1.82",
-                                 "latest"
-                              ]
-                           }
-                        },
-                        "title": "Tools",
-                        "type": "object"
-                     }
-                  },
-                  "required": [
-                     "os",
-                     "tools"
-                  ],
-                  "title": "Build",
-                  "type": "object"
-               },
-               "conda": {
-                  "description": "Configuration for Conda support.",
-                  "properties": {
-                     "environment": {
-                        "description": "The path to the Conda environment file from the root of the project.",
-                        "title": "Environment",
-                        "type": "string"
-                     }
-                  },
-                  "required": [
-                     "environment"
-                  ],
-                  "title": "Conda",
-                  "type": "object"
-               },
-               "formats": {
-                  "anyOf": [
-                     {
-                        "items": {
-                           "enum": [
-                              "htmlzip",
-                              "pdf",
-                              "epub"
-                           ]
-                        },
-                        "type": "array"
-                     },
-                     {
-                        "enum": [
-                           "all"
-                        ]
-                     }
-                  ],
-                  "default": [],
-                  "description": "Formats of the documentation to be built.",
-                  "title": "Formats"
-               },
-               "mkdocs": {
-                  "additionalProperties": false,
-                  "description": "Configuration for mkdocs documentation.",
-                  "properties": {
-                     "configuration": {
-                        "description": "The path to the mkdocs.yml file.",
-                        "title": "Configuration",
-                        "type": "string"
-                     },
-                     "fail_on_warning": {
-                        "default": false,
-                        "description": "Add the --strict option to mkdocs build.",
-                        "title": "Fail on Warning",
-                        "type": "boolean"
-                     }
-                  },
-                  "required": [
-                     "configuration"
-                  ],
-                  "title": "mkdocs",
-                  "type": "object"
-               },
-               "python": {
-                  "additionalProperties": false,
-                  "description": "Configuration of the Python environment to be used.",
-                  "properties": {
-                     "install": {
-                        "description": "Installation of packages and requirements.",
-                        "items": {
-                           "anyOf": [
-                              {
-                                 "properties": {
-                                    "requirements": {
-                                       "description": "The path to the requirements file from the root of the project.",
-                                       "title": "Requirements",
-                                       "type": "string"
-                                    }
-                                 },
-                                 "required": [
-                                    "requirements"
-                                 ]
-                              },
-                              {
-                                 "properties": {
-                                    "extra_requirements": {
-                                       "default": [],
-                                       "description": "Extra requirements sections to install in addition to the package dependencies.",
-                                       "items": {
-                                          "type": "string"
-                                       },
-                                       "title": "Extra Requirements",
-                                       "type": "array"
-                                    },
-                                    "method": {
-                                       "default": "pip",
-                                       "description": "Install using python setup.py install or pip.",
-                                       "enum": [
-                                          "pip",
-                                          "setuptools"
-                                       ],
-                                       "title": "Method"
-                                    },
-                                    "path": {
-                                       "description": "The path to the project to be installed",
-                                       "title": "Path",
-                                       "type": "string"
-                                    }
-                                 },
-                                 "required": [
-                                    "path"
-                                 ]
-                              }
-                           ]
-                        },
-                        "title": "Install",
-                        "type": "array"
-                     }
-                  },
-                  "title": "Python",
-                  "type": "object"
-               },
-               "search": {
-                  "additionalProperties": false,
-                  "properties": {
-                     "ignore": {
-                        "default": [
-                           "search.html",
-                           "search/index.html",
-                           "404.html",
-                           "404/index.html"
-                        ],
-                        "description": "List of patterns.",
-                        "items": {
-                           "title": "Pattern",
-                           "type": "string"
-                        },
-                        "title": "Ignore",
-                        "type": "array"
-                     },
-                     "ranking": {
-                        "additionalProperties": {
-                           "maximum": 10,
-                           "minimum": -10,
-                           "type": "number"
-                        },
-                        "description": "Map of patterns to ranks.",
-                        "title": "Ranking"
-                     }
-                  },
-                  "title": "search",
-                  "type": "object"
-               },
-               "sphinx": {
-                  "additionalProperties": false,
-                  "description": "Configuration for sphinx documentation.",
-                  "properties": {
-                     "builder": {
-                        "default": "html",
-                        "description": "The builder type for the sphinx documentation.",
-                        "enum": [
-                           "html",
-                           "dirhtml",
-                           "singlehtml"
-                        ],
-                        "title": "Builder"
-                     },
-                     "configuration": {
-                        "description": "The path to the conf.py file.",
-                        "title": "Configuration",
-                        "type": "string"
-                     },
-                     "fail_on_warning": {
-                        "default": false,
-                        "description": "Add the -W option to sphinx-build.",
-                        "title": "Fail on Warning",
-                        "type": "boolean"
-                     }
-                  },
-                  "required": [
-                     "configuration"
-                  ],
-                  "title": "Sphinx",
-                  "type": "object"
-               },
-               "submodules": {
-                  "additionalProperties": false,
-                  "description": "Submodules configuration.",
-                  "properties": {
-                     "exclude": {
-                        "anyOf": [
-                           {
-                              "items": {
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           {
-                              "enum": [
-                                 "all"
-                              ]
-                           }
-                        ],
-                        "default": [],
-                        "description": "List of submodules to be ignored.",
-                        "title": "Exclude"
-                     },
-                     "include": {
-                        "anyOf": [
-                           {
-                              "items": {
-                                 "type": "string"
-                              },
-                              "type": "array"
-                           },
-                           {
-                              "enum": [
-                                 "all"
-                              ]
-                           }
-                        ],
-                        "default": [],
-                        "description": "List of submodules to be included.",
-                        "title": "Include"
-                     },
-                     "recursive": {
-                        "default": false,
-                        "description": "Do a recursive clone?",
-                        "title": "Recursive",
-                        "type": "boolean"
-                     }
-                  },
-                  "title": "Submodules",
-                  "type": "object"
-               },
-               "version": {
-                  "description": "The version of the spec to use.",
-                  "enum": [
-                     2
-                  ],
-                  "title": "Version",
-                  "type": "number"
-               }
-            },
-            "required": [
-               "version"
-            ],
-            "title": "Read the Docs",
-            "type": "object"
-         }
-      },
-      "name": "ReadTheDocs Configuration",
-      "path": ".readthedocs.yaml",
-      "path_schema": {
-         "default": ".readthedocs.yaml",
-         "description": "By default, ReadTheDocs only looks for a\n[`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file))\nfile in the root of the repository.\nHowever, you can [change this manually](https://docs.readthedocs.io/en/stable/guides/setup/monorepo.html#how-to-use-a-readthedocs-yaml-file-in-a-sub-folder)\nby setting another path on the ReadTheDocs website,\nand then specifying that path here.\n"
-      },
-      "status": "active",
-      "summary": "[Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html) for the [ReadTheDocs](https://readthedocs.org/) web hosting service.",
-      "type": "yaml",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.readthedocs.yaml"
-   },
    "file_script_web_build": {
       "content": "SPHINX_COMMON_OPTIONS=\"--verbose --show-traceback --keep-going --color --nitpicky --jobs auto\"\nsphinx-build -M dirhtml docs/website/source docs/website/.build $SPHINX_COMMON_OPTIONS\n\n# Create a tarball of the built website according to GitHub Pages requirements.\n# Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml\ntar \\\n  --dereference --hard-dereference \\\n  --directory \"docs/website/.build/dirhtml\" \\\n  -cvf \"docs/website/.build/website.tar\" \\\n  --exclude=.git \\\n  --exclude=.github \\\n  --exclude=\".[^/]*\" \\\n  .\n",
       "content_setting": {
@@ -10250,7 +9756,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -10259,10 +9767,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Website Build Script",
@@ -10283,7 +9793,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -10292,10 +9804,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Website Live Preview Script",
@@ -10361,7 +9875,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -10370,10 +9886,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Security Policy",
@@ -10692,7 +10210,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -10701,10 +10221,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "jsonschema": {
@@ -10775,7 +10297,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -10784,10 +10308,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Support Resources",
@@ -11069,7 +10595,9 @@
       "file_setting": {
          "eof_newline": true,
          "json": {
-            "indent": 3
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
          },
          "md": {
             "heading_number": false,
@@ -11078,10 +10606,12 @@
          "sort_keys": true,
          "yaml": {
             "block_string": true,
+            "end_of_file_newline": true,
             "mapping_indent": 2,
             "remove_top_level_indent": true,
             "sequence_indent": 4,
-            "sequence_indent_offset": 2
+            "sequence_indent_offset": 2,
+            "sort_keys": true
          }
       },
       "name": "Website Table of Contents",
@@ -18253,7 +17783,6 @@
             "file_funding_github": null,
             "file_governance": "GOVERNANCE.md",
             "file_readme": "README.md",
-            "file_readthedocs": ".readthedocs.yaml",
             "file_script_web_build": ".devcontainer/container-docs/script/website/build.sh",
             "file_script_web_livehtml": ".devcontainer/container-docs/script/website/livehtml.sh",
             "file_security": "SECURITY.md",
@@ -21277,7 +20806,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -21286,10 +20817,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "Package README",
@@ -21314,7 +20847,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -21323,10 +20858,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "MANIFEST.in",
@@ -22837,7 +22374,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -22846,10 +22385,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "Coverage Configuration",
@@ -22915,7 +22456,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -22924,10 +22467,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "Pytest Configuration",
@@ -24400,7 +23945,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -24409,10 +23956,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "Test Suite README",
@@ -24436,7 +23985,9 @@
             "file_setting": {
                "eof_newline": true,
                "json": {
-                  "indent": 3
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
                },
                "md": {
                   "heading_number": false,
@@ -24445,10 +23996,12 @@
                "sort_keys": true,
                "yaml": {
                   "block_string": true,
+                  "end_of_file_newline": true,
                   "mapping_indent": 2,
                   "remove_top_level_indent": true,
                   "sequence_indent": 4,
-                  "sequence_indent_offset": 2
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
                }
             },
             "name": "MANIFEST.in",
@@ -26140,6 +25693,40 @@
          "to_root": "../../../"
       },
       "readthedocs": {
+         "config_file": {
+            "content": {
+               "build": {
+                  "jobs": {
+                     "post_checkout": [
+                        "git fetch --unshallow"
+                     ]
+                  },
+                  "os": "ubuntu-22.04",
+                  "tools": {
+                     "python": "mambaforge-4.10"
+                  }
+               },
+               "conda": {
+                  "environment": ".devcontainer/container-docs/environment/conda/website.yaml"
+               },
+               "formats": "all",
+               "python": {
+                  "install": [
+                     {
+                        "method": "pip",
+                        "path": "pkg"
+                     }
+                  ]
+               },
+               "sphinx": {
+                  "builder": "dirhtml",
+                  "configuration": "docs/website/source/conf.py",
+                  "fail_on_warning": false
+               },
+               "version": 2
+            },
+            "path": ".readthedocs.yaml"
+         },
          "language": "en",
          "name": "PyPackIT",
          "platform": "community",
