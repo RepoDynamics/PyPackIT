@@ -612,7 +612,7 @@ class InlineDataGenerator:
                 out.append(member_data | {"id": member_id})
         return out
 
-    def team_members_with_role_ids(
+    def members_with_role_ids(
         self,
         role_ids: str | Sequence[str],
         active_only: bool = True,
