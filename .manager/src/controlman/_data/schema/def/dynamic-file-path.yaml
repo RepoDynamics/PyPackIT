@@ -3,6 +3,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Dynamic Filepath
 summary: Path to the output dynamic file.
 description: |
+  This is a relative path from the root of the repository.
   Changing the path will automatically remove the file from the old path
   and add the (updated) file to the new path during the next synchronization.
 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd

@@ -38,6 +38,7 @@ class ConfigFileGenerator:
             + self.dynamic_files()
             + self.devcontainers()
             + self.devcontainer_features()
+            + self.gitattributes()
         )
 
     def _is_disabled(self, key: str) -> bool:
@@ -443,4 +444,44 @@ class ConfigFileGenerator:
                 executable=True,
             )
             out.extend([feature_file, install_file])
+        return out
+
+    def gitattributes(self) -> list[DynamicFile]:
+        """Process `.gitattributes` files defined at `$.repo.gitattributes`"""
+        key = "repo.gitattributes"
+        filetype = DynamicFileType.GITATTRIBUTES
+        data = self._data.get(key, {})
+        data_before = self._data_before.get(key, {})
+        out = []
+        for file_key, file_data in data.items():
+            lines = []
+            attributes = file_data["entries"]
+            max_len_pattern = max([len(list(attribute.keys())[0]) for attribute in attributes])
+            max_len_attr = max(
+                [max(len(attr) for attr in list(attribute.values())[0]) for attribute in attributes]
+            )
+            for attribute in attributes:
+                pattern = list(attribute.keys())[0]
+                attrs = list(attribute.values())[0]
+                attrs_str = "  ".join(f"{attr: <{max_len_attr}}" for attr in attrs).strip()
+                lines.append(f"{pattern: <{max_len_pattern}}    {attrs_str}")
+            file_content = "\n".join(lines)
+            out.append(
+                DynamicFile(
+                    type=filetype,
+                    subtype=(file_key, file_data["title"]),
+                    content=file_content,
+                    path=file_data["path"],
+                    path_before=data_before.get("path"),
+                )
+            )
+        for old_file_key, old_file_data in data_before.get(key, {}).items():
+            if old_file_key not in data:
+                out.append(
+                    DynamicFile(
+                        type=filetype,
+                        subtype=(old_file_key, old_file_data["title"]),
+                        path_before=old_file_data["path"],
+                    )
+                )
         return out

@@ -3365,6 +3365,83 @@ properties:
                 examples:
                   - "https://github.com/RepoDynamics/PyPackIT/deployments"
                 $ref: https://jsonschemata.repodynamics.com/url/https
+      gitattributes:
+        title: Git Attributes
+        summary: Definition of [`.gitattributes`](https://git-scm.com/docs/gitattributes) files.
+        type: object
+        description: |
+          The `.gitattributes` file defines attributes
+          for files and directories in the repository,
+          such as data type (e.g., text or binary),
+          line endings, diff settings, and merge strategies
+          to manage how Git handles specific files.
+          The data is in plain text,
+          where each line specifies a path or glob pattern and its attributes.
+
+          :::{admonition} Learn More: `.gitattributes`
+          :class: dropdown seealso
+
+          - https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes
+          - https://github.com/alexkaratarakis/gitattributes/blob/master/Common.gitattributes
+          - https://github.com/alexkaratarakis/gitattributes/blob/master/Python.gitattributes
+          :::
+        additionalProperties:
+          title: '`.gitattributes` File'
+          summary: Definition of a `.gitattributes` file in the repository.
+          type: object
+          additionalProperties: false
+          required: [ title, summary, path, entries ]
+          properties:
+            title:
+              summary: Title of the `.gitattributes` file.
+              $ref: https://jsonschemata.repodynamics.com/string/oneline
+              description: |
+                This is used in the documentation of the file.
+            summary:
+              summary: Summary of the `.gitattributes` file.
+              $ref: https://jsonschemata.repodynamics.com/string/oneline
+              description: |
+                This is used in the documentation of the file.
+            description:
+              summary: Description of the `.gitattributes` file.
+              type: string
+              description: |
+                This is used in the documentation of the file.
+            path:
+              summary: Path to the `.gitattributes` file.
+              allOf:
+                - $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+                - title: '`.gitattributes` Filepath'
+                  summary: Path to a `.gitattributes` file.
+                  description: The filename must be `.gitattributes`.
+                  pattern: (^|/)\.gitattributes$
+            entries:
+              summary: File attributes.
+              description: |
+                The data must be an array of objects, as explained below.
+              type: array
+              uniqueItems: true
+              items:
+                title: File Attributes
+                summary: Attributes for a specific filetype.
+                description: |
+                  This must be a key-value pair, where the key is a path or glob pattern,
+                  and the value is the attributes to set for the matched files,
+                  specified as an array of strings.
+                type: object
+                minProperties: 1
+                maxProperties: 1
+                additionalProperties:
+                  title: Attributes
+                  summary: List of attributes to set for the matched files.
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    title: Attribute
+                    summary: An attribute to set for the matched files.
+                    type: string
+                    minLength: 1
   branch:
     summary: Configurations for repository branches.
     description: |
