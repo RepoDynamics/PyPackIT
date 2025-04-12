@@ -515,3 +515,25 @@ class ConfigFileGenerator:
                     )
                 )
         return out
+
+    def readthedocs(self) -> list[DynamicFile]:
+        """Process `.readthedocs` file defined at `$.web.readthedocs.config_file`"""
+        key = "web.readthedocs.config_file"
+        filetype = DynamicFileType.WEB_CONFIG
+        data = self._data.get(key, {})
+        data_before = self._data_before.get(key, {})
+        dynamic_file = {
+            "type": filetype,
+            "subtype": ("readthedocs", "ReadTheDocs"),
+            "path": data.get("path"),
+            "path_before": data_before.get("path"),
+        }
+        content = data.get("content")
+        if content:
+            content_str = _unit.create_dynamic_file(
+                file_type="yaml",
+                content=content,
+                **self._data["default"]["file_setting"]["yaml"],
+            )
+            dynamic_file["content"] = content_str
+        return [DynamicFile(**dynamic_file)]

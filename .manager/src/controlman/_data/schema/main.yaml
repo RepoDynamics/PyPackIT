@@ -1742,6 +1742,26 @@ properties:
           language:
             summary: Language of the website.
             type: string
+          config_file:
+            summary: >-
+              [Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html)
+              for the [ReadTheDocs](https://readthedocs.org/) web hosting service.
+            type: object
+            properties:
+              path:
+                summary: Path to the ReadTheDocs configuration file.
+                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+                default: .readthedocs.yaml
+                description: |
+                  By default, ReadTheDocs only looks for a
+                  [`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file))
+                  file in the root of the repository.
+                  However, you can [change this manually](https://docs.readthedocs.io/en/stable/guides/setup/monorepo.html#how-to-use-a-readthedocs-yaml-file-in-a-sub-folder)
+                  by setting another path on the ReadTheDocs website,
+                  and then specifying that path here.
+              content:
+                summary: ReadTheDocs configuration.
+                $ref: https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
       quicklinks:
         summary: Quicklinks
         description: |

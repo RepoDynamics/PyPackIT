@@ -24,3 +24,11 @@ properties:
   remove_top_level_indent:
     type: boolean
     default: true
+  end_of_file_newline:
+    summary: Whether to add a newline at the end of the file.
+    type: boolean
+    default: true
+  sort_keys:
+    summary: Whether to sort keys in the output file.
+    type: boolean
+    default: true

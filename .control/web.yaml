@@ -211,6 +211,30 @@ web:
       single_version: false
       translation: false
     language: en
+    config_file:
+      path: .readthedocs.yaml
+      content:
+        version: 2
+        formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
+        build: # Set the version of Python and other tools you might need
+          os: ubuntu-22.04
+          tools:
+            python: "mambaforge-4.10"
+          jobs:
+            post_checkout:
+              # versioningit needs the full git history to determine the package's version at build time.
+              # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
+              - git fetch --unshallow
+        conda: # Website dependencies
+          environment: ${{ devcontainer_docs.environment.website.path }}$
+        python:
+          install: # Install the package
+            - method: pip
+              path: ${{ pypkg_main.path.root }}$
+        sphinx: # Build with Sphinx
+          configuration: ${{ web.path.source }}$/conf.py
+          builder: dirhtml
+          fail_on_warning: false
   url:
     custom:
       name: pypackit.repodynamics.com
@@ -238,47 +262,6 @@ file_sphinx_conf:
   jsonschema:
     schema:
       $ref: https://jsonschemata.repodynamics.com/config/sphinx
-
-file_readthedocs:
-  name: ReadTheDocs Configuration
-  summary: >-
-    [Configuration file](https://docs.readthedocs.io/en/stable/config-file/v2.html)
-    for the [ReadTheDocs](https://readthedocs.org/) web hosting service.
-  type: yaml
-  path: .readthedocs.yaml
-  path_schema:
-    description: |
-      By default, ReadTheDocs only looks for a
-      [`.readthedocs.yaml`]((https://docs.readthedocs.io/en/stable/config-file/index.html#where-to-put-your-configuration-file))
-      file in the root of the repository.
-      However, you can [change this manually](https://docs.readthedocs.io/en/stable/guides/setup/monorepo.html#how-to-use-a-readthedocs-yaml-file-in-a-sub-folder)
-      by setting another path on the ReadTheDocs website,
-      and then specifying that path here.
-    default: .readthedocs.yaml
-  content:
-    version: 2
-    formats: all  # Build all additional formats of the documentation, i.e. pdf, epub, and htmlzip
-    build: # Set the version of Python and other tools you might need
-      os: ubuntu-22.04
-      tools:
-        python: "mambaforge-4.10"
-      jobs:
-        post_checkout:
-          # versioningit needs the full git history to determine the package's version at build time.
-          # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
-          - git fetch --unshallow
-    conda: # Website dependencies
-      environment: ${{ devcontainer_docs.environment.website.path }}$
-    python:
-      install: # Install the package
-        - method: pip
-          path: ${{ pypkg_main.path.root }}$
-    sphinx: # Build with Sphinx
-      configuration: ${{ web.path.source }}$/conf.py
-      builder: dirhtml
-      fail_on_warning: false
-  jsonschema:
-    schema: !ext https://raw.githubusercontent.com/readthedocs/readthedocs.org/refs/heads/main/readthedocs/rtd_tests/fixtures/spec/v2/schema.json
 
 file_script_web_build:
   name: Website Build Script
