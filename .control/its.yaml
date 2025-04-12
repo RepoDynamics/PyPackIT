@@ -1327,10 +1327,10 @@ issue:
   contact_links:
     - name: '🎓️  Learn More'
       about: Not sure where to start? Read our contribution guide to learn more.
-      url: ${{ data_website.page.contribute.url }}$
+      url: ${{ web.page.contribute.url }}$
     - name: '💬  Contact Us'
       about: Have another inquiry or need help? Contact us directly!
-      url: ${{ data_website.page.contact.url }}$
+      url: ${{ web.page.contact.url }}$
   __temp__:
     # Body Templates
     body_fix_api:
@@ -1705,7 +1705,7 @@ issue:
           options:
             - label: >-
                 I confirm that I am following ${{ name }}$'s
-                [Contribution Guidelines](${{ data_website.page.contribute.url }}$).
+                [Contribution Guidelines](${{ web.page.contribute.url }}$).
               required: true
             - label: >-
                 I agree to follow ${{ name }}$'s
@@ -1843,7 +1843,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ data_website.page.contribute.url }}$">Bug Report Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Bug Report Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">The issue you are experiencing is in fact a bug, and not a documented expected behavior.</p>
@@ -1856,7 +1856,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ data_website.page.contribute.url }}$">Feature Request Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Feature Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-compatible change, and not a breaking change or a bug fix.</p>
@@ -1869,7 +1869,7 @@ issue:
 
           <p align="justify">
             Before submitting a report, please make sure that you are following our
-            <a href="${{ data_website.page.contribute.url }}$">Change Request Guidelines</a> to verify that:
+            <a href="${{ web.page.contribute.url }}$">Change Request Guidelines</a> to verify that:
           </p>
 
           - <p align="justify">Your request is for a backward-incompatible change, and not a new feature, improvement, or bug fix.</p>
@@ -2121,7 +2121,7 @@ issue:
                     {
                       "label": "Python Versions",
                       "args": {"message": py_vers},
-                      "logo": ccc.data_website.path.source + "_media/logo_ext/python.svg",
+                      "logo": ccc.web.path.source + "_media/logo_ext/python.svg",
                       "logo_type": "file",
                       "logo_media_type": "svg+xml",
                     },

@@ -4471,7 +4471,7 @@
          "translation": false
       }
    },
-   "data_website": {
+   "web": {
       "announcement": {
          "path": "docs/website/announcement.html",
          "retention_days": 30,
@@ -4527,7 +4527,7 @@
                               "anyOf": [
                                  {
                                     "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "default": "${{ data_website.path.root }}$/announcement.html",
+                                    "default": "${{ web.path.root }}$/announcement.html",
                                     "examples": [
                                        "docs/announcement.html"
                                     ],
@@ -4538,7 +4538,7 @@
                                     "type": "string"
                                  }
                               ],
-                              "default": "${{ data_website.path.root }}$/announcement.html"
+                              "default": "${{ web.path.root }}$/announcement.html"
                            },
                            "retention_days": {
                               "anyOf": [
@@ -4596,7 +4596,7 @@
                                        "anyOf": [
                                           {
                                              "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                             "default": "${{ data_website.path.source }}$/${{ .rel_path }}$",
+                                             "default": "${{ web.path.source }}$/${{ .rel_path }}$",
                                              "summary": "Absolute path to the file."
                                           },
                                           {
@@ -4604,7 +4604,7 @@
                                              "type": "string"
                                           }
                                        ],
-                                       "default": "${{ data_website.path.source }}$/${{ .rel_path }}$"
+                                       "default": "${{ web.path.source }}$/${{ .rel_path }}$"
                                     },
                                     "rel_path": {
                                        "anyOf": [
@@ -20527,7 +20527,7 @@
                         "separator": 2,
                         "style": "flat-square"
                      },
-                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.red,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.data_website.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.theme.icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
+                     "### Summary\n\n{% if input.endpoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint + \".\" + input.endpoint},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- elif input.entrypoint -%}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Endpoint\",\n    args={\"message\": input.entrypoint},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif -%}\n{%- if input.url %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"URL\",\n    args={\"message\": input.url},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif %}\n{%- if input.jsonpath %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"JSON Path\",\n    args={\"message\": input.jsonpath},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=input.url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif %}\n\n{{ input.summary }}\n\n{% if input.proposal -%}\n### Proposal\n\n{{ input.proposal }}\n{%- endif %}\n\n{% if input.test_case -%}\n### Test Case\n\n```python\n{{ input.test_case }}\n```\n{%- endif %}\n\n{% if input.mre -%}\n### Minimal Reproducible Example\n\n{{ input.mre }}\n{%- endif %}\n\n{% if input.stderr -%}\n### Output Log\n\n```bash\n{{ input.stderr }}\n```\n{%- endif %}\n\n{% if input.environment -%}\n### Test Environment\n\n{%- set os_names = input.os | join(' | ') -%}\n{%- set py_vers = input.python_versions | join(' | ') -%}\n{{\n  mdit.element.badges(\n    service=\"static\",\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.red,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    items=[\n      {\n        \"label\": \"\u2699\ufe0f Operating Systems\",\n        \"args\": {\"message\": os_names},\n      },\n      {\n        \"label\": \"Python Versions\",\n        \"args\": {\"message\": py_vers},\n        \"logo\": ccc.web.path.source + \"_media/logo_ext/python.svg\",\n        \"logo_type\": \"file\",\n        \"logo_media_type\": \"svg+xml\",\n      },\n      {\n        \"label\": ccc.theme.icon.pkg + \" Package Manager\",\n        \"args\": {\"message\": input.package_manager},\n      },\n    ]\n  )\n}}\n\n<details><summary><b>Environment</b></summary>\n\n```yaml\n{{ input.environment }}\n```\n\n</details>\n{%- endif %}\n"
                   ],
                   "heading": "User Requirements Document (URD)"
                },

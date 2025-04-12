@@ -1,5 +1,7 @@
 # Website Table of Contents (TOC)
 web:
+  announcement:
+    path: ${{ web.path.root }}$/announcement.html
   css:
     theme_colors:
       # Colors for pydata-sphinx-theme
@@ -65,6 +67,60 @@ web:
               out[theme] = filter
             return out
           }}#
+  file:
+    icon:
+      rel_path: ${{ web.path.logo_dir }}$/favicon.svg
+    logo_simple_light:
+      rel_path: ${{ web.path.logo_dir }}$/simple_light.svg
+    logo_simple_dark:
+      rel_path: ${{ web.path.logo_dir }}$/simple_dark.svg
+    logo_simple_raster:
+      rel_path: ${{ web.path.logo_dir }}$/simple_light.png
+    logo_full_light:
+      rel_path: ${{ web.path.logo_dir }}$/full_light.svg
+    logo_full_dark:
+      rel_path: ${{ web.path.logo_dir }}$/full_dark.svg
+    logo_full_raster:
+      rel_path: ${{ web.path.logo_dir }}$/full_light.png
+  page: '#{{ return hook.web_page() }}#'
+  path:
+    root: docs/website
+    source_rel: source
+    source: ${{ .root }}$/${{ .source_rel }}$
+    build: ${{ .root }}$/.build
+    to_root: |
+      #{{ return len(get(".source").split("/")) * "../" }}#
+    logo_dir: _media/logo
+  quicklinks:
+    - links:
+        - title: Motivation
+          path: 'intro/motivation'
+        - title: Overview
+          path: 'intro/overview'
+        - title: Background
+          path: 'intro/background'
+    - links:
+        - title: Installation
+          path: 'manual/install'
+        - title: Quickstart
+          path: 'manual/quickstart'
+        - title: Release Notes
+          path: 'news/category/release'
+    - links:
+        - title: Feedback
+          path: 'contribute/feedback'
+        - title: Develop
+          path: 'contribute/develop'
+        - title: Support
+          path: 'contribute/support'
+    - links:
+        - title: Cite
+          path: about/citation
+        - title: License
+          path: about/license
+        - title: Team
+          path: about/team
+
 file_web_toc:
   name: Website Table of Contents
   summary: Central table of contents definition for the entire website.
@@ -75,7 +131,7 @@ file_web_toc:
   type: yaml
   data:
     rel_path: .toc.yaml
-  path: ${{ data_website.path.source }}$/${{ .data.rel_path }}$
+  path: ${{ web.path.source }}$/${{ .data.rel_path }}$
   content:
     root: index
     defaults:
@@ -136,192 +192,11 @@ file_web_toc:
           - file: help/website/index
             entries:
               - file: help/website/tips/index
-data_website:
-  path:
-    root: docs/website
-    source_rel: source
-    source: ${{ .root }}$/${{ .source_rel }}$
-    build: ${{ .root }}$/.build
-    to_root: |
-      #{{ return len(get(".source").split("/")) * "../" }}#
-    logo_dir: _media/logo
-  announcement:
-    path: ${{ data_website.path.root }}$/announcement.html
-  file:
-    icon:
-      rel_path: ${{ data_website.path.logo_dir }}$/favicon.svg
-    logo_simple_light:
-      rel_path: ${{ data_website.path.logo_dir }}$/simple_light.svg
-    logo_simple_dark:
-      rel_path: ${{ data_website.path.logo_dir }}$/simple_dark.svg
-    logo_simple_raster:
-      rel_path: ${{ data_website.path.logo_dir }}$/simple_light.png
-    logo_full_light:
-      rel_path: ${{ data_website.path.logo_dir }}$/full_light.svg
-    logo_full_dark:
-      rel_path: ${{ data_website.path.logo_dir }}$/full_dark.svg
-    logo_full_raster:
-      rel_path: ${{ data_website.path.logo_dir }}$/full_light.png
-  page: '#{{ return hook.web_page() }}#'
-  quicklinks:
-    - links:
-        - title: Motivation
-          path: 'intro/motivation'
-        - title: Overview
-          path: 'intro/overview'
-        - title: Background
-          path: 'intro/background'
-    - links:
-        - title: Installation
-          path: 'manual/install'
-        - title: Quickstart
-          path: 'manual/quickstart'
-        - title: Release Notes
-          path: 'news/category/release'
-    - links:
-        - title: Feedback
-          path: 'contribute/feedback'
-        - title: Develop
-          path: 'contribute/develop'
-        - title: Support
-          path: 'contribute/support'
-    - links:
-        - title: Cite
-          path: about/citation
-        - title: License
-          path: about/license
-        - title: Team
-          path: about/team
-  jsonschema:
-    fill_defaults: true
-    schema:
-      additionalProperties: false
-      properties:
-        path:
-          summary: Paths to the website directory.
-          type: object
-          additionalProperties: false
-          required: [ root, source_rel, source, to_root ]
-          properties:
-            root:
-              summary: Path to website root directory relative to the repository root.
-              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            source_rel:
-              summary: Path to website source directory relative to the website root directory.
-              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            source:
-              summary: Path to website source directory relative to the repository root.
-              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            build:
-              summary: Path to website build directory relative to the repository root.
-              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            to_root:
-              summary: Relative path from the source directory to the root of the repository.
-              type: string
-            logo_dir:
-              summary: Path to logo directory relative to website source directory
-              type: string
-        page:
-          summary: Paths to important pages on the website.
-          description:
-            All paths must be relative to the root of the website directory, without suffix.
-          type: object
-          additionalProperties:
-            title: Relative path to the page.
-            type: object
-            properties:
-              title:
-                summary: Title of the page.
-                type: string
-                examples:
-                  - Introduction
-                  - User Manual
-                  - Installation
-              path:
-                summary: Path to the page.
-                type: string
-                examples:
-                  - intro
-                  - intro/index
-                  - user-manual
-                  - user-manual/installation/index
-              url:
-                summary: URL of the page.
-                $ref: https://jsonschemata.repodynamics.com/url/http-explicit
-            examples:
-              - about/license
-              - help/contact
-        quicklinks:
-          summary: Quicklinks
-          description: |
-            Quicklinks to important pages on the website.
-            These are displayed in the footer of the website.
-          type: array
-          items:
-            title: Group
-            type: object
-            required: [ links ]
-            properties:
-              title:
-                summary: Title for the group of quicklinks.
-                type: string
-                examples:
-                  - About
-                  - Contact
-                  - Help
-              links:
-                summary: Quicklinks in the group.
-                type: array
-        announcement:
-          summary: Configurations of project announcements.
-          type: object
-          required: [ path, retention_days, url ]
-          properties:
-            path:
-              summary: Path to the announcement banner file.
-              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              default: ${{ data_website.path.root }}$/announcement.html
-              examples:
-                - docs/announcement.html
-            retention_days:
-              summary: Number of days to keep an announcement.
-              default: 30
-              $ref: https://jsonschemata.repodynamics.com/number/non-negative
-            url:
-              summary: URL to the announcement banner file.
-              $ref: https://jsonschemata.repodynamics.com/url/http-explicit
-              default: ${{ repo.url.raw }}$/${{ .path }}$
-        file:
-          summary: Declaration of files in the website source directory.
-          type: object
-          additionalProperties:
-            title: Website File
-            description: |
-              Declaration of a file in the website source directory.
-            type: object
-            additionalProperties: false
-            required: [ path, url ]
-            properties:
-              rel_path:
-                title: Relative Path
-                summary: |
-                  Path to the file relative to the website source directory.
-                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              path:
-                summary: Absolute path to the file.
-                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ data_website.path.source }}$/${{ .rel_path }}$
-              url:
-                title: URL
-                summary: URL to the file.
-                $ref: https://jsonschemata.repodynamics.com/url/https
-                default: ${{ repo.url.raw }}$/${{ .path }}$
-
 file_sphinx_conf:
   name: Sphinx Configuration
   summary: Sphinx configuration file for the website.
   type: json
-  path: ${{ data_website.path.source }}$/conf.json
+  path: ${{ web.path.source }}$/conf.json
   content: |
     #{{
       import pyserials as ps
@@ -420,7 +295,7 @@ file_readthedocs:
         - method: pip
           path: ${{ pypkg_main.path.root }}$
     sphinx: # Build with Sphinx
-      configuration: ${{ data_website.path.source }}$/conf.py
+      configuration: ${{ web.path.source }}$/conf.py
       builder: dirhtml
       fail_on_warning: false
   jsonschema:
@@ -432,18 +307,18 @@ file_script_web_build:
   path: ${{ devcontainer_docs.path.root }}$/script/website/build.sh
   type: txt
   data:
-    tar_path: ${{ data_website.path.build }}$/website.tar
+    tar_path: ${{ web.path.build }}$/website.tar
     sphinx_build_options: --verbose --show-traceback --keep-going --color --nitpicky --jobs auto
     sphinx_builder: dirhtml
   content: |
     SPHINX_COMMON_OPTIONS="${{ .data.sphinx_build_options }}$"
-    sphinx-build -M ${{ .data.sphinx_builder }}$ ${{ data_website.path.source }}$ ${{ data_website.path.build }}$ $SPHINX_COMMON_OPTIONS
+    sphinx-build -M ${{ .data.sphinx_builder }}$ ${{ web.path.source }}$ ${{ web.path.build }}$ $SPHINX_COMMON_OPTIONS
 
     # Create a tarball of the built website according to GitHub Pages requirements.
     # Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml
     tar \
       --dereference --hard-dereference \
-      --directory "${{ data_website.path.build }}$/dirhtml" \
+      --directory "${{ web.path.build }}$/dirhtml" \
       -cvf "${{ .data.tar_path }}$" \
       --exclude=.git \
       --exclude=.github \
@@ -461,8 +336,8 @@ file_script_web_livehtml:
   type: txt
   content: |
     sphinx-autobuild \
-      ${{ data_website.path.source }}$ \
-      ${{ data_website.path.build }}$ \
+      ${{ web.path.source }}$ \
+      ${{ web.path.build }}$ \
       ${{ file_script_web_build.data.sphinx_build_options }}$ \
       -a -b=${{ file_script_web_build.data.sphinx_builder }}$ --open-browser --delay 0
   notes: |
@@ -534,9 +409,9 @@ devcontainer_docs:
               html_title: ${{ name }}$
               html_short_title: ${{ name }}$
               html_baseurl: ${{ web.url.base }}$
-              html_favicon: ${{ data_website.file.icon.rel_path }}$
+              html_favicon: ${{ web.file.icon.rel_path }}$
               html_sidebars:
-                "${{ data_website.page.blog.path }}$/**":
+                "${{ web.page.blog.path }}$/**":
                   - ablog/postcard.html
                   - ablog/recentposts.html
                   - ablog/tagcloud.html
@@ -553,8 +428,8 @@ devcontainer_docs:
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1325
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1328
                 #    - https://github.com/pydata/pydata-sphinx-theme/issues/1385
-                - '${{ data_website.file.logo_simple_light.rel_path }}$'
-                - '${{ data_website.file.logo_simple_dark.rel_path }}$'
+                - '${{ web.file.logo_simple_light.rel_path }}$'
+                - '${{ web.file.logo_simple_dark.rel_path }}$'
               html_css_files:
                 - https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css
               html_js_files:
@@ -595,7 +470,7 @@ devcontainer_docs:
               latex_theme: manual
               latex_show_urls: footnote
               latex_show_pagerefs: true
-              latex_logo: ${{ data_website.file.logo_full_raster.rel_path }}$
+              latex_logo: ${{ web.file.logo_full_raster.rel_path }}$
               python_display_short_literal_types: true
               python_maximum_signature_line_length: 80
               # ----- Builtin Extensions ------
@@ -703,10 +578,10 @@ devcontainer_docs:
                     url: ${{ repo.url.discussions.home }}$
                   - name: License
                     icon: fa-solid fa-copyright
-                    url: ${{ data_website.page.license.url }}$
+                    url: ${{ web.page.license.url }}$
                 icon_links_label: External links
                 use_edit_page_button: true
-                announcement: ${{ data_website.announcement.url }}$
+                announcement: ${{ web.announcement.url }}$
                 search_bar_text: Search ${{ name }}$
                 back_to_top_button: true
                 logo:
@@ -721,7 +596,7 @@ devcontainer_docs:
                 github_user: ${{ repo.owner }}$
                 github_repo: ${{ repo.name }}$
                 github_version: ${{ repo.default_branch }}$
-                doc_path: ${{ data_website.path.source }}$
+                doc_path: ${{ web.path.source }}$
                 default_mode: auto  # Default theme mode: {'light', 'dark', 'auto'}
         # ---- Third-Party Sphinx Extensions ----
         # Resources:
@@ -803,9 +678,9 @@ devcontainer_docs:
               blog_baseurl: ${{ web.url.base }}$
               blog_default_author: owner
               blog_feed_archives: true
-              blog_path: ${{ data_website.page.blog.path }}$/list
+              blog_path: ${{ web.page.blog.path }}$/list
               blog_post_pattern:
-                - ${{ data_website.page.blog.path }}$/post/*.md
+                - ${{ web.page.blog.path }}$/post/*.md
               post_show_prev_next: false
               blog_title: ${{ name }}$ News
               fontawesome_included: true
@@ -979,7 +854,7 @@ devcontainer_docs:
             sphinx_config:
               extensions: [ autodoc2 ]
               autodoc2_index_template: null
-              autodoc2_packages: [ '${{ data_website.path.to_root }}$/${{ pypkg_main.path.import }}$' ]
+              autodoc2_packages: [ '${{ web.path.to_root }}$/${{ pypkg_main.path.import }}$' ]
               autodoc2_output_dir: api
               autodoc2_render_plugin: myst
               autodoc2_hidden_objects: [ private, inherited ]

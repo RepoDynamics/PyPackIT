@@ -4,7 +4,7 @@ pypkg_main:
       name: Linux (x64)
       runner: ubuntu-24.04
       data:
-        logo: ${{ data_website.path.source }}$/_media/logo_ext/linux.png
+        logo: ${{ web.path.source }}$/_media/logo_ext/linux.png
     linux-aarch64:
       name: Linux (arm64)
       runner: ubuntu-24.04-arm
@@ -525,10 +525,10 @@ __temp__:
         - '*{{ #{{ return hook.trove_classifiers() }}# }}*'
       urls:
         Homepage: ${{ web.url.home }}$
-        Documentation: ${{ data_website.page.manual.url }}$
+        Documentation: ${{ web.page.manual.url }}$
         Source: ${{ repo.url.home }}$
         Download: ${{ repo.url.releases.home }}$
-        News: ${{ data_website.page.blog.url }}$
+        News: ${{ web.page.blog.url }}$
         Issue-Tracker: ${{ repo.url.issues.home }}$
       scripts: >-
         #{{ return hook.pyproject_scripts("cli") }}#

@@ -21,8 +21,8 @@ file_readme:
   content:
     body:
       - class: block_image
-        src: ${{ data_website.file.logo_full_light.url }}$
-        src_dark: ${{ data_website.file.logo_full_dark.url }}$
+        src: ${{ web.file.logo_full_light.url }}$
+        src_dark: ${{ web.file.logo_full_dark.url }}$
         title: Welcome to ${{ name }}$! Click to visit our website and learn more.
         alt: '${{ name }}$: ${{ title }}$'
         align: center
@@ -31,22 +31,22 @@ file_readme:
       - class: menu
         items:
           - text: Intro
-            link: ${{ data_website.page.intro.url }}$
+            link: ${{ web.page.intro.url }}$
             title: Introduction and Background
           - text: Manual
-            link: ${{ data_website.page.manual.url }}$
+            link: ${{ web.page.manual.url }}$
             title: User Manual
           - text: News
-            link: ${{ data_website.page.blog.url }}$
+            link: ${{ web.page.blog.url }}$
             title: Latest News and Releases
           - text: Contribute
-            link: ${{ data_website.page.contribute.url }}$
+            link: ${{ web.page.contribute.url }}$
             title: How to Contribute
           - text: About
-            link: ${{ data_website.page.about.url }}$
+            link: ${{ web.page.about.url }}$
             title: About the Project
           - text: Help
-            link: ${{ data_website.page.help.url }}$
+            link: ${{ web.page.help.url }}$
             title: Get Help and Support
         line_top_width: 100%
         line_bottom_width: 100%
@@ -102,7 +102,7 @@ file_readme:
                   pypi = {
                     "label": "pip install ",
                     "args": {"message": get("pypkg_main.name").lower()},
-                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
+                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                     "logo_type": "file",
                     "logo_media_type": "png",
                     "color": "#3775A9",
@@ -200,7 +200,7 @@ file_readme:
                       - endpoint: language_count
                         label: 🔠 Programming Languages
                       - endpoint: top_language
-                        logo: ${{ data_website.path.source }}$/_media/logo_ext/python.svg
+                        logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
                         logo_type: file
                         logo_media_type: svg+xml
                       - endpoint: repo_size
@@ -265,7 +265,7 @@ file_readme:
                         args:
                           message: mypy
                         color: "#2A6DB2"
-                        logo: ${{ data_website.path.source }}$/_media/logo_ext/mypy.svg
+                        logo: ${{ web.path.source }}$/_media/logo_ext/mypy.svg
                         logo_type: file
                         logo_media_type: svg+xml
                         link: https://github.com/python/mypy
@@ -288,7 +288,7 @@ file_readme:
                         args:
                           message: Black
                         color: "#000"
-                        logo: ${{ data_website.path.source }}$/_media/logo_ext/black.png
+                        logo: ${{ web.path.source }}$/_media/logo_ext/black.png
                         logo_type: file
                         logo_media_type: png
                         link: https://github.com/psf/black
@@ -314,7 +314,7 @@ file_readme:
                                 "service": "pepy",
                                 "endpoint": "total_downloads",
                                 "label": "PyPI",
-                                "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
+                                "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                                 "logo_type": "file",
                                 "logo_media_type": "png",
                               },
@@ -518,7 +518,7 @@ file_readme:
                                     badge = {
                                       "endpoint": "deployment_status",
                                       "args": {"environment": env_name},
-                                      "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
+                                      "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                                       "logo_type": "file",
                                       "logo_media_type": "png",
                                     }
@@ -574,10 +574,10 @@ file_readme:
               query: '$.copyright'
             label: ${{ name }}$
             color: ${{ theme.color.primary.light }}$
-            logo: ${{ data_website.file.icon.path }}$
+            logo: ${{ web.file.icon.path }}$
             logo_type: file
             color_dark: ${{ theme.color.primary.dark }}$
-            logo_dark: ${{ data_website.file.icon.path }}$
+            logo_dark: ${{ web.file.icon.path }}$
             logo_type_dark: file
             link: ${{ team.owner.github.url }}$
             title: '${{ name }}$: Copyright ${{ copyright }}$'
@@ -590,7 +590,7 @@ file_readme:
             color: "#4398CC"
             logo: spdx
             logo_color: "#4398CC"
-            link: ${{ data_website.page.license.url }}$
+            link: ${{ web.page.license.url }}$
             title: 'SPDX-License-Identifier: ${{ license.expression }}$'
             alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
             align: right
@@ -681,7 +681,7 @@ file_contributing:
               align: justify
             content: |
               To keep all our project documentation organized and easy to find, the complete
-              <a href="${{ data_website.page.contribute.url }}$">contribution guide</a> is hosted on our website.
+              <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
     footer: ${{ file_readme.content.footer }}$
 file_governance:
   name: Governance
@@ -769,7 +769,7 @@ __temp__:
             label_color_dark: ${{ theme.color.primary.dark }}$
             color: ${{ theme.color.secondary.light }}$
             color_dark: ${{ theme.color.secondary.dark }}$
-            logo: ${{ data_website.file.icon.path }}$
+            logo: ${{ web.file.icon.path }}$
             logo_type: file
           - label: >-
               #{{
@@ -822,7 +822,7 @@ __temp__:
                   pypi = {
                     "label": "pip install",
                     "args": {"message": f"{get("pypkg_main.name")} == {version}"},
-                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/pypi.png",
+                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
                     "logo_type": "file",
                     "logo_media_type": "png",
                     "color": "#3775A9",
@@ -992,7 +992,7 @@ __temp__:
               height: ${{ theme.badge.height }}$
               color: ${{ theme.badge.color.grey }}$
               label_color: ${{ theme.badge.color.grey }}$
-              logo: ${{ data_website.path.source }}$/_media/logo_ext/python.svg
+              logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
               logo_type: file
               logo_media_type: svg+xml
             - '&nbsp;'
@@ -1082,7 +1082,7 @@ __temp__:
                 config = {
                   "python": {
                     "text": "API",
-                    "logo": f"{get("data_website.path.source")}/_media/logo_ext/python.svg",
+                    "logo": f"{get("web.path.source")}/_media/logo_ext/python.svg",
                     "logo_type": "file",
                     "logo_media_type": "svg+xml",
                   },

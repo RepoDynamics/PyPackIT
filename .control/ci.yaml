@@ -440,11 +440,11 @@ workflow:
     artifact:
       build:
         name: Website - v{{ version }}
-        path: ${{ data_website.path.build }}$
+        path: ${{ web.path.build }}$
         include_hidden: true
       pages:
         name: Website - v{{ version }} - GH-Pages
-        path: ${{ data_website.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
+        path: ${{ web.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
   binder:
     path:
       config: .binder_config

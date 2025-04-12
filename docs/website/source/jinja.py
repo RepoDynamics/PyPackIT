@@ -144,7 +144,7 @@ def footer_template(license_path: str, version: str) -> str:
         {
             "label": metadata["name"],
             "args": {"message": version or "0.0.0"},
-            "logo": metadata["data_website"]["file"]["icon"]["path"],
+            "logo": metadata["web"]["file"]["icon"]["path"],
             "logo_type": "file",
         },
         {

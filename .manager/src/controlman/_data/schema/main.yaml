@@ -1524,6 +1524,25 @@ properties:
     additionalProperties: false
     required: [ url ]
     properties:
+      announcement:
+        summary: Configurations of project announcements.
+        type: object
+        required: [ path, retention_days, url ]
+        properties:
+          path:
+            summary: Path to the announcement banner file.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            default: ${{ web.path.root }}$/announcement.html
+            examples:
+              - docs/announcement.html
+          retention_days:
+            summary: Number of days to keep an announcement.
+            default: 30
+            $ref: https://jsonschemata.repodynamics.com/number/non-negative
+          url:
+            summary: URL to the announcement banner file.
+            $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+            default: ${{ repo.url.raw }}$/${{ .path }}$
       css:
         title: CSS Stylesheets
         summary: CSS stylesheet definitions.
@@ -1612,6 +1631,106 @@ properties:
                   - type: object
                     additionalProperties:
                       $ref: https://jsonschemata.repodynamics.com/string/nonempty
+      file:
+        summary: Declaration of files in the website source directory.
+        type: object
+        additionalProperties:
+          title: Website File
+          description: |
+            Declaration of a file in the website source directory.
+          type: object
+          additionalProperties: false
+          required: [ path, url ]
+          properties:
+            rel_path:
+              title: Relative Path
+              summary: |
+                Path to the file relative to the website source directory.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            path:
+              summary: Absolute path to the file.
+              $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+              default: ${{ web.path.source }}$/${{ .rel_path }}$
+            url:
+              title: URL
+              summary: URL to the file.
+              $ref: https://jsonschemata.repodynamics.com/url/https
+              default: ${{ repo.url.raw }}$/${{ .path }}$
+      page:
+        summary: Paths to important pages on the website.
+        description:
+          All paths must be relative to the root of the website directory, without suffix.
+        type: object
+        additionalProperties:
+          title: Relative path to the page.
+          type: object
+          properties:
+            title:
+              summary: Title of the page.
+              type: string
+              examples:
+                - Introduction
+                - User Manual
+                - Installation
+            path:
+              summary: Path to the page.
+              type: string
+              examples:
+                - intro
+                - intro/index
+                - user-manual
+                - user-manual/installation/index
+            url:
+              summary: URL of the page.
+              $ref: https://jsonschemata.repodynamics.com/url/http-explicit
+          examples:
+            - about/license
+            - help/contact
+      path:
+        summary: Paths to the website directory.
+        type: object
+        additionalProperties: false
+        required: [ root, source_rel, source, to_root ]
+        properties:
+          root:
+            summary: Path to website root directory relative to the repository root.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          source_rel:
+            summary: Path to website source directory relative to the website root directory.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          source:
+            summary: Path to website source directory relative to the repository root.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          build:
+            summary: Path to website build directory relative to the repository root.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          to_root:
+            summary: Relative path from the source directory to the root of the repository.
+            type: string
+          logo_dir:
+            summary: Path to logo directory relative to website source directory
+            type: string
+      quicklinks:
+        summary: Quicklinks
+        description: |
+          Quicklinks to important pages on the website.
+          These are displayed in the footer of the website.
+        type: array
+        items:
+          title: Group
+          type: object
+          required: [ links ]
+          properties:
+            title:
+              summary: Title for the group of quicklinks.
+              type: string
+              examples:
+                - About
+                - Contact
+                - Help
+            links:
+              summary: Quicklinks in the group.
+              type: array
       url:
         title: URL
         summary: Website URLs.

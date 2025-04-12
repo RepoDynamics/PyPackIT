@@ -736,7 +736,7 @@ devcontainer_main:
                   - S101
                 template/test/src/**:
                   - S101
-                '${{ data_website.path.source }}$/conf.py':
+                '${{ web.path.source }}$/conf.py':
                   - TRY003  # https://docs.astral.sh/ruff/rules/raise-vanilla-args/#raise-vanilla-args-try003
                 # https://docs.astral.sh/ruff/rules/#flake8-print-t20
                 '${{ pypkg_main.path.import }}$/__main__.py':

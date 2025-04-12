@@ -329,7 +329,7 @@ class Hooks:
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
         path = self.repo_path / (
-            self.ccc["data_website.path.source"] or self.get("data_website.path.source")
+            self.ccc["web.path.source"] or self.get("web.path.source")
         )
         url_home = self.get("web.url.home")
         pages = {}
