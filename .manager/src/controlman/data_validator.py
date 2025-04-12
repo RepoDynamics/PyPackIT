@@ -523,7 +523,7 @@ def _make_registry():
         _add_custom_keys(schema_dict)
         resources.append(make_resource(schema_dict))
     registry_after, _ = _mdit_schema.make_registry(
-        dynamic=False, crawl=True, add_resources=resources
+        dynamic=True, crawl=True, add_resources=resources
     )
     resources_before = []
     for registry_schema_id in registry_after:
