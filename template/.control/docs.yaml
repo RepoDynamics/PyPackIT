@@ -51,8 +51,8 @@ file_readme:
         line_top_width: 100%
         line_bottom_width: 100%
         style: for-the-badge
-        color: ${{ data_color.primary.light }}$
-        color_dark: ${{ data_color.primary.dark }}$
+        color: ${{ theme.color.primary.light }}$
+        color_dark: ${{ theme.color.primary.dark }}$
         height: 33px
         attrs_container:
           align: center
@@ -164,8 +164,8 @@ file_readme:
             items: ${{ highlights }}$
             button:
               style: for-the-badge
-              color: [ '${{ data_color.primary.light }}$', '${{ data_color.secondary.light }}$' ]
-              color_dark: [ '${{ data_color.primary.dark }}$', '${{ data_color.secondary.dark }}$' ]
+              color: [ '${{ theme.color.primary.light }}$', '${{ theme.color.secondary.light }}$' ]
+              color_dark: [ '${{ theme.color.primary.dark }}$', '${{ theme.color.secondary.dark }}$' ]
               height: 30px
               align: left
             attrs_p:
@@ -573,10 +573,10 @@ file_readme:
               url: ${{ control.url.metadata }}$
               query: '$.copyright'
             label: ${{ name }}$
-            color: ${{ data_color.primary.light }}$
+            color: ${{ theme.color.primary.light }}$
             logo: ${{ data_website.file.icon.path }}$
             logo_type: file
-            color_dark: ${{ data_color.primary.dark }}$
+            color_dark: ${{ theme.color.primary.dark }}$
             logo_dark: ${{ data_website.file.icon.path }}$
             logo_type_dark: file
             link: ${{ team.owner.github.url }}$
@@ -765,10 +765,10 @@ __temp__:
             args:
               message: >-
                 #{{ return changelog.current_public.version }}#
-            label_color: ${{ data_color.primary.light }}$
-            label_color_dark: ${{ data_color.primary.dark }}$
-            color: ${{ data_color.secondary.light }}$
-            color_dark: ${{ data_color.secondary.dark }}$
+            label_color: ${{ theme.color.primary.light }}$
+            label_color_dark: ${{ theme.color.primary.dark }}$
+            color: ${{ theme.color.secondary.light }}$
+            color_dark: ${{ theme.color.secondary.dark }}$
             logo: ${{ data_website.file.icon.path }}$
             logo_type: file
           - label: >-

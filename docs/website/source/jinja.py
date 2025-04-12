@@ -165,8 +165,8 @@ def footer_template(license_path: str, version: str) -> str:
         style="flat-square",
         classes=["footer-badge"],
         separator=0,
-        color=metadata["data_color"]["primary"]["light"],
-        color_dark=metadata["data_color"]["primary"]["dark"],
+        color=metadata["theme"]["color"]["primary"]["light"],
+        color_dark=metadata["theme"]["color"]["primary"]["dark"],
         label_color="rgb(200,200,200)",
         label_color_dark="#555",
     )

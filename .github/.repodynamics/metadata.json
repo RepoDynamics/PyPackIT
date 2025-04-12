@@ -2778,7 +2778,7 @@
       "separator": 2,
       "style": "flat-square"
    },
-   "data_color": {
+   "theme.color": {
       "accent": {
          "dark": "rgb(69 155 36)",
          "light": "rgb(19 84 0)"
@@ -2897,7 +2897,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.warning }}$",
+                        "default": "${{ theme.color.warning }}$",
                         "summary": "Semantic attention color."
                      },
                      {
@@ -2905,13 +2905,13 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.warning }}$"
+                  "default": "${{ theme.color.warning }}$"
                },
                "attention-bg": {
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.warning-bg }}$",
+                        "default": "${{ theme.color.warning-bg }}$",
                         "summary": "Attention background."
                      },
                      {
@@ -2919,7 +2919,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.warning-bg }}$"
+                  "default": "${{ theme.color.warning-bg }}$"
                },
                "background": {
                   "anyOf": [
@@ -3086,7 +3086,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.text-base }}$",
+                        "default": "${{ theme.color.text-base }}$",
                         "description": "In the website, this is used as the color of `<h1>` to `<h6>` elements.\n",
                         "summary": "Color for heading titles."
                      },
@@ -3095,7 +3095,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.text-base }}$"
+                  "default": "${{ theme.color.text-base }}$"
                },
                "info": {
                   "anyOf": [
@@ -3221,7 +3221,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.primary }}$",
+                        "default": "${{ theme.color.primary }}$",
                         "summary": "Color for links."
                      },
                      {
@@ -3229,13 +3229,13 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.primary }}$"
+                  "default": "${{ theme.color.primary }}$"
                },
                "link-hover": {
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.secondary }}$",
+                        "default": "${{ theme.color.secondary }}$",
                         "summary": "Color for links on mouse hover."
                      },
                      {
@@ -3243,7 +3243,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.secondary }}$"
+                  "default": "${{ theme.color.secondary }}$"
                },
                "muted": {
                   "anyOf": [
@@ -3513,7 +3513,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.surface }}$",
+                        "default": "${{ theme.color.surface }}$",
                         "summary": "Color for table heading background."
                      },
                      {
@@ -3521,7 +3521,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.surface }}$"
+                  "default": "${{ theme.color.surface }}$"
                },
                "table-inner-border": {
                   "anyOf": [
@@ -3547,7 +3547,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.surface }}$",
+                        "default": "${{ theme.color.surface }}$",
                         "summary": "Color for table outer borders."
                      },
                      {
@@ -3555,7 +3555,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.surface }}$"
+                  "default": "${{ theme.color.surface }}$"
                },
                "table-row-hover-bg": {
                   "anyOf": [
@@ -3581,7 +3581,7 @@
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.on-background }}$",
+                        "default": "${{ theme.color.on-background }}$",
                         "summary": "Color for high-contrast table rows in zebra mode."
                      },
                      {
@@ -3589,13 +3589,13 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.on-background }}$"
+                  "default": "${{ theme.color.on-background }}$"
                },
                "table-row-zebra-low-bg": {
                   "anyOf": [
                      {
                         "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ data_color.surface }}$",
+                        "default": "${{ theme.color.surface }}$",
                         "summary": "Color for low-contrast table rows in zebra mode."
                      },
                      {
@@ -3603,7 +3603,7 @@
                         "type": "string"
                      }
                   ],
-                  "default": "${{ data_color.surface }}$"
+                  "default": "${{ theme.color.surface }}$"
                },
                "target": {
                   "anyOf": [

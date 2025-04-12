@@ -280,7 +280,7 @@ data_css:
         dark:
           selector: 'html[data-theme="dark"]'
           prefix: --pst-color-
-      properties: '#{{ return {k: v for k, v in get("data_color").items() if k != "jsonschema"} }}#'
+      properties: '#{{ return {k: v for k, v in get("theme.color").items() if k != "jsonschema"} }}#'
     theme_font_sizes:
       # Font sizes for pydata-sphinx-theme.
       # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
@@ -322,7 +322,7 @@ data_css:
           #{{
             import pycolorit as pcit
             cache_group = "css_color_filter"
-            primary_color = get("data_color.primary")
+            primary_color = get("theme.color.primary")
             out = {}
             for theme in ["light", "dark"]:
               cache_id = f"black_to_{primary_color[theme]}"
@@ -946,7 +946,7 @@ devcontainer_docs:
               ogp_enable_meta_description: true
               ogp_social_cards:
                 image: _static/simple_light.svg
-                line_color: ${{ data_color.primary.light }}$
+                line_color: ${{ theme.color.primary.light }}$
         sphinxcontrib-bibtex:
           description: Adding BibTeX-style citations.
           spec:
