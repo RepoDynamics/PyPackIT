@@ -1,5 +1,70 @@
 # Website Table of Contents (TOC)
-
+web:
+  css:
+    theme_colors:
+      # Colors for pydata-sphinx-theme
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
+      cases:
+        light:
+          selector: 'html[data-theme="light"]'
+          prefix: --pst-color-
+        dark:
+          selector: 'html[data-theme="dark"]'
+          prefix: --pst-color-
+      properties: '#{{ return {k: v for k, v in get("theme.color").items() if k != "jsonschema"} }}#'
+    theme_font_sizes:
+      # Font sizes for pydata-sphinx-theme.
+      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
+      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
+      selector: html
+      prefix: --pst-font-size-
+      properties:
+        milli: 0.9rem
+        base: 1rem
+        # 1.2x (minor third) typographic scale starting from 1.10rem.
+        # https://designcode.io/typographic-scales
+        h6: 1.10rem
+        h5: 1.32rem
+        h4: 1.58rem
+        h3: 1.90rem
+        h2: 2.28rem
+        h1: 2.74rem
+    theme_header_color:
+      cases:
+        light:
+          selector: html[data-theme="light"] .bd-header
+        dark:
+          selector: html[data-theme="dark"] .bd-header
+      properties:
+        background-color:
+          light: white !important
+          dark: black !important
+    black_to_primary_filter:
+      # CSS filters for transforming black to project's primary color.
+      # This is used to dynamically change the color of SVG icons
+      # with class name 'black-svg-icon'.
+      cases:
+        light:
+          selector: html[data-theme="light"] .black-svg-icon
+        dark:
+          selector: html[data-theme="dark"] .black-svg-icon
+      properties:
+        filter: |
+          #{{
+            import pycolorit as pcit
+            cache_group = "css_color_filter"
+            primary_color = get("theme.color.primary")
+            out = {}
+            for theme in ["light", "dark"]:
+              cache_id = f"black_to_{primary_color[theme]}"
+              filter = cache_manager.get(cache_group, cache_id)
+              if not filter:
+                filter = pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
+                cache_manager.set(cache_group, cache_id, filter)
+              out[theme] = filter
+            return out
+          }}#
 file_web_toc:
   name: Website Table of Contents
   summary: Central table of contents definition for the entire website.
@@ -251,166 +316,6 @@ data_website:
                 summary: URL to the file.
                 $ref: https://jsonschemata.repodynamics.com/url/https
                 default: ${{ repo.url.raw }}$/${{ .path }}$
-data_css:
-  stylesheet:
-    theme_colors:
-      # Colors for pydata-sphinx-theme
-      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/styling.html#color-variables
-      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss
-      cases:
-        light:
-          selector: 'html[data-theme="light"]'
-          prefix: --pst-color-
-        dark:
-          selector: 'html[data-theme="dark"]'
-          prefix: --pst-color-
-      properties: '#{{ return {k: v for k, v in get("theme.color").items() if k != "jsonschema"} }}#'
-    theme_font_sizes:
-      # Font sizes for pydata-sphinx-theme.
-      # - Docs: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/fonts.html
-      # - Source: https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_fonts.scss
-      selector: html
-      prefix: --pst-font-size-
-      properties:
-        milli: 0.9rem
-        base: 1rem
-        # 1.2x (minor third) typographic scale starting from 1.10rem.
-        # https://designcode.io/typographic-scales
-        h6: 1.10rem
-        h5: 1.32rem
-        h4: 1.58rem
-        h3: 1.90rem
-        h2: 2.28rem
-        h1: 2.74rem
-    theme_header_color:
-      cases:
-        light:
-          selector: html[data-theme="light"] .bd-header
-        dark:
-          selector: html[data-theme="dark"] .bd-header
-      properties:
-        background-color:
-          light: white !important
-          dark: black !important
-    black_to_primary_filter:
-      # CSS filters for transforming black to project's primary color.
-      # This is used to dynamically change the color of SVG icons
-      # with class name 'black-svg-icon'.
-      cases:
-        light:
-          selector: html[data-theme="light"] .black-svg-icon
-        dark:
-          selector: html[data-theme="dark"] .black-svg-icon
-      properties:
-        filter: |
-          #{{
-            import pycolorit as pcit
-            cache_group = "css_color_filter"
-            primary_color = get("theme.color.primary")
-            out = {}
-            for theme in ["light", "dark"]:
-              cache_id = f"black_to_{primary_color[theme]}"
-              filter = cache_manager.get(cache_group, cache_id)
-              if not filter:
-                filter = pcit.css_filter.generate(pcit.color.css(primary_color[theme]))[2]
-                cache_manager.set(cache_group, cache_id, filter)
-              out[theme] = filter
-            return out
-          }}#
-
-  jsonschema:
-    schema:
-      title: CSS Stylesheets
-      summary: CSS stylesheet definitions.
-      description: |
-        These stylesheets are dynamically added to the website during builds.
-        For each stylesheet, add a key-value pair where the
-        key is an ID for the stylesheet,
-        and the value is a mapping defining CSS selectors,
-        property names, and corresponding values.
-      type: object
-      additionalProperties: false
-      properties:
-        stylesheet:
-          type: object
-          additionalProperties:
-            title: Stylesheet
-            summary: |
-              A series of property-value pairs with common property-name prefix and/or suffixes,
-              for a common CSS selector.
-            description: |
-              You can either define a single `selector` with optional `prefix` and `suffix`,
-              or defines a series of `cases`, each with its own selector, prefix, and suffix.
-            type: object
-            additionalProperties: false
-            required: [ properties ]
-            oneOf:
-              - required: [ selector ]
-              - required: [ cases ]
-            properties:
-              selector:
-                summary: Single CSS selector to apply all properties to.
-                $ref: https://jsonschemata.repodynamics.com/string/nonempty
-                description: |
-                  If you use this instead of `cases`, then all `properties` must be strings.
-                examples:
-                  - 'html[data-theme="light"]'
-                  - '.some-class-name'
-                  - '#some-id'
-              prefix:
-                summary: Single prefix to prepend to all property names.
-                $ref: https://jsonschemata.repodynamics.com/string/nonempty
-                examples:
-                  - '--'
-                  - '--pst-color-'
-              suffix:
-                summary: Single suffix to append to all property names.
-                $ref: https://jsonschemata.repodynamics.com/string/nonempty
-              cases:
-                summary: Cases for applying properties.
-                description: |
-                  To remove redundancy, you can define multiple selectors
-                  (each with optional property-names prefix and suffix)
-                  to apply properties to. For example, you may define
-                  color variables to be applied to `html[data-theme="light"]`
-                  and `html[data-theme="dark"]` selectors.
-                type: object
-                minProperties: 1
-                additionalProperties:
-                  type: object
-                  additionalProperties: false
-                  required: [ selector ]
-                  properties:
-                    selector:
-                      summary: CSS selector to apply properties to.
-                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
-                    prefix:
-                      summary: Prefix to prepend to property names.
-                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
-                    suffix:
-                      summary: Suffix to append to property names.
-                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
-              properties:
-                summary: Properties to apply to the selector.
-                description: |
-                  Each key here defines the middle part of a CSS property name.
-                  It is prefixed and suffixed (if defined) to generate the full name.
-                  If you have defined a single selector for this stylesheet,
-                  then all values must be strings. Otherwise, values must be mappings
-                  from case IDs to corresponding values as strings.
-                type: object
-                additionalProperties:
-                  title: Property
-                  summary: The value of the CSS property.
-                  description: |
-                    If you have defined a single selector for this stylesheet,
-                    then this must be a string. Otherwise, it must be a mapping
-                    from case IDs to corresponding values as strings.
-                  oneOf:
-                    - $ref: https://jsonschemata.repodynamics.com/string/nonempty
-                    - type: object
-                      additionalProperties:
-                        $ref: https://jsonschemata.repodynamics.com/string/nonempty
 
 file_sphinx_conf:
   name: Sphinx Configuration

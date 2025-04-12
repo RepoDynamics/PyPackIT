@@ -1524,6 +1524,94 @@ properties:
     additionalProperties: false
     required: [ url ]
     properties:
+      css:
+        title: CSS Stylesheets
+        summary: CSS stylesheet definitions.
+        description: |
+          These stylesheets are dynamically added to the website during builds.
+          For each stylesheet, add a key-value pair where the
+          key is an ID for the stylesheet,
+          and the value is a mapping defining CSS selectors,
+          property names, and corresponding values.
+        type: object
+        additionalProperties:
+          title: Stylesheet
+          summary: |
+            A series of property-value pairs with common property-name prefix and/or suffixes,
+            for a common CSS selector.
+          description: |
+            You can either define a single `selector` with optional `prefix` and `suffix`,
+            or defines a series of `cases`, each with its own selector, prefix, and suffix.
+          type: object
+          additionalProperties: false
+          required: [ properties ]
+          oneOf:
+            - required: [ selector ]
+            - required: [ cases ]
+          properties:
+            selector:
+              summary: Single CSS selector to apply all properties to.
+              $ref: https://jsonschemata.repodynamics.com/string/nonempty
+              description: |
+                If you use this instead of `cases`, then all `properties` must be strings.
+              examples:
+                - 'html[data-theme="light"]'
+                - '.some-class-name'
+                - '#some-id'
+            prefix:
+              summary: Single prefix to prepend to all property names.
+              $ref: https://jsonschemata.repodynamics.com/string/nonempty
+              examples:
+                - '--'
+                - '--pst-color-'
+            suffix:
+              summary: Single suffix to append to all property names.
+              $ref: https://jsonschemata.repodynamics.com/string/nonempty
+            cases:
+              summary: Cases for applying properties.
+              description: |
+                To remove redundancy, you can define multiple selectors
+                (each with optional property-names prefix and suffix)
+                to apply properties to. For example, you may define
+                color variables to be applied to `html[data-theme="light"]`
+                and `html[data-theme="dark"]` selectors.
+              type: object
+              minProperties: 1
+              additionalProperties:
+                type: object
+                additionalProperties: false
+                required: [ selector ]
+                properties:
+                  selector:
+                    summary: CSS selector to apply properties to.
+                    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                  prefix:
+                    summary: Prefix to prepend to property names.
+                    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                  suffix:
+                    summary: Suffix to append to property names.
+                    $ref: https://jsonschemata.repodynamics.com/string/nonempty
+            properties:
+              summary: Properties to apply to the selector.
+              description: |
+                Each key here defines the middle part of a CSS property name.
+                It is prefixed and suffixed (if defined) to generate the full name.
+                If you have defined a single selector for this stylesheet,
+                then all values must be strings. Otherwise, values must be mappings
+                from case IDs to corresponding values as strings.
+              type: object
+              additionalProperties:
+                title: Property
+                summary: The value of the CSS property.
+                description: |
+                  If you have defined a single selector for this stylesheet,
+                  then this must be a string. Otherwise, it must be a mapping
+                  from case IDs to corresponding values as strings.
+                oneOf:
+                  - $ref: https://jsonschemata.repodynamics.com/string/nonempty
+                  - type: object
+                    additionalProperties:
+                      $ref: https://jsonschemata.repodynamics.com/string/nonempty
       url:
         title: URL
         summary: Website URLs.

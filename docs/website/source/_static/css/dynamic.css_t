@@ -1,7 +1,7 @@
 /* Apply dynamic stylesheets from control center configurations. */
 
 
-{% for stylesheet in ccc.get("data_css", {}).get("stylesheet", {}).values() %}
+{% for stylesheet in ccc.get("web", {}).get("css", {}).values() %}
     {% set selector = stylesheet.selector %}
     {% if selector %}
         {% set name_prefix = stylesheet.get("prefix", "") %}
