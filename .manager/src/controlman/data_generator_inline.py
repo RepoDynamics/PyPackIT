@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-import importlib.util as _importlib_util
 import json as _json
 import shlex as _shlex
-import sys as _sys
-from pathlib import Path as _Path
 from typing import TYPE_CHECKING
 
 import mdit
+import pkgdata
 import pylinks as pl
 import pyserials as ps
 from loggerman import logger
@@ -19,7 +17,6 @@ from controlman.changelog_manager import ChangelogManager
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from types import ModuleType
     from typing import Any, Literal, Sequence
 
     from proman.manager import Manager
@@ -69,7 +66,7 @@ class InlineDataGenerator:
         self._binder_files = {}
         return
 
-    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> Hooks:
+    def __call__(self, get_metadata: Callable[[str, Any, bool], Any]) -> InlineDataGenerator:
         """Prime this instance with the JSONPath resolver function.
 
         This method is used internally by PyPackIT,
@@ -182,7 +179,7 @@ class InlineDataGenerator:
             f"-e {path_to_root}{package_data[package_key]['path']['root']}"
             for package_key in package_keys
         ]
-        install = _import_module_from_path(self.repo_path / ".devcontainer/install.py")
+        install = pkgdata.import_module_from_path(self.repo_path / ".devcontainer/install.py")
         _, self._binder_files = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
@@ -647,53 +644,3 @@ class InlineDataGenerator:
         return [
             member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
         ]
-
-
-
-
-
-def _import_module_from_path(path: str | _Path, name: str | None = None) -> ModuleType:
-    """Import a Python module from a local path.
-
-    Parameters
-    ----------
-    path : str | pathlib.Path
-        Local path to the module.
-        If the path corresponds to a directory,
-        the `__init__.py` file in the directory is imported.
-    name : str | None, default: None
-        Name to assign to the imported module.
-        If not provided (i.e., None), the name is determined from the path as follows:
-        - If the path corresponds to a directory, the directory name is used.
-        - If the path corresponds to a `__init__.py` file, the parent directory name is used.
-        - Otherwise, the filename is used.
-
-    Returns
-    -------
-    module : types.ModuleType
-        The imported module.
-
-    Raises
-    ------
-    pkgdata.exception.PkgDataModuleNotFoundError
-        If no module file can be found at the given path.
-    pkgdata.exception.PkgDataModuleImportError
-        If the module cannot be imported.
-
-    References
-    ----------
-    - [Python Documentation: importlib — The implementation of import: Importing a source file directly](https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly)
-    """
-    path = _Path(path).resolve()
-    if path.is_dir():
-        path = path / "__init__.py"
-    if not path.exists():
-        error_msg = f"No module file found at path: {path}"
-        raise FileNotFoundError(error_msg)
-    if name is None:
-        name = path.parent.stem if path.name == "__init__.py" else path.stem
-    spec = _importlib_util.spec_from_file_location(name=name, location=path)
-    module = _importlib_util.module_from_spec(spec)
-    _sys.modules[name] = module
-    spec.loader.exec_module(module)
-    return module
