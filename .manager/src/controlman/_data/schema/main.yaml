@@ -3442,6 +3442,59 @@ properties:
                     summary: An attribute to set for the matched files.
                     type: string
                     minLength: 1
+      gitignore:
+        title: Git Ignore
+        summary: Definition of [`.gitignore`](https://git-scm.com/docs/gitignore) files.
+        type: object
+        description: |
+          The `.gitignore` file defines files and directories in the repository
+          to be excluded from version control by Git,
+          preventing them from being pushed to the remote repository.
+          The data is in plain text, where each line specifies a path or glob pattern to ignore.
+          In addition to project-specific files,
+          the `.gitignore` file also includes common patterns from relevant
+          [`gitignore` templates](https://github.com/github/gitignore).
+        additionalProperties:
+          title: '`.gitignore` File'
+          summary: Definition of a `.gitignore` file in the repository.
+          type: object
+          additionalProperties: false
+          required: [ title, summary, path, entries ]
+          properties:
+            title:
+              summary: Title of the `.gitignore` file.
+              $ref: https://jsonschemata.repodynamics.com/string/oneline
+              description: |
+                This is used in the documentation of the file.
+            summary:
+              summary: Summary of the `.gitignore` file.
+              $ref: https://jsonschemata.repodynamics.com/string/oneline
+              description: |
+                This is used in the documentation of the file.
+            description:
+              summary: Description of the `.gitignore` file.
+              type: string
+              description: |
+                This is used in the documentation of the file.
+            path:
+              summary: Path to the `.gitignore` file.
+              allOf:
+                - $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+                - title: '`.gitignore` Filepath'
+                  summary: Path to a `.gitignore` file.
+                  description: The filename must be `.gitignore`.
+                  pattern: (^|/)\.gitignore$
+            entries:
+              summary: Ignore patterns.
+              description: |
+                The data must be an array of objects, as explained below.
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                title: Ignore Pattern
+                summary: Pattern for files to ignore.
+                $ref: https://jsonschemata.repodynamics.com/string/oneline
   branch:
     summary: Configurations for repository branches.
     description: |

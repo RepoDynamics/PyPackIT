@@ -39,6 +39,7 @@ class ConfigFileGenerator:
             + self.devcontainers()
             + self.devcontainer_features()
             + self.gitattributes()
+            + self.gitignore()
         )
 
     def _is_disabled(self, key: str) -> bool:
@@ -466,6 +467,35 @@ class ConfigFileGenerator:
                 attrs_str = "  ".join(f"{attr: <{max_len_attr}}" for attr in attrs).strip()
                 lines.append(f"{pattern: <{max_len_pattern}}    {attrs_str}")
             file_content = "\n".join(lines)
+            out.append(
+                DynamicFile(
+                    type=filetype,
+                    subtype=(file_key, file_data["title"]),
+                    content=file_content,
+                    path=file_data["path"],
+                    path_before=data_before.get("path"),
+                )
+            )
+        for old_file_key, old_file_data in data_before.get(key, {}).items():
+            if old_file_key not in data:
+                out.append(
+                    DynamicFile(
+                        type=filetype,
+                        subtype=(old_file_key, old_file_data["title"]),
+                        path_before=old_file_data["path"],
+                    )
+                )
+        return out
+
+    def gitignore(self) -> list[DynamicFile]:
+        """Process `.gitignore` files defined at `$.repo.gitignore`"""
+        key = "repo.gitignore"
+        filetype = DynamicFileType.GITIGNORE
+        data = self._data.get(key, {})
+        data_before = self._data_before.get(key, {})
+        out = []
+        for file_key, file_data in data.items():
+            file_content = "\n".join(file_data["entries"])
             out.append(
                 DynamicFile(
                     type=filetype,

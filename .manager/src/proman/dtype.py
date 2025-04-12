@@ -216,6 +216,7 @@ class LabelType(_Enum):
 
 class DynamicFileType(_Enum):
     GITATTRIBUTES = ("gitattributes", "Git Attributes")
+    GITIGNORE = ("gitignore", "Git Ignore")
     DEVCONTAINER_METADATA = ("devcontainer_metadata", "Devcontainer Metadata")
     DEVCONTAINER_DOCKERFILE = ("devcontainer_dockerfile", "Devcontainer Dockerfile")
     DEVCONTAINER_APT = ("devcontainer_apt", "Devcontainer Apt Packages")
