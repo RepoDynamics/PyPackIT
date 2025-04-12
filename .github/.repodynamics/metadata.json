@@ -2766,2201 +2766,6 @@
       ]
    },
    "copyright": "\u00a9 2023\u20132025 RepoDynamics",
-   "theme.badge": {
-      "color": {
-         "blue": "#0B3C75",
-         "green": "#00802B",
-         "grey": "#494949",
-         "orange": "#D93402",
-         "red": "#AF1F10"
-      },
-      "height": "23px",
-      "separator": 2,
-      "style": "flat-square"
-   },
-   "theme.color": {
-      "accent": {
-         "dark": "rgb(69 155 36)",
-         "light": "rgb(19 84 0)"
-      },
-      "accent-bg": {
-         "dark": "hsl(308 59 17)",
-         "light": "hsl(307 64 92)"
-      },
-      "attention": {
-         "dark": "hsl(25 100 64)",
-         "light": "hsl(24 93 50)"
-      },
-      "attention-bg": {
-         "dark": "hsl(24 96 20)",
-         "light": "hsl(29 74 89)"
-      },
-      "background": {
-         "dark": "hsl(216 20 10)",
-         "light": "hsl(0 0 100)"
-      },
-      "blockquote-notch": {
-         "dark": "hsl(215 11 65)",
-         "light": "hsl(215 12 46)"
-      },
-      "border": {
-         "dark": "hsl(216 20 35)",
-         "light": "hsl(213 11 84)"
-      },
-      "border-muted": {
-         "dark": "hsl(216 20 20)",
-         "light": "rgba(23 23 26 / 0.2)"
-      },
-      "danger": {
-         "dark": "hsl(352 66% 72)",
-         "light": "hsl(351 68 51)"
-      },
-      "danger-bg": {
-         "dark": "hsl(350 64 19)",
-         "light": "hsl(353 67 93)"
-      },
-      "dark": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(218 19 16)"
-      },
-      "dark-bg": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(218 19 16)"
-      },
-      "heading": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "info": {
-         "dark": "hsl(219 82 71)",
-         "light": "hsl(219 82 53)"
-      },
-      "info-bg": {
-         "dark": "hsl(219 88 19)",
-         "light": "hsl(219 84 93)"
-      },
-      "inline-code": {
-         "dark": "hsl(307 65 87)",
-         "light": "hsl(308 59 36)"
-      },
-      "inline-code-links": {
-         "dark": "hsl(189 54 51)",
-         "light": "hsl(189 86 23)"
-      },
-      "jsonschema": {
-         "fill_defaults": true,
-         "schema": {
-            "$comment": "Color names and values taken from pydata-sphinx-theme:\n- https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/variables/_color.scss\n- https://github.com/pydata/pydata-sphinx-theme/blob/main/src/pydata_sphinx_theme/assets/styles/extensions/_sphinx_design.scss\n",
-            "description": "Colors of the project's light and dark themes.\nEach color can be defined using any valid [CSS color format](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value),\nsuch as hexadecimal, RGB, HSL, or named colors.\n",
-            "properties": {
-               "accent": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(308 65 70)",
-                           "light": "hsl(308 59 48)"
-                        },
-                        "summary": "Accent color of the project."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(308 65 70)",
-                     "light": "hsl(308 59 48)"
-                  }
-               },
-               "accent-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(308 59 17)",
-                           "light": "hsl(307 64 92)"
-                        },
-                        "summary": "Accent background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(308 59 17)",
-                     "light": "hsl(307 64 92)"
-                  }
-               },
-               "attention": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.warning }}$",
-                        "summary": "Semantic attention color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.warning }}$"
-               },
-               "attention-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.warning-bg }}$",
-                        "summary": "Attention background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.warning-bg }}$"
-               },
-               "background": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(216 20 10)",
-                           "light": "hsl(0 0 100)"
-                        },
-                        "description": "In the website, this corresponds to the color of the canvas;\ni.e. the deepest layer.\n",
-                        "summary": "Background color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(216 20 10)",
-                     "light": "hsl(0 0 100)"
-                  }
-               },
-               "blockquote-notch": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(215 11 65)",
-                           "light": "hsl(215 12 46)"
-                        },
-                        "summary": "Color for block-quote notches."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(215 11 65)",
-                     "light": "hsl(215 12 46)"
-                  }
-               },
-               "border": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(216 20 35)",
-                           "light": "hsl(213 11 84)"
-                        },
-                        "summary": "Color for borders."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(216 20 35)",
-                     "light": "hsl(213 11 84)"
-                  }
-               },
-               "border-muted": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(216 20 20)",
-                           "light": "rgba(23 23 26 / 0.2)"
-                        },
-                        "summary": "Color for muted borders."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(216 20 20)",
-                     "light": "rgba(23 23 26 / 0.2)"
-                  }
-               },
-               "danger": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(352 66% 72)",
-                           "light": "hsl(351 68 51)"
-                        },
-                        "summary": "Semantic danger color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(352 66% 72)",
-                     "light": "hsl(351 68 51)"
-                  }
-               },
-               "danger-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(350 64 19)",
-                           "light": "hsl(353 67 93)"
-                        },
-                        "summary": "Danger background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(350 64 19)",
-                     "light": "hsl(353 67 93)"
-                  }
-               },
-               "dark": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(218 19 16)",
-                           "light": "hsl(218 19 16)"
-                        },
-                        "summary": "Semantic dark color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(218 19 16)",
-                     "light": "hsl(218 19 16)"
-                  }
-               },
-               "dark-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(218 19 16)",
-                           "light": "hsl(218 19 16)"
-                        },
-                        "summary": "Dark background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(218 19 16)",
-                     "light": "hsl(218 19 16)"
-                  }
-               },
-               "heading": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.text-base }}$",
-                        "description": "In the website, this is used as the color of `<h1>` to `<h6>` elements.\n",
-                        "summary": "Color for heading titles."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.text-base }}$"
-               },
-               "info": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(219 82 71)",
-                           "light": "hsl(219 82 53)"
-                        },
-                        "summary": "Semantic info color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(219 82 71)",
-                     "light": "hsl(219 82 53)"
-                  }
-               },
-               "info-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(219 88 19)",
-                           "light": "hsl(219 84 93)"
-                        },
-                        "summary": "Info background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(219 88 19)",
-                     "light": "hsl(219 84 93)"
-                  }
-               },
-               "inline-code": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(307 65 87)",
-                           "light": "hsl(308 59 36)"
-                        },
-                        "summary": "Color for inline codes."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(307 65 87)",
-                     "light": "hsl(308 59 36)"
-                  }
-               },
-               "inline-code-links": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(189 54 51)",
-                           "light": "hsl(189 86 23)"
-                        },
-                        "summary": "Color for inline code links."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(189 54 51)",
-                     "light": "hsl(189 86 23)"
-                  }
-               },
-               "light": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(210 9 96)",
-                           "light": "hsl(210 9 96)"
-                        },
-                        "summary": "Semantic light color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(210 9 96)",
-                     "light": "hsl(210 9 96)"
-                  }
-               },
-               "light-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(210 9 67)",
-                           "light": "hsl(210 9 97)"
-                        },
-                        "summary": "Light background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(210 9 67)",
-                     "light": "hsl(210 9 97)"
-                  }
-               },
-               "link": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.primary }}$",
-                        "summary": "Color for links."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.primary }}$"
-               },
-               "link-hover": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.secondary }}$",
-                        "summary": "Color for links on mouse hover."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.secondary }}$"
-               },
-               "muted": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(210 9 96)",
-                           "light": "hsl(216 20 20)"
-                        },
-                        "summary": "Semantic muted color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(210 9 96)",
-                     "light": "hsl(216 20 20)"
-                  }
-               },
-               "muted-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(216 20 14)",
-                           "light": "hsl(216 20 44)"
-                        },
-                        "summary": "Muted background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(216 20 14)",
-                     "light": "hsl(216 20 44)"
-                  }
-               },
-               "on-background": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(218 19 16)",
-                           "light": "hsl(0 0 100)"
-                        },
-                        "description": "In the website, this corresponds e.g., to the color of the header navbar,\nproviding slight contrast against the background.\n",
-                        "summary": "Color for elements directly on top of background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(218 19 16)",
-                     "light": "hsl(0 0 100)"
-                  }
-               },
-               "on-surface": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(210 9 96)",
-                           "light": "hsl(218 19 16)"
-                        },
-                        "description": "In the website, this corresponds e.g., to the color of the sidebar directives,\n",
-                        "summary": "Color for elements directly on top of surface."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(210 9 96)",
-                     "light": "hsl(218 19 16)"
-                  }
-               },
-               "primary": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(189 54 51)",
-                           "light": "hsl(189 87 30)"
-                        },
-                        "summary": "Primary color of the project."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(189 54 51)",
-                     "light": "hsl(189 87 30)"
-                  }
-               },
-               "primary-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(189 85 11)",
-                           "light": "hsl(189 54 88)"
-                        },
-                        "description": "In the website, this is sparingly used.\n",
-                        "summary": "Primary background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(189 85 11)",
-                     "light": "hsl(189 54 88)"
-                  }
-               },
-               "secondary": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(263 98 68)",
-                           "light": "hsl(262 75 58)"
-                        },
-                        "summary": "Secondary color of the project."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(263 98 68)",
-                     "light": "hsl(262 75 58)"
-                  }
-               },
-               "secondary-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(262 58 24)",
-                           "light": "hsl(267 100 89)"
-                        },
-                        "description": "In the website, this is sparingly used, e.g., for announcement banner.\n",
-                        "summary": "Secondary background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(262 58 24)",
-                     "light": "hsl(267 100 89)"
-                  }
-               },
-               "shadow": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "rgba(0 0 0 / 0.1)",
-                           "light": "rgba(0 0 0 / 0.1)"
-                        },
-                        "summary": "Color for shadows."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "rgba(0 0 0 / 0.1)",
-                     "light": "rgba(0 0 0 / 0.1)"
-                  }
-               },
-               "success": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(149 36 54)",
-                           "light": "hsl(149 100 26)"
-                        },
-                        "summary": "Semantic success color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(149 36 54)",
-                     "light": "hsl(149 100 26)"
-                  }
-               },
-               "success-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(149 100 9)",
-                           "light": "hsl(150 37 88)"
-                        },
-                        "summary": "Success background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(149 100 9)",
-                     "light": "hsl(150 37 88)"
-                  }
-               },
-               "surface": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(216 20 20)",
-                           "light": "hsl(210 9 96)"
-                        },
-                        "summary": "Surface color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(216 20 20)",
-                     "light": "hsl(210 9 96)"
-                  }
-               },
-               "table": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(0 0 100)",
-                           "light": "hsl(216 20 10)"
-                        },
-                        "summary": "Color for tables."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(0 0 100)",
-                     "light": "hsl(216 20 10)"
-                  }
-               },
-               "table-heading-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.surface }}$",
-                        "summary": "Color for table heading background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.surface }}$"
-               },
-               "table-inner-border": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(215 19 26)",
-                           "light": "hsl(216 11 91)"
-                        },
-                        "summary": "Color for table inner borders."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(215 19 26)",
-                     "light": "hsl(216 11 91)"
-                  }
-               },
-               "table-outer-border": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.surface }}$",
-                        "summary": "Color for table outer borders."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.surface }}$"
-               },
-               "table-row-hover-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(262 59 35)",
-                           "light": "hsl(267 95 85)"
-                        },
-                        "summary": "Color for table rows on mouse hover."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(262 59 35)",
-                     "light": "hsl(267 95 85)"
-                  }
-               },
-               "table-row-zebra-high-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.on-background }}$",
-                        "summary": "Color for high-contrast table rows in zebra mode."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.on-background }}$"
-               },
-               "table-row-zebra-low-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": "${{ theme.color.surface }}$",
-                        "summary": "Color for low-contrast table rows in zebra mode."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": "${{ theme.color.surface }}$"
-               },
-               "target": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(53 93 21)",
-                           "light": "hsl(37 80 77)"
-                        },
-                        "summary": "Color for target components."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(53 93 21)",
-                     "light": "hsl(37 80 77)"
-                  }
-               },
-               "text-base": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(208 18 84)",
-                           "light": "hsl(218 19 16)"
-                        },
-                        "summary": "Base color for texts."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(208 18 84)",
-                     "light": "hsl(218 19 16)"
-                  }
-               },
-               "text-muted": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(215 11 65)",
-                           "light": "hsl(216 20 35)"
-                        },
-                        "summary": "Color for muted texts."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(215 11 65)",
-                     "light": "hsl(216 20 35)"
-                  }
-               },
-               "warning": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(25 100 64)",
-                           "light": "hsl(24 93 50)"
-                        },
-                        "summary": "Semantic warning color."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(25 100 64)",
-                     "light": "hsl(24 93 50)"
-                  }
-               },
-               "warning-bg": {
-                  "anyOf": [
-                     {
-                        "$ref": "https://controlman.repodynamics.com/schema/themed-color",
-                        "default": {
-                           "dark": "hsl(24 96 20)",
-                           "light": "hsl(29 74 89)"
-                        },
-                        "summary": "Warning background."
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ],
-                  "default": {
-                     "dark": "hsl(24 96 20)",
-                     "light": "hsl(29 74 89)"
-                  }
-               }
-            },
-            "required": [
-               "primary",
-               "secondary"
-            ],
-            "summary": "Color palette of the the project.",
-            "type": "object"
-         }
-      },
-      "light": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(210 9 96)"
-      },
-      "light-bg": {
-         "dark": "hsl(210 9 67)",
-         "light": "hsl(210 9 97)"
-      },
-      "link": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "link-hover": {
-         "dark": "rgb(175 138 0)",
-         "light": "rgb(60 85 0)"
-      },
-      "muted": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(216 20 20)"
-      },
-      "muted-bg": {
-         "dark": "hsl(216 20 14)",
-         "light": "hsl(216 20 44)"
-      },
-      "on-background": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(0 0 100)"
-      },
-      "on-surface": {
-         "dark": "hsl(210 9 96)",
-         "light": "hsl(218 19 16)"
-      },
-      "primary": {
-         "dark": "rgb(28 170 0)",
-         "light": "rgb(0 85 0)"
-      },
-      "primary-bg": {
-         "dark": "hsl(189 85 11)",
-         "light": "hsl(189 54 88)"
-      },
-      "secondary": {
-         "dark": "rgb(175 138 0)",
-         "light": "rgb(60 85 0)"
-      },
-      "secondary-bg": {
-         "dark": "hsl(262 58 24)",
-         "light": "hsl(267 100 89)"
-      },
-      "shadow": {
-         "dark": "rgba(0 0 0 / 0.1)",
-         "light": "rgba(0 0 0 / 0.1)"
-      },
-      "success": {
-         "dark": "hsl(149 36 54)",
-         "light": "hsl(149 100 26)"
-      },
-      "success-bg": {
-         "dark": "hsl(149 100 9)",
-         "light": "hsl(150 37 88)"
-      },
-      "surface": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table": {
-         "dark": "hsl(0 0 100)",
-         "light": "hsl(216 20 10)"
-      },
-      "table-heading-bg": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table-inner-border": {
-         "dark": "hsl(215 19 26)",
-         "light": "hsl(216 11 91)"
-      },
-      "table-outer-border": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "table-row-hover-bg": {
-         "dark": "hsl(262 59 35)",
-         "light": "hsl(267 95 85)"
-      },
-      "table-row-zebra-high-bg": {
-         "dark": "hsl(218 19 16)",
-         "light": "hsl(0 0 100)"
-      },
-      "table-row-zebra-low-bg": {
-         "dark": "hsl(216 20 20)",
-         "light": "hsl(210 9 96)"
-      },
-      "target": {
-         "dark": "hsl(53 93 21)",
-         "light": "hsl(37 80 77)"
-      },
-      "text-base": {
-         "dark": "hsl(208 18 84)",
-         "light": "hsl(218 19 16)"
-      },
-      "text-muted": {
-         "dark": "hsl(215 11 65)",
-         "light": "hsl(216 20 35)"
-      },
-      "warning": {
-         "dark": "hsl(25 100 64)",
-         "light": "hsl(24 93 50)"
-      },
-      "warning-bg": {
-         "dark": "hsl(24 96 20)",
-         "light": "hsl(29 74 89)"
-      }
-   },
-   "data_css": {
-      "jsonschema": {
-         "fill_defaults": false,
-         "schema": {
-            "additionalProperties": false,
-            "description": "These stylesheets are dynamically added to the website during builds.\nFor each stylesheet, add a key-value pair where the\nkey is an ID for the stylesheet,\nand the value is a mapping defining CSS selectors,\nproperty names, and corresponding values.\n",
-            "properties": {
-               "stylesheet": {
-                  "anyOf": [
-                     {
-                        "additionalProperties": {
-                           "anyOf": [
-                              {
-                                 "additionalProperties": false,
-                                 "description": "You can either define a single `selector` with optional `prefix` and `suffix`,\nor defines a series of `cases`, each with its own selector, prefix, and suffix.\n",
-                                 "oneOf": [
-                                    {
-                                       "required": [
-                                          "selector"
-                                       ]
-                                    },
-                                    {
-                                       "required": [
-                                          "cases"
-                                       ]
-                                    }
-                                 ],
-                                 "properties": {
-                                    "cases": {
-                                       "anyOf": [
-                                          {
-                                             "additionalProperties": {
-                                                "anyOf": [
-                                                   {
-                                                      "additionalProperties": false,
-                                                      "properties": {
-                                                         "prefix": {
-                                                            "anyOf": [
-                                                               {
-                                                                  "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                                                  "summary": "Prefix to prepend to property names."
-                                                               },
-                                                               {
-                                                                  "minLength": 6,
-                                                                  "type": "string"
-                                                               }
-                                                            ]
-                                                         },
-                                                         "selector": {
-                                                            "anyOf": [
-                                                               {
-                                                                  "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                                                  "summary": "CSS selector to apply properties to."
-                                                               },
-                                                               {
-                                                                  "minLength": 6,
-                                                                  "type": "string"
-                                                               }
-                                                            ]
-                                                         },
-                                                         "suffix": {
-                                                            "anyOf": [
-                                                               {
-                                                                  "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                                                  "summary": "Suffix to append to property names."
-                                                               },
-                                                               {
-                                                                  "minLength": 6,
-                                                                  "type": "string"
-                                                               }
-                                                            ]
-                                                         }
-                                                      },
-                                                      "required": [
-                                                         "selector"
-                                                      ],
-                                                      "type": "object"
-                                                   },
-                                                   {
-                                                      "minLength": 6,
-                                                      "type": "string"
-                                                   }
-                                                ]
-                                             },
-                                             "description": "To remove redundancy, you can define multiple selectors\n(each with optional property-names prefix and suffix)\nto apply properties to. For example, you may define\ncolor variables to be applied to `html[data-theme=\"light\"]`\nand `html[data-theme=\"dark\"]` selectors.\n",
-                                             "minProperties": 1,
-                                             "summary": "Cases for applying properties.",
-                                             "type": "object"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "prefix": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                             "examples": [
-                                                "--",
-                                                "--pst-color-"
-                                             ],
-                                             "summary": "Single prefix to prepend to all property names."
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "properties": {
-                                       "anyOf": [
-                                          {
-                                             "additionalProperties": {
-                                                "anyOf": [
-                                                   {
-                                                      "description": "If you have defined a single selector for this stylesheet,\nthen this must be a string. Otherwise, it must be a mapping\nfrom case IDs to corresponding values as strings.\n",
-                                                      "oneOf": [
-                                                         {
-                                                            "$ref": "https://jsonschemata.repodynamics.com/string/nonempty"
-                                                         },
-                                                         {
-                                                            "additionalProperties": {
-                                                               "$ref": "https://jsonschemata.repodynamics.com/string/nonempty"
-                                                            },
-                                                            "type": "object"
-                                                         }
-                                                      ],
-                                                      "summary": "The value of the CSS property.",
-                                                      "title": "Property"
-                                                   },
-                                                   {
-                                                      "minLength": 6,
-                                                      "type": "string"
-                                                   }
-                                                ]
-                                             },
-                                             "description": "Each key here defines the middle part of a CSS property name.\nIt is prefixed and suffixed (if defined) to generate the full name.\nIf you have defined a single selector for this stylesheet,\nthen all values must be strings. Otherwise, values must be mappings\nfrom case IDs to corresponding values as strings.\n",
-                                             "summary": "Properties to apply to the selector.",
-                                             "type": "object"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "selector": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                             "description": "If you use this instead of `cases`, then all `properties` must be strings.\n",
-                                             "examples": [
-                                                "html[data-theme=\"light\"]",
-                                                ".some-class-name",
-                                                "#some-id"
-                                             ],
-                                             "summary": "Single CSS selector to apply all properties to."
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "suffix": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/string/nonempty",
-                                             "summary": "Single suffix to append to all property names."
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    }
-                                 },
-                                 "required": [
-                                    "properties"
-                                 ],
-                                 "summary": "A series of property-value pairs with common property-name prefix and/or suffixes,\nfor a common CSS selector.\n",
-                                 "title": "Stylesheet",
-                                 "type": "object"
-                              },
-                              {
-                                 "minLength": 6,
-                                 "type": "string"
-                              }
-                           ]
-                        },
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               }
-            },
-            "summary": "CSS stylesheet definitions.",
-            "title": "CSS Stylesheets",
-            "type": "object"
-         }
-      },
-      "stylesheet": {
-         "black_to_primary_filter": {
-            "cases": {
-               "dark": {
-                  "selector": "html[data-theme=\"dark\"] .black-svg-icon"
-               },
-               "light": {
-                  "selector": "html[data-theme=\"light\"] .black-svg-icon"
-               }
-            },
-            "properties": {
-               "filter": {
-                  "dark": "invert(41%) sepia(94%) saturate(1043%) hue-rotate(77deg) brightness(94%) contrast(101%)",
-                  "light": "invert(18%) sepia(59%) saturate(2563%) hue-rotate(102deg) brightness(98%) contrast(109%)"
-               }
-            }
-         },
-         "theme_colors": {
-            "cases": {
-               "dark": {
-                  "prefix": "--pst-color-",
-                  "selector": "html[data-theme=\"dark\"]"
-               },
-               "light": {
-                  "prefix": "--pst-color-",
-                  "selector": "html[data-theme=\"light\"]"
-               }
-            },
-            "properties": {
-               "accent": {
-                  "dark": "rgb(69 155 36)",
-                  "light": "rgb(19 84 0)"
-               },
-               "accent-bg": {
-                  "dark": "hsl(308 59 17)",
-                  "light": "hsl(307 64 92)"
-               },
-               "attention": {
-                  "dark": "hsl(25 100 64)",
-                  "light": "hsl(24 93 50)"
-               },
-               "attention-bg": {
-                  "dark": "hsl(24 96 20)",
-                  "light": "hsl(29 74 89)"
-               },
-               "background": {
-                  "dark": "hsl(216 20 10)",
-                  "light": "hsl(0 0 100)"
-               },
-               "blockquote-notch": {
-                  "dark": "hsl(215 11 65)",
-                  "light": "hsl(215 12 46)"
-               },
-               "border": {
-                  "dark": "hsl(216 20 35)",
-                  "light": "hsl(213 11 84)"
-               },
-               "border-muted": {
-                  "dark": "hsl(216 20 20)",
-                  "light": "rgba(23 23 26 / 0.2)"
-               },
-               "danger": {
-                  "dark": "hsl(352 66% 72)",
-                  "light": "hsl(351 68 51)"
-               },
-               "danger-bg": {
-                  "dark": "hsl(350 64 19)",
-                  "light": "hsl(353 67 93)"
-               },
-               "dark": {
-                  "dark": "hsl(218 19 16)",
-                  "light": "hsl(218 19 16)"
-               },
-               "dark-bg": {
-                  "dark": "hsl(218 19 16)",
-                  "light": "hsl(218 19 16)"
-               },
-               "heading": {
-                  "dark": "rgb(28 170 0)",
-                  "light": "rgb(0 85 0)"
-               },
-               "info": {
-                  "dark": "hsl(219 82 71)",
-                  "light": "hsl(219 82 53)"
-               },
-               "info-bg": {
-                  "dark": "hsl(219 88 19)",
-                  "light": "hsl(219 84 93)"
-               },
-               "inline-code": {
-                  "dark": "hsl(307 65 87)",
-                  "light": "hsl(308 59 36)"
-               },
-               "inline-code-links": {
-                  "dark": "hsl(189 54 51)",
-                  "light": "hsl(189 86 23)"
-               },
-               "light": {
-                  "dark": "hsl(210 9 96)",
-                  "light": "hsl(210 9 96)"
-               },
-               "light-bg": {
-                  "dark": "hsl(210 9 67)",
-                  "light": "hsl(210 9 97)"
-               },
-               "link": {
-                  "dark": "rgb(28 170 0)",
-                  "light": "rgb(0 85 0)"
-               },
-               "link-hover": {
-                  "dark": "rgb(175 138 0)",
-                  "light": "rgb(60 85 0)"
-               },
-               "muted": {
-                  "dark": "hsl(210 9 96)",
-                  "light": "hsl(216 20 20)"
-               },
-               "muted-bg": {
-                  "dark": "hsl(216 20 14)",
-                  "light": "hsl(216 20 44)"
-               },
-               "on-background": {
-                  "dark": "hsl(218 19 16)",
-                  "light": "hsl(0 0 100)"
-               },
-               "on-surface": {
-                  "dark": "hsl(210 9 96)",
-                  "light": "hsl(218 19 16)"
-               },
-               "primary": {
-                  "dark": "rgb(28 170 0)",
-                  "light": "rgb(0 85 0)"
-               },
-               "primary-bg": {
-                  "dark": "hsl(189 85 11)",
-                  "light": "hsl(189 54 88)"
-               },
-               "secondary": {
-                  "dark": "rgb(175 138 0)",
-                  "light": "rgb(60 85 0)"
-               },
-               "secondary-bg": {
-                  "dark": "hsl(262 58 24)",
-                  "light": "hsl(267 100 89)"
-               },
-               "shadow": {
-                  "dark": "rgba(0 0 0 / 0.1)",
-                  "light": "rgba(0 0 0 / 0.1)"
-               },
-               "success": {
-                  "dark": "hsl(149 36 54)",
-                  "light": "hsl(149 100 26)"
-               },
-               "success-bg": {
-                  "dark": "hsl(149 100 9)",
-                  "light": "hsl(150 37 88)"
-               },
-               "surface": {
-                  "dark": "hsl(216 20 20)",
-                  "light": "hsl(210 9 96)"
-               },
-               "table": {
-                  "dark": "hsl(0 0 100)",
-                  "light": "hsl(216 20 10)"
-               },
-               "table-heading-bg": {
-                  "dark": "hsl(216 20 20)",
-                  "light": "hsl(210 9 96)"
-               },
-               "table-inner-border": {
-                  "dark": "hsl(215 19 26)",
-                  "light": "hsl(216 11 91)"
-               },
-               "table-outer-border": {
-                  "dark": "hsl(216 20 20)",
-                  "light": "hsl(210 9 96)"
-               },
-               "table-row-hover-bg": {
-                  "dark": "hsl(262 59 35)",
-                  "light": "hsl(267 95 85)"
-               },
-               "table-row-zebra-high-bg": {
-                  "dark": "hsl(218 19 16)",
-                  "light": "hsl(0 0 100)"
-               },
-               "table-row-zebra-low-bg": {
-                  "dark": "hsl(216 20 20)",
-                  "light": "hsl(210 9 96)"
-               },
-               "target": {
-                  "dark": "hsl(53 93 21)",
-                  "light": "hsl(37 80 77)"
-               },
-               "text-base": {
-                  "dark": "hsl(208 18 84)",
-                  "light": "hsl(218 19 16)"
-               },
-               "text-muted": {
-                  "dark": "hsl(215 11 65)",
-                  "light": "hsl(216 20 35)"
-               },
-               "warning": {
-                  "dark": "hsl(25 100 64)",
-                  "light": "hsl(24 93 50)"
-               },
-               "warning-bg": {
-                  "dark": "hsl(24 96 20)",
-                  "light": "hsl(29 74 89)"
-               }
-            }
-         },
-         "theme_font_sizes": {
-            "prefix": "--pst-font-size-",
-            "properties": {
-               "base": "1rem",
-               "h1": "2.74rem",
-               "h2": "2.28rem",
-               "h3": "1.90rem",
-               "h4": "1.58rem",
-               "h5": "1.32rem",
-               "h6": "1.10rem",
-               "milli": "0.9rem"
-            },
-            "selector": "html"
-         },
-         "theme_header_color": {
-            "cases": {
-               "dark": {
-                  "selector": "html[data-theme=\"dark\"] .bd-header"
-               },
-               "light": {
-                  "selector": "html[data-theme=\"light\"] .bd-header"
-               }
-            },
-            "properties": {
-               "background-color": {
-                  "dark": "black !important",
-                  "light": "white !important"
-               }
-            }
-         }
-      }
-   },
-   "theme.icon": {
-      "api": "\ud83d\udda5",
-      "change": "\ud83d\udca5",
-      "chore": "\u267b\ufe0f",
-      "ci": "\ud83e\udd16\ufe0f",
-      "cli": "\u2328\ufe0f",
-      "config": "\ud83d\udee0\ufe0f",
-      "docs": "\ud83d\udcda",
-      "feat": "\u2728",
-      "fix": "\ud83d\udc1e",
-      "gui": "\ud83d\uddb1",
-      "pkg": "\ud83d\udce6",
-      "post": "\ud83d\udceb",
-      "refactor": "\ud83e\uddf9\ufe0f",
-      "repo": "\ud83e\uddf0",
-      "setup": "\u2699\ufe0f",
-      "test": "\ud83e\uddea"
-   },
-   "data_project": {
-      "dois": [
-         {
-            "description": "PyPackIT immutable record on Zenodo",
-            "value": "10.5281/zenodo.14359838"
-         }
-      ],
-      "jsonschema": {
-         "fill_defaults": false,
-         "schema": {
-            "properties": {
-               "dois": {
-                  "anyOf": [
-                     {
-                        "items": {
-                           "anyOf": [
-                              {
-                                 "additionalProperties": false,
-                                 "properties": {
-                                    "description": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/string/oneline"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "value": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/id/doi"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    }
-                                 },
-                                 "required": [
-                                    "value",
-                                    "description"
-                                 ],
-                                 "type": "object"
-                              },
-                              {
-                                 "minLength": 6,
-                                 "type": "string"
-                              }
-                           ]
-                        },
-                        "type": "array"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               }
-            }
-         }
-      }
-   },
-   "data_readthedocs": {
-      "jsonschema": {
-         "fill_defaults": false,
-         "schema": {
-            "additionalProperties": false,
-            "description": "These are used to create website preview links for pull requests.\n",
-            "properties": {
-               "language": {
-                  "anyOf": [
-                     {
-                        "summary": "Language of the website.",
-                        "type": "string"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "name": {
-                  "anyOf": [
-                     {
-                        "description": "This is the slug name of the project.\n",
-                        "summary": "Name of the project on ReadTheDocs.",
-                        "type": "string"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "platform": {
-                  "anyOf": [
-                     {
-                        "enum": [
-                           "community",
-                           "business"
-                        ],
-                        "summary": "ReadTheDocs hosting platform type.",
-                        "type": "string"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "version_scheme": {
-                  "anyOf": [
-                     {
-                        "additionalProperties": false,
-                        "description": "See [ReadTheDocs documentation](https://docs.readthedocs.io/en/stable/versioning-schemes.html)\nfor more information.\n",
-                        "properties": {
-                           "single_version": {
-                              "anyOf": [
-                                 {
-                                    "summary": "Whether the website has a single version (vs. multiple versions).",
-                                    "type": "boolean"
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "translation": {
-                              "anyOf": [
-                                 {
-                                    "summary": "Whether the website supports multiple languages.",
-                                    "type": "boolean"
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           }
-                        },
-                        "required": [
-                           "single_version",
-                           "translation"
-                        ],
-                        "summary": "Versioning scheme of the website.",
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               }
-            },
-            "required": [
-               "name",
-               "platform",
-               "version_scheme",
-               "language"
-            ],
-            "summary": "Workflow configurations for the ReadTheDocs website.",
-            "type": "object"
-         }
-      },
-      "language": "en",
-      "name": "PyPackIT",
-      "platform": "community",
-      "version_scheme": {
-         "single_version": false,
-         "translation": false
-      }
-   },
-   "web": {
-      "announcement": {
-         "path": "docs/website/announcement.html",
-         "retention_days": 30,
-         "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/announcement.html"
-      },
-      "file": {
-         "icon": {
-            "path": "docs/website/source/_media/logo/favicon.svg",
-            "rel_path": "_media/logo/favicon.svg",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/favicon.svg"
-         },
-         "logo_full_dark": {
-            "path": "docs/website/source/_media/logo/full_dark.svg",
-            "rel_path": "_media/logo/full_dark.svg",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_dark.svg"
-         },
-         "logo_full_light": {
-            "path": "docs/website/source/_media/logo/full_light.svg",
-            "rel_path": "_media/logo/full_light.svg",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_light.svg"
-         },
-         "logo_full_raster": {
-            "path": "docs/website/source/_media/logo/full_light.png",
-            "rel_path": "_media/logo/full_light.png",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_light.png"
-         },
-         "logo_simple_dark": {
-            "path": "docs/website/source/_media/logo/simple_dark.svg",
-            "rel_path": "_media/logo/simple_dark.svg",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_dark.svg"
-         },
-         "logo_simple_light": {
-            "path": "docs/website/source/_media/logo/simple_light.svg",
-            "rel_path": "_media/logo/simple_light.svg",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_light.svg"
-         },
-         "logo_simple_raster": {
-            "path": "docs/website/source/_media/logo/simple_light.png",
-            "rel_path": "_media/logo/simple_light.png",
-            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_light.png"
-         }
-      },
-      "jsonschema": {
-         "fill_defaults": true,
-         "schema": {
-            "additionalProperties": false,
-            "properties": {
-               "announcement": {
-                  "anyOf": [
-                     {
-                        "properties": {
-                           "path": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "default": "${{ web.path.root }}$/announcement.html",
-                                    "examples": [
-                                       "docs/announcement.html"
-                                    ],
-                                    "summary": "Path to the announcement banner file."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ],
-                              "default": "${{ web.path.root }}$/announcement.html"
-                           },
-                           "retention_days": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/number/non-negative",
-                                    "default": 30,
-                                    "summary": "Number of days to keep an announcement."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ],
-                              "default": 30
-                           },
-                           "url": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/url/http-explicit",
-                                    "default": "${{ repo.url.raw }}$/${{ .path }}$",
-                                    "summary": "URL to the announcement banner file."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ],
-                              "default": "${{ repo.url.raw }}$/${{ .path }}$"
-                           }
-                        },
-                        "required": [
-                           "path",
-                           "retention_days",
-                           "url"
-                        ],
-                        "summary": "Configurations of project announcements.",
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "file": {
-                  "anyOf": [
-                     {
-                        "additionalProperties": {
-                           "anyOf": [
-                              {
-                                 "additionalProperties": false,
-                                 "description": "Declaration of a file in the website source directory.\n",
-                                 "properties": {
-                                    "path": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                             "default": "${{ web.path.source }}$/${{ .rel_path }}$",
-                                             "summary": "Absolute path to the file."
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ],
-                                       "default": "${{ web.path.source }}$/${{ .rel_path }}$"
-                                    },
-                                    "rel_path": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                             "summary": "Path to the file relative to the website source directory.\n",
-                                             "title": "Relative Path"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "url": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/url/https",
-                                             "default": "${{ repo.url.raw }}$/${{ .path }}$",
-                                             "summary": "URL to the file.",
-                                             "title": "URL"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ],
-                                       "default": "${{ repo.url.raw }}$/${{ .path }}$"
-                                    }
-                                 },
-                                 "required": [
-                                    "path",
-                                    "url"
-                                 ],
-                                 "title": "Website File",
-                                 "type": "object"
-                              },
-                              {
-                                 "minLength": 6,
-                                 "type": "string"
-                              }
-                           ]
-                        },
-                        "summary": "Declaration of files in the website source directory.",
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "page": {
-                  "anyOf": [
-                     {
-                        "additionalProperties": {
-                           "anyOf": [
-                              {
-                                 "examples": [
-                                    "about/license",
-                                    "help/contact"
-                                 ],
-                                 "properties": {
-                                    "path": {
-                                       "anyOf": [
-                                          {
-                                             "examples": [
-                                                "intro",
-                                                "intro/index",
-                                                "user-manual",
-                                                "user-manual/installation/index"
-                                             ],
-                                             "summary": "Path to the page.",
-                                             "type": "string"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "title": {
-                                       "anyOf": [
-                                          {
-                                             "examples": [
-                                                "Introduction",
-                                                "User Manual",
-                                                "Installation"
-                                             ],
-                                             "summary": "Title of the page.",
-                                             "type": "string"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "url": {
-                                       "anyOf": [
-                                          {
-                                             "$ref": "https://jsonschemata.repodynamics.com/url/http-explicit",
-                                             "summary": "URL of the page."
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    }
-                                 },
-                                 "title": "Relative path to the page.",
-                                 "type": "object"
-                              },
-                              {
-                                 "minLength": 6,
-                                 "type": "string"
-                              }
-                           ]
-                        },
-                        "description": "All paths must be relative to the root of the website directory, without suffix.",
-                        "summary": "Paths to important pages on the website.",
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "path": {
-                  "anyOf": [
-                     {
-                        "additionalProperties": false,
-                        "properties": {
-                           "build": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "summary": "Path to website build directory relative to the repository root."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "logo_dir": {
-                              "anyOf": [
-                                 {
-                                    "summary": "Path to logo directory relative to website source directory",
-                                    "type": "string"
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "root": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "summary": "Path to website root directory relative to the repository root."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "source": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "summary": "Path to website source directory relative to the repository root."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "source_rel": {
-                              "anyOf": [
-                                 {
-                                    "$ref": "https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd",
-                                    "summary": "Path to website source directory relative to the website root directory."
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           },
-                           "to_root": {
-                              "anyOf": [
-                                 {
-                                    "summary": "Relative path from the source directory to the root of the repository.",
-                                    "type": "string"
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
-                           }
-                        },
-                        "required": [
-                           "root",
-                           "source_rel",
-                           "source",
-                           "to_root"
-                        ],
-                        "summary": "Paths to the website directory.",
-                        "type": "object"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               },
-               "quicklinks": {
-                  "anyOf": [
-                     {
-                        "description": "Quicklinks to important pages on the website.\nThese are displayed in the footer of the website.\n",
-                        "items": {
-                           "anyOf": [
-                              {
-                                 "properties": {
-                                    "links": {
-                                       "anyOf": [
-                                          {
-                                             "summary": "Quicklinks in the group.",
-                                             "type": "array"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "title": {
-                                       "anyOf": [
-                                          {
-                                             "examples": [
-                                                "About",
-                                                "Contact",
-                                                "Help"
-                                             ],
-                                             "summary": "Title for the group of quicklinks.",
-                                             "type": "string"
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    }
-                                 },
-                                 "required": [
-                                    "links"
-                                 ],
-                                 "title": "Group",
-                                 "type": "object"
-                              },
-                              {
-                                 "minLength": 6,
-                                 "type": "string"
-                              }
-                           ]
-                        },
-                        "summary": "Quicklinks",
-                        "type": "array"
-                     },
-                     {
-                        "minLength": 6,
-                        "type": "string"
-                     }
-                  ]
-               }
-            }
-         }
-      },
-      "page": {
-         "about": {
-            "path": "about",
-            "title": "About",
-            "url": "https://pypackit.repodynamics.com/about"
-         },
-         "api": {
-            "path": "api",
-            "title": "API Reference",
-            "url": "https://pypackit.repodynamics.com/api"
-         },
-         "blog": {
-            "path": "news",
-            "title": "News",
-            "url": "https://pypackit.repodynamics.com/news"
-         },
-         "blog_category_release": {
-            "path": "news/category/release",
-            "title": "Release",
-            "url": "https://pypackit.repodynamics.com/news/category/release"
-         },
-         "contact": {
-            "path": "about/contact",
-            "title": "Contact",
-            "url": "https://pypackit.repodynamics.com/about/contact"
-         },
-         "contribute": {
-            "path": "contribute",
-            "title": "Contribution Guide",
-            "url": "https://pypackit.repodynamics.com/contribute"
-         },
-         "help": {
-            "path": "help",
-            "title": "Support Guide",
-            "url": "https://pypackit.repodynamics.com/help"
-         },
-         "install": {
-            "path": "manual/install",
-            "title": "Installation",
-            "url": "https://pypackit.repodynamics.com/manual/install"
-         },
-         "intro": {
-            "path": "intro",
-            "title": "Introduction",
-            "url": "https://pypackit.repodynamics.com/intro"
-         },
-         "license": {
-            "path": "about/license",
-            "title": "License",
-            "url": "https://pypackit.repodynamics.com/about/license"
-         },
-         "manual": {
-            "path": "manual",
-            "title": "User Manual",
-            "url": "https://pypackit.repodynamics.com/manual"
-         },
-         "overview": {
-            "path": "intro/overview",
-            "title": "Overview",
-            "url": "https://pypackit.repodynamics.com/intro/overview"
-         }
-      },
-      "path": {
-         "build": "docs/website/.build",
-         "logo_dir": "_media/logo",
-         "root": "docs/website",
-         "source": "docs/website/source",
-         "source_rel": "source",
-         "to_root": "../../../"
-      }
-   },
    "default": {
       "file_setting": {
          "json": {
@@ -7932,6 +5737,12 @@
          }
       }
    },
+   "dois": [
+      {
+         "description": "PyPackIT immutable record on Zenodo",
+         "value": "10.5281/zenodo.14359838"
+      }
+   ],
    "file_binder_apt": {
       "content": "",
       "content_setting": {
@@ -10787,63 +8598,31 @@
                "additionalProperties": false,
                "properties": {
                   "content": {
-                     "anyOf": [
-                        {
-                           "description": "The data must be an array of objects, as explained below.\n",
+                     "description": "The data must be an array of objects, as explained below.\n",
+                     "items": {
+                        "additionalProperties": {
                            "items": {
-                              "anyOf": [
-                                 {
-                                    "additionalProperties": {
-                                       "anyOf": [
-                                          {
-                                             "items": {
-                                                "anyOf": [
-                                                   {
-                                                      "minLength": 1,
-                                                      "summary": "An attribute to set for the matched files.",
-                                                      "title": "Attribute",
-                                                      "type": "string"
-                                                   },
-                                                   {
-                                                      "minLength": 6,
-                                                      "type": "string"
-                                                   }
-                                                ]
-                                             },
-                                             "minItems": 1,
-                                             "summary": "List of attributes to set for the matched files.",
-                                             "title": "Attributes",
-                                             "type": "array",
-                                             "uniqueItems": true
-                                          },
-                                          {
-                                             "minLength": 6,
-                                             "type": "string"
-                                          }
-                                       ]
-                                    },
-                                    "description": "This must be a key-value pair, where the key is a path or glob pattern,\nand the value is the attributes to set for the matched files,\nspecified as an array of strings.\n",
-                                    "maxProperties": 1,
-                                    "minProperties": 1,
-                                    "summary": "Attributes for a specific filetype.",
-                                    "title": "File Attributes",
-                                    "type": "object"
-                                 },
-                                 {
-                                    "minLength": 6,
-                                    "type": "string"
-                                 }
-                              ]
+                              "minLength": 1,
+                              "summary": "An attribute to set for the matched files.",
+                              "title": "Attribute",
+                              "type": "string"
                            },
-                           "title": ".gitattributes",
+                           "minItems": 1,
+                           "summary": "List of attributes to set for the matched files.",
+                           "title": "Attributes",
                            "type": "array",
                            "uniqueItems": true
                         },
-                        {
-                           "minLength": 6,
-                           "type": "string"
-                        }
-                     ]
+                        "description": "This must be a key-value pair, where the key is a path or glob pattern,\nand the value is the attributes to set for the matched files,\nspecified as an array of strings.\n",
+                        "maxProperties": 1,
+                        "minProperties": 1,
+                        "summary": "Attributes for a specific filetype.",
+                        "title": "File Attributes",
+                        "type": "object"
+                     },
+                     "title": ".gitattributes",
+                     "type": "array",
+                     "uniqueItems": true
                   }
                },
                "required": [
@@ -21480,7 +19259,7 @@
                {
                   "body": [
                      [
-                        "{% if ccc.tool is defined and ccc.tool.readthedocs is defined and ccc.tool.readthedocs.config.workflow is defined -%}\n{% set config = ccc.tool.readthedocs.config.workflow %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif -%}\n"
+                        "{% if ccc.web.readthedocs is defined -%}\n{% set config = ccc.web.readthedocs %}\n{% set domain = \"org.readthedocs.build\" if config.platform == \"community\" else \"com.readthedocs.build\" %}\n{% set url = \"https://\" ~ config.name ~ \"--\" ~ pull_request.number ~ \".\" ~ domain ~ \"/\" %}\n{% if config.version_scheme.translation %}\n  {% set url = url ~ config.language ~ \"/\" ~ pull_request.number ~ \"/\" %}\n{% endif %}\n{{\n  mdit.element.badge(\n    service=\"static\",\n    label=\"Website Preview\",\n    args={\"message\": \"Read The Docs\"},\n    style=ccc.theme.badge.style,\n    color=ccc.theme.badge.color.blue,\n    label_color=ccc.theme.badge.color.grey,\n    height=ccc.theme.badge.height,\n    link=url,\n  ).source()\n}}{{ \"&nbsp;\" * ccc.theme.badge.separator }}\n{%- endif -%}\n"
                      ]
                   ],
                   "heading": "Testing"
@@ -22486,7 +20265,6 @@
                "3.10.14",
                "3.10.15",
                "3.10.16",
-               "3.10.17",
                "3.11.0",
                "3.11.1",
                "3.11.2",
@@ -22499,7 +20277,6 @@
                "3.11.9",
                "3.11.10",
                "3.11.11",
-               "3.11.12",
                "3.12.0",
                "3.12.1",
                "3.12.2",
@@ -22510,11 +20287,9 @@
                "3.12.7",
                "3.12.8",
                "3.12.9",
-               "3.12.10",
                "3.13.0",
                "3.13.1",
-               "3.13.2",
-               "3.13.3"
+               "3.13.2"
             ],
             "minors": [
                "3.10",
@@ -24458,7 +22233,6 @@
                "3.10.14",
                "3.10.15",
                "3.10.16",
-               "3.10.17",
                "3.11.0",
                "3.11.1",
                "3.11.2",
@@ -24471,7 +22245,6 @@
                "3.11.9",
                "3.11.10",
                "3.11.11",
-               "3.11.12",
                "3.12.0",
                "3.12.1",
                "3.12.2",
@@ -24482,11 +22255,9 @@
                "3.12.7",
                "3.12.8",
                "3.12.9",
-               "3.12.10",
                "3.13.0",
                "3.13.1",
-               "3.13.2",
-               "3.13.3"
+               "3.13.2"
             ],
             "minors": [
                "3.10",
@@ -27587,7 +25358,6 @@
                "3.10.14",
                "3.10.15",
                "3.10.16",
-               "3.10.17",
                "3.11.0",
                "3.11.1",
                "3.11.2",
@@ -27600,7 +25370,6 @@
                "3.11.9",
                "3.11.10",
                "3.11.11",
-               "3.11.12",
                "3.12.0",
                "3.12.1",
                "3.12.2",
@@ -27611,11 +25380,9 @@
                "3.12.7",
                "3.12.8",
                "3.12.9",
-               "3.12.10",
                "3.13.0",
                "3.13.1",
-               "3.13.2",
-               "3.13.3"
+               "3.13.2"
             ],
             "minors": [
                "3.10",
@@ -27889,8 +25656,585 @@
          "website": "https://repodynamics.com"
       }
    },
+   "theme": {
+      "badge": {
+         "color": {
+            "blue": "#0B3C75",
+            "green": "#00802B",
+            "grey": "#494949",
+            "orange": "#D93402",
+            "red": "#AF1F10"
+         },
+         "height": "23px",
+         "separator": 2,
+         "style": "flat-square"
+      },
+      "color": {
+         "accent": {
+            "dark": "rgb(69 155 36)",
+            "light": "rgb(19 84 0)"
+         },
+         "accent-bg": {
+            "dark": "hsl(308 59 17)",
+            "light": "hsl(307 64 92)"
+         },
+         "attention": {
+            "dark": "hsl(25 100 64)",
+            "light": "hsl(24 93 50)"
+         },
+         "attention-bg": {
+            "dark": "hsl(24 96 20)",
+            "light": "hsl(29 74 89)"
+         },
+         "background": {
+            "dark": "hsl(216 20 10)",
+            "light": "hsl(0 0 100)"
+         },
+         "blockquote-notch": {
+            "dark": "hsl(215 11 65)",
+            "light": "hsl(215 12 46)"
+         },
+         "border": {
+            "dark": "hsl(216 20 35)",
+            "light": "hsl(213 11 84)"
+         },
+         "border-muted": {
+            "dark": "hsl(216 20 20)",
+            "light": "rgba(23 23 26 / 0.2)"
+         },
+         "danger": {
+            "dark": "hsl(352 66% 72)",
+            "light": "hsl(351 68 51)"
+         },
+         "danger-bg": {
+            "dark": "hsl(350 64 19)",
+            "light": "hsl(353 67 93)"
+         },
+         "dark": {
+            "dark": "hsl(218 19 16)",
+            "light": "hsl(218 19 16)"
+         },
+         "dark-bg": {
+            "dark": "hsl(218 19 16)",
+            "light": "hsl(218 19 16)"
+         },
+         "heading": {
+            "dark": "rgb(28 170 0)",
+            "light": "rgb(0 85 0)"
+         },
+         "info": {
+            "dark": "hsl(219 82 71)",
+            "light": "hsl(219 82 53)"
+         },
+         "info-bg": {
+            "dark": "hsl(219 88 19)",
+            "light": "hsl(219 84 93)"
+         },
+         "inline-code": {
+            "dark": "hsl(307 65 87)",
+            "light": "hsl(308 59 36)"
+         },
+         "inline-code-links": {
+            "dark": "hsl(189 54 51)",
+            "light": "hsl(189 86 23)"
+         },
+         "light": {
+            "dark": "hsl(210 9 96)",
+            "light": "hsl(210 9 96)"
+         },
+         "light-bg": {
+            "dark": "hsl(210 9 67)",
+            "light": "hsl(210 9 97)"
+         },
+         "link": {
+            "dark": "rgb(28 170 0)",
+            "light": "rgb(0 85 0)"
+         },
+         "link-hover": {
+            "dark": "rgb(175 138 0)",
+            "light": "rgb(60 85 0)"
+         },
+         "muted": {
+            "dark": "hsl(210 9 96)",
+            "light": "hsl(216 20 20)"
+         },
+         "muted-bg": {
+            "dark": "hsl(216 20 14)",
+            "light": "hsl(216 20 44)"
+         },
+         "on-background": {
+            "dark": "hsl(218 19 16)",
+            "light": "hsl(0 0 100)"
+         },
+         "on-surface": {
+            "dark": "hsl(210 9 96)",
+            "light": "hsl(218 19 16)"
+         },
+         "primary": {
+            "dark": "rgb(28 170 0)",
+            "light": "rgb(0 85 0)"
+         },
+         "primary-bg": {
+            "dark": "hsl(189 85 11)",
+            "light": "hsl(189 54 88)"
+         },
+         "secondary": {
+            "dark": "rgb(175 138 0)",
+            "light": "rgb(60 85 0)"
+         },
+         "secondary-bg": {
+            "dark": "hsl(262 58 24)",
+            "light": "hsl(267 100 89)"
+         },
+         "shadow": {
+            "dark": "rgba(0 0 0 / 0.1)",
+            "light": "rgba(0 0 0 / 0.1)"
+         },
+         "success": {
+            "dark": "hsl(149 36 54)",
+            "light": "hsl(149 100 26)"
+         },
+         "success-bg": {
+            "dark": "hsl(149 100 9)",
+            "light": "hsl(150 37 88)"
+         },
+         "surface": {
+            "dark": "hsl(216 20 20)",
+            "light": "hsl(210 9 96)"
+         },
+         "table": {
+            "dark": "hsl(0 0 100)",
+            "light": "hsl(216 20 10)"
+         },
+         "table-heading-bg": {
+            "dark": "hsl(216 20 20)",
+            "light": "hsl(210 9 96)"
+         },
+         "table-inner-border": {
+            "dark": "hsl(215 19 26)",
+            "light": "hsl(216 11 91)"
+         },
+         "table-outer-border": {
+            "dark": "hsl(216 20 20)",
+            "light": "hsl(210 9 96)"
+         },
+         "table-row-hover-bg": {
+            "dark": "hsl(262 59 35)",
+            "light": "hsl(267 95 85)"
+         },
+         "table-row-zebra-high-bg": {
+            "dark": "hsl(218 19 16)",
+            "light": "hsl(0 0 100)"
+         },
+         "table-row-zebra-low-bg": {
+            "dark": "hsl(216 20 20)",
+            "light": "hsl(210 9 96)"
+         },
+         "target": {
+            "dark": "hsl(53 93 21)",
+            "light": "hsl(37 80 77)"
+         },
+         "text-base": {
+            "dark": "hsl(208 18 84)",
+            "light": "hsl(218 19 16)"
+         },
+         "text-muted": {
+            "dark": "hsl(215 11 65)",
+            "light": "hsl(216 20 35)"
+         },
+         "warning": {
+            "dark": "hsl(25 100 64)",
+            "light": "hsl(24 93 50)"
+         },
+         "warning-bg": {
+            "dark": "hsl(24 96 20)",
+            "light": "hsl(29 74 89)"
+         }
+      },
+      "icon": {
+         "api": "\ud83d\udda5",
+         "change": "\ud83d\udca5",
+         "chore": "\u267b\ufe0f",
+         "ci": "\ud83e\udd16\ufe0f",
+         "cli": "\u2328\ufe0f",
+         "config": "\ud83d\udee0\ufe0f",
+         "docs": "\ud83d\udcda",
+         "feat": "\u2728",
+         "fix": "\ud83d\udc1e",
+         "gui": "\ud83d\uddb1",
+         "pkg": "\ud83d\udce6",
+         "post": "\ud83d\udceb",
+         "refactor": "\ud83e\uddf9\ufe0f",
+         "repo": "\ud83e\uddf0",
+         "setup": "\u2699\ufe0f",
+         "test": "\ud83e\uddea"
+      }
+   },
    "title": "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub",
    "web": {
+      "announcement": {
+         "path": "docs/website/announcement.html",
+         "retention_days": 30,
+         "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/announcement.html"
+      },
+      "css": {
+         "black_to_primary_filter": {
+            "cases": {
+               "dark": {
+                  "selector": "html[data-theme=\"dark\"] .black-svg-icon"
+               },
+               "light": {
+                  "selector": "html[data-theme=\"light\"] .black-svg-icon"
+               }
+            },
+            "properties": {
+               "filter": {
+                  "dark": "invert(41%) sepia(94%) saturate(1043%) hue-rotate(77deg) brightness(94%) contrast(101%)",
+                  "light": "invert(18%) sepia(59%) saturate(2563%) hue-rotate(102deg) brightness(98%) contrast(109%)"
+               }
+            }
+         },
+         "theme_colors": {
+            "cases": {
+               "dark": {
+                  "prefix": "--pst-color-",
+                  "selector": "html[data-theme=\"dark\"]"
+               },
+               "light": {
+                  "prefix": "--pst-color-",
+                  "selector": "html[data-theme=\"light\"]"
+               }
+            },
+            "properties": {
+               "accent": {
+                  "dark": "rgb(69 155 36)",
+                  "light": "rgb(19 84 0)"
+               },
+               "accent-bg": {
+                  "dark": "hsl(308 59 17)",
+                  "light": "hsl(307 64 92)"
+               },
+               "attention": {
+                  "dark": "hsl(25 100 64)",
+                  "light": "hsl(24 93 50)"
+               },
+               "attention-bg": {
+                  "dark": "hsl(24 96 20)",
+                  "light": "hsl(29 74 89)"
+               },
+               "background": {
+                  "dark": "hsl(216 20 10)",
+                  "light": "hsl(0 0 100)"
+               },
+               "blockquote-notch": {
+                  "dark": "hsl(215 11 65)",
+                  "light": "hsl(215 12 46)"
+               },
+               "border": {
+                  "dark": "hsl(216 20 35)",
+                  "light": "hsl(213 11 84)"
+               },
+               "border-muted": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "rgba(23 23 26 / 0.2)"
+               },
+               "danger": {
+                  "dark": "hsl(352 66% 72)",
+                  "light": "hsl(351 68 51)"
+               },
+               "danger-bg": {
+                  "dark": "hsl(350 64 19)",
+                  "light": "hsl(353 67 93)"
+               },
+               "dark": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(218 19 16)"
+               },
+               "dark-bg": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(218 19 16)"
+               },
+               "heading": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "info": {
+                  "dark": "hsl(219 82 71)",
+                  "light": "hsl(219 82 53)"
+               },
+               "info-bg": {
+                  "dark": "hsl(219 88 19)",
+                  "light": "hsl(219 84 93)"
+               },
+               "inline-code": {
+                  "dark": "hsl(307 65 87)",
+                  "light": "hsl(308 59 36)"
+               },
+               "inline-code-links": {
+                  "dark": "hsl(189 54 51)",
+                  "light": "hsl(189 86 23)"
+               },
+               "light": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(210 9 96)"
+               },
+               "light-bg": {
+                  "dark": "hsl(210 9 67)",
+                  "light": "hsl(210 9 97)"
+               },
+               "link": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "link-hover": {
+                  "dark": "rgb(175 138 0)",
+                  "light": "rgb(60 85 0)"
+               },
+               "muted": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(216 20 20)"
+               },
+               "muted-bg": {
+                  "dark": "hsl(216 20 14)",
+                  "light": "hsl(216 20 44)"
+               },
+               "on-background": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(0 0 100)"
+               },
+               "on-surface": {
+                  "dark": "hsl(210 9 96)",
+                  "light": "hsl(218 19 16)"
+               },
+               "primary": {
+                  "dark": "rgb(28 170 0)",
+                  "light": "rgb(0 85 0)"
+               },
+               "primary-bg": {
+                  "dark": "hsl(189 85 11)",
+                  "light": "hsl(189 54 88)"
+               },
+               "secondary": {
+                  "dark": "rgb(175 138 0)",
+                  "light": "rgb(60 85 0)"
+               },
+               "secondary-bg": {
+                  "dark": "hsl(262 58 24)",
+                  "light": "hsl(267 100 89)"
+               },
+               "shadow": {
+                  "dark": "rgba(0 0 0 / 0.1)",
+                  "light": "rgba(0 0 0 / 0.1)"
+               },
+               "success": {
+                  "dark": "hsl(149 36 54)",
+                  "light": "hsl(149 100 26)"
+               },
+               "success-bg": {
+                  "dark": "hsl(149 100 9)",
+                  "light": "hsl(150 37 88)"
+               },
+               "surface": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table": {
+                  "dark": "hsl(0 0 100)",
+                  "light": "hsl(216 20 10)"
+               },
+               "table-heading-bg": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table-inner-border": {
+                  "dark": "hsl(215 19 26)",
+                  "light": "hsl(216 11 91)"
+               },
+               "table-outer-border": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "table-row-hover-bg": {
+                  "dark": "hsl(262 59 35)",
+                  "light": "hsl(267 95 85)"
+               },
+               "table-row-zebra-high-bg": {
+                  "dark": "hsl(218 19 16)",
+                  "light": "hsl(0 0 100)"
+               },
+               "table-row-zebra-low-bg": {
+                  "dark": "hsl(216 20 20)",
+                  "light": "hsl(210 9 96)"
+               },
+               "target": {
+                  "dark": "hsl(53 93 21)",
+                  "light": "hsl(37 80 77)"
+               },
+               "text-base": {
+                  "dark": "hsl(208 18 84)",
+                  "light": "hsl(218 19 16)"
+               },
+               "text-muted": {
+                  "dark": "hsl(215 11 65)",
+                  "light": "hsl(216 20 35)"
+               },
+               "warning": {
+                  "dark": "hsl(25 100 64)",
+                  "light": "hsl(24 93 50)"
+               },
+               "warning-bg": {
+                  "dark": "hsl(24 96 20)",
+                  "light": "hsl(29 74 89)"
+               }
+            }
+         },
+         "theme_font_sizes": {
+            "prefix": "--pst-font-size-",
+            "properties": {
+               "base": "1rem",
+               "h1": "2.74rem",
+               "h2": "2.28rem",
+               "h3": "1.90rem",
+               "h4": "1.58rem",
+               "h5": "1.32rem",
+               "h6": "1.10rem",
+               "milli": "0.9rem"
+            },
+            "selector": "html"
+         },
+         "theme_header_color": {
+            "cases": {
+               "dark": {
+                  "selector": "html[data-theme=\"dark\"] .bd-header"
+               },
+               "light": {
+                  "selector": "html[data-theme=\"light\"] .bd-header"
+               }
+            },
+            "properties": {
+               "background-color": {
+                  "dark": "black !important",
+                  "light": "white !important"
+               }
+            }
+         }
+      },
+      "file": {
+         "icon": {
+            "path": "docs/website/source/_media/logo/favicon.svg",
+            "rel_path": "_media/logo/favicon.svg",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/favicon.svg"
+         },
+         "logo_full_dark": {
+            "path": "docs/website/source/_media/logo/full_dark.svg",
+            "rel_path": "_media/logo/full_dark.svg",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_dark.svg"
+         },
+         "logo_full_light": {
+            "path": "docs/website/source/_media/logo/full_light.svg",
+            "rel_path": "_media/logo/full_light.svg",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_light.svg"
+         },
+         "logo_full_raster": {
+            "path": "docs/website/source/_media/logo/full_light.png",
+            "rel_path": "_media/logo/full_light.png",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/full_light.png"
+         },
+         "logo_simple_dark": {
+            "path": "docs/website/source/_media/logo/simple_dark.svg",
+            "rel_path": "_media/logo/simple_dark.svg",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_dark.svg"
+         },
+         "logo_simple_light": {
+            "path": "docs/website/source/_media/logo/simple_light.svg",
+            "rel_path": "_media/logo/simple_light.svg",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_light.svg"
+         },
+         "logo_simple_raster": {
+            "path": "docs/website/source/_media/logo/simple_light.png",
+            "rel_path": "_media/logo/simple_light.png",
+            "url": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/docs/website/source/_media/logo/simple_light.png"
+         }
+      },
+      "page": {
+         "about": {
+            "path": "about",
+            "title": "About",
+            "url": "https://pypackit.repodynamics.com/about"
+         },
+         "api": {
+            "path": "api",
+            "title": "API Reference",
+            "url": "https://pypackit.repodynamics.com/api"
+         },
+         "blog": {
+            "path": "news",
+            "title": "News",
+            "url": "https://pypackit.repodynamics.com/news"
+         },
+         "blog_category_release": {
+            "path": "news/category/release",
+            "title": "Release",
+            "url": "https://pypackit.repodynamics.com/news/category/release"
+         },
+         "contact": {
+            "path": "about/contact",
+            "title": "Contact",
+            "url": "https://pypackit.repodynamics.com/about/contact"
+         },
+         "contribute": {
+            "path": "contribute",
+            "title": "Contribution Guide",
+            "url": "https://pypackit.repodynamics.com/contribute"
+         },
+         "help": {
+            "path": "help",
+            "title": "Support Guide",
+            "url": "https://pypackit.repodynamics.com/help"
+         },
+         "install": {
+            "path": "manual/install",
+            "title": "Installation",
+            "url": "https://pypackit.repodynamics.com/manual/install"
+         },
+         "intro": {
+            "path": "intro",
+            "title": "Introduction",
+            "url": "https://pypackit.repodynamics.com/intro"
+         },
+         "license": {
+            "path": "about/license",
+            "title": "License",
+            "url": "https://pypackit.repodynamics.com/about/license"
+         },
+         "manual": {
+            "path": "manual",
+            "title": "User Manual",
+            "url": "https://pypackit.repodynamics.com/manual"
+         },
+         "overview": {
+            "path": "intro/overview",
+            "title": "Overview",
+            "url": "https://pypackit.repodynamics.com/intro/overview"
+         }
+      },
+      "path": {
+         "build": "docs/website/.build",
+         "logo_dir": "_media/logo",
+         "root": "docs/website",
+         "source": "docs/website/source",
+         "source_rel": "source",
+         "to_root": "../../../"
+      },
+      "readthedocs": {
+         "language": "en",
+         "name": "PyPackIT",
+         "platform": "community",
+         "version_scheme": {
+            "single_version": false,
+            "translation": false
+         }
+      },
       "url": {
          "base": "https://pypackit.repodynamics.com",
          "custom": {
