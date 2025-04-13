@@ -9,6 +9,8 @@ __temp__:
       web: 6080
       vnc: 5901
     jupyter: 8888
+  conda_env_name:
+    app: app
 default:
   task_setting:
     local:
@@ -108,32 +110,19 @@ devfeature_pkg_setup:
     installsAfter:
       - ghcr.io/devcontainers/features/common-utils
       - ghcr.io/devcontainers/features/conda
-    postStartCommand:
-      install_main:
-        - conda
-        - run
-        - --name
-        - app
-        - --live-stream
-        - -vv
-        - pip
-        - install
-        - --editable
-        - ${{ pypkg_main.path.root }}$
-        - --no-deps
-      install_test:
-        - conda
-        - run
-        - --name
-        - app
-        - --live-stream
-        - -vv
-        - pip
-        - install
-        - --editable
-        - ${{ pypkg_test.path.root }}$
-        - --no-deps
+    postStartCommand: "/usr/local/share/app_installation/post-start-command.sh"
     options:
+      packages:
+        type: string
+        description: >-
+          Packages to install.
+          This must be a string representing a JSON object,
+          where keys are the name of Conda environments to use for installation.
+          Each value is a JSON object with a key "packages",
+          and optionally "python-version", and "sources",
+          corresponding to the package installation script's input arguments.
+          Note that quotes inside the JSON string must be escaped with triple backslashes.
+        default: ""
       script_filepath:
         type: string
         description: Absolute path to the installation script file.
@@ -142,23 +131,6 @@ devfeature_pkg_setup:
         type: string
         description: Absolute path to the project metadata file.
         default: /usr/local/share/app_installation/metadata.json
-      packages:
-        # TODO: fix quoting problem
-        type: string
-        description: Package data to install as a JSON array.
-        default: '["main", "test"]'
-      python_version:
-        type: string
-        description: Python version to use for the installation.
-        default: ${{ pypkg_main.python.version.minors[0] }}$
-      sources:
-        type: string
-        description: Space-separated list of sources to install from.
-        default: pip conda apt bash
-      conda_env_name:
-        type: string
-        description: Name of the conda environment to use for installation.
-        default: app
       log_dir:
         type: string
         description: Absolute path to a directory to write log files.
@@ -166,28 +138,77 @@ devfeature_pkg_setup:
   install: |
     #!/usr/bin/env bash
     set -euxo pipefail
-    mkdir -p $LOG_DIR
+
+    echo "Creating log directory..."
+    mkdir -p "$LOG_DIR"
     LOG_FILE="${LOG_DIR}/install.log"
     # Redirect stdout and stderr to a file
     exec > >(tee -a "$LOG_FILE") 2>&1
 
+    # Create postStartCommand script
+    POST_START_SCRIPT_DIRPATH="/usr/local/share/app_installation"
+    POST_START_SCRIPT_FILEPATH="${POST_START_SCRIPT_DIRPATH}/post-start-command.sh"
+    mkdir -p "$POST_START_SCRIPT_DIRPATH"
+    {
+      echo '#!/usr/bin/env bash'
+      echo 'set -euxo pipefail'
+    } > "$POST_START_SCRIPT_FILEPATH"
+    chmod +x "$POST_START_SCRIPT_FILEPATH"
+
     echo "Initializing conda..."
     conda init
+
     echo "Removing existing Conda channels..."
     conda config --remove-key channels 2>/dev/null || true
+
     echo "Adding conda-forge as the only channel..."
     conda config --add channels conda-forge
+
     echo "Setting strict channel priority..."
     conda config --set channel_priority strict
+
     echo "Verifying channels..."
     conda config --show channels
-    echo "Creating log directory..."
-    python "$SCRIPT_FILEPATH" \
-      --packages '["main", "test"]' \
-      --filepath "$METADATA_FILEPATH" \
-      --python-version "$PYTHON_VERSION" \
-      --sources $SOURCES \
-      --conda-env-name "$CONDA_ENV_NAME"
+
+    if ! echo "$PACKAGES" | jq empty; then
+        echo "Invalid JSON in PACKAGES"
+        exit 1
+    fi
+
+    for conda_env_name in $(echo "$PACKAGES" | jq -r 'keys[]'); do
+        value=$(echo "$PACKAGES" | jq -c --arg k "$conda_env_name" '.[$k]')
+        packages=$(echo "$value" | jq -c '.packages')
+
+        # Build the base command
+        cmd=(
+          python "$SCRIPT_FILEPATH"
+            --conda-env-name "$conda_env_name"
+            --packages "$packages"
+            --filepath "$METADATA_FILEPATH"
+            --no-self
+        )
+
+        # Optionally add --python-version
+        if echo "$value" | jq -e 'has("python-version")' > /dev/null; then
+            python_version=$(echo "$value" | jq -r '.["python-version"]')
+            cmd+=(--python-version "$python_version")
+        fi
+
+        # Optionally add --sources
+        if echo "$value" | jq -e 'has("sources")' > /dev/null; then
+            sources=$(echo "$value" | jq -r '.sources')
+            cmd+=(--sources "$sources")
+        fi
+
+        # Capture and write command output
+        output=$("${cmd[@]}")
+
+        # Append output to the file
+        while IFS= read -r line; do
+            echo "$line" >> "$POST_START_SCRIPT_FILEPATH"
+        done <<< "$output"
+    done
+
     echo "Cleaning up cache..."
     conda clean --all -y
 devfeature_conda_setup:
@@ -562,7 +583,34 @@ devcontainer_main:
       # Local features
       ./${{ devfeature_user_setup.path }}$: {}
       ./${{ devfeature_conda_setup.path }}$: {}
-      ./${{ devfeature_pkg_setup.path }}$: {}
+      ./${{ devfeature_pkg_setup.path }}$:
+        packages: >-
+          {
+            \\\"${{ __temp__.conda_env_name.app }}$\\\": {
+              \\\"packages\\\": [
+                {
+                  \\\"id\\\": \\\"main\\\",
+                  \\\"extras\\\": \\\"all\\\"
+                },
+                {
+                  \\\"id\\\": \\\"test\\\",
+                  \\\"extras\\\": \\\"all\\\"
+                },
+              ],
+              \\\"python-version\\\": \\\"${{ pypkg_main.python.version.minors[0] }}$\\\",
+              \\\"sources\\\": \\\"pip conda apt bash\\\"
+            },
+            \\\"proman\\\": {
+              \\\"packages\\\": [
+                {
+                  \\\"id\\\": \\\"ci\\\",
+                  \\\"extras\\\": \\\"all\\\"
+                }
+              ],
+              \\\"python-version\\\": \\\"${{ pypkg_ci.python.version.minors[-1] }}$\\\",
+              \\\"sources\\\": \\\"pip conda apt bash\\\"
+            }
+          }
     overrideFeatureInstallOrder:
       - ghcr.io/devcontainers/features/common-utils
       - ghcr.io/devcontainers/features/desktop-lite:1
@@ -838,7 +886,7 @@ devcontainer_main:
             - --package ${{ pypkg_main.import_name }}$
             - --package ${{ pypkg_test.import_name }}$
             # https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
-            - --python-executable /opt/conda/envs/${{ devfeature_pkg_setup.feature.options.conda_env_name }}$/bin/python
+            - --python-executable /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
             - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
             - --install-types
             - --non-interactive
