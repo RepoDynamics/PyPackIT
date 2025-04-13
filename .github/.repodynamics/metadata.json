@@ -2740,7 +2740,10 @@
             "user": 24
          }
       },
-      "path": ".control",
+      "path": {
+         "config": ".control",
+         "pkg_install_script": "install.py"
+      },
       "url": {
          "changelog": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/.github/.repodynamics/changelog.json",
          "metadata": "https://raw.githubusercontent.com/RepoDynamics/PyPackIT/main/.github/.repodynamics/metadata.json",
@@ -4106,7 +4109,7 @@
          "RUN if id \"ubuntu\" &>/dev/null; then \\\n        echo \"Deleting user 'ubuntu'\" && userdel -f -r ubuntu || echo \"Failed to delete ubuntu user.\"; \\\n    else \\\n        echo \"User 'ubuntu' does not exist.\"; \\\n    fi\n",
          "RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \\\n    # Restore man command\n    && yes | unminimize 2>&1\n\nENV LANG=\"C.UTF-8\"\n\n# Install basic build tools\nRUN apt-get update \\\n    && apt-get upgrade -y \\\n    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \\\n        make \\\n        unzip \\\n        # The tools in this package are used when installing packages for Python\n        build-essential \\\n        swig3.0 \\\n        # Required for Microsoft SQL Server\n        unixodbc-dev \\\n        # Required for PostgreSQL\n        libpq-dev \\\n        # Required for mysqlclient\n        default-libmysqlclient-dev \\\n        # Required for ts\n        moreutils \\\n        rsync \\\n        zip \\\n        libgdiplus \\\n        jq \\\n        # By default pip is not available in the buildpacks image\n        python3-pip-whl \\\n        python3-pip \\\n        #.NET Core related pre-requisites\n        libc6 \\\n        libgcc1 \\\n        libgssapi-krb5-2 \\\n        libncurses6 \\\n        liblttng-ust1 \\\n        libssl-dev \\\n        libstdc++6 \\\n        zlib1g \\\n        libuuid1 \\\n        libunwind8 \\\n        sqlite3 \\\n        libsqlite3-dev \\\n        software-properties-common \\\n        tk-dev \\\n        uuid-dev \\\n        curl \\\n        gettext \\\n        inotify-tools \\\n    && rm -rf /var/lib/apt/lists/* \\\n    # This is the folder containing 'links' to benv and build script generator\n    && apt-get update \\\n    && apt-get upgrade -y \\\n    && add-apt-repository universe \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Verify expected build and debug tools are present\nRUN apt-get update \\\n    && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \\\n    # Install tools and shells not in common script\n    && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev \\\n    # Install additional tools (useful for 'puppeteer' project)\n    && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \\\n                                                  libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \\\n    # Clean up\n    && apt-get autoremove -y && apt-get clean -y \\\n\n# Default to bash shell (other shells available at /usr/bin/fish and /usr/bin/zsh)\nENV SHELL=/bin/bash \\\n    DOCKER_BUILDKIT=1\n\n# Install and setup fish\nRUN apt-get install -yq fish \\\n    && FISH_PROMPT=\"function fish_prompt\\n    set_color green\\n    echo -n (whoami)\\n    set_color normal\\n    echo -n \\\":\\\"\\n    set_color blue\\n    echo -n (pwd)\\n    set_color normal\\n    echo -n \\\"> \\\"\\nend\\n\" \\\n    && printf \"$FISH_PROMPT\" >> /etc/fish/functions/fish_prompt.fish \\\n    && printf \"if type code-insiders > /dev/null 2>&1; and not type code > /dev/null 2>&1\\n  alias code=code-insiders\\nend\" >> /etc/fish/conf.d/code_alias.fish\n\n# Remove scripts now that we're done with them\nRUN apt-get clean -y\n\nCMD [ \"sleep\", \"infinity\" ]\n",
          "COPY .devcontainer/environment /usr/local/share/environments/",
-         "COPY .devcontainer/install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
+         "COPY install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
       ],
       "environment": {
          "anaconda": {
@@ -16570,7 +16573,7 @@
                   "attributes": {
                      "description": "Please provide the URL of the relevant configuration file in the repository.",
                      "label": "URL",
-                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control/proj.yaml"
+                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control"
                   },
                   "changelog": false,
                   "id": "url",
@@ -16761,7 +16764,7 @@
                   "attributes": {
                      "description": "Please provide the URL of the relevant configuration file in the repository.",
                      "label": "URL",
-                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control/proj.yaml"
+                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control"
                   },
                   "changelog": false,
                   "id": "url",
@@ -21206,7 +21209,7 @@
             "name": "py3.10 | conda | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21228,7 +21231,7 @@
             "name": "py3.11 | conda | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21250,7 +21253,7 @@
             "name": "py3.12 | conda | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21272,7 +21275,7 @@
             "name": "py3.13 | conda | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21294,7 +21297,7 @@
             "name": "py3.10 | pip | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21316,7 +21319,7 @@
             "name": "py3.11 | pip | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21338,7 +21341,7 @@
             "name": "py3.12 | pip | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21360,7 +21363,7 @@
             "name": "py3.13 | pip | Linux (x64)",
             "runner": "ubuntu-24.04",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-64-ubuntu-24.04-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21382,7 +21385,7 @@
             "name": "py3.10 | conda | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21404,7 +21407,7 @@
             "name": "py3.11 | conda | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21426,7 +21429,7 @@
             "name": "py3.12 | conda | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21448,7 +21451,7 @@
             "name": "py3.13 | conda | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources conda pip apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21470,7 +21473,7 @@
             "name": "py3.10 | pip | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.10 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21492,7 +21495,7 @@
             "name": "py3.11 | pip | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.11 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21514,7 +21517,7 @@
             "name": "py3.12 | pip | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.12 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21536,7 +21539,7 @@
             "name": "py3.13 | pip | Linux (arm64)",
             "runner": "ubuntu-24.04-arm",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform linux-aarch64 --sources pip conda apt bash brew --python-version 3.13 --conda-env-name main-linux-aarch64-ubuntu-24.04-arm-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21558,7 +21561,7 @@
             "name": "py3.10 | conda | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21580,7 +21583,7 @@
             "name": "py3.11 | conda | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21602,7 +21605,7 @@
             "name": "py3.12 | conda | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21624,7 +21627,7 @@
             "name": "py3.13 | conda | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21646,7 +21649,7 @@
             "name": "py3.10 | pip | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-64-macos-13-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21668,7 +21671,7 @@
             "name": "py3.11 | pip | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-64-macos-13-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21690,7 +21693,7 @@
             "name": "py3.12 | pip | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-64-macos-13-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21712,7 +21715,7 @@
             "name": "py3.13 | pip | macOS (x64)",
             "runner": "macos-13",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-64-macos-13-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21734,7 +21737,7 @@
             "name": "py3.10 | conda | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21756,7 +21759,7 @@
             "name": "py3.11 | conda | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21778,7 +21781,7 @@
             "name": "py3.12 | conda | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21800,7 +21803,7 @@
             "name": "py3.13 | conda | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources conda pip brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21822,7 +21825,7 @@
             "name": "py3.10 | pip | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.10 --conda-env-name main-osx-arm64-macos-15-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21844,7 +21847,7 @@
             "name": "py3.11 | pip | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.11 --conda-env-name main-osx-arm64-macos-15-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21866,7 +21869,7 @@
             "name": "py3.12 | pip | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.12 --conda-env-name main-osx-arm64-macos-15-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21888,7 +21891,7 @@
             "name": "py3.13 | pip | macOS (arm64)",
             "runner": "macos-15",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform osx-arm64 --sources pip conda brew bash --python-version 3.13 --conda-env-name main-osx-arm64-macos-15-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21910,7 +21913,7 @@
             "name": "py3.10 | conda | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-conda-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21932,7 +21935,7 @@
             "name": "py3.11 | conda | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-conda-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21954,7 +21957,7 @@
             "name": "py3.12 | conda | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-conda-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21976,7 +21979,7 @@
             "name": "py3.13 | conda | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources conda pip choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-conda-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "micromamba install -c ./conda_channel/ pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -21998,7 +22001,7 @@
             "name": "py3.10 | pip | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.10 --conda-env-name main-win-64-windows-2025-pip-py3.10 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -22020,7 +22023,7 @@
             "name": "py3.11 | pip | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.11 --conda-env-name main-win-64-windows-2025-pip-py3.11 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -22042,7 +22045,7 @@
             "name": "py3.12 | pip | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.12 --conda-env-name main-win-64-windows-2025-pip-py3.12 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
@@ -22064,7 +22067,7 @@
             "name": "py3.13 | pip | Windows (x64)",
             "runner": "windows-2025",
             "script": {
-               "install_env": "python ./.devcontainer/install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
+               "install_env": "python install.py --packages '[\"main\", \"test\"]' --build-platform win-64 --sources pip conda choco pwsh --python-version 3.13 --conda-env-name main-win-64-windows-2025-pip-py3.13 --exclude-install conda --output-dir _temp_test_env --overwrite --filename-conda environment.yaml ",
                "install_pkg": "pip uninstall -y pypackit pypackit-testsuite\npip install --no-deps --no-index --find-links=./wheelhouse/ --only-binary :all: pypackit pypackit-testsuite",
                "test": "python -m pypackit_testsuite --report ./report"
             }
