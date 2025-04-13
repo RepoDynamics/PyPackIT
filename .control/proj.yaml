@@ -300,7 +300,7 @@ zenodo:
         for is_member in (True, False):
           for contributor in manager.changelog.current_public.contributors_with_role_types(role_type, member=is_member):
             out.append({"id": contributor["id"], "member": is_member, "role_types": role_type})
-        for member in hook.members_with_role_types(role_type, active_only=True):
+        for member in manager.user.members_with_role_types(role_type, active_only=True):
           entry = {"id": member["id"], "member": True, "role_types": role_type}
           if entry not in out:
             out.append(entry)
@@ -333,7 +333,7 @@ file_citation_cff:
     authors: |-
       #{{
         # Get all members and contributors with the role type "Author".
-        authors = hook.members_with_role_types(
+        authors = manager.user.members_with_role_types(
           "Author", active_only=True
         ) + manager.changelog.current_public.contributors_with_role_types("Author", member=False)
         # Transform each author data into a CFF person/entity object.
@@ -342,7 +342,7 @@ file_citation_cff:
     contact: |-
       #{{
           return [
-            hook.create_cff_person_or_entity(member) for member in hook.members_with_role_types(
+            hook.create_cff_person_or_entity(member) for member in manager.user.members_with_role_types(
               "ContactPerson",
               active_only=True,
             )

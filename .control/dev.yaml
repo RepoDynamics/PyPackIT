@@ -1335,7 +1335,7 @@ devcontainer_main:
 #        #{{
 #          return [
 #            f"{author["name"]["full"]}{f" <{author["email"]["id"]}>" if "email" in author else ""}"
-#            for author in hook.members_with_role_types("Author", active_only=True)
+#            for author in manager.user.members_with_role_types("Author", active_only=True)
 #          ]
 #        }}#
 #      description: '#{{ return get("title") }}#'

@@ -12,7 +12,7 @@ from proman.dstruct import User
 from proman.manager.contributor import ContributorManager
 
 if _TYPE_CHECKING:
-    from typing import Literal
+    from typing import Literal, Sequence
 
     from github_contexts.github.payload.object.issue import Issue
     from github_contexts.github.payload.object.pull_request import PullRequest
@@ -309,3 +309,128 @@ class UserManager:
         entity_ = pyserials.NestedDict(entity)
         entity_.fill()
         return entity_(), github_user_info
+
+    def members_with_role_types(
+        self,
+        role_types: str | Sequence[str],
+        active_only: bool = True,
+    ) -> list[dict]:
+        """Get team members with specific role types.
+
+        Parameters
+        ----------
+        role_types
+            The role type(s) to filter for.
+        active_only
+            Whether to filter for active team members only.
+
+        Returns
+        -------
+        list[dict]
+            A list of dictionaries, each representing a team member.
+        """
+        team_data = self._manager.get_data("team")
+        role_data = self._manager.get_data("role")
+        out = []
+        if isinstance(role_types, str):
+            role_types = [role_types]
+        for member_id, member_data in team_data.items():
+            if active_only and not member_data["active"]:
+                continue
+            max_priority = -1
+            for role_type in role_types:
+                for member_role_id, member_priority in member_data.get("role", {}).items():
+                    member_role_type = role_data[member_role_id]["type"]
+                    if member_role_type == role_type:
+                        max_priority = max(max_priority, member_priority)
+            if max_priority > 0:
+                out.append(
+                    (
+                        member_data | {"id": member_id},
+                        max_priority,
+                        member_data["name"]["full_inverted"],
+                    )
+                )
+        return [
+            member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+        ]
+
+    def members_without_role_types(
+        self,
+        role_types: str | Sequence[str],
+        include_other_roles: bool = True,
+        active_only: bool = True,
+    ) -> list[dict]:
+        """Get team members without a specific role type.
+
+        Parameters
+        ----------
+        role_types
+            The role type(s) to filter out.
+        include_other_roles
+            Whether to include team members that have roles
+            other than the excluded role types.
+        active_only
+            Whether to filter for active team members only.
+
+        Returns
+        -------
+        list[dict]
+            A list of dictionaries, each representing a team member.
+        """
+        team_data = self._manager.get_data("team")
+        role_data = self._manager.get_data("role")
+        out = []
+        if isinstance(role_types, str):
+            role_types = [role_types]
+        excluded_role_types = set(role_types)
+        for member_id, member_data in team_data.items():
+            if active_only and not member_data["active"]:
+                continue
+            member_role_types = set(
+                role_data[role_id]["type"] for role_id in member_data.get("role", {}).keys()
+            )
+            if not excluded_role_types.intersection(member_role_types):
+                out.append(member_data | {"id": member_id})
+                continue
+            if not include_other_roles:
+                continue
+            if member_role_types - excluded_role_types:
+                out.append(member_data | {"id": member_id})
+        return out
+
+    def members_with_role_ids(
+        self,
+        role_ids: str | Sequence[str],
+        active_only: bool = True,
+    ) -> list[dict]:
+        """Get team members with a specific role ID.
+
+        Parameters
+        ----------
+        role_ids
+            The role ID(s) to filter for.
+        active_only
+            Whether to filter for active team members only.
+
+        Returns
+        -------
+        list[dict]
+            A list of dictionaries, each representing a team member.
+        """
+        team_data = self._manager.get_data("team")
+        out = []
+        if isinstance(role_ids, str):
+            role_ids = [role_ids]
+        for member_id, member_data in team_data.items():
+            if active_only and not member_data["active"]:
+                continue
+            for role_id, member_priority in member_data.get("role", {}).items():
+                if role_id in role_ids:
+                    out.append(
+                        (member_data | {"id": member_id}, role_ids.index(role_id), member_priority)
+                    )
+                    break
+        return [
+            member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+        ]
