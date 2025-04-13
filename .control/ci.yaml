@@ -44,6 +44,11 @@ pypkg_ci:
                 help: Skip validation of the metadata.json file.
                 dest: validate_metadata
                 action: store_false
+            - args: [ --version ]
+              kwargs:
+                help: Output the version of the package and exit.
+                action: version
+                version: '{__version__}'
           subparser:
             id: main
             kwargs:
