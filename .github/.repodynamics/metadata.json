@@ -5805,14 +5805,14 @@
          }
       },
       "name": "Binder APT Environment File",
-      "path": ".binder_config/apt.txt",
+      "path": ".config/binder/apt.txt",
       "status": "delete",
       "summary": "[`apt.txt`](https://repo2docker.readthedocs.io/en/latest/config_files.html#apt-txt-install-packages-with-apt-get) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/apt.txt"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../pkg\n    - -e ../test\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - -e ../../pkg\n    - -e ../../test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
@@ -5841,11 +5841,11 @@
          }
       },
       "name": "Binder Conda Environment File",
-      "path": ".binder_config/environment.yml",
+      "path": ".config/binder/environment.yml",
       "status": "active",
       "summary": "[`environment.yml`](https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/environment.yml"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/environment.yml"
    },
    "file_binder_postbuild": {
       "content": "",
@@ -5877,11 +5877,11 @@
          }
       },
       "name": "Binder Post Build Environment File",
-      "path": ".binder_config/postBuild",
+      "path": ".config/binder/postBuild",
       "status": "delete",
       "summary": "[`postBuild`](https://repo2docker.readthedocs.io/en/latest/config_files.html#postbuild-run-code-after-installing-the-environment) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.binder_config/postBuild"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/postBuild"
    },
    "file_citation_cff": {
       "content": {
@@ -17784,7 +17784,7 @@
             "devcontainer_main_pre_commit_pre_commit_config_ci": ".devcontainer/config/pre-commit-ci.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
             "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
-            "file_binder_conda": ".binder_config/environment.yml",
+            "file_binder_conda": ".config/binder/environment.yml",
             "file_citation_cff": "CITATION.cff",
             "file_coc": "CODE_OF_CONDUCT.md",
             "file_contributing": "CONTRIBUTING.md",
@@ -25827,7 +25827,7 @@
          },
          "name": "Docker (v{{ version }})",
          "path": {
-            "config": ".binder_config",
+            "config": ".config/binder",
             "dockerfile": ".binder"
          }
       },

@@ -8,5 +8,5 @@ dependencies:
   - repodynamics::pkgdata
   - repodynamics::pkgdata
   - pip:
-    - -e ../pkg
-    - -e ../test
+    - -e ../../pkg
+    - -e ../../test
