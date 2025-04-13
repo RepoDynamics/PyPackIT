@@ -586,29 +586,29 @@ devcontainer_main:
       ./${{ devfeature_pkg_setup.path }}$:
         packages: >-
           {
-            \\\"${{ __temp__.conda_env_name.app }}$\\\": {
-              \\\"packages\\\": [
+            \"${{ __temp__.conda_env_name.app }}$\": {
+              \"packages\": [
                 {
-                  \\\"id\\\": \\\"main\\\",
-                  \\\"extras\\\": \\\"all\\\"
+                  \"id\": \"main\",
+                  \"extras\": \"all\"
                 },
                 {
-                  \\\"id\\\": \\\"test\\\",
-                  \\\"extras\\\": \\\"all\\\"
+                  \"id\": \"test\",
+                  \"extras\": \"all\"
                 },
               ],
-              \\\"python-version\\\": \\\"${{ pypkg_main.python.version.minors[0] }}$\\\",
-              \\\"sources\\\": \\\"pip conda apt bash\\\"
+              \"python-version\": \"${{ pypkg_main.python.version.minors[0] }}$\",
+              \"sources\": \"pip conda apt bash\"
             },
-            \\\"proman\\\": {
-              \\\"packages\\\": [
+            \"proman\": {
+              \"packages\": [
                 {
-                  \\\"id\\\": \\\"ci\\\",
-                  \\\"extras\\\": \\\"all\\\"
+                  \"id\": \"ci\",
+                  \"extras\": \"all\"
                 }
               ],
-              \\\"python-version\\\": \\\"${{ pypkg_ci.python.version.minors[-1] }}$\\\",
-              \\\"sources\\\": \\\"pip conda apt bash\\\"
+              \"python-version\": \"${{ pypkg_ci.python.version.minors[-1] }}$\",
+              \"sources\": \"pip conda apt bash\"
             }
           }
     overrideFeatureInstallOrder:
