@@ -280,19 +280,19 @@ commit:
       scope: docs
       action: post
       type_description: >-
-        Fix bugs in ${{ name }} documentation.
+        Fix bugs in ${{ name }}$'s documentation.
     docs_feat:
       type: feat
       scope: docs
       action: post
       type_description: >-
-        Add backward-compatible features to ${{ name }} documentation.
+        Add backward-compatible features to ${{ name }}$'s documentation.
     docs_change:
       type: change
       scope: docs
       action: post
       type_description: >-
-        Introduce backward-incompatible changes in ${{ name }} documentation.
+        Introduce backward-incompatible changes in ${{ name }}$'s documentation.
     refactor:
       type: refactor
       action: post
