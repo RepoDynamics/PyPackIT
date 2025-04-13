@@ -11,6 +11,7 @@ __temp__:
     jupyter: 8888
   conda_env_name:
     app: app
+    manager: proman
 default:
   task_setting:
     local:
@@ -600,7 +601,7 @@ devcontainer_main:
               \"python-version\": \"${{ pypkg_main.python.version.minors[0] }}$\",
               \"sources\": \"pip conda apt bash\"
             },
-            \"proman\": {
+            \"${{ __temp__.conda_env_name.manager }}$\": {
               \"packages\": [
                 {
                   \"id\": \"ci\",
