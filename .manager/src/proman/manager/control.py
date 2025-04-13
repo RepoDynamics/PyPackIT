@@ -145,7 +145,7 @@ class ControlCenterManager:
         self.load()
         data = copy.deepcopy(self._data_raw)
         changelog_manager = ChangelogManager(manager=self._manager)
-        code_context_call = {"changelog": changelog_manager}
+        code_context_call = {"changelog": changelog_manager, "manager": self._manager}
         data["changelogs"] = changelog_manager.changelogs
         data["contributor"] = changelog_manager.contributor.as_dict
         code_context_call["hook"] = InlineDataGenerator(manager=self._manager)
@@ -156,7 +156,6 @@ class ControlCenterManager:
         data = _ps.NestedDict(
             data,
             code_context={
-                "manager": self._manager,
                 "repo_path": self._path_root,
                 "ccc_main": self._manager.main.data,
                 "ccc": self._data_before,

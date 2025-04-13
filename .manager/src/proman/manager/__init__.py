@@ -38,6 +38,7 @@ from proman.token_manager import create as _create_token_manager
 from proman.util import date
 
 if TYPE_CHECKING:
+    from typing import Any, Callable
     from github_contexts.github import GitHubContext
     from github_contexts.github.payload.object import Issue, PullRequest
     from gittidy import Git
@@ -299,6 +300,7 @@ class Manager:
         self._jinja_env_vars = jinja_env_vars
         self._github_context = github_context
         self._main_manager = main_manager or self
+        self._get_data_function = self._meta.get
         self._cache_manager = SerializableCacheManager(
             path=self.git.repo_path / self._meta.get("local.cache.path") / const.DIRNAME_LOCAL_REPODYNAMICS / const.FILENAME_METADATA_CACHE,
             retention_time={k: datetime.timedelta(hours=v) for k, v in self._meta.get("control.cache.retention_hours", {}).items()},
@@ -317,6 +319,14 @@ class Manager:
             self
         )  # must be after self._variable_manager as ZenodoManager needs it at init
         return
+
+    def __call__(self, get_metadata: Callable | None = None):
+        self._get_data_function = get_metadata if get_metadata else self._meta.get
+        return self
+
+    def get_data(self, key: str, default: Any = None) -> Any:
+        """Get data from the metadata."""
+        return self._get_data_function(key, default)
 
     def update_data(self, data: NestedDict):
         self._meta = data
