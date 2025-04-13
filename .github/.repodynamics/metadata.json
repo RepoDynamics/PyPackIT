@@ -2535,21 +2535,21 @@
             "description": "{{ pull_request.title }}",
             "scope": "docs",
             "type": "change",
-            "type_description": "Introduce backward-incompatible changes in ${{ name }} documentation."
+            "type_description": "Introduce backward-incompatible changes in PyPackIT's documentation."
          },
          "docs_feat": {
             "action": "post",
             "description": "{{ pull_request.title }}",
             "scope": "docs",
             "type": "feat",
-            "type_description": "Add backward-compatible features to ${{ name }} documentation."
+            "type_description": "Add backward-compatible features to PyPackIT's documentation."
          },
          "docs_fix": {
             "action": "post",
             "description": "{{ pull_request.title }}",
             "scope": "docs",
             "type": "fix",
-            "type_description": "Fix bugs in ${{ name }} documentation."
+            "type_description": "Fix bugs in PyPackIT's documentation."
          },
          "pkg_api_change": {
             "action": "major",
@@ -5288,6 +5288,14 @@
                      "full": "pkgdata ==0.1.0",
                      "name": "pkgdata",
                      "version": "==0.1.0"
+                  }
+               },
+               "pycacheman": {
+                  "name": "${{ .__key__ }}$",
+                  "spec": {
+                     "full": "pycacheman ==0.1.1",
+                     "name": "pycacheman",
+                     "version": "==0.1.1"
                   }
                },
                "pycolorit": {
@@ -17233,17 +17241,17 @@
                "suffix": "config"
             },
             "docs_change": {
-               "description": "Introduce backward-incompatible changes in ${{ name }} documentation.",
+               "description": "Introduce backward-incompatible changes in PyPackIT's documentation.",
                "name": "Commit: change(docs)",
                "suffix": "change(docs)"
             },
             "docs_feat": {
-               "description": "Add backward-compatible features to ${{ name }} documentation.",
+               "description": "Add backward-compatible features to PyPackIT's documentation.",
                "name": "Commit: feat(docs)",
                "suffix": "feat(docs)"
             },
             "docs_fix": {
-               "description": "Fix bugs in ${{ name }} documentation.",
+               "description": "Fix bugs in PyPackIT's documentation.",
                "name": "Commit: fix(docs)",
                "suffix": "fix(docs)"
             },
@@ -18365,6 +18373,20 @@
                   "source": "https://github.com/repodynamics/pkgdata"
                }
             },
+            "pycacheman": {
+               "install": {
+                  "pip": {
+                     "homepage": "https://pypi.org/project/pycacheman",
+                     "name": "pycacheman",
+                     "spec": "pycacheman ==0.1.1",
+                     "version": "==0.1.1"
+                  }
+               },
+               "name": "pycacheman",
+               "url": {
+                  "source": "https://github.com/repodynamics/pycacheman"
+               }
+            },
             "pycolorit": {
                "install": {
                   "pip": {
@@ -19062,6 +19084,7 @@
                "mdit ==0.1.0",
                "packaging ==24.2",
                "pkgdata ==0.1.0",
+               "pycacheman ==0.1.1",
                "pycolorit ==0.1.1",
                "pylinks ==0.1.0",
                "pyserials ==0.1.0",
