@@ -15,6 +15,7 @@ from proman.dtype import LabelType
 from proman.util import date
 
 if _TYPE_CHECKING:
+    from typing import Sequence, Callable
     from github_contexts.github.payload.object import Milestone, PullRequest
     from versionman.pep440_semver import PEP440SemVer
 
@@ -22,7 +23,7 @@ if _TYPE_CHECKING:
     from proman.manager import Manager, ProtocolManager
 
 
-class ChangelogManager:
+class ChangelogsManager:
     def __init__(self, manager: Manager):
         self._manager = manager
         log_title = "Changelog Load"
@@ -50,6 +51,23 @@ class ChangelogManager:
     @property
     def current(self) -> dict:
         return self._current
+
+    @property
+    def current_public(self) -> ChangelogManager:
+        for changelog in self.full:
+            if changelog["type"] != "local":
+                return ChangelogManager(manager=self._manager, changelog=changelog)
+        return ChangelogManager(manager=self._manager, changelog={})
+
+    @property
+    def last_public(self) -> ChangelogManager:
+        seen_public = False
+        for changelog in self.full:
+            if changelog["type"] != "local":
+                if seen_public:
+                    return ChangelogManager(manager=self._manager, changelog=changelog)
+                seen_public = True
+        return ChangelogManager(manager=self._manager, changelog={})
 
     @property
     def full(self) -> list:
@@ -348,3 +366,54 @@ class ChangelogManager:
 
     def _update_type(self, issue_form: IssueForm):
         self.current["type"] = issue_form.commit.action.value or "local"
+
+
+class ChangelogManager(ps.PropertyDict):
+    def __init__(self, manager: Manager, changelog: dict):
+        super().__init__(data=changelog)
+        self._manager = manager
+        self._contrib = self._manager.user.contributors
+        return
+
+    def contributors_with_role_types(
+        self,
+        role_types: str | Sequence[str],
+        member: bool | None = None,
+    ) -> list[dict]:
+        contrib = self._data.get("contributor")
+        if not contrib:
+            return []
+        team_data = self._manager.get_data("team")
+        role_data = self._manager.get_data("role")
+        if isinstance(role_types, str):
+            role_types = [role_types]
+        out = []
+        if member:
+            types = ["member"]
+        elif member is False:
+            types = ["collaborator"]
+        else:
+            types = ["member", "collaborator"]
+        for contributor_type in types:
+            contributors = contrib.get(contributor_type)
+            for contributor_id, contributor_data in contributors.items():
+                max_priority = -1
+                for role_type in role_types:
+                    for role_id, priority in contributor_data["role"].items():
+                        role = role_data[role_id]
+                        if role["type"] == role_type:
+                            max_priority = max(max_priority, priority)
+                if max_priority >= 0:
+                    is_member = contributor_type == "member"
+                    if is_member:
+                        entity = team_data[contributor_id]
+                    else:
+                        entity = self._contrib[contributor_id]
+                    out.append(
+                        (
+                            entity | {"id": contributor_id, "member": is_member},
+                            max_priority,
+                            entity["name"]["full_inverted"],
+                        )
+                    )
+        return [entity for entity, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)]

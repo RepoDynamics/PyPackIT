@@ -172,7 +172,7 @@ file_readme:
               align: justify
       - heading: >-
           #{{
-            if changelog.current_public.get("phase") == "dev":
+            if manager.changelog.current_public.get("phase") == "dev":
               return "Upcoming Release"
             return "Latest Release"
           }}#
@@ -761,7 +761,7 @@ __temp__:
           - label: ${{ pypkg_main.name }}$
             args:
               message: >-
-                #{{ return changelog.current_public.version }}#
+                #{{ return manager.changelog.current_public.version }}#
             label_color: ${{ theme.color.primary.light }}$
             label_color_dark: ${{ theme.color.primary.dark }}$
             color: ${{ theme.color.secondary.light }}$
@@ -770,7 +770,7 @@ __temp__:
             logo_type: file
           - label: >-
               #{{
-                release_type = changelog.current_public.type
+                release_type = manager.changelog.current_public.type
                 icon_type = {
                   "major": "change",
                   "minor": "feat",
@@ -782,10 +782,10 @@ __temp__:
               }}#
             args:
               message: >-
-                #{{ return changelog.current_public.type }}#
+                #{{ return manager.changelog.current_public.type }}#
             color: >-
               #{{
-                release_type = changelog.current_public.type
+                release_type = manager.changelog.current_public.type
                 color_name = {
                   "major": "red",
                   "minor": "orange",
@@ -797,11 +797,11 @@ __temp__:
           - label: 🗓 Release Date
             args:
               message: >-
-                #{{ return changelog.current_public.date }}#
+                #{{ return manager.changelog.current_public.date }}#
           - |
             *{{
               #{{
-                curr_changelog = changelog.current_public
+                curr_changelog = manager.changelog.current_public
                 out = []
                 zenodo = curr_changelog.get("zenodo", {})
                 if zenodo:
@@ -878,16 +878,16 @@ __temp__:
               }}#
             }}*
       - >-
-        **#{{ return changelog.current_public.title }}#**
+        **#{{ return manager.changelog.current_public.title }}#**
       - >-
-        #{{ return changelog.current_public.description }}#
+        #{{ return manager.changelog.current_public.description }}#
     sections:
       - |
         *{{
           #{{
-            if changelog.current_public.get("phase") != "dev":
+            if manager.changelog.current_public.get("phase") != "dev":
               return []
-            dev_release = changelog.current_public.get("dev")
+            dev_release = manager.changelog.current_public.get("dev")
             if not dev_release:
               return []
             badge_items = []

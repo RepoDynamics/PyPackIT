@@ -13,8 +13,6 @@ import pyserials as ps
 from loggerman import logger
 from pylinks.exception.api import WebAPIError as _WebAPIError
 
-from controlman.changelog_manager import ChangelogManager
-
 if TYPE_CHECKING:
     from collections.abc import Callable
     from typing import Any, Literal, Sequence
@@ -61,7 +59,6 @@ class InlineDataGenerator:
         self.ccc_main = self.manager.main.data
         self.cache_manager = self.manager.cache
         self.get = None
-        self.changelog = ChangelogManager(manager=self.manager)
 
         self._binder_files = {}
         return
@@ -83,7 +80,6 @@ class InlineDataGenerator:
             A function to retrieve current control center configurations.
         """
         self.get = get_metadata
-        self.changelog(get_metadata=get_metadata)
         return self
 
     def pypkg_test(self, test_pkg_id: str) -> dict:
@@ -279,8 +275,8 @@ class InlineDataGenerator:
             return out
 
         def development_phase() -> str:
-            log = self.changelog.current_public
-            ver = log.version
+            log = self.manager.changelog.current_public
+            ver = log["version"]
             phase = log.get("phase")
             if ver == "0.0.0":
                 code = 1

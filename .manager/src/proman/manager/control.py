@@ -15,7 +15,6 @@ from pylinks.exception.api import WebAPIError as _WebAPIError
 
 from controlman import data_validator as _data_validator
 from controlman import file_gen as _file_gen
-from controlman.changelog_manager import ChangelogManager
 from controlman.data_generator import DataGenerator
 from controlman.data_generator_inline import InlineDataGenerator
 from controlman.exception import load as _exception
@@ -144,10 +143,9 @@ class ControlCenterManager:
             return self._data
         self.load()
         data = copy.deepcopy(self._data_raw)
-        changelog_manager = ChangelogManager(manager=self._manager)
-        code_context_call = {"changelog": changelog_manager, "manager": self._manager}
-        data["changelogs"] = changelog_manager.changelogs
-        data["contributor"] = changelog_manager.contributor.as_dict
+        code_context_call = {"manager": self._manager}
+        data["changelogs"] = self._manager.changelog.full
+        data["contributor"] = self._manager.user.contributors.as_dict
         code_context_call["hook"] = InlineDataGenerator(manager=self._manager)
 
         def get_prefix(get, prefix: str):
@@ -192,6 +190,7 @@ class ControlCenterManager:
             data.pop("var")
             data.pop("changelogs")
             data.pop("contributor")
+        self._manager()  # Reset the getter function
         data = _ps.NestedDict(_ps.update.remove_keys(data(), const.RELATIVE_TEMPLATE_KEYS))
         with _logger.sectioning("Final Data Validation"):
             _data_validator.validate(data=data(), source="source")

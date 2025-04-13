@@ -257,7 +257,7 @@ zenodo:
     - |
       *{{
         #{{
-          last_doi = changelog.last_public.get("release", {}).get("zenodo", {}).get("doi")
+          last_doi = manager.changelog.last_public.get("release", {}).get("zenodo", {}).get("doi")
           out = [
             {
               "identifier": doi,
@@ -298,7 +298,7 @@ zenodo:
         "Other",
       ):
         for is_member in (True, False):
-          for contributor in changelog.current_public.contributors_with_role_types(role_type, member=is_member):
+          for contributor in manager.changelog.current_public.contributors_with_role_types(role_type, member=is_member):
             out.append({"id": contributor["id"], "member": is_member, "role_types": role_type})
         for member in hook.members_with_role_types(role_type, active_only=True):
           entry = {"id": member["id"], "member": True, "role_types": role_type}
@@ -335,7 +335,7 @@ file_citation_cff:
         # Get all members and contributors with the role type "Author".
         authors = hook.members_with_role_types(
           "Author", active_only=True
-        ) + changelog.current_public.contributors_with_role_types("Author", member=False)
+        ) + manager.changelog.current_public.contributors_with_role_types("Author", member=False)
         # Transform each author data into a CFF person/entity object.
         return [hook.create_cff_person_or_entity(author) for author in authors]
       }}#
@@ -351,17 +351,17 @@ file_citation_cff:
     doi: |
       #{{
         # Get the latest DOI from the last/current public release on Zenodo.
-        curr_changelog = changelog.current_public
+        curr_changelog = manager.changelog.current_public
         return curr_changelog.get("release", {}).get(
           "zenodo_sandbox" if curr_changelog.get("ongoing") else "zenodo", {}
         ).get("doi")
       }}#
     version: >-
-      #{{ return changelog.current_public.get("version") }}#
+      #{{ return manager.changelog.current_public.get("version") }}#
     date-released: >-
-      #{{ return changelog.current_public.get("date") }}#
+      #{{ return manager.changelog.current_public.get("date") }}#
     commit: >-
-      #{{ return changelog.current_public.get("commit", {}).get("sha") }}#
+      #{{ return manager.changelog.current_public.get("commit", {}).get("sha") }}#
     identifiers:
       - |
         *{{

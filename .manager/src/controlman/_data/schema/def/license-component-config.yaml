@@ -27,7 +27,7 @@ properties:
           initialDeveloper: ${{ team.owner.name.full }}$
           copyrightHolderLiability: ${{ team.owner.name.full }}$
           version: >-
-            #{{ return changelog.current_public.get("version", "0.0.0") }}#
+            #{{ return manager.changelog.current_public.get("version", "0.0.0") }}#
           copyrightHolder0: ${{ team.owner.name.full }}$
           copyrightHolder1: ${{ team.owner.name.full }}$
           copyrightHolder2: ${{ team.owner.name.full }}$
@@ -38,7 +38,7 @@ properties:
           organization: ${{ team.owner.name.full }}$
           email: ${{ team.owner.email.url }}$
           softwareVersion: >-
-            #{{ return changelog.current_public.get("version", "0.0.0") }}#
+            #{{ return manager.changelog.current_public.get("version", "0.0.0") }}#
         additionalProperties:
           type: string
       line_length:

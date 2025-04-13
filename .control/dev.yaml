@@ -1330,7 +1330,7 @@ devcontainer_main:
 #  content:
 #    project:
 #      name: ${{ name }}$
-#      version: '#{{ return changelog.current_public.get("version") }}#'
+#      version: '#{{ return manager.changelog.current_public.get("version") }}#'
 #      authors: |
 #        #{{
 #          return [

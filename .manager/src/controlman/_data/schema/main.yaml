@@ -1156,7 +1156,7 @@ properties:
               for int_author in hook.members_with_role_types("Author", active_only=True)
             ] + [
               {"id": ext_author["id"], "member": False}
-              for ext_author in changelog.current_public.contributors_with_role_types("Author", member=False)
+              for ext_author in manager.changelog.current_public.contributors_with_role_types("Author", member=False)
             ]
           }}#
         examples:
@@ -4066,7 +4066,7 @@ properties:
                       name:
                         type: string
                         default: >-
-                          ${{ name }}$ #{{ return changelog.current_public.version }}#
+                          ${{ name }}$ #{{ return manager.changelog.current_public.version }}#
                       body:
                         oneOf:
                           - type: string

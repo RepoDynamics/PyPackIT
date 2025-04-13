@@ -505,7 +505,7 @@ __temp__:
             hook.entity_in_pyproject(author)
             for author in (
               hook.members_with_role_types("Author", active_only=True)
-              + changelog.current_public.contributors_with_role_types("Author", member=False)
+              + manager.changelog.current_public.contributors_with_role_types("Author", member=False)
             )
           ]
         }}#

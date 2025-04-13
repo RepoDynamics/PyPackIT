@@ -22,7 +22,7 @@ from proman.exception import ProManException
 
 # from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
-from proman.manager.changelog import ChangelogManager
+from proman.manager.changelog import ChangelogsManager
 from proman.manager.commit import CommitManager
 from proman.manager.control import ControlCenterManager
 from proman.manager.issue import IssueManager
@@ -306,7 +306,7 @@ class Manager:
             retention_time={k: datetime.timedelta(hours=v) for k, v in self._meta.get("control.cache.retention_hours", {}).items()},
         )
         self._branch_manager = BranchManager(self)
-        self._changelog_manager = ChangelogManager(self)
+        self._changelog_manager = ChangelogsManager(self)
         self._commit_manager = CommitManager(self)
         self._issue_manager = IssueManager(self)
         self._label_manager = LabelManager(self)
@@ -397,7 +397,7 @@ class Manager:
         return self._branch_manager
 
     @property
-    def changelog(self) -> ChangelogManager:
+    def changelog(self) -> ChangelogsManager:
         return self._changelog_manager
 
     @property
