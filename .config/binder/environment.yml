@@ -8,5 +8,4 @@ dependencies:
   - repodynamics::pkgdata
   - repodynamics::pkgdata
   - pip:
-    - -e ../../pkg
-    - -e ../../test
+    - --editable "../../pkg" --editable "../../test" --no-deps
