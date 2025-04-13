@@ -176,20 +176,21 @@ class InlineDataGenerator:
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pkg_install_script_path = self.get("control.path.pkg_install_script")
         install = pkgdata.import_module_from_path(self.repo_path / pkg_install_script_path)
-        _, self._binder_files, _ = install.DependencyInstaller(package_data).run(
+        _, files, self_installation_cmd = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
             target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
             python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
             sources=["conda", "apt", "bash"],
-            install_self=True,
             path_to_repo=path_to_root,
             indent_json=self.get("default.file_setting.json.indent"),
             indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
         )
-        if "bash" in self._binder_files:
-            self._binder_files["bash"] = f"#!/bin/bash\n\n{self._binder_files['bash']}"
+        if "bash" in files:
+            files["bash"] = f"#!/bin/bash\n\n{files['bash']}"
+        files["bash"] = f"{files.get('bash', "").strip()}\n{self_installation_cmd}\n".lstrip()
+        self._binder_files = files
         return self._binder_files.get(source, "")
 
     def commit_labels(self) -> dict:

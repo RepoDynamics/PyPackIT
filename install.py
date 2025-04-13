@@ -8,6 +8,7 @@ import functools as _functools
 import json as _json
 import logging as _logging
 import platform as _platform
+import shlex as _shlex
 import struct as _struct
 import subprocess as _subprocess
 import sys as _sys
@@ -134,7 +135,6 @@ def run(  # noqa: PLR0913
         exclude_installed=exclude_installed,
         pip_in_conda=pip_in_conda,
         conda_env_name=conda_env_name,
-        install_self=install_self,
         indent_json=indent_json,
         indent_xml=indent_xml,
         indent_yaml=indent_yaml,
@@ -151,7 +151,10 @@ def run(  # noqa: PLR0913
             install_sources = set(install)
         if exclude_install:
             install_sources = install_sources - set(exclude_install)
-        install_files({k: v for k, v in files.items() if k in install_sources})
+        install_files(
+            files={k: v for k, v in files.items() if k in install_sources},
+            self_install_cmd=self_installation_cmd if install_self else None,
+        )
     paths = {}
     if output_dir:
         paths = write_files(
@@ -172,6 +175,7 @@ def run(  # noqa: PLR0913
 
 def install_files(
     files: dict[SourceName, str],
+    self_install_cmd: list[str] | None = None,
     cmd_bash: Sequence[str] = ("bash", "{filepath}"),
     cmd_pwsh: Sequence[str] = ("pwsh", "-ExecutionPolicy", "Bypass", "-File", "{filepath}"),
     cmd_apt: Sequence[str] = ("apt-get", "-y", "install", "--no-install-recommends"),
@@ -213,14 +217,17 @@ def install_files(
                 continue
             _logger.info("Installing dependencies from %s", source)
             if source == "apt":
-                _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True)  # noqa: S603
+                _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True, stdout=_sys.stderr)  # noqa: S603
             else:
                 filepath = _Path(temp_dir) / filename[source]
                 filepath.write_text(files[source])
                 cmd_filled = [
                     cmd_part.format(filepath=str(filepath)) for cmd_part in inputs[f"cmd_{source}"]
                 ]
-                _subprocess.run(cmd_filled, check=True)  # noqa: S603
+                _subprocess.run(cmd_filled, check=True, stdout=_sys.stderr)  # noqa: S603
+    if self_install_cmd:
+        _logger.info("Installing packages using %s", self_install_cmd)
+        _subprocess.run(self_install_cmd, check=True, stdout=_sys.stderr)
     return
 
 
@@ -280,12 +287,11 @@ class DependencyInstaller:
         extra_pip_specs: Sequence[str] | None = None,
         pip_in_conda: bool = True,
         conda_env_name: str | None = None,
-        install_self: bool = False,
         path_to_repo: str | _Path = "./",
         indent_json: int | None = 4,
         indent_xml: int | None = 4,
         indent_yaml: int | None = 2,
-    ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], str]:
+    ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], list[str]]:
         """Install dependencies for the given configuration."""
         resolved_packages = self._resolve_packages(packages)
         resolved_python_version = _resolve_python_version(
@@ -314,19 +320,6 @@ class DependencyInstaller:
             dependencies.setdefault("pip", []).extend(
                 [{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs]
             )
-        path_to_repo = _Path(path_to_repo)
-        editables = " ".join(
-            f'--editable "{path_to_repo / pkg["pkg"]["path"]["root"]}"' for pkg in resolved_packages
-        )
-        self_installation_spec = f"{editables} --no-deps"
-        if install_self:
-            dependencies.setdefault("pip", []).append(
-                {"install": {"pip": {"spec": self_installation_spec}}}
-            )
-        self_installation_prefix = (
-            f"conda run --name {conda_env_name} --live-stream -vv " if conda_env_name else ""
-        )
-        self_installation_cmd = f"{self_installation_prefix}pip install {self_installation_spec}"
         files = {}
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
@@ -356,6 +349,16 @@ class DependencyInstaller:
                     ["set -e"]
                     + [f"# ----- {dep['name']} -----\n{dep['install'][source]}" for dep in dep_data]
                 )
+
+        # --no-deps is not available in requirements.txt (see https://github.com/pypa/pip/pull/10837);
+        # therefore, we don't add it to the environment file.
+        path_to_repo = _Path(path_to_repo)
+        self_installation_cmd = [
+            "conda", "run", "--name", conda_env_name, "--live-stream", "-vv"
+        ] if conda_env_name else []
+        self_installation_cmd.extend(["python", "-m", "pip", "install", "--no-deps"])
+        for pkg in resolved_packages:
+            self_installation_cmd.extend(["--editable", str(path_to_repo / pkg["pkg"]["path"]["root"])])
         return dependencies, files, self_installation_cmd
 
     def _resolve_packages(self, packages: Sequence[str | dict]) -> list[dict]:
@@ -900,4 +903,4 @@ if __name__ == "__main__":
     _logger.info("Running with arguments: %s", args)
     dependencies, files, paths, self_installation_cmd = run(**args)
     if not args["install_self"]:
-        print(self_installation_cmd)
+        print(_shlex.join(self_installation_cmd))
