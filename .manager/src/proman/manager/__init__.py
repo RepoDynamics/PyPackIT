@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -11,6 +12,7 @@ import mdit
 import pylinks
 import pyserials as ps
 from loggerman import logger
+from pycacheman.serializable import SerializableCacheManager
 
 import controlman
 import controlman.exception as controlman_exception
@@ -20,7 +22,6 @@ from proman.exception import ProManException
 
 # from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
-from proman.manager.cache import CacheManager
 from proman.manager.changelog import ChangelogManager
 from proman.manager.commit import CommitManager
 from proman.manager.control import ControlCenterManager
@@ -298,7 +299,10 @@ class Manager:
         self._jinja_env_vars = jinja_env_vars
         self._github_context = github_context
         self._main_manager = main_manager or self
-        self._cache_manager = CacheManager(self)
+        self._cache_manager = SerializableCacheManager(
+            path=self.git.repo_path / self._meta.get("local.cache.path") / const.DIRNAME_LOCAL_REPODYNAMICS / const.FILENAME_METADATA_CACHE,
+            retention_time={k: datetime.timedelta(hours=v) for k, v in self._meta.get("control.cache.retention_hours", {}).items()},
+        )
         self._branch_manager = BranchManager(self)
         self._changelog_manager = ChangelogManager(self)
         self._commit_manager = CommitManager(self)
@@ -391,7 +395,7 @@ class Manager:
         return self._commit_manager
 
     @property
-    def cache(self) -> CacheManager:
+    def cache(self) -> SerializableCacheManager:
         return self._cache_manager
 
     @property

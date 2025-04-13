@@ -340,6 +340,13 @@ pypkg_ci:
         url:
           docs: https://pkgdata.repodynamics.com
           source: https://github.com/repodynamics/pkgdata
+      pycacheman:
+        install:
+          pip:
+            version: ==0.1.1
+            homepage: https://pypi.org/project/pycacheman
+        url:
+          source: https://github.com/repodynamics/pycacheman
       pycolorit:
         install:
           pip:

@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from versionman.pep440_semver import PEP440SemVer
 
     from proman.manager import Manager
-    from proman.manager.cache import CacheManager
+    from pycacheman.serializable import SerializableCacheManager
 
 
 class ControlCenterManager:
@@ -441,7 +441,7 @@ class ControlCenterManager:
         filepath: _Path,
         file_content: str,
         tag_name: str = "!ext",
-        cache_manager: CacheManager | None = None,
+        cache_manager: SerializableCacheManager | None = None,
     ):
         def load_external_data(loader: ruamel.yaml.SafeConstructor, node: ruamel.yaml.ScalarNode):
             tag_value = loader.construct_scalar(node)
