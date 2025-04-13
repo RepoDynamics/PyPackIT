@@ -19,7 +19,7 @@ def run(manager: Manager):
     fileex.directory.delete(
         path=repo_path,
         exclude=[
-            ".devcontainer/install.py",
+            manager.data["control.path.pkg_install_script"],
             ".git/",
             ".github/actions/",
             ".github/workflows/",

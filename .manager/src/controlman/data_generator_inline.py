@@ -100,7 +100,7 @@ class InlineDataGenerator:
             elif build_platform.startswith("win"):
                 sources.extend(["choco", "pwsh"])
             return (
-                f"python ./.devcontainer/install.py "
+                f"python {install_script_path} "
                 f"--packages {packages} "
                 f"--build-platform {build_platform} "
                 f"--sources {' '.join(sources)} "
@@ -121,6 +121,7 @@ class InlineDataGenerator:
 
         env_output_dir = "_temp_test_env"
         conda_filename = "environment.yaml"
+        install_script_path = self.get("control.path.pkg_install_script")
         pkg_id = self.get(".__key__").removeprefix("pypkg_")
         packages = _shlex.quote(_json.dumps([pkg_id, test_pkg_id]))
         package_names = [self.get(".name").lower(), self.get(f"pypkg_{test_pkg_id}.name").lower()]
@@ -176,7 +177,8 @@ class InlineDataGenerator:
             f"-e {path_to_root}{package_data[package_key]['path']['root']}"
             for package_key in package_keys
         ]
-        install = pkgdata.import_module_from_path(self.repo_path / ".devcontainer/install.py")
+        pkg_install_script_path = self.get("control.path.pkg_install_script")
+        install = pkgdata.import_module_from_path(self.repo_path / pkg_install_script_path)
         _, self._binder_files = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
