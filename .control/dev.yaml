@@ -798,7 +798,7 @@ devcontainer_main:
             Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html)
             in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.
           type: toml
-          path: ${{ devcontainer_main.path.root }}$/config/mypy.toml
+          path: .config/mypy.toml
           content:
             tool:
               mypy:
@@ -945,7 +945,7 @@ devcontainer_main:
           summary: >-
             Pre-Commit [configuration file](https://pre-commit.com/#configuration).
           type: yaml
-          path: ${{ devcontainer_main.path.root }}$/config/pre-commit.yaml
+          path: .config/pre-commit.yaml
           content:
             default_language_version:
               python: python3
@@ -1043,7 +1043,7 @@ devcontainer_main:
             Pre-Commit [configuration file](https://pre-commit.com/#configuration)
             for use in CI pipeline.
           type: yaml
-          path: ${{ devcontainer_main.path.root }}$/config/pre-commit-ci.yaml
+          path: .config/pre-commit-ci.yaml
           content: |-
             #{{
               local_config = get("devcontainer_main.environment.pre_commit.file.pre_commit_config.content")
@@ -1055,7 +1055,7 @@ devcontainer_main:
             Ruff [configuration file](https://docs.astral.sh/ruff/settings/)
             in TOML format.
           type: toml
-          path: ${{ devcontainer_main.path.root }}$/config/ruff.toml
+          path: .config/ruff.toml
           content:
             cache-dir: ${{ local.cache.path }}$/ruff
             fix: true
