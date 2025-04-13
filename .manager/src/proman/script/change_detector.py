@@ -126,7 +126,7 @@ def _make_filetype_patterns(data: NestedDict):
         (RepoFileType.CONFIG, "Citation", const.FILEPATH_CITATION_CONFIG),
     ]
     paths_start = [
-        (RepoFileType.CC, "Custom Hook", f"{data['control.path']}/{const.DIRNAME_CC_HOOK}/"),
+        (RepoFileType.CC, "Custom Hook", f"{data['control.path.config']}/{const.DIRNAME_CC_HOOK}/"),
     ]
     for key in ("pkg", "test"):
         key_data = data[key]

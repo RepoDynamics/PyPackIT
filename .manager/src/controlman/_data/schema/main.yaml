@@ -3720,9 +3720,18 @@ properties:
     default: { }
     properties:
       path:
-        summary: Path to the control center directory.
-        $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-        default: .control
+        type: object
+        additionalProperties: false
+        default: { }
+        properties:
+          config:
+            summary: Path to the control center directory.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            default: .control
+          pkg_install_script:
+            summary: Path to the package installation script.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            default: install.py
       cache:
         summary: Settings for cached data.
         description: |

@@ -173,7 +173,6 @@ class DataValidator:
         paths = []
         path_keys = []
         for dirpath_key in (
-            "control.path",
             "local.cache.path",
             "local.report.pathpkg.path.root",
             "test.path.root",

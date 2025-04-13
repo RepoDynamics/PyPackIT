@@ -345,17 +345,19 @@ class ControlCenterManager:
             return self._dirs
         dirs = []
         to_apply = []
-        for path_key in ("control",):
-            path, path_before, status = self._compare_dir(f"{path_key}.path")
-            dirs.append(
-                DynamicDir(
-                    type=DynamicDirType[path_key.upper()],
-                    path=path,
-                    path_before=path_before,
-                    change=status,
-                )
-            )
-            to_apply.append((path, path_before, status))
+
+        # TODO: Implement for when control path is a file
+        # for path_key in ("control",):
+        #     path, path_before, status = self._compare_dir(f"{path_key}.path")
+        #     dirs.append(
+        #         DynamicDir(
+        #             type=DynamicDirType[path_key.upper()],
+        #             path=path,
+        #             path_before=path_before,
+        #             change=status,
+        #         )
+        #     )
+        #     to_apply.append((path, path_before, status))
 
         for path_key, value in self._data.items():
             if not path_key.startswith("pypkg_"):

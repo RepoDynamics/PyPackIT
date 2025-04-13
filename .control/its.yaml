@@ -1639,7 +1639,7 @@ issue:
           label: URL
           description: >-
             Please provide the URL of the relevant configuration file in the repository.
-          placeholder: ${{ repo.url.blob }}$/${{ control.path }}$/proj.yaml
+          placeholder: ${{ repo.url.blob }}$/${{ control.path.config }}$
         validations:
           required: true
       - type: input
