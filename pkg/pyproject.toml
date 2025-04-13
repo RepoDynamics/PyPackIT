@@ -97,7 +97,7 @@ distance-dirty = "{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirt
 [tool.versioningit.onbuild]
 build-file = "pypackit/__init__.py"
 method = "replace-version"
-regex = "^__version_details__: dict\\[str, str\\] = (?P<version>.*)"
+regex = "^__version_info__: dict\\[str, str\\] = (?P<version>.*)"
 replacement = "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}"
 require-match = true
 source-file = "src/pypackit/__init__.py"

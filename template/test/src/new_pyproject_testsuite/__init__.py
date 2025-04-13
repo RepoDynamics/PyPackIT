@@ -4,11 +4,11 @@ from pathlib import Path
 import pkgdata
 import pytest
 
-__version_details__: dict[str, str] = {"version": "0.0.0"}
+__version_info__: dict[str, str] = {"version": "0.0.0"}
 """Details of the currently installed version of the package,
 including version number, date, branch, and commit hash."""
 
-__version__: str = __version_details__["version"]
+__version__: str = __version_info__["version"]
 """Version number of the currently installed package."""
 
 

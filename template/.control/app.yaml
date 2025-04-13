@@ -565,7 +565,7 @@ __temp__:
           distance-dirty: '{base_version}+{distance}.{committer_date:%Y.%m.%d}.{rev}.dirty'
         onbuild:
           method: replace-version
-          regex: '^__version_details__: dict\[str, str\] = (?P<version>.*)'
+          regex: '^__version_info__: dict\[str, str\] = (?P<version>.*)'
           require-match: true
           source-file: '${{ .path.source_rel }}$/${{ .import_name }}$/__init__.py'
           build-file: '${{ .import_name }}$/__init__.py'

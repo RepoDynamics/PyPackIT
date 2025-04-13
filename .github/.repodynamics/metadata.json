@@ -21079,7 +21079,7 @@
                "onbuild": {
                   "build-file": "pypackit/__init__.py",
                   "method": "replace-version",
-                  "regex": "^__version_details__: dict\\[str, str\\] = (?P<version>.*)",
+                  "regex": "^__version_info__: dict\\[str, str\\] = (?P<version>.*)",
                   "replacement": "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}",
                   "require-match": true,
                   "source-file": "src/pypackit/__init__.py"
@@ -24224,7 +24224,7 @@
                "onbuild": {
                   "build-file": "pypackit_testsuite/__init__.py",
                   "method": "replace-version",
-                  "regex": "^__version_details__: dict\\[str, str\\] = (?P<version>.*)",
+                  "regex": "^__version_info__: dict\\[str, str\\] = (?P<version>.*)",
                   "replacement": "{{ \"version\": \"{version}\", \"build_date\": \"{build_date:%Y.%m.%d}\", \"committer_date\": \"{committer_date:%Y.%m.%d}\", \"author_date\": \"{author_date:%Y.%m.%d}\", \"branch\": \"{branch}\", \"distance\": \"{distance}\", \"commit_hash\": \"{revision}\" }}",
                   "require-match": true,
                   "source-file": "src/pypackit_testsuite/__init__.py"
