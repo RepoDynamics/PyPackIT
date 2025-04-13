@@ -452,7 +452,7 @@ class PythonPackageFileGenerator:
                     if not isinstance(value, str)
                     or key in ("type", "required", "choices")
                     or (key == "nargs" and value.startswith("argparse"))
-                    else f'{key}="{value}"'
+                    else f'{key}=f"{value}"'
                     for key, value in data.get("kwargs", {}).items()
                 ]
             )
