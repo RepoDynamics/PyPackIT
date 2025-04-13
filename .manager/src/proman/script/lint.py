@@ -29,6 +29,7 @@ def run(
     files: list[str] | None = None,
     all_files: bool = False,
     ref_range: tuple[str, str] | None = None,
+    process_id: str = "hooks",
 ) -> tuple[dict, str | None]:
     """Run pre-commit hooks and generate report."""
     pr_branch = None
@@ -92,7 +93,7 @@ def run(
                 # TODO: Merge the PR
                 pass
     manager.reporter.update(
-        "hooks",
+        process_id,
         status="fail"
         if not result["passed"] or (result["modified"] and action in ["report", "pull"])
         else "pass",
