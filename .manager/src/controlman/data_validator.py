@@ -536,7 +536,7 @@ def _make_registry():
             make_resource(registry_schema_dict_before, spec=registry_schema_spec)
         )
 
-    registry_before = resources_before @ _referencing.Registry()
+    registry_before = resources_before @ _referencing.Registry(retrieve=retrieve_url)
     return registry_before, registry_after
 
 
@@ -564,6 +564,16 @@ def _add_custom_keys(schema: dict):
     for key in _const.RELATIVE_TEMPLATE_KEYS:
         _js.edit.add_property(schema, key, {}, conditioner=conditioner)
     return
+
+
+from referencing import retrieval as _ref_retrieval
+import pylinks as _pl
+
+@_ref_retrieval.to_cached_resource()
+def retrieve_url(uri: str) -> str:
+    if uri.startswith(("http://", "https://")):
+        return _pl.http.request(url=uri, response_type="str")
+    return _ps.write.to_json_string(_ps.read.from_file(path=uri, toml_as_dict=True), sort_keys=False)
 
 
 _registry_before, _registry_after = _make_registry()
