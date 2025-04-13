@@ -149,7 +149,7 @@
    "features": {
       "./features/conda_setup": {},
       "./features/pkg_setup": {
-         "packages": "{\n  \\\\\\\"app\\\\\\\": {\n    \\\\\\\"packages\\\\\\\": [\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"main\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      },\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"test\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      },\n    ],\n    \\\\\\\"python-version\\\\\\\": \\\\\\\"3.10\\\\\\\",\n    \\\\\\\"sources\\\\\\\": \\\\\\\"pip conda apt bash\\\\\\\"\n  },\n  \\\\\\\"proman\\\\\\\": {\n    \\\\\\\"packages\\\\\\\": [\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"ci\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      }\n    ],\n    \\\\\\\"python-version\\\\\\\": \\\\\\\"3.13\\\\\\\",\n    \\\\\\\"sources\\\\\\\": \\\\\\\"pip conda apt bash\\\\\\\"\n  }\n}"
+         "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"proman\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
       },
       "./features/setup-user": {},
       "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
