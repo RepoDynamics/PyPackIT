@@ -12,6 +12,7 @@ import rich.text
 from loggerman import logger
 
 import proman
+from proman import __version__
 from proman.exception import ProManException
 
 if TYPE_CHECKING:
