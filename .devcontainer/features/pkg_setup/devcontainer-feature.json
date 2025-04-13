@@ -7,11 +7,6 @@
    ],
    "name": "Package Setup",
    "options": {
-      "conda_env_name": {
-         "default": "app",
-         "description": "Name of the conda environment to use for installation.",
-         "type": "string"
-      },
       "log_dir": {
          "default": "/var/log/conda_setup",
          "description": "Absolute path to a directory to write log files.",
@@ -23,53 +18,16 @@
          "type": "string"
       },
       "packages": {
-         "default": "[\"main\", \"test\"]",
-         "description": "Package data to install as a JSON array.",
-         "type": "string"
-      },
-      "python_version": {
-         "default": "3.10",
-         "description": "Python version to use for the installation.",
+         "default": "",
+         "description": "Packages to install. This must be a string representing a JSON object, where keys are the name of Conda environments to use for installation. Each value is a JSON object with a key \"packages\", and optionally \"python-version\", and \"sources\", corresponding to the package installation script's input arguments. Note that quotes inside the JSON string must be escaped with triple backslashes.",
          "type": "string"
       },
       "script_filepath": {
          "default": "/usr/local/share/app_installation/install.py",
          "description": "Absolute path to the installation script file.",
          "type": "string"
-      },
-      "sources": {
-         "default": "pip conda apt bash",
-         "description": "Space-separated list of sources to install from.",
-         "type": "string"
       }
    },
-   "postStartCommand": {
-      "install_main": [
-         "conda",
-         "run",
-         "--name",
-         "app",
-         "--live-stream",
-         "-vv",
-         "pip",
-         "install",
-         "--editable",
-         "pkg",
-         "--no-deps"
-      ],
-      "install_test": [
-         "conda",
-         "run",
-         "--name",
-         "app",
-         "--live-stream",
-         "-vv",
-         "pip",
-         "install",
-         "--editable",
-         "test",
-         "--no-deps"
-      ]
-   },
+   "postStartCommand": "/usr/local/share/app_installation/post-start-command.sh",
    "version": "0.1.0"
 }

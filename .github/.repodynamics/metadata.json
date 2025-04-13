@@ -3963,7 +3963,9 @@
          ],
          "features": {
             "./features/conda_setup": {},
-            "./features/pkg_setup": {},
+            "./features/pkg_setup": {
+               "packages": "{\n  \\\\\\\"app\\\\\\\": {\n    \\\\\\\"packages\\\\\\\": [\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"main\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      },\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"test\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      },\n    ],\n    \\\\\\\"python-version\\\\\\\": \\\\\\\"3.10\\\\\\\",\n    \\\\\\\"sources\\\\\\\": \\\\\\\"pip conda apt bash\\\\\\\"\n  },\n  \\\\\\\"proman\\\\\\\": {\n    \\\\\\\"packages\\\\\\\": [\n      {\n        \\\\\\\"id\\\\\\\": \\\\\\\"ci\\\\\\\",\n        \\\\\\\"extras\\\\\\\": \\\\\\\"all\\\\\\\"\n      }\n    ],\n    \\\\\\\"python-version\\\\\\\": \\\\\\\"3.13\\\\\\\",\n    \\\\\\\"sources\\\\\\\": \\\\\\\"pip conda apt bash\\\\\\\"\n  }\n}"
+            },
             "./features/setup-user": {},
             "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
                "packages": ""
@@ -5491,7 +5493,7 @@
                      "mypy",
                      "--package pypackit",
                      "--package pypackit_testsuite",
-                     "--python-executable /opt/conda/envs/{'type': 'string', 'description': 'Name of the conda environment to use for installation.', 'default': 'app'}/bin/python",
+                     "--python-executable /opt/conda/envs/app/bin/python",
                      "--config-file .config/mypy.toml",
                      "--install-types",
                      "--non-interactive"
@@ -5606,11 +5608,6 @@
          ],
          "name": "Package Setup",
          "options": {
-            "conda_env_name": {
-               "default": "app",
-               "description": "Name of the conda environment to use for installation.",
-               "type": "string"
-            },
             "log_dir": {
                "default": "/var/log/conda_setup",
                "description": "Absolute path to a directory to write log files.",
@@ -5622,57 +5619,20 @@
                "type": "string"
             },
             "packages": {
-               "default": "[\"main\", \"test\"]",
-               "description": "Package data to install as a JSON array.",
-               "type": "string"
-            },
-            "python_version": {
-               "default": "3.10",
-               "description": "Python version to use for the installation.",
+               "default": "",
+               "description": "Packages to install. This must be a string representing a JSON object, where keys are the name of Conda environments to use for installation. Each value is a JSON object with a key \"packages\", and optionally \"python-version\", and \"sources\", corresponding to the package installation script's input arguments. Note that quotes inside the JSON string must be escaped with triple backslashes.",
                "type": "string"
             },
             "script_filepath": {
                "default": "/usr/local/share/app_installation/install.py",
                "description": "Absolute path to the installation script file.",
                "type": "string"
-            },
-            "sources": {
-               "default": "pip conda apt bash",
-               "description": "Space-separated list of sources to install from.",
-               "type": "string"
             }
          },
-         "postStartCommand": {
-            "install_main": [
-               "conda",
-               "run",
-               "--name",
-               "app",
-               "--live-stream",
-               "-vv",
-               "pip",
-               "install",
-               "--editable",
-               "pkg",
-               "--no-deps"
-            ],
-            "install_test": [
-               "conda",
-               "run",
-               "--name",
-               "app",
-               "--live-stream",
-               "-vv",
-               "pip",
-               "install",
-               "--editable",
-               "test",
-               "--no-deps"
-            ]
-         },
+         "postStartCommand": "/usr/local/share/app_installation/post-start-command.sh",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -euxo pipefail\nmkdir -p $LOG_DIR\nLOG_FILE=\"${LOG_DIR}/install.log\"\n# Redirect stdout and stderr to a file\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\necho \"Initializing conda...\"\nconda init\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Creating log directory...\"\npython \"$SCRIPT_FILEPATH\" \\\n  --packages '[\"main\", \"test\"]' \\\n  --filepath \"$METADATA_FILEPATH\" \\\n  --python-version \"$PYTHON_VERSION\" \\\n  --sources $SOURCES \\\n  --conda-env-name \"$CONDA_ENV_NAME\"\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIR\"\nLOG_FILE=\"${LOG_DIR}/install.log\"\n# Redirect stdout and stderr to a file\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\n# Create postStartCommand script\nPOST_START_SCRIPT_DIRPATH=\"/usr/local/share/app_installation\"\nPOST_START_SCRIPT_FILEPATH=\"${POST_START_SCRIPT_DIRPATH}/post-start-command.sh\"\nmkdir -p \"$POST_START_SCRIPT_DIRPATH\"\n{\n  echo '#!/usr/bin/env bash'\n  echo 'set -euxo pipefail'\n} > \"$POST_START_SCRIPT_FILEPATH\"\nchmod +x \"$POST_START_SCRIPT_FILEPATH\"\n\necho \"Initializing conda...\"\nconda init\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\nif ! echo \"$PACKAGES\" | jq empty; then\n    echo \"Invalid JSON in PACKAGES\"\n    exit 1\nfi\n\nfor conda_env_name in $(echo \"$PACKAGES\" | jq -r 'keys[]'); do\n    value=$(echo \"$PACKAGES\" | jq -c --arg k \"$conda_env_name\" '.[$k]')\n    packages=$(echo \"$value\" | jq -c '.packages')\n\n    # Build the base command\n    cmd=(\n      python \"$SCRIPT_FILEPATH\"\n        --conda-env-name \"$conda_env_name\"\n        --packages \"$packages\"\n        --filepath \"$METADATA_FILEPATH\"\n        --no-self\n    )\n\n    # Optionally add --python-version\n    if echo \"$value\" | jq -e 'has(\"python-version\")' > /dev/null; then\n        python_version=$(echo \"$value\" | jq -r '.[\"python-version\"]')\n        cmd+=(--python-version \"$python_version\")\n    fi\n\n    # Optionally add --sources\n    if echo \"$value\" | jq -e 'has(\"sources\")' > /dev/null; then\n        sources=$(echo \"$value\" | jq -r '.sources')\n        cmd+=(--sources \"$sources\")\n    fi\n\n    # Capture and write command output\n    output=$(\"${cmd[@]}\")\n\n    # Append output to the file\n    while IFS= read -r line; do\n        echo \"$line\" >> \"$POST_START_SCRIPT_FILEPATH\"\n    done <<< \"$output\"\ndone\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/pkg_setup"
    },
    "devfeature_user_setup": {

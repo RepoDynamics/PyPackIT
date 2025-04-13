@@ -4,7 +4,7 @@ build-oj-paper() {
 }
 
 typecheck() {
-    conda run --name type_check --live-stream -vv mypy '--package pypackit' '--package pypackit_testsuite' '--python-executable /opt/conda/envs/{'"'"'type'"'"': '"'"'string'"'"', '"'"'description'"'"': '"'"'Name of the conda environment to use for installation.'"'"', '"'"'default'"'"': '"'"'app'"'"'}/bin/python' '--config-file .config/mypy.toml' --install-types --non-interactive
+    conda run --name type_check --live-stream -vv mypy '--package pypackit' '--package pypackit_testsuite' '--python-executable /opt/conda/envs/app/bin/python' '--config-file .config/mypy.toml' --install-types --non-interactive
 }
 
 jupyterlab() {
