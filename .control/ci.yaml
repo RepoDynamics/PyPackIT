@@ -459,7 +459,7 @@ workflow:
         path: ${{ web.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
   binder:
     path:
-      config: .binder_config
+      config: .config/binder
       dockerfile: .binder
     image:
       test_script: '${{ pypkg_test.entry.cli.main.name }}$'
