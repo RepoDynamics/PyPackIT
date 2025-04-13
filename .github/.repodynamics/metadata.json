@@ -18598,6 +18598,16 @@
                            "dest": "validate_metadata",
                            "help": "Skip validation of the metadata.json file."
                         }
+                     },
+                     {
+                        "args": [
+                           "--version"
+                        ],
+                        "kwargs": {
+                           "action": "version",
+                           "help": "Output the version of the package and exit.",
+                           "version": "{__version__}"
+                        }
                      }
                   ],
                   "insert": {
