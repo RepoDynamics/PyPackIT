@@ -1,16 +1,17 @@
 """Exceptions raised by the data module."""
 
-from __future__ import annotations as _annotations
+from __future__ import annotations
 
-from typing import TYPE_CHECKING as _TYPE_CHECKING
+from typing import TYPE_CHECKING
 
-from new_pyproject.exception import PackageError as _PackageError
+from new_pyproject.exception.main import PackageError
 
-if _TYPE_CHECKING:
+if TYPE_CHECKING:
     from pathlib import Path
 
+__all__ = ["DataFileNotFoundError"]
 
-class DataFileNotFoundError(_PackageError):
+class DataFileNotFoundError(PackageError):
     """Raised when a requested package data file is not found.
 
     Parameters

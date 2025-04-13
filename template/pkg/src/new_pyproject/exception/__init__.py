@@ -1,5 +1,6 @@
 """Exceptions raised by the package."""
 
+from new_pyproject.exception import data
+from new_pyproject.exception.main import PackageError
 
-class PackageError(Exception):
-    """Base class for all exceptions raised by this package."""
+__all__ = ["PackageError", "data"]

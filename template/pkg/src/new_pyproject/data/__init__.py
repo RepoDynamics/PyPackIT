@@ -1,15 +1,15 @@
 """Functions for retrieving package data files."""
 
-from __future__ import annotations as _annotations
+from __future__ import annotations
 
-from pathlib import Path as _Path
+from pathlib import Path
 
-import pkgdata as _pkgdata
+import pkgdata
 
 __all__ = ["filepath"]
 
 
-def filepath(relative_path: str) -> _Path:
+def filepath(relative_path: str) -> Path:
     """Get the absolute path to a package data file.
 
     Parameters
@@ -17,7 +17,7 @@ def filepath(relative_path: str) -> _Path:
     relative_path
         Path to the file relative to the package's data directory.
     """
-    path_data_dir = _Path(_pkgdata.get_package_path_from_caller(top_level=False))
+    path_data_dir = Path(pkgdata.get_package_path_from_caller(top_level=False))
     abs_filepath = path_data_dir / relative_path
     if not abs_filepath.is_file():
         from new_pyproject.exception.data import DataFileNotFoundError
