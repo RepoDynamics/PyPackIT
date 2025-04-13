@@ -100,7 +100,7 @@ repos:
         args:
           - --verbose
           - --config
-          - .devcontainer/config/ruff.toml
+          - .config/ruff.toml
           - --exit-non-zero-on-fix
         types_or:
           - python
@@ -113,9 +113,10 @@ repos:
           - manual
         args:
           - --config
-          - .devcontainer/config/ruff.toml
+          - .config/ruff.toml
         types_or:
           - python
           - pyi
           - jupyter
         verbose: true
+exclude: ^\.github/workflows/[^/]+\.(?i:ya?ml)$

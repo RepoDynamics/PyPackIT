@@ -262,7 +262,7 @@
          "install",
          "--install-hooks",
          "--config",
-         ".devcontainer/config/pre-commit.yaml"
+         ".config/pre-commit.yaml"
       ],
       "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
