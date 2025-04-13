@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
     from proman.manager import Manager
 
+
 class InlineDataGenerator:
     """Inline Hooks.
 
@@ -308,9 +309,7 @@ class InlineDataGenerator:
 
     def web_page(self) -> dict[str, dict[str, str]]:
         """Create `$.web.page` data."""
-        path = self.repo_path / (
-            self.ccc["web.path.source"] or self.get("web.path.source")
-        )
+        path = self.repo_path / (self.ccc["web.path.source"] or self.get("web.path.source"))
         url_home = self.get("web.url.home")
         pages = {}
         blog = {}

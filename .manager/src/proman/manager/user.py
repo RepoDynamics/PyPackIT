@@ -198,7 +198,11 @@ class UserManager:
                 user_info = self._manager.cache.get("user", user_id)
             if user_info:
                 return user_info
-            user = self._manager.gh_api_bare.user_from_id(user_id) if user_id else self._manager.gh_api_bare.user(username)
+            user = (
+                self._manager.gh_api_bare.user_from_id(user_id)
+                if user_id
+                else self._manager.gh_api_bare.user(username)
+            )
             user_info = user.info
             if user_info["blog"] and "://" not in user_info["blog"]:
                 user_info["blog"] = f"https://{user_info['blog']}"
@@ -352,7 +356,8 @@ class UserManager:
                     )
                 )
         return [
-            member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+            member_data
+            for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
         ]
 
     def members_without_role_types(
@@ -432,5 +437,6 @@ class UserManager:
                     )
                     break
         return [
-            member_data for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
+            member_data
+            for member_data, _, _ in sorted(out, key=lambda i: (i[1], i[2]), reverse=True)
         ]

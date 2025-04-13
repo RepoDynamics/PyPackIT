@@ -84,7 +84,7 @@ def run(
                 action="apply",
                 hook_stage="manual",
                 files=[file.path for file in reporter.modified_files],
-                process_id="cca"
+                process_id="cca",
             )
             if action == "apply":
                 summary += " the current branch without committing."
