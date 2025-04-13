@@ -110,6 +110,7 @@ class InlineDataGenerator:
                 f"--output-dir {env_output_dir} "
                 "--overwrite "
                 f"--filename-conda {conda_filename} "
+                f"--no-self"
             )
 
         def install_pkg_script(
@@ -173,20 +174,17 @@ class InlineDataGenerator:
         env_path = self.get(".path")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
-        pip_specs = [
-            f"-e {path_to_root}{package_data[package_key]['path']['root']}"
-            for package_key in package_keys
-        ]
         pkg_install_script_path = self.get("control.path.pkg_install_script")
         install = pkgdata.import_module_from_path(self.repo_path / pkg_install_script_path)
-        _, self._binder_files = install.DependencyInstaller(package_data).run(
+        _, self._binder_files, _ = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
             build_platform="linux-64",
             target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
             python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
             sources=["conda", "apt", "bash"],
-            extra_pip_specs=pip_specs,
+            install_self=True,
+            path_to_repo=path_to_root,
             indent_json=self.get("default.file_setting.json.indent"),
             indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
         )

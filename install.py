@@ -96,6 +96,7 @@ def run(  # noqa: PLR0913
     pip_in_conda: bool = True,
     conda_env_name: str | None = None,
     install: Sequence[SourceName] | bool = True,
+    install_self: bool = False,
     exclude_install: Sequence[SourceName] | None = None,
     output_dir: str | _Path | None = None,
     overwrite: bool = False,
@@ -111,7 +112,7 @@ def run(  # noqa: PLR0913
     indent_xml: int | None = 4,
     indent_yaml: int | None = 2,
     filepath: str | _Path = ".github/.repodynamics/metadata.json",
-) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], dict[SourceName, str]]:
+) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], dict[SourceName, str], str]:
     """Generate and/or install package dependencies based on the given configurations."""
     filepath = _Path(filepath).resolve()
     if not filepath.is_file():
@@ -123,7 +124,7 @@ def run(  # noqa: PLR0913
         error_msg = f"Failed to load dependencies from '{filepath}'"
         raise ValueError(error_msg) from e
     _logger.debug("Loaded metadata from '%s'", filepath)
-    dependencies, files = DependencyInstaller(data).run(
+    dependencies, files, self_installation_cmd = DependencyInstaller(data).run(
         packages=packages,
         python_version=python_version,
         build_platform=build_platform,
@@ -133,6 +134,7 @@ def run(  # noqa: PLR0913
         exclude_installed=exclude_installed,
         pip_in_conda=pip_in_conda,
         conda_env_name=conda_env_name,
+        install_self=install_self,
         indent_json=indent_json,
         indent_xml=indent_xml,
         indent_yaml=indent_yaml,
@@ -165,7 +167,7 @@ def run(  # noqa: PLR0913
             filename_bash=filename_bash,
             filename_pwsh=filename_pwsh,
         )
-    return dependencies, files, paths
+    return dependencies, files, paths, self_installation_cmd
 
 
 def install_files(
@@ -278,10 +280,12 @@ class DependencyInstaller:
         extra_pip_specs: Sequence[str] | None = None,
         pip_in_conda: bool = True,
         conda_env_name: str | None = None,
+        install_self: bool = False,
+        path_to_repo: str | _Path = "./",
         indent_json: int | None = 4,
         indent_xml: int | None = 4,
         indent_yaml: int | None = 2,
-    ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str]]:
+    ) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], str]:
         """Install dependencies for the given configuration."""
         resolved_packages = self._resolve_packages(packages)
         resolved_python_version = _resolve_python_version(
@@ -310,6 +314,15 @@ class DependencyInstaller:
             dependencies.setdefault("pip", []).extend(
                 [{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs]
             )
+        path_to_repo = _Path(path_to_repo)
+        editables = " ".join(f'--editable "{path_to_repo / pkg["pkg"]["path"]["root"]}"' for pkg in resolved_packages)
+        self_installation_spec = f"{editables} --no-deps"
+        if install_self:
+            dependencies.setdefault("pip", []).append(
+                {"install": {"pip": {"spec": self_installation_spec}}}
+            )
+        self_installation_prefix = f"conda run --name {conda_env_name} --live-stream -vv " if conda_env_name else ""
+        self_installation_cmd = f"{self_installation_prefix}pip install {self_installation_spec}"
         files = {}
         for source, dep_data in dependencies.items():
             deps = [dep["install"][source] for dep in dep_data]
@@ -339,7 +352,7 @@ class DependencyInstaller:
                     ["set -e"]
                     + [f"# ----- {dep['name']} -----\n{dep['install'][source]}" for dep in dep_data]
                 )
-        return dependencies, files
+        return dependencies, files, self_installation_cmd
 
     def _resolve_packages(self, packages: Sequence[str | dict]) -> list[dict]:
         """Resolve dependencies for the given packages."""
@@ -803,6 +816,7 @@ def _parse_args() -> _argparse.Namespace:
         return source_list(value)
 
     valid_sources = ["conda", "pip", "apt", "brew", "choco", "winget", "bash", "pwsh"]
+
     parser = _argparse.ArgumentParser(description="Install package and/or test-suite dependencies.")
     parser.add_argument("--filepath", type=str, default=".github/.repodynamics/metadata.json")
     parser.add_argument(
@@ -852,6 +866,12 @@ def _parse_args() -> _argparse.Namespace:
         default=None,
         help="List of package managers to exclude from installation: conda, pip, apt, brew, choco, winget, bash, pwsh",
     )
+    parser.add_argument(
+        "--no-self",
+        help=f"Skip installation of the packages themselves.",
+        dest=f"install_self",
+        action=f"store_false",
+    )
     parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--overwrite", action=_argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--filename-conda", type=str, default="environment.yml")
@@ -874,4 +894,6 @@ if __name__ == "__main__":
     _logging.basicConfig(level=_logging.INFO)
     args = vars(_parse_args())
     _logger.info("Running with arguments: %s", args)
-    run(**args)
+    dependencies, files, paths, self_installation_cmd = run(**args)
+    if not args["install_self"]:
+        print(self_installation_cmd)
