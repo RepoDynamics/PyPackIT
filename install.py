@@ -315,13 +315,17 @@ class DependencyInstaller:
                 [{"install": {"pip": {"spec": spec}}} for spec in extra_pip_specs]
             )
         path_to_repo = _Path(path_to_repo)
-        editables = " ".join(f'--editable "{path_to_repo / pkg["pkg"]["path"]["root"]}"' for pkg in resolved_packages)
+        editables = " ".join(
+            f'--editable "{path_to_repo / pkg["pkg"]["path"]["root"]}"' for pkg in resolved_packages
+        )
         self_installation_spec = f"{editables} --no-deps"
         if install_self:
             dependencies.setdefault("pip", []).append(
                 {"install": {"pip": {"spec": self_installation_spec}}}
             )
-        self_installation_prefix = f"conda run --name {conda_env_name} --live-stream -vv " if conda_env_name else ""
+        self_installation_prefix = (
+            f"conda run --name {conda_env_name} --live-stream -vv " if conda_env_name else ""
+        )
         self_installation_cmd = f"{self_installation_prefix}pip install {self_installation_spec}"
         files = {}
         for source, dep_data in dependencies.items():
@@ -868,9 +872,9 @@ def _parse_args() -> _argparse.Namespace:
     )
     parser.add_argument(
         "--no-self",
-        help=f"Skip installation of the packages themselves.",
-        dest=f"install_self",
-        action=f"store_false",
+        help="Skip installation of the packages themselves.",
+        dest="install_self",
+        action="store_false",
     )
     parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--overwrite", action=_argparse.BooleanOptionalAction, default=False)
