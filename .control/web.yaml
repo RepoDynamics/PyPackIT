@@ -309,6 +309,7 @@ devcontainer_docs:
   dockerfile:
     - FROM texlive/texlive:latest
     - ${{ __temp__.dockerfile_copy_env_cmd }}$
+    - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Documentation Environment
     shutdownAction: none
