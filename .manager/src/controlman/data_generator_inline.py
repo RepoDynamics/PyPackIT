@@ -171,9 +171,6 @@ class InlineDataGenerator:
             return self._binder_files.get(source, "")
         package_keys = ("pypkg_main", "pypkg_test")
         package_data = {k: self.get(k) for k in package_keys}
-        env_path = self.get("workflow.binder.path.dockerfile")
-        dir_depth = len(env_path.removesuffix("/").split("/")) - 1
-        path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pkg_install_script_path = self.get("control.path.pkg_install_script")
         install = pkgdata.import_module_from_path(self.repo_path / pkg_install_script_path)
         _, files, self_installation_cmd = install.DependencyInstaller(package_data).run(
@@ -184,7 +181,7 @@ class InlineDataGenerator:
             python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
             sources=["conda", "pip", "apt", "bash"],
             exclude_installed=False,
-            path_to_repo=path_to_root,
+            path_to_repo="./",  # postBuild script is run from root directory
             indent_json=self.get("default.file_setting.json.indent"),
             indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
         )
