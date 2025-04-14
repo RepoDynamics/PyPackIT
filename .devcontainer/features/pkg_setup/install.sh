@@ -59,7 +59,7 @@ for conda_env_name in $(echo "$PACKAGES" | jq -r 'keys[]'); do
     # Optionally add --sources
     if echo "$value" | jq -e 'has("sources")' > /dev/null; then
         sources=$(echo "$value" | jq -r '.sources')
-        cmd+=(--sources $sources)
+        cmd+=(--sources "$sources")
     fi
 
     # Capture and write command output

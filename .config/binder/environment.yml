@@ -7,5 +7,3 @@ dependencies:
   - conda-forge::python 3.10
   - repodynamics::pkgdata
   - repodynamics::pkgdata
-  - pip:
-    - --editable "../../pkg" --editable "../../test" --no-deps

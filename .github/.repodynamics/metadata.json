@@ -5775,7 +5775,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/apt.txt"
    },
    "file_binder_conda": {
-      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n  - pip:\n    - --editable \"../../pkg\" --editable \"../../test\" --no-deps\n",
+      "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
@@ -5811,7 +5811,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/environment.yml"
    },
    "file_binder_postbuild": {
-      "content": "",
+      "content": "['python', '-m', 'pip', 'install', '--no-deps', '--editable', '../../pkg', '--editable', '../../test']\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
@@ -5841,7 +5841,7 @@
       },
       "name": "Binder Post Build Environment File",
       "path": ".config/binder/postBuild",
-      "status": "delete",
+      "status": "active",
       "summary": "[`postBuild`](https://repo2docker.readthedocs.io/en/latest/config_files.html#postbuild-run-code-after-installing-the-environment) file for the Binder configuration.",
       "type": "txt",
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/postBuild"
@@ -5868,7 +5868,7 @@
                "orcid": "https://orcid.org/0000-0003-1563-6987"
             }
          ],
-         "date-released": "2025-04-13",
+         "date-released": "2025-04-14",
          "identifiers": [
             {
                "description": "Persistent DOI of the project as a whole.",
@@ -8543,7 +8543,7 @@
                         },
                         {
                            "args": {
-                              "message": "2025-04-13"
+                              "message": "2025-04-14"
                            },
                            "label": "\ud83d\uddd3\u2002Release Date"
                         },
@@ -17748,6 +17748,7 @@
             "devcontainer_main_pre_commit_ruff_config": ".config/ruff.toml",
             "devcontainer_main_type_check_mypy_config": ".config/mypy.toml",
             "file_binder_conda": ".config/binder/environment.yml",
+            "file_binder_postbuild": ".config/binder/postBuild",
             "file_citation_cff": "CITATION.cff",
             "file_coc": "CODE_OF_CONDUCT.md",
             "file_contributing": "CONTRIBUTING.md",
@@ -19673,7 +19674,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-13"
+                                    "message": "2025-04-14"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -22816,7 +22817,7 @@
                               },
                               {
                                  "args": {
-                                    "message": "2025-04-13"
+                                    "message": "2025-04-14"
                                  },
                                  "label": "\ud83d\uddd3\u2002Release Date"
                               },
@@ -25988,7 +25989,7 @@
                            },
                            {
                               "args": {
-                                 "message": "2025-04-13"
+                                 "message": "2025-04-14"
                               },
                               "label": "\ud83d\uddd3\u2002Release Date"
                            },
