@@ -1306,9 +1306,10 @@ devcontainer_main:
             package: https://anaconda.org/conda-forge/anaconda-client
             source: https://github.com/anaconda/anaconda-client
   task:
-    project:
+    project_manager:
       name: Project Management
       summary: Main project management CLI.
+      alias: project
       process:
         - ${{ __temp__.conda_env_name.manager }}$
         - proman
