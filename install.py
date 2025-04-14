@@ -254,7 +254,7 @@ def write_files(  # noqa: PLR0913
     def _write_file(filename: str, dep_content: str):
         filename = _Path(filename)
         full_filename = f"{filename_prefix}{filename.stem}{filename_suffix}{filename.suffix}"
-        filepath = output_dir / filename
+        filepath = output_dir / full_filename
         out[source] = filepath
         filepath.parent.mkdir(parents=True, exist_ok=True)
         if not filepath.exists() or overwrite:
