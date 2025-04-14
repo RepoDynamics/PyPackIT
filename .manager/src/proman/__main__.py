@@ -290,9 +290,7 @@ def _parse_args() -> argparse.Namespace:
         "--to-ref",
         help=f"Run on files changed until the given git ref. This must be accompanied by --from-ref.",
     )
-    subparser_lint_mutually_exclusive_hook = subparser_lint.add_mutually_exclusive_group(
-    ,
-    )
+    subparser_lint_mutually_exclusive_hook = subparser_lint.add_mutually_exclusive_group()
     subparser_lint_mutually_exclusive_hook.add_argument(
         "-i",
         "--hook-id",
@@ -305,9 +303,7 @@ def _parse_args() -> argparse.Namespace:
         help=f"Specific hook stage to run. This will only run hooks in the specified stage.",
         type=str,
     )
-    subparser_lint_mutually_exclusive_file = subparser_lint.add_mutually_exclusive_group(
-    ,
-    )
+    subparser_lint_mutually_exclusive_file = subparser_lint.add_mutually_exclusive_group()
     subparser_lint_mutually_exclusive_file.add_argument(
         "-a",
         "--all-files",
