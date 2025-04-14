@@ -2934,6 +2934,9 @@
          ],
          "features": {
             "../features/conda_setup": {},
+            "../features/pkg_setup": {
+               "packages": "{\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
+            },
             "ghcr.io/devcontainers/features/common-utils:2": {},
             "ghcr.io/devcontainers/features/conda:1": {
                "addCondaForge": true,
@@ -2943,6 +2946,12 @@
          },
          "name": "Documentation Environment",
          "postCreateCommand": {
+            "install_devcontainers_cli": [
+               "npm",
+               "install",
+               "-g",
+               "@devcontainers/cli"
+            ],
             "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
          "remoteUser": "dev",
@@ -3567,30 +3576,6 @@
             "name": "website",
             "path": ".devcontainer/container-docs/environment/conda/website.yaml",
             "pip": {
-               "controlman": {
-                  "name": "controlman",
-                  "spec": {
-                     "full": "controlman",
-                     "name": "controlman",
-                     "version": ""
-                  },
-                  "url": {
-                     "package": "https://pypi.org/project/controlman/"
-                  }
-               },
-               "gittidy": {
-                  "description": "Git API to automatically retrieve project version from tags during builds.\n",
-                  "name": "gittidy",
-                  "spec": {
-                     "full": "gittidy",
-                     "name": "gittidy",
-                     "version": ""
-                  },
-                  "url": {
-                     "docs": "https://gittidy.repodynamics.com",
-                     "package": "https://pypi.org/project/gittidy/"
-                  }
-               },
                "jsonschema-autodoc": {
                   "data": {
                      "sphinx_config": {
@@ -3607,31 +3592,6 @@
                   },
                   "url": {
                      "package": "https://pypi.org/project/jsonschema-autodoc/"
-                  }
-               },
-               "mdit": {
-                  "name": "mdit",
-                  "spec": {
-                     "full": "mdit",
-                     "name": "mdit",
-                     "version": ""
-                  },
-                  "url": {
-                     "package": "https://pypi.org/project/mdit/"
-                  }
-               },
-               "pkgdata": {
-                  "description": "Handling package resources, such as accessing data files that are\ndistributed with the package.\n",
-                  "name": "pkgdata",
-                  "spec": {
-                     "full": "pkgdata",
-                     "name": "pkgdata",
-                     "version": ""
-                  },
-                  "url": {
-                     "docs": "https://pkgdata.repodynamics.com/",
-                     "package": "https://pypi.org/project/pkgdata/",
-                     "source": "https://github.com/repodynamics/pkgdata"
                   }
                },
                "pygments-git": {
@@ -3760,19 +3720,6 @@
                   "url": {
                      "package": "https://pypi.org/project/sphinxcontrib-svg2pdfconverter/",
                      "source": "https://github.com/missinglinkelectronics/sphinxcontrib-svg2pdfconverter"
-                  }
-               },
-               "versionman": {
-                  "description": "Version management utilities to automatically find the latest version\nfrom git tags during build.\n",
-                  "name": "versionman",
-                  "spec": {
-                     "full": "versionman",
-                     "name": "versionman",
-                     "version": ""
-                  },
-                  "url": {
-                     "docs": "https://versionman.repodynamics.com",
-                     "package": "https://pypi.org/project/versionman/"
                   }
                }
             },
@@ -4066,6 +4013,12 @@
             }
          },
          "postCreateCommand": {
+            "install_devcontainers_cli": [
+               "npm",
+               "install",
+               "-g",
+               "@devcontainers/cli"
+            ],
             "pre_commit_install": [
                "conda",
                "run",

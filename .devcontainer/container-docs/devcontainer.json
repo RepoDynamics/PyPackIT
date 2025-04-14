@@ -16,6 +16,9 @@
    ],
    "features": {
       "../features/conda_setup": {},
+      "../features/pkg_setup": {
+         "packages": "{\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
+      },
       "ghcr.io/devcontainers/features/common-utils:2": {},
       "ghcr.io/devcontainers/features/conda:1": {
          "addCondaForge": true,
@@ -25,6 +28,12 @@
    },
    "name": "Documentation Environment",
    "postCreateCommand": {
+      "install_devcontainers_cli": [
+         "npm",
+         "install",
+         "-g",
+         "@devcontainers/cli"
+      ],
       "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
    },
    "remoteUser": "dev",

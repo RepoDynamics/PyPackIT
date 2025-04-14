@@ -253,6 +253,12 @@
       }
    },
    "postCreateCommand": {
+      "install_devcontainers_cli": [
+         "npm",
+         "install",
+         "-g",
+         "@devcontainers/cli"
+      ],
       "pre_commit_install": [
          "conda",
          "run",
