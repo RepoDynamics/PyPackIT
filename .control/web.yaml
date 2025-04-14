@@ -308,22 +308,63 @@ file_script_web_livehtml:
 devcontainer_docs:
   dockerfile:
     - FROM texlive/texlive:latest
+    # https://github.com/devcontainers/images/blob/main/src/base-ubuntu/.devcontainer/Dockerfile
+    - |
+      RUN if id "ubuntu" &>/dev/null; then \
+              echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
+          else \
+              echo "User 'ubuntu' does not exist."; \
+          fi
     - ${{ __temp__.dockerfile_copy_env_cmd }}$
     - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Documentation Environment
+    remoteUser: dev
+    containerUser: dev
     shutdownAction: none
     postCreateCommand:
       install_devcontainers_cli: [npm, install, -g, '@devcontainers/cli']
     features:
       # https://github.com/devcontainers/features/tree/main/src/common-utils
-      ghcr.io/devcontainers/features/common-utils:2: {}
+      ghcr.io/devcontainers/features/common-utils:2:
+        installZsh: true
+        configureZshAsDefaultShell: true
+        installOhMyZsh: true
+        installOhMyZshConfig: true
+        upgradePackages: true
+        username: ${{ devcontainer_docs.container.containerUser }}$
+        userUid: "1000"
+        userGid: "1000"
       # https://github.com/devcontainers/features/tree/main/src/conda
       ghcr.io/devcontainers/features/conda:1:
         version: latest
         addCondaForge: true
       # https://github.com/devcontainers/features/tree/main/src/git
-      ghcr.io/devcontainers/features/git:1: {}
+      ghcr.io/devcontainers/features/git:1:
+        version: latest
+        ppa: false
+      # https://github.com/devcontainers/features/tree/main/src/git-lfs
+      ghcr.io/devcontainers/features/git-lfs:1:
+        version: latest
+        autoPull: true
+      # https://github.com/devcontainers/features/tree/main/src/github-cli
+      ghcr.io/devcontainers/features/github-cli:1:
+        version: latest
+      # https://github.com/devcontainers/features/tree/main/src/node
+      ghcr.io/devcontainers/features/node:1:
+        version: latest
+        nodeGypDependencies: true
+        nvmInstallPath: /usr/local/share/nvm
+        pnpmVersion: latest
+        nvmVersion: latest
+        installYarnUsingApt: true
+      # https://github.com/devcontainers-extra/features/tree/main/src/apt-get-packages
+      ghcr.io/devcontainers-extra/features/apt-get-packages:1:
+        packages: |-
+          #{{
+            return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_docs.apt", {}).values()])
+          }}#
+      # Local features
       ../${{ devfeature_conda_setup.path }}$: {}
       ../${{ devfeature_pkg_setup.path }}$:
         packages: >-
@@ -339,8 +380,6 @@ devcontainer_docs:
               \"sources\": \"pip conda apt bash\"
             }
           }
-    remoteUser: dev
-    containerUser: dev
     customizations:
       vscode:
         extensions:
