@@ -415,7 +415,9 @@ class PythonPackageFileGenerator:
                 return
             for group in data["mutually_exclusive"]:
                 group_name = f"{parser_name}_mutually_exclusive_{group['id']}"
-                lines.extend(func_sig(group, f"{group_name} = {parser_name}.add_mutually_exclusive_group"))
+                lines.extend(
+                    func_sig(group, f"{group_name} = {parser_name}.add_mutually_exclusive_group")
+                )
                 add_argument(group_name, group, parser_dest)
             return
 
@@ -426,14 +428,18 @@ class PythonPackageFileGenerator:
             lines.extend(
                 [
                     f"# Sub-parsers for {parser_name}",
-                    *func_sig(data["subparser"], f"{subparser_gen_name} = {parser_name}.add_subparsers"),
+                    *func_sig(
+                        data["subparser"], f"{subparser_gen_name} = {parser_name}.add_subparsers"
+                    ),
                 ]
             )
             dest_key = data["subparser"]["kwargs"]["dest"]
             for subparser in data["subparser"]["parsers"]:
                 new_parser_dest = parser_dest | {dest_key: subparser["args"][0]}
                 subparser_name = f"subparser_{subparser['id']}"
-                lines.extend(func_sig(subparser, f"{subparser_name} = {subparser_gen_name}.add_parser"))
+                lines.extend(
+                    func_sig(subparser, f"{subparser_name} = {subparser_gen_name}.add_parser")
+                )
                 add_argument(subparser_name, subparser, new_parser_dest)
                 add_mutually_exclusive(subparser_name, subparser, new_parser_dest)
                 add_defaults(subparser_name, subparser)
