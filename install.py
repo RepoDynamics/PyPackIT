@@ -113,7 +113,7 @@ def run(  # noqa: PLR0913
     indent_xml: int | None = 4,
     indent_yaml: int | None = 2,
     filepath: str | _Path = ".github/.repodynamics/metadata.json",
-) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], dict[SourceName, str], str]:
+) -> tuple[dict[SourceName, list[dict]], dict[SourceName, str], dict[SourceName, _Path], str]:
     """Generate and/or install package dependencies based on the given configurations."""
     filepath = _Path(filepath).resolve()
     if not filepath.is_file():
@@ -246,7 +246,7 @@ def write_files(  # noqa: PLR0913
     filename_winget: str = "packages.json",
     filename_bash: str = "install.sh",
     filename_pwsh: str = "install.ps1",
-) -> dict[SourceName, str]:
+) -> dict[SourceName, _Path]:
     """Create environment files for dependencies."""
 
     def _write_file(filename: str, dep_content: str):
