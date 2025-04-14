@@ -3,7 +3,7 @@ from __future__ import annotations as _annotations
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
 from loggerman import logger
-from versionman.pep440_semver import PEP440SemVer
+from versionman.pep440_semver import PEP440SemVer, latest_version_from_tags
 
 from proman.dstruct import Version, VersionTag
 from proman.dtype import IssueStatus, ReleaseAction
@@ -15,6 +15,7 @@ if _TYPE_CHECKING:
     from typing import Literal
 
     from gittidy import Git
+    from versionman.pep440_semver import PEP440SemVer
 
     from proman.dstruct import Branch
     from proman.manager import Manager
@@ -121,24 +122,6 @@ class ReleaseManager:
         branch: Branch | str | None = None,
         dev_only: bool = False,
     ) -> Version | None:
-        def get_latest_version() -> PEP440SemVer | None:
-            tags_lists = git.get_tags()
-            if not tags_lists:
-                return None
-            for tags_list in tags_lists:
-                ver_tags = []
-                for tag in tags_list:
-                    if tag.startswith(ver_tag_prefix):
-                        ver_tags.append(PEP440SemVer(tag.removeprefix(ver_tag_prefix)))
-                if ver_tags:
-                    if dev_only:
-                        ver_tags = sorted(ver_tags, reverse=True)
-                        for ver_tag in ver_tags:
-                            if ver_tag.release_type == "dev":
-                                return ver_tag
-                    else:
-                        return max(ver_tags)
-            return None
 
         git = git or self._manager.git
         ver_tag_prefix = self._manager.data["tag.version.prefix"]
@@ -147,7 +130,11 @@ class ReleaseManager:
             curr_branch = git.current_branch_name()
             branch_name = branch if isinstance(branch, str) else branch.name
             git.checkout(branch=branch_name)
-        latest_version = get_latest_version()
+        latest_version = latest_version_from_tags(
+            tags=git.get_tags(),
+            version_tag_prefix=ver_tag_prefix,
+            release_types=("dev",) if dev_only else ("final", "pre", "post", "dev"),
+        )
         if branch:
             git.checkout(branch=curr_branch)
             git.stash_pop()
