@@ -15,7 +15,7 @@ import pkgdata
 def main(
     repo_path: str | Path,
     devcontainer_keys: list[str] | str | None = None,
-) -> dict[str, str]:
+) -> tuple[dict[str, list[str]], dict[str, str]]:
     """Run the action script."""
     repo_path = Path(repo_path).resolve()
     if devcontainer_keys and isinstance(devcontainer_keys, str):
@@ -27,27 +27,29 @@ def main(
         raise FileNotFoundError(err_msg)
     metadata = json.loads(metadata_filepath.read_text())
 
-    pkg_setup_feature_name = f"./{metadata["devfeature_pkg_setup"]["path"]}"
+    pkg_setup_feature_path = metadata["devfeature_pkg_setup"]["path"]
 
     install_script = pkgdata.import_module_from_path(
         repo_path / metadata["control"]["path"]["pkg_install_script"],
         "install_script",
     )
 
-    out = {
+    out_list: dict[str, list[str]] = {
         "apt_filepaths": [],
         "bash_filepaths": [],
         "task_filepaths": [],
         "env_filepaths": [],
         "env_names": [],
-        "env_hash": None,
         "post_commands": [],
-        "branch_name": None,
+    }
+    out_str = {
+        "env_hash": "",
+        "branch_name": "",
     }
 
     for local_dir in ["cache", "temp", "report"]:
         local_dirpath = repo_path / metadata["local"][local_dir]["path"]
-        out[f"{local_dir}_dirpath"] = str(local_dirpath)
+        out_list[f"{local_dir}_dirpath"] = str(local_dirpath)
         local_dirpath.mkdir(parents=True, exist_ok=True)
 
     for top_key, top_value in metadata.items():
@@ -57,16 +59,22 @@ def main(
             continue
         devcontainer = top_value
         if "apt" in devcontainer:
-            out["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
+            out_list["apt_filepaths"].append(str(repo_path / devcontainer["path"]["apt"]))
         if "task" in devcontainer or any(
             "task" in env for env in devcontainer.get("environment", {}).values()
         ):
-            out["task_filepaths"].append(str(repo_path / devcontainer["path"]["tasks_global"]))
+            out_list["task_filepaths"].append(str(repo_path / devcontainer["path"]["tasks_global"]))
         for env in devcontainer.get("environment", {}).values():
-            out["env_filepaths"].append(str(repo_path / env["path"]))
-            out["env_names"].append(env["name"])
+            out_list["env_filepaths"].append(str(repo_path / env["path"]))
+            out_list["env_names"].append(env["name"])
 
-        pkg_setup_json_string = devcontainer["container"].get("features", {}).get(pkg_setup_feature_name, {}).get("packages")
+        devcontainer_features = devcontainer["container"].get("features", {})
+        for feature_name, feature_data in devcontainer_features.items():
+            if feature_name.endswith(pkg_setup_feature_path):
+                pkg_setup_json_string = feature_data["packages"]
+                break
+        else:
+            pkg_setup_json_string = None
         if not pkg_setup_json_string:
             continue
         pkg_setup = json.loads(pkg_setup_json_string.replace("\\\"", "\""))
@@ -79,27 +87,28 @@ def main(
                 conda_env_name=conda_env_name,
                 path_to_repo=repo_path,
             )
+            out_list["post_commands"].append(shlex.join(self_installation_cmd))
             filepaths = install_script.write_files(
                 files,
-                output_dir=out["temp_dirpath"],
+                output_dir=out_list["temp_dirpath"],
                 filename_suffix=conda_env_name,
             )
             if "conda" in filepaths:
-                out["env_filepaths"].append(str(filepaths["conda"]))
-                out["env_names"].append(conda_env_name)
+                out_list["env_filepaths"].append(str(filepaths["conda"]))
+                out_list["env_names"].append(conda_env_name)
             for source_name in ["apt", "bash"]:
                 if source_name in filepaths:
-                    out[f"{source_name}_filepaths"].append(str(filepaths[source_name]))
+                    out_list[f"{source_name}_filepaths"].append(str(filepaths[source_name]))
 
-    out["env_hash"] = hash_files(out["env_filepaths"])
-    out["branch_name"] = subprocess.run(
+    out_str["env_hash"] = hash_files(out_list["env_filepaths"])
+    out_str["branch_name"] = subprocess.run(
         ["git", "branch", "--show-current"],
         cwd=repo_path,
         capture_output=True,
         text=True,
         check=True,
     ).stdout.strip()
-    return out
+    return out_list, out_str
 
 
 def hash_files(filepaths: list[str]) -> str:
@@ -137,15 +146,13 @@ def hash_files(filepaths: list[str]) -> str:
 if __name__ == "__main__":
     action_logger = actionman.log.Logger()
     inputs = actionman.env_var.read("ACTION_INPUTS", dict)
-    outputs = main(**{k: v for k, v in inputs.items() if k not in ("load_cache", "activate_env")})
+    out_list, out_str = main(**{k: v for k, v in inputs.items() if k not in ("load_cache", "activate_env")})
     action_logger.group(
-        json.dumps(outputs, indent=3, sort_keys=True),
-        title="script outputs",
+        json.dumps(out_str | out_list, indent=3, sort_keys=True),
+        title="Script Outputs",
     )
-    for key, value in outputs.items():
-        out_val = (
-            "\n".join(value)
-            if key not in ("env_hash", "branch_name")
-            else value
-        )
+    for key, value in out_list.items():
+        out_val = ("\n".join(value))
         actionman.step_output.write(key, out_val)
+    for key, value in out_str.items():
+        actionman.step_output.write(key, value)
