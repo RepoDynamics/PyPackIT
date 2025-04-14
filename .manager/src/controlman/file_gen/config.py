@@ -473,7 +473,7 @@ class ConfigFileGenerator:
                     subtype=(file_key, file_data["title"]),
                     content=file_content,
                     path=file_data["path"],
-                    path_before=data_before.get("path"),
+                    path_before=data_before.get(file_key, {}).get("path"),
                 )
             )
         for old_file_key, old_file_data in data_before.get(key, {}).items():
@@ -502,7 +502,7 @@ class ConfigFileGenerator:
                     subtype=(file_key, file_data["title"]),
                     content=file_content,
                     path=file_data["path"],
-                    path_before=data_before.get("path"),
+                    path_before=data_before.get(file_key, {}).get("path"),
                 )
             )
         for old_file_key, old_file_data in data_before.get(key, {}).items():
