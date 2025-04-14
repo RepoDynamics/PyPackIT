@@ -454,7 +454,7 @@ class PythonPackageFileGenerator:
                 add_subparser(subparser_name, subparser, new_parser_dest)
             return
 
-        def func_sig(data: dict) -> str:
+        def func_sig(data: dict, first_line: str) -> str:
             indent = " " * 4
             lines = [f'"{arg}"' for arg in data.get("args", [])] + [
                 f"{key}={value}"
@@ -464,7 +464,10 @@ class PythonPackageFileGenerator:
                 else f'{key}=f"{value}"'
                 for key, value in data.get("kwargs", {}).items()
             ]
-            return f"{',\n'.join([f'{indent}{line}' for line in lines])},"
+            total_length = sum(len(line) for line in lines)
+            if total_length < 20:
+                return [f"{first_line}({', '.join(lines)})"]
+            return [f"{first_line}(", *[f"{indent}{line}," for line in lines], ")"]
 
         lines = ["parser = argparse.ArgumentParser(", func_sig(data), ")"]
         post_process_lines = ["# Process inputs", "args = parser.parse_args()"]
