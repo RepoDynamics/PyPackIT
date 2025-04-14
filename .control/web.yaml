@@ -390,6 +390,9 @@ devcontainer_docs:
       - ghcr.io/devcontainers-extra/features/apt-get-packages
       - ./${{ devfeature_conda_setup.path }}$
       - ./${{ devfeature_pkg_setup.path }}$
+    postCreateCommand:
+      activate_conda_env: >-
+        echo 'conda activate ${{ devcontainer_docs.environment.website.name }}$' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile
     customizations:
       vscode:
         extensions:
