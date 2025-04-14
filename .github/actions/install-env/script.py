@@ -80,6 +80,8 @@ def main(
                 path_to_repo=repo_path,
             )
             out["post_commands"].append(shlex.join(self_installation_cmd))
+            print("***TEMP DIR***")
+            print(list(Path(out["temp_dirpath"]).rglob("*")))
             filepaths = install_script.write_files(files, output_dir=out["temp_dirpath"])
             if "conda" in filepaths:
                 out["env_filepaths"].append(str(filepaths["conda"]))
