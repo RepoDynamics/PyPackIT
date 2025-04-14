@@ -630,6 +630,7 @@ devcontainer_main:
       # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker#1-use-the-localworkspacefolder-as-environment-variable-in-your-code
       LOCAL_WORKSPACE_FOLDER: "${localWorkspaceFolder}"
     postCreateCommand:
+      install_devcontainers_cli: [npm, install, -g, '@devcontainers/cli']
       pre_commit_install:
         - conda
         - run
