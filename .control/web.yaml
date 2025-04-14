@@ -319,11 +319,9 @@ devcontainer_docs:
     - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Documentation Environment
-    remoteUser: dev
-    containerUser: dev
+    containerUser: ${{ devcontainer_main.container.containerUser }}$
+    remoteUser: ${{ .containerUser }}$
     shutdownAction: none
-    postCreateCommand:
-      install_devcontainers_cli: [npm, install, -g, '@devcontainers/cli']
     features:
       # https://github.com/devcontainers/features/tree/main/src/common-utils
       ghcr.io/devcontainers/features/common-utils:2:
@@ -365,6 +363,7 @@ devcontainer_docs:
             return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_docs.apt", {}).values()])
           }}#
       # Local features
+      ../${{ devfeature_user_setup.path }}$: {}
       ../${{ devfeature_conda_setup.path }}$: {}
       ../${{ devfeature_pkg_setup.path }}$:
         packages: >-
@@ -380,13 +379,26 @@ devcontainer_docs:
               \"sources\": \"pip conda apt bash\"
             }
           }
+    overrideFeatureInstallOrder:
+      - ghcr.io/devcontainers/features/common-utils
+      - ghcr.io/devcontainers/features/git
+      - ghcr.io/devcontainers/features/node
+      - ghcr.io/devcontainers/features/conda
+      - ghcr.io/devcontainers/features/git-lfs
+      - ghcr.io/devcontainers/features/github-cli
+      - ./${{ devfeature_user_setup.path }}$
+      - ghcr.io/devcontainers-extra/features/apt-get-packages
+      - ./${{ devfeature_conda_setup.path }}$
+      - ./${{ devfeature_pkg_setup.path }}$
     customizations:
       vscode:
         extensions:
           - James-Yu.latex-workshop
           - ExecutableBookProject.myst-highlight
+          - '*{{ devcontainer_main.container.customizations.vscode.extensions }}*'
         settings:
-          terminal.integrated.scrollback: 100000
+          python.defaultInterpreterPath: /opt/conda/envs/${{ devcontainer_docs.environment.website.name }}$/bin/python
+          terminal.integrated.scrollback: 1000000
   environment:
     website:
       conda:
