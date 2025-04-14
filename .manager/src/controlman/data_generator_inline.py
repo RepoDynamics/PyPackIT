@@ -189,7 +189,7 @@ class InlineDataGenerator:
         )
         if "bash" in files:
             files["bash"] = f"#!/bin/bash\n\n{files['bash']}"
-        files["bash"] = f"{files.get('bash', "").strip()}\n{self_installation_cmd}\n".lstrip()
+        files["bash"] = f"{files.get('bash', '').strip()}\n{self_installation_cmd}\n".lstrip()
         self._binder_files = files
         return self._binder_files.get(source, "")
 

@@ -217,7 +217,9 @@ def install_files(
                 continue
             _logger.info("Installing dependencies from %s", source)
             if source == "apt":
-                _subprocess.run(list(cmd_apt) + files[source].splitlines(), check=True, stdout=_sys.stderr)  # noqa: S603
+                _subprocess.run(
+                    list(cmd_apt) + files[source].splitlines(), check=True, stdout=_sys.stderr
+                )
             else:
                 filepath = _Path(temp_dir) / filename[source]
                 filepath.write_text(files[source])
@@ -353,12 +355,16 @@ class DependencyInstaller:
         # --no-deps is not available in requirements.txt (see https://github.com/pypa/pip/pull/10837);
         # therefore, we don't add it to the environment file.
         path_to_repo = _Path(path_to_repo)
-        self_installation_cmd = [
-            "conda", "run", "--name", conda_env_name, "--live-stream", "-vv"
-        ] if conda_env_name else []
+        self_installation_cmd = (
+            ["conda", "run", "--name", conda_env_name, "--live-stream", "-vv"]
+            if conda_env_name
+            else []
+        )
         self_installation_cmd.extend(["python", "-m", "pip", "install", "--no-deps"])
         for pkg in resolved_packages:
-            self_installation_cmd.extend(["--editable", str(path_to_repo / pkg["pkg"]["path"]["root"])])
+            self_installation_cmd.extend(
+                ["--editable", str(path_to_repo / pkg["pkg"]["path"]["root"])]
+            )
         return dependencies, files, self_installation_cmd
 
     def _resolve_packages(self, packages: Sequence[str | dict]) -> list[dict]:
