@@ -75,8 +75,7 @@ class ControlCenterReporter:
                 changed_categories.append(category_name)
                 section[category_name] = category_reporter()
         changed_categories_str = self._comma_list(changed_categories)
-        verb = "was" if len(changed_categories) == 1 else "were"
-        content = f"Project's {changed_categories_str} {verb} out of sync with control center configurations."
+        content = f"Project's {changed_categories_str} were out of sync with control center configurations."
         return self._create_document(content=content, section=section)
 
     def _create_document(self, content, section: dict | None = None) -> _mdit.Document:
@@ -120,7 +119,7 @@ class ControlCenterReporter:
             self.files,
             key=lambda elem: (elem.type.value[1], elem.subtype[1]),
         ):
-            if file.change in (DynamicFileChangeType.DISABLED, DynamicFileChangeType.UNCHANGED):
+            if file.change in (DynamicFileChangeType.DISABLED, DynamicFileChangeType.UNCHANGED, DynamicFileChangeType.INACTIVE):
                 continue
             change = file.change.value
             rows.append(
