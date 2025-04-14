@@ -68,7 +68,12 @@ class Version:
     @property
     def full(self) -> str:
         if self.is_local:
-            return f"{self.public}+{self.distance}"
+            local_parts = [self.distance]
+            if self.date:
+                local_parts.append(self.date.strftime("%Y.%m.%d"))
+            if self.sha:
+                local_parts.append(self.sha[:8])
+            return f"{self.public}+{'.'.join(local_parts)}"
         return str(self.public)
 
     @property
