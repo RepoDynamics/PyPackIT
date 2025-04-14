@@ -298,7 +298,7 @@ class OutputManager:
         build_config = self._main_manager.data["workflow.build"]
         # for typ in ("pkg", "test"):
         project_command_alias = self._branch_manager.data[
-            "devcontainer_main.environment.pypackit.task.project.alias"
+            "devcontainer_main.task.project_manager.alias"
         ]
         for pkg_id in ("main", "test"):
             if (
