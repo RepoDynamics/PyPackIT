@@ -6,8 +6,10 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+import shlex
 
 import actionman
+import pkgdata
 
 
 def main(
@@ -25,13 +27,24 @@ def main(
         raise FileNotFoundError(err_msg)
     metadata = json.loads(metadata_filepath.read_text())
 
+    pkg_setup_feature_name = f"./{metadata["devfeature_pkg_setup"]["path"]}"
+
+    install_script = pkgdata.import_module_from_path(
+        repo_path / metadata["control"]["path"]["pkg_install_script"],
+        "install_script",
+    )
+
     out = {
         "apt_filepaths": [],
+        "bash_filepaths": [],
         "task_filepaths": [],
-        "env_hash": None,
         "env_filepaths": [],
         "env_names": [],
+        "env_hash": None,
+        "post_commands": [],
+        "branch_name": None,
     }
+
     for local_dir in ["cache", "temp", "report"]:
         local_dirpath = repo_path / metadata["local"][local_dir]["path"]
         out[f"{local_dir}_dirpath"] = str(local_dirpath)
@@ -52,8 +65,30 @@ def main(
         for env in devcontainer.get("environment", {}).values():
             out["env_filepaths"].append(str(repo_path / env["path"]))
             out["env_names"].append(env["name"])
-    out["env_hash"] = hash_files(out["env_filepaths"])
 
+        pkg_setup_json_string = devcontainer["container"].get("features", {}).get(pkg_setup_feature_name, {}).get("packages", {})
+        if not pkg_setup_json_string:
+            continue
+        pkg_setup = json.loads(pkg_setup_json_string.replace("\\\"", "\""))
+        for conda_env_name, conda_env_data in pkg_setup.items():
+            _, files, self_installation_cmd = install_script.DependencyInstaller(
+                {k: metadata.get(k) for k in metadata if k.startswith("pypkg_")},
+            ).run(
+                packages=conda_env_data["packages"],
+                python_version=conda_env_data.get("python_version"),
+                conda_env_name=conda_env_name,
+                path_to_repo=repo_path,
+            )
+            out["post_commands"].append(shlex.join(self_installation_cmd))
+            filepaths = install_script.write_files(files, output_dir=out["temp_dirpath"])
+            if "conda" in filepaths:
+                out["env_filepaths"].append(str(filepaths["conda"]))
+                out["env_names"].append(conda_env_name)
+            for source_name in ["apt", "bash"]:
+                if source_name in filepaths:
+                    out[f"{source_name}_filepaths"].append(str(filepaths[source_name]))
+
+    out["env_hash"] = hash_files(out["env_filepaths"])
     out["branch_name"] = subprocess.run(
         ["git", "branch", "--show-current"],
         cwd=repo_path,
@@ -107,7 +142,7 @@ if __name__ == "__main__":
     for key, value in outputs.items():
         out_val = (
             "\n".join(value)
-            if key in ("env_filepaths", "apt_filepaths", "task_filepaths", "env_names")
+            if key not in ("env_hash", "branch_name")
             else value
         )
         actionman.step_output.write(key, out_val)

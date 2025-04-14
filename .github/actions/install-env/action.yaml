@@ -2,22 +2,24 @@ name: Install Environment
 description: |
   Replicate a devcontainer environment for the repository.
 inputs:
-  repo_path:
-    description: Path to the root of the repository.
-    required: false
-    default: .
   devcontainer_keys:
-    description: Comma-separated list of devcontainer IDs to replicate.
+    description: |
+      Comma-separated list of devcontainer IDs to replicate.
+      If not provided, all devcontainers are included.
     required: false
     default: ""
-  activate_env:
-    description: Name of a Conda environment to activate on all shells.
-    required: false
-    default: base
   load_cache:
     description: Load the local cache directory for the branch.
     required: false
     default: 'true'
+  activate_env:
+    description: Name of a Conda environment to activate on all shells.
+    required: false
+    default: base
+  repo_path:
+    description: Path to the root of the repository.
+    required: false
+    default: .
 outputs:
   temp_dirpath:
     value: ${{ steps.script.outputs.temp_dirpath }}
@@ -67,6 +69,18 @@ runs:
         path: ${{ steps.script.outputs.cache_dirpath }}
         key: >-
           local--${{ runner.os }}--${{ runner.arch }}--${{ github.repository }}/${{ steps.script.outputs.branch_name }}
+    - name: Bash Install
+      if: steps.script.outputs.bash_filepaths
+      env:
+        BASH_FILEPATHS: ${{ steps.script.outputs.bash_filepaths }}
+      shell: bash
+      run: |
+        # Install packages from bash scripts.
+        while IFS= read -r bash_filepath; do
+          echo "::group::bash ${bash_filepath}"
+          bash "$bash_filepath"
+          echo "::endgroup::"
+        done <<< "$BASH_FILEPATHS"
     - name: APT Install
       # TODO: add caching
       # - https://github.com/awalsh128/cache-apt-pkgs-action
@@ -115,11 +129,17 @@ runs:
           conda env update -vv --file "$env_filepath"
           echo "::endgroup::"
         done <<< "$ENV_FILEPATHS"
-    - name: Project Manager Install
+    - name: Internal Package Install
       shell: bash -el {0}
+      env:
+        POST_COMMANDS: ${{ steps.script.outputs.post_commands }}
       run: |
-        conda activate pypackit
-        pip install ${{ inputs.repo_path }}/.manager --no-deps
+        # Install internal packages.
+        while IFS= read -r post_command; do
+          echo "::group::$post_command"
+          eval "$post_command"
+          echo "::endgroup::"
+        done <<< "$POST_COMMANDS"
     - name: Conda Info
       shell: bash -el {0}
       env:
