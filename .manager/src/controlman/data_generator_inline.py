@@ -182,7 +182,7 @@ class InlineDataGenerator:
             target_platform="linux-64",
             # Oldest supported Python version, since repo2docker does not support brand new Python versions.
             python_version=package_data["pypkg_main"]["python"]["version"]["minors"][0],
-            sources=["conda", "apt", "bash"],
+            sources=["conda", "pip", "apt", "bash"],
             path_to_repo=path_to_root,
             indent_json=self.get("default.file_setting.json.indent"),
             indent_yaml=self.get("default.file_setting.yaml.sequence_indent_offset"),
