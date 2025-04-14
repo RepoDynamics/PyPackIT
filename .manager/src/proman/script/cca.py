@@ -61,10 +61,17 @@ def run(
         )
         raise ProManException()
 
-    report = reporter.report()
-    summary = report.body["summary"].content
     new_manager = proman.manager.update(
         manager=manager, project_metadata=center_manager.generate_data()
+    )
+    report = reporter.report()
+    summary = report.body["summary"].content
+    new_manager.reporter.update(
+        "cca",
+        status="fail" if reporter.has_changes and action in ["report", "pull"] else "pass",
+        summary=summary,
+        section=report.section,
+        section_is_container=True,
     )
 
     commit_hash = None
@@ -126,13 +133,6 @@ def run(
                 if action == "merge":
                     # TODO: Merge the PR
                     pass
-    new_manager.reporter.update(
-        "cca",
-        status="fail" if reporter.has_changes and action in ["report", "pull"] else "pass",
-        summary=summary,
-        section=report.section,
-        section_is_container=True,
-    )
     return new_manager, reporter, commit_hash
 
 
