@@ -86,9 +86,8 @@ jobs:
         id: setup
         uses: ./repo_head/.github/actions/install-env
         with:
+          devcontainer_keys: main
           repo_path: ${{ env.PATH_REPO_HEAD }}
-          load_cache: 'true'
-          activate_env: pypackit
       - name: ProMan
         id: proman
         env:
