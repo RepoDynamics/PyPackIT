@@ -66,7 +66,7 @@ def main(
             out["env_filepaths"].append(str(repo_path / env["path"]))
             out["env_names"].append(env["name"])
 
-        pkg_setup_json_string = devcontainer["container"].get("features", {}).get(pkg_setup_feature_name, {}).get("packages", {})
+        pkg_setup_json_string = devcontainer["container"].get("features", {}).get(pkg_setup_feature_name, {}).get("packages")
         if not pkg_setup_json_string:
             continue
         pkg_setup = json.loads(pkg_setup_json_string.replace("\\\"", "\""))
@@ -79,10 +79,11 @@ def main(
                 conda_env_name=conda_env_name,
                 path_to_repo=repo_path,
             )
-            out["post_commands"].append(shlex.join(self_installation_cmd))
-            print("***TEMP DIR***")
-            print(list(Path(out["temp_dirpath"]).rglob("*")))
-            filepaths = install_script.write_files(files, output_dir=out["temp_dirpath"])
+            filepaths = install_script.write_files(
+                files,
+                output_dir=out["temp_dirpath"],
+                filename_suffix=conda_env_name,
+            )
             if "conda" in filepaths:
                 out["env_filepaths"].append(str(filepaths["conda"]))
                 out["env_names"].append(conda_env_name)
