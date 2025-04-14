@@ -365,8 +365,8 @@ class Section:
             self._body.extend(body)
         if section:
             if section_is_container:
-                for content, conditions in section.values():
-                    self._section.append(content, conditions=conditions)
+                for key, (content, conditions) in section.items():
+                    self._section.append(content, conditions=conditions, key=key)
             else:
                 self._section.extend(section)
         return
