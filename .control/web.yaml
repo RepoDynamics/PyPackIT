@@ -312,6 +312,8 @@ devcontainer_docs:
   container:
     name: Documentation Environment
     shutdownAction: none
+    postCreateCommand:
+      install_devcontainers_cli: [npm, install, -g, '@devcontainers/cli']
     features:
       # https://github.com/devcontainers/features/tree/main/src/common-utils
       ghcr.io/devcontainers/features/common-utils:2: {}
@@ -322,6 +324,20 @@ devcontainer_docs:
       # https://github.com/devcontainers/features/tree/main/src/git
       ghcr.io/devcontainers/features/git:1: {}
       ../${{ devfeature_conda_setup.path }}$: {}
+      ../${{ devfeature_pkg_setup.path }}$:
+        packages: >-
+          {
+            \"${{ devcontainer_docs.environment.website.name }}$\": {
+              \"packages\": [
+                {
+                  \"id\": \"ci\",
+                  \"extras\": \"all\"
+                }
+              ],
+              \"python-version\": \"${{ pypkg_ci.python.version.minors[-1] }}$\",
+              \"sources\": \"pip conda apt bash\"
+            }
+          }
     remoteUser: dev
     containerUser: dev
     customizations:
@@ -860,33 +876,6 @@ devcontainer_docs:
           url:
             package: https://pypi.org/project/pygments-git/
             source: https://github.com/adamchainz/pygments-git
-        gittidy:
-          description: |
-            Git API to automatically retrieve project version from tags during builds.
-          url:
-            docs: https://gittidy.repodynamics.com
-            package: https://pypi.org/project/gittidy/
-        versionman:
-          description: |
-            Version management utilities to automatically find the latest version
-            from git tags during build.
-          url:
-            docs: https://versionman.repodynamics.com
-            package: https://pypi.org/project/versionman/
-        pkgdata:
-          description: |
-            Handling package resources, such as accessing data files that are
-            distributed with the package.
-          url:
-            docs: https://pkgdata.repodynamics.com/
-            package: https://pypi.org/project/pkgdata/
-            source: https://github.com/repodynamics/pkgdata
-        controlman:
-          url:
-            package: https://pypi.org/project/controlman/
-        mdit:
-          url:
-            package: https://pypi.org/project/mdit/
       task:
         build:
           name: Build Website
