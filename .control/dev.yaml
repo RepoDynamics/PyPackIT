@@ -4,6 +4,7 @@ __temp__:
   dockerfile_copy_script_cmd: |
     COPY ${{ control.path.pkg_install_script }}$ ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
     COPY .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
+  container_build_log_path: /var/log/devcontainer-build
   port:
     desktop_lite:
       web: 6080
@@ -130,18 +131,18 @@ devfeature_pkg_setup:
         type: string
         description: Absolute path to the project metadata file.
         default: /usr/local/share/app_installation/metadata.json
-      log_dir:
+      log_dirpath:
         type: string
         description: Absolute path to a directory to write log files.
-        default: /var/log/conda_setup
+        default: ${{ __temp__.container_build_log_path }}$/pkg_setup
   install: |
     #!/usr/bin/env bash
     set -euxo pipefail
 
-    echo "Creating log directory..."
-    mkdir -p "$LOG_DIR"
-    LOG_FILE="${LOG_DIR}/install.log"
     # Redirect stdout and stderr to a file
+    echo "Creating log directory..."
+    mkdir -p "$LOG_DIRPATH"
+    LOG_FILE="${LOG_DIRPATH}/install.log"
     exec > >(tee -a "$LOG_FILE") 2>&1
 
     # Create postStartCommand script
@@ -230,37 +231,49 @@ devfeature_conda_setup:
       echo "Verifying channels..."
       && conda config --show channels;
     options:
-      log_dir:
+      log_dirpath:
         type: string
         description: Absolute path to a directory to write log files.
-        default: /var/log/conda_setup
+        default: ${{ __temp__.container_build_log_path }}$/conda_setup
       env_dir:
         type: string
         description: Absolute path to the directory containing conda environment files.
         default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.conda }}$
   install: |
     #!/usr/bin/env bash
-    set -eux
+    set -euxo pipefail
+
+    # Redirect stdout and stderr to a file
+    echo "Creating log directory..."
+    mkdir -p "$LOG_DIRPATH"
+    LOG_FILE="${LOG_DIRPATH}/install.log"
+    exec > >(tee -a "$LOG_FILE") 2>&1
+
     echo "Initializing conda..."
     conda init
+
     echo "Removing existing Conda channels..."
     conda config --remove-key channels 2>/dev/null || true
+
     echo "Adding conda-forge as the only channel..."
     conda config --add channels conda-forge
+
     echo "Setting strict channel priority..."
     conda config --set channel_priority strict
+
     echo "Verifying channels..."
     conda config --show channels
+
     echo "Updating conda..."
     conda update -n base --all -y
-    echo "Creating log directory..."
-    mkdir -p $LOG_DIR
+
     if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
         umask 0002;
         for file in $ENV_DIR/*.yaml; do
-            conda env update --file "$file" 2>&1 | tee "$LOG_DIR/$(basename "$file").log";
+            conda env update --file "$file" 2>&1 | tee "$LOG_DIRPATH/env_$(basename "$file").log";
         done;
     fi
+
     echo "Cleaning up cache..."
     conda clean --all -y
 devfeature_user_setup:
@@ -289,97 +302,150 @@ devfeature_user_setup:
       GOROOT: /usr/local/go
       JUPYTERLAB_PATH: /home/codespace/.local/bin
       PATH: /home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}
+    options:
+      log_dirpath:
+        type: string
+        description: Absolute path to a directory to write log files.
+        default: ${{ __temp__.container_build_log_path }}$/user_setup
   install: |
     #!/usr/bin/env bash
+    set -euxo pipefail
 
-    USERNAME=${USERNAME:-"codespace"}
+    export DEBIAN_FRONTEND=noninteractive
 
-    set -eux
+    # Constants
+    LOG_FILE_NAME="install.log"
+    SUDOERS_DIR="/etc/sudoers.d"
 
+    # Utility: link tool path only if source exists
+    link_if_exists() {
+        local src="$1"
+        local dest="$2"
+        local label="$3"
+
+        if [ -e "$src" ]; then
+            mkdir -p "$(dirname "$dest")"
+            ln -snf "$src" "$dest"
+            echo "✔️ Linked $label"
+        else
+            echo "⏩ Skipped $label (not found: $src)"
+        fi
+    }
+
+    get_debian_flavor() {
+        local codename=""
+
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            codename="${VERSION_CODENAME:-}"
+        fi
+
+        # Fallback to lsb_release if codename is still empty
+        if [ -z "$codename" ] && command -v lsb_release >/dev/null 2>&1; then
+            codename="$(lsb_release -c -s)"
+        fi
+
+        # Final fallback
+        codename="${codename:-unknown}"
+
+        echo "$codename"
+    }
+
+    # Redirect stdout and stderr to a file
+    echo "Creating log directory..."
+    mkdir -p "$LOG_DIRPATH"
+    exec > >(tee -a "${LOG_DIRPATH}/${LOG_FILE_NAME}") 2>&1
+
+    # Ensure script is run as root
     if [ "$(id -u)" -ne 0 ]; then
         echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
         exit 1
     fi
 
-    # Ensure that login shells get the correct path if the user updated the PATH using ENV.
+    # Ensure login shells get the correct path if ENV was used to modify PATH.
     rm -f /etc/profile.d/00-restore-env.sh
     echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
     chmod +x /etc/profile.d/00-restore-env.sh
 
-    export DEBIAN_FRONTEND=noninteractive
-
-    sudo_if() {
-        COMMAND="$*"
-        if [ "$(id -u)" -eq 0 ] && [ "$USERNAME" != "root" ]; then
-            su - "$USERNAME" -c "$COMMAND"
-        else
-            "$COMMAND"
+    # Determine the appropriate non-root user
+    USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
+    if [ "${USERNAME}" = "automatic" ]; then
+        USERNAME=""
+        POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
+        for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
+            if id -u ${CURRENT_USER} > /dev/null 2>&1; then
+                USERNAME=${CURRENT_USER}
+                break
+            fi
+        done
+        if [ "${USERNAME}" = "" ]; then
+            USERNAME=root
         fi
-    }
+    elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
+        USERNAME=root
+    fi
 
-    # Enables the oryx tool to generate manifest-dir which is needed for running the postcreate tool
-    DEBIAN_FLAVOR="focal-scm"
-    mkdir -p /opt/oryx && echo "vso-focal" > /opt/oryx/.imagetype
-    echo "DEBIAN|${DEBIAN_FLAVOR}" | tr '[a-z]' '[A-Z]' > /opt/oryx/.ostype
+    # Set common variables.
+    HOME_DIR="/home/${USERNAME}"
+    OPT_DIR="/opt"
+    DEBIAN_FLAVOR="$(get_debian_flavor)"
 
+    # Enable the oryx tool to generate manifest-dir which is needed for running the postcreate tool.
     # Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.
-    ln -snf /usr/local/oryx/* /opt/oryx
+    ORYX_DIR="/opt/oryx"
+    mkdir -p "$ORYX_DIR"
+    echo "vso-focal" > "$ORYX_DIR/.imagetype"
+    echo "DEBIAN|${DEBIAN_FLAVOR}-SCM" | tr '[a-z]' '[A-Z]' > "$ORYX_DIR/.ostype"
+    if compgen -G "/usr/local/oryx/*" > /dev/null; then
+        ln -snf /usr/local/oryx/* "$ORYX_DIR"
+    fi
 
-    # For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.
-    # This ensures that whatever platfornm versions oryx detects and installs are set as root.
-    NODE_PATH="/home/codespace/nvm/current"
-    ln -snf /usr/local/share/nvm /home/codespace
+    # Tool links
+    DOTNET_PATH="${HOME_DIR}/.dotnet"
+    HUGO_PATH="${HOME_DIR}/.hugo/current"
+    JAVA_PATH="${HOME_DIR}/java/current"
+    MAVEN_PATH="${HOME_DIR}/.maven/current"
+    NODE_PATH="${HOME_DIR}/nvm/current"
+    PHP_PATH="${HOME_DIR}/.php/current"
+    PYTHON_PATH="${HOME_DIR}/.python/current"
+    RUBY_PATH="${HOME_DIR}/.ruby/current"
 
-    PHP_PATH="/home/${USERNAME}/.php/current"
-    mkdir -p /home/${USERNAME}/.php
-    ln -snf /usr/local/php/current $PHP_PATH
+    link_if_exists "/usr/share/dotnet"                          "$DOTNET_PATH"    ".NET SDK"
+    link_if_exists "/usr/local/hugo"                            "$HUGO_PATH"      "Hugo"
+    link_if_exists "/usr/local/sdkman/candidates/java"          "$JAVA_PATH"      "Java"  #CHECK
+    link_if_exists "/usr/local/sdkman/candidates/maven/current" "$MAVEN_PATH"     "Maven"
+    link_if_exists "/usr/local/share/nvm"                       "${HOME_DIR}/nvm" "Node.js" #CHECK
+    link_if_exists "/usr/local/php/current"                     "$PHP_PATH"       "PHP"
+    link_if_exists "/usr/local/python/current"                  "$PYTHON_PATH"    "Python"
+    link_if_exists "/usr/local/python"                          "/opt/python"     "Python root"
+    link_if_exists "/usr/local/rvm/rubies/default"              "$RUBY_PATH"      "Ruby"
 
-    PYTHON_PATH="/home/${USERNAME}/.python/current"
-    mkdir -p /home/${USERNAME}/.python
-    ln -snf /usr/local/python/current $PYTHON_PATH
-    ln -snf /usr/local/python /opt/python
-
-    JAVA_PATH="/home/codespace/java/current"
-    ln -snf /usr/local/sdkman/candidates/java /home/codespace
-
-    RUBY_PATH="/home/${USERNAME}/.ruby/current"
-    mkdir -p /home/${USERNAME}/.ruby
-    ln -snf /usr/local/rvm/rubies/default $RUBY_PATH
-
-    DOTNET_PATH="/home/${USERNAME}/.dotnet"
-
+    # .NET special setup
     # Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825
-    chown -R "${USERNAME}:${USERNAME}" /usr/share/dotnet
-    chmod g+r+w+s /usr/share/dotnet
-    chmod -R g+r+w /usr/share/dotnet
+    if [ -d /usr/share/dotnet ]; then
+        DOTNET_DIR="/usr/share/dotnet"
+        chown -R "$USERNAME:$USERNAME" "$DOTNET_DIR"
+        chmod g+r+w+s "$DOTNET_DIR"
+        chmod -R g+r+w "$DOTNET_DIR"
 
-    ln -snf /usr/share/dotnet $DOTNET_PATH
-    mkdir -p /opt/dotnet/lts
-    cp -R /usr/share/dotnet/dotnet /opt/dotnet/lts
-    cp -R /usr/share/dotnet/LICENSE.txt /opt/dotnet/lts
-    cp -R /usr/share/dotnet/ThirdPartyNotices.txt /opt/dotnet/lts
+        mkdir -p "$OPT_DIR/dotnet/lts"
+        cp -R "$DOTNET_DIR/{dotnet,LICENSE.txt,ThirdPartyNotices.txt}" "$OPT_DIR/dotnet/lts" || true
+    fi
 
-    MAVEN_PATH="/home/${USERNAME}/.maven/current"
-    mkdir -p /home/${USERNAME}/.maven
-    ln -snf /usr/local/sdkman/candidates/maven/current $MAVEN_PATH
-
-    HUGO_ROOT="/home/${USERNAME}/.hugo/current"
-    mkdir -p /home/${USERNAME}/.hugo
-    ln -snf /usr/local/hugo $HUGO_ROOT
-
-    HOME_DIR="/home/${USERNAME}/"
-    chown -R ${USERNAME}:${USERNAME} ${HOME_DIR}
-    chmod -R g+r+w "${HOME_DIR}"
+    # Fix permissions for home directory.
+    chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
+    chmod -R g+r+w "$HOME_DIR"
     find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s
+    # Fix permissions for opt directory.
+    chown -R "$USERNAME":oryx "$OPT_DIR"
+    chmod -R g+r+w "$OPT_DIR"
+    find "$OPT_DIR" -type d | xargs -n 1 chmod g+s
 
-    OPT_DIR="/opt/"
-    chown -R ${USERNAME}:oryx ${OPT_DIR}
-    chmod -R g+r+w "${OPT_DIR}"
-    find "${OPT_DIR}" -type d | xargs -n 1 chmod g+s
+    # Customize secure_path for sudo
+    SECURE_PATH="${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:${HOME_DIR}/.local/bin:${PATH}"
+    echo "Defaults secure_path=\"$SECURE_PATH\"" >> "${SUDOERS_DIR}/${USERNAME}"
 
-    echo "Defaults secure_path=\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\"" >> /etc/sudoers.d/$USERNAME
-
-    echo "Done!"
+    echo "✅ Dev container user setup complete!"
 devcontainer:
   docker-compose:
     config:
@@ -498,8 +564,8 @@ devcontainer_main:
     - ${{ __temp__.dockerfile_copy_script_cmd }}$
   container:
     name: Main Development Environment
-    remoteUser: codespace
-    containerUser: ${{ .remoteUser }}$
+    containerUser: '#{{ return f"{slugify(get("name"))}-dev" }}#'
+    remoteUser: ${{ .containerUser }}$
     forwardPorts:
       - ${{ __temp__.port.jupyter }}$
       - ${{ __temp__.port.desktop_lite.web }}$
@@ -724,10 +790,10 @@ devcontainer_main:
           jupyter.kernels.filter:
             - path: /opt/conda/bin/python
               type: pythonEnvironment
-            - path: /opt/conda/envs/app/bin/python
+            - path: /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
               type: pythonEnvironment
           lldb.executable: /usr/bin/lldb
-          python.defaultInterpreterPath: /opt/conda/envs/app/bin/python
+          python.defaultInterpreterPath: /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
           terminal.integrated.scrollback: 1000000
           tasks:
             version: 2.0.0
