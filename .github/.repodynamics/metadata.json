@@ -5271,7 +5271,7 @@
             "notes": "This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.\nSee the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)\nfor more details.\n",
             "script": "docker exec -it openjournals \\\n  inara -o pdf -p -v $1\n"
          },
-         "project": {
+         "project_manager": {
             "alias": "project",
             "name": "Project Management",
             "process": [
@@ -5549,7 +5549,7 @@
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/environment.yml"
    },
    "file_binder_postbuild": {
-      "content": "python -m pip install --no-deps --editable ../../pkg --editable ../../test\n",
+      "content": "python -m pip install --no-deps --editable pkg --editable test\n",
       "content_setting": {
          "prefix": "",
          "separator": "\n",
