@@ -335,7 +335,7 @@ properties:
         summary: Source the tasks file in the user's bashrc.
         type: string
         default: >-
-          echo 'source ${{ ..workspaceFolder }}$/${{ ...path.tasks_local }}$' | tee -a ~/.bashrc ~/.bash_profile
+          echo 'source ${{ ..workspaceFolder }}$/${{ ...path.tasks_local }}$' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile
     additionalProperties:
       type:
         - string
