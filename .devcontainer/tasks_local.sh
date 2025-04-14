@@ -1,3 +1,7 @@
+project() {
+    conda run --cwd /workspace --live-stream -vv --name proman proman "$@"
+}
+
 build-oj-paper() {
     current_dir=$(pwd)
     cd '/workspace'
@@ -17,8 +21,4 @@ jupyterlab() {
     jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
     conda deactivate
     cd "$current_dir"
-}
-
-project() {
-    conda run --cwd /workspace --name pypackit --live-stream -vv proman "$@"
 }

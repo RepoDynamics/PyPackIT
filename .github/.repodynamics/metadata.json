@@ -2809,10 +2809,9 @@
                   "prepend": [
                      "conda",
                      "run",
-                     "--name",
-                     "base",
                      "--live-stream",
-                     "-vv"
+                     "-vv",
+                     "--name"
                   ]
                }
             }
@@ -2843,10 +2842,9 @@
                      "run",
                      "--cwd",
                      "{{ devcontainer.container.workspaceFolder }}",
-                     "--name",
-                     "base",
                      "--live-stream",
-                     "-vv"
+                     "-vv",
+                     "--name"
                   ]
                },
                "script": {
@@ -4083,21 +4081,6 @@
             ],
             "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
          },
-         "postStartCommand": {
-            "pypackit_install": [
-               "conda",
-               "run",
-               "--name",
-               "pypackit",
-               "--live-stream",
-               "-vv",
-               "pip",
-               "install",
-               "--editable",
-               ".manager",
-               "--no-deps"
-            ]
-         },
          "remoteEnv": {
             "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
          },
@@ -5141,261 +5124,6 @@
             "name": "pylint",
             "path": ".devcontainer/environment/conda/pylint.yaml"
          },
-         "pypackit": {
-            "conda": {
-               "python": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "channel": "conda-forge",
-                     "full": "conda-forge::python >=3.10",
-                     "name": "#{{\n  import re\n  dep_name = get(\"..name\")\n  name_normalized = re.sub(r\"[^a-zA-Z0-9._-]\", \"-\", dep_name).lower()\n  return re.sub(r\"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$\", \"\", name_normalized)\n}}#\n",
-                     "version": ">=3.10"
-                  },
-                  "url": {
-                     "package": "https://anaconda.org/conda-forge/python"
-                  }
-               }
-            },
-            "name": "pypackit",
-            "path": ".devcontainer/environment/conda/pypackit.yaml",
-            "pip": {
-               "actionman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "actionman ==0.1.1",
-                     "name": "actionman",
-                     "version": "==0.1.1"
-                  }
-               },
-               "ansi-sgr": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "ansi-sgr ==0.1.0",
-                     "name": "ansi-sgr",
-                     "version": "==0.1.0"
-                  }
-               },
-               "conventionalcommits": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "conventionalcommits ==0.1.0",
-                     "name": "conventionalcommits",
-                     "version": "==0.1.0"
-                  }
-               },
-               "exceptionman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "exceptionman ==0.1.0",
-                     "name": "exceptionman",
-                     "version": "==0.1.0"
-                  }
-               },
-               "fileex": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "fileex ==0.2.0",
-                     "name": "fileex",
-                     "version": "==0.2.0"
-                  }
-               },
-               "github-contexts": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "github-contexts ==0.1.1",
-                     "name": "github-contexts",
-                     "version": "==0.1.1"
-                  }
-               },
-               "gittidy": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "gittidy ==0.3.1",
-                     "name": "gittidy",
-                     "version": "==0.3.1"
-                  }
-               },
-               "htmp": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "htmp ==0.1.0",
-                     "name": "htmp",
-                     "version": "==0.1.0"
-                  }
-               },
-               "jinja2": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "jinja2 ==3.1.6",
-                     "name": "jinja2",
-                     "version": "==3.1.6"
-                  }
-               },
-               "jsonpath-ng": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "jsonpath-ng ==1.7.0",
-                     "name": "jsonpath-ng",
-                     "version": "==1.7.0"
-                  }
-               },
-               "jsonschema": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "jsonschema ==4.23.0",
-                     "name": "jsonschema",
-                     "version": "==4.23.0"
-                  }
-               },
-               "jsonschemata": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "jsonschemata ==0.1.0",
-                     "name": "jsonschemata",
-                     "version": "==0.1.0"
-                  }
-               },
-               "licenseman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "licenseman ==0.1.0",
-                     "name": "licenseman",
-                     "version": "==0.1.0"
-                  }
-               },
-               "loggerman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "loggerman ==0.1.0",
-                     "name": "loggerman",
-                     "version": "==0.1.0"
-                  }
-               },
-               "mdit": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "mdit ==0.1.0",
-                     "name": "mdit",
-                     "version": "==0.1.0"
-                  }
-               },
-               "packaging": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "packaging ==24.2",
-                     "name": "packaging",
-                     "version": "==24.2"
-                  }
-               },
-               "pkgdata": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pkgdata ==0.1.0",
-                     "name": "pkgdata",
-                     "version": "==0.1.0"
-                  }
-               },
-               "pycacheman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pycacheman ==0.1.1",
-                     "name": "pycacheman",
-                     "version": "==0.1.1"
-                  }
-               },
-               "pycolorit": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pycolorit ==0.1.1",
-                     "name": "pycolorit",
-                     "version": "==0.1.1"
-                  }
-               },
-               "pylinks": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pylinks ==0.1.0",
-                     "name": "pylinks",
-                     "version": "==0.1.0"
-                  }
-               },
-               "pyserials": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pyserials ==0.1.0",
-                     "name": "pyserials",
-                     "version": "==0.1.0"
-                  }
-               },
-               "pyshellman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pyshellman ==0.1.0",
-                     "name": "pyshellman",
-                     "version": "==0.1.0"
-                  }
-               },
-               "pysyntax": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "pysyntax ==0.1.0",
-                     "name": "pysyntax",
-                     "version": "==0.1.0"
-                  }
-               },
-               "referencing": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "referencing ==0.36.2",
-                     "name": "referencing",
-                     "version": "==0.36.2"
-                  }
-               },
-               "rich": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "rich ==13.9.4",
-                     "name": "rich",
-                     "version": "==13.9.4"
-                  }
-               },
-               "ruamel.yaml": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "ruamel.yaml ==0.18.10",
-                     "name": "ruamel.yaml",
-                     "version": "==0.18.10"
-                  }
-               },
-               "trove-classifiers": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "trove-classifiers >=2025.3.13.13",
-                     "name": "trove-classifiers",
-                     "version": ">=2025.3.13.13"
-                  }
-               },
-               "versionman": {
-                  "name": "${{ .__key__ }}$",
-                  "spec": {
-                     "full": "versionman ==0.1.1",
-                     "name": "versionman",
-                     "version": "==0.1.1"
-                  }
-               }
-            },
-            "task": {
-               "project": {
-                  "alias": "project",
-                  "name": "Project Management",
-                  "process": [
-                     "proman",
-                     "$@"
-                  ],
-                  "summary": "Main project management CLI."
-               }
-            }
-         },
          "type_check": {
             "data": {
                "cache_path": ".local/cache/mypy",
@@ -5542,6 +5270,16 @@
             "name": "Build Open-Journals Paper",
             "notes": "This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.\nSee the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)\nfor more details.\n",
             "script": "docker exec -it openjournals \\\n  inara -o pdf -p -v $1\n"
+         },
+         "project": {
+            "alias": "project",
+            "name": "Project Management",
+            "process": [
+               "proman",
+               "proman",
+               "$@"
+            ],
+            "summary": "Main project management CLI."
          }
       }
    },
@@ -17776,7 +17514,6 @@
             "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
             "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
             "pylint": ".devcontainer/environment/conda/pylint.yaml",
-            "pypackit": ".devcontainer/environment/conda/pypackit.yaml",
             "type_check": ".devcontainer/environment/conda/type_check.yaml",
             "versioning": ".devcontainer/environment/conda/versioning.yaml",
             "website": ".devcontainer/container-docs/environment/conda/website.yaml"

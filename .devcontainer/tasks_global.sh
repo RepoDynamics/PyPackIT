@@ -1,3 +1,7 @@
+project() {
+    conda run --live-stream -vv --name proman proman "$@"
+}
+
 build-oj-paper() {
     docker exec -it openjournals \
       inara -o pdf -p -v $1
@@ -11,8 +15,4 @@ jupyterlab() {
     conda activate 'jupyter'
     jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
     conda deactivate
-}
-
-project() {
-    conda run --name pypackit --live-stream -vv proman "$@"
 }
