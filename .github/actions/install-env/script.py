@@ -90,7 +90,7 @@ def main(
             out_list["post_commands"].append(shlex.join(self_installation_cmd))
             filepaths = install_script.write_files(
                 files,
-                output_dir=out_list["temp_dirpath"],
+                output_dir=out_str["temp_dirpath"],
                 filename_suffix=conda_env_name,
             )
             if "conda" in filepaths:
