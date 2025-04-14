@@ -238,14 +238,20 @@ class ControlCenterManager:
         """Apply changes to dynamic repository files."""
         generated_files = self.generate_files()
         self._compare_dirs()
+        logs = {}
         for dir_path, dir_path_before, status in self._dirs_to_apply:
             dir_path_abs = self._path_root / dir_path if dir_path else None
             dir_path_before_abs = self._path_root / dir_path_before if dir_path_before else None
             if status is DynamicFileChangeType.REMOVED:
+                logs.setdefault(f"{status.value.title} Directories", []).append(dir_path_before_abs)
                 _shutil.rmtree(dir_path_before_abs)
             elif status is DynamicFileChangeType.MOVED:
+                logs.setdefault(f"{status.value.title} Directories", []).append(
+                    f"{dir_path_before_abs} -> {dir_path_abs}"
+                )
                 _shutil.move(dir_path_before_abs, dir_path_abs)
             elif status is DynamicFileChangeType.ADDED:
+                logs.setdefault(f"{status.value.title} Directories", []).append(dir_path_abs)
                 dir_path_abs.mkdir(parents=True, exist_ok=True)
         for generated_file in generated_files:
             filepath_abs = self._path_root / generated_file.path if generated_file.path else None
@@ -257,6 +263,9 @@ class ControlCenterManager:
                 DynamicFileChangeType.MOVED,
                 DynamicFileChangeType.MOVED_MODIFIED,
             ):
+                logs.setdefault(f"{generated_file.change.value.title} Files", []).append(
+                    filepath_before_abs
+                )
                 filepath_before_abs.unlink(missing_ok=True)
             if generated_file.change in (
                 DynamicFileChangeType.ADDED,
@@ -264,6 +273,11 @@ class ControlCenterManager:
                 DynamicFileChangeType.MOVED_MODIFIED,
                 DynamicFileChangeType.MOVED,
             ):
+                logs.setdefault(f"{generated_file.change.value.title} Files", []).append(
+                    f"{filepath_before_abs} -> {filepath_abs}"
+                    if generated_file.change in (DynamicFileChangeType.MOVED_MODIFIED, DynamicFileChangeType.MOVED)
+                    else filepath_abs
+                )
                 filepath_abs.parent.mkdir(parents=True, exist_ok=True)
                 with open(filepath_abs, "w") as f:
                     f.write(f"{generated_file.content.strip()}\n")
@@ -272,6 +286,12 @@ class ControlCenterManager:
                         filepath_abs.stat().st_mode | _stat.S_IXUSR | _stat.S_IXGRP | _stat.S_IXOTH
                     )
         self._apply_duplicates()
+        log_lines = []
+        for title, files in sorted(logs.items()):
+            log_lines.extend([title, "-" * len(title)])
+            for file in sorted(files):
+                log_lines.append(f"- {file}")
+        _logger.info("Applied Changes", "\n".join(log_lines))
         return
 
     def _apply_duplicates(self):
