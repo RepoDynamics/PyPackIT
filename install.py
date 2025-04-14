@@ -238,6 +238,8 @@ def write_files(  # noqa: PLR0913
     output_dir: str | _Path,
     *,
     overwrite: bool = False,
+    filename_prefix: str = "",
+    filename_suffix: str = "",
     filename_conda: str = "environment.yml",
     filename_pip: str = "requirements.txt",
     filename_apt: str = "apt.txt",
@@ -250,6 +252,8 @@ def write_files(  # noqa: PLR0913
     """Create environment files for dependencies."""
 
     def _write_file(filename: str, dep_content: str):
+        filename = _Path(filename)
+        full_filename = f"{filename_prefix}{filename.stem}{filename_suffix}{filename.suffix}"
         filepath = output_dir / filename
         out[source] = filepath
         filepath.parent.mkdir(parents=True, exist_ok=True)
