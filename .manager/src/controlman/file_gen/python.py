@@ -390,7 +390,7 @@ class PythonPackageFileGenerator:
     def make_parser(data: dict):
         def add_argument(parser_name, data: dict, parser_dest: dict[str, str]):
             for argument in data.get("arguments", []):
-                lines.append(f"{parser_name}.add_argument({func_sig(argument)})")
+                lines.extend([f"{parser_name}.add_argument(", func_sig(argument), ")"])
                 if "post_process" in argument:
                     if parser_dest:
                         post_process_lines.append(
@@ -415,8 +415,8 @@ class PythonPackageFileGenerator:
                 return
             for group in data["mutually_exclusive"]:
                 group_name = f"{parser_name}_mutually_exclusive_{group['id']}"
-                lines.append(
-                    f"{group_name} = {parser_name}.add_mutually_exclusive_group({func_sig(group)})"
+                lines.extend(
+                    [f"{group_name} = {parser_name}.add_mutually_exclusive_group(", func_sig(group), ")"]
                 )
                 add_argument(group_name, group, parser_dest)
             return
@@ -428,15 +428,17 @@ class PythonPackageFileGenerator:
             lines.extend(
                 [
                     f"# Sub-parsers for {parser_name}",
-                    f"{subparser_gen_name} = {parser_name}.add_subparsers({func_sig(data['subparser'])})",
+                    f"{subparser_gen_name} = {parser_name}.add_subparsers(",
+                    func_sig(data['subparser']),
+                    ")",
                 ]
             )
             dest_key = data["subparser"]["kwargs"]["dest"]
             for subparser in data["subparser"]["parsers"]:
                 new_parser_dest = parser_dest | {dest_key: subparser["args"][0]}
                 subparser_name = f"subparser_{subparser['id']}"
-                lines.append(
-                    f"{subparser_name} = {subparser_gen_name}.add_parser({func_sig(subparser)})"
+                lines.extend(
+                    [f"{subparser_name} = {subparser_gen_name}.add_parser(", func_sig(subparser), ")"]
                 )
                 add_argument(subparser_name, subparser, new_parser_dest)
                 add_mutually_exclusive(subparser_name, subparser, new_parser_dest)
@@ -445,19 +447,18 @@ class PythonPackageFileGenerator:
             return
 
         def func_sig(data: dict) -> str:
-            return ", ".join(
-                [f'"{arg}"' for arg in data.get("args", [])]
-                + [
-                    f"{key}={value}"
-                    if not isinstance(value, str)
-                    or key in ("type", "required", "choices")
-                    or (key == "nargs" and value.startswith("argparse"))
-                    else f'{key}=f"{value}"'
-                    for key, value in data.get("kwargs", {}).items()
-                ]
-            )
+            indent = " " * 4
+            lines = [f'"{arg}"' for arg in data.get("args", [])] + [
+                f"{key}={value}"
+                if not isinstance(value, str)
+                or key in ("type", "required", "choices")
+                or (key == "nargs" and value.startswith("argparse"))
+                else f'{key}=f"{value}"'
+                for key, value in data.get("kwargs", {}).items()
+            ]
+            return f"{",\n".join([f"{indent}{line}" for line in lines])},"
 
-        lines = [f"parser = argparse.ArgumentParser({func_sig(data)})"]
+        lines = ["parser = argparse.ArgumentParser(", func_sig(data), ")"]
         post_process_lines = ["# Process inputs", "args = parser.parse_args()"]
         add_argument("parser", data, {})
         add_mutually_exclusive("parser", data, {})
