@@ -49,7 +49,7 @@ def main(
 
     for local_dir in ["cache", "temp", "report"]:
         local_dirpath = repo_path / metadata["local"][local_dir]["path"]
-        out_list[f"{local_dir}_dirpath"] = str(local_dirpath)
+        out_str[f"{local_dir}_dirpath"] = str(local_dirpath)
         local_dirpath.mkdir(parents=True, exist_ok=True)
 
     for top_key, top_value in metadata.items():
