@@ -1,13 +1,88 @@
 {
-   "containerUser": "dev",
+   "containerUser": "pypackit-dev",
    "customizations": {
       "vscode": {
          "extensions": [
             "James-Yu.latex-workshop",
-            "ExecutableBookProject.myst-highlight"
+            "ExecutableBookProject.myst-highlight",
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "ms-python.debugpy",
+            "ms-toolsai.jupyter",
+            "ms-toolsai.jupyter-keymap",
+            "ms-toolsai.jupyter-renderers",
+            "ms-vscode.cpptools",
+            "ritwickdey.LiveServer",
+            "VisualStudioExptTeam.vscodeintellicode",
+            "ms-toolsai.vscode-jupyter-cell-tags",
+            "ms-toolsai.vscode-jupyter-slideshow",
+            "twxs.cmake",
+            "ms-vscode.cmake-tools",
+            "redhat.java",
+            "ms-azuretools.vscode-docker",
+            "dbaeumer.vscode-eslint",
+            "eamodio.gitlens",
+            "ms-vscode.cpptools-extension-pack",
+            "VisualStudioExptTeam.intellicode-api-usage-examples",
+            "formulahendry.code-runner",
+            "GitHub.copilot",
+            "GitHub.copilot-chat",
+            "GitHub.vscode-pull-request-github",
+            "ms-vscode-remote.remote-ssh-edit",
+            "ecmel.vscode-html-css",
+            "formulahendry.auto-rename-tag",
+            "redhat.vscode-yaml",
+            "MS-vsliveshare.vsliveshare",
+            "xabikos.JavaScriptSnippets",
+            "ms-vscode.remote-explorer",
+            "christian-kohler.path-intellisense",
+            "golang.Go",
+            "formulahendry.auto-close-tag",
+            "bmewburn.vscode-intelephense-client",
+            "streetsidesoftware.code-spell-checker",
+            "donjayamanne.githistory",
+            "KevinRose.vsc-python-indent",
+            "njpwerner.autodocstring",
+            "wholroyd.jinja",
+            "jeff-hykin.better-cpp-syntax",
+            "mechatroner.rainbow-csv",
+            "techer.open-in-browser",
+            "mhutchie.git-graph",
+            "yzhang.markdown-all-in-one",
+            "Zignd.html-css-class-completion",
+            "DavidAnson.vscode-markdownlint",
+            "aaron-bond.better-comments",
+            "naumovs.color-highlight",
+            "redhat.vscode-xml",
+            "tomoki1207.pdf",
+            "pranaygp.vscode-css-peek",
+            "shd101wyy.markdown-preview-enhanced",
+            "ms-vscode.makefile-tools",
+            "GitHub.codespaces",
+            "rust-lang.rust-analyzer",
+            "GitHub.remotehub",
+            "ms-vscode.remote-repositories",
+            "GitHub.vscode-github-actions",
+            "thekalinga.bootstrap4-vscode",
+            "ziyasal.vscode-open-in-github",
+            "ZainChen.json",
+            "kisstkondoros.vscode-gutter-preview",
+            "tamasfe.even-better-toml",
+            "shardulm94.trailing-spaces",
+            "quicktype.quicktype",
+            "yzane.markdown-pdf",
+            "bierner.markdown-mermaid",
+            "GraphQL.vscode-graphql",
+            "ms-python.pylint",
+            "bierner.github-markdown-preview",
+            "jock.svg",
+            "charliermarsh.ruff",
+            "ms-python.mypy-type-checker",
+            "graphql.vscode-graphql-syntax"
          ],
          "settings": {
-            "terminal.integrated.scrollback": 100000
+            "python.defaultInterpreterPath": "/opt/conda/envs/website/bin/python",
+            "terminal.integrated.scrollback": 1000000
          }
       }
    },
@@ -19,24 +94,62 @@
       "../features/pkg_setup": {
          "packages": "{\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
       },
-      "ghcr.io/devcontainers/features/common-utils:2": {},
+      "../features/setup-user": {},
+      "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
+         "packages": ""
+      },
+      "ghcr.io/devcontainers/features/common-utils:2": {
+         "configureZshAsDefaultShell": true,
+         "installOhMyZsh": true,
+         "installOhMyZshConfig": true,
+         "installZsh": true,
+         "upgradePackages": true,
+         "userGid": "1000",
+         "userUid": "1000",
+         "username": "pypackit-dev"
+      },
       "ghcr.io/devcontainers/features/conda:1": {
          "addCondaForge": true,
          "version": "latest"
       },
-      "ghcr.io/devcontainers/features/git:1": {}
+      "ghcr.io/devcontainers/features/git-lfs:1": {
+         "autoPull": true,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/git:1": {
+         "ppa": false,
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/github-cli:1": {
+         "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/node:1": {
+         "installYarnUsingApt": true,
+         "nodeGypDependencies": true,
+         "nvmInstallPath": "/usr/local/share/nvm",
+         "nvmVersion": "latest",
+         "pnpmVersion": "latest",
+         "version": "latest"
+      }
    },
    "name": "Documentation Environment",
+   "overrideFeatureInstallOrder": [
+      "ghcr.io/devcontainers/features/common-utils",
+      "ghcr.io/devcontainers/features/git",
+      "ghcr.io/devcontainers/features/node",
+      "ghcr.io/devcontainers/features/conda",
+      "ghcr.io/devcontainers/features/git-lfs",
+      "ghcr.io/devcontainers/features/github-cli",
+      "./features/setup-user",
+      "ghcr.io/devcontainers-extra/features/apt-get-packages",
+      "./features/conda_setup",
+      "./features/pkg_setup"
+   ],
    "postCreateCommand": {
-      "install_devcontainers_cli": [
-         "npm",
-         "install",
-         "-g",
-         "@devcontainers/cli"
-      ],
-      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
+      "activate_conda_env": "echo 'conda activate website' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile",
+      "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile"
    },
-   "remoteUser": "dev",
+   "remoteUser": "pypackit-dev",
    "service": "docs",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"

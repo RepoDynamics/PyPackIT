@@ -1,5 +1,5 @@
 {
-   "containerUser": "codespace",
+   "containerUser": "pypackit-dev",
    "customizations": {
       "vscode": {
          "extensions": [
@@ -163,7 +163,7 @@
          "upgradePackages": true,
          "userGid": "1000",
          "userUid": "1000",
-         "username": "codespace"
+         "username": "pypackit-dev"
       },
       "ghcr.io/devcontainers/features/conda:1": {
          "addCondaForge": true,
@@ -253,6 +253,7 @@
       }
    },
    "postCreateCommand": {
+      "activate_conda_env": "echo 'conda activate app' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile",
       "install_devcontainers_cli": [
          "npm",
          "install",
@@ -272,12 +273,12 @@
          "--config",
          ".config/pre-commit.yaml"
       ],
-      "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
+      "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile"
    },
    "remoteEnv": {
       "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
    },
-   "remoteUser": "codespace",
+   "remoteUser": "pypackit-dev",
    "service": "main",
    "shutdownAction": "none",
    "workspaceFolder": "/workspace"

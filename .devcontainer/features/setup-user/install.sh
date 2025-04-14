@@ -22,6 +22,25 @@ link_if_exists() {
     fi
 }
 
+get_debian_flavor() {
+    local codename=""
+
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        codename="${VERSION_CODENAME:-}"
+    fi
+
+    # Fallback to lsb_release if codename is still empty
+    if [ -z "$codename" ] && command -v lsb_release >/dev/null 2>&1; then
+        codename="$(lsb_release -c -s)"
+    fi
+
+    # Final fallback
+    codename="${codename:-unknown}"
+
+    echo "$codename"
+}
+
 # Redirect stdout and stderr to a file
 echo "Creating log directory..."
 mkdir -p "$LOG_DIRPATH"
@@ -56,19 +75,21 @@ elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
     USERNAME=root
 fi
 
+# Set common variables.
+HOME_DIR="/home/${USERNAME}"
+OPT_DIR="/opt"
+DEBIAN_FLAVOR="$(get_debian_flavor)"
+
 # Enable the oryx tool to generate manifest-dir which is needed for running the postcreate tool.
 # Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.
 ORYX_DIR="/opt/oryx"
-DEBIAN_FLAVOR="focal-scm"
 mkdir -p "$ORYX_DIR"
 echo "vso-focal" > "$ORYX_DIR/.imagetype"
-echo "DEBIAN|${DEBIAN_FLAVOR}" | tr '[a-z]' '[A-Z]' > "$ORYX_DIR/.ostype"
+echo "DEBIAN|${DEBIAN_FLAVOR}-SCM" | tr '[a-z]' '[A-Z]' > "$ORYX_DIR/.ostype"
 if compgen -G "/usr/local/oryx/*" > /dev/null; then
     ln -snf /usr/local/oryx/* "$ORYX_DIR"
 fi
 
-HOME_DIR="/home/${USERNAME}"
-OPT_DIR="/opt"
 # Tool links
 DOTNET_PATH="${HOME_DIR}/.dotnet"
 HUGO_PATH="${HOME_DIR}/.hugo/current"

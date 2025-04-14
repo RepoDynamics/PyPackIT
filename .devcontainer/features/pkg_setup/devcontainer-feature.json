@@ -7,8 +7,8 @@
    ],
    "name": "Package Setup",
    "options": {
-      "log_dir": {
-         "default": "/var/log/conda_setup",
+      "log_dirpath": {
+         "default": "/var/log/devcontainer-build/pkg_setup",
          "description": "Absolute path to a directory to write log files.",
          "type": "string"
       },

@@ -2917,15 +2917,90 @@
    },
    "devcontainer_docs": {
       "container": {
-         "containerUser": "dev",
+         "containerUser": "pypackit-dev",
          "customizations": {
             "vscode": {
                "extensions": [
                   "James-Yu.latex-workshop",
-                  "ExecutableBookProject.myst-highlight"
+                  "ExecutableBookProject.myst-highlight",
+                  "ms-python.python",
+                  "ms-python.vscode-pylance",
+                  "ms-python.debugpy",
+                  "ms-toolsai.jupyter",
+                  "ms-toolsai.jupyter-keymap",
+                  "ms-toolsai.jupyter-renderers",
+                  "ms-vscode.cpptools",
+                  "ritwickdey.LiveServer",
+                  "VisualStudioExptTeam.vscodeintellicode",
+                  "ms-toolsai.vscode-jupyter-cell-tags",
+                  "ms-toolsai.vscode-jupyter-slideshow",
+                  "twxs.cmake",
+                  "ms-vscode.cmake-tools",
+                  "redhat.java",
+                  "ms-azuretools.vscode-docker",
+                  "dbaeumer.vscode-eslint",
+                  "eamodio.gitlens",
+                  "ms-vscode.cpptools-extension-pack",
+                  "VisualStudioExptTeam.intellicode-api-usage-examples",
+                  "formulahendry.code-runner",
+                  "GitHub.copilot",
+                  "GitHub.copilot-chat",
+                  "GitHub.vscode-pull-request-github",
+                  "ms-vscode-remote.remote-ssh-edit",
+                  "ecmel.vscode-html-css",
+                  "formulahendry.auto-rename-tag",
+                  "redhat.vscode-yaml",
+                  "MS-vsliveshare.vsliveshare",
+                  "xabikos.JavaScriptSnippets",
+                  "ms-vscode.remote-explorer",
+                  "christian-kohler.path-intellisense",
+                  "golang.Go",
+                  "formulahendry.auto-close-tag",
+                  "bmewburn.vscode-intelephense-client",
+                  "streetsidesoftware.code-spell-checker",
+                  "donjayamanne.githistory",
+                  "KevinRose.vsc-python-indent",
+                  "njpwerner.autodocstring",
+                  "wholroyd.jinja",
+                  "jeff-hykin.better-cpp-syntax",
+                  "mechatroner.rainbow-csv",
+                  "techer.open-in-browser",
+                  "mhutchie.git-graph",
+                  "yzhang.markdown-all-in-one",
+                  "Zignd.html-css-class-completion",
+                  "DavidAnson.vscode-markdownlint",
+                  "aaron-bond.better-comments",
+                  "naumovs.color-highlight",
+                  "redhat.vscode-xml",
+                  "tomoki1207.pdf",
+                  "pranaygp.vscode-css-peek",
+                  "shd101wyy.markdown-preview-enhanced",
+                  "ms-vscode.makefile-tools",
+                  "GitHub.codespaces",
+                  "rust-lang.rust-analyzer",
+                  "GitHub.remotehub",
+                  "ms-vscode.remote-repositories",
+                  "GitHub.vscode-github-actions",
+                  "thekalinga.bootstrap4-vscode",
+                  "ziyasal.vscode-open-in-github",
+                  "ZainChen.json",
+                  "kisstkondoros.vscode-gutter-preview",
+                  "tamasfe.even-better-toml",
+                  "shardulm94.trailing-spaces",
+                  "quicktype.quicktype",
+                  "yzane.markdown-pdf",
+                  "bierner.markdown-mermaid",
+                  "GraphQL.vscode-graphql",
+                  "ms-python.pylint",
+                  "bierner.github-markdown-preview",
+                  "jock.svg",
+                  "charliermarsh.ruff",
+                  "ms-python.mypy-type-checker",
+                  "graphql.vscode-graphql-syntax"
                ],
                "settings": {
-                  "terminal.integrated.scrollback": 100000
+                  "python.defaultInterpreterPath": "/opt/conda/envs/website/bin/python",
+                  "terminal.integrated.scrollback": 1000000
                }
             }
          },
@@ -2937,31 +3012,71 @@
             "../features/pkg_setup": {
                "packages": "{\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
             },
-            "ghcr.io/devcontainers/features/common-utils:2": {},
+            "../features/setup-user": {},
+            "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
+               "packages": ""
+            },
+            "ghcr.io/devcontainers/features/common-utils:2": {
+               "configureZshAsDefaultShell": true,
+               "installOhMyZsh": true,
+               "installOhMyZshConfig": true,
+               "installZsh": true,
+               "upgradePackages": true,
+               "userGid": "1000",
+               "userUid": "1000",
+               "username": "pypackit-dev"
+            },
             "ghcr.io/devcontainers/features/conda:1": {
                "addCondaForge": true,
                "version": "latest"
             },
-            "ghcr.io/devcontainers/features/git:1": {}
+            "ghcr.io/devcontainers/features/git-lfs:1": {
+               "autoPull": true,
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/git:1": {
+               "ppa": false,
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/github-cli:1": {
+               "version": "latest"
+            },
+            "ghcr.io/devcontainers/features/node:1": {
+               "installYarnUsingApt": true,
+               "nodeGypDependencies": true,
+               "nvmInstallPath": "/usr/local/share/nvm",
+               "nvmVersion": "latest",
+               "pnpmVersion": "latest",
+               "version": "latest"
+            }
          },
          "name": "Documentation Environment",
+         "overrideFeatureInstallOrder": [
+            "ghcr.io/devcontainers/features/common-utils",
+            "ghcr.io/devcontainers/features/git",
+            "ghcr.io/devcontainers/features/node",
+            "ghcr.io/devcontainers/features/conda",
+            "ghcr.io/devcontainers/features/git-lfs",
+            "ghcr.io/devcontainers/features/github-cli",
+            "./features/setup-user",
+            "ghcr.io/devcontainers-extra/features/apt-get-packages",
+            "./features/conda_setup",
+            "./features/pkg_setup"
+         ],
          "postCreateCommand": {
-            "install_devcontainers_cli": [
-               "npm",
-               "install",
-               "-g",
-               "@devcontainers/cli"
-            ],
-            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
+            "activate_conda_env": "echo 'conda activate website' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile",
+            "source_tasks": "echo 'source /workspace/.devcontainer/container-docs/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile"
          },
-         "remoteUser": "dev",
+         "remoteUser": "pypackit-dev",
          "service": "docs",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
       },
       "dockerfile": [
          "FROM texlive/texlive:latest",
-         "COPY .devcontainer/container-docs/environment /usr/local/share/environments/"
+         "RUN if id \"ubuntu\" &>/dev/null; then \\\n        echo \"Deleting user 'ubuntu'\" && userdel -f -r ubuntu || echo \"Failed to delete ubuntu user.\"; \\\n    else \\\n        echo \"User 'ubuntu' does not exist.\"; \\\n    fi\n",
+         "COPY .devcontainer/container-docs/environment /usr/local/share/environments/",
+         "COPY install.py /usr/local/share/app_installation/install.py\nCOPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json\n"
       ],
       "environment": {
          "website": {
@@ -3759,7 +3874,7 @@
    },
    "devcontainer_main": {
       "container": {
-         "containerUser": "codespace",
+         "containerUser": "pypackit-dev",
          "customizations": {
             "vscode": {
                "extensions": [
@@ -3923,7 +4038,7 @@
                "upgradePackages": true,
                "userGid": "1000",
                "userUid": "1000",
-               "username": "codespace"
+               "username": "pypackit-dev"
             },
             "ghcr.io/devcontainers/features/conda:1": {
                "addCondaForge": true,
@@ -4013,6 +4128,7 @@
             }
          },
          "postCreateCommand": {
+            "activate_conda_env": "echo 'conda activate app' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile",
             "install_devcontainers_cli": [
                "npm",
                "install",
@@ -4032,12 +4148,12 @@
                "--config",
                ".config/pre-commit.yaml"
             ],
-            "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile"
+            "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile"
          },
          "remoteEnv": {
             "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
          },
-         "remoteUser": "codespace",
+         "remoteUser": "pypackit-dev",
          "service": "main",
          "shutdownAction": "none",
          "workspaceFolder": "/workspace"
@@ -5251,16 +5367,16 @@
                "description": "Absolute path to the directory containing conda environment files.",
                "type": "string"
             },
-            "log_dir": {
-               "default": "/var/log/conda_setup",
+            "log_dirpath": {
+               "default": "/var/log/devcontainer-build/conda_setup",
                "description": "Absolute path to a directory to write log files.",
                "type": "string"
             }
          },
-         "postCreateCommand": "echo \"Initializing conda...\" && conda init; echo \"Removing existing Conda channels...\" && config --remove-key channels 2>/dev/null || true; echo \"Adding conda-forge as the only channel...\" && conda config --add channels conda-forge && echo \"Setting strict channel priority...\" && conda config --set channel_priority strict; echo \"Verifying channels...\" && conda config --show channels;",
+         "postCreateCommand": "echo \"Initializing conda...\" && conda init --all; echo \"Removing existing Conda channels...\" && config --remove-key channels 2>/dev/null || true; echo \"Adding conda-forge as the only channel...\" && conda config --add channels conda-forge && echo \"Setting strict channel priority...\" && conda config --set channel_priority strict; echo \"Verifying channels...\" && conda config --show channels;",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -eux\necho \"Initializing conda...\"\nconda init\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\necho \"Verifying channels...\"\nconda config --show channels\necho \"Updating conda...\"\nconda update -n base --all -y\necho \"Creating log directory...\"\nmkdir -p $LOG_DIR\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIR/$(basename \"$file\").log\";\n    done;\nfi\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nLOG_FILE=\"${LOG_DIRPATH}/install.log\"\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\necho \"Initializing conda...\"\nconda init\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\necho \"Updating conda...\"\nconda update -n base --all -y\n\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIRPATH/env_$(basename \"$file\").log\";\n    done;\nfi\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/conda_setup"
    },
    "devfeature_pixi": {
@@ -5299,8 +5415,8 @@
          ],
          "name": "Package Setup",
          "options": {
-            "log_dir": {
-               "default": "/var/log/conda_setup",
+            "log_dirpath": {
+               "default": "/var/log/devcontainer-build/pkg_setup",
                "description": "Absolute path to a directory to write log files.",
                "type": "string"
             },
@@ -5323,7 +5439,7 @@
          "postStartCommand": "/usr/local/share/app_installation/post-start-command.sh",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIR\"\nLOG_FILE=\"${LOG_DIR}/install.log\"\n# Redirect stdout and stderr to a file\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\n# Create postStartCommand script\nPOST_START_SCRIPT_DIRPATH=\"/usr/local/share/app_installation\"\nPOST_START_SCRIPT_FILEPATH=\"${POST_START_SCRIPT_DIRPATH}/post-start-command.sh\"\nmkdir -p \"$POST_START_SCRIPT_DIRPATH\"\n{\n  echo '#!/usr/bin/env bash'\n  echo 'set -euxo pipefail'\n} > \"$POST_START_SCRIPT_FILEPATH\"\nchmod +x \"$POST_START_SCRIPT_FILEPATH\"\n\necho \"Initializing conda...\"\nconda init\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\nif ! echo \"$PACKAGES\" | jq empty; then\n    echo \"Invalid JSON in PACKAGES\"\n    exit 1\nfi\n\nfor conda_env_name in $(echo \"$PACKAGES\" | jq -r 'keys[]'); do\n    value=$(echo \"$PACKAGES\" | jq -c --arg k \"$conda_env_name\" '.[$k]')\n    packages=$(echo \"$value\" | jq -c '.packages')\n\n    # Build the base command\n    cmd=(\n      python \"$SCRIPT_FILEPATH\"\n        --conda-env-name \"$conda_env_name\"\n        --packages \"$packages\"\n        --filepath \"$METADATA_FILEPATH\"\n        --no-self\n    )\n\n    # Optionally add --python-version\n    if echo \"$value\" | jq -e 'has(\"python-version\")' > /dev/null; then\n        python_version=$(echo \"$value\" | jq -r '.[\"python-version\"]')\n        cmd+=(--python-version \"$python_version\")\n    fi\n\n    # Optionally add --sources\n    if echo \"$value\" | jq -e 'has(\"sources\")' > /dev/null; then\n        sources=$(echo \"$value\" | jq -r '.sources')\n        cmd+=(--sources $sources)\n    fi\n\n    # Capture and write command output\n    output=$(\"${cmd[@]}\")\n\n    # Append output to the file\n    while IFS= read -r line; do\n        echo \"$line\" >> \"$POST_START_SCRIPT_FILEPATH\"\n    done <<< \"$output\"\ndone\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nLOG_FILE=\"${LOG_DIRPATH}/install.log\"\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\n# Create postStartCommand script\nPOST_START_SCRIPT_DIRPATH=\"/usr/local/share/app_installation\"\nPOST_START_SCRIPT_FILEPATH=\"${POST_START_SCRIPT_DIRPATH}/post-start-command.sh\"\nmkdir -p \"$POST_START_SCRIPT_DIRPATH\"\n{\n  echo '#!/usr/bin/env bash'\n  echo 'set -euxo pipefail'\n} > \"$POST_START_SCRIPT_FILEPATH\"\nchmod +x \"$POST_START_SCRIPT_FILEPATH\"\n\necho \"Initializing conda...\"\nconda init\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\nif ! echo \"$PACKAGES\" | jq empty; then\n    echo \"Invalid JSON in PACKAGES\"\n    exit 1\nfi\n\nfor conda_env_name in $(echo \"$PACKAGES\" | jq -r 'keys[]'); do\n    value=$(echo \"$PACKAGES\" | jq -c --arg k \"$conda_env_name\" '.[$k]')\n    packages=$(echo \"$value\" | jq -c '.packages')\n\n    # Build the base command\n    cmd=(\n      python \"$SCRIPT_FILEPATH\"\n        --conda-env-name \"$conda_env_name\"\n        --packages \"$packages\"\n        --filepath \"$METADATA_FILEPATH\"\n        --no-self\n    )\n\n    # Optionally add --python-version\n    if echo \"$value\" | jq -e 'has(\"python-version\")' > /dev/null; then\n        python_version=$(echo \"$value\" | jq -r '.[\"python-version\"]')\n        cmd+=(--python-version \"$python_version\")\n    fi\n\n    # Optionally add --sources\n    if echo \"$value\" | jq -e 'has(\"sources\")' > /dev/null; then\n        sources=$(echo \"$value\" | jq -r '.sources')\n        cmd+=(--sources $sources)\n    fi\n\n    # Capture and write command output\n    output=$(\"${cmd[@]}\")\n\n    # Append output to the file\n    while IFS= read -r line; do\n        echo \"$line\" >> \"$POST_START_SCRIPT_FILEPATH\"\n    done <<< \"$output\"\ndone\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/pkg_setup"
    },
    "devfeature_user_setup": {
@@ -5351,9 +5467,16 @@
          },
          "id": "setup-user",
          "name": "Setup user configs",
+         "options": {
+            "log_dirpath": {
+               "default": "/var/log/devcontainer-build/user_setup",
+               "description": "Absolute path to a directory to write log files.",
+               "type": "string"
+            }
+         },
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\n\nUSERNAME=${USERNAME:-\"codespace\"}\n\nset -eux\n\nif [ \"$(id -u)\" -ne 0 ]; then\n    echo -e 'Script must be run as root. Use sudo, su, or add \"USER root\" to your Dockerfile before running this script.'\n    exit 1\nfi\n\n# Ensure that login shells get the correct path if the user updated the PATH using ENV.\nrm -f /etc/profile.d/00-restore-env.sh\necho \"export PATH=${PATH//$(sh -lc 'echo $PATH')/\\$PATH}\" > /etc/profile.d/00-restore-env.sh\nchmod +x /etc/profile.d/00-restore-env.sh\n\nexport DEBIAN_FRONTEND=noninteractive\n\nsudo_if() {\n    COMMAND=\"$*\"\n    if [ \"$(id -u)\" -eq 0 ] && [ \"$USERNAME\" != \"root\" ]; then\n        su - \"$USERNAME\" -c \"$COMMAND\"\n    else\n        \"$COMMAND\"\n    fi\n}\n\n# Enables the oryx tool to generate manifest-dir which is needed for running the postcreate tool\nDEBIAN_FLAVOR=\"focal-scm\"\nmkdir -p /opt/oryx && echo \"vso-focal\" > /opt/oryx/.imagetype\necho \"DEBIAN|${DEBIAN_FLAVOR}\" | tr '[a-z]' '[A-Z]' > /opt/oryx/.ostype\n\n# Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.\nln -snf /usr/local/oryx/* /opt/oryx\n\n# For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.\n# This ensures that whatever platfornm versions oryx detects and installs are set as root.\nNODE_PATH=\"/home/codespace/nvm/current\"\nln -snf /usr/local/share/nvm /home/codespace\n\nPHP_PATH=\"/home/${USERNAME}/.php/current\"\nmkdir -p /home/${USERNAME}/.php\nln -snf /usr/local/php/current $PHP_PATH\n\nPYTHON_PATH=\"/home/${USERNAME}/.python/current\"\nmkdir -p /home/${USERNAME}/.python\nln -snf /usr/local/python/current $PYTHON_PATH\nln -snf /usr/local/python /opt/python\n\nJAVA_PATH=\"/home/codespace/java/current\"\nln -snf /usr/local/sdkman/candidates/java /home/codespace\n\nRUBY_PATH=\"/home/${USERNAME}/.ruby/current\"\nmkdir -p /home/${USERNAME}/.ruby\nln -snf /usr/local/rvm/rubies/default $RUBY_PATH\n\nDOTNET_PATH=\"/home/${USERNAME}/.dotnet\"\n\n# Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825\nchown -R \"${USERNAME}:${USERNAME}\" /usr/share/dotnet\nchmod g+r+w+s /usr/share/dotnet\nchmod -R g+r+w /usr/share/dotnet\n\nln -snf /usr/share/dotnet $DOTNET_PATH\nmkdir -p /opt/dotnet/lts\ncp -R /usr/share/dotnet/dotnet /opt/dotnet/lts\ncp -R /usr/share/dotnet/LICENSE.txt /opt/dotnet/lts\ncp -R /usr/share/dotnet/ThirdPartyNotices.txt /opt/dotnet/lts\n\nMAVEN_PATH=\"/home/${USERNAME}/.maven/current\"\nmkdir -p /home/${USERNAME}/.maven\nln -snf /usr/local/sdkman/candidates/maven/current $MAVEN_PATH\n\nHUGO_ROOT=\"/home/${USERNAME}/.hugo/current\"\nmkdir -p /home/${USERNAME}/.hugo\nln -snf /usr/local/hugo $HUGO_ROOT\n\nHOME_DIR=\"/home/${USERNAME}/\"\nchown -R ${USERNAME}:${USERNAME} ${HOME_DIR}\nchmod -R g+r+w \"${HOME_DIR}\"\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s\n\nOPT_DIR=\"/opt/\"\nchown -R ${USERNAME}:oryx ${OPT_DIR}\nchmod -R g+r+w \"${OPT_DIR}\"\nfind \"${OPT_DIR}\" -type d | xargs -n 1 chmod g+s\n\necho \"Defaults secure_path=\\\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\\\"\" >> /etc/sudoers.d/$USERNAME\n\necho \"Done!\"\n",
+      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\nexport DEBIAN_FRONTEND=noninteractive\n\n# Constants\nLOG_FILE_NAME=\"install.log\"\nSUDOERS_DIR=\"/etc/sudoers.d\"\n\n# Utility: link tool path only if source exists\nlink_if_exists() {\n    local src=\"$1\"\n    local dest=\"$2\"\n    local label=\"$3\"\n\n    if [ -e \"$src\" ]; then\n        mkdir -p \"$(dirname \"$dest\")\"\n        ln -snf \"$src\" \"$dest\"\n        echo \"\u2714\ufe0f Linked $label\"\n    else\n        echo \"\u23e9 Skipped $label (not found: $src)\"\n    fi\n}\n\nget_debian_flavor() {\n    local codename=\"\"\n\n    if [ -f /etc/os-release ]; then\n        . /etc/os-release\n        codename=\"${VERSION_CODENAME:-}\"\n    fi\n\n    # Fallback to lsb_release if codename is still empty\n    if [ -z \"$codename\" ] && command -v lsb_release >/dev/null 2>&1; then\n        codename=\"$(lsb_release -c -s)\"\n    fi\n\n    # Final fallback\n    codename=\"${codename:-unknown}\"\n\n    echo \"$codename\"\n}\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nexec > >(tee -a \"${LOG_DIRPATH}/${LOG_FILE_NAME}\") 2>&1\n\n# Ensure script is run as root\nif [ \"$(id -u)\" -ne 0 ]; then\n    echo -e 'Script must be run as root. Use sudo, su, or add \"USER root\" to your Dockerfile before running this script.'\n    exit 1\nfi\n\n# Ensure login shells get the correct path if ENV was used to modify PATH.\nrm -f /etc/profile.d/00-restore-env.sh\necho \"export PATH=${PATH//$(sh -lc 'echo $PATH')/\\$PATH}\" > /etc/profile.d/00-restore-env.sh\nchmod +x /etc/profile.d/00-restore-env.sh\n\n# Determine the appropriate non-root user\nUSERNAME=\"${USERNAME:-\"${_REMOTE_USER:-\"automatic\"}\"}\"\nif [ \"${USERNAME}\" = \"automatic\" ]; then\n    USERNAME=\"\"\n    POSSIBLE_USERS=(\"vscode\" \"node\" \"codespace\" \"$(awk -v val=1000 -F \":\" '$3==val{print $1}' /etc/passwd)\")\n    for CURRENT_USER in \"${POSSIBLE_USERS[@]}\"; do\n        if id -u ${CURRENT_USER} > /dev/null 2>&1; then\n            USERNAME=${CURRENT_USER}\n            break\n        fi\n    done\n    if [ \"${USERNAME}\" = \"\" ]; then\n        USERNAME=root\n    fi\nelif [ \"${USERNAME}\" = \"none\" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then\n    USERNAME=root\nfi\n\n# Set common variables.\nHOME_DIR=\"/home/${USERNAME}\"\nOPT_DIR=\"/opt\"\nDEBIAN_FLAVOR=\"$(get_debian_flavor)\"\n\n# Enable the oryx tool to generate manifest-dir which is needed for running the postcreate tool.\n# Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.\nORYX_DIR=\"/opt/oryx\"\nmkdir -p \"$ORYX_DIR\"\necho \"vso-focal\" > \"$ORYX_DIR/.imagetype\"\necho \"DEBIAN|${DEBIAN_FLAVOR}-SCM\" | tr '[a-z]' '[A-Z]' > \"$ORYX_DIR/.ostype\"\nif compgen -G \"/usr/local/oryx/*\" > /dev/null; then\n    ln -snf /usr/local/oryx/* \"$ORYX_DIR\"\nfi\n\n# Tool links\nDOTNET_PATH=\"${HOME_DIR}/.dotnet\"\nHUGO_PATH=\"${HOME_DIR}/.hugo/current\"\nJAVA_PATH=\"${HOME_DIR}/java/current\"\nMAVEN_PATH=\"${HOME_DIR}/.maven/current\"\nNODE_PATH=\"${HOME_DIR}/nvm/current\"\nPHP_PATH=\"${HOME_DIR}/.php/current\"\nPYTHON_PATH=\"${HOME_DIR}/.python/current\"\nRUBY_PATH=\"${HOME_DIR}/.ruby/current\"\n\nlink_if_exists \"/usr/share/dotnet\"                          \"$DOTNET_PATH\"    \".NET SDK\"\nlink_if_exists \"/usr/local/hugo\"                            \"$HUGO_PATH\"      \"Hugo\"\nlink_if_exists \"/usr/local/sdkman/candidates/java\"          \"$JAVA_PATH\"      \"Java\"  #CHECK\nlink_if_exists \"/usr/local/sdkman/candidates/maven/current\" \"$MAVEN_PATH\"     \"Maven\"\nlink_if_exists \"/usr/local/share/nvm\"                       \"${HOME_DIR}/nvm\" \"Node.js\" #CHECK\nlink_if_exists \"/usr/local/php/current\"                     \"$PHP_PATH\"       \"PHP\"\nlink_if_exists \"/usr/local/python/current\"                  \"$PYTHON_PATH\"    \"Python\"\nlink_if_exists \"/usr/local/python\"                          \"/opt/python\"     \"Python root\"\nlink_if_exists \"/usr/local/rvm/rubies/default\"              \"$RUBY_PATH\"      \"Ruby\"\n\n# .NET special setup\n# Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825\nif [ -d /usr/share/dotnet ]; then\n    DOTNET_DIR=\"/usr/share/dotnet\"\n    chown -R \"$USERNAME:$USERNAME\" \"$DOTNET_DIR\"\n    chmod g+r+w+s \"$DOTNET_DIR\"\n    chmod -R g+r+w \"$DOTNET_DIR\"\n\n    mkdir -p \"$OPT_DIR/dotnet/lts\"\n    cp -R \"$DOTNET_DIR/{dotnet,LICENSE.txt,ThirdPartyNotices.txt}\" \"$OPT_DIR/dotnet/lts\" || true\nfi\n\n# Fix permissions for home directory.\nchown -R \"$USERNAME:$USERNAME\" \"$HOME_DIR\"\nchmod -R g+r+w \"$HOME_DIR\"\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s\n# Fix permissions for opt directory.\nchown -R \"$USERNAME\":oryx \"$OPT_DIR\"\nchmod -R g+r+w \"$OPT_DIR\"\nfind \"$OPT_DIR\" -type d | xargs -n 1 chmod g+s\n\n# Customize secure_path for sudo\nSECURE_PATH=\"${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:${HOME_DIR}/.local/bin:${PATH}\"\necho \"Defaults secure_path=\\\"$SECURE_PATH\\\"\" >> \"${SUDOERS_DIR}/${USERNAME}\"\n\necho \"\u2705 Dev container user setup complete!\"\n",
       "path": "features/setup-user"
    },
    "discussion": {

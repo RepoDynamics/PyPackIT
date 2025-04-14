@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-echo "Creating log directory..."
-mkdir -p "$LOG_DIR"
-LOG_FILE="${LOG_DIR}/install.log"
 # Redirect stdout and stderr to a file
+echo "Creating log directory..."
+mkdir -p "$LOG_DIRPATH"
+LOG_FILE="${LOG_DIRPATH}/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
 # Create postStartCommand script
