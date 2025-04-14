@@ -41,10 +41,9 @@ default:
             - run
             - --cwd
             - '{{ devcontainer.container.workspaceFolder }}'
-            - --name
-            - base
             - --live-stream
             - -vv
+            - --name
         script:
           prepend: |
             current_dir=$(pwd)
@@ -71,10 +70,9 @@ default:
           prepend:
             - conda
             - run
-            - --name
-            - base
             - --live-stream
             - -vv
+            - --name
 devfeature_pixi:
   # See:
   # - https://github.com/prefix-dev/pixi-docker
@@ -644,19 +642,6 @@ devcontainer_main:
         - --install-hooks
         - --config
         - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
-    postStartCommand:
-      pypackit_install:
-        - conda
-        - run
-        - --name
-        - ${{ devcontainer_main.environment.pypackit.name }}$
-        - --live-stream
-        - -vv
-        - pip
-        - install
-        - --editable
-        - ${{ pypkg_ci.path.root }}$
-        - --no-deps
     customizations:
       vscode:
         extensions:
@@ -1320,41 +1305,14 @@ devcontainer_main:
             docs: https://www.anaconda.com/docs/tools/anaconda-org/user-guide/getting-started-with-anaconda-client
             package: https://anaconda.org/conda-forge/anaconda-client
             source: https://github.com/anaconda/anaconda-client
-    pypackit:
-      task:
-        project:
-          name: Project Management
-          summary: Main project management CLI.
-          process: [ proman, $@ ]
-      conda: |
-        #{{
-          py_ver = get("pypkg_ci.python.version.spec")
-          out = {
-            "python": {
-              "spec": {"version": py_ver, "channel": "conda-forge", "full": f"conda-forge::python {py_ver}"},
-              "url": {"package": "https://anaconda.org/conda-forge/python"},
-            }
-          }
-          for dep_key, dep in get("pypkg_ci.dependency.core", {}).items():
-            install = dep["install"].get("conda")
-            if install:
-              spec = {k: v for k, v in install.items() if k not in ("selector", "homepage", "spec")}
-              spec["full"] = install["spec"]
-              out[dep_key] = {"spec": spec}
-          return out
-        }}#
-      pip: |
-        #{{
-          out = {}
-          for dep_key, dep in get("pypkg_ci.dependency.core", {}).items():
-            install = dep["install"].get("pip")
-            if install:
-              spec = {k: v for k, v in install.items() if k not in ("homepage", "spec")}
-              spec["full"] = install["spec"]
-              out[dep_key] = {"spec": spec}
-          return out
-        }}#
   task:
+    project:
+      name: Project Management
+      summary: Main project management CLI.
+      process:
+        - ${{ __temp__.conda_env_name.manager }}$
+        - proman
+        - $@
     build-oj-paper:
       # https://github.com/openjournals/inara
       name: Build Open-Journals Paper
