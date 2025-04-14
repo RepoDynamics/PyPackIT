@@ -221,7 +221,7 @@ devfeature_conda_setup:
       - ghcr.io/devcontainers/features/conda
     postCreateCommand: >-
       echo "Initializing conda..."
-      && conda init;
+      && conda init --all;
       echo "Removing existing Conda channels..."
       && config --remove-key channels 2>/dev/null || true;
       echo "Adding conda-forge as the only channel..."
