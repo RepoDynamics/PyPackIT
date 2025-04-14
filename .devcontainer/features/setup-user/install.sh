@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+set -euxo pipefail
 
-USERNAME=${USERNAME:-"codespace"}
-
-set -eux
+# Redirect stdout and stderr to a file
+echo "Creating log directory..."
+mkdir -p "$LOG_DIRPATH"
+LOG_FILE="${LOG_DIRPATH}/install.log"
+exec > >(tee -a "$LOG_FILE") 2>&1
 
 if [ "$(id -u)" -ne 0 ]; then
     echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
@@ -13,6 +16,24 @@ fi
 rm -f /etc/profile.d/00-restore-env.sh
 echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
 chmod +x /etc/profile.d/00-restore-env.sh
+
+# Determine the appropriate non-root user
+USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
+if [ "${USERNAME}" = "auto" ] || [ "${USERNAME}" = "automatic" ]; then
+    USERNAME=""
+    POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
+    for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
+        if id -u ${CURRENT_USER} > /dev/null 2>&1; then
+            USERNAME=${CURRENT_USER}
+            break
+        fi
+    done
+    if [ "${USERNAME}" = "" ]; then
+        USERNAME=root
+    fi
+elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
+    USERNAME=root
+fi
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -35,23 +56,23 @@ ln -snf /usr/local/oryx/* /opt/oryx
 
 # For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.
 # This ensures that whatever platfornm versions oryx detects and installs are set as root.
-NODE_PATH="/home/codespace/nvm/current"
-ln -snf /usr/local/share/nvm /home/codespace
+NODE_PATH="/home/${USERNAME}/nvm/current"
+ln -snf /usr/local/share/nvm "/home/${USERNAME}"
 
 PHP_PATH="/home/${USERNAME}/.php/current"
-mkdir -p /home/${USERNAME}/.php
+mkdir -p "/home/${USERNAME}/.php"
 ln -snf /usr/local/php/current $PHP_PATH
 
 PYTHON_PATH="/home/${USERNAME}/.python/current"
-mkdir -p /home/${USERNAME}/.python
+mkdir -p "/home/${USERNAME}/.python"
 ln -snf /usr/local/python/current $PYTHON_PATH
 ln -snf /usr/local/python /opt/python
 
-JAVA_PATH="/home/codespace/java/current"
-ln -snf /usr/local/sdkman/candidates/java /home/codespace
+JAVA_PATH="/home/${USERNAME}/java/current"
+ln -snf /usr/local/sdkman/candidates/java /home/${USERNAME}
 
 RUBY_PATH="/home/${USERNAME}/.ruby/current"
-mkdir -p /home/${USERNAME}/.ruby
+mkdir -p "/home/${USERNAME}/.ruby"
 ln -snf /usr/local/rvm/rubies/default $RUBY_PATH
 
 DOTNET_PATH="/home/${USERNAME}/.dotnet"
