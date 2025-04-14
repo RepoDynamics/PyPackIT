@@ -171,7 +171,7 @@ class InlineDataGenerator:
             return self._binder_files.get(source, "")
         package_keys = ("pypkg_main", "pypkg_test")
         package_data = {k: self.get(k) for k in package_keys}
-        env_path = self.get(".path")
+        env_path = self.get("workflow.binder.path.dockerfile")
         dir_depth = len(env_path.removesuffix("/").split("/")) - 1
         path_to_root = f"{'../' * dir_depth}" if dir_depth else "./"
         pkg_install_script_path = self.get("control.path.pkg_install_script")
