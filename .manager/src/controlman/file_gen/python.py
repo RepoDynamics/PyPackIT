@@ -464,8 +464,8 @@ class PythonPackageFileGenerator:
                 else f'{key}=f"{value}"'
                 for key, value in data.get("kwargs", {}).items()
             ]
-            total_length = sum(len(line) for line in lines)
-            if total_length < 20:
+            total_length = sum(len(line) + 1 for line in lines) + len(first_line) + 2
+            if total_length < 88 or len(lines) == 0:
                 return [f"{first_line}({', '.join(lines)})"]
             return [f"{first_line}(", *[f"{indent}{line}," for line in lines], ")"]
 
