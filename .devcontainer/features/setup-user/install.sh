@@ -127,9 +127,14 @@ chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
 chmod -R g+r+w "$HOME_DIR"
 find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s
 # Fix permissions for opt directory.
-chown -R "$USERNAME":oryx "$OPT_DIR"
-chmod -R g+r+w "$OPT_DIR"
-find "$OPT_DIR" -type d | xargs -n 1 chmod g+s
+if getent group oryx > /dev/null; then
+    echo "✅ Group 'oryx' exists, applying group ownership and permissions"
+    chown -R "$USERNAME:oryx" "$OPT_DIR"
+    chmod -R g+r+w "$OPT_DIR"
+    find "$OPT_DIR" -type d | xargs -n 1 chmod g+s
+else
+    echo "⚠️ Group 'oryx' does not exist, skipping group-related permission setup for $OPT_DIR"
+fi
 
 # Customize secure_path for sudo
 SECURE_PATH="${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:${HOME_DIR}/.local/bin:${PATH}"
