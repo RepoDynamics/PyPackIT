@@ -16,10 +16,15 @@ if TYPE_CHECKING:
 @logger.sectioner("Project Initialization")
 def run(manager: Manager):
     repo_path = manager.git.repo_path
+    web_source_path = manager.data["web.path.source"]
     fileex.directory.delete(
         path=repo_path,
         exclude=[
             manager.data["control.path.pkg_install_script"],
+            f"{web_source_path}/conf.py",
+            f"{web_source_path}/_media/icon",
+            f"{web_source_path}/_media/image",
+            f"{web_source_path}/_media/logo_ext",
             ".git/",
             ".github/actions/",
             ".github/workflows/",
