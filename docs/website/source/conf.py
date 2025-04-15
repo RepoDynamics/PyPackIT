@@ -7,20 +7,18 @@ References
 
 from __future__ import annotations as _annotations
 
-import ast as _ast
 import copy as _copy
 import json as _json
 import shutil as _shutil
 from pathlib import Path as _Path
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-import gittidy as _git
-import pkgdata as _pkgdata
+import pysyntax as _pysyntax
 from loggerman import logger as _logger
 from sphinx.builders.dirhtml import DirectoryHTMLBuilder as _DirectoryHTMLBuilder
-from versionman import pep440_semver as _semver
 
-import controlman.data_validator as _controlman_data_validator
+import proman
+
 
 try:
     from intersphinx_registry import get_intersphinx_mapping as _get_intersphinx_mapping
@@ -28,16 +26,7 @@ except (ImportError, ModuleNotFoundError):
     _get_intersphinx_mapping = None
 
 if _TYPE_CHECKING:
-    from typing import Any
-
     from sphinx.application import Sphinx
-
-
-_DATA_DIR_PATH = ".github/.repodynamics"
-_METADATA_FILEPATH: str = f"{_DATA_DIR_PATH}/metadata.json"
-_CHANGELOG_FILEPATH: str = f"{_DATA_DIR_PATH}/changelog.json"
-_CONTRIBUTORS_FILEPATH: str = f"{_DATA_DIR_PATH}/contributors.json"
-_globals: dict = {}
 
 
 class _CustomDirectoryHTMLBuilder(_DirectoryHTMLBuilder):
@@ -61,124 +50,6 @@ def setup(app: Sphinx):
     app.add_builder(_CustomDirectoryHTMLBuilder, override=True)
     app.connect("source-read", _source_jinja_template)
     return
-
-
-def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
-    """Resolve the source code links for the `sphinx.ext.linkcode` extension.
-
-    References
-    ----------
-    - https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
-    """
-
-    def get_obj_def_lines(filepath: _Path, object_name: str) -> tuple[int, int | None] | None:
-        """Get the line numbers of an object definition in the source file.
-
-        Parameters
-        ----------
-        filepath
-            Path to the source file.
-        object_name
-            Name of the object to find in the source file.
-
-        Returns
-        -------
-        Start and end line numbers of the object definition.
-        End line number is `None` if the object definition is a single line.
-        If the object is not found, `None` is returned.
-        """
-        source = filepath.read_text()
-        tree = _ast.parse(source, filename=filepath)
-        for node in _ast.walk(tree):
-            # Check for class or function definitions
-            if (
-                isinstance(node, _ast.ClassDef | _ast.FunctionDef | _ast.AsyncFunctionDef)
-                and node.name == object_name
-            ):
-                return node.lineno, getattr(node, "end_lineno", None)
-            # Check for variable assignments (without type annotations)
-            if isinstance(node, _ast.Assign):
-                for target in node.targets:
-                    if isinstance(target, _ast.Name) and target.id == object_name:
-                        return node.lineno, getattr(node, "end_lineno", None)
-            # Check for variable assignments (with type annotations)
-            if isinstance(node, _ast.AnnAssign):
-                target = node.target
-                if isinstance(target, _ast.Name) and target.id == object_name:
-                    return node.lineno, getattr(node, "end_lineno", None)
-        return None
-
-    def add_obj_line_number_to_url(
-        url: str,
-        filepath: _Path,
-        object_name: str,
-    ) -> str:
-        """Add line numbers of the object definition to the URL.
-
-        Parameters
-        ----------
-        url
-            URL to the source file.
-        filepath
-            Local path to the source file.
-        object_name
-            Name of the object to find in the source file.
-
-        Returns
-        -------
-        URL to the source file with added line numbers of the object definition, if found.
-        """
-        log_intro = (
-            f"Resolved source-code filepath of module `{info['module']}` to `{module_path_abs}`"
-        )
-        lines = get_obj_def_lines(filepath=filepath, object_name=object_name)
-        if not lines:
-            _logger.warning(
-                logger_title,
-                f"{log_intro}, but could not find object `{object_name}` in the file.",
-                f"Generated URL (without line numbers): {url}",
-            )
-            return url
-        start_line, end_line = lines
-        if end_line and end_line != start_line:
-            url_fragment = f"L{start_line}-L{end_line}"
-            log_segment = f"lines {start_line}-{end_line}"
-        else:
-            url_fragment = f"L{start_line}"
-            log_segment = f"line {start_line}"
-        final_url = f"{url}#{url_fragment}"
-        _logger.success(
-            logger_title,
-            f"{log_intro} and found object `{object_name}` at {log_segment}.",
-            f"Generated URL: {final_url}",
-        )
-        return final_url
-
-    logger_title = "LinkCode Resolve"
-    if domain != "py" or not info["module"]:
-        _logger.warning(
-            logger_title,
-            "Invalid domain or module information:",
-            _logger.pretty({"domain": domain, "info": info}),
-        )
-        return None
-    source_path = _Path(_meta["pypkg_main"]["path"]["source"])
-    module_path = source_path / info["module"].replace(".", "/")
-    module_path_abs = _path_root / module_path
-    if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
-        filepath = module_path.joinpath("__init__.py")
-    elif module_path_abs.with_suffix(".py").is_file():
-        filepath = module_path.with_suffix(".py")
-    else:
-        _logger.warning(
-            logger_title,
-            f"Python module {info['module']} not found at {module_path_abs}.",
-        )
-        return None
-    url = f"https://github.dev/{_meta['repo']['full_name']}/blob/{_current_hash}/{filepath}"
-    return add_obj_line_number_to_url(
-        url=url, filepath=_path_root / filepath, object_name=info["fullname"]
-    )
 
 
 def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> None:
@@ -225,16 +96,96 @@ def _source_jinja_template(app: Sphinx, docname: str, content: list[str]) -> Non
     return
 
 
+def linkcode_resolve(domain: str, info: dict[str, str]) -> str | None:
+    """Resolve the source code links for the `sphinx.ext.linkcode` extension.
+
+    References
+    ----------
+    - https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
+    """
+
+    def add_obj_line_number_to_url(
+        url: str,
+        filepath: _Path,
+        object_name: str,
+    ) -> str:
+        """Add line numbers of the object definition to the URL.
+
+        Parameters
+        ----------
+        url
+            URL to the source file.
+        filepath
+            Local path to the source file.
+        object_name
+            Name of the object to find in the source file.
+
+        Returns
+        -------
+        URL to the source file with added line numbers of the object definition, if found.
+        """
+        log_intro = (
+            f"Resolved source-code filepath of module `{info['module']}` to `{module_path_abs}`"
+        )
+        lines = _pysyntax.parse.object_definition_lines(
+            code=filepath.read_text(),
+            object_name=object_name
+        )
+        if not lines:
+            _logger.warning(
+                logger_title,
+                f"{log_intro}, but could not find object `{object_name}` in the file.",
+                f"Generated URL (without line numbers): {url}",
+            )
+            return url
+        start_line, end_line = lines
+        if end_line and end_line != start_line:
+            url_fragment = f"L{start_line}-L{end_line}"
+            log_segment = f"lines {start_line}-{end_line}"
+        else:
+            url_fragment = f"L{start_line}"
+            log_segment = f"line {start_line}"
+        final_url = f"{url}#{url_fragment}"
+        _logger.success(
+            logger_title,
+            f"{log_intro} and found object `{object_name}` at {log_segment}.",
+            f"Generated URL: {final_url}",
+        )
+        return final_url
+
+    logger_title = "LinkCode Resolve"
+    if domain != "py" or not info["module"]:
+        _logger.warning(
+            logger_title,
+            "Invalid domain or module information:",
+            _logger.pretty({"domain": domain, "info": info}),
+        )
+        return None
+    source_path = _Path(_manager.data["pypkg_main.path.source"])
+    module_path = source_path / info["module"].replace(".", "/")
+    module_path_abs = _manager.git.repo_path / module_path
+    if module_path_abs.is_dir() and module_path_abs.joinpath("__init__.py").is_file():
+        filepath = module_path.joinpath("__init__.py")
+    elif module_path_abs.with_suffix(".py").is_file():
+        filepath = module_path.with_suffix(".py")
+    else:
+        _logger.warning(
+            logger_title,
+            f"Python module {info['module']} not found at {module_path_abs}.",
+        )
+        return None
+    url = f"https://github.dev/{_manager.data['repo.full_name']}/blob/{_current_hash}/{filepath}"
+    return add_obj_line_number_to_url(
+        url=url, filepath=_manager.git.repo_path / filepath, object_name=info["fullname"]
+    )
+
+
 def _add_version() -> None:
-    """Add the version to the Sphinx configuration."""
-    if all(key in _globals for key in ("version", "release")):
-        return
-    ver_tag_prefix = _meta["tag"]["version"]["prefix"]
-    tags = _git_api.get_tags()
-    ver = _semver.latest_version_from_tags(tags=tags, version_tag_prefix=ver_tag_prefix)
-    if ver:
-        _globals["version"] = _globals.get("version") or f"{ver.major}.{ver.minor}"
-        _globals["release"] = _globals.get("release") or str(ver)
+    """Add project version info to Sphinx configurations."""
+    version = _manager.release.latest_version()
+    if version:
+        _globals["version"] = _globals.get("version") or str(version.public)
+        _globals["release"] = _globals.get("release") or str(version.full)
     return
 
 
@@ -269,103 +220,6 @@ def _add_css_and_js_files() -> None:
                 else:
                     _to_add.append(_filename)
         target_files.extend(_to_add)
-    return
-
-
-def _get_path_repo_root() -> tuple[_Path, str]:
-    """Get the path to the root of the repository."""
-    error_msg = (
-        "Could not find the repository root. "
-        "The repository root must have a `.github` directory, "
-        f"and must contain the control center metadata file at '{_METADATA_FILEPATH}'."
-    )
-    num_up: int = -1
-    for parent_dir in _Path(__file__).parents:
-        num_up += 1
-        for path in parent_dir.iterdir():
-            if (
-                path.is_dir()
-                and path.name == ".github"
-                and (parent_dir / _METADATA_FILEPATH).is_file()
-            ):
-                return parent_dir, "../" * num_up
-    raise RuntimeError(error_msg)
-
-
-def _add_sphinx_config(config: dict) -> None:
-    """Set sphinx main configurations."""
-    _globals.update(config)
-    return
-
-
-def _merge_extra_config(
-    config: dict[str, Any],
-    config_key: str,
-    config_name: str,
-) -> None:
-    """Merge theme or extension configurations with the Sphinx configuration."""
-
-    def raise_unmatched_type(original_type: str) -> None:
-        """Raise an error for unmatched configuration types."""
-        error_msg = (
-            f"Sphinx configuration key '{_conf_key}' is already set to a {original_type}, "
-            f"but {config_name} configuration key '{config_key}.{_conf_key}' is a trying to add "
-            f"a value of type '{type(_conf_value)}': {_conf_value}."
-        )
-        raise RuntimeError(error_msg)
-
-    def raise_duplicate_key(key: str, path: str) -> None:
-        """Raise an error for duplicate configuration keys."""
-        error_msg = (
-            f"Duplicate configuration key '{key}' for {config_name} defined at '{path}'. "
-            "Please ensure that no configuration key is defined more than once."
-        )
-        raise RuntimeError(error_msg)
-
-    for _conf_key, _conf_value in config.items():
-        if _conf_key not in _globals:
-            _globals[_conf_key] = _conf_value
-            continue
-        _existing_val = _globals[_conf_key]
-        if isinstance(_existing_val, list):
-            if not isinstance(_conf_value, list):
-                raise_unmatched_type("list")
-            _existing_val.extend(_conf_value)
-        elif isinstance(_existing_val, dict):
-            if not isinstance(_conf_value, dict):
-                raise_unmatched_type("dictionary")
-            for _sub_key, _sub_value in _conf_value.items():
-                if _sub_key in _existing_val:
-                    raise_duplicate_key(key=_sub_key, path=f"{config_key}.{_conf_key}")
-                _existing_val[_sub_key] = _sub_value
-        else:
-            raise_duplicate_key(key=_conf_key, path=config_key)
-    return
-
-
-def _read_json_data(name: str, path: str | _Path, *, required: bool) -> dict | None:
-    """Read a JSON data file."""
-    try:
-        with (_path_root / path).open() as f:
-            return _json.load(f)
-    except (_json.JSONDecodeError, FileNotFoundError) as e:
-        if not required:
-            return None
-        error_msg = (
-            f"Could not read project {name} file at '{path}'. "
-            "Please ensure that the file is a valid JSON file."
-        )
-        raise RuntimeError(error_msg) from e
-
-
-def _add_html_context():
-    """Add the HTML context to the Sphinx configuration."""
-    jinja_helper_module_filepath = _Path(__file__).parent.resolve() / "jinja.py"
-    jinja_helper_module = _pkgdata.import_module_from_path(jinja_helper_module_filepath)
-    jinja_helper_module.metadata = _meta
-    _globals.setdefault("html_context", {}).update(
-        {"ccc": _copy.deepcopy(_meta), "helper": jinja_helper_module}
-    )
     return
 
 
@@ -422,13 +276,13 @@ def _add_api_files():
 
 
 def _add_license():
-    for license_id, component in _meta.get("license", {}).get("component", {}).items():
+    for license_id, component in _manager.data.get("license.component", {}).items():
         copyright_path = component["path"].get("header_plain")
         if copyright_path:
-            copyright_abs_path = _path_root / copyright_path
+            copyright_abs_path = _manager.git.repo_path / copyright_path
             component["header_plain"] = copyright_abs_path.read_text()
-        license_path = _path_root / component["path"]["text_plain"]
-        dest_path = _meta["web"].get("page", {}).get("license", {}).get("path")
+        license_path = _manager.git.repo_path / component["path"]["text_plain"]
+        dest_path = _manager.data["web.page.license.path"]
         if not dest_path:
             continue
         dest_dir = _Path(dest_path) / license_id.lower()
@@ -437,24 +291,33 @@ def _add_license():
     return
 
 
+def _read_json_data(name: str, path: str | _Path, *, required: bool) -> dict | None:
+    """Read a JSON data file."""
+    try:
+        with (_manager.git.repo_path / path).open() as f:
+            return _json.load(f)
+    except (_json.JSONDecodeError, FileNotFoundError) as e:
+        if not required:
+            return None
+        error_msg = (
+            f"Could not read project {name} file at '{path}'. "
+            "Please ensure that the file is a valid JSON file."
+        )
+        raise RuntimeError(error_msg) from e
+
+
 _logger.initialize(realtime_levels=list(range(1, 7)))
-_path_root, _path_to_root = _get_path_repo_root()
-_git_api = _git.Git(path=_path_root)
-_current_hash = _git_api.commit_hash_normal()
-_meta = _read_json_data(name="metadata", path=_METADATA_FILEPATH, required=True)
-_meta["changelogs"] = _read_json_data(name="changelog", path=_CHANGELOG_FILEPATH, required=False)
-_meta["contributor"] = _read_json_data(
-    name="contributors", path=_CONTRIBUTORS_FILEPATH, required=False
-)
-_add_sphinx_config(
-    _read_json_data(name="Sphinx config", path=_meta["file_sphinx_conf"]["path"], required=True)
-)
+_manager = proman.manager.create()
+_globals: dict = _read_json_data(name="Sphinx config", path=_manager.data["file_sphinx_conf.path"], required=True)
+_current_hash = _manager.git.commit_hash_normal()
 _add_version()
 _add_css_and_js_files()
 _add_intersphinx_mapping()
 _add_license()
 _logger.info("Configurations", _logger.pretty(_globals))
-_add_html_context()
+_globals.setdefault("html_context", {}).update(
+        {"ccc": _copy.deepcopy(_manager.data()), "manager": _manager}
+    )
 _logger.info("HTML context", _logger.pretty(_globals["html_context"]))
 # _add_api_files()  # noqa: ERA001
 globals().update(_globals)
