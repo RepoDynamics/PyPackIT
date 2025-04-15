@@ -4,18 +4,18 @@ ARG USERNAME=pypackit-dev
 ARG USER_UID=1000
 ARG USER_GID=1000
 
+ENV DOCKER_BUILDKIT=1 \
+    LANG=C.UTF-8 \
+    # other shells available at /usr/bin/fish and /usr/bin/zsh
+    SHELL=/bin/bash \
+    TZ=UTC
+
 # Remove ubuntu user if present
 RUN if id "ubuntu" &>/dev/null; then \
         echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
     else \
         echo "User 'ubuntu' does not exist."; \
     fi
-
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    # Restore man command
-    && yes | unminimize 2>&1
-
-ENV LANG="C.UTF-8"
 
 # Install basic build tools
 RUN apt-get update \
@@ -69,18 +69,17 @@ RUN apt-get update \
 
 # Verify expected build and debug tools are present
 RUN apt-get update \
-    && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \
+    && apt-get -y install \
+        build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \
     # Install tools and shells not in common script
-    && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev \
+    && apt-get install -yq \
+        vim vim-doc xtail software-properties-common libsecret-1-dev \
     # Install additional tools (useful for 'puppeteer' project)
-    && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \
-                                                  libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \
+    && apt-get install -y --no-install-recommends \
+        libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \
+        libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y \
-
-# Default to bash shell (other shells available at /usr/bin/fish and /usr/bin/zsh)
-ENV SHELL=/bin/bash \
-    DOCKER_BUILDKIT=1
 
 # Install and setup fish
 RUN apt-get install -yq fish \
