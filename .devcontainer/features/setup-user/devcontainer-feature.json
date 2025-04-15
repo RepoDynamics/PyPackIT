@@ -1,24 +1,10 @@
 {
    "containerEnv": {
       "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
-      "GOROOT": "/usr/local/go",
-      "HUGO_ROOT": "/home/codespace/.hugo",
-      "JAVA_ROOT": "/home/codespace/java",
-      "JUPYTERLAB_PATH": "/home/codespace/.local/bin",
-      "MAVEN_ROOT": "/home/codespace/.maven",
-      "NODE_ROOT": "/home/codespace/nvm",
-      "NPM_GLOBAL": "/home/codespace/.npm-global",
       "NUGET_XMLDOC_MODE": "skip",
-      "NVS_HOME": "/home/codespace/.nvs",
       "ORYX_ENV_TYPE": "vsonline-present",
-      "PATH": "/home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}",
-      "PHP_ROOT": "/home/codespace/.php",
       "PYTHONIOENCODING": "UTF-8",
-      "PYTHON_ROOT": "/home/codespace/.python",
-      "RAILS_DEVELOPMENT_HOSTS": ".githubpreview.dev,.preview.app.github.dev,.app.github.dev",
-      "RUBY_HOME": "/usr/local/rvm/rubies/default",
-      "RUBY_ROOT": "/home/codespace/.ruby",
-      "RVM_PATH": "/usr/local/rvm"
+      "RAILS_DEVELOPMENT_HOSTS": ".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
    },
    "id": "setup-user",
    "name": "Setup user configs",
