@@ -1,5 +1,0 @@
-controlman
-loggerman
-mdit
-pylinks
-pyserials
