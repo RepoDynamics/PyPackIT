@@ -20,4 +20,4 @@ The license is communicated through an
 Detailed information about each license component is provided below.
 
 
-|{{ helper.create_license_data() }}|
+|{{ manager.doc.license_data() }}|

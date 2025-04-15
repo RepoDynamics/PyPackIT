@@ -63,7 +63,7 @@ Tasks
 |{% if role.assignment.issue %}|
 {.sd-text-left}
 **Issues**:
-|{% for issue_form in helper.get_forms_by_regex(role.assignment.issue) -%}|
+|{% for issue_form in manager.issue.forms_from_id_regex(role.assignment.issue) -%}|
 {bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
 |{% endfor %}|
 |{% endif %}|
@@ -71,7 +71,7 @@ Tasks
 |{% if role.assignment.pull %}|
 {.sd-text-left}
 **Pull Requests**:
-|{% for issue_form in helper.get_forms_by_regex(role.assignment.pull) -%}|
+|{% for issue_form in manager.issue.forms_from_id_regex(role.assignment.pull) -%}|
 {bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
 |{% endfor %}|
 |{% endif %}|
@@ -79,7 +79,7 @@ Tasks
 |{% if role.assignment.review %}|
 {.sd-text-left}
 **Pull Request Reviews**:
-|{% for issue_form in helper.get_forms_by_regex(role.assignment.review) -%}|
+|{% for issue_form in manager.issue.forms_from_id_regex(role.assignment.review) -%}|
 {bdg-ref-secondary}`|{{ issue_form.name }}| <issue-form-|{{ issue_form.id }}|>`
 |{% endfor %}|
 |{% endif %}|
@@ -87,7 +87,7 @@ Tasks
 |{% if role.assignment.discussion %}|
 {.sd-text-left}
 **Discussions**:
-|{% for discussion_category in helper.get_forms_by_regex(role.assignment.discussion, "discussion") -%}|
+|{% for discussion_category in manager.issue.forms_from_id_regex(role.assignment.discussion, "discussion") -%}|
 {bdg-ref-secondary}`|{{ discussion_category.emoji }}| |{{ discussion_category.name }}| <discussion-category-|{{ discussion_category.id }}|>`
 |{% endfor %}|
 |{% endif %}|

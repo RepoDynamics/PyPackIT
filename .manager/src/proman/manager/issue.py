@@ -9,6 +9,7 @@ from proman.dstruct import IssueForm
 from proman.exception import ProManException
 
 if _TYPE_CHECKING:
+    from typing import Literal
     from proman.manager import Manager
 
 
@@ -41,6 +42,28 @@ class IssueManager:
             )
             raise ProManException()
         return self.form_from_id(match.group(1))
+
+    def forms_from_id_regex(
+        self,
+        regex: str,
+        form_type: Literal["issue", "discussion"] = "issue",
+    ) -> list[dict]:
+        """Get issue forms and discussion categories matching a RegEx.
+
+        This function is used to filter issue forms and discuttsion categories
+        (from `ccc.issue.forms` and `ccc.discussion.category`, respectively)
+        based on a RegEx pattern.
+        """
+        out = []
+        pattern = re.compile(regex)
+        if form_type == "issue":
+            forms = self._manager.get_data("issue.forms", [])
+            out.extend([form for form in forms if pattern.match(form["id"])])
+            return out
+        for category_slug, category_data in self._manager.get_data("discussion.category", {}).items():
+            if pattern.match(category_slug):
+                out.append(category_data)
+        return out
 
     def _make_issue_form(self, issue_form: dict) -> IssueForm:
         id_labels = [

@@ -24,10 +24,10 @@
 
 ::::{grid-item}
 [Dependencies](#manual-reqs-deps)
-- **Required runtime dependencies**: |{{ helper.comma_list_of_dependencies(pkg="pkg", dep="core") }}|
-- **Optional runtime dependencies**: |{{ helper.comma_list_of_dependencies(pkg="pkg", dep="optional") }}|
+- **Required runtime dependencies**: |{{ manager.doc.comma_list_of_dependencies(pkg="pkg", dep="core") }}|
+- **Optional runtime dependencies**: |{{ manager.doc.comma_list_of_dependencies(pkg="pkg", dep="optional") }}|
 
-|{% set dep_count = helper.dependency_availability() %}|
+|{% set dep_count = manager.doc.dependency_availability() %}|
 |{% if ccc.pkg.dependency.core or ccc.pkg.dependency.optional %}|
 :::{table} Total number of |{{
    'required and optional' if ccc.pkg.dependency.core and ccc.pkg.dependency.optional
@@ -170,7 +170,7 @@ These are listed separately in {numref}`tab-test-deps`.
 (manual-reqs-dep-|{{ pkg_type }}|)=
 ### |{{ pkg.name }}|
 
-:::{table} |{{ ccc.pkg.name }}|'s dependencies. For optional dependencies, the name of the optional dependency group is specified, otherwise a red cross indicates a required dependency. Platform-specific dependencies are marked with a green checkmark. PyPI, Anaconda, and APT columns indicate whether the dependency is available in the respective repository.  
+:::{table} |{{ ccc.pkg.name }}|'s dependencies. For optional dependencies, the name of the optional dependency group is specified, otherwise a red cross indicates a required dependency. Platform-specific dependencies are marked with a green checkmark. PyPI, Anaconda, and APT columns indicate whether the dependency is available in the respective repository.
 :name: tab-|{{ pkg_type }}|-deps
 
 | Name | Type | Optional | Platform Specific | PyPI | Anaconda | APT |

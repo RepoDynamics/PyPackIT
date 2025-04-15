@@ -407,6 +407,7 @@ class UserManager:
     def members_with_role_ids(
         self,
         role_ids: str | Sequence[str],
+        *,
         active_only: bool = True,
     ) -> list[dict]:
         """Get team members with a specific role ID.
@@ -423,7 +424,7 @@ class UserManager:
         list[dict]
             A list of dictionaries, each representing a team member.
         """
-        team_data = self._manager.get_data("team")
+        team_data = self._manager.get_data("team", {})
         out = []
         if isinstance(role_ids, str):
             role_ids = [role_ids]
