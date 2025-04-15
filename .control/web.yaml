@@ -331,8 +331,8 @@ devcontainer_docs:
         installOhMyZshConfig: true
         upgradePackages: true
         username: ${{ devcontainer_docs.container.containerUser }}$
-        userUid: "1000"
-        userGid: "1000"
+        userUid: "1001"
+        userGid: "1001"
       # https://github.com/devcontainers/features/tree/main/src/conda
       ghcr.io/devcontainers/features/conda:1:
         version: latest
