@@ -104,8 +104,8 @@
          "installOhMyZshConfig": true,
          "installZsh": true,
          "upgradePackages": true,
-         "userGid": "1000",
-         "userUid": "1000",
+         "userGid": "1001",
+         "userUid": "1001",
          "username": "pypackit-dev"
       },
       "ghcr.io/devcontainers/features/conda:1": {
