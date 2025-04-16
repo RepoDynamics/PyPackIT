@@ -19,11 +19,3 @@ services:
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile
-  docs:
-    container_name: docs
-    volumes:
-      - ../:/workspace:cached
-    command: sleep infinity
-    build:
-      context: ../
-      dockerfile: .devcontainer/container-docs/Dockerfile
