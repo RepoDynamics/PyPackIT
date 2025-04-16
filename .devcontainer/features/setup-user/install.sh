@@ -152,7 +152,6 @@ fi
   echo '#!/usr/bin/env bash'
   echo ''
   echo '# Auto-generated devcontainer env vars set by the setup-user feature.'
-  echo 'set -euxo pipefail'
 } > "$ENV_SCRIPT_FILEPATH"
 chmod +x "$ENV_SCRIPT_FILEPATH"
 
@@ -262,8 +261,5 @@ if getent group oryx > /dev/null; then
 else
     echo "⚠️ Group 'oryx' does not exist, skipping group-related permission setup for $OPT_DIR"
 fi
-
-# Remove literal duplicates in $ENV_FILEPATH
-sort -u "$ENV_FILEPATH" -o "$ENV_FILEPATH"
 
 echo "✅ Dev container user setup complete!"
