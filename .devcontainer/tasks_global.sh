@@ -16,3 +16,11 @@ jupyterlab() {
     jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
     conda deactivate
 }
+
+build() {
+    conda run --name website --live-stream -vv bash .devcontainer/container-docs/script/website/build.sh
+}
+
+live() {
+    conda run --name website --live-stream -vv bash .devcontainer/container-docs/script/website/livehtml.sh
+}
