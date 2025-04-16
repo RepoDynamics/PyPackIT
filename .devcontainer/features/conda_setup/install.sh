@@ -8,7 +8,7 @@ LOG_FILE="${LOG_DIRPATH}/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
 echo "Initializing conda..."
-conda init
+conda init --all
 
 echo "Removing existing Conda channels..."
 conda config --remove-key channels 2>/dev/null || true
