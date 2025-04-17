@@ -55,6 +55,9 @@ properties:
                     spec.append(f"{part_prefix}{part}")
             return "".join(spec)
           }}#
+  post_process:
+    summary: Post-processing commands to run after the package is installed.
+    type: string
   url:
     title: URL
     description: URLs to resources related to the module.
