@@ -8,6 +8,9 @@ properties:
     description: Name of the dependency.
     $ref: https://jsonschemata.repodynamics.com/string/oneline
     default: ${{ .__key__ }}$
+  summary:
+    description: A short summary of the dependency.
+    type: string
   description:
     description: A description for the dependecy.
     type: string
