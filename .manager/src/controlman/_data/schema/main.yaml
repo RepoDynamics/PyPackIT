@@ -378,11 +378,9 @@ patternProperties:
       service:
         type: object
       dockerfile:
-        oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
+        type: array
+        items:
+          type: object
       container:
         $ref: https://controlman.repodynamics.com/schema/devcontainer
       apt:
