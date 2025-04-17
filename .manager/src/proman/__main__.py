@@ -244,7 +244,7 @@ def _parse_args() -> argparse.Namespace:
         "-x",
         "--action",
         help=f"Action to perform.",
-        choices=["report", "apply", "pull", "merge", "commit", "amend"],
+        choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'],
         default=f"apply",
     )
     subparser_cca.add_argument(
@@ -277,7 +277,7 @@ def _parse_args() -> argparse.Namespace:
         "--action",
         help=f"Action to perform.",
         type=str,
-        choices=["report", "apply", "pull", "merge", "commit", "amend"],
+        choices=['report', 'apply', 'pull', 'merge', 'commit', 'amend'],
         default=f"apply",
     )
     subparser_lint.add_argument(
@@ -350,7 +350,7 @@ def _parse_args() -> argparse.Namespace:
         "--recipe",
         help=f"Type of recipe to build.",
         type=str,
-        choices=["local", "global"],
+        choices=['local', 'global'],
         default=f"local",
     )
     subparser_conda.add_argument(
