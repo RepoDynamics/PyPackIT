@@ -447,8 +447,8 @@ control:
 workflow:
   web:
     container:
-      id: docs
-      command: ${{ devcontainer_docs.environment.website.task.build.alias }}$
+      id: main
+      command: ${{ devcontainer_main.environment.website.task.build.alias }}$
     artifact:
       build:
         name: Website - v{{ version }}
