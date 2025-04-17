@@ -200,6 +200,24 @@ class ConfigFileGenerator:
         return out
 
     def devcontainers(self) -> list[DynamicFile]:
+
+        def create_dockerfile(dockerfile: list[dict]):
+            parts = []
+            for part in dockerfile:
+                instructions = []
+                for instruction in part["instructions"]:
+                    key = list(instruction.keys())[0].upper()
+                    instruction_lines = instruction[key].strip().splitlines()
+                    indent = len(key) + 2
+                    instruction_lines_full = [
+                        f"{key} {instruction_lines[0]}{" \\" if len(instruction_lines) > 1 else ''}"
+                    ] + [
+                        f"{indent}{line} \\" for line in instruction_lines[1:-1]
+                    ] + [f"{indent}{instruction_lines[-1]}"] if len(instruction_lines) > 1 else []
+                    instructions.extend(instruction_lines_full)
+                parts.append("\n".join(instructions))
+            return "\n\n".join(parts)
+
         def create_docker_compose():
             path_depth = len(docker_compose_path.split("/")) - 1
             path_to_root_from_compose_file = "../" * path_depth if path_depth else "."
@@ -318,7 +336,7 @@ class ConfigFileGenerator:
                 subtype=(container_id, container["container"].get("name", container_id)),
                 content=_unit.create_dynamic_file(
                     file_type="txt",
-                    content=container["dockerfile"],
+                    content=create_dockerfile(container["dockerfile"]),
                 ),
                 path=f"{container['path']['dockerfile']}",
                 path_before=f"{container_before.get('path', {}).get('dockerfile')}",
