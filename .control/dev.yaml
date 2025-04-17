@@ -506,6 +506,29 @@ devcontainer_main:
       instructions:
         - RUN: '#{{ return hook.docker_apt_install("main", "essential") }}#'
         - RUN: '#{{ return hook.docker_apt_post_process("main", "essential") }}#'
+    - title: MiniForge
+      instructions:
+        - ARG: |
+            MINIFORGE_NAME=Miniforge3
+            MINIFORGE_VERSION=24.11.3-2
+        - ENV: |
+            CONDA_DIR=/opt/conda
+            PATH=$CONDA_DIR/bin:$PATH
+        - RUN: |
+            set -eux;
+            wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh -O /tmp/miniforge.sh;
+            /bin/bash /tmp/miniforge.sh -b -p ${CONDA_DIR};
+            rm /tmp/miniforge.sh;
+            conda clean --tarballs --index-cache --packages --yes;
+            find ${CONDA_DIR} -follow -type f -name '*.a' -delete;
+            find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete;
+            conda clean --force-pkgs-dirs --all --yes;
+            echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> /etc/skel/.bashrc;
+            echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> ~/.bashrc;
+            if [ ${MINIFORGE_NAME} = "Mambaforge"* ]; then
+                echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> /etc/skel/.bashrc;
+                echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> ~/.bashrc;
+            fi
     - title: TeX Live
       summary: Installation of TeX Live.
       instructions:
@@ -669,12 +692,6 @@ devcontainer_main:
       # https://github.com/devcontainers/features/tree/main/src/sshd
       ghcr.io/devcontainers/features/sshd:1:
         version: latest
-      # https://github.com/devcontainers-extra/features/tree/main/src/apt-get-packages
-      ghcr.io/devcontainers-extra/features/apt-get-packages:1:
-        packages: |-
-          #{{
-            return ",".join([pkg["spec"]["full"] for pkg in get("devcontainer_main.apt", {}).values()])
-          }}#
       # Local features
       ./${{ devfeature_user_setup.path }}$: {}
       ./${{ devfeature_conda_setup.path }}$: {}
@@ -893,7 +910,7 @@ devcontainer_main:
         docs: https://itsfoss.com/build-essential-ubuntu/
     bzip2:
       summary: High-quality data compressor.
-      group: essential
+      group: required
       description: |
         bzip2 is a freely available, patent-free, high-quality data
         compressor. It compresses files using the Burrows-Wheeler block
@@ -3079,7 +3096,7 @@ devcontainer_main:
               html_math_renderer: mathjax
               html_context:
                 # Used by the Giscus template to extract page title
-                pp_title_sep: ${{ devcontainer_docs.environment.website.conda.sphinx.data.sphinx_config.html_secnumber_suffix }}$
+                pp_title_sep: ${{ devcontainer_main.environment.website.conda.sphinx.data.sphinx_config.html_secnumber_suffix }}$
               html_last_updated_fmt: '%b %d, %Y'
               numfig_format:
                 code-block: Code %s
