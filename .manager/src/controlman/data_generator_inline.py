@@ -83,6 +83,43 @@ class InlineDataGenerator:
         self.get = get_metadata
         return self
 
+    def docker_apt_install(self, devcontainer_id: str, group: str) -> str | None:
+        indent = 4 * " "  # for 'RUN '
+        apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
+        packages = sorted(f"{indent}{pkg["spec"]["full"]}" for pkg in apt_packages.values() if pkg["group"] == group)
+        if not packages:
+            return None
+        # Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
+        # which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*"
+        # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
+        # - https://github.com/docker-library/buildpack-deps/pull/157/files
+        lines = [
+            "set -eux;",
+            "add-apt-repository universe;" if group == "required" else None,
+            "apt-get update;",
+            "apt-get install -y --no-install-recommends",
+            *packages,
+            ";",
+            "apt-get dist-clean;"
+        ]
+        return "\n".join(f"{indent}{line}" for line in lines if line).strip()
+
+    def docker_apt_post_process(self, devcontainer_id: str, group: str) -> str | None:
+        indent = 4 * " "  # for 'RUN '
+        apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
+        group_packages = [pkg for pkg in apt_packages.values() if pkg["group"] == group]
+        lines = []
+        for pkg in sorted(group_packages, key=lambda x: x["spec"]["full"]):
+            post_process = pkg.get("post_process")
+            if not post_process:
+                continue
+            for line in post_process.splitlines():
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                lines.append(line)
+        return "\n".join(f"{indent}{line}" for line in lines).strip() if lines else None
+
     def pypkg_test(self, test_pkg_id: str) -> dict:
         """Create test package data."""
 
