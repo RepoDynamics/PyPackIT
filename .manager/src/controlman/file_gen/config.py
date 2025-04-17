@@ -207,8 +207,14 @@ class ConfigFileGenerator:
                 instructions = []
                 for instruction in part["instructions"]:
                     key = list(instruction.keys())[0].upper()
-                    instruction_lines = instruction[key].strip().splitlines()
-                    indent = len(key) + 2
+                    instructions_str = instruction[key]
+                    if not instructions_str:
+                        continue
+                    instruction_lines = [
+                        line.rstrip() for line in instructions_str.strip().splitlines()
+                        if line and not line.startswith("#")
+                    ]
+                    indent = (len(key) + 1) * " "
                     instruction_lines_full = [
                         f"{key} {instruction_lines[0]}{" \\" if len(instruction_lines) > 1 else ''}"
                     ] + [
