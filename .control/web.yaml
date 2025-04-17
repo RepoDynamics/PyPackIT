@@ -226,7 +226,7 @@ web:
               # see: https://github.com/readthedocs/readthedocs.org/issues/5989#issuecomment-853039401
               - git fetch --unshallow
         conda: # Website dependencies
-          environment: ${{ devcontainer_docs.environment.website.path }}$
+          environment: ${{ devcontainer_main.environment.website.path }}$
         python:
           install: # Install the package
             - method: pip
@@ -249,7 +249,7 @@ file_sphinx_conf:
 
       out = {}
       for pkg_manager in ("conda", "pip"):
-        for pkg in get(f"devcontainer_docs.environment.website.{pkg_manager}", {}).values():
+        for pkg in get(f"devcontainer_main.environment.website.{pkg_manager}", {}).values():
           sphinx_conf = pkg.get("data", {}).get("sphinx_config")
           if sphinx_conf:
             ps.update.recursive_update(
@@ -266,7 +266,7 @@ file_sphinx_conf:
 file_script_web_build:
   name: Website Build Script
   summary: Script to build the website using Sphinx.
-  path: ${{ devcontainer_docs.path.root }}$/script/website/build.sh
+  path: ${{ devcontainer_main.path.root }}$/script/website_build.sh
   type: txt
   data:
     tar_path: ${{ web.path.build }}$/website.tar
@@ -294,7 +294,7 @@ file_script_web_build:
 file_script_web_livehtml:
   name: Website Live Preview Script
   summary: Script to start a live preview server for the website.
-  path: ${{ devcontainer_docs.path.root }}$/script/website/livehtml.sh
+  path: ${{ devcontainer_main.path.root }}$/script/website_livehtml.sh
   type: txt
   content: |
     sphinx-autobuild \
