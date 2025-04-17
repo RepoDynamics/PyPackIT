@@ -289,7 +289,7 @@ class ControlCenterManager:
         log_lines = []
         for title, files in sorted(logs.items()):
             log_lines.extend([title, "-" * len(title)])
-            for file in sorted(files):
+            for file in sorted([str(file) for file in files]):
                 log_lines.append(f"- {file}")
         _logger.info("Applied Changes", "\n".join(log_lines))
         return
