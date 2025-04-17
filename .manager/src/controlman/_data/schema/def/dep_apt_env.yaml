@@ -14,6 +14,7 @@ properties:
   spec:
     summary: Specifications for the `apt-get` package manager.
     type: object
+    default: { }
     required: [ name ]
     properties:
       name:
@@ -55,6 +56,14 @@ properties:
                     spec.append(f"{part_prefix}{part}")
             return "".join(spec)
           }}#
+  group:
+    summary: Group name for the package.
+    type: string
+  dependents:
+    summary: List of dependent packages.
+    type: array
+    items:
+      type: string
   post_process:
     summary: Post-processing commands to run after the package is installed.
     type: string
