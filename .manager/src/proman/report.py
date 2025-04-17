@@ -339,7 +339,7 @@ class SummaryTableEntry:
         return [
             self._name,
             htmp.element.span(status_emoji.emoji, title=status_emoji.title),
-            " ".join(self._summary),
+            " ".join(str(summary) for summary in self._summary),
         ]
 
 
