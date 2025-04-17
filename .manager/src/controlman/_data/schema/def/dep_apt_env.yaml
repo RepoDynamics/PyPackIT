@@ -2,6 +2,9 @@ $id: https://controlman.repodynamics.com/schema/dependency-apt-env
 $schema: https://json-schema.org/draft/2020-12/schema
 title: APT Environment Dependency
 summary: Declaration of a Debian APT package dependency for an environment.
+description: |
+  For more examples, See:
+  - [buildpack-deps Docker images](https://github.com/docker-library/buildpack-deps)
 allOf:
   - $ref: https://controlman.repodynamics.com/schema/dependency-base
 type: object
