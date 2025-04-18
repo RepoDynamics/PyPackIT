@@ -534,6 +534,7 @@ devcontainer_main:
       global_zshrc_source_marker: GLOBAL_ZSHRC_SOURCED
       root_zshrc_source_marker: ROOT_ZSHRC_SOURCED
       user_zshrc_source_marker: USER_ZSHRC_SOURCED
+      oh_my_zsh_install_dir: ${{ ..user.home }}$/.oh-my-zsh
     global_rc: |
       # Set $USER to current user if not already set.
       # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1
@@ -643,7 +644,13 @@ devcontainer_main:
             # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L427-L443
             set -eux;
             groupadd --gid $USER_GID $USERNAME;
-            useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME;
+            useradd
+                --create-home
+                --home-dir "$USER_HOME"
+                --gid $USER_GID
+                --shell /bin/bash
+                --uid $USER_UID
+                $USERNAME;
             # Grant user passwordless sudo access to act as any user.
             echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null;
             chmod 0440 /etc/sudoers.d/$USERNAME;
@@ -758,6 +765,26 @@ devcontainer_main:
             else
                 echo "User 'ubuntu' does not exist.";
             fi
+    - title: Oh-My-Zsh Installation
+      instructions:
+        - ARG: |
+            OH_MY_ZSH_INSTALL_DIR=${{ devcontainer_main.var.zsh.oh_my_zsh_install_dir }}$
+        - RUN: |
+            set -eux;
+            # Remove write permissions for group and others
+            # (only user can write to the directory).
+            umask g-w,o-w;
+            mkdir -p "$OH_MY_ZSH_INSTALL_DIR";
+            git clone --depth=1
+                -c core.eol=lf
+                -c core.autocrlf=false
+                -c fsck.zeroPaddedFilemode=ignore
+                -c fetch.fsck.zeroPaddedFilemode=ignore
+                -c receive.fsck.zeroPaddedFilemode=ignore
+                "https://github.com/ohmyzsh/ohmyzsh" "${oh_my_install_dir}" 2>&1;
+            # Shrink git while still enabling updates
+            cd "$OH_MY_ZSH_INSTALL_DIR";
+            git repack -a -d -f --depth=1 --window=1;
     - title: Optional APT Packages
       summary: Installation of recommended APT packages.
       instructions:
@@ -4270,7 +4297,7 @@ devcontainer_main:
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
   volume:
-    global_bashrc:
+    bashrc_global:
       path: /etc/bash.bashrc
       content: |
         # #{{ return "=" * 50 }}#
@@ -4286,7 +4313,39 @@ devcontainer_main:
         # #{{ return "=" * 50 }}#
         # END OF ${{ name }}$ SECTION
         # #{{ return "=" * 50 }}#
-    global_zshrc:
+    bashrc_root:
+      path: /root/.bashrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.bash.root_bashrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.bash.theme }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+    bashrc_user:
+      path: ${{ devcontainer_main.var.user.home }}$/.bashrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.bash.user_bashrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.bash.theme }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+    zshrc_global:
       path: /etc/zsh/zshrc
       content: |
         # #{{ return "=" * 50 }}#
@@ -4306,39 +4365,6 @@ devcontainer_main:
         - The file is located at `/etc/zsh/zshrc` on Debian/Alpine-based images,
           and at `/etc/zshrc` on Red Hat-based images
           (cf. [`common-utils`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L510-L514) feature).
-    root_bashrc:
-      path: /root/.bashrc
-      content: |
-        # #{{ return "=" * 50 }}#
-        # ${{ name }}$
-        # #{{ return "=" * 50 }}#
-        # This section is automatically generated.
-
-        # Set source marker
-        export ${{ devcontainer_main.var.bash.root_bashrc_source_marker }}$=1
-
-        ${{ devcontainer_main.var.bash.theme }}$
-
-        # #{{ return "=" * 50 }}#
-        # END OF ${{ name }}$ SECTION
-        # #{{ return "=" * 50 }}#
-  home:
-    bashrc:
-      path: .bashrc
-      content: |
-        # #{{ return "=" * 50 }}#
-        # ${{ name }}$
-        # #{{ return "=" * 50 }}#
-        # This section is automatically generated.
-
-        # Set source marker
-        export ${{ devcontainer_main.var.bash.user_bashrc_source_marker }}$=1
-
-        ${{ devcontainer_main.var.bash.theme }}$
-
-        # #{{ return "=" * 50 }}#
-        # END OF ${{ name }}$ SECTION
-        # #{{ return "=" * 50 }}#
 file_pixi_manifest:
  # https://pixi.sh/latest/reference/pixi_manifest/
  name: Pixi Manifest
