@@ -7,7 +7,7 @@ __temp__:
       vnc: 5901
     jupyter: 8888
   conda_env_name:
-    app: app
+    app: ${{ devcontainer_main.var.conda.app_env }}$
     manager: proman
 default:
   task_setting:
@@ -466,6 +466,108 @@ devcontainer:
               }}#:${{ devcontainer.docker-compose.config.services.openjournals.working_dir }}$
           working_dir: /workspace
 devcontainer_main:
+  var:
+    conda:
+      name: Miniforge3
+      version: 24.11.3-2
+      dir: /opt/conda
+      conda_script: ${{ .dir }}$/etc/profile.d/conda.sh
+      mamba_script: ${{ .dir }}$/etc/profile.d/mamba.sh
+      app_env: app
+      activate: ${{ .app_env }}$
+    bash:
+      global_bashrc_source_marker: GLOBAL_BASHRC_SOURCED
+      root_bashrc_source_marker: ROOT_BASHRC_SOURCED
+      user_bashrc_source_marker: USER_BASHRC_SOURCED
+      theme: |
+        # #{{ return "-" * 50 }}$
+        # Bash Theme
+        # #{{ return "-" * 50 }}$
+        # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/bash_theme_snippet.sh
+        __bash_prompt() {
+            local userpart='`export XIT=$? \
+                && [ ! -z "${GITHUB_USER:-}" ] && echo -n "\[\033[0;32m\]@${GITHUB_USER:-} " || echo -n "\[\033[0;32m\]\u " \
+                && [ "$XIT" -ne "0" ] && echo -n "\[\033[1;31m\]➜" || echo -n "\[\033[0m\]➜"`'
+            local gitbranch='`\
+                if [ "$(git config --get devcontainers-theme.hide-status 2>/dev/null)" != 1 ] && [ "$(git config --get codespaces-theme.hide-status 2>/dev/null)" != 1 ]; then \
+                    export BRANCH="$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)"; \
+                    if [ "${BRANCH:-}" != "" ]; then \
+                        echo -n "\[\033[0;36m\](\[\033[1;31m\]${BRANCH:-}" \
+                        && if [ "$(git config --get devcontainers-theme.show-dirty 2>/dev/null)" = 1 ] && \
+                            git --no-optional-locks ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard ":/*" > /dev/null 2>&1; then \
+                                echo -n " \[\033[1;33m\]✗"; \
+                        fi \
+                        && echo -n "\[\033[0;36m\]) "; \
+                    fi; \
+                fi`'
+            local lightblue='\[\033[1;34m\]'
+            local removecolor='\[\033[0m\]'
+            PS1="${userpart} ${lightblue}\w ${gitbranch}${removecolor}\$ "
+            unset -f __bash_prompt
+        }
+        __bash_prompt
+        export PROMPT_DIRTRIM=4
+
+        # Check if the terminal is xterm
+        if [[ "$TERM" == "xterm" ]]; then
+            # Function to set the terminal title to the current command
+            preexec() {
+                local cmd="${BASH_COMMAND}"
+                echo -ne "\033]0;${USER}@${HOSTNAME}: ${cmd}\007"
+            }
+
+            # Function to reset the terminal title to the shell type after the command is executed
+            precmd() {
+                echo -ne "\033]0;${USER}@${HOSTNAME}: ${SHELL}\007"
+            }
+
+            # Trap DEBUG signal to call preexec before each command
+            trap 'preexec' DEBUG
+
+            # Append to PROMPT_COMMAND to call precmd before displaying the prompt
+            PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }precmd"
+        fi
+        # #{{ return "-" * 50 }}$
+        # END BASH THEME
+        # #{{ return "-" * 50 }}$
+    zsh:
+      global_zshrc_source_marker: GLOBAL_ZSHRC_SOURCED
+      root_zshrc_source_marker: ROOT_ZSHRC_SOURCED
+      user_zshrc_source_marker: USER_ZSHRC_SOURCED
+    global_rc: |
+      # Set $USER to current user if not already set.
+      # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1
+      if [ -z "${USER}" ]; then export USER=$(whoami); fi
+
+      # Ensure that "$HOME/.local/bin" is in $PATH
+      # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L2
+      if [[ "${PATH}" != *"$HOME/.local/bin"* ]]; then export PATH="${PATH}:$HOME/.local/bin"; fi
+
+      # Source conda and mamba activation scripts.
+      . "${{ devcontainer_main.var.conda.conda_script }}$"
+      . "${{ devcontainer_main.var.mamba.mamba_script }}$"
+
+      # Activate conda environment.
+      mamba activate ${{ devcontainer_main.var.conda.activate }}$
+
+      # Set the default git editor if not already set
+      # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L16-L25
+      if [ -z "$(git config --get core.editor)" ] && [ -z "${GIT_EDITOR}" ]; then
+          if  [ "${TERM_PROGRAM}" = "vscode" ]; then
+              if [[ -n $(command -v code-insiders) &&  -z $(command -v code) ]]; then
+                  export GIT_EDITOR="code-insiders --wait"
+              else
+                  export GIT_EDITOR="code --wait"
+              fi
+          fi
+      fi
+    user:
+      name: ${{ devcontainer_main.container.containerUser }}$
+      group: ${{ .name }}$
+      home: /home/${{ .name }}$
+      shell: /bin/zsh
+      gid: 1000
+      uid: 1000
   service:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
@@ -492,6 +594,7 @@ devcontainer_main:
             LANG=C.UTF-8
             LC_ALL=C.UTF-8
             TZ=UTC
+        - USER: root
       description: |
         Only include those that affect the build processes.
         Other environment variables can be set at the end
@@ -506,29 +609,44 @@ devcontainer_main:
       instructions:
         - RUN: '#{{ return hook.docker_apt_install("main", "essential") }}#'
         - RUN: '#{{ return hook.docker_apt_post_process("main", "essential") }}#'
-    - title: MiniForge
+    - title: Git Installation
+      description: |
+        We install [git](https://git-scm.com/doc)
+        directly from its [GitHub repository](https://github.com/git/git)
+        to get and up-to-date version.
+      instructions:
+        ARG: |
+          GIT_VERSION=2.49.0
+        RUN: |
+          # Insall Git from source code.
+          # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L299-L312
+          set -eux;
+          echo "Downloading source code for Git v${GIT_VERSION}...";
+          curl -sL https://github.com/git/git/archive/v${GIT_VERSION}.tar.gz | tar -xzC /tmp 2>&1;
+          echo "Building Git..."
+          cd /tmp/git-${GIT_VERSION};
+          git_options=("prefix=/usr/local");
+          git_options+=("sysconfdir=/etc");
+          git_options+=("USE_LIBPCRE=YesPlease");
+          make -s "${git_options[@]}" all && make -s "${git_options[@]}" install 2>&1;
+          rm -rf /tmp/git-${GIT_VERSION};
+    - title: User Setup
+      summary: Setup user.
       instructions:
         - ARG: |
-            MINIFORGE_NAME=Miniforge3
-            MINIFORGE_VERSION=24.11.3-2
-        - ENV: |
-            CONDA_DIR=/opt/conda
-            PATH=$CONDA_DIR/bin:$PATH
+            USERNAME=${{ devcontainer_main.var.user.name }}$
+            USER_HOME=${{ devcontainer_main.var.user.home }}$
+            USER_GID=${{ devcontainer_main.var.user.gid }}$
+            USER_UID=${{ devcontainer_main.var.user.uid }}$
         - RUN: |
+            # Create a new user with the specified UID and GID with sudo access.
+            # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L427-L443
             set -eux;
-            wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh -O /tmp/miniforge.sh;
-            /bin/bash /tmp/miniforge.sh -b -p ${CONDA_DIR};
-            rm /tmp/miniforge.sh;
-            conda clean --tarballs --index-cache --packages --yes;
-            find ${CONDA_DIR} -follow -type f -name '*.a' -delete;
-            find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete;
-            conda clean --force-pkgs-dirs --all --yes;
-            echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> /etc/skel/.bashrc;
-            echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> ~/.bashrc;
-            if [ ${MINIFORGE_NAME} = "Mambaforge"* ]; then
-                echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> /etc/skel/.bashrc;
-                echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> ~/.bashrc;
-            fi
+            groupadd --gid $USER_GID $USERNAME;
+            useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME;
+            # Grant user passwordless sudo access to act as any user.
+            echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null;
+            chmod 0440 /etc/sudoers.d/$USERNAME;
     - title: TeX Live
       summary: Installation of TeX Live.
       instructions:
@@ -584,22 +702,92 @@ devcontainer_main:
               context --make;
               context --luatex --make;
             fi
+    - title: MiniForge
+      instructions:
+        - ARG: |
+            MINIFORGE_NAME=${{ devcontainer_main.var.conda.name }}$
+            MINIFORGE_VERSION=${{ devcontainer_main.var.conda.version }}$
+        - ENV: |
+            CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
+            CONDA_SCRIPT=${{ devcontainer_main.var.conda.conda_script }}$
+            MAMBA_SCRIPT=${{ devcontainer_main.var.conda.mamba_script }}$
+            PATH=$CONDA_DIR/bin:$PATH
+        - RUN: |
+            # Install Miniforge
+            # - https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile
+            set -eux;
+            install_script="/tmp/miniforge.sh";
+            wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh -O "$install_script";
+            /bin/bash "$install_script" -b -p ${CONDA_DIR};
+            rm "$install_script";
+            # Clean up the installer
+            conda clean --tarballs --index-cache --packages --yes;
+            find ${CONDA_DIR} -follow -type f -name '*.a' -delete;
+            find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete;
+            conda clean --force-pkgs-dirs --all --yes;
+            # Source conda.sh and mamba.sh
+            # echo ". ${CONDA_SCRIPT}" >> /etc/skel/.bashrc;
+            # echo ". ${CONDA_SCRIPT}" >> ~/.bashrc;
+            # echo ". ${MAMBA_SCRIPT} && mamba activate base" >> /etc/skel/.bashrc;
+            # echo ". ${MAMBA_SCRIPT} && mamba activate base" >> ~/.bashrc;
+            # Add group and fix permissions
+            # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
+            groupadd -r conda;
+            usermod -a -G conda "$USERNAME";
+            chown -R "$USERNAME:conda" "$CONDA_DIR";
+            chmod -R g+r+w "$CONDA_DIR";
+            find "${CONDA_DIR}" -type d -print0 | xargs -n 1 -0 chmod g+s;
     - title: Copy Files
       instructions:
         - COPY: ${{ devcontainer_main.path.environment }}$ ${{ __temp__.container_env_path }}$/
         - COPY: ${{ control.path.pkg_install_script }}$ ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
         - COPY: .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
+    - title: Recommended APT Packages
+      summary: Installation of recommended APT packages.
+      instructions:
+        - RUN: '#{{ return hook.docker_apt_install("main", "recommended") }}#'
+        - RUN: '#{{ return hook.docker_apt_post_process("main", "recommended") }}#'
     - title: Post-Installation
       summary: Run post-installation tasks.
       instructions:
         - RUN: |
             # Delete default ubuntu user.
-            # - https://github.com/devcontainers/images/blob/main/src/base-ubuntu/.devcontainer/Dockerfile
+            # - Ref: https://github.com/devcontainers/images/blob/main/src/base-ubuntu/.devcontainer/Dockerfile
             if id "ubuntu" &>/dev/null; then
                 echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user.";
             else
                 echo "User 'ubuntu' does not exist.";
             fi
+    - title: Optional APT Packages
+      summary: Installation of recommended APT packages.
+      instructions:
+        - RUN: '#{{ return hook.docker_apt_install("main", "optional") }}#'
+        - RUN: '#{{ return hook.docker_apt_post_process("main", "optional") }}#'
+    - title: Finalization
+      instructions:
+        - ARG: |
+            USER_SHELL=${{ devcontainer_main.var.user.shell }}$
+        - RUN: |
+            # Give user ownership of the entire home directory.
+            chown --recursive "$USERNAME:$USERNAME" "$HOME_DIR";
+
+            # Give the group (g) read and write (r+w) permissions on the entire home directory.
+            chmod --recursive g+r+w "$HOME_DIR";
+
+            # Set the group ID (g+s) on all directories in the home directory
+            # so that new files and directories created in the home directory inherit the group ID.
+            find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s;
+
+            # Set user's default shell.
+            # Fix `chsh`` always asking for a password on alpine linux
+            # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L520-L528
+            # - Ref: https://askubuntu.com/questions/812420/chsh-always-asking-a-password-and-get-pam-authentication-failure.
+            if [ ! -f "/etc/pam.d/chsh" ] || ! grep -Eq '^auth(.*)pam_rootok\.so$' /etc/pam.d/chsh; then
+                echo "auth sufficient pam_rootok.so" >> /etc/pam.d/chsh;
+            elif [[ -n "$(awk '/^auth(.*)pam_rootok\.so$/ && !/^auth[[:blank:]]+sufficient[[:blank:]]+pam_rootok\.so$/' /etc/pam.d/chsh)" ]]; then
+                awk '/^auth(.*)pam_rootok\.so$/ { $2 = "sufficient" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh;
+            fi;
+            chsh --shell "$USER_SHELL" "$USERNAME";
     - title: Tests
       summary: Run tests to verify the installation.
       instructions:
@@ -615,6 +803,10 @@ devcontainer_main:
             asy --version && printf '\n';
             python --version && printf '\n';
             pygmentize -V && printf '\n';
+    - title: Entry
+      instructions:
+        - CMD: |
+            [ "sleep", "infinity" ]
   container:
     name: Main Development Environment
     containerUser: '#{{ return f"{slugify(get("name"))}-dev" }}#'
@@ -646,10 +838,6 @@ devcontainer_main:
         username: ${{ devcontainer_main.container.containerUser }}$
         userUid: "1000"
         userGid: "1000"
-      # https://github.com/devcontainers/features/tree/main/src/conda
-      ghcr.io/devcontainers/features/conda:1:
-        version: latest
-        addCondaForge: true
       # https://github.com/devcontainers/features/tree/main/src/desktop-lite
       ghcr.io/devcontainers/features/desktop-lite:1:
         version: latest
@@ -665,10 +853,6 @@ devcontainer_main:
       ghcr.io/devcontainers/features/git-lfs:1:
         version: latest
         autoPull: true
-      # https://github.com/devcontainers/features/tree/main/src/git
-      ghcr.io/devcontainers/features/git:1:
-        version: latest
-        ppa: false
       # https://github.com/devcontainers/features/tree/main/src/github-cli
       ghcr.io/devcontainers/features/github-cli:1:
         version: latest
@@ -838,6 +1022,18 @@ devcontainer_main:
           - James-Yu.latex-workshop
           - ExecutableBookProject.myst-highlight
         settings:
+          github.copilot.chat.codeGeneration.instructions:
+            - text: |
+                This dev container includes an up-to-date version of Git,
+                built from source as needed, pre-installed and available on the `PATH`.
+            - text: |
+                This dev container includes the conda and mamba package managers
+                pre-installed and available on the `PATH`.
+                Additional packages installed using Conda/Mamba will be downloaded
+                from conda-forge or another repository configured by the user.
+                A user can install different versions of Python
+                than the one in this dev container by running a command like:
+                `conda install python=3.13`
           jupyter.kernels.filter:
             - path: /opt/conda/bin/python
               type: pythonEnvironment
@@ -874,6 +1070,19 @@ devcontainer_main:
                   focus: true
                   panel: new
   apt:
+    apt-utils:
+      summary: APT utilities for package management.
+      group: required
+      description: |
+        Provides internal APT tools used by frontends like apt-get and
+        aptitude. It enables progress reporting and other features.
+        Recommended for interactive or scripted environments.
+      url:
+        docs: https://manpages.ubuntu.com/manpages/noble/en/man8/apt-get.8.html
+        package: https://packages.ubuntu.com/noble/apt-utils
+        source: https://salsa.debian.org/apt-team/apt
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     autoconf:
       summary: Tool for generating configure scripts for building software.
       group: recommended
@@ -895,9 +1104,22 @@ devcontainer_main:
       url:
         docs: https://www.gnu.org/software/automake/manual/automake.html
         source: https://git.savannah.gnu.org/git/automake.git
+    bash-completion:
+      summary: Programmable completion for the Bash shell.
+      group: recommended
+      description: |
+        Adds intelligent tab-completion for Bash commands and arguments.
+        Useful for interactive shell users.
+      url:
+        docs: https://github.com/scop/bash-completion
+        package: https://packages.ubuntu.com/noble/bash-completion
+        source: https://salsa.debian.org/debian/bash-completion
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     build-essential:
       summary: Meta-package for essential compilation tools on Ubuntu.
       group: required
+      dependents: [ git ]
       description: |
         The 'build-essential' package is a meta-package that installs a
         collection of packages necessary for compiling software on Ubuntu.
@@ -1002,6 +1224,35 @@ devcontainer_main:
       url:
         docs: https://dev.mysql.com/doc/
         source: https://salsa.debian.org/mariadb-team/mysql-defaults
+    dialog:
+      summary: Display user-friendly dialog boxes from shell scripts.
+      group: recommended
+      description: |
+        The 'dialog' package allows shell scripts to present
+        interactive dialog boxes, such as menus, input boxes, and
+        message boxes, in a terminal interface. It is useful for
+        creating user-friendly command-line interfaces. While not
+        essential, it is recommended for scripts that require user
+        interaction.
+      url:
+        docs: https://invisible-island.net/dialog/dialog.html
+        package: https://packages.ubuntu.com/noble/dialog
+        source: https://salsa.debian.org/debian/dialog
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    dirmngr:
+      summary: Network certificate management service for GnuPG.
+      group: essential
+      description: |
+        Handles network operations for GnuPG, such as retrieving
+        certificates and CRLs. Required for managing keys and verifying
+        signatures from keyservers.
+      url:
+        docs: https://gnupg.org/documentation/manuals/gnupg/
+        package: https://packages.ubuntu.com/noble/dirmngr
+        source: https://dev.gnupg.org/source/dirmngr/
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     dpkg-dev:
       summary: Debian package development tools.
       group: essential
@@ -1121,6 +1372,7 @@ devcontainer_main:
     gettext:
       summary: GNU Internationalization utilities.
       group: essential
+      dependents: [ git ]
       description: |
         gettext provides a set of tools and libraries for internationalizing
         and localizing software. It enables programs to be translated into
@@ -1149,19 +1401,6 @@ devcontainer_main:
         source: https://github.com/ArtifexSoftware/ghostpdl
       notes: |
         Required for eps conversion (see [Island of Tex Dockerfile](https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile.base#L26)).
-    git:
-      summary: Distributed version control system.
-      group: required
-      description: |
-        Git is a widely-used distributed version control system designed
-        for speed and efficiency in managing source code changes. It
-        allows developers to track revisions, collaborate on code, and
-        manage project history. In development environments, Git is
-        essential for version control, code collaboration, and integration
-        with platforms like GitHub and GitLab.
-      url:
-        docs: https://git-scm.com/doc
-        source: https://github.com/git/git
     gnupg:
       summary: GNU Privacy Guard - encryption and signing tool.
       group: required
@@ -1240,6 +1479,24 @@ devcontainer_main:
         source: https://gitlab.com/graphviz/graphviz
       notes: |
         Included in the [Sphinx Docker image](https://github.com/sphinx-doc/sphinx-docker-images/blob/master/latexpdf/Dockerfile).
+    htop:
+      summary: Interactive process viewer for Unix systems.
+      group: recommended
+      description: |
+        htop is an interactive process viewer that provides a
+        real-time, colorized display of system processes. It
+        allows users to scroll through the process list
+        vertically and horizontally, and to perform actions
+        such as killing or renicing processes without entering
+        their PIDs. While not essential, it is recommended for
+        users who require a more user-friendly alternative to
+        the traditional 'top' command.
+      url:
+        docs: https://htop.dev/
+        package: https://packages.ubuntu.com/noble/htop
+        source: https://github.com/htop-dev/htop
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     imagemagick:
       summary: Image manipulation tools.
       group: recommended
@@ -1253,6 +1510,21 @@ devcontainer_main:
         source: https://github.com/ImageMagick/ImageMagick
       notes: |
         Included in the [Sphinx Docker image](https://github.com/sphinx-doc/sphinx-docker-images/blob/master/latexpdf/Dockerfile).
+    init-system-helpers:
+      summary: Tools for managing compatibility across init systems.
+      group: essential
+      description: |
+        Provides key scripts (`service`, `invoke-rc.d`, etc.) used by
+        Debian-based systems to manage services and maintain
+        compatibility across different init systems (systemd, SysV,
+        etc.). Essential for correct package installation and service
+        handling during boot and runtime.
+      url:
+        docs: https://manpages.ubuntu.com/manpages/noble/en/man8/service.8.html
+        package: https://packages.ubuntu.com/noble/init-system-helpers
+        source: https://salsa.debian.org/debian/init-system-helpers
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     inotify-tools:
       summary: Command-line utilities for inotify.
       group: recommended
@@ -1266,6 +1538,19 @@ devcontainer_main:
         docs: https://github.com/inotify-tools/inotify-tools
         package: https://packages.ubuntu.com/noble/inotify-tools
         source: https://github.com/inotify-tools/inotify-tools
+    iproute2:
+      summary: Networking and traffic control utilities.
+      group: required
+      description: |
+        Provides tools like 'ip' and 'tc' for configuring network
+        interfaces and managing routing. Essential for network setup and
+        diagnostics.
+      url:
+        docs: https://man7.org/linux/man-pages/man8/ip.8.html
+        package: https://packages.ubuntu.com/noble/iproute2
+        source: https://git.kernel.org/pub/scm/network/iproute2/iproute2.git
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     jq:
       summary: Command-line JSON processor.
       group: required
@@ -1281,6 +1566,24 @@ devcontainer_main:
         docs: https://stedolan.github.io/jq/manual/
         package: https://packages.ubuntu.com/noble/jq
         source: https://github.com/stedolan/jq
+    less:
+      summary: Terminal pager for viewing text one screen at a time.
+      group: essential
+      description: |
+        The 'less' command is a terminal pager that allows users to
+        view the contents of text files one screen at a time. Unlike
+        traditional text editors, 'less' does not load the entire file
+        into memory, making it efficient for viewing large files. It
+        supports both forward and backward navigation, search
+        functionality, and various display options. 'less' is commonly
+        used in conjunction with other commands to paginate output,
+        making it an essential tool for command-line environments.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/less.1.html
+        package: https://packages.ubuntu.com/noble/less
+        source: https://github.com/gwsw/less
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libatk-bridge2.0-0:
       summary: AT-SPI 2 toolkit bridge.
       group: recommended
@@ -1358,6 +1661,7 @@ devcontainer_main:
     libcurl4-openssl-dev:
       summary: Development files for libcurl with OpenSSL support.
       group: essential
+      dependents: [ git ]
       description: |
         This package provides the development files for libcurl compiled
         with OpenSSL support. libcurl is a client-side URL transfer
@@ -1421,6 +1725,23 @@ devcontainer_main:
       url:
         docs: https://libevent.org/
         source: https://github.com/libevent/libevent
+    libexpat1-dev:
+      summary: Development files for the Expat XML parser library.
+      group: required
+      dependents: [ git ]
+      description: |
+        The 'libexpat1-dev' package provides the header files and
+        development libraries for Expat, a fast, stream-oriented XML
+        parser written in C. It enables developers to build
+        applications that parse XML documents efficiently by
+        registering handlers that are called when the parser
+        encounters specific structures in the XML. This package is
+        essential for compiling software that depends on Expat for
+        XML parsing functionality.
+      url:
+        docs: https://libexpat.github.io/
+        package: https://packages.ubuntu.com/noble/libexpat1-dev
+        source: https://launchpad.net/ubuntu/noble/+source/expat
     libffi-dev:
       summary: Development files for the Foreign Function Interface library.
       group: essential
@@ -1472,6 +1793,25 @@ devcontainer_main:
       url:
         docs: https://gcc.gnu.org/onlinedocs/
         source: https://gcc.gnu.org/git/gcc.git
+    libgdbm6t64:
+      summary: GNU dbm database library with 64-bit time_t support.
+      group: required
+      description: |
+        The 'libgdbm6t64' package provides the GNU dbm (GDBM) database
+        library, compiled with 64-bit time_t support to accommodate the
+        time_t transition in Ubuntu 24.04 (Noble Numbat). This library
+        offers a simple database engine for storing key-value pairs,
+        commonly used by various applications and programming languages
+        for persistent storage. The 't64' variant ensures compatibility
+        with systems and applications that utilize 64-bit time
+        representations, making it a required component in the Ubuntu
+        Noble environment.
+      url:
+        docs: https://www.gnu.org.ua/software/gdbm/manual/
+        package: https://packages.ubuntu.com/noble/libgdbm6t64
+        source: https://git.savannah.gnu.org/git/gdbm.git
+      notes: |
+        Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libgdbm-dev:
       summary: Development files for the GNU dbm database library.
       group: optional
@@ -1575,6 +1915,8 @@ devcontainer_main:
       url:
         docs: https://web.mit.edu/kerberos/krb5-1.20/doc/
         source: https://github.com/krb5/krb5
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libgtk-3-0:
       summary: GTK+ graphical user interface library.
       group: recommended
@@ -1587,6 +1929,24 @@ devcontainer_main:
         docs: https://docs.gtk.org/gtk3/
         package: https://packages.ubuntu.com/noble/libgtk-3-0
         source: https://gitlab.gnome.org/GNOME/gtk
+    libicu:
+      summary: International Components for Unicode library.
+      group: required
+      spec:
+        name: libicu[0-9][0-9]
+      description: |
+        The 'libicu72' package provides the International Components
+        for Unicode (ICU) libraries, which offer robust and full-featured
+        Unicode services. These services include character set conversions,
+        collation, date/time formatting, and more. It is essential for
+        applications that require comprehensive Unicode support, such as
+        internationalized software and platforms like .NET and R.
+      url:
+        docs: https://icu.unicode.org/
+        package: https://packages.ubuntu.com/noble/libicu72
+        source: https://github.com/unicode-org/icu
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libjpeg-dev:
       summary: Development files for the JPEG image compression library.
       group: essential
@@ -1597,6 +1957,23 @@ devcontainer_main:
       url:
         docs: https://libjpeg.sourceforge.io/
         source: https://github.com/libjpeg-turbo/libjpeg-turbo
+    libkrb5-3:
+      summary: MIT Kerberos runtime libraries.
+      group: required
+      description: |
+        The 'libkrb5-3' package provides the core runtime libraries for
+        the MIT Kerberos 5 authentication system. It is essential for
+        applications and services that require secure authentication
+        mechanisms, such as SSH, NFS, and various enterprise-level
+        services. In Ubuntu Noble, it ensures compatibility with the
+        64-bit time_t transition, making it a required component for
+        systems and applications that depend on Kerberos functionality.
+      url:
+        docs: https://web.mit.edu/kerberos/krb5-1.20/
+        package: https://packages.ubuntu.com/noble/libkrb5-3
+        source: https://gitlab.com/ubuntu/krb5
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libkrb5-dev:
       summary: Development files for MIT Kerberos authentication system.
       group: recommended
@@ -1618,9 +1995,11 @@ devcontainer_main:
         compressed files.
       url:
         docs: https://tukaani.org/xz/
-    liblttng-ust1:
+    liblttng-ust:
       summary: LTTng Userspace Tracer library.
       group: optional
+      spec:
+        name: liblttng-ust[0-9]
       description: |
         The 'liblttng-ust1' package provides the LTTng Userspace Tracer
         library, enabling low-overhead tracing of user-space applications.
@@ -1632,6 +2011,8 @@ devcontainer_main:
         docs: https://manpages.ubuntu.com/manpages/noble/en/man3/lttng-ust.3.html
         package: https://packages.ubuntu.com/noble/liblttng-ust1
         source: https://git.lttng.org/?p=lttng-ust.git
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libmagickcore-dev:
       summary: Development files for ImageMagick's core libraries.
       group: recommended
@@ -1688,6 +2069,24 @@ devcontainer_main:
       url:
         docs: https://invisible-island.net/ncurses/
         source: https://invisible-island.net/datafiles/release/ncurses.tar.gz
+    libncursesw6:
+      summary: Terminal handling library with wide character support.
+      group: required
+      description: |
+        The 'libncursesw6' package provides the ncurses library
+        routines, offering a terminal-independent method of updating
+        character screens with reasonable optimization. This version
+        includes support for wide characters, enabling applications to
+        handle internationalized text and Unicode characters. It is
+        essential for programs that require advanced terminal handling
+        capabilities, such as text editors, interface tools, and
+        console-based applications.
+      url:
+        docs: https://invisible-island.net/ncurses/man/ncurses.3x.html
+        package: https://packages.ubuntu.com/noble/libncursesw6
+        source: https://invisible-island.net/ncurses/
+      notes: |
+        Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libncursesw5-dev:
       summary: Development files for the wide-character ncurses library.
       group: essential
@@ -1749,6 +2148,61 @@ devcontainer_main:
         docs: https://developer.gnome.org/pango/
         package: https://packages.ubuntu.com/noble/libpangocairo-1.0-0
         source: https://gitlab.gnome.org/GNOME/pango
+    libpcre2-8-0:
+      summary: PCRE2 regular expression library (8-bit)
+      group: required
+      description: |
+        The 'libpcre2-8-0' package provides the 8-bit runtime library
+        for PCRE2 (Perl Compatible Regular Expressions, version 2),
+        which offers functions to support regular expressions with
+        syntax and semantics similar to Perl 5. This library is
+        essential for applications that require pattern matching
+        capabilities, such as text processing tools and programming
+        languages. In Ubuntu Noble (24.04), 'libpcre2-8-0' is the
+        preferred library over the older 'pcre3' library.
+      url:
+        docs: https://pcre.org/current/doc/html/
+        package: https://packages.ubuntu.com/noble/libpcre2-8-0
+        source: https://launchpad.net/ubuntu/+source/pcre2
+      notes: |
+        Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    libpcre2-dev:
+      summary: Development files for PCRE2 – Perl-compatible regular expressions.
+      group: required
+      dependents: [ git ]
+      description: |
+        The 'libpcre2-dev' package provides the development files for
+        PCRE2 (Perl Compatible Regular Expressions, version 2), a
+        library of functions that implement regular expression pattern
+        matching using the same syntax and semantics as Perl 5. This
+        package includes header files, static libraries, and
+        documentation necessary for compiling applications that use
+        PCRE2. It is essential for developers who need to build
+        software with advanced regular expression capabilities.
+      url:
+        docs: https://pcre.org/current/doc/html/
+        package: https://packages.ubuntu.com/noble/libpcre2-dev
+        source: https://launchpad.net/ubuntu/noble/+source/pcre2
+    libpcre2-posix3:
+      summary: PCRE2 POSIX-compatible regular expression runtime library.
+      group: essential
+      dependents: [ git ]
+      description: |
+        The 'libpcre2-posix3' package provides a POSIX-compatible API
+        for the PCRE2 (Perl Compatible Regular Expressions) library.
+        It allows applications to utilize regular expressions with
+        syntax and semantics similar to Perl 5, through a POSIX-style
+        interface. This package is particularly useful for software
+        that relies on POSIX regex functions but benefits from the
+        enhanced capabilities of PCRE2. It is recommended for
+        applications requiring POSIX-compatible regular expression
+        support.
+      url:
+        docs: https://pcre.org/current/doc/html/
+        package: https://packages.ubuntu.com/noble/libpcre2-posix3
+        source: https://github.com/PhilipHazel/pcre2
+      notes: |
+        Included in the [`git`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L257C24-L257C39) feature.
     libpng-dev:
       summary: Development files for the PNG image format library.
       group: essential
@@ -1824,9 +2278,26 @@ devcontainer_main:
       url:
         docs: https://www.sqlite.org/docs.html
         source: https://www.sqlite.org/src
+    libssl3t64:
+      summary: OpenSSL 3.0 shared libraries with 64-bit time_t support.
+      group: required
+      description: |
+        The 'libssl3t64' package provides the shared libraries for OpenSSL 3.0,
+        compiled with 64-bit time_t support. This ensures compatibility with
+        systems and applications that use 64-bit time representations, aligning
+        with the time_t transition in Ubuntu Noble (24.04). It is essential for
+        applications that require secure communication over the Internet using
+        SSL and TLS protocols, and that are built against the 64-bit time_t ABI.
+      url:
+        docs: https://www.openssl.org/docs/
+        package: https://packages.ubuntu.com/noble/libssl3t64
+        source: https://launchpad.net/ubuntu/+source/openssl
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libssl-dev:
       summary: Development files for the OpenSSL library.
       group: essential
+      dependents: [ git ]
       description: |
         This package provides the headers and static libraries for OpenSSL,
         implementing the SSL and TLS protocols. It's essential for developing
@@ -1846,6 +2317,8 @@ devcontainer_main:
       url:
         docs: https://gcc.gnu.org/onlinedocs/libstdc++/
         source: https://gcc.gnu.org/git/gcc.git
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     libtirpc3t64:
       summary: Transport Independent RPC library (t64 variant).
       group: required
@@ -2060,6 +2533,59 @@ devcontainer_main:
         docs: https://llvm.org/docs/
         package: https://packages.ubuntu.com/noble/llvm
         source: https://github.com/llvm/llvm-project
+    locales:
+      summary: GNU C Library locale data and generation tools.
+      group: essential
+      description: |
+        The 'locales' package provides the infrastructure for
+        managing language and regional settings on Ubuntu systems.
+        It includes utilities like 'locale' and 'locale-gen' to
+        display and generate locale data, respectively. These
+        settings influence various aspects of system behavior,
+        such as language, character encoding, and formatting of
+        dates and numbers. This package is essential for
+        configuring and supporting internationalization in
+        applications and the system environment.
+      url:
+        docs: https://manpages.ubuntu.com/manpages/noble/en/man7/locale.7.html
+        package: https://packages.ubuntu.com/noble/locales
+        source: https://salsa.debian.org/glibc-team/glibc
+      post_process: |
+        # Ensure at least the en_US.UTF-8 UTF-8 locale is available = common need for both applications and things like the agnoster ZSH theme.
+        # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L145C5-L150C7
+        if ! grep -o -E '^\s*en_US.UTF-8\s+UTF-8' /etc/locale.gen > /dev/null; then
+            echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen;
+            locale-gen;
+        fi
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    lsb-release:
+      summary: Linux Standard Base version reporting utility.
+      group: essential
+      description: |
+        The 'lsb-release' package provides the 'lsb_release' command,
+        which outputs distribution-specific information. In Ubuntu
+        Noble, it offers a minimal implementation that retrieves data
+        from '/etc/os-release'. It is recommended for scripts and
+        tools that need to identify the distribution.
+      url:
+        docs: https://manpages.ubuntu.com/manpages/noble/en/man1/lsb_release.1.html
+        package: https://packages.ubuntu.com/noble/lsb-release
+        source: https://launchpad.net/ubuntu/+source/lsb-release-minimal
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    lsof:
+      summary: List open files.
+      group: recommended
+      description: |
+        Lists information about files opened by processes. Useful for
+        debugging and monitoring, but not essential for all environments.
+      url:
+        docs: https://man7.org/linux/man-pages/man8/lsof.8.html
+        package: https://packages.ubuntu.com/noble/lsof
+        source: https://github.com/lsof-org/lsof
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     make:
       summary: Utility for directing compilation.
       group: required
@@ -2070,6 +2596,56 @@ devcontainer_main:
       url:
         docs: https://www.gnu.org/software/make/manual/
         source: https://git.savannah.gnu.org/git/make.git
+    man-db:
+      summary: On-disk database and utilities for Unix manual pages.
+      group: essential
+      description: |
+        Installs and manages the manual page database and utilities
+        such as `man`. It allows users to read documentation about
+        installed commands, libraries, and APIs. It is essential for
+        accessing reference material in CLI environments.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/man.1.html
+        package: https://packages.ubuntu.com/noble/man-db
+        source: https://salsa.debian.org/man-db-team/man-db
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    manpages:
+      summary: Unix manual pages for user-level commands.
+      group: recommended
+      description: |
+        Provides a large collection of manual pages describing standard
+        user commands, file formats, and tools. Recommended for user and
+        developer reference, but not strictly necessary to run software.
+      url:
+        docs: https://man7.org/linux/man-pages/
+        package: https://packages.ubuntu.com/noble/manpages
+        source: https://salsa.debian.org/manpages-team/manpages
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    manpages-dev:
+      summary: Developer-oriented manpages for C programming and system APIs.
+      group: recommended
+      description: |
+        Contains man pages for C library functions, system calls,
+        headers, and development tools. Recommended for programmers and
+        developers working on C/C++ or system-level code who want to
+        look up function definitions and usage.
+      url:
+        docs: https://man7.org/linux/man-pages/
+        package: https://packages.ubuntu.com/noble/manpages-dev
+        source: https://salsa.debian.org/manpages-team/manpages-dev
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    mercurial:
+      summary: Scalable distributed version control system.
+      group: required
+      description: |
+        A distributed version control system like Git.
+        Mercurial is needed for building certain packages
+        from source code.
+      url:
+        docs: https://www.mercurial-scm.org/guide
     moreutils:
       summary: Collection of additional Unix utilities complementing core tools.
       group: recommended
@@ -2090,6 +2666,62 @@ devcontainer_main:
         docs: https://manpages.ubuntu.com/manpages/noble/en/man1/moreutils.1.html
         package: https://packages.ubuntu.com/noble/moreutils
         source: https://launchpad.net/ubuntu/noble/+source/moreutils
+    nano:
+      summary: Small, friendly text editor inspired by Pico.
+      group: essential
+      description: |
+        GNU nano is a user-friendly, terminal-based text editor
+        designed as a free replacement for Pico. It offers features
+        like syntax highlighting, undo/redo, line numbering, and
+        search-and-replace with regex support. Its simplicity makes
+        it ideal for editing configuration files and writing scripts,
+        making it an essential tool for system administrators and
+        developers working in command-line environments.
+      url:
+        docs: https://www.nano-editor.org/docs.php
+        package: https://packages.ubuntu.com/noble/nano
+        source: https://git.savannah.gnu.org/git/nano.git
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    ncdu:
+      summary: Interactive disk usage analyzer with ncurses interface.
+      group: recommended
+      description: |
+        ncdu (NCurses Disk Usage) is a terminal-based disk usage
+        analyzer that provides a fast and user-friendly interface
+        for exploring directory sizes. It allows users to navigate
+        through directories, sort by size, and delete files or
+        directories directly from the interface. This tool is
+        particularly useful for identifying large files and
+        directories that consume significant disk space. While not
+        essential for all environments, it is recommended for users
+        who need an efficient way to manage disk usage.
+      url:
+        docs: https://manpages.ubuntu.com/manpages/noble/en/man1/ncdu.1.html
+        package: https://packages.ubuntu.com/noble/ncdu
+        source: https://g.blicky.net/ncdu.git/
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    netbase:
+      summary: Basic TCP/IP networking configuration.
+      group: required
+      description: |
+        netbase provides essential networking configuration files such as
+        /etc/services, /etc/protocols, and /etc/rpc. These files are
+        fundamental for the proper operation of network services and are
+        required by various networking tools and daemons to function
+        correctly.
+    openssh-client:
+      summary: Secure shell client for encrypted network connections.
+      group: required
+      description: |
+        The OpenSSH client provides secure encrypted communications
+        between hosts over an insecure network.
+        It is commonly used for remote login and command execution.
+        In development containers, it facilitates secure access
+        to remote servers, code repositories, and other network resources.
+      url:
+        docs: https://www.openssh.com/manual.html
     patch:
       summary: Apply a diff file to an original.
       group: essential
@@ -2112,6 +2744,36 @@ devcontainer_main:
         tools in Unix-like environments.
       url:
         docs: https://manpages.ubuntu.com/manpages/noble/en/man1/perl.1.html
+    procps:
+      summary: Utilities for monitoring and managing system processes.
+      group: essential
+      description: |
+        The procps package includes command-line utilities such as ps,
+        top, vmstat, and others for monitoring and managing system
+        processes. These tools are vital for observing system performance,
+        diagnosing issues, and managing processes within development
+        environments.
+      url:
+        source: https://gitlab.com/procps-ng/procps
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
+    psmisc:
+      summary: Utilities for managing processes on Unix systems.
+      group: recommended
+      description: |
+        The 'psmisc' package provides a set of utilities for
+        managing processes, including 'killall', 'fuser',
+        'pstree', and 'peekfd'. These tools assist in
+        identifying and controlling processes and their
+        resource usage. It is recommended for users who need
+        additional tools beyond the basic process management
+        commands.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/killall.1.html
+        package: https://packages.ubuntu.com/noble/psmisc
+        source: https://gitlab.com/psmisc/psmisc
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     python-is-python3:
       summary: Symlink /usr/bin/python to Python 3 interpreter.
       group: required
@@ -2188,46 +2850,6 @@ devcontainer_main:
         docs: https://pygments.org/docs/
         package: https://packages.ubuntu.com/noble/python3-pygments
         source: https://github.com/pygments/pygments
-    mercurial:
-      summary: Scalable distributed version control system.
-      group: required
-      description: |
-        A distributed version control system like Git.
-        Mercurial is needed for building certain packages
-        from source code.
-      url:
-        docs: https://www.mercurial-scm.org/guide
-    netbase:
-      summary: Basic TCP/IP networking configuration.
-      group: required
-      description: |
-        netbase provides essential networking configuration files such as
-        /etc/services, /etc/protocols, and /etc/rpc. These files are
-        fundamental for the proper operation of network services and are
-        required by various networking tools and daemons to function
-        correctly.
-    openssh-client:
-      summary: Secure shell client for encrypted network connections.
-      group: required
-      description: |
-        The OpenSSH client provides secure encrypted communications
-        between hosts over an insecure network.
-        It is commonly used for remote login and command execution.
-        In development containers, it facilitates secure access
-        to remote servers, code repositories, and other network resources.
-      url:
-        docs: https://www.openssh.com/manual.html
-    procps:
-      summary: Utilities for monitoring and managing system processes.
-      group: essential
-      description: |
-        The procps package includes command-line utilities such as ps,
-        top, vmstat, and others for monitoring and managing system
-        processes. These tools are vital for observing system performance,
-        diagnosing issues, and managing processes within development
-        environments.
-      url:
-        source: https://gitlab.com/procps-ng/procps
     rsync:
       summary: Fast, versatile tool for local and remote file synchronization.
       group: required
@@ -2248,7 +2870,7 @@ devcontainer_main:
         source: https://github.com/WayneD/rsync
     software-properties-common:
       summary: Manage software repositories and PPAs.
-      group: essential
+      group: required
       description: |
         The 'software-properties-common' package provides an abstraction
         of the used apt repositories. It allows you to easily manage your
@@ -2284,6 +2906,21 @@ devcontainer_main:
         docs: https://www.sqlite.org/docs.html
         package: https://packages.ubuntu.com/noble/sqlite3
         source: https://www.sqlite.org/src
+    strace:
+      summary: Diagnostic tool for tracing system calls.
+      group: recommended
+      description: |
+        strace is used to monitor and debug interactions between programs
+        and the Linux kernel by tracing system calls and signals. It's a
+        vital tool for diagnosing runtime issues, especially in debugging,
+        security auditing, and reverse engineering. Recommended for
+        developers and sysadmins.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/strace.1.html
+        package: https://packages.ubuntu.com/noble/strace
+        source: https://github.com/strace/strace
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     sudo:
       summary: Execute commands with elevated privileges.
       group: required
@@ -2316,6 +2953,16 @@ devcontainer_main:
         docs: https://www.swig.org/Doc4.0/
         package: https://packages.ubuntu.com/noble/swig
         source: https://github.com/swig/swig
+    tar:
+      summary: GNU tar – archiving utility for combining multiple files into a single archive.
+      group: essential
+      dependents: [ git ]
+      description: |
+        GNU tar is a standard Unix utility used to create, maintain, modify, and extract files from archives. It supports various compression methods, including gzip, bzip2, and xz, facilitating efficient storage and distribution of files. Commonly used for backups and software packaging, tar is an essential tool in Unix-like environments.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/tar.1.html
+        package: https://packages.ubuntu.com/noble/tar
+        source: https://launchpad.net/ubuntu/+source/tar
     tk-dev:
       summary: Development files for the Tk GUI toolkit.
       group: essential
@@ -2328,6 +2975,22 @@ devcontainer_main:
         docs: https://www.tcl.tk/doc/
         package: https://packages.ubuntu.com/noble/tk-dev
         source: https://core.tcl-lang.org/tk
+    tree:
+      summary: Display directories and files in a tree-like format.
+      group: recommended
+      description: |
+        The 'tree' command provides a recursive, depth-indented listing
+        of files and directories, visualizing the structure in a
+        tree-like format. It is particularly useful for understanding
+        complex directory hierarchies and for documentation purposes.
+        While not essential for all environments, it is recommended for
+        users who need to visualize directory structures effectively.
+      url:
+        docs: https://man7.org/linux/man-pages/man1/tree.1.html
+        package: https://packages.ubuntu.com/noble/tree
+        source: https://gitlab.com/OldManProgrammer/unix-tree
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     tzdata:
       summary: Time zone and daylight-saving time data.
       group: required
@@ -2435,6 +3098,8 @@ devcontainer_main:
       url:
         docs: https://tukaani.org/xz/
         source: https://git.tukaani.org/?p=xz.git
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     zip:
       summary: Command-line utility for creating ZIP archives.
       group: essential
@@ -2465,9 +3130,12 @@ devcontainer_main:
         docs: https://zlib.net/manual.html
         package: https://packages.ubuntu.com/noble/zlib1g
         source: https://github.com/madler/zlib
+      notes: |
+        Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.
     zlib1g-dev:
       summary: Development files for the zlib compression library.
       group: essential
+      dependents: [ git ]
       description: |
         This package provides the headers and static libraries for zlib, a
         compression library implementing the deflate algorithm. It's
@@ -2475,6 +3143,20 @@ devcontainer_main:
       url:
         docs: https://zlib.net/manual.html
         source: https://github.com/madler/zlib
+    zsh:
+      summary: Z Shell – advanced interactive shell.
+      group: recommended
+      description: |
+        Zsh is a powerful and highly customizable Unix shell that
+        incorporates features from bash, ksh, and tcsh. It offers
+        advanced features like improved tab completion, spell
+        correction, and theming support. While not essential for
+        system operation, it is a popular alternative for users
+        seeking enhanced interactive shell experiences.
+      url:
+        docs: https://zsh.sourceforge.io/Doc/
+        package: https://packages.ubuntu.com/noble/zsh
+        source: https://sourceforge.net/p/zsh/code/ci/master/tree/
   environment:
     base:
       conda:
@@ -3587,47 +4269,117 @@ devcontainer_main:
         This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
         See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
         for more details.
-#file_pixi_manifest:
-#  # https://pixi.sh/latest/reference/pixi_manifest/
-#  name: Pixi Manifest
-#  summary: |
-#    The Pixi manifest file in TOML format.
-#  type: toml
-#  path: pixi.toml
-#  content:
-#    project:
-#      name: ${{ name }}$
-#      version: '#{{ return manager.changelog.current_public.get("version") }}#'
-#      authors: |
-#        #{{
-#          return [
-#            f"{author["name"]["full"]}{f" <{author["email"]["id"]}>" if "email" in author else ""}"
-#            for author in manager.user.members_with_role_types("Author", active_only=True)
-#          ]
-#        }}#
-#      description: '#{{ return get("title") }}#'
-#      license: '#{{ return get("license.expression") }}#'
-#      license-file: |
-#        #{{
-#          license_components = list(get("license.component", {}).values())
-#          if not license_components:
-#            return
-#          return license_components[0]["path"]["text_plain"]
-#        }}#
-#      readme: '#{{ return get("file_readme.path") }}#'
-#      homepage: '#{{ return get("web.url.home") }}#'
-#      repository: ${{ repo.url.home }}$
-#      documentation: ${{ .homepage }}$
-#      platforms: [ "win-64", "linux-64", "osx-64", "osx-arm64" ]
-#      channels: [ "conda-forge" ]
-#    environments:
-#      prod-py312:
-#        features: []
-#        solve-group: ""
-#    feature:
-#      app:
-#        dependencies:
-#  content_setting:
-#    filter:
-#      no_value:
-#        jsonpath: $.project.*
+  volume:
+    global_bashrc:
+      path: /etc/bash.bashrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.bash.global_bashrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.global_rc }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+    global_zshrc:
+      path: /etc/zsh/zshrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.zsh.global_zshrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.global_rc }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+      notes: |
+        - The file is located at `/etc/zsh/zshrc` on Debian/Alpine-based images,
+          and at `/etc/zshrc` on Red Hat-based images
+          (cf. [`common-utils`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L510-L514) feature).
+    root_bashrc:
+      path: /root/.bashrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.bash.root_bashrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.bash.theme }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+  home:
+    bashrc:
+      path: .bashrc
+      content: |
+        # #{{ return "=" * 50 }}#
+        # ${{ name }}$
+        # #{{ return "=" * 50 }}#
+        # This section is automatically generated.
+
+        # Set source marker
+        export ${{ devcontainer_main.var.bash.user_bashrc_source_marker }}$=1
+
+        ${{ devcontainer_main.var.bash.theme }}$
+
+        # #{{ return "=" * 50 }}#
+        # END OF ${{ name }}$ SECTION
+        # #{{ return "=" * 50 }}#
+file_pixi_manifest:
+ # https://pixi.sh/latest/reference/pixi_manifest/
+ name: Pixi Manifest
+ summary: |
+   The Pixi manifest file in TOML format.
+ type: toml
+ path: pixi.toml
+ content:
+   project:
+     name: ${{ name }}$
+     version: '#{{ return manager.changelog.current_public.get("version") }}#'
+     authors: |
+       #{{
+         return [
+           f"{author["name"]["full"]}{f" <{author["email"]["id"]}>" if "email" in author else ""}"
+           for author in manager.user.members_with_role_types("Author", active_only=True)
+         ]
+       }}#
+     description: '#{{ return get("title") }}#'
+     license: '#{{ return get("license.expression") }}#'
+     license-file: |
+       #{{
+         license_components = list(get("license.component", {}).values())
+         if not license_components:
+           return
+         return license_components[0]["path"]["text_plain"]
+       }}#
+     readme: '#{{ return get("file_readme.path") }}#'
+     homepage: '#{{ return get("web.url.home") }}#'
+     repository: ${{ repo.url.home }}$
+     documentation: ${{ .homepage }}$
+     platforms: [ "win-64", "linux-64", "osx-64", "osx-arm64" ]
+     channels: [ "conda-forge" ]
+   environments:
+     prod-py312:
+       features: []
+       solve-group: ""
+   feature:
+     app:
+       dependencies:
+ content_setting:
+   filter:
+     no_value:
+       jsonpath: $.project.*
