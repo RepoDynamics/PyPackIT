@@ -84,7 +84,7 @@ class InlineDataGenerator:
         return self
 
     def docker_apt_install(self, devcontainer_id: str, group: str) -> str | None:
-        indent = 4 * " "  # for 'RUN '
+        indent = 4 * " "
         apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
         packages = sorted(f"{indent}{pkg["spec"]["full"]}" for pkg in apt_packages.values() if pkg["group"] == group)
         if not packages:
@@ -102,10 +102,9 @@ class InlineDataGenerator:
             ";",
             "apt-get dist-clean;"
         ]
-        return "\n".join(f"{indent}{line}" for line in lines if line).strip()
+        return "\n".join(line for line in lines if line).strip()
 
     def docker_apt_post_process(self, devcontainer_id: str, group: str) -> str | None:
-        indent = 4 * " "  # for 'RUN '
         apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
         group_packages = [pkg for pkg in apt_packages.values() if pkg["group"] == group]
         lines = []
@@ -118,7 +117,7 @@ class InlineDataGenerator:
                 if not line or line.startswith("#"):
                     continue
                 lines.append(line)
-        return "\n".join(f"{indent}{line}" for line in lines).strip() if lines else None
+        return "\n".join(line for line in lines).strip() if lines else None
 
     def pypkg_test(self, test_pkg_id: str) -> dict:
         """Create test package data."""
