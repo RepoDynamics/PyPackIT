@@ -19,16 +19,19 @@ Options:
     --no-update             Skip 'apt-get update' step before installation.
     --no-clean              Skip 'apt-get dist-clean' step after installation.
     --interactive           Allow apt to prompt the user (default is non-interactive).
+    --repofile <path>       Path to file containing newline-separated arguments
+                            to pass to 'add-apt-repository', one set per line.
     --help                  Show this help message and exit.
 
 Example:
-    $0 apt.txt --logfile /tmp/install.log --no-clean
+    $0 apt.txt --logfile /tmp/install.log --repofile repos.txt --no-clean
 EOF
 }
 
 set -euxo pipefail
 
 LOGFILE=""
+REPOFILE=""
 DO_UPDATE=true
 DO_CLEAN=true
 NONINTERACTIVE=true
@@ -51,6 +54,10 @@ while [[ $# -gt 0 ]]; do
         --logfile)
             shift
             LOGFILE=$1
+            ;;
+        --repofile)
+            shift
+            REPOFILE=$1
             ;;
         --no-update)
             DO_UPDATE=false
@@ -102,7 +109,20 @@ if [[ "$NONINTERACTIVE" == true ]]; then
     export DEBIAN_FRONTEND=noninteractive
 fi
 
-# add-apt-repository
+# Handle repository addition via add-apt-repository
+if [[ -n "$REPOFILE" ]]; then
+    if [[ ! -f "$REPOFILE" ]]; then
+        echo "⛔ Repo file '$REPOFILE' does not exist." >&2
+        exit 1
+    fi
+
+    echo "➕ Adding APT repositories from '$REPOFILE'..."
+    while IFS= read -r line; do
+        [[ -z "$line" || "$line" =~ ^\s*# ]] && continue
+        echo "📦 Running: add-apt-repository $line"
+        add-apt-repository $line
+    done < "$REPOFILE"
+fi
 
 if "$DO_UPDATE"; then
     echo "🔄 Updating package lists."
