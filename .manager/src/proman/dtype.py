@@ -220,6 +220,8 @@ class DynamicFileType(_Enum):
     DEVCONTAINER_METADATA = ("devcontainer_metadata", "Devcontainer Metadata")
     DEVCONTAINER_DOCKERFILE = ("devcontainer_dockerfile", "Devcontainer Dockerfile")
     DEVCONTAINER_APT = ("devcontainer_apt", "Devcontainer Apt Packages")
+    DEVCONTAINER_APT_REPO = ("devcontainer_apt_repo", "Devcontainer Apt Repositories")
+    DEVCONTAINER_APT_POST = ("devcontainer_apt_post", "Devcontainer Apt Post Install")
     DEVCONTAINER_CONDA = ("devcontainer_conda", "Devcontainer Conda Environment")
     DEVCONTAINER_TASK_LOCAL = ("devcontainer_task_local", "Devcontainer Bash Tasks (Local)")
     DEVCONTAINER_TASK_GLOBAL = ("devcontainer_task_global", "Devcontainer Bash Tasks (Global)")
