@@ -431,9 +431,9 @@ patternProperties:
               summary: Path to the environment file.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
               default: ${{ ...path.conda }}$/${{ .__key__ }}$.yaml
-      volume:
+      var:
         type: object
-      home:
+      volume:
         type: object
       file:
         summary: Dynamic files related to the container.
