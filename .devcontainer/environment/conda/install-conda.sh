@@ -2,9 +2,14 @@
 
 set -euxo pipefail
 
+CONDA_ACTIVATION_SCRIPT_RELPATH="etc/profile.d/conda.sh"
+MAMBA_ACTIVATION_SCRIPT_RELPATH="etc/profile.d/mamba.sh"
+
 NAME="Miniforge3"
 VERSION="latest"
 CONDA_DIR="/opt/conda"
+CONDA_GROUP="conda"
+USERNAME="${SUDO_USER:-$(id -un)}"
 NO_CLEAN=true
 NO_CACHE_CLEAN=true
 INTERACTIVE=false
@@ -29,6 +34,20 @@ echo "                            Either 'latest' or a full version string like 
 echo "                            Default: '$VERSION'"
 echo "    --conda-dir <path>      Directory to install conda into."
 echo "                            Default: '$CONDA_DIR'"
+echo "    --group <name>          Name of a user group to give access to conda."
+echo "                            Default: 'conda'"
+echo "    --username <name>       Name of a user to add to the conda group."
+echo "                            This user must already exist."
+echo "                            Defaults to the real user running this script."
+echo "                            Default: '$USERNAME'"
+echo "    --activate <path>       Path to a shell configuration file to append conda initialization to."
+echo "                            Can be provided multiple times."
+echo "                            Examples:"
+echo "                                /etc/skel/.bashrc"
+echo "                                /etc/bash.bashrc"
+echo "                                /etc/zsh/zshrc"
+echo "                                ~/.bashrc"
+echo "                                ~/.zshrc"
 echo "    --no-clean              Skip removing installer artifacts after installation."
 echo "    --no-cache-clean        Skip 'conda clean' commands after installation."
 echo "    --interactive           Allow the installer to prompt the user."
@@ -60,6 +79,10 @@ while [[ $# -gt 0 ]]; do
         --conda-dir)
             shift
             CONDA_DIR=$1
+            ;;
+        --activate)
+            shift
+            ACTIVATE_PATHS+=("$1")
             ;;
         --no-clean)
             NO_CLEAN=true
@@ -159,16 +182,21 @@ if [[ "$NO_CLEAN" == false ]]; then
     find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 fi
 
+if [[ ${#ACTIVATE_PATHS[@]} -gt 0 ]]; then
+    CONDA_SCRIPT="$CONDA_DIR/$CONDA_ACTIVATION_SCRIPT_RELPATH"
+    MAMBA_SCRIPT="$CONDA_DIR/$MAMBA_ACTIVATION_SCRIPT_RELPATH"
+    for path in "${ACTIVATE_PATHS[@]}"; do
+        echo "▶️ Sourcing activation script to '$path'"
+        echo ". '$CONDA_SCRIPT'" >> "$path"
+        echo ". '$MAMBA_SCRIPT'" >> "$path"
+        echo "conda activate base" >> "$path"
+    done
+fi
 
-# Source conda.sh and mamba.sh
-# echo ". ${CONDA_SCRIPT}" >> /etc/skel/.bashrc;
-# echo ". ${CONDA_SCRIPT}" >> ~/.bashrc;
-# echo ". ${MAMBA_SCRIPT} && mamba activate base" >> /etc/skel/.bashrc;
-# echo ". ${MAMBA_SCRIPT} && mamba activate base" >> ~/.bashrc;
 # Add group and fix permissions
 # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
-groupadd -r conda
-usermod -a -G conda "$USERNAME"
-chown -R "$USERNAME:conda" "$CONDA_DIR"
+groupadd -r "$CONDA_GROUP"
+usermod -a -G "$CONDA_GROUP" "$USERNAME"
+chown -R "$USERNAME:$CONDA_GROUP" "$CONDA_DIR"
 chmod -R g+r+w "$CONDA_DIR"
-find "${CONDA_DIR}" -type d -print0 | xargs -n 1 -0 chmod g+s
+find "$CONDA_DIR" -type d -print0 | xargs -n 1 -0 chmod g+s
