@@ -411,7 +411,8 @@ class ConfigFileGenerator:
                     path_before=container_before.get("environment", {}).get(env_id, {}).get("path"),
                 )
                 out.append(env_file)
-            # bash task file
+
+            # Task scripts
             tasks = {"local": [], "global": []}
             for task in container.get("task", {}).values():
                 for typ in tasks:
@@ -433,20 +434,21 @@ class ConfigFileGenerator:
                             )
                         )
             for typ in tasks:
-                task_file = DynamicFile(
-                    type=DynamicFileType[f"DEVCONTAINER_TASK_{typ.upper()}"],
-                    subtype=(container_id, container.get("name", container_id)),
-                    content=_unit.create_dynamic_file(
-                        file_type="txt",
-                        content=tasks[typ],
-                        content_item_separator="\n\n",
+                out.append(
+                    DynamicFile(
+                        type=DynamicFileType[f"DEVCONTAINER_TASK_{typ.upper()}"],
+                        subtype=(container_id, container.get("name", container_id)),
+                        content=_unit.create_dynamic_file(
+                            file_type="txt",
+                            content=tasks[typ],
+                            content_item_separator="\n\n",
+                        )
+                        if tasks[typ]
+                        else None,
+                        path=f"{container['path'][f'tasks_{typ}']}",
+                        path_before=f"{container_before.get('path', {}).get(f'tasks_{typ}')}",
                     )
-                    if tasks[typ]
-                    else None,
-                    path=f"{container['path'][f'tasks_{typ}']}",
-                    path_before=f"{container_before.get('path', {}).get(f'tasks_{typ}')}",
                 )
-                out.append(task_file)
         return out
 
     def devcontainer_features(self) -> list[DynamicFile]:
