@@ -15,7 +15,7 @@ Positional arguments:
 
 Options:
     --logfile <path>        Log all output (stdout + stderr) to this file.
-                            If not specified, output is not logged.
+                            If not specified, output is only printed to the console.
     --no-update             Skip 'apt-get update' step before installation.
     --no-clean              Skip 'apt-get dist-clean' step after installation.
     --interactive           Allow apt to prompt the user (default is non-interactive).
@@ -90,7 +90,8 @@ if [[ ! -f "$PACKAGE_LIST_FILE" ]]; then
     exit 1
 fi
 
-mapfile -t PACKAGES < "$PACKAGE_LIST_FILE"
+# Read the package list file and filter out comments and empty lines
+mapfile -t PACKAGES < <(grep -Ev '^\s*(#|$)' "$PACKAGE_LIST_FILE")
 if [[ ${#PACKAGES[@]} -eq 0 ]]; then
     echo "⛔ No packages found in file '$PACKAGE_LIST_FILE'." >&2
     exit 1
@@ -106,7 +107,8 @@ if "$DO_UPDATE"; then
     apt-get update -y
 fi
 
-echo "📲 Installing packages: ${PACKAGES[*]}"
+echo "📲 Installing packages:"
+printf '  - %s\n' "${PACKAGES[@]}"
 apt-get install -y --no-install-recommends "${PACKAGES[@]}"
 
 if "$DO_CLEAN"; then
