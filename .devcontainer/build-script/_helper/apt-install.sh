@@ -116,18 +116,16 @@ if [[ "$NONINTERACTIVE" == true ]]; then
     export DEBIAN_FRONTEND=noninteractive
 fi
 
-# Add repositories from repofile
 if [[ -n "$REPOFILE" ]]; then
     if [[ ! -f "$REPOFILE" ]]; then
         echo "⛔ Repo file '$REPOFILE' does not exist." >&2
         exit 1
     fi
-
-    echo "➕ Adding APT repositories from '$REPOFILE'..."
+    echo "🗃 Adding APT repositories from '$REPOFILE'."
     while IFS= read -r line; do
         [[ -z "$line" || "$line" =~ ^\s*# ]] && continue
-        echo "📦 Running: add-apt-repository $line"
-        add-apt-repository $line
+        echo "📦 Adding repository '$line'"
+        add-apt-repository --yes $line
         ADDED_REPOS+=("$line")
     done < "$REPOFILE"
 fi
@@ -141,6 +139,14 @@ echo "📲 Installing packages:"
 printf '  - %s\n' "${PACKAGES[@]}"
 apt-get install -y --no-install-recommends "${PACKAGES[@]}"
 
+if [[ -n "$REPOFILE" && "$KEEP_REPOS" == false ]]; then
+    echo "🗑️  Removing added repositories..."
+    for repo_args in "${ADDED_REPOS[@]}"; do
+        echo "❌ Removing repository '$repo_args'"
+        add-apt-repository --yes --remove $repo_args || echo "⚠️  Failed to remove repo: $repo_args" >&2
+    done
+fi
+
 if "$DO_CLEAN"; then
     echo "🧹 Cleaning up."
     # Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
@@ -148,15 +154,6 @@ if "$DO_CLEAN"; then
     # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
     # - https://github.com/docker-library/buildpack-deps/pull/157/files
     apt-get dist-clean
-fi
-
-# Remove added repositories unless --keep-repos is set
-if [[ -n "$REPOFILE" && "$KEEP_REPOS" == false ]]; then
-    echo "🗑️  Removing added repositories..."
-    for repo_args in "${ADDED_REPOS[@]}"; do
-        echo "❌ Removing: add-apt-repository --remove $repo_args"
-        add-apt-repository --remove $repo_args || echo "⚠️  Failed to remove repo: $repo_args" >&2
-    done
 fi
 
 echo "🏁 Finished installing APT packages."
