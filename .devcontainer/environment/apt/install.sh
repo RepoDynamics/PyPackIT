@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+set -euxo pipefail
+
+LOGFILE=""
+REPOFILE=""
+KEEP_REPOS=false
+DO_UPDATE=true
+DO_CLEAN=true
+NONINTERACTIVE=true
+ADDED_REPOS=()
+
 show_help() {
     cat <<EOF
 ====================
@@ -14,8 +24,6 @@ Positional arguments:
                             package specifications.
 
 Options:
-    --logfile <path>        Log all output (stdout + stderr) to this file.
-                            If not specified, output is only printed to the console.
     --repofile <path>       Path to file containing newline-separated arguments
                             to pass to 'add-apt-repository', one set per line.
     --keep-repos            Keep repositories added via --repofile after script ends.
@@ -23,22 +31,14 @@ Options:
     --no-update             Skip 'apt-get update' step before installation.
     --no-clean              Skip 'apt-get dist-clean' step after installation.
     --interactive           Allow apt to prompt the user (default is non-interactive).
+    --logfile <path>        Log all output (stdout + stderr) to this file.
+                            If not specified, output is only printed to the console.
     --help                  Show this help message and exit.
 
 Example:
     $0 apt.txt --logfile /tmp/install.log --repofile repos.txt --no-clean
 EOF
 }
-
-set -euxo pipefail
-
-LOGFILE=""
-REPOFILE=""
-KEEP_REPOS=false
-DO_UPDATE=true
-DO_CLEAN=true
-NONINTERACTIVE=true
-ADDED_REPOS=()
 
 if [[ $# -lt 1 ]]; then
     show_help >&2
@@ -55,10 +55,6 @@ shift
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --logfile)
-            shift
-            LOGFILE=$1
-            ;;
         --repofile)
             shift
             REPOFILE=$1
@@ -74,6 +70,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --interactive)
             NONINTERACTIVE=false
+            ;;
+        --logfile)
+            shift
+            LOGFILE=$1
             ;;
         --help)
             show_help
