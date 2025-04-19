@@ -221,7 +221,8 @@ class ConfigFileGenerator:
                         f"{indent}{line} \\" for line in instruction_lines[1:-1]
                     ] + ([f"{indent}{instruction_lines[-1]}"] if len(instruction_lines) > 1 else [])
                     instructions.extend(instruction_lines_full)
-                parts.append("\n".join(instructions))
+                if instructions:
+                    parts.append("\n".join(instructions))
             return "\n\n".join(parts)
 
         def create_docker_compose():
