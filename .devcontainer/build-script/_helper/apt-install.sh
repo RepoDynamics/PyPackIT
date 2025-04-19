@@ -18,8 +18,8 @@ Options:
                             If not specified, output is only printed to the console.
     --repofile <path>       Path to file containing newline-separated arguments
                             to pass to 'add-apt-repository', one set per line.
-    --keep-repos            Keep added repositories after the script finishes.
-                            By default, repositories added with --repofile are removed.
+    --keep-repos            Keep repositories added via --repofile after script ends.
+                            By default, they are removed automatically.
     --no-update             Skip 'apt-get update' step before installation.
     --no-clean              Skip 'apt-get dist-clean' step after installation.
     --interactive           Allow apt to prompt the user (default is non-interactive).
@@ -116,7 +116,7 @@ if [[ "$NONINTERACTIVE" == true ]]; then
     export DEBIAN_FRONTEND=noninteractive
 fi
 
-# Handle repository addition via add-apt-repository
+# Add repositories from repofile
 if [[ -n "$REPOFILE" ]]; then
     if [[ ! -f "$REPOFILE" ]]; then
         echo "⛔ Repo file '$REPOFILE' does not exist." >&2
@@ -128,23 +128,7 @@ if [[ -n "$REPOFILE" ]]; then
         [[ -z "$line" || "$line" =~ ^\s*# ]] && continue
         echo "📦 Running: add-apt-repository $line"
         add-apt-repository $line
-
-        # Extract a unique identifier for removal later
-        # Prioritize -P, -U, -C, -S or fallback to raw line
-        if [[ "$line" =~ -P[[:space:]]+([^[:space:]]+) ]]; then
-            ADDED_REPOS+=("-P ${BASH_REMATCH[1]}")
-        elif [[ "$line" =~ -C[[:space:]]+([^[:space:]]+) ]]; then
-            ADDED_REPOS+=("-C ${BASH_REMATCH[1]}")
-        elif [[ "$line" =~ -U[[:space:]]+([^[:space:]]+) ]]; then
-            # Also include -c and -p if they exist
-            COMP=""
-            POCKET=""
-            [[ "$line" =~ -c[[:space:]]+([^[:space:]]+) ]] && COMP="-c ${BASH_REMATCH[1]}"
-            [[ "$line" =~ -p[[:space:]]+([^[:space:]]+) ]] && POCKET="-p ${BASH_REMATCH[1]}"
-            ADDED_REPOS+=("-U ${BASH_REMATCH[1]} $COMP $POCKET")
-        elif [[ "$line" =~ ^deb ]]; then
-            ADDED_REPOS+=("$line")
-        fi
+        ADDED_REPOS+=("$line")
     done < "$REPOFILE"
 fi
 
@@ -166,12 +150,12 @@ if "$DO_CLEAN"; then
     apt-get dist-clean
 fi
 
-# Remove added repositories unless --keep-repos
+# Remove added repositories unless --keep-repos is set
 if [[ -n "$REPOFILE" && "$KEEP_REPOS" == false ]]; then
     echo "🗑️  Removing added repositories..."
-    for repo in "${ADDED_REPOS[@]}"; do
-        echo "❌ Removing: add-apt-repository --remove $repo"
-        add-apt-repository --remove $repo || echo "⚠️  Failed to remove repo: $repo" >&2
+    for repo_args in "${ADDED_REPOS[@]}"; do
+        echo "❌ Removing: add-apt-repository --remove $repo_args"
+        add-apt-repository --remove $repo_args || echo "⚠️  Failed to remove repo: $repo_args" >&2
     done
 fi
 
