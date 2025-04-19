@@ -8,13 +8,14 @@ MAMBA_ACTIVATION_SCRIPT_RELPATH="etc/profile.d/mamba.sh"
 NAME="Miniforge3"
 VERSION="latest"
 CONDA_DIR="/opt/conda"
-CONDA_GROUP="conda"
+GROUP="conda"
 USERNAME="${SUDO_USER:-$(id -un)}"
-NO_CLEAN=true
-NO_CACHE_CLEAN=true
+ACTIVATES=()
+NO_CLEAN=false
+NO_CACHE_CLEAN=false
 INTERACTIVE=false
 REINSTALL=false
-INSTALLER="/tmp/miniforge.sh"
+INSTALLER_DIR="/tmp/miniforge"
 LOGFILE=""
 
 show_help() {
@@ -33,9 +34,10 @@ echo "    --version               Version of the Miniforge variant to install."
 echo "                            Either 'latest' or a full version string like '24.11.3-2'."
 echo "                            Default: '$VERSION'"
 echo "    --conda-dir <path>      Directory to install conda into."
+echo "                            This corresponds to the CONDA_DIR environment variable."
 echo "                            Default: '$CONDA_DIR'"
 echo "    --group <name>          Name of a user group to give access to conda."
-echo "                            Default: 'conda'"
+echo "                            Default: '$GROUP'"
 echo "    --username <name>       Name of a user to add to the conda group."
 echo "                            This user must already exist."
 echo "                            Defaults to the real user running this script."
@@ -52,8 +54,8 @@ echo "    --no-clean              Skip removing installer artifacts after instal
 echo "    --no-cache-clean        Skip 'conda clean' commands after installation."
 echo "    --interactive           Allow the installer to prompt the user."
 echo "    --reinstall             If conda is already installed, uninstall it and continue with the installation."
-echo "    --installer <path>      Path to download the Miniforge installer script to."
-echo "                            Default: '$INSTALLER'"
+echo "    --installer-dir <path>  Path to directory to download the Miniforge installer to."
+echo "                            Default: '$INSTALLER_DIR'"
 echo "    --logfile <path>        Log all output (stdout + stderr) to this file in addition to console."
 echo "                            Otherwise output is only printed to the console."
 echo "    --help                  Show this help message and exit."
@@ -82,7 +84,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --activate)
             shift
-            ACTIVATE_PATHS+=("$1")
+            ACTIVATES+=("$1")
             ;;
         --no-clean)
             NO_CLEAN=true
@@ -96,9 +98,9 @@ while [[ $# -gt 0 ]]; do
         --reinstall)
             REINSTALL=true
             ;;
-        --installer)
+        --installer-dir)
             shift
-            INSTALLER=$1
+            INSTALLER_DIR=$1
             ;;
         --logfile)
             shift
@@ -137,8 +139,11 @@ if command -v conda >/dev/null 2>&1; then
         # - https://www.anaconda.com/docs/getting-started/miniconda/uninstall#manual-uninstall
         conda init --reverse
         rm -rf "$(conda info --base)"
-        rm -f "${HOME}/.condarc"
-        rm -rf ${HOME}/.conda
+        rm -f "$HOME/.condarc"
+        rm -rf "$HOME/.conda"
+        user_home=$(getent passwd "$USERNAME" | cut -d: -f6)
+        rm -rf "$user_home/.condarc"
+        rm -rf "$user_home/.conda"
     else
         echo "⏩ Conda is already available; exiting installation."
         exit 0
@@ -147,56 +152,106 @@ fi
 
 INSTALLER_PLATFORM="$(uname)-$(uname -m)"
 
+mkdir -p "$INSTALLER_DIR"
+INSTALLER_FILENAME="$NAME-$VERSION-$INSTALLER_PLATFORM.sh"
+INSTALLER="$INSTALLER_DIR/$INSTALLER_FILENAME"
+INSTALLER_CHECKSUM="$INSTALLER_DIR/$INSTALLER_FILENAME.sha256"
+
 if [[ "$VERSION" == "latest" ]]; then
     INSTALLER_URL="https://github.com/conda-forge/miniforge/releases/latest/download/$NAME-$INSTALLER_PLATFORM.sh"
+    CHECKSUM_URL=""
 else
-    INSTALLER_URL="https://github.com/conda-forge/miniforge/releases/download/$VERSION/$NAME-$VERSION-$INSTALLER_PLATFORM.sh"
+    INSTALLER_URL="https://github.com/conda-forge/miniforge/releases/download/$VERSION/$INSTALLER_FILENAME"
+    CHECKSUM_URL="$INSTALLER_URL.sha256"
 fi
+
+trap 'echo "💥 Script failed"; rm -f "$INSTALLER"; rm -f "$INSTALLER_CHECKSUM"' ERR
 
 if command -v wget >/dev/null 2>&1; then
     echo "📥 Downloading installer using wget from $INSTALLER_URL"
     wget --no-hsts "$INSTALLER_URL" -O "$INSTALLER"
+    if [[ -n "$CHECKSUM_URL" ]]; then
+        wget --no-hsts "$CHECKSUM_URL" -O "$INSTALLER_CHECKSUM"
+    fi
 elif command -v curl >/dev/null 2>&1; then
     echo "📥 Downloading installer using curl from $INSTALLER_URL"
     curl --fail --location --output "$INSTALLER" "$INSTALLER_URL"
+    if [[ -n "$CHECKSUM_URL" ]]; then
+        curl --fail --location --output "$INSTALLER_CHECKSUM" "$CHECKSUM_URL"
+    fi
 else
     echo "⛔ Neither wget nor curl is available." >&2
     exit 1
 fi
 
+if [[ -n "$CHECKSUM_URL" ]]; then
+    echo "📦 Verifying installer checksum"
+    if ! [[ -f "$INSTALLER_CHECKSUM" ]]; then
+        echo "⛔ Checksum file not found: $INSTALLER_CHECKSUM" >&2
+        exit 1
+    fi
+    if command -v sha256sum >/dev/null 2>&1; then
+        if (cd "$INSTALLER_DIR" && sha256sum --check --status "$INSTALLER_CHECKSUM"); then
+            echo "✅ Checksum verification passed"
+        else
+            echo "❌ Checksum verification failed" >&2
+            exit 1
+        fi
+    elif command -v shasum >/dev/null 2>&1; then
+        if (cd "$INSTALLER_DIR" && shasum --algorithm 256 --check --status "$INSTALLER_CHECKSUM"); then
+            echo "✅ Checksum verification passed"
+        else
+            echo "❌ Checksum verification failed" >&2
+            exit 1
+        fi
+    else
+        echo "⛔ Neither sha256sum nor shasum is available." >&2
+        exit 1
+    fi
+fi
+
 echo "📦 Installing conda to $CONDA_DIR"
 if [[ "$INTERACTIVE" == true ]]; then
-    /bin/bash "$INSTALLER" -p ${CONDA_DIR}
+    /bin/bash "$INSTALLER" -p "$CONDA_DIR"
 else
-    /bin/bash "$INSTALLER" -b -p ${CONDA_DIR}
+    /bin/bash "$INSTALLER" -b -p "$CONDA_DIR"
 fi
 
 if [[ "$NO_CACHE_CLEAN" == false ]]; then
-    conda clean --tarballs --index-cache --packages --yes
-    conda clean --force-pkgs-dirs --all --yes
+    "$CONDA_DIR/bin/conda" clean --tarballs --index-cache --packages --yes
+    "$CONDA_DIR/bin/conda" clean --force-pkgs-dirs --all --yes
 fi
 
 if [[ "$NO_CLEAN" == false ]]; then
     rm "$INSTALLER"
-    find ${CONDA_DIR} -follow -type f -name '*.a' -delete
-    find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
+    find "$CONDA_DIR" -follow -type f -name '*.a' -delete
+    find "$CONDA_DIR" -follow -type f -name '*.pyc' -delete
 fi
 
-if [[ ${#ACTIVATE_PATHS[@]} -gt 0 ]]; then
+if [[ ${#ACTIVATES[@]} -gt 0 ]]; then
     CONDA_SCRIPT="$CONDA_DIR/$CONDA_ACTIVATION_SCRIPT_RELPATH"
     MAMBA_SCRIPT="$CONDA_DIR/$MAMBA_ACTIVATION_SCRIPT_RELPATH"
-    for path in "${ACTIVATE_PATHS[@]}"; do
+    for path in "${ACTIVATES[@]}"; do
         echo "▶️ Sourcing activation script to '$path'"
-        echo ". '$CONDA_SCRIPT'" >> "$path"
-        echo ". '$MAMBA_SCRIPT'" >> "$path"
-        echo "conda activate base" >> "$path"
+        [[ -f "$path" ]] || touch "$path"
+        for line in ". '$CONDA_SCRIPT'" ". '$MAMBA_SCRIPT'" "conda activate base"; do
+            if grep -Fxq "$line" "$path"; then
+                echo "⏭️ Line already exists in '$path': $line"
+            else
+                echo "$line" >> "$path"
+                echo "ℹ️ Appended to '$path': $line"
+            fi
+        done
     done
 fi
 
 # Add group and fix permissions
 # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
-groupadd -r "$CONDA_GROUP"
-usermod -a -G "$CONDA_GROUP" "$USERNAME"
-chown -R "$USERNAME:$CONDA_GROUP" "$CONDA_DIR"
+
+getent group "$GROUP" >/dev/null || groupadd -r "$GROUP"
+id -nG "$USERNAME" | grep -qw "$GROUP" || usermod -a -G "$GROUP" "$USERNAME"
+chown -R "$USERNAME:$GROUP" "$CONDA_DIR"
 chmod -R g+r+w "$CONDA_DIR"
 find "$CONDA_DIR" -type d -print0 | xargs -n 1 -0 chmod g+s
+
+echo "✅ Conda installation complete."
