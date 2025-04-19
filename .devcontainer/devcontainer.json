@@ -76,7 +76,9 @@
             "jock.svg",
             "charliermarsh.ruff",
             "ms-python.mypy-type-checker",
-            "graphql.vscode-graphql-syntax"
+            "graphql.vscode-graphql-syntax",
+            "James-Yu.latex-workshop",
+            "ExecutableBookProject.myst-highlight"
          ],
          "settings": {
             "jupyter.kernels.filter": [
@@ -149,12 +151,9 @@
    "features": {
       "./features/conda_setup": {},
       "./features/pkg_setup": {
-         "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"proman\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
+         "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
       },
       "./features/setup-user": {},
-      "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
-         "packages": ""
-      },
       "ghcr.io/devcontainers/features/common-utils:2": {
          "configureZshAsDefaultShell": true,
          "installOhMyZsh": true,
@@ -273,7 +272,7 @@
          "--config",
          ".config/pre-commit.yaml"
       ],
-      "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile"
+      "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | sudo tee /etc/profile.d/load-project-tasks.sh && sudo chmod +x /etc/profile.d/load-project-tasks.sh"
    },
    "remoteEnv": {
       "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
