@@ -377,19 +377,54 @@ class ConfigFileGenerator:
             apt_group = {}
             for apt_package in container.get("apt", {}).values():
                 apt_group.setdefault(apt_package["group"], []).append(apt_package)
-            for apt_group_name, apt_pkgs in apt_group.items():
+            for apt_group_name, apt_group_pkgs in apt_group.items():
+                apt_group_pkg_specs = []
+                apt_group_repos = []
+                apt_group_post_process = []
+                for apt_group_pkg in apt_group_pkgs:
+                    apt_group_pkg_specs.append(apt_group_pkg["spec"]["full"])
+                    if "repo" in apt_group_pkg:
+                        apt_group_repos.append(apt_group_pkg["repo"])
+                    if "post_process" in apt_group_pkg:
+                        apt_group_post_process.append(apt_group_pkg["post_process"])
                 out.append(
                     DynamicFile(
                         type=DynamicFileType.DEVCONTAINER_APT,
                         subtype=(f"{container_id}_{apt_group_name}", f"{container.get("name", container_id)} {apt_group_name}"),
                         content=_unit.create_dynamic_file(
                             file_type="txt",
-                            content=[pkg["spec"]["full"] for pkg in apt_pkgs],
+                            content=apt_group_pkg_specs,
                         ),
-                        path=f"{container['path']['apt']}/{apt_group_name}.txt",
-                        path_before=f"{container_before.get('path', {}).get('apt')}/{apt_group_name}.txt"
-                        if container_before.get("path", {}).get("apt")
-                        else None,
+                        path=container['path']['apt'][apt_group_name]["packages"],
+                        path_before=container_before['path']['apt'][apt_group_name]["packages"]
+                        if container_before else None,
+                    )
+                )
+                out.append(
+                    DynamicFile(
+                        type=DynamicFileType.DEVCONTAINER_APT_REPO,
+                        subtype=(f"{container_id}_{apt_group_name}", f"{container.get("name", container_id)} {apt_group_name}"),
+                        content=_unit.create_dynamic_file(
+                            file_type="txt",
+                            content=apt_group_repos,
+                        ) if apt_group_repos else None,
+                        path=container['path']['apt'][apt_group_name]["repos"],
+                        path_before=container_before['path']['apt'][apt_group_name]["repos"]
+                        if container_before else None,
+                    )
+                )
+                out.append(
+                    DynamicFile(
+                        type=DynamicFileType.DEVCONTAINER_APT_POST,
+                        subtype=(f"{container_id}_{apt_group_name}", f"{container.get("name", container_id)} {apt_group_name}"),
+                        content=_unit.create_dynamic_file(
+                            file_type="txt",
+                            content=apt_group_post_process,
+                        ) if apt_group_post_process else None,
+                        path=container['path']['apt'][apt_group_name]["post_install"],
+                        path_before=container_before['path']['apt'][apt_group_name]["post_install"]
+                        if container_before else None,
+                        executable=True,
                     )
                 )
 
