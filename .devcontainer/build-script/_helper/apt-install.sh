@@ -123,9 +123,9 @@ if [[ -n "$REPOFILE" ]]; then
     fi
     echo "🗃 Adding APT repositories from '$REPOFILE'."
     while IFS= read -r line; do
-        [[ -z "$line" || "$line" =~ ^\s*# ]] && continue
-        echo "📦 Adding repository '$line'"
-        add-apt-repository --yes $line
+        [[ -z "${line:-}" || "${line}" =~ ^[[:space:]]*# ]] && continue
+        echo "📦 Adding repository: $line"
+        eval "add-apt-repository --yes $line"
         ADDED_REPOS+=("$line")
     done < "$REPOFILE"
 fi
@@ -142,8 +142,8 @@ apt-get install -y --no-install-recommends "${PACKAGES[@]}"
 if [[ -n "$REPOFILE" && "$KEEP_REPOS" == false ]]; then
     echo "🗑️  Removing added repositories..."
     for repo_args in "${ADDED_REPOS[@]}"; do
-        echo "❌ Removing repository '$repo_args'"
-        add-apt-repository --yes --remove $repo_args || echo "⚠️  Failed to remove repo: $repo_args" >&2
+        echo "❌ Removing repository: $repo_args"
+        eval "add-apt-repository --yes --remove $repo_args" || echo "⚠️  Failed to remove repo: $repo_args" >&2
     done
 fi
 
