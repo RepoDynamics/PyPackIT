@@ -27,7 +27,7 @@ echo "Install Conda"
 echo "============="
 echo "Usage: $0 [OPTIONS]"
 echo
-echo "Install conda and mamba using the Miniforge installer."
+echo "Install conda and mamba on Linux or macOS using the Miniforge installer."
 echo
 echo "Options:"
 echo "    --name <name>           Name of the Miniforge variant to install."
@@ -40,7 +40,7 @@ echo "                            This corresponds to the CONDA_DIR environment 
 echo "                            Default: '$CONDA_DIR'"
 echo "    --group <name>          Name of a user group to give access to conda."
 echo "                            Default: '$GROUP'"
-echo "    --user <name>             Name of a user to add to the conda group."
+echo "    --user <name>           Name of a user to add to the conda group."
 echo "                            This user must already exist."
 echo "                            Defaults to the real user running this script."
 echo "                            Default: '$USER'"
@@ -67,8 +67,9 @@ echo "Example:"
 echo "    $0 --version 24.11.3-2 --no-clean"
 echo
 echo "References:"
-echo "    Miniforge Docker image: https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile"
-echo "    Miniforge repository README: https://github.com/conda-forge/miniforge?tab=readme-ov-file#install"
+echo "    - Miniforge Docker image: https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile"
+echo "    - Miniforge repository README: https://github.com/conda-forge/miniforge?tab=readme-ov-file#install"
+echo "    - Devcontainers conda feature: https://github.com/devcontainers/features/tree/main/src/conda"
 }
 
 OPTS=$(
@@ -161,15 +162,15 @@ trap 'echo "💥 Script failed"; rm -f "$INSTALLER"; rm -f "$INSTALLER_CHECKSUM"
 
 if command -v wget >/dev/null 2>&1; then
     echo "📥 Downloading installer using wget from $INSTALLER_URL"
-    wget --no-hsts "$INSTALLER_URL" -O "$INSTALLER"
+    wget --no-hsts --tries 3 --output-document "$INSTALLER" "$INSTALLER_URL"
     if [[ -n "$CHECKSUM_URL" ]]; then
-        wget --no-hsts "$CHECKSUM_URL" -O "$INSTALLER_CHECKSUM"
+        wget --no-hsts --tries 3 --output-document "$INSTALLER_CHECKSUM" "$CHECKSUM_URL"
     fi
 elif command -v curl >/dev/null 2>&1; then
     echo "📥 Downloading installer using curl from $INSTALLER_URL"
-    curl --fail --location --output "$INSTALLER" "$INSTALLER_URL"
+    curl --fail --location --retry 3 --output "$INSTALLER" "$INSTALLER_URL"
     if [[ -n "$CHECKSUM_URL" ]]; then
-        curl --fail --location --output "$INSTALLER_CHECKSUM" "$CHECKSUM_URL"
+        curl --fail --location --retry 3 --output "$INSTALLER_CHECKSUM" "$CHECKSUM_URL"
     fi
 else
     echo "⛔ Neither wget nor curl is available." >&2
