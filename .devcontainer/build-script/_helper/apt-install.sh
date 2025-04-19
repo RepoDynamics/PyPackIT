@@ -153,7 +153,11 @@ if "$DO_CLEAN"; then
     # which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*"
     # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
     # - https://github.com/docker-library/buildpack-deps/pull/157/files
-    apt-get dist-clean
+    if ! apt-get dist-clean; then
+        echo "⚠️  'apt-get dist-clean' failed — falling back to 'apt-get clean'."
+        apt-get clean
+        rm -rf /var/lib/apt/lists/*
+    fi
 fi
 
 echo "🏁 Finished installing APT packages."
