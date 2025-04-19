@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
-
 show_help() {
   cat <<EOF
 ====================
@@ -28,22 +26,18 @@ Example:
 EOF
 }
 
-# ------------------------------
-# Parse arguments
-# ------------------------------
+set -euxo pipefail
 
 LOGFILE=""
 DO_UPDATE=true
 DO_CLEAN=true
 NONINTERACTIVE=true
 
-# Check for at least one argument
 if [[ $# -lt 1 ]]; then
   show_help >&2
   exit 1
 fi
 
-# Check for help option
 if [[ "$1" == "--help" ]]; then
   show_help
   exit 0
@@ -80,46 +74,44 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-# Logging setup
 if [[ -n "$LOGFILE" ]]; then
-  echo "Initializing log..."
+  echo "📝 Initializing logging to '$LOGFILE'."
   mkdir -p "$(dirname "$LOGFILE")"
   exec > >(tee -a "$LOGFILE") 2>&1
 fi
 
-# ------------------------------
-# Install packages
-# ------------------------------
+if [ "$(id -u)" -ne 0 ]; then
+    echo -e '⛔ This script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.' >&2
+    exit 1
+fi
 
 if [[ ! -f "$PACKAGE_LIST_FILE" ]]; then
-  echo "Error: Package list file '$PACKAGE_LIST_FILE' does not exist." >&2
+  echo "⛔ Package list file '$PACKAGE_LIST_FILE' does not exist." >&2
   exit 1
 fi
 
 mapfile -t PACKAGES < "$PACKAGE_LIST_FILE"
-
 if [[ ${#PACKAGES[@]} -eq 0 ]]; then
-  echo "Error: No packages found in file '$PACKAGE_LIST_FILE'." >&2
+  echo "⛔ No packages found in file '$PACKAGE_LIST_FILE'." >&2
   exit 1
 fi
 
-echo "Installing packages: ${PACKAGES[*]}"
-
-APT_ENV=()
 if [[ "$NONINTERACTIVE" == true ]]; then
-  APT_ENV=(DEBIAN_FRONTEND=noninteractive)
+  echo "🆗 Setting APT to non-interactive mode."
+  export DEBIAN_FRONTEND=noninteractive
 fi
 
 if "$DO_UPDATE"; then
-  echo "Updating package lists..."
-  sudo "${APT_ENV[@]}" apt-get update -y
+  echo "🔄 Updating package lists."
+  apt-get update -y
 fi
 
-sudo "${APT_ENV[@]}" apt-get install -y --no-install-recommends "${PACKAGES[@]}"
+echo "📲 Installing packages: ${PACKAGES[*]}"
+apt-get install -y --no-install-recommends "${PACKAGES[@]}"
 
 if "$DO_CLEAN"; then
-  echo "Cleaning up..."
-  sudo "${APT_ENV[@]}" apt-get clean
+  echo "🧹 Cleaning up."
+  apt-get dist-clean
 fi
 
-echo "Done."
+echo "🏁 Finished installing APT packages."
