@@ -337,50 +337,62 @@ class ConfigFileGenerator:
 
         for container_id, container in devcontainers.items():
             container_before = self._data_before.get(f"devcontainer_{container_id}", {})
-            dockerfile = DynamicFile(
-                type=DynamicFileType.DEVCONTAINER_DOCKERFILE,
-                subtype=(container_id, container["container"].get("name", container_id)),
-                content=_unit.create_dynamic_file(
-                    file_type="txt",
-                    content=create_dockerfile(container["dockerfile"]),
-                ),
-                path=f"{container['path']['dockerfile']}",
-                path_before=f"{container_before.get('path', {}).get('dockerfile')}",
-            )
-            out.append(dockerfile)
-            # devcontainer.json file
-            container_path = f"{container['path']['root']}/devcontainer.json"
-            container["container"].setdefault("dockerComposeFile", []).append(
-                _os.path.relpath(docker_compose_path, _os.path.dirname(container_path))
-            )
-            dir_path_before = container_before.get("path", {}).get("root")
-            container_file = DynamicFile(
-                type=DynamicFileType.DEVCONTAINER_METADATA,
-                subtype=(container_id, container.get("name", container_id)),
-                content=_unit.create_dynamic_file(
-                    file_type="json",
-                    content=container["container"],
-                    **self._data["default"]["file_setting"]["json"],
-                ),
-                path=container_path,
-                path_before=f"{dir_path_before}/devcontainer.json" if dir_path_before else None,
-            )
-            out.append(container_file)
-            # apt.txt file
-            apt_file = DynamicFile(
-                type=DynamicFileType.DEVCONTAINER_APT,
-                subtype=(container_id, container.get("name", container_id)),
-                content=_unit.create_dynamic_file(
-                    file_type="txt",
-                    content=[pkg["spec"]["full"] for pkg in container["apt"].values()],
+            container_dir_path_before = container_before.get("path", {}).get("root")
+
+            # Dockerfile
+            out.append(
+                DynamicFile(
+                    type=DynamicFileType.DEVCONTAINER_DOCKERFILE,
+                    subtype=(container_id, container["container"].get("name", container_id)),
+                    content=_unit.create_dynamic_file(
+                        file_type="txt",
+                        content=create_dockerfile(container["dockerfile"]),
+                    ),
+                    path=f"{container['path']['dockerfile']}",
+                    path_before=f"{container_before.get('path', {}).get('dockerfile')}",
                 )
-                if container.get("apt")
-                else None,
-                path=f"{container['path']['apt']}",
-                path_before=f"{container_before.get('path', {}).get('apt')}",
             )
-            out.append(apt_file)
-            # conda environment files
+
+            # devcontainer.json
+            devcontainer_json_path = f"{container['path']['root']}/devcontainer.json"
+            container["container"].setdefault("dockerComposeFile", []).append(
+                _os.path.relpath(docker_compose_path, _os.path.dirname(devcontainer_json_path))
+            )
+            out.append(
+                DynamicFile(
+                    type=DynamicFileType.DEVCONTAINER_METADATA,
+                    subtype=(container_id, container.get("name", container_id)),
+                    content=_unit.create_dynamic_file(
+                        file_type="json",
+                        content=container["container"],
+                        **self._data["default"]["file_setting"]["json"],
+                    ),
+                    path=devcontainer_json_path,
+                    path_before=f"{container_dir_path_before}/devcontainer.json" if container_dir_path_before else None,
+                )
+            )
+
+            # APT files
+            apt_group = {}
+            for apt_package in container.get("apt", {}).values():
+                apt_group.setdefault(apt_package["group"], []).append(apt_package)
+            for apt_group_name, apt_pkgs in apt_group.items():
+                out.append(
+                    DynamicFile(
+                        type=DynamicFileType.DEVCONTAINER_APT,
+                        subtype=(f"{container_id}_{apt_group_name}", f"{container.get("name", container_id)} {apt_group_name}"),
+                        content=_unit.create_dynamic_file(
+                            file_type="txt",
+                            content=[pkg["spec"]["full"] for pkg in apt_pkgs],
+                        ),
+                        path=f"{container['path']['apt']}/{apt_group_name}.txt",
+                        path_before=f"{container_before.get('path', {}).get('apt')}/{apt_group_name}.txt"
+                        if container_before.get("path", {}).get("apt")
+                        else None,
+                    )
+                )
+
+            # Conda environment files
             for env_id, env in container.get("environment", {}).items():
                 env_file = DynamicFile(
                     type=DynamicFileType.DEVCONTAINER_CONDA,
