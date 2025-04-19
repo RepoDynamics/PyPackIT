@@ -102,6 +102,8 @@ if [[ "$NONINTERACTIVE" == true ]]; then
     export DEBIAN_FRONTEND=noninteractive
 fi
 
+# add-apt-repository
+
 if "$DO_UPDATE"; then
     echo "🔄 Updating package lists."
     apt-get update -y
@@ -113,6 +115,10 @@ apt-get install -y --no-install-recommends "${PACKAGES[@]}"
 
 if "$DO_CLEAN"; then
     echo "🧹 Cleaning up."
+    # Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
+    # which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*"
+    # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
+    # - https://github.com/docker-library/buildpack-deps/pull/157/files
     apt-get dist-clean
 fi
 
