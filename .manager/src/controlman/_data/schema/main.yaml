@@ -356,9 +356,22 @@ patternProperties:
               This is the directory containing files
               to copy to the container user's home directory.
           apt:
-            summary: Path to the apt file.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/${{ .environment }}$/apt
+            type: object
+            additionalProperties: false
+            default: { }
+            properties:
+              root:
+                summary: Path to the root apt directory.
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+                default: ${{ ..root }}$/environment/apt
+              required:
+                $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
+              essential:
+                $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
+              recommended:
+                $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
+              optional:
+                $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
           conda:
             summary: Path to the conda environment directory.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
