@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
+# Install conda environments and setup conda configuration.
+
 # Redirect stdout and stderr to a file
 echo "Creating log directory..."
 mkdir -p "$LOG_DIRPATH"
