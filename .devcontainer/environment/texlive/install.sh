@@ -7,12 +7,8 @@ DEBIAN_EQUIVS_FILENAME="debian-equivs-2023-ex.txt"
 DEBIAN_EQUIVS_URL="https://tug.org/texlive/files/$DEBIAN_EQUIVS_FILENAME"
 
 # Default arguments
-MIRROR_URI="rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/"
-VERSION="latest"
-CONDA_DIR="/opt/conda"
-GROUP="conda"
-USER="${SUDO_USER:-$(id -un)}"
-ACTIVATES=()
+PROFILE=""
+MIRROR="rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/"
 NO_CLEAN=false
 NO_CACHE_CLEAN=false
 INTERACTIVE=false
@@ -30,33 +26,15 @@ echo
 echo "Install conda and mamba using the Miniforge installer."
 echo
 echo "Options:"
-echo "    --name <name>           Name of the Miniforge variant to install."
-echo "                            Default: '$NAME'"
-echo "    --version               Version of the Miniforge variant to install."
-echo "                            Either 'latest' or a full version string like '24.11.3-2'."
-echo "                            Default: '$VERSION'"
-echo "    --conda-dir <path>      Directory to install conda into."
-echo "                            This corresponds to the CONDA_DIR environment variable."
-echo "                            Default: '$CONDA_DIR'"
-echo "    --group <name>          Name of a user group to give access to conda."
-echo "                            Default: '$GROUP'"
-echo "    --user <name>           Name of a user to add to the conda group."
-echo "                            This user must already exist."
-echo "                            Defaults to the real user running this script."
-echo "                            Default: '$USER'"
-echo "    --activate <path>       Path to a shell configuration file to append conda initialization to."
-echo "                            Can be provided multiple times."
-echo "                            Examples:"
-echo "                                /etc/skel/.bashrc"
-echo "                                /etc/bash.bashrc"
-echo "                                /etc/zsh/zshrc"
-echo "                                ~/.bashrc"
-echo "                                ~/.zshrc"
+echo "    --profile <path>        Path to an installation profile file."
+echo "                            If not provided, an interactive installation will be performed."
+echo "    --mirror <URI>          URI of the TeX Live mirror to use for installation."
+echo "                            Default: '$MIRROR'"
 echo "    --no-clean              Skip removing installer artifacts after installation."
-echo "    --no-cache-clean        Skip 'conda clean' commands after installation."
-echo "    --interactive           Allow the installer to prompt the user."
-echo "    --reinstall             If conda is already installed, uninstall it and continue with the installation."
-echo "    --installer-dir <path>  Path to directory to download the Miniforge installer to."
+echo "    --no-cache-clean        Skip 'apt-get dist-clean' command after installation of dummy package."
+echo "    --interactive           Start an interactive installation even when profile is provided."
+echo "    --reinstall             If TeX is already installed, uninstall it and continue with the installation."
+echo "    --installer-dir <path>  Path to directory to download the installer to."
 echo "                            Default: '$INSTALLER_DIR'"
 echo "    --logfile <path>        Log all output (stdout + stderr) to this file in addition to console."
 echo "                            Otherwise output is only printed to the console."
@@ -64,17 +42,12 @@ echo "    --debug                 Enable debug mode."
 echo "    --help                  Show this help message and exit."
 echo
 echo "Example:"
-echo "    $0 --version 24.11.3-2 --no-clean"
-echo
-echo "References:"
-echo "    - Miniforge Docker image: https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile"
-echo "    - Miniforge repository README: https://github.com/conda-forge/miniforge?tab=readme-ov-file#install"
-echo "    - Devcontainers conda feature: https://github.com/devcontainers/features/tree/main/src/conda"
+echo "    $0 --profile /path/to/texlive/install.profile"
 }
 
 OPTS=$(
     getopt \
-        --longoptions name:,version:,conda-dir:,group:,user:,activate:,no-clean,no-cache-clean,interactive,reinstall,installer-dir:,logfile:,debug,help \
+        --longoptions profile:,mirror:,no-clean,no-cache-clean,interactive,reinstall,installer-dir:,logfile:,debug,help \
         --name "$0" \
         --options '' \
         -- "$@"
@@ -89,12 +62,8 @@ eval set -- "$OPTS"
 
 while true; do
     case "$1" in
-        --name) NAME="$2"; shift 2;;
-        --version) VERSION="$2"; shift 2;;
-        --conda-dir) CONDA_DIR="$2"; shift 2;;
-        --group) GROUP="$2"; shift 2;;
-        --user) USER="$2"; shift 2;;
-        --activate) ACTIVATES+=("$2"); shift 2;;
+        --profile) PROFILE="$2"; shift 2;;
+        --mirror) MIRROR="$2"; shift 2;;
         --no-clean) NO_CLEAN=true; shift;;
         --no-cache-clean) NO_CACHE_CLEAN=true; shift;;
         --interactive) INTERACTIVE=true; shift;;
@@ -145,59 +114,90 @@ fi
 mkdir -p "$INSTALLER_DIR"
 
 
-
 # Download and install equivs file for dummy package.
 # This tells apt that all TeX Live packages are installed.
 # - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
+DEBIAN_EQUIVS="$INSTALLER_DIR/$DEBIAN_EQUIVS_FILENAME"
 curl "$DEBIAN_EQUIVS_URL" --output "DEBIAN_EQUIVS"
 read DEBIAN_EQUIVS_PKG DEBIAN_EQUIVS_VERSION < <(
     awk -F': ' '/^Package:/{pkg=$2} /^Version:/{ver=$2} END{print pkg, ver}' "$DEBIAN_EQUIVS"
 )
+# Substitute the version number with a large dummy version to avoid update
 DEBIAN_EQUIVS_DUMMY_VERSION="9999.99999999-1"
 sed -i "s/$DEBIAN_EQUIVS_VERSION/$DEBIAN_EQUIVS_VERSION_DUMMY/" "DEBIAN_EQUIVS"
 equivs-build "DEBIAN_EQUIVS"
-dpkg -i "$DEBIAN_EQUIVS_PKG_$DEBIAN_EQUIVS_DUMMY_VERSION_all.deb"
+dpkg -i "${DEBIAN_EQUIVS_PKG}_${DEBIAN_EQUIVS_DUMMY_VERSION}_all.deb"
 apt-get install -qyf --no-install-recommends
-apt-get dist-clean
-rm -rf /var/cache/apt/
-rm -rf ./*texlive*
+if [[ "$NO_CACHE_CLEAN" == false ]]; then
+    apt-get dist-clean
+    rm -rf /var/cache/apt/
+fi
 
 
+echo "Fetching installation from mirror $MIRROR"
+rsync -a --stats "$MIRROR" "$INSTALLER_DIR"
 
-# Install TeX Live from upstream mirror using full scheme with no docs or sources
-echo "Fetching installation from mirror $TLMIRRORURL"
-rsync -a --stats "$TLMIRRORURL" texlive
-cd texlive
-# Create installation profile for full scheme installation
-echo "selected_scheme scheme-full" > install.profile
-echo "tlpdbopt_install_docfiles 0" >> install.profile
-echo "tlpdbopt_install_srcfiles 0" >> install.profile
-echo "tlpdbopt_autobackup 0" >> install.profile
-echo "tlpdbopt_sys_bin /usr/bin" >> install.profile
+
 export TEXLIVE_INSTALL_NO_CONTEXT_CACHE=1
 export NOPERLDOC=1
-./install-tl -profile install.profile
-cd ..
-rm -rf texlive
+if [[ -z "$PROFILE" ]]; then
+    echo "📦 Installing TeXLive in interactive mode without a profile."
+    "$INSTALLER_DIR/install-tl"
+elif [[ "$INTERACTIVE" == "true" ]]; then
+    echo "📦 Installing TeXLive in interactive mode with initial profile '$PROFILE'."
+    "$INSTALLER_DIR/install-tl" -init-from-profile "$PROFILE"
+else
+    echo "📦 Installing TeXLive in non-interactive mode with profile '$PROFILE'."
+    "$INSTALLER_DIR/install-tl" -profile "$PROFILE"
+fi
 
+
+if [[ "$NO_CLEAN" == false ]]; then
+    rm -rf "$INSTALLER_DIR"
+fi
+
+
+SYS_BIN=$(grep -E '^\s*tlpdbopt_sys_bin' "$INSTALLER_PROFILE" | sed -E 's/^\s*tlpdbopt_sys_bin\s*//; s/\s*$//')
+if [[ -z "$SYS_BIN" ]]; then
+  SYS_BIN="/usr/local/bin"
+  echo "tlpdbopt_sys_bin not found in $INSTALLER_PROFILE. Using default: $SYS_BIN"
+else
+  echo "Found tlpdbopt_sys_bin in $INSTALLER_PROFILE: $SYS_BIN"
+fi
 
 
 # Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
 echo "Adding TeX Live binaries to system PATH"
-$(find /usr/local/texlive -name tlmgr) path add
+$(find "$SYS_BIN/texlive" -name tlmgr) path add
 # Patch for ConTeXt (issue #30)
 echo "Fixing ConTeXt path in mtxrun.lua"
-(sed -i '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' /usr/bin/mtxrun.lua || true)
+(sed \
+    -i \
+    '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' \
+    "$SYS_BIN/mtxrun.lua" || true
+)
 echo "Generating font and ConTeXt caches..."
 (luaotfload-tool -u || true)
 mkdir -p /etc/fonts/conf.d
-(cp "$(find /usr/local/texlive -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
+(cp "$(find "$SYS_BIN/texlive" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
 fc-cache -fsv
-if [ -f "/usr/bin/context" ]; then
+if [ -f "$SYS_BIN/context" ]; then
     mtxrun --generate
-    texlua /usr/bin/mtxrun.lua --luatex --generate
+    texlua "$SYS_BIN/mtxrun.lua" --luatex --generate
     context --make
     context --luatex --make
 fi
+
+
+latex --version && printf '\n'
+biber --version && printf '\n'
+xindy --version && printf '\n'
+arara --version && printf '\n'
+context --version && printf '\n'
+context --luatex --version && printf '\n'
+asy --version && printf '\n'
+python --version && printf '\n'
+pygmentize -V && printf '\n'
+
 
 echo "✅ LaTeX installation complete."
