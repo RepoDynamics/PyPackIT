@@ -221,6 +221,15 @@ if [[ "$NO_CLEAN" == false ]]; then
     find "$CONDA_DIR" -follow -type f -name '*.pyc' -delete
 fi
 
+echo "Displaying conda info:"
+conda info
+echo "Displaying conda config:"
+conda config --show
+echo "Displaying conda env list:"
+conda env list
+echo "Displaying conda list:"
+conda list --name base
+
 if [[ ${#ACTIVATES[@]} -gt 0 ]]; then
     CONDA_SCRIPT="$CONDA_DIR/$CONDA_ACTIVATION_SCRIPT_RELPATH"
     MAMBA_SCRIPT="$CONDA_DIR/$MAMBA_ACTIVATION_SCRIPT_RELPATH"
