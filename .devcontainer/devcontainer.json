@@ -81,6 +81,14 @@
             "ExecutableBookProject.myst-highlight"
          ],
          "settings": {
+            "github.copilot.chat.codeGeneration.instructions": [
+               {
+                  "text": "This dev container includes an up-to-date version of Git,\nbuilt from source as needed, pre-installed and available on the `PATH`.\n"
+               },
+               {
+                  "text": "This dev container includes the conda and mamba package managers\npre-installed and available on the `PATH`.\nAdditional packages installed using Conda/Mamba will be downloaded\nfrom conda-forge or another repository configured by the user.\nA user can install different versions of Python\nthan the one in this dev container by running a command like:\n`conda install python=3.13`\n"
+               }
+            ],
             "jupyter.kernels.filter": [
                {
                   "path": "/opt/conda/bin/python",
@@ -149,7 +157,6 @@
       "docker-compose.yaml"
    ],
    "features": {
-      "./features/conda_setup": {},
       "./features/pkg_setup": {
          "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
       },
@@ -164,10 +171,6 @@
          "userUid": "1000",
          "username": "pypackit-dev"
       },
-      "ghcr.io/devcontainers/features/conda:1": {
-         "addCondaForge": true,
-         "version": "latest"
-      },
       "ghcr.io/devcontainers/features/desktop-lite:1": {
          "password": "noPassword",
          "version": "latest",
@@ -179,10 +182,6 @@
       },
       "ghcr.io/devcontainers/features/git-lfs:1": {
          "autoPull": true,
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/git:1": {
-         "ppa": false,
          "version": "latest"
       },
       "ghcr.io/devcontainers/features/github-cli:1": {
@@ -217,9 +216,7 @@
    "overrideFeatureInstallOrder": [
       "ghcr.io/devcontainers/features/common-utils",
       "ghcr.io/devcontainers/features/desktop-lite:1",
-      "ghcr.io/devcontainers/features/git",
       "ghcr.io/devcontainers/features/node",
-      "ghcr.io/devcontainers/features/conda",
       "ghcr.io/devcontainers/features/ruby",
       "ghcr.io/devcontainers/features/sshd",
       "ghcr.io/devcontainers/features/git-lfs",
@@ -228,7 +225,6 @@
       "ghcr.io/devcontainers/features/oryx",
       "./features/setup-user",
       "ghcr.io/devcontainers-extra/features/apt-get-packages",
-      "./features/conda_setup",
       "./features/pkg_setup"
    ],
    "portsAttributes": {
@@ -271,8 +267,7 @@
          "--install-hooks",
          "--config",
          ".config/pre-commit.yaml"
-      ],
-      "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | sudo tee /etc/profile.d/load-project-tasks.sh && sudo chmod +x /etc/profile.d/load-project-tasks.sh"
+      ]
    },
    "remoteEnv": {
       "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"

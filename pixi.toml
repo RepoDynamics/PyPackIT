@@ -1,0 +1,17 @@
+[environments.prod-py312]
+features = []
+solve-group = ""
+
+[project]
+authors = ["Armin Ariamajd <armiariam@gmail.com>"]
+channels = ["conda-forge"]
+description = "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub"
+documentation = "https://pypackit.repodynamics.com"
+homepage = "https://pypackit.repodynamics.com"
+license = "AGPL-3.0-or-later"
+license-file = "LICENSE-AGPL-3-0-or-later.md"
+name = "PyPackIT"
+platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
+readme = "README.md"
+repository = "https://github.com/RepoDynamics/PyPackIT"
+version = "0.0.0"

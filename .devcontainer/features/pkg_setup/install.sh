@@ -20,18 +20,6 @@ chmod +x "$POST_START_SCRIPT_FILEPATH"
 echo "Initializing conda..."
 conda init
 
-echo "Removing existing Conda channels..."
-conda config --remove-key channels 2>/dev/null || true
-
-echo "Adding conda-forge as the only channel..."
-conda config --add channels conda-forge
-
-echo "Setting strict channel priority..."
-conda config --set channel_priority strict
-
-echo "Verifying channels..."
-conda config --show channels
-
 if ! echo "$PACKAGES" | jq empty; then
     echo "Invalid JSON in PACKAGES"
     exit 1

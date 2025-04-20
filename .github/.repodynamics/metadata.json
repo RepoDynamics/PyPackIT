@@ -2906,6 +2906,22 @@
    },
    "devcontainer_main": {
       "apt": {
+         "apt-utils": {
+            "description": "Provides internal APT tools used by frontends like apt-get and\naptitude. It enables progress reporting and other features.\nRecommended for interactive or scripted environments.\n",
+            "group": "required",
+            "name": "apt-utils",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "apt-utils",
+               "name": "apt-utils"
+            },
+            "summary": "APT utilities for package management.",
+            "url": {
+               "docs": "https://manpages.ubuntu.com/manpages/noble/en/man8/apt-get.8.html",
+               "package": "https://packages.ubuntu.com/noble/apt-utils",
+               "source": "https://salsa.debian.org/apt-team/apt"
+            }
+         },
          "autoconf": {
             "description": "Autoconf is a tool for producing shell scripts that automatically\nconfigure software source code packages to adapt to many kinds of\nUnix-like systems. It is essential for building software from\nsource that uses the GNU build system.\n",
             "group": "recommended",
@@ -2936,7 +2952,26 @@
                "source": "https://git.savannah.gnu.org/git/automake.git"
             }
          },
+         "bash-completion": {
+            "description": "Adds intelligent tab-completion for Bash commands and arguments.\nUseful for interactive shell users.\n",
+            "group": "recommended",
+            "name": "bash-completion",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "bash-completion",
+               "name": "bash-completion"
+            },
+            "summary": "Programmable completion for the Bash shell.",
+            "url": {
+               "docs": "https://github.com/scop/bash-completion",
+               "package": "https://packages.ubuntu.com/noble/bash-completion",
+               "source": "https://salsa.debian.org/debian/bash-completion"
+            }
+         },
          "build-essential": {
+            "dependents": [
+               "git"
+            ],
             "description": "The 'build-essential' package is a meta-package that installs a\ncollection of packages necessary for compiling software on Ubuntu.\nIt includes the GNU Compiler Collection (gcc and g++), make, and\nother tools required for building Debian packages and compiling\nsoftware from source. This package simplifies the setup of a\ndevelopment environment by ensuring all essential compilation tools\nare installed.\n",
             "group": "required",
             "name": "build-essential",
@@ -3071,6 +3106,38 @@
                "source": "https://salsa.debian.org/mariadb-team/mysql-defaults"
             }
          },
+         "dialog": {
+            "description": "The 'dialog' package allows shell scripts to present\ninteractive dialog boxes, such as menus, input boxes, and\nmessage boxes, in a terminal interface. It is useful for\ncreating user-friendly command-line interfaces. While not\nessential, it is recommended for scripts that require user\ninteraction.\n",
+            "group": "recommended",
+            "name": "dialog",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "dialog",
+               "name": "dialog"
+            },
+            "summary": "Display user-friendly dialog boxes from shell scripts.",
+            "url": {
+               "docs": "https://invisible-island.net/dialog/dialog.html",
+               "package": "https://packages.ubuntu.com/noble/dialog",
+               "source": "https://salsa.debian.org/debian/dialog"
+            }
+         },
+         "dirmngr": {
+            "description": "Handles network operations for GnuPG, such as retrieving\ncertificates and CRLs. Required for managing keys and verifying\nsignatures from keyservers.\n",
+            "group": "essential",
+            "name": "dirmngr",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "dirmngr",
+               "name": "dirmngr"
+            },
+            "summary": "Network certificate management service for GnuPG.",
+            "url": {
+               "docs": "https://gnupg.org/documentation/manuals/gnupg/",
+               "package": "https://packages.ubuntu.com/noble/dirmngr",
+               "source": "https://dev.gnupg.org/source/dirmngr/"
+            }
+         },
          "dpkg-dev": {
             "description": "The dpkg-dev package contains the tools necessary to unpack,\nbuild, and upload Debian source packages. It includes programs\nlike dpkg-source and dpkg-buildpackage.\n",
             "group": "essential",
@@ -3124,7 +3191,7 @@
             "description": "Fish (Friendly Interactive SHell) is a modern command-line shell\nfocused on user experience and interactivity. It offers features\nlike autosuggestions, syntax highlighting, and advanced tab\ncompletion out of the box. Unlike traditional shells, fish is not\nPOSIX-compliant, which may affect compatibility with some scripts.\nIt is optional and primarily used by users seeking an enhanced\ninteractive shell experience.\n",
             "group": "optional",
             "name": "fish",
-            "post_process": "# Setup Fish\n# - https://github.com/devcontainers/images/blob/0f13a9b8a31b9c81be78abfc404cc00748e946bb/src/universal/.devcontainer/Dockerfile#L85-L88\nFISH_PROMPT=\"function fish_prompt\\n    set_color green\\n    echo -n (whoami)\\n    set_color normal\\n    echo -n \\\":\\\"\\n    set_color blue\\n    echo -n (pwd)\\n    set_color normal\\n    echo -n \\\"> \\\"\\nend\\n\";\nprintf \"$FISH_PROMPT\" >> /etc/fish/functions/fish_prompt.fish;\nprintf \"if type code-insiders > /dev/null 2>&1; and not type code > /dev/null 2>&1\\n  alias code=code-insiders\\nend\" >> /etc/fish/conf.d/code_alias.fish;\n",
+            "post_install": "# Setup Fish\n# - https://github.com/devcontainers/images/blob/0f13a9b8a31b9c81be78abfc404cc00748e946bb/src/universal/.devcontainer/Dockerfile#L85-L88\nFISH_PROMPT=\"function fish_prompt\\n    set_color green\\n    echo -n (whoami)\\n    set_color normal\\n    echo -n \\\":\\\"\\n    set_color blue\\n    echo -n (pwd)\\n    set_color normal\\n    echo -n \\\"> \\\"\\nend\\n\";\nprintf \"$FISH_PROMPT\" >> /etc/fish/functions/fish_prompt.fish;\nprintf \"if type code-insiders > /dev/null 2>&1; and not type code > /dev/null 2>&1\\n  alias code=code-insiders\\nend\" >> /etc/fish/conf.d/code_alias.fish;\n",
             "spec": {
                "full": "fish",
                "name": "fish"
@@ -3215,6 +3282,9 @@
             }
          },
          "gettext": {
+            "dependents": [
+               "git"
+            ],
             "description": "gettext provides a set of tools and libraries for internationalizing\nand localizing software. It enables programs to be translated into\ndifferent languages, facilitating global software distribution.\nThis package is essential for developing applications that support\nmultiple languages and locales.\n",
             "group": "essential",
             "name": "gettext",
@@ -3246,21 +3316,6 @@
                "docs": "https://www.ghostscript.com/doc/current/",
                "package": "https://packages.ubuntu.com/noble/ghostscript",
                "source": "https://github.com/ArtifexSoftware/ghostpdl"
-            }
-         },
-         "git": {
-            "description": "Git is a widely-used distributed version control system designed\nfor speed and efficiency in managing source code changes. It\nallows developers to track revisions, collaborate on code, and\nmanage project history. In development environments, Git is\nessential for version control, code collaboration, and integration\nwith platforms like GitHub and GitLab.\n",
-            "group": "required",
-            "name": "git",
-            "spec": {
-               "full": "git",
-               "name": "git"
-            },
-            "summary": "Distributed version control system.",
-            "url": {
-               "docs": "https://git-scm.com/doc",
-               "package": "https://packages.debian.org/git",
-               "source": "https://github.com/git/git"
             }
          },
          "gnupg": {
@@ -3348,6 +3403,22 @@
                "source": "https://gitlab.com/graphviz/graphviz"
             }
          },
+         "htop": {
+            "description": "htop is an interactive process viewer that provides a\nreal-time, colorized display of system processes. It\nallows users to scroll through the process list\nvertically and horizontally, and to perform actions\nsuch as killing or renicing processes without entering\ntheir PIDs. While not essential, it is recommended for\nusers who require a more user-friendly alternative to\nthe traditional 'top' command.\n",
+            "group": "recommended",
+            "name": "htop",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "htop",
+               "name": "htop"
+            },
+            "summary": "Interactive process viewer for Unix systems.",
+            "url": {
+               "docs": "https://htop.dev/",
+               "package": "https://packages.ubuntu.com/noble/htop",
+               "source": "https://github.com/htop-dev/htop"
+            }
+         },
          "imagemagick": {
             "description": "ImageMagick is a software suite to create, edit, compose, or\nconvert bitmap images. It can read and write images in a variety\nof formats.\n",
             "group": "recommended",
@@ -3362,6 +3433,22 @@
                "docs": "https://imagemagick.org/script/resources.php",
                "package": "https://packages.ubuntu.com/noble/imagemagick",
                "source": "https://github.com/ImageMagick/ImageMagick"
+            }
+         },
+         "init-system-helpers": {
+            "description": "Provides key scripts (`service`, `invoke-rc.d`, etc.) used by\nDebian-based systems to manage services and maintain\ncompatibility across different init systems (systemd, SysV,\netc.). Essential for correct package installation and service\nhandling during boot and runtime.\n",
+            "group": "essential",
+            "name": "init-system-helpers",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "init-system-helpers",
+               "name": "init-system-helpers"
+            },
+            "summary": "Tools for managing compatibility across init systems.",
+            "url": {
+               "docs": "https://manpages.ubuntu.com/manpages/noble/en/man8/service.8.html",
+               "package": "https://packages.ubuntu.com/noble/init-system-helpers",
+               "source": "https://salsa.debian.org/debian/init-system-helpers"
             }
          },
          "inotify-tools": {
@@ -3379,6 +3466,22 @@
                "source": "https://github.com/inotify-tools/inotify-tools"
             }
          },
+         "iproute2": {
+            "description": "Provides tools like 'ip' and 'tc' for configuring network\ninterfaces and managing routing. Essential for network setup and\ndiagnostics.\n",
+            "group": "required",
+            "name": "iproute2",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "iproute2",
+               "name": "iproute2"
+            },
+            "summary": "Networking and traffic control utilities.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man8/ip.8.html",
+               "package": "https://packages.ubuntu.com/noble/iproute2",
+               "source": "https://git.kernel.org/pub/scm/network/iproute2/iproute2.git"
+            }
+         },
          "jq": {
             "description": "jq is a lightweight and flexible command-line tool for processing\nJSON data. It allows for parsing, filtering, mapping, and\ntransforming structured JSON input, making it invaluable for\ndevelopers and system administrators working with APIs, logs, or\nconfiguration files. jq's powerful query language enables complex\ndata manipulations directly from the command line. It is essential\nin environments where JSON data handling is a routine task.\n",
             "group": "required",
@@ -3392,6 +3495,22 @@
                "docs": "https://stedolan.github.io/jq/manual/",
                "package": "https://packages.ubuntu.com/noble/jq",
                "source": "https://github.com/stedolan/jq"
+            }
+         },
+         "less": {
+            "description": "The 'less' command is a terminal pager that allows users to\nview the contents of text files one screen at a time. Unlike\ntraditional text editors, 'less' does not load the entire file\ninto memory, making it efficient for viewing large files. It\nsupports both forward and backward navigation, search\nfunctionality, and various display options. 'less' is commonly\nused in conjunction with other commands to paginate output,\nmaking it an essential tool for command-line environments.\n",
+            "group": "essential",
+            "name": "less",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "less",
+               "name": "less"
+            },
+            "summary": "Terminal pager for viewing text one screen at a time.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/less.1.html",
+               "package": "https://packages.ubuntu.com/noble/less",
+               "source": "https://github.com/gwsw/less"
             }
          },
          "libatk-bridge2.0-0": {
@@ -3485,6 +3604,9 @@
             }
          },
          "libcurl4-openssl-dev": {
+            "dependents": [
+               "git"
+            ],
             "description": "This package provides the development files for libcurl compiled\nwith OpenSSL support. libcurl is a client-side URL transfer\nlibrary supporting various protocols, including HTTP, HTTPS, FTP,\nand more. It's widely used in applications that require data\ntransfer capabilities.\n",
             "group": "essential",
             "name": "libcurl4-openssl-dev",
@@ -3563,6 +3685,24 @@
                "docs": "https://libevent.org/",
                "package": "https://packages.debian.org/libevent-dev",
                "source": "https://github.com/libevent/libevent"
+            }
+         },
+         "libexpat1-dev": {
+            "dependents": [
+               "git"
+            ],
+            "description": "The 'libexpat1-dev' package provides the header files and\ndevelopment libraries for Expat, a fast, stream-oriented XML\nparser written in C. It enables developers to build\napplications that parse XML documents efficiently by\nregistering handlers that are called when the parser\nencounters specific structures in the XML. This package is\nessential for compiling software that depends on Expat for\nXML parsing functionality.\n",
+            "group": "required",
+            "name": "libexpat1-dev",
+            "spec": {
+               "full": "libexpat1-dev",
+               "name": "libexpat1-dev"
+            },
+            "summary": "Development files for the Expat XML parser library.",
+            "url": {
+               "docs": "https://libexpat.github.io/",
+               "package": "https://packages.ubuntu.com/noble/libexpat1-dev",
+               "source": "https://launchpad.net/ubuntu/noble/+source/expat"
             }
          },
          "libffi-dev": {
@@ -3644,6 +3784,22 @@
                "source": "https://git.savannah.gnu.org/git/gdbm.git"
             }
          },
+         "libgdbm6t64": {
+            "description": "The 'libgdbm6t64' package provides the GNU dbm (GDBM) database\nlibrary, compiled with 64-bit time_t support to accommodate the\ntime_t transition in Ubuntu 24.04 (Noble Numbat). This library\noffers a simple database engine for storing key-value pairs,\ncommonly used by various applications and programming languages\nfor persistent storage. The 't64' variant ensures compatibility\nwith systems and applications that utilize 64-bit time\nrepresentations, making it a required component in the Ubuntu\nNoble environment.\n",
+            "group": "required",
+            "name": "libgdbm6t64",
+            "notes": "Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libgdbm6t64",
+               "name": "libgdbm6t64"
+            },
+            "summary": "GNU dbm database library with 64-bit time_t support.",
+            "url": {
+               "docs": "https://www.gnu.org.ua/software/gdbm/manual/",
+               "package": "https://packages.ubuntu.com/noble/libgdbm6t64",
+               "source": "https://git.savannah.gnu.org/git/gdbm.git"
+            }
+         },
          "libgdiplus": {
             "description": "libgdiplus is a Mono library that provides a GDI+-compatible API on\nnon-Windows operating systems. It enables applications developed\nwith .NET's System.Drawing namespace to function on Unix-like\nsystems by leveraging the Cairo graphics library for rendering.\nThis package is particularly useful for cross-platform .NET\napplications that require graphical capabilities. While not\nessential for all development environments, it is recommended for\nprojects involving Mono or cross-platform graphical applications.\n",
             "group": "recommended",
@@ -3701,7 +3857,7 @@
             "group": "recommended",
             "name": "libglut3.12",
             "notes": "Required for `asymptote` in TeX (see [Island of Tex Dockerfile](https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile.base#L34)).\nThe post processing creates a symlink to `libglut.so.3`,\nwhich other packages may expect. This is a workaround for the\nmissing symlink in the libglut3.12 package (cf.\n[Island of Tex Dockerfile](https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile.base#L39-42)\nand [ask-ubuntu](https://askubuntu.com/questions/1526992/is-there-a-reason-24-04-lts-noble-numbat-does-not-provide-libglut-so-3)\n).\n",
-            "post_process": "LIBDIR=\"$(find /usr/lib -maxdepth 1 -type d -name '*-linux-*' | grep -v '/config-' | head -n1)\";\nln -sf \"${LIBDIR}/libglut.so.3.12\" \"${LIBDIR}/libglut.so.3\";\n",
+            "post_install": "LIBDIR=\"$(find /usr/lib -maxdepth 1 -type d -name '*-linux-*' | grep -v '/config-' | head -n1)\";\nln -sf \"${LIBDIR}/libglut.so.3.12\" \"${LIBDIR}/libglut.so.3\";\n",
             "spec": {
                "full": "libglut3.12",
                "name": "libglut3.12"
@@ -3731,6 +3887,7 @@
             "description": "The 'libgssapi-krb5-2' package provides the GSSAPI (Generic\nSecurity Services Application Program Interface) support library\nfor the MIT Kerberos implementation. It is used by applications\nthat require Kerberos authentication, such as SSH and other secure\ncommunication tools. This package is essential for environments\nthat utilize Kerberos for authentication.\n",
             "group": "essential",
             "name": "libgssapi-krb5-2",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
                "full": "libgssapi-krb5-2",
                "name": "libgssapi-krb5-2"
@@ -3757,6 +3914,22 @@
                "source": "https://gitlab.gnome.org/GNOME/gtk"
             }
          },
+         "libicu": {
+            "description": "The 'libicu72' package provides the International Components\nfor Unicode (ICU) libraries, which offer robust and full-featured\nUnicode services. These services include character set conversions,\ncollation, date/time formatting, and more. It is essential for\napplications that require comprehensive Unicode support, such as\ninternationalized software and platforms like .NET and R.\n",
+            "group": "required",
+            "name": "libicu",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libicu",
+               "name": "libicu[0-9][0-9]"
+            },
+            "summary": "International Components for Unicode library.",
+            "url": {
+               "docs": "https://icu.unicode.org/",
+               "package": "https://packages.ubuntu.com/noble/libicu72",
+               "source": "https://github.com/unicode-org/icu"
+            }
+         },
          "libjpeg-dev": {
             "description": "This package provides the headers and static libraries for the\nJPEG image compression library. It's essential for developing\napplications that handle JPEG image encoding and decoding.\n",
             "group": "essential",
@@ -3770,6 +3943,22 @@
                "docs": "https://libjpeg.sourceforge.io/",
                "package": "https://packages.debian.org/libjpeg-dev",
                "source": "https://github.com/libjpeg-turbo/libjpeg-turbo"
+            }
+         },
+         "libkrb5-3": {
+            "description": "The 'libkrb5-3' package provides the core runtime libraries for\nthe MIT Kerberos 5 authentication system. It is essential for\napplications and services that require secure authentication\nmechanisms, such as SSH, NFS, and various enterprise-level\nservices. In Ubuntu Noble, it ensures compatibility with the\n64-bit time_t transition, making it a required component for\nsystems and applications that depend on Kerberos functionality.\n",
+            "group": "required",
+            "name": "libkrb5-3",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libkrb5-3",
+               "name": "libkrb5-3"
+            },
+            "summary": "MIT Kerberos runtime libraries.",
+            "url": {
+               "docs": "https://web.mit.edu/kerberos/krb5-1.20/",
+               "package": "https://packages.ubuntu.com/noble/libkrb5-3",
+               "source": "https://gitlab.com/ubuntu/krb5"
             }
          },
          "libkrb5-dev": {
@@ -3787,13 +3976,14 @@
                "source": "https://github.com/krb5/krb5"
             }
          },
-         "liblttng-ust1": {
+         "liblttng-ust": {
             "description": "The 'liblttng-ust1' package provides the LTTng Userspace Tracer\nlibrary, enabling low-overhead tracing of user-space applications.\nIt allows developers to instrument applications for performance\nanalysis and debugging by emitting tracepoints. While not essential\nfor all development environments, it is recommended for those\nrequiring detailed tracing capabilities.\n",
             "group": "optional",
-            "name": "liblttng-ust1",
+            "name": "liblttng-ust",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
-               "full": "liblttng-ust1",
-               "name": "liblttng-ust1"
+               "full": "liblttng-ust",
+               "name": "liblttng-ust[0-9]"
             },
             "summary": "LTTng Userspace Tracer library.",
             "url": {
@@ -3909,6 +4099,22 @@
                "source": "https://invisible-island.net/datafiles/release/ncurses.tar.gz"
             }
          },
+         "libncursesw6": {
+            "description": "The 'libncursesw6' package provides the ncurses library\nroutines, offering a terminal-independent method of updating\ncharacter screens with reasonable optimization. This version\nincludes support for wide characters, enabling applications to\nhandle internationalized text and Unicode characters. It is\nessential for programs that require advanced terminal handling\ncapabilities, such as text editors, interface tools, and\nconsole-based applications.\n",
+            "group": "required",
+            "name": "libncursesw6",
+            "notes": "Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libncursesw6",
+               "name": "libncursesw6"
+            },
+            "summary": "Terminal handling library with wide character support.",
+            "url": {
+               "docs": "https://invisible-island.net/ncurses/man/ncurses.3x.html",
+               "package": "https://packages.ubuntu.com/noble/libncursesw6",
+               "source": "https://invisible-island.net/ncurses/"
+            }
+         },
          "libnspr4": {
             "description": "libnspr4 provides a platform-neutral API\nfor system-level and libc-like functions.\nIt is used by the Network Security Services (NSS) libraries\nand other applications.\nThis package is required for applications that depend on NSPR for portability.\n",
             "group": "recommended",
@@ -3967,6 +4173,59 @@
                "docs": "https://developer.gnome.org/pango/",
                "package": "https://packages.ubuntu.com/noble/libpangocairo-1.0-0",
                "source": "https://gitlab.gnome.org/GNOME/pango"
+            }
+         },
+         "libpcre2-8-0": {
+            "description": "The 'libpcre2-8-0' package provides the 8-bit runtime library\nfor PCRE2 (Perl Compatible Regular Expressions, version 2),\nwhich offers functions to support regular expressions with\nsyntax and semantics similar to Perl 5. This library is\nessential for applications that require pattern matching\ncapabilities, such as text processing tools and programming\nlanguages. In Ubuntu Noble (24.04), 'libpcre2-8-0' is the\npreferred library over the older 'pcre3' library.\n",
+            "group": "required",
+            "name": "libpcre2-8-0",
+            "notes": "Recommended by `zsh` and included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libpcre2-8-0",
+               "name": "libpcre2-8-0"
+            },
+            "summary": "PCRE2 regular expression library (8-bit)",
+            "url": {
+               "docs": "https://pcre.org/current/doc/html/",
+               "package": "https://packages.ubuntu.com/noble/libpcre2-8-0",
+               "source": "https://launchpad.net/ubuntu/+source/pcre2"
+            }
+         },
+         "libpcre2-dev": {
+            "dependents": [
+               "git"
+            ],
+            "description": "The 'libpcre2-dev' package provides the development files for\nPCRE2 (Perl Compatible Regular Expressions, version 2), a\nlibrary of functions that implement regular expression pattern\nmatching using the same syntax and semantics as Perl 5. This\npackage includes header files, static libraries, and\ndocumentation necessary for compiling applications that use\nPCRE2. It is essential for developers who need to build\nsoftware with advanced regular expression capabilities.\n",
+            "group": "required",
+            "name": "libpcre2-dev",
+            "spec": {
+               "full": "libpcre2-dev",
+               "name": "libpcre2-dev"
+            },
+            "summary": "Development files for PCRE2 \u2013 Perl-compatible regular expressions.",
+            "url": {
+               "docs": "https://pcre.org/current/doc/html/",
+               "package": "https://packages.ubuntu.com/noble/libpcre2-dev",
+               "source": "https://launchpad.net/ubuntu/noble/+source/pcre2"
+            }
+         },
+         "libpcre2-posix3": {
+            "dependents": [
+               "git"
+            ],
+            "description": "The 'libpcre2-posix3' package provides a POSIX-compatible API\nfor the PCRE2 (Perl Compatible Regular Expressions) library.\nIt allows applications to utilize regular expressions with\nsyntax and semantics similar to Perl 5, through a POSIX-style\ninterface. This package is particularly useful for software\nthat relies on POSIX regex functions but benefits from the\nenhanced capabilities of PCRE2. It is recommended for\napplications requiring POSIX-compatible regular expression\nsupport.\n",
+            "group": "essential",
+            "name": "libpcre2-posix3",
+            "notes": "Included in the [`git`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L257C24-L257C39) feature.\n",
+            "spec": {
+               "full": "libpcre2-posix3",
+               "name": "libpcre2-posix3"
+            },
+            "summary": "PCRE2 POSIX-compatible regular expression runtime library.",
+            "url": {
+               "docs": "https://pcre.org/current/doc/html/",
+               "package": "https://packages.ubuntu.com/noble/libpcre2-posix3",
+               "source": "https://github.com/PhilipHazel/pcre2"
             }
          },
          "libpng-dev": {
@@ -4064,6 +4323,9 @@
             }
          },
          "libssl-dev": {
+            "dependents": [
+               "git"
+            ],
             "description": "This package provides the headers and static libraries for OpenSSL,\nimplementing the SSL and TLS protocols. It's essential for developing\napplications that require secure communication over networks.\n",
             "group": "essential",
             "name": "libssl-dev",
@@ -4078,10 +4340,27 @@
                "source": "https://github.com/openssl/openssl"
             }
          },
+         "libssl3t64": {
+            "description": "The 'libssl3t64' package provides the shared libraries for OpenSSL 3.0,\ncompiled with 64-bit time_t support. This ensures compatibility with\nsystems and applications that use 64-bit time representations, aligning\nwith the time_t transition in Ubuntu Noble (24.04). It is essential for\napplications that require secure communication over the Internet using\nSSL and TLS protocols, and that are built against the 64-bit time_t ABI.\n",
+            "group": "required",
+            "name": "libssl3t64",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "libssl3t64",
+               "name": "libssl3t64"
+            },
+            "summary": "OpenSSL 3.0 shared libraries with 64-bit time_t support.",
+            "url": {
+               "docs": "https://www.openssl.org/docs/",
+               "package": "https://packages.ubuntu.com/noble/libssl3t64",
+               "source": "https://launchpad.net/ubuntu/+source/openssl"
+            }
+         },
          "libstdc++6": {
             "description": "The 'libstdc++6' package provides the standard C++ library, which\nincludes the runtime components required to run C++ applications\ncompiled with GCC. This package is fundamental for the execution\nof C++ programs and is required in any environment that runs such\napplications.\n",
             "group": "required",
             "name": "libstdc++6",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
                "full": "libstdc++6",
                "name": "libstdc--6"
@@ -4353,6 +4632,55 @@
                "source": "https://github.com/llvm/llvm-project"
             }
          },
+         "locales": {
+            "description": "The 'locales' package provides the infrastructure for\nmanaging language and regional settings on Ubuntu systems.\nIt includes utilities like 'locale' and 'locale-gen' to\ndisplay and generate locale data, respectively. These\nsettings influence various aspects of system behavior,\nsuch as language, character encoding, and formatting of\ndates and numbers. This package is essential for\nconfiguring and supporting internationalization in\napplications and the system environment.\n",
+            "group": "essential",
+            "name": "locales",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "post_install": "# Ensure at least the en_US.UTF-8 UTF-8 locale is available = common need for both applications and things like the agnoster ZSH theme.\n# - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L145C5-L150C7\nif ! grep -o -E '^\\s*en_US.UTF-8\\s+UTF-8' /etc/locale.gen > /dev/null; then\n    echo \"en_US.UTF-8 UTF-8\" >> /etc/locale.gen;\n    locale-gen;\nfi\n",
+            "spec": {
+               "full": "locales",
+               "name": "locales"
+            },
+            "summary": "GNU C Library locale data and generation tools.",
+            "url": {
+               "docs": "https://manpages.ubuntu.com/manpages/noble/en/man7/locale.7.html",
+               "package": "https://packages.ubuntu.com/noble/locales",
+               "source": "https://salsa.debian.org/glibc-team/glibc"
+            }
+         },
+         "lsb-release": {
+            "description": "The 'lsb-release' package provides the 'lsb_release' command,\nwhich outputs distribution-specific information. In Ubuntu\nNoble, it offers a minimal implementation that retrieves data\nfrom '/etc/os-release'. It is recommended for scripts and\ntools that need to identify the distribution.\n",
+            "group": "essential",
+            "name": "lsb-release",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "lsb-release",
+               "name": "lsb-release"
+            },
+            "summary": "Linux Standard Base version reporting utility.",
+            "url": {
+               "docs": "https://manpages.ubuntu.com/manpages/noble/en/man1/lsb_release.1.html",
+               "package": "https://packages.ubuntu.com/noble/lsb-release",
+               "source": "https://launchpad.net/ubuntu/+source/lsb-release-minimal"
+            }
+         },
+         "lsof": {
+            "description": "Lists information about files opened by processes. Useful for\ndebugging and monitoring, but not essential for all environments.\n",
+            "group": "recommended",
+            "name": "lsof",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "lsof",
+               "name": "lsof"
+            },
+            "summary": "List open files.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man8/lsof.8.html",
+               "package": "https://packages.ubuntu.com/noble/lsof",
+               "source": "https://github.com/lsof-org/lsof"
+            }
+         },
          "make": {
             "description": "Make is a build automation tool that automatically builds executable\nprograms and libraries from source code by reading files called\nMakefiles. It's required for compiling software from source.\n",
             "group": "required",
@@ -4366,6 +4694,54 @@
                "docs": "https://www.gnu.org/software/make/manual/",
                "package": "https://packages.debian.org/make",
                "source": "https://git.savannah.gnu.org/git/make.git"
+            }
+         },
+         "man-db": {
+            "description": "Installs and manages the manual page database and utilities\nsuch as `man`. It allows users to read documentation about\ninstalled commands, libraries, and APIs. It is essential for\naccessing reference material in CLI environments.\n",
+            "group": "essential",
+            "name": "man-db",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "man-db",
+               "name": "man-db"
+            },
+            "summary": "On-disk database and utilities for Unix manual pages.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/man.1.html",
+               "package": "https://packages.ubuntu.com/noble/man-db",
+               "source": "https://salsa.debian.org/man-db-team/man-db"
+            }
+         },
+         "manpages": {
+            "description": "Provides a large collection of manual pages describing standard\nuser commands, file formats, and tools. Recommended for user and\ndeveloper reference, but not strictly necessary to run software.\n",
+            "group": "recommended",
+            "name": "manpages",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "manpages",
+               "name": "manpages"
+            },
+            "summary": "Unix manual pages for user-level commands.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/",
+               "package": "https://packages.ubuntu.com/noble/manpages",
+               "source": "https://salsa.debian.org/manpages-team/manpages"
+            }
+         },
+         "manpages-dev": {
+            "description": "Contains man pages for C library functions, system calls,\nheaders, and development tools. Recommended for programmers and\ndevelopers working on C/C++ or system-level code who want to\nlook up function definitions and usage.\n",
+            "group": "recommended",
+            "name": "manpages-dev",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "manpages-dev",
+               "name": "manpages-dev"
+            },
+            "summary": "Developer-oriented manpages for C programming and system APIs.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/",
+               "package": "https://packages.ubuntu.com/noble/manpages-dev",
+               "source": "https://salsa.debian.org/manpages-team/manpages-dev"
             }
          },
          "mercurial": {
@@ -4395,6 +4771,38 @@
                "docs": "https://manpages.ubuntu.com/manpages/noble/en/man1/moreutils.1.html",
                "package": "https://packages.ubuntu.com/noble/moreutils",
                "source": "https://launchpad.net/ubuntu/noble/+source/moreutils"
+            }
+         },
+         "nano": {
+            "description": "GNU nano is a user-friendly, terminal-based text editor\ndesigned as a free replacement for Pico. It offers features\nlike syntax highlighting, undo/redo, line numbering, and\nsearch-and-replace with regex support. Its simplicity makes\nit ideal for editing configuration files and writing scripts,\nmaking it an essential tool for system administrators and\ndevelopers working in command-line environments.\n",
+            "group": "essential",
+            "name": "nano",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "nano",
+               "name": "nano"
+            },
+            "summary": "Small, friendly text editor inspired by Pico.",
+            "url": {
+               "docs": "https://www.nano-editor.org/docs.php",
+               "package": "https://packages.ubuntu.com/noble/nano",
+               "source": "https://git.savannah.gnu.org/git/nano.git"
+            }
+         },
+         "ncdu": {
+            "description": "ncdu (NCurses Disk Usage) is a terminal-based disk usage\nanalyzer that provides a fast and user-friendly interface\nfor exploring directory sizes. It allows users to navigate\nthrough directories, sort by size, and delete files or\ndirectories directly from the interface. This tool is\nparticularly useful for identifying large files and\ndirectories that consume significant disk space. While not\nessential for all environments, it is recommended for users\nwho need an efficient way to manage disk usage.\n",
+            "group": "recommended",
+            "name": "ncdu",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "ncdu",
+               "name": "ncdu"
+            },
+            "summary": "Interactive disk usage analyzer with ncurses interface.",
+            "url": {
+               "docs": "https://manpages.ubuntu.com/manpages/noble/en/man1/ncdu.1.html",
+               "package": "https://packages.ubuntu.com/noble/ncdu",
+               "source": "https://g.blicky.net/ncdu.git/"
             }
          },
          "netbase": {
@@ -4460,6 +4868,7 @@
             "description": "The procps package includes command-line utilities such as ps,\ntop, vmstat, and others for monitoring and managing system\nprocesses. These tools are vital for observing system performance,\ndiagnosing issues, and managing processes within development\nenvironments.\n",
             "group": "essential",
             "name": "procps",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
                "full": "procps",
                "name": "procps"
@@ -4468,6 +4877,22 @@
             "url": {
                "package": "https://packages.debian.org/procps",
                "source": "https://gitlab.com/procps-ng/procps"
+            }
+         },
+         "psmisc": {
+            "description": "The 'psmisc' package provides a set of utilities for\nmanaging processes, including 'killall', 'fuser',\n'pstree', and 'peekfd'. These tools assist in\nidentifying and controlling processes and their\nresource usage. It is recommended for users who need\nadditional tools beyond the basic process management\ncommands.\n",
+            "group": "recommended",
+            "name": "psmisc",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "psmisc",
+               "name": "psmisc"
+            },
+            "summary": "Utilities for managing processes on Unix systems.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/killall.1.html",
+               "package": "https://packages.ubuntu.com/noble/psmisc",
+               "source": "https://gitlab.com/psmisc/psmisc"
             }
          },
          "python-is-python3": {
@@ -4588,7 +5013,7 @@
             "description": "The 'software-properties-common' package provides an abstraction\nof the used apt repositories. It allows you to easily manage your\ndistribution and independent software vendor software sources. It\nincludes the 'add-apt-repository' command-line tool. This package\nis essential for adding and managing PPAs and other software\nsources.\n",
             "group": "required",
             "name": "software-properties-common",
-            "post_process": "add-apt-repository universe;\n",
+            "post_install": "add-apt-repository universe;\n",
             "spec": {
                "full": "software-properties-common",
                "name": "software-properties-common"
@@ -4629,6 +5054,22 @@
                "source": "https://www.sqlite.org/src"
             }
          },
+         "strace": {
+            "description": "strace is used to monitor and debug interactions between programs\nand the Linux kernel by tracing system calls and signals. It's a\nvital tool for diagnosing runtime issues, especially in debugging,\nsecurity auditing, and reverse engineering. Recommended for\ndevelopers and sysadmins.\n",
+            "group": "recommended",
+            "name": "strace",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "strace",
+               "name": "strace"
+            },
+            "summary": "Diagnostic tool for tracing system calls.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/strace.1.html",
+               "package": "https://packages.ubuntu.com/noble/strace",
+               "source": "https://github.com/strace/strace"
+            }
+         },
          "sudo": {
             "description": "The 'sudo' package provides the 'sudo' command, allowing\nauthorized users to execute commands with the security\nprivileges of another user, typically the superuser. It is\nessential for performing administrative tasks without logging\nin as the root user, thereby enhancing system security and\nauditability. In Ubuntu, the root account is disabled by\ndefault, making 'sudo' indispensable for system management.\n",
             "group": "required",
@@ -4659,6 +5100,24 @@
                "source": "https://github.com/swig/swig"
             }
          },
+         "tar": {
+            "dependents": [
+               "git"
+            ],
+            "description": "GNU tar is a standard Unix utility used to create, maintain, modify, and extract files from archives. It supports various compression methods, including gzip, bzip2, and xz, facilitating efficient storage and distribution of files. Commonly used for backups and software packaging, tar is an essential tool in Unix-like environments.\n",
+            "group": "essential",
+            "name": "tar",
+            "spec": {
+               "full": "tar",
+               "name": "tar"
+            },
+            "summary": "GNU tar \u2013 archiving utility for combining multiple files into a single archive.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/tar.1.html",
+               "package": "https://packages.ubuntu.com/noble/tar",
+               "source": "https://launchpad.net/ubuntu/+source/tar"
+            }
+         },
          "tk-dev": {
             "description": "tk-dev provides the header files and libraries necessary for\ndeveloping applications using the Tk GUI toolkit, which is often\nused with the Tcl scripting language. It is essential for building\ngraphical applications that utilize Tk for their user interface.\n",
             "group": "essential",
@@ -4672,6 +5131,22 @@
                "docs": "https://www.tcl.tk/doc/",
                "package": "https://packages.ubuntu.com/noble/tk-dev",
                "source": "https://core.tcl-lang.org/tk"
+            }
+         },
+         "tree": {
+            "description": "The 'tree' command provides a recursive, depth-indented listing\nof files and directories, visualizing the structure in a\ntree-like format. It is particularly useful for understanding\ncomplex directory hierarchies and for documentation purposes.\nWhile not essential for all environments, it is recommended for\nusers who need to visualize directory structures effectively.\n",
+            "group": "recommended",
+            "name": "tree",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
+            "spec": {
+               "full": "tree",
+               "name": "tree"
+            },
+            "summary": "Display directories and files in a tree-like format.",
+            "url": {
+               "docs": "https://man7.org/linux/man-pages/man1/tree.1.html",
+               "package": "https://packages.ubuntu.com/noble/tree",
+               "source": "https://gitlab.com/OldManProgrammer/unix-tree"
             }
          },
          "tzdata": {
@@ -4796,6 +5271,7 @@
             "description": "XZ Utils provide tools for compressing and decompressing files using\nthe .xz format, which utilizes the LZMA2 compression algorithm. It's\nessential for handling .xz compressed files, commonly used in source\ndistributions.\n",
             "group": "essential",
             "name": "xz-utils",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
                "full": "xz-utils",
                "name": "xz-utils"
@@ -4826,6 +5302,7 @@
             "description": "The 'zlib1g' package provides the zlib compression library, which\nimplements the deflate compression algorithm used in gzip and\nother compression tools. It is widely used by applications for\ndata compression and decompression. This package is required for\nthe operation of many software packages that handle compressed\ndata.\n",
             "group": "required",
             "name": "zlib1g",
+            "notes": "Included in the [`common-utils`](https://github.com/devcontainers/features/blob/main/src/common-utils/main.sh) devcontainer feature.\n",
             "spec": {
                "full": "zlib1g",
                "name": "zlib1g"
@@ -4838,6 +5315,9 @@
             }
          },
          "zlib1g-dev": {
+            "dependents": [
+               "git"
+            ],
             "description": "This package provides the headers and static libraries for zlib, a\ncompression library implementing the deflate algorithm. It's\nessential for developing applications that require data compression.\n",
             "group": "essential",
             "name": "zlib1g-dev",
@@ -4850,6 +5330,21 @@
                "docs": "https://zlib.net/manual.html",
                "package": "https://packages.debian.org/zlib1g-dev",
                "source": "https://github.com/madler/zlib"
+            }
+         },
+         "zsh": {
+            "description": "Zsh is a powerful and highly customizable Unix shell that\nincorporates features from bash, ksh, and tcsh. It offers\nadvanced features like improved tab completion, spell\ncorrection, and theming support. While not essential for\nsystem operation, it is a popular alternative for users\nseeking enhanced interactive shell experiences.\n",
+            "group": "recommended",
+            "name": "zsh",
+            "spec": {
+               "full": "zsh",
+               "name": "zsh"
+            },
+            "summary": "Z Shell \u2013 advanced interactive shell.",
+            "url": {
+               "docs": "https://zsh.sourceforge.io/Doc/",
+               "package": "https://packages.ubuntu.com/noble/zsh",
+               "source": "https://sourceforge.net/p/zsh/code/ci/master/tree/"
             }
          }
       },
@@ -4936,6 +5431,14 @@
                   "ExecutableBookProject.myst-highlight"
                ],
                "settings": {
+                  "github.copilot.chat.codeGeneration.instructions": [
+                     {
+                        "text": "This dev container includes an up-to-date version of Git,\nbuilt from source as needed, pre-installed and available on the `PATH`.\n"
+                     },
+                     {
+                        "text": "This dev container includes the conda and mamba package managers\npre-installed and available on the `PATH`.\nAdditional packages installed using Conda/Mamba will be downloaded\nfrom conda-forge or another repository configured by the user.\nA user can install different versions of Python\nthan the one in this dev container by running a command like:\n`conda install python=3.13`\n"
+                     }
+                  ],
                   "jupyter.kernels.filter": [
                      {
                         "path": "/opt/conda/bin/python",
@@ -5004,7 +5507,6 @@
             "docker-compose.yaml"
          ],
          "features": {
-            "./features/conda_setup": {},
             "./features/pkg_setup": {
                "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
             },
@@ -5019,10 +5521,6 @@
                "userUid": "1000",
                "username": "pypackit-dev"
             },
-            "ghcr.io/devcontainers/features/conda:1": {
-               "addCondaForge": true,
-               "version": "latest"
-            },
             "ghcr.io/devcontainers/features/desktop-lite:1": {
                "password": "noPassword",
                "version": "latest",
@@ -5034,10 +5532,6 @@
             },
             "ghcr.io/devcontainers/features/git-lfs:1": {
                "autoPull": true,
-               "version": "latest"
-            },
-            "ghcr.io/devcontainers/features/git:1": {
-               "ppa": false,
                "version": "latest"
             },
             "ghcr.io/devcontainers/features/github-cli:1": {
@@ -5072,9 +5566,7 @@
          "overrideFeatureInstallOrder": [
             "ghcr.io/devcontainers/features/common-utils",
             "ghcr.io/devcontainers/features/desktop-lite:1",
-            "ghcr.io/devcontainers/features/git",
             "ghcr.io/devcontainers/features/node",
-            "ghcr.io/devcontainers/features/conda",
             "ghcr.io/devcontainers/features/ruby",
             "ghcr.io/devcontainers/features/sshd",
             "ghcr.io/devcontainers/features/git-lfs",
@@ -5083,7 +5575,6 @@
             "ghcr.io/devcontainers/features/oryx",
             "./features/setup-user",
             "ghcr.io/devcontainers-extra/features/apt-get-packages",
-            "./features/conda_setup",
             "./features/pkg_setup"
          ],
          "portsAttributes": {
@@ -5126,8 +5617,7 @@
                "--install-hooks",
                "--config",
                ".config/pre-commit.yaml"
-            ],
-            "source_tasks": "echo 'source /workspace/.devcontainer/tasks_local.sh' | sudo tee /etc/profile.d/load-project-tasks.sh && sudo chmod +x /etc/profile.d/load-project-tasks.sh"
+            ]
          },
          "remoteEnv": {
             "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
@@ -5152,10 +5642,10 @@
             "description": "Only include those that affect the build processes.\nOther environment variables can be set at the end\nto avoid early cache invalidation.\n",
             "instructions": [
                {
-                  "ARG": "DEBIAN_FRONTEND=noninteractive\n"
+                  "ENV": "LANG=C.UTF-8\nLC_ALL=C.UTF-8\nPYTHONIOENCODING=UTF-8\nTZ=UTC\n"
                },
                {
-                  "ENV": "LANG=C.UTF-8\nLC_ALL=C.UTF-8\nTZ=UTC\n"
+                  "USER": "root"
                }
             ],
             "summary": "Main build arguments and environment variables.",
@@ -5164,67 +5654,173 @@
          {
             "instructions": [
                {
-                  "RUN": "set -eux;\nadd-apt-repository universe;\napt-get update;\napt-get install -y --no-install-recommends\n    build-essential\n    bzip2\n    ca-certificates\n    curl\n    equivs\n    g++\n    gcc\n    git\n    gnupg\n    gpg\n    gpg-agent\n    jq\n    libc6\n    libc6-dev\n    libcurl4t64\n    libgcc1\n    libstdc++6\n    libtirpc3t64\n    make\n    mercurial\n    netbase\n    openssh-client\n    python-is-python3\n    python3\n    python3-pip-whl\n    rsync\n    software-properties-common\n    sq\n    sudo\n    swig\n    tzdata\n    unzip\n    wget\n    zlib1g\n;\napt-get dist-clean;"
+                  "ARG": "APT_INSTALL_SCRIPT=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/install.sh\"\n"
                },
                {
-                  "RUN": "add-apt-repository universe;"
+                  "COPY": "[\".devcontainer/environment/apt/install.sh\", \"$APT_INSTALL_SCRIPT\"]\n"
+               },
+               {
+                  "RUN": "chmod +x \"$APT_INSTALL_SCRIPT\"\n"
+               }
+            ],
+            "title": "APT Installation Script"
+         },
+         {
+            "instructions": [
+               {
+                  "ARG": "APT_REQUIRED_PACKAGES=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/packages.txt\""
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/apt/required/packages.txt\", \"$APT_REQUIRED_PACKAGES\"]"
+               },
+               {
+                  "RUN": "\"$APT_INSTALL_SCRIPT\" \"APT_REQUIRED_PACKAGES\" --logfile /var/log/pypackit-container/apt_install_required.log"
+               },
+               {
+                  "ARG": "APT_REQUIRED_POST_INSTALL=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/post_install.sh\""
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/apt/required/post_install.sh\", \"$APT_REQUIRED_POST_INSTALL\"]"
+               },
+               {
+                  "RUN": "chmod +x $APT_REQUIRED_POST_INSTALL;\n$APT_REQUIRED_POST_INSTALL"
                }
             ],
             "summary": "Installation of required APT packages.",
-            "title": "Required APT Packages"
+            "title": "APT Packages (Required)"
          },
          {
             "instructions": [
                {
-                  "RUN": "set -eux;\napt-get update;\napt-get install -y --no-install-recommends\n    clang\n    cmake\n    default-jre\n    dpkg-dev\n    file\n    fontconfig\n    gdb\n    gettext\n    libbz2-dev\n    libcurl4-openssl-dev\n    libffi-dev\n    libfile-homedir-perl\n    libgetopt-long-descriptive-perl\n    libglib2.0-dev\n    libgssapi-krb5-2\n    libjpeg-dev\n    liblzma-dev\n    libncurses5-dev\n    libncurses6\n    libncursesw5-dev\n    libpng-dev\n    libpq-dev\n    libreadline-dev\n    libsecret-1-dev\n    libsm6\n    libsqlite3-dev\n    libssl-dev\n    libtool\n    libunwind8\n    libuuid1\n    libxml2-dev\n    llvm\n    patch\n    perl\n    procps\n    python3-dev\n    python3-pip\n    sqlite3\n    tk-dev\n    unixodbc-dev\n    uuid-dev\n    vim\n    xz-utils\n    zip\n    zlib1g-dev\n;\napt-get dist-clean;"
+                  "ARG": "APT_ESSENTIAL_PACKAGES=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/packages.txt\""
                },
                {
-                  "RUN": null
+                  "COPY": "[\".devcontainer/environment/apt/essential/packages.txt\", \"$APT_ESSENTIAL_PACKAGES\"]"
+               },
+               {
+                  "RUN": "\"$APT_INSTALL_SCRIPT\" \"APT_ESSENTIAL_PACKAGES\" --logfile /var/log/pypackit-container/apt_install_essential.log"
+               },
+               {
+                  "ARG": "APT_ESSENTIAL_POST_INSTALL=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/post_install.sh\""
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/apt/essential/post_install.sh\", \"$APT_ESSENTIAL_POST_INSTALL\"]"
+               },
+               {
+                  "RUN": "chmod +x $APT_ESSENTIAL_POST_INSTALL;\n$APT_ESSENTIAL_POST_INSTALL"
                }
             ],
             "summary": "Installation of essential APT packages.",
-            "title": "Essential APT Packages"
+            "title": "APT Packages (Essential)"
+         },
+         {
+            "description": "We install [git](https://git-scm.com/doc)\ndirectly from its [GitHub repository](https://github.com/git/git)\nto get and up-to-date version.\n",
+            "instructions": [
+               {
+                  "ARG": "GIT_INSTALL_SCRIPT=\"/usr/local/share/pypackit-container/.devcontainer/environment/git/install.sh\"\n"
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/git/install.sh\", \"$GIT_INSTALL_SCRIPT\"]\n"
+               },
+               {
+                  "ENV": "PATH=/usr/local/git/bin:$PATH\n"
+               },
+               {
+                  "RUN": "chmod +x \"$GIT_INSTALL_SCRIPT\";\n\"$GIT_INSTALL_SCRIPT\"\n    --version \"2.49.0\"\n    --prefix \"/usr/local/git\"\n    --logfile \"/var/log/pypackit-container/git_install.log\"\n    --debug\n"
+               }
+            ],
+            "title": "Git Installation"
          },
          {
             "instructions": [
                {
-                  "ARG": "MINIFORGE_NAME=Miniforge3\nMINIFORGE_VERSION=24.11.3-2\n"
+                  "ARG": "USERNAME=pypackit-dev\nUSER_HOME=/home/pypackit-dev\nUSER_GID=1000\nUSER_UID=1000\n"
                },
+               {
+                  "RUN": "# Create a new user with the specified UID and GID with sudo access.\n# - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L427-L443\nset -eux;\ngroupadd --gid $USER_GID $USERNAME;\nuseradd\n    --create-home\n    --home-dir \"$USER_HOME\"\n    --gid $USER_GID\n    --shell /bin/bash\n    --uid $USER_UID\n    $USERNAME;\n# Grant user passwordless sudo access to act as any user.\necho \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" | tee /etc/sudoers.d/$USERNAME > /dev/null;\nchmod 0440 /etc/sudoers.d/$USERNAME;\n"
+               }
+            ],
+            "summary": "Setup user.",
+            "title": "User Setup"
+         },
+         {
+            "instructions": [
+               {
+                  "ARG": "TEXLIVE_INSTALL_SCRIPT=\"/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.sh\"\nTEXLIVE_INSTALL_PROFILE=\"/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.profile\"\n"
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/texlive/install.sh\", \"$TEXLIVE_INSTALL_SCRIPT\"]\n"
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/texlive/install.profile\", \"$TEXLIVE_INSTALL_PROFILE\"]\n"
+               },
+               {
+                  "RUN": "chmod +x \"$TEXLIVE_INSTALL_SCRIPT\";\n\"$TEXLIVE_INSTALL_SCRIPT\"\n    --profile \"$TEXLIVE_INSTALL_PROFILE\"\n    --logfile \"/var/log/pypackit-container/texlive_install.log\"\n    --debug\n"
+               }
+            ],
+            "summary": "Installation of TeX Live.",
+            "title": "TeX Live Installation"
+         },
+         {
+            "instructions": [
                {
                   "ENV": "CONDA_DIR=/opt/conda\nPATH=$CONDA_DIR/bin:$PATH\n"
                },
                {
-                  "RUN": "set -eux;\nwget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh -O /tmp/miniforge.sh;\n/bin/bash /tmp/miniforge.sh -b -p ${CONDA_DIR};\nrm /tmp/miniforge.sh;\nconda clean --tarballs --index-cache --packages --yes;\nfind ${CONDA_DIR} -follow -type f -name '*.a' -delete;\nfind ${CONDA_DIR} -follow -type f -name '*.pyc' -delete;\nconda clean --force-pkgs-dirs --all --yes;\necho \". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base\" >> /etc/skel/.bashrc;\necho \". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base\" >> ~/.bashrc;\nif [ ${MINIFORGE_NAME} = \"Mambaforge\"* ]; then\n    echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> /etc/skel/.bashrc;\n    echo '. ${CONDA_DIR}/etc/.mambaforge_deprecation.sh' >> ~/.bashrc;\nfi\n"
+                  "ARG": "MINIFORGE_INSTALL_SCRIPT=\"/usr/local/share/pypackit-container/.devcontainer/environment/conda/install.sh\"\n"
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/conda/install.sh\", \"$MINIFORGE_INSTALL_SCRIPT\"]\n"
+               },
+               {
+                  "RUN": "chmod +x \"$MINIFORGE_INSTALL_SCRIPT\";\n\"$MINIFORGE_INSTALL_SCRIPT\"\n    --name \"Miniforge3\"\n    --version \"24.11.3-2\"\n    --conda-dir \"$CONDA_DIR\"\n    --group \"pypackit-dev\"\n    --user \"pypackit-dev\"\n    --logfile \"/var/log/pypackit-container/miniforge_install.log\"\n    --debug\n"
                }
             ],
-            "title": "MiniForge"
+            "title": "MiniForge Installation"
          },
          {
             "instructions": [
                {
-                  "WORKDIR": "/tmp"
+                  "ARG": "APT_RECOMMENDED_PACKAGES=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/packages.txt\""
                },
                {
-                  "RUN": "# Download and install equivs file for dummy package.\n# This tells apt that all TeX Live packages are installed.\n# - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46\nset -eux;\ncurl https://tug.org/texlive/files/debian-equivs-2023-ex.txt --output texlive-local;\nsed -i \"s/2023/9999/\" texlive-local;\nequivs-build texlive-local;\ndpkg -i texlive-local_9999.99999999-1_all.deb;\napt-get install -qyf --no-install-recommends;\napt-get dist-clean;\nrm -rf /var/cache/apt/;\nrm -rf ./*texlive*;\n"
+                  "COPY": "[\".devcontainer/environment/apt/recommended/packages.txt\", \"$APT_RECOMMENDED_PACKAGES\"]"
                },
                {
-                  "ARG": "TLMIRRORURL=rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/\nTEXLIVE_INSTALL_NO_CONTEXT_CACHE=1\nNOPERLDOC=1\n"
+                  "RUN": "\"$APT_INSTALL_SCRIPT\" \"APT_RECOMMENDED_PACKAGES\" --logfile /var/log/pypackit-container/apt_install_recommended.log"
                },
                {
-                  "RUN": "# Install TeX Live from upstream mirror using full scheme with no docs or sources\nset -eux;\necho \"Fetching installation from mirror $TLMIRRORURL\";\nrsync -a --stats \"$TLMIRRORURL\" texlive;\ncd texlive;\n# Create installation profile for full scheme installation\necho \"selected_scheme scheme-full\" > install.profile;\necho \"tlpdbopt_install_docfiles 0\" >> install.profile;\necho \"tlpdbopt_install_srcfiles 0\" >> install.profile;\necho \"tlpdbopt_autobackup 0\" >> install.profile;\necho \"tlpdbopt_sys_bin /usr/bin\" >> install.profile;\n./install-tl -profile install.profile;\ncd ..;\nrm -rf texlive;\n"
+                  "ARG": "APT_RECOMMENDED_POST_INSTALL=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/post_install.sh\""
                },
                {
-                  "RUN": "# Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches\nset -eux;\necho \"Adding TeX Live binaries to system PATH\";\n$(find /usr/local/texlive -name tlmgr) path add;\n# Patch for ConTeXt (issue #30)\necho \"Fixing ConTeXt path in mtxrun.lua\";\n(sed -i '/package.loaded\\[\"data-ini\"\\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match(\"^.*\"..io.fileseparator) else environment.ownpath=kpse.new(\"luatex\"):var_value(\"SELFAUTOLOC\");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or \"luatex\"):match(\"[^\"..io.fileseparator..\"]*$\") end' /usr/bin/mtxrun.lua || true);\necho \"Generating font and ConTeXt caches...\";\n(luaotfload-tool -u || true);\nmkdir -p /etc/fonts/conf.d;\n(cp \"$(find /usr/local/texlive -name texlive-fontconfig.conf)\" /etc/fonts/conf.d/09-texlive-fonts.conf || true);\nfc-cache -fsv;\nif [ -f \"/usr/bin/context\" ]; then\n  mtxrun --generate;\n  texlua /usr/bin/mtxrun.lua --luatex --generate;\n  context --make;\n  context --luatex --make;\nfi\n"
+                  "COPY": "[\".devcontainer/environment/apt/recommended/post_install.sh\", \"$APT_RECOMMENDED_POST_INSTALL\"]"
+               },
+               {
+                  "RUN": "chmod +x $APT_RECOMMENDED_POST_INSTALL;\n$APT_RECOMMENDED_POST_INSTALL"
                }
             ],
-            "summary": "Installation of TeX Live.",
-            "title": "TeX Live"
+            "summary": "Installation of recommended APT packages.",
+            "title": "APT Packages (Recommended)"
          },
          {
             "instructions": [
                {
-                  "COPY": ".devcontainer/environment /usr/local/share/environments/"
+                  "ARG": "CONDA_ENVS_INSTALL_SCRIPT=\"/usr/local/share/pypackit-container/.devcontainer/environment/conda/install-envs.sh\"\nCONDA_ENVS_DIR=\"/usr/local/share/pypackit-container/.devcontainer/environment/conda/envs\"\n"
                },
+               {
+                  "COPY": "[\".devcontainer/environment/conda/install-envs.sh\", \"$CONDA_ENVS_INSTALL_SCRIPT\"]\n"
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/conda/envs/\", \"$CONDA_ENVS_DIR\"]\n"
+               },
+               {
+                  "RUN": "chmod +x \"$CONDA_ENVS_INSTALL_SCRIPT\";\n\"$CONDA_ENVS_INSTALL_SCRIPT\"\n    --envs \"$CONDA_ENVS_DIR\"\n    --logfile \"/var/log/pypackit-container/conda_envs_install.log\"\n    --debug\n"
+               }
+            ],
+            "title": "Conda Environment Installation"
+         },
+         {
+            "instructions": [
                {
                   "COPY": "install.py /usr/local/share/app_installation/install.py"
                },
@@ -5237,7 +5833,7 @@
          {
             "instructions": [
                {
-                  "RUN": "# Delete default ubuntu user.\n# - https://github.com/devcontainers/images/blob/main/src/base-ubuntu/.devcontainer/Dockerfile\nif id \"ubuntu\" &>/dev/null; then\n    echo \"Deleting user 'ubuntu'\" && userdel -f -r ubuntu || echo \"Failed to delete ubuntu user.\";\nelse\n    echo \"User 'ubuntu' does not exist.\";\nfi\n"
+                  "RUN": "# Delete default ubuntu user.\n# - Ref: https://github.com/devcontainers/images/blob/main/src/base-ubuntu/.devcontainer/Dockerfile\nif id \"ubuntu\" &>/dev/null; then\n    echo \"Deleting user 'ubuntu'\" && userdel -f -r ubuntu || echo \"Failed to delete ubuntu user.\";\nelse\n    echo \"User 'ubuntu' does not exist.\";\nfi\n"
                }
             ],
             "summary": "Run post-installation tasks.",
@@ -5246,11 +5842,56 @@
          {
             "instructions": [
                {
-                  "RUN": "set -eux;\n# LaTeX\nlatex --version && printf '\\n';\nbiber --version && printf '\\n';\nxindy --version && printf '\\n';\narara --version && printf '\\n';\ncontext --version && printf '\\n';\ncontext --luatex --version && printf '\\n';\nasy --version && printf '\\n';\npython --version && printf '\\n';\npygmentize -V && printf '\\n';\n"
+                  "ARG": "OH_MY_ZSH_INSTALL_DIR=/home/pypackit-dev/.oh-my-zsh\n"
+               },
+               {
+                  "RUN": "set -eux;\n# Remove write permissions for group and others\n# (only user can write to the directory).\numask g-w,o-w;\nmkdir -p \"$OH_MY_ZSH_INSTALL_DIR\";\ngit clone --depth=1\n    -c core.eol=lf\n    -c core.autocrlf=false\n    -c fsck.zeroPaddedFilemode=ignore\n    -c fetch.fsck.zeroPaddedFilemode=ignore\n    -c receive.fsck.zeroPaddedFilemode=ignore\n    \"https://github.com/ohmyzsh/ohmyzsh\" \"${oh_my_install_dir}\" 2>&1;\n# Shrink git while still enabling updates\ncd \"$OH_MY_ZSH_INSTALL_DIR\";\ngit repack -a -d -f --depth=1 --window=1;\n"
                }
             ],
-            "summary": "Run tests to verify the installation.",
-            "title": "Tests"
+            "title": "Oh-My-Zsh Installation"
+         },
+         {
+            "instructions": [
+               {
+                  "ARG": "APT_OPTIONAL_PACKAGES=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/packages.txt\""
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/apt/optional/packages.txt\", \"$APT_OPTIONAL_PACKAGES\"]"
+               },
+               {
+                  "RUN": "\"$APT_INSTALL_SCRIPT\" \"APT_OPTIONAL_PACKAGES\" --logfile /var/log/pypackit-container/apt_install_optional.log"
+               },
+               {
+                  "ARG": "APT_OPTIONAL_POST_INSTALL=\"/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/post_install.sh\""
+               },
+               {
+                  "COPY": "[\".devcontainer/environment/apt/optional/post_install.sh\", \"$APT_OPTIONAL_POST_INSTALL\"]"
+               },
+               {
+                  "RUN": "chmod +x $APT_OPTIONAL_POST_INSTALL;\n$APT_OPTIONAL_POST_INSTALL"
+               }
+            ],
+            "summary": "Installation of recommended APT packages.",
+            "title": "APT Packages (Optional)"
+         },
+         {
+            "instructions": [
+               {
+                  "ARG": "USER_SHELL=/bin/zsh\n"
+               },
+               {
+                  "RUN": "# Give user ownership of the entire home directory.\nchown --recursive \"$USERNAME:$USERNAME\" \"$HOME_DIR\";\n\n# Give the group (g) read and write (r+w) permissions on the entire home directory.\nchmod --recursive g+r+w \"$HOME_DIR\";\n\n# Set the group ID (g+s) on all directories in the home directory\n# so that new files and directories created in the home directory inherit the group ID.\nfind \"${HOME_DIR}\" -type d | xargs -n 1 chmod g+s;\n\n# Set user's default shell.\n# Fix `chsh`` always asking for a password on alpine linux\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L520-L528\n# - Ref: https://askubuntu.com/questions/812420/chsh-always-asking-a-password-and-get-pam-authentication-failure.\nif [ ! -f \"/etc/pam.d/chsh\" ] || ! grep -Eq '^auth(.*)pam_rootok\\.so$' /etc/pam.d/chsh; then\n    echo \"auth sufficient pam_rootok.so\" >> /etc/pam.d/chsh;\nelif [[ -n \"$(awk '/^auth(.*)pam_rootok\\.so$/ && !/^auth[[:blank:]]+sufficient[[:blank:]]+pam_rootok\\.so$/' /etc/pam.d/chsh)\" ]]; then\n    awk '/^auth(.*)pam_rootok\\.so$/ { $2 = \"sufficient\" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh;\nfi;\nchsh --shell \"$USER_SHELL\" \"$USERNAME\";\n"
+               }
+            ],
+            "title": "Finalization"
+         },
+         {
+            "instructions": [
+               {
+                  "CMD": "[ \"sleep\", \"infinity\" ]\n"
+               }
+            ],
+            "title": "Entry"
          }
       ],
       "environment": {
@@ -5273,7 +5914,7 @@
                }
             },
             "name": "anaconda",
-            "path": ".devcontainer/environment/conda/anaconda.yaml"
+            "path": ".devcontainer/environment/conda/envs/anaconda.yaml"
          },
          "base": {
             "conda": {
@@ -5294,7 +5935,7 @@
                }
             },
             "name": "base",
-            "path": ".devcontainer/environment/conda/base.yaml"
+            "path": ".devcontainer/environment/conda/envs/base.yaml"
          },
          "codecov": {
             "conda": {
@@ -5376,7 +6017,7 @@
                }
             },
             "name": "codecov",
-            "path": ".devcontainer/environment/conda/codecov.yaml",
+            "path": ".devcontainer/environment/conda/envs/codecov.yaml",
             "pip": {
                "codecov-cli": {
                   "name": "codecov-cli",
@@ -5486,7 +6127,7 @@
                }
             },
             "name": "jupyter",
-            "path": ".devcontainer/environment/conda/jupyter.yaml",
+            "path": ".devcontainer/environment/conda/envs/jupyter.yaml",
             "task": {
                "jupyterlab": {
                   "alias": "jupyterlab",
@@ -6167,7 +6808,7 @@
                }
             },
             "name": "pre_commit",
-            "path": ".devcontainer/environment/conda/pre_commit.yaml",
+            "path": ".devcontainer/environment/conda/envs/pre_commit.yaml",
             "variable": {
                "cache_dir": {
                   "key": "PRE_COMMIT_HOME",
@@ -6178,7 +6819,7 @@
          },
          "pybuild": {
             "name": "pybuild",
-            "path": ".devcontainer/environment/conda/pybuild.yaml",
+            "path": ".devcontainer/environment/conda/envs/pybuild.yaml",
             "pip": {
                "build": {
                   "name": "build",
@@ -6279,7 +6920,7 @@
                }
             },
             "name": "pylint",
-            "path": ".devcontainer/environment/conda/pylint.yaml"
+            "path": ".devcontainer/environment/conda/envs/pylint.yaml"
          },
          "type_check": {
             "data": {
@@ -6351,7 +6992,7 @@
                }
             },
             "name": "type_check",
-            "path": ".devcontainer/environment/conda/type_check.yaml",
+            "path": ".devcontainer/environment/conda/envs/type_check.yaml",
             "pip": {
                "mypy": {
                   "name": "mypy",
@@ -6389,7 +7030,7 @@
          },
          "versioning": {
             "name": "versioning",
-            "path": ".devcontainer/environment/conda/versioning.yaml",
+            "path": ".devcontainer/environment/conda/envs/versioning.yaml",
             "pip": {
                "versioning": {
                   "name": "versioning",
@@ -7011,7 +7652,7 @@
                }
             },
             "name": "website",
-            "path": ".devcontainer/environment/conda/website.yaml",
+            "path": ".devcontainer/environment/conda/envs/website.yaml",
             "pip": {
                "jsonschema-autodoc": {
                   "data": {
@@ -7182,16 +7823,256 @@
             }
          }
       },
+      "file": {
+         "apt_install_script": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "APT Installation Script",
+            "path": ".devcontainer/environment/apt/install.sh",
+            "status": "inactive",
+            "summary": "Script to install packages using apt-get.",
+            "type": "exec",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/apt/install.sh"
+         },
+         "conda_env_install_script": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "Conda Environment Installation Script",
+            "path": ".devcontainer/environment/conda/install-envs.sh",
+            "status": "inactive",
+            "summary": "Script to install conda environment on the system.",
+            "type": "exec",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/conda/install-envs.sh"
+         },
+         "conda_install_script": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "Conda Installation Script",
+            "path": ".devcontainer/environment/conda/install.sh",
+            "status": "inactive",
+            "summary": "Script to install conda and mamba on the system.",
+            "type": "exec",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/conda/install.sh"
+         },
+         "git_install_script": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "Git Installation Script",
+            "path": ".devcontainer/environment/git/install.sh",
+            "status": "inactive",
+            "summary": "Script to install Git on the system.",
+            "type": "exec",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/git/install.sh"
+         },
+         "texlive_install_profile": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "TeX Live Installation Profile",
+            "path": ".devcontainer/environment/texlive/install.profile",
+            "status": "inactive",
+            "summary": "Profile for installing TeX Live.",
+            "type": "txt",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/texlive/install.profile"
+         },
+         "texlive_install_script": {
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "TeX Live Installation Script",
+            "path": ".devcontainer/environment/texlive/install.sh",
+            "status": "inactive",
+            "summary": "Script to install TeX Live on the system.",
+            "type": "exec",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/environment/texlive/install.sh"
+         }
+      },
       "path": {
-         "apt": ".devcontainer/environment/apt.txt",
-         "apt_rel": "apt.txt",
-         "conda": ".devcontainer/environment/conda",
-         "conda_rel": "conda",
+         "apt": {
+            "essential": {
+               "packages": ".devcontainer/environment/apt/essential/packages.txt",
+               "post_install": ".devcontainer/environment/apt/essential/post_install.sh",
+               "repos": ".devcontainer/environment/apt/essential/repos.txt",
+               "root": ".devcontainer/environment/apt/essential"
+            },
+            "optional": {
+               "packages": ".devcontainer/environment/apt/optional/packages.txt",
+               "post_install": ".devcontainer/environment/apt/optional/post_install.sh",
+               "repos": ".devcontainer/environment/apt/optional/repos.txt",
+               "root": ".devcontainer/environment/apt/optional"
+            },
+            "recommended": {
+               "packages": ".devcontainer/environment/apt/recommended/packages.txt",
+               "post_install": ".devcontainer/environment/apt/recommended/post_install.sh",
+               "repos": ".devcontainer/environment/apt/recommended/repos.txt",
+               "root": ".devcontainer/environment/apt/recommended"
+            },
+            "required": {
+               "packages": ".devcontainer/environment/apt/required/packages.txt",
+               "post_install": ".devcontainer/environment/apt/required/post_install.sh",
+               "repos": ".devcontainer/environment/apt/required/repos.txt",
+               "root": ".devcontainer/environment/apt/required"
+            },
+            "root": ".devcontainer/environment/apt"
+         },
+         "conda": {
+            "envs": ".devcontainer/environment/conda/envs",
+            "root": ".devcontainer/environment/conda"
+         },
          "dockerfile": ".devcontainer/Dockerfile",
          "environment": ".devcontainer/environment",
          "root": ".devcontainer",
          "tasks_global": ".devcontainer/tasks_global.sh",
-         "tasks_local": ".devcontainer/tasks_local.sh"
+         "tasks_local": ".devcontainer/tasks_local.sh",
+         "volume": ".devcontainer/volume"
       },
       "service": {
          "build": {
@@ -7218,34 +8099,71 @@
             ],
             "summary": "Main project management CLI."
          }
-      }
-   },
-   "devfeature_conda_setup": {
-      "feature": {
-         "description": "Install conda environments and setup conda configuration.",
-         "id": "conda_setup",
-         "installsAfter": [
-            "ghcr.io/devcontainers/features/common-utils",
-            "ghcr.io/devcontainers/features/conda"
-         ],
-         "name": "Conda Setup",
-         "options": {
-            "env_dir": {
-               "default": "/usr/local/share/environments/conda",
-               "description": "Absolute path to the directory containing conda environment files.",
-               "type": "string"
-            },
-            "log_dirpath": {
-               "default": "/var/log/devcontainer-build/conda_setup",
-               "description": "Absolute path to a directory to write log files.",
-               "type": "string"
-            }
-         },
-         "postCreateCommand": "echo \"Initializing conda...\" && conda init --all; echo \"Removing existing Conda channels...\" && config --remove-key channels 2>/dev/null || true; echo \"Adding conda-forge as the only channel...\" && conda config --add channels conda-forge && echo \"Setting strict channel priority...\" && conda config --set channel_priority strict; echo \"Verifying channels...\" && conda config --show channels;",
-         "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nLOG_FILE=\"${LOG_DIRPATH}/install.log\"\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\necho \"Initializing conda...\"\nconda init --all\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\necho \"Updating conda...\"\nconda update -n base --all -y\n\nif [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then\n    umask 0002;\n    for file in $ENV_DIR/*.yaml; do\n        conda env update --file \"$file\" 2>&1 | tee \"$LOG_DIRPATH/env_$(basename \"$file\").log\";\n    done;\nfi\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
-      "path": "features/conda_setup"
+      "var": {
+         "apt_env_dir": "/usr/local/share/pypackit-container/apt-env",
+         "apt_install_script": "/usr/local/share/pypackit-container/script/_helper/apt-install.sh",
+         "bash": {
+            "global_bashrc_source_marker": "GLOBAL_BASHRC_SOURCED",
+            "root_bashrc_source_marker": "ROOT_BASHRC_SOURCED",
+            "theme": "# #{{ return \"-\" * 50 }}$\n# Bash Theme\n# #{{ return \"-\" * 50 }}$\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/bash_theme_snippet.sh\n__bash_prompt() {\n    local userpart='`export XIT=$? \\\n        && [ ! -z \"${GITHUB_USER:-}\" ] && echo -n \"\\[\\033[0;32m\\]@${GITHUB_USER:-} \" || echo -n \"\\[\\033[0;32m\\]\\u \" \\\n        && [ \"$XIT\" -ne \"0\" ] && echo -n \"\\[\\033[1;31m\\]\u279c\" || echo -n \"\\[\\033[0m\\]\u279c\"`'\n    local gitbranch='`\\\n        if [ \"$(git config --get devcontainers-theme.hide-status 2>/dev/null)\" != 1 ] && [ \"$(git config --get codespaces-theme.hide-status 2>/dev/null)\" != 1 ]; then \\\n            export BRANCH=\"$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)\"; \\\n            if [ \"${BRANCH:-}\" != \"\" ]; then \\\n                echo -n \"\\[\\033[0;36m\\](\\[\\033[1;31m\\]${BRANCH:-}\" \\\n                && if [ \"$(git config --get devcontainers-theme.show-dirty 2>/dev/null)\" = 1 ] && \\\n                    git --no-optional-locks ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard \":/*\" > /dev/null 2>&1; then \\\n                        echo -n \" \\[\\033[1;33m\\]\u2717\"; \\\n                fi \\\n                && echo -n \"\\[\\033[0;36m\\]) \"; \\\n            fi; \\\n        fi`'\n    local lightblue='\\[\\033[1;34m\\]'\n    local removecolor='\\[\\033[0m\\]'\n    PS1=\"${userpart} ${lightblue}\\w ${gitbranch}${removecolor}\\$ \"\n    unset -f __bash_prompt\n}\n__bash_prompt\nexport PROMPT_DIRTRIM=4\n\n# Check if the terminal is xterm\nif [[ \"$TERM\" == \"xterm\" ]]; then\n    # Function to set the terminal title to the current command\n    preexec() {\n        local cmd=\"${BASH_COMMAND}\"\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${cmd}\\007\"\n    }\n\n    # Function to reset the terminal title to the shell type after the command is executed\n    precmd() {\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${SHELL}\\007\"\n    }\n\n    # Trap DEBUG signal to call preexec before each command\n    trap 'preexec' DEBUG\n\n    # Append to PROMPT_COMMAND to call precmd before displaying the prompt\n    PROMPT_COMMAND=\"${PROMPT_COMMAND:+$PROMPT_COMMAND; }precmd\"\nfi\n# #{{ return \"-\" * 50 }}$\n# END BASH THEME\n# #{{ return \"-\" * 50 }}$\n",
+            "user_bashrc_source_marker": "USER_BASHRC_SOURCED"
+         },
+         "conda": {
+            "activate": "app",
+            "app_env": "app",
+            "conda_script": "/opt/conda/etc/profile.d/conda.sh",
+            "dir": "/opt/conda",
+            "mamba_script": "/opt/conda/etc/profile.d/mamba.sh",
+            "name": "Miniforge3",
+            "version": "24.11.3-2"
+         },
+         "git": {
+            "prefix": "/usr/local/git",
+            "version": "2.49.0"
+         },
+         "global_rc": "# Set $USER to current user if not already set.\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1\nif [ -z \"${USER}\" ]; then export USER=$(whoami); fi\n\n# Ensure that \"$HOME/.local/bin\" is in $PATH\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L2\nif [[ \"${PATH}\" != *\"$HOME/.local/bin\"* ]]; then export PATH=\"${PATH}:$HOME/.local/bin\"; fi\n\n# Source conda and mamba activation scripts.\n. \"/opt/conda/etc/profile.d/conda.sh\"\n. \"/opt/conda/etc/profile.d/mamba.sh\"\n\n# Activate conda environment.\nmamba activate app\n\n# Set the default git editor if not already set\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L16-L25\nif [ -z \"$(git config --get core.editor)\" ] && [ -z \"${GIT_EDITOR}\" ]; then\n    if  [ \"${TERM_PROGRAM}\" = \"vscode\" ]; then\n        if [[ -n $(command -v code-insiders) &&  -z $(command -v code) ]]; then\n            export GIT_EDITOR=\"code-insiders --wait\"\n        else\n            export GIT_EDITOR=\"code --wait\"\n        fi\n    fi\nfi\n\n# Source tasks file.\n. \"/workspace/.devcontainer/tasks_local.sh\"\n",
+         "log_dir": "/var/log/pypackit-container",
+         "script_dir": "/usr/local/share/pypackit-container/script",
+         "share_dir": "/usr/local/share/pypackit-container",
+         "user": {
+            "gid": 1000,
+            "group": "pypackit-dev",
+            "home": "/home/pypackit-dev",
+            "name": "pypackit-dev",
+            "shell": "/bin/zsh",
+            "uid": 1000
+         },
+         "zsh": {
+            "global_zshrc_source_marker": "GLOBAL_ZSHRC_SOURCED",
+            "oh_my_zsh_install_dir": "/home/pypackit-dev/.oh-my-zsh",
+            "root_zshrc_source_marker": "ROOT_ZSHRC_SOURCED",
+            "user_zshrc_source_marker": "USER_ZSHRC_SOURCED"
+         }
+      },
+      "volume": {
+         "bashrc_global": {
+            "content": "# ==================================================\n# PyPackIT\n# ==================================================\n# This section is automatically generated.\n\n# Set source marker\nexport GLOBAL_BASHRC_SOURCED=1\n\n# Set $USER to current user if not already set.\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1\nif [ -z \"${USER}\" ]; then export USER=$(whoami); fi\n\n# Ensure that \"$HOME/.local/bin\" is in $PATH\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L2\nif [[ \"${PATH}\" != *\"$HOME/.local/bin\"* ]]; then export PATH=\"${PATH}:$HOME/.local/bin\"; fi\n\n# Source conda and mamba activation scripts.\n. \"/opt/conda/etc/profile.d/conda.sh\"\n. \"/opt/conda/etc/profile.d/mamba.sh\"\n\n# Activate conda environment.\nmamba activate app\n\n# Set the default git editor if not already set\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L16-L25\nif [ -z \"$(git config --get core.editor)\" ] && [ -z \"${GIT_EDITOR}\" ]; then\n    if  [ \"${TERM_PROGRAM}\" = \"vscode\" ]; then\n        if [[ -n $(command -v code-insiders) &&  -z $(command -v code) ]]; then\n            export GIT_EDITOR=\"code-insiders --wait\"\n        else\n            export GIT_EDITOR=\"code --wait\"\n        fi\n    fi\nfi\n\n# Source tasks file.\n. \"/workspace/.devcontainer/tasks_local.sh\"\n\n\n# ==================================================\n# END OF PyPackIT SECTION\n# ==================================================\n",
+            "path": "/etc/bash.bashrc"
+         },
+         "bashrc_root": {
+            "content": "# ==================================================\n# PyPackIT\n# ==================================================\n# This section is automatically generated.\n\n# Set source marker\nexport ROOT_BASHRC_SOURCED=1\n\n# #{{ return \"-\" * 50 }}$\n# Bash Theme\n# #{{ return \"-\" * 50 }}$\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/bash_theme_snippet.sh\n__bash_prompt() {\n    local userpart='`export XIT=$? \\\n        && [ ! -z \"${GITHUB_USER:-}\" ] && echo -n \"\\[\\033[0;32m\\]@${GITHUB_USER:-} \" || echo -n \"\\[\\033[0;32m\\]\\u \" \\\n        && [ \"$XIT\" -ne \"0\" ] && echo -n \"\\[\\033[1;31m\\]\u279c\" || echo -n \"\\[\\033[0m\\]\u279c\"`'\n    local gitbranch='`\\\n        if [ \"$(git config --get devcontainers-theme.hide-status 2>/dev/null)\" != 1 ] && [ \"$(git config --get codespaces-theme.hide-status 2>/dev/null)\" != 1 ]; then \\\n            export BRANCH=\"$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)\"; \\\n            if [ \"${BRANCH:-}\" != \"\" ]; then \\\n                echo -n \"\\[\\033[0;36m\\](\\[\\033[1;31m\\]${BRANCH:-}\" \\\n                && if [ \"$(git config --get devcontainers-theme.show-dirty 2>/dev/null)\" = 1 ] && \\\n                    git --no-optional-locks ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard \":/*\" > /dev/null 2>&1; then \\\n                        echo -n \" \\[\\033[1;33m\\]\u2717\"; \\\n                fi \\\n                && echo -n \"\\[\\033[0;36m\\]) \"; \\\n            fi; \\\n        fi`'\n    local lightblue='\\[\\033[1;34m\\]'\n    local removecolor='\\[\\033[0m\\]'\n    PS1=\"${userpart} ${lightblue}\\w ${gitbranch}${removecolor}\\$ \"\n    unset -f __bash_prompt\n}\n__bash_prompt\nexport PROMPT_DIRTRIM=4\n\n# Check if the terminal is xterm\nif [[ \"$TERM\" == \"xterm\" ]]; then\n    # Function to set the terminal title to the current command\n    preexec() {\n        local cmd=\"${BASH_COMMAND}\"\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${cmd}\\007\"\n    }\n\n    # Function to reset the terminal title to the shell type after the command is executed\n    precmd() {\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${SHELL}\\007\"\n    }\n\n    # Trap DEBUG signal to call preexec before each command\n    trap 'preexec' DEBUG\n\n    # Append to PROMPT_COMMAND to call precmd before displaying the prompt\n    PROMPT_COMMAND=\"${PROMPT_COMMAND:+$PROMPT_COMMAND; }precmd\"\nfi\n# #{{ return \"-\" * 50 }}$\n# END BASH THEME\n# #{{ return \"-\" * 50 }}$\n\n\n# ==================================================\n# END OF PyPackIT SECTION\n# ==================================================\n",
+            "path": "/root/.bashrc"
+         },
+         "bashrc_user": {
+            "content": "# ==================================================\n# PyPackIT\n# ==================================================\n# This section is automatically generated.\n\n# Set source marker\nexport USER_BASHRC_SOURCED=1\n\n# #{{ return \"-\" * 50 }}$\n# Bash Theme\n# #{{ return \"-\" * 50 }}$\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/bash_theme_snippet.sh\n__bash_prompt() {\n    local userpart='`export XIT=$? \\\n        && [ ! -z \"${GITHUB_USER:-}\" ] && echo -n \"\\[\\033[0;32m\\]@${GITHUB_USER:-} \" || echo -n \"\\[\\033[0;32m\\]\\u \" \\\n        && [ \"$XIT\" -ne \"0\" ] && echo -n \"\\[\\033[1;31m\\]\u279c\" || echo -n \"\\[\\033[0m\\]\u279c\"`'\n    local gitbranch='`\\\n        if [ \"$(git config --get devcontainers-theme.hide-status 2>/dev/null)\" != 1 ] && [ \"$(git config --get codespaces-theme.hide-status 2>/dev/null)\" != 1 ]; then \\\n            export BRANCH=\"$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)\"; \\\n            if [ \"${BRANCH:-}\" != \"\" ]; then \\\n                echo -n \"\\[\\033[0;36m\\](\\[\\033[1;31m\\]${BRANCH:-}\" \\\n                && if [ \"$(git config --get devcontainers-theme.show-dirty 2>/dev/null)\" = 1 ] && \\\n                    git --no-optional-locks ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard \":/*\" > /dev/null 2>&1; then \\\n                        echo -n \" \\[\\033[1;33m\\]\u2717\"; \\\n                fi \\\n                && echo -n \"\\[\\033[0;36m\\]) \"; \\\n            fi; \\\n        fi`'\n    local lightblue='\\[\\033[1;34m\\]'\n    local removecolor='\\[\\033[0m\\]'\n    PS1=\"${userpart} ${lightblue}\\w ${gitbranch}${removecolor}\\$ \"\n    unset -f __bash_prompt\n}\n__bash_prompt\nexport PROMPT_DIRTRIM=4\n\n# Check if the terminal is xterm\nif [[ \"$TERM\" == \"xterm\" ]]; then\n    # Function to set the terminal title to the current command\n    preexec() {\n        local cmd=\"${BASH_COMMAND}\"\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${cmd}\\007\"\n    }\n\n    # Function to reset the terminal title to the shell type after the command is executed\n    precmd() {\n        echo -ne \"\\033]0;${USER}@${HOSTNAME}: ${SHELL}\\007\"\n    }\n\n    # Trap DEBUG signal to call preexec before each command\n    trap 'preexec' DEBUG\n\n    # Append to PROMPT_COMMAND to call precmd before displaying the prompt\n    PROMPT_COMMAND=\"${PROMPT_COMMAND:+$PROMPT_COMMAND; }precmd\"\nfi\n# #{{ return \"-\" * 50 }}$\n# END BASH THEME\n# #{{ return \"-\" * 50 }}$\n\n\n# ==================================================\n# END OF PyPackIT SECTION\n# ==================================================\n",
+            "path": "/home/pypackit-dev/.bashrc"
+         },
+         "zshenv_global": {
+            "content": "",
+            "path": "/etc/zshenv"
+         },
+         "zshrc_global": {
+            "content": "# ==================================================\n# PyPackIT\n# ==================================================\n# This section is automatically generated.\n\n# Set source marker\nexport GLOBAL_ZSHRC_SOURCED=1\n\n# Set $USER to current user if not already set.\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1\nif [ -z \"${USER}\" ]; then export USER=$(whoami); fi\n\n# Ensure that \"$HOME/.local/bin\" is in $PATH\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L2\nif [[ \"${PATH}\" != *\"$HOME/.local/bin\"* ]]; then export PATH=\"${PATH}:$HOME/.local/bin\"; fi\n\n# Source conda and mamba activation scripts.\n. \"/opt/conda/etc/profile.d/conda.sh\"\n. \"/opt/conda/etc/profile.d/mamba.sh\"\n\n# Activate conda environment.\nmamba activate app\n\n# Set the default git editor if not already set\n# - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L16-L25\nif [ -z \"$(git config --get core.editor)\" ] && [ -z \"${GIT_EDITOR}\" ]; then\n    if  [ \"${TERM_PROGRAM}\" = \"vscode\" ]; then\n        if [[ -n $(command -v code-insiders) &&  -z $(command -v code) ]]; then\n            export GIT_EDITOR=\"code-insiders --wait\"\n        else\n            export GIT_EDITOR=\"code --wait\"\n        fi\n    fi\nfi\n\n# Source tasks file.\n. \"/workspace/.devcontainer/tasks_local.sh\"\n\n\n# ==================================================\n# END OF PyPackIT SECTION\n# ==================================================\n",
+            "notes": "- The file is located at `/etc/zsh/zshrc` on Debian/Alpine-based images,\n  and at `/etc/zshrc` on Red Hat-based images\n  (cf. [`common-utils`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L510-L514) feature).\n",
+            "path": "/etc/zsh/zshrc"
+         }
+      }
    },
    "devfeature_pixi": {
       "feature": {
@@ -7307,7 +8225,7 @@
          "postStartCommand": "/usr/local/share/app_installation/post-start-command.sh",
          "version": "0.1.0"
       },
-      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nLOG_FILE=\"${LOG_DIRPATH}/install.log\"\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\n# Create postStartCommand script\nPOST_START_SCRIPT_DIRPATH=\"/usr/local/share/app_installation\"\nPOST_START_SCRIPT_FILEPATH=\"${POST_START_SCRIPT_DIRPATH}/post-start-command.sh\"\nmkdir -p \"$POST_START_SCRIPT_DIRPATH\"\n{\n  echo '#!/usr/bin/env bash'\n  echo 'set -euxo pipefail'\n} > \"$POST_START_SCRIPT_FILEPATH\"\nchmod +x \"$POST_START_SCRIPT_FILEPATH\"\n\necho \"Initializing conda...\"\nconda init\n\necho \"Removing existing Conda channels...\"\nconda config --remove-key channels 2>/dev/null || true\n\necho \"Adding conda-forge as the only channel...\"\nconda config --add channels conda-forge\n\necho \"Setting strict channel priority...\"\nconda config --set channel_priority strict\n\necho \"Verifying channels...\"\nconda config --show channels\n\nif ! echo \"$PACKAGES\" | jq empty; then\n    echo \"Invalid JSON in PACKAGES\"\n    exit 1\nfi\n\nfor conda_env_name in $(echo \"$PACKAGES\" | jq -r 'keys[]'); do\n    value=$(echo \"$PACKAGES\" | jq -c --arg k \"$conda_env_name\" '.[$k]')\n    packages=$(echo \"$value\" | jq -c '.packages')\n\n    # Build the base command\n    cmd=(\n      python \"$SCRIPT_FILEPATH\"\n        --conda-env-name \"$conda_env_name\"\n        --packages \"$packages\"\n        --filepath \"$METADATA_FILEPATH\"\n        --no-self\n    )\n\n    # Optionally add --python-version\n    if echo \"$value\" | jq -e 'has(\"python-version\")' > /dev/null; then\n        python_version=$(echo \"$value\" | jq -r '.[\"python-version\"]')\n        cmd+=(--python-version \"$python_version\")\n    fi\n\n    # Optionally add --sources\n    if echo \"$value\" | jq -e 'has(\"sources\")' > /dev/null; then\n        sources=$(echo \"$value\" | jq -r '.sources')\n        cmd+=(--sources $sources)\n    fi\n\n    # Capture and write command output\n    output=$(\"${cmd[@]}\")\n\n    # Append output to the file\n    while IFS= read -r line; do\n        echo \"$line\" >> \"$POST_START_SCRIPT_FILEPATH\"\n    done <<< \"$output\"\ndone\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
+      "install": "#!/usr/bin/env bash\nset -euxo pipefail\n\n# Redirect stdout and stderr to a file\necho \"Creating log directory...\"\nmkdir -p \"$LOG_DIRPATH\"\nLOG_FILE=\"${LOG_DIRPATH}/install.log\"\nexec > >(tee -a \"$LOG_FILE\") 2>&1\n\n# Create postStartCommand script\nPOST_START_SCRIPT_DIRPATH=\"/usr/local/share/app_installation\"\nPOST_START_SCRIPT_FILEPATH=\"${POST_START_SCRIPT_DIRPATH}/post-start-command.sh\"\nmkdir -p \"$POST_START_SCRIPT_DIRPATH\"\n{\n  echo '#!/usr/bin/env bash'\n  echo 'set -euxo pipefail'\n} > \"$POST_START_SCRIPT_FILEPATH\"\nchmod +x \"$POST_START_SCRIPT_FILEPATH\"\n\necho \"Initializing conda...\"\nconda init\n\nif ! echo \"$PACKAGES\" | jq empty; then\n    echo \"Invalid JSON in PACKAGES\"\n    exit 1\nfi\n\nfor conda_env_name in $(echo \"$PACKAGES\" | jq -r 'keys[]'); do\n    value=$(echo \"$PACKAGES\" | jq -c --arg k \"$conda_env_name\" '.[$k]')\n    packages=$(echo \"$value\" | jq -c '.packages')\n\n    # Build the base command\n    cmd=(\n      python \"$SCRIPT_FILEPATH\"\n        --conda-env-name \"$conda_env_name\"\n        --packages \"$packages\"\n        --filepath \"$METADATA_FILEPATH\"\n        --no-self\n    )\n\n    # Optionally add --python-version\n    if echo \"$value\" | jq -e 'has(\"python-version\")' > /dev/null; then\n        python_version=$(echo \"$value\" | jq -r '.[\"python-version\"]')\n        cmd+=(--python-version \"$python_version\")\n    fi\n\n    # Optionally add --sources\n    if echo \"$value\" | jq -e 'has(\"sources\")' > /dev/null; then\n        sources=$(echo \"$value\" | jq -r '.sources')\n        cmd+=(--sources $sources)\n    fi\n\n    # Capture and write command output\n    output=$(\"${cmd[@]}\")\n\n    # Append output to the file\n    while IFS= read -r line; do\n        echo \"$line\" >> \"$POST_START_SCRIPT_FILEPATH\"\n    done <<< \"$output\"\ndone\n\necho \"Cleaning up cache...\"\nconda clean --all -y\n",
       "path": "features/pkg_setup"
    },
    "devfeature_user_setup": {
@@ -9894,6 +10812,79 @@
       "summary": "GitHub [`GOVERNANCE`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/) community health file.",
       "type": "md",
       "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/GOVERNANCE.md"
+   },
+   "file_pixi_manifest": {
+      "content": {
+         "environments": {
+            "prod-py312": {
+               "features": [],
+               "solve-group": ""
+            }
+         },
+         "project": {
+            "authors": [
+               "Armin Ariamajd <armiariam@gmail.com>"
+            ],
+            "channels": [
+               "conda-forge"
+            ],
+            "description": "Cloud-Native Continuous Software Engineering Automation for Python Packages on GitHub",
+            "documentation": "https://pypackit.repodynamics.com",
+            "homepage": "https://pypackit.repodynamics.com",
+            "license": "AGPL-3.0-or-later",
+            "license-file": "LICENSE-AGPL-3-0-or-later.md",
+            "name": "PyPackIT",
+            "platforms": [
+               "win-64",
+               "linux-64",
+               "osx-64",
+               "osx-arm64"
+            ],
+            "readme": "README.md",
+            "repository": "https://github.com/RepoDynamics/PyPackIT",
+            "version": "0.0.0"
+         }
+      },
+      "content_setting": {
+         "filter": {
+            "no_value": {
+               "function": "lambda value: value is None",
+               "inplace": true,
+               "jsonpath": "$.project.*"
+            }
+         },
+         "prefix": "",
+         "separator": "\n",
+         "suffix": ""
+      },
+      "file_setting": {
+         "eof_newline": true,
+         "json": {
+            "end_of_file_newline": true,
+            "indent": 3,
+            "sort_keys": true
+         },
+         "md": {
+            "heading_number": false,
+            "target": "github"
+         },
+         "sort_keys": true,
+         "yaml": {
+            "block_string": true,
+            "end_of_file_newline": true,
+            "mapping_indent": 2,
+            "remove_top_level_indent": true,
+            "sequence_indent": 4,
+            "sequence_indent_offset": 2,
+            "sort_keys": true
+         }
+      },
+      "name": "Pixi Manifest",
+      "path": "pixi.toml",
+      "status": "active",
+      "summary": "The Pixi manifest file in TOML format.\n",
+      "type": "toml",
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/pixi.toml"
    },
    "file_readme": {
       "content": {
@@ -19424,10 +20415,16 @@
             "meta": ".github/.repodynamics/metadata.json"
          },
          "custom": {
+            "devcontainer_main_apt_install_script": null,
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
+            "devcontainer_main_conda_env_install_script": null,
+            "devcontainer_main_conda_install_script": null,
+            "devcontainer_main_git_install_script": null,
             "devcontainer_main_pre_commit_pre_commit_config": ".config/pre-commit.yaml",
             "devcontainer_main_pre_commit_pre_commit_config_ci": ".config/pre-commit-ci.yaml",
             "devcontainer_main_pre_commit_ruff_config": ".config/ruff.toml",
+            "devcontainer_main_texlive_install_profile": null,
+            "devcontainer_main_texlive_install_script": null,
             "devcontainer_main_type_check_mypy_config": ".config/mypy.toml",
             "file_binder_conda": ".config/binder/environment.yml",
             "file_binder_postbuild": ".config/binder/postBuild",
@@ -19436,6 +20433,7 @@
             "file_contributing": "CONTRIBUTING.md",
             "file_funding_github": null,
             "file_governance": "GOVERNANCE.md",
+            "file_pixi_manifest": "pixi.toml",
             "file_readme": "README.md",
             "file_script_web_build": ".devcontainer/script/website_build.sh",
             "file_script_web_livehtml": ".devcontainer/script/website_livehtml.sh",
@@ -19451,31 +20449,38 @@
             "pypkg_test_setuptools_manifest": "test/MANIFEST.in"
          },
          "devcontainer_apt": {
-            "main": ".devcontainer/environment/apt.txt"
+            "main_essential": ".devcontainer/environment/apt/essential/packages.txt",
+            "main_optional": ".devcontainer/environment/apt/optional/packages.txt",
+            "main_recommended": ".devcontainer/environment/apt/recommended/packages.txt",
+            "main_required": ".devcontainer/environment/apt/required/packages.txt"
+         },
+         "devcontainer_apt_post": {
+            "main_essential": ".devcontainer/environment/apt/essential/post_install.sh",
+            "main_optional": ".devcontainer/environment/apt/optional/post_install.sh",
+            "main_recommended": ".devcontainer/environment/apt/recommended/post_install.sh",
+            "main_required": ".devcontainer/environment/apt/required/post_install.sh"
          },
          "devcontainer_conda": {
-            "anaconda": ".devcontainer/environment/conda/anaconda.yaml",
-            "base": ".devcontainer/environment/conda/base.yaml",
-            "codecov": ".devcontainer/environment/conda/codecov.yaml",
-            "jupyter": ".devcontainer/environment/conda/jupyter.yaml",
-            "pre_commit": ".devcontainer/environment/conda/pre_commit.yaml",
-            "pybuild": ".devcontainer/environment/conda/pybuild.yaml",
-            "pylint": ".devcontainer/environment/conda/pylint.yaml",
-            "type_check": ".devcontainer/environment/conda/type_check.yaml",
-            "versioning": ".devcontainer/environment/conda/versioning.yaml",
-            "website": ".devcontainer/environment/conda/website.yaml"
+            "anaconda": ".devcontainer/environment/conda/envs/anaconda.yaml",
+            "base": ".devcontainer/environment/conda/envs/base.yaml",
+            "codecov": ".devcontainer/environment/conda/envs/codecov.yaml",
+            "jupyter": ".devcontainer/environment/conda/envs/jupyter.yaml",
+            "pre_commit": ".devcontainer/environment/conda/envs/pre_commit.yaml",
+            "pybuild": ".devcontainer/environment/conda/envs/pybuild.yaml",
+            "pylint": ".devcontainer/environment/conda/envs/pylint.yaml",
+            "type_check": ".devcontainer/environment/conda/envs/type_check.yaml",
+            "versioning": ".devcontainer/environment/conda/envs/versioning.yaml",
+            "website": ".devcontainer/environment/conda/envs/website.yaml"
          },
          "devcontainer_dockerfile": {
             "main": ".devcontainer/Dockerfile"
          },
          "devcontainer_feature_install": {
-            "conda_setup": ".devcontainer/features/conda_setup/install.sh",
             "pixi": ".devcontainer/features/pixi/install.sh",
             "pkg_setup": ".devcontainer/features/pkg_setup/install.sh",
             "setup-user": ".devcontainer/features/setup-user/install.sh"
          },
          "devcontainer_feature_metadata": {
-            "conda_setup": ".devcontainer/features/conda_setup/devcontainer-feature.json",
             "pixi": ".devcontainer/features/pixi/devcontainer-feature.json",
             "pkg_setup": ".devcontainer/features/pkg_setup/devcontainer-feature.json",
             "setup-user": ".devcontainer/features/setup-user/devcontainer-feature.json"
@@ -27396,7 +28401,7 @@
                   }
                },
                "conda": {
-                  "environment": ".devcontainer/environment/conda/website.yaml"
+                  "environment": ".devcontainer/environment/conda/envs/website.yaml"
                },
                "formats": "all",
                "python": {

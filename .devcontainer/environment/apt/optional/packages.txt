@@ -1,0 +1,9 @@
+fish
+fonts-freefont-otf
+libdb-dev
+libgdbm-dev
+liblttng-ust
+libmaxminddb-dev
+libxcomposite1
+libxdamage1
+libxfixes3
