@@ -779,7 +779,6 @@ devcontainer_main:
         version: latest
       # Local features
       ./${{ devfeature_user_setup.path }}$: {}
-      ./${{ devfeature_conda_setup.path }}$: {}
       ./${{ devfeature_pkg_setup.path }}$:
         packages: >-
           {
