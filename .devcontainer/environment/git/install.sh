@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Refs:
+# - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+# - https://github.com/devcontainers/features/tree/main/src/git/
+
 set -euxo pipefail
 
 # Default arguments
