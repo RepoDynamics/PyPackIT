@@ -363,12 +363,16 @@ patternProperties:
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
                 default: ${{ ..environment }}$/apt
               required:
+                default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
               essential:
+                default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
               recommended:
+                default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
               optional:
+                default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
           conda:
             type: object
