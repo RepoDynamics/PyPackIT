@@ -472,7 +472,7 @@ devcontainer_main:
 
       # Source conda and mamba activation scripts.
       . "${{ devcontainer_main.var.conda.conda_script }}$"
-      . "${{ devcontainer_main.var.mamba.mamba_script }}$"
+      . "${{ devcontainer_main.var.conda.mamba_script }}$"
 
       # Activate conda environment.
       mamba activate ${{ devcontainer_main.var.conda.activate }}$
@@ -503,8 +503,6 @@ devcontainer_main:
     apt_env_dir: ${{ .share_dir }}$/apt-env
     script_dir: ${{ .share_dir }}$/script
     apt_install_script: ${{ .script_dir }}$/_helper/apt-install.sh
-  build:
-    apt_inst
   service:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
