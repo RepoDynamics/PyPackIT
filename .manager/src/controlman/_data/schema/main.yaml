@@ -348,22 +348,20 @@ patternProperties:
             description: |
               This is the directory containing files
               to copy to the container volume.
-          home:
-            summary: Path to the home directory.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/home
-            description: |
-              This is the directory containing files
-              to copy to the container user's home directory.
+          environment:
+            summary: Path to the directory containing environment configurations.
+            type: string
+            default: $${{ .root }}$/environment
           apt:
             type: object
             additionalProperties: false
             default: { }
+            required: [ root, required, essential, recommended, optional ]
             properties:
               root:
                 summary: Path to the root apt directory.
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ ..root }}$/environment/apt
+                default: ${{ ..environment }}$/apt
               required:
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
               essential:
@@ -375,7 +373,7 @@ patternProperties:
           conda:
             summary: Path to the conda environment directory.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/${{ .environment }}$/conda
+            default: ${{ .environment }}$/conda
           dockerfile:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
