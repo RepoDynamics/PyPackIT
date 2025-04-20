@@ -810,9 +810,7 @@ devcontainer_main:
     overrideFeatureInstallOrder:
       - ghcr.io/devcontainers/features/common-utils
       - ghcr.io/devcontainers/features/desktop-lite:1
-      - ghcr.io/devcontainers/features/git
       - ghcr.io/devcontainers/features/node
-      - ghcr.io/devcontainers/features/conda
       - ghcr.io/devcontainers/features/ruby
       - ghcr.io/devcontainers/features/sshd
       - ghcr.io/devcontainers/features/git-lfs
@@ -821,7 +819,6 @@ devcontainer_main:
       - ghcr.io/devcontainers/features/oryx
       - ./${{ devfeature_user_setup.path }}$
       - ghcr.io/devcontainers-extra/features/apt-get-packages
-      - ./${{ devfeature_conda_setup.path }}$
       - ./${{ devfeature_pkg_setup.path }}$
     remoteEnv:
       # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker#1-use-the-localworkspacefolder-as-environment-variable-in-your-code
