@@ -154,18 +154,6 @@ devfeature_pkg_setup:
     echo "Initializing conda..."
     conda init
 
-    echo "Removing existing Conda channels..."
-    conda config --remove-key channels 2>/dev/null || true
-
-    echo "Adding conda-forge as the only channel..."
-    conda config --add channels conda-forge
-
-    echo "Setting strict channel priority..."
-    conda config --set channel_priority strict
-
-    echo "Verifying channels..."
-    conda config --show channels
-
     if ! echo "$PACKAGES" | jq empty; then
         echo "Invalid JSON in PACKAGES"
         exit 1
@@ -204,71 +192,6 @@ devfeature_pkg_setup:
             echo "$line" >> "$POST_START_SCRIPT_FILEPATH"
         done <<< "$output"
     done
-
-    echo "Cleaning up cache..."
-    conda clean --all -y
-devfeature_conda_setup:
-  feature:
-    name: Conda Setup
-    version: 0.1.0
-    description: Install conda environments and setup conda configuration.
-    installsAfter:
-      - ghcr.io/devcontainers/features/common-utils
-      - ghcr.io/devcontainers/features/conda
-    postCreateCommand: >-
-      echo "Initializing conda..."
-      && conda init --all;
-      echo "Removing existing Conda channels..."
-      && config --remove-key channels 2>/dev/null || true;
-      echo "Adding conda-forge as the only channel..."
-      && conda config --add channels conda-forge
-      && echo "Setting strict channel priority..."
-      && conda config --set channel_priority strict;
-      echo "Verifying channels..."
-      && conda config --show channels;
-    options:
-      log_dirpath:
-        type: string
-        description: Absolute path to a directory to write log files.
-        default: ${{ __temp__.container_build_log_path }}$/conda_setup
-      env_dir:
-        type: string
-        description: Absolute path to the directory containing conda environment files.
-        default: ${{ __temp__.container_env_path }}$/${{ devcontainer.containers.rel_path.conda }}$
-  install: |
-    #!/usr/bin/env bash
-    set -euxo pipefail
-
-    # Redirect stdout and stderr to a file
-    echo "Creating log directory..."
-    mkdir -p "$LOG_DIRPATH"
-    LOG_FILE="${LOG_DIRPATH}/install.log"
-    exec > >(tee -a "$LOG_FILE") 2>&1
-
-    echo "Initializing conda..."
-    conda init --all
-
-    echo "Removing existing Conda channels..."
-    conda config --remove-key channels 2>/dev/null || true
-
-    echo "Adding conda-forge as the only channel..."
-    conda config --add channels conda-forge
-
-    echo "Setting strict channel priority..."
-    conda config --set channel_priority strict
-
-    echo "Verifying channels..."
-    conda config --show channels
-
-    echo "Updating conda..."
-    conda update -n base --all -y
-
-    if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
-        umask 0002;
-        for file in $ENV_DIR/*.yaml; do
-            conda env update --file "$file" 2>&1 | tee "$LOG_DIRPATH/env_$(basename "$file").log";
-        done;
-    fi
 
     echo "Cleaning up cache..."
     conda clean --all -y
@@ -535,6 +458,9 @@ devcontainer_main:
       root_zshrc_source_marker: ROOT_ZSHRC_SOURCED
       user_zshrc_source_marker: USER_ZSHRC_SOURCED
       oh_my_zsh_install_dir: ${{ ..user.home }}$/.oh-my-zsh
+    git:
+      version: "2.49.0"
+      prefix: /usr/local/git
     global_rc: |
       # Set $USER to current user if not already set.
       # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1
@@ -562,6 +488,9 @@ devcontainer_main:
               fi
           fi
       fi
+
+      # Source tasks file.
+      . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks_local }}$"
     user:
       name: ${{ devcontainer_main.container.containerUser }}$
       group: ${{ .name }}$
@@ -569,6 +498,13 @@ devcontainer_main:
       shell: /bin/zsh
       gid: 1000
       uid: 1000
+    share_dir: /usr/local/share/#{{ return slugify(get("name")) }}#-container
+    log_dir: /var/log/#{{ return slugify(get("name")) }}#-container
+    apt_env_dir: ${{ .share_dir }}$/apt-env
+    script_dir: ${{ .share_dir }}$/script
+    apt_install_script: ${{ .script_dir }}$/_helper/apt-install.sh
+  build:
+    apt_inst
   service:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
@@ -589,8 +525,6 @@ devcontainer_main:
     - title: Arguments and Environment Variables
       summary: Main build arguments and environment variables.
       instructions:
-        - ARG: |
-            DEBIAN_FRONTEND=noninteractive
         - ENV: |
             LANG=C.UTF-8
             LC_ALL=C.UTF-8
@@ -600,16 +534,20 @@ devcontainer_main:
         Only include those that affect the build processes.
         Other environment variables can be set at the end
         to avoid early cache invalidation.
+    - title:  APT Installation Script
+      instructions:
+        - ARG: |
+            APT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
+        - COPY: |
+            ["${{ devcontainer_main.file.apt_install_script.path }}$", "$APT_INSTALL_SCRIPT"]
+        - RUN: |
+            chmod +x "$APT_INSTALL_SCRIPT"
     - title: Required APT Packages
       summary: Installation of required APT packages.
-      instructions:
-        - RUN: '#{{ return hook.docker_apt_install("main", "required") }}#'
-        - RUN: '#{{ return hook.docker_apt_post_process("main", "required") }}#'
+      instructions: '#{{ return hook.docker_apt("main", "required") }}#'
     - title: Essential APT Packages
       summary: Installation of essential APT packages.
-      instructions:
-        - RUN: '#{{ return hook.docker_apt_install("main", "essential") }}#'
-        - RUN: '#{{ return hook.docker_apt_post_process("main", "essential") }}#'
+      instructions: '#{{ return hook.docker_apt("main", "essential") }}#'
     - title: Git Installation
       description: |
         We install [git](https://git-scm.com/doc)
@@ -617,20 +555,18 @@ devcontainer_main:
         to get and up-to-date version.
       instructions:
         ARG: |
-          GIT_VERSION=2.49.0
+          GIT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$"
+        COPY: |
+          ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
+        ENV: |
+          PATH=${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
         RUN: |
-          # Insall Git from source code.
-          # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L299-L312
-          set -eux;
-          echo "Downloading source code for Git v${GIT_VERSION}...";
-          curl -sL https://github.com/git/git/archive/v${GIT_VERSION}.tar.gz | tar -xzC /tmp 2>&1;
-          echo "Building Git..."
-          cd /tmp/git-${GIT_VERSION};
-          git_options=("prefix=/usr/local");
-          git_options+=("sysconfdir=/etc");
-          git_options+=("USE_LIBPCRE=YesPlease");
-          make -s "${git_options[@]}" all && make -s "${git_options[@]}" install 2>&1;
-          rm -rf /tmp/git-${GIT_VERSION};
+          chmod +x "$GIT_INSTALL_SCRIPT";
+          "$GIT_INSTALL_SCRIPT"
+              --version "${{ devcontainer_main.var.git.version }}$"
+              --prefix "${{ devcontainer_main.var.git.prefix }}$"
+              --logfile "${{ devcontainer_main.var.log_dirpath }}$/git_install.log"
+              --debug
     - title: User Setup
       summary: Setup user.
       instructions:
@@ -657,93 +593,38 @@ devcontainer_main:
     - title: TeX Live
       summary: Installation of TeX Live.
       instructions:
-        - WORKDIR: /tmp
-        - RUN: |
-            # Download and install equivs file for dummy package.
-            # This tells apt that all TeX Live packages are installed.
-            # - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
-            set -eux;
-            curl https://tug.org/texlive/files/debian-equivs-2023-ex.txt --output texlive-local;
-            sed -i "s/2023/9999/" texlive-local;
-            equivs-build texlive-local;
-            dpkg -i texlive-local_9999.99999999-1_all.deb;
-            apt-get install -qyf --no-install-recommends;
-            apt-get dist-clean;
-            rm -rf /var/cache/apt/;
-            rm -rf ./*texlive*;
         - ARG: |
-            TLMIRRORURL=rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/
-            TEXLIVE_INSTALL_NO_CONTEXT_CACHE=1
-            NOPERLDOC=1
+            TEXLIVE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_script.path }}$"
+            TEXLIVE_INSTALL_PROFILE="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_profile.path }}$"
+        - COPY: |
+            ["${{ devcontainer_main.file.texlive_install_script.path }}$", "$TEXLIVE_INSTALL_SCRIPT"]
+        - COPY: |
+            ["${{ devcontainer_main.file.texlive_install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]
         - RUN: |
-            # Install TeX Live from upstream mirror using full scheme with no docs or sources
-            set -eux;
-            echo "Fetching installation from mirror $TLMIRRORURL";
-            rsync -a --stats "$TLMIRRORURL" texlive;
-            cd texlive;
-            # Create installation profile for full scheme installation
-            echo "selected_scheme scheme-full" > install.profile;
-            echo "tlpdbopt_install_docfiles 0" >> install.profile;
-            echo "tlpdbopt_install_srcfiles 0" >> install.profile;
-            echo "tlpdbopt_autobackup 0" >> install.profile;
-            echo "tlpdbopt_sys_bin /usr/bin" >> install.profile;
-            ./install-tl -profile install.profile;
-            cd ..;
-            rm -rf texlive;
-        - RUN: |
-            # Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
-            set -eux;
-            echo "Adding TeX Live binaries to system PATH";
-            $(find /usr/local/texlive -name tlmgr) path add;
-            # Patch for ConTeXt (issue #30)
-            echo "Fixing ConTeXt path in mtxrun.lua";
-            (sed -i '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' /usr/bin/mtxrun.lua || true);
-            echo "Generating font and ConTeXt caches...";
-            (luaotfload-tool -u || true);
-            mkdir -p /etc/fonts/conf.d;
-            (cp "$(find /usr/local/texlive -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true);
-            fc-cache -fsv;
-            if [ -f "/usr/bin/context" ]; then
-              mtxrun --generate;
-              texlua /usr/bin/mtxrun.lua --luatex --generate;
-              context --make;
-              context --luatex --make;
-            fi
+            chmod +x "$TEXLIVE_INSTALL_SCRIPT";
+            "$TEXLIVE_INSTALL_SCRIPT"
+                --profile "$TEXLIVE_INSTALL_PROFILE"
+                --logfile "${{ devcontainer_main.var.log_dirpath }}$/texlive_install.log"
+                --debug
     - title: MiniForge
       instructions:
-        - ARG: |
-            MINIFORGE_NAME=${{ devcontainer_main.var.conda.name }}$
-            MINIFORGE_VERSION=${{ devcontainer_main.var.conda.version }}$
         - ENV: |
             CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
-            CONDA_SCRIPT=${{ devcontainer_main.var.conda.conda_script }}$
-            MAMBA_SCRIPT=${{ devcontainer_main.var.conda.mamba_script }}$
             PATH=$CONDA_DIR/bin:$PATH
+        - ARG: |
+            MINIFORGE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.miniforge_install_script.path }}$"
+        - COPY: |
+            ["${{ devcontainer_main.file.miniforge_install_script.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
         - RUN: |
-            # Install Miniforge
-            # - https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile
-            set -eux;
-            install_script="/tmp/miniforge.sh";
-            wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_NAME}-${MINIFORGE_VERSION}-Linux-$(uname -m).sh -O "$install_script";
-            /bin/bash "$install_script" -b -p ${CONDA_DIR};
-            rm "$install_script";
-            # Clean up the installer
-            conda clean --tarballs --index-cache --packages --yes;
-            find ${CONDA_DIR} -follow -type f -name '*.a' -delete;
-            find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete;
-            conda clean --force-pkgs-dirs --all --yes;
-            # Source conda.sh and mamba.sh
-            # echo ". ${CONDA_SCRIPT}" >> /etc/skel/.bashrc;
-            # echo ". ${CONDA_SCRIPT}" >> ~/.bashrc;
-            # echo ". ${MAMBA_SCRIPT} && mamba activate base" >> /etc/skel/.bashrc;
-            # echo ". ${MAMBA_SCRIPT} && mamba activate base" >> ~/.bashrc;
-            # Add group and fix permissions
-            # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
-            groupadd -r conda;
-            usermod -a -G conda "$USERNAME";
-            chown -R "$USERNAME:conda" "$CONDA_DIR";
-            chmod -R g+r+w "$CONDA_DIR";
-            find "${CONDA_DIR}" -type d -print0 | xargs -n 1 -0 chmod g+s;
+            chmod +x "$MINIFORGE_INSTALL_SCRIPT";
+            "$MINIFORGE_INSTALL_SCRIPT"
+                --name "${{ devcontainer_main.var.conda.name }}$"
+                --version "${{ devcontainer_main.var.conda.version }}$"
+                --conda-dir "$CONDA_DIR"
+                --group "${{ devcontainer_main.var.user.group }}$"
+                --user "${{ devcontainer_main.var.user.name }}$"
+                --logfile "${{ devcontainer_main.var.log_dirpath }}$/miniforge_install.log"
+                --debug
     - title: Copy Files
       instructions:
         - COPY: ${{ devcontainer_main.path.environment }}$ ${{ __temp__.container_env_path }}$/
@@ -751,9 +632,7 @@ devcontainer_main:
         - COPY: .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
     - title: Recommended APT Packages
       summary: Installation of recommended APT packages.
-      instructions:
-        - RUN: '#{{ return hook.docker_apt_install("main", "recommended") }}#'
-        - RUN: '#{{ return hook.docker_apt_post_process("main", "recommended") }}#'
+      instructions: '#{{ return hook.docker_apt("main", "recommended") }}#'
     - title: Post-Installation
       summary: Run post-installation tasks.
       instructions:
@@ -787,9 +666,7 @@ devcontainer_main:
             git repack -a -d -f --depth=1 --window=1;
     - title: Optional APT Packages
       summary: Installation of recommended APT packages.
-      instructions:
-        - RUN: '#{{ return hook.docker_apt_install("main", "optional") }}#'
-        - RUN: '#{{ return hook.docker_apt_post_process("main", "optional") }}#'
+      instructions: '#{{ return hook.docker_apt("main", "optional") }}#'
     - title: Finalization
       instructions:
         - ARG: |
@@ -815,21 +692,6 @@ devcontainer_main:
                 awk '/^auth(.*)pam_rootok\.so$/ { $2 = "sufficient" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh;
             fi;
             chsh --shell "$USER_SHELL" "$USERNAME";
-    - title: Tests
-      summary: Run tests to verify the installation.
-      instructions:
-        - RUN: |
-            set -eux;
-            # LaTeX
-            latex --version && printf '\n';
-            biber --version && printf '\n';
-            xindy --version && printf '\n';
-            arara --version && printf '\n';
-            context --version && printf '\n';
-            context --luatex --version && printf '\n';
-            asy --version && printf '\n';
-            python --version && printf '\n';
-            pygmentize -V && printf '\n';
     - title: Entry
       instructions:
         - CMD: |
@@ -1331,7 +1193,7 @@ devcontainer_main:
       url:
         docs: https://fishshell.com/docs/current/
         source: https://github.com/fish-shell/fish-shell
-      post_process: |
+      post_install: |
         # Setup Fish
         # - https://github.com/devcontainers/images/blob/0f13a9b8a31b9c81be78abfc404cc00748e946bb/src/universal/.devcontainer/Dockerfile#L85-L88
         FISH_PROMPT="function fish_prompt\n    set_color green\n    echo -n (whoami)\n    set_color normal\n    echo -n \":\"\n    set_color blue\n    echo -n (pwd)\n    set_color normal\n    echo -n \"> \"\nend\n";
@@ -1895,7 +1757,7 @@ devcontainer_main:
       summary: OpenGL Utility Toolkit for rendering graphical interfaces.
       group: recommended
       dependents: [ tex ]
-      post_process: |
+      post_install: |
         LIBDIR="$(find /usr/lib -maxdepth 1 -type d -name '*-linux-*' | grep -v '/config-' | head -n1)";
         ln -sf "${LIBDIR}/libglut.so.3.12" "${LIBDIR}/libglut.so.3";
       description: |
@@ -2577,7 +2439,7 @@ devcontainer_main:
         docs: https://manpages.ubuntu.com/manpages/noble/en/man7/locale.7.html
         package: https://packages.ubuntu.com/noble/locales
         source: https://salsa.debian.org/glibc-team/glibc
-      post_process: |
+      post_install: |
         # Ensure at least the en_US.UTF-8 UTF-8 locale is available = common need for both applications and things like the agnoster ZSH theme.
         # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L145C5-L150C7
         if ! grep -o -E '^\s*en_US.UTF-8\s+UTF-8' /etc/locale.gen > /dev/null; then
@@ -2909,7 +2771,7 @@ devcontainer_main:
         docs: https://manpages.ubuntu.com/manpages/noble/en/man1/add-apt-repository.1.html
         package: https://packages.ubuntu.com/noble/software-properties-common
         source: https://git.launchpad.net/software-properties
-      post_process: |
+      post_install: |
         add-apt-repository universe;
     sq:
       summary: Secure messaging and encryption tool.
@@ -4345,6 +4207,9 @@ devcontainer_main:
         # #{{ return "=" * 50 }}#
         # END OF ${{ name }}$ SECTION
         # #{{ return "=" * 50 }}#
+    zshenv_global:
+      path: /etc/zshenv
+      content: |
     zshrc_global:
       path: /etc/zsh/zshrc
       content: |
@@ -4365,6 +4230,43 @@ devcontainer_main:
         - The file is located at `/etc/zsh/zshrc` on Debian/Alpine-based images,
           and at `/etc/zshrc` on Red Hat-based images
           (cf. [`common-utils`](https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L510-L514) feature).
+  file:
+    apt_install_script:
+      status: inactive
+      name: APT Installation Script
+      summary: Script to install packages using apt-get.
+      type: exec
+      path: ${{ devcontainer_main.path.apt.root }}$/install.sh
+    conda_install_script:
+      status: inactive
+      name: Conda Installation Script
+      summary: Script to install conda and mamba on the system.
+      type: exec
+      path: ${{ devcontainer_main.path.conda.root }}$/install.sh
+    conda_env_install_script:
+      status: inactive
+      name: Conda Environment Installation Script
+      summary: Script to install conda environment on the system.
+      type: exec
+      path: ${{ devcontainer_main.path.conda.root }}$/install-envs.sh
+    git_install_script:
+      status: inactive
+      name: Git Installation Script
+      summary: Script to install Git on the system.
+      type: exec
+      path: ${{ devcontainer_main.path.environment }}$/git/install.sh
+    texlive_install_script:
+      status: inactive
+      name: TeX Live Installation Script
+      summary: Script to install TeX Live on the system.
+      type: exec
+      path: ${{ devcontainer_main.path.environment }}$/texlive/install.sh
+    texlive_install_profile:
+      status: inactive
+      name: TeX Live Installation Profile
+      summary: Profile for installing TeX Live.
+      type: txt
+      path: ${{ devcontainer_main.path.environment }}$/texlive/install.profile
 file_pixi_manifest:
  # https://pixi.sh/latest/reference/pixi_manifest/
  name: Pixi Manifest
