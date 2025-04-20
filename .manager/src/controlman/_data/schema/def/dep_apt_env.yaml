@@ -67,7 +67,7 @@ properties:
     type: array
     items:
       type: string
-  post_process:
+  post_install:
     summary: Post-processing commands to run after the package is installed.
     type: string
   url:
