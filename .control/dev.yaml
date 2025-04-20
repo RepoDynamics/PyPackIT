@@ -526,13 +526,14 @@ devcontainer_main:
         - ENV: |
             LANG=C.UTF-8
             LC_ALL=C.UTF-8
+            PYTHONIOENCODING=UTF-8
             TZ=UTC
         - USER: root
       description: |
         Only include those that affect the build processes.
         Other environment variables can be set at the end
         to avoid early cache invalidation.
-    - title:  APT Installation Script
+    - title: APT Installation Script
       instructions:
         - ARG: |
             APT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
@@ -540,10 +541,10 @@ devcontainer_main:
             ["${{ devcontainer_main.file.apt_install_script.path }}$", "$APT_INSTALL_SCRIPT"]
         - RUN: |
             chmod +x "$APT_INSTALL_SCRIPT"
-    - title: Required APT Packages
+    - title: APT Packages (Required)
       summary: Installation of required APT packages.
       instructions: '#{{ return hook.docker_apt("main", "required") }}#'
-    - title: Essential APT Packages
+    - title: APT Packages (Essential)
       summary: Installation of essential APT packages.
       instructions: '#{{ return hook.docker_apt("main", "essential") }}#'
     - title: Git Installation
@@ -588,7 +589,7 @@ devcontainer_main:
             # Grant user passwordless sudo access to act as any user.
             echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null;
             chmod 0440 /etc/sudoers.d/$USERNAME;
-    - title: TeX Live
+    - title: TeX Live Installation
       summary: Installation of TeX Live.
       instructions:
         - ARG: |
@@ -604,7 +605,7 @@ devcontainer_main:
                 --profile "$TEXLIVE_INSTALL_PROFILE"
                 --logfile "${{ devcontainer_main.var.log_dir }}$/texlive_install.log"
                 --debug
-    - title: MiniForge
+    - title: MiniForge Installation
       instructions:
         - ENV: |
             CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
@@ -623,7 +624,7 @@ devcontainer_main:
                 --user "${{ devcontainer_main.var.user.name }}$"
                 --logfile "${{ devcontainer_main.var.log_dir }}$/miniforge_install.log"
                 --debug
-    - title: Recommended APT Packages
+    - title: APT Packages (Recommended)
       summary: Installation of recommended APT packages.
       instructions: '#{{ return hook.docker_apt("main", "recommended") }}#'
     - title: Conda Environment Installation
@@ -676,7 +677,7 @@ devcontainer_main:
             # Shrink git while still enabling updates
             cd "$OH_MY_ZSH_INSTALL_DIR";
             git repack -a -d -f --depth=1 --window=1;
-    - title: Optional APT Packages
+    - title: APT Packages (Optional)
       summary: Installation of recommended APT packages.
       instructions: '#{{ return hook.docker_apt("main", "optional") }}#'
     - title: Finalization
