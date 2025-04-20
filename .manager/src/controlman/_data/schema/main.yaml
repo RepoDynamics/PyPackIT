@@ -376,6 +376,7 @@ patternProperties:
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
           conda:
             type: object
+            default: { }
             properties:
               root:
                 summary: Path to the conda environment directory.
