@@ -6,7 +6,7 @@ description: |
   Dynamically define the content and output path of a file.
 type: object
 additionalProperties: false
-required: [ status, name, summary, type, path, content ]
+required: [ status, name, summary, type, path ]
 properties:
   status:
     summary: Sync status of the file.
