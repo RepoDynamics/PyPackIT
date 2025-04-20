@@ -56,6 +56,9 @@ properties:
                     spec.append(f"{part_prefix}{part}")
             return "".join(spec)
           }}#
+  repo:
+    summary: APT repository to use for the package.
+    type: string
   group:
     summary: Group name for the package.
     type: string
