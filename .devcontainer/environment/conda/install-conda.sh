@@ -17,7 +17,7 @@ NO_CLEAN=false
 NO_CACHE_CLEAN=false
 INTERACTIVE=false
 REINSTALL=false
-INSTALLER_DIR="/tmp/miniforge"
+INSTALLER_DIR="/tmp/miniforge-installer"
 LOGFILE=""
 DEBUG=false
 
