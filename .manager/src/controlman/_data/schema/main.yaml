@@ -381,7 +381,7 @@ patternProperties:
               root:
                 summary: Path to the conda environment directory.
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ .environment }}$/conda
+                default: ${{ ..environment }}$/conda
               envs:
                 summary: Path to the conda environment files directory.
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
