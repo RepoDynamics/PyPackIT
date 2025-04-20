@@ -371,9 +371,16 @@ patternProperties:
               optional:
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
           conda:
-            summary: Path to the conda environment directory.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .environment }}$/conda
+            type: object
+            properties:
+              root:
+                summary: Path to the conda environment directory.
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+                default: ${{ .environment }}$/conda
+              envs:
+                summary: Path to the conda environment files directory.
+                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+                default: ${{ .root }}$/envs
           dockerfile:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
@@ -441,7 +448,7 @@ patternProperties:
             path:
               summary: Path to the environment file.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              default: ${{ ...path.conda }}$/${{ .__key__ }}$.yaml
+              default: ${{ ...path.conda.envs }}$/${{ .__key__ }}$.yaml
       var:
         type: object
       volume:
