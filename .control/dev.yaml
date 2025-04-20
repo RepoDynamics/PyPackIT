@@ -552,19 +552,19 @@ devcontainer_main:
         directly from its [GitHub repository](https://github.com/git/git)
         to get and up-to-date version.
       instructions:
-        ARG: |
-          GIT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$"
-        COPY: |
-          ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
-        ENV: |
-          PATH=${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
-        RUN: |
-          chmod +x "$GIT_INSTALL_SCRIPT";
-          "$GIT_INSTALL_SCRIPT"
-              --version "${{ devcontainer_main.var.git.version }}$"
-              --prefix "${{ devcontainer_main.var.git.prefix }}$"
-              --logfile "${{ devcontainer_main.var.log_dir }}$/git_install.log"
-              --debug
+        - ARG: |
+            GIT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$"
+        - COPY: |
+            ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
+        - ENV: |
+            PATH=${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
+        - RUN: |
+            chmod +x "$GIT_INSTALL_SCRIPT";
+            "$GIT_INSTALL_SCRIPT"
+                --version "${{ devcontainer_main.var.git.version }}$"
+                --prefix "${{ devcontainer_main.var.git.prefix }}$"
+                --logfile "${{ devcontainer_main.var.log_dir }}$/git_install.log"
+                --debug
     - title: User Setup
       summary: Setup user.
       instructions:
