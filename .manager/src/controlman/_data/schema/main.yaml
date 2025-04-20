@@ -404,6 +404,15 @@ patternProperties:
         type: array
         items:
           type: object
+          properties:
+            instructions:
+              type: array
+              items:
+                type: object
+                minProperties: 1
+                maxProperties: 1
+                additionalProperties:
+                  type: string
       container:
         $ref: https://controlman.repodynamics.com/schema/devcontainer
       apt:
