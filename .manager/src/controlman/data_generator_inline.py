@@ -96,7 +96,7 @@ class InlineDataGenerator:
             return out
         apt_group_repos = False
         apt_group_post_install = False
-        for apt_group_pkg in apt_group_pkgs:
+        for apt_group_pkg in group_packages:
             if "repo" in apt_group_pkg:
                 apt_group_repos = True
             if "post_install" in apt_group_pkg:
