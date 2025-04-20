@@ -83,41 +83,65 @@ class InlineDataGenerator:
         self.get = get_metadata
         return self
 
-    def docker_apt_install(self, devcontainer_id: str, group: str) -> str | None:
-        indent = 4 * " "
-        apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
-        packages = sorted(f"{indent}{pkg["spec"]["full"]}" for pkg in apt_packages.values() if pkg["group"] == group)
-        if not packages:
-            return None
-        # Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
-        # which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*"
-        # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
-        # - https://github.com/docker-library/buildpack-deps/pull/157/files
-        lines = [
-            "set -eux;",
-            "add-apt-repository universe;" if group == "required" else None,
-            "apt-get update;",
-            "apt-get install -y --no-install-recommends",
-            *packages,
-            ";",
-            "apt-get dist-clean;"
-        ]
-        return "\n".join(line for line in lines if line).strip()
-
-    def docker_apt_post_process(self, devcontainer_id: str, group: str) -> str | None:
+    def docker_apt_install(
+        self,
+        devcontainer_id: str,
+        group: str,
+        steps: Literal["install", "post_install", "all"] = "all"
+    ) -> list[dict[str, str]]:
         apt_packages = self.get(f"devcontainer_{devcontainer_id}.apt", {})
         group_packages = [pkg for pkg in apt_packages.values() if pkg["group"] == group]
-        lines = []
-        for pkg in sorted(group_packages, key=lambda x: x["spec"]["full"]):
-            post_process = pkg.get("post_process")
-            if not post_process:
-                continue
-            for line in post_process.splitlines():
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                lines.append(line)
-        return "\n".join(line for line in lines).strip() if lines else None
+        out = []
+        if not group_packages:
+            return out
+        apt_group_repos = False
+        apt_group_post_install = False
+        for apt_group_pkg in apt_group_pkgs:
+            if "repo" in apt_group_pkg:
+                apt_group_repos = True
+            if "post_install" in apt_group_pkg:
+                apt_group_post_install = True
+        apt_paths = self.get(f"devcontainer_{devcontainer_id}.path.apt.{group}")
+        container_share_dir = self.get(f"devcontainer_{devcontainer_id}.var.share_dir")
+        container_log_dir = self.get(f"devcontainer_{devcontainer_id}.var.log_dir")
+        if steps in ("install", "all"):
+            argname_pkg_file = f"APT_{group.upper()}_PACKAGES"
+            packages_filepath = apt_paths["packages"]
+            out.extend(
+                [
+                    {"ARG": f'{argname_pkg_file}="{container_share_dir}/{packages_filepath}"'},
+                    {"COPY": f'["{packages_filepath}", "${argname_pkg_file}"]'},
+                ]
+            )
+            if apt_group_repos:
+                repos_filepath = apt_paths["repos"]
+                argname_repo_file = f"APT_{group.upper()}_REPOS"
+                out.extend(
+                    [
+                        {"ARG": f'{argname_repo_file}="{container_share_dir}/{repos_filepath}"'},
+                        {"COPY": f'["{repos_filepath}", "${argname_repo_file}"]'},
+                    ]
+                )
+            repofile_arg = f' --repo-file "${argname_repo_file}" ' if apt_group_repos else " "
+            logfile = f"{container_log_dir}/apt_install_{group}.log"
+            run = f'"$APT_INSTALL_SCRIPT" "{argname_pkg_file}"{repofile_arg}--logfile {logfile}'
+            out.append({"RUN": run})
+        if steps in ("post_install", "all") and apt_group_post_install:
+            post_install_filepath = apt_paths["post_install"]
+            argname_post_install_file = f"APT_{group.upper()}_POST_INSTALL"
+            out.extend(
+                [
+                    {"ARG": f'{argname_post_install_file}="{container_share_dir}/{post_install_filepath}"'},
+                    {"COPY": f'["{post_install_filepath}", "${argname_post_install_file}"]'},
+                    {
+                        "RUN": (
+                            f"chmod +x ${argname_post_install_file};\n"
+                            f'${argname_post_install_file}'
+                        )
+                    },
+                ]
+            )
+        return out
 
     def pypkg_test(self, test_pkg_id: str) -> dict:
         """Create test package data."""
