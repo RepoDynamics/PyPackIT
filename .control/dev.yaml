@@ -610,9 +610,9 @@ devcontainer_main:
             CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
             PATH=$CONDA_DIR/bin:$PATH
         - ARG: |
-            MINIFORGE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.miniforge_install_script.path }}$"
+            MINIFORGE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_install_script.path }}$"
         - COPY: |
-            ["${{ devcontainer_main.file.miniforge_install_script.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
+            ["${{ devcontainer_main.file.conda_install_script.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
         - RUN: |
             chmod +x "$MINIFORGE_INSTALL_SCRIPT";
             "$MINIFORGE_INSTALL_SCRIPT"
@@ -623,14 +623,28 @@ devcontainer_main:
                 --user "${{ devcontainer_main.var.user.name }}$"
                 --logfile "${{ devcontainer_main.var.log_dir }}$/miniforge_install.log"
                 --debug
-    - title: Copy Files
-      instructions:
-        - COPY: ${{ devcontainer_main.path.environment }}$ ${{ __temp__.container_env_path }}$/
-        - COPY: ${{ control.path.pkg_install_script }}$ ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
-        - COPY: .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
     - title: Recommended APT Packages
       summary: Installation of recommended APT packages.
       instructions: '#{{ return hook.docker_apt("main", "recommended") }}#'
+    - title: Conda Environment Installation
+      instructions:
+        - ARG: |
+            CONDA_ENVS_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_env_install_script.path }}$"
+            CONDA_ENVS_DIR="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.path.conda.envs }}$"
+        - COPY: |
+            ["${{ devcontainer_main.file.conda_env_install_script.path }}$", "$CONDA_ENVS_INSTALL_SCRIPT"]
+        - COPY: |
+            ["${{ devcontainer_main.path.conda.envs }}$/", "$CONDA_ENVS_DIR"]
+        - RUN: |
+            chmod +x "$CONDA_ENVS_INSTALL_SCRIPT";
+            "$CONDA_ENVS_INSTALL_SCRIPT"
+                --envs "$CONDA_ENVS_DIR"
+                --logfile "${{ devcontainer_main.var.log_dir }}$/conda_envs_install.log"
+                --debug
+    - title: Copy Files
+      instructions:
+        - COPY: ${{ control.path.pkg_install_script }}$ ${{ devfeature_pkg_setup.feature.options.script_filepath.default }}$
+        - COPY: .github/.repodynamics/metadata.json ${{ devfeature_pkg_setup.feature.options.metadata_filepath.default }}$
     - title: Post-Installation
       summary: Run post-installation tasks.
       instructions:
