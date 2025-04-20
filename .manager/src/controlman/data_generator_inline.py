@@ -83,7 +83,7 @@ class InlineDataGenerator:
         self.get = get_metadata
         return self
 
-    def docker_apt_install(
+    def docker_apt(
         self,
         devcontainer_id: str,
         group: str,
