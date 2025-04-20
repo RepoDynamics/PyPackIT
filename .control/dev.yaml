@@ -4312,9 +4312,6 @@ file_pixi_manifest:
      prod-py312:
        features: []
        solve-group: ""
-   feature:
-     app:
-       dependencies:
  content_setting:
    filter:
      no_value:
