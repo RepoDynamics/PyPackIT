@@ -12,7 +12,7 @@ RUN chmod +x "$APT_INSTALL_SCRIPT"
 
 ARG APT_REQUIRED_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/packages.txt"
 COPY [".devcontainer/environment/apt/required/packages.txt", "$APT_REQUIRED_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "APT_REQUIRED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_required.log
+RUN "$APT_INSTALL_SCRIPT" "$APT_REQUIRED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_required.log
 ARG APT_REQUIRED_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/post_install.sh"
 COPY [".devcontainer/environment/apt/required/post_install.sh", "$APT_REQUIRED_POST_INSTALL"]
 RUN chmod +x $APT_REQUIRED_POST_INSTALL; \
@@ -20,7 +20,7 @@ RUN chmod +x $APT_REQUIRED_POST_INSTALL; \
 
 ARG APT_ESSENTIAL_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/packages.txt"
 COPY [".devcontainer/environment/apt/essential/packages.txt", "$APT_ESSENTIAL_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "APT_ESSENTIAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_essential.log
+RUN "$APT_INSTALL_SCRIPT" "$APT_ESSENTIAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_essential.log
 ARG APT_ESSENTIAL_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/post_install.sh"
 COPY [".devcontainer/environment/apt/essential/post_install.sh", "$APT_ESSENTIAL_POST_INSTALL"]
 RUN chmod +x $APT_ESSENTIAL_POST_INSTALL; \
@@ -78,7 +78,7 @@ RUN chmod +x "$MINIFORGE_INSTALL_SCRIPT"; \
 
 ARG APT_RECOMMENDED_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/packages.txt"
 COPY [".devcontainer/environment/apt/recommended/packages.txt", "$APT_RECOMMENDED_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "APT_RECOMMENDED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_recommended.log
+RUN "$APT_INSTALL_SCRIPT" "$APT_RECOMMENDED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_recommended.log
 ARG APT_RECOMMENDED_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/post_install.sh"
 COPY [".devcontainer/environment/apt/recommended/post_install.sh", "$APT_RECOMMENDED_POST_INSTALL"]
 RUN chmod +x $APT_RECOMMENDED_POST_INSTALL; \
@@ -117,7 +117,7 @@ RUN set -eux; \
 
 ARG APT_OPTIONAL_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/packages.txt"
 COPY [".devcontainer/environment/apt/optional/packages.txt", "$APT_OPTIONAL_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "APT_OPTIONAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_optional.log
+RUN "$APT_INSTALL_SCRIPT" "$APT_OPTIONAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_optional.log
 ARG APT_OPTIONAL_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/post_install.sh"
 COPY [".devcontainer/environment/apt/optional/post_install.sh", "$APT_OPTIONAL_POST_INSTALL"]
 RUN chmod +x $APT_OPTIONAL_POST_INSTALL; \
