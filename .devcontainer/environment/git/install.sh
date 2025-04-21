@@ -94,7 +94,7 @@ resolve_version() {
 
 OPTS=$(
     getopt \
-        --longoptions profile:,mirror:,no-clean,no-cache-clean,interactive,reinstall,installer-dir:,logfile:,debug,help \
+        --longoptions version:,source:,prefix:,sysconfdir:,no-clean,installer-dir:,logfile:,debug,help \
         --name "$0" \
         --options '' \
         -- "$@"
