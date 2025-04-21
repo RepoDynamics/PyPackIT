@@ -47,11 +47,11 @@ properties:
         type: string
         default: |-
           #{{
-            spec = [get("..name")]
+            spec = [get(".name")]
             for part_name, part_prefix in (
               ("version", "="), ("release", "/")
             ):
-                part = get(f"..{part_name}")
+                part = get(f".{part_name}")
                 if part:
                     spec.append(f"{part_prefix}{part}")
             return "".join(spec)

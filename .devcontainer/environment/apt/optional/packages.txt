@@ -2,7 +2,7 @@ fish
 fonts-freefont-otf
 libdb-dev
 libgdbm-dev
-liblttng-ust
+liblttng-ust[0-9]
 libmaxminddb-dev
 libxcomposite1
 libxdamage1
