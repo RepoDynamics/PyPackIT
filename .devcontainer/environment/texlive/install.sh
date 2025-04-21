@@ -124,7 +124,7 @@ read DEBIAN_EQUIVS_PKG DEBIAN_EQUIVS_VERSION < <(
 )
 # Substitute the version number with a large dummy version to avoid update
 DEBIAN_EQUIVS_DUMMY_VERSION="9999.99999999-1"
-sed -i "s/$DEBIAN_EQUIVS_VERSION/$DEBIAN_EQUIVS_VERSION_DUMMY/" "$DEBIAN_EQUIVS"
+sed -i "s/$DEBIAN_EQUIVS_VERSION/$DEBIAN_EQUIVS_DUMMY_VERSION/" "$DEBIAN_EQUIVS"
 equivs-build "$DEBIAN_EQUIVS"
 dpkg -i "${DEBIAN_EQUIVS_PKG}_${DEBIAN_EQUIVS_DUMMY_VERSION}_all.deb"
 apt-get install -qyf --no-install-recommends
