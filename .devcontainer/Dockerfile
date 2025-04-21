@@ -113,7 +113,8 @@ RUN set -eux; \
         -c fsck.zeroPaddedFilemode=ignore \
         -c fetch.fsck.zeroPaddedFilemode=ignore \
         -c receive.fsck.zeroPaddedFilemode=ignore \
-        "https://github.com/ohmyzsh/ohmyzsh" "${oh_my_install_dir}" 2>&1; \
+        "https://github.com/ohmyzsh/ohmyzsh" \
+        "$OH_MY_ZSH_INSTALL_DIR" 2>&1; \
     cd "$OH_MY_ZSH_INSTALL_DIR"; \
     git repack -a -d -f --depth=1 --window=1;
 
@@ -126,7 +127,10 @@ RUN chmod +x $APT_OPTIONAL_POST_INSTALL; \
     $APT_OPTIONAL_POST_INSTALL
 
 ARG USER_SHELL=/bin/zsh
-RUN chown --recursive "$USERNAME:$USERNAME" "$HOME_DIR"; \
+RUN rm -f /etc/profile.d/00-restore-env.sh \
+    echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh \
+    chmod +x /etc/profile.d/00-restore-env.sh \
+    chown --recursive "$USERNAME:$USERNAME" "$HOME_DIR"; \
     chmod --recursive g+r+w "$HOME_DIR"; \
     find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s; \
     if [ ! -f "/etc/pam.d/chsh" ] || ! grep -Eq '^auth(.*)pam_rootok\.so$' /etc/pam.d/chsh; then \
@@ -135,5 +139,6 @@ RUN chown --recursive "$USERNAME:$USERNAME" "$HOME_DIR"; \
         awk '/^auth(.*)pam_rootok\.so$/ { $2 = "sufficient" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh; \
     fi; \
     chsh --shell "$USER_SHELL" "$USERNAME";
+ENV BASH_ENV=/etc/bash/bashenv
 
 CMD [ "sleep", "infinity" ]
