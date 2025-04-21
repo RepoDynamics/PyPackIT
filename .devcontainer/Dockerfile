@@ -94,9 +94,6 @@ RUN chmod +x "$CONDA_ENVS_INSTALL_SCRIPT"; \
         --logfile "/var/log/pypackit-container/conda_envs_install.log" \
         --debug
 
-COPY install.py /usr/local/share/app_installation/install.py
-COPY .github/.repodynamics/metadata.json /usr/local/share/app_installation/metadata.json
-
 RUN if id "ubuntu" &>/dev/null; then \
         echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
     else \
