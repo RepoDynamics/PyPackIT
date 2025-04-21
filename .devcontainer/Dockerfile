@@ -36,11 +36,26 @@ RUN chmod +x "$GIT_INSTALL_SCRIPT"; \
         --logfile "/var/log/pypackit-container/git_install.log" \
         --debug
 
+ARG TEXLIVE_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.sh" \
+    TEXLIVE_INSTALL_PROFILE="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.profile"
+COPY [".devcontainer/environment/texlive/install.sh", "$TEXLIVE_INSTALL_SCRIPT"]
+COPY [".devcontainer/environment/texlive/install.profile", "$TEXLIVE_INSTALL_PROFILE"]
+RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
+    "$TEXLIVE_INSTALL_SCRIPT" \
+        --profile "$TEXLIVE_INSTALL_PROFILE" \
+        --logfile "/var/log/pypackit-container/texlive_install.log" \
+        --debug
+
 ARG USERNAME=pypackit-dev \
     USER_HOME=/home/pypackit-dev \
     USER_GID=1000 \
     USER_UID=1000
 RUN set -eux; \
+    if id "ubuntu" &>/dev/null; then \
+        echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
+    else \
+        echo "User 'ubuntu' does not exist."; \
+    fi; \
     groupadd --gid $USER_GID $USERNAME; \
     useradd \
         --create-home \
@@ -51,16 +66,6 @@ RUN set -eux; \
         $USERNAME; \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null; \
     chmod 0440 /etc/sudoers.d/$USERNAME;
-
-ARG TEXLIVE_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.sh" \
-    TEXLIVE_INSTALL_PROFILE="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.profile"
-COPY [".devcontainer/environment/texlive/install.sh", "$TEXLIVE_INSTALL_SCRIPT"]
-COPY [".devcontainer/environment/texlive/install.profile", "$TEXLIVE_INSTALL_PROFILE"]
-RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
-    "$TEXLIVE_INSTALL_SCRIPT" \
-        --profile "$TEXLIVE_INSTALL_PROFILE" \
-        --logfile "/var/log/pypackit-container/texlive_install.log" \
-        --debug
 
 ENV CONDA_DIR=/opt/conda
 ENV PATH=$CONDA_DIR/bin:$PATH
@@ -93,12 +98,6 @@ RUN chmod +x "$CONDA_ENVS_INSTALL_SCRIPT"; \
         --envs "$CONDA_ENVS_DIR" \
         --logfile "/var/log/pypackit-container/conda_envs_install.log" \
         --debug
-
-RUN if id "ubuntu" &>/dev/null; then \
-        echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
-    else \
-        echo "User 'ubuntu' does not exist."; \
-    fi
 
 ARG OH_MY_ZSH_INSTALL_DIR=/home/pypackit-dev/.oh-my-zsh
 RUN set -eux; \
