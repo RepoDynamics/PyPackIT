@@ -156,77 +156,12 @@
    "dockerComposeFile": [
       "docker-compose.yaml"
    ],
-   "features": {
-      "./features/pkg_setup": {
-         "packages": "{\n  \\\"app\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"main\\\",\n        \\\"extras\\\": \\\"all\\\"\n      },\n      {\n        \\\"id\\\": \\\"test\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.10\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  },\n  \\\"website\\\": {\n    \\\"packages\\\": [\n      {\n        \\\"id\\\": \\\"ci\\\",\n        \\\"extras\\\": \\\"all\\\"\n      }\n    ],\n    \\\"python-version\\\": \\\"3.13\\\",\n    \\\"sources\\\": \\\"pip conda apt bash\\\"\n  }\n}"
-      },
-      "./features/setup-user": {},
-      "ghcr.io/devcontainers/features/common-utils:2": {
-         "configureZshAsDefaultShell": true,
-         "installOhMyZsh": true,
-         "installOhMyZshConfig": true,
-         "installZsh": true,
-         "upgradePackages": true,
-         "userGid": "1000",
-         "userUid": "1000",
-         "username": "pypackit-dev"
-      },
-      "ghcr.io/devcontainers/features/desktop-lite:1": {
-         "password": "noPassword",
-         "version": "latest",
-         "vncPort": "5901",
-         "webPort": "6080"
-      },
-      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/git-lfs:1": {
-         "autoPull": true,
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/github-cli:1": {
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/node:1": {
-         "installYarnUsingApt": true,
-         "nodeGypDependencies": true,
-         "nvmInstallPath": "/usr/local/share/nvm",
-         "nvmVersion": "latest",
-         "pnpmVersion": "latest",
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/oryx:1": {},
-      "ghcr.io/devcontainers/features/ruby:1": {
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/rust:1": {
-         "profile": "minimal",
-         "version": "latest"
-      },
-      "ghcr.io/devcontainers/features/sshd:1": {
-         "version": "latest"
-      }
-   },
    "forwardPorts": [
       8888,
       6080,
       5901
    ],
    "name": "Main Development Environment",
-   "overrideFeatureInstallOrder": [
-      "ghcr.io/devcontainers/features/common-utils",
-      "ghcr.io/devcontainers/features/desktop-lite:1",
-      "ghcr.io/devcontainers/features/node",
-      "ghcr.io/devcontainers/features/ruby",
-      "ghcr.io/devcontainers/features/sshd",
-      "ghcr.io/devcontainers/features/git-lfs",
-      "ghcr.io/devcontainers/features/github-cli",
-      "ghcr.io/devcontainers/features/docker-outside-of-docker",
-      "ghcr.io/devcontainers/features/oryx",
-      "./features/setup-user",
-      "ghcr.io/devcontainers-extra/features/apt-get-packages",
-      "./features/pkg_setup"
-   ],
    "portsAttributes": {
       "5901": {
          "elevateIfNeeded": true,
@@ -246,28 +181,6 @@
          "onAutoForward": "openBrowserOnce",
          "requireLocalPort": false
       }
-   },
-   "postCreateCommand": {
-      "activate_conda_env": "echo 'conda activate app' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile",
-      "install_devcontainers_cli": [
-         "npm",
-         "install",
-         "-g",
-         "@devcontainers/cli"
-      ],
-      "pre_commit_install": [
-         "conda",
-         "run",
-         "--name",
-         "pre_commit",
-         "--live-stream",
-         "-vv",
-         "pre-commit",
-         "install",
-         "--install-hooks",
-         "--config",
-         ".config/pre-commit.yaml"
-      ]
    },
    "remoteEnv": {
       "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
