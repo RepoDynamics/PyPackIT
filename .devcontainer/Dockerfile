@@ -62,8 +62,8 @@ RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
         --logfile "/var/log/pypackit-container/texlive_install.log" \
         --debug
 
-ENV CONDA_DIR=/opt/conda \
-    PATH=$CONDA_DIR/bin:$PATH
+ENV CONDA_DIR=/opt/conda
+ENV PATH=$CONDA_DIR/bin:$PATH
 ARG MINIFORGE_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/conda/install.sh"
 COPY [".devcontainer/environment/conda/install.sh", "$MINIFORGE_INSTALL_SCRIPT"]
 RUN chmod +x "$MINIFORGE_INSTALL_SCRIPT"; \
