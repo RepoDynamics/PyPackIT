@@ -3,36 +3,66 @@ set -euxo pipefail
 
 # Install conda environments and setup conda configuration.
 
-# Redirect stdout and stderr to a file
-echo "Creating log directory..."
-mkdir -p "$LOG_DIRPATH"
-LOG_FILE="${LOG_DIRPATH}/install.log"
-exec > >(tee -a "$LOG_FILE") 2>&1
 
-echo "Initializing conda..."
-conda init --all
+# Default arguments
+ENVS=""
+UPDATE_BASE=false
+NO_CACHE_CLEAN=false
+LOGFILE=""
+DEBUG=false
 
-echo "Removing existing Conda channels..."
-conda config --remove-key channels 2>/dev/null || true
+OPTS=$(
+    getopt \
+        --longoptions env:,update-base,no-cache-clean,logfile:,debug,help \
+        --name "$0" \
+        --options '' \
+        -- "$@"
+)
 
-echo "Adding conda-forge as the only channel..."
-conda config --add channels conda-forge
-
-echo "Setting strict channel priority..."
-conda config --set channel_priority strict
-
-echo "Verifying channels..."
-conda config --show channels
-
-echo "Updating conda..."
-conda update -n base --all -y
-
-if [ -d $ENV_DIR ] && find $ENV_DIR -name '*.yaml' | grep -q .; then
-    umask 0002;
-    for file in $ENV_DIR/*.yaml; do
-        conda env update --file "$file" 2>&1 | tee "$LOG_DIRPATH/env_$(basename "$file").log";
-    done;
+if [[ $? -ne 0 ]]; then
+    echo "Failed to parse options." >&2
+    exit 1
 fi
 
-echo "Cleaning up cache..."
-conda clean --all -y
+eval set -- "$OPTS"
+
+while true; do
+    case "$1" in
+        --envs) ENVS="$2"; shift 2;;
+        --update-base) UPDATE_BASE=true; shift;;
+        --no-cache-clean) NO_CACHE_CLEAN=true; shift;;
+        --logfile) LOGFILE="$2"; shift 2;;
+        --debug) DEBUG=true; shift;;
+        --help) show_help; exit 0;;
+        --) shift; break;;
+        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1;;
+    esac
+done
+
+if ! [[ "$DEBUG" == true ]]; then
+    set +x
+fi
+
+if [[ -n "$LOGFILE" ]]; then
+    echo "📝 Initializing logging to '$LOGFILE'."
+    mkdir -p "$(dirname "$LOGFILE")"
+    exec > >(tee -a "$LOGFILE") 2>&1
+fi
+
+if [[ "$UPDATE_BASE" == true ]]; then
+    echo "⚠️ Updating base conda environment."
+    conda update -n base --all -y
+fi
+
+if [ -d $ENVS ] && find $ENVS -name '*.yaml' | grep -q .; then
+    umask 0002;
+    for file in "$ENVS/*.yaml"; do
+        conda env update --file "$file" 2>&1
+    done
+fi
+
+if [[ "$NO_CACHE_CLEAN" == false ]]; then
+    echo "Cleaning up conda cache..."
+    conda clean --all -y
+fi
+
