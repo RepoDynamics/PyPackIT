@@ -77,7 +77,7 @@ while true; do
     esac
 done
 
-if ! [[ "$DEBUG" == true ]]; then
+if [[ "$DEBUG" != true ]]; then
     set +x
 fi
 
@@ -114,23 +114,25 @@ fi
 mkdir -p "$INSTALLER_DIR"
 
 
-# Download and install equivs file for dummy package.
-# This tells apt that all TeX Live packages are installed.
-# - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
-DEBIAN_EQUIVS="$INSTALLER_DIR/$DEBIAN_EQUIVS_FILENAME"
-curl "$DEBIAN_EQUIVS_URL" --output "$DEBIAN_EQUIVS"
-read DEBIAN_EQUIVS_PKG DEBIAN_EQUIVS_VERSION < <(
-    awk -F': ' '/^Package:/{pkg=$2} /^Version:/{ver=$2} END{print pkg, ver}' "$DEBIAN_EQUIVS"
-)
-# Substitute the version number with a large dummy version to avoid update
-DEBIAN_EQUIVS_DUMMY_VERSION="9999.99999999-1"
-sed -i "s/$DEBIAN_EQUIVS_VERSION/$DEBIAN_EQUIVS_DUMMY_VERSION/" "$DEBIAN_EQUIVS"
-equivs-build "$DEBIAN_EQUIVS"
-dpkg -i "${DEBIAN_EQUIVS_PKG}_${DEBIAN_EQUIVS_DUMMY_VERSION}_all.deb"
-apt-get install -qyf --no-install-recommends
-if [[ "$NO_CACHE_CLEAN" == false ]]; then
-    apt-get dist-clean
-    rm -rf /var/cache/apt/
+if command -v apt-get >/dev/null 2>&1; then
+    # Download and install equivs file for dummy package.
+    # This tells apt that all TeX Live packages are installed.
+    # - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
+    DEBIAN_EQUIVS="$INSTALLER_DIR/$DEBIAN_EQUIVS_FILENAME"
+    curl "$DEBIAN_EQUIVS_URL" --output "$DEBIAN_EQUIVS"
+    read DEBIAN_EQUIVS_PKG DEBIAN_EQUIVS_VERSION < <(
+        awk -F': ' '/^Package:/{pkg=$2} /^Version:/{ver=$2} END{print pkg, ver}' "$DEBIAN_EQUIVS"
+    )
+    # Substitute the version number with a large dummy version to avoid update
+    DEBIAN_EQUIVS_DUMMY_VERSION="9999.99999999-1"
+    sed -i "s/$DEBIAN_EQUIVS_VERSION/$DEBIAN_EQUIVS_DUMMY_VERSION/" "$DEBIAN_EQUIVS"
+    equivs-build "$DEBIAN_EQUIVS"
+    dpkg -i "${DEBIAN_EQUIVS_PKG}_${DEBIAN_EQUIVS_DUMMY_VERSION}_all.deb"
+    apt-get install -qyf --no-install-recommends
+    if [[ "$NO_CACHE_CLEAN" == false ]]; then
+        apt-get dist-clean
+        rm -rf /var/cache/apt/
+    fi
 fi
 
 
