@@ -11,7 +11,6 @@ services:
       - ../:/workspace
     working_dir: /workspace
   main:
-    container_name: main
     volumes:
       - ../:/workspace:cached
     command: sleep infinity
