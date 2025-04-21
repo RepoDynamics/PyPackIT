@@ -4546,6 +4546,7 @@ devcontainer_main:
       status: inactive
       name: Oh My Zsh Installation Script
       summary: Script to install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) on the system.
+      path: ${{ devcontainer_main.path.environment }}$/oh-my-zsh/install.sh
       type: exec
       description: |
         References:
