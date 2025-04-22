@@ -102,6 +102,7 @@ if command -v tlmgr >/dev/null 2>&1; then
         echo "🗑 Uninstalling LaTeX."
         # Refs:
         # - https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.6
+        # - https://www.tug.org/mactex/uninstalling.html
         tlmgr uninstall --all
         rm -rf "$(kpsewhich -var-value=TEXMFVAR)"
     else
