@@ -185,7 +185,7 @@ fi
 
 # Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
 echo "Adding TeX Live binaries to system PATH"
-$(find "$TEXDIR/texlive" -name tlmgr) path add
+$(find "$TEXDIR" -name tlmgr) path add
 # Patch for ConTeXt (issue #30)
 echo "Fixing ConTeXt path in mtxrun.lua"
 (sed \
@@ -196,7 +196,7 @@ echo "Fixing ConTeXt path in mtxrun.lua"
 echo "Generating font and ConTeXt caches..."
 (luaotfload-tool -u || true)
 mkdir -p /etc/fonts/conf.d
-(cp "$(find "$TEXDIR/texlive" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
+(cp "$(find "$TEXDIR" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
 fc-cache -fsv
 if [ -f "$SYS_BIN/context" ]; then
     mtxrun --generate
