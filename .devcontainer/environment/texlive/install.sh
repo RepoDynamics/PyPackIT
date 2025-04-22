@@ -187,8 +187,15 @@ fi
 
 
 # Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
+TLMGR="$(find "$TEXDIR" -name tlmgr)"
+if [[ -n "$tlmgr" ]]; then
+    echo "📦 Located tlmgr at '$TEXDIR'."
+else
+    echo "⛔ tlmgr not found in TEXDIR '$TEXDIR'." >&2
+    exit 1
+fi
 echo "Adding TeX Live binaries to system PATH"
-$(find "$TEXDIR" -name tlmgr) path add
+"$TLMGR" path add
 # Patch for ConTeXt (issue #30)
 echo "Fixing ConTeXt path in mtxrun.lua"
 (sed \
