@@ -4153,6 +4153,7 @@ devcontainer_main:
     bash_profile:
       name: Global Shell Profile
       summary: System-wide profile for all Bourne-compatible shells.
+      path: /etc/profile
       content: |
         if [ "${PS1-}" ]; then
             # The shell is interactive.
