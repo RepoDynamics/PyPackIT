@@ -185,25 +185,26 @@ else
 
 fi
 
-
-# Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
+# Finalize TeX Live setup: add to PATH
 TLMGR="$(find "$TEXDIR" -name tlmgr)"
-if [[ -n "$tlmgr" ]]; then
-    echo "📦 Located tlmgr at '$TEXDIR'."
+if [[ -n "$TLMGR" ]]; then
+    echo "📦 Located tlmgr at '$TLMGR'."
 else
     echo "⛔ tlmgr not found in TEXDIR '$TEXDIR'." >&2
     exit 1
 fi
-echo "Adding TeX Live binaries to system PATH"
+echo "🛤 Add TeX Live binaries to system PATH."
 "$TLMGR" path add
-# Patch for ConTeXt (issue #30)
+
+# Patch for ConTeXt (https://gitlab.com/islandoftex/images/texlive/-/issues/30)
 echo "Fixing ConTeXt path in mtxrun.lua"
 (sed \
     -i \
     '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' \
     "$SYS_BIN/mtxrun.lua" || true
 )
-echo "Generating font and ConTeXt caches..."
+
+echo "💾 Generate ConTeXt and font caches."
 (luaotfload-tool -u || true)
 mkdir -p /etc/fonts/conf.d
 (cp "$(find "$TEXDIR" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
@@ -215,7 +216,7 @@ if [ -f "$SYS_BIN/context" ]; then
     context --luatex --make
 fi
 
-
+echo "☑️ Check TeX Live installation."
 latex --version && printf '\n'
 biber --version && printf '\n'
 xindy --version && printf '\n'
