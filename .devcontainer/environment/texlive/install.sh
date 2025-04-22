@@ -155,10 +155,11 @@ fi
 # Get the TeX Live installation directory.
 # This is needed for the finalization step.
 # The installation directory may be specified in the profile file under the TEXDIR variable.
-TEXDIR=$(grep -E '^\s*TEXDIR' "$PROFILE" | sed -E 's/^\s*TEXDIR\s*//; s/\s*$//')
-if [[ -z "$TEXDIR" ]]; then
-    # If TEXDIR is not specified in the profile,
-    # the default is '/usr/local/texlive/YYYY' for release 'YYYY'
+TEXDIR=$(awk '$1=="TEXDIR"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
+if [[ -n "$TEXDIR" ]]; then
+    echo "🎛 Set TEXDIR to '$TEXDIR' from profile file '$PROFILE'."
+else
+    # Default is '/usr/local/texlive/YYYY' for release 'YYYY'
     # Get LaTeX version (year, in format YYYY) from a file named LATEX_YYYY in the installer directory
     VERSION=$(find "$INSTALLER_DIR" -maxdepth 1 -type f -regex '.*/LATEX_[0-9]\{4\}' -exec basename {} \; | head -n1 | grep -oP '^LATEX_\K[0-9]{4}')
     if [[ -z "$VERSION" ]]; then
@@ -166,20 +167,22 @@ if [[ -z "$TEXDIR" ]]; then
         exit 1
     fi
     TEXDIR="$DEFAULT_TEXDIR_PREFIX/$VERSION"
+    echo "🎛 Set TEXDIR to default value '$TEXDIR'."
 fi
 
 
 if [[ "$NO_CLEAN" == false ]]; then
+    echo "🗑 Removing installer artifacts."
     rm -rf "$INSTALLER_DIR"
 fi
 
-
-SYS_BIN=$(grep -E '^\s*tlpdbopt_sys_bin' "$PROFILE" | sed -E 's/^\s*tlpdbopt_sys_bin\s*//; s/\s*$//')
+SYS_BIN=$(awk '$1=="tlpdbopt_sys_bin"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
 if [[ -z "$SYS_BIN" ]]; then
-  SYS_BIN="$DEFAULT_SYS_BIN"
-  echo "tlpdbopt_sys_bin not found in $PROFILE. Using default: $SYS_BIN"
+  echo "🎛 Set tlpdbopt_sys_bin to '$SYS_BIN' from profile file '$PROFILE'."
 else
-  echo "Found tlpdbopt_sys_bin in $PROFILE: $SYS_BIN"
+  SYS_BIN="$DEFAULT_SYS_BIN"
+  echo "🎛 Set tlpdbopt_sys_bin to default value '$SYS_BIN'."
+
 fi
 
 
