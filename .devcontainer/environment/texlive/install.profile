@@ -3,7 +3,7 @@
 # - https://github.com/xu-cheng/latex-docker/blob/master/texlive.profile
 
 # Installation scheme
-selected_scheme full
+selected_scheme scheme-full
 
 
 # Path options
