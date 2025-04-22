@@ -5,6 +5,8 @@ set -euo pipefail
 # Constants
 DEBIAN_EQUIVS_FILENAME="debian-equivs-2023-ex.txt"
 DEBIAN_EQUIVS_URL="https://tug.org/texlive/files/$DEBIAN_EQUIVS_FILENAME"
+DEFAULT_TEXDIR_PREFIX="/usr/local/texlive"
+DEFAULT_SYS_BIN="/usr/local/bin"
 
 # Default arguments
 PROFILE=""
@@ -63,7 +65,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📥 Input Arguments:"
+echo "📩 Input Arguments:"
 echo "   - profile: $PROFILE"
 echo "   - mirror: $MIRROR"
 echo "   - no-clean: $NO_CLEAN"
@@ -133,9 +135,8 @@ if command -v apt-get >/dev/null 2>&1; then
 fi
 
 
-echo "Fetching installation from mirror $MIRROR"
+echo "📥 Downloading TeX Live installer from $MIRROR"
 rsync -a --stats "$MIRROR" "$INSTALLER_DIR"
-
 
 export TEXLIVE_INSTALL_NO_CONTEXT_CACHE=1
 export NOPERLDOC=1
@@ -151,6 +152,23 @@ else
 fi
 
 
+# Get the TeX Live installation directory.
+# This is needed for the finalization step.
+# The installation directory may be specified in the profile file under the TEXDIR variable.
+TEXDIR=$(grep -E '^\s*TEXDIR' "$PROFILE" | sed -E 's/^\s*TEXDIR\s*//; s/\s*$//')
+if [[ -z "$TEXDIR" ]]; then
+    # If TEXDIR is not specified in the profile,
+    # the default is '/usr/local/texlive/YYYY' for release 'YYYY'
+    # Get LaTeX version (year, in format YYYY) from a file named LATEX_YYYY in the installer directory
+    VERSION=$(find "$INSTALLER_DIR" -maxdepth 1 -type f -regex '.*/LATEX_[0-9]\{4\}' -exec basename {} \; | head -n1 | grep -oP '^LATEX_\K[0-9]{4}')
+    if [[ -z "$VERSION" ]]; then
+        echo "⛔ No LATEX_YYYY file found in '$INSTALLER_DIR'." >&2
+        exit 1
+    fi
+    TEXDIR="$DEFAULT_TEXDIR_PREFIX/$VERSION"
+fi
+
+
 if [[ "$NO_CLEAN" == false ]]; then
     rm -rf "$INSTALLER_DIR"
 fi
@@ -158,7 +176,7 @@ fi
 
 SYS_BIN=$(grep -E '^\s*tlpdbopt_sys_bin' "$PROFILE" | sed -E 's/^\s*tlpdbopt_sys_bin\s*//; s/\s*$//')
 if [[ -z "$SYS_BIN" ]]; then
-  SYS_BIN="/usr/local/bin"
+  SYS_BIN="$DEFAULT_SYS_BIN"
   echo "tlpdbopt_sys_bin not found in $PROFILE. Using default: $SYS_BIN"
 else
   echo "Found tlpdbopt_sys_bin in $PROFILE: $SYS_BIN"
@@ -167,7 +185,7 @@ fi
 
 # Finalize TeX Live setup: add to PATH, patch ConTeXt, generate caches
 echo "Adding TeX Live binaries to system PATH"
-$(find "$SYS_BIN/texlive" -name tlmgr) path add
+$(find "$TEXDIR/texlive" -name tlmgr) path add
 # Patch for ConTeXt (issue #30)
 echo "Fixing ConTeXt path in mtxrun.lua"
 (sed \
@@ -178,7 +196,7 @@ echo "Fixing ConTeXt path in mtxrun.lua"
 echo "Generating font and ConTeXt caches..."
 (luaotfload-tool -u || true)
 mkdir -p /etc/fonts/conf.d
-(cp "$(find "$SYS_BIN/texlive" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
+(cp "$(find "$TEXDIR/texlive" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
 fc-cache -fsv
 if [ -f "$SYS_BIN/context" ]; then
     mtxrun --generate
