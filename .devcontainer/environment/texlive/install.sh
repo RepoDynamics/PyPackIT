@@ -156,12 +156,12 @@ if [[ "$NO_CLEAN" == false ]]; then
 fi
 
 
-SYS_BIN=$(grep -E '^\s*tlpdbopt_sys_bin' "$INSTALLER_PROFILE" | sed -E 's/^\s*tlpdbopt_sys_bin\s*//; s/\s*$//')
+SYS_BIN=$(grep -E '^\s*tlpdbopt_sys_bin' "$PROFILE" | sed -E 's/^\s*tlpdbopt_sys_bin\s*//; s/\s*$//')
 if [[ -z "$SYS_BIN" ]]; then
   SYS_BIN="/usr/local/bin"
-  echo "tlpdbopt_sys_bin not found in $INSTALLER_PROFILE. Using default: $SYS_BIN"
+  echo "tlpdbopt_sys_bin not found in $PROFILE. Using default: $SYS_BIN"
 else
-  echo "Found tlpdbopt_sys_bin in $INSTALLER_PROFILE: $SYS_BIN"
+  echo "Found tlpdbopt_sys_bin in $PROFILE: $SYS_BIN"
 fi
 
 
