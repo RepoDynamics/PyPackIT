@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
 
 # Constants
 DEBIAN_EQUIVS_FILENAME="debian-equivs-2023-ex.txt"
@@ -18,12 +18,12 @@ LOGFILE=""
 DEBUG=false
 
 show_help() {
-echo "============="
-echo "Install Conda"
-echo "============="
+echo "==============="
+echo "Install TexLive"
+echo "==============="
 echo "Usage: $0 [OPTIONS]"
 echo
-echo "Install conda and mamba using the Miniforge installer."
+echo "Install TexLive using the TeXlive installer."
 echo
 echo "Options:"
 echo "    --profile <path>        Path to an installation profile file."
@@ -45,40 +45,37 @@ echo "Example:"
 echo "    $0 --profile /path/to/texlive/install.profile"
 }
 
-OPTS=$(
-    getopt \
-        --longoptions profile:,mirror:,no-clean,no-cache-clean,interactive,reinstall,installer-dir:,logfile:,debug,help \
-        --name "$0" \
-        --options '' \
-        -- "$@"
-)
 
-if [[ $? -ne 0 ]]; then
-    echo "Failed to parse options." >&2
-    exit 1
-fi
-
-eval set -- "$OPTS"
-
-while true; do
+while [[ $# -gt 0 ]]; do
     case "$1" in
-        --profile) PROFILE="$2"; shift 2;;
-        --mirror) MIRROR="$2"; shift 2;;
-        --no-clean) NO_CLEAN=true; shift;;
-        --no-cache-clean) NO_CACHE_CLEAN=true; shift;;
-        --interactive) INTERACTIVE=true; shift;;
-        --reinstall) REINSTALL=true; shift;;
-        --installer-dir) INSTALLER_DIR="$2"; shift 2;;
-        --logfile) LOGFILE="$2"; shift 2;;
-        --debug) DEBUG=true; shift;;
-        --help) show_help; exit 0;;
-        --) shift; break;;
-        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1;;
+        --profile) PROFILE="$2"; shift 2 ;;
+        --mirror) MIRROR="$2"; shift 2 ;;
+        --no-clean) NO_CLEAN=true; shift ;;
+        --no-cache-clean) NO_CACHE_CLEAN=true; shift ;;
+        --interactive) INTERACTIVE=true; shift ;;
+        --reinstall) REINSTALL=true; shift ;;
+        --installer-dir) INSTALLER_DIR="$2"; shift 2 ;;
+        --logfile) LOGFILE="$2"; shift 2 ;;
+        --debug) DEBUG=true; shift ;;
+        --help) show_help; exit 0 ;;
+        --) shift; break ;;
+        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1 ;;
     esac
 done
 
-if [[ "$DEBUG" != true ]]; then
-    set +x
+echo "📥 Input Arguments:"
+echo "   - profile: $PROFILE"
+echo "   - mirror: $MIRROR"
+echo "   - no-clean: $NO_CLEAN"
+echo "   - no-cache-clean: $NO_CACHE_CLEAN"
+echo "   - interactive: $INTERACTIVE"
+echo "   - reinstall: $REINSTALL"
+echo "   - installer-dir: $INSTALLER_DIR"
+echo "   - logfile: $LOGFILE"
+echo "   - debug: $DEBUG"
+
+if [[ "$DEBUG" == true ]]; then
+    set -x
 fi
 
 if [[ -n "$LOGFILE" ]]; then
