@@ -399,19 +399,9 @@ devcontainer_main:
       app_env: app
       activate: ${{ .app_env }}$
     bash:
-      # `/etc/bash.bashrc` on Debian, `/etc/bashrc` on Red Hat, and `/etc/bash/bashrc` on Alpine images.
-      # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L479-L489
       global_bashrc: /etc/bash.bashrc
-      global_bashrc_source_marker: GLOBAL_BASHRC_SOURCED
-      root_bashrc_source_marker: ROOT_BASHRC_SOURCED
-      user_bashrc_source_marker: USER_BASHRC_SOURCED
     zsh:
-      # `/etc/` on Red Hat-based images and `/etc/zsh/` on other Linux distributions.
-      # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L510-L514
       global_config_dir: /etc/zsh
-      global_zshrc_source_marker: GLOBAL_ZSHRC_SOURCED
-      root_zshrc_source_marker: ROOT_ZSHRC_SOURCED
-      user_zshrc_source_marker: USER_ZSHRC_SOURCED
       oh_my_zsh_install_dir: ${{ ..user.home }}$/.oh-my-zsh
     git:
       version: "2.49.0"
