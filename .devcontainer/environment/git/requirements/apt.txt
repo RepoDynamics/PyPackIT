@@ -1,0 +1,11 @@
+build-essential
+ca-certificates
+curl
+gettext
+libcurl?-openssl-dev
+libexpat1-dev
+libpcre2-dev
+libpcre2-posix3
+libssl-dev
+tar
+zlib1g-dev

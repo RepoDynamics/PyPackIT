@@ -9,43 +9,68 @@ DEFAULT_TEXDIR_PREFIX="/usr/local/texlive"
 DEFAULT_SYS_BIN="/usr/local/bin"
 
 # Default arguments
+INSTALL=false
+REINSTALL=false
+GENERATE_CACHES=false
+VERIFY_INSTALLATION=false
 PROFILE=""
 MIRROR="rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/"
 NO_CLEAN=false
 NO_CACHE_CLEAN=false
 INTERACTIVE=false
-REINSTALL=false
 INSTALLER_DIR="/tmp/texlive-installer"
 LOGFILE=""
 DEBUG=false
+SYSPKG_INSTALL_SCRIPT="${SYSPKG_INSTALL_SCRIPT-}"
 
 
 show_help() {
-    echo "==============="
-    echo "Install TexLive"
-    echo "==============="
+    echo "================"
+    echo "Install Tex Live"
+    echo "================"
     echo "Usage: $0 [OPTIONS]"
     echo
-    echo "Install TexLive using the TeXlive installer."
+    echo "Install and/or set up TeX Live using the TeX Live installer."
     echo
     echo "Options:"
-    echo "    --profile <path>        Path to an installation profile file."
-    echo "                            If not provided, an interactive installation will be performed."
-    echo "    --mirror <URI>          URI of the TeX Live mirror to use for installation."
-    echo "                            Default: '$MIRROR'"
-    echo "    --no-clean              Skip removing installer artifacts after installation."
-    echo "    --no-cache-clean        Skip 'apt-get dist-clean' command after installation of dummy package."
-    echo "    --interactive           Start an interactive installation even when profile is provided."
-    echo "    --reinstall             If TeX is already installed, uninstall it and continue with the installation."
-    echo "    --installer-dir <path>  Path to directory to download the installer to."
-    echo "                            Default: '$INSTALLER_DIR'"
-    echo "    --logfile <path>        Log all output (stdout + stderr) to this file in addition to console."
-    echo "                            Otherwise output is only printed to the console."
-    echo "    --debug                 Enable debug mode."
-    echo "    --help                  Show this help message and exit."
+    echo "    --install                        Install TeX Live."
+    echo "    --reinstall                      Same as '--install', but uninstall TeX first if already installed."
+    echo "    --generate-caches                Generate ConTeXt and font caches."
+    echo "    --verify-installation            Verify TeX Live installation."
+    echo "    --profile <filepath>             Path to an installation profile file."
+    echo "                                     If not provided, an interactive installation will be performed."
+    echo "    --mirror <URI>                   URI of the TeX Live mirror to use for installation."
+    echo "                                     Default: '$MIRROR'"
+    echo "    --no-clean                       Skip removing installer artifacts after installation."
+    echo "    --no-cache-clean                 Skip 'apt-get dist-clean' command after installation of dummy package."
+    echo "    --interactive                    Start an interactive installation even when profile is provided."
+    echo "    --installer-dir <dirpath>        Path to directory to download the installer to."
+    echo "                                     Default: '$INSTALLER_DIR'"
+    echo "    --logfile <filepath>             Log all output (stdout + stderr) to this file in addition to console."
+    echo "                                     Otherwise output is only printed to the console."
+    echo "    --debug                          Enable debug mode."
+    echo "    --pkg-install-script <filepath>  Path to the package installation script."
+    echo "                                     Default: '$SYSPKG_INSTALL_SCRIPT'"
+    echo "    --help                           Show this help message and exit."
     echo
     echo "Example:"
     echo "    $0 --profile /path/to/texlive/install.profile"
+}
+
+
+install_requirements() {
+    # Install required packages for TeX Live installation.
+    if ! command -v "$SYSPKG_INSTALL_SCRIPT" >/dev/null 2>&1; then
+        echo "⛔ Package installer script '$SYSPKG_INSTALL_SCRIPT' is not available." >&2
+        exit 1
+    fi
+    echo "📦 Install requirements."
+    local script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+    local requirements_dir="$script_dir/requirements"
+    "$SYSPKG_INSTALL_SCRIPT" \
+        --apt "$requirements_dir/apt_pkgs.txt" \
+        --logfile "$LOGFILE" \
+        --debug
 }
 
 
@@ -59,7 +84,7 @@ install_dummy_apt_package() {
     # ----------
     # - https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
 
-    local equivs_file="$INSTALLER_DIR/$DEBIAN_EQUIVS_FILENAME"
+    local equivs_file="${INSTALLER_DIR}/${DEBIAN_EQUIVS_FILENAME}"
     local dummy_version="9999.99999999-1"
     if ! command -v curl >/dev/null 2>&1; then
         echo "⛔ curl is not available." >&2
@@ -192,8 +217,7 @@ apply_patches() {
 
     # Patch for ConTeXt (https://gitlab.com/islandoftex/images/texlive/-/issues/30)
     echo "Fixing ConTeXt path in mtxrun.lua"
-    (sed \
-        -i \
+    (sed -i \
         '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' \
         "$SYS_BIN/mtxrun.lua" || true
     )
@@ -235,15 +259,19 @@ verify_installation() {
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --install) INSTALL=true;;
+        --reinstall) REINSTALL=true;;
+        --generate-caches) GENERATE_CACHES=true;;
+        --verify-installation) VERIFY_INSTALLATION=true;;
         --profile) PROFILE="$2"; shift;;
         --mirror) MIRROR="$2"; shift;;
         --no-clean) NO_CLEAN=true;;
         --no-cache-clean) NO_CACHE_CLEAN=true;;
         --interactive) INTERACTIVE=true;;
-        --reinstall) REINSTALL=true;;
         --installer-dir) INSTALLER_DIR="$2"; shift;;
         --logfile) LOGFILE="$2"; shift;;
         --debug) DEBUG=true;;
+        --pkg-install-script) SYSPKG_INSTALL_SCRIPT="$2"; shift;;
         --help) show_help; exit 0;;
         --) shift; break;;
         *) echo "Unknown option: $1" >&2; show_help >&2; exit 1;;
@@ -252,12 +280,15 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo "📩 Input Arguments:"
+echo "   - install: $INSTALL"
+echo "   - reinstall: $REINSTALL"
+echo "   - generate-caches: $GENERATE_CACHES"
+echo "   - verify-installation: $VERIFY_INSTALLATION"
 echo "   - profile: $PROFILE"
 echo "   - mirror: $MIRROR"
 echo "   - no-clean: $NO_CLEAN"
 echo "   - no-cache-clean: $NO_CACHE_CLEAN"
 echo "   - interactive: $INTERACTIVE"
-echo "   - reinstall: $REINSTALL"
 echo "   - installer-dir: $INSTALLER_DIR"
 echo "   - logfile: $LOGFILE"
 echo "   - debug: $DEBUG"
@@ -277,30 +308,42 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if command -v tlmgr >/dev/null 2>&1; then
-    echo "⚠️ LaTeX installation found."
-    if [[ "$REINSTALL" == true ]]; then
-        uninstall_texlive
-    else
-        echo "⏩ LaTeX is already available; exiting installation."
-        exit 0
+if [[ "$INSTALL" == true || $"REINSTALL" == true ]]; then
+    mkdir -p "$INSTALLER_DIR"
+    install_requirements
+    if command -v tlmgr >/dev/null 2>&1; then
+        echo "⚠️ LaTeX installation found."
+        if [[ "$REINSTALL" == true ]]; then
+            uninstall_texlive
+        else
+            echo "⛔ LaTeX is already installed."
+            exit 1
+        fi
     fi
+    if command -v apt-get >/dev/null 2>&1; then
+        install_dummy_apt_package
+    fi
+    download_texlive_installer
+    install_texlive
+    set_texdir
+    if [[ "$NO_CLEAN" == false ]]; then
+        echo "🗑 Removing installer artifacts."
+        rm -rf "$INSTALLER_DIR"
+    fi
+    set_sysbin
+    add_texlive_bin_to_path
+    apply_patches
+elif [[ "$GENERATE_CACHES" == true ]]; then
+    set_texdir
+    set_sysbin
 fi
 
-mkdir -p "$INSTALLER_DIR"
-if command -v apt-get >/dev/null 2>&1; then
-    install_dummy_apt_package
+if [[ "$GENERATE_CACHES" == true ]]; then
+    generate_caches
 fi
-download_texlive_installer
-install_texlive
-set_texdir
-if [[ "$NO_CLEAN" == false ]]; then
-    echo "🗑 Removing installer artifacts."
-    rm -rf "$INSTALLER_DIR"
+
+if [[ "$VERIFY_INSTALLATION" == true ]]; then
+    verify_installation
 fi
-set_sysbin
-add_texlive_bin_to_path
-apply_patches
-generate_caches
-verify_installation
-echo "✅ LaTeX installation complete."
+
+echo "✅ TeX Live installation complete."

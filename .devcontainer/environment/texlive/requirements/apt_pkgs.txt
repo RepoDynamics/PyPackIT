@@ -1,0 +1,4 @@
+equivs
+fontconfig
+python3-pygments
+rsync

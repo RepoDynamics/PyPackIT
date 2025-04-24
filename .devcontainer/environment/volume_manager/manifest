@@ -1,0 +1,8 @@
+delete  "/root/.bashrc"
+delete  "/root/.profile"
+delete  "/home/pypackit-dev/.bashrc"
+delete  "/home/pypackit-dev/.profile"
+
+write   "/usr/local/bin/code"               chmod=+rx
+write   "/usr/local/bin/devcontainer-info"  chmod=+rx
+write   "/usr/local/bin/systemctl"          chmod=+rx

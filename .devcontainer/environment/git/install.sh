@@ -4,7 +4,7 @@
 # - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 # - https://github.com/devcontainers/features/tree/main/src/git/
 
-set -euxo pipefail
+set -euo pipefail
 
 # Default arguments
 VERSION="latest"
@@ -123,8 +123,8 @@ while true; do
     esac
 done
 
-if ! [[ "$DEBUG" == true ]]; then
-    set +x
+if [[ "$DEBUG" == true ]]; then
+    set -x
 fi
 
 if [[ -n "$LOGFILE" ]]; then
@@ -138,11 +138,17 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+REQS_DIR="$SCRIPT_DIR/requirements"
+"$SYSPKG_INSTALL_SCRIPT" \
+    --apt "$REQS_DIR/apt.txt" \
+    --logfile "$LOGFILE" \
+    --debug
+
 if ! command -v curl >/dev/null 2>&1; then
     echo "⛔ curl is not available." >&2
     exit 1
 fi
-
 
 mkdir -p "$INSTALLER_DIR"
 

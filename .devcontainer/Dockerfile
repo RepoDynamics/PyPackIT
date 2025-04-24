@@ -6,135 +6,128 @@ ENV LANG=C.UTF-8 \
     TZ=UTC
 USER root
 
-ARG APT_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/apt/install.sh"
-COPY [".devcontainer/environment/apt/install.sh", "$APT_INSTALL_SCRIPT"]
-RUN chmod +x "$APT_INSTALL_SCRIPT"
+ARG SYSPKG_INSTALL_SCRIPT="/usr/local/share/pypackit/.devcontainer/environment/syspkg/install.sh"
+COPY [".devcontainer/environment/syspkg/install.sh", "$SYSPKG_INSTALL_SCRIPT"]
+RUN chmod +x "$SYSPKG_INSTALL_SCRIPT"
 
-ARG APT_REQUIRED_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/packages.txt"
-COPY [".devcontainer/environment/apt/required/packages.txt", "$APT_REQUIRED_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "$APT_REQUIRED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_required.log
-ARG APT_REQUIRED_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/required/post_install.sh"
-COPY [".devcontainer/environment/apt/required/post_install.sh", "$APT_REQUIRED_POST_INSTALL"]
-RUN chmod +x $APT_REQUIRED_POST_INSTALL; \
-    $APT_REQUIRED_POST_INSTALL
+ARG SYSPKGS_ESSENTIAL="/usr/local/share/pypackit/.devcontainer/environment/syspkg/essential"
+COPY [".devcontainer/environment/syspkg/essential/", "$SYSPKGS_ESSENTIAL/"]
+RUN "$SYSPKG_INSTALL_SCRIPT" \
+        --apt "$SYSPKGS_ESSENTIAL/apt_pkgs.txt" \
+        --logfile "/var/log/pypackit-container/apt_install_essential.log" \
+        --debug
 
-ARG APT_ESSENTIAL_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/packages.txt"
-COPY [".devcontainer/environment/apt/essential/packages.txt", "$APT_ESSENTIAL_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "$APT_ESSENTIAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_essential.log
-ARG APT_ESSENTIAL_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/essential/post_install.sh"
-COPY [".devcontainer/environment/apt/essential/post_install.sh", "$APT_ESSENTIAL_POST_INSTALL"]
-RUN chmod +x $APT_ESSENTIAL_POST_INSTALL; \
-    $APT_ESSENTIAL_POST_INSTALL
-
-ARG GIT_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/git/install.sh"
-COPY [".devcontainer/environment/git/install.sh", "$GIT_INSTALL_SCRIPT"]
+ARG GIT_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/environment/git/"
+ARG GIT_INSTALL_SCRIPT="$GIT_INSTALL_SCRIPT_DIR/install.sh"
+COPY [".devcontainer/environment/git/", "$GIT_INSTALL_SCRIPT_DIR"]
 ENV PATH=/usr/local/git/bin:$PATH
 RUN chmod +x "$GIT_INSTALL_SCRIPT"; \
     "$GIT_INSTALL_SCRIPT" \
         --version "2.49.0" \
         --prefix "/usr/local/git" \
-        --logfile "/var/log/pypackit-container/git_install.log" \
+        --logfile "/var/log/pypackit/git_install.log" \
         --debug
-
-ARG TEXLIVE_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.sh" \
-    TEXLIVE_INSTALL_PROFILE="/usr/local/share/pypackit-container/.devcontainer/environment/texlive/install.profile"
-COPY [".devcontainer/environment/texlive/install.sh", "$TEXLIVE_INSTALL_SCRIPT"]
-COPY [".devcontainer/environment/texlive/install.profile", "$TEXLIVE_INSTALL_PROFILE"]
-RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
-    "$TEXLIVE_INSTALL_SCRIPT" \
-        --profile "$TEXLIVE_INSTALL_PROFILE" \
-        --logfile "/var/log/pypackit-container/texlive_install.log" \
-        --debug
-
-ARG USERNAME=pypackit-dev \
-    USER_HOME=/home/pypackit-dev \
-    USER_GID=1000 \
-    USER_UID=1000
-RUN set -eux; \
-    if id "ubuntu" &>/dev/null; then \
-        echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user."; \
-    else \
-        echo "User 'ubuntu' does not exist."; \
-    fi; \
-    groupadd --gid $USER_GID $USERNAME; \
-    useradd \
-        --create-home \
-        --home-dir "$USER_HOME" \
-        --gid $USER_GID \
-        --shell /bin/bash \
-        --uid $USER_UID \
-        $USERNAME; \
-    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null; \
-    chmod 0440 /etc/sudoers.d/$USERNAME;
 
 ENV CONDA_DIR=/opt/conda
 ENV PATH=$CONDA_DIR/bin:$PATH
-ARG MINIFORGE_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/conda/install.sh"
+ARG MINIFORGE_INSTALL_SCRIPT="/usr/local/share/pypackit/.devcontainer/environment/conda/install.sh"
 COPY [".devcontainer/environment/conda/install.sh", "$MINIFORGE_INSTALL_SCRIPT"]
 RUN chmod +x "$MINIFORGE_INSTALL_SCRIPT"; \
     "$MINIFORGE_INSTALL_SCRIPT" \
-        --name "Miniforge3" \
-        --version "24.11.3-2" \
+        --download \
+        --install \
+        --miniforge-name "Miniforge3" \
+        --miniforge-version "24.11.3-2" \
         --conda-dir "$CONDA_DIR" \
-        --group "pypackit-dev" \
-        --user "pypackit-dev" \
-        --logfile "/var/log/pypackit-container/miniforge_install.log" \
+        --logfile "/tmp/log/pypackit/miniforge_install.log" \
         --debug
 
-ARG APT_RECOMMENDED_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/packages.txt"
-COPY [".devcontainer/environment/apt/recommended/packages.txt", "$APT_RECOMMENDED_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "$APT_RECOMMENDED_PACKAGES" --logfile /var/log/pypackit-container/apt_install_recommended.log
-ARG APT_RECOMMENDED_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/recommended/post_install.sh"
-COPY [".devcontainer/environment/apt/recommended/post_install.sh", "$APT_RECOMMENDED_POST_INSTALL"]
-RUN chmod +x $APT_RECOMMENDED_POST_INSTALL; \
-    $APT_RECOMMENDED_POST_INSTALL
+ARG SYSPKGS_RECOMMENDED="/usr/local/share/pypackit/.devcontainer/environment/syspkg/recommended"
+COPY [".devcontainer/environment/syspkg/recommended/", "$SYSPKGS_RECOMMENDED/"]
+RUN "$SYSPKG_INSTALL_SCRIPT" \
+        --apt "$SYSPKGS_RECOMMENDED/apt_pkgs.txt" \
+        --logfile "/var/log/pypackit-container/apt_install_recommended.log" \
+        --debug
 
-ARG CONDA_ENVS_INSTALL_SCRIPT="/usr/local/share/pypackit-container/.devcontainer/environment/conda/install-envs.sh" \
-    CONDA_ENVS_DIR="/usr/local/share/pypackit-container/.devcontainer/environment/conda/envs"
-COPY [".devcontainer/environment/conda/install-envs.sh", "$CONDA_ENVS_INSTALL_SCRIPT"]
+ARG OH_MY_ZSH_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/environment/oh-my-zsh"
+ARG OH_MY_ZSH_INSTALL_SCRIPT="$OH_MY_ZSH_INSTALL_SCRIPT_DIR/install.sh"
+COPY [".devcontainer/environment/oh-my-zsh/", "$OH_MY_ZSH_INSTALL_SCRIPT_DIR/"]
+ARG OH_MY_ZSH_INSTALL_DIR="/usr/local/oh-my-zsh"
+RUN chmod +x "$OH_MY_ZSH_INSTALL_SCRIPT"; \
+    "$OH_MY_ZSH_INSTALL_SCRIPT" \
+        --install-dir "$OH_MY_ZSH_INSTALL_DIR" \
+        --logfile "/var/log/pypackit/oh-my-zsh_install.log" \
+        --debug
+
+ARG USER_DELETE_SCRIPT="/usr/local/share/pypackit/.devcontainer/environment/user_manager/delete.sh"
+COPY [".devcontainer/environment/user_manager/delete.sh", "$USER_DELETE_SCRIPT"]
+RUN set -eux; \
+    chmod +x "$USER_DELETE_SCRIPT"; \
+    "$USER_DELETE_SCRIPT" --gid "1000" --uid "1000" --logfile "/var/log/pypackit/user_delete.log";
+
+ARG USERNAME="pypackit-dev" \
+    USER_HOME="/home/pypackit-dev" \
+    USER_GID="1000" \
+    USER_UID="1000" \
+    USER_SHELL="/bin/bash" \
+    SUDOERS_DIR="/etc/sudoers.d"
+RUN set -eux; \
+    groupadd --gid "$USER_GID" "$USERNAME"; \
+    useradd \
+        --create-home \
+        --home-dir "$USER_HOME" \
+        --gid "$USER_GID" \
+        --shell "$USER_SHELL" \
+        --uid "$USER_UID" \
+        "$USERNAME"; \
+    mkdir -p "$SUDOERS_DIR"; \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee "$SUDOERS_DIR/$USERNAME" > /dev/null; \
+    chmod 0440 "$SUDOERS_DIR/$USERNAME";
+
+
+ARG CONDA_ENVS_DIR="/usr/local/share/pypackit/.devcontainer/environment/conda/envs/"
 COPY [".devcontainer/environment/conda/envs/", "$CONDA_ENVS_DIR"]
-RUN chmod +x "$CONDA_ENVS_INSTALL_SCRIPT"; \
-    "$CONDA_ENVS_INSTALL_SCRIPT" \
-        --envs "$CONDA_ENVS_DIR" \
+RUN "$MINIFORGE_INSTALL_SCRIPT" \
+        --envdir "$CONDA_ENVS_DIR" \
+        --set-permission \
+        --group "pypackit-dev" \
+        --user "pypackit-dev" \
         --logfile "/var/log/pypackit-container/conda_envs_install.log" \
         --debug
 
-ARG OH_MY_ZSH_INSTALL_DIR=/home/pypackit-dev/.oh-my-zsh
+# https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+ARG PIXI_VERSION="0.46.0"
 RUN set -eux; \
-    umask g-w,o-w; \
-    mkdir -p "$OH_MY_ZSH_INSTALL_DIR"; \
-    git clone --depth=1 \
-        -c core.eol=lf \
-        -c core.autocrlf=false \
-        -c fsck.zeroPaddedFilemode=ignore \
-        -c fetch.fsck.zeroPaddedFilemode=ignore \
-        -c receive.fsck.zeroPaddedFilemode=ignore \
-        "https://github.com/ohmyzsh/ohmyzsh" \
-        "$OH_MY_ZSH_INSTALL_DIR" 2>&1; \
-    cd "$OH_MY_ZSH_INSTALL_DIR"; \
-    git repack -a -d -f --depth=1 --window=1;
+    curl -L -o "/usr/local/bin/pixi" -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${PIXI_VERSION}/pixi-$(uname -m)-unknown-linux-musl"; \
+    chmod +x /usr/local/bin/pixi; \
+    pixi info
 
-ARG APT_OPTIONAL_PACKAGES="/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/packages.txt"
-COPY [".devcontainer/environment/apt/optional/packages.txt", "$APT_OPTIONAL_PACKAGES"]
-RUN "$APT_INSTALL_SCRIPT" "$APT_OPTIONAL_PACKAGES" --logfile /var/log/pypackit-container/apt_install_optional.log
-ARG APT_OPTIONAL_POST_INSTALL="/usr/local/share/pypackit-container/.devcontainer/environment/apt/optional/post_install.sh"
-COPY [".devcontainer/environment/apt/optional/post_install.sh", "$APT_OPTIONAL_POST_INSTALL"]
-RUN chmod +x $APT_OPTIONAL_POST_INSTALL; \
-    $APT_OPTIONAL_POST_INSTALL
+ARG TEXLIVE_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/environment/texlive"
+ARG TEXLIVE_INSTALL_SCRIPT="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.sh" \
+    TEXLIVE_INSTALL_PROFILE="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.profile"
+COPY [".devcontainer/environment/texlive/", "${TEXLIVE_INSTALL_SCRIPT_DIR}/"]
+RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
+    "$TEXLIVE_INSTALL_SCRIPT" \
+        --install \
+        --profile "$TEXLIVE_INSTALL_PROFILE" \
+        --logfile "/var/log/pypackit-container/texlive_install.log" \
+        --debug
+RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
+"$TEXLIVE_INSTALL_SCRIPT" \
+    --generate-caches \
+    --verify-installation \
+    --profile "$TEXLIVE_INSTALL_PROFILE" \
+    --logfile "/var/log/pypackit-container/texlive_finalize.log" \
+    --debug
 
-ARG USER_SHELL=/bin/zsh
-RUN rm -f /etc/profile.d/00-restore-env.sh \
-    echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh \
-    chmod +x /etc/profile.d/00-restore-env.sh \
-    chown --recursive "$USERNAME:$USERNAME" "$HOME_DIR"; \
-    chmod --recursive g+r+w "$HOME_DIR"; \
-    find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s; \
-    if [ ! -f "/etc/pam.d/chsh" ] || ! grep -Eq '^auth(.*)pam_rootok\.so$' /etc/pam.d/chsh; then \
-        echo "auth sufficient pam_rootok.so" >> /etc/pam.d/chsh; \
-    elif [[ -n "$(awk '/^auth(.*)pam_rootok\.so$/ && !/^auth[[:blank:]]+sufficient[[:blank:]]+pam_rootok\.so$/' /etc/pam.d/chsh)" ]]; then \
-        awk '/^auth(.*)pam_rootok\.so$/ { $2 = "sufficient" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh; \
-    fi; \
-    chsh --shell "$USER_SHELL" "$USERNAME";
-ENV BASH_ENV=/etc/bash/bashenv
-
-CMD [ "sleep", "infinity" ]
+ARG VOLUME_DATA="/usr/local/share/pypackit/.devcontainer/volume/" \
+    VOLUME_SETUP_SCRIPT="/usr/local/share/pypackit/.devcontainer/environment/volume_manager/install.sh" \
+    VOLUME_MANIFEST="/usr/local/share/pypackit/.devcontainer/environment/volume_manager/manifest"
+COPY [".devcontainer/environment/volume_manager/install.sh", "$VOLUME_SETUP_SCRIPT"]
+COPY [".devcontainer/environment/volume_manager/manifest", "$VOLUME_MANIFEST"]
+COPY ["./.devcontainer/volume/", "$VOLUME_DATA"]
+RUN set -eux; \
+    chmod +x "$VOLUME_SETUP_SCRIPT"; \
+    "$VOLUME_SETUP_SCRIPT" "$VOLUME_DATA" --manifest "$VOLUME_MANIFEST" --action "write" --logfile "/var/log/pypackit/volume_setup.log";

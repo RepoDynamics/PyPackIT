@@ -1,9 +1,0 @@
-fish
-fonts-freefont-otf
-libdb-dev
-libgdbm-dev
-liblttng-ust[0-9]
-libmaxminddb-dev
-libxcomposite1
-libxdamage1
-libxfixes3

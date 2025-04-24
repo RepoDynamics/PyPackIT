@@ -3,18 +3,6 @@ services:
     volumes:
       - ../:/workspace:cached
     command: sleep infinity
-    privileged: true
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile
-  openjournals:
-    container_name: inara
-    image: openjournals/inara:latest
-    entrypoint:
-      - /bin/sh
-    command:
-      - -c
-      - tail -f /dev/null
-    volumes:
-      - ../:/workspace
-    working_dir: /workspace
