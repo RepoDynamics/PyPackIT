@@ -1,6 +1,14 @@
 services:
+  main:
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    privileged: true
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
   openjournals:
-    container_name: openjournals
+    container_name: inara
     image: openjournals/inara:latest
     entrypoint:
       - /bin/sh
@@ -10,11 +18,3 @@ services:
     volumes:
       - ../:/workspace
     working_dir: /workspace
-  main:
-    volumes:
-      - ../:/workspace:cached
-    command: sleep infinity
-    privileged: true
-    build:
-      context: ../
-      dockerfile: .devcontainer/Dockerfile
