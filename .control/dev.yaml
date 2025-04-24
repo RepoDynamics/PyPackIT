@@ -4138,10 +4138,10 @@ devcontainer_main:
       path: /etc/bash/bashenv
       content: |
         # Set XDG base directories
-        export XDG_DATA_HOME="${HOME}/.local/share"
-        export XDG_CONFIG_HOME="${HOME}/.config"
-        export XDG_STATE_HOME="${HOME}/.local/state"
         export XDG_CACHE_HOME="${HOME}/.cache"
+        export XDG_CONFIG_HOME="${HOME}/.config"
+        export XDG_DATA_HOME="${HOME}/.local/share"
+        export XDG_STATE_HOME="${HOME}/.local/state"
 
         # Source project tasks file.
         . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks_local }}$"
