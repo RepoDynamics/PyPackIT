@@ -1,0 +1,82 @@
+effective-shell-configuring:
+  type: book
+  title: Effective Shell
+  chapter: Configuring the Shell
+  date: 2025-07-29
+  url: https://effective-shell.com/part-5-building-your-toolkit/configuring-the-shell/
+  isbn: 978-1718504141
+  author:
+    - last: Kerr
+      first: Dave
+  publisher: No Starch Press
+  note: >-
+    A comprehensive guide to shell dotfiles,
+    covering both Bash and Zsh.
+bash-docs-dotfiles:
+  type: manual
+  title: GNU Bash Manual
+  chapter: Bash Startup Files
+  date: 2022-09-26
+  url: https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+  urldate: 2025-04-24
+  note: >-
+    Description of Bash shell startup/shutdown files,
+    such as bashrc, bash_profile, profile, bash_login, and bash_logout,
+    and the dependence of their execution on the shell's invocation type
+    (login/non-login, interactive/non-interactive), as well as
+    environment variables like BASH_ENV.
+bash-dotfiles-linux-doc-project:
+  type: manual
+  title: Bash Guide for Beginners
+  chapter: Shell Initialization Files
+  organization: The Linux Documentation Project
+  date: 2024-08-18
+  url: https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html
+  urldate: 2025-04-24
+zsh-archwiki:
+  type: manual
+  title: ArchWiki
+  chapter: Zsh
+  url: https://wiki.archlinux.org/title/Zsh
+  urldate: 2025-04-24
+  note: >-
+    ArchLinux Wiki page on Zsh,
+    covering installation, configuration, startup/shutdown files,
+    and more.
+zsh-docs-dotfiles:
+  type: manual
+  title: The Z Shell Manual
+  chapter: Files
+  version: 5.9
+  date: 2022-05-14
+  url: https://zsh.sourceforge.io/Doc/Release/Files.html#Files
+  urldate: 2025-04-24
+  note: >-
+    Description of Zsh shell startup/shutdown files,
+    such as zshenv, zprofile, zshrc, zlogin, and zlogout,
+    and the dependence of their execution on the shell's invocation type
+    (login/non-login, interactive/non-interactive), as well as
+    environment variables like ZDOTDIR, GLOBAL_RCS, and RCS.
+zsh-dotfiles-freecodecamp:
+  type: online
+  title: How Do Zsh Configuration Files Work?
+  date: 2024-01-09
+  url: https://www.freecodecamp.org/news/how-do-zsh-configuration-files-work/
+  urldate: 2025-04-24
+  author:
+    - last: Kehoe
+      first: Daniel
+  organization: freeCodeCamp
+  note: >-
+    A brief overview of Zsh startup/shutdown files,
+    including zshenv, zprofile, zshrc, zlogin, and zlogout,
+    and their roles in the shell's startup process.
+zsh-bash-dotfiles-lumber-room:
+  type: online
+  title: Zsh/Bash Startup Files Loading Order
+  date: 2008-03-30
+  url: https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/
+  urldate: 2025-04-24
+  author:
+    - last: Shreevatsa
+      first: S.
