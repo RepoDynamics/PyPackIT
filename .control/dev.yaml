@@ -407,7 +407,7 @@ devcontainer_main:
       version: "2.49.0"
       prefix: /usr/local/git
     user:
-      name: ${{ devcontainer_main.container.containerUser }}$
+      name: '#{{ return f"{slugify(get("name"))}-dev" }}#'
       group: ${{ .name }}$
       home: /home/${{ .name }}$
       shell: /bin/zsh
@@ -430,7 +430,8 @@ devcontainer_main:
         for maximum control over the environment.
         The Noble (22.04) release is used,
         which corresponds to the `ubuntu-latest`
-        [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories).
+        [GitHub Actions runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories)
+        as of April 2025.
         For other options, See:
         - [Devcontainer images](https://github.com/devcontainers/images)
           and their corresponding [templates](https://github.com/devcontainers/templates).
@@ -445,17 +446,26 @@ devcontainer_main:
             TZ=UTC
         - USER: root
       description: |
-        Only include those that affect the build processes.
-        Other environment variables can be set at the end
+        Only include those that affect the build processes
+        and do not change frequently.
+        Other environment variables can be set
+        directly before where its needed
+        (or at the end if only needed for the final image)
         to avoid early cache invalidation.
-    - title: APT Installation Script
+    - title: System Package Installation Script
+      summary: Set up the system package installation script.
       instructions:
         - ARG: |
-            APT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
+            SYSPKG_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
         - COPY: |
             ["${{ devcontainer_main.file.apt_install_script.path }}$", "$APT_INSTALL_SCRIPT"]
         - RUN: |
             chmod +x "$APT_INSTALL_SCRIPT"
+      description: |
+        This step copies the system package installation script
+        to the container and makes it executable.
+        It is used in later steps to install packages
+        from the system package manager.
     - title: APT Packages (Required)
       summary: Installation of required APT packages.
       instructions: '#{{ return hook.docker_apt("main", "required") }}#'
@@ -636,7 +646,8 @@ devcontainer_main:
             [ "sleep", "infinity" ]
   container:
     name: Main Development Environment
-    containerUser: '#{{ return f"{slugify(get("name"))}-dev" }}#'
+    workspaceFolder: /#{{ return slugify(get("name")) }}#
+    containerUser: ${{ devcontainer_main.var.user.name }}$
     remoteUser: ${{ .containerUser }}$
     forwardPorts:
       - ${{ __temp__.port.jupyter }}$
@@ -846,10 +857,10 @@ devcontainer_main:
           - ExecutableBookProject.myst-highlight
         settings:
           github.copilot.chat.codeGeneration.instructions:
-            - text: |
-                This dev container includes an up-to-date version of Git,
-                built from source as needed, pre-installed and available on the `PATH`.
-            - text: |
+            - text: >-
+                This dev container includes an up-to-date version of Git
+                pre-installed and available on the `PATH`.
+            - text: >-
                 This dev container includes the conda and mamba package managers
                 pre-installed and available on the `PATH`.
                 Additional packages installed using Conda/Mamba will be downloaded
@@ -864,6 +875,13 @@ devcontainer_main:
               type: pythonEnvironment
           lldb.executable: /usr/bin/lldb
           python.defaultInterpreterPath: /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
+          terminal.integrated.fontFamily: MesloLGS NF
+          # The MesloLGS font is downloaded in the zsh installation script.
+          # This is the recommended font for the Powerlevel10k Zsh theme.
+          # Without it, the terminal icons may not render correctly.
+          # - https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#fonts
+          # - https://github.com/romkatv/powerlevel10k/issues/671#issuecomment-621031981
+          terminal.integrated.fontLigatures.enabled: true
           terminal.integrated.scrollback: 1000000
           tasks:
             version: 2.0.0
@@ -4561,11 +4579,67 @@ devcontainer_main:
         - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker)
         - [texlive-batch-installation](https://github.com/maxnoe/texlive-batch-installation)
     texlive_install_profile:
-      status: inactive
       name: TeX Live Installation Profile
       summary: Profile for installing TeX Live.
       type: txt
       path: ${{ devcontainer_main.path.environment }}$/texlive/install.profile
+      data:
+        scheme: scheme-full
+        path:
+          system:
+            texdir: /usr/local/texlive
+            texmflocal: /usr/local/texlive/texmf
+            texmfsysconfig: /usr/local/texlive/texmf-config
+            texmfsysvar: /usr/local/texlive/texmf-var
+          user:
+            texmfhome: ~/texlive/texmf
+            texmfconfig: ~/texlive/texmf-config
+            texmfvar: ~/texlive/texmf-var
+        instopt:
+          adjustpath: 0
+          adjustrepo: 1
+          letter: 0
+          portable: 0
+          write18_restricted: 1
+        tlpdbopt:
+          # Number of backups to keep (default: 1)
+          autobackup: 0
+          # Directory for backups (default: tlpkg/backups)
+          backupdir: tlpkg/backups
+          # Generate formats at installation or update (default: 1)
+          create_formats: 1
+          # (Windows) Create Start menu shortcuts (default: 1)
+          desktop_integration: 1
+          # (Windows) Change file associations (default: 1)
+          file_assocs: 1
+          # Run tlmgr generate updmap after maps have changed (default: 0)
+          generate_updmap: 0
+          # Install documentation files (default: 1)
+          install_docfiles: 0
+          # Install source files (default: 1)
+          install_srcfiles: 0
+          # Run postinst code blobs (default: 1)
+          post_code: 1
+          # Destination for symlinks for binaries (default: /usr/local/bin)
+          sys_bin:  /usr/local/bin
+          # Destination for symlinks for info docs (default: /usr/local/share/info)
+          sys_info: /usr/local/share/info
+          # Destination for symlinks for man pages (default: /usr/local/share/man)
+          sys_man:  /usr/local/share/man
+          # (Windows) Install for all users (default: 1)
+          w32_multi_user: 1
+      content: |
+        #{{
+          data = get(".data")
+          final_data = {"selected_scheme": data["scheme"]}
+          for path_type in ("system", "user"):
+            for path_key, path in data.get("path", {}).get(path_type, {}).items():
+              final_data[path_key.upper()] = path
+          for opt_type in ("instopt", "tlpdbopt"):
+            for opt_key, opt in data.get("tlpdbopt", {}).items():
+              final_data[f"{opt_type}_{opt_key}"] = opt
+          return "\n".join([f"{key} {value}" for key, value in sorted(final_data.items())])
+        }}#
       description: |
         References:
         - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html#PROFILES)
