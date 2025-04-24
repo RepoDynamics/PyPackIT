@@ -34,3 +34,6 @@ if [ -f /etc/bash/bash_aliases ]; then
 fi
 
 if [ -z "${USER}" ]; then export USER=$(whoami); fi
+
+# Project Tasks
+. /workspace/.devcontainer/tasks.sh
