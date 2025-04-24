@@ -387,7 +387,7 @@ devcontainer:
                 path_to_root_from_compose_file = "../" * path_depth if path_depth else "."
                 return path_to_root_from_compose_file
               }}#:${{ devcontainer.docker-compose.config.services.openjournals.working_dir }}$
-          working_dir: /workspace
+          working_dir: ${{ devcontainer_main.container.workspaceFolder }}$
 devcontainer_main:
   var:
     conda:
@@ -593,7 +593,8 @@ devcontainer_main:
             # (only user can write to the directory).
             umask g-w,o-w;
             mkdir -p "$OH_MY_ZSH_INSTALL_DIR";
-            git clone --depth=1
+            git clone
+                --depth=1
                 -c core.eol=lf
                 -c core.autocrlf=false
                 -c fsck.zeroPaddedFilemode=ignore
