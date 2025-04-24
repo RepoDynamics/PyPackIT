@@ -13,7 +13,7 @@ push them to your fork or branch on GitHub.
 formatting, refactoring, testing,
 
 However, sometimes you need a more interactive solution,
-for example to quickly try out different  
+for example to quickly try out different
 |{{ ccc.name }}| provides two options for
 replicating the project's development environment
 on your local machine:
@@ -31,7 +31,7 @@ To further support developers during the implementation phase,
 |{{ ccc.name }}| encapsulates the project's development environment into
 [development containers](https://containers.dev).
 Powered by [GitHub Codespaces](https://github.com/features/codespaces) and
-[Visual Studio Cod](https://code.visualstudio.com) (VSCode),
+[Visual Studio Code](https://code.visualstudio.com) (VS Code),
 these containers can run both locally and on the cloud,
 providing all contributors with a consistent,
 ready-to-use workspace with all required tools preinstalled and configured.
