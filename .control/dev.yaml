@@ -73,7 +73,7 @@ default:
 devfeature_pixi:
   # See:
   # - https://github.com/prefix-dev/pixi-docker
-  # - https://pixi.sh/latest/ide_integration/devcontainer/
+  # - https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
   feature:
     name: Pixi
     description: Install Pixi in the development container and activate it.
