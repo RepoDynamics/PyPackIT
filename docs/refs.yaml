@@ -12,6 +12,12 @@ effective-shell-configuring:
   note: >-
     A comprehensive guide to shell dotfiles,
     covering both Bash and Zsh.
+bash-dotfiles-christollefson:
+  type: online
+  title: Bash Startup Files
+  year: 2025
+  url: https://gist.github.com/ChrisTollefson/6294f711922c88ce3aef2e420452eba1
+  urldate: 2025-04-24
 bash-docs-dotfiles:
   type: manual
   title: GNU Bash Manual
@@ -32,6 +38,12 @@ bash-dotfiles-linux-doc-project:
   organization: The Linux Documentation Project
   date: 2024-08-18
   url: https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html
+  urldate: 2025-04-24
+bash-zsh-dotfiles-overview-superuser:
+  type: online
+  title: Complete overview of Bash and Zsh startup files sourcing order
+  date: 2024-05-02
+  url: https://superuser.com/a/1840396
   urldate: 2025-04-24
 zsh-archwiki:
   type: manual
