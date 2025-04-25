@@ -122,6 +122,19 @@ RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
     --logfile "/var/log/pypackit-container/texlive_finalize.log" \
     --debug
 
+ARG PKG_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/environment/pkg"
+COPY ["install.py", ".github/.repodynamics/metadata.json", "$PKG_INSTALL_SCRIPT_DIR/"]
+RUN set eux; \
+    chmod +x "$PKG_INSTALL_SCRIPT_DIR/install.py"; \
+    python3 "$PKG_INSTALL_SCRIPT_DIR/install.py" \
+        --conda-env-name "website" \
+        --packages '["ci"]' \
+        --python-version "3.13" \
+        --sources "conda" "pip" "apt" "bash" \
+        --filepath "$PKG_INSTALL_SCRIPT_DIR/metadata.json" \
+        --no-self; \
+    conda clean --all -y
+
 ARG VOLUME_DATA="/usr/local/share/pypackit/.devcontainer/volume/" \
     VOLUME_SETUP_SCRIPT="/usr/local/share/pypackit/.devcontainer/environment/volume_manager/install.sh" \
     VOLUME_MANIFEST="/usr/local/share/pypackit/.devcontainer/environment/volume_manager/manifest"
