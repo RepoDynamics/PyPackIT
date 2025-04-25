@@ -69,6 +69,8 @@ git repack -a -d -f --depth=1 --window=1
 
 # Download fonts
 # - https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k
+# - https://github.com/romkatv/powerlevel10k/issues/671
+# - https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#fonts
 
 # Target directory
 FONT_DIR="/usr/share/fonts/MesloLGS"
@@ -100,6 +102,7 @@ chmod 644 "$FONT_DIR"/*.ttf
 echo "Fonts installed."
 
 
+# https://github.com/romkatv/powerlevel10k
 THEME_INSTALL_DIR="$INSTALL_DIR/custom/themes/powerlevel10k"
 mkdir -p "$THEME_INSTALL_DIR"
 git clone --depth=1 \
@@ -114,7 +117,7 @@ cd "$THEME_INSTALL_DIR"
 git repack -a -d -f --depth=1 --window=1
 
 
-
+# https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
 PLUGIN_INSTALL_DIR="$INSTALL_DIR/custom/plugins/zsh-syntax-highlighting"
 git clone --depth=1 \
     -c core.eol=lf \
