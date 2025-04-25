@@ -202,17 +202,24 @@ class ConfigFileGenerator:
     def devcontainers(self) -> list[DynamicFile]:
 
         def create_dockerfile(dockerfile: list[dict]):
+
+            def create_arg(arg: dict) -> list[str]:
+                """Create ARG instruction for Dockerfile."""
+                return [f'{key}="{value}"' if value else key for key, value in arg.items()]
+
             parts = []
             for part in dockerfile:
                 instructions = []
                 for instruction in part["instructions"]:
                     key = list(instruction.keys())[0].upper()
-                    instructions_str = instruction[key]
-                    if not instructions_str:
+                    instructions_value = instruction[key]
+                    if not instructions_value:
                         continue
+                    if key == "ARG":
+                        instruction_lines = create_arg(instructions_value)
                     instruction_lines = [
-                        line.rstrip() for line in instructions_str.strip().splitlines()
-                        if line and not line.startswith("#")
+                        line.rstrip() for line in instructions_value.strip().splitlines()
+                        if line.strip() and not line.startswith("#")
                     ]
                     indent = (len(key) + 1) * " "
                     instruction_lines_full = [
