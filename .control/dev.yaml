@@ -455,8 +455,8 @@ devcontainer_main:
     - title: System Package Installation Script
       summary: Set up the system package installation script.
       instructions:
-        - ARG: |
-            SYSPKG_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
+        - ARG:
+            SYSPKG_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
         - COPY: |
             ["${{ devcontainer_main.file.apt_install_script.path }}$", "$APT_INSTALL_SCRIPT"]
         - RUN: |
