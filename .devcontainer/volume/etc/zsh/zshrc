@@ -176,6 +176,7 @@ HISTFILE=/etc/zsh/zsh_history
 # Oh My Zsh Settings
 # ==================
 # - https://github.com/ohmyzsh/ohmyzsh/wiki/Settings
+# - https://github.com/ohmyzsh/ohmyzsh/tree/master/templates
 
 
 # Main Settings
