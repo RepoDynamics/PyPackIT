@@ -4575,9 +4575,11 @@ devcontainer_main:
       description: |
         References:
         - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html)
+        - [TeX Live Installation Guide](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-140003)
         Examples:
         - [Island of TeX Docker image](https://gitlab.com/islandoftex/images/texlive)
         - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker)
+        - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu)
         - [texlive-batch-installation](https://github.com/maxnoe/texlive-batch-installation)
     texlive_install_profile:
       name: TeX Live Installation Profile
@@ -4642,10 +4644,21 @@ devcontainer_main:
           return "\n".join([f"{key} {value}" for key, value in sorted(final_data.items())])
         }}#
       description: |
+        Notes:
+        - For a full list of collections included in each scheme,
+          see the corresponding `.tlpsrc` file with the same name as the scheme
+          at https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/.
+          For example, for the `scheme-full` scheme, see
+          https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/scheme-basic.tlpsrc?view=markup.
+          Similarly, for a full list of packages included in each collection,
+          see the corresponding `.tlpsrc` file at the same location.
+          For example, for the `collection-basic` collection, see
+          https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/collection-basic.tlpsrc?view=markup.
         References:
         - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html#PROFILES)
         Examples:
         - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker/blob/master/texlive.profile)
+        - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu/blob/master/example.profile)
 file_pixi_manifest:
  # https://pixi.sh/latest/reference/pixi_manifest/
  name: Pixi Manifest
