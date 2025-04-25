@@ -90,13 +90,14 @@ shopt -q login_shell && echo "Login" || echo "Non-login"
 
 :::::
 
-[^devcontainer-userEnvProbe]: The `userEnvProbe` property in [`devcontainer.json`](https://containers.dev/implementors/json_reference/#general-properties) appears to be setting shell invoctation type, but it does not affect the shell type in the VS Code terminal.
+[^devcontainer-userEnvProbe]: The `userEnvProbe` property in [`devcontainer.json`](https://containers.dev/implementors/json_reference/#general-properties) appears to be setting shell invoctation type, but it does not affect the shell type in the VS Code terminal (cf. https://github.com/microsoft/vscode-remote-release/issues/3593). However, the behavior seems to be configurable via the `terminal.integrated.profiles`
+option in VS Code settings (cf. [stackoverflow](https://stackoverflow.com/a/72034200/14923024)).
 
 
 ## Bash
 
 Bash recognizes two main configuration files: `profile` and `bashrc`
-{cite}`bash-docs-dotfiles, bash-dotfiles-linux-doc-project, zsh-bash-dotfiles-lumber-room`.
+{cite}`bash-docs-dotfiles, bash-dotfiles-linux-doc-project, bash-dotfiles-christollefson, zsh-bash-dotfiles-lumber-room`.
 Each file can have a global and a user-specific version.
 The global `profile` file is always expected at `/etc/profile`,
 while the location where Bash searches for the global `bashrc` file is installation-specific;
