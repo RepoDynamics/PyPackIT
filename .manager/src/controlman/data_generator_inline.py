@@ -124,7 +124,7 @@ class InlineDataGenerator:
                 )
             repofile_arg = f' --repo-file "${argname_repo_file}" ' if apt_group_repos else " "
             logfile = f"{container_log_dir}/apt_install_{group}.log"
-            run = f'"$APT_INSTALL_SCRIPT" "${argname_pkg_file}"{repofile_arg}--logfile {logfile}'
+            run = f'"$SYSPKG_INSTALL_SCRIPT" "${argname_pkg_file}"{repofile_arg}--logfile {logfile}'
             out.append({"RUN": run})
         if steps in ("post_install", "all") and apt_group_post_install:
             post_install_filepath = apt_paths["post_install"]
