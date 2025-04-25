@@ -1,5 +1,5 @@
 project() {
-    conda run --cwd /workspace --live-stream -vv --name proman proman "$@"
+    conda run --cwd /workspace --live-stream -vv --name website proman "$@"
 }
 
 build-oj-paper() {
