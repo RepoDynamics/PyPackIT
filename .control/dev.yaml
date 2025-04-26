@@ -1,6 +1,4 @@
 __temp__:
-  container_env_path: /usr/local/share/environments
-  container_build_log_path: /var/log/devcontainer-build
   port:
     desktop_lite:
       web: 6080
@@ -70,306 +68,6 @@ default:
             - --live-stream
             - -vv
             - --name
-devfeature_pixi:
-  # See:
-  # - https://github.com/prefix-dev/pixi-docker
-  # - https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
-  feature:
-    name: Pixi
-    description: Install Pixi in the development container and activate it.
-    documentationURL: https://pixi.sh/latest/ide_integration/devcontainer/
-    version: 0.40.3
-    mounts:
-      - type: volume
-        source: ${localWorkspaceFolderBasename}-pixi
-        target: ${containerWorkspaceFolder}/.pixi
-    postCreateCommand: >-
-      sudo chown $(whoami) .pixi &&
-      echo 'eval "$(pixi completion -s bash)"' >> $HOME/.bashrc &&
-      pixi install
-    options:
-      version:
-        type: string
-        description: The version of Pixi to install.
-        default: ${{ ...version }}$
-  install: |
-    #!/usr/bin/env bash
-    set -e
-    curl -L -o /usr/local/bin/pixi -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
-    chmod +x /usr/local/bin/pixi
-    pixi info
-devfeature_pkg_setup:
-  feature:
-    name: Package Setup
-    version: 0.1.0
-    description: Install local packages in development mode.
-    installsAfter:
-      - ghcr.io/devcontainers/features/common-utils
-      - ghcr.io/devcontainers/features/conda
-    postStartCommand: "/usr/local/share/app_installation/post-start-command.sh"
-    options:
-      packages:
-        type: string
-        description: >-
-          Packages to install.
-          This must be a string representing a JSON object,
-          where keys are the name of Conda environments to use for installation.
-          Each value is a JSON object with a key "packages",
-          and optionally "python-version", and "sources",
-          corresponding to the package installation script's input arguments.
-          Note that quotes inside the JSON string must be escaped with triple backslashes.
-        default: ""
-      script_filepath:
-        type: string
-        description: Absolute path to the installation script file.
-        default: /usr/local/share/app_installation/install.py
-      metadata_filepath:
-        type: string
-        description: Absolute path to the project metadata file.
-        default: /usr/local/share/app_installation/metadata.json
-      log_dirpath:
-        type: string
-        description: Absolute path to a directory to write log files.
-        default: ${{ __temp__.container_build_log_path }}$/pkg_setup
-  install: |
-    #!/usr/bin/env bash
-    set -euxo pipefail
-
-    # Redirect stdout and stderr to a file
-    echo "Creating log directory..."
-    mkdir -p "$LOG_DIRPATH"
-    LOG_FILE="${LOG_DIRPATH}/install.log"
-    exec > >(tee -a "$LOG_FILE") 2>&1
-
-    # Create postStartCommand script
-    POST_START_SCRIPT_DIRPATH="/usr/local/share/app_installation"
-    POST_START_SCRIPT_FILEPATH="${POST_START_SCRIPT_DIRPATH}/post-start-command.sh"
-    mkdir -p "$POST_START_SCRIPT_DIRPATH"
-    {
-      echo '#!/usr/bin/env bash'
-      echo 'set -euxo pipefail'
-    } > "$POST_START_SCRIPT_FILEPATH"
-    chmod +x "$POST_START_SCRIPT_FILEPATH"
-
-    echo "Initializing conda..."
-    conda init
-
-    if ! echo "$PACKAGES" | jq empty; then
-        echo "Invalid JSON in PACKAGES"
-        exit 1
-    fi
-
-    for conda_env_name in $(echo "$PACKAGES" | jq -r 'keys[]'); do
-        value=$(echo "$PACKAGES" | jq -c --arg k "$conda_env_name" '.[$k]')
-        packages=$(echo "$value" | jq -c '.packages')
-
-        # Build the base command
-        cmd=(
-          python "$SCRIPT_FILEPATH"
-            --conda-env-name "$conda_env_name"
-            --packages "$packages"
-            --filepath "$METADATA_FILEPATH"
-            --no-self
-        )
-
-        # Optionally add --python-version
-        if echo "$value" | jq -e 'has("python-version")' > /dev/null; then
-            python_version=$(echo "$value" | jq -r '.["python-version"]')
-            cmd+=(--python-version "$python_version")
-        fi
-
-        # Optionally add --sources
-        if echo "$value" | jq -e 'has("sources")' > /dev/null; then
-            sources=$(echo "$value" | jq -r '.sources')
-            cmd+=(--sources $sources)
-        fi
-
-        # Capture and write command output
-        output=$("${cmd[@]}")
-
-        # Append output to the file
-        while IFS= read -r line; do
-            echo "$line" >> "$POST_START_SCRIPT_FILEPATH"
-        done <<< "$output"
-    done
-
-    echo "Cleaning up cache..."
-    conda clean --all -y
-devfeature_user_setup:
-  # https://github.com/devcontainers/images/blob/main/src/universal/.devcontainer/local-features/setup-user/
-  feature:
-    id: setup-user
-    name: Setup user configs
-    version: "0.1.0"
-    containerEnv:
-      RUBY_HOME: /usr/local/rvm/rubies/default
-      JAVA_ROOT: /home/codespace/java
-      NODE_ROOT: /home/codespace/nvm
-      PHP_ROOT: /home/codespace/.php
-      PYTHON_ROOT: /home/codespace/.python
-      RUBY_ROOT: /home/codespace/.ruby
-      MAVEN_ROOT: /home/codespace/.maven
-      HUGO_ROOT: /home/codespace/.hugo
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
-      NUGET_XMLDOC_MODE: skip
-      ORYX_ENV_TYPE: vsonline-present
-      PYTHONIOENCODING: UTF-8
-      NPM_GLOBAL: /home/codespace/.npm-global
-      NVS_HOME: /home/codespace/.nvs
-      RVM_PATH: /usr/local/rvm
-      RAILS_DEVELOPMENT_HOSTS: .githubpreview.dev,.preview.app.github.dev,.app.github.dev
-      GOROOT: /usr/local/go
-      JUPYTERLAB_PATH: /home/codespace/.local/bin
-      PATH: /home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}
-    options:
-      log_dirpath:
-        type: string
-        description: Absolute path to a directory to write log files.
-        default: ${{ __temp__.container_build_log_path }}$/user_setup
-  install: |
-    #!/usr/bin/env bash
-    set -euxo pipefail
-
-    export DEBIAN_FRONTEND=noninteractive
-
-    # Constants
-    LOG_FILE_NAME="install.log"
-    SUDOERS_DIR="/etc/sudoers.d"
-
-    # Utility: link tool path only if source exists
-    link_if_exists() {
-        local src="$1"
-        local dest="$2"
-        local label="$3"
-
-        if [ -e "$src" ]; then
-            mkdir -p "$(dirname "$dest")"
-            ln -snf "$src" "$dest"
-            echo "✔️ Linked $label"
-        else
-            echo "⏩ Skipped $label (not found: $src)"
-        fi
-    }
-
-    get_debian_flavor() {
-        local codename=""
-
-        if [ -f /etc/os-release ]; then
-            . /etc/os-release
-            codename="${VERSION_CODENAME:-}"
-        fi
-
-        # Fallback to lsb_release if codename is still empty
-        if [ -z "$codename" ] && command -v lsb_release >/dev/null 2>&1; then
-            codename="$(lsb_release -c -s)"
-        fi
-
-        # Final fallback
-        codename="${codename:-unknown}"
-
-        echo "$codename"
-    }
-
-    # Redirect stdout and stderr to a file
-    echo "Creating log directory..."
-    mkdir -p "$LOG_DIRPATH"
-    exec > >(tee -a "${LOG_DIRPATH}/${LOG_FILE_NAME}") 2>&1
-
-    # Ensure script is run as root
-    if [ "$(id -u)" -ne 0 ]; then
-        echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
-        exit 1
-    fi
-
-    # Ensure login shells get the correct path if ENV was used to modify PATH.
-    rm -f /etc/profile.d/00-restore-env.sh
-    echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
-    chmod +x /etc/profile.d/00-restore-env.sh
-
-    # Determine the appropriate non-root user
-    USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
-    if [ "${USERNAME}" = "automatic" ]; then
-        USERNAME=""
-        POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
-        for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
-            if id -u ${CURRENT_USER} > /dev/null 2>&1; then
-                USERNAME=${CURRENT_USER}
-                break
-            fi
-        done
-        if [ "${USERNAME}" = "" ]; then
-            USERNAME=root
-        fi
-    elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
-        USERNAME=root
-    fi
-
-    # Set common variables.
-    HOME_DIR="/home/${USERNAME}"
-    OPT_DIR="/opt"
-    DEBIAN_FLAVOR="$(get_debian_flavor)"
-
-    # Enable the oryx tool to generate manifest-dir which is needed for running the postcreate tool.
-    # Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.
-    ORYX_DIR="/opt/oryx"
-    mkdir -p "$ORYX_DIR"
-    echo "vso-focal" > "$ORYX_DIR/.imagetype"
-    echo "DEBIAN|${DEBIAN_FLAVOR}-SCM" | tr '[a-z]' '[A-Z]' > "$ORYX_DIR/.ostype"
-    if compgen -G "/usr/local/oryx/*" > /dev/null; then
-        ln -snf /usr/local/oryx/* "$ORYX_DIR"
-    fi
-
-    # Tool links
-    DOTNET_PATH="${HOME_DIR}/.dotnet"
-    HUGO_PATH="${HOME_DIR}/.hugo/current"
-    JAVA_PATH="${HOME_DIR}/java/current"
-    MAVEN_PATH="${HOME_DIR}/.maven/current"
-    NODE_PATH="${HOME_DIR}/nvm/current"
-    PHP_PATH="${HOME_DIR}/.php/current"
-    PYTHON_PATH="${HOME_DIR}/.python/current"
-    RUBY_PATH="${HOME_DIR}/.ruby/current"
-
-    link_if_exists "/usr/share/dotnet"                          "$DOTNET_PATH"    ".NET SDK"
-    link_if_exists "/usr/local/hugo"                            "$HUGO_PATH"      "Hugo"
-    link_if_exists "/usr/local/sdkman/candidates/java"          "$JAVA_PATH"      "Java"  #CHECK
-    link_if_exists "/usr/local/sdkman/candidates/maven/current" "$MAVEN_PATH"     "Maven"
-    link_if_exists "/usr/local/share/nvm"                       "${HOME_DIR}/nvm" "Node.js" #CHECK
-    link_if_exists "/usr/local/php/current"                     "$PHP_PATH"       "PHP"
-    link_if_exists "/usr/local/python/current"                  "$PYTHON_PATH"    "Python"
-    link_if_exists "/usr/local/python"                          "/opt/python"     "Python root"
-    link_if_exists "/usr/local/rvm/rubies/default"              "$RUBY_PATH"      "Ruby"
-
-    # .NET special setup
-    # Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825
-    if [ -d /usr/share/dotnet ]; then
-        DOTNET_DIR="/usr/share/dotnet"
-        chown -R "$USERNAME:$USERNAME" "$DOTNET_DIR"
-        chmod g+r+w+s "$DOTNET_DIR"
-        chmod -R g+r+w "$DOTNET_DIR"
-
-        mkdir -p "$OPT_DIR/dotnet/lts"
-        cp -R "$DOTNET_DIR/{dotnet,LICENSE.txt,ThirdPartyNotices.txt}" "$OPT_DIR/dotnet/lts" || true
-    fi
-
-    # Fix permissions for home directory.
-    chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
-    chmod -R g+r+w "$HOME_DIR"
-    find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s
-    # Fix permissions for opt directory.
-    if getent group oryx > /dev/null; then
-        echo "✅ Group 'oryx' exists, applying group ownership and permissions"
-        chown -R "$USERNAME:oryx" "$OPT_DIR"
-        chmod -R g+r+w "$OPT_DIR"
-        find "$OPT_DIR" -type d | xargs -n 1 chmod g+s
-    else
-        echo "⚠️ Group 'oryx' does not exist, skipping group-related permission setup for $OPT_DIR"
-    fi
-
-    # Customize secure_path for sudo
-    SECURE_PATH="${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:${HOME_DIR}/.local/bin:${PATH}"
-    echo "Defaults secure_path=\"$SECURE_PATH\"" >> "${SUDOERS_DIR}/${USERNAME}"
-
-    echo "✅ Dev container user setup complete!"
 devcontainer:
   docker-compose:
     config:
@@ -388,6 +86,406 @@ devcontainer:
                 return path_to_root_from_compose_file
               }}#:${{ devcontainer.docker-compose.config.services.openjournals.working_dir }}$
           working_dir: ${{ devcontainer_main.container.workspaceFolder }}$
+  feature:
+    git:
+      install:
+        summary: Install Git.
+        description: |
+          Install Git from the official Git repository.
+        parameters:
+          version:
+            type: string
+            summary: Version of Git to install.
+            description: >-
+              This can either be "latest",
+              a full version string (e.g. "2.49.0"),
+              or a partial version string (e.g. "2.49", "2").
+            default: latest
+          source:
+            type: string
+            summary: URL to download the Git source code from.
+            description: >-
+              The full URL is built by appending the resolved version to this URL.
+            default: https://www.kernel.org/pub/software/scm/git/git-
+            examples:
+              - https://github.com/git/git/archive/v
+          prefix:
+            type: string
+            summary: Path to the directory where Git will be installed.
+            default: /usr/local/git
+          sysconfdir:
+            type: string
+            summary: Path to the system configuration directory for Git.
+            default: /etc
+          instller_dir:
+            type: string
+            summary: Path to a directory to download the installer to.
+            default: /tmp/git-installer
+          no_clean:
+            type: boolean
+            summary: Skip removing installer artifacts after installation.
+          logfile:
+            type: string
+            summary: Log all output (stdout + stderr) to this file in addition to console.
+            default: ""
+          debug:
+            type: boolean
+            summary: Enable debug output.
+        references:
+          - title: Git installation documentation
+            url: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+          - title: Git Devcontainer Feature installation script
+            url: https://github.com/devcontainers/features/tree/main/src/git/
+    pixi:
+      # See:
+      # - https://github.com/prefix-dev/pixi-docker
+      # - https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
+      metadata:
+        name: Pixi Installation
+        version: 0.46.0
+        description: Install Pixi in the development container and activate it.
+        mounts:
+          - type: volume
+            source: ${localWorkspaceFolderBasename}-pixi
+            target: ${containerWorkspaceFolder}/.pixi
+        postCreateCommand: >-
+          sudo chown $(whoami) .pixi &&
+          echo 'eval "$(pixi completion -s bash)"' >> $HOME/.bashrc &&
+          pixi install
+        options:
+          version:
+            type: string
+            description: The version of Pixi to install.
+            default: ${{ ...version }}$
+          install_path:
+            type: string
+            description: |
+              Path to a bin directory to install the Pixi binary.
+            default: /usr/local/bin
+      install:
+        script:
+          set -e
+          curl -L -o /usr/local/bin/pixi -fsSL --compressed "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
+          chmod +x /usr/local/bin/pixi
+          pixi info
+    pkg_setup:
+      feature:
+        name: Package Setup
+        version: 0.1.0
+        description: Install local packages in development mode.
+        installsAfter:
+          - ghcr.io/devcontainers/features/common-utils
+          - ghcr.io/devcontainers/features/conda
+        postStartCommand: "/usr/local/share/app_installation/post-start-command.sh"
+        options:
+          packages:
+            type: string
+            description: >-
+              Packages to install.
+              This must be a string representing a JSON object,
+              where keys are the name of Conda environments to use for installation.
+              Each value is a JSON object with a key "packages",
+              and optionally "python-version", and "sources",
+              corresponding to the package installation script's input arguments.
+              Note that quotes inside the JSON string must be escaped with triple backslashes.
+            default: ""
+          script_filepath:
+            type: string
+            description: Absolute path to the installation script file.
+            default: /usr/local/share/app_installation/install.py
+          metadata_filepath:
+            type: string
+            description: Absolute path to the project metadata file.
+            default: /usr/local/share/app_installation/metadata.json
+          log_dirpath:
+            type: string
+            description: Absolute path to a directory to write log files.
+            default: ${{ __temp__.container_build_log_path }}$/pkg_setup
+      install: |
+        #!/usr/bin/env bash
+        set -euxo pipefail
+
+        # Redirect stdout and stderr to a file
+        echo "Creating log directory..."
+        mkdir -p "$LOG_DIRPATH"
+        LOG_FILE="${LOG_DIRPATH}/install.log"
+        exec > >(tee -a "$LOG_FILE") 2>&1
+
+        # Create postStartCommand script
+        POST_START_SCRIPT_DIRPATH="/usr/local/share/app_installation"
+        POST_START_SCRIPT_FILEPATH="${POST_START_SCRIPT_DIRPATH}/post-start-command.sh"
+        mkdir -p "$POST_START_SCRIPT_DIRPATH"
+        {
+          echo '#!/usr/bin/env bash'
+          echo 'set -euxo pipefail'
+        } > "$POST_START_SCRIPT_FILEPATH"
+        chmod +x "$POST_START_SCRIPT_FILEPATH"
+
+        echo "Initializing conda..."
+        conda init
+
+        if ! echo "$PACKAGES" | jq empty; then
+            echo "Invalid JSON in PACKAGES"
+            exit 1
+        fi
+
+        for conda_env_name in $(echo "$PACKAGES" | jq -r 'keys[]'); do
+            value=$(echo "$PACKAGES" | jq -c --arg k "$conda_env_name" '.[$k]')
+            packages=$(echo "$value" | jq -c '.packages')
+
+            # Build the base command
+            cmd=(
+              python "$SCRIPT_FILEPATH"
+                --conda-env-name "$conda_env_name"
+                --packages "$packages"
+                --filepath "$METADATA_FILEPATH"
+                --no-self
+            )
+
+            # Optionally add --python-version
+            if echo "$value" | jq -e 'has("python-version")' > /dev/null; then
+                python_version=$(echo "$value" | jq -r '.["python-version"]')
+                cmd+=(--python-version "$python_version")
+            fi
+
+            # Optionally add --sources
+            if echo "$value" | jq -e 'has("sources")' > /dev/null; then
+                sources=$(echo "$value" | jq -r '.sources')
+                cmd+=(--sources $sources)
+            fi
+
+            # Capture and write command output
+            output=$("${cmd[@]}")
+
+            # Append output to the file
+            while IFS= read -r line; do
+                echo "$line" >> "$POST_START_SCRIPT_FILEPATH"
+            done <<< "$output"
+        done
+
+        echo "Cleaning up cache..."
+        conda clean --all -y
+    user_setup:
+      # https://github.com/devcontainers/images/blob/main/src/universal/.devcontainer/local-features/setup-user/
+      feature:
+        id: setup-user
+        name: Setup user configs
+        version: "0.1.0"
+        containerEnv:
+          RUBY_HOME: /usr/local/rvm/rubies/default
+          JAVA_ROOT: /home/codespace/java
+          NODE_ROOT: /home/codespace/nvm
+          PHP_ROOT: /home/codespace/.php
+          PYTHON_ROOT: /home/codespace/.python
+          RUBY_ROOT: /home/codespace/.ruby
+          MAVEN_ROOT: /home/codespace/.maven
+          HUGO_ROOT: /home/codespace/.hugo
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+          NUGET_XMLDOC_MODE: skip
+          ORYX_ENV_TYPE: vsonline-present
+          PYTHONIOENCODING: UTF-8
+          NPM_GLOBAL: /home/codespace/.npm-global
+          NVS_HOME: /home/codespace/.nvs
+          RVM_PATH: /usr/local/rvm
+          RAILS_DEVELOPMENT_HOSTS: .githubpreview.dev,.preview.app.github.dev,.app.github.dev
+          GOROOT: /usr/local/go
+          JUPYTERLAB_PATH: /home/codespace/.local/bin
+          PATH: /home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}
+        options:
+          log_dirpath:
+            type: string
+            description: Absolute path to a directory to write log files.
+            default: ${{ __temp__.container_build_log_path }}$/user_setup
+      install: |
+        #!/usr/bin/env bash
+        set -euxo pipefail
+
+        export DEBIAN_FRONTEND=noninteractive
+
+        # Constants
+        LOG_FILE_NAME="install.log"
+        SUDOERS_DIR="/etc/sudoers.d"
+
+        # Utility: link tool path only if source exists
+        link_if_exists() {
+            local src="$1"
+            local dest="$2"
+            local label="$3"
+
+            if [ -e "$src" ]; then
+                mkdir -p "$(dirname "$dest")"
+                ln -snf "$src" "$dest"
+                echo "✔️ Linked $label"
+            else
+                echo "⏩ Skipped $label (not found: $src)"
+            fi
+        }
+
+        get_debian_flavor() {
+            local codename=""
+
+            if [ -f /etc/os-release ]; then
+                . /etc/os-release
+                codename="${VERSION_CODENAME:-}"
+            fi
+
+            # Fallback to lsb_release if codename is still empty
+            if [ -z "$codename" ] && command -v lsb_release >/dev/null 2>&1; then
+                codename="$(lsb_release -c -s)"
+            fi
+
+            # Final fallback
+            codename="${codename:-unknown}"
+
+            echo "$codename"
+        }
+
+        # Redirect stdout and stderr to a file
+        echo "Creating log directory..."
+        mkdir -p "$LOG_DIRPATH"
+        exec > >(tee -a "${LOG_DIRPATH}/${LOG_FILE_NAME}") 2>&1
+
+        # Ensure script is run as root
+        if [ "$(id -u)" -ne 0 ]; then
+            echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
+            exit 1
+        fi
+
+        # Ensure login shells get the correct path if ENV was used to modify PATH.
+        rm -f /etc/profile.d/00-restore-env.sh
+        echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
+        chmod +x /etc/profile.d/00-restore-env.sh
+
+        # Determine the appropriate non-root user
+        USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
+        if [ "${USERNAME}" = "automatic" ]; then
+            USERNAME=""
+            POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
+            for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
+                if id -u ${CURRENT_USER} > /dev/null 2>&1; then
+                    USERNAME=${CURRENT_USER}
+                    break
+                fi
+            done
+            if [ "${USERNAME}" = "" ]; then
+                USERNAME=root
+            fi
+        elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
+            USERNAME=root
+        fi
+
+        # Set common variables.
+        HOME_DIR="/home/${USERNAME}"
+        OPT_DIR="/opt"
+        DEBIAN_FLAVOR="$(get_debian_flavor)"
+
+        # Enable the oryx tool to generate manifest-dir which is needed for running the postcreate tool.
+        # Oryx expects the tool to be installed at `/opt/oryx` and looks for relevant files in there.
+        ORYX_DIR="/opt/oryx"
+        mkdir -p "$ORYX_DIR"
+        echo "vso-focal" > "$ORYX_DIR/.imagetype"
+        echo "DEBIAN|${DEBIAN_FLAVOR}-SCM" | tr '[a-z]' '[A-Z]' > "$ORYX_DIR/.ostype"
+        if compgen -G "/usr/local/oryx/*" > /dev/null; then
+            ln -snf /usr/local/oryx/* "$ORYX_DIR"
+        fi
+
+        # Tool links
+        DOTNET_PATH="${HOME_DIR}/.dotnet"
+        HUGO_PATH="${HOME_DIR}/.hugo/current"
+        JAVA_PATH="${HOME_DIR}/java/current"
+        MAVEN_PATH="${HOME_DIR}/.maven/current"
+        NODE_PATH="${HOME_DIR}/nvm/current"
+        PHP_PATH="${HOME_DIR}/.php/current"
+        PYTHON_PATH="${HOME_DIR}/.python/current"
+        RUBY_PATH="${HOME_DIR}/.ruby/current"
+
+        link_if_exists "/usr/share/dotnet"                          "$DOTNET_PATH"    ".NET SDK"
+        link_if_exists "/usr/local/hugo"                            "$HUGO_PATH"      "Hugo"
+        link_if_exists "/usr/local/sdkman/candidates/java"          "$JAVA_PATH"      "Java"  #CHECK
+        link_if_exists "/usr/local/sdkman/candidates/maven/current" "$MAVEN_PATH"     "Maven"
+        link_if_exists "/usr/local/share/nvm"                       "${HOME_DIR}/nvm" "Node.js" #CHECK
+        link_if_exists "/usr/local/php/current"                     "$PHP_PATH"       "PHP"
+        link_if_exists "/usr/local/python/current"                  "$PYTHON_PATH"    "Python"
+        link_if_exists "/usr/local/python"                          "/opt/python"     "Python root"
+        link_if_exists "/usr/local/rvm/rubies/default"              "$RUBY_PATH"      "Ruby"
+
+        # .NET special setup
+        # Required due to https://github.com/devcontainers/features/pull/628/files#r1276659825
+        if [ -d /usr/share/dotnet ]; then
+            DOTNET_DIR="/usr/share/dotnet"
+            chown -R "$USERNAME:$USERNAME" "$DOTNET_DIR"
+            chmod g+r+w+s "$DOTNET_DIR"
+            chmod -R g+r+w "$DOTNET_DIR"
+
+            mkdir -p "$OPT_DIR/dotnet/lts"
+            cp -R "$DOTNET_DIR/{dotnet,LICENSE.txt,ThirdPartyNotices.txt}" "$OPT_DIR/dotnet/lts" || true
+        fi
+
+        # Fix permissions for home directory.
+        chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
+        chmod -R g+r+w "$HOME_DIR"
+        find "${HOME_DIR}" -type d | xargs -n 1 chmod g+s
+        # Fix permissions for opt directory.
+        if getent group oryx > /dev/null; then
+            echo "✅ Group 'oryx' exists, applying group ownership and permissions"
+            chown -R "$USERNAME:oryx" "$OPT_DIR"
+            chmod -R g+r+w "$OPT_DIR"
+            find "$OPT_DIR" -type d | xargs -n 1 chmod g+s
+        else
+            echo "⚠️ Group 'oryx' does not exist, skipping group-related permission setup for $OPT_DIR"
+        fi
+
+        # Customize secure_path for sudo
+        SECURE_PATH="${DOTNET_PATH}:${NODE_PATH}/bin:${PHP_PATH}/bin:${PYTHON_PATH}/bin:${JAVA_PATH}/bin:${RUBY_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:${HOME_DIR}/.local/bin:${PATH}"
+        echo "Defaults secure_path=\"$SECURE_PATH\"" >> "${SUDOERS_DIR}/${USERNAME}"
+
+        echo "✅ Dev container user setup complete!"
+    oh-my-zsh:
+      metadata:
+        options:
+          install_dir:
+            type: string
+            description: Path to a directory to install Oh My Zsh.
+            default: /usr/local/oh-my-zsh
+      install:
+        function:
+          install_oh_my_zsh:
+            summary: Install Oh My Zsh.
+            description: |
+              Clone the Oh My Zsh repository from GitHub
+              into the specified directory.
+            references:
+              - title: Oh My Zsh manual installation guide
+                url: https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
+  function:
+    git_clone:
+      summary: Clone a Git repository.
+      description: |
+        Clone a Git repository from a specified URL
+        into a specified directory.
+      parameters:
+        url:
+          type: string
+          summary: URL of the Git repository to clone.
+        dir:
+          type: string
+          summary: Path to the directory to clone the repository into.
+          checks:
+            - dir_must_not_exist
+      references:
+        - title: Git clone documentation
+          url: https://git-scm.com/docs/git-clone
+      body: |
+        # Check if the directory already exists
+        if [ -d "$dir" ]; then
+            echo "Directory $dir already exists. Skipping clone."
+            return 0
+        fi
+
+        # Clone the repository
+        git clone --depth=1 "$url" "$dir"
+        echo "Cloned $url into $dir"
+
 devcontainer_main:
   var:
     conda:
