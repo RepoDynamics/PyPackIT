@@ -1,0 +1,181 @@
+$id: https://controlman.repodynamics.com/schema/shell-script
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Shell Script
+summary: Definition of a shell script.
+type: object
+additionalProperties: false
+properties:
+  summary:
+    summary: One-line summary of the script.
+    type: string
+  description:
+    summary: Long description of the script.
+    type: string
+  parameter:
+    summary: Input parameters for the script.
+    type: object
+    additionalProperties:
+      title: Parameter
+      summary: An input parameter of the script.
+      type: object
+      additionalProperties: false
+      required: [ type ]
+      properties:
+        type:
+          summary: Type of the parameter.
+          type: string
+          default: string
+          enum:
+            - string
+            - boolean
+            - array
+        summary:
+          summary: One-line summary of the parameter.
+          type: string
+        description:
+          summary: Description of the parameter.
+          type: string
+        default:
+          summary: Default value of the parameter.
+          description: |
+            The default value of the parameter.
+            If not specified, the parameter is considered
+            to be required, and the function will fail
+            if it is not provided.
+            This is only used when the parameter type
+            is `string` or `array`.
+            For boolean parameters,
+            the default value is always `false`.
+          type: [ string, array ]
+          items:
+            type: string
+        validation:
+          summary: Validation rules for the parameter.
+          type: object
+          additionalProperties: false
+          properties:
+            enum:
+              summary: Enumeration of valid values for the parameter.
+              type: array
+              items:
+                type: string
+            path_existence:
+              summary: Validation rule for path existence.
+              type: object
+              additionalProperties: false
+              required: [ must_exist ]
+              properties:
+                must_exist:
+                  summary: Validation rule for path existence.
+                  description: |
+                    If `true` (defualt), the path must exist.
+                    if `false`, the path must not exist.
+                  type: boolean
+                  default: true
+                type:
+                  summary: Type of the path.
+                  description: |
+                    If given, the parameter must be a path of this type.
+                  type: string
+                  enum:
+                    - dir
+                    - exec
+                    - file
+                    - symlink
+            custom:
+              summary: A custom validation rule for the parameter.
+              type: string
+        array_delimiter:
+          summary: Separator for array items.
+          description: |
+            This is used to separate items in an array parameter,
+            when the parameter input is an environment variable.
+          type: string
+          default: " :: "
+  return:
+    type: array
+    items:
+      type: object
+      properties:
+        type:
+          summary: Type of the parameter.
+          type: string
+          default: string
+          enum:
+            - string
+            - boolean
+            - array
+        name:
+          summary: Name of the return value.
+          type: string
+        summary:
+          summary: One-line summary of the return value.
+          type: string
+        description:
+          summary: Description of the return value.
+          type: string
+        variable:
+          summary: Variable name to return.
+          type: string
+  references:
+    summary: External references for the function.
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [ title, url ]
+      properties:
+        title:
+          summary: Title of the reference.
+          type: string
+        description:
+          summary: Description of the reference.
+          type: string
+        url:
+          summary: URL of the reference.
+          $ref: https://jsonschemata.repodynamics.com/url/https
+  function:
+    summary: Definition of functions in the install script.
+    type: object
+    properties:
+      __cleanup__:
+        title: Cleanup Function
+        summary: Definition of the cleanup function in the install script.
+        description: |
+          This function is called when the script exits (using `trap`),
+          regardless of whether it was successful or not.
+          Include any cleanup code here.
+          Additional code is automatically added to
+          the end of this function to handle the log file.
+          This function cannot have any parameters.
+        $ref: https://controlman.repodynamics.com/schema/shell-function
+    additionalProperties:
+      title: Shell Function
+      summary: Definition of a function in the install script.
+      $ref: https://controlman.repodynamics.com/schema/shell-function
+  shebang:
+    summary: Shebang for the install script.
+    type: string
+    default: /usr/bin/env bash
+    description: |
+      This specifies the interpreter to use when executing the script.
+      You do not need to include the `#!` characters.
+  body:
+    summary: Body of the script.
+    type: array
+    items:
+      title: Body Section
+      summary: A section of the script body.
+      type: object
+      additionalProperties: false
+      required: [ content ]
+      properties:
+        summary:
+          summary: One-line summary of the section.
+          type: string
+        content:
+          summary: Content of the script.
+          type: string
+        description:
+          summary: Description of the content.
+          type: string

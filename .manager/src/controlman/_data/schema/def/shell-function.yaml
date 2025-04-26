@@ -1,0 +1,128 @@
+$id: https://controlman.repodynamics.com/schema/shell-function
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Shell Function
+summary: Definition of a shell function.
+type: object
+additionalProperties: false
+required: [ summary, body ]
+properties:
+  summary:
+    summary: One-line summary of the function.
+    type: string
+  description:
+    summary: Description of the function.
+    type: string
+  parameters:
+    summary: Input parameters for the function.
+    type: object
+    additionalProperties:
+      title: Parameter
+      summary: An input parameter of the function.
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          summary: Type of the parameter.
+          type: string
+          default: string
+          enum:
+            - string
+            - boolean
+            - array
+        summary:
+          summary: One-line summary of the parameter.
+          type: string
+        description:
+          summary: Description of the parameter.
+          type: string
+        default:
+          summary: Default value of the parameter.
+          description: |
+            The default value of the parameter.
+            If not specified, the parameter is considered
+            to be required, and the function will fail
+            if it is not provided.
+            This is only used when the parameter type
+            is `string` or `array`.
+            For boolean parameters,
+            the default value is always `false`.
+          type: [ string, array ]
+          items:
+            type: string
+        validation:
+          summary: Validation rules for the parameter.
+          type: object
+          additionalProperties: false
+          properties:
+            enum:
+              summary: Enumeration of valid values for the parameter.
+              type: array
+              items:
+                type: string
+            path_existence:
+              summary: Validation rule for path existence.
+              type: object
+              additionalProperties: false
+              required: [ must_exist ]
+              properties:
+                must_exist:
+                  summary: Validation rule for path existence.
+                  description: |
+                    If `true` (defualt), the path must exist.
+                    if `false`, the path must not exist.
+                  type: boolean
+                  default: true
+                type:
+                  summary: Type of the path.
+                  description: |
+                    If given, the parameter must be a path of this type.
+                  type: string
+                  enum:
+                    - dir
+                    - exec
+                    - file
+                    - symlink
+            custom:
+              summary: A custom validation rule for the parameter.
+              type: string
+  returns:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          summary: Name of the return value.
+          type: string
+        summary:
+          summary: One-line summary of the return value.
+          type: string
+        description:
+          summary: Description of the return value.
+          type: string
+        variable:
+          summary: Variable name to return.
+          type: string
+  references:
+    summary: External references for the function.
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [ title, url ]
+      properties:
+        title:
+          summary: Title of the reference.
+          type: string
+        description:
+          summary: Description of the reference.
+          type: string
+        url:
+          summary: URL of the reference.
+          $ref: https://jsonschemata.repodynamics.com/url/https
+  body:
+    summary: Body of the function.
+    oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
