@@ -117,27 +117,23 @@ patternProperties:
         additionalProperties:
           $ref: https://controlman.repodynamics.com/schema/bash-task
       task_setting:
-        type: object
-        default: {}
-        additionalProperties: false
-        properties:
-          $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
-          default:
-            process:
-              prepend:
-                - conda
-                - run
-                - --cwd
-                - '{{ devcontainer.container.workspaceFolder }}'
-                - --live-stream
-                - -vv
-                - --name
-            script:
-              prepend: |
-                current_dir=$(pwd)
-                cd '{{ devcontainer.container.workspaceFolder }}'
-              append: |
-                cd "$current_dir"
+        $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
+        default:
+          process:
+            prepend:
+              - conda
+              - run
+              - --cwd
+              - '{{ devcontainer.container.workspaceFolder }}'
+              - --live-stream
+              - -vv
+              - --name
+          script:
+            prepend: |
+              current_dir=$(pwd)
+              cd '{{ devcontainer.container.workspaceFolder }}'
+            append: |
+              cd "$current_dir"
       environment:
         type: object
         additionalProperties:
