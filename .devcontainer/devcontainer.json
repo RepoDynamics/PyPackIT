@@ -16,7 +16,7 @@
    "service": "main",
    "shutdownAction": "none",
    "userEnvProbe": "loginInteractiveShell",
-   "workspaceFolder": "/",
+   "workspaceFolder": "/workspace",
    "postCreateCommand": {
       "pixi_chown": ["sudo", "chown", "pypackit-dev", ".pixi"]
    },
