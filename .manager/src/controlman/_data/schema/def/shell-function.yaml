@@ -12,7 +12,7 @@ properties:
   description:
     summary: Description of the function.
     type: string
-  parameters:
+  parameter:
     summary: Input parameters for the function.
     type: object
     additionalProperties:
@@ -49,6 +49,11 @@ properties:
           type: [ string, array ]
           items:
             type: string
+        examples:
+          summary: Example values for the parameter.
+          type: array
+          items:
+            type: [ string, array ]
         validation:
           summary: Validation rules for the parameter.
           type: object
@@ -85,7 +90,7 @@ properties:
             custom:
               summary: A custom validation rule for the parameter.
               type: string
-  returns:
+  return:
     type: array
     items:
       type: object
