@@ -32,6 +32,7 @@ def create_script(name: str, data: dict) -> str:
                 indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
                 *indent(create_env_var_parse(data.get("parameter")), 1),
                 "fi",
+                '[[ "$DEBUG" == true ]] && set -x',
                 *create_validation_block(parameters, local=True),
             ]
         )
