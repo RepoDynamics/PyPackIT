@@ -145,6 +145,8 @@ properties:
         url:
           summary: URL of the reference.
           $ref: https://jsonschemata.repodynamics.com/url/https
+  import:
+    type: array
   function:
     summary: Definition of functions in the install script.
     type: object
