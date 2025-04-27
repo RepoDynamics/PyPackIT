@@ -104,6 +104,11 @@ patternProperties:
                 type: object
                 minProperties: 1
                 maxProperties: 1
+                properties:
+                  ARG:
+                    type: object
+                    additionalProperties:
+                      type: string
                 additionalProperties:
                   type: string
       container:
