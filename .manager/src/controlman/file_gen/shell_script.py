@@ -47,7 +47,7 @@ def create_script(
         )
     lines.extend(
         [
-            *sanitize_code(data.get("body")),
+            *sanitize_code([section["content"] for section in data.get("body", [])]),
             *create_output(data.get("return")),
             log_endpoint(name, typ="script", stage="exit"),
         ]
