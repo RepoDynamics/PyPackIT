@@ -35,7 +35,7 @@ devcontainer:
         summary: Install Git.
         description: |
           Install Git from the official Git repository.
-        parameters:
+        parameter:
           version:
             type: string
             summary: Version of Git to install.
@@ -557,7 +557,7 @@ devcontainer:
         summary: Install Oh My Zsh.
         description: |
           Install Oh My Zsh from the official GitHub repository.
-        parameters:
+        parameter:
           install_dir:
             type: string
             summary: Path to the Oh My Zsh installation directory.
@@ -646,7 +646,7 @@ devcontainer:
           version:
             type: string
             summary: Version of Pixi to install.
-            default:
+            default: 0.46.0
           install_path:
             type: string
             summary: |
@@ -764,7 +764,7 @@ devcontainer:
         conda clean --all -y
     user_setup:
       # https://github.com/devcontainers/images/blob/main/src/universal/.devcontainer/local-features/setup-user/
-      feature:
+      metadata:
         id: setup-user
         name: Setup user configs
         version: "0.1.0"
@@ -945,7 +945,7 @@ devcontainer:
         description: |
           Install system packages listed in a file
           using the system's package manager.
-        parameters:
+        parameter:
           apt:
             type: string
             summary: APT packages to install.
@@ -1216,7 +1216,7 @@ devcontainer:
         summary: Install TeX Live.
         description: |
           Install and/or set up TeX Live using the TeX Live installer.
-        parameters:
+        parameter:
           install:
             type: boolean
             summary: Install TeX Live.
@@ -1522,7 +1522,7 @@ devcontainer:
         function:
           execute:
             summary: Execute the specified action on the file.
-            parameters:
+            parameter:
               action:
                 type: string
                 summary: Action to take on the file.
@@ -1664,7 +1664,7 @@ devcontainer:
         and returns the absolute path to the script's directory.
         This is useful for scripts that need to reference files
         relative to their own location.
-      returns:
+      return:
         - name: script_dir
           summary: Absolute directory path of the current running script.
           variable: script_dir
@@ -1675,7 +1675,7 @@ devcontainer:
       description: |
         Clone a Git repository from a specified URL
         into a specified directory.
-      parameters:
+      parameter:
         url:
           type: string
           summary: URL of the Git repository to clone.
@@ -1822,11 +1822,11 @@ devcontainer:
           description: |
             This is the path to modify.
             It will be prepended with a slash if it doesn't already start with one.
-        return:
-          name: modified_path
-          type: string
-          summary: Modified path.
-          variable: modified_path
+      return:
+        name: modified_path
+        type: string
+        summary: Modified path.
+        variable: modified_path
         body: |
           local modified_path="$path"
           if [[ "$modified_path" != /* ]]; then
