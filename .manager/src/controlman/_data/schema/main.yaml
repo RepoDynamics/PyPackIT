@@ -129,14 +129,14 @@ patternProperties:
               - conda
               - run
               - --cwd
-              - '{{ devcontainer.container.workspaceFolder }}'
+              - '${{ ....container.workspaceFolder }}$'
               - --live-stream
               - -vv
               - --name
           script:
             prepend: |
               current_dir=$(pwd)
-              cd '{{ devcontainer.container.workspaceFolder }}'
+              cd '${{ ....container.workspaceFolder }}$'
             append: |
               cd "$current_dir"
       environment:
@@ -185,7 +185,7 @@ patternProperties:
                 script:
                   prepend: |
                     current_dir=$(pwd)
-                    cd '${{ ......container.workspaceFolder }}$'
+                    cd '${{ .....container.workspaceFolder }}$'
                     conda activate '{{ ....name }}'
                   append: |
                     conda deactivate
