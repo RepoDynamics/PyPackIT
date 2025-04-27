@@ -576,7 +576,7 @@ devcontainer:
             description: |
               This corresponds to the [`ZSH_CUSTOM`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
               configuration variable in Oh My Zsh.
-            default: ${{ install_dir }}$/custom
+            default: ${{ .install_dir }}$/custom
         import:
           - git_clone
         body:
