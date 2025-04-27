@@ -316,7 +316,7 @@ def validate_variable(
         out.append(f'for elem in "${{{var_name}[@]}}"; do')
     for validation_name, validation_data in validations.items():
         if validation_name == "enum":
-            validation_lines = validation_enum(var_name=var_name, enum=validation_data)
+            validation_lines = validate_enum(var_name=var_name, enum=validation_data)
         elif validation_name == "path_existence":
             validation_lines = validate_path_existence(var_name=var_name, must_exist=validation_data["must_exist"], path_type=validation_data["type"])
         else:
