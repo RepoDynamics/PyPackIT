@@ -109,7 +109,7 @@ class InlineDataGenerator:
             packages_filepath = apt_paths["packages"]
             out.extend(
                 [
-                    {"ARG": f'{argname_pkg_file}="{container_share_dir}/{packages_filepath}"'},
+                    {"ARG": {argname_pkg_file: f"{container_share_dir}/{packages_filepath}"}},
                     {"COPY": f'["{packages_filepath}", "${argname_pkg_file}"]'},
                 ]
             )
@@ -118,7 +118,7 @@ class InlineDataGenerator:
                 argname_repo_file = f"APT_{group.upper()}_REPOS"
                 out.extend(
                     [
-                        {"ARG": f'{argname_repo_file}="{container_share_dir}/{repos_filepath}"'},
+                        {"ARG": {argname_repo_file: f"{container_share_dir}/{repos_filepath}"}},
                         {"COPY": f'["{repos_filepath}", "${argname_repo_file}"]'},
                     ]
                 )
@@ -131,7 +131,7 @@ class InlineDataGenerator:
             argname_post_install_file = f"APT_{group.upper()}_POST_INSTALL"
             out.extend(
                 [
-                    {"ARG": f'{argname_post_install_file}="{container_share_dir}/{post_install_filepath}"'},
+                    {"ARG": {argname_post_install_file: f"{container_share_dir}/{post_install_filepath}"}},
                     {"COPY": f'["{post_install_filepath}", "${argname_post_install_file}"]'},
                     {
                         "RUN": (
