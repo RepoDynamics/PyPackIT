@@ -6906,7 +6906,7 @@ devcontainer_main:
         export XDG_STATE_HOME="${HOME}/.local/state"
 
         # Source project tasks file.
-        . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks_local }}$"
+        . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks }}$"
 
         # From default zshenv file created by the `zsh-common` apt package.
         if [[ -z "$PATH" || "$PATH" == "/bin:/usr/bin" ]]; then
