@@ -84,3 +84,4 @@ cython_debug/
 .idea/
 .DS_Store
 .Trash-1000/
+.pixi
