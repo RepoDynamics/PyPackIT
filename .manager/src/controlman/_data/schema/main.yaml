@@ -136,7 +136,7 @@ patternProperties:
           script:
             prepend: |
               current_dir=$(pwd)
-              cd '${{ ....container.workspaceFolder }}$'
+              cd '${{ ...container.workspaceFolder }}$'
             append: |
               cd "$current_dir"
       environment:
