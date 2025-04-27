@@ -108,7 +108,7 @@ patternProperties:
                   ARG:
                     type: object
                     additionalProperties:
-                      type: string
+                      type: [ string, number ]
                 additionalProperties:
                   type: string
       container:
