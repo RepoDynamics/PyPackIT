@@ -318,7 +318,7 @@ def validate_variable(
         if validation_name == "enum":
             validation_lines = validation_enum(var_name=var_name, enum=validation_data)
         elif validation_name == "path_existence":
-            validation_lines = validate_path_existence(var_name=var_name, **validation_data)
+            validation_lines = validate_path_existence(var_name=var_name, must_exist=validation_data["must_exist"], path_type=validation_data["type"])
         else:
             raise ValueError(f"Unsupported validation type: {validation_name}")
         out.extend(indent(validation_lines, indent=1 if in_for_loop else 0))
