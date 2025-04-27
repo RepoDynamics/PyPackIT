@@ -60,6 +60,10 @@ properties:
           type: [ string, array ]
           items:
             type: string
+        examples:
+          type: array
+          items:
+            type: [ string, array]
         validation:
           summary: Validation rules for the parameter.
           type: object
@@ -192,3 +196,20 @@ properties:
         description:
           summary: Description of the content.
           type: string
+        references:
+          summary: External references for the section.
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [ title, url ]
+            properties:
+              title:
+                summary: Title of the reference.
+                type: string
+              description:
+                summary: Description of the reference.
+                type: string
+              url:
+                summary: URL of the reference.
+                $ref: https://jsonschemata.repodynamics.com/url/https
