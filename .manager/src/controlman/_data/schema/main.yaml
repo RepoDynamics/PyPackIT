@@ -87,14 +87,10 @@ patternProperties:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
             default: ${{ .root }}$/Dockerfile
-          tasks_local:
-            summary: Path to the local tasks script file.
+          tasks:
+            summary: Path to the tasks script file.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/${{ devcontainer.containers.rel_path.tasks_local }}$
-          tasks_global:
-            summary: Path to the global tasks script file.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/${{ devcontainer.containers.rel_path.tasks_global }}$
+            default: ${{ .root }}$/tasks.sh
       service:
         type: object
       dockerfile:
@@ -121,7 +117,27 @@ patternProperties:
         additionalProperties:
           $ref: https://controlman.repodynamics.com/schema/bash-task
       task_setting:
-        $ref: https://controlman.repodynamics.com/schema/bash-task-setting
+        type: object
+        default: {}
+        additionalProperties: false
+        properties:
+          $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
+          default:
+            process:
+              prepend:
+                - conda
+                - run
+                - --cwd
+                - '{{ devcontainer.container.workspaceFolder }}'
+                - --live-stream
+                - -vv
+                - --name
+            script:
+              prepend: |
+                current_dir=$(pwd)
+                cd '{{ devcontainer.container.workspaceFolder }}'
+              append: |
+                cd "$current_dir"
       environment:
         type: object
         additionalProperties:
@@ -152,6 +168,27 @@ patternProperties:
               type: object
               additionalProperties:
                 $ref: https://controlman.repodynamics.com/schema/bash-task
+            task_setting:
+              $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
+              default:
+                process:
+                  prepend:
+                    - conda
+                    - run
+                    - --cwd
+                    - '${{ ......container.workspaceFolder }}$'
+                    - --name
+                    - '${{ ....name }}$'
+                    - --live-stream
+                    - -vv
+                script:
+                  prepend: |
+                    current_dir=$(pwd)
+                    cd '${{ ......container.workspaceFolder }}$'
+                    conda activate '{{ ....name }}'
+                  append: |
+                    conda deactivate
+                    cd "$current_dir"
             variable:
               type: object
               additionalProperties:
@@ -3413,14 +3450,6 @@ properties:
             type: object
             default: { }
             properties:
-              tasks_local:
-                summary: Path to the output local tasks file.
-                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
-                default: tasks_local.sh
-              tasks_global:
-                summary: Path to the output global tasks file.
-                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
-                default: tasks_global.sh
               environment:
                 summary: Path to the environment directory.
                 $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
@@ -4613,8 +4642,6 @@ properties:
           yaml:
             default: { }
             $ref: https://controlman.repodynamics.com/schema/dynamic-file-setting-yaml
-      task_setting:
-        $ref: https://controlman.repodynamics.com/schema/bash-task-setting
   changelogs:
     $ref: https://controlman.repodynamics.com/schema/changelog
   contributor:

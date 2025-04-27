@@ -283,24 +283,6 @@ class ConfigFileGenerator:
                 for arg in (args or [])
             ]
 
-        def resolve_task_settings(
-            devcontainer: dict, typ: Literal["local", "global"], environment: dict | None = None
-        ):
-            typ2 = "environment" if environment else "root"
-            jsonpath = f"default.task_setting.{typ}.{typ2}"
-            settings = self._data.get(jsonpath, {})
-            settings_filled = _unit.fill_jinja_templates(
-                templates=settings,
-                jsonpath=jsonpath,
-                env_vars={"devcontainer": devcontainer, "environment": environment or {}},
-            )
-            out = _copy.deepcopy(devcontainer.get("task_setting", {}).get(typ, {}).get(typ2, {}))
-            _ps.update.recursive_update(
-                source=out,
-                addon=settings_filled,
-            )
-            return out
-
         def create_task_function(
             task: dict,
             task_setting: dict,
@@ -456,42 +438,37 @@ class ConfigFileGenerator:
                 out.append(env_file)
 
             # Task scripts
-            tasks = {"local": [], "global": []}
+            tasks = []
             for task in container.get("task", {}).values():
-                for typ in tasks:
-                    tasks[typ].append(
-                        create_task_function(
-                            task=task,
-                            task_setting=resolve_task_settings(devcontainer=container, typ=typ),
-                        )
-                    )
-            for environment in container.get("environment", {}).values():
-                for task in environment.get("task", {}).values():
-                    for typ in tasks:
-                        tasks[typ].append(
-                            create_task_function(
-                                task=task,
-                                task_setting=resolve_task_settings(
-                                    devcontainer=container, typ=typ, environment=environment
-                                ),
-                            )
-                        )
-            for typ in tasks:
-                out.append(
-                    DynamicFile(
-                        type=DynamicFileType[f"DEVCONTAINER_TASK_{typ.upper()}"],
-                        subtype=(container_id, container.get("name", container_id)),
-                        content=_unit.create_dynamic_file(
-                            file_type="txt",
-                            content=tasks[typ],
-                            content_item_separator="\n\n",
-                        )
-                        if tasks[typ]
-                        else None,
-                        path=f"{container['path'][f'tasks_{typ}']}",
-                        path_before=f"{container_before.get('path', {}).get(f'tasks_{typ}')}",
+                tasks.append(
+                    create_task_function(
+                        task=task,
+                        task_setting=container["task_setting"],
                     )
                 )
+            for environment in container.get("environment", {}).values():
+                for task in environment.get("task", {}).values():
+                    tasks.append(
+                        create_task_function(
+                            task=task,
+                            task_setting=environment["task_setting"]
+                        )
+                    )
+            out.append(
+                DynamicFile(
+                    type=DynamicFileType.DEVCONTAINER_TASK,
+                    subtype=(container_id, container.get("name", container_id)),
+                    content=_unit.create_dynamic_file(
+                        file_type="txt",
+                        content=tasks,
+                        content_item_separator="\n\n",
+                    )
+                    if tasks
+                    else None,
+                    path=f"{container['path']['tasks']}",
+                    path_before=f"{container_before.get('path', {}).get('tasks')}",
+                )
+            )
         return out
 
     def devcontainer_features(self) -> list[DynamicFile]:

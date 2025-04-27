@@ -7,67 +7,6 @@ __temp__:
   conda_env_name:
     app: ${{ devcontainer_main.var.conda.app_env }}$
     manager: proman
-default:
-  task_setting:
-    local:
-      environment:
-        process:
-          prepend:
-            - conda
-            - run
-            - --cwd
-            - '{{ devcontainer.container.workspaceFolder }}'
-            - --name
-            - '{{ environment.name }}'
-            - --live-stream
-            - -vv
-        script:
-          prepend: |
-            current_dir=$(pwd)
-            cd '{{ devcontainer.container.workspaceFolder }}'
-            conda activate '{{ environment.name }}'
-          append: |
-            conda deactivate
-            cd "$current_dir"
-      root:
-        process:
-          prepend:
-            - conda
-            - run
-            - --cwd
-            - '{{ devcontainer.container.workspaceFolder }}'
-            - --live-stream
-            - -vv
-            - --name
-        script:
-          prepend: |
-            current_dir=$(pwd)
-            cd '{{ devcontainer.container.workspaceFolder }}'
-          append: |
-            cd "$current_dir"
-    global:
-      environment:
-        process:
-          prepend:
-            - conda
-            - run
-            - --name
-            - '{{ environment.name }}'
-            - --live-stream
-            - -vv
-        script:
-          prepend: |
-            conda activate '{{ environment.name }}'
-          append: |
-            conda deactivate
-      root:
-        process:
-          prepend:
-            - conda
-            - run
-            - --live-stream
-            - -vv
-            - --name
 devcontainer:
   docker-compose:
     config:
