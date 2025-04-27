@@ -584,6 +584,7 @@ devcontainer:
             content: umask g-w,o-w
           - summary: Install Oh My Zsh.
             content: |
+              # https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
               git_clone --url "https://github.com/ohmyzsh/ohmyzsh" --dir "$INSTALL_DIR"
           - summary: Download fonts.
             references:
@@ -936,23 +937,6 @@ devcontainer:
         echo "Defaults secure_path=\"$SECURE_PATH\"" >> "${SUDOERS_DIR}/${USERNAME}"
 
         echo "✅ Dev container user setup complete!"
-    oh-my-zsh:
-      metadata:
-        options:
-          install_dir:
-            type: string
-            description: Path to a directory to install Oh My Zsh.
-            default: /usr/local/oh-my-zsh
-      install:
-        function:
-          install_oh_my_zsh:
-            summary: Install Oh My Zsh.
-            description: |
-              Clone the Oh My Zsh repository from GitHub
-              into the specified directory.
-            references:
-              - title: Oh My Zsh manual installation guide
-                url: https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
     syspkg:
       metadata:
         name: System Package Installation
