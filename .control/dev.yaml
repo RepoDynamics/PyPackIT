@@ -1684,7 +1684,7 @@ devcontainer:
           summary: Path to the directory to clone the repository into.
           validation:
             path_existence:
-              must_ecist: false
+              must_exist: false
               type: directory
       references:
         - title: Git clone documentation
@@ -1823,11 +1823,11 @@ devcontainer:
             This is the path to modify.
             It will be prepended with a slash if it doesn't already start with one.
       return:
-        name: modified_path
-        type: string
-        summary: Modified path.
-        variable: modified_path
-        body: |
+        - name: modified_path
+          type: string
+          summary: Modified path.
+          variable: modified_path
+          body: |
           local modified_path="$path"
           if [[ "$modified_path" != /* ]]; then
               modified_path="/$modified_path"
