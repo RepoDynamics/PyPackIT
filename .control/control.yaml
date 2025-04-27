@@ -2806,7 +2806,7 @@ devcontainer:
             validation:
               path_existence:
                 must_exist: true
-                type: directory
+                type: dir
           manifest_file:
             type: string
             summary: Path to the manifest file.
@@ -2996,7 +2996,7 @@ devcontainer:
           validation:
             path_existence:
               must_exist: false
-              type: directory
+              type: dir
       references:
         - title: Git clone documentation
           url: https://git-scm.com/docs/git-clone
@@ -3233,8 +3233,8 @@ devcontainer_main:
         directly from its [GitHub repository](https://github.com/git/git)
         to get and up-to-date version.
       instructions:
-        - ARG: |
-            GIT_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$"
+        - ARG:
+            GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$
         - COPY: |
             ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
         - ENV: |
@@ -3249,11 +3249,11 @@ devcontainer_main:
     - title: User Setup
       summary: Setup user.
       instructions:
-        - ARG: |
-            USERNAME=${{ devcontainer_main.var.user.name }}$
-            USER_HOME=${{ devcontainer_main.var.user.home }}$
-            USER_GID=${{ devcontainer_main.var.user.gid }}$
-            USER_UID=${{ devcontainer_main.var.user.uid }}$
+        - ARG:
+            USERNAME: ${{ devcontainer_main.var.user.name }}$
+            USER_HOME: ${{ devcontainer_main.var.user.home }}$
+            USER_GID: ${{ devcontainer_main.var.user.gid }}$
+            USER_UID: ${{ devcontainer_main.var.user.uid }}$
         - RUN: |
             # Create a new user with the specified UID and GID with sudo access.
             # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L427-L443
@@ -3273,9 +3273,9 @@ devcontainer_main:
     - title: TeX Live Installation
       summary: Installation of TeX Live.
       instructions:
-        - ARG: |
-            TEXLIVE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_script.path }}$"
-            TEXLIVE_INSTALL_PROFILE="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_profile.path }}$"
+        - ARG:
+            TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_script.path }}$"
+            TEXLIVE_INSTALL_PROFILE: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_profile.path }}$"
         - COPY: |
             ["${{ devcontainer_main.file.texlive_install_script.path }}$", "$TEXLIVE_INSTALL_SCRIPT"]
         - COPY: |
@@ -3291,8 +3291,8 @@ devcontainer_main:
         - ENV: |
             CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
             PATH=$CONDA_DIR/bin:$PATH
-        - ARG: |
-            MINIFORGE_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_install_script.path }}$"
+        - ARG:
+            MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_install_script.path }}$
         - COPY: |
             ["${{ devcontainer_main.file.conda_install_script.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
         - RUN: |
@@ -3310,9 +3310,9 @@ devcontainer_main:
       instructions: '#{{ return hook.docker_apt("main", "recommended") }}#'
     - title: Conda Environment Installation
       instructions:
-        - ARG: |
-            CONDA_ENVS_INSTALL_SCRIPT="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_env_install_script.path }}$"
-            CONDA_ENVS_DIR="${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.path.conda.envs }}$"
+        - ARG:
+            CONDA_ENVS_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_env_install_script.path }}$
+            CONDA_ENVS_DIR: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.path.conda.envs }}$
         - COPY: |
             ["${{ devcontainer_main.file.conda_env_install_script.path }}$", "$CONDA_ENVS_INSTALL_SCRIPT"]
         - COPY: |
@@ -3340,8 +3340,8 @@ devcontainer_main:
             fi
     - title: Oh-My-Zsh Installation
       instructions:
-        - ARG: |
-            OH_MY_ZSH_INSTALL_DIR=${{ devcontainer_main.var.zsh.oh_my_zsh_install_dir }}$
+        - ARG:
+            OH_MY_ZSH_INSTALL_DIR: ${{ devcontainer_main.var.zsh.oh_my_zsh_install_dir }}$
         - RUN: |
             set -eux;
             # Remove write permissions for group and others
@@ -3365,8 +3365,8 @@ devcontainer_main:
       instructions: '#{{ return hook.docker_apt("main", "optional") }}#'
     - title: Finalization
       instructions:
-        - ARG: |
-            USER_SHELL=${{ devcontainer_main.var.user.shell }}$
+        - ARG:
+            USER_SHELL: ${{ devcontainer_main.var.user.shell }}$
         - RUN: |
             # Ensure that login shells get the correct path if the user updated the PATH using ENV.
             # - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/main.sh#L343-L346
