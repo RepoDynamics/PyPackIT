@@ -85,6 +85,9 @@ class ControlCenterManager:
                 )
             except _ps.exception.read.PySerialsInvalidDataError as e:
                 raise _exception.ControlManInvalidConfigFileDataError(cause=e) from None
+            if not self._data_raw:
+                self._data_raw = data
+                return
             try:
                 log = _ps.update.recursive_update(
                     source=self._data_raw,
@@ -123,13 +126,8 @@ class ControlCenterManager:
             return self._data_raw
         with _logger.sectioning("Config Files Load"):
             self._data_raw = {}
-            hook_dir = self._path_cc / const.DIRNAME_CC_HOOK
             for path in sorted(self._path_cc.rglob("*"), key=lambda p: (p.parts, p)):
-                if (
-                    hook_dir not in path.parents
-                    and path.is_file()
-                    and path.suffix.lower() in [".yaml", ".yml"]
-                ):
+                if path.is_file() and path.suffix.lower() in (".yaml", ".yml"):
                     with _logger.sectioning(
                         _mdit.element.code_span(str(path.relative_to(self._path_cc)))
                     ):
