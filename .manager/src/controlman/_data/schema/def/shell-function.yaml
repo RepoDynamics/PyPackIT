@@ -95,6 +95,13 @@ properties:
     items:
       type: object
       properties:
+        type:
+          summary: Type of the return value.
+          type: string
+          default: string
+          enum:
+            - string
+            - array
         name:
           summary: Name of the return value.
           type: string
