@@ -691,9 +691,6 @@ devcontainer:
                 --url "https://github.com/zsh-users/zsh-syntax-highlighting"
                 --dir "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
     pixi:
-      # See:
-      # - https://github.com/prefix-dev/pixi-docker
-      # - https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
       metadata:
         name: Pixi Installation
         version: 0.46.0
@@ -715,6 +712,11 @@ devcontainer:
             summary: |
               Path to a bin directory to install the Pixi binary.
             default: /usr/local/bin
+        references:
+          - title: Pixi docs
+            url: https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
+          - title: Pixi Docker image
+            url: https://github.com/prefix-dev/pixi-docker
         body: |
           pixi_bin="${INSTALL_PATH}/pixi"
           curl \
@@ -724,7 +726,7 @@ devcontainer:
           chmod +x "$pixi_bin"
           pixi info
     pkg_setup:
-      feature:
+      metadata:
         name: Package Setup
         version: 0.1.0
         description: Install local packages in development mode.
@@ -1013,6 +1015,8 @@ devcontainer:
               - title: Oh My Zsh manual installation guide
                 url: https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
     syspkg:
+      metadata:
+        name: System Package Installation
       install:
         summary: Install system packages.
         description: |
@@ -1283,6 +1287,8 @@ devcontainer:
               fi
           - content: echo "✅ Package installation complete."
     texlive:
+      metadata:
+        name: TeX Live Installation
       install:
         summary: Install TeX Live.
         description: |
@@ -1553,6 +1559,8 @@ devcontainer:
               fi
           - content: echo "✅ TeX Live installation complete."
     volume_setup:
+      metadata:
+        name: Volume Setup
       install:
         summary: Set up files and directories in the root of the system.
         parameter:
