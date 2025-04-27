@@ -63,7 +63,7 @@ def create_env_var_parse(parameters: dict):
         if param_type == "array":
             array_lines = [
                 f'if [ "${{{var_name}+defined}}" ]; then',
-                indent(log(f"Parse '{pram_name}' into array: '${var_name}'", "info"), 1),
+                indent(log(f"Parse '{param_name}' into array: '${var_name}'", "info"), 1),
                 indent(f'IFS="{param_data["array_delimiter"]}" read -r -a _tmp_array <<< "${var_name}"', 1),
                 indent(f'{var_name}=("${{_tmp_array[@]}}")', 1),
                 indent(f'for _item in "${{{var_name}[@]}}"; do', 1),
