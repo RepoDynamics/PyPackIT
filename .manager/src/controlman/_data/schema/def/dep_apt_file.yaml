@@ -12,12 +12,12 @@ properties:
   packages:
     summary: Path to the packages file.
     $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-    default: ${{ .root }}$/packages.txt
+    default: ${{ .root }}$/apt_pkgs.txt
   repos:
     summary: Path to the repositories file.
     $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-    default: ${{ .root }}$/repos.txt
+    default: ${{ .root }}$/apt_repos.txt
   post_install:
     summary: Path to the post-install script.
     $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-    default: ${{ .root }}$/post_install.sh
+    default: ${{ .root }}$/apt_post_install.sh
