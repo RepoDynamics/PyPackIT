@@ -2014,10 +2014,6 @@ devcontainer:
             type: string
             description: Absolute path to the project metadata file.
             default: /usr/local/share/app_installation/metadata.json
-          log_dirpath:
-            type: string
-            description: Absolute path to a directory to write log files.
-            default: ${{ __temp__.container_build_log_path }}$/pkg_setup
       install: |
         #!/usr/bin/env bash
         set -euxo pipefail
@@ -2108,11 +2104,6 @@ devcontainer:
           GOROOT: /usr/local/go
           JUPYTERLAB_PATH: /home/codespace/.local/bin
           PATH: /home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:${PATH}
-        options:
-          log_dirpath:
-            type: string
-            description: Absolute path to a directory to write log files.
-            default: ${{ __temp__.container_build_log_path }}$/user_setup
       install: |
         #!/usr/bin/env bash
         set -euxo pipefail
