@@ -321,7 +321,7 @@ def validate_variable(
             validation_lines = validate_path_existence(var_name=var_name, must_exist=validation_data["must_exist"], path_type=validation_data["type"])
         else:
             raise ValueError(f"Unsupported validation type: {validation_name}")
-        out.extend(indent(validation_lines, indent=1 if in_for_loop else 0))
+        out.extend(indent(validation_lines, level=1 if in_for_loop else 0))
     if in_for_loop:
         out.append("done")
     custom = validations.get("custom")
