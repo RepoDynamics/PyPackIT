@@ -2235,8 +2235,6 @@ devcontainer_main:
         - --install-hooks
         - --config
         - ${{ devcontainer_main.environment.pre_commit.file.pre_commit_config.path }}$
-      activate_conda_env: >-
-        echo 'conda activate ${{ __temp__.conda_env_name.app }}$' | tee -a ~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile
     customizations:
       vscode:
         extensions:
