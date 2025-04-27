@@ -497,8 +497,8 @@ __temp__:
       license:
         text: ${{ license.expression }}$
       # TODO: uncomment after setuptools adds support for PEP 639: https://github.com/pypa/setuptools/pull/4829
-#      license: ${{ license.expression }}$
-#      license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
+      # license: ${{ license.expression }}$
+      # license-files: [ '${{ __temp__.pkg_license_dir_name.licenses }}$/*', '${{ __temp__.pkg_license_dir_name.copyrights }}$/*' ]
       authors: |
         #{{
           return [
