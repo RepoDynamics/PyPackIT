@@ -2573,7 +2573,7 @@ devcontainer:
           debian_equivs_url:
             type: string
             summary: URL to download the Debian equivs file from.
-            default: https://tug.org/texlive/files/${{ .debian_equivs_filename }}$
+            default: https://tug.org/texlive/files/${{ ..debian_equivs_filename }}$
           default_texdir_prefix:
             type: string
             summary: Default TeX Live TEXDIR prefix.
