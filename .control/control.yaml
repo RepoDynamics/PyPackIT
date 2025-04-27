@@ -333,7 +333,6 @@ pypkg_test:
             json:
               output: $|| path_report ||/coverage/coverage.json
               pretty_print: true
-# Binder configuration files
 file_binder_conda:
   name: Binder Conda Environment File
   summary: >-
@@ -361,7 +360,6 @@ file_binder_postbuild:
   path: ${{ workflow.binder.path.config }}$/postBuild
   content: |
     #{{ return hook.binder_config_file("bash") }}#
-# License files
 copy_app_license:
   sources: |
     #{{
@@ -385,7 +383,6 @@ copy_app_copyright:
   destinations:
     - ${{ pypkg_main.path.root }}$/${{ __temp__.pkg_license_dir_name.copyrights }}$
     - ${{ pypkg_test.path.root }}$/${{ __temp__.pkg_license_dir_name.copyrights }}$
-# Templates
 __temp__:
   conda_recipe:
     path:
@@ -582,6 +579,402 @@ __temp__:
   pkg_license_dir_name:
     licenses: LICENSES
     copyrights: COPYRIGHTS
+  port:
+    desktop_lite:
+      web: 6080
+      vnc: 5901
+    jupyter: 8888
+  conda_env_name:
+    app: ${{ devcontainer_main.var.conda.app_env }}$
+    manager: proman
+  changelog:
+    body:
+      - class: badges
+        service: static
+        style: ${{ theme.badge.style }}$
+        height: ${{ theme.badge.height }}$
+        color: ${{ theme.badge.color.blue }}$
+        label_color: ${{ theme.badge.color.grey }}$
+        separator: ${{ theme.badge.separator }}$
+        items:
+          - label: ${{ pypkg_main.name }}$
+            args:
+              message: >-
+                #{{ return manager.changelog.current_public.version }}#
+            label_color: ${{ theme.color.primary.light }}$
+            label_color_dark: ${{ theme.color.primary.dark }}$
+            color: ${{ theme.color.secondary.light }}$
+            color_dark: ${{ theme.color.secondary.dark }}$
+            logo: ${{ web.file.icon.path }}$
+            logo_type: file
+          - label: >-
+              #{{
+                release_type = manager.changelog.current_public.type
+                icon_type = {
+                  "major": "change",
+                  "minor": "feat",
+                  "patch": "fix",
+                  "post": "post"
+                }[release_type]
+                icon = get(f"theme.icon.{icon_type}")
+                return f"{icon} Release Type"
+              }}#
+            args:
+              message: >-
+                #{{ return manager.changelog.current_public.type }}#
+            color: >-
+              #{{
+                release_type = manager.changelog.current_public.type
+                color_name = {
+                  "major": "red",
+                  "minor": "orange",
+                  "patch": "green",
+                  "post": "blue"
+                }[release_type]
+                return get(f"theme.badge.color.{color_name}")
+              }}#
+          - label: 🗓 Release Date
+            args:
+              message: >-
+                #{{ return manager.changelog.current_public.date }}#
+          - |
+            *{{
+              #{{
+                curr_changelog = manager.changelog.current_public
+                out = []
+                zenodo = curr_changelog.get("zenodo", {})
+                if zenodo:
+                  badge = {
+                    "label": "DOI",
+                    "args": {"message": zenodo["doi"]},
+                    "logo": "zenodo",
+                    "logo_color": "#1682D4",
+                    "color": "#1682D4",
+                    "link": f"https://zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
+                  }
+                  out.append(badge)
+                version = curr_changelog.version
+                if get("pypkg_main.pypi.publishable") and get("workflow.publish.pypi"):
+                  pypi = {
+                    "label": "pip install",
+                    "args": {"message": f"{get("pypkg_main.name")} == {version}"},
+                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
+                    "logo_type": "file",
+                    "logo_media_type": "png",
+                    "color": "#3775A9",
+                    "link": get("pypkg_main.pypi.url.home"),
+                  }
+                  out.append(pypi)
+                conda_publish = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
+                if conda_publish:
+                  conda = {
+                    "label": "conda install",
+                    "args": {"message": f"{get("pypkg_main.name")} == {version} -c {conda_publish["index"]["channel"]}"},
+                    "logo": "anaconda",
+                    "logo_type": "name",
+                    "logo_color": "#44A833",
+                    "color": "#44A833",
+                    "link": get("pypkg_main.conda.url.home"),
+                  }
+                  out.append(conda)
+                publish_docker = get("workflow.binder")
+                if publish_docker:
+                  index = publish_docker["index"]
+                  docker = {
+                      "label": "docker pull",
+                      "args": {"message": f"{index["registry"]}/{index["namespace"]}/{index["name"]}:{version}".lower()},
+                      "logo": "docker",
+                      "logo_type": "name",
+                      "color": "#2496ED",
+                      "logo_color": "#2496ED",
+                      "link": index["url"]["home"],
+                    }
+                  out.append(docker)
+                tag = f"{get("tag.version.prefix")}{version}"
+                github = {
+                  "label": "git checkout",
+                  "args": {"message": tag},
+                  "logo": "github",
+                  "logo_type": "name",
+                  "color": "#181717",
+                  "link": get("repo.url.releases.home"),
+                }
+                out.append(github)
+                binder = {
+                  "label": "Binder",
+                  "service": "binder",
+                  "endpoint": "github",
+                  "args": {
+                    "message": "try online",
+                    "user": get("repo.owner"),
+                    "repo": get("repo.name"),
+                    "ref": tag
+                  },
+                  "color": "#579ACA",
+                }
+                out.append(binder)
+                return out
+              }}#
+            }}*
+      - >-
+        **#{{ return manager.changelog.current_public.title }}#**
+      - >-
+        #{{ return manager.changelog.current_public.description }}#
+    sections:
+      - |
+        *{{
+          #{{
+            if manager.changelog.current_public.get("phase") != "dev":
+              return []
+            dev_release = manager.changelog.current_public.get("dev")
+            if not dev_release:
+              return []
+            badge_items = []
+            date = dev_release.get("date")
+            if date:
+              badge_items.append({"label": "🗓 Release Date", "args": {"message": date}})
+            zenodo = dev_release.get("zenodo_sandbox")
+            if zenodo:
+              badge = {
+                "label": "DOI",
+                "args": {"message": zenodo["doi"]},
+                "logo": "zenodo",
+                "logo_color": "#1682D4",
+                "color": "#1682D4",
+                "link": f"https://sandbox.zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
+              }
+              badge_items.append(badge)
+            version = dev_release.get("version")
+            if version:
+              tag = f"{get("tag.version.prefix")}{version}"
+              github = {
+                "label": "git checkout",
+                "args": {"message": tag},
+                "logo": "github",
+                "logo_type": "name",
+                "color": "#181717",
+                "link": get("repo.url.releases.home"),
+              }
+              badge_items.append(github)
+              binder = {
+                "label": "Binder",
+                "service": "binder",
+                "endpoint": "github",
+                "args": {
+                  "message": "try online",
+                  "user": get("repo.owner"),
+                  "repo": get("repo.name"),
+                  "ref": tag
+                },
+                "color": "#579ACA",
+              }
+              badge_items.append(binder)
+            badges = {
+              "class": "badges",
+              "service": "static",
+              "style": get("theme.badge.style"),
+              "height": get("theme.badge.height"),
+              "color": get("theme.badge.color.blue"),
+              "label_color": get("theme.badge.color.grey"),
+              "separator": get("theme.badge.separator"),
+              "items": badge_items
+            }
+            section = {
+              "heading": "Latest Developmental Release",
+              "body": [badges]
+            }
+            return [section]
+          }}#
+        }}*
+      - heading: Requirements
+        body:
+          - - class: button
+              text: "⚙️ Operating System"
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.grey }}$
+            - '&nbsp;'
+            - class: badges
+              service: static
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              separator: 1
+              items:
+                - |
+                  *{{
+                    #{{
+                      badges = []
+                      oss = get("pypkg_main.os")
+                      color_green = get("theme.badge.color.green")
+                      for os in oss.values():
+                        supports = "any" if "cibuild" not in os else " | ".join(os["builds"])
+                        badge = {
+                          "label": os["name"],
+                          "args": {"message": supports},
+                          "color": color_green,
+                          "logo": os.get("data", {}).get("logo"),
+                          "logo_color": os.get("data", {}).get("logo_color")
+                        }
+                        badges.append(badge)
+                      return badges
+                    }}#
+                  }}*
+          - - class: badge
+              service: static
+              args:
+                message: "Python"
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.grey }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
+              logo_type: file
+              logo_media_type: svg+xml
+            - '&nbsp;'
+            - class: badges
+              service: static
+              style: ${{ theme.badge.style }}$
+              height: ${{ theme.badge.height }}$
+              color: ${{ theme.badge.color.blue }}$
+              label_color: ${{ theme.badge.color.grey }}$
+              separator: 1
+              items:
+                - label: Versions
+                  args:
+                    message: >-
+                      #{{ return " | ".join(get("pypkg_main.python.version.minors")) }}#
+                - label: Implementation
+                  args:
+                    message: >-
+                      #{{ return "any" if get("pypkg_main.python.pure") else pypkg_main.python.implementation }}#
+                  color: >-
+                    #{{
+                      if get("pypkg_main.python.pure"):
+                        return get("theme.badge.color.green")
+                      return get("theme.badge.color.blue")
+                    }}#
+          - |
+            #{{
+              deps = list(get("pypkg_main.dependency.core", {}).values())
+              style = get("theme.badge.style")
+              height = get("theme.badge.height")
+              green = get("theme.badge.color.green")
+              blue = get("theme.badge.color.blue")
+              grey = get("theme.badge.color.grey")
+              label = "📦 Dependencies"
+              if not deps:
+                badge = {
+                  "class": "badge",
+                  "service": "static",
+                  "label": label,
+                  "args": {"message": "none"},
+                  "style": style,
+                  "height": height,
+                  "color": green,
+                  "label_color": grey
+                }
+                return [badge]
+              button = {
+                "class": "button",
+                "text": label,
+                "style": style,
+                "height": height,
+                "color": grey,
+              }
+              badges = {
+                "class": "badges",
+                "service": "static",
+                "style": style,
+                "height": height,
+                "label_color": grey,
+                "separator": 1,
+                "items": [],
+              }
+              out = [button, "&nbsp;", badges]
+              for dep in deps:
+                name = dep["name"].strip()
+                name_spec = dep["install"].get("pip", {}).get("spec") or dep.get("conda", {}).get("spec")
+                spec = name_spec.strip().casefold().removeprefix(name.casefold()).strip()
+                badge = {
+                  "label": name,
+                  "args": {"message": spec or "any"},
+                  "color": blue if spec else green,
+                }
+                badges["items"].append(badge)
+              return out
+            }}#
+      - heading: Interfaces
+        body:
+          - |
+            *{{
+              #{{
+                interfaces = get("pypkg_main.entry")
+                style = get("theme.badge.style")
+                height = get("theme.badge.height")
+                blue = get("theme.badge.color.blue")
+                grey = get("theme.badge.color.grey")
+
+                config = {
+                  "python": {
+                    "text": "API",
+                    "logo": f"{get("web.path.source")}/_media/logo_ext/python.svg",
+                    "logo_type": "file",
+                    "logo_media_type": "svg+xml",
+                  },
+                  "cli": {
+                    "text": "CLI",
+                    "logo": "gnubash",
+                    "logo_color": "#4EAA25",
+                  },
+                  "gui": {
+                    "text": f"{get("theme.icon.gui")} GUI"
+                  },
+                }
+                item_color = {
+                  "python": "#3776AB",
+                  "cli": "#000",
+                  "gui": "#CCC",
+                }
+                item_label = {
+                  "python": "import",
+                  "cli": "$",
+                  "gui": "$",
+                }
+
+                out = []
+                for interface in ("python", "cli", "gui"):
+                  if interface not in interfaces:
+                    continue
+                  button = {
+                    "class": "button",
+                    "style": style,
+                    "height": height,
+                    "color": grey,
+                  } | config[interface]
+                  badges = {
+                    "class": "badges",
+                    "service": "static",
+                    "label": item_label[interface],
+                    "style": style,
+                    "height": height,
+                    "color": blue,
+                    "label_color": grey,
+                    "separator": 1,
+                    "items": [],
+                  }
+                  out.append([button, "&nbsp;", badges])
+                  for entry in interfaces[interface].values():
+                    badge = {
+                      "args": {"message": entry["name"]},
+                      "color": item_color[interface],
+                      "title": entry["description"],
+                      "alt": entry["name"],
+                    }
+                    badges["items"].append(badge)
+                return out
+              }}#
+            }}*
 pypkg_ci:
   name: ProMan
   path:
@@ -1191,15 +1584,6 @@ workflow:
   test:
     codecov:
       codecov_yml_path: ${{ devcontainer_main.environment.codecov.file.codecov_config.path }}$
-__temp__:
-  port:
-    desktop_lite:
-      web: 6080
-      vnc: 5901
-    jupyter: 8888
-  conda_env_name:
-    app: ${{ devcontainer_main.var.conda.app_env }}$
-    manager: proman
 devcontainer:
   docker-compose:
     config:
@@ -7934,8 +8318,6 @@ file_readme:
             title: 'SPDX-License-Identifier: ${{ license.expression }}$'
             alt: 'SPDX-License-Identifier: ${{ license.expression }}$'
             align: right
-# GitHub community health files
-# - https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file
 file_coc:
   name: Code of Conduct
   type: md
@@ -8083,396 +8465,6 @@ file_support:
   content:
     heading: Support Resources
     footer: ${{ file_readme.content.footer }}$
-# Templates
-__temp__:
-  changelog:
-    body:
-      - class: badges
-        service: static
-        style: ${{ theme.badge.style }}$
-        height: ${{ theme.badge.height }}$
-        color: ${{ theme.badge.color.blue }}$
-        label_color: ${{ theme.badge.color.grey }}$
-        separator: ${{ theme.badge.separator }}$
-        items:
-          - label: ${{ pypkg_main.name }}$
-            args:
-              message: >-
-                #{{ return manager.changelog.current_public.version }}#
-            label_color: ${{ theme.color.primary.light }}$
-            label_color_dark: ${{ theme.color.primary.dark }}$
-            color: ${{ theme.color.secondary.light }}$
-            color_dark: ${{ theme.color.secondary.dark }}$
-            logo: ${{ web.file.icon.path }}$
-            logo_type: file
-          - label: >-
-              #{{
-                release_type = manager.changelog.current_public.type
-                icon_type = {
-                  "major": "change",
-                  "minor": "feat",
-                  "patch": "fix",
-                  "post": "post"
-                }[release_type]
-                icon = get(f"theme.icon.{icon_type}")
-                return f"{icon} Release Type"
-              }}#
-            args:
-              message: >-
-                #{{ return manager.changelog.current_public.type }}#
-            color: >-
-              #{{
-                release_type = manager.changelog.current_public.type
-                color_name = {
-                  "major": "red",
-                  "minor": "orange",
-                  "patch": "green",
-                  "post": "blue"
-                }[release_type]
-                return get(f"theme.badge.color.{color_name}")
-              }}#
-          - label: 🗓 Release Date
-            args:
-              message: >-
-                #{{ return manager.changelog.current_public.date }}#
-          - |
-            *{{
-              #{{
-                curr_changelog = manager.changelog.current_public
-                out = []
-                zenodo = curr_changelog.get("zenodo", {})
-                if zenodo:
-                  badge = {
-                    "label": "DOI",
-                    "args": {"message": zenodo["doi"]},
-                    "logo": "zenodo",
-                    "logo_color": "#1682D4",
-                    "color": "#1682D4",
-                    "link": f"https://zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
-                  }
-                  out.append(badge)
-                version = curr_changelog.version
-                if get("pypkg_main.pypi.publishable") and get("workflow.publish.pypi"):
-                  pypi = {
-                    "label": "pip install",
-                    "args": {"message": f"{get("pypkg_main.name")} == {version}"},
-                    "logo": f"{get("web.path.source")}/_media/logo_ext/pypi.png",
-                    "logo_type": "file",
-                    "logo_media_type": "png",
-                    "color": "#3775A9",
-                    "link": get("pypkg_main.pypi.url.home"),
-                  }
-                  out.append(pypi)
-                conda_publish = get("workflow.publish.conda-forge") or get("workflow.publish.anaconda")
-                if conda_publish:
-                  conda = {
-                    "label": "conda install",
-                    "args": {"message": f"{get("pypkg_main.name")} == {version} -c {conda_publish["index"]["channel"]}"},
-                    "logo": "anaconda",
-                    "logo_type": "name",
-                    "logo_color": "#44A833",
-                    "color": "#44A833",
-                    "link": get("pypkg_main.conda.url.home"),
-                  }
-                  out.append(conda)
-                publish_docker = get("workflow.binder")
-                if publish_docker:
-                  index = publish_docker["index"]
-                  docker = {
-                      "label": "docker pull",
-                      "args": {"message": f"{index["registry"]}/{index["namespace"]}/{index["name"]}:{version}".lower()},
-                      "logo": "docker",
-                      "logo_type": "name",
-                      "color": "#2496ED",
-                      "logo_color": "#2496ED",
-                      "link": index["url"]["home"],
-                    }
-                  out.append(docker)
-                tag = f"{get("tag.version.prefix")}{version}"
-                github = {
-                  "label": "git checkout",
-                  "args": {"message": tag},
-                  "logo": "github",
-                  "logo_type": "name",
-                  "color": "#181717",
-                  "link": get("repo.url.releases.home"),
-                }
-                out.append(github)
-                binder = {
-                  "label": "Binder",
-                  "service": "binder",
-                  "endpoint": "github",
-                  "args": {
-                    "message": "try online",
-                    "user": get("repo.owner"),
-                    "repo": get("repo.name"),
-                    "ref": tag
-                  },
-                  "color": "#579ACA",
-                }
-                out.append(binder)
-                return out
-              }}#
-            }}*
-      - >-
-        **#{{ return manager.changelog.current_public.title }}#**
-      - >-
-        #{{ return manager.changelog.current_public.description }}#
-    sections:
-      - |
-        *{{
-          #{{
-            if manager.changelog.current_public.get("phase") != "dev":
-              return []
-            dev_release = manager.changelog.current_public.get("dev")
-            if not dev_release:
-              return []
-            badge_items = []
-            date = dev_release.get("date")
-            if date:
-              badge_items.append({"label": "🗓 Release Date", "args": {"message": date}})
-            zenodo = dev_release.get("zenodo_sandbox")
-            if zenodo:
-              badge = {
-                "label": "DOI",
-                "args": {"message": zenodo["doi"]},
-                "logo": "zenodo",
-                "logo_color": "#1682D4",
-                "color": "#1682D4",
-                "link": f"https://sandbox.zenodo.org/{"uploads" if zenodo.get("draft") else "records"}/{zenodo["id"]}"
-              }
-              badge_items.append(badge)
-            version = dev_release.get("version")
-            if version:
-              tag = f"{get("tag.version.prefix")}{version}"
-              github = {
-                "label": "git checkout",
-                "args": {"message": tag},
-                "logo": "github",
-                "logo_type": "name",
-                "color": "#181717",
-                "link": get("repo.url.releases.home"),
-              }
-              badge_items.append(github)
-              binder = {
-                "label": "Binder",
-                "service": "binder",
-                "endpoint": "github",
-                "args": {
-                  "message": "try online",
-                  "user": get("repo.owner"),
-                  "repo": get("repo.name"),
-                  "ref": tag
-                },
-                "color": "#579ACA",
-              }
-              badge_items.append(binder)
-            badges = {
-              "class": "badges",
-              "service": "static",
-              "style": get("theme.badge.style"),
-              "height": get("theme.badge.height"),
-              "color": get("theme.badge.color.blue"),
-              "label_color": get("theme.badge.color.grey"),
-              "separator": get("theme.badge.separator"),
-              "items": badge_items
-            }
-            section = {
-              "heading": "Latest Developmental Release",
-              "body": [badges]
-            }
-            return [section]
-          }}#
-        }}*
-      - heading: Requirements
-        body:
-          - - class: button
-              text: "⚙️ Operating System"
-              style: ${{ theme.badge.style }}$
-              height: ${{ theme.badge.height }}$
-              color: ${{ theme.badge.color.grey }}$
-            - '&nbsp;'
-            - class: badges
-              service: static
-              style: ${{ theme.badge.style }}$
-              height: ${{ theme.badge.height }}$
-              label_color: ${{ theme.badge.color.grey }}$
-              separator: 1
-              items:
-                - |
-                  *{{
-                    #{{
-                      badges = []
-                      oss = get("pypkg_main.os")
-                      color_green = get("theme.badge.color.green")
-                      for os in oss.values():
-                        supports = "any" if "cibuild" not in os else " | ".join(os["builds"])
-                        badge = {
-                          "label": os["name"],
-                          "args": {"message": supports},
-                          "color": color_green,
-                          "logo": os.get("data", {}).get("logo"),
-                          "logo_color": os.get("data", {}).get("logo_color")
-                        }
-                        badges.append(badge)
-                      return badges
-                    }}#
-                  }}*
-          - - class: badge
-              service: static
-              args:
-                message: "Python"
-              style: ${{ theme.badge.style }}$
-              height: ${{ theme.badge.height }}$
-              color: ${{ theme.badge.color.grey }}$
-              label_color: ${{ theme.badge.color.grey }}$
-              logo: ${{ web.path.source }}$/_media/logo_ext/python.svg
-              logo_type: file
-              logo_media_type: svg+xml
-            - '&nbsp;'
-            - class: badges
-              service: static
-              style: ${{ theme.badge.style }}$
-              height: ${{ theme.badge.height }}$
-              color: ${{ theme.badge.color.blue }}$
-              label_color: ${{ theme.badge.color.grey }}$
-              separator: 1
-              items:
-                - label: Versions
-                  args:
-                    message: >-
-                      #{{ return " | ".join(get("pypkg_main.python.version.minors")) }}#
-                - label: Implementation
-                  args:
-                    message: >-
-                      #{{ return "any" if get("pypkg_main.python.pure") else pypkg_main.python.implementation }}#
-                  color: >-
-                    #{{
-                      if get("pypkg_main.python.pure"):
-                        return get("theme.badge.color.green")
-                      return get("theme.badge.color.blue")
-                    }}#
-          - |
-            #{{
-              deps = list(get("pypkg_main.dependency.core", {}).values())
-              style = get("theme.badge.style")
-              height = get("theme.badge.height")
-              green = get("theme.badge.color.green")
-              blue = get("theme.badge.color.blue")
-              grey = get("theme.badge.color.grey")
-              label = "📦 Dependencies"
-              if not deps:
-                badge = {
-                  "class": "badge",
-                  "service": "static",
-                  "label": label,
-                  "args": {"message": "none"},
-                  "style": style,
-                  "height": height,
-                  "color": green,
-                  "label_color": grey
-                }
-                return [badge]
-              button = {
-                "class": "button",
-                "text": label,
-                "style": style,
-                "height": height,
-                "color": grey,
-              }
-              badges = {
-                "class": "badges",
-                "service": "static",
-                "style": style,
-                "height": height,
-                "label_color": grey,
-                "separator": 1,
-                "items": [],
-              }
-              out = [button, "&nbsp;", badges]
-              for dep in deps:
-                name = dep["name"].strip()
-                name_spec = dep["install"].get("pip", {}).get("spec") or dep.get("conda", {}).get("spec")
-                spec = name_spec.strip().casefold().removeprefix(name.casefold()).strip()
-                badge = {
-                  "label": name,
-                  "args": {"message": spec or "any"},
-                  "color": blue if spec else green,
-                }
-                badges["items"].append(badge)
-              return out
-            }}#
-      - heading: Interfaces
-        body:
-          - |
-            *{{
-              #{{
-                interfaces = get("pypkg_main.entry")
-                style = get("theme.badge.style")
-                height = get("theme.badge.height")
-                blue = get("theme.badge.color.blue")
-                grey = get("theme.badge.color.grey")
-
-                config = {
-                  "python": {
-                    "text": "API",
-                    "logo": f"{get("web.path.source")}/_media/logo_ext/python.svg",
-                    "logo_type": "file",
-                    "logo_media_type": "svg+xml",
-                  },
-                  "cli": {
-                    "text": "CLI",
-                    "logo": "gnubash",
-                    "logo_color": "#4EAA25",
-                  },
-                  "gui": {
-                    "text": f"{get("theme.icon.gui")} GUI"
-                  },
-                }
-                item_color = {
-                  "python": "#3776AB",
-                  "cli": "#000",
-                  "gui": "#CCC",
-                }
-                item_label = {
-                  "python": "import",
-                  "cli": "$",
-                  "gui": "$",
-                }
-
-                out = []
-                for interface in ("python", "cli", "gui"):
-                  if interface not in interfaces:
-                    continue
-                  button = {
-                    "class": "button",
-                    "style": style,
-                    "height": height,
-                    "color": grey,
-                  } | config[interface]
-                  badges = {
-                    "class": "badges",
-                    "service": "static",
-                    "label": item_label[interface],
-                    "style": style,
-                    "height": height,
-                    "color": blue,
-                    "label_color": grey,
-                    "separator": 1,
-                    "items": [],
-                  }
-                  out.append([button, "&nbsp;", badges])
-                  for entry in interfaces[interface].values():
-                    badge = {
-                      "args": {"message": entry["name"]},
-                      "color": item_color[interface],
-                      "title": entry["description"],
-                      "alt": entry["name"],
-                    }
-                    badges["items"].append(badge)
-                return out
-              }}#
-            }}*
 commit:
   __data__:
     h1_pkg:
@@ -12105,7 +12097,6 @@ branch:
 tag:
   version:
     prefix: ver/
-# Website Table of Contents (TOC)
 file_web_toc:
   name: Website Table of Contents
   summary: Central table of contents definition for the entire website.
