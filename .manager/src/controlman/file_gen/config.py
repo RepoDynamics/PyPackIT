@@ -218,10 +218,11 @@ class ConfigFileGenerator:
                         continue
                     if key == "ARG":
                         instruction_lines = create_arg(instructions_value)
-                    instruction_lines = [
-                        line.rstrip() for line in instructions_value.strip().splitlines()
-                        if line.strip() and not line.startswith("#")
-                    ]
+                    else:
+                        instruction_lines = [
+                            line.rstrip() for line in instructions_value.strip().splitlines()
+                            if line.strip() and not line.startswith("#")
+                        ]
                     indent = (len(key) + 1) * " "
                     instruction_lines_full = [
                         f"{key} {instruction_lines[0]}{" \\" if len(instruction_lines) > 1 else ''}"
