@@ -30,15 +30,16 @@ def create_script(
             'trap __cleanup__ EXIT',  # Call cleanup function on exit
         ]
     )
-    if "parameter" in data:
+    parameters = data.get("parameter")
+    if parameters:
         lines.extend(
             [
                 'if [ "$#" -gt 0 ]; then',
                 indent(log(f"Script called with arguments: $@", "info"), 1),
-                *indent(create_argparse(data.get("parameter"), local=True), 1),
+                *indent(create_argparse(parameters, local=True), 1),
                 "else",
                 indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
-                *indent(create_env_var_parse(data.get("parameter")), 1),
+                *indent(create_env_var_parse(parameters), 1),
                 "fi",
                 '[[ "$DEBUG" == true ]] && set -x',
                 *create_validation_block(parameters, local=True),
