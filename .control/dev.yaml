@@ -1827,11 +1827,11 @@ devcontainer:
           type: string
           summary: Modified path.
           variable: modified_path
-          body: |
-          local modified_path="$path"
-          if [[ "$modified_path" != /* ]]; then
-              modified_path="/$modified_path"
-          fi
+      body: |
+        local modified_path="$path"
+        if [[ "$modified_path" != /* ]]; then
+            modified_path="/$modified_path"
+        fi
 devcontainer_main:
   var:
     conda:
