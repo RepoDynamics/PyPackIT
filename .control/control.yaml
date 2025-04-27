@@ -6966,9 +6966,6 @@ devcontainer_main:
         # If not running interactively, don't do anything
         [ -z "$PS1" ] && return
 
-        # Set source marker
-        export ${{ devcontainer_main.var.bash.global_bashrc_source_marker }}$=1
-
         # Source global rc
         . "${{ devcontainer_main.volume.globalrc.path }}$"
 
@@ -7154,9 +7151,6 @@ devcontainer_main:
         # ${{ name }}$
         # #{{ return "=" * 50 }}#
         # This section is automatically generated.
-
-        # Set source marker
-        export ${{ devcontainer_main.var.zsh.global_zshrc_source_marker }}$=1
 
         # Source global rc
         . "${{ devcontainer_main.volume.globalrc.path }}$"
