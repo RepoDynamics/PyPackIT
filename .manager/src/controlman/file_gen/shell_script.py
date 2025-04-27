@@ -14,12 +14,12 @@ def create_script(
     lines = [
         f"#!{data["shebang"].removeprefix("#!")}",
         "set -euo pipefail",
-        *create_cleanup_function(data.get("function", {})),
     ]
     functions = {
         func_name: func_data for func_name, func_data in (global_functions or {}).items()
         if func_name in data.get("import", [])
     } | data.get("function", {})
+    functions["__cleanup__"] = augment_cleanup_function(functions.get("__cleanup__", {}))
     for func_name, func_data in sorted(functions.items()):
         lines.extend(create_function(func_name, func_data))
     lines.extend(
@@ -79,22 +79,22 @@ def create_env_var_parse(parameters: dict):
     return lines
 
 
-def create_cleanup_function(functions: dict) -> list[str]:
+def augment_cleanup_function(data: dict | None = None) -> dict:
     """Generate a cleanup function to be called on script exit.
 
     Parameters
     ----------
-    functions
-        Dictionary containing function names and their data.
+    data
+        Dictionary containing user provided cleanup function data.
 
     Returns
     -------
     Shell command (as a list of lines) to define the cleanup function.
     """
-    func = functions.get("__cleanup__", {})
-    func.setdefault("body", [])
-    if isinstance(func["body"], str):
-        func["body"] = func["body"].splitlines()
+    data = data or {}
+    data.setdefault("body", [])
+    if isinstance(data["body"], str):
+        data["body"] = data["body"].splitlines()
     log_cleanup_lines = [
         'if [ -n "${LOGFILE-}" ]; then',
         indent(log("Write logs to file '$LOGFILE'", "info"), 1),
@@ -103,8 +103,8 @@ def create_cleanup_function(functions: dict) -> list[str]:
         indent('rm -f "$_LOGFILE_TMP"', 1),
         "fi",
     ]
-    func["body"].extend(log_cleanup_lines)
-    return create_function("__cleanup__", func)
+    data["body"].extend(log_cleanup_lines)
+    return data
 
 
 def create_function(
@@ -460,7 +460,7 @@ def validate_path_existence(
     condition = "not found" if must_exist else "already exists"
     err_msg = f"{name[path_type]} argument to parameter '{var_name}' {condition}: '${var_name}'"
     cmd = f'[ -n ${{{var_name}-}} ] && [ {"! " if must_exist else ""}-{operator[path_type]} "${var_name}" ] && {{ {log(err_msg, "critical")}; }}'
-    return cmd
+    return [cmd]
 
 
 def log_endpoint(
