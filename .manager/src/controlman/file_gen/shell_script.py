@@ -385,14 +385,13 @@ def validate_enum(
     -------
     Shell command (as a list of lines) to validate the variable's value.
     """
-    enum_str = "|".join(f'"{elem}"' for elem in enum)
+    enum_str = "|".join(f'"{elem}"' for elem in [*enum, ""])
     return [
         f'case "${var_name}" in',
         indent(f"{enum_str});;", 1),
         indent(f"*) {log(f"Invalid value for argument '--{var_name}': '${var_name}'", 'critical')};;", 1),
         "esac",
     ]
-
 
 
 def validate_path_existence(
@@ -450,7 +449,7 @@ def validate_path_existence(
     }
     condition = "not found" if must_exist else "already exists"
     err_msg = f"{name[path_type]} argument to parameter '{var_name}' {condition}: '${var_name}'"
-    cmd = f'[ {"! " if must_exist else ""}-{operator[path_type]} "${var_name}" ] && {{ {log(err_msg, "critical")}; }}'
+    cmd = f'[ -n ${{{var_name}-}} ] && [ {"! " if must_exist else ""}-{operator[path_type]} "${var_name}" ] && {{ {log(err_msg, "critical")}; }}'
     return cmd
 
 
