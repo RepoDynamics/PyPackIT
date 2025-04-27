@@ -58,7 +58,7 @@ patternProperties:
               root:
                 summary: Path to the root apt directory.
                 $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ ..environment }}$/apt
+                default: ${{ ..environment }}$/syspkg
               required:
                 default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
@@ -72,17 +72,9 @@ patternProperties:
                 default: {}
                 $ref: https://controlman.repodynamics.com/schema/dependency-apt-group-paths
           conda:
-            type: object
-            default: { }
-            properties:
-              root:
-                summary: Path to the conda environment directory.
-                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ ..environment }}$/conda
-              envs:
-                summary: Path to the conda environment files directory.
-                $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-                default: ${{ .root }}$/envs
+            summary: Path to the conda environment directory.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+            default: ${{ ..environment }}$/conda
           dockerfile:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
@@ -197,7 +189,7 @@ patternProperties:
             path:
               summary: Path to the environment file.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              default: ${{ ...path.conda.envs }}$/${{ .__key__ }}$.yaml
+              default: ${{ ...path.conda }}$/${{ .__key__ }}$.yaml
       var:
         type: object
       volume:
