@@ -3493,7 +3493,7 @@ properties:
                   description: |
                     The path is absolute to the root of the repository.
                     This is automatically generated based on the `root_rel` key.
-                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-root
+                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
                   default: .devcontainer/${{ .root_rel }}$
                 install_rel:
                   summary: Relative path to the Feature's install script.
@@ -3508,7 +3508,7 @@ properties:
                   description: |
                     The path is absolute to the root of the repository.
                     This is automatically generated based on the `install_rel` key.
-                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-root
+                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
                   default: .devcontainer/${{ .install_rel }}$
                 metadata_rel:
                   summary: Relative path to the Feature's metadata file.
@@ -3523,7 +3523,7 @@ properties:
                   description: |
                     The path is absolute to the root of the repository.
                     This is automatically generated based on the `metadata_rel` key.
-                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-root
+                  $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
                   default: .devcontainer/${{ .metadata_rel }}$
             metadata:
               summary: Feature metadata.
