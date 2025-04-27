@@ -256,7 +256,7 @@ def create_argparse(
 
 def create_validation_block(parameters: dict, local: bool) -> list[str]:
     lines = []
-    for param_name, param_data in sorted(parameters.items()):
+    for param_name, param_data in sorted((parameters or {}).items()):
         lines.extend(
             validate_variable(
                 var_name=param_name_to_var_name(param_name, local=local),
