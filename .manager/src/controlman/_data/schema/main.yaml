@@ -3507,6 +3507,7 @@ properties:
                 [`devcontainer-feature.json`](https://containers.dev/implementors/features/#devcontainer-feature-json-properties)
                 file as defined in its [reference schema](https://github.com/devcontainers/spec/blob/main/schemas/devContainerFeature.schema.json).
               type: object
+              default: { }
               additionalProperties: false
               required: [ id, version, name ]
               properties:
@@ -3522,6 +3523,7 @@ properties:
                   description: The version of the Feature. Follows the semantic versioning
                     (semver) specification.
                   type: string
+                  default: 0.1.0
                 name:
                   description: Display name of the Feature.
                   type: string
