@@ -494,7 +494,7 @@ class ConfigFileGenerator:
                 type=DynamicFileType.DEVCONTAINER_FEATURE_INSTALL,
                 subtype=(feat_key, metadata["name"]),
                 content=shell_script.create_script(
-                    name=feat["metadata"]["name"]
+                    name=feat["metadata"]["name"],
                     data=feat["install"],
                     global_functions=self._data.get(key_functions)
                 ),
