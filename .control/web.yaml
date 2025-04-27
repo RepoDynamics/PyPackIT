@@ -1,5 +1,4 @@
 # Website Table of Contents (TOC)
-
 file_web_toc:
   name: Website Table of Contents
   summary: Central table of contents definition for the entire website.
@@ -111,7 +110,6 @@ file_web_toc:
             entries:
               - file: help/website/tips/index
               - file: help/website/api/index
-
 web:
   announcement:
     path: ${{ web.path.root }}$/announcement.html
@@ -262,7 +260,6 @@ file_sphinx_conf:
   jsonschema:
     schema:
       $ref: https://jsonschemata.repodynamics.com/config/sphinx
-
 file_script_web_build:
   name: Website Build Script
   summary: Script to build the website using Sphinx.
