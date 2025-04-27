@@ -6,13 +6,21 @@ if TYPE_CHECKING:
     from typing import Literal
 
 
-def create_script(name: str, data: dict) -> str:
+def create_script(
+    name: str,
+    data: dict,
+    global_functions: dict | None = None
+) -> str:
     lines = [
         f"#!{data["shebang"].removeprefix("#!")}",
         "set -euo pipefail",
         *create_cleanup_function(data.get("function", {})),
     ]
-    for func_name, func_data in sorted(data.get("function", {}).items()):
+    functions = {
+        func_name: func_data for func_name, func_data in (global_functions or {}).items()
+        if func_name in data.get("import", [])
+    } | data.get("function", {})
+    for func_name, func_data in sorted(functions.items()):
         lines.extend(create_function(func_name, func_data))
     lines.extend(
         [
