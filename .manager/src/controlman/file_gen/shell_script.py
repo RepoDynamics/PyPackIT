@@ -75,6 +75,7 @@ def create_env_var_parse(parameters: dict):
             lines.extend(array_lines)
         else:
             lines.append(f'[ "${{{var_name}+defined}}" ] && {log_arg_read(param_name, var_name)}')
+    return lines
 
 
 def create_cleanup_function(functions: dict) -> list[str]:
