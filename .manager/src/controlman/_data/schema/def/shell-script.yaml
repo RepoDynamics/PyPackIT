@@ -14,6 +14,17 @@ properties:
   parameter:
     summary: Input parameters for the script.
     type: object
+    default: { }
+    properties:
+      logfile:
+        default:
+          type: string
+          summary: Log all output (stdout + stderr) to this file in addition to console.
+          default: ""
+      debug:
+        default:
+          type: boolean
+          summary: Enable debug output.
     additionalProperties:
       title: Parameter
       summary: An input parameter of the script.
