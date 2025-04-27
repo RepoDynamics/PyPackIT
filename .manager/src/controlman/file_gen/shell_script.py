@@ -171,7 +171,7 @@ def create_output(returns: list[dict]) -> list[str]:
     top_separator = "\\0"
     sub_separator = "\\x1F"
 
-    num_returns = len(returns)
+    num_returns = len(returns or [])
     if num_returns == 0:
         return []
     if num_returns == 1:
