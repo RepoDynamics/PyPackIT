@@ -12,6 +12,7 @@ import pyserials as _ps
 from licenseman.spdx import license_text as _license_text
 
 from controlman.file_gen import unit as _unit
+from controlman.file_gen import shell_script
 from proman import const as _const
 from proman.dtype import DynamicFile, DynamicFileChangeType, DynamicFileType
 
@@ -472,34 +473,33 @@ class ConfigFileGenerator:
         return out
 
     def devcontainer_features(self) -> list[DynamicFile]:
+        key = "devcontainer.feature"
+        key_functions = "devcontainer.function"
         out = []
-        for key, feat in self._data.items():
-            if not key.startswith("devfeature_"):
-                continue
-            path = f".devcontainer/{feat['path']}"
-            feat_before = self._data_before.get(key, {})
-            path_before = f".devcontainer/{feat_before['path']}" if feat_before else None
-            metadata = feat["feature"]
+        for feat_key, feat in self._data.get(key, {}).items():
+            feat_before = self._data_before.get(f"{key}.{feat_key}", {})
+            metadata = feat["metadata"]
             feature_file = DynamicFile(
                 type=DynamicFileType.DEVCONTAINER_FEATURE_METADATA,
-                subtype=(metadata["id"], metadata["name"]),
+                subtype=(feat_key, metadata["name"]),
                 content=_unit.create_dynamic_file(
                     file_type="json",
                     content=metadata,
                     **self._data["default"]["file_setting"]["json"],
                 ),
-                path=f"{path}/devcontainer-feature.json",
-                path_before=f"{path_before}/devcontainer-feature.json" if feat_before else None,
+                path=feat["path"]["metadata"],
+                path_before=feat_before.get("path", {}).get("metadata"),
             )
             install_file = DynamicFile(
                 type=DynamicFileType.DEVCONTAINER_FEATURE_INSTALL,
-                subtype=(metadata["id"], metadata["name"]),
-                content=_unit.create_dynamic_file(
-                    file_type="txt",
-                    content=feat["install"],
+                subtype=(feat_key, metadata["name"]),
+                content=shell_script.create_script(
+                    name=feat["metadata"]["name"]
+                    data=feat["install"],
+                    global_functions=self._data.get(key_functions)
                 ),
-                path=f"{path}/install.sh",
-                path_before=f"{path_before}/install.sh" if feat_before else None,
+                path=feat["path"]["install"],
+                path_before=feat_before.get("path", {}).get("install"),
                 executable=True,
             )
             out.extend([feature_file, install_file])
