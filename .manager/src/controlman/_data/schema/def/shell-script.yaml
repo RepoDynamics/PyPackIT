@@ -113,12 +113,11 @@ properties:
       type: object
       properties:
         type:
-          summary: Type of the parameter.
+          summary: Type of the return value.
           type: string
           default: string
           enum:
             - string
-            - boolean
             - array
         name:
           summary: Name of the return value.
