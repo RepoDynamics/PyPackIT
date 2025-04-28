@@ -3639,7 +3639,9 @@ properties:
                       for param_id, param_data in parameters.items():
                         default = param_data.get("default", "")
                         if isinstance(default, list):
-                          default = param_data["delimiter"].join(default)
+                          default = param_data["array_delimiter"].join(default)
+                        elif param_data["type"] == "boolean":
+                          default = False
                         option = {
                           "description": "\n".join(param_data[key] for key in ["summary", "description"] if key in param_data),
                           "type": param_data["type"] if param_data["type"] != "array" else "string",
