@@ -36,13 +36,13 @@ def create_script(
             [
                 'if [ "$#" -gt 0 ]; then',
                 indent(log(f"Script called with arguments: $@", "info"), 1),
-                *indent(create_argparse(parameters, local=True), 1),
+                *indent(create_argparse(parameters, local=False), 1),
                 "else",
                 indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
                 *indent(create_env_var_parse(parameters), 1),
                 "fi",
                 '[[ "$DEBUG" == true ]] && set -x',
-                *create_validation_block(parameters, local=True),
+                *create_validation_block(parameters, local=False),
             ]
         )
     lines.extend(
