@@ -47,7 +47,7 @@ def create_script(
         )
     lines.extend(
         [
-            *sanitize_code([section["content"] for section in data.get("body", [])]),
+            *sanitize_code([line for section in data.get("body", []) for line in section["content"].splitlines()]),
             *create_output(data.get("return")),
             log_endpoint(name, typ="script", stage="exit"),
         ]
@@ -358,7 +358,7 @@ def validate_missing_arg(
     Shell command (as a list of lines) to validate the variable.
     """
     def info_default_set(default_value: str) -> str:
-        return log(f"Argument '--{var_name}' set to default value '{default_value}'.", "info")
+        return log(f"Argument '{var_name}' set to default value '{default_value}'.", "info")
 
     err_missing_arg = log(f"Missing required argument '{var_name}'.", "critical")
     if var_type == "string":
