@@ -17,16 +17,16 @@ RUN "$SYSPKG_INSTALL_SCRIPT" \
         --logfile "/var/log/pypackit-container/apt_install_essential.log" \
         --debug
 
-# ARG TEXLIVE_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/feature/texlive"
-# ARG TEXLIVE_INSTALL_SCRIPT="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.sh" \
-#     TEXLIVE_INSTALL_PROFILE="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.profile"
-# COPY [".devcontainer/environment/texlive/", "${TEXLIVE_INSTALL_SCRIPT_DIR}/"]
-# RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
-#     "$TEXLIVE_INSTALL_SCRIPT" \
-#         --install \
-#         --profile "$TEXLIVE_INSTALL_PROFILE" \
-#         --logfile "/var/log/pypackit-container/texlive_install.log" \
-#         --debug
+ARG TEXLIVE_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/feature/texlive"
+ARG TEXLIVE_INSTALL_SCRIPT="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.sh" \
+    TEXLIVE_INSTALL_PROFILE="${TEXLIVE_INSTALL_SCRIPT_DIR}/install.profile"
+COPY [".devcontainer/environment/texlive/", "${TEXLIVE_INSTALL_SCRIPT_DIR}/"]
+RUN chmod +x "$TEXLIVE_INSTALL_SCRIPT"; \
+    "$TEXLIVE_INSTALL_SCRIPT" \
+        --install \
+        --profile "$TEXLIVE_INSTALL_PROFILE" \
+        --logfile "/var/log/pypackit-container/texlive_install.log" \
+        --debug
 
 ARG GIT_INSTALL_SCRIPT_DIR="/usr/local/share/pypackit/.devcontainer/feature/git"
 ARG GIT_INSTALL_SCRIPT="$GIT_INSTALL_SCRIPT_DIR/install.sh"
