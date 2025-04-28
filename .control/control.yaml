@@ -1991,14 +1991,15 @@ devcontainer:
             url: https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
           - title: Pixi Docker image
             url: https://github.com/prefix-dev/pixi-docker
-        body: |
-          pixi_bin="${INSTALL_PATH}/pixi"
-          curl \
-            --compressed \
-            -fsSLo "$pixi_bin" \
-            "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
-          chmod +x "$pixi_bin"
-          pixi info
+        body:
+          - content: |
+              pixi_bin="${INSTALL_PATH}/pixi"
+              curl \
+                --compressed \
+                -fsSLo "$pixi_bin" \
+                "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
+              chmod +x "$pixi_bin"
+              pixi info
     pkg_setup:
       metadata:
         name: Package Setup
