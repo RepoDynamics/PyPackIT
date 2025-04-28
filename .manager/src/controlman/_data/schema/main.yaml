@@ -3642,7 +3642,7 @@ properties:
                           default = param_data["item_separator"].join(default)
                         option = {
                           "description": "\n".join(param_data[key] for key in ["summary", "description"] if key in param_data),
-                          "type": value["type"] if value["type"] != "array" else "string",
+                          "type": param_data["type"] if param_data["type"] != "array" else "string",
                           "default": default,
                         }
                         enum = param_data.get("validation", {}).get("enum")
