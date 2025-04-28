@@ -847,9 +847,6 @@ properties:
           properties:
             path:
               summary: Paths to Feature files.
-              description: |
-                This is a relative path from the `.devcontainers` directory to the directory containing the Feature.
-                The path must be relative to the `devcontainer.features.dir_name` key.
               type: object
               default: { }
               additionalProperties: false
