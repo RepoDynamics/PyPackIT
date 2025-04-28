@@ -7371,6 +7371,8 @@ devcontainer_main:
         References:
         - [Oh My Zsh settings](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings)
         - [Oh My Zsh zshrc templates](https://github.com/ohmyzsh/ohmyzsh/blob/master/templates)
+doc:
+  readme: {}
 dois: |
     #{{
       out = []
