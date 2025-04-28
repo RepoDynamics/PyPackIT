@@ -254,7 +254,6 @@ class ConfigFileGenerator:
                     }
                 )
                 services[service_name] = {
-                    "container_name": service_name,
                     "volumes": [
                         # Mount the root folder that contains .git
                         f"{path_to_root_from_compose_file}:{container['container']['workspaceFolder']}:cached"
