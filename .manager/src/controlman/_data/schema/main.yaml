@@ -3471,7 +3471,6 @@ properties:
             Each feature must at least define a `devcontainer-feature.json` metadata file and
             an `install.sh` entrypoint script.
           type: object
-          additionalProperties: false
           required: [ path, metadata, install ]
           properties:
             path:
