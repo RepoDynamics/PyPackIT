@@ -16,7 +16,7 @@ properties:
     type: string
     enum: [ active, inactive, delete ]
     default: >-
-      #{{ return 'active' if get('.content') else 'delete' }}#
+      #{{ return 'active' if get('.content') else 'inactive' }}#
   name:
     summary: Display name of the file.
     $ref: https://jsonschemata.repodynamics.com/string/oneline
