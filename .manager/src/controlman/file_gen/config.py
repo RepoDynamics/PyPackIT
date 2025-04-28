@@ -38,7 +38,6 @@ class ConfigFileGenerator:
             + self.issue_template_chooser()
             + self.dynamic_files()
             + self.devcontainers()
-            + self.devcontainer_features()
             + self.gitattributes()
             + self.gitignore()
         )
@@ -126,6 +125,12 @@ class ConfigFileGenerator:
             return DynamicFile(**file_info)
         if file["type"] == "md":
             content = _unit.create_md_content(file, repo_path=self._path_repo)
+        elif file["type"] == "shell":
+            content = shell_script.create_script(
+                name=file["name"],
+                data=file["content"],
+                global_functions=self._data.get("devcontainer.function")
+            )
         else:
             content_setting = file["content_setting"]
             file_setting = file["file_setting"]
@@ -167,6 +172,17 @@ class ConfigFileGenerator:
                     file_before=self._data_before[full_doc_key]
                 )
             )
+        for feat_key, feat in self._data.get("devcontainer.feature", {}).items():
+            for key, value in feat.items():
+                if key not in ("path", ):
+                    full_feat_key = f"{feat_key}.{key}"
+                    out.append(
+                        self.dynamic_file(
+                            key=full_feat_key,
+                            file=value,
+                            file_before=self._data_before[full_feat_key]
+                        )
+                    )
         for key, value in self._data.items():
             if key.startswith("file_"):
                 out.append(
@@ -479,48 +495,6 @@ class ConfigFileGenerator:
                     path_before=f"{container_before.get('path', {}).get('tasks')}",
                 )
             )
-        return out
-
-    def devcontainer_features(self) -> list[DynamicFile]:
-        key = "devcontainer.feature"
-        key_functions = "devcontainer.function"
-        out = []
-        for feat_key, feat in self._data.get(key, {}).items():
-            feat_before = self._data_before.get(f"{key}.{feat_key}", {})
-            metadata = feat["metadata"]
-            feature_file = DynamicFile(
-                type=DynamicFileType.DEVCONTAINER_FEATURE_METADATA,
-                subtype=(feat_key, metadata["name"]),
-                content=_unit.create_dynamic_file(
-                    file_type="json",
-                    content=metadata,
-                    **self._data["default"]["file_setting"]["json"],
-                ),
-                path=feat["path"]["metadata"],
-                path_before=feat_before.get("path", {}).get("metadata"),
-            )
-            install_file = DynamicFile(
-                type=DynamicFileType.DEVCONTAINER_FEATURE_INSTALL,
-                subtype=(feat_key, metadata["name"]),
-                content=shell_script.create_script(
-                    name=feat["metadata"]["name"],
-                    data=feat["install"],
-                    global_functions=self._data.get(key_functions)
-                ),
-                path=feat["path"]["install"],
-                path_before=feat_before.get("path", {}).get("install"),
-                executable=True,
-            )
-            out.extend([feature_file, install_file])
-            for key, value in feat.items():
-                if key not in ("metadata", "install", "path"):
-                    out.append(
-                        self.dynamic_file(
-                            key=f"{feat_key}_{key}",
-                            file=value,
-                            file_before=feat_before.get(key)
-                        )
-                    )
         return out
 
     def gitattributes(self) -> list[DynamicFile]:
