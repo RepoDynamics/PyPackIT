@@ -1,167 +1,145 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
-
-# Default arguments
-APT=""
-APK=""
-DNF=""
-MICRODNF=""
-YUM=""
-REPOFILE=""
-KEEP_REPOS=false
-DO_UPDATE=true
-DO_CLEAN=true
-NONINTERACTIVE=true
-LOGFILE=""
-DEBUG=false
-ADDED_REPOS=()
-
-show_help() {
-    cat <<EOF
-====================
-Install APT Packages
-====================
-Usage: $0 [OPTIONS]
-
-Install packages listed in a file using the system's package manager.
-
-Options:
-    --apt <path>            Path to a file containing newline-separated
-                            package specifications for apt-get.
-    --apk <path>            Path to a file containing newline-separated
-                            package specifications for apk.
-    --dnf <path>            Path to a file containing newline-separated
-                            package specifications for dnf.
-    --microdnf <path>       Path to a file containing newline-separated
-                            package specifications for microdnf.
-    --yum <path>            Path to a file containing newline-separated
-                            package specifications for yum.
-    --repofile <path>       Path to file containing newline-separated arguments
-                            to pass to 'add-apt-repository', one set per line.
-    --keep-repos            Keep repositories added via --repofile after script ends.
-                            By default, they are removed automatically.
-    --no-update             Skip 'apt-get update' step before installation.
-    --no-clean              Skip 'apt-get dist-clean' step after installation.
-    --interactive           Allow apt to prompt the user (default is non-interactive).
-    --logfile <path>        Log all output (stdout + stderr) to this file.
-                            If not specified, output is only printed to the console.
-    --debug                 Enable debug mode.
-    --help                  Show this help message and exit.
-
-Example:
-    $0 --apt apt.txt --repofile repos.txt --logfile /tmp/install.log --no-clean
-EOF
-}
-
-# Refs:
-# - https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/git/install.sh
-
-# Install packages using the appropriate package manager.
-install() {
-    if [ ${PKG_MNGR} = "apt-get" ]; then
-        if dpkg -s "$@" > /dev/null 2>&1; then
-            echo "Packages already installed: $@"
-            return 0
-        fi
-    elif [ ${INSTALL_CMD} = "dnf" ] || [ ${INSTALL_CMD} = "yum" ]; then
-        _num_pkgs=$(echo "$@" | tr ' ' \\012 | wc -l)
-        _num_installed=$(${INSTALL_CMD} -C list installed "$@" | sed '1,/^Installed/d' | wc -l)
-        if [ ${_num_pkgs} == ${_num_installed} ]; then
-            echo "Packages already installed: $@"
-            return 0
-        fi
-    fi
-    echo "📲 Installing packages:"
-    printf '  - %s\n' "${PACKAGES[@]}"
-    "${INSTALL[@]}" "$@"
-}
-
-clean_apt() {
-    # Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
-    # which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*"
-    # - https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
-    # - https://github.com/docker-library/buildpack-deps/pull/157/files
-    if ! apt-get dist-clean; then
-        echo "⚠️  'apt-get dist-clean' failed — falling back to 'apt-get clean'."
-        apt-get clean
-        rm -rf /var/lib/apt/lists/*
-    fi
-}
-
-clean_apk() {
-    rm -rf /var/cache/apk/*
-}
-
-clean_dnf() {
-    dnf clean all
-    rm -rf /var/cache/dnf/*
-}
-
-clean_microdnf() {
-    microdnf clean all
-    rm -rf /var/cache/dnf/*
-}
-
-clean_yum() {
-    yum clean all
-    rm -rf /var/cache/yum/*
-}
-
-while [ "$#" -gt 0 ]; do
-    case "$1" in
-        --apt) APT="$2"; shift ;;
-        --apk) APK="$2"; shift ;;
-        --dnf) DNF="$2"; shift ;;
-        --microdnf) MICRODNF="$2"; shift ;;
-        --yum) YUM="$2"; shift ;;
-        --repofile) REPOFILE="$2"; shift ;;
-        --keep-repos) KEEP_REPOS=true ;;
-        --no-update) DO_UPDATE=false ;;
-        --no-clean) DO_CLEAN=false ;;
-        --interactive) NONINTERACTIVE=false ;;
-        --logfile) LOGFILE="$2"; shift ;;
-        --debug) DEBUG=true ;;
-        --help) show_help; exit 0 ;;
-        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1 ;;
-    esac
-    shift
-done
-
-if [ "$DEBUG" = true ]; then
-    set -x
-fi
-
-if [[ -n "$LOGFILE" ]]; then
-    echo "📝 Initializing logging to '$LOGFILE'."
+__cleanup__() {
+  echo "↪️ Function entry: __cleanup__" >&2
+  if [ -n "${LOGFILE-}" ]; then
+    echo "ℹ️ Write logs to file '$LOGFILE'" >&2
     mkdir -p "$(dirname "$LOGFILE")"
-    exec > >(tee -a "$LOGFILE") 2>&1
+    cat "$_LOGFILE_TMP" >> "$LOGFILE"
+    rm -f "$_LOGFILE_TMP"
+  fi
+  echo "↩️ Function exit: __cleanup__" >&2
+}
+clean_apk() {
+  echo "↪️ Function entry: clean_apk" >&2
+  rm -rf /var/cache/apk/*
+  echo "↩️ Function exit: clean_apk" >&2
+}
+clean_apt() {
+  echo "↪️ Function entry: clean_apt" >&2
+  if ! apt-get dist-clean; then
+      echo "⚠️  'apt-get dist-clean' failed — falling back to 'apt-get clean'."
+      apt-get clean
+      rm -rf /var/lib/apt/lists/*
+  fi
+  echo "↩️ Function exit: clean_apt" >&2
+}
+clean_dnf() {
+  echo "↪️ Function entry: clean_dnf" >&2
+  dnf clean all
+  rm -rf /var/cache/dnf/*
+  echo "↩️ Function exit: clean_dnf" >&2
+}
+clean_microdnf() {
+  echo "↪️ Function entry: clean_microdnf" >&2
+  microdnf clean all
+  rm -rf /var/cache/dnf/*
+  echo "↩️ Function exit: clean_microdnf" >&2
+}
+clean_yum() {
+  echo "↪️ Function entry: clean_yum" >&2
+  yum clean all
+  rm -rf /var/cache/yum/*
+  echo "↩️ Function exit: clean_yum" >&2
+}
+exit_if_not_root() {
+  echo "↪️ Function entry: exit_if_not_root" >&2
+  if [ "$(id -u)" -ne 0 ]; then
+      echo '⛔ This script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.' >&2
+      exit 1
+  fi
+  echo "↩️ Function exit: exit_if_not_root" >&2
+}
+install() {
+  echo "↪️ Function entry: install" >&2
+  if [ ${PKG_MNGR} = "apt-get" ]; then
+      if dpkg -s "$@" > /dev/null 2>&1; then
+          echo "Packages already installed: $@"
+          return 0
+      fi
+  elif [ ${INSTALL_CMD} = "dnf" ] || [ ${INSTALL_CMD} = "yum" ]; then
+      _num_pkgs=$(echo "$@" | tr ' ' \\012 | wc -l)
+      _num_installed=$(${INSTALL_CMD} -C list installed "$@" | sed '1,/^Installed/d' | wc -l)
+      if [ ${_num_pkgs} == ${_num_installed} ]; then
+          echo "Packages already installed: $@"
+          return 0
+      fi
+  fi
+  echo "📲 Installing packages:"
+  printf '  - %s\n' "${PACKAGES[@]}"
+  "${INSTALL[@]}" "$@"
+  echo "↩️ Function exit: install" >&2
+}
+_LOGFILE_TMP="$(mktemp)"
+exec > >(tee -a "$_LOGFILE_TMP") 2>&1
+echo "↪️ Script entry: System Package Installation" >&2
+trap __cleanup__ EXIT
+if [ "$#" -gt 0 ]; then
+  echo "ℹ️ Script called with arguments: $@" >&2
+  APK=""
+  APT=""
+  APT_REPOS=""
+  DEBUG=""
+  DNF=""
+  INTERACTIVE=""
+  KEEP_REPOS=""
+  LOGFILE=""
+  MICRODNF=""
+  NO_CLEAN=""
+  NO_UPDATE=""
+  YUM=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --apk) shift; APK="$1"; echo "📩 Read argument 'apk': '"$APK"'" >&2; shift;;
+      --apt) shift; APT="$1"; echo "📩 Read argument 'apt': '"$APT"'" >&2; shift;;
+      --apt_repos) shift; APT_REPOS="$1"; echo "📩 Read argument 'apt_repos': '"$APT_REPOS"'" >&2; shift;;
+      --debug) shift; DEBUG=true; echo "📩 Read argument 'debug': '"$DEBUG"'" >&2;;
+      --dnf) shift; DNF="$1"; echo "📩 Read argument 'dnf': '"$DNF"'" >&2; shift;;
+      --interactive) shift; INTERACTIVE=true; echo "📩 Read argument 'interactive': '"$INTERACTIVE"'" >&2;;
+      --keep_repos) shift; KEEP_REPOS=true; echo "📩 Read argument 'keep_repos': '"$KEEP_REPOS"'" >&2;;
+      --logfile) shift; LOGFILE="$1"; echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2; shift;;
+      --microdnf) shift; MICRODNF="$1"; echo "📩 Read argument 'microdnf': '"$MICRODNF"'" >&2; shift;;
+      --no_clean) shift; NO_CLEAN=true; echo "📩 Read argument 'no_clean': '"$NO_CLEAN"'" >&2;;
+      --no_update) shift; NO_UPDATE=true; echo "📩 Read argument 'no_update': '"$NO_UPDATE"'" >&2;;
+      --yum) shift; YUM="$1"; echo "📩 Read argument 'yum': '"$YUM"'" >&2; shift;;
+      --*) echo "⛔ Unknown option: "$1"" >&2; exit 1;;
+      *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
+    esac
+  done
+else
+  echo "ℹ️ Script called with no arguments. Read environment variables." >&2
+  [ "${APK+defined}" ] && echo "📩 Read argument 'apk': '"$APK"'" >&2
+  [ "${APT+defined}" ] && echo "📩 Read argument 'apt': '"$APT"'" >&2
+  [ "${APT_REPOS+defined}" ] && echo "📩 Read argument 'apt_repos': '"$APT_REPOS"'" >&2
+  [ "${DEBUG+defined}" ] && echo "📩 Read argument 'debug': '"$DEBUG"'" >&2
+  [ "${DNF+defined}" ] && echo "📩 Read argument 'dnf': '"$DNF"'" >&2
+  [ "${INTERACTIVE+defined}" ] && echo "📩 Read argument 'interactive': '"$INTERACTIVE"'" >&2
+  [ "${KEEP_REPOS+defined}" ] && echo "📩 Read argument 'keep_repos': '"$KEEP_REPOS"'" >&2
+  [ "${LOGFILE+defined}" ] && echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2
+  [ "${MICRODNF+defined}" ] && echo "📩 Read argument 'microdnf': '"$MICRODNF"'" >&2
+  [ "${NO_CLEAN+defined}" ] && echo "📩 Read argument 'no_clean': '"$NO_CLEAN"'" >&2
+  [ "${NO_UPDATE+defined}" ] && echo "📩 Read argument 'no_update': '"$NO_UPDATE"'" >&2
+  [ "${YUM+defined}" ] && echo "📩 Read argument 'yum': '"$YUM"'" >&2
 fi
-
-echo "📩 Input Arguments:"
-echo "   - apt: $APT"
-echo "   - apk: $APK"
-echo "   - dnf: $DNF"
-echo "   - microdnf: $MICRODNF"
-echo "   - yum: $YUM"
-echo "   - repofile: $REPOFILE"
-echo "   - keep-repos: $KEEP_REPOS"
-echo "   - no-update: $DO_UPDATE"
-echo "   - no-clean: $DO_CLEAN"
-echo "   - interactive: $NONINTERACTIVE"
-echo "   - logfile: $LOGFILE"
-echo "   - debug: $DEBUG"
-
-if [ "$(id -u)" -ne 0 ]; then
-    echo -e '⛔ This script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.' >&2
-    exit 1
-fi
-
+[[ "$DEBUG" == true ]] && set -x
+[ -z "${APK-}" ] && { echo "ℹ️ Argument 'APK' set to default value ''." >&2; APK=""; }
+[ -n ${APK-} ] && [ ! -f "$APK" ] && { echo "⛔ File argument to parameter 'APK' not found: '$APK'" >&2; exit 1; }
+[ -z "${APT-}" ] && { echo "ℹ️ Argument 'APT' set to default value ''." >&2; APT=""; }
+[ -n ${APT-} ] && [ ! -f "$APT" ] && { echo "⛔ File argument to parameter 'APT' not found: '$APT'" >&2; exit 1; }
+[ -z "${APT_REPOS-}" ] && { echo "ℹ️ Argument 'APT_REPOS' set to default value ''." >&2; APT_REPOS=""; }
+[ -n ${APT_REPOS-} ] && [ ! -f "$APT_REPOS" ] && { echo "⛔ File argument to parameter 'APT_REPOS' not found: '$APT_REPOS'" >&2; exit 1; }
+[ -z "${DNF-}" ] && { echo "ℹ️ Argument 'DNF' set to default value ''." >&2; DNF=""; }
+[ -n ${DNF-} ] && [ ! -f "$DNF" ] && { echo "⛔ File argument to parameter 'DNF' not found: '$DNF'" >&2; exit 1; }
+[ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
+[ -z "${MICRODNF-}" ] && { echo "ℹ️ Argument 'MICRODNF' set to default value ''." >&2; MICRODNF=""; }
+[ -n ${MICRODNF-} ] && [ ! -f "$MICRODNF" ] && { echo "⛔ File argument to parameter 'MICRODNF' not found: '$MICRODNF'" >&2; exit 1; }
+[ -z "${YUM-}" ] && { echo "ℹ️ Argument 'YUM' set to default value ''." >&2; YUM=""; }
+[ -n ${YUM-} ] && [ ! -f "$YUM" ] && { echo "⛔ File argument to parameter 'YUM' not found: '$YUM'" >&2; exit 1; }
+exit_if_not_root
 if [[ -z "$APT" && -z "$APK" && -z "$DNF" && -z "$MICRODNF" && -z "$YUM" ]]; then
-    echo "⛔ No package list file provided. Use --apt, --apk, --dnf, --microdnf, or --yum." >&2
+    echo "⛔ No package list file provided." >&2
     exit 1
 fi
-
 if type apt-get > /dev/null 2>&1; then
     echo "🛠️  Using APT package manager."
     PKG_FILE="$APT"
@@ -201,40 +179,30 @@ else
     echo "(Error) Unable to find a supported package manager."
     exit 1
 fi
-
-
-if [[ ! -f "$PKG_FILE" ]]; then
-    echo "⛔ Package list file '$PKG_FILE' does not exist." >&2
-    exit 1
-fi
-
-# Read the package list file and filter out comments and empty lines
 mapfile -t PACKAGES < <(grep -Ev '^\s*(#|$)' "$PKG_FILE")
 if [[ ${#PACKAGES[@]} -eq 0 ]]; then
     echo "⛔ No packages found in file '$PKG_FILE'." >&2
     exit 1
 fi
-
-if [[ "$NONINTERACTIVE" == true ]]; then
+if [[ "$INTERACTIVE" == false ]]; then
     echo "🆗 Setting APT to non-interactive mode."
     export DEBIAN_FRONTEND=noninteractive
 fi
-
-if [[ -n "$REPOFILE" ]]; then
-    if [[ ! -f "$REPOFILE" ]]; then
-        echo "⛔ Repo file '$REPOFILE' does not exist." >&2
+ADDED_REPOS=()
+if [[ -n "$APT_REPOS" ]]; then
+    if [[ ! -f "$APT_REPOS" ]]; then
+        echo "⛔ Repo file '$APT_REPOS' does not exist." >&2
         exit 1
     fi
-    echo "🗃 Adding APT repositories from '$REPOFILE'."
+    echo "🗃 Adding APT repositories from '$APT_REPOS'."
     while IFS= read -r line; do
         [[ -z "${line:-}" || "${line}" =~ ^[[:space:]]*# ]] && continue
         echo "📦 Adding repository: $line"
         eval "add-apt-repository --yes $line"
         ADDED_REPOS+=("$line")
-    done < "$REPOFILE"
+    done < "$APT_REPOS"
 fi
-
-if "$DO_UPDATE"; then
+if [[ "$NO_UPDATE" == false ]]; then
     echo "🔄 Updating package lists."
     "${UPDATE[@]}"
     if [[ $? -ne 0 ]]; then
@@ -242,20 +210,17 @@ if "$DO_UPDATE"; then
         exit 1
     fi
 fi
-
 install "${PACKAGES[@]}"
-
-if [[ -n "$REPOFILE" && "$KEEP_REPOS" == false ]]; then
+if [[ -n "$APT_REPOS" && "$KEEP_REPOS" == false ]]; then
     echo "🗑️  Removing added repositories..."
     for repo_args in "${ADDED_REPOS[@]}"; do
         echo "❌ Removing repository: $repo_args"
         eval "add-apt-repository --yes --remove $repo_args" || echo "⚠️  Failed to remove repo: $repo_args" >&2
     done
 fi
-
-if "$DO_CLEAN"; then
+if [[ "$NO_CLEAN" == false ]]; then
     echo "🧹 Cleaning up."
     "${CLEAN[@]}"
 fi
-
-echo "🏁 Finished installing APT packages."
+echo "✅ Package installation complete."
+echo "↩️ Script exit: System Package Installation" >&2

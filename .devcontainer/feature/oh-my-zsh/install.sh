@@ -1,132 +1,99 @@
 #!/usr/bin/env bash
-
-set -euxo pipefail
-
-# Default arguments
-INSTALL_DIR="/usr/local/oh-my-zsh"
-
-show_help() {
-    echo "================="
-    echo "Install Oh My Zsh"
-    echo "================="
-    echo "Usage: $0 [OPTIONS]"
-    echo
-    echo "Install Oh My Zsh from source."
-    echo
-    echo "Options:"
-    echo "    --install-dir <path>    Path to directory to install Oh My Zsh to."
-    echo "                            Default: '$INSTALL_DIR'"
-    echo "    --logfile <path>        Log all output (stdout + stderr) to this file in addition to console."
-    echo "                            Otherwise output is only printed to the console."
-    echo "    --debug                 Enable debug mode."
-    echo "    --help                  Show this help message and exit."
-    echo
-    echo "Example:"
-    echo "    $0 --version 2.49.0"
-}
-
-while [ "$#" -gt 0 ]; do
-    case "$1" in
-        --install-dir) INSTALL_DIR="$2"; shift ;;
-        --logfile) LOGFILE="$2"; shift ;;
-        --debug) DEBUG=true ;;
-        --help) show_help; exit 0 ;;
-        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1 ;;
-    esac
-    shift
-done
-
-if [ "$DEBUG" = true ]; then
-    set -x
-fi
-
-if [[ -n "$LOGFILE" ]]; then
-    echo "📝 Initializing logging to '$LOGFILE'."
+set -euo pipefail
+__cleanup__() {
+  echo "↪️ Function entry: __cleanup__" >&2
+  if [ -n "${LOGFILE-}" ]; then
+    echo "ℹ️ Write logs to file '$LOGFILE'" >&2
     mkdir -p "$(dirname "$LOGFILE")"
-    exec > >(tee -a "$LOGFILE") 2>&1
+    cat "$_LOGFILE_TMP" >> "$LOGFILE"
+    rm -f "$_LOGFILE_TMP"
+  fi
+  echo "↩️ Function exit: __cleanup__" >&2
+}
+git_clone() {
+  echo "↪️ Function entry: git_clone" >&2
+  local dir=""
+  local url=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --dir) shift; dir="$1"; echo "📩 Read argument 'dir': '"$dir"'" >&2; shift;;
+      --url) shift; url="$1"; echo "📩 Read argument 'url': '"$url"'" >&2; shift;;
+      --*) echo "⛔ Unknown option: "$1"" >&2; exit 1;;
+      *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
+    esac
+  done
+  [ -z "${dir-}" ] && { echo "⛔ Missing required argument 'dir'." >&2; exit 1; }
+  [ -n ${dir-} ] && [ -d "$dir" ] && { echo "⛔ Directory argument to parameter 'dir' already exists: '$dir'" >&2; exit 1; }
+  [ -z "${url-}" ] && { echo "⛔ Missing required argument 'url'." >&2; exit 1; }
+  mkdir -p "$dir"
+  git clone --depth=1 \
+      -c core.eol=lf \
+      -c core.autocrlf=false \
+      -c fsck.zeroPaddedFilemode=ignore \
+      -c fetch.fsck.zeroPaddedFilemode=ignore \
+      -c receive.fsck.zeroPaddedFilemode=ignore \
+      "$url" \
+      "$dir" 2>&1
+  (cd "$dir" && git repack -a -d -f --depth=1 --window=1)
+  echo "↩️ Function exit: git_clone" >&2
+}
+_LOGFILE_TMP="$(mktemp)"
+exec > >(tee -a "$_LOGFILE_TMP") 2>&1
+echo "↪️ Script entry: Oh My Zsh Installation" >&2
+trap __cleanup__ EXIT
+if [ "$#" -gt 0 ]; then
+  echo "ℹ️ Script called with arguments: $@" >&2
+  DEBUG=""
+  FONT_DIR=""
+  INSTALL_DIR=""
+  LOGFILE=""
+  ZSH_CUSTOM_DIR=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --debug) shift; DEBUG=true; echo "📩 Read argument 'debug': '"$DEBUG"'" >&2;;
+      --font_dir) shift; FONT_DIR="$1"; echo "📩 Read argument 'font_dir': '"$FONT_DIR"'" >&2; shift;;
+      --install_dir) shift; INSTALL_DIR="$1"; echo "📩 Read argument 'install_dir': '"$INSTALL_DIR"'" >&2; shift;;
+      --logfile) shift; LOGFILE="$1"; echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2; shift;;
+      --zsh_custom_dir) shift; ZSH_CUSTOM_DIR="$1"; echo "📩 Read argument 'zsh_custom_dir': '"$ZSH_CUSTOM_DIR"'" >&2; shift;;
+      --*) echo "⛔ Unknown option: "$1"" >&2; exit 1;;
+      *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
+    esac
+  done
+else
+  echo "ℹ️ Script called with no arguments. Read environment variables." >&2
+  [ "${DEBUG+defined}" ] && echo "📩 Read argument 'debug': '"$DEBUG"'" >&2
+  [ "${FONT_DIR+defined}" ] && echo "📩 Read argument 'font_dir': '"$FONT_DIR"'" >&2
+  [ "${INSTALL_DIR+defined}" ] && echo "📩 Read argument 'install_dir': '"$INSTALL_DIR"'" >&2
+  [ "${LOGFILE+defined}" ] && echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2
+  [ "${ZSH_CUSTOM_DIR+defined}" ] && echo "📩 Read argument 'zsh_custom_dir': '"$ZSH_CUSTOM_DIR"'" >&2
 fi
-
-echo "📩 Input Arguments:"
-echo "   - install-dir: $INSTALL_DIR"
-echo "   - logfile: $LOGFILE"
-echo "   - debug: $DEBUG"
-
-
+[[ "$DEBUG" == true ]] && set -x
+[ -z "${FONT_DIR-}" ] && { echo "ℹ️ Argument 'FONT_DIR' set to default value '/usr/share/fonts/MesloLGS'." >&2; FONT_DIR="/usr/share/fonts/MesloLGS"; }
+[ -z "${INSTALL_DIR-}" ] && { echo "ℹ️ Argument 'INSTALL_DIR' set to default value '/usr/local/share/oh-my-zsh'." >&2; INSTALL_DIR="/usr/local/share/oh-my-zsh"; }
+[ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
+[ -z "${ZSH_CUSTOM_DIR-}" ] && { echo "ℹ️ Argument 'ZSH_CUSTOM_DIR' set to default value '/usr/local/share/oh-my-zsh/custom'." >&2; ZSH_CUSTOM_DIR="/usr/local/share/oh-my-zsh/custom"; }
 umask g-w,o-w
-mkdir -p "$INSTALL_DIR"
-git clone --depth=1 \
-    -c core.eol=lf \
-    -c core.autocrlf=false \
-    -c fsck.zeroPaddedFilemode=ignore \
-    -c fetch.fsck.zeroPaddedFilemode=ignore \
-    -c receive.fsck.zeroPaddedFilemode=ignore \
-    "https://github.com/ohmyzsh/ohmyzsh" \
-    "$INSTALL_DIR" 2>&1
-cd "$INSTALL_DIR"
-git repack -a -d -f --depth=1 --window=1
-
-
-
-# Download fonts
-# - https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k
-# - https://github.com/romkatv/powerlevel10k/issues/671
-# - https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#fonts
-
-# Target directory
-FONT_DIR="/usr/share/fonts/MesloLGS"
+git_clone --url "https://github.com/ohmyzsh/ohmyzsh" --dir "$INSTALL_DIR"
 mkdir -p "$FONT_DIR"
-
-# Base URL
 BASE_URL="https://github.com/romkatv/powerlevel10k-media/raw/master"
-
-# Font files to download
 FONT_FILES="
 MesloLGS%20NF%20Regular.ttf
 MesloLGS%20NF%20Bold.ttf
 MesloLGS%20NF%20Italic.ttf
 MesloLGS%20NF%20Bold%20Italic.ttf
 "
-
 echo "Installing MesloLGS Nerd Fonts to $FONT_DIR..."
-
 for FONT in $FONT_FILES; do
-  # Decode filename for local file
   LOCAL_NAME=$(printf '%b' "${FONT//%/\\x}")
   echo "Downloading $LOCAL_NAME..."
   curl -fsSL "$BASE_URL/$FONT" -o "$FONT_DIR/$LOCAL_NAME"
 done
-
-# Set proper permissions
 chmod 644 "$FONT_DIR"/*.ttf
-
 echo "Fonts installed."
-
-
-# https://github.com/romkatv/powerlevel10k
-THEME_INSTALL_DIR="$INSTALL_DIR/custom/themes/powerlevel10k"
-mkdir -p "$THEME_INSTALL_DIR"
-git clone --depth=1 \
-    -c core.eol=lf \
-    -c core.autocrlf=false \
-    -c fsck.zeroPaddedFilemode=ignore \
-    -c fetch.fsck.zeroPaddedFilemode=ignore \
-    -c receive.fsck.zeroPaddedFilemode=ignore \
-    "https://github.com/romkatv/powerlevel10k" \
-    "$THEME_INSTALL_DIR" 2>&1
-cd "$THEME_INSTALL_DIR"
-git repack -a -d -f --depth=1 --window=1
-
-
-# https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
-PLUGIN_INSTALL_DIR="$INSTALL_DIR/custom/plugins/zsh-syntax-highlighting"
-git clone --depth=1 \
-    -c core.eol=lf \
-    -c core.autocrlf=false \
-    -c fsck.zeroPaddedFilemode=ignore \
-    -c fetch.fsck.zeroPaddedFilemode=ignore \
-    -c receive.fsck.zeroPaddedFilemode=ignore \
-    "https://github.com/zsh-users/zsh-syntax-highlighting" \
-    "$PLUGIN_INSTALL_DIR" 2>&1
-cd "$PLUGIN_INSTALL_DIR"
-git repack -a -d -f --depth=1 --window=1
-
+git_clone \
+  --url "https://github.com/romkatv/powerlevel10k"
+  --dir "$ZSH_CUSTOM_DIR/themes/powerlevel10k"
+git_clone \
+  --url "https://github.com/zsh-users/zsh-syntax-highlighting"
+  --dir "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
+echo "↩️ Script exit: Oh My Zsh Installation" >&2

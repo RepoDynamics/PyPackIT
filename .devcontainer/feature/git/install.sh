@@ -1,170 +1,98 @@
 #!/usr/bin/env bash
-
-# Refs:
-# - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-# - https://github.com/devcontainers/features/tree/main/src/git/
-
 set -euo pipefail
-
-# Default arguments
-VERSION="latest"
-SOURCE="https://www.kernel.org/pub/software/scm/git/git-"
-PREFIX="/usr/local/git"
-SYSCONFDIR="/etc"
-NO_CLEAN=false
-INSTALLER_DIR="/tmp/git-installer"
-LOGFILE=""
-DEBUG=false
-
-show_help() {
-echo "==========="
-echo "Install Git"
-echo "==========="
-echo "Usage: $0 [OPTIONS]"
-echo
-echo "Install Git from source."
-echo
-echo "Options:"
-echo "    --version <ver>         Version of Git to install."
-echo "                            Can be either 'latest', a full version number, or a partial version."
-echo "                            Default: '$VERSION'"
-echo "    --source <URL>          URL to download the Git source code from."
-echo "                            The full URL is built by appending the resolved version to this URL."
-echo "                            Example: https://github.com/git/git/archive/v"
-echo "                            Default: '$SOURCE'"
-echo "    --prefix <path>         Path to install Git to."
-echo "                            Default: '$PREFIX'"
-echo "    --sysconfdir <path>     Path to the system configuration directory."
-echo "                            Default: '$SYSCONFDIR'"
-echo "    --no-clean              Skip removing installer artifacts after installation."
-echo "    --installer-dir <path>  Path to directory to download the installer to."
-echo "                            Default: '$INSTALLER_DIR'"
-echo "    --logfile <path>        Log all output (stdout + stderr) to this file in addition to console."
-echo "                            Otherwise output is only printed to the console."
-echo "    --debug                 Enable debug mode."
-echo "    --help                  Show this help message and exit."
-echo
-echo "Example:"
-echo "    $0 --version 2.49.0"
-}
-
-# Resolve $VERSION to a full semver version.
-resolve_version() {
-    local requested_version version_list
-
-    # Only resolve if VERSION is not a full semver (i.e., doesn't contain two dots)
-    if [ "$(echo "${VERSION}" | grep -o '\.' | wc -l)" = "2" ]; then
-        echo "Version is already a full version: $VERSION"
-        return
-    fi
-
-    echo "Resolving partial VERSION: ${VERSION}"
-
-    requested_version="${VERSION}"
-
-    # Fetch Git tags from GitHub and extract semver versions
-    echo "Fetching Git version tags from GitHub..."
-    version_list="$(curl -sSL -H "Accept: application/vnd.github.v3+json" \
-        "https://api.github.com/repos/git/git/tags" | \
-        grep -oP '"name":\s*"v\K[0-9]+\.[0-9]+\.[0-9]+"' | \
-        tr -d '"' | sort -rV )"
-
-    # Handle special cases like "latest", "lts", "current"
-    if [ "${requested_version}" = "latest" ]; then
-        VERSION="$(echo "${version_list}" | head -n 1)"
-        echo "Mapped '${requested_version}' to latest Git version: ${VERSION}"
-    else
-        # Match the first version that starts with the given prefix
-        echo "Attempting to match partial version '${requested_version}'..."
-        set +e
-        VERSION="$(echo "${version_list}" | grep -E -m 1 "^${requested_version//./\\.}([\\.\\s]|$)")"
-        set -e
-        echo "Matched to full version: ${VERSION}"
-    fi
-
-    # Validate the resolved version exists in the list
-    if [ -z "${VERSION}" ] ||
-       ! echo "${version_list}" | grep "^${VERSION//./\\.}$" > /dev/null 2>&1; then
-        echo "Error: Invalid git version: ${requested_version}" >&2
-        exit 1
-    fi
-
-    echo "Final resolved Git version: ${VERSION}"
-}
-
-OPTS=$(
-    getopt \
-        --longoptions version:,source:,prefix:,sysconfdir:,no-clean,installer-dir:,logfile:,debug,help \
-        --name "$0" \
-        --options '' \
-        -- "$@"
-)
-
-if [[ $? -ne 0 ]]; then
-    echo "Failed to parse options." >&2
-    exit 1
-fi
-
-eval set -- "$OPTS"
-
-while true; do
-    case "$1" in
-        --version) VERSION="$2"; shift 2;;
-        --source) SOURCE="$2"; shift 2;;
-        --prefix) PREFIX="$2"; shift 2;;
-        --sysconfdir) SYSCONFDIR="$2"; shift 2;;
-        --no-clean) NO_CLEAN=true; shift;;
-        --installer-dir) INSTALLER_DIR="$2"; shift 2;;
-        --logfile) LOGFILE="$2"; shift 2;;
-        --debug) DEBUG=true; shift;;
-        --help) show_help; exit 0;;
-        --) shift; break;;
-        *) echo "Unknown option: $1" >&2; show_help >&2; exit 1;;
-    esac
-done
-
-if [[ "$DEBUG" == true ]]; then
-    set -x
-fi
-
-if [[ -n "$LOGFILE" ]]; then
-    echo "📝 Initializing logging to '$LOGFILE'."
+__cleanup__() {
+  echo "↪️ Function entry: __cleanup__" >&2
+  [[ "$NO_CLEAN" == false ]] && (cd / && rm -rf "$INSTALLER_DIR/git-$VERSION")
+  if [ -n "${LOGFILE-}" ]; then
+    echo "ℹ️ Write logs to file '$LOGFILE'" >&2
     mkdir -p "$(dirname "$LOGFILE")"
-    exec > >(tee -a "$LOGFILE") 2>&1
+    cat "$_LOGFILE_TMP" >> "$LOGFILE"
+    rm -f "$_LOGFILE_TMP"
+  fi
+  echo "↩️ Function exit: __cleanup__" >&2
+}
+exit_if_not_root() {
+  echo "↪️ Function entry: exit_if_not_root" >&2
+  if [ "$(id -u)" -ne 0 ]; then
+      echo '⛔ This script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.' >&2
+      exit 1
+  fi
+  echo "↩️ Function exit: exit_if_not_root" >&2
+}
+get_script_dir() {
+  echo "↪️ Function entry: get_script_dir" >&2
+  local script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  echo "📤 Write output 'script_dir': '"$script_dir"'" >&2
+  echo "${script_dir}"
+  echo "↩️ Function exit: get_script_dir" >&2
+}
+_LOGFILE_TMP="$(mktemp)"
+exec > >(tee -a "$_LOGFILE_TMP") 2>&1
+echo "↪️ Script entry: Git Installation" >&2
+trap __cleanup__ EXIT
+if [ "$#" -gt 0 ]; then
+  echo "ℹ️ Script called with arguments: $@" >&2
+  DEBUG=""
+  INSTLLER_DIR=""
+  LOGFILE=""
+  NO_CLEAN=""
+  PREFIX=""
+  SOURCE=""
+  SYSCONFDIR=""
+  VERSION=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --debug) shift; DEBUG=true; echo "📩 Read argument 'debug': '"$DEBUG"'" >&2;;
+      --instller_dir) shift; INSTLLER_DIR="$1"; echo "📩 Read argument 'instller_dir': '"$INSTLLER_DIR"'" >&2; shift;;
+      --logfile) shift; LOGFILE="$1"; echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2; shift;;
+      --no_clean) shift; NO_CLEAN=true; echo "📩 Read argument 'no_clean': '"$NO_CLEAN"'" >&2;;
+      --prefix) shift; PREFIX="$1"; echo "📩 Read argument 'prefix': '"$PREFIX"'" >&2; shift;;
+      --source) shift; SOURCE="$1"; echo "📩 Read argument 'source': '"$SOURCE"'" >&2; shift;;
+      --sysconfdir) shift; SYSCONFDIR="$1"; echo "📩 Read argument 'sysconfdir': '"$SYSCONFDIR"'" >&2; shift;;
+      --version) shift; VERSION="$1"; echo "📩 Read argument 'version': '"$VERSION"'" >&2; shift;;
+      --*) echo "⛔ Unknown option: "$1"" >&2; exit 1;;
+      *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
+    esac
+  done
+else
+  echo "ℹ️ Script called with no arguments. Read environment variables." >&2
+  [ "${DEBUG+defined}" ] && echo "📩 Read argument 'debug': '"$DEBUG"'" >&2
+  [ "${INSTLLER_DIR+defined}" ] && echo "📩 Read argument 'instller_dir': '"$INSTLLER_DIR"'" >&2
+  [ "${LOGFILE+defined}" ] && echo "📩 Read argument 'logfile': '"$LOGFILE"'" >&2
+  [ "${NO_CLEAN+defined}" ] && echo "📩 Read argument 'no_clean': '"$NO_CLEAN"'" >&2
+  [ "${PREFIX+defined}" ] && echo "📩 Read argument 'prefix': '"$PREFIX"'" >&2
+  [ "${SOURCE+defined}" ] && echo "📩 Read argument 'source': '"$SOURCE"'" >&2
+  [ "${SYSCONFDIR+defined}" ] && echo "📩 Read argument 'sysconfdir': '"$SYSCONFDIR"'" >&2
+  [ "${VERSION+defined}" ] && echo "📩 Read argument 'version': '"$VERSION"'" >&2
 fi
-
-if [ "$(id -u)" -ne 0 ]; then
-    echo -e '⛔ This script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.' >&2
-    exit 1
-fi
-
-SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-REQS_DIR="$SCRIPT_DIR/requirements"
+[[ "$DEBUG" == true ]] && set -x
+[ -z "${INSTLLER_DIR-}" ] && { echo "ℹ️ Argument 'INSTLLER_DIR' set to default value '/tmp/git-installer'." >&2; INSTLLER_DIR="/tmp/git-installer"; }
+[ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
+[ -z "${PREFIX-}" ] && { echo "ℹ️ Argument 'PREFIX' set to default value '/usr/local/git'." >&2; PREFIX="/usr/local/git"; }
+[ -z "${SOURCE-}" ] && { echo "ℹ️ Argument 'SOURCE' set to default value 'https://www.kernel.org/pub/software/scm/git/git-'." >&2; SOURCE="https://www.kernel.org/pub/software/scm/git/git-"; }
+[ -z "${SYSCONFDIR-}" ] && { echo "ℹ️ Argument 'SYSCONFDIR' set to default value '/etc'." >&2; SYSCONFDIR="/etc"; }
+[ -z "${VERSION-}" ] && { echo "ℹ️ Argument 'VERSION' set to default value ''." >&2; VERSION=""; }
+exit_if_not_root
 "$SYSPKG_INSTALL_SCRIPT" \
-    --apt "$REQS_DIR/apt.txt" \
-    --logfile "$LOGFILE" \
-    --debug
-
-if ! command -v curl >/dev/null 2>&1; then
-    echo "⛔ curl is not available." >&2
-    exit 1
-fi
-
+  --apt "$(get_script_dir)/requirements/apt.txt" \
+  --logfile "$LOGFILE" \
+  $( [ "$DEBUG" = "true" ] && echo --debug )
+VERSION=$(
+    get_matching_github_refs \
+        --owner git \
+        --repo git \
+        --ref "tags/v" \
+        --remove_prefix "tags/v" \
+        --regex "$VERSION"
+)
 mkdir -p "$INSTALLER_DIR"
-
-# - https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L299-L312
-echo "Downloading source code for Git v${VERSION}..."
+echo "📥 Download source code for Git v${VERSION}."
 curl -sL "${SOURCE}${VERSION}.tar.gz" | tar -xzC "$INSTALLER_DIR" 2>&1
-echo "Building Git..."
+echo "🏗 Build Git."
 cd "$INSTALLER_DIR/git-$VERSION"
 git_options=("prefix=$PREFIX")
 git_options+=("sysconfdir=$SYSCONFDIR")
 git_options+=("USE_LIBPCRE=YesPlease")
 make -s "${git_options[@]}" all && make -s "${git_options[@]}" install 2>&1
-
-if [[ "$NO_CLEAN" == false ]]; then
-    cd /
-    rm -rf "$INSTALLER_DIR/git-$VERSION"
-fi
-
 echo "✅ Git v${VERSION} installed successfully."
+echo "↩️ Script exit: Git Installation" >&2
