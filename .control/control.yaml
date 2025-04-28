@@ -3504,7 +3504,7 @@ devcontainer_main:
         - CMD: |
             [ "sleep", "infinity" ]
   container:
-    name: Main Development Environment
+    name: ${{ name }}$ Development Environment
     workspaceFolder: /#{{ return slugify(get("name")) }}#
     containerUser: ${{ devcontainer_main.var.user.name }}$
     remoteUser: ${{ .containerUser }}$
