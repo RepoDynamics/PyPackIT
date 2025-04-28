@@ -1880,7 +1880,10 @@ devcontainer:
       install:
         summary: Install Oh My Zsh.
         description: |
-          Install Oh My Zsh from the official GitHub repository.
+          Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh)
+          from the official GitHub repository.
+          [Zsh](https://www.zsh.org) must be installed on the system
+          (cf [Oh My Zsh docs](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)).
         parameter:
           install_dir:
             type: string
@@ -1901,6 +1904,13 @@ devcontainer:
               This corresponds to the [`ZSH_CUSTOM`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
               configuration variable in Oh My Zsh.
             default: ${{ ..install_dir.default }}$/custom
+        references:
+          - title: Oh My Zsh installation guide
+            url: https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation
+          - title: Oh My Zsh installation script
+            url: https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh
+          - title: Powerlevel10k theme
+            url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation
         import:
           - git_clone
         body:
@@ -2586,6 +2596,19 @@ devcontainer:
             type: string
             summary: Default TeX Live sysbin directory.
             default: /usr/local/bin
+        references:
+          - title: TeX Live installer documentation
+            url: https://www.tug.org/texlive/doc/install-tl.html
+          - title: TeX Live Installation Guide
+            url: https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-140003
+          - title: Island of TeX Docker image
+            url: https://gitlab.com/islandoftex/images/texlive
+          - title: github.com/xu-cheng/latex-docker
+            url: https://github.com/xu-cheng/latex-docker
+          - title: github.com/scottkosty/install-tl-ubuntu
+            url: https://github.com/scottkosty/install-tl-ubuntu
+          - title: texlive-batch-installation
+            url: https://github.com/maxnoe/texlive-batch-installation
         import:
           - exit_if_not_root
         function:
@@ -2796,7 +2819,85 @@ devcontainer:
                   verify_installation
               fi
           - content: echo "✅ TeX Live installation complete."
-    volume_setup:
+      install_profile:
+        name: TeX Live Installation Profile
+        summary: Profile for installing TeX Live.
+        type: txt
+        path: ${{ ..path.root }}$/install.profile
+        data:
+          scheme: scheme-full
+          path:
+            system:
+              texdir: /usr/local/texlive
+              texmflocal: /usr/local/texlive/texmf
+              texmfsysconfig: /usr/local/texlive/texmf-config
+              texmfsysvar: /usr/local/texlive/texmf-var
+            user:
+              texmfhome: ~/texlive/texmf
+              texmfconfig: ~/texlive/texmf-config
+              texmfvar: ~/texlive/texmf-var
+          instopt:
+            adjustpath: 0
+            adjustrepo: 1
+            letter: 0
+            portable: 0
+            write18_restricted: 1
+          tlpdbopt:
+            # Number of backups to keep (default: 1)
+            autobackup: 0
+            # Directory for backups (default: tlpkg/backups)
+            backupdir: tlpkg/backups
+            # Generate formats at installation or update (default: 1)
+            create_formats: 1
+            # (Windows) Create Start menu shortcuts (default: 1)
+            desktop_integration: 1
+            # (Windows) Change file associations (default: 1)
+            file_assocs: 1
+            # Run tlmgr generate updmap after maps have changed (default: 0)
+            generate_updmap: 0
+            # Install documentation files (default: 1)
+            install_docfiles: 0
+            # Install source files (default: 1)
+            install_srcfiles: 0
+            # Run postinst code blobs (default: 1)
+            post_code: 1
+            # Destination for symlinks for binaries (default: /usr/local/bin)
+            sys_bin:  /usr/local/bin
+            # Destination for symlinks for info docs (default: /usr/local/share/info)
+            sys_info: /usr/local/share/info
+            # Destination for symlinks for man pages (default: /usr/local/share/man)
+            sys_man:  /usr/local/share/man
+            # (Windows) Install for all users (default: 1)
+            w32_multi_user: 1
+        content: |
+          #{{
+            data = get(".data")
+            final_data = {"selected_scheme": data["scheme"]}
+            for path_type in ("system", "user"):
+              for path_key, path in data.get("path", {}).get(path_type, {}).items():
+                final_data[path_key.upper()] = path
+            for opt_type in ("instopt", "tlpdbopt"):
+              for opt_key, opt in data.get("tlpdbopt", {}).items():
+                final_data[f"{opt_type}_{opt_key}"] = opt
+            return "\n".join([f"{key} {value}" for key, value in sorted(final_data.items())])
+          }}#
+        description: |
+          Notes:
+          - For a full list of collections included in each scheme,
+            see the corresponding `.tlpsrc` file with the same name as the scheme
+            at https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/.
+            For example, for the `scheme-full` scheme, see
+            https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/scheme-basic.tlpsrc?view=markup.
+            Similarly, for a full list of packages included in each collection,
+            see the corresponding `.tlpsrc` file at the same location.
+            For example, for the `collection-basic` collection, see
+            https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/collection-basic.tlpsrc?view=markup.
+          References:
+          - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html#PROFILES)
+          Examples:
+          - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker/blob/master/texlive.profile)
+          - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu/blob/master/example.profile)
+    volume:
       metadata:
         name: Volume Setup
       install:
@@ -7272,126 +7373,6 @@ devcontainer_main:
         References:
         - [Oh My Zsh settings](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings)
         - [Oh My Zsh zshrc templates](https://github.com/ohmyzsh/ohmyzsh/blob/master/templates)
-  file:
-    apt_install_script:
-      status: inactive
-      name: APT Installation Script
-      summary: Script to install packages using apt-get.
-      type: exec
-      path: ${{ devcontainer_main.path.apt.root }}$/install.sh
-    git_install_script:
-      status: inactive
-      name: Git Installation Script
-      summary: Script to install Git on the system.
-      type: exec
-      path: ${{ devcontainer_main.path.environment }}$/git/install.sh
-    oh_my_zsh_install_script:
-      status: inactive
-      name: Oh My Zsh Installation Script
-      summary: Script to install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) on the system.
-      path: ${{ devcontainer_main.path.environment }}$/oh-my-zsh/install.sh
-      type: exec
-      description: |
-        References:
-        - [Oh My Zsh installation guide](https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation)
-        - [Oh My Zsh installation script](https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh)
-        - [Powerlevel10k theme](https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation)
-      notes: |
-        [ZSH](https://www.zsh.org) must be installed on the system
-        (cf [Oh My Zsh docs](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)).
-    texlive_install_script:
-      status: inactive
-      name: TeX Live Installation Script
-      summary: Script to install TeX Live on the system.
-      type: exec
-      path: ${{ devcontainer_main.path.environment }}$/texlive/install.sh
-      description: |
-        References:
-        - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html)
-        - [TeX Live Installation Guide](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-140003)
-        Examples:
-        - [Island of TeX Docker image](https://gitlab.com/islandoftex/images/texlive)
-        - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker)
-        - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu)
-        - [texlive-batch-installation](https://github.com/maxnoe/texlive-batch-installation)
-    texlive_install_profile:
-      name: TeX Live Installation Profile
-      summary: Profile for installing TeX Live.
-      type: txt
-      path: ${{ devcontainer_main.path.environment }}$/texlive/install.profile
-      data:
-        scheme: scheme-full
-        path:
-          system:
-            texdir: /usr/local/texlive
-            texmflocal: /usr/local/texlive/texmf
-            texmfsysconfig: /usr/local/texlive/texmf-config
-            texmfsysvar: /usr/local/texlive/texmf-var
-          user:
-            texmfhome: ~/texlive/texmf
-            texmfconfig: ~/texlive/texmf-config
-            texmfvar: ~/texlive/texmf-var
-        instopt:
-          adjustpath: 0
-          adjustrepo: 1
-          letter: 0
-          portable: 0
-          write18_restricted: 1
-        tlpdbopt:
-          # Number of backups to keep (default: 1)
-          autobackup: 0
-          # Directory for backups (default: tlpkg/backups)
-          backupdir: tlpkg/backups
-          # Generate formats at installation or update (default: 1)
-          create_formats: 1
-          # (Windows) Create Start menu shortcuts (default: 1)
-          desktop_integration: 1
-          # (Windows) Change file associations (default: 1)
-          file_assocs: 1
-          # Run tlmgr generate updmap after maps have changed (default: 0)
-          generate_updmap: 0
-          # Install documentation files (default: 1)
-          install_docfiles: 0
-          # Install source files (default: 1)
-          install_srcfiles: 0
-          # Run postinst code blobs (default: 1)
-          post_code: 1
-          # Destination for symlinks for binaries (default: /usr/local/bin)
-          sys_bin:  /usr/local/bin
-          # Destination for symlinks for info docs (default: /usr/local/share/info)
-          sys_info: /usr/local/share/info
-          # Destination for symlinks for man pages (default: /usr/local/share/man)
-          sys_man:  /usr/local/share/man
-          # (Windows) Install for all users (default: 1)
-          w32_multi_user: 1
-      content: |
-        #{{
-          data = get(".data")
-          final_data = {"selected_scheme": data["scheme"]}
-          for path_type in ("system", "user"):
-            for path_key, path in data.get("path", {}).get(path_type, {}).items():
-              final_data[path_key.upper()] = path
-          for opt_type in ("instopt", "tlpdbopt"):
-            for opt_key, opt in data.get("tlpdbopt", {}).items():
-              final_data[f"{opt_type}_{opt_key}"] = opt
-          return "\n".join([f"{key} {value}" for key, value in sorted(final_data.items())])
-        }}#
-      description: |
-        Notes:
-        - For a full list of collections included in each scheme,
-          see the corresponding `.tlpsrc` file with the same name as the scheme
-          at https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/.
-          For example, for the `scheme-full` scheme, see
-          https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/scheme-basic.tlpsrc?view=markup.
-          Similarly, for a full list of packages included in each collection,
-          see the corresponding `.tlpsrc` file at the same location.
-          For example, for the `collection-basic` collection, see
-          https://tug.org/svn/texlive/trunk/Master/tlpkg/tlpsrc/collection-basic.tlpsrc?view=markup.
-        References:
-        - [TeX Live installer documentation](https://www.tug.org/texlive/doc/install-tl.html#PROFILES)
-        Examples:
-        - [github.com/xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker/blob/master/texlive.profile)
-        - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu/blob/master/example.profile)
 dois: |
     #{{
       out = []
