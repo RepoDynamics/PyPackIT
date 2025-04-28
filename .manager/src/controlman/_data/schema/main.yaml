@@ -35,7 +35,7 @@ patternProperties:
             default: |
               #{{
                 container_id = get("..__key__").removeprefix("devcontainer_")
-                suffix = "" if container_id == "main" else f"/{get("devcontainer.containers.dir_prefix")}{container_id}"
+                suffix = "" if container_id == "main" else f"/container-{container_id}"
                 return f".devcontainer{suffix}"
               }}#
           volume:
@@ -804,33 +804,6 @@ properties:
                 patternProperties:
                   ^[a-zA-Z0-9._-]+$: {}
                 additionalProperties: false
-      containers:
-        type: object
-        default: { }
-        additionalProperties: false
-        properties:
-          dir_prefix:
-            summary: Name prefix for directories containing devcontainer configurations.
-            type: string
-            pattern: ^[a-zA-Z0-9._-]+$
-            default: container-
-          rel_path:
-            summary: Relative paths from the directory containing devcontainer configurations.
-            type: object
-            default: { }
-            properties:
-              environment:
-                summary: Path to the environment directory.
-                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
-                default: environment
-              apt:
-                summary: Path to the apt packages file relative to the environment directory.
-                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
-                default: apt.txt
-              conda:
-                summary: Path to the directory containing conda environment files relative to the environment directory.
-                $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
-                default: conda
       feature:
         summary: >-
           Definition of local
