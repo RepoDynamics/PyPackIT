@@ -1573,6 +1573,10 @@ devcontainer:
             url: https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile
           - title: Miniforge repository README
             url: https://github.com/conda-forge/miniforge?tab=readme-ov-file#install
+          - title: Miniconda Devcontainer image
+            url: https://github.com/devcontainers/images/tree/main/src/miniconda
+          - title: Miniforge Devcontainer Feature
+            url: https://github.com/rocker-org/devcontainer-features/tree/main/src/miniforge
           - title: Devcontainers conda feature
             url: https://github.com/devcontainers/features/tree/main/src/conda
         import:
@@ -3292,9 +3296,9 @@ devcontainer_main:
             CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
             PATH=$CONDA_DIR/bin:$PATH
         - ARG:
-            MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_install_script.path }}$
+            MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.miniforge.path.install }}$
         - COPY: |
-            ["${{ devcontainer_main.file.conda_install_script.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
+            ["${{ devcontainer.feature.miniforge.path.install }}$", "$MINIFORGE_INSTALL_SCRIPT"]
         - RUN: |
             chmod +x "$MINIFORGE_INSTALL_SCRIPT";
             "$MINIFORGE_INSTALL_SCRIPT"
@@ -3311,15 +3315,12 @@ devcontainer_main:
     - title: Conda Environment Installation
       instructions:
         - ARG:
-            CONDA_ENVS_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.conda_env_install_script.path }}$
-            CONDA_ENVS_DIR: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.path.conda.envs }}$
+            CONDA_ENVS_DIR: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.path.conda }}$
         - COPY: |
-            ["${{ devcontainer_main.file.conda_env_install_script.path }}$", "$CONDA_ENVS_INSTALL_SCRIPT"]
-        - COPY: |
-            ["${{ devcontainer_main.path.conda.envs }}$/", "$CONDA_ENVS_DIR"]
+            ["${{ devcontainer_main.path.conda }}$/", "$CONDA_ENVS_DIR"]
         - RUN: |
             chmod +x "$CONDA_ENVS_INSTALL_SCRIPT";
-            "$CONDA_ENVS_INSTALL_SCRIPT"
+            "$MINIFORGE_INSTALL_SCRIPT"
                 --envs "$CONDA_ENVS_DIR"
                 --logfile "${{ devcontainer_main.var.log_dir }}$/conda_envs_install.log"
                 --debug
@@ -7277,22 +7278,6 @@ devcontainer_main:
       summary: Script to install packages using apt-get.
       type: exec
       path: ${{ devcontainer_main.path.apt.root }}$/install.sh
-    conda_install_script:
-      status: inactive
-      name: Conda Installation Script
-      summary: Script to install conda and mamba on the system.
-      type: exec
-      path: ${{ devcontainer_main.path.conda.root }}$/install.sh
-      description: |
-        References:
-        - [Miniforge Devcontainer Feature](https://github.com/rocker-org/devcontainer-features/tree/main/src/miniforge)
-        - [Miniconda Devcontainer image](https://github.com/devcontainers/images/tree/main/src/miniconda)
-    conda_env_install_script:
-      status: inactive
-      name: Conda Environment Installation Script
-      summary: Script to install conda environment on the system.
-      type: exec
-      path: ${{ devcontainer_main.path.conda.root }}$/install-envs.sh
     git_install_script:
       status: inactive
       name: Git Installation Script
@@ -11337,6 +11322,8 @@ repo:
         - .DS_Store
         # Unix
         - .Trash-1000/
+        # pixi
+        - .pixi
 role:
   manager:
     title: Project Manager
