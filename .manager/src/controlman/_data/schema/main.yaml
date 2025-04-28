@@ -178,7 +178,7 @@ patternProperties:
                   prepend: |
                     current_dir=$(pwd)
                     cd '${{ .....container.workspaceFolder }}$'
-                    conda activate '${{ ....name }}$'
+                    conda activate '${{ ...name }}$'
                   append: |
                     conda deactivate
                     cd "$current_dir"
