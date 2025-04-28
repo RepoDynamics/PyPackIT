@@ -2560,6 +2560,7 @@ devcontainer:
             summary: Path to a TeX Live installation profile file.
             description: |
               If not provided, an interactive installation will be performed.
+              You can also set this to "default", to use the default profile.
             default: ""
           mirror:
             type: string
@@ -3336,10 +3337,8 @@ devcontainer_main:
         - ARG:
             TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.path.install }}$"
             TEXLIVE_INSTALL_PROFILE: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.install_profile.path }}$"
-        - COPY: |
-            ["${{ devcontainer.feature.texlive.path.install }}$", "$TEXLIVE_INSTALL_SCRIPT"]
-        - COPY: |
-            ["${{ devcontainer.feature.texlive.install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]
+        - COPY: '["${{ devcontainer.feature.texlive.path.install }}$", "$TEXLIVE_INSTALL_SCRIPT"]'
+        - COPY: '["${{ devcontainer.feature.texlive.install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]'
         - RUN: |
             chmod +x "$TEXLIVE_INSTALL_SCRIPT";
             "$TEXLIVE_INSTALL_SCRIPT"
