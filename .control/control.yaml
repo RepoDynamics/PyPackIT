@@ -7411,11 +7411,11 @@ doc:
               content: |
                 To keep all our project documentation organized and easy to find, the complete
                 <a href="${{ web.page.contribute.url }}$">contribution guide</a> is hosted on our website.
-      footer: ${{ file_readme.content.footer }}$
+      footer: ${{ doc.readme.content.footer }}$
   governance:
     content:
       heading: Project Governance
-      footer: ${{ file_readme.content.footer }}$
+      footer: ${{ doc.readme.content.footer }}$
   readme:
     content:
       body:
@@ -7999,11 +7999,11 @@ doc:
   security:
     content:
       heading: Security Policy
-      footer: ${{ file_readme.content.footer }}$
+      footer: ${{ doc.readme.content.footer }}$
   support:
     content:
       heading: Support Resources
-      footer: ${{ file_readme.content.footer }}$
+      footer: ${{ doc.readme.content.footer }}$
 dois: |
     #{{
       out = []
@@ -8050,7 +8050,7 @@ file_pixi_manifest:
            return
          return license_components[0]["path"]["text_plain"]
        }}#
-     readme: '#{{ return get("file_readme.path") }}#'
+     readme: '#{{ return get("doc.readme.path") }}#'
      homepage: '#{{ return get("web.url.home") }}#'
      repository: ${{ repo.url.home }}$
      documentation: ${{ .homepage }}$
@@ -8924,7 +8924,7 @@ issue:
               required: true
             - label: >-
                 I agree to follow ${{ name }}$'s
-                [Code of Conduct](${{ file_coc.url }}$).
+                [Code of Conduct](${{ doc.code_of_conduct.url }}$).
               required: true
       - type: markdown
         attributes:
@@ -10655,7 +10655,7 @@ pypkg_main:
       summary: |
         Main README file for the package.
       path: ${{ pypkg_main.path.root }}$/${{ pypkg_main.pyproject.project.readme.file }}$
-      content: ${{ file_readme.content }}$
+      content: ${{ doc.readme.content }}$
       type: md
       file_setting:
         md:
@@ -10788,7 +10788,7 @@ pypkg_test:
       summary: |
         Main README file for the test suite.
       path: ${{ pypkg_test.path.root }}$/${{ pypkg_test.pyproject.project.readme.file }}$
-      content: ${{ file_readme.content }}$
+      content: ${{ doc.readme.content }}$
       type: md
       file_setting:
         md:
@@ -11705,7 +11705,7 @@ __temp__:
           summary: ${{ title }}$
           dev_url: ${{ repo.url.home }}$
           doc_url: ${{ web.url.home }}$
-          doc_source_url: ${{ file_readme.url }}$
+          doc_source_url: ${{ doc.readme.url }}$
         extra:
           recipe-maintainers: |
             #{{
