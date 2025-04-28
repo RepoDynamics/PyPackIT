@@ -3833,6 +3833,10 @@ properties:
             install:
               summary: Feature installation script.
               $ref: https://controlman.repodynamics.com/schema/shell-script
+          additionalProperties:
+            title: Dynamic File
+            summary: Additional dynamic file for the feature.
+            $ref: https://controlman.repodynamics.com/schema/dynamic-file
       function:
         summary: Definition of shell functions.
         description: |

@@ -503,6 +503,15 @@ class ConfigFileGenerator:
                 executable=True,
             )
             out.extend([feature_file, install_file])
+            for key, value in feat.items():
+                if key not in ("metadata", "install", "path"):
+                    out.append(
+                        self.dynamic_file(
+                            key=f"{feat_key}_{key}",
+                            file=value,
+                            file_before=feat_before.get(key)
+                        )
+                    )
         return out
 
     def gitattributes(self) -> list[DynamicFile]:
