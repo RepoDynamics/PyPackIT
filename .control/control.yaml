@@ -7391,33 +7391,6 @@ dois: |
         out.append({"value": latest_doi, "description": description})
       return out
     }}#
-file_binder_conda:
-  name: Binder Conda Environment File
-  summary: >-
-    [`environment.yml`](https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment)
-    file for the Binder configuration.
-  type: txt
-  path: ${{ workflow.binder.path.config }}$/environment.yml
-  content: |
-    #{{ return hook.binder_config_file("conda") }}#
-file_binder_apt:
-  name: Binder APT Environment File
-  summary: >-
-    [`apt.txt`](https://repo2docker.readthedocs.io/en/latest/config_files.html#apt-txt-install-packages-with-apt-get)
-    file for the Binder configuration.
-  type: txt
-  path: ${{ workflow.binder.path.config }}$/apt.txt
-  content: |
-    #{{ return hook.binder_config_file("apt") }}#
-file_binder_postbuild:
-  name: Binder Post Build Environment File
-  summary: >-
-    [`postBuild`](https://repo2docker.readthedocs.io/en/latest/config_files.html#postbuild-run-code-after-installing-the-environment)
-    file for the Binder configuration.
-  type: txt
-  path: ${{ workflow.binder.path.config }}$/postBuild
-  content: |
-    #{{ return hook.binder_config_file("bash") }}#
 file_pixi_manifest:
  # https://pixi.sh/latest/reference/pixi_manifest/
  name: Pixi Manifest
@@ -12353,3 +12326,30 @@ __temp__:
                 return out
               }}#
             }}*
+file_binder_conda:
+  name: Binder Conda Environment File
+  summary: >-
+    [`environment.yml`](https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment)
+    file for the Binder configuration.
+  type: txt
+  path: ${{ workflow.binder.path.config }}$/environment.yml
+  content: |
+    #{{ return hook.binder_config_file("conda") }}#
+file_binder_apt:
+  name: Binder APT Environment File
+  summary: >-
+    [`apt.txt`](https://repo2docker.readthedocs.io/en/latest/config_files.html#apt-txt-install-packages-with-apt-get)
+    file for the Binder configuration.
+  type: txt
+  path: ${{ workflow.binder.path.config }}$/apt.txt
+  content: |
+    #{{ return hook.binder_config_file("apt") }}#
+file_binder_postbuild:
+  name: Binder Post Build Environment File
+  summary: >-
+    [`postBuild`](https://repo2docker.readthedocs.io/en/latest/config_files.html#postbuild-run-code-after-installing-the-environment)
+    file for the Binder configuration.
+  type: txt
+  path: ${{ workflow.binder.path.config }}$/postBuild
+  content: |
+    #{{ return hook.binder_config_file("bash") }}#
