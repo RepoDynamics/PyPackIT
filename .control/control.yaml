@@ -1353,6 +1353,7 @@ devcontainer:
           version: 0.1.0
           description: Install Git from the official Git repository.
       install:
+        name: Git Installation
         summary: Install Git.
         description: |
           Install Git from the official Git repository.
@@ -2276,6 +2277,7 @@ devcontainer:
         content:
           name: System Package Installation
       install:
+        name: System Package Installation
         summary: Install system packages.
         description: |
           Install system packages listed in a file
@@ -6982,7 +6984,8 @@ devcontainer_main:
   volume:
     globalrc:
       name: Global Shell Configuration
-      path: /etc/globalrc
+      summary: Shell configurations for all interactive shells.
+      relpath: etc/globalrc
       content: |
         # Set $USER to current user if not already set.
         # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/rc_snippet.sh#L1
@@ -7012,7 +7015,8 @@ devcontainer_main:
         fi
     bashenv:
       name: Bash Environment
-      path: /etc/bash/bashenv
+      summary: Bash environment
+      relpath: etc/bash/bashenv
       content: |
         # Set XDG base directories
         export XDG_CACHE_HOME="${HOME}/.cache"
@@ -7030,7 +7034,7 @@ devcontainer_main:
     bash_profile:
       name: Global Shell Profile
       summary: System-wide profile for all Bourne-compatible shells.
-      path: /etc/profile
+      relpath: etc/profile
       content: |
         if [ "${PS1-}" ]; then
             # The shell is interactive.
@@ -7071,7 +7075,9 @@ devcontainer_main:
         2. `/etc/bash.bashrc` (if bash)
         3. `/etc/profile.d/*.sh`
     bashrc:
-      path: /etc/bash.bashrc
+      name: Bash RC
+      summary: Bash RC
+      relpath: etc/bash.bashrc
       content: |
         # #{{ return "=" * 50 }}#
         # ${{ name }}$
@@ -7142,7 +7148,7 @@ devcontainer_main:
     bash_theme:
       name: Bash Theme
       summary: Bash theme for all users.
-      path: /etc/bash/bash_theme
+      relpath: etc/bash/bash_theme
       content: |
         # Bash Theme
         # - Ref: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/common-utils/scripts/bash_theme_snippet.sh
@@ -7193,7 +7199,7 @@ devcontainer_main:
     zshenv:
       name: Global Zsh Environment
       summary: Zsh `zshenv` startup file for all users.
-      path: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zshenv
+      relpath: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zshenv
       content: |
         # Source bashenv
         emulate sh -c 'source "${{ devcontainer_main.volume.bashenv.path }}$"'
@@ -7245,7 +7251,7 @@ devcontainer_main:
     zprofile:
       name: Global Zsh Profile
       summary: Zsh `zprofile` startup file for all users.
-      path: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zprofile
+      relpath: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zprofile
       type: txt
       content: |
         test -f /etc/profile && emulate sh -c 'source /etc/profile'
@@ -7260,7 +7266,9 @@ devcontainer_main:
         this file only contains a single command to source `/etc/profile`,
         which is the system-wide profile file for all Bourne-compatible shells (e.g. Bash, Dash, etc.).
     zshrc:
-      path: /etc/zsh/zshrc
+      name: Zshrc
+      summary: Zsh configuration.
+      relpath: etc/zsh/zshrc
       content: |
         # #{{ return "=" * 50 }}#
         # ${{ name }}$
