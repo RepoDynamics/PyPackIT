@@ -69,7 +69,7 @@
       },
       "profile": {
          "default": "",
-         "description": "Path to a TeX Live installation profile file.\nIf not provided, an interactive installation will be performed.\n",
+         "description": "Path to a TeX Live installation profile file.\nIf not provided, an interactive installation will be performed.\nYou can also set this to \"default\", to use the default profile.\n",
          "type": "string"
       },
       "reinstall": {
