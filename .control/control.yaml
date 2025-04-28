@@ -3332,6 +3332,23 @@ devcontainer_main:
     - title: APT Packages (Essential)
       summary: Installation of essential APT packages.
       instructions: '#{{ return hook.docker_apt("main", "essential") }}#'
+    - title: TeX Live Installation
+      summary: Installation of TeX Live.
+      instructions:
+        - ARG:
+            TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.path.install }}$"
+            TEXLIVE_INSTALL_PROFILE: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.install_profile.path }}$"
+        - COPY: |
+            ["${{ devcontainer.feature.texlive.path.install }}$", "$TEXLIVE_INSTALL_SCRIPT"]
+        - COPY: |
+            ["${{ devcontainer.feature.texlive.install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]
+        - RUN: |
+            chmod +x "$TEXLIVE_INSTALL_SCRIPT";
+            "$TEXLIVE_INSTALL_SCRIPT"
+                --profile "$TEXLIVE_INSTALL_PROFILE"
+                --logfile "${{ devcontainer_main.var.log_dir }}$/texlive_install.log"
+                --debug
+
     - title: Git Installation
       description: |
         We install [git](https://git-scm.com/doc)
@@ -3375,22 +3392,6 @@ devcontainer_main:
             # Grant user passwordless sudo access to act as any user.
             echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/$USERNAME > /dev/null;
             chmod 0440 /etc/sudoers.d/$USERNAME;
-    - title: TeX Live Installation
-      summary: Installation of TeX Live.
-      instructions:
-        - ARG:
-            TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_script.path }}$"
-            TEXLIVE_INSTALL_PROFILE: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.texlive_install_profile.path }}$"
-        - COPY: |
-            ["${{ devcontainer_main.file.texlive_install_script.path }}$", "$TEXLIVE_INSTALL_SCRIPT"]
-        - COPY: |
-            ["${{ devcontainer_main.file.texlive_install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]
-        - RUN: |
-            chmod +x "$TEXLIVE_INSTALL_SCRIPT";
-            "$TEXLIVE_INSTALL_SCRIPT"
-                --profile "$TEXLIVE_INSTALL_PROFILE"
-                --logfile "${{ devcontainer_main.var.log_dir }}$/texlive_install.log"
-                --debug
     - title: MiniForge Installation
       instructions:
         - ENV:
