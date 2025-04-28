@@ -4614,3 +4614,27 @@ properties:
               const: restricted
         then:
           required: [ access_conditions ]
+  doc:
+    type: object
+    additionalProperties:
+      allOf:
+        - properties:
+            type:
+              default: md
+        - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+    properties:
+      readme:
+        allOf:
+          - properties:
+              name:
+                default: Repository README
+              summary:
+                default: >-
+                  GitHub repository [`README`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
+                  file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)README(?i:.(txt|md|rst))?$
+                default: README.md
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
