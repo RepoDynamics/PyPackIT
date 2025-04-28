@@ -197,14 +197,15 @@ patternProperties:
       var:
         type: object
       volume:
-        allOf:
-          - required: [ relpath ]
-            properties:
-              abspath:
-                default: /${{ .relpath }}$
-              path:
-                default: ${{ ...path.volume }}$/${{ .relpath }}$
-          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+        additionalProperties:
+          allOf:
+            - required: [ relpath ]
+              properties:
+                abspath:
+                  default: /${{ .relpath }}$
+                path:
+                  default: ${{ ...path.volume }}$/${{ .relpath }}$
+            - $ref: https://controlman.repodynamics.com/schema/dynamic-file
       file:
         summary: Dynamic files related to the container.
         type: object
@@ -846,6 +847,10 @@ properties:
                 file as defined in its [reference schema](https://github.com/devcontainers/spec/blob/main/schemas/devContainerFeature.schema.json).
               allOf:
                 - properties:
+                    name:
+                      default: Feature Metadata
+                    summary:
+                      default: '`devcontainer-feature.json` file for the feature.'
                     path:
                       readOnly: true
                       default: ${{ ..path }}$/${{ .relpath }}$
@@ -963,7 +968,7 @@ properties:
                           default: |
                             #{{
                               out = {}
-                              parameters = get("..install.parameter", {})
+                              parameters = get("...install.content.parameter", {})
                               for param_id, param_data in parameters.items():
                                 default = param_data.get("default", "")
                                 if isinstance(default, list):
@@ -1164,6 +1169,10 @@ properties:
               summary: Feature installation script.
               allOf:
                 - properties:
+                    name:
+                      default: Feature Installation
+                    summary:
+                      default: Installation script for the feature.
                     path:
                       readOnly: true
                       default: ${{ ..path }}$/${{ .relpath }}$
