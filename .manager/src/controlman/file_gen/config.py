@@ -158,6 +158,15 @@ class ConfigFileGenerator:
 
     def dynamic_files(self) -> list[DynamicFile]:
         out = []
+        for doc_key, doc in self._data.get("doc", {}).items():
+            full_doc_key = f"doc.{doc_key}"
+            out.append(
+                self.dynamic_file(
+                    key=full_doc_key,
+                    file=doc,
+                    file_before=self._data_before[full_doc_key]
+                )
+            )
         for key, value in self._data.items():
             if key.startswith("file_"):
                 out.append(

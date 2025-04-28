@@ -1356,6 +1356,174 @@ properties:
                         value: |
                           ### The thrilling conclusion
                           _to our template_
+  doc:
+    title: Documents
+    summary: Definition of document files in the project.
+    type: object
+    additionalProperties:
+      allOf:
+        - properties:
+            type:
+              default: md
+        - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+    properties:
+      code_of_conduct:
+        allOf:
+          - properties:
+              name:
+                default: Code of Conduct
+              summary:
+                default: >-
+                  GitHub [`CODE_OF_CONDUCT`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project)
+                  community health file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)CODE_OF_CONDUCT(?i:.(txt|md|rst))?$
+                default: CODE_OF_CONDUCT.md
+                description: |
+                  The file must be named `CODE_OF_CONDUCT` (case-sensitive)
+                  and placed either in the `.github` directory, the `docs` directory,
+                  or the root of the repository.
+                  It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+                examples:
+                  - CODE_OF_CONDUCT
+                  - CODE_OF_CONDUCT.md
+                  - docs/CODE_OF_CONDUCT.txt
+                  - .github/CODE_OF_CONDUCT.MD
+              notes:
+                default: |
+                  For "Code of conduct" to be marked as complete in the repository's community profile,
+                  GitHub only accepts the
+                  [Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html)
+                  and the [Citizen Code of Conduct](http://stumptownsyndicate.org/).
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+      contributing:
+        allOf:
+          - properties:
+              name:
+                default: Contribution Guide
+              summary:
+                default: >-
+                  GitHub [`CONTRIBUTING`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors)
+                  community health file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)(?i:CONTRIBUTING(?:.(txt|md|rst))?)$
+                default: CONTRIBUTING.md
+                description: |
+                  The file must be named `CONTRIBUTING` (case-insensitive)
+                  and placed either in the `.github` directory, the `docs` directory,
+                  or the root of the repository. It can have the extensions `.txt`, `.md`, or `.rst`.
+                examples:
+                  - CONTRIBUTING
+                  - CONTRIBUTING.md
+                  - contributing.rst
+                  - docs/CONTRIBUTING.txt
+                  - .github/contributing.md
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+      governance:
+        allOf:
+          - properties:
+              name:
+                default: Governance Model
+              summary:
+                default: >-
+                  GitHub [`GOVERNANCE`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/)
+                  community health file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)GOVERNANCE(?i:.(txt|md|rst))?$
+                default: GOVERNANCE.md
+                description: |
+                  The file must be named `GOVERNANCE` (case-sensitive)
+                  and placed either in the `.github` directory, the `docs` directory,
+                  or the root of the repository.
+                  It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+                examples:
+                  - GOVERNANCE
+                  - GOVERNANCE.md
+                  - docs/GOVERNANCE.txt
+                  - .github/GOVERNANCE.md
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+      readme:
+        allOf:
+          - properties:
+              name:
+                default: Repository README
+              summary:
+                default: >-
+                  GitHub repository [`README`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
+                  file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)README(?i:.(txt|md|rst))?$
+                default: README.md
+                description: |
+                  The file must be named `README` (case-sensitive) and placed either in the
+                  `.github` directory, the `docs` directory, or the root of the repository,
+                  and can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+                  If more than one of such files are present, the order of precedence is
+                  `.github`, then root, and finally the `docs` directory.
+                examples:
+                  - README
+                  - README.md
+                  - .github/README.txt
+                  - docs/README.rst
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+      security:
+        allOf:
+          - properties:
+              name:
+                default: Security Policy
+              summary:
+                default: >-
+                  GitHub [`SECURITY`](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository)
+                  community health file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)SECURITY(?i:.(txt|md|rst))?$
+                default: SECURITY.md
+                description: |
+                  The file must be named `SECURITY` (case-sensitive)
+                  and placed either in the `.github` directory, the `docs` directory,
+                  or the root of the repository.
+                  It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+                examples:
+                  - SECURITY
+                  - SECURITY.md
+                  - docs/SECURITY.txt
+                  - .github/SECURITY.md
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
+      support:
+        allOf:
+          - properties:
+              name:
+                default: Support Resources
+              summary:
+                default: >-
+                  GitHub [`SUPPORT`](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-support-resources-to-your-project)
+                  community health file.
+              type:
+                default: md
+              path:
+                pattern: ^(?:|.github/|docs/)SUPPORT(?i:.(txt|md|rst))?$
+                default: SUPPORT.md
+                description: |
+                  The file must be named `SUPPORT` (case-sensitive)
+                  and placed either in the `.github` directory, the `docs` directory,
+                  or the root of the repository.
+                  It can have the extensions `.txt`, `.md`, or `.rst` (case-insensitive).
+                examples:
+                  - SUPPORT
+                  - SUPPORT.md
+                  - docs/SUPPORT.txt
+                  - .github/SUPPORT.md
+          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
   dois:
     type: array
     items:
@@ -4614,27 +4782,3 @@ properties:
               const: restricted
         then:
           required: [ access_conditions ]
-  doc:
-    type: object
-    additionalProperties:
-      allOf:
-        - properties:
-            type:
-              default: md
-        - $ref: https://controlman.repodynamics.com/schema/dynamic-file
-    properties:
-      readme:
-        allOf:
-          - properties:
-              name:
-                default: Repository README
-              summary:
-                default: >-
-                  GitHub repository [`README`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
-                  file.
-              type:
-                default: md
-              path:
-                pattern: ^(?:|.github/|docs/)README(?i:.(txt|md|rst))?$
-                default: README.md
-          - $ref: https://controlman.repodynamics.com/schema/dynamic-file
