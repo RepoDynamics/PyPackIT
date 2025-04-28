@@ -3635,7 +3635,7 @@ properties:
                   default: |
                     #{{
                       out = {}
-                      parameters = get("..install.parameters", {})
+                      parameters = get("..install.parameter", {})
                       for param_id, param_data in parameters.items():
                         default = param_data.get("default", "")
                         if isinstance(default, list):
