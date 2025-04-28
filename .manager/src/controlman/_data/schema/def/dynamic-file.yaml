@@ -188,6 +188,23 @@ properties:
   notes:
     summary: Additional notes related to the file.
     type: string
+  references:
+    summary: External references for the function.
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [ title, url ]
+      properties:
+        title:
+          summary: Title of the reference.
+          type: string
+        description:
+          summary: Description of the reference.
+          type: string
+        url:
+          summary: URL of the reference.
+          $ref: https://jsonschemata.repodynamics.com/url/https
   url:
     title: URL
     summary: URL of the file on GitHub.
