@@ -1,0 +1,7 @@
+{
+   "description": "Install Miniforge in the development container.",
+   "id": "miniforge",
+   "name": "Miniforge Installation",
+   "options": {},
+   "version": "0.1.0"
+}

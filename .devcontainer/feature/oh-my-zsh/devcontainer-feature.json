@@ -1,0 +1,7 @@
+{
+   "description": "Install Oh My Zsh in the development container.",
+   "id": "oh-my-zsh",
+   "name": "Oh My Zsh Installation",
+   "options": {},
+   "version": "0.1.0"
+}

@@ -1,0 +1,7 @@
+{
+   "description": "Install Git from the official Git repository.",
+   "id": "git",
+   "name": "Git Installation",
+   "options": {},
+   "version": "0.1.0"
+}
