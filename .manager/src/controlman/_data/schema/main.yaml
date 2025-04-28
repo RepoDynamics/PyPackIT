@@ -74,7 +74,7 @@ patternProperties:
           conda:
             summary: Path to the conda environment directory.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ ..environment }}$/conda
+            default: ${{ .environment }}$/conda
           dockerfile:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
