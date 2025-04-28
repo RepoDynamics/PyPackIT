@@ -1,6 +1,92 @@
 {
    "id": "texlive",
    "name": "TeX Live Installation",
-   "options": {},
+   "options": {
+      "debian_equivs_filename": {
+         "default": "debian-equivs-2023-ex.txt",
+         "description": "Name of the Debian equivs filename to download.",
+         "type": "string"
+      },
+      "debian_equivs_url": {
+         "default": "https://tug.org/texlive/files/{'type': 'string', 'summary': 'Name of the Debian equivs filename to download.', 'default': 'debian-equivs-2023-ex.txt', 'array_delimiter': ' :: '}",
+         "description": "URL to download the Debian equivs file from.",
+         "type": "string"
+      },
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "default_sys_bin": {
+         "default": "/usr/local/bin",
+         "description": "Default TeX Live sysbin directory.",
+         "type": "string"
+      },
+      "default_texdir_prefix": {
+         "default": "/usr/local/texlive",
+         "description": "Default TeX Live TEXDIR prefix.",
+         "type": "string"
+      },
+      "generate_caches": {
+         "default": false,
+         "description": "Generate ConTeXt and font caches.",
+         "type": "boolean"
+      },
+      "install": {
+         "default": false,
+         "description": "Install TeX Live.",
+         "type": "boolean"
+      },
+      "installer_dir": {
+         "default": "/tmp/texlive-installer",
+         "description": "Path to directory to download the installer to.",
+         "type": "string"
+      },
+      "interactive": {
+         "default": false,
+         "description": "Start an interactive installation even when profile is provided.",
+         "type": "boolean"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "mirror": {
+         "default": "rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/",
+         "description": "URI of the TeX Live mirror to use for installation.",
+         "type": "string"
+      },
+      "no_cache_clean": {
+         "default": false,
+         "description": "Skip 'apt-get dist-clean' command after installation of dummy package.",
+         "type": "boolean"
+      },
+      "no_clean": {
+         "default": false,
+         "description": "Do not remove the installer artifacts after installation.",
+         "type": "boolean"
+      },
+      "profile": {
+         "default": "",
+         "description": "Path to a TeX Live installation profile file.\nIf not provided, an interactive installation will be performed.\n",
+         "type": "string"
+      },
+      "reinstall": {
+         "default": false,
+         "description": "Same as '--install', but uninstall TeX first if already installed.",
+         "type": "boolean"
+      },
+      "syspkg_install_script": {
+         "default": "",
+         "description": "Path to the system package installation script.",
+         "type": "string"
+      },
+      "verify_installation": {
+         "default": false,
+         "description": "Verify the TeX Live installation.",
+         "type": "boolean"
+      }
+   },
    "version": "0.1.0"
 }

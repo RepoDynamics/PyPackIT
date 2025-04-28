@@ -2,6 +2,32 @@
    "description": "Install Oh My Zsh in the development container.",
    "id": "oh-my-zsh",
    "name": "Oh My Zsh Installation",
-   "options": {},
+   "options": {
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "font_dir": {
+         "default": "/usr/share/fonts/MesloLGS",
+         "description": "Path to the directory where fonts will be downloaded.",
+         "type": "string"
+      },
+      "install_dir": {
+         "default": "/usr/local/share/oh-my-zsh",
+         "description": "Path to the Oh My Zsh installation directory.\nThis is the directory where Oh My Zsh will be installed.\nIt corresponds to the [`ZSH`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)\nconfiguration variable in Oh My Zsh.\n",
+         "type": "string"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "zsh_custom_dir": {
+         "default": "/usr/local/share/oh-my-zsh/custom",
+         "description": "Path to the Oh My Zsh custom directory.\nThis corresponds to the [`ZSH_CUSTOM`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)\nconfiguration variable in Oh My Zsh.\n",
+         "type": "string"
+      }
+   },
    "version": "0.1.0"
 }

@@ -1,6 +1,5 @@
 {
    "description": "Install Pixi in the development container and activate it.",
-   "documentationURL": "https://pixi.sh/latest/ide_integration/devcontainer/",
    "id": "pixi",
    "mounts": [
       {
@@ -9,14 +8,31 @@
          "type": "volume"
       }
    ],
-   "name": "Pixi",
+   "name": "Pixi Installation",
    "options": {
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "install_path": {
+         "default": "/usr/local/bin",
+         "description": "Path to a bin directory to install the Pixi binary.\n",
+         "type": "string"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
       "version": {
-         "default": "0.40.3",
-         "description": "The version of Pixi to install.",
+         "default": "0.46.0",
+         "description": "Version of Pixi to install.",
          "type": "string"
       }
    },
-   "postCreateCommand": "sudo chown $(whoami) .pixi && echo 'eval \"$(pixi completion -s bash)\"' >> $HOME/.bashrc && pixi install",
-   "version": "0.40.3"
+   "postCreateCommand": {
+      "pixi_chown": "sudo chown $(whoami) .pixi"
+   },
+   "version": "0.46.0"
 }

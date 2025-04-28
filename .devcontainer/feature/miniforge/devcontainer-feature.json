@@ -2,6 +2,117 @@
    "description": "Install Miniforge in the development container.",
    "id": "miniforge",
    "name": "Miniforge Installation",
-   "options": {},
+   "options": {
+      "activates": {
+         "default": "",
+         "description": "Paths to shell configuration files to append conda initialization to.",
+         "type": "string"
+      },
+      "active_env": {
+         "default": "base",
+         "description": "Name of a conda environment to activate.\nThis adds `conda activate <env>` to the shell configuration files\nspecified in the `activates` parameter,\nand thus only has an effect if the `activates` parameter is set.\n",
+         "type": "string"
+      },
+      "conda_activation_script_path": {
+         "default": "etc/profile.d/conda.sh",
+         "description": "Relative path to the conda activation script.\nThe path is relative to the conda installation directory.\nThis is a constant and does not need to be changed\nunless Miniforge changes this path in the future.\n",
+         "type": "string"
+      },
+      "conda_dir": {
+         "default": "/opt/conda",
+         "description": "Path to the conda installation directory.\nThis is the directory where conda will be installed.\nIt corresponds to the `CONDA_DIR` environment variable.\n",
+         "type": "string"
+      },
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "download": {
+         "default": false,
+         "description": "Download the Miniforge installer.",
+         "type": "boolean"
+      },
+      "env_dirs": {
+         "default": "",
+         "description": "Paths to directories containing conda environment files to install.",
+         "type": "string"
+      },
+      "env_files": {
+         "default": "",
+         "description": "Paths to conda environment files to install.",
+         "type": "string"
+      },
+      "group": {
+         "default": "conda",
+         "description": "Name of a user group to give access to conda.",
+         "type": "string"
+      },
+      "install": {
+         "default": false,
+         "description": "Install conda and mamba using the Miniforge installer.\nRaises an error if conda is already installed.\n",
+         "type": "boolean"
+      },
+      "installer_dir": {
+         "default": "/tmp/miniforge-installer",
+         "description": "Path to a directory to download the installer to.\nThis is the directory where the Miniforge installer will be downloaded.\n",
+         "type": "string"
+      },
+      "interactive": {
+         "default": false,
+         "description": "Run the installer in interactive mode.\nThis allows the installer to prompt the user.\nThe default is to run the installer in non-interactive mode.\n",
+         "type": "boolean"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "mamba_activation_script_path": {
+         "default": "etc/profile.d/mamba.sh",
+         "description": "Relative path to the mamba activation script.\nThe path is relative to the conda installation directory.\nThis is a constant and does not need to be changed\nunless Miniforge changes this path in the future.\n",
+         "type": "string"
+      },
+      "miniforge_name": {
+         "default": "Miniforge3",
+         "description": "Name of the Miniforge variant to install.",
+         "type": "string"
+      },
+      "miniforge_version": {
+         "default": "",
+         "description": "Version of the Miniforge variant to install.\nIf not specified, the latest version will be installed.\n",
+         "type": "string"
+      },
+      "no_cache_clean": {
+         "default": false,
+         "description": "Skip cleaning the conda cache.\nThis skips 'conda clean' commands after installation.\nIt is useful for local installations.\n",
+         "type": "boolean"
+      },
+      "no_clean": {
+         "default": false,
+         "description": "Skip removing installer artifacts after installation.",
+         "type": "boolean"
+      },
+      "reinstall": {
+         "default": false,
+         "description": "Reinstall conda and mamba using the Miniforge installer.\nSame as 'install', but uninstall first if conda is already installed.\n",
+         "type": "boolean"
+      },
+      "set_permission": {
+         "default": false,
+         "description": "Set permissions for the conda installation directory.\nThis is done by adding the '--user' to the conda '--group'\nand setting the group ownership of the conda directory.\".\n",
+         "type": "boolean"
+      },
+      "update_base": {
+         "default": false,
+         "description": "Update the base conda environment.\nThis is done by running `conda update --all`.\nThis is not recommended for production environments.\n",
+         "type": "boolean"
+      },
+      "user": {
+         "default": "",
+         "description": "Name of a user to add to the conda group.\nThis user must already exist.\nIf not specified, it defaults to the real user running this script.\n",
+         "type": "string"
+      }
+   },
    "version": "0.1.0"
 }

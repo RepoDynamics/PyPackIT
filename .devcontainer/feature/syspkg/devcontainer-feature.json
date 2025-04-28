@@ -1,6 +1,67 @@
 {
    "id": "syspkg",
    "name": "System Package Installation",
-   "options": {},
+   "options": {
+      "apk": {
+         "default": "",
+         "description": "APK packages to install.\nPath to a file containing newline-separated\npackage specifications for apk.\n",
+         "type": "string"
+      },
+      "apt": {
+         "default": "",
+         "description": "APT packages to install.\nPath to a file containing newline-separated\npackage specifications for apt-get.\n",
+         "type": "string"
+      },
+      "apt_repos": {
+         "default": "",
+         "description": "APT repositories to add.\nPath to file containing newline-separated arguments\nto pass to 'add-apt-repository', one set per line.\n",
+         "type": "string"
+      },
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "dnf": {
+         "default": "",
+         "description": "DNF packages to install.\nPath to a file containing newline-separated\npackage specifications for dnf.\n",
+         "type": "string"
+      },
+      "interactive": {
+         "default": false,
+         "description": "Start an interactive installation.\nBy default, the installation is non-interactive.\nThis option forces an interactive installation.\n",
+         "type": "boolean"
+      },
+      "keep_repos": {
+         "default": false,
+         "description": "Keep APT repositories after installation.\nKeep adde repositories after script ends.\nBy default, they are removed automatically.\n",
+         "type": "boolean"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "microdnf": {
+         "default": "",
+         "description": "MicroDNF packages to install.\nPath to a file containing newline-separated\npackage specifications for microdnf.\n",
+         "type": "string"
+      },
+      "no_clean": {
+         "default": false,
+         "description": "Do not clean up after installation.\nBy default, the package manager's cache is cleaned up after installation.\nThis option skips that step.\n",
+         "type": "boolean"
+      },
+      "no_update": {
+         "default": false,
+         "description": "Do not update package lists.\nBy default, the package lists are updated before installation.\nThis option skips that step.\n",
+         "type": "boolean"
+      },
+      "yum": {
+         "default": "",
+         "description": "YUM packages to install.\nPath to a file containing newline-separated\npackage specifications for yum.\n",
+         "type": "string"
+      }
+   },
    "version": "0.1.0"
 }

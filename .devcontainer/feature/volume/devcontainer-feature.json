@@ -1,6 +1,37 @@
 {
    "id": "volume",
    "name": "Volume Setup",
-   "options": {},
+   "options": {
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "default_action": {
+         "default": "write",
+         "description": "Default action to take on files in source_dir.\nThis is the action to take if no action is specified in the manifest file.\nIt can be one of \"copy\", \"link\", or \"skip\".\n",
+         "enum": [
+            "append",
+            "prepend",
+            "write"
+         ],
+         "type": "string"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "manifest_file": {
+         "default": "",
+         "description": "Path to the manifest file.\nThis is the file that contains the list of files and directories to be set up.\nIt is a plain text file containing additional instructions.\n",
+         "type": "string"
+      },
+      "source_dir": {
+         "default": "",
+         "description": "Path to the source directory.\nThis is the directory where the files and directories to be set up are located.\n",
+         "type": "string"
+      }
+   },
    "version": "0.1.0"
 }

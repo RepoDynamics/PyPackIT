@@ -2,6 +2,47 @@
    "description": "Install Git from the official Git repository.",
    "id": "git",
    "name": "Git Installation",
-   "options": {},
+   "options": {
+      "debug": {
+         "default": false,
+         "description": "Enable debug output.",
+         "type": "boolean"
+      },
+      "instller_dir": {
+         "default": "/tmp/git-installer",
+         "description": "Path to a directory to download the installer to.",
+         "type": "string"
+      },
+      "logfile": {
+         "default": "",
+         "description": "Log all output (stdout + stderr) to this file in addition to console.",
+         "type": "string"
+      },
+      "no_clean": {
+         "default": false,
+         "description": "Skip removing installer artifacts after installation.",
+         "type": "boolean"
+      },
+      "prefix": {
+         "default": "/usr/local/git",
+         "description": "Path to the directory where Git will be installed.",
+         "type": "string"
+      },
+      "source": {
+         "default": "https://www.kernel.org/pub/software/scm/git/git-",
+         "description": "URL to download the Git source code from.\nThe full URL is built by appending the resolved version to this URL.",
+         "type": "string"
+      },
+      "sysconfdir": {
+         "default": "/etc",
+         "description": "Path to the system configuration directory for Git.",
+         "type": "string"
+      },
+      "version": {
+         "default": "",
+         "description": "Version of Git to install.\nThis must be a regex matching a version number (`^` and `$` are automatically added to this). The latest version matching the regex will be selected. If not specified, the latest version will be installed.",
+         "type": "string"
+      }
+   },
    "version": "0.1.0"
 }
