@@ -90,6 +90,13 @@ properties:
             custom:
               summary: A custom validation rule for the parameter.
               type: string
+        array_delimiter:
+          summary: Separator for array items.
+          description: |
+            This is used to separate items in an array parameter,
+            when the parameter input is an environment variable.
+          type: string
+          default: " :: "
   return:
     type: array
     items:
