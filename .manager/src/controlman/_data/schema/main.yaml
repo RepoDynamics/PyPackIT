@@ -101,6 +101,10 @@ patternProperties:
                     type: object
                     additionalProperties:
                       type: [ string, number ]
+                  ENV:
+                    type: object
+                    additionalProperties:
+                      type: [ string, number ]
                 additionalProperties:
                   type: string
       container:

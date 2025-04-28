@@ -3198,11 +3198,11 @@ devcontainer_main:
     - title: Arguments and Environment Variables
       summary: Main build arguments and environment variables.
       instructions:
-        - ENV: |
-            LANG=C.UTF-8
-            LC_ALL=C.UTF-8
-            PYTHONIOENCODING=UTF-8
-            TZ=UTC
+        - ENV:
+            LANG: C.UTF-8
+            LC_ALL: C.UTF-8
+            PYTHONIOENCODING: UTF-8
+            TZ: UTC
         - USER: root
       description: |
         Only include those that affect the build processes
@@ -3241,8 +3241,8 @@ devcontainer_main:
             GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$
         - COPY: |
             ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
-        - ENV: |
-            PATH=${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
+        - ENV:
+            PATH: ${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
         - RUN: |
             chmod +x "$GIT_INSTALL_SCRIPT";
             "$GIT_INSTALL_SCRIPT"
@@ -3292,9 +3292,10 @@ devcontainer_main:
                 --debug
     - title: MiniForge Installation
       instructions:
-        - ENV: |
-            CONDA_DIR=${{ devcontainer_main.var.conda.dir }}$
-            PATH=$CONDA_DIR/bin:$PATH
+        - ENV:
+            CONDA_DIR: ${{ devcontainer_main.var.conda.dir }}$
+        - ENV:
+            PATH: $CONDA_DIR/bin:$PATH
         - ARG:
             MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.miniforge.path.install }}$
         - COPY: |
@@ -3395,8 +3396,8 @@ devcontainer_main:
                 awk '/^auth(.*)pam_rootok\.so$/ { $2 = "sufficient" } { print }' /etc/pam.d/chsh > /tmp/chsh.tmp && mv /tmp/chsh.tmp /etc/pam.d/chsh;
             fi;
             chsh --shell "$USER_SHELL" "$USERNAME";
-        - ENV: |
-            BASH_ENV=${{ devcontainer_main.volume.bashenv.path }}$
+        - ENV:
+            BASH_ENV: ${{ devcontainer_main.volume.bashenv.path }}$
     - title: Entry
       instructions:
         - CMD: |

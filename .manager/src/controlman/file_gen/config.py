@@ -204,8 +204,8 @@ class ConfigFileGenerator:
 
         def create_dockerfile(dockerfile: list[dict]):
 
-            def create_arg(arg: dict) -> list[str]:
-                """Create ARG instruction for Dockerfile."""
+            def create_map(arg: dict) -> list[str]:
+                """Create mapping (ARG, ENV) instruction for Dockerfile."""
                 return [f'{key}="{value}"' if value else key for key, value in arg.items()]
 
             parts = []
@@ -216,8 +216,8 @@ class ConfigFileGenerator:
                     instructions_value = instruction[key]
                     if not instructions_value:
                         continue
-                    if key == "ARG":
-                        instruction_lines = create_arg(instructions_value)
+                    if key in ("ARG", "ENV"):
+                        instruction_lines = create_map(instructions_value)
                     else:
                         instruction_lines = [
                             line.rstrip() for line in instructions_value.strip().splitlines()
