@@ -21,13 +21,7 @@ properties:
         summary: Name of the package.
         description: |
           This is the name of the package as it is known in the APT repository.
-        default: |
-          #{{
-            import re
-            dep_name = get("..name")
-            name_normalized = re.sub(r"[^a-zA-Z0-9._-]", "-", dep_name).lower()
-            return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", name_normalized)
-          }}#
+        default: ${{ ..name }}$
       version:
         type: string
         summary: Version of the package.
