@@ -1348,226 +1348,105 @@ devcontainer:
   feature:
     git:
       metadata:
-        name: Git Installation
-        version: 0.1.0
-        description: Install Git from the official Git repository.
+        content:
+          name: Git Installation
+          version: 0.1.0
+          description: Install Git from the official Git repository.
       install:
         summary: Install Git.
         description: |
           Install Git from the official Git repository.
-        parameter:
-          version:
-            type: string
-            summary: Version of Git to install.
-            description: >-
-              This must be a regex matching a version number
-              (`^` and `$` are automatically added to this).
-              The latest version matching the regex will be selected.
-              If not specified, the latest version will be installed.
-            default: ""
-            examples:
-              - 2.*
-              - 2.[0-9]+.[0-9]+
-          source:
-            type: string
-            summary: URL to download the Git source code from.
-            description: >-
-              The full URL is built by appending the resolved version to this URL.
-            default: https://www.kernel.org/pub/software/scm/git/git-
-            examples:
-              - https://github.com/git/git/archive/v
-          prefix:
-            type: string
-            summary: Path to the directory where Git will be installed.
-            default: /usr/local/git
-          sysconfdir:
-            type: string
-            summary: Path to the system configuration directory for Git.
-            default: /etc
-          instller_dir:
-            type: string
-            summary: Path to a directory to download the installer to.
-            default: /tmp/git-installer
-          no_clean:
-            type: boolean
-            summary: Skip removing installer artifacts after installation.
         references:
           - title: Git installation documentation
             url: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
           - title: Git Devcontainer Feature installation script
             url: https://github.com/devcontainers/features/tree/main/src/git/
-        import:
-          - exit_if_not_root
-          - get_script_dir
-        function:
-          __cleanup__:
-            summary: Cleanup function.
-            body: |
-              [[ "$NO_CLEAN" == false ]] && (cd / && rm -rf "$INSTALLER_DIR/git-$VERSION")
-        body:
-          - content: exit_if_not_root
-          - summary: Install system dependencies.
-            content: |
-              "$SYSPKG_INSTALL_SCRIPT" \
-                --apt "$(get_script_dir)/requirements/apt.txt" \
-                --logfile "$LOGFILE" \
-                $( [ "$DEBUG" = "true" ] && echo --debug )
-          - summary: Resolve version
-            content: |
-              VERSION=$(
-                  get_matching_github_refs \
-                      --owner git \
-                      --repo git \
-                      --ref "tags/v" \
-                      --remove_prefix "tags/v" \
-                      --regex "$VERSION"
-              )
-          - summary: Download and install Git from source.
-            content: |
-              # https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L299-L312
-              mkdir -p "$INSTALLER_DIR"
-              echo "📥 Download source code for Git v${VERSION}."
-              curl -sL "${SOURCE}${VERSION}.tar.gz" | tar -xzC "$INSTALLER_DIR" 2>&1
-              echo "🏗 Build Git."
-              cd "$INSTALLER_DIR/git-$VERSION"
-              git_options=("prefix=$PREFIX")
-              git_options+=("sysconfdir=$SYSCONFDIR")
-              git_options+=("USE_LIBPCRE=YesPlease")
-              make -s "${git_options[@]}" all && make -s "${git_options[@]}" install 2>&1
-          - content: echo "✅ Git v${VERSION} installed successfully."
+        content:
+          parameter:
+            version:
+              type: string
+              summary: Version of Git to install.
+              description: >-
+                This must be a regex matching a version number
+                (`^` and `$` are automatically added to this).
+                The latest version matching the regex will be selected.
+                If not specified, the latest version will be installed.
+              default: ""
+              examples:
+                - 2.*
+                - 2.[0-9]+.[0-9]+
+            source:
+              type: string
+              summary: URL to download the Git source code from.
+              description: >-
+                The full URL is built by appending the resolved version to this URL.
+              default: https://www.kernel.org/pub/software/scm/git/git-
+              examples:
+                - https://github.com/git/git/archive/v
+            prefix:
+              type: string
+              summary: Path to the directory where Git will be installed.
+              default: /usr/local/git
+            sysconfdir:
+              type: string
+              summary: Path to the system configuration directory for Git.
+              default: /etc
+            instller_dir:
+              type: string
+              summary: Path to a directory to download the installer to.
+              default: /tmp/git-installer
+            no_clean:
+              type: boolean
+              summary: Skip removing installer artifacts after installation.
+          import:
+            - exit_if_not_root
+            - get_script_dir
+          function:
+            __cleanup__:
+              summary: Cleanup function.
+              body: |
+                [[ "$NO_CLEAN" == false ]] && (cd / && rm -rf "$INSTALLER_DIR/git-$VERSION")
+          body:
+            - content: exit_if_not_root
+            - summary: Install system dependencies.
+              content: |
+                "$SYSPKG_INSTALL_SCRIPT" \
+                  --apt "$(get_script_dir)/requirements/apt.txt" \
+                  --logfile "$LOGFILE" \
+                  $( [ "$DEBUG" = "true" ] && echo --debug )
+            - summary: Resolve version
+              content: |
+                VERSION=$(
+                    get_matching_github_refs \
+                        --owner git \
+                        --repo git \
+                        --ref "tags/v" \
+                        --remove_prefix "tags/v" \
+                        --regex "$VERSION"
+                )
+            - summary: Download and install Git from source.
+              content: |
+                # https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/git/install.sh#L299-L312
+                mkdir -p "$INSTALLER_DIR"
+                echo "📥 Download source code for Git v${VERSION}."
+                curl -sL "${SOURCE}${VERSION}.tar.gz" | tar -xzC "$INSTALLER_DIR" 2>&1
+                echo "🏗 Build Git."
+                cd "$INSTALLER_DIR/git-$VERSION"
+                git_options=("prefix=$PREFIX")
+                git_options+=("sysconfdir=$SYSCONFDIR")
+                git_options+=("USE_LIBPCRE=YesPlease")
+                make -s "${git_options[@]}" all && make -s "${git_options[@]}" install 2>&1
+            - content: echo "✅ Git v${VERSION} installed successfully."
     miniforge:
       metadata:
-        name: Miniforge Installation
-        version: 0.1.0
-        description: Install Miniforge in the development container.
+        content:
+          name: Miniforge Installation
+          version: 0.1.0
+          description: Install Miniforge in the development container.
       install:
         summary: Install Miniforge.
         description: |
           Install Miniforge from the official GitHub repository.
-        parameter:
-          download:
-            type: boolean
-            summary: Download the Miniforge installer.
-          install:
-            type: boolean
-            summary: Install conda and mamba using the Miniforge installer.
-            description: |
-              Raises an error if conda is already installed.
-          reinstall:
-            type: boolean
-            summary: Reinstall conda and mamba using the Miniforge installer.
-            description: |
-              Same as 'install', but uninstall first if conda is already installed.
-          activates:
-            type: array
-            summary: Paths to shell configuration files to append conda initialization to.
-            default: []
-            examples:
-              - /etc/skel/.bashrc
-              - /etc/bash.bashrc
-              - /etc/zsh/zshrc
-              - ~/.bashrc
-              - ~/.zshrc
-          update_base:
-            type: boolean
-            summary: Update the base conda environment.
-            description: |
-              This is done by running `conda update --all`.
-              This is not recommended for production environments.
-          env_files:
-            type: array
-            summary: Paths to conda environment files to install.
-            default: []
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          env_dirs:
-            type: array
-            summary: Paths to directories containing conda environment files to install.
-            default: []
-            validation:
-              path_existence:
-                must_exist: true
-                type: dir
-          set_permission:
-            type: boolean
-            summary: Set permissions for the conda installation directory.
-            description: |
-              This is done by adding the '--user' to the conda '--group'
-              and setting the group ownership of the conda directory.".
-          miniforge_name:
-            type: string
-            summary: Name of the Miniforge variant to install.
-            default: Miniforge3
-          miniforge_version:
-            type: string
-            summary: Version of the Miniforge variant to install.
-            description: |
-              If not specified, the latest version will be installed.
-          conda_dir:
-            type: string
-            summary: Path to the conda installation directory.
-            description: |
-              This is the directory where conda will be installed.
-              It corresponds to the `CONDA_DIR` environment variable.
-            default: /opt/conda
-          installer_dir:
-            type: string
-            summary: Path to a directory to download the installer to.
-            description: |
-              This is the directory where the Miniforge installer will be downloaded.
-            default: /tmp/miniforge-installer
-          no_clean:
-            type: boolean
-            summary: Skip removing installer artifacts after installation.
-          interactive:
-            type: boolean
-            summary: Run the installer in interactive mode.
-            description: |
-              This allows the installer to prompt the user.
-              The default is to run the installer in non-interactive mode.
-          group:
-            type: string
-            summary: Name of a user group to give access to conda.
-            default: conda
-          user:
-            type: string
-            summary: Name of a user to add to the conda group.
-            default: ""
-            description: |
-              This user must already exist.
-              If not specified, it defaults to the real user running this script.
-          active_env:
-            type: string
-            summary: Name of a conda environment to activate.
-            description: |
-              This adds `conda activate <env>` to the shell configuration files
-              specified in the `activates` parameter,
-              and thus only has an effect if the `activates` parameter is set.
-            default: base
-          no_cache_clean:
-            type: boolean
-            summary: Skip cleaning the conda cache.
-            description: |
-              This skips 'conda clean' commands after installation.
-              It is useful for local installations.
-          conda_activation_script_path:
-            type: string
-            summary: Relative path to the conda activation script.
-            description: |
-              The path is relative to the conda installation directory.
-              This is a constant and does not need to be changed
-              unless Miniforge changes this path in the future.
-            default: etc/profile.d/conda.sh
-          mamba_activation_script_path:
-            type: string
-            summary: Relative path to the mamba activation script.
-            description: |
-              The path is relative to the conda installation directory.
-              This is a constant and does not need to be changed
-              unless Miniforge changes this path in the future.
-            default: etc/profile.d/mamba.sh
         references:
           - title: Miniforge Docker image
             url: https://github.com/conda-forge/miniforge-images/blob/master/ubuntu/Dockerfile
@@ -1579,304 +1458,430 @@ devcontainer:
             url: https://github.com/rocker-org/devcontainer-features/tree/main/src/miniforge
           - title: Devcontainers conda feature
             url: https://github.com/devcontainers/features/tree/main/src/conda
-        import:
-          - exit_if_not_root
-          - get_script_dir
-        function:
-          set_executable_paths:
-            summary: Set executable paths for conda and mamba.
-            description: |
-              This function sets the following environment variables:
-              - CONDA_EXE: Path to the conda executable.
-              - MAMBA_EXE: Path to the mamba executable.
-            parameter:
-              verify:
-                type: boolean
-                summary: Verify the existence of the executables.
-                description: |
-                  This is useful before running the post-installation steps
-                  (especially when the installation steps were skipped)
-                  to ensure that the executables are available.
-            body: |
-              CONDA_EXEC="${CONDA_DIR}/bin/conda"
-              MAMBA_EXEC="${CONDA_DIR}/bin/mamba"
-              if [ "${1:-}" != "verify" ]; then
-                  return
-              fi
-              if [[ ! -f "$CONDA_EXEC" ]]; then
-                  if command -v conda >/dev/null 2>&1; then
-                      CONDA_DIR="$(conda info --base)"
-                      CONDA_EXEC="${CONDA_DIR}/bin/conda"
-                  else
-                      echo "⛔ Conda executable not found at '$CONDA_EXEC'." >&2
-                      exit 1
-                  fi
-              fi
-              if [[ ! -f "$MAMBA_EXEC" ]]; then
-                  if command -v mamba >/dev/null 2>&1; then
-                      MAMBA_EXEC="$(mamba info --base | tail -n 2 | head -n 1)/bin/mamba"
-                  else
-                      echo "⛔ Mamba executable not found at '$MAMBA_EXEC'." >&2
-                      exit 1
-                  fi
-              fi
-              if [[ ! -f "$CONDA_EXEC" ]]; then
-                  echo "⛔ Conda executable not found." >&2
-                  exit 1
-              fi
-              if [[ ! -f "$MAMBA_EXEC" ]]; then
-                  echo "⛔ Mamba executable not found." >&2
-                  exit 1
-              fi
-              echo "🎛 Conda executable located at '$CONDA_EXEC'."
-              echo "🎛 Mamba executable located at '$MAMBA_EXEC'."
-          set_installer_filename:
-            summary: Set the installer filename.
-            description: |
-              This function sets the installer filename
-              based on the Miniforge variant and version.
-              It sets the following environment variables:
-              - INSTALLER_FILENAME: Name of the installer file.
-              - INSTALLER: Full path to the installer file.
-              - CHECKSUM: Full path to the checksum file for the installer.
-            body: |
-              local installer_platform="$(uname)-$(uname -m)"
-              if [[ "$MINIFORGE_VERSION" == "latest" ]]; then
-                  INSTALLER_FILENAME="${MINIFORGE_NAME}-${installer_platform}.sh"
-              else
-                  INSTALLER_FILENAME="${MINIFORGE_NAME}-${MINIFORGE_VERSION}-${installer_platform}.sh"
-              fi
-              INSTALLER="${INSTALLER_DIR}/${INSTALLER_FILENAME}"
-              CHECKSUM="${INSTALLER}.sha256"
-          download_miniforge:
-            summary: Download the Miniforge installer.
-            description: |
-              This function downloads the Miniforge installer
-              and its checksum file from the official GitHub repository,
-              and verifies the checksum if available.
-            body: |
-              local installer_url
-              local checksum_url
-              if [[ "$MINIFORGE_VERSION" == "latest" ]]; then
-                  installer_url="https://github.com/conda-forge/miniforge/releases/latest/download/${INSTALLER_FILENAME}"
-                  checksum_url=""  # TODO: Find a way to get the checksum URL for the latest version.
-              else
-                  installer_url="https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${INSTALLER_FILENAME}"
-                  checksum_url="$installer_url.sha256"
-              fi
-              mkdir -p "$INSTALLER_DIR"
-              if command -v wget >/dev/null 2>&1; then
-                  echo "📥 Downloading installer using wget from $installer_url" >&2
-                  wget --no-hsts --tries 3 --output-document "$INSTALLER" "$installer_url"
-                  if [[ -n "$checksum_url" ]]; then
-                      wget --no-hsts --tries 3 --output-document "$CHECKSUM" "$checksum_url"
-                  fi
-              elif command -v curl >/dev/null 2>&1; then
-                  echo "📥 Downloading installer using curl from $installer_url" >&2
-                  curl --fail --location --retry 3 --output "$INSTALLER" "$installer_url"
-                  if [[ -n "$checksum_url" ]]; then
-                      curl --fail --location --retry 3 --output "$CHECKSUM" "$checksum_url"
-                  fi
-              else
-                  echo "⛔ Neither wget nor curl is available." >&2
-                  exit 1
-              fi
-              if [[ -n "$checksum_url" ]]; then
-                  verify_miniforge
-              fi
-          verify_miniforge:
-            summary: Verify the Miniforge installer checksum.
-            description: |
-              This function verifies the checksum of the Miniforge installer
-              using the SHA256 checksum file.
-            body: |
-              echo "📦 Verifying installer checksum"
-              if command -v sha256sum >/dev/null 2>&1; then
-                  if (cd "$INSTALLER_DIR" && sha256sum --check --status "$CHECKSUM"); then
-                      echo "✅ Checksum verification passed" >&2
-                  else
-                      echo "❌ Checksum verification failed" >&2
-                      exit 1
-                  fi
-              elif command -v shasum >/dev/null 2>&1; then
-                  if (cd "$INSTALLER_DIR" && shasum --algorithm 256 --check --status "$CHECKSUM"); then
-                      echo "✅ Checksum verification passed" >&2
-                  else
-                      echo "❌ Checksum verification failed" >&2
-                      exit 1
-                  fi
-              else
-                  echo "⛔ Neither sha256sum nor shasum is available." >&2
-                  exit 1
-              fi
-          uninstall_miniforge:
-            summary: Uninstall Miniforge.
-            body: |
-              echo "🗑 Uninstalling conda (Miniforge)."
-              "$CONDA_EXEC" init --reverse
-              rm -rf "$("$CONDA_EXEC" info --base)"
-              rm -f "$HOME/.condarc"
-              rm -rf "$HOME/.conda"
-              user_home=$(getent passwd "$USER" | cut -d: -f6)
-              rm -rf "$user_home/.condarc"
-              rm -rf "$user_home/.conda"
-            references:
-              - title: Miniforge uninstallation documentation
-                url: https://github.com/conda-forge/miniforge?tab=readme-ov-file#uninstall
-              - title: Anaconda uninstallation documentation
-                url: https://www.anaconda.com/docs/getting-started/miniconda/uninstall#manual-uninstall
-          install_miniforge:
-            summary: Install Miniforge.
-            body: |
-              echo "📦 Installing Miniforge to $CONDA_DIR"
-              if [[ "$INTERACTIVE" == true ]]; then
-                  /bin/bash "$INSTALLER" -p "$CONDA_DIR"
-              else
-                  /bin/bash "$INSTALLER" -b -p "$CONDA_DIR"
-              fi
+        content:
+          parameter:
+            download:
+              type: boolean
+              summary: Download the Miniforge installer.
+            install:
+              type: boolean
+              summary: Install conda and mamba using the Miniforge installer.
+              description: |
+                Raises an error if conda is already installed.
+            reinstall:
+              type: boolean
+              summary: Reinstall conda and mamba using the Miniforge installer.
+              description: |
+                Same as 'install', but uninstall first if conda is already installed.
+            activates:
+              type: array
+              summary: Paths to shell configuration files to append conda initialization to.
+              default: []
+              examples:
+                - /etc/skel/.bashrc
+                - /etc/bash.bashrc
+                - /etc/zsh/zshrc
+                - ~/.bashrc
+                - ~/.zshrc
+            update_base:
+              type: boolean
+              summary: Update the base conda environment.
+              description: |
+                This is done by running `conda update --all`.
+                This is not recommended for production environments.
+            env_files:
+              type: array
+              summary: Paths to conda environment files to install.
+              default: []
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            env_dirs:
+              type: array
+              summary: Paths to directories containing conda environment files to install.
+              default: []
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: dir
+            set_permission:
+              type: boolean
+              summary: Set permissions for the conda installation directory.
+              description: |
+                This is done by adding the '--user' to the conda '--group'
+                and setting the group ownership of the conda directory.".
+            miniforge_name:
+              type: string
+              summary: Name of the Miniforge variant to install.
+              default: Miniforge3
+            miniforge_version:
+              type: string
+              summary: Version of the Miniforge variant to install.
+              description: |
+                If not specified, the latest version will be installed.
+            conda_dir:
+              type: string
+              summary: Path to the conda installation directory.
+              description: |
+                This is the directory where conda will be installed.
+                It corresponds to the `CONDA_DIR` environment variable.
+              default: /opt/conda
+            installer_dir:
+              type: string
+              summary: Path to a directory to download the installer to.
+              description: |
+                This is the directory where the Miniforge installer will be downloaded.
+              default: /tmp/miniforge-installer
+            no_clean:
+              type: boolean
+              summary: Skip removing installer artifacts after installation.
+            interactive:
+              type: boolean
+              summary: Run the installer in interactive mode.
+              description: |
+                This allows the installer to prompt the user.
+                The default is to run the installer in non-interactive mode.
+            group:
+              type: string
+              summary: Name of a user group to give access to conda.
+              default: conda
+            user:
+              type: string
+              summary: Name of a user to add to the conda group.
+              default: ""
+              description: |
+                This user must already exist.
+                If not specified, it defaults to the real user running this script.
+            active_env:
+              type: string
+              summary: Name of a conda environment to activate.
+              description: |
+                This adds `conda activate <env>` to the shell configuration files
+                specified in the `activates` parameter,
+                and thus only has an effect if the `activates` parameter is set.
+              default: base
+            no_cache_clean:
+              type: boolean
+              summary: Skip cleaning the conda cache.
+              description: |
+                This skips 'conda clean' commands after installation.
+                It is useful for local installations.
+            conda_activation_script_path:
+              type: string
+              summary: Relative path to the conda activation script.
+              description: |
+                The path is relative to the conda installation directory.
+                This is a constant and does not need to be changed
+                unless Miniforge changes this path in the future.
+              default: etc/profile.d/conda.sh
+            mamba_activation_script_path:
+              type: string
+              summary: Relative path to the mamba activation script.
+              description: |
+                The path is relative to the conda installation directory.
+                This is a constant and does not need to be changed
+                unless Miniforge changes this path in the future.
+              default: etc/profile.d/mamba.sh
+          import:
+            - exit_if_not_root
+            - get_script_dir
+          function:
+            set_executable_paths:
+              summary: Set executable paths for conda and mamba.
+              description: |
+                This function sets the following environment variables:
+                - CONDA_EXE: Path to the conda executable.
+                - MAMBA_EXE: Path to the mamba executable.
+              parameter:
+                verify:
+                  type: boolean
+                  summary: Verify the existence of the executables.
+                  description: |
+                    This is useful before running the post-installation steps
+                    (especially when the installation steps were skipped)
+                    to ensure that the executables are available.
+              body: |
+                CONDA_EXEC="${CONDA_DIR}/bin/conda"
+                MAMBA_EXEC="${CONDA_DIR}/bin/mamba"
+                if [ "${1:-}" != "verify" ]; then
+                    return
+                fi
+                if [[ ! -f "$CONDA_EXEC" ]]; then
+                    if command -v conda >/dev/null 2>&1; then
+                        CONDA_DIR="$(conda info --base)"
+                        CONDA_EXEC="${CONDA_DIR}/bin/conda"
+                    else
+                        echo "⛔ Conda executable not found at '$CONDA_EXEC'." >&2
+                        exit 1
+                    fi
+                fi
+                if [[ ! -f "$MAMBA_EXEC" ]]; then
+                    if command -v mamba >/dev/null 2>&1; then
+                        MAMBA_EXEC="$(mamba info --base | tail -n 2 | head -n 1)/bin/mamba"
+                    else
+                        echo "⛔ Mamba executable not found at '$MAMBA_EXEC'." >&2
+                        exit 1
+                    fi
+                fi
+                if [[ ! -f "$CONDA_EXEC" ]]; then
+                    echo "⛔ Conda executable not found." >&2
+                    exit 1
+                fi
+                if [[ ! -f "$MAMBA_EXEC" ]]; then
+                    echo "⛔ Mamba executable not found." >&2
+                    exit 1
+                fi
+                echo "🎛 Conda executable located at '$CONDA_EXEC'."
+                echo "🎛 Mamba executable located at '$MAMBA_EXEC'."
+            set_installer_filename:
+              summary: Set the installer filename.
+              description: |
+                This function sets the installer filename
+                based on the Miniforge variant and version.
+                It sets the following environment variables:
+                - INSTALLER_FILENAME: Name of the installer file.
+                - INSTALLER: Full path to the installer file.
+                - CHECKSUM: Full path to the checksum file for the installer.
+              body: |
+                local installer_platform="$(uname)-$(uname -m)"
+                if [[ "$MINIFORGE_VERSION" == "latest" ]]; then
+                    INSTALLER_FILENAME="${MINIFORGE_NAME}-${installer_platform}.sh"
+                else
+                    INSTALLER_FILENAME="${MINIFORGE_NAME}-${MINIFORGE_VERSION}-${installer_platform}.sh"
+                fi
+                INSTALLER="${INSTALLER_DIR}/${INSTALLER_FILENAME}"
+                CHECKSUM="${INSTALLER}.sha256"
+            download_miniforge:
+              summary: Download the Miniforge installer.
+              description: |
+                This function downloads the Miniforge installer
+                and its checksum file from the official GitHub repository,
+                and verifies the checksum if available.
+              body: |
+                local installer_url
+                local checksum_url
+                if [[ "$MINIFORGE_VERSION" == "latest" ]]; then
+                    installer_url="https://github.com/conda-forge/miniforge/releases/latest/download/${INSTALLER_FILENAME}"
+                    checksum_url=""  # TODO: Find a way to get the checksum URL for the latest version.
+                else
+                    installer_url="https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${INSTALLER_FILENAME}"
+                    checksum_url="$installer_url.sha256"
+                fi
+                mkdir -p "$INSTALLER_DIR"
+                if command -v wget >/dev/null 2>&1; then
+                    echo "📥 Downloading installer using wget from $installer_url" >&2
+                    wget --no-hsts --tries 3 --output-document "$INSTALLER" "$installer_url"
+                    if [[ -n "$checksum_url" ]]; then
+                        wget --no-hsts --tries 3 --output-document "$CHECKSUM" "$checksum_url"
+                    fi
+                elif command -v curl >/dev/null 2>&1; then
+                    echo "📥 Downloading installer using curl from $installer_url" >&2
+                    curl --fail --location --retry 3 --output "$INSTALLER" "$installer_url"
+                    if [[ -n "$checksum_url" ]]; then
+                        curl --fail --location --retry 3 --output "$CHECKSUM" "$checksum_url"
+                    fi
+                else
+                    echo "⛔ Neither wget nor curl is available." >&2
+                    exit 1
+                fi
+                if [[ -n "$checksum_url" ]]; then
+                    verify_miniforge
+                fi
+            verify_miniforge:
+              summary: Verify the Miniforge installer checksum.
+              description: |
+                This function verifies the checksum of the Miniforge installer
+                using the SHA256 checksum file.
+              body: |
+                echo "📦 Verifying installer checksum"
+                if command -v sha256sum >/dev/null 2>&1; then
+                    if (cd "$INSTALLER_DIR" && sha256sum --check --status "$CHECKSUM"); then
+                        echo "✅ Checksum verification passed" >&2
+                    else
+                        echo "❌ Checksum verification failed" >&2
+                        exit 1
+                    fi
+                elif command -v shasum >/dev/null 2>&1; then
+                    if (cd "$INSTALLER_DIR" && shasum --algorithm 256 --check --status "$CHECKSUM"); then
+                        echo "✅ Checksum verification passed" >&2
+                    else
+                        echo "❌ Checksum verification failed" >&2
+                        exit 1
+                    fi
+                else
+                    echo "⛔ Neither sha256sum nor shasum is available." >&2
+                    exit 1
+                fi
+            uninstall_miniforge:
+              summary: Uninstall Miniforge.
+              body: |
+                echo "🗑 Uninstalling conda (Miniforge)."
+                "$CONDA_EXEC" init --reverse
+                rm -rf "$("$CONDA_EXEC" info --base)"
+                rm -f "$HOME/.condarc"
+                rm -rf "$HOME/.conda"
+                user_home=$(getent passwd "$USER" | cut -d: -f6)
+                rm -rf "$user_home/.condarc"
+                rm -rf "$user_home/.conda"
+              references:
+                - title: Miniforge uninstallation documentation
+                  url: https://github.com/conda-forge/miniforge?tab=readme-ov-file#uninstall
+                - title: Anaconda uninstallation documentation
+                  url: https://www.anaconda.com/docs/getting-started/miniconda/uninstall#manual-uninstall
+            install_miniforge:
+              summary: Install Miniforge.
+              body: |
+                echo "📦 Installing Miniforge to $CONDA_DIR"
+                if [[ "$INTERACTIVE" == true ]]; then
+                    /bin/bash "$INSTALLER" -p "$CONDA_DIR"
+                else
+                    /bin/bash "$INSTALLER" -b -p "$CONDA_DIR"
+                fi
 
-              # Post-installation validation.
-              echo "Displaying conda info:"
-              "$CONDA_EXEC" info
-              echo "Displaying conda config:"
-              "$CONDA_EXEC" config --show
-              echo "Displaying conda env list:"
-              "$CONDA_EXEC" env list
-              echo "Displaying conda list:"
-              "$CONDA_EXEC" list --name base
+                # Post-installation validation.
+                echo "Displaying conda info:"
+                "$CONDA_EXEC" info
+                echo "Displaying conda config:"
+                "$CONDA_EXEC" config --show
+                echo "Displaying conda env list:"
+                "$CONDA_EXEC" env list
+                echo "Displaying conda list:"
+                "$CONDA_EXEC" list --name base
 
-              __cleanup__
-          add_activation_to_rcfile:
-            summary: Add conda activation to shell configuration files.
-            body: |
-              local conda_script="$CONDA_DIR/$CONDA_ACTIVATION_SCRIPT_PATH"
-              local mamba_script="$CONDA_DIR/$MAMBA_ACTIVATION_SCRIPT_PATH"
-              lines=(
-                  ". '$conda_script'"
-                  ". '$mamba_script'"
-              )
-              if [[ -n "$ACTIVE_ENV" ]]; then
-                  lines+=("conda activate $ACTIVE_ENV")
-              fi
+                __cleanup__
+            add_activation_to_rcfile:
+              summary: Add conda activation to shell configuration files.
+              body: |
+                local conda_script="$CONDA_DIR/$CONDA_ACTIVATION_SCRIPT_PATH"
+                local mamba_script="$CONDA_DIR/$MAMBA_ACTIVATION_SCRIPT_PATH"
+                lines=(
+                    ". '$conda_script'"
+                    ". '$mamba_script'"
+                )
+                if [[ -n "$ACTIVE_ENV" ]]; then
+                    lines+=("conda activate $ACTIVE_ENV")
+                fi
 
-              for path in "${ACTIVATES[@]}"; do
-                  echo "▶️ Sourcing activation script to '$path'"
-                  [[ -f "$path" ]] || touch "$path"
-                  for line in "${lines[@]}"; do
-                      if grep -Fxq "$line" "$path"; then
-                          echo "⏭️ Line already exists in '$path': $line"
-                      else
-                          echo "$line" >> "$path"
-                          echo "ℹ️ Appended to '$path': $line"
-                      fi
-                  done
-              done
-          setup_environment:
-            summary: Setup conda environments from the specified YAML files.
-            body: |
-              umask 0002
-              for env_file in "${ENV_FILES[@]}"; do
-                  echo "📦 Installing conda environment from '$env_file'."
-                  "$MAMBA_EXEC" env update --file "$env_file"
-              done
+                for path in "${ACTIVATES[@]}"; do
+                    echo "▶️ Sourcing activation script to '$path'"
+                    [[ -f "$path" ]] || touch "$path"
+                    for line in "${lines[@]}"; do
+                        if grep -Fxq "$line" "$path"; then
+                            echo "⏭️ Line already exists in '$path': $line"
+                        else
+                            echo "$line" >> "$path"
+                            echo "ℹ️ Appended to '$path': $line"
+                        fi
+                    done
+                done
+            setup_environment:
+              summary: Setup conda environments from the specified YAML files.
+              body: |
+                umask 0002
+                for env_file in "${ENV_FILES[@]}"; do
+                    echo "📦 Installing conda environment from '$env_file'."
+                    "$MAMBA_EXEC" env update --file "$env_file"
+                done
 
-              for env_dir in "${ENV_DIRS[@]}"; do
-                  find "$env_dir" -type f \( -name "*.yml" -o -name "*.yaml" \) | while IFS= read -r env_file; do
-                      echo "📦 Installing conda environment from '$env_file'."
-                      "$MAMBA_EXEC" env update --file "$env_file"
-                  done
-              done
+                for env_dir in "${ENV_DIRS[@]}"; do
+                    find "$env_dir" -type f \( -name "*.yml" -o -name "*.yaml" \) | while IFS= read -r env_file; do
+                        echo "📦 Installing conda environment from '$env_file'."
+                        "$MAMBA_EXEC" env update --file "$env_file"
+                    done
+                done
 
-              if [[ "$NO_CACHE_CLEAN" == false ]]; then
-                  echo "🧹 Cleaning up conda cache."
-                  "$MAMBA_EXEC" clean --all -y
-              fi
-          set_permission:
-            summary: Set permissions for the conda installation directory.
-            body: |
-              echo "🔐 Setting permissions for conda directory."
-              getent group "$GROUP" >/dev/null || groupadd -r "$GROUP"
-              id -nG "$USER" | grep -qw "$GROUP" || usermod -a -G "$GROUP" "$USER"
-              chown -R "$USER:$GROUP" "$CONDA_DIR"
-              chmod -R g+r+w "$CONDA_DIR"
-              find "$CONDA_DIR" -type d -print0 | xargs -n 1 -0 chmod g+s
-            references:
-              - title: Conda Devcontainer Feature
-                url: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
-          __cleanup__:
-            summary: Cleanup function.
-            body: |
-              if [[ "$NO_CLEAN" == false ]]; then
-                  [ -f "$INSTALLER" ] && { echo "🗑 Removing installer script at '$INSTALLER'" >&2; rm -f "$INSTALLER"; }
-                  [ -f "$CHECKSUM" ] && { echo "🗑 Removing checksum file at '$CHECKSUM'" >&2; rm -f "$CHECKSUM"; }
-                  [ -d "$INSTALLER_DIR" ] && [ -z "$(ls -A "$INSTALLER_DIR")" ] && {
-                      echo "🗑 Removing installation directory at '$INSTALLER_DIR'" >&2
-                      rmdir "$INSTALLER_DIR"
-                  }
-              fi
-              find "$CONDA_DIR" -follow -type f -name '*.a' -delete
-              find "$CONDA_DIR" -follow -type f -name '*.pyc' -delete
-              if [[ "$NO_CACHE_CLEAN" == false ]] && [[ -f "$CONDA_EXEC" ]]; then
-                  echo "🧹 Cleaning up conda cache."
-                  "$CONDA_EXEC" clean --all --force-pkgs-dirs --yes
-              fi
-        body:
-          - content: exit_if_not_root
-          - content: set_executable_paths
-          - content: |
-              if [[ "$DOWNLOAD" == true || "$INSTALL" == true || "$REINSTALL" == true ]]; then
-                  set_installer_filename
-              fi
-          - summary: Download Miniforge installer.
-            content: if [[ "$DOWNLOAD" == true ]]; then download_miniforge; fi
-          - summary: Verify installer checksum.
-            content: |
-              if [[ "$DOWNLOAD" == true || "$INSTALL" == true || "$REINSTALL" == true ]]; then
-                  if [[ -f "$CHECKSUM" ]]; then
-                      verify_miniforge
-                  else
-                      echo "⚠️ Checksum file not found. Skipping verification." >&2
-                  fi
-              fi
-          - summary: Install Miniforge.
-            content: |
-              if [[ "$INSTALL" == true || "$REINSTALL" == true ]]; then
-                  if command -v conda >/dev/null 2>&1; then
-                      echo "⚠️ Conda installation found."
-                      if [[ "$REINSTALL" != true ]]; then
-                          echo "⏩ Conda is already available."
-                      else
-                          uninstall_miniforge
-                          install_miniforge
-                      fi
-                  else
-                      install_miniforge
-                  fi
-              fi
-          - summary: Update executable paths.
-            description: |
-              If installation was not performed in this run,
-              update the CONDA_EXEC variable to point to the correct location.
-            content: set_executable_paths --verify
-          - summary: Source activation scripts.
-            content: if [[ ${#ACTIVATES[@]} -gt 0 ]]; then add_activation_to_rcfile; fi
-          - summary: Update base environment.
-            content: |
-              if [[ "$UPDATE_BASE" == true ]]; then
-                  echo "⚠️ Updating base conda environment."
-                  "$MAMBA_EXEC" update -n base --all -y
-              fi
-          - summary: Install conda environments.
-            content: |
-              if [[ ${#ENV_FILES[@]} -gt 0 || ${#ENV_DIRS[@]} -gt 0 ]]; then setup_environments; fi
-          - summary: Set permissions for conda directory.
-            content: if [[ "$SET_PERMISSION" == true ]]; then set_permission; fi
-          - content: echo "✅ Conda installation complete."
+                if [[ "$NO_CACHE_CLEAN" == false ]]; then
+                    echo "🧹 Cleaning up conda cache."
+                    "$MAMBA_EXEC" clean --all -y
+                fi
+            set_permission:
+              summary: Set permissions for the conda installation directory.
+              body: |
+                echo "🔐 Setting permissions for conda directory."
+                getent group "$GROUP" >/dev/null || groupadd -r "$GROUP"
+                id -nG "$USER" | grep -qw "$GROUP" || usermod -a -G "$GROUP" "$USER"
+                chown -R "$USER:$GROUP" "$CONDA_DIR"
+                chmod -R g+r+w "$CONDA_DIR"
+                find "$CONDA_DIR" -type d -print0 | xargs -n 1 -0 chmod g+s
+              references:
+                - title: Conda Devcontainer Feature
+                  url: https://github.com/devcontainers/features/blob/8895eb3d161d28ada3a8de761a83135e811cae3d/src/conda/install.sh#L81-L115
+            __cleanup__:
+              summary: Cleanup function.
+              body: |
+                if [[ "$NO_CLEAN" == false ]]; then
+                    [ -f "$INSTALLER" ] && { echo "🗑 Removing installer script at '$INSTALLER'" >&2; rm -f "$INSTALLER"; }
+                    [ -f "$CHECKSUM" ] && { echo "🗑 Removing checksum file at '$CHECKSUM'" >&2; rm -f "$CHECKSUM"; }
+                    [ -d "$INSTALLER_DIR" ] && [ -z "$(ls -A "$INSTALLER_DIR")" ] && {
+                        echo "🗑 Removing installation directory at '$INSTALLER_DIR'" >&2
+                        rmdir "$INSTALLER_DIR"
+                    }
+                fi
+                find "$CONDA_DIR" -follow -type f -name '*.a' -delete
+                find "$CONDA_DIR" -follow -type f -name '*.pyc' -delete
+                if [[ "$NO_CACHE_CLEAN" == false ]] && [[ -f "$CONDA_EXEC" ]]; then
+                    echo "🧹 Cleaning up conda cache."
+                    "$CONDA_EXEC" clean --all --force-pkgs-dirs --yes
+                fi
+          body:
+            - content: exit_if_not_root
+            - content: set_executable_paths
+            - content: |
+                if [[ "$DOWNLOAD" == true || "$INSTALL" == true || "$REINSTALL" == true ]]; then
+                    set_installer_filename
+                fi
+            - summary: Download Miniforge installer.
+              content: if [[ "$DOWNLOAD" == true ]]; then download_miniforge; fi
+            - summary: Verify installer checksum.
+              content: |
+                if [[ "$DOWNLOAD" == true || "$INSTALL" == true || "$REINSTALL" == true ]]; then
+                    if [[ -f "$CHECKSUM" ]]; then
+                        verify_miniforge
+                    else
+                        echo "⚠️ Checksum file not found. Skipping verification." >&2
+                    fi
+                fi
+            - summary: Install Miniforge.
+              content: |
+                if [[ "$INSTALL" == true || "$REINSTALL" == true ]]; then
+                    if command -v conda >/dev/null 2>&1; then
+                        echo "⚠️ Conda installation found."
+                        if [[ "$REINSTALL" != true ]]; then
+                            echo "⏩ Conda is already available."
+                        else
+                            uninstall_miniforge
+                            install_miniforge
+                        fi
+                    else
+                        install_miniforge
+                    fi
+                fi
+            - summary: Update executable paths.
+              description: |
+                If installation was not performed in this run,
+                update the CONDA_EXEC variable to point to the correct location.
+              content: set_executable_paths --verify
+            - summary: Source activation scripts.
+              content: if [[ ${#ACTIVATES[@]} -gt 0 ]]; then add_activation_to_rcfile; fi
+            - summary: Update base environment.
+              content: |
+                if [[ "$UPDATE_BASE" == true ]]; then
+                    echo "⚠️ Updating base conda environment."
+                    "$MAMBA_EXEC" update -n base --all -y
+                fi
+            - summary: Install conda environments.
+              content: |
+                if [[ ${#ENV_FILES[@]} -gt 0 || ${#ENV_DIRS[@]} -gt 0 ]]; then setup_environments; fi
+            - summary: Set permissions for conda directory.
+              content: if [[ "$SET_PERMISSION" == true ]]; then set_permission; fi
+            - content: echo "✅ Conda installation complete."
     oh-my-zsh:
       metadata:
-        name: Oh My Zsh Installation
-        version: 0.1.0
-        description: Install Oh My Zsh in the development container.
+        content:
+          name: Oh My Zsh Installation
+          version: 0.1.0
+          description: Install Oh My Zsh in the development container.
       install:
         summary: Install Oh My Zsh.
         description: |
@@ -1884,26 +1889,6 @@ devcontainer:
           from the official GitHub repository.
           [Zsh](https://www.zsh.org) must be installed on the system
           (cf [Oh My Zsh docs](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)).
-        parameter:
-          install_dir:
-            type: string
-            summary: Path to the Oh My Zsh installation directory.
-            description: |
-              This is the directory where Oh My Zsh will be installed.
-              It corresponds to the [`ZSH`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
-              configuration variable in Oh My Zsh.
-            default: /usr/local/share/oh-my-zsh
-          font_dir:
-            type: string
-            summary: Path to the directory where fonts will be downloaded.
-            default: /usr/share/fonts/MesloLGS
-          zsh_custom_dir:
-            type: string
-            summary: Path to the Oh My Zsh custom directory.
-            description: |
-              This corresponds to the [`ZSH_CUSTOM`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
-              configuration variable in Oh My Zsh.
-            default: ${{ ..install_dir.default }}$/custom
         references:
           - title: Oh My Zsh installation guide
             url: https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation
@@ -1911,95 +1896,118 @@ devcontainer:
             url: https://github.com/ohmyzsh/ohmyzsh/blob/master/tools/install.sh
           - title: Powerlevel10k theme
             url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#installation
-        import:
-          - git_clone
-        body:
-          - summary: Set permissions.
-            content: umask g-w,o-w
-          - summary: Install Oh My Zsh.
-            content: |
-              # https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
-              git_clone --url "https://github.com/ohmyzsh/ohmyzsh" --dir "$INSTALL_DIR"
-          - summary: Download fonts.
-            references:
-              - title: Powelevel10k docs
-                url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k
-              - title: Powelevel10k issue
-                url: https://github.com/romkatv/powerlevel10k/issues/671
-              - title: Powerlevel10k README
-                url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#fonts
-            content: |
-              mkdir -p "$FONT_DIR"
-              BASE_URL="https://github.com/romkatv/powerlevel10k-media/raw/master"
-              # Font files to download
-              FONT_FILES="
-              MesloLGS%20NF%20Regular.ttf
-              MesloLGS%20NF%20Bold.ttf
-              MesloLGS%20NF%20Italic.ttf
-              MesloLGS%20NF%20Bold%20Italic.ttf
-              "
-              echo "Installing MesloLGS Nerd Fonts to $FONT_DIR..."
-              for FONT in $FONT_FILES; do
-                # Decode filename for local file
-                LOCAL_NAME=$(printf '%b' "${FONT//%/\\x}")
-                echo "Downloading $LOCAL_NAME..."
-                curl -fsSL "$BASE_URL/$FONT" -o "$FONT_DIR/$LOCAL_NAME"
-              done
-              # Set proper permissions
-              chmod 644 "$FONT_DIR"/*.ttf
-              echo "Fonts installed."
-          - summary: Install Powerlevel10k theme.
-            references:
-              - title: Powerlevel10k theme
-                url: https://github.com/romkatv/powerlevel10k
-            content: |
-              git_clone \
-                --url "https://github.com/romkatv/powerlevel10k"
-                --dir "$ZSH_CUSTOM_DIR/themes/powerlevel10k"
-          - summary: Install syntax highlighting plugin.
-            references:
-              - title: Syntax highlighting plugin installation docs
-                url: https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
-            content: |
-              git_clone \
-                --url "https://github.com/zsh-users/zsh-syntax-highlighting"
-                --dir "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
+        content:
+          parameter:
+            install_dir:
+              type: string
+              summary: Path to the Oh My Zsh installation directory.
+              description: |
+                This is the directory where Oh My Zsh will be installed.
+                It corresponds to the [`ZSH`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
+                configuration variable in Oh My Zsh.
+              default: /usr/local/share/oh-my-zsh
+            font_dir:
+              type: string
+              summary: Path to the directory where fonts will be downloaded.
+              default: /usr/share/fonts/MesloLGS
+            zsh_custom_dir:
+              type: string
+              summary: Path to the Oh My Zsh custom directory.
+              description: |
+                This corresponds to the [`ZSH_CUSTOM`](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings#zsh_custom)
+                configuration variable in Oh My Zsh.
+              default: ${{ ..install_dir.default }}$/custom
+          import:
+            - git_clone
+          body:
+            - summary: Set permissions.
+              content: umask g-w,o-w
+            - summary: Install Oh My Zsh.
+              content: |
+                # https://github.com/ohmyzsh/ohmyzsh/?tab=readme-ov-file#manual-installation
+                git_clone --url "https://github.com/ohmyzsh/ohmyzsh" --dir "$INSTALL_DIR"
+            - summary: Download fonts.
+              references:
+                - title: Powelevel10k docs
+                  url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k
+                - title: Powelevel10k issue
+                  url: https://github.com/romkatv/powerlevel10k/issues/671
+                - title: Powerlevel10k README
+                  url: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#fonts
+              content: |
+                mkdir -p "$FONT_DIR"
+                BASE_URL="https://github.com/romkatv/powerlevel10k-media/raw/master"
+                # Font files to download
+                FONT_FILES="
+                MesloLGS%20NF%20Regular.ttf
+                MesloLGS%20NF%20Bold.ttf
+                MesloLGS%20NF%20Italic.ttf
+                MesloLGS%20NF%20Bold%20Italic.ttf
+                "
+                echo "Installing MesloLGS Nerd Fonts to $FONT_DIR..."
+                for FONT in $FONT_FILES; do
+                  # Decode filename for local file
+                  LOCAL_NAME=$(printf '%b' "${FONT//%/\\x}")
+                  echo "Downloading $LOCAL_NAME..."
+                  curl -fsSL "$BASE_URL/$FONT" -o "$FONT_DIR/$LOCAL_NAME"
+                done
+                # Set proper permissions
+                chmod 644 "$FONT_DIR"/*.ttf
+                echo "Fonts installed."
+            - summary: Install Powerlevel10k theme.
+              references:
+                - title: Powerlevel10k theme
+                  url: https://github.com/romkatv/powerlevel10k
+              content: |
+                git_clone \
+                  --url "https://github.com/romkatv/powerlevel10k"
+                  --dir "$ZSH_CUSTOM_DIR/themes/powerlevel10k"
+            - summary: Install syntax highlighting plugin.
+              references:
+                - title: Syntax highlighting plugin installation docs
+                  url: https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
+              content: |
+                git_clone \
+                  --url "https://github.com/zsh-users/zsh-syntax-highlighting"
+                  --dir "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
     pixi:
       metadata:
-        name: Pixi Installation
-        version: 0.46.0
-        description: Install Pixi in the development container and activate it.
-        mounts:
-          - type: volume
-            source: ${localWorkspaceFolderBasename}-pixi
-            target: ${containerWorkspaceFolder}/.pixi
-        postCreateCommand:
-          pixi_chown: sudo chown $(whoami) .pixi
+        content:
+          name: Pixi Installation
+          version: 0.46.0
+          description: Install Pixi in the development container and activate it.
+          mounts:
+            - type: volume
+              source: ${localWorkspaceFolderBasename}-pixi
+              target: ${containerWorkspaceFolder}/.pixi
+          postCreateCommand:
+            pixi_chown: sudo chown $(whoami) .pixi
       install:
-        parameter:
-          version:
-            type: string
-            summary: Version of Pixi to install.
-            default: 0.46.0
-          install_path:
-            type: string
-            summary: |
-              Path to a bin directory to install the Pixi binary.
-            default: /usr/local/bin
         references:
           - title: Pixi docs
             url: https://pixi.sh/latest/integration/editor/vscode/#devcontainer-extension
           - title: Pixi Docker image
             url: https://github.com/prefix-dev/pixi-docker
-        body:
-          - content: |
-              pixi_bin="${INSTALL_PATH}/pixi"
-              curl \
-                --compressed \
-                -fsSLo "$pixi_bin" \
-                "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
-              chmod +x "$pixi_bin"
-              pixi info
+        content:
+          parameter:
+            version:
+              type: string
+              summary: Version of Pixi to install.
+              default: 0.46.0
+            install_path:
+              type: string
+              summary: |
+                Path to a bin directory to install the Pixi binary.
+              default: /usr/local/bin
+          body:
+            - content: |
+                pixi_bin="${INSTALL_PATH}/pixi"
+                curl \
+                  --compressed \
+                  -fsSLo "$pixi_bin" \
+                  "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
+                chmod +x "$pixi_bin"
+                pixi info
     # pkg_setup:
     #   metadata:
     #     name: Package Setup
@@ -2265,339 +2273,286 @@ devcontainer:
     #     echo "✅ Dev container user setup complete!"
     syspkg:
       metadata:
-        name: System Package Installation
+        content:
+          name: System Package Installation
       install:
         summary: Install system packages.
         description: |
           Install system packages listed in a file
           using the system's package manager.
-        parameter:
-          apt:
-            type: string
-            summary: APT packages to install.
-            description: |
-              Path to a file containing newline-separated
-              package specifications for apt-get.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          apk:
-            type: string
-            summary: APK packages to install.
-            description: |
-              Path to a file containing newline-separated
-              package specifications for apk.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          dnf:
-            type: string
-            summary: DNF packages to install.
-            description: |
-              Path to a file containing newline-separated
-              package specifications for dnf.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          microdnf:
-            type: string
-            summary: MicroDNF packages to install.
-            description: |
-              Path to a file containing newline-separated
-              package specifications for microdnf.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          yum:
-            type: string
-            summary: YUM packages to install.
-            description: |
-              Path to a file containing newline-separated
-              package specifications for yum.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          apt_repos:
-            type: string
-            summary: APT repositories to add.
-            description: |
-              Path to file containing newline-separated arguments
-              to pass to 'add-apt-repository', one set per line.
-            default: ""
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          keep_repos:
-            type: boolean
-            summary: Keep APT repositories after installation.
-            description: |
-              Keep adde repositories after script ends.
-              By default, they are removed automatically.
-          no_update:
-            type: boolean
-            summary: Do not update package lists.
-            description: |
-              By default, the package lists are updated before installation.
-              This option skips that step.
-          no_clean:
-            type: boolean
-            summary: Do not clean up after installation.
-            description: |
-              By default, the package manager's cache is cleaned up after installation.
-              This option skips that step.
-          interactive:
-            type: boolean
-            summary: Start an interactive installation.
-            description: |
-              By default, the installation is non-interactive.
-              This option forces an interactive installation.
-        import:
-          - exit_if_not_root
-        function:
-          install:
-            summary: Install packages using the appropriate package manager.
-            references:
-              - title: Git Devcontainer Feature
-                url: https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/git/install.sh
-            body: |
-              if [ ${PKG_MNGR} = "apt-get" ]; then
-                  if dpkg -s "$@" > /dev/null 2>&1; then
-                      echo "Packages already installed: $@"
-                      return 0
-                  fi
-              elif [ ${INSTALL_CMD} = "dnf" ] || [ ${INSTALL_CMD} = "yum" ]; then
-                  _num_pkgs=$(echo "$@" | tr ' ' \\012 | wc -l)
-                  _num_installed=$(${INSTALL_CMD} -C list installed "$@" | sed '1,/^Installed/d' | wc -l)
-                  if [ ${_num_pkgs} == ${_num_installed} ]; then
-                      echo "Packages already installed: $@"
-                      return 0
-                  fi
-              fi
-              echo "📲 Installing packages:"
-              printf '  - %s\n' "${PACKAGES[@]}"
-              "${INSTALL[@]}" "$@"
-          clean_apt:
-            summary: Clean APT cache.
-            description: |
-              Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
-              which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*".
-            references:
-              - title: APT 2.7.8 release notes
-                url: https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
-              - title: Buildpack-deps PR
-                url: https://github.com/docker-library/buildpack-deps/pull/157/files
-            body: |
-              if ! apt-get dist-clean; then
-                  echo "⚠️  'apt-get dist-clean' failed — falling back to 'apt-get clean'."
-                  apt-get clean
-                  rm -rf /var/lib/apt/lists/*
-              fi
-          clean_apk:
-            summary: Clean APK cache.
-            description: |
-              Remove the APK cache directory to free up space.
-            body: |
-              rm -rf /var/cache/apk/*
-          clean_dnf:
-            summary: Clean DNF cache.
-            description: |
-              Remove the DNF cache directory to free up space.
-            body: |
-              dnf clean all
-              rm -rf /var/cache/dnf/*
-          clean_microdnf:
-            summary: Clean MicroDNF cache.
-            description: |
-              Remove the MicroDNF cache directory to free up space.
-            body: |
-              microdnf clean all
-              rm -rf /var/cache/dnf/*
-          clean_yum:
-            summary: Clean YUM cache.
-            description: |
-              Remove the YUM cache directory to free up space.
-            body: |
-              yum clean all
-              rm -rf /var/cache/yum/*
-        body:
-          - content: exit_if_not_root
-          - content: |
-              if [[ -z "$APT" && -z "$APK" && -z "$DNF" && -z "$MICRODNF" && -z "$YUM" ]]; then
-                  echo "⛔ No package list file provided." >&2
-                  exit 1
-              fi
-          - summary: Set package manager.
-            content: |
-              if type apt-get > /dev/null 2>&1; then
-                  echo "🛠️  Using APT package manager."
-                  PKG_FILE="$APT"
-                  PKG_MNGR="apt-get"
-                  UPDATE=($PKG_MNGR update -y)
-                  INSTALL=($PKG_MNGR -y install --no-install-recommends)
-                  CLEAN=(clean_apt)
-              elif type apk > /dev/null 2>&1; then
-                  echo "🛠️  Using APK package manager."
-                  PKG_FILE="$APK"
-                  PKG_MNGR="apk"
-                  UPDATE=($PKG_MNGR update)
-                  INSTALL=($PKG_MNGR add --no-cache)
-                  CLEAN=(clean_apk)
-              elif type microdnf > /dev/null 2>&1; then
-                  echo "🛠️  Using MicroDNF package manager."
-                  PKG_FILE="$MICRODNF"
-                  PKG_MNGR=microdnf
-                  UPDATE=()
-                  INSTALL=($PKG_MNGR -y install --refresh --best --nodes --noplugins --setopt=install_weak_deps=0)
-                  CLEAN=(clean_microdnf)
-              elif type dnf > /dev/null 2>&1; then
-                  echo "🛠️  Using DNF package manager."
-                  PKG_FILE="$DNF"
-                  PKG_MNGR=dnf
-                  UPDATE=($PKG_MNGR check-update)
-                  INSTALL=($PKG_MNGR -y install)
-                  CLEAN=(clean_dnf)
-              elif type yum > /dev/null 2>&1; then
-                  echo "🛠️  Using YUM package manager."
-                  PKG_FILE="$YUM"
-                  PKG_MNGR=yum
-                  UPDATE="$PKG_MNGR check-update"
-                  INSTALL=($PKG_MNGR -y install)
-                  CLEAN=(clean_yum)
-              else
-                  echo "(Error) Unable to find a supported package manager."
-                  exit 1
-              fi
-          - summary: Read the package list file and filter out comments and empty lines.
-            content: |
-              mapfile -t PACKAGES < <(grep -Ev '^\s*(#|$)' "$PKG_FILE")
-              if [[ ${#PACKAGES[@]} -eq 0 ]]; then
-                  echo "⛔ No packages found in file '$PKG_FILE'." >&2
-                  exit 1
-              fi
-          - summary: Set interactivity.
-            content: |
-              if [[ "$INTERACTIVE" == false ]]; then
-                  echo "🆗 Setting APT to non-interactive mode."
-                  export DEBIAN_FRONTEND=noninteractive
-              fi
-          - summary: Add APT repositories.
-            content: |
-              ADDED_REPOS=()
-              if [[ -n "$APT_REPOS" ]]; then
-                  if [[ ! -f "$APT_REPOS" ]]; then
-                      echo "⛔ Repo file '$APT_REPOS' does not exist." >&2
-                      exit 1
-                  fi
-                  echo "🗃 Adding APT repositories from '$APT_REPOS'."
-                  while IFS= read -r line; do
-                      [[ -z "${line:-}" || "${line}" =~ ^[[:space:]]*# ]] && continue
-                      echo "📦 Adding repository: $line"
-                      eval "add-apt-repository --yes $line"
-                      ADDED_REPOS+=("$line")
-                  done < "$APT_REPOS"
-              fi
-          - summary: Update package lists.
-            content: |
-              if [[ "$NO_UPDATE" == false ]]; then
-                  echo "🔄 Updating package lists."
-                  "${UPDATE[@]}"
-                  if [[ $? -ne 0 ]]; then
-                      echo "⚠️  Failed to update package lists." >&2
-                      exit 1
-                  fi
-              fi
-          - summary: Install packages.
-            content: install "${PACKAGES[@]}"
-          - summary: Clean up repositories.
-            content: |
-              if [[ -n "$APT_REPOS" && "$KEEP_REPOS" == false ]]; then
-                  echo "🗑️  Removing added repositories..."
-                  for repo_args in "${ADDED_REPOS[@]}"; do
-                      echo "❌ Removing repository: $repo_args"
-                      eval "add-apt-repository --yes --remove $repo_args" || echo "⚠️  Failed to remove repo: $repo_args" >&2
-                  done
-              fi
-          - summary: Clean up package manager cache.
-            content: |
-              if [[ "$NO_CLEAN" == false ]]; then
-                  echo "🧹 Cleaning up."
-                  "${CLEAN[@]}"
-              fi
-          - content: echo "✅ Package installation complete."
+        content:
+          parameter:
+            apt:
+              type: string
+              summary: APT packages to install.
+              description: |
+                Path to a file containing newline-separated
+                package specifications for apt-get.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            apk:
+              type: string
+              summary: APK packages to install.
+              description: |
+                Path to a file containing newline-separated
+                package specifications for apk.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            dnf:
+              type: string
+              summary: DNF packages to install.
+              description: |
+                Path to a file containing newline-separated
+                package specifications for dnf.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            microdnf:
+              type: string
+              summary: MicroDNF packages to install.
+              description: |
+                Path to a file containing newline-separated
+                package specifications for microdnf.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            yum:
+              type: string
+              summary: YUM packages to install.
+              description: |
+                Path to a file containing newline-separated
+                package specifications for yum.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            apt_repos:
+              type: string
+              summary: APT repositories to add.
+              description: |
+                Path to file containing newline-separated arguments
+                to pass to 'add-apt-repository', one set per line.
+              default: ""
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            keep_repos:
+              type: boolean
+              summary: Keep APT repositories after installation.
+              description: |
+                Keep adde repositories after script ends.
+                By default, they are removed automatically.
+            no_update:
+              type: boolean
+              summary: Do not update package lists.
+              description: |
+                By default, the package lists are updated before installation.
+                This option skips that step.
+            no_clean:
+              type: boolean
+              summary: Do not clean up after installation.
+              description: |
+                By default, the package manager's cache is cleaned up after installation.
+                This option skips that step.
+            interactive:
+              type: boolean
+              summary: Start an interactive installation.
+              description: |
+                By default, the installation is non-interactive.
+                This option forces an interactive installation.
+          import:
+            - exit_if_not_root
+          function:
+            install:
+              summary: Install packages using the appropriate package manager.
+              references:
+                - title: Git Devcontainer Feature
+                  url: https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/git/install.sh
+              body: |
+                if [ ${PKG_MNGR} = "apt-get" ]; then
+                    if dpkg -s "$@" > /dev/null 2>&1; then
+                        echo "Packages already installed: $@"
+                        return 0
+                    fi
+                elif [ ${INSTALL_CMD} = "dnf" ] || [ ${INSTALL_CMD} = "yum" ]; then
+                    _num_pkgs=$(echo "$@" | tr ' ' \\012 | wc -l)
+                    _num_installed=$(${INSTALL_CMD} -C list installed "$@" | sed '1,/^Installed/d' | wc -l)
+                    if [ ${_num_pkgs} == ${_num_installed} ]; then
+                        echo "Packages already installed: $@"
+                        return 0
+                    fi
+                fi
+                echo "📲 Installing packages:"
+                printf '  - %s\n' "${PACKAGES[@]}"
+                "${INSTALL[@]}" "$@"
+            clean_apt:
+              summary: Clean APT cache.
+              description: |
+                Starting from APT 2.7.8, the `apt-get` command accepts the `dist-clean` option,
+                which removes list files automatically instead of "rm -rf /var/lib/apt/lists/*".
+              references:
+                - title: APT 2.7.8 release notes
+                  url: https://tracker.debian.org/news/1492892/accepted-apt-278-source-into-unstable/
+                - title: Buildpack-deps PR
+                  url: https://github.com/docker-library/buildpack-deps/pull/157/files
+              body: |
+                if ! apt-get dist-clean; then
+                    echo "⚠️  'apt-get dist-clean' failed — falling back to 'apt-get clean'."
+                    apt-get clean
+                    rm -rf /var/lib/apt/lists/*
+                fi
+            clean_apk:
+              summary: Clean APK cache.
+              description: |
+                Remove the APK cache directory to free up space.
+              body: |
+                rm -rf /var/cache/apk/*
+            clean_dnf:
+              summary: Clean DNF cache.
+              description: |
+                Remove the DNF cache directory to free up space.
+              body: |
+                dnf clean all
+                rm -rf /var/cache/dnf/*
+            clean_microdnf:
+              summary: Clean MicroDNF cache.
+              description: |
+                Remove the MicroDNF cache directory to free up space.
+              body: |
+                microdnf clean all
+                rm -rf /var/cache/dnf/*
+            clean_yum:
+              summary: Clean YUM cache.
+              description: |
+                Remove the YUM cache directory to free up space.
+              body: |
+                yum clean all
+                rm -rf /var/cache/yum/*
+          body:
+            - content: exit_if_not_root
+            - content: |
+                if [[ -z "$APT" && -z "$APK" && -z "$DNF" && -z "$MICRODNF" && -z "$YUM" ]]; then
+                    echo "⛔ No package list file provided." >&2
+                    exit 1
+                fi
+            - summary: Set package manager.
+              content: |
+                if type apt-get > /dev/null 2>&1; then
+                    echo "🛠️  Using APT package manager."
+                    PKG_FILE="$APT"
+                    PKG_MNGR="apt-get"
+                    UPDATE=($PKG_MNGR update -y)
+                    INSTALL=($PKG_MNGR -y install --no-install-recommends)
+                    CLEAN=(clean_apt)
+                elif type apk > /dev/null 2>&1; then
+                    echo "🛠️  Using APK package manager."
+                    PKG_FILE="$APK"
+                    PKG_MNGR="apk"
+                    UPDATE=($PKG_MNGR update)
+                    INSTALL=($PKG_MNGR add --no-cache)
+                    CLEAN=(clean_apk)
+                elif type microdnf > /dev/null 2>&1; then
+                    echo "🛠️  Using MicroDNF package manager."
+                    PKG_FILE="$MICRODNF"
+                    PKG_MNGR=microdnf
+                    UPDATE=()
+                    INSTALL=($PKG_MNGR -y install --refresh --best --nodes --noplugins --setopt=install_weak_deps=0)
+                    CLEAN=(clean_microdnf)
+                elif type dnf > /dev/null 2>&1; then
+                    echo "🛠️  Using DNF package manager."
+                    PKG_FILE="$DNF"
+                    PKG_MNGR=dnf
+                    UPDATE=($PKG_MNGR check-update)
+                    INSTALL=($PKG_MNGR -y install)
+                    CLEAN=(clean_dnf)
+                elif type yum > /dev/null 2>&1; then
+                    echo "🛠️  Using YUM package manager."
+                    PKG_FILE="$YUM"
+                    PKG_MNGR=yum
+                    UPDATE="$PKG_MNGR check-update"
+                    INSTALL=($PKG_MNGR -y install)
+                    CLEAN=(clean_yum)
+                else
+                    echo "(Error) Unable to find a supported package manager."
+                    exit 1
+                fi
+            - summary: Read the package list file and filter out comments and empty lines.
+              content: |
+                mapfile -t PACKAGES < <(grep -Ev '^\s*(#|$)' "$PKG_FILE")
+                if [[ ${#PACKAGES[@]} -eq 0 ]]; then
+                    echo "⛔ No packages found in file '$PKG_FILE'." >&2
+                    exit 1
+                fi
+            - summary: Set interactivity.
+              content: |
+                if [[ "$INTERACTIVE" == false ]]; then
+                    echo "🆗 Setting APT to non-interactive mode."
+                    export DEBIAN_FRONTEND=noninteractive
+                fi
+            - summary: Add APT repositories.
+              content: |
+                ADDED_REPOS=()
+                if [[ -n "$APT_REPOS" ]]; then
+                    if [[ ! -f "$APT_REPOS" ]]; then
+                        echo "⛔ Repo file '$APT_REPOS' does not exist." >&2
+                        exit 1
+                    fi
+                    echo "🗃 Adding APT repositories from '$APT_REPOS'."
+                    while IFS= read -r line; do
+                        [[ -z "${line:-}" || "${line}" =~ ^[[:space:]]*# ]] && continue
+                        echo "📦 Adding repository: $line"
+                        eval "add-apt-repository --yes $line"
+                        ADDED_REPOS+=("$line")
+                    done < "$APT_REPOS"
+                fi
+            - summary: Update package lists.
+              content: |
+                if [[ "$NO_UPDATE" == false ]]; then
+                    echo "🔄 Updating package lists."
+                    "${UPDATE[@]}"
+                    if [[ $? -ne 0 ]]; then
+                        echo "⚠️  Failed to update package lists." >&2
+                        exit 1
+                    fi
+                fi
+            - summary: Install packages.
+              content: install "${PACKAGES[@]}"
+            - summary: Clean up repositories.
+              content: |
+                if [[ -n "$APT_REPOS" && "$KEEP_REPOS" == false ]]; then
+                    echo "🗑️  Removing added repositories..."
+                    for repo_args in "${ADDED_REPOS[@]}"; do
+                        echo "❌ Removing repository: $repo_args"
+                        eval "add-apt-repository --yes --remove $repo_args" || echo "⚠️  Failed to remove repo: $repo_args" >&2
+                    done
+                fi
+            - summary: Clean up package manager cache.
+              content: |
+                if [[ "$NO_CLEAN" == false ]]; then
+                    echo "🧹 Cleaning up."
+                    "${CLEAN[@]}"
+                fi
+            - content: echo "✅ Package installation complete."
     texlive:
       metadata:
-        name: TeX Live Installation
+        content:
+          name: TeX Live Installation
       install:
         summary: Install TeX Live.
         description: |
           Install and/or set up TeX Live using the TeX Live installer.
-        parameter:
-          install:
-            type: boolean
-            summary: Install TeX Live.
-          reinstall:
-            type: boolean
-            summary: Same as '--install', but uninstall TeX first if already installed.
-          generate_caches:
-            type: boolean
-            summary: Generate ConTeXt and font caches.
-          verify_installation:
-            type: boolean
-            summary: Verify the TeX Live installation.
-          profile:
-            type: string
-            summary: Path to a TeX Live installation profile file.
-            description: |
-              If not provided, an interactive installation will be performed.
-              You can also set this to "default", to use the default profile.
-            default: ""
-          mirror:
-            type: string
-            summary: URI of the TeX Live mirror to use for installation.
-            default: rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/
-          no_clean:
-            type: boolean
-            summary: Do not remove the installer artifacts after installation.
-          no_cache_clean:
-            type: boolean
-            summary: Skip 'apt-get dist-clean' command after installation of dummy package.
-          interactive:
-            type: boolean
-            summary: Start an interactive installation even when profile is provided.
-          installer_dir:
-            type: string
-            summary: Path to directory to download the installer to.
-            default: /tmp/texlive-installer
-          syspkg_install_script:
-            type: string
-            summary: Path to the system package installation script.
-          debian_equivs_filename:
-            type: string
-            summary: Name of the Debian equivs filename to download.
-            default: debian-equivs-2023-ex.txt
-          debian_equivs_url:
-            type: string
-            summary: URL to download the Debian equivs file from.
-            default: https://tug.org/texlive/files/${{ ..debian_equivs_filename }}$
-          default_texdir_prefix:
-            type: string
-            summary: Default TeX Live TEXDIR prefix.
-            default: /usr/local/texlive
-          default_sys_bin:
-            type: string
-            summary: Default TeX Live sysbin directory.
-            default: /usr/local/bin
         references:
           - title: TeX Live installer documentation
             url: https://www.tug.org/texlive/doc/install-tl.html
@@ -2611,216 +2566,273 @@ devcontainer:
             url: https://github.com/scottkosty/install-tl-ubuntu
           - title: texlive-batch-installation
             url: https://github.com/maxnoe/texlive-batch-installation
-        import:
-          - exit_if_not_root
-        function:
-          install_requirements:
-            summary: Install required packages for TeX Live installation.
-            body: |
-              if ! command -v "$SYSPKG_INSTALL_SCRIPT" >/dev/null 2>&1; then
-                  echo "⛔ Package installer script '$SYSPKG_INSTALL_SCRIPT' is not available." >&2
-                  exit 1
-              fi
-              echo "📦 Install requirements."
-              local script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-              local requirements_dir="$script_dir/requirements"
-              "$SYSPKG_INSTALL_SCRIPT" \
-                  --apt "$requirements_dir/apt_pkgs.txt" \
-                  --logfile "$LOGFILE" \
-                  --debug \
-          install_dummy_apt_package:
-            summary: Download and install dummy TeX Live APT package.
-            description: |
-              This tells apt-get that all TeX Live packages are installed,
-              so that it doesn't try to install them again later.
-            references:
-              - title: Island of TeX Docker image
-                url: https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
-            body: |
-              local equivs_file="${INSTALLER_DIR}/${DEBIAN_EQUIVS_FILENAME}"
-              local dummy_version="9999.99999999-1"
-              if ! command -v curl >/dev/null 2>&1; then
-                  echo "⛔ curl is not available." >&2
-                  exit 1
-              fi
-              echo "📥 Downloading equivs TeX Live APT package data."
-              curl "$DEBIAN_EQUIVS_URL" --output "$equivs_file"
-              read pkg_name pkg_version < <(
-                  awk -F': ' '/^Package:/{pkg=$2} /^Version:/{ver=$2} END{print pkg, ver}' "$equivs_file"
-              )
-              # Substitute the version number with a large dummy version to avoid updates.
-              sed -i "s/${pkg_version}/${dummy_version}/" "$equivs_file"
-              echo "📦 Installing equivs TeX Live APT package."
-              equivs-build "$equivs_file"
-              dpkg -i "${pkg_name}_${dummy_version}_all.deb"
-              apt-get install -qyf --no-install-recommends
-              if [[ "$NO_CACHE_CLEAN" == false ]]; then
-                  echo "🧹 Cleaning up APT cache."
-                  apt-get dist-clean
-                  rm -rf /var/cache/apt/
-              fi
-          uninstall_texlive:
-            summary: Uninstall TeX Live.
-            references:
-              - title: TeX Live docs
-                url: https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.6
-              - title: MacTeX docs
-                url: https://www.tug.org/mactex/uninstalling.html
-            body: |
-              echo "🗑 Uninstall TeX Live."
-              tlmgr uninstall --all
-              rm -rf "$(kpsewhich -var-value=TEXMFVAR)"
-          download_texlive_installer:
-            summary: Download the TeX Live installer.
-            body: |
-              echo "📥 Download TeX Live installer from '$MIRROR' to '$INSTALLER_DIR'."
-              rsync -a --stats "$MIRROR" "$INSTALLER_DIR"
-          install_texlive:
-            summary: Install TeX Live.
-            references:
-              - title: TeX Live installation docs
-                url: https://www.tug.org/texlive/doc/install-tl.html
-            body: |
-              export TEXLIVE_INSTALL_NO_CONTEXT_CACHE=1
-              export NOPERLDOC=1
-              if [[ -z "$PROFILE" ]]; then
-                  echo "📦 Installing TeXLive in interactive mode without a profile."
-                  "$INSTALLER_DIR/install-tl"
-              elif [[ "$INTERACTIVE" == "true" ]]; then
-                  echo "📦 Installing TeXLive in interactive mode with initial profile '$PROFILE'."
-                  "$INSTALLER_DIR/install-tl" -init-from-profile "$PROFILE"
-              else
-                  echo "📦 Installing TeXLive in non-interactive mode with profile '$PROFILE'."
-                  "$INSTALLER_DIR/install-tl" -profile "$PROFILE"
-              fi
-          set_texdir:
-            summary: Set the TeX Live installation directory.
-            description: |
-              This function sets the TEXDIR environment.
-              This is needed for the finalization step.
-              The installation directory may be specified in the profile file under the TEXDIR variable.
-            body: |
-              TEXDIR=$(awk '$1=="TEXDIR"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
-              if [[ -n "$TEXDIR" ]]; then
-                  echo "🎛 TEXDIR set to '$TEXDIR' from profile file '$PROFILE'."
-              else
-                  # Default is '/usr/local/texlive/YYYY' for release 'YYYY'
-                  # Get LaTeX version (year, in format YYYY) from a file named LATEX_YYYY in the installer directory
-                  local version=$(find "$INSTALLER_DIR" -maxdepth 1 -type f -regex '.*/LATEX_[0-9]\{4\}' -exec basename {} \; | head -n1 | grep -oP '^LATEX_\K[0-9]{4}')
-                  if [[ -z "$version" ]]; then
-                      echo "⛔ No LATEX_YYYY file found in '$INSTALLER_DIR'." >&2
-                      exit 1
-                  fi
-                  TEXDIR="${DEFAULT_TEXDIR_PREFIX}/${version}"
-                  echo "🎛 TEXDIR set to default value '$TEXDIR'."
-              fi
-          set_sysbin:
-            summary: Set the TeX Live sysbin directory.
-            description: |
-              This function sets the SYS_BIN environment.
-              This is needed for the finalization step.
-            body: |
-              SYS_BIN=$(awk '$1=="tlpdbopt_sys_bin"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
-              if [[ -z "$SYS_BIN" ]]; then
-                  echo "🎛 Set tlpdbopt_sys_bin to '$SYS_BIN' from profile file '$PROFILE'."
-              else
-                  SYS_BIN="$DEFAULT_SYS_BIN"
-                  echo "🎛 Set tlpdbopt_sys_bin to default value '$SYS_BIN'."
-              fi
-          add_texlive_bin_to_path:
-            summary: Add TeX Live bin directory to the PATH environment variable.
-            body: |
-              local tlmgr="$(find "$TEXDIR" -name tlmgr)"
-              if [[ -n "$tlmgr" ]]; then
-                  echo "📦 Located tlmgr at '$tlmgr'."
-              else
-                  echo "⛔ tlmgr not found in TEXDIR '$TEXDIR'." >&2
-                  exit 1
-              fi
-              echo "🛤 Add TeX Live binaries to system PATH."
-              "$tlmgr" path add
-          apply_patches:
-            summary: Apply patches to TeX Live installation.
-            references:
-              - title: Island of TeX Docker image
-                url: https://gitlab.com/islandoftex/images/texlive/-/issues/30
-            body: |
-              echo "Fixing ConTeXt path in mtxrun.lua"
-              (sed -i \
-                  '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' \
-                  "$SYS_BIN/mtxrun.lua" || true
-              )
-          generate_caches:
-            summary: Generate ConTeXt and font caches.
-            body: |
-              echo "💾 Generate ConTeXt and font caches."
-              (luaotfload-tool -u || true)
-              mkdir -p /etc/fonts/conf.d
-              (cp "$(find "$TEXDIR" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
-              fc-cache -fsv
-              if [ -f "$SYS_BIN/context" ]; then
-                  mtxrun --generate
-                  texlua "$SYS_BIN/mtxrun.lua" --luatex --generate
-                  context --make
-                  context --luatex --make
-              fi
-          verify_installation:
-            summary: Verify the TeX Live installation.
-            body: |
-              echo "☑️ Verify TeX Live installation."
-              latex --version && printf '\n'
-              biber --version && printf '\n'
-              xindy --version && printf '\n'
-              arara --version && printf '\n'
-              context --version && printf '\n'
-              context --luatex --version && printf '\n'
-              asy --version && printf '\n'
-              python --version && printf '\n'
-              pygmentize -V && printf '\n'
-        body:
-          - content: exit_if_not_root
-          - summary: Install TeX Live.
-            content: |
-              if [[ "$INSTALL" == true || $"REINSTALL" == true ]]; then
-                  mkdir -p "$INSTALLER_DIR"
-                  install_requirements
-                  if command -v tlmgr >/dev/null 2>&1; then
-                      echo "⚠️ LaTeX installation found."
-                      if [[ "$REINSTALL" == true ]]; then
-                          uninstall_texlive
-                      else
-                          echo "⛔ LaTeX is already installed."
-                          exit 1
-                      fi
-                  fi
-                  if command -v apt-get >/dev/null 2>&1; then
-                      install_dummy_apt_package
-                  fi
-                  download_texlive_installer
-                  install_texlive
-                  set_texdir
-                  if [[ "$NO_CLEAN" == false ]]; then
-                      echo "🗑 Removing installer artifacts."
-                      rm -rf "$INSTALLER_DIR"
-                  fi
-                  set_sysbin
-                  add_texlive_bin_to_path
-                  apply_patches
-              elif [[ "$GENERATE_CACHES" == true ]]; then
-                  set_texdir
-                  set_sysbin
-              fi
-          - summary: Generate TeX Live caches.
-            content: |
-              if [[ "$GENERATE_CACHES" == true ]]; then
-                  generate_caches
-              fi
-          - summary: Verify TeX Live installation.
-            content: |
-              if [[ "$VERIFY_INSTALLATION" == true ]]; then
-                  verify_installation
-              fi
-          - content: echo "✅ TeX Live installation complete."
+        content:
+          parameter:
+            install:
+              type: boolean
+              summary: Install TeX Live.
+            reinstall:
+              type: boolean
+              summary: Same as '--install', but uninstall TeX first if already installed.
+            generate_caches:
+              type: boolean
+              summary: Generate ConTeXt and font caches.
+            verify_installation:
+              type: boolean
+              summary: Verify the TeX Live installation.
+            profile:
+              type: string
+              summary: Path to a TeX Live installation profile file.
+              description: |
+                If not provided, an interactive installation will be performed.
+                You can also set this to "default", to use the default profile.
+              default: ""
+            mirror:
+              type: string
+              summary: URI of the TeX Live mirror to use for installation.
+              default: rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/
+            no_clean:
+              type: boolean
+              summary: Do not remove the installer artifacts after installation.
+            no_cache_clean:
+              type: boolean
+              summary: Skip 'apt-get dist-clean' command after installation of dummy package.
+            interactive:
+              type: boolean
+              summary: Start an interactive installation even when profile is provided.
+            installer_dir:
+              type: string
+              summary: Path to directory to download the installer to.
+              default: /tmp/texlive-installer
+            syspkg_install_script:
+              type: string
+              summary: Path to the system package installation script.
+            debian_equivs_filename:
+              type: string
+              summary: Name of the Debian equivs filename to download.
+              default: debian-equivs-2023-ex.txt
+            debian_equivs_url:
+              type: string
+              summary: URL to download the Debian equivs file from.
+              default: https://tug.org/texlive/files/${{ ..debian_equivs_filename }}$
+            default_texdir_prefix:
+              type: string
+              summary: Default TeX Live TEXDIR prefix.
+              default: /usr/local/texlive
+            default_sys_bin:
+              type: string
+              summary: Default TeX Live sysbin directory.
+              default: /usr/local/bin
+          import:
+            - exit_if_not_root
+          function:
+            install_requirements:
+              summary: Install required packages for TeX Live installation.
+              body: |
+                if ! command -v "$SYSPKG_INSTALL_SCRIPT" >/dev/null 2>&1; then
+                    echo "⛔ Package installer script '$SYSPKG_INSTALL_SCRIPT' is not available." >&2
+                    exit 1
+                fi
+                echo "📦 Install requirements."
+                local script_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+                local requirements_dir="$script_dir/requirements"
+                "$SYSPKG_INSTALL_SCRIPT" \
+                    --apt "$requirements_dir/apt_pkgs.txt" \
+                    --logfile "$LOGFILE" \
+                    --debug \
+            install_dummy_apt_package:
+              summary: Download and install dummy TeX Live APT package.
+              description: |
+                This tells apt-get that all TeX Live packages are installed,
+                so that it doesn't try to install them again later.
+              references:
+                - title: Island of TeX Docker image
+                  url: https://gitlab.com/islandoftex/images/texlive/-/blob/72240db12e00510972aeea19cd0a08edc22c4152/Dockerfile#L21-46
+              body: |
+                local equivs_file="${INSTALLER_DIR}/${DEBIAN_EQUIVS_FILENAME}"
+                local dummy_version="9999.99999999-1"
+                if ! command -v curl >/dev/null 2>&1; then
+                    echo "⛔ curl is not available." >&2
+                    exit 1
+                fi
+                echo "📥 Downloading equivs TeX Live APT package data."
+                curl "$DEBIAN_EQUIVS_URL" --output "$equivs_file"
+                read pkg_name pkg_version < <(
+                    awk -F': ' '/^Package:/{pkg=$2} /^Version:/{ver=$2} END{print pkg, ver}' "$equivs_file"
+                )
+                # Substitute the version number with a large dummy version to avoid updates.
+                sed -i "s/${pkg_version}/${dummy_version}/" "$equivs_file"
+                echo "📦 Installing equivs TeX Live APT package."
+                equivs-build "$equivs_file"
+                dpkg -i "${pkg_name}_${dummy_version}_all.deb"
+                apt-get install -qyf --no-install-recommends
+                if [[ "$NO_CACHE_CLEAN" == false ]]; then
+                    echo "🧹 Cleaning up APT cache."
+                    apt-get dist-clean
+                    rm -rf /var/cache/apt/
+                fi
+            uninstall_texlive:
+              summary: Uninstall TeX Live.
+              references:
+                - title: TeX Live docs
+                  url: https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.6
+                - title: MacTeX docs
+                  url: https://www.tug.org/mactex/uninstalling.html
+              body: |
+                echo "🗑 Uninstall TeX Live."
+                tlmgr uninstall --all
+                rm -rf "$(kpsewhich -var-value=TEXMFVAR)"
+            download_texlive_installer:
+              summary: Download the TeX Live installer.
+              body: |
+                echo "📥 Download TeX Live installer from '$MIRROR' to '$INSTALLER_DIR'."
+                rsync -a --stats "$MIRROR" "$INSTALLER_DIR"
+            install_texlive:
+              summary: Install TeX Live.
+              references:
+                - title: TeX Live installation docs
+                  url: https://www.tug.org/texlive/doc/install-tl.html
+              body: |
+                export TEXLIVE_INSTALL_NO_CONTEXT_CACHE=1
+                export NOPERLDOC=1
+                if [[ -z "$PROFILE" ]]; then
+                    echo "📦 Installing TeXLive in interactive mode without a profile."
+                    "$INSTALLER_DIR/install-tl"
+                elif [[ "$INTERACTIVE" == "true" ]]; then
+                    echo "📦 Installing TeXLive in interactive mode with initial profile '$PROFILE'."
+                    "$INSTALLER_DIR/install-tl" -init-from-profile "$PROFILE"
+                else
+                    echo "📦 Installing TeXLive in non-interactive mode with profile '$PROFILE'."
+                    "$INSTALLER_DIR/install-tl" -profile "$PROFILE"
+                fi
+            set_texdir:
+              summary: Set the TeX Live installation directory.
+              description: |
+                This function sets the TEXDIR environment.
+                This is needed for the finalization step.
+                The installation directory may be specified in the profile file under the TEXDIR variable.
+              body: |
+                TEXDIR=$(awk '$1=="TEXDIR"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
+                if [[ -n "$TEXDIR" ]]; then
+                    echo "🎛 TEXDIR set to '$TEXDIR' from profile file '$PROFILE'."
+                else
+                    # Default is '/usr/local/texlive/YYYY' for release 'YYYY'
+                    # Get LaTeX version (year, in format YYYY) from a file named LATEX_YYYY in the installer directory
+                    local version=$(find "$INSTALLER_DIR" -maxdepth 1 -type f -regex '.*/LATEX_[0-9]\{4\}' -exec basename {} \; | head -n1 | grep -oP '^LATEX_\K[0-9]{4}')
+                    if [[ -z "$version" ]]; then
+                        echo "⛔ No LATEX_YYYY file found in '$INSTALLER_DIR'." >&2
+                        exit 1
+                    fi
+                    TEXDIR="${DEFAULT_TEXDIR_PREFIX}/${version}"
+                    echo "🎛 TEXDIR set to default value '$TEXDIR'."
+                fi
+            set_sysbin:
+              summary: Set the TeX Live sysbin directory.
+              description: |
+                This function sets the SYS_BIN environment.
+                This is needed for the finalization step.
+              body: |
+                SYS_BIN=$(awk '$1=="tlpdbopt_sys_bin"{sub(/^[^[:space:]]+[[:space:]]+/, ""); print}' "$PROFILE")
+                if [[ -z "$SYS_BIN" ]]; then
+                    echo "🎛 Set tlpdbopt_sys_bin to '$SYS_BIN' from profile file '$PROFILE'."
+                else
+                    SYS_BIN="$DEFAULT_SYS_BIN"
+                    echo "🎛 Set tlpdbopt_sys_bin to default value '$SYS_BIN'."
+                fi
+            add_texlive_bin_to_path:
+              summary: Add TeX Live bin directory to the PATH environment variable.
+              body: |
+                local tlmgr="$(find "$TEXDIR" -name tlmgr)"
+                if [[ -n "$tlmgr" ]]; then
+                    echo "📦 Located tlmgr at '$tlmgr'."
+                else
+                    echo "⛔ tlmgr not found in TEXDIR '$TEXDIR'." >&2
+                    exit 1
+                fi
+                echo "🛤 Add TeX Live binaries to system PATH."
+                "$tlmgr" path add
+            apply_patches:
+              summary: Apply patches to TeX Live installation.
+              references:
+                - title: Island of TeX Docker image
+                  url: https://gitlab.com/islandoftex/images/texlive/-/issues/30
+              body: |
+                echo "Fixing ConTeXt path in mtxrun.lua"
+                (sed -i \
+                    '/package.loaded\["data-ini"\]/a if os.selfpath then environment.ownbin=lfs.symlinktarget(os.selfpath..io.fileseparator..os.selfname);environment.ownpath=environment.ownbin:match("^.*"..io.fileseparator) else environment.ownpath=kpse.new("luatex"):var_value("SELFAUTOLOC");environment.ownbin=environment.ownpath..io.fileseparator..(arg[-2] or arg[-1] or arg[0] or "luatex"):match("[^"..io.fileseparator.."]*$") end' \
+                    "$SYS_BIN/mtxrun.lua" || true
+                )
+            generate_caches:
+              summary: Generate ConTeXt and font caches.
+              body: |
+                echo "💾 Generate ConTeXt and font caches."
+                (luaotfload-tool -u || true)
+                mkdir -p /etc/fonts/conf.d
+                (cp "$(find "$TEXDIR" -name texlive-fontconfig.conf)" /etc/fonts/conf.d/09-texlive-fonts.conf || true)
+                fc-cache -fsv
+                if [ -f "$SYS_BIN/context" ]; then
+                    mtxrun --generate
+                    texlua "$SYS_BIN/mtxrun.lua" --luatex --generate
+                    context --make
+                    context --luatex --make
+                fi
+            verify_installation:
+              summary: Verify the TeX Live installation.
+              body: |
+                echo "☑️ Verify TeX Live installation."
+                latex --version && printf '\n'
+                biber --version && printf '\n'
+                xindy --version && printf '\n'
+                arara --version && printf '\n'
+                context --version && printf '\n'
+                context --luatex --version && printf '\n'
+                asy --version && printf '\n'
+                python --version && printf '\n'
+                pygmentize -V && printf '\n'
+          body:
+            - content: exit_if_not_root
+            - summary: Install TeX Live.
+              content: |
+                if [[ "$INSTALL" == true || $"REINSTALL" == true ]]; then
+                    mkdir -p "$INSTALLER_DIR"
+                    install_requirements
+                    if command -v tlmgr >/dev/null 2>&1; then
+                        echo "⚠️ LaTeX installation found."
+                        if [[ "$REINSTALL" == true ]]; then
+                            uninstall_texlive
+                        else
+                            echo "⛔ LaTeX is already installed."
+                            exit 1
+                        fi
+                    fi
+                    if command -v apt-get >/dev/null 2>&1; then
+                        install_dummy_apt_package
+                    fi
+                    download_texlive_installer
+                    install_texlive
+                    set_texdir
+                    if [[ "$NO_CLEAN" == false ]]; then
+                        echo "🗑 Removing installer artifacts."
+                        rm -rf "$INSTALLER_DIR"
+                    fi
+                    set_sysbin
+                    add_texlive_bin_to_path
+                    apply_patches
+                elif [[ "$GENERATE_CACHES" == true ]]; then
+                    set_texdir
+                    set_sysbin
+                fi
+            - summary: Generate TeX Live caches.
+              content: |
+                if [[ "$GENERATE_CACHES" == true ]]; then
+                    generate_caches
+                fi
+            - summary: Verify TeX Live installation.
+              content: |
+                if [[ "$VERIFY_INSTALLATION" == true ]]; then
+                    verify_installation
+                fi
+            - content: echo "✅ TeX Live installation complete."
       install_profile:
         name: TeX Live Installation Profile
         summary: Profile for installing TeX Live.
@@ -2901,161 +2913,163 @@ devcontainer:
           - [github.com/scottkosty/install-tl-ubuntu](https://github.com/scottkosty/install-tl-ubuntu/blob/master/example.profile)
     volume:
       metadata:
-        name: Volume Setup
+        content:
+          name: Volume Setup
       install:
         summary: Set up files and directories in the root of the system.
-        parameter:
-          source_dir:
-            type: string
-            summary: Path to the source directory.
-            description: |
-              This is the directory where the files and directories to be set up are located.
-            validation:
-              path_existence:
-                must_exist: true
-                type: dir
-          manifest_file:
-            type: string
-            summary: Path to the manifest file.
-            description: |
-              This is the file that contains the list of files and directories to be set up.
-              It is a plain text file containing additional instructions.
-            validation:
-              path_existence:
-                must_exist: true
-                type: file
-          default_action:
-            type: string
-            summary: Default action to take on files in source_dir.
-            description: |
-              This is the action to take if no action is specified in the manifest file.
-              It can be one of "copy", "link", or "skip".
-            default: write
-            validation:
-              enum: [ append, prepend, write ]
-        import:
-          - exit_if_not_root
-          - make_parent_dirs
-          - prepend_slash
-        function:
-          execute:
-            summary: Execute the specified action on the file.
-            parameter:
-              action:
-                type: string
-                summary: Action to take on the file.
-              path:
-                type: string
-                summary: Path to the file.
-              chmod_mode:
-                type: string
-                summary: Chmod mode to apply to the file.
-                default: ""
-            body: |
-              abs_path="$(prepend_slash "$path")"
-              src_path="$SOURCE_DIR/$path"
+        content:
+          parameter:
+            source_dir:
+              type: string
+              summary: Path to the source directory.
+              description: |
+                This is the directory where the files and directories to be set up are located.
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: dir
+            manifest_file:
+              type: string
+              summary: Path to the manifest file.
+              description: |
+                This is the file that contains the list of files and directories to be set up.
+                It is a plain text file containing additional instructions.
+              validation:
+                path_existence:
+                  must_exist: true
+                  type: file
+            default_action:
+              type: string
+              summary: Default action to take on files in source_dir.
+              description: |
+                This is the action to take if no action is specified in the manifest file.
+                It can be one of "copy", "link", or "skip".
+              default: write
+              validation:
+                enum: [ append, prepend, write ]
+          import:
+            - exit_if_not_root
+            - make_parent_dirs
+            - prepend_slash
+          function:
+            execute:
+              summary: Execute the specified action on the file.
+              parameter:
+                action:
+                  type: string
+                  summary: Action to take on the file.
+                path:
+                  type: string
+                  summary: Path to the file.
+                chmod_mode:
+                  type: string
+                  summary: Chmod mode to apply to the file.
+                  default: ""
+              body: |
+                abs_path="$(prepend_slash "$path")"
+                src_path="$SOURCE_DIR/$path"
 
-              case "$action" in
-                  write)
-                      if [ "${abs_path%/}" != "$abs_path" ]; then
-                          mkdir -p "$abs_path"
-                          echo "📁 Created directory: $abs_path"
-                      else
-                          make_parent_dirs "$abs_path"
-                          cp -fL "$src_path" "$abs_path"
-                          echo "📄 Wrote file to: $abs_path"
-                      fi
-                      ;;
-                  delete)
-                      if [ -d "$abs_path" ]; then
-                          rm -rf "$abs_path"
-                          echo "🗑️ Removed directory: $abs_path"
-                      elif [ -e "$abs_path" ]; then
-                          rm -f "$abs_path"
-                          echo "🗑️ Removed file: $abs_path"
-                      else
-                          echo "Path does not exist for deletion: $abs_path"
-                      fi
-                      return 0
-                      ;;
-                  append)
-                      make_parent_dirs "$abs_path"
-                      cat "$src_path" >> "$abs_path"
-                      echo "➕ Appended to: $abs_path"
-                      ;;
-                  prepend)
-                      make_parent_dirs "$abs_path"
-                      tmpf=$(mktemp)
-                      cat "$src_path" > "$tmpf"
-                      [ -f "$abs_path" ] && cat "$abs_path" >> "$tmpf"
-                      mv "$tmpf" "$abs_path"
-                      echo "🔼 Prepended to: $abs_path"
-                      ;;
-                  *)
-                      echo "Unknown action: $action"
-                      exit 1
-                      ;;
-              esac
+                case "$action" in
+                    write)
+                        if [ "${abs_path%/}" != "$abs_path" ]; then
+                            mkdir -p "$abs_path"
+                            echo "📁 Created directory: $abs_path"
+                        else
+                            make_parent_dirs "$abs_path"
+                            cp -fL "$src_path" "$abs_path"
+                            echo "📄 Wrote file to: $abs_path"
+                        fi
+                        ;;
+                    delete)
+                        if [ -d "$abs_path" ]; then
+                            rm -rf "$abs_path"
+                            echo "🗑️ Removed directory: $abs_path"
+                        elif [ -e "$abs_path" ]; then
+                            rm -f "$abs_path"
+                            echo "🗑️ Removed file: $abs_path"
+                        else
+                            echo "Path does not exist for deletion: $abs_path"
+                        fi
+                        return 0
+                        ;;
+                    append)
+                        make_parent_dirs "$abs_path"
+                        cat "$src_path" >> "$abs_path"
+                        echo "➕ Appended to: $abs_path"
+                        ;;
+                    prepend)
+                        make_parent_dirs "$abs_path"
+                        tmpf=$(mktemp)
+                        cat "$src_path" > "$tmpf"
+                        [ -f "$abs_path" ] && cat "$abs_path" >> "$tmpf"
+                        mv "$tmpf" "$abs_path"
+                        echo "🔼 Prepended to: $abs_path"
+                        ;;
+                    *)
+                        echo "Unknown action: $action"
+                        exit 1
+                        ;;
+                esac
 
-              if [ -n "$chmod_mode" ] && [ "$action" != "delete" ]; then
-                  if echo "$chmod_mode" | grep -q '[[:space:]]'; then
-                      echo "⚠️  Invalid chmod mode (contains spaces): '$chmod_mode'"
-                      exit 1
-                  else
-                      chmod "$chmod_mode" "$abs_path"
-                      echo "🔐 Set permissions '$chmod_mode' on: $abs_path"
-                  fi
-              fi
+                if [ -n "$chmod_mode" ] && [ "$action" != "delete" ]; then
+                    if echo "$chmod_mode" | grep -q '[[:space:]]'; then
+                        echo "⚠️  Invalid chmod mode (contains spaces): '$chmod_mode'"
+                        exit 1
+                    else
+                        chmod "$chmod_mode" "$abs_path"
+                        echo "🔐 Set permissions '$chmod_mode' on: $abs_path"
+                    fi
+                fi
 
-              HANDLED_PATHS="${HANDLED_PATHS-}\n$path"
-          process_manifest:
-            summary: Process the manifest file enries and apply changes.
-            body: |
-              echo "📜 Reading manifest: $MANIFEST_FILE"
-              while IFS= read -r line || [ -n "$line" ]; do
-                  # Skip empty lines and comments
-                  case "$line" in
-                      ''|[[:space:]]*\#*) continue ;;
-                  esac
+                HANDLED_PATHS="${HANDLED_PATHS-}\n$path"
+            process_manifest:
+              summary: Process the manifest file enries and apply changes.
+              body: |
+                echo "📜 Reading manifest: $MANIFEST_FILE"
+                while IFS= read -r line || [ -n "$line" ]; do
+                    # Skip empty lines and comments
+                    case "$line" in
+                        ''|[[:space:]]*\#*) continue ;;
+                    esac
 
-                  local chmod_mode=""
-                  if echo "$line" | grep -qE '[[:space:]]chmod=[^[:space:]]+$'; then
-                      chmod_mode=$(echo "$line" | sed -nE 's/.*[[:space:]]chmod=([^[:space:]]+)$/\1/p')
-                      local line=$(echo "$line" | sed -E 's/[[:space:]]chmod=[^[:space:]]+$//')
-                  fi
+                    local chmod_mode=""
+                    if echo "$line" | grep -qE '[[:space:]]chmod=[^[:space:]]+$'; then
+                        chmod_mode=$(echo "$line" | sed -nE 's/.*[[:space:]]chmod=([^[:space:]]+)$/\1/p')
+                        local line=$(echo "$line" | sed -E 's/[[:space:]]chmod=[^[:space:]]+$//')
+                    fi
 
-                  # Parse action and quoted path (handles spacing)
-                  local action=$(echo "$line" | awk '{print $1}')
-                  local path=$(echo "$line" | sed -nE 's/^[^[:space:]]+[[:space:]]+"([^"]+)"[[:space:]]*$/\1/p')
+                    # Parse action and quoted path (handles spacing)
+                    local action=$(echo "$line" | awk '{print $1}')
+                    local path=$(echo "$line" | sed -nE 's/^[^[:space:]]+[[:space:]]+"([^"]+)"[[:space:]]*$/\1/p')
 
-                  if [ -z "$action" ] || [ -z "$path" ]; then
-                      echo "Invalid manifest line '$line'."
-                      exit 1
-                  fi
+                    if [ -z "$action" ] || [ -z "$path" ]; then
+                        echo "Invalid manifest line '$line'."
+                        exit 1
+                    fi
 
-                  execute "$action" "$path" "$chmod_mode"
-              done < "$MANIFEST_FILE"
-        body:
-          - content: exit_if_not_root
-          - content: |
-              # Remove trailing slash from SOURCE_DIR if it exists
-              SOURCE_DIR="${SOURCE_DIR%/}"
-          - summary: Process manifest file.
-            content: |
-              if [ -n "$MANIFEST_FILE" ] && [ -f "$MANIFEST_FILE" ]; then
-                  process_manifest
-              fi
-          - summary: Process source directory.
-            description: |
-              Apply default action to all remaining files in the source directory.
-            content: |
-              echo "🔍 Scanning source directory for remaining files"
-              find "$SOURCE_DIR" -type f | while read -r filepath; do
-                  relpath="${filepath#$SOURCE_DIR/}"
-                  printf "%s\n" "$HANDLED_PATHS" | grep -qxF "$relpath" && continue
-                  execute "$DEFAULT_ACTION" "$relpath"
-              done
-          - content: echo "✅ Volume setup complete."
+                    execute "$action" "$path" "$chmod_mode"
+                done < "$MANIFEST_FILE"
+          body:
+            - content: exit_if_not_root
+            - content: |
+                # Remove trailing slash from SOURCE_DIR if it exists
+                SOURCE_DIR="${SOURCE_DIR%/}"
+            - summary: Process manifest file.
+              content: |
+                if [ -n "$MANIFEST_FILE" ] && [ -f "$MANIFEST_FILE" ]; then
+                    process_manifest
+                fi
+            - summary: Process source directory.
+              description: |
+                Apply default action to all remaining files in the source directory.
+              content: |
+                echo "🔍 Scanning source directory for remaining files"
+                find "$SOURCE_DIR" -type f | while read -r filepath; do
+                    relpath="${filepath#$SOURCE_DIR/}"
+                    printf "%s\n" "$HANDLED_PATHS" | grep -qxF "$relpath" && continue
+                    execute "$DEFAULT_ACTION" "$relpath"
+                done
+            - content: echo "✅ Volume setup complete."
   function:
     exit_if_not_root:
       summary: Exit with an error if not running as root user.
@@ -3316,9 +3330,9 @@ devcontainer_main:
       summary: Set up the system package installation script.
       instructions:
         - ARG:
-            SYSPKG_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.syspkg.path.install }}$"
+            SYSPKG_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.syspkg.install.path }}$"
         - COPY: |
-            ["${{ devcontainer.feature.syspkg.path.install }}$", "$SYSPKG_INSTALL_SCRIPT"]
+            ["${{ devcontainer.feature.syspkg.install.path }}$", "$SYSPKG_INSTALL_SCRIPT"]
         - RUN: chmod +x "$SYSPKG_INSTALL_SCRIPT"
       description: |
         This step copies the system package installation script
@@ -3335,9 +3349,9 @@ devcontainer_main:
       summary: Installation of TeX Live.
       instructions:
         - ARG:
-            TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.path.install }}$"
+            TEXLIVE_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.install.path }}$"
             TEXLIVE_INSTALL_PROFILE: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.texlive.install_profile.path }}$"
-        - COPY: '["${{ devcontainer.feature.texlive.path.install }}$", "$TEXLIVE_INSTALL_SCRIPT"]'
+        - COPY: '["${{ devcontainer.feature.texlive.install.path }}$", "$TEXLIVE_INSTALL_SCRIPT"]'
         - COPY: '["${{ devcontainer.feature.texlive.install_profile.path }}$", "$TEXLIVE_INSTALL_PROFILE"]'
         - RUN: |
             chmod +x "$TEXLIVE_INSTALL_SCRIPT";
@@ -3353,9 +3367,9 @@ devcontainer_main:
         to get and up-to-date version.
       instructions:
         - ARG:
-            GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.git.path.install }}$
+            GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.git.install.path }}$
         - COPY: |
-            ["${{ devcontainer.feature.git.path.install }}$", "$GIT_INSTALL_SCRIPT"]
+            ["${{ devcontainer.feature.git.install.path }}$", "$GIT_INSTALL_SCRIPT"]
         - ENV:
             PATH: ${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
         - RUN: |
@@ -3396,9 +3410,9 @@ devcontainer_main:
         - ENV:
             PATH: $CONDA_DIR/bin:$PATH
         - ARG:
-            MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.miniforge.path.install }}$
+            MINIFORGE_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.miniforge.install.path }}$
         - COPY: |
-            ["${{ devcontainer.feature.miniforge.path.install }}$", "$MINIFORGE_INSTALL_SCRIPT"]
+            ["${{ devcontainer.feature.miniforge.install.path }}$", "$MINIFORGE_INSTALL_SCRIPT"]
         - RUN: |
             chmod +x "$MINIFORGE_INSTALL_SCRIPT";
             "$MINIFORGE_INSTALL_SCRIPT"
@@ -7371,6 +7385,39 @@ devcontainer_main:
         References:
         - [Oh My Zsh settings](https://github.com/ohmyzsh/ohmyzsh/wiki/Settings)
         - [Oh My Zsh zshrc templates](https://github.com/ohmyzsh/ohmyzsh/blob/master/templates)
+    shim_vscode:
+      name: VS Code Shim
+      summary: Binary shim for `code`.
+      relpath: usr/local/bin
+      chmod: +rx
+      description: |
+        This binary replaces the `code` command
+        and redirects it to `code-insiders`
+        when `code` is not available.
+      references:
+        - title: Shim file in `common-utils` Devcontaier Feature
+          url: https://github.com/devcontainers/features/blob/main/src/common-utils/bin/code
+        - title: Usage in `common-utils` Devcontainer Feature
+          url: https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/common-utils/main.sh#L590-L591
+      content: |
+        #!
+
+        get_in_path_except_current() {
+            # Get the path to the first installation of the input command
+            # that is not the current script's path.
+            which -a "$1" | grep -A1 "$0" | grep -v "$0"
+        }
+
+        code="$(get_in_path_except_current code)"
+
+        if [ -n "$code" ]; then
+            exec "$code" "$@"
+        elif [ "$(command -v code-insiders)" ]; then
+            exec code-insiders "$@"
+        else
+            echo "code or code-insiders is not installed" >&2
+            exit 127
+        fi
 doc:
   code_of_conduct:
     content:
