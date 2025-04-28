@@ -59,6 +59,12 @@ properties:
       For multi-file Markdown documents, this is the path to the document index file.
       Other files and directories will be added to the same directory as the index file.
     $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+  relpath:
+    summary: Relative path to the file.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+  abspath:
+    summary: Absolute path to the file.
+    $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
   path_schema:
     summary: JSON schema for the path.
     type: object
