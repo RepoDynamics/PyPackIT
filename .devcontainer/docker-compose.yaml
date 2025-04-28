@@ -1,8 +1,20 @@
 services:
+  openjournals:
+    container_name: openjournals-inara
+    image: openjournals/inara:latest
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - tail -f /dev/null
+    volumes:
+      - ../:/pypackit
+    working_dir: /pypackit
   main:
     volumes:
-      - ../:/workspace:cached
+      - ../:/pypackit:cached
     command: sleep infinity
+    privileged: true
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile
