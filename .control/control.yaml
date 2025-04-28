@@ -3007,7 +3007,6 @@ devcontainer:
               fi
 
               HANDLED_PATHS="${HANDLED_PATHS-}\n$path"
-
           process_manifest:
             summary: Process the manifest file enries and apply changes.
             body: |
@@ -3278,7 +3277,6 @@ devcontainer_main:
     log_dir: /var/log/#{{ return slugify(get("name")) }}#-container
     apt_env_dir: ${{ .share_dir }}$/apt-env
     script_dir: ${{ .share_dir }}$/script
-    apt_install_script: ${{ .script_dir }}$/_helper/apt-install.sh
   service:
     privileged: true  # Required to use Docker in Docker.
   dockerfile:
@@ -3317,11 +3315,10 @@ devcontainer_main:
       summary: Set up the system package installation script.
       instructions:
         - ARG:
-            SYSPKG_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.apt_install_script.path }}$"
+            SYSPKG_INSTALL_SCRIPT: "${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.syspkg.path.install }}$"
         - COPY: |
-            ["${{ devcontainer_main.file.apt_install_script.path }}$", "$APT_INSTALL_SCRIPT"]
-        - RUN: |
-            chmod +x "$APT_INSTALL_SCRIPT"
+            ["${{ devcontainer.feature.syspkg.path.install }}$", "$SYSPKG_INSTALL_SCRIPT"]
+        - RUN: chmod +x "$SYSPKG_INSTALL_SCRIPT"
       description: |
         This step copies the system package installation script
         to the container and makes it executable.
@@ -3357,9 +3354,9 @@ devcontainer_main:
         to get and up-to-date version.
       instructions:
         - ARG:
-            GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer_main.file.git_install_script.path }}$
+            GIT_INSTALL_SCRIPT: ${{ devcontainer_main.var.share_dir }}$/${{ devcontainer.feature.git.path.install }}$
         - COPY: |
-            ["${{ devcontainer_main.file.git_install_script.path }}$", "$GIT_INSTALL_SCRIPT"]
+            ["${{ devcontainer.feature.git.path.install }}$", "$GIT_INSTALL_SCRIPT"]
         - ENV:
             PATH: ${{ devcontainer_main.var.git.prefix }}$/bin:$PATH
         - RUN: |
