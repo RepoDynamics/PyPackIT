@@ -3,29 +3,32 @@ build-paper() {
 }
 build-web() {
   run_in_conda_env website sphinx-build \
-    -M $SPHINX_BUILDER \
+    -M "dirhtml" \
     docs/website/source \
     docs/website/.build \
-    $SPHINX_BUILD_OPTIONS
+    --verbose --show-traceback --keep-going --color --nitpicky --jobs auto
   tar \
     --dereference --hard-dereference \
     --directory "docs/website/.build/dirhtml" \
-    -cvf "$WEBSITE_TAR_FILEPATH" \
+    -cvf "docs/website/.build/website.tar" \
     --exclude=.git \
     --exclude=.github \
     --exclude=".[^/]*" \
     .
 }
 jupyterlab() {
-  jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
+  run_in_conda_env jupyter \
+    jupyter-lab "/" \
+      --ContentsManager.allow_hidden=True \
+      --IdentityProvider.token=''
 }
 liveweb() {
   run_in_conda_env website sphinx-autobuild \
     docs/website/source \
     docs/website/.build \
-    $SPHINX_BUILD_OPTIONS \
+    --verbose --show-traceback --keep-going --color --nitpicky --jobs auto \
     -a \
-    -b=$SPHINX_BUILDER \
+    -b=dirhtml \
     --open-browser \
     --delay 0
 }
@@ -36,5 +39,12 @@ run_in_conda_env() {
   conda run --cwd '/pypackit' --live-stream -vv --name $@
 }
 typecheck() {
-  mypy --package pypackit --package pypackit_testsuite --python-executable /opt/conda/envs/app/bin/python --config-file .config/mypy.toml --install-types --non-interactive
+  run_in_conda_env type_check \
+    mypy \
+      --package pypackit \
+      --package pypackit_testsuite \
+      --python-executable /opt/conda/envs/app/bin/python \
+      --config-file .config/mypy.toml \
+      --install-types \
+      --non-interactive
 }
