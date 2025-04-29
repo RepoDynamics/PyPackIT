@@ -1191,9 +1191,21 @@ properties:
                       const: shell
                 - $ref: https://controlman.repodynamics.com/schema/dynamic-file
           additionalProperties:
-            title: Dynamic File
+            title: Feature Files
             summary: Additional dynamic file for the feature.
-            $ref: https://controlman.repodynamics.com/schema/dynamic-file
+            allOf:
+              - required: [ relpath ]
+                properties:
+                  path:
+                    readOnly: true
+                    default: ${{ ..path }}$/${{ .relpath }}$
+                  relpath:
+                    summary: Relative path to the install script.
+                    description: |
+                      The path is relative to the root of the feature directory.
+                      According to Devcontainer specifications,
+                      this must always be `install.sh`.
+              - $ref: https://controlman.repodynamics.com/schema/dynamic-file
       function:
         summary: Definition of shell functions.
         description: |
