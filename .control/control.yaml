@@ -1301,6 +1301,8 @@ commit:
       h1: ${{ ...__data__.h1_maintain }}$
       h2: ${{ ...__data__.h2_ci }}$
 control:
+  path:
+    config: .control/control.yaml
   cache:
     retention_hours:
       css_color_filter: 0
