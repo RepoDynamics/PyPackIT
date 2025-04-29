@@ -15,7 +15,7 @@ from referencing import jsonschema as _referencing_jsonschema
 
 from proman import const as _const, exception
 
-_schema_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "_data" / "schema"
+_schema_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "schema"
 
 
 def get_schema(
