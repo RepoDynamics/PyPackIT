@@ -3099,7 +3099,7 @@ devcontainer:
                     col_widths[col_idx] = max(col_widths.get(col_idx, 0), len(str(cell)))
             # Format each row
             formatted_rows = []
-            for row in rows:
+            for row in sorted(rows, key=lambda r: r[1]):
                 formatted_row = []
                 for col_idx, cell in enumerate(row):
                     width = col_widths[col_idx]
