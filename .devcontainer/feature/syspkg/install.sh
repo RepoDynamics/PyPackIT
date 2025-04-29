@@ -81,12 +81,12 @@ if [ "$#" -gt 0 ]; then
   APT_REPOS=""
   DEBUG=""
   DNF=""
-  INTERACTIVE=""
-  KEEP_REPOS=""
+  INTERACTIVE="false"
+  KEEP_REPOS="false"
   LOGFILE=""
   MICRODNF=""
-  NO_CLEAN=""
-  NO_UPDATE=""
+  NO_CLEAN="false"
+  NO_UPDATE="false"
   YUM=""
   while [[ $# -gt 0 ]]; do
     case $1 in
@@ -123,18 +123,18 @@ else
 fi
 [[ "$DEBUG" == true ]] && set -x
 [ -z "${APK-}" ] && { echo "ℹ️ Argument 'APK' set to default value ''." >&2; APK=""; }
-[ -n ${APK-} ] && [ ! -f "$APK" ] && { echo "⛔ File argument to parameter 'APK' not found: '$APK'" >&2; exit 1; }
+[ -n "${APK-}" ] && [ ! -f "$APK" ] && { echo "⛔ File argument to parameter 'APK' not found: '$APK'" >&2; exit 1; }
 [ -z "${APT-}" ] && { echo "ℹ️ Argument 'APT' set to default value ''." >&2; APT=""; }
-[ -n ${APT-} ] && [ ! -f "$APT" ] && { echo "⛔ File argument to parameter 'APT' not found: '$APT'" >&2; exit 1; }
+[ -n "${APT-}" ] && [ ! -f "$APT" ] && { echo "⛔ File argument to parameter 'APT' not found: '$APT'" >&2; exit 1; }
 [ -z "${APT_REPOS-}" ] && { echo "ℹ️ Argument 'APT_REPOS' set to default value ''." >&2; APT_REPOS=""; }
-[ -n ${APT_REPOS-} ] && [ ! -f "$APT_REPOS" ] && { echo "⛔ File argument to parameter 'APT_REPOS' not found: '$APT_REPOS'" >&2; exit 1; }
+[ -n "${APT_REPOS-}" ] && [ ! -f "$APT_REPOS" ] && { echo "⛔ File argument to parameter 'APT_REPOS' not found: '$APT_REPOS'" >&2; exit 1; }
 [ -z "${DNF-}" ] && { echo "ℹ️ Argument 'DNF' set to default value ''." >&2; DNF=""; }
-[ -n ${DNF-} ] && [ ! -f "$DNF" ] && { echo "⛔ File argument to parameter 'DNF' not found: '$DNF'" >&2; exit 1; }
+[ -n "${DNF-}" ] && [ ! -f "$DNF" ] && { echo "⛔ File argument to parameter 'DNF' not found: '$DNF'" >&2; exit 1; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${MICRODNF-}" ] && { echo "ℹ️ Argument 'MICRODNF' set to default value ''." >&2; MICRODNF=""; }
-[ -n ${MICRODNF-} ] && [ ! -f "$MICRODNF" ] && { echo "⛔ File argument to parameter 'MICRODNF' not found: '$MICRODNF'" >&2; exit 1; }
+[ -n "${MICRODNF-}" ] && [ ! -f "$MICRODNF" ] && { echo "⛔ File argument to parameter 'MICRODNF' not found: '$MICRODNF'" >&2; exit 1; }
 [ -z "${YUM-}" ] && { echo "ℹ️ Argument 'YUM' set to default value ''." >&2; YUM=""; }
-[ -n ${YUM-} ] && [ ! -f "$YUM" ] && { echo "⛔ File argument to parameter 'YUM' not found: '$YUM'" >&2; exit 1; }
+[ -n "${YUM-}" ] && [ ! -f "$YUM" ] && { echo "⛔ File argument to parameter 'YUM' not found: '$YUM'" >&2; exit 1; }
 exit_if_not_root
 if [[ -z "$APT" && -z "$APK" && -z "$DNF" && -z "$MICRODNF" && -z "$YUM" ]]; then
     echo "⛔ No package list file provided." >&2
