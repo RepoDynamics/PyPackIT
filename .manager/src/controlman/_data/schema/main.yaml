@@ -151,9 +151,9 @@ patternProperties:
             - required: [ relpath ]
               properties:
                 abspath:
-                  default: /${{ .relpath }}$
+                  default: /#{{ return get(".relpath").removeprefix("/") }}#
                 path:
-                  default: ${{ ...path.volume }}$/${{ .relpath }}$
+                  default: ${{ ...path.volume }}$/#{{ return get(".relpath").removeprefix("/") }}#
             - $ref: https://controlman.repodynamics.com/schema/dynamic-file
       file:
         summary: Dynamic files related to the container.
