@@ -187,9 +187,9 @@ case "$DEFAULT_ACTION" in
 esac
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${MANIFEST_FILE-}" ] && { echo "⛔ Missing required argument 'MANIFEST_FILE'." >&2; exit 1; }
-[ -n ${MANIFEST_FILE-} ] && [ ! -f "$MANIFEST_FILE" ] && { echo "⛔ File argument to parameter 'MANIFEST_FILE' not found: '$MANIFEST_FILE'" >&2; exit 1; }
+[ -n "${MANIFEST_FILE-}" ] && [ ! -f "$MANIFEST_FILE" ] && { echo "⛔ File argument to parameter 'MANIFEST_FILE' not found: '$MANIFEST_FILE'" >&2; exit 1; }
 [ -z "${SOURCE_DIR-}" ] && { echo "⛔ Missing required argument 'SOURCE_DIR'." >&2; exit 1; }
-[ -n ${SOURCE_DIR-} ] && [ ! -d "$SOURCE_DIR" ] && { echo "⛔ Directory argument to parameter 'SOURCE_DIR' not found: '$SOURCE_DIR'" >&2; exit 1; }
+[ -n "${SOURCE_DIR-}" ] && [ ! -d "$SOURCE_DIR" ] && { echo "⛔ Directory argument to parameter 'SOURCE_DIR' not found: '$SOURCE_DIR'" >&2; exit 1; }
 exit_if_not_root
 SOURCE_DIR="${SOURCE_DIR%/}"
 if [ -n "$MANIFEST_FILE" ] && [ -f "$MANIFEST_FILE" ]; then

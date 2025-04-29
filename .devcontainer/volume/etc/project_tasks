@@ -44,7 +44,7 @@ typecheck() {
       --package pypackit \
       --package pypackit_testsuite \
       --python-executable /opt/conda/envs/app/bin/python \
-      --config-file .config/mypy.toml \
+      --config-file .devcontainer/config/mypy.toml \
       --install-types \
       --non-interactive
 }

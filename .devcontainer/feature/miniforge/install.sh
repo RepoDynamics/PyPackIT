@@ -351,11 +351,11 @@ fi
 [ -z "${CONDA_DIR-}" ] && { echo "ℹ️ Argument 'CONDA_DIR' set to default value '/opt/conda'." >&2; CONDA_DIR="/opt/conda"; }
 { [ "${ENV_DIRS+isset}" != "isset" ] || [ ${#ENV_DIRS[@]} -eq 0 ] } && { echo "ℹ️ Argument 'ENV_DIRS' set to default value '()'." >&2; ENV_DIRS=(); }
 for elem in "${ENV_DIRS[@]}"; do
-  [ -n ${ENV_DIRS-} ] && [ ! -d "$ENV_DIRS" ] && { echo "⛔ Directory argument to parameter 'ENV_DIRS' not found: '$ENV_DIRS'" >&2; exit 1; }
+  [ -n "${ENV_DIRS-}" ] && [ ! -d "$ENV_DIRS" ] && { echo "⛔ Directory argument to parameter 'ENV_DIRS' not found: '$ENV_DIRS'" >&2; exit 1; }
 done
 { [ "${ENV_FILES+isset}" != "isset" ] || [ ${#ENV_FILES[@]} -eq 0 ] } && { echo "ℹ️ Argument 'ENV_FILES' set to default value '()'." >&2; ENV_FILES=(); }
 for elem in "${ENV_FILES[@]}"; do
-  [ -n ${ENV_FILES-} ] && [ ! -f "$ENV_FILES" ] && { echo "⛔ File argument to parameter 'ENV_FILES' not found: '$ENV_FILES'" >&2; exit 1; }
+  [ -n "${ENV_FILES-}" ] && [ ! -f "$ENV_FILES" ] && { echo "⛔ File argument to parameter 'ENV_FILES' not found: '$ENV_FILES'" >&2; exit 1; }
 done
 [ -z "${GROUP-}" ] && { echo "ℹ️ Argument 'GROUP' set to default value 'conda'." >&2; GROUP="conda"; }
 [ -z "${INSTALLER_DIR-}" ] && { echo "ℹ️ Argument 'INSTALLER_DIR' set to default value '/tmp/miniforge-installer'." >&2; INSTALLER_DIR="/tmp/miniforge-installer"; }

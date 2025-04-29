@@ -81,12 +81,12 @@ if [ "$#" -gt 0 ]; then
   APT_REPOS=""
   DEBUG=""
   DNF=""
-  INTERACTIVE="false"
-  KEEP_REPOS="false"
+  INTERACTIVE=""
+  KEEP_REPOS=""
   LOGFILE=""
   MICRODNF=""
-  NO_CLEAN="false"
-  NO_UPDATE="false"
+  NO_CLEAN=""
+  NO_UPDATE=""
   YUM=""
   while [[ $# -gt 0 ]]; do
     case $1 in

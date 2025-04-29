@@ -2741,7 +2741,7 @@
          }
       },
       "path": {
-         "config": ".control/control.yaml",
+         "config": ".control",
          "pkg_install_script": "install.py"
       },
       "url": {
@@ -7967,7 +7967,7 @@
                "install",
                "--install-hooks",
                "--config",
-               ".config/pre-commit.yaml"
+               ".devcontainer/config/pre-commit.yaml"
             ]
          },
          "remoteEnv": {
@@ -8692,7 +8692,7 @@
                                  "args": [
                                     "--verbose",
                                     "--config",
-                                    ".config/ruff.toml",
+                                    ".devcontainer/config/ruff.toml",
                                     "--exit-non-zero-on-fix"
                                  ],
                                  "id": "ruff",
@@ -8710,7 +8710,7 @@
                               {
                                  "args": [
                                     "--config",
-                                    ".config/ruff.toml"
+                                    ".devcontainer/config/ruff.toml"
                                  ],
                                  "id": "ruff-format",
                                  "stages": [
@@ -8758,11 +8758,11 @@
                      }
                   },
                   "name": "Pre-Commit Configuration",
-                  "path": ".config/pre-commit.yaml",
+                  "path": ".devcontainer/config/pre-commit.yaml",
                   "status": "active",
                   "summary": "Pre-Commit [configuration file](https://pre-commit.com/#configuration).",
                   "type": "yaml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/pre-commit.yaml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/pre-commit.yaml"
                },
                "pre_commit_config_ci": {
                   "content": {
@@ -8915,7 +8915,7 @@
                                  "args": [
                                     "--verbose",
                                     "--config",
-                                    ".config/ruff.toml",
+                                    ".devcontainer/config/ruff.toml",
                                     "--exit-non-zero-on-fix"
                                  ],
                                  "id": "ruff",
@@ -8933,7 +8933,7 @@
                               {
                                  "args": [
                                     "--config",
-                                    ".config/ruff.toml"
+                                    ".devcontainer/config/ruff.toml"
                                  ],
                                  "id": "ruff-format",
                                  "stages": [
@@ -8981,11 +8981,11 @@
                      }
                   },
                   "name": "Pre-Commit Configuration for CI",
-                  "path": ".config/pre-commit-ci.yaml",
+                  "path": ".devcontainer/config/pre-commit-ci.yaml",
                   "status": "active",
                   "summary": "Pre-Commit [configuration file](https://pre-commit.com/#configuration) for use in CI pipeline.",
                   "type": "yaml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/pre-commit-ci.yaml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/pre-commit-ci.yaml"
                },
                "ruff_config": {
                   "content": {
@@ -9000,7 +9000,7 @@
                            "\u2013"
                         ],
                         "exclude": [
-                           ".manager/**/*.py"
+                           ".control/**/*.py"
                         ],
                         "flake8-annotations": {
                            "allow-star-arg-any": true,
@@ -9187,11 +9187,11 @@
                      }
                   },
                   "name": "Ruff Configuration",
-                  "path": ".config/ruff.toml",
+                  "path": ".devcontainer/config/ruff.toml",
                   "status": "active",
                   "summary": "Ruff [configuration file](https://docs.astral.sh/ruff/settings/) in TOML format.",
                   "type": "toml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/ruff.toml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/ruff.toml"
                }
             },
             "name": "pre_commit",
@@ -9371,11 +9371,11 @@
                      }
                   },
                   "name": "Mypy Configuration",
-                  "path": ".config/mypy.toml",
+                  "path": ".devcontainer/config/mypy.toml",
                   "status": "active",
                   "summary": "Mypy [configuration file](https://mypy.readthedocs.io/en/stable/config_file.html) in [pyproject.toml](https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml) format.",
                   "type": "toml",
-                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/mypy.toml"
+                  "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/mypy.toml"
                }
             },
             "name": "type_check",
@@ -10768,7 +10768,7 @@
                      "summary": "Run a command in a conda environment."
                   },
                   "typecheck": {
-                     "body": "run_in_conda_env type_check \\\n  mypy \\\n    --package pypackit \\\n    --package pypackit_testsuite \\\n    --python-executable /opt/conda/envs/app/bin/python \\\n    --config-file .config/mypy.toml \\\n    --install-types \\\n    --non-interactive\n",
+                     "body": "run_in_conda_env type_check \\\n  mypy \\\n    --package pypackit \\\n    --package pypackit_testsuite \\\n    --python-executable /opt/conda/envs/app/bin/python \\\n    --config-file .devcontainer/config/mypy.toml \\\n    --install-types \\\n    --non-interactive\n",
                      "name": "typecheck",
                      "references": [
                         {
@@ -11360,7 +11360,7 @@
             "id": "DIC_kwDOJi8gRs4CWomw",
             "is_answerable": false,
             "name": "New Features",
-            "updated_at": "2023-07-05"
+            "updated_at": "2023-07-04"
          },
          "release": {
             "created_at": "2023-05-21",
@@ -13306,11 +13306,11 @@
          }
       },
       "name": "Binder APT Environment File",
-      "path": ".config/binder/apt.txt",
+      "path": ".devcontainer/config/binder/apt.txt",
       "status": "inactive",
       "summary": "[`apt.txt`](https://repo2docker.readthedocs.io/en/latest/config_files.html#apt-txt-install-packages-with-apt-get) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/apt.txt"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/binder/apt.txt"
    },
    "file_binder_conda": {
       "content": "dependencies:\n  - conda-forge::coverage ==7.6.12\n  - conda-forge::pip\n  - conda-forge::pytest ==8.3.5\n  - conda-forge::pytest-cov ==6.0.0\n  - conda-forge::pytest-html ==4.1.1\n  - conda-forge::python 3.10\n  - repodynamics::pkgdata\n  - repodynamics::pkgdata\n",
@@ -13342,11 +13342,11 @@
          }
       },
       "name": "Binder Conda Environment File",
-      "path": ".config/binder/environment.yml",
+      "path": ".devcontainer/config/binder/environment.yml",
       "status": "active",
       "summary": "[`environment.yml`](https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/environment.yml"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/binder/environment.yml"
    },
    "file_binder_postbuild": {
       "content": "python -m pip install --no-deps --editable pkg --editable test\n",
@@ -13378,11 +13378,11 @@
          }
       },
       "name": "Binder Post Build Environment File",
-      "path": ".config/binder/postBuild",
+      "path": ".devcontainer/config/binder/postBuild",
       "status": "active",
       "summary": "[`postBuild`](https://repo2docker.readthedocs.io/en/latest/config_files.html#postbuild-run-code-after-installing-the-environment) file for the Binder configuration.",
       "type": "txt",
-      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.config/binder/postBuild"
+      "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/config/binder/postBuild"
    },
    "file_citation_cff": {
       "content": {
@@ -23350,10 +23350,10 @@
             "devcontainer_main.volume.zshenv": ".devcontainer/volume/etc/zsh/zshenv",
             "devcontainer_main.volume.zshrc": ".devcontainer/volume/etc/zsh/zshrc",
             "devcontainer_main_codecov_codecov_config": ".github/.codecov.yml",
-            "devcontainer_main_pre_commit_pre_commit_config": ".config/pre-commit.yaml",
-            "devcontainer_main_pre_commit_pre_commit_config_ci": ".config/pre-commit-ci.yaml",
-            "devcontainer_main_pre_commit_ruff_config": ".config/ruff.toml",
-            "devcontainer_main_type_check_mypy_config": ".config/mypy.toml",
+            "devcontainer_main_pre_commit_pre_commit_config": ".devcontainer/config/pre-commit.yaml",
+            "devcontainer_main_pre_commit_pre_commit_config_ci": ".devcontainer/config/pre-commit-ci.yaml",
+            "devcontainer_main_pre_commit_ruff_config": ".devcontainer/config/ruff.toml",
+            "devcontainer_main_type_check_mypy_config": ".devcontainer/config/mypy.toml",
             "doc.code_of_conduct": "CODE_OF_CONDUCT.md",
             "doc.contributing": "CONTRIBUTING.md",
             "doc.governance": "GOVERNANCE.md",
@@ -23361,8 +23361,8 @@
             "doc.security": "SECURITY.md",
             "doc.support": "SUPPORT.md",
             "file_binder_apt": null,
-            "file_binder_conda": ".config/binder/environment.yml",
-            "file_binder_postbuild": ".config/binder/postBuild",
+            "file_binder_conda": ".devcontainer/config/binder/environment.yml",
+            "file_binder_postbuild": ".devcontainer/config/binder/postBuild",
             "file_citation_cff": "CITATION.cff",
             "file_codeowners": null,
             "file_funding_github": null,
@@ -23452,8 +23452,8 @@
             "27_chore": ".github/ISSUE_TEMPLATE/27_chore.yaml"
          },
          "pkg_config": {
-            "pypkg_ci_pyproject": ".manager/pyproject.toml",
-            "pypkg_ci_typing": ".manager/src/proman/py.typed",
+            "pypkg_ci_pyproject": ".control/pyproject.toml",
+            "pypkg_ci_typing": ".control/src/proman/py.typed",
             "pypkg_main_conda_recipe_meta_global": "pkg/conda-recipe/global/meta.yaml",
             "pypkg_main_conda_recipe_meta_local": "pkg/conda-recipe/local/meta.yaml",
             "pypkg_main_pyproject": "pkg/pyproject.toml",
@@ -23474,7 +23474,7 @@
             "pypackit_testsuite/data/__init__.py": "test/src/pypackit_testsuite/data/__init__.py",
             "pypackit_testsuite/data/config/__init__.py": "test/src/pypackit_testsuite/data/config/__init__.py",
             "pypackit_testsuite/data_tests.py": "test/src/pypackit_testsuite/data_tests.py",
-            "pypkg_ci_cli": ".manager/src/proman/__main__.py"
+            "pypkg_ci_cli": ".control/src/proman/__main__.py"
          }
       },
       "gui_names": [],
@@ -24633,10 +24633,10 @@
          }
       },
       "path": {
-         "import": ".manager/src/proman",
+         "import": ".control/src/proman",
          "import_rel": "src/proman",
-         "root": ".manager",
-         "source": ".manager/src",
+         "root": ".control",
+         "source": ".control/src",
          "source_rel": "src"
       },
       "pypi": {
@@ -31405,7 +31405,7 @@
          },
          "name": "Docker (v{{ version }})",
          "path": {
-            "config": ".config/binder",
+            "config": ".devcontainer/config/binder",
             "dockerfile": ".binder"
          }
       },

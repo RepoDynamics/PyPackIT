@@ -23,7 +23,7 @@ git_clone() {
     esac
   done
   [ -z "${dir-}" ] && { echo "⛔ Missing required argument 'dir'." >&2; exit 1; }
-  [ -n ${dir-} ] && [ -d "$dir" ] && { echo "⛔ Directory argument to parameter 'dir' already exists: '$dir'" >&2; exit 1; }
+  [ -n "${dir-}" ] && [ -d "$dir" ] && { echo "⛔ Directory argument to parameter 'dir' already exists: '$dir'" >&2; exit 1; }
   [ -z "${url-}" ] && { echo "⛔ Missing required argument 'url'." >&2; exit 1; }
   mkdir -p "$dir"
   git clone --depth=1 \
