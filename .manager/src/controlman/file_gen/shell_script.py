@@ -26,7 +26,7 @@ def create_script(
     if script_type == "shell_exec":
         functions["__cleanup__"] = augment_cleanup_function(functions.get("__cleanup__", {}))
     for func_name, func_data in sorted(functions.items()):
-        lines.extend(create_function(func_name, func_data))
+        lines.extend(create_function(name=func_name, data=func_data, script_type=script_type))
     if script_type == "shell_exec":
         lines.extend(
             [
@@ -48,7 +48,7 @@ def create_script(
                     *indent(create_env_var_parse(parameters), 1),
                     "fi",
                     '[[ "$DEBUG" == true ]] && set -x',
-                    *create_validation_block(parameters, local=False),
+                    *create_validation_block(parameters, local=False, script_type=script_type),
                 ]
             )
     lines.extend(
@@ -125,12 +125,14 @@ def create_function(
     body_lines = []
     if script_type == "shell_exec":
         body_lines.append(log_endpoint(name, typ="function", stage="entry"))
-    body_lines = [
-        *create_argparse(parameters, local=True, script_type=script_type),
-        *create_validation_block(parameters, local=True, script_type=script_type),
-        *sanitize_code(data["body"]),
-        *create_output(data.get("return"), script_type=script_type),
-    ]
+    body_lines.extend(
+        [
+            *create_argparse(parameters, local=True, script_type=script_type),
+            *create_validation_block(parameters, local=True, script_type=script_type),
+            *sanitize_code(data["body"]),
+            *create_output(data.get("return"), script_type=script_type),
+        ]
+    )
     if script_type == "shell_exec":
         body_lines.append(log_endpoint(name, typ="function", stage="exit"))
     return [f"{name}() {{", *indent(body_lines, 1), "}"]
