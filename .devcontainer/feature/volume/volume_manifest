@@ -1,8 +1,16 @@
-delete  "/root/.bashrc"
-delete  "/root/.profile"
-delete  "/home/pypackit-dev/.bashrc"
-delete  "/home/pypackit-dev/.profile"
-
-write   "/usr/local/bin/code"               chmod=+rx
-write   "/usr/local/bin/devcontainer-info"  chmod=+rx
-write   "/usr/local/bin/systemctl"          chmod=+rx
+write   /etc/bash.bashrc
+write   /etc/bash/bash_env
+write   /etc/bash/bash_theme
+write   /etc/global_shellrc
+write   /etc/profile
+write   /etc/project_tasks
+write   /etc/zsh/zprofile
+write   /etc/zsh/zshenv
+write   /etc/zsh/zshrc
+delete  /home/pypackit-dev/.bashrc
+delete  /home/pypackit-dev/.profile
+delete  /root/.bashrc
+delete  /root/.profile
+write   /usr/local/bin/code               chmod=+rx
+write   /usr/local/bin/devcontainer-info  chmod=+rx
+write   /usr/local/bin/systemctl          chmod=+rx

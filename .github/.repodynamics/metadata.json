@@ -4933,6 +4933,43 @@
                "type": "shell_exec",
                "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/feature/volume/install.sh"
             },
+            "manifest": {
+               "content": "write   /etc/bash.bashrc                           \nwrite   /etc/bash/bash_env                         \nwrite   /etc/bash/bash_theme                       \nwrite   /etc/global_shellrc                        \nwrite   /etc/profile                               \nwrite   /etc/project_tasks                         \nwrite   /etc/zsh/zprofile                          \nwrite   /etc/zsh/zshenv                            \nwrite   /etc/zsh/zshrc                             \ndelete  /home/pypackit-dev/.bashrc                 \ndelete  /home/pypackit-dev/.profile                \ndelete  /root/.bashrc                              \ndelete  /root/.profile                             \nwrite   /usr/local/bin/code               chmod=+rx\nwrite   /usr/local/bin/devcontainer-info  chmod=+rx\nwrite   /usr/local/bin/systemctl          chmod=+rx",
+               "content_setting": {
+                  "prefix": "",
+                  "separator": "\n",
+                  "suffix": ""
+               },
+               "file_setting": {
+                  "eof_newline": true,
+                  "json": {
+                     "end_of_file_newline": true,
+                     "indent": 3,
+                     "sort_keys": true
+                  },
+                  "md": {
+                     "heading_number": false,
+                     "target": "github"
+                  },
+                  "sort_keys": true,
+                  "yaml": {
+                     "block_string": true,
+                     "end_of_file_newline": true,
+                     "mapping_indent": 2,
+                     "remove_top_level_indent": true,
+                     "sequence_indent": 4,
+                     "sequence_indent_offset": 2,
+                     "sort_keys": true
+                  }
+               },
+               "name": "Volume Manifest",
+               "path": ".devcontainer/feature/volume/volume_manifest",
+               "relpath": "volume_manifest",
+               "status": "active",
+               "summary": "Manifest file for volume setup.",
+               "type": "txt",
+               "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/feature/volume/volume_manifest"
+            },
             "metadata": {
                "content": {
                   "id": "volume",
@@ -10194,9 +10231,6 @@
       },
       "var": {
          "apt_env_dir": "/usr/local/share/pypackit-container/apt-env",
-         "bash": {
-            "global_bashrc": "etc/bash.bashrc"
-         },
          "conda": {
             "activate": "app",
             "app_env": "app",
@@ -10455,6 +10489,7 @@
                }
             },
             "name": "Bash RC",
+            "notes": "The path is OS-dependent.\n",
             "path": ".devcontainer/volume/etc/bash.bashrc",
             "relpath": "etc/bash.bashrc",
             "status": "active",
@@ -10464,6 +10499,7 @@
          },
          "devcontainer_info": {
             "abspath": "/usr/local/bin/devcontainer-info",
+            "chmod": "+rx",
             "content": {
                "body": [
                   {
@@ -10781,6 +10817,80 @@
             "type": "shell_src",
             "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/etc/project_tasks"
          },
+         "root_bashrc": {
+            "abspath": "/root/.bashrc",
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "Root bashrc",
+            "path": ".devcontainer/volume/root/.bashrc",
+            "relpath": "root/.bashrc",
+            "status": "delete",
+            "summary": "Bash `bashrc` startup file for root user.",
+            "type": "shell_src",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/root/.bashrc"
+         },
+         "root_profile": {
+            "abspath": "/root/.profile",
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "Root Shell Profile",
+            "path": ".devcontainer/volume/root/.profile",
+            "relpath": "root/.profile",
+            "status": "delete",
+            "summary": "Shell `profile` startup file for root user.",
+            "type": "shell_src",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/root/.profile"
+         },
          "shim_systemctl": {
             "abspath": "/usr/local/bin/systemctl",
             "chmod": "+rx",
@@ -10902,6 +11012,80 @@
             "summary": "Shim for the `code` binary.",
             "type": "shell_src",
             "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/usr/local/bin/code"
+         },
+         "user_bashrc": {
+            "abspath": "/home/pypackit-dev/.bashrc",
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "User bashrc",
+            "path": ".devcontainer/volume/home/pypackit-dev/.bashrc",
+            "relpath": "home/pypackit-dev/.bashrc",
+            "status": "delete",
+            "summary": "Bash `bashrc` startup file for container user.",
+            "type": "shell_src",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/home/pypackit-dev/.bashrc"
+         },
+         "user_profile": {
+            "abspath": "/home/pypackit-dev/.profile",
+            "content_setting": {
+               "prefix": "",
+               "separator": "\n",
+               "suffix": ""
+            },
+            "file_setting": {
+               "eof_newline": true,
+               "json": {
+                  "end_of_file_newline": true,
+                  "indent": 3,
+                  "sort_keys": true
+               },
+               "md": {
+                  "heading_number": false,
+                  "target": "github"
+               },
+               "sort_keys": true,
+               "yaml": {
+                  "block_string": true,
+                  "end_of_file_newline": true,
+                  "mapping_indent": 2,
+                  "remove_top_level_indent": true,
+                  "sequence_indent": 4,
+                  "sequence_indent_offset": 2,
+                  "sort_keys": true
+               }
+            },
+            "name": "User Shell Profile",
+            "path": ".devcontainer/volume/home/pypackit-dev/.profile",
+            "relpath": "home/pypackit-dev/.profile",
+            "status": "delete",
+            "summary": "Shell `profile` startup file for container user.",
+            "type": "shell_src",
+            "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/volume/home/pypackit-dev/.profile"
          },
          "zprofile": {
             "abspath": "/etc/zsh/zprofile",
@@ -23205,6 +23389,7 @@
             "texlive.install_profile": ".devcontainer/feature/texlive/install.profile",
             "texlive.metadata": ".devcontainer/feature/texlive/devcontainer-feature.json",
             "volume.install": ".devcontainer/feature/volume/install.sh",
+            "volume.manifest": ".devcontainer/feature/volume/volume_manifest",
             "volume.metadata": ".devcontainer/feature/volume/devcontainer-feature.json"
          },
          "devcontainer_apt": {
