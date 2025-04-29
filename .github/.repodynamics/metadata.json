@@ -10685,7 +10685,7 @@
                      "summary": "Build Open-Journals (JOSS) paper."
                   },
                   "build-web": {
-                     "body": "run_in_conda_env website sphinx-build \\\n  -M $SPHINX_BUILDER \\\n  docs/website/source \\\n  docs/website/.build \\\n  $SPHINX_BUILD_OPTIONS\n# Create a tarball of the built website according to GitHub Pages requirements.\n# Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml\ntar \\\n  --dereference --hard-dereference \\\n  --directory \"docs/website/.build/dirhtml\" \\\n  -cvf \"$WEBSITE_TAR_FILEPATH\" \\\n  --exclude=.git \\\n  --exclude=.github \\\n  --exclude=\".[^/]*\" \\\n  .\n",
+                     "body": "run_in_conda_env website sphinx-build \\\n  -M \"dirhtml\" \\\n  docs/website/source \\\n  docs/website/.build \\\n  --verbose --show-traceback --keep-going --color --nitpicky --jobs auto\n# Create a tarball of the built website according to GitHub Pages requirements.\n# Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml\ntar \\\n  --dereference --hard-dereference \\\n  --directory \"docs/website/.build/dirhtml\" \\\n  -cvf \"docs/website/.build/website.tar\" \\\n  --exclude=.git \\\n  --exclude=.github \\\n  --exclude=\".[^/]*\" \\\n  .\n",
                      "name": "build-web",
                      "references": [
                         {
@@ -10704,12 +10704,12 @@
                      "summary": "Build the website with Sphinx."
                   },
                   "jupyterlab": {
-                     "body": "jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''",
+                     "body": "run_in_conda_env jupyter \\\n  jupyter-lab \"/\" \\\n    --ContentsManager.allow_hidden=True \\\n    --IdentityProvider.token=''\n",
                      "name": "jupyterlab",
                      "summary": "Open JupyterLab"
                   },
                   "liveweb": {
-                     "body": "run_in_conda_env website sphinx-autobuild \\\n  docs/website/source \\\n  docs/website/.build \\\n  $SPHINX_BUILD_OPTIONS \\\n  -a \\\n  -b=$SPHINX_BUILDER \\\n  --open-browser \\\n  --delay 0\n",
+                     "body": "run_in_conda_env website sphinx-autobuild \\\n  docs/website/source \\\n  docs/website/.build \\\n  --verbose --show-traceback --keep-going --color --nitpicky --jobs auto \\\n  -a \\\n  -b=dirhtml \\\n  --open-browser \\\n  --delay 0\n",
                      "description": "This will automatically rebuild the website when changes are made.\n",
                      "name": "liveweb",
                      "references": [
@@ -10732,7 +10732,7 @@
                      "summary": "Run a command in a conda environment."
                   },
                   "typecheck": {
-                     "body": "mypy --package pypackit --package pypackit_testsuite --python-executable /opt/conda/envs/app/bin/python --config-file .config/mypy.toml --install-types --non-interactive",
+                     "body": "run_in_conda_env type_check \\\n  mypy \\\n    --package pypackit \\\n    --package pypackit_testsuite \\\n    --python-executable /opt/conda/envs/app/bin/python \\\n    --config-file .config/mypy.toml \\\n    --install-types \\\n    --non-interactive\n",
                      "name": "typecheck",
                      "references": [
                         {
