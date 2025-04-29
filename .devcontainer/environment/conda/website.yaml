@@ -27,3 +27,8 @@ dependencies:
       - sphinx-notfound-page ==1.1.0
       - sphinx-tippy ==0.4.3
       - sphinxcontrib-svg2pdfconverter [CairoSVG] ==1.2.3
+variables:
+  SPHINX_BUILDER: dirhtml
+  SPHINX_BUILD_OPTIONS: --verbose --show-traceback --keep-going --color --nitpicky
+    --jobs auto
+  WEBSITE_TAR_FILEPATH: docs/website/.build/website.tar
