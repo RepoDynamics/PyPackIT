@@ -3104,7 +3104,7 @@ devcontainer:
                 for col_idx, cell in enumerate(row):
                     width = col_widths[col_idx]
                     formatted_row.append(str(cell).ljust(width))
-                formatted_rows.append("  ".join(formatted_row))  # two spaces between columns
+                formatted_rows.append("  ".join(formatted_row).strip())
             return "\n".join(formatted_rows)
           }}#
   function:
