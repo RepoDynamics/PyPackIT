@@ -3570,7 +3570,7 @@ devcontainer_main:
             fi;
             chsh --shell "$USER_SHELL" "$USERNAME";
         - ENV:
-            BASH_ENV: ${{ devcontainer_main.volume.bashenv.path }}$
+            BASH_ENV: ${{ devcontainer_main.volume.bash_env.abspath }}$
     - title: Entry
       instructions:
         - CMD: |
