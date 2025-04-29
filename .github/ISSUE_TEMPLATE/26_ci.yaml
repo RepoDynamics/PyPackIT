@@ -85,7 +85,7 @@ body:
       label: URL
       description: Please provide the URL of the relevant configuration file in the
         repository.
-      placeholder: https://github.com/RepoDynamics/PyPackIT/blob/main/.control
+      placeholder: https://github.com/RepoDynamics/PyPackIT/blob/main/.control/control.yaml
     validations:
       required: true
   - type: input
