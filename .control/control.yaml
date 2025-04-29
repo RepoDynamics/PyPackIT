@@ -6302,7 +6302,7 @@ devcontainer_main:
             lint:
               allowed-confusables: [ '–' ]
               exclude:
-                - .manager/**/*.py
+                - '${{ pypkg_ci.path.root }}$/**/*.py'
               ignore:
                 - PLR1711  # https://docs.astral.sh/ruff/rules/useless-return/
                 # Rules conflicting with the formatter (see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules)
@@ -10607,7 +10607,7 @@ pull:
 pypkg_ci:
   name: ProMan
   path:
-    root: .manager
+    root: .control
   os: ${{ pypkg_main.os }}$
   python:
     version:
