@@ -7101,7 +7101,7 @@ devcontainer_main:
     bash_env:
       name: BASH_ENV File
       summary: Common script sourced by all shell sessions.
-      relpath: etc/bash/bashenv
+      relpath: etc/bash/bash_env
       type: shell_src
       content:
         interpreter: ""
@@ -7191,7 +7191,7 @@ devcontainer_main:
       summary: Shell configurationss for all interactive shells.
       description: |
         This script is sourced in both `bashrc` and `zshrc`.
-      relpath: etc/globalrc
+      relpath: etc/global_shellrc
       type: shell_src
       content:
         interpreter: ""
