@@ -2741,7 +2741,7 @@
          }
       },
       "path": {
-         "config": ".control",
+         "config": ".control/control.yaml",
          "pkg_install_script": "install.py"
       },
       "url": {

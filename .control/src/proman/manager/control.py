@@ -126,12 +126,18 @@ class ControlCenterManager:
             return self._data_raw
         with _logger.sectioning("Config Files Load"):
             self._data_raw = {}
-            for path in sorted(self._path_cc.rglob("*"), key=lambda p: (p.parts, p)):
-                if path.is_file() and path.suffix.lower() in (".yaml", ".yml"):
-                    with _logger.sectioning(
-                        _mdit.element.code_span(str(path.relative_to(self._path_cc)))
+            if self._path_cc.is_file():
+                with _logger.sectioning(
+                        _mdit.element.code_span(str(self._path_cc))
                     ):
-                        _load_file(filepath=path)
+                        _load_file(filepath=self._path_cc)
+            else:
+                for path in sorted(self._path_cc.rglob("*"), key=lambda p: (p.parts, p)):
+                    if path.is_file() and path.suffix.lower() in (".yaml", ".yml"):
+                        with _logger.sectioning(
+                            _mdit.element.code_span(str(path.relative_to(self._path_cc)))
+                        ):
+                            _load_file(filepath=path)
         with _logger.sectioning("Post-Load Data Validation"):
             _data_validator.validate(data=self._data_raw, source="source", before_substitution=True)
         return self._data_raw

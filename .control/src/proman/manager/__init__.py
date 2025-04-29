@@ -338,7 +338,7 @@ class Manager:
         if not control_center_path:
             raise ValueError("Control center path not provided.")
         control_center_path = self.git.repo_path / control_center_path
-        if not control_center_path.is_dir():
+        if not control_center_path.exists():
             raise ValueError(f"Invalid control center path '{control_center_path}'")
         return ControlCenterManager(
             manager=self,
