@@ -21,7 +21,7 @@
       "pixi_chown": ["sudo", "chown", "pypackit-dev", ".pixi"]
    },
    "postStartCommand": {
-      "manager_install": ["conda", "run", "--name", "website", "--live-stream", "-vv", "pip", "install", "-e", "/workspace/.manager"]
+      "manager_install": ["conda", "run", "--name", "website", "--live-stream", "-vv", "pip", "install", "-e", "/workspace/.control"]
    },
    "customizations": {
       "vscode": {
