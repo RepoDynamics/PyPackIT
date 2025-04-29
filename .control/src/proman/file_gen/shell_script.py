@@ -392,6 +392,9 @@ def validate_missing_arg(
     if var_type == "string":
         check = f'[ -z "${{{var_name}-}}" ]'  # True if var_name is not set or empty
         action = err_missing_arg if default is None else f'{info_default_set(default)}{var_name}="{default}"'
+    elif var_type == "boolean":
+        check = f'[ -z "${{{var_name}-}}" ]'
+        action = f'{info_default_set("false")}{var_name}=false'
     elif var_type == "array":
         check = f'{{ [ "${{{var_name}+isset}}" != "isset" ] || [ ${{#{var_name}[@]}} -eq 0 ] }}'
         if default is None:
@@ -487,7 +490,7 @@ def validate_path_existence(
     }
     condition = "not found" if must_exist else "already exists"
     err_msg = f"{name[path_type]} argument to parameter '{var_name}' {condition}: '${var_name}'"
-    cmd = f'[ -n ${{{var_name}-}} ] && [ {"! " if must_exist else ""}-{operator[path_type]} "${var_name}" ] && {{ {log(err_msg, "critical")}; }}'
+    cmd = f'[ -n "${{{var_name}-}}" ] && [ {"! " if must_exist else ""}-{operator[path_type]} "${var_name}" ] && {{ {log(err_msg, "critical")}; }}'
     return [cmd]
 
 
