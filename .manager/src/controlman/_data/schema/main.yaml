@@ -848,7 +848,7 @@ properties:
               allOf:
                 - properties:
                     name:
-                      default: Feature Metadata
+                      default: ${{ .content.name }}$ Devcontainer Feature Metadata
                     summary:
                       default: '`devcontainer-feature.json` file for the feature.'
                     path:
@@ -1172,7 +1172,7 @@ properties:
               allOf:
                 - properties:
                     name:
-                      default: Feature Installation
+                      default: ${{ ..metadata.content }}$ Devcontainer Feature Installer
                     summary:
                       default: Installation script for the feature.
                     path:
