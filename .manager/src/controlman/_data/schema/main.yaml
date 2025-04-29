@@ -838,7 +838,7 @@ properties:
               description: |
                 The path is relative to `/.devcontainers` directory.
               $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-              default: feature/${{ .metadata.id }}$
+              default: feature/${{ .metadata.content.id }}$
             metadata:
               summary: Feature metadata.
               description: |
