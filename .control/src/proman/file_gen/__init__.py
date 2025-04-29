@@ -64,7 +64,11 @@ def generate(
     metadata_file = _dtype.DynamicFile(
         type=_dtype.DynamicFileType.CONFIG,
         subtype=("meta", "Metadata"),
-        content=_ps.write.to_json_string(data=data(), sort_keys=True, indent=3),
+        content=_ps.write.to_json_string(
+            data={k: v for k, v in data().items() if k not in ("changelogs", "contributors", "variable")},
+            sort_keys=True,
+            indent=3
+        ),
         path=data["control.metadata.path"],
         path_before=data_before["control.metadata.path"],
     )

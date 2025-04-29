@@ -148,8 +148,6 @@ class ControlCenterManager:
         self.load()
         data = copy.deepcopy(self._data_raw)
         code_context_call = {"manager": self._manager}
-        data["changelogs"] = self._manager.changelog.full
-        data["contributor"] = self._manager.user.contributors.as_dict
         code_context_call["hook"] = InlineDataGenerator(manager=self._manager)
 
         def get_prefix(get, prefix: str):
@@ -191,9 +189,6 @@ class ControlCenterManager:
                 "Filled Data",
                 "All template variables have been successfully resolved.",
             )
-            data.pop("var")
-            data.pop("changelogs")
-            data.pop("contributor")
         self._manager()  # Reset the getter function
         data = _ps.NestedDict(_ps.update.remove_keys(data(), const.RELATIVE_TEMPLATE_KEYS))
         with _logger.sectioning("Final Data Validation"):
