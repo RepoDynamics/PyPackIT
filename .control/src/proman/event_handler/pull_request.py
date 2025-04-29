@@ -9,7 +9,6 @@ from loggerman import logger
 from pylinks.exception.api import WebAPIError
 from versionman.pep440_semver import PEP440SemVer
 
-import controlman
 from proman.dtype import (
     BranchType,
     InitCheckAction,
