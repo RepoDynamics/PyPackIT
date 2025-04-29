@@ -65,7 +65,7 @@ properties:
     $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
   abspath:
     summary: Absolute path to the file.
-    $ref: https://controlman.repodynamics.com/schema/dynamic-file-path
+    type: string
   path_schema:
     summary: JSON schema for the path.
     type: object
