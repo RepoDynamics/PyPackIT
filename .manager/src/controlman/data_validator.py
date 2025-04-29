@@ -500,8 +500,9 @@ def modify_schema(schema: dict) -> dict:
         "minLength": 6,
     }
     new_schema = {}
-    if "$id" in schema:
-        new_schema["$id"] = schema.pop("$id")
+    for top_level_only_key in ("$id", "$defs"):
+        if top_level_only_key in schema:
+            new_schema[top_level_only_key] = schema.pop(top_level_only_key)
     if "default" in schema:
         # If the schema has a default value, add it to the new schema,
         # otherwise it is not filled when inside an 'anyOf' clause.
