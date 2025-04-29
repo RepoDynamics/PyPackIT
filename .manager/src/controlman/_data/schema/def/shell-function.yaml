@@ -9,7 +9,7 @@ properties:
   name:
     summary: Name of the function.
     type: string
-    default: ${{ .key }}$
+    default: ${{ .__key__ }}$
   summary:
     summary: One-line summary of the function.
     type: string
