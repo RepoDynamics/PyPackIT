@@ -2839,7 +2839,7 @@ devcontainer:
         name: TeX Live Installation Profile
         summary: Profile for installing TeX Live.
         type: txt
-        path: ${{ ..path.root }}$/install.profile
+        relpath: install.profile
         data:
           scheme: scheme-full
           path:
