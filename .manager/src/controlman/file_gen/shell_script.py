@@ -11,9 +11,10 @@ def create_script(
     data: dict,
     global_functions: dict | None = None
 ) -> str:
-    lines = [
-        f"#!/{data["interpreter"].removeprefix("#").removeprefix("!").removeprefix("/")}",
-    ]
+    lines = []
+    interpreter = data.get("interpreter")
+    if interpreter:
+        lines.append(f"#!/{interpreter.removeprefix("#").removeprefix("!").removeprefix("/")}")
     flags = data.get("flags")
     if flags:
         lines.append(f"set {flags}")
