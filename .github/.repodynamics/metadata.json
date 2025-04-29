@@ -2741,7 +2741,7 @@
          }
       },
       "path": {
-         "config": ".control",
+         "config": ".control/control.yaml",
          "pkg_install_script": "install.py"
       },
       "url": {
@@ -4934,7 +4934,7 @@
                "url": "https://github.com/RepoDynamics/PyPackIT/blob/main/.devcontainer/feature/volume/install.sh"
             },
             "manifest": {
-               "content": "write   /etc/bash.bashrc                           \nwrite   /etc/bash/bash_env                         \nwrite   /etc/bash/bash_theme                       \nwrite   /etc/global_shellrc                        \nwrite   /etc/profile                               \nwrite   /etc/project_tasks                         \nwrite   /etc/zsh/zprofile                          \nwrite   /etc/zsh/zshenv                            \nwrite   /etc/zsh/zshrc                             \ndelete  /home/pypackit-dev/.bashrc                 \ndelete  /home/pypackit-dev/.profile                \ndelete  /root/.bashrc                              \ndelete  /root/.profile                             \nwrite   /usr/local/bin/code               chmod=+rx\nwrite   /usr/local/bin/devcontainer-info  chmod=+rx\nwrite   /usr/local/bin/systemctl          chmod=+rx",
+               "content": "write   /etc/bash.bashrc\nwrite   /etc/bash/bash_env\nwrite   /etc/bash/bash_theme\nwrite   /etc/global_shellrc\nwrite   /etc/profile\nwrite   /etc/project_tasks\nwrite   /etc/zsh/zprofile\nwrite   /etc/zsh/zshenv\nwrite   /etc/zsh/zshrc\ndelete  /home/pypackit-dev/.bashrc\ndelete  /home/pypackit-dev/.profile\ndelete  /root/.bashrc\ndelete  /root/.profile\nwrite   /usr/local/bin/code               chmod=+rx\nwrite   /usr/local/bin/devcontainer-info  chmod=+rx\nwrite   /usr/local/bin/systemctl          chmod=+rx",
                "content_setting": {
                   "prefix": "",
                   "separator": "\n",
@@ -22127,7 +22127,7 @@
                   "attributes": {
                      "description": "Please provide the URL of the relevant configuration file in the repository.",
                      "label": "URL",
-                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control"
+                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control/control.yaml"
                   },
                   "changelog": false,
                   "id": "url",
@@ -22318,7 +22318,7 @@
                   "attributes": {
                      "description": "Please provide the URL of the relevant configuration file in the repository.",
                      "label": "URL",
-                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control"
+                     "placeholder": "https://github.com/RepoDynamics/PyPackIT/blob/main/.control/control.yaml"
                   },
                   "changelog": false,
                   "id": "url",
