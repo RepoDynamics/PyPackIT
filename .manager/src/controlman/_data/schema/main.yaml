@@ -148,12 +148,14 @@ patternProperties:
       volume:
         additionalProperties:
           allOf:
-            - required: [ relpath ]
+            - required: [ relpath, abspath ]
               properties:
                 abspath:
-                  default: /#{{ return get(".relpath").removeprefix("/") }}#
+                  default: /${{ .relpath }}$
                 path:
-                  default: ${{ ...path.volume }}$/#{{ return get(".relpath").removeprefix("/") }}#
+                  default: ${{ ...path.volume }}$/${{ .relpath }}$
+                relpath:
+                  default: '#{{ return get(".abspath").removeprefix("/") }}#'
             - $ref: https://controlman.repodynamics.com/schema/dynamic-file
       file:
         summary: Dynamic files related to the container.
@@ -1149,11 +1151,9 @@ properties:
                     readOnly: true
                     default: ${{ ..path }}$/${{ .relpath }}$
                   relpath:
-                    summary: Relative path to the install script.
+                    summary: Relative path to the file.
                     description: |
                       The path is relative to the root of the feature directory.
-                      According to Devcontainer specifications,
-                      this must always be `install.sh`.
               - $ref: https://controlman.repodynamics.com/schema/dynamic-file
       function:
         summary: Definition of shell functions.
