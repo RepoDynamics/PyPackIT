@@ -1,14 +1,12 @@
-# RC file sourced by all shells
-
-# Source conda and mamba activation scripts.
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+. "/etc/bash/bash_env"
 . "/opt/conda/etc/profile.d/conda.sh"
 . "/opt/conda/etc/profile.d/mamba.sh"
-
-# Activate conda environment
-conda activate base
-
-# Set the default git editor if not already set
-if command -v git >/dev/null 2>&1 && [ -z "$(git config --get core.editor)" ] && [ -z "${GIT_EDITOR}" ]; then
+mamba activate app
+if [ -z "$(git config --get core.editor)" ] && [ -z "${GIT_EDITOR}" ]; then
     if  [ "${TERM_PROGRAM}" = "vscode" ]; then
         if [[ -n $(command -v code-insiders) &&  -z $(command -v code) ]]; then
             export GIT_EDITOR="code-insiders --wait"
@@ -16,4 +14,21 @@ if command -v git >/dev/null 2>&1 && [ -z "$(git config --get core.editor)" ] &&
             export GIT_EDITOR="code --wait"
         fi
     fi
+fi
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+if [ -n "$BASH_VERSION" ]; then
+    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+fi
+if [ -x /usr/bin/dircolors ]; then
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi

@@ -2,7 +2,7 @@ case $- in
   *i*) ;;
     *) return;;
 esac
-. "/etc/globalrc"
+. "/etc/global_shellrc"
 READNULLCMD=${PAGER:-/usr/bin/pager}
 typeset -ga debian_missing_features
 if [[ -z "${DEBIAN_PREVENT_KEYBOARD_CHANGES-}" ]] && [[ "$TERM" != 'emacs' ]]; then

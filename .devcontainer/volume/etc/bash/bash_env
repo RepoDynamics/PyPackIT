@@ -1,39 +1,43 @@
-prepend_path() {
-  # Prepend existing directories to PATH, avoiding duplicates.
-  # Usage: prepend_path dir1 dir2 ...
-  for dir in "$@"; do
-    [ -d "$dir" ] || continue  # Skip if not a directory
+extend_path() {
+  local append=()
+  local prepend=()
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --append) shift; while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do append+=("$1"); shift; done;;
+      --prepend) shift; while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do prepend+=("$1"); shift; done;;
+      --*) echo "⛔ Unknown option: "$1"" >&2; exit 1;;
+      *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
+    esac
+  done
+  { [ "${append+isset}" != "isset" ] || [ ${#append[@]} -eq 0 ] } && { append=(); }
+  { [ "${prepend+isset}" != "isset" ] || [ ${#prepend[@]} -eq 0 ] } && { prepend=(); }
+  for (( idx=${#prepend[@]}-1; idx>=0; idx-- )); do
+    local dir=${prepend[idx]}
+    [ -d "$dir" ] || continue
     case ":$PATH:" in
-      *:"$dir":*) ;;  # Already in PATH, do nothing
-      *) PATH=$dir:$PATH ;;  # Prepend to PATH
+      *:"$dir":*) ;;
+      *) PATH=$dir:$PATH ;;
+    esac
+  done
+  for dir in "${append[@]}"; do
+    [ -d "$dir" ] || continue
+    case ":$PATH:" in
+      *:"$dir":*) ;;
+      *) PATH=$PATH:$dir ;;
     esac
   done
 }
-
-prepend_path \
+if [ -z "$USER" ]; then export USER=$(whoami); fi
+if [ -z "$HOME" ]; then export HOME=$(getent passwd "$USER" | cut -d: -f6); fi
+extend_path --prepend \
   "$HOME/.local/bin" \
   "$HOME/bin" \
   "/usr/local/bin" \
   "/usr/bin" \
-  "/usr/games" \
-  "/bin"
-
-
-# XDG Base Directories
-# - https://specifications.freedesktop.org/basedir-spec/latest
-# - https://wiki.archlinux.org/title/XDG_Base_Directory
-export XDG_DATA_HOME="${HOME}/.local/share"
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_STATE_HOME="${HOME}/.local/state"
+  "/bin" \
+  "/usr/games"
 export XDG_CACHE_HOME="${HOME}/.cache"
-
-
-# Alias definitions
-if [ -f /etc/bash/bash_aliases ]; then
-    . /etc/bash/bash_aliases
-fi
-
-if [ -z "${USER}" ]; then export USER=$(whoami); fi
-
-# Project Tasks
-. /workspace/.devcontainer/tasks.sh
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+. "/etc/project_tasks"

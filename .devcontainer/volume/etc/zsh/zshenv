@@ -1,1 +1,1 @@
-emulate sh -c 'source "/etc/bash/bashenv"'
+emulate sh -c 'source "/etc/bash/bash_env"'
