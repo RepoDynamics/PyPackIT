@@ -323,10 +323,6 @@ def validate_variable(
     -------
     Shell command (as a list of lines) to validate the variable.
     """
-    if var_type == "boolean":
-        return []
-    validator_names = {"enum", "path_existence"}
-    validations = validations or {}
     out = [
         validate_missing_arg(
             var_name=var_name,
@@ -335,6 +331,10 @@ def validate_variable(
             script_type=script_type,
         )
     ]
+    if var_type == "boolean":
+        return out
+    validator_names = {"enum", "path_existence"}
+    validations = validations or {}
     has_non_custom_validations = any(validator_name in validations for validator_name in validator_names)
     in_for_loop = has_non_custom_validations and var_type == "array"
     if in_for_loop:
@@ -357,7 +357,7 @@ def validate_variable(
 
 def validate_missing_arg(
     var_name: str,
-    var_type: Literal["string", "array"],
+    var_type: Literal["string", "boolean", "array"],
     default: str | list[str] | None,
     script_type: Literal["shell_src", "shell_exec"],
 ) -> str:
