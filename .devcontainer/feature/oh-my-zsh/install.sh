@@ -39,7 +39,7 @@ git_clone() {
 }
 _LOGFILE_TMP="$(mktemp)"
 exec > >(tee -a "$_LOGFILE_TMP") 2>&1
-echo "↪️ Script entry: Oh My Zsh Installation" >&2
+echo "↪️ Script entry: Oh My Zsh Installation Devcontainer Feature Installer" >&2
 trap __cleanup__ EXIT
 if [ "$#" -gt 0 ]; then
   echo "ℹ️ Script called with arguments: $@" >&2
@@ -96,4 +96,4 @@ git_clone \
 git_clone \
   --url "https://github.com/zsh-users/zsh-syntax-highlighting"
   --dir "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
-echo "↩️ Script exit: Oh My Zsh Installation" >&2
+echo "↩️ Script exit: Oh My Zsh Installation Devcontainer Feature Installer" >&2

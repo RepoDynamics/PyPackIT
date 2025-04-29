@@ -12,7 +12,7 @@ __cleanup__() {
 }
 _LOGFILE_TMP="$(mktemp)"
 exec > >(tee -a "$_LOGFILE_TMP") 2>&1
-echo "↪️ Script entry: Pixi Installation" >&2
+echo "↪️ Script entry: Pixi Installation Devcontainer Feature Installer" >&2
 trap __cleanup__ EXIT
 if [ "$#" -gt 0 ]; then
   echo "ℹ️ Script called with arguments: $@" >&2
@@ -48,4 +48,4 @@ curl \
   "https://github.com/prefix-dev/pixi/releases/download/v${VERSION}/pixi-$(uname -m)-unknown-linux-musl"
 chmod +x "$pixi_bin"
 pixi info
-echo "↩️ Script exit: Pixi Installation" >&2
+echo "↩️ Script exit: Pixi Installation Devcontainer Feature Installer" >&2

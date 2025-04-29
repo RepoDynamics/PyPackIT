@@ -151,7 +151,7 @@ process_manifest() {
 }
 _LOGFILE_TMP="$(mktemp)"
 exec > >(tee -a "$_LOGFILE_TMP") 2>&1
-echo "↪️ Script entry: Volume Setup" >&2
+echo "↪️ Script entry: Volume Setup Devcontainer Feature Installer" >&2
 trap __cleanup__ EXIT
 if [ "$#" -gt 0 ]; then
   echo "ℹ️ Script called with arguments: $@" >&2
@@ -202,4 +202,4 @@ find "$SOURCE_DIR" -type f | while read -r filepath; do
     execute "$DEFAULT_ACTION" "$relpath"
 done
 echo "✅ Volume setup complete."
-echo "↩️ Script exit: Volume Setup" >&2
+echo "↩️ Script exit: Volume Setup Devcontainer Feature Installer" >&2

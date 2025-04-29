@@ -167,7 +167,7 @@ verify_installation() {
 }
 _LOGFILE_TMP="$(mktemp)"
 exec > >(tee -a "$_LOGFILE_TMP") 2>&1
-echo "↪️ Script entry: TeX Live Installation" >&2
+echo "↪️ Script entry: TeX Live Installation Devcontainer Feature Installer" >&2
 trap __cleanup__ EXIT
 if [ "$#" -gt 0 ]; then
   echo "ℹ️ Script called with arguments: $@" >&2
@@ -278,4 +278,4 @@ if [[ "$VERIFY_INSTALLATION" == true ]]; then
     verify_installation
 fi
 echo "✅ TeX Live installation complete."
-echo "↩️ Script exit: TeX Live Installation" >&2
+echo "↩️ Script exit: TeX Live Installation Devcontainer Feature Installer" >&2

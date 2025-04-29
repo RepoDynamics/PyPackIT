@@ -238,7 +238,7 @@ verify_miniforge() {
 }
 _LOGFILE_TMP="$(mktemp)"
 exec > >(tee -a "$_LOGFILE_TMP") 2>&1
-echo "↪️ Script entry: Miniforge Installation" >&2
+echo "↪️ Script entry: Miniforge Installation Devcontainer Feature Installer" >&2
 trap __cleanup__ EXIT
 if [ "$#" -gt 0 ]; then
   echo "ℹ️ Script called with arguments: $@" >&2
@@ -399,4 +399,4 @@ fi
 if [[ ${#ENV_FILES[@]} -gt 0 || ${#ENV_DIRS[@]} -gt 0 ]]; then setup_environments; fi
 if [[ "$SET_PERMISSION" == true ]]; then set_permission; fi
 echo "✅ Conda installation complete."
-echo "↩️ Script exit: Miniforge Installation" >&2
+echo "↩️ Script exit: Miniforge Installation Devcontainer Feature Installer" >&2
