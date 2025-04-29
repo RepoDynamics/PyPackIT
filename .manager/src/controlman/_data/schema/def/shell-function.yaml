@@ -6,6 +6,10 @@ type: object
 additionalProperties: false
 required: [ summary, body ]
 properties:
+  name:
+    summary: Name of the function.
+    type: string
+    default: ${{ .key }}$
   summary:
     summary: One-line summary of the function.
     type: string
