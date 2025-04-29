@@ -6035,19 +6035,6 @@ devcontainer_main:
                 xml_report: ${{ devcontainer_main.environment.type_check.data.report_path }}$
                 # Miscellaneous
                 verbosity: 2
-      task:
-        typecheck:
-          name: Type Check
-          summary: Run type checking with Mypy.
-          process:
-            - mypy
-            - --package ${{ pypkg_main.import_name }}$
-            - --package ${{ pypkg_test.import_name }}$
-            # https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
-            - --python-executable /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
-            - --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
-            - --install-types
-            - --non-interactive
     codecov:
       conda:
         rust:
@@ -6412,11 +6399,6 @@ devcontainer_main:
               mccabe:
                 max-complexity: 15
     jupyter:
-      task:
-        jupyterlab:
-          name: Open JupyterLab
-          script: |
-            jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
       conda:
         jupyterlab:
           description: |
@@ -7005,41 +6987,115 @@ devcontainer_main:
           url:
             package: https://pypi.org/project/pygments-git/
             source: https://github.com/adamchainz/pygments-git
-      task:
-        build:
-          name: Build Website
-          description: Build the website using Sphinx.
-          process: [ bash, '${{ file_script_web_build.path }}$' ]
-        live:
-          name: Live Website Preview
-          description: |
-            Start a live preview server for the website.
-            This will automatically rebuild the website when changes are made.
-          process: [ bash, '${{ file_script_web_livehtml.path }}$' ]
-  task:
-    project_manager:
-      name: Project Management
-      summary: Main project management CLI.
-      alias: project
-      process:
-        - ${{ __temp__.conda_env_name.manager }}$
-        - proman
-        - $@
-    build-oj-paper:
-      # https://github.com/openjournals/inara
-      name: Build Open-Journals Paper
-      description: |
-        Build paper using the Open-Journals Inara service.
-        For publishing to JOSE or ReScience C (instead of JOSS),
-        set the `JOURNAL` environment variable to `jose` or `resciencec`, respectively.
-      script: |
-        docker exec -it ${{ devcontainer.docker-compose.config.services.openjournals.container_name }}$ \
-          inara -o pdf -p -v $1
-      notes: |
-        This uses the [inara](https://github.com/openjournals/inara/blob/main/Dockerfile) Docker image.
-        See the entry [script](https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh)
-        for more details.
+      variable:
+        sphinx_builder:
+          key: SPHINX_BUILDER
+          value: dirhtml
+        sphinx_build_options:
+          key: SPHINX_BUILD_OPTIONS
+          value: --verbose --show-traceback --keep-going --color --nitpicky --jobs auto
+        website_tar_filepath:
+          key: WEBSITE_TAR_FILEPATH
+          value: ${{ web.path.build }}$/website.tar
   volume:
+    project_tasks:
+      name: Project Tasks
+      summary: Shell functions for common project tasks.
+      description: |
+        This file contains shell functions for common project tasks.
+        It is sourced in the `bash_env` file,
+        which is sourced by all shell sessions.
+      relpath: etc/project_tasks
+      type: shell
+      content:
+        function:
+          run_in_conda_env:
+            summary: Run a command in a conda environment.
+            description: |
+              Use `conda run` to run a command in a conda environment.
+              The first argument is the name of the conda environment,
+              while the rest of the arguments are the command and its arguments.
+              The function runs the command from the root of the repository,
+              and livestreams the output.
+            body: |
+              conda run --cwd '${{ devcontainer_main.container.workspaceFolder }}$' --live-stream -vv --name $@
+          project:
+            summary: Main project management CLI.
+            body: |
+              run_in_conda_env ${{ __temp__.conda_env_name.manager }}$ proman $@
+          build-web:
+            summary: Build the website with Sphinx.
+            body: |
+              run_in_conda_env ${{ devcontainer_main.environment.website.name }}$ sphinx-build \
+                -M $${{ devcontainer_main.environment.website.variable.sphinx_builder.key }}$ \
+                ${{ web.path.source }}$ \
+                ${{ web.path.build }}$ \
+                $${{ devcontainer_main.environment.website.variable.sphinx_build_options.key }}$
+              # Create a tarball of the built website according to GitHub Pages requirements.
+              # Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml
+              tar \
+                --dereference --hard-dereference \
+                --directory "${{ web.path.build }}$/${{ devcontainer_main.environment.website.variable.sphinx_builder.value }}$" \
+                -cvf "$${{ devcontainer_main.environment.website.variable.website_tar_filepath.key }}$" \
+                --exclude=.git \
+                --exclude=.github \
+                --exclude=".[^/]*" \
+                .
+            references:
+              - title: '`sphinx-build` options'
+                url: https://www.sphinx-doc.org/en/master/man/sphinx-build.html
+              - title: Sphinx builders
+                url: https://www.sphinx-doc.org/en/master/usage/builders/index.html
+              - title: Sphinx Makefile template
+                url: https://github.com/sphinx-doc/sphinx/blob/master/sphinx/templates/quickstart/Makefile.new.jinja
+          liveweb:
+            summary: Start a live preview server for the website.
+            description: |
+              This will automatically rebuild the website when changes are made.
+            body: |
+              run_in_conda_env ${{ devcontainer_main.environment.website.name }}$ sphinx-autobuild \
+                ${{ web.path.source }}$ \
+                ${{ web.path.build }}$ \
+                $${{ devcontainer_main.environment.website.variable.sphinx_build_options.key }}$ \
+                -a \
+                -b=$${{ devcontainer_main.environment.website.variable.sphinx_builder.key }}$ \
+                --open-browser \
+                --delay 0
+            references:
+              - title: '`sphinx-autobuild` options'
+                url: https://github.com/sphinx-doc/sphinx-autobuild/blob/main/README.rst
+          typecheck:
+            summary: Run type checking with Mypy.
+            body: >-
+              mypy
+              --package ${{ pypkg_main.import_name }}$
+              --package ${{ pypkg_test.import_name }}$
+              --python-executable /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
+              --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
+              --install-types
+              --non-interactive
+            references:
+              - title: Using installed packages with Mypy
+                url: https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
+          jupyterlab:
+            summary: Open JupyterLab
+            body: >-
+              jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
+          build-paper:
+            summary: Build Open-Journals (JOSS) paper.
+            description: |
+              Build a paper using the Open-Journals Inara service.
+              For publishing to JOSE or ReScience C (instead of JOSS),
+              set the `JOURNAL` environment variable to `jose` or `resciencec`, respectively.
+            body: >-
+              docker exec -it
+              ${{ devcontainer.docker-compose.config.services.openjournals.container_name }}$
+              inara -o pdf -p -v $1
+            references:
+              - title: Inara Docker image
+                url: https://github.com/openjournals/inara/blob/main/Dockerfile
+              - title: Inara script
+                url: https://github.com/openjournals/inara/blob/main/scripts/entrypoint.sh
     globalrc:
       name: Global Shell Configuration
       summary: Shell configurations for all interactive shells.
@@ -7071,24 +7127,39 @@ devcontainer_main:
                 fi
             fi
         fi
-    bashenv:
+    bash_env:
       name: Bash Environment
       summary: Bash environment
       relpath: etc/bash/bashenv
-      content: |
-        # Set XDG base directories
-        export XDG_CACHE_HOME="${HOME}/.cache"
-        export XDG_CONFIG_HOME="${HOME}/.config"
-        export XDG_DATA_HOME="${HOME}/.local/share"
-        export XDG_STATE_HOME="${HOME}/.local/state"
-
-        # Source project tasks file.
-        . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks }}$"
-
-        # From default zshenv file created by the `zsh-common` apt package.
-        if [[ -z "$PATH" || "$PATH" == "/bin:/usr/bin" ]]; then
-            export PATH="/usr/local/bin:/usr/bin:/bin:/usr/games"
-        fi
+      type: shell
+      content:
+        import:
+          - extend_path
+        body:
+          - summary: Set USER and HOME if not set.
+            content: |
+              if [ -z "$USER" ]; then export USER=$(whoami); fi
+              # Extract the 6th field, which is the home directory.
+              if [ -z "$HOME" ]; then export HOME=$(getent passwd "$USER" | cut -d: -f6); fi
+          - summary: Extend PATH.
+            content: |
+              extend_path --prepend \
+                "$HOME/.local/bin" \
+                "$HOME/bin" \
+                "/usr/local/bin" \
+                "/usr/bin" \
+                "/bin" \
+                "/usr/games"
+          - summary: Set XDG base directories.
+            content: |
+              export XDG_CACHE_HOME="${HOME}/.cache"
+              export XDG_CONFIG_HOME="${HOME}/.config"
+              export XDG_DATA_HOME="${HOME}/.local/share"
+              export XDG_STATE_HOME="${HOME}/.local/state"
+          - summary:
+            content: |
+              # Source project tasks file.
+              . "${{ devcontainer_main.container.workspaceFolder }}$/${{ devcontainer_main.path.tasks }}$"
     bash_profile:
       name: Global Shell Profile
       summary: System-wide profile for all Bourne-compatible shells.
@@ -8305,48 +8376,6 @@ file_sphinx_conf:
   jsonschema:
     schema:
       $ref: https://jsonschemata.repodynamics.com/config/sphinx
-file_script_web_build:
-  name: Website Build Script
-  summary: Script to build the website using Sphinx.
-  path: ${{ devcontainer_main.path.root }}$/script/website_build.sh
-  type: txt
-  data:
-    tar_path: ${{ web.path.build }}$/website.tar
-    sphinx_build_options: --verbose --show-traceback --keep-going --color --nitpicky --jobs auto
-    sphinx_builder: dirhtml
-  content: |
-    SPHINX_COMMON_OPTIONS="${{ .data.sphinx_build_options }}$"
-    sphinx-build -M ${{ .data.sphinx_builder }}$ ${{ web.path.source }}$ ${{ web.path.build }}$ $SPHINX_COMMON_OPTIONS
-
-    # Create a tarball of the built website according to GitHub Pages requirements.
-    # Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml
-    tar \
-      --dereference --hard-dereference \
-      --directory "${{ web.path.build }}$/dirhtml" \
-      -cvf "${{ .data.tar_path }}$" \
-      --exclude=.git \
-      --exclude=.github \
-      --exclude=".[^/]*" \
-      .
-  notes: |
-    References:
-    - [`sphinx-build` options](https://www.sphinx-doc.org/en/master/man/sphinx-build.html)
-    - [Sphinx builders](https://www.sphinx-doc.org/en/master/usage/builders/index.html)
-    - [Sphinx Makefile template](https://github.com/sphinx-doc/sphinx/blob/master/sphinx/templates/quickstart/Makefile.new.jinja)
-file_script_web_livehtml:
-  name: Website Live Preview Script
-  summary: Script to start a live preview server for the website.
-  path: ${{ devcontainer_main.path.root }}$/script/website_livehtml.sh
-  type: txt
-  content: |
-    sphinx-autobuild \
-      ${{ web.path.source }}$ \
-      ${{ web.path.build }}$ \
-      ${{ file_script_web_build.data.sphinx_build_options }}$ \
-      -a -b=${{ file_script_web_build.data.sphinx_builder }}$ --open-browser --delay 0
-  notes: |
-    References:
-    - [`sphinx-autobuild` options](https://github.com/sphinx-doc/sphinx-autobuild/blob/main/README.rst)
 file_citation_cff:
   name: CFF Citation
   summary: >-

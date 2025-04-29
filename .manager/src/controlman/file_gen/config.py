@@ -302,45 +302,6 @@ class ConfigFileGenerator:
             out.append(docker_compose_file)
             return
 
-        def quote_shell_arguments(args: list[str] | None) -> list[str]:
-            """Quotes arguments safely for Bash while preserving special shell parameters."""
-            return [
-                f'"{arg}"' if unquoted_task_process_patterns.match(arg) else _shlex.quote(arg)
-                for arg in (args or [])
-            ]
-
-        def create_task_function(
-            task: dict,
-            task_setting: dict,
-        ) -> str:
-            def add_lines(content: str):
-                lines.extend([(f"{indent}{line}" if line else "") for line in content.splitlines()])
-                return
-
-            lines = [f"{task['alias']}() {{"]
-            indent = 4 * " "
-            if "script" in task:
-                settings = task_setting.get("script", {})
-                add_lines(settings.get("prepend", ""))
-                add_lines(task["script"])
-                add_lines(settings.get("append", ""))
-            else:
-                settings = task_setting.get("process", {})
-                cmd = settings.get("prepend", [])
-                cmd.extend(task["process"])
-                cmd.extend(settings.get("append", []))
-                cmd_quoted = quote_shell_arguments(cmd)
-                add_lines(" ".join(cmd_quoted))
-            lines.append("}")
-            return "\n".join(lines)
-
-        unquoted_task_process_patterns = _re.compile(
-            r"^\$(\d+|\*|@)$"  # Matches $1, $2, ..., $@, $*
-            r"|^\$\{[^}]+\}$"  # Matches ${VAR}, ${ARRAY[@]}, ${1}, etc.
-            r"|^\$\w+$"  # Matches $VAR
-            r"|^\$\(.+\)$"  # Matches $(command)
-        )
-
         out = []
         docker_compose_data = self._data["devcontainer.docker-compose"]
         docker_compose_path = docker_compose_data["path"]
@@ -462,39 +423,6 @@ class ConfigFileGenerator:
                     path_before=container_before.get("environment", {}).get(env_id, {}).get("path"),
                 )
                 out.append(env_file)
-
-            # Task scripts
-            tasks = []
-            for task in container.get("task", {}).values():
-                tasks.append(
-                    create_task_function(
-                        task=task,
-                        task_setting=container["task_setting"],
-                    )
-                )
-            for environment in container.get("environment", {}).values():
-                for task in environment.get("task", {}).values():
-                    tasks.append(
-                        create_task_function(
-                            task=task,
-                            task_setting=environment["task_setting"]
-                        )
-                    )
-            out.append(
-                DynamicFile(
-                    type=DynamicFileType.DEVCONTAINER_TASK,
-                    subtype=(container_id, container.get("name", container_id)),
-                    content=_unit.create_dynamic_file(
-                        file_type="txt",
-                        content=tasks,
-                        content_item_separator="\n\n",
-                    )
-                    if tasks
-                    else None,
-                    path=f"{container['path']['tasks']}",
-                    path_before=f"{container_before.get('path', {}).get('tasks')}",
-                )
-            )
         return out
 
     def gitattributes(self) -> list[DynamicFile]:

@@ -79,10 +79,6 @@ patternProperties:
             summary: Path to the Dockerfile.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
             default: ${{ .root }}$/Dockerfile
-          tasks:
-            summary: Path to the tasks script file.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: ${{ .root }}$/tasks.sh
       service:
         type: object
       dockerfile:
@@ -113,28 +109,6 @@ patternProperties:
         type: object
         additionalProperties:
           $ref: https://controlman.repodynamics.com/schema/dependency-apt-env
-      task:
-        type: object
-        additionalProperties:
-          $ref: https://controlman.repodynamics.com/schema/bash-task
-      task_setting:
-        $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
-        default:
-          process:
-            prepend:
-              - conda
-              - run
-              - --cwd
-              - '${{ ....container.workspaceFolder }}$'
-              - --live-stream
-              - -vv
-              - --name
-          script:
-            prepend: |
-              current_dir=$(pwd)
-              cd '${{ ...container.workspaceFolder }}$'
-            append: |
-              cd "$current_dir"
       environment:
         type: object
         additionalProperties:
@@ -161,31 +135,6 @@ patternProperties:
               type: object
               additionalProperties:
                 $ref: https://controlman.repodynamics.com/schema/dynamic-file
-            task:
-              type: object
-              additionalProperties:
-                $ref: https://controlman.repodynamics.com/schema/bash-task
-            task_setting:
-              $ref: https://controlman.repodynamics.com/schema/bash-task-prefix-suffix
-              default:
-                process:
-                  prepend:
-                    - conda
-                    - run
-                    - --cwd
-                    - '${{ ......container.workspaceFolder }}$'
-                    - --name
-                    - '${{ ....name }}$'
-                    - --live-stream
-                    - -vv
-                script:
-                  prepend: |
-                    current_dir=$(pwd)
-                    cd '${{ .....container.workspaceFolder }}$'
-                    conda activate '${{ ...name }}$'
-                  append: |
-                    conda deactivate
-                    cd "$current_dir"
             variable:
               type: object
               additionalProperties:
