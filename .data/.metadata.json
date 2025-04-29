@@ -2739,7 +2739,7 @@
       },
       "source": {
          "path": ".data/source.yaml"
-      }
+      },
       "cache": {
          "retention_hours": {
             "css_color_filter": 0,
