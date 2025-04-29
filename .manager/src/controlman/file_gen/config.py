@@ -125,11 +125,12 @@ class ConfigFileGenerator:
             return DynamicFile(**file_info)
         if file["type"] == "md":
             content = _unit.create_md_content(file, repo_path=self._path_repo)
-        elif file["type"] == "shell":
+        elif file["type"] in ("shell_src", "shell_exec"):
             content = shell_script.create_script(
                 name=file["name"],
                 data=file["content"],
-                global_functions=self._data.get("devcontainer.function")
+                script_type=file["type"],
+                global_functions=self._data.get("devcontainer.function"),
             )
         else:
             content_setting = file["content_setting"]

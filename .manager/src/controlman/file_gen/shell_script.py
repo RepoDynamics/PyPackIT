@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 def create_script(
     name: str,
     data: dict,
+    script_type: Literal["shell_src", "shell_exec"],
     global_functions: dict | None = None
 ) -> str:
     lines = []
@@ -22,39 +23,44 @@ def create_script(
         func_name: func_data for func_name, func_data in (global_functions or {}).items()
         if func_name in data.get("import", [])
     } | data.get("function", {})
-    functions["__cleanup__"] = augment_cleanup_function(functions.get("__cleanup__", {}))
+    if script_type == "shell_exec":
+        functions["__cleanup__"] = augment_cleanup_function(functions.get("__cleanup__", {}))
     for func_name, func_data in sorted(functions.items()):
         lines.extend(create_function(func_name, func_data))
-    lines.extend(
-        [
-            '_LOGFILE_TMP="$(mktemp)"',  # Create a temporary log file
-            'exec > >(tee -a "$_LOGFILE_TMP") 2>&1',  # Redirect stdout and stderr into the log file
-            log_endpoint(name, typ="script", stage="entry"),
-            'trap __cleanup__ EXIT',  # Call cleanup function on exit
-        ]
-    )
-    parameters = data.get("parameter")
-    if parameters:
+    if script_type == "shell_exec":
         lines.extend(
             [
-                'if [ "$#" -gt 0 ]; then',
-                indent(log(f"Script called with arguments: $@", "info"), 1),
-                *indent(create_argparse(parameters, local=False), 1),
-                "else",
-                indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
-                *indent(create_env_var_parse(parameters), 1),
-                "fi",
-                '[[ "$DEBUG" == true ]] && set -x',
-                *create_validation_block(parameters, local=False),
+                '_LOGFILE_TMP="$(mktemp)"',  # Create a temporary log file
+                'exec > >(tee -a "$_LOGFILE_TMP") 2>&1',  # Redirect stdout and stderr into the log file
+                log_endpoint(name, typ="script", stage="entry"),
+                'trap __cleanup__ EXIT',  # Call cleanup function on exit
             ]
         )
+        parameters = data.get("parameter")
+        if parameters:
+            lines.extend(
+                [
+                    'if [ "$#" -gt 0 ]; then',
+                    indent(log(f"Script called with arguments: $@", "info"), 1),
+                    *indent(create_argparse(parameters, local=False), 1),
+                    "else",
+                    indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
+                    *indent(create_env_var_parse(parameters), 1),
+                    "fi",
+                    '[[ "$DEBUG" == true ]] && set -x',
+                    *create_validation_block(parameters, local=False),
+                ]
+            )
     lines.extend(
-        [
-            *sanitize_code([line for section in data.get("body", []) for line in section["content"].splitlines()]),
-            *create_output(data.get("return")),
-            log_endpoint(name, typ="script", stage="exit"),
-        ]
+        sanitize_code([line for section in data.get("body", []) for line in section["content"].splitlines()])
     )
+    if script_type == "shell_exec":
+        lines.extend(
+            [
+                *create_output(data.get("return")),
+                log_endpoint(name, typ="script", stage="exit"),
+            ]
+        )
     return "\n".join(lines)
 
 

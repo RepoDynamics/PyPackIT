@@ -1136,8 +1136,8 @@ properties:
                       const: install.sh
                       default: install.sh
                     type:
-                      default: shell
-                      const: shell
+                      default: shell_exec
+                      const: shell_exec
                 - $ref: https://controlman.repodynamics.com/schema/dynamic-file
           additionalProperties:
             title: Feature Files

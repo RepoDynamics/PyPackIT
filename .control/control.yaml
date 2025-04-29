@@ -7006,7 +7006,7 @@ devcontainer_main:
         It is sourced in the `bash_env` file,
         which is sourced by all shell sessions.
       relpath: etc/project_tasks
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7102,7 +7102,7 @@ devcontainer_main:
       name: BASH_ENV File
       summary: Common script sourced by all shell sessions.
       relpath: etc/bash/bashenv
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7145,7 +7145,7 @@ devcontainer_main:
       name: Global Shell Profile
       summary: System-wide profile for all Bourne-compatible shells.
       relpath: etc/profile
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7192,7 +7192,7 @@ devcontainer_main:
       description: |
         This script is sourced in both `bashrc` and `zshrc`.
       relpath: etc/globalrc
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7258,7 +7258,7 @@ devcontainer_main:
       name: Bash Theme
       summary: Default bash theme for all users.
       relpath: etc/bash/bash_theme
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7321,7 +7321,7 @@ devcontainer_main:
       name: Bash RC
       summary: Bash `bashrc` startup file for all users.
       relpath: ${{ devcontainer_main.var.bash.global_bashrc }}$
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7422,7 +7422,7 @@ devcontainer_main:
       name: Global Zsh Startup File
       summary: Zsh `zshenv` startup file for all users.
       relpath: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zshenv
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7476,7 +7476,7 @@ devcontainer_main:
       name: Global Zsh Profile
       summary: Zsh `zprofile` startup file for all users.
       relpath: ${{ devcontainer_main.var.zsh.global_config_dir }}$/zprofile
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7498,7 +7498,7 @@ devcontainer_main:
       name: Zsh RC File.
       summary: Zsh `zshrc` startup file.
       relpath: etc/zsh/zshrc
-      type: shell
+      type: shell_src
       content:
         interpreter: ""
         flags: ""
@@ -7726,12 +7726,12 @@ devcontainer_main:
       summary: Default zsh theme for all users.
       relpath: etc/zsh/p10k.zsh
       status: inactive
-      type: shell
+      type: shell_src
     shim_vscode:
       name: VS Code Shim
       summary: Shim for the `code` binary.
       relpath: usr/local/bin/code
-      type: shell
+      type: shell_src
       chmod: +rx
       description: |
         This script replaces the `code` command
@@ -7762,7 +7762,7 @@ devcontainer_main:
       name: SystemCTL Shim
       summary: Shim for the `systemctl` binary.
       relpath: usr/local/bin/systemctl
-      type: shell
+      type: shell_src
       chmod: +rx
       description: |
         This script replaces the `systemctl` command
@@ -7795,7 +7795,7 @@ devcontainer_main:
           url: https://github.com/devcontainers/features/blob/main/src/common-utils/bin/devcontainer-info
         - title: common-utils Devcontainer Feature install script
           url: https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/common-utils/main.sh#L599-L603
-      type: shell
+      type: shell_src
       content:
         interpreter: bin/sh
         flags: -eu
