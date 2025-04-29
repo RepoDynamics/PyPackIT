@@ -2735,7 +2735,7 @@
          "path": ".data/.variable.json"
       },
       "contributor": {
-         "path": ".data/contributor.json"
+         "path": ".data/.contributor.json"
       },
       "source": {
          "path": ".data/source.yaml"
