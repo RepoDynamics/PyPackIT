@@ -42,7 +42,7 @@ def create_script(
                 [
                     'if [ "$#" -gt 0 ]; then',
                     indent(log(f"Script called with arguments: $@", "info"), 1),
-                    *indent(create_argparse(parameters, local=False), 1),
+                    *indent(create_argparse(parameters, local=False, script_type=script_type), 1),
                     "else",
                     indent(log("Script called with no arguments. Read environment variables.", "info"), 1),
                     *indent(create_env_var_parse(parameters), 1),
@@ -57,7 +57,7 @@ def create_script(
     if script_type == "shell_exec":
         lines.extend(
             [
-                *create_output(data.get("return")),
+                *create_output(data.get("return"), script_type=script_type),
                 log_endpoint(name, typ="script", stage="exit"),
             ]
         )
@@ -118,21 +118,28 @@ def augment_cleanup_function(data: dict | None = None) -> dict:
 
 def create_function(
     name: str,
-    data: dict
+    data: dict,
+    script_type: Literal["shell_src", "shell_exec"],
 ) -> list[str]:
     parameters = data.get("parameter")
+    body_lines = []
+    if script_type == "shell_exec":
+        body_lines.append(log_endpoint(name, typ="function", stage="entry"))
     body_lines = [
-        log_endpoint(name, typ="function", stage="entry"),
-        *create_argparse(parameters, local=True),
-        *create_validation_block(parameters, local=True),
+        *create_argparse(parameters, local=True, script_type=script_type),
+        *create_validation_block(parameters, local=True, script_type=script_type),
         *sanitize_code(data["body"]),
-        *create_output(data.get("return")),
-        log_endpoint(name, typ="function", stage="exit"),
+        *create_output(data.get("return"), script_type=script_type),
     ]
+    if script_type == "shell_exec":
+        body_lines.append(log_endpoint(name, typ="function", stage="exit"))
     return [f"{name}() {{", *indent(body_lines, 1), "}"]
 
 
-def create_output(returns: list[dict]) -> list[str]:
+def create_output(
+    returns: list[dict],
+    script_type: Literal["shell_src", "shell_exec"],
+) -> list[str]:
     """Generate a snippet to return values from a function or script.
 
     Depending on the number of returns and their types,
@@ -172,19 +179,18 @@ def create_output(returns: list[dict]) -> list[str]:
         List of dictionaries containing return information.
     """
     def output_array(var_label: str, var_name: str, separator) -> list[str]:
-        return [
-            f'for elem in "${{{var_name}[@]}}"; do',
-            indent(log_arg_write(var_label, var_name), 1),
-            indent(f'''printf '%s{separator}' "$elem"''', 1),
-            "done",
-        ]
+        lines = [f'for elem in "${{{var_name}[@]}}"; do']
+        if script_type == "shell_exec":
+            lines.append(indent(log_arg_write(var_label, var_name), 1))
+        lines.extend([indent(f'''printf '%s{separator}' "$elem"''', 1), "done"])
+        return lines
 
     top_separator = "\\0"
     sub_separator = "\\x1F"
-
+    lines = []
     num_returns = len(returns or [])
     if num_returns == 0:
-        return []
+        return lines
     if num_returns == 1:
         var = returns[0]
         var_type = var["type"]
@@ -192,11 +198,13 @@ def create_output(returns: list[dict]) -> list[str]:
         var_label = var["name"]
         if var_type != "array":
             # Single scalar return
-            return [log_arg_write(var_label, var_name), f'echo "${{{var_name}}}"']
+            if script_type == "shell_exec":
+                lines.append(log_arg_write(var_label, var_name))
+            lines.append(f'echo "${{{var_name}}}"')
+            return lines
         # Single array return
         return output_array(var_label, var_name, top_separator)
     # Multiple returns
-    lines = []
     for ret in returns:
         var_type = ret["type"]
         var_name = ret["variable"]
@@ -206,7 +214,8 @@ def create_output(returns: list[dict]) -> list[str]:
                 [*output_array(var_label, var_name, sub_separator), f"printf '{top_separator}'"]
             )
         else:
-            lines.append(log_arg_write(var_label, var_name))
+            if script_type == "shell_exec":
+                lines.append(log_arg_write(var_label, var_name))
             lines.append(f'''printf '%s{top_separator}' "${{{var_name}}}"''')
     return lines
 
@@ -214,6 +223,7 @@ def create_output(returns: list[dict]) -> list[str]:
 def create_argparse(
     parameters: dict,
     local: bool,
+    script_type: Literal["shell_src", "shell_exec"],
 ) -> list[str]:
     """Generate a snippet to parse command-line arguments.
 
@@ -238,21 +248,22 @@ def create_argparse(
     for param_name, param_data in sorted(parameters.items()):
         var_name = param_name_to_var_name(param_name, local)
         param_type = param_data["type"]
-        param_default = param_data.get("default")
+        scalar_log = "" if script_type == "shell_src" else f" {log_arg_read(param_name, var_name)};"
         if param_type == "boolean":
             initial_value = '""'
-            argparse_cmd = f"{var_name}=true; {log_arg_read(param_name, var_name)}"
+            argparse_cmd = f"{var_name}=true;{scalar_log}"
         elif param_type == "string":
             initial_value = '""'
-            argparse_cmd = f'{var_name}="$1"; {log_arg_read(param_name, var_name)}; shift'
+            argparse_cmd = f'{var_name}="$1";{scalar_log} shift'
         elif param_type == "array":
             initial_value = "()"
-            argparse_cmd = f'while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do {var_name}+=("$1"); {log_arg_read(param_name, "1")}; shift; done'
+            array_log = "" if script_type == "shell_src" else f" {log_arg_read(param_name, "1")};"
+            argparse_cmd = f'while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do {var_name}+=("$1");{array_log} shift; done'
         else:
             raise ValueError(f"Unsupported parameter type: {param_type}")
         def_lines.append(f"{"local " if local else ""}{var_name}={initial_value}")
         argparse_lines.append(
-            indent(f"--{param_name}) shift; {argparse_cmd};;", 2)
+            indent(f"--{param_name}) shift; {argparse_cmd.removesuffix(";")};;", 2)
         )
     argparse_lines.extend(
         [
@@ -265,7 +276,7 @@ def create_argparse(
     return lines
 
 
-def create_validation_block(parameters: dict, local: bool) -> list[str]:
+def create_validation_block(parameters: dict, local: bool, script_type: Literal["shell_src", "shell_exec"]) -> list[str]:
     lines = []
     for param_name, param_data in sorted((parameters or {}).items()):
         lines.extend(
@@ -274,6 +285,7 @@ def create_validation_block(parameters: dict, local: bool) -> list[str]:
                 var_type=param_data["type"],
                 default=param_data.get("default"),
                 validations=param_data.get("validation", {}),
+                script_type=script_type,
             )
         )
     return lines
@@ -284,6 +296,7 @@ def validate_variable(
     var_type: Literal["string", "array", "boolean"],
     default: str | list[str] | None,
     validations: dict | None,
+    script_type: Literal["shell_src", "shell_exec"],
 ) -> list[str]:
     """Generate validation checks for a variable.
 
@@ -317,6 +330,7 @@ def validate_variable(
             var_name=var_name,
             var_type=var_type,
             default=default,
+            script_type=script_type,
         )
     ]
     has_non_custom_validations = any(validator_name in validations for validator_name in validator_names)
@@ -343,6 +357,7 @@ def validate_missing_arg(
     var_name: str,
     var_type: Literal["string", "array"],
     default: str | list[str] | None,
+    script_type: Literal["shell_src", "shell_exec"],
 ) -> str:
     """Generate a validation check for missing arguments.
 
@@ -367,19 +382,21 @@ def validate_missing_arg(
     Shell command (as a list of lines) to validate the variable.
     """
     def info_default_set(default_value: str) -> str:
-        return log(f"Argument '{var_name}' set to default value '{default_value}'.", "info")
+        if script_type == "shell_src":
+            return ""
+        return f"{log(f"Argument '{var_name}' set to default value '{default_value}'.", "info")}; "
 
     err_missing_arg = log(f"Missing required argument '{var_name}'.", "critical")
     if var_type == "string":
         check = f'[ -z "${{{var_name}-}}" ]'  # True if var_name is not set or empty
-        action = err_missing_arg if default is None else f'{info_default_set(default)}; {var_name}="{default}"'
+        action = err_missing_arg if default is None else f'{info_default_set(default)}{var_name}="{default}"'
     elif var_type == "array":
         check = f'{{ [ "${{{var_name}+isset}}" != "isset" ] || [ ${{#{var_name}[@]}} -eq 0 ] }}'
         if default is None:
             action = err_missing_arg
         else:
             default_str = f"({" ".join(f'"{elem}"' for elem in default)})"
-            action = f'{info_default_set(default_str)}; {var_name}={default_str}'
+            action = f'{info_default_set(default_str)}{var_name}={default_str}'
     return f'{check} && {{ {action}; }}'
 
 
