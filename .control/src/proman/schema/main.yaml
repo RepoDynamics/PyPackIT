@@ -1341,6 +1341,7 @@ properties:
             default: ${{ repo.url.raw }}$/${{ .path }}$
       extension_tag:
         summary: YAML tag for external configuration extensions.
+        type: string
         description: |
           This is the tag used to define external configuration extensions
           in control center configuration files.
@@ -1366,7 +1367,6 @@ properties:
           path:
             summary: Path to the changelog file.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: .github/.repodynamics/changelog.json
           url:
             summary: URL of the project's changelog file.
             $ref: https://jsonschemata.repodynamics.com/url/https
@@ -1377,7 +1377,6 @@ properties:
           path:
             summary: Path to the contributors file.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: .github/.repodynamics/contributors.json
           url:
             summary: URL of the project's contributors file.
             $ref: https://jsonschemata.repodynamics.com/url/https
@@ -1388,7 +1387,6 @@ properties:
           path:
             summary: Path to the variables file.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: .github/.repodynamics/variables.json
           url:
             summary: URL of the project's variables file.
             $ref: https://jsonschemata.repodynamics.com/url/https
@@ -1422,7 +1420,7 @@ properties:
         type: object
         additionalProperties: false
         default: { }
-        required: [ path, retention_hours ]
+        required: [ dir, file, retention_hours ]
         properties:
           dir:
             summary: Path to the local cache directory.

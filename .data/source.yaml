@@ -1312,8 +1312,6 @@ control:
     path: .data/contributor.json
   variable:
     path: .data/variable.json
-  path:
-    config: .control/control.yaml
   cache:
     retention_hours:
       css_color_filter: 0
