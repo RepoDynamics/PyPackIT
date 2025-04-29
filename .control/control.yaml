@@ -3076,13 +3076,22 @@ devcontainer:
         name: Volume Manifest
         summary: Manifest file for volume setup.
         type: txt
-        relpath: volume_manifest.txt
+        relpath: volume_manifest
         content: |
           #{{
             rows = []
             files = get("devcontainer_main.volume")
+            status_to_action = {
+              "active": "write",
+              "delete": "delete",
+            }
             for file in files.values():
-              rows.append([file["status"], file["abspath"], file.get("chmod", "")])
+              status = file["status"]
+              if status not in status_to_action:
+                continue
+              action = status_to_action[status]
+              chmod = f"chmod={file['chmod']}" if file.get("chmod") else ""
+              rows.append([action, file["abspath"], chmod])
             # Find max width per column
             col_widths = {}
             for row in rows:
@@ -7817,6 +7826,8 @@ devcontainer_main:
       name: Devcontainer Info
       summary: Show image metadata.
       relpath: usr/local/bin/devcontainer-info
+      chmod: +rx
+      type: shell_src
       description: |
         This script adds the `devcontainer-info` command
         to display image metadata if available.
@@ -7825,7 +7836,6 @@ devcontainer_main:
           url: https://github.com/devcontainers/features/blob/main/src/common-utils/bin/devcontainer-info
         - title: common-utils Devcontainer Feature install script
           url: https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/common-utils/main.sh#L599-L603
-      type: shell_src
       content:
         interpreter: bin/sh
         flags: -eu
