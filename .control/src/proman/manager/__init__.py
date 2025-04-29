@@ -245,7 +245,7 @@ def load_metadata(
     err_msg = f"Failed to load metadata file from {log_ref}."
     if validate:
         try:
-            _data_validator.validate(data=project_metadata, fill_defaults=False)
+            _data_validator.validate(data=project_metadata(), fill_defaults=False)
         except exception.PromanInvalidMetadataError as e:
             logger.critical(
                 log_title,
@@ -322,8 +322,9 @@ class Manager:
         self._github_context = github_context
         self._main_manager = main_manager or self
         self._get_data_function = self._meta.get
+        cache_filepath = self._meta.get("control.cache.file")
         self._cache_manager = SerializableCacheManager(
-            path=self.git.repo_path / self._meta.get("control.cache.file"),
+            path=(self.git.repo_path / cache_filepath) if cache_filepath else None,
             retention_time={k: datetime.timedelta(hours=v) for k, v in self._meta.get("control.cache.retention_hours", {}).items()},
         )
         self._branch_manager = BranchManager(self)
