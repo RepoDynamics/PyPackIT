@@ -878,7 +878,7 @@ properties:
                             the repository/published package where the feature exists and must match
                             the name of the directory where the devcontainer-feature.json resides.
                           type: string
-                          default: '${{ ..__key__ }}$'
+                          default: '${{ ...__key__ }}$'
                         version:
                           description: The version of the Feature. Follows the semantic versioning
                             (semver) specification.
