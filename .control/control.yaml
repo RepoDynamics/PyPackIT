@@ -3276,9 +3276,9 @@ devcontainer_main:
       app_env: app
       activate: ${{ .app_env }}$
     bash:
-      global_bashrc: /etc/bash.bashrc
+      global_bashrc: etc/bash.bashrc
     zsh:
-      global_config_dir: /etc/zsh
+      global_config_dir: etc/zsh
       oh_my_zsh_install_dir: ${{ ..user.home }}$/.oh-my-zsh
     git:
       version: "2.49.0"
