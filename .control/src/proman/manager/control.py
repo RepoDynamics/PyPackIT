@@ -524,7 +524,6 @@ class ControlCenterManager:
         return load_external_data
 
 
-
 class ControlCenterReporter:
     def __init__(
         self,
