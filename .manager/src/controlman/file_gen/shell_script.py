@@ -12,9 +12,11 @@ def create_script(
     global_functions: dict | None = None
 ) -> str:
     lines = [
-        f"#!/{data["shebang"].removeprefix("#").removeprefix("!").removeprefix("/")}",
-        "set -euo pipefail",
+        f"#!/{data["interpreter"].removeprefix("#").removeprefix("!").removeprefix("/")}",
     ]
+    flags = data.get("flags")
+    if flags:
+        lines.append(f"set {flags}")
     functions = {
         func_name: func_data for func_name, func_data in (global_functions or {}).items()
         if func_name in data.get("import", [])
