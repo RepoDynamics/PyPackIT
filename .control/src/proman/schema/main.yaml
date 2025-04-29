@@ -4793,12 +4793,6 @@ properties:
                 type: string
                 enum: [ auto, disabled ]
                 default: auto
-      refactor:
-        type: object
-        properties:
-          pre_commit_config:
-            summary: Configuration for pre-commit hooks.
-            type: object
       lint:
         type: object
         default: { }
