@@ -174,7 +174,7 @@ class ConfigFileGenerator:
             )
         for feat_key, feat in self._data.get("devcontainer.feature", {}).items():
             for key, value in feat.items():
-                if key not in ("path", ):
+                if key not in ("path", "relpath"):
                     full_feat_key = f"{feat_key}.{key}"
                     out.append(
                         self.dynamic_file(
