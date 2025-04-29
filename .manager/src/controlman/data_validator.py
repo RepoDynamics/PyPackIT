@@ -493,6 +493,8 @@ def modify_schema(schema: dict) -> dict:
         schema["prefixItems"] = [modify_schema(subschema) for subschema in schema["prefixItems"]]
     if "items" in schema and isinstance(schema["items"], dict):
         schema["items"] = modify_schema(schema["items"])
+    if "allOf" in schema:
+        schema["allOf"] = [modify_schema(allof) for allof in schema["allOf"]]
     alt_schema = {
         "type": "string",
         "minLength": 6,
