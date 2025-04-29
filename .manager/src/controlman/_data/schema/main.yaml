@@ -860,8 +860,10 @@ properties:
                         The path is relative to the root of the feature directory.
                         According to Devcontainer specifications,
                         this must always be `install.sh`.
+                      default: devcontainer-feature.json
                       const: devcontainer-feature.json
                     type:
+                      default: json
                       const: json
                     content:
                       type: object
@@ -1183,6 +1185,7 @@ properties:
                         According to Devcontainer specifications,
                         this must always be `install.sh`.
                       const: install.sh
+                      default: install.sh
                     type:
                       default: shell
                       const: shell
