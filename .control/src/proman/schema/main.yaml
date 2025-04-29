@@ -1393,7 +1393,6 @@ properties:
             summary: URL of the project's variables file.
             $ref: https://jsonschemata.repodynamics.com/url/https
             default: ${{ repo.url.raw }}$/${{ .path }}$
-
       cache:
         summary: Settings for cached data.
         description: |

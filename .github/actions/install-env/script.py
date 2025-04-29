@@ -30,7 +30,7 @@ def main(
     pkg_setup_feature_path = metadata["devfeature_pkg_setup"]["path"]
 
     install_script = pkgdata.import_module_from_path(
-        repo_path / metadata["control"]["path"]["pkg_install_script"],
+        repo_path / metadata["devcontainer"]["feature"]["installer"]["install_py"]["path"],
         "install_script",
     )
 

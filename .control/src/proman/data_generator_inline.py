@@ -182,7 +182,7 @@ class InlineDataGenerator:
 
         env_output_dir = "_temp_test_env"
         conda_filename = "environment.yaml"
-        install_script_path = self.get("control.path.pkg_install_script")
+        install_script_path = self.get("devcontainer.feature.installer.install_py.path")
         pkg_id = self.get(".__key__").removeprefix("pypkg_")
         packages = _shlex.quote(_json.dumps([pkg_id, test_pkg_id]))
         package_names = [self.get(".name").lower(), self.get(f"pypkg_{test_pkg_id}.name").lower()]
@@ -231,7 +231,7 @@ class InlineDataGenerator:
             return self._binder_files.get(source, "")
         package_keys = ("pypkg_main", "pypkg_test")
         package_data = {k: self.get(k) for k in package_keys}
-        pkg_install_script_path = self.get("control.path.pkg_install_script")
+        pkg_install_script_path = self.get("devcontainer.feature.installer.install_py.path")
         install = pkgdata.import_module_from_path(self.repo_path / pkg_install_script_path)
         _, files, self_installation_cmd = install.DependencyInstaller(package_data).run(
             packages=[package_key.removeprefix("pypkg_") for package_key in package_keys],
