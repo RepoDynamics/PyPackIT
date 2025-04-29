@@ -17,24 +17,7 @@ FILEPATH_CHANGELOG = ".github/.repodynamics/changelog.json"
 FILEPATH_CONTRIBUTORS = ".github/.repodynamics/contributors.json"
 FILEPATH_VARIABLES = ".github/.repodynamics/variables.json"
 FILENAME_METADATA_CACHE = ".metadata_cache.yaml"
-FILENAME_LOCAL_CONFIG = "config.yaml"
 
-DIRNAME_CC_HOOK = "hooks"
-
-FILENAME_CC_HOOK_REQUIREMENTS = "requirements.txt"
-FILENAME_CC_HOOK_STAGED = "cca.py"
-FILENAME_CC_HOOK_INLINE = "cca_inline.py"
-
-FUNCNAME_CC_HOOK_INIT = "initialization"
-FUNCNAME_CC_HOOK_LOAD = "load"
-FUNCNAME_CC_HOOK_LOAD_VALID = "load_validation"
-FUNCNAME_CC_HOOK_AUGMENT = "augmentation"
-FUNCNAME_CC_HOOK_AUGMENT_VALID = "augmentation_validation"
-FUNCNAME_CC_HOOK_TEMPLATE = "templating"
-FUNCNAME_CC_HOOK_TEMPLATE_VALID = "templating_validation"
-FUNCNAME_CC_HOOK_OUTPUT = "output_generation"
-FUNCNAME_CC_HOOK_SYNC = "synchronization"
-FUNCNAME_CC_HOOK_FINAL = "finalization"
 
 CC_EXTENSION_TAG = "!ext"
 
