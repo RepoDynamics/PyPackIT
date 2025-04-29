@@ -1320,7 +1320,7 @@ properties:
       This includes configurations for local clones of the project.
     type: object
     additionalProperties: false
-    required: [ path, cache ]
+    required: [ cache, changelogs, contributor, extension_tag, metadata, report, source, temp, variable ]
     default: { }
     properties:
       source:
