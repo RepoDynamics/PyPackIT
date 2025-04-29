@@ -17,7 +17,7 @@ from mdit.target.rich import (
 from rich.text import Text
 
 from proman.dtype import _TitledEmoji
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 EMOJI = {
     "pass": _TitledEmoji("Passed", "✅"),
@@ -150,7 +150,7 @@ class Reporter:
             status="fail",
             summary=action_err_msg,
         )
-        raise ProManException()
+        raise PromanError()
 
     @staticmethod
     def api_response_code_block(response_data, api_name: str = "GitHub") -> mdit.element.CodeBlock:

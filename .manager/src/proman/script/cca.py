@@ -8,8 +8,7 @@ import htmp
 from loggerman import logger
 
 import proman
-from controlman.exception import ControlManException
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 if TYPE_CHECKING:
     from typing import Literal
@@ -50,7 +49,7 @@ def run(
             )
         with logger.sectioning("Execution"):
             reporter = center_manager.report()
-    except ControlManException as e:
+    except PromanError as e:
         manager.reporter.update(
             "cca",
             status="fail",
@@ -59,7 +58,7 @@ def run(
             section=e.report.section,
             section_is_container=True,
         )
-        raise ProManException()
+        raise PromanError()
 
     new_manager = proman.manager.update(
         manager=manager, project_metadata=center_manager.generate_data()

@@ -9,7 +9,7 @@ from loggerman import logger
 
 from proman.dstruct import MainTasklistEntry, SubTasklistEntry, Tasklist
 from proman.dtype import IssueStatus, LabelType
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -488,7 +488,7 @@ class ProtocolManager:
                 "Issue Body Pattern Matching",
                 "Could not match the issue body to pattern defined in control center settings.",
             )
-            raise ProManException()
+            raise PromanError()
         # Create a dictionary with titles as keys and matched content as values
         sections = {
             section_id: extract_value(content, settings[section_id]) if content else None

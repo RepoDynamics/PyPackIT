@@ -4,7 +4,7 @@ from pathlib import Path as _Path
 import pyserials as _ps
 from loggerman import logger
 
-from controlman.exception.load import ControlManSchemaValidationError
+from proman.exception import PromanSchemaValidationError
 from proman import const as _const
 from proman.dtype import DynamicFile, DynamicFileType
 
@@ -53,7 +53,7 @@ class FormGenerator:
                     "Issue Form Marker",
                     f"No marker added to issue form with ID: {form['id']}.",
                 )
-                raise ControlManSchemaValidationError(
+                raise PromanSchemaValidationError(
                     source="compiled",
                     problem=f"Issue form {form['id']} does not have a 'checkboxes' element; no marker could be added.",
                     json_path=f"issue.forms[{form_idx}].body",

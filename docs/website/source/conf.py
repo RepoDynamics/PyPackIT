@@ -265,7 +265,7 @@ def _add_api_files():
         "schemas": schemas,
         "registry": sorted(
             (schema_id, resource.contents)
-            for schema_id, resource in _controlman_data_validator.get_registry().items()
+            for schema_id, resource in proman.data_validator.get_registry().items()
         ),
         "badge_permissive": {"color": "#00802B"},
         "badge_restrictive": {"color": "#AF1F10"},

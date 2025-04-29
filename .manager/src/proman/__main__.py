@@ -13,7 +13,7 @@ from loggerman import logger
 
 import proman
 from proman import __version__
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -44,7 +44,7 @@ def cli():
     current_log_section_level = logger.current_section_level
     try:
         endpoint(kwargs | {"manager": manager})
-    except ProManException:
+    except PromanError:
         pass
     except Exception as e:
         traceback = logger.traceback()

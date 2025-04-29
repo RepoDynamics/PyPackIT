@@ -7,9 +7,8 @@ import pyserials as ps
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
 
-from controlman import data_validator
-from controlman import exception as _exception
-from proman import const
+from proman import data_validator
+from proman import const, exception
 from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType
 from proman.util import date
@@ -31,7 +30,7 @@ class ChangelogsManager:
         try:
             self._changelog = ps.read.json_from_file(self._filepath)
         except ps.exception.read.PySerialsReadException as e:
-            raise _exception.load.ControlManInvalidMetadataError(
+            raise exception.PromanInvalidMetadataError(
                 cause=e, filepath=self._filepath
             ) from None
         self._read = copy.deepcopy(self._changelog)

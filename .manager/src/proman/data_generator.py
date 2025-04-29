@@ -11,7 +11,7 @@ from loggerman import logger as _logger
 from packaging import specifiers as _specifiers
 from versionman import pep440_semver as _ver
 
-from controlman import exception as _exception
+from proman import exception
 from proman.util import date
 
 if _TYPE_CHECKING:
@@ -107,7 +107,7 @@ class DataGenerator:
         ):
             for custom_id in custom_ids:
                 if custom_id not in self._data["license.component"]:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source="source",
                         problem=f"Custom {spdx_typ} '{custom_id}' not found at `$.license.component`.",
                         json_path="license.expression",
@@ -116,7 +116,7 @@ class DataGenerator:
         all_ids = license_ids + exception_ids + license_ids_custom + exception_ids_custom
         for component_id, component_data in self._data.get("license.component", {}).items():
             if component_id not in all_ids:
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source="source",
                     problem=(
                         f"License component '{component_id}' defined at `$.license.component` "
@@ -259,7 +259,7 @@ class DataGenerator:
             version_spec_key = f"{python_ver_key}.spec"
             spec_str = self._data.fill(version_spec_key)
             if not spec_str:
-                _exception.load.ControlManSchemaValidationError(
+                exception.PromanSchemaValidationError(
                     source="source",
                     before_substitution=True,
                     problem="The package has not specified a Python version specifier.",
@@ -269,7 +269,7 @@ class DataGenerator:
             try:
                 spec = _specifiers.SpecifierSet(spec_str)
             except _specifiers.InvalidSpecifier:
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source="source",
                     before_substitution=True,
                     problem=f"Invalid Python version specifier '{spec_str}'.",
@@ -288,7 +288,7 @@ class DataGenerator:
                 minor_str.append(compat_ver_minor_str)
 
             if len(micro_str) == 0:
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source="source",
                     before_substitution=True,
                     problem=f"The Python version specifier '{spec_str}' does not match any "
@@ -354,7 +354,7 @@ class DataGenerator:
                 else:
                     try:
                         branch_metadata = _controlman.from_json_file(repo_path=self._git.repo_path)
-                    except _exception.ControlManException as e:
+                    except exception.PromanError as e:
                         _logger.warning(
                             f"Failed to read metadata from branch '{branch}'; skipping branch."
                         )

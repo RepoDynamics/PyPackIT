@@ -7,7 +7,7 @@ from loggerman import logger
 import pylinks
 import pyserials
 
-import controlman.data_validator as _validator
+from proman import data_validator as _validator
 from proman.dstruct import User
 from proman.manager.contributor import ContributorManager
 

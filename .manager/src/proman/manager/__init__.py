@@ -14,11 +14,11 @@ import pyserials as ps
 from loggerman import logger
 from pycacheman.serializable import SerializableCacheManager
 
-import controlman
-import controlman.exception as controlman_exception
-from controlman import data_validator as _data_validator
+
+from proman import exception
+from proman import data_validator as _data_validator
 from proman import const
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 # from proman.manager.announcement import AnnouncementManager
 from proman.manager.branch import BranchManager
@@ -87,7 +87,7 @@ def create(
             remote_name="origin", remote_purpose="push", fallback_name=False, fallback_purpose=False
         )
         if not repo_address:
-            raise controlman_exception.data_gen.RemoteGitHubRepoNotFoundError(
+            raise exception.PromanRemoteGitHubRepoNotFoundError(
                 repo_path=git_api.repo_path,
                 remotes=git_api.get_remotes(),
             )
@@ -200,11 +200,6 @@ def load_metadata(
         Relative path to the JSON file in the repository.
     reporter
         Reporter instance to report the status of the operation.
-
-    Raises
-    ------
-    controlman.exception.ControlManFileReadError
-        If the file cannot be read.
     """
     filepath = filepath or const.FILEPATH_METADATA
     git_api = create_git_api(repo_path=repo) if isinstance(repo, str | Path) else repo
@@ -219,7 +214,7 @@ def load_metadata(
         try:
             project_metadata = ps.read.json_from_string(data=data_str)
         except ps.exception.read.PySerialsReadException as e:
-            raise controlman_exception.load.ControlManInvalidMetadataError(
+            raise exception.PromanInvalidMetadataError(
                 cause=e, filepath=filepath, commit_hash=ref
             ) from None
     else:
@@ -230,7 +225,7 @@ def load_metadata(
         try:
             project_metadata = ps.read.json_from_file(path=fullpath)
         except ps.exception.read.PySerialsReadException as e:
-            raise controlman_exception.load.ControlManInvalidMetadataError(
+            raise exception.PromanInvalidMetadataError(
                 cause=e, filepath=fullpath
             ) from None
 
@@ -242,7 +237,7 @@ def load_metadata(
     if validate:
         try:
             _data_validator.validate(data=project_metadata, fill_defaults=False)
-        except controlman.exception.load.ControlManInvalidMetadataError as e:
+        except exception.PromanInvalidMetadataError as e:
             logger.critical(
                 log_title,
                 err_msg,
@@ -253,8 +248,8 @@ def load_metadata(
                 status="fail",
                 summary=f"Failed to load metadata from {log_ref}.",
             )
-            raise ProManException()
-        except controlman.exception.load.ControlManSchemaValidationError as e:
+            raise PromanError()
+        except exception.PromanSchemaValidationError as e:
             logger.critical(
                 log_title,
                 err_msg,
@@ -265,7 +260,7 @@ def load_metadata(
                 status="fail",
                 summary=f"Failed to load metadata from {log_ref}.",
             )
-            raise ProManException()
+            raise PromanError()
     return ps.NestedDict(project_metadata)
 
 
@@ -495,7 +490,7 @@ class Manager:
                         status="fail",
                         summary=f"Failed to render Jinja template at '{path}'.",
                     )
-                    raise ProManException()
+                    raise PromanError()
                 return filled
             return template
 

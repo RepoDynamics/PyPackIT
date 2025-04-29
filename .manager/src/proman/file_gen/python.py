@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 import pyserials as _ps
 import pysyntax as _pysyntax
 
-from controlman.file_gen import unit as _unit
+from proman.file_gen import unit as _unit
 from proman import const as _const
 from proman.dtype import DynamicFile, DynamicFileType
 

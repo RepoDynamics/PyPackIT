@@ -18,7 +18,7 @@ from proman.dtype import (
     ReleaseAction,
 )
 from proman.event_handler.pull_request_target import PullRequestTargetEventHandler
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 if TYPE_CHECKING:
     from proman.dstruct import (
@@ -438,7 +438,7 @@ class PullRequestEventHandler(PullRequestTargetEventHandler):
             time.sleep(5)
         else:
             logger.error("Failed to pull changes from GitHub. Please pull manually.")
-            raise ProManException()
+            raise PromanError()
 
         tag = self._tag_version(ver=next_ver, base=True)
         self._output_manager.set(

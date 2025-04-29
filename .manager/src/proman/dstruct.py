@@ -11,7 +11,7 @@ from loggerman import logger as _logger
 from versionman.pep440_semver import PEP440SemVer
 
 from proman.dtype import BranchType, IssueStatus, LabelType
-from proman.exception import ProManException
+from proman.exception import PromanError
 from proman.util import date
 
 if _TYPE_CHECKING:
@@ -298,7 +298,7 @@ class CommitFooter:
                 return PEP440SemVer(version)
             except Exception as e:
                 _logger.critical(f"Invalid version string '{version}' in commit footer: {e}")
-                raise ProManException()
+                raise PromanError()
         return None
 
     def __getitem__(self, key):

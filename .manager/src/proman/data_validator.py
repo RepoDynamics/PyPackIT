@@ -13,8 +13,7 @@ from loggerman import logger as _logger
 from mdit.data import schema as _mdit_schema
 from referencing import jsonschema as _referencing_jsonschema
 
-from controlman import exception as _exception
-from proman import const as _const
+from proman import const as _const, exception
 
 _schema_dir_path = _pkgdata.get_package_path_from_caller(top_level=True) / "_data" / "schema"
 
@@ -56,7 +55,7 @@ def validate(
             iter_errors=True,
         )
     except _ps.exception.validate.PySerialsJsonSchemaValidationError as e:
-        raise _exception.load.ControlManSchemaValidationError(
+        raise exception.PromanSchemaValidationError(
             source=source,
             before_substitution=before_substitution,
             cause=e,
@@ -92,7 +91,7 @@ class DataValidator:
             classifiers = self._data.get(f"{path}.classifiers", [])
             for classifier in classifiers:
                 if classifier not in _trove_classifiers.classifiers:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source="source",
                         before_substitution=True,
                         problem=f"Trove classifier '{classifier}' is not valid.",
@@ -123,7 +122,7 @@ class DataValidator:
             for entity_key in entity_keys:
                 entity = ref.get(entity_key)
                 if isinstance(entity, str) and entity not in self._data["team"]:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source=self._source,
                         problem=f"Invalid team member ID: {entity}",
                         json_path=f"citation.{ref_key}.{entity_key}",
@@ -132,7 +131,7 @@ class DataValidator:
             for entity_list_key in entity_list_keys:
                 for entity_idx, entity in enumerate(ref.get(entity_list_key, [])):
                     if isinstance(entity, str) and entity not in self._data["team"]:
-                        raise _exception.load.ControlManSchemaValidationError(
+                        raise exception.PromanSchemaValidationError(
                             source=self._source,
                             problem=f"Invalid team member ID: {entity}",
                             json_path=f"citation.{ref_key}.{entity_list_key}[{entity_idx}]",
@@ -144,7 +143,7 @@ class DataValidator:
             return
         # Verify that authors list is not empty
         if not self._data["citation.authors"]:
-            raise _exception.load.ControlManSchemaValidationError(
+            raise exception.PromanSchemaValidationError(
                 source=self._source,
                 problem="Citation authors are missing.",
                 json_path="citation.authors",
@@ -154,7 +153,7 @@ class DataValidator:
         for key in ("authors", "contacts"):
             for member_id in self._data.get(f"citation.{key}", []):
                 if member_id not in self._data["team"]:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source=self._source,
                         problem=f"Invalid team member ID: {member_id}",
                         json_path=f"citation.{key}",
@@ -195,7 +194,7 @@ class DataValidator:
                     rel_key = path_keys[idx + idx2 + 1]
                 else:
                     continue
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"Directory path '{rel_path}' defined at '{rel_key}' is relative to"
                     f"directory path '{main_path}' defined at '{main_key}'.",
@@ -209,7 +208,7 @@ class DataValidator:
             path_root = _Path(path_data["root"])
             path_source = _Path(path_data["source"])
             if not path_source.is_relative_to(path_root):
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"Directory path '{path_source}' defined at '{pkg_path_key}.source' is not relative to"
                     f"directory path '{path_root}' defined at '{pkg_path_key}.root'.",
@@ -218,7 +217,7 @@ class DataValidator:
                 )
             source_rel = path_source.relative_to(path_root)
             if source_rel != _Path(path_data["source_rel"]):
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"Directory path '{path_data['source_rel']}' defined at '{pkg_path_key}.source_rel' does not match"
                     f"the relative path '{source_rel}' between '{path_root}' and '{path_source}'.",
@@ -229,7 +228,7 @@ class DataValidator:
                 continue
             path_import = _Path(path_data["import"])
             if not path_import.is_relative_to(path_source):
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"Directory path '{path_import}' defined at '{pkg_path_key}.import' is not relative to"
                     f"directory path '{path_source}' defined at '{pkg_path_key}.source'.",
@@ -248,7 +247,7 @@ class DataValidator:
         for idx, branch_name in enumerate(branch_names):
             for idx2, branch_name2 in enumerate(branch_names[idx + 1 :]):
                 if branch_name.startswith(branch_name2) or branch_name2.startswith(branch_name):
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source=self._source,
                         problem=f"Branch name '{branch_name}' defined at 'branch.{branch_keys[idx]}' "
                         f"overlaps with branch name '{branch_name2}' defined at 'branch.{branch_keys[idx + idx2 + 1]}'.",
@@ -263,7 +262,7 @@ class DataValidator:
         changelog_names = []
         for changelog_id, changelog_data in self._data["changelog"].items():
             if changelog_data["path"] in changelog_paths:
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"The path '{changelog_data['path']}' set for changelog '{changelog_id}' "
                     f"is already used by another earlier changelog.",
@@ -272,7 +271,7 @@ class DataValidator:
                 )
             changelog_paths.append(changelog_data["path"])
             if changelog_data["name"] in changelog_names:
-                raise _exception.load.ControlManSchemaValidationError(
+                raise exception.PromanSchemaValidationError(
                     source=self._source,
                     problem=f"The name '{changelog_data['name']}' set for changelog '{changelog_id}' "
                     f"is already used by another earlier changelog.",
@@ -285,7 +284,7 @@ class DataValidator:
             section_ids = []
             for idx, section in enumerate(changelog_data.get("sections", [])):
                 if section["id"] in section_ids:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source=self._source,
                         problem=f"The changelog section ID '{section['id']}' set for changelog '{changelog_id}' "
                         f"is already used by another earlier section.",
@@ -301,7 +300,7 @@ class DataValidator:
         for main_type in ("primary", "primary_custom"):
             for commit_id, commit_data in self._data["commit"][main_type].items():
                 if commit_data["type"] in commit_types:
-                    raise _exception.load.ControlManSchemaValidationError(
+                    raise exception.PromanSchemaValidationError(
                         source=self._source,
                         problem=f"The commit type '{commit_data['type']}' set for commit '{main_type}.{commit_id}' "
                         f"is already used by another earlier commit.",

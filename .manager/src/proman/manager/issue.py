@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 from loggerman import logger
 
 from proman.dstruct import IssueForm
-from proman.exception import ProManException
+from proman.exception import PromanError
 
 if _TYPE_CHECKING:
     from typing import Literal
@@ -40,7 +40,7 @@ class IssueManager:
             logger.critical(
                 "Issue ID Extraction", "Could not match the issue ID in the issue body."
             )
-            raise ProManException()
+            raise PromanError()
         return self.form_from_id(match.group(1))
 
     def forms_from_id_regex(

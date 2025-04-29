@@ -6,9 +6,8 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 import pyserials as ps
 from loggerman import logger
 
-import controlman.exception as _exception
-from controlman import data_validator
-from proman import const
+from proman import data_validator
+from proman import const, exception
 
 if _TYPE_CHECKING:
     from proman.manager import Manager
@@ -23,7 +22,7 @@ class VariableManager(ps.PropertyDict):
             try:
                 var = ps.read.json_from_file(self._filepath)
             except ps.exception.read.PySerialsReadException as e:
-                raise _exception.load.ControlManInvalidMetadataError(
+                raise exception.PromanInvalidMetadataError(
                     cause=e, filepath=self._filepath
                 ) from None
             logger.success(

@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING
 
 import pyserials as _ps
 
-from controlman.file_gen.config import ConfigFileGenerator as _ConfigFileGenerator
-from controlman.file_gen.forms import FormGenerator as _FormGenerator
-from controlman.file_gen.python import PythonPackageFileGenerator as _PythonPackageFileGenerator
+from proman.file_gen.config import ConfigFileGenerator as _ConfigFileGenerator
+from proman.file_gen.forms import FormGenerator as _FormGenerator
+from proman.file_gen.python import PythonPackageFileGenerator as _PythonPackageFileGenerator
 from proman import const as _const
 from proman import dtype as _dtype
 

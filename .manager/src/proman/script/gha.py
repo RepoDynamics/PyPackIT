@@ -126,7 +126,7 @@ def _check_github_api(manager: Manager) -> None:
                 status="fail",
                 summary="No admin token provided.",
             )
-            raise ProManException()
+            raise PromanError()
     else:
         try:
             check = api_admin.info
@@ -143,7 +143,7 @@ def _check_github_api(manager: Manager) -> None:
                     body=details.elements(),
                 ),
             )
-            raise ProManException()
+            raise PromanError()
         has_admin_token = True
         logger.success(
             log_title,
