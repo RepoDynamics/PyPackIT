@@ -11817,7 +11817,7 @@ workflow:
   web:
     container:
       id: main
-      command: ${{ devcontainer_main.environment.website.task.build.alias }}$
+      command: ${{ devcontainer_main.volume.project_tasks.content.function.build-web.name }}$
     artifact:
       build:
         name: Website - v{{ version }}
