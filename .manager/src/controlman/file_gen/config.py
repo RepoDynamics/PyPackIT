@@ -212,6 +212,15 @@ class ConfigFileGenerator:
                                 .get(file_key),
                             )
                         )
+                for vol_key, vol_file in value.get("volume", {}).items():
+                    full_vol_key = f"{key}.volume.{vol_key}"
+                    out.append(
+                        self.dynamic_file(
+                            key=full_vol_key,
+                            file=vol_file,
+                            file_before=self._data_before[full_vol_key]
+                        )
+                    )
             elif key.startswith("pypkg_"):
                 for file_key, file in value.get("file", {}).items():
                     out.append(
