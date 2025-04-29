@@ -232,7 +232,7 @@ then:
       summary: Definition of a shell script.
       type: object
       additionalProperties: false
-      required: [ shebang ]
+      required: [ interpreter ]
       properties:
         parameter:
           summary: Input parameters for the script.
@@ -375,13 +375,18 @@ then:
             title: Shell Function
             summary: Definition of a function in the install script.
             $ref: https://controlman.repodynamics.com/schema/shell-function
-        shebang:
-          summary: Shebang for the install script.
+        interpreter:
+          summary: Path to the interpreter executable for the script.
           type: string
-          default: /usr/bin/env bash
+          default: usr/bin/env bash
           description: |
             This specifies the interpreter to use when executing the script.
-            You do not need to include the `#!` characters.
+            It is used to create a shebang for the script.
+            You do not need to include the leading `#!/` characters;
+            just the path.
+        flags:
+          type: string
+          default: -euo pipefail
         body:
           summary: Body of the script.
           type: array
