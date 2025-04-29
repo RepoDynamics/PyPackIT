@@ -1321,6 +1321,12 @@ properties:
     required: [ path, cache ]
     default: { }
     properties:
+      extension_tag:
+        summary: YAML tag for external configuration extensions.
+        description: |
+          This is the tag used to define external configuration extensions
+          in control center configuration files.
+        default: "!ext"
       path:
         type: object
         additionalProperties: false

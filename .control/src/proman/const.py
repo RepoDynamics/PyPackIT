@@ -19,7 +19,6 @@ FILEPATH_VARIABLES = ".github/.repodynamics/variables.json"
 FILENAME_METADATA_CACHE = ".metadata_cache.yaml"
 
 
-CC_EXTENSION_TAG = "!ext"
 
 RELATIVE_TEMPLATE_KEYS = ["__temp__"]
 CUSTOM_KEY = "__data__"

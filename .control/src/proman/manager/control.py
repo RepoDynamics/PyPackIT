@@ -75,8 +75,8 @@ class ControlCenterManager:
                     path=filepath,
                     safe=True,
                     constructors={
-                        const.CC_EXTENSION_TAG: self._create_external_tag_constructor(
-                            tag_name=const.CC_EXTENSION_TAG,
+                        self._manager.data["control.extension_tag"]: self._create_external_tag_constructor(
+                            tag_name=self._manager.data["control.extension_tag"],
                             cache_manager=self._manager.cache,
                             filepath=filepath,
                             file_content=file_content,
