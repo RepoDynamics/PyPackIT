@@ -6030,8 +6030,8 @@ devcontainer_main:
             package: https://pypi.org/project/mypy/
             source: https://github.com/python/mypy
       data:
-        cache_path: ${{ local.cache.path }}$/mypy
-        report_path: ${{ local.report.path }}$/mypy
+        cache_path: ${{ control.cache.dir }}$/mypy
+        report_path: ${{ control.report.dir }}$/mypy
       file:
         mypy_config:
           name: Mypy Configuration
@@ -6166,7 +6166,7 @@ devcontainer_main:
         cache_dir:
           summary: Directory to store the cache for pre-commit hooks.
           key: PRE_COMMIT_HOME
-          value: ${{ local.cache.path }}$/pre-commit
+          value: ${{ control.cache.dir }}$/pre-commit
       file:
         pre_commit_config:
           name: Pre-Commit Configuration
@@ -6285,7 +6285,7 @@ devcontainer_main:
           type: toml
           path: .devcontainer/config/ruff.toml
           content:
-            cache-dir: ${{ local.cache.path }}$/ruff
+            cache-dir: ${{ control.cache.dir }}$/ruff
             fix: true
             line-length: 100
             output-format: grouped
@@ -8499,7 +8499,7 @@ doc:
           items:
             - service: dynamic
               args:
-                url: ${{ control.url.metadata }}$
+                url: ${{ control.metadata.url }}$
                 query: '$.copyright'
               label: ${{ name }}$
               color: ${{ theme.color.primary.light }}$
@@ -10634,12 +10634,6 @@ pypkg_ci:
             - args: [ --metadata-ref ]
               kwargs:
                 help: Git reference to read the metadata.json file from.
-            - args: [ --metadata-filepath ]
-              kwargs:
-                help: Relative path to the metadata.json file.
-            - args: [ --main-metadata-filepath ]
-              kwargs:
-                help: Relative path to the metadata.json file in the default branch.
             - args: [ --github-token ]
               kwargs:
                 help: GitHub token for accessing the repository.
@@ -10771,7 +10765,7 @@ pypkg_ci:
                           kwargs:
                             help: Path to the local conda channel directory.
                             type: str
-                            default: ${{ local.temp.path }}$/conda-channel
+                            default: ${{ control.temp.dir }}$/conda-channel
                         - args: [ -r, --recipe ]
                           kwargs:
                             help: Type of recipe to build.
@@ -10797,7 +10791,7 @@ pypkg_ci:
                           kwargs:
                             help: Path to the local PyPI channel directory.
                             type: str
-                            default: ${{ local.temp.path }}$/wheelhouse
+                            default: ${{ control.temp.dir }}$/wheelhouse
                         - args: [ --args ]
                           kwargs:
                             help: Additional arguments to pass to the Python build command.
@@ -10827,7 +10821,7 @@ pypkg_ci:
                           kwargs:
                             help: Output directory to write the rendered HTML file.
                             type: str
-                            default: ${{ local.temp.path }}$/readme-pypi
+                            default: ${{ control.temp.dir }}$/readme-pypi
               - id: gha
                 args: [ gha ]
                 kwargs:
@@ -11529,9 +11523,9 @@ repo:
         - ${{ web.path.root }}$/.build/
         - ${{ web.path.source }}$/api/*/**
         - ${{ web.path.source }}$/about/license/*/**
-        - ${{ local.cache.path }}$/**
-        - ${{ local.report.path }}$/**
-        - ${{ local.temp.path }}$/**
+        - ${{ control.cache.dir }}$/**
+        - ${{ control.report.dir }}$/**
+        - ${{ control.temp.dir }}$/**
         # Byte-compiled / optimized / DLL files
         - __pycache__/
         - "*.py[cod]"

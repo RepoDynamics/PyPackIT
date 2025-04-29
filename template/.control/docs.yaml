@@ -570,7 +570,7 @@ file_readme:
         items:
           - service: dynamic
             args:
-              url: ${{ control.url.metadata }}$
+              url: ${{ control.metadata.url }}$
               query: '$.copyright'
             label: ${{ name }}$
             color: ${{ theme.color.primary.light }}$

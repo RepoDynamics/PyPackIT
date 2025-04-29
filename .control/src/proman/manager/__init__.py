@@ -58,9 +58,7 @@ def create(
     github_context: dict | GitHubContext | None = None,
     repo_path: str | Path | None = None,
     metadata_ref: str | None = None,
-    metadata_filepath: str | None = None,
     repo_path_main: str | Path | None = None,
-    metadata_filepath_main: str | None = None,
     validate_metadata: bool = True,
 ) -> Manager:
     token_manager = token_manager or _create_token_manager()
@@ -73,7 +71,6 @@ def create(
         repo=git_api,
         ref=metadata_ref,
         validate=validate_metadata,
-        filepath=metadata_filepath,
         reporter=reporter,
     )
     github_api_bare = pylinks.api.github(token=token_manager.github.get())
@@ -108,7 +105,6 @@ def create(
             repo=git_api_main,
             ref=main_ref,
             validate=validate_metadata,
-            filepath=metadata_filepath_main,
             reporter=reporter,
         )
     )
@@ -181,7 +177,6 @@ def update(
 def load_metadata(
     repo: str | Path | Git,
     ref: str | None = None,
-    filepath: str | None = None,
     validate: bool = True,
     reporter: Reporter | None = None,
 ) -> ps.NestedDict:
@@ -196,12 +191,10 @@ def load_metadata(
         If not provided, the latest commit on the current branch is used.
     validate
         Whether to validate read data against the schema.
-    filepath
-        Relative path to the JSON file in the repository.
     reporter
         Reporter instance to report the status of the operation.
     """
-    filepath = filepath or const.FILEPATH_METADATA
+    filepath = get_metadata_filepath(repo=repo, ref=ref)
     git_api = create_git_api(repo_path=repo) if isinstance(repo, str | Path) else repo
     reporter = reporter or Reporter()
     log_title = "Metadata Load"
@@ -228,12 +221,28 @@ def load_metadata(
             raise exception.PromanInvalidMetadataError(
                 cause=e, filepath=fullpath
             ) from None
-
-    err_msg = f"Failed to load metadata file from {log_ref}."
+    project_metadata = ps.NestedDict(project_metadata)
     logger.success(
         log_title,
         f"Metadata loaded successfully from {log_ref}.",
     )
+
+    # Load extra files
+    for key in ("changelogs", "contributor", "variable"):
+        key_path = project_metadata[f"control.{key}.path"]
+        try:
+            key_data = ps.read.json_from_file(key_path)
+        except ps.exception.read.PySerialsReadException as e:
+            raise exception.PromanInvalidMetadataError(
+                cause=e, filepath=key_path
+            ) from None
+        logger.success(
+            f"{key.capitalize()} File Load",
+            f"Loaded {key} from file '{key_path}'",
+        )
+        project_metadata[key] = key_data
+
+    err_msg = f"Failed to load metadata file from {log_ref}."
     if validate:
         try:
             _data_validator.validate(data=project_metadata, fill_defaults=False)
@@ -261,7 +270,24 @@ def load_metadata(
                 summary=f"Failed to load metadata from {log_ref}.",
             )
             raise PromanError()
-    return ps.NestedDict(project_metadata)
+    return project_metadata
+
+
+def get_metadata_filepath(repo: Git, ref: str | None = None) -> Path:
+    """Get the path to the main metadata file."""
+    linker_path = repo.repo_path / const.METADATA_LINKER_PATH
+    if ref:
+        metadata_filepath = repo.file_at_ref(ref=ref, path=linker_path).strip()
+        if not metadata_filepath:
+            raise exception.PromanError()
+        metadata_filepath = repo.repo_path / metadata_filepath
+    else:
+        if not linker_path.is_file():
+            raise exception.PromanError()
+        metadata_filepath = linker_path.read_text().strip()
+    if not metadata_filepath:
+        raise exception.PromanError()
+    return metadata_filepath
 
 
 def create_git_api(repo_path: str | Path | None = None) -> Git:
@@ -297,7 +323,7 @@ class Manager:
         self._main_manager = main_manager or self
         self._get_data_function = self._meta.get
         self._cache_manager = SerializableCacheManager(
-            path=self.git.repo_path / self._meta.get("local.cache.path") / const.DIRNAME_LOCAL_REPODYNAMICS / const.FILENAME_METADATA_CACHE,
+            path=self.git.repo_path / self._meta.get("control.cache.file"),
             retention_time={k: datetime.timedelta(hours=v) for k, v in self._meta.get("control.cache.retention_hours", {}).items()},
         )
         self._branch_manager = BranchManager(self)

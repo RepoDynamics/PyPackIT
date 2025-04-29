@@ -32,9 +32,7 @@ def cli():
         reporter=reporter,
         repo_path=kwargs["repo"],
         metadata_ref=kwargs.get("metadata_ref"),
-        metadata_filepath=kwargs.get("metadata_filepath"),
         repo_path_main=kwargs.get("repo_upstream"),
-        metadata_filepath_main=kwargs.get("main_metadata_filepath"),
         validate_metadata=kwargs.get("validate_metadata", True),
         github_context=gh_context,
     )

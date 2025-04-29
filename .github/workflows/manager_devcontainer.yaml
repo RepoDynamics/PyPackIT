@@ -93,21 +93,21 @@ jobs:
             exit 0
           fi
 
-          TEMP_DIRPATH=$(jq -r '.local.temp.path' <<< "$METADATA_CONTENT" 2>/dev/null)
+          TEMP_DIRPATH=$(jq -r '.control.temp.dir' <<< "$METADATA_CONTENT" 2>/dev/null)
           if [[ -n "$TEMP_DIRPATH" && "$TEMP_DIRPATH" != "null" ]]; then
             PATH_REPO_BASE="${TEMP_DIRPATH}/${RELPATH_REPO_BASE}"
             echo "Base repo directory set to ${PATH_REPO_BASE}"
             echo "path_repo_base=$PATH_REPO_BASE" >> "$GITHUB_OUTPUT"
           else
-            echo "Error: 'local.temp.path' not found in metadata."
+            echo "Error: 'control.temp.dir' not found in metadata."
           fi
 
-          PATH_CACHE=$(jq -r '.local.cache.path' <<< "$METADATA_CONTENT" 2>/dev/null)
+          PATH_CACHE=$(jq -r '.control.cache.dir' <<< "$METADATA_CONTENT" 2>/dev/null)
           if [[ -n "$PATH_CACHE" && "$PATH_CACHE" != "null" ]]; then
             echo "Cache directory set to $PATH_CACHE"
             echo "path_cache=$PATH_CACHE" >> "$GITHUB_OUTPUT"
           else
-            echo "Error: 'local.cache.path' not found in metadata."
+            echo "Error: 'control.cache.dir' not found in metadata."
           fi
       - name: Base Repository Checkout
         uses: actions/checkout@v4

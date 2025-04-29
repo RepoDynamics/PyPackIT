@@ -44,7 +44,7 @@ def generate(
             generated_files.extend(package_files)
     out = []
     data_entry = {
-        _dtype.DynamicFileType.CONFIG.value[0]: {"meta": _const.FILEPATH_METADATA},
+        _dtype.DynamicFileType.CONFIG.value[0]: {"meta": data["control.metadata.path"]},
     }
     for generated_file in generated_files:
         if generated_file.change is None:
@@ -65,8 +65,8 @@ def generate(
         type=_dtype.DynamicFileType.CONFIG,
         subtype=("meta", "Metadata"),
         content=_ps.write.to_json_string(data=data(), sort_keys=True, indent=3),
-        path=_const.FILEPATH_METADATA,
-        path_before=_const.FILEPATH_METADATA,
+        path=data["control.metadata.path"],
+        path_before=data_before["control.metadata.path"],
     )
     metadata_full = _compare_file(metadata_file, repo_path=repo_path)
     out.append(metadata_full)

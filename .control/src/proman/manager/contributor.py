@@ -6,9 +6,6 @@ from typing import TYPE_CHECKING as _TYPE_CHECKING
 import pyserials as ps
 from loggerman import logger
 
-from proman import data_validator
-from proman import const, exception
-
 if _TYPE_CHECKING:
     from proman.dstruct import User
     from proman.manager import Manager
@@ -17,29 +14,10 @@ if _TYPE_CHECKING:
 class ContributorManager(ps.PropertyDict):
     def __init__(self, manager: Manager):
         self._manager = manager
-        log_title = "Contributors Load"
-        self._filepath = self._manager.git.repo_path / const.FILEPATH_CONTRIBUTORS
-        if self._filepath.exists():
-            try:
-                contributors = ps.read.json_from_file(self._filepath)
-            except ps.exception.read.PySerialsReadException as e:
-                raise exception.PromanInvalidMetadataError(
-                    cause=e, filepath=self._filepath
-                ) from None
-            logger.success(
-                log_title,
-                f"Loaded contributors from file '{const.FILEPATH_CONTRIBUTORS}':",
-                logger.data_block(contributors),
-            )
-        else:
-            contributors = {}
-            logger.info(
-                log_title,
-                f"No contributors file found at '{const.FILEPATH_CONTRIBUTORS}'.",
-            )
+        self._filepath = self._manager.git.repo_path / self._manager.data[f"control.contributor.path"]
+        contributors = self._manager.data["contributor"]
         super().__init__(contributors)
         self._read = copy.deepcopy(contributors)
-        data_validator.validate(data=contributors, schema="contributors")
         return
 
     def add(self, user: User) -> dict:

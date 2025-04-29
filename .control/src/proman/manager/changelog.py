@@ -7,8 +7,6 @@ import pyserials as ps
 from github_contexts.github.payload.object import Issue
 from loggerman import logger
 
-from proman import data_validator
-from proman import const, exception
 from proman.dstruct import Version, VersionTag
 from proman.dtype import LabelType
 from proman.util import date
@@ -25,21 +23,9 @@ if _TYPE_CHECKING:
 class ChangelogsManager:
     def __init__(self, manager: Manager):
         self._manager = manager
-        log_title = "Changelog Load"
-        self._filepath = self._manager.git.repo_path / const.FILEPATH_CHANGELOG
-        try:
-            self._changelog = ps.read.json_from_file(self._filepath)
-        except ps.exception.read.PySerialsReadException as e:
-            raise exception.PromanInvalidMetadataError(
-                cause=e, filepath=self._filepath
-            ) from None
+        self._filepath = self._manager.git.repo_path / self._manager.data[f"control.changelogs.path"]
+        self._changelog = self._manager.data["changelogs"]
         self._read = copy.deepcopy(self._changelog)
-        logger.success(
-            log_title,
-            f"Loaded changelog from file '{const.FILEPATH_CHANGELOG}':",
-            logger.data_block(self._changelog),
-        )
-        data_validator.validate(self._changelog, schema="changelog")
         if self._changelog[0].get("phase") != "dev":
             self._current = {"phase": "dev"}
             self._changelog.insert(0, self._current)

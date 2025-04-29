@@ -3,22 +3,10 @@
 These include paths to files and directories in the user repository.
 """
 
+METADATA_LINKER_PATH = ".github/.pypackit"
+
 OUTPUT_RELEASE_REPO_PATH = "repo"
 OUTPUT_RELEASE_ARTIFACT_PATH = "artifacts"
-
-# ControlMan Constants
-DIRPATH_CC_DEFAULT = ".control"
-
-DIRNAME_LOCAL_REPORT = "reports"
-DIRNAME_LOCAL_REPODYNAMICS = "RepoDynamics"
-
-FILEPATH_METADATA = ".github/.repodynamics/metadata.json"
-FILEPATH_CHANGELOG = ".github/.repodynamics/changelog.json"
-FILEPATH_CONTRIBUTORS = ".github/.repodynamics/contributors.json"
-FILEPATH_VARIABLES = ".github/.repodynamics/variables.json"
-FILENAME_METADATA_CACHE = ".metadata_cache.yaml"
-
-
 
 RELATIVE_TEMPLATE_KEYS = ["__temp__"]
 CUSTOM_KEY = "__data__"

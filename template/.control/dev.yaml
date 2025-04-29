@@ -444,8 +444,8 @@ devcontainer_main:
             package: https://pypi.org/project/mypy/
             source: https://github.com/python/mypy
       data:
-        cache_path: ${{ local.cache.path }}$/mypy
-        report_path: ${{ local.report.path }}$/mypy
+        cache_path: ${{ control.cache.dir }}$/mypy
+        report_path: ${{ control.report.dir }}$/mypy
       file:
         mypy_config:
           name: Mypy Configuration
@@ -695,7 +695,7 @@ devcontainer_main:
           type: toml
           path: ${{ devcontainer_main.path.root }}$/config/ruff.toml
           content:
-            cache-dir: ${{ local.cache.path }}$/ruff
+            cache-dir: ${{ control.cache.dir }}$/ruff
             fix: true
             line-length: 100
             output-format: grouped
@@ -887,7 +887,7 @@ devcontainer_main:
         In addition, the script accepts any number of extra arguments,
         which are passed directly to the `conda build` command.
       data:
-        output_path: ${{ local.temp.path }}$/conda
+        output_path: ${{ control.temp.dir }}$/conda
       script: >-
         ${{ devcontainer_main.environment.base.task._conda-build.alias }}$
         "$(${{ devcontainer_main.environment.versioning.task.version.alias }}$)"
