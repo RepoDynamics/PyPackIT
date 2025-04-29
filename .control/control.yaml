@@ -7029,16 +7029,16 @@ devcontainer_main:
             summary: Build the website with Sphinx.
             body: |
               run_in_conda_env ${{ devcontainer_main.environment.website.name }}$ sphinx-build \
-                -M $${{ devcontainer_main.environment.website.variable.sphinx_builder.key }}$ \
+                -M "${{ devcontainer_main.environment.website.variable.sphinx_builder.value }}$" \
                 ${{ web.path.source }}$ \
                 ${{ web.path.build }}$ \
-                $${{ devcontainer_main.environment.website.variable.sphinx_build_options.key }}$
+                ${{ devcontainer_main.environment.website.variable.sphinx_build_options.value }}$
               # Create a tarball of the built website according to GitHub Pages requirements.
               # Ref: https://github.com/actions/upload-pages-artifact/blob/main/action.yml
               tar \
                 --dereference --hard-dereference \
                 --directory "${{ web.path.build }}$/${{ devcontainer_main.environment.website.variable.sphinx_builder.value }}$" \
-                -cvf "$${{ devcontainer_main.environment.website.variable.website_tar_filepath.key }}$" \
+                -cvf "${{ devcontainer_main.environment.website.variable.website_tar_filepath.value }}$" \
                 --exclude=.git \
                 --exclude=.github \
                 --exclude=".[^/]*" \
@@ -7058,9 +7058,9 @@ devcontainer_main:
               run_in_conda_env ${{ devcontainer_main.environment.website.name }}$ sphinx-autobuild \
                 ${{ web.path.source }}$ \
                 ${{ web.path.build }}$ \
-                $${{ devcontainer_main.environment.website.variable.sphinx_build_options.key }}$ \
+                ${{ devcontainer_main.environment.website.variable.sphinx_build_options.value }}$ \
                 -a \
-                -b=$${{ devcontainer_main.environment.website.variable.sphinx_builder.key }}$ \
+                -b=${{ devcontainer_main.environment.website.variable.sphinx_builder.value }}$ \
                 --open-browser \
                 --delay 0
             references:
