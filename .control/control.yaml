@@ -7415,7 +7415,7 @@ devcontainer_main:
           - summary: Pixi activation.
             content: eval "$(pixi completion -s bash)"
           - summary: End marker.
-              content: |
+            content: |
                 # END OF ${{ name }}$ SECTION
                 # #{{ return "=" * 50 }}#
     zshenv:
