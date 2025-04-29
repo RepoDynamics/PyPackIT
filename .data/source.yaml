@@ -1301,6 +1301,17 @@ commit:
       h1: ${{ ...__data__.h1_maintain }}$
       h2: ${{ ...__data__.h2_ci }}$
 control:
+  source:
+    path: .data/source.yaml
+  extension_tag: "!ext"
+  metadata:
+    path: .data/.metadata.json
+  changelogs:
+    path: .data/.changelogs.json
+  contributor:
+    path: .data/contributor.json
+  variable:
+    path: .data/variable.json
   path:
     config: .control/control.yaml
   cache:
@@ -9339,7 +9350,7 @@ issue:
           label: URL
           description: >-
             Please provide the URL of the relevant configuration file in the repository.
-          placeholder: ${{ repo.url.blob }}$/${{ control.path.config }}$
+          placeholder: ${{ control.source.url }}$
         validations:
           required: true
       - type: input

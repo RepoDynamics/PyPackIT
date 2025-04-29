@@ -360,7 +360,7 @@ class Manager:
         clean_state: bool = False,
     ):
         if not control_center_path:
-            control_center_path = self.data.get("control.path.config")
+            control_center_path = self.data.get("control.source.path")
         if not control_center_path:
             raise ValueError("Control center path not provided.")
         control_center_path = self.git.repo_path / control_center_path

@@ -1323,19 +1323,39 @@ properties:
     required: [ path, cache ]
     default: { }
     properties:
+      source:
+        summary: Source of the control center.
+        description: |
+          This is the source of the control center configuration files.
+          It can be a local path or a URL to an external repository.
+        type: object
+        additionalProperties: false
+        required: [ path, url ]
+        properties:
+          path:
+            summary: Path to the control center file or directory.
+            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
+          url:
+            summary: URL of the control center file or directory.
+            $ref: https://jsonschemata.repodynamics.com/url/https
+            default: ${{ repo.url.raw }}$/${{ .path }}$
       extension_tag:
         summary: YAML tag for external configuration extensions.
         description: |
           This is the tag used to define external configuration extensions
           in control center configuration files.
-        default: "!ext"
+        examples:
+          - "!ext"
+          - "!my_tag"
+          - "!any_slug_after_exclamation_mark"
       metadata:
         type: object
+        additionalProperties: false
+        required: [ path, url ]
         properties:
           path:
             summary: Path to the metadata file.
             $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: .github/.repodynamics/metadata.json
           url:
             summary: URL of the project's metadata file.
             $ref: https://jsonschemata.repodynamics.com/url/https
@@ -1373,19 +1393,7 @@ properties:
             summary: URL of the project's variables file.
             $ref: https://jsonschemata.repodynamics.com/url/https
             default: ${{ repo.url.raw }}$/${{ .path }}$
-      path:
-        type: object
-        additionalProperties: false
-        default: { }
-        properties:
-          config:
-            summary: Path to the control center directory.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: .control
-          pkg_install_script:
-            summary: Path to the package installation script.
-            $ref: https://jsonschemata.repodynamics.com/path/posix/absolute-from-cwd
-            default: install.py
+
       cache:
         summary: Settings for cached data.
         description: |
