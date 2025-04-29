@@ -3359,8 +3359,6 @@ devcontainer_main:
       mamba_script: ${{ .dir }}$/etc/profile.d/mamba.sh
       app_env: app
       activate: ${{ .app_env }}$
-    bash:
-      global_bashrc: etc/bash.bashrc
     zsh:
       global_config_dir: etc/zsh
       oh_my_zsh_install_dir: ${{ ..user.home }}$/.oh-my-zsh
@@ -7350,7 +7348,7 @@ devcontainer_main:
     bashrc:
       name: Bash RC
       summary: Bash `bashrc` startup file for all users.
-      relpath: ${{ devcontainer_main.var.bash.global_bashrc }}$
+      relpath: etc/bash.bashrc
       type: shell_src
       content:
         interpreter: ""
@@ -7448,6 +7446,8 @@ devcontainer_main:
             content: |
                 # END OF ${{ name }}$ SECTION
                 # #{{ return "=" * 50 }}#
+      notes: |
+        The path is OS-dependent.
     zshenv:
       name: Global Zsh Startup File
       summary: Zsh `zshenv` startup file for all users.
@@ -7878,13 +7878,13 @@ devcontainer_main:
       name: User bashrc
       summary: Bash `bashrc` startup file for container user.
       status: delete
-      relpath: ${{ devcontainer_main.var.user.home }}$/.bashrc
+      abspath: ${{ devcontainer_main.var.user.home }}$/.bashrc
       type: shell_src
     user_profile:
       name: User Shell Profile
       summary: Shell `profile` startup file for container user.
       status: delete
-      relpath: ${{ devcontainer_main.var.user.home }}$/.profile
+      abspath: ${{ devcontainer_main.var.user.home }}$/.profile
       type: shell_src
 doc:
   code_of_conduct:
