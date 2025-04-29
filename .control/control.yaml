@@ -7068,21 +7068,25 @@ devcontainer_main:
                 url: https://github.com/sphinx-doc/sphinx-autobuild/blob/main/README.rst
           typecheck:
             summary: Run type checking with Mypy.
-            body: >-
-              mypy
-              --package ${{ pypkg_main.import_name }}$
-              --package ${{ pypkg_test.import_name }}$
-              --python-executable /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python
-              --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$
-              --install-types
-              --non-interactive
+            body: |
+              run_in_conda_env ${{ devcontainer_main.environment.type_check.name }}$ \
+                mypy \
+                  --package ${{ pypkg_main.import_name }}$ \
+                  --package ${{ pypkg_test.import_name }}$ \
+                  --python-executable /opt/conda/envs/${{ __temp__.conda_env_name.app }}$/bin/python \
+                  --config-file ${{ devcontainer_main.environment.type_check.file.mypy_config.path }}$ \
+                  --install-types \
+                  --non-interactive
             references:
               - title: Using installed packages with Mypy
                 url: https://mypy.readthedocs.io/en/stable/installed_packages.html#using-installed-packages-with-mypy-pep-561
           jupyterlab:
             summary: Open JupyterLab
-            body: >-
-              jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
+            body: |
+              run_in_conda_env ${{ devcontainer_main.environment.jupyter.name }}$ \
+                jupyter-lab "/" \
+                  --ContentsManager.allow_hidden=True \
+                  --IdentityProvider.token=''
           build-paper:
             summary: Build Open-Journals (JOSS) paper.
             description: |
