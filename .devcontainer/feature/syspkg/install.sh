@@ -128,11 +128,16 @@ fi
 [ -n "${APT-}" ] && [ ! -f "$APT" ] && { echo "⛔ File argument to parameter 'APT' not found: '$APT'" >&2; exit 1; }
 [ -z "${APT_REPOS-}" ] && { echo "ℹ️ Argument 'APT_REPOS' set to default value ''." >&2; APT_REPOS=""; }
 [ -n "${APT_REPOS-}" ] && [ ! -f "$APT_REPOS" ] && { echo "⛔ File argument to parameter 'APT_REPOS' not found: '$APT_REPOS'" >&2; exit 1; }
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
 [ -z "${DNF-}" ] && { echo "ℹ️ Argument 'DNF' set to default value ''." >&2; DNF=""; }
 [ -n "${DNF-}" ] && [ ! -f "$DNF" ] && { echo "⛔ File argument to parameter 'DNF' not found: '$DNF'" >&2; exit 1; }
+[ -z "${INTERACTIVE-}" ] && { echo "ℹ️ Argument 'INTERACTIVE' set to default value 'false'." >&2; INTERACTIVE=false; }
+[ -z "${KEEP_REPOS-}" ] && { echo "ℹ️ Argument 'KEEP_REPOS' set to default value 'false'." >&2; KEEP_REPOS=false; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${MICRODNF-}" ] && { echo "ℹ️ Argument 'MICRODNF' set to default value ''." >&2; MICRODNF=""; }
 [ -n "${MICRODNF-}" ] && [ ! -f "$MICRODNF" ] && { echo "⛔ File argument to parameter 'MICRODNF' not found: '$MICRODNF'" >&2; exit 1; }
+[ -z "${NO_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CLEAN' set to default value 'false'." >&2; NO_CLEAN=false; }
+[ -z "${NO_UPDATE-}" ] && { echo "ℹ️ Argument 'NO_UPDATE' set to default value 'false'." >&2; NO_UPDATE=false; }
 [ -z "${YUM-}" ] && { echo "ℹ️ Argument 'YUM' set to default value ''." >&2; YUM=""; }
 [ -n "${YUM-}" ] && [ ! -f "$YUM" ] && { echo "⛔ File argument to parameter 'YUM' not found: '$YUM'" >&2; exit 1; }
 exit_if_not_root

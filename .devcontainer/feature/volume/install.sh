@@ -180,6 +180,7 @@ else
   [ "${SOURCE_DIR+defined}" ] && echo "📩 Read argument 'source_dir': '"$SOURCE_DIR"'" >&2
 fi
 [[ "$DEBUG" == true ]] && set -x
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
 [ -z "${DEFAULT_ACTION-}" ] && { echo "ℹ️ Argument 'DEFAULT_ACTION' set to default value 'write'." >&2; DEFAULT_ACTION="write"; }
 case "$DEFAULT_ACTION" in
   "append"|"prepend"|"write"|"");;

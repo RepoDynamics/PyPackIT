@@ -234,13 +234,21 @@ fi
 [[ "$DEBUG" == true ]] && set -x
 [ -z "${DEBIAN_EQUIVS_FILENAME-}" ] && { echo "ℹ️ Argument 'DEBIAN_EQUIVS_FILENAME' set to default value 'debian-equivs-2023-ex.txt'." >&2; DEBIAN_EQUIVS_FILENAME="debian-equivs-2023-ex.txt"; }
 [ -z "${DEBIAN_EQUIVS_URL-}" ] && { echo "ℹ️ Argument 'DEBIAN_EQUIVS_URL' set to default value 'https://tug.org/texlive/files/{'type': 'string', 'summary': 'Name of the Debian equivs filename to download.', 'default': 'debian-equivs-2023-ex.txt', 'array_delimiter': ' :: '}'." >&2; DEBIAN_EQUIVS_URL="https://tug.org/texlive/files/{'type': 'string', 'summary': 'Name of the Debian equivs filename to download.', 'default': 'debian-equivs-2023-ex.txt', 'array_delimiter': ' :: '}"; }
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
 [ -z "${DEFAULT_SYS_BIN-}" ] && { echo "ℹ️ Argument 'DEFAULT_SYS_BIN' set to default value '/usr/local/bin'." >&2; DEFAULT_SYS_BIN="/usr/local/bin"; }
 [ -z "${DEFAULT_TEXDIR_PREFIX-}" ] && { echo "ℹ️ Argument 'DEFAULT_TEXDIR_PREFIX' set to default value '/usr/local/texlive'." >&2; DEFAULT_TEXDIR_PREFIX="/usr/local/texlive"; }
+[ -z "${GENERATE_CACHES-}" ] && { echo "ℹ️ Argument 'GENERATE_CACHES' set to default value 'false'." >&2; GENERATE_CACHES=false; }
+[ -z "${INSTALL-}" ] && { echo "ℹ️ Argument 'INSTALL' set to default value 'false'." >&2; INSTALL=false; }
 [ -z "${INSTALLER_DIR-}" ] && { echo "ℹ️ Argument 'INSTALLER_DIR' set to default value '/tmp/texlive-installer'." >&2; INSTALLER_DIR="/tmp/texlive-installer"; }
+[ -z "${INTERACTIVE-}" ] && { echo "ℹ️ Argument 'INTERACTIVE' set to default value 'false'." >&2; INTERACTIVE=false; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${MIRROR-}" ] && { echo "ℹ️ Argument 'MIRROR' set to default value 'rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/'." >&2; MIRROR="rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/"; }
+[ -z "${NO_CACHE_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CACHE_CLEAN' set to default value 'false'." >&2; NO_CACHE_CLEAN=false; }
+[ -z "${NO_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CLEAN' set to default value 'false'." >&2; NO_CLEAN=false; }
 [ -z "${PROFILE-}" ] && { echo "ℹ️ Argument 'PROFILE' set to default value ''." >&2; PROFILE=""; }
+[ -z "${REINSTALL-}" ] && { echo "ℹ️ Argument 'REINSTALL' set to default value 'false'." >&2; REINSTALL=false; }
 [ -z "${SYSPKG_INSTALL_SCRIPT-}" ] && { echo "⛔ Missing required argument 'SYSPKG_INSTALL_SCRIPT'." >&2; exit 1; }
+[ -z "${VERIFY_INSTALLATION-}" ] && { echo "ℹ️ Argument 'VERIFY_INSTALLATION' set to default value 'false'." >&2; VERIFY_INSTALLATION=false; }
 exit_if_not_root
 if [[ "$INSTALL" == true || $"REINSTALL" == true ]]; then
     mkdir -p "$INSTALLER_DIR"

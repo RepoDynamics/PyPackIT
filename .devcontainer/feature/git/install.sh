@@ -66,8 +66,10 @@ else
   [ "${VERSION+defined}" ] && echo "📩 Read argument 'version': '"$VERSION"'" >&2
 fi
 [[ "$DEBUG" == true ]] && set -x
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
 [ -z "${INSTLLER_DIR-}" ] && { echo "ℹ️ Argument 'INSTLLER_DIR' set to default value '/tmp/git-installer'." >&2; INSTLLER_DIR="/tmp/git-installer"; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
+[ -z "${NO_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CLEAN' set to default value 'false'." >&2; NO_CLEAN=false; }
 [ -z "${PREFIX-}" ] && { echo "ℹ️ Argument 'PREFIX' set to default value '/usr/local/git'." >&2; PREFIX="/usr/local/git"; }
 [ -z "${SOURCE-}" ] && { echo "ℹ️ Argument 'SOURCE' set to default value 'https://www.kernel.org/pub/software/scm/git/git-'." >&2; SOURCE="https://www.kernel.org/pub/software/scm/git/git-"; }
 [ -z "${SYSCONFDIR-}" ] && { echo "ℹ️ Argument 'SYSCONFDIR' set to default value '/etc'." >&2; SYSCONFDIR="/etc"; }

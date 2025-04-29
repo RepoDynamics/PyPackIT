@@ -126,6 +126,7 @@ set_executable_paths() {
       *) echo "⛔ Unexpected argument: "$1"" >&2; exit 1;;
     esac
   done
+  [ -z "${verify-}" ] && { echo "ℹ️ Argument 'verify' set to default value 'false'." >&2; verify=false; }
   CONDA_EXEC="${CONDA_DIR}/bin/conda"
   MAMBA_EXEC="${CONDA_DIR}/bin/mamba"
   if [ "${1:-}" != "verify" ]; then
@@ -349,6 +350,8 @@ fi
 [ -z "${ACTIVE_ENV-}" ] && { echo "ℹ️ Argument 'ACTIVE_ENV' set to default value 'base'." >&2; ACTIVE_ENV="base"; }
 [ -z "${CONDA_ACTIVATION_SCRIPT_PATH-}" ] && { echo "ℹ️ Argument 'CONDA_ACTIVATION_SCRIPT_PATH' set to default value 'etc/profile.d/conda.sh'." >&2; CONDA_ACTIVATION_SCRIPT_PATH="etc/profile.d/conda.sh"; }
 [ -z "${CONDA_DIR-}" ] && { echo "ℹ️ Argument 'CONDA_DIR' set to default value '/opt/conda'." >&2; CONDA_DIR="/opt/conda"; }
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
+[ -z "${DOWNLOAD-}" ] && { echo "ℹ️ Argument 'DOWNLOAD' set to default value 'false'." >&2; DOWNLOAD=false; }
 { [ "${ENV_DIRS+isset}" != "isset" ] || [ ${#ENV_DIRS[@]} -eq 0 ] } && { echo "ℹ️ Argument 'ENV_DIRS' set to default value '()'." >&2; ENV_DIRS=(); }
 for elem in "${ENV_DIRS[@]}"; do
   [ -n "${ENV_DIRS-}" ] && [ ! -d "$ENV_DIRS" ] && { echo "⛔ Directory argument to parameter 'ENV_DIRS' not found: '$ENV_DIRS'" >&2; exit 1; }
@@ -358,11 +361,18 @@ for elem in "${ENV_FILES[@]}"; do
   [ -n "${ENV_FILES-}" ] && [ ! -f "$ENV_FILES" ] && { echo "⛔ File argument to parameter 'ENV_FILES' not found: '$ENV_FILES'" >&2; exit 1; }
 done
 [ -z "${GROUP-}" ] && { echo "ℹ️ Argument 'GROUP' set to default value 'conda'." >&2; GROUP="conda"; }
+[ -z "${INSTALL-}" ] && { echo "ℹ️ Argument 'INSTALL' set to default value 'false'." >&2; INSTALL=false; }
 [ -z "${INSTALLER_DIR-}" ] && { echo "ℹ️ Argument 'INSTALLER_DIR' set to default value '/tmp/miniforge-installer'." >&2; INSTALLER_DIR="/tmp/miniforge-installer"; }
+[ -z "${INTERACTIVE-}" ] && { echo "ℹ️ Argument 'INTERACTIVE' set to default value 'false'." >&2; INTERACTIVE=false; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${MAMBA_ACTIVATION_SCRIPT_PATH-}" ] && { echo "ℹ️ Argument 'MAMBA_ACTIVATION_SCRIPT_PATH' set to default value 'etc/profile.d/mamba.sh'." >&2; MAMBA_ACTIVATION_SCRIPT_PATH="etc/profile.d/mamba.sh"; }
 [ -z "${MINIFORGE_NAME-}" ] && { echo "ℹ️ Argument 'MINIFORGE_NAME' set to default value 'Miniforge3'." >&2; MINIFORGE_NAME="Miniforge3"; }
 [ -z "${MINIFORGE_VERSION-}" ] && { echo "⛔ Missing required argument 'MINIFORGE_VERSION'." >&2; exit 1; }
+[ -z "${NO_CACHE_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CACHE_CLEAN' set to default value 'false'." >&2; NO_CACHE_CLEAN=false; }
+[ -z "${NO_CLEAN-}" ] && { echo "ℹ️ Argument 'NO_CLEAN' set to default value 'false'." >&2; NO_CLEAN=false; }
+[ -z "${REINSTALL-}" ] && { echo "ℹ️ Argument 'REINSTALL' set to default value 'false'." >&2; REINSTALL=false; }
+[ -z "${SET_PERMISSION-}" ] && { echo "ℹ️ Argument 'SET_PERMISSION' set to default value 'false'." >&2; SET_PERMISSION=false; }
+[ -z "${UPDATE_BASE-}" ] && { echo "ℹ️ Argument 'UPDATE_BASE' set to default value 'false'." >&2; UPDATE_BASE=false; }
 [ -z "${USER-}" ] && { echo "ℹ️ Argument 'USER' set to default value ''." >&2; USER=""; }
 exit_if_not_root
 set_executable_paths

@@ -38,6 +38,7 @@ else
   [ "${VERSION+defined}" ] && echo "📩 Read argument 'version': '"$VERSION"'" >&2
 fi
 [[ "$DEBUG" == true ]] && set -x
+[ -z "${DEBUG-}" ] && { echo "ℹ️ Argument 'DEBUG' set to default value 'false'." >&2; DEBUG=false; }
 [ -z "${INSTALL_PATH-}" ] && { echo "ℹ️ Argument 'INSTALL_PATH' set to default value '/usr/local/bin'." >&2; INSTALL_PATH="/usr/local/bin"; }
 [ -z "${LOGFILE-}" ] && { echo "ℹ️ Argument 'LOGFILE' set to default value ''." >&2; LOGFILE=""; }
 [ -z "${VERSION-}" ] && { echo "ℹ️ Argument 'VERSION' set to default value '0.46.0'." >&2; VERSION="0.46.0"; }
