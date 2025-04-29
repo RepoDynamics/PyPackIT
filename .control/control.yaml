@@ -11825,7 +11825,7 @@ workflow:
         include_hidden: true
       pages:
         name: Website - v{{ version }} - GH-Pages
-        path: ${{ web.path.build }}$/${{ file_script_web_build.data.sphinx_builder }}$
+        path: ${{ web.path.build }}$/${{ devcontainer_main.environment.website.variable.sphinx_builder.value }}$
   binder:
     path:
       config: .config/binder
