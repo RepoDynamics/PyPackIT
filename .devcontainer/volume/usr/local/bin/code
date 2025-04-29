@@ -1,20 +1,12 @@
 #!/bin/sh
-
-# Shim for VS Code
-# ================
-# If `code` is not available, run `code-insiders`.
-# Refs:
-# - https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/common-utils/main.sh#L590-L591
-# - https://github.com/devcontainers/features/blob/main/src/common-utils/bin/code
-
-get_in_path_except_current() {
-    # Get the path to the first installation of the input command
-    # that is not the current script's path.
-    which -a "$1" | grep -A1 "$0" | grep -v "$0"
+set -eu
+get_next_in_path() {
+  local cmd next
+  cmd=$(basename "$0")
+  next=$(which -a "$cmd" | grep -A1 "^$0\$" | grep -v "^$0\$" || true)
+  echo "${next}"
 }
-
-code="$(get_in_path_except_current code)"
-
+code="$(get_next_in_path)"
 if [ -n "$code" ]; then
     exec "$code" "$@"
 elif [ "$(command -v code-insiders)" ]; then

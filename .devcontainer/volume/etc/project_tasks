@@ -1,0 +1,40 @@
+build-paper() {
+  docker exec -it openjournals-inara inara -o pdf -p -v $1
+}
+build-web() {
+  run_in_conda_env website sphinx-build \
+    -M $SPHINX_BUILDER \
+    docs/website/source \
+    docs/website/.build \
+    $SPHINX_BUILD_OPTIONS
+  tar \
+    --dereference --hard-dereference \
+    --directory "docs/website/.build/dirhtml" \
+    -cvf "$WEBSITE_TAR_FILEPATH" \
+    --exclude=.git \
+    --exclude=.github \
+    --exclude=".[^/]*" \
+    .
+}
+jupyterlab() {
+  jupyter-lab / --ContentsManager.allow_hidden=True --IdentityProvider.token=''
+}
+liveweb() {
+  run_in_conda_env website sphinx-autobuild \
+    docs/website/source \
+    docs/website/.build \
+    $SPHINX_BUILD_OPTIONS \
+    -a \
+    -b=$SPHINX_BUILDER \
+    --open-browser \
+    --delay 0
+}
+project() {
+  run_in_conda_env proman proman $@
+}
+run_in_conda_env() {
+  conda run --cwd '/pypackit' --live-stream -vv --name $@
+}
+typecheck() {
+  mypy --package pypackit --package pypackit_testsuite --python-executable /opt/conda/envs/app/bin/python --config-file .config/mypy.toml --install-types --non-interactive
+}

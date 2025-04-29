@@ -1,20 +1,11 @@
 #!/bin/sh
-
-# Persist image metadata info, script if meta.env found in same directory
-# Refs:
-# - https://github.com/devcontainers/features/blob/6654579de4c31cd9f9f9e19e873521f502403929/src/common-utils/main.sh#L599-L603
-# - https://github.com/devcontainers/features/blob/main/src/common-utils/bin/devcontainer-info
-
-
-# Load meta.env
+set -eu
 if [ -f "/usr/local/etc/vscode-dev-containers/meta.env" ]; then
     . /usr/local/etc/vscode-dev-containers/meta.env
 fi
 if [ -f "/usr/local/etc/dev-containers/meta.env" ]; then
     . /usr/local/etc/dev-containers/meta.env
 fi
-
-# Minimal output
 if [ "$1" = "version" ] || [ "$1" = "image-version" ]; then
     echo "${VERSION}"
     exit 0
@@ -25,11 +16,8 @@ elif [ "$1" = "content" ] || [ "$1" = "content-url" ] || [ "$1" = "contents" ] |
     echo "${CONTENTS_URL}"
     exit 0
 fi
-
-#Full output
-echo
-echo "Development container image information"
-echo
+echo "Development container image information:"
+echo "----------------------------------------"
 if [ ! -z "${VERSION}" ]; then echo "- Image version: ${VERSION}"; fi
 if [ ! -z "${DEFINITION_ID}" ]; then echo "- Definition ID: ${DEFINITION_ID}"; fi
 if [ ! -z "${VARIANT}" ]; then echo "- Variant: ${VARIANT}"; fi
@@ -38,4 +26,3 @@ if [ ! -z "${GIT_REPOSITORY_RELEASE}" ]; then echo "- Source code release/branch
 if [ ! -z "${GIT_REPOSITORY_REVISION}" ]; then echo "- Source code revision: ${GIT_REPOSITORY_REVISION}"; fi
 if [ ! -z "${BUILD_TIMESTAMP}" ]; then echo "- Timestamp: ${BUILD_TIMESTAMP}"; fi
 if [ ! -z "${CONTENTS_URL}" ]; then echo && echo "More info: ${CONTENTS_URL}"; fi
-echo
