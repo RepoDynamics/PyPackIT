@@ -366,7 +366,7 @@ allOf:
                       variable:
                         summary: Variable name to return.
                         type: string
-            - $ref: "#/$defs/content-shell-script"
+            - $ref: "#/$defs/content-shell-source"
           unevaluatedProperties: false
 $defs:
   content-shell-source:
