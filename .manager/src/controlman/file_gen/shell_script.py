@@ -12,7 +12,7 @@ def create_script(
     global_functions: dict | None = None
 ) -> str:
     lines = [
-        f"#!{data["shebang"].removeprefix("#!")}",
+        f"#!/{data["shebang"].removeprefix("#!/")}",
         "set -euo pipefail",
     ]
     functions = {
