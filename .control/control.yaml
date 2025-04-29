@@ -3072,6 +3072,32 @@ devcontainer:
                     execute "$DEFAULT_ACTION" "$relpath"
                 done
             - content: echo "✅ Volume setup complete."
+      manifest:
+        name: Volume Manifest
+        summary: Manifest file for volume setup.
+        type: txt
+        relpath: volume_manifest.txt
+        content: |
+          #{{
+            rows = []
+            files = get("devcontainer_main.volume")
+            for file in files.values():
+              rows.append([file["status"], file["abspath"], file.get("chmod", "")])
+            # Find max width per column
+            col_widths = {}
+            for row in rows:
+                for col_idx, cell in enumerate(row):
+                    col_widths[col_idx] = max(col_widths.get(col_idx, 0), len(str(cell)))
+            # Format each row
+            formatted_rows = []
+            for row in rows:
+                formatted_row = []
+                for col_idx, cell in enumerate(row):
+                    width = col_widths[col_idx]
+                    formatted_row.append(str(cell).ljust(width))
+                formatted_rows.append("  ".join(formatted_row))  # two spaces between columns
+            return "\n".join(formatted_rows)
+          }}#
   function:
     extend_path:
       summary: Extend the PATH environment variable.
@@ -7836,6 +7862,30 @@ devcontainer_main:
               if [ ! -z "${GIT_REPOSITORY_REVISION}" ]; then echo "- Source code revision: ${GIT_REPOSITORY_REVISION}"; fi
               if [ ! -z "${BUILD_TIMESTAMP}" ]; then echo "- Timestamp: ${BUILD_TIMESTAMP}"; fi
               if [ ! -z "${CONTENTS_URL}" ]; then echo && echo "More info: ${CONTENTS_URL}"; fi
+    root_bashrc:
+      name: Root bashrc
+      summary: Bash `bashrc` startup file for root user.
+      status: delete
+      relpath: root/.bashrc
+      type: shell_src
+    root_profile:
+      name: Root Shell Profile
+      summary: Shell `profile` startup file for root user.
+      status: delete
+      relpath: root/.profile
+      type: shell_src
+    user_bashrc:
+      name: User bashrc
+      summary: Bash `bashrc` startup file for container user.
+      status: delete
+      relpath: ${{ devcontainer_main.var.user.home }}$/.bashrc
+      type: shell_src
+    user_profile:
+      name: User Shell Profile
+      summary: Shell `profile` startup file for container user.
+      status: delete
+      relpath: ${{ devcontainer_main.var.user.home }}$/.profile
+      type: shell_src
 doc:
   code_of_conduct:
     content:
