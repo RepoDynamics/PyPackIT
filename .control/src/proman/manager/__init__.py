@@ -229,7 +229,7 @@ def load_metadata(
 
     # Load extra files
     for key in ("changelogs", "contributor", "variable"):
-        key_path = project_metadata[f"control.{key}.path"]
+        key_path = git_api.repo_path / project_metadata[f"control.{key}.path"]
         try:
             key_data = ps.read.json_from_file(key_path)
         except ps.exception.read.PySerialsReadException as e:
